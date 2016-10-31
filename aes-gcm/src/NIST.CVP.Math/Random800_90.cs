@@ -1,0 +1,52 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace NIST.CVP.Math
+{
+    public class Random800_90 : IRandom800_90
+    {
+        private readonly Random _randy = new Random();
+        public Random800_90()
+        {
+        }
+
+        public BitString GetRandomBitString(int length)
+        {
+            if (length <= 0)
+            {
+                return new BitString(0);
+            }
+            
+            int numBytes = (length + 7)/8;
+
+            var randomBytes = new byte[numBytes];
+            _randy.NextBytes(randomBytes);
+            var bitArray = new BitArray(randomBytes);
+            bitArray.Length = length;//@@@not sure I like this because it kills the right most values
+
+            return  new BitString(bitArray);
+        }
+
+        public BitString GetDifferentBitStringOfSameSize(BitString current)
+        {
+            if (current == null || current.Length == 0)
+            {
+                return null;
+            }
+            BitString newBitString = GetRandomBitString(current.Length);
+            while (current.Equals(newBitString))
+            {
+                newBitString = GetRandomBitString(current.Length);
+            };
+            return newBitString;
+        }
+
+        public int GetRandomInt(int minInclusive, int maxExclusive)
+        {
+            return _randy.Next(minInclusive, maxExclusive);
+        }
+    }
+}

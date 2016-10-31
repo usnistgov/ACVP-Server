@@ -1,0 +1,68 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NLog;
+
+namespace NIST.CVP.Generation.AES_GCM
+{
+    public class TestCaseGeneratorInternalEncrypt : ITestCaseGenerator
+    {
+        private readonly IRandom800_90 _random800_90;
+        private readonly IAES_GCM _aes_gcm;
+
+        public TestCaseGeneratorInternalEncrypt(IRandom800_90 random800_90, IAES_GCM aes_gcm)
+        {
+            _random800_90 = random800_90;
+            _aes_gcm = aes_gcm;
+        }
+
+        public string IVGen { get { return "internal"; } }
+        public string Direction { get { return "encrypt"; } }
+
+        public TestCaseGenerateResponse Generate(TestGroup group, BitString key, BitString plainText, BitString aad)
+        {
+            //no known answer
+            var iv = _random800_90.GetRandomBitString(@group.IVLength);
+            var testCase = new TestCase
+            {
+                IV = iv,
+                AAD = aad,
+                PlainText = plainText,
+                Deferred = true
+            };
+           
+            EncryptionResult encryptionResult = null;
+            try
+            {
+                encryptionResult = _aes_gcm.BlockEncrypt(key, plainText, iv, aad, @group.TagLength);
+                if (!encryptionResult.Success)
+                {
+                    ThisLogger.Warn(encryptionResult.ErrorMessage);
+                    {
+                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex);
+                {
+                    return new TestCaseGenerateResponse(ex.Message);
+                }
+            }
+            testCase.CipherText = encryptionResult.CipherText;
+            testCase.Tag = encryptionResult.Tag;
+             
+            
+          return new TestCaseGenerateResponse(testCase);
+        }
+
+        private Logger ThisLogger
+        {
+            get { return LogManager.GetCurrentClassLogger(); }
+        }
+    }
+}
