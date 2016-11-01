@@ -13,7 +13,7 @@ namespace NIST.CVP.Math
         {
         }
 
-        public BitString GetRandomBitString(int length)
+        public virtual BitString GetRandomBitString(int length)
         {
             if (length <= 0)
             {
@@ -27,7 +27,7 @@ namespace NIST.CVP.Math
             var bitArray = new BitArray(randomBytes);
             bitArray.Length = length;//@@@not sure I like this because it kills the right most values
 
-            return  new BitString(bitArray);
+            return new BitString(bitArray);
         }
 
         public BitString GetDifferentBitStringOfSameSize(BitString current)

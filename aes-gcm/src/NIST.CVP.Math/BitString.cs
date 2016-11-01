@@ -46,7 +46,6 @@ namespace NIST.CVP.Math
             {
                 _bits.Length = bitLength;
             }
-
         }
 
         public BitString(string hex)
@@ -86,15 +85,14 @@ namespace NIST.CVP.Math
             return true;
         }
 
-
         /// <summary>
         /// Returns bytes based on <see cref="Bits"/>.
         /// </summary>
         /// <remarks>
-        /// Bytes are by default in Most Significant Byte order.  
-        /// If true is provided to function, returned in Least Significant Byte order.
+        /// Bytes are by default in Least Significant Byte order.  
+        /// If true is provided to function, returned in Most Significant Byte order.
         /// </remarks>
-        /// <param name="reverseBytes">Should the bytes be reverse in the array?  (Changes from MSB to LSB)</param>
+        /// <param name="reverseBytes">Should the bytes be reverse in the array?  (Changes from LSB to MSB)</param>
         /// <returns><see cref="byte[]"/> of <see cref="Bits"/></returns>
         public byte[] ToBytes(bool reverseBytes = false)
         {
@@ -125,7 +123,6 @@ namespace NIST.CVP.Math
             return bytes;
         }
 
-
         public bool Set(int bitIndex, bool value)
         {
             if ((bitIndex < 0) || (bitIndex >= Length))
@@ -141,14 +138,13 @@ namespace NIST.CVP.Math
         {
             ulong longValue = (ulong)value;
             byte[] bytes = new byte[8];
-            bytes[0] = (byte)(longValue >> 56);
-            bytes[1] = (byte)(longValue >> 48);
-            bytes[2] = (byte)(longValue >> 40);
-            bytes[3] = (byte)(longValue >> 32);
-            bytes[4] = (byte)(longValue >> 24);
-            bytes[5] = (byte)(longValue >> 16);
-            bytes[6] = (byte)(longValue >> 8);
-            bytes[7] = (byte)(longValue);
+
+            // Performs a bitshift for the length of the 64 bit array.  
+            // Each individual byte's value is the bitshift by index (i) * times bits in a byte (8)
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                bytes[i] = (byte)(longValue >> i * 8);
+            }
             return new BitString(bytes);
         }
 
@@ -156,38 +152,15 @@ namespace NIST.CVP.Math
         {
             // Pad shorter BitString with 0s to match longer BitString length
             BitString.PadShorterBitStringWithZeroes(ref left, ref right);
-
-            bool[] xorArray = new bool[left.Length];
-            for (int i = 0; i < xorArray.Length; i++)
-            {
-                xorArray[i] = left.Bits[i] ^ right.Bits[i];
-            }
+            BitArray xorArray = left.Bits.Xor(right.Bits);
 
             return new BitString(new BitArray(xorArray));
-
-
-
-            //int outlen = left.Length >= right.Length ? left.Length : right.Length;
-
-            //var outString = new BitString(outlen);
-
-            //for (int i = 0; i < outlen; ++i)
-            //{
-            //    bool bl = i < left.Length && left.Bits[i];
-            //    bool br = i < right.Length && right.Bits[i];
-
-            //    outString.Set(i, bl ^ br);
-            //}
-
-            //return outString;
         }
 
         public BitString XOR(BitString comparisonBitString)
         {
             return XOR(this, comparisonBitString);
         }
-
-
 
         private static void PadShorterBitStringWithZeroes(ref BitString inputA, ref BitString inputB)
         {
@@ -208,18 +181,17 @@ namespace NIST.CVP.Math
 
         private static BitString PadShorterBitStringWithZeroes(BitString longerBitString, BitString shorterBitString)
         {
-            int arrayOffset = longerBitString.Length - shorterBitString.Length;
+            //int arrayOffset = longerBitString.Length - shorterBitString.Length;
 
             BitArray newArray = new BitArray(longerBitString.Length);
             for (int i = 0; i < shorterBitString.Length; i++)
             {
-                newArray[i + arrayOffset] = shorterBitString.Bits[i];
+                //newArray[i + arrayOffset] = shorterBitString.Bits[i];
+                newArray[i] = shorterBitString.Bits[i];
             }
 
             return new BitString(newArray);
         }
-
-
 
         /// <summary>
         /// Returns <see cref="Bits"/> as a string in MSb
@@ -246,8 +218,7 @@ namespace NIST.CVP.Math
             // e.g. "3" is written as "00000011" rather than the actual internal BitArray order of "1100000".
             return new string(builder.ToString().Reverse().ToArray());
         }
-
-
+        
         public BitString ConcatenateBits(BitString bitsToAppend)
         {
             return BitString.ConcatenateBits(this, bitsToAppend);
@@ -269,8 +240,6 @@ namespace NIST.CVP.Math
         {
             bool[] bits = new bool[leftSideBits.Length + rightSideBits.Length];
 
-         
-
             for (int i = 0; i < rightSideBits.Length; i++)
             {
                 bits[i] = rightSideBits.Bits[i];
@@ -283,7 +252,6 @@ namespace NIST.CVP.Math
 
             return new BitString(new BitArray(bits));
         }
-
 
         public BitString Leftmost(int numBits)
         {
@@ -299,24 +267,6 @@ namespace NIST.CVP.Math
         {
             return this.Bits.GetHashCode();
         }
-
-        //public BitString Substring(int begin, int numBits)
-        //{
-
-        //    if (begin < 0 || numBits <= 0 || begin + numBits > Length)
-        //    {
-        //        return null;
-        //    }
-        //    var sub = new BitString(numBits);
-
-        //    for (int i = 0; i < numBits; ++i)
-        //    {     
-        //        sub.Set(i, Bits[begin + i]);
-        //    }
-
-        //    return sub;
-        //}
-
 
         public BitString Substring(int startIndex, int numberOfBits)
         {
@@ -343,54 +293,53 @@ namespace NIST.CVP.Math
             return new BitString(new BitArray(newBits));
         }
 
-
         public BigInteger ToBigInteger()
         {
+            return new BigInteger(ToBytes());
 
+            //// Convert to a byte array of length that is a multiple of
+            //// BYTESPERDIGIT
 
-            // Convert to a byte array of length that is a multiple of
-            // BYTESPERDIGIT
-            int nBytes = ToBytes().Length;
-            int nBytesBS = ToBytes().Length;
-            int ub = nBytes % BYTESPERDIGIT;
-            int dl = 0;
-            if (ub != 0)
-            {
-                dl = BYTESPERDIGIT - ub;
-                nBytesBS += dl;
-            }
+            //int nBytes = ToBytes().Length;
+            //int nBytesBS = ToBytes().Length;
+            //int ub = nBytes % BYTESPERDIGIT;
+            //int dl = 0;
+            //if (ub != 0)
+            //{
+            //    dl = BYTESPERDIGIT - ub;
+            //    nBytesBS += dl;
+            //}
 
-            // Make a copy of the byte array that can be reordered
-            byte[] bs = new byte[nBytesBS];
-            for (int i = nBytes - 1; i >= 0; --i)
-            {
-                bs[i + dl] = ToBytes()[i];
-            }
-            for (int i = 0; i < dl; ++i)
-            {
-                bs[i] = 0x00;
-            }
+            //// Make a copy of the byte array that can be reordered
+            //byte[] bs = new byte[nBytesBS];
+            //for (int i = nBytes - 1; i >= 0; --i)
+            //{
+            //    bs[i + dl] = ToBytes()[i];
+            //}
+            //for (int i = 0; i < dl; ++i)
+            //{
+            //    bs[i] = 0x00;
+            //}
 
-            // Reorder the bytes
-            ToDigit(bs);
+            //// Reorder the bytes
+            //ToDigit(bs);
 
-            // Create BigInteger object from reordered bytes
-            var asInteger = new BigInteger(bs);
+            //// Create BigInteger object from reordered bytes
+            //var asInteger = new BigInteger(bs);
 
-
-            // Return the BigInteger object that holds the integer
-            return asInteger;
+            //// Return the BigInteger object that holds the integer
+            //return asInteger;
         }
 
         public string ToHex()
         {
-
             if (Length == 0)
             {
                 return "";
             }
 
             var bytes = ToBytes();
+
             StringBuilder hex = new StringBuilder(bytes.Length * 2);
             for (int index = 0; index < bytes.Length; index++)
             {
@@ -399,7 +348,6 @@ namespace NIST.CVP.Math
                 //    hex.Append(" ");
                 //}
                 hex.AppendFormat("{0:x2}", bytes[index]);
-
             }
 
             return hex.ToString().ToUpper();
