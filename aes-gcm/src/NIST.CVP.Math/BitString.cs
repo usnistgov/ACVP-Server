@@ -48,8 +48,16 @@ namespace NIST.CVP.Math
             }
         }
 
+        /// <summary>
+        /// Create a <see cref="BitString"/> using LSB hex.
+        /// </summary>
+        /// <param name="hex"></param>
         public BitString(string hex)
         {
+            // TODO: Currently hex string must be an even length (with spaces stripped).
+            // Should the string left pad with a 0 to make it even and not throw an exception?
+            // Or should immediately throw if hex is odd (w/o spaces)?
+
             hex = hex.Replace(" ", "");
             int numberChars = hex.Length;
             byte[] bytes = new byte[numberChars / 2];

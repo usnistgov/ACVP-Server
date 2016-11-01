@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.AES_GCM
 
         public string Algorithm { get; set; }
         public bool IsSample { get; set; }
-        public List<ITestGroup> TestGroups { get; set; }
+        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
 
         public List<dynamic> AnswerProjection
         {

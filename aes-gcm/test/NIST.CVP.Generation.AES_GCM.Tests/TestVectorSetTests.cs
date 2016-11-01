@@ -16,7 +16,26 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         {
             var subject = new TestVectorSet {Algorithm = "AES-GCM"};
 
-            subject.TestGroups.Add(new TestGroup {AADLength = 16, Function = "encrypt", IVGeneration = "blah", IVGenerationMode = "internal", IVLength = 96, KeyLength = 256, PTLength = 256, TagLength = 16, Tests = new List<ITestCase> {new TestCase {AAD = new BitString("AAD"), TestCaseId = 1} } });
+            subject.TestGroups.Add(
+                new TestGroup
+                {
+                    AADLength = 16,
+                    Function = "encrypt",
+                    IVGeneration = "blah",
+                    IVGenerationMode = "internal",
+                    IVLength = 96,
+                    KeyLength = 256,
+                    PTLength = 256,
+                    TagLength = 16,
+                    Tests = new List<ITestCase>
+                    {
+                        new TestCase
+                        {
+                            AAD = new BitString("0AAD"),
+                            TestCaseId = 1
+                        }
+                    }
+                });
             var results = subject.AnswerProjection;
             Assert.IsNotNull(results);
         }
