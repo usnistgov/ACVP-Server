@@ -7,7 +7,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class Parameters: IParameters
+    public class Parameters : IParameters
     {
         public string Algorithm { get; set; }
 
