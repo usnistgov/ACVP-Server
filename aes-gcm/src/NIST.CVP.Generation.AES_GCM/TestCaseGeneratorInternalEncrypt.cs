@@ -37,6 +37,7 @@ namespace NIST.CVP.Generation.AES_GCM
             EncryptionResult encryptionResult = null;
             try
             {
+                // @@@ TODO should this be invoked considering the IV is going to be disregarded as it's internally generated?
                 encryptionResult = _aes_gcm.BlockEncrypt(key, plainText, iv, aad, @group.TagLength);
                 if (!encryptionResult.Success)
                 {

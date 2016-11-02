@@ -59,6 +59,11 @@ namespace NIST.CVP.Generation.AES_GCM
                 {
                     for (int caseNo = 0; caseNo < NUMBER_OF_CASES; ++caseNo)
                     {
+                        // @@@ TODO should some of these values be generated within the generator itself?
+                        // some of the values generated here are not needed for decrypt, 
+                        // and additional values are needed for decrypt.
+                        // Would also allow for the simplification/consistency of the interface if *all*
+                        // random values are generated within the generator
                         var key = _random800_90.GetRandomBitString(group.KeyLength);
                         var plainText = _random800_90.GetRandomBitString(group.PTLength);
                         var aad = _random800_90.GetRandomBitString(group.AADLength);
@@ -134,14 +139,14 @@ namespace NIST.CVP.Generation.AES_GCM
                 throw new NotImplementedException("Haven't added decryption yet");
                 if (ivGen == "internal")
                 {
-                  
+                    return new TestCaseGeneratorInternalDecrypt(_random800_90, _aesGcm);
                 }
                 if (ivGen == "external")
                 {
-                   
+                    return new TestCaseGeneratorExternalDecrypt(_random800_90, _aesGcm);
                 }
             }
-            return  new TestCaseGeneratorNull();
+            return new TestCaseGeneratorNull();
         }
 
         private Logger ThisLogger
