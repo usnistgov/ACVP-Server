@@ -54,7 +54,7 @@ namespace NIST.CVP.Generation.AES_GCM
             int testId = 1;
             foreach (var direction in parameters.Mode)
             {
-                var generator = GetCaseGenerator(direction, parameters.ivGenMode);
+                var generator = GetCaseGenerator(direction, parameters.ivGen);
                 foreach (var group in testVector.TestGroups.Select(g => (TestGroup)g))
                 {
                     for (int caseNo = 0; caseNo < NUMBER_OF_CASES; ++caseNo)
@@ -115,15 +115,15 @@ namespace NIST.CVP.Generation.AES_GCM
             }
         }
 
-        public ITestCaseGenerator GetCaseGenerator(string direction, string ivGenMode)
+        public ITestCaseGenerator GetCaseGenerator(string direction, string ivGen)
         {
             if (direction == "encrypt")
             {
-                if (ivGenMode == "internal")
+                if (ivGen == "internal")
                 {
                     return new TestCaseGeneratorInternalEncrypt(_random800_90, _aesGcm);
                 }
-                if (ivGenMode == "external")
+                if (ivGen == "external")
                 {
                     return new TestCaseGeneratorExternalEncrypt(_random800_90, _aesGcm);
                 }
@@ -132,11 +132,11 @@ namespace NIST.CVP.Generation.AES_GCM
             if (direction == "decrypt")
             {
                 throw new NotImplementedException("Haven't added decryption yet");
-                if (ivGenMode == "internal")
+                if (ivGen == "internal")
                 {
                   
                 }
-                if (ivGenMode == "external")
+                if (ivGen == "external")
                 {
                    
                 }
