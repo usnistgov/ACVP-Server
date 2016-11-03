@@ -4,10 +4,10 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    internal class TestCaseGeneratorInternalDecrypt : ITestCaseGenerator
+    public class TestCaseGeneratorInternalDecrypt : ITestCaseGenerator
     {
-        private IAES_GCM _aesGcm;
-        private IRandom800_90 _random800_90;
+        private readonly IAES_GCM _aesGcm;
+        private readonly IRandom800_90 _random800_90;
 
         public TestCaseGeneratorInternalDecrypt(IRandom800_90 random800_90, IAES_GCM aesGcm)
         {
