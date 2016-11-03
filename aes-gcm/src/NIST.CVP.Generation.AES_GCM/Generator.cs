@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.AES_GCM
                         // @@@ TODO should some of these values be generated within the generator itself?
                         // some of the values generated here are not needed for decrypt, 
                         // and additional values are needed for decrypt.
-                        // Would also allow for the simplification/consistency of the interface if *all*
+                        // Would also allow for the simplification/consistency of the interface ITestCaseGenerator if *all*
                         // random values are generated within the generator
                         var key = _random800_90.GetRandomBitString(group.KeyLength);
                         var plainText = _random800_90.GetRandomBitString(group.PTLength);
@@ -137,13 +137,11 @@ namespace NIST.CVP.Generation.AES_GCM
             if (direction == "decrypt")
             {
                 throw new NotImplementedException("Haven't added decryption yet");
-                if (ivGen == "internal")
+                if (ivGen == "internal" || ivGen == "external")
                 {
+                    // for decryption vectors, IV must be known in order to generate a cipher for decryption.
+                    // internal/external IV not relevant for decryption.
                     return new TestCaseGeneratorInternalDecrypt(_random800_90, _aesGcm);
-                }
-                if (ivGen == "external")
-                {
-                    return new TestCaseGeneratorExternalDecrypt(_random800_90, _aesGcm);
                 }
             }
             return new TestCaseGeneratorNull();
