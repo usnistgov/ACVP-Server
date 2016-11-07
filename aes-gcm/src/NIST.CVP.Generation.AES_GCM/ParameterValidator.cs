@@ -122,10 +122,6 @@ namespace NIST.CVP.Generation.AES_GCM
                     errorResults.Add(result);
                 }
             }
-            else
-            {
-                result = ValidateArray(new string[] { parameters.ivGenMode }, new string[] { }, "IV Generation Mode (External)");
-            }
         }
 
         //@@@make generic, move to base class?
