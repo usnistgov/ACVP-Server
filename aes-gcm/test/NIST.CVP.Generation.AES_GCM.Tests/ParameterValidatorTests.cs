@@ -171,6 +171,41 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','));
         }
 
+        [Test]
+        [TestCase("internal", true)]
+        [TestCase("external", true)]
+        [TestCase("invalid", false)]
+        [TestCase("", false)]
+        public void ShouldReturnErrorWithInvalidIvGen(string ivGen, bool isValid)
+        {
+            ParameterValidator sut = new ParameterValidator();
+            var result = sut.Validate(
+                new ParameterBuilder()
+                    .WithIvGen(ivGen)
+                    .Build()
+            );
+
+            Assert.AreEqual(isValid, result.Success);
+        }
+
+        [Test]
+        [TestCase("8.2.1", true)]
+        [TestCase("8.2.2", true)]
+        [TestCase("invalid", false)]
+        [TestCase("", false)]
+        public void ShouldReturnErrorWithInvalidIvGenMode(string ivGenMode, bool isValid)
+        {
+            ParameterValidator sut = new ParameterValidator();
+            var result = sut.Validate(
+                new ParameterBuilder()
+                    .WithIvGen("internal")
+                    .WithIvGenMode(ivGenMode)
+                    .Build()
+            );
+
+            Assert.AreEqual(isValid, result.Success);
+        }
+
         private class ParameterBuilder
         {
             private string _algorithm;

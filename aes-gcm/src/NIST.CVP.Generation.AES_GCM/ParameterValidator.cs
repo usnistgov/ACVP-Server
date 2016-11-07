@@ -108,15 +108,15 @@ namespace NIST.CVP.Generation.AES_GCM
                 errorResults.Add(result);
             }
 
-            result = ValidateArray(new string[] { parameters.ivGen }, VALID_IV_GEN, "IV Generation");
+            result = ValidateValue(parameters.ivGen, VALID_IV_GEN, "IV Generation");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
             }
 
-            if (parameters.ivGenMode.ToLower() == "internal")
+            if (parameters.ivGen.ToLower() == "internal")
             {
-                result = ValidateArray(new string[] { parameters.ivGenMode }, VALID_IV_GEN_MODE, "IV Generation Mode (Internal)");
+                result = ValidateValue(parameters.ivGenMode, VALID_IV_GEN_MODE, "IV Generation Mode (Internal)");
                 if (!string.IsNullOrEmpty(result))
                 {
                     errorResults.Add(result);
@@ -161,6 +161,21 @@ namespace NIST.CVP.Generation.AES_GCM
                 var invalid = supplied.Except(valid);
                 return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}";
             }
+            return null;
+        }
+
+        private string ValidateValue(string supplied, string[] validValues, string friendlyName)
+        {
+            if (string.IsNullOrEmpty(supplied))
+            {
+                return $"No {friendlyName} supplied.";
+            }
+
+            if (!validValues.Contains(supplied))
+            {
+                return $"Invalid {friendlyName} supplied: {supplied}";
+            }
+
             return null;
         }
 
