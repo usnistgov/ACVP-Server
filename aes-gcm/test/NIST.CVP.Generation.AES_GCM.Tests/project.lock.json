@@ -3,13 +3,13 @@
   "version": 2,
   "targets": {
     ".NETCoreApp,Version=v1.0": {
-      "dotnet-test-nunit/3.4.0-beta-2": {
+      "dotnet-test-nunit/3.4.0-beta-3": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.DependencyModel": "1.0.0",
           "Microsoft.Extensions.Testing.Abstractions": "1.0.0-preview2-003121",
           "Microsoft.NETCore.App": "1.0.0",
-          "NUnit.Portable.Agent": "3.4.0-beta-2"
+          "NUnit.Portable.Agent": "3.4.0-beta-3"
         },
         "compile": {
           "lib/netcoreapp1.0/dotnet-test-nunit.dll": {}
@@ -677,7 +677,7 @@
           "lib/portable-net45+win8+wp8+wpa81+Xamarin.Mac+MonoAndroid10+MonoTouch10+Xamarin.iOS10/nunit.framework.dll": {}
         }
       },
-      "NUnit.Portable.Agent/3.4.0-beta-2": {
+      "NUnit.Portable.Agent/3.4.0-beta-3": {
         "type": "package",
         "dependencies": {
           "System.Globalization": "4.0.11",
@@ -2707,12 +2707,12 @@
     }
   },
   "libraries": {
-    "dotnet-test-nunit/3.4.0-beta-2": {
-      "sha512": "ImRqxsZMFzn+bM33emu5ZMzIUe8GOHPxdA2NkUIsawWd4YjvcFzdIo5iNuejlY0lw1M+RMwRbpd/cKkhKft52g==",
+    "dotnet-test-nunit/3.4.0-beta-3": {
+      "sha512": "TCprFJd60JQrNSygKAinVFBF2zQK3V2BRm1jeBvAGKF/6omeMrjO1tBD3UKlZSGvHFNyiocPn7bgU68cNz94ug==",
       "type": "package",
-      "path": "dotnet-test-nunit/3.4.0-beta-2",
+      "path": "dotnet-test-nunit/3.4.0-beta-3",
       "files": [
-        "dotnet-test-nunit.3.4.0-beta-2.nupkg.sha512",
+        "dotnet-test-nunit.3.4.0-beta-3.nupkg.sha512",
         "dotnet-test-nunit.nuspec",
         "lib/net451/dotnet-test-nunit.exe",
         "lib/netcoreapp1.0/dotnet-test-nunit.dll",
@@ -3345,12 +3345,12 @@
         "lib/portable-net45+win8+wp8+wpa81+Xamarin.Mac+MonoAndroid10+MonoTouch10+Xamarin.iOS10/nunit.framework.xml"
       ]
     },
-    "NUnit.Portable.Agent/3.4.0-beta-2": {
-      "sha512": "91XarG692I/gCwDi3d1k5tRc1J4mPo6l6nHrYRKWSgc9M2a0SX1YNS/uJwth3bXQEn+499mdZ02NTuvJstRq1A==",
+    "NUnit.Portable.Agent/3.4.0-beta-3": {
+      "sha512": "BcgxOFtivkK8+eu5krwxxTWw6RtASfp7q/nQ18Z5a2rEvDHZz9h+U2fJjIrw4P9CtqbzZwNuGHprUnhoVqlZrw==",
       "type": "package",
-      "path": "NUnit.Portable.Agent/3.4.0-beta-2",
+      "path": "NUnit.Portable.Agent/3.4.0-beta-3",
       "files": [
-        "NUnit.Portable.Agent.3.4.0-beta-2.nupkg.sha512",
+        "NUnit.Portable.Agent.3.4.0-beta-3.nupkg.sha512",
         "NUnit.Portable.Agent.nuspec",
         "lib/net45/NUnit.Portable.Agent.dll",
         "lib/netstandard1.3/NUnit.Portable.Agent.dll"
@@ -7980,7 +7980,7 @@
       "NIST.CVP.Generation.AES_GCM",
       "NLog >= 4.4.0-betaV15",
       "NUnit >= 3.5.0",
-      "dotnet-test-nunit >= 3.4.0-beta-2"
+      "dotnet-test-nunit >= 3.4.0-beta-3"
     ],
     ".NETCoreApp,Version=v1.0": [
       "Microsoft.NETCore.App >= 1.0.1"

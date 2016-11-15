@@ -8,6 +8,6 @@ namespace NIST.CVP.Generation.Core
     public interface ITestGroup
     {
         List<ITestCase> Tests { get; }
-        
+        bool MergeTests(List<ITestCase> testsToMerge);
     }
 }

@@ -11,33 +11,52 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
     [TestFixture]
     public class TestVectorSetTests
     {
+        private TestDataMother _tdm = new TestDataMother();
+
         [Test]
         public void ShouldHaveTheExpectedAnswerProjection()
         {
-            var subject = new TestVectorSet {Algorithm = "AES-GCM"};
-
-            subject.TestGroups.Add(
-                new TestGroup
-                {
-                    AADLength = 16,
-                    Function = "encrypt",
-                    IVGeneration = "blah",
-                    IVGenerationMode = "internal",
-                    IVLength = 96,
-                    KeyLength = 256,
-                    PTLength = 256,
-                    TagLength = 16,
-                    Tests = new List<ITestCase>
-                    {
-                        new TestCase
-                        {
-                            AAD = new BitString("0AAD"),
-                            TestCaseId = 1
-                        }
-                    }
-                });
+            var subject = GetSubject();
             var results = subject.AnswerProjection;
             Assert.IsNotNull(results);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual(15, results[0].tests.Count);
+        }
+
+        [Test]
+        public void ShouldHaveTheExpectedPromptProjection()
+        {
+            var subject = GetSubject();
+            var results = subject.PromptProjection;
+            Assert.IsNotNull(results);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual(15, results[0].tests.Count);
+        }
+
+        [Test]
+        public void ShouldHaveTheExpectedResultProjection()
+        {
+            var subject = GetSubject(2);
+            var results = subject.ResultProjection;
+            Assert.IsNotNull(results);
+            Assert.AreEqual(30, results.Count);
+        }
+
+        [Test]
+        public void ShouldReconstituteTestVectorFromAnswerAndResults()
+        {
+            var source = GetSubject(2);
+            var subject = new TestVectorSet(source.AnswerProjection, source.PromptProjection);
+            Assert.AreEqual(2, subject.TestGroups.Count);
+
+        }
+
+        private TestVectorSet GetSubject(int groups = 1)
+        {
+            var subject = new TestVectorSet {Algorithm = "AES-GCM"};
+            var testGroups = _tdm.GetTestGroups(groups);
+            subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
+            return subject;
         }
     }
 }

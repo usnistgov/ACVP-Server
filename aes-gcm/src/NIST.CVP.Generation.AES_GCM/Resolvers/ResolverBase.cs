@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.AES_GCM.Resolvers
         {
             JsonProperty property = base.CreateProperty(member, memberSerialization);
 
-            bool ignoredProperty = IgnoreProperties.Contains(property.PropertyName);
+            bool ignoredProperty = IgnoreProperties.Contains(property.PropertyName.ToLower());
             if (ignoredProperty)
             { 
                 property.ShouldSerialize =

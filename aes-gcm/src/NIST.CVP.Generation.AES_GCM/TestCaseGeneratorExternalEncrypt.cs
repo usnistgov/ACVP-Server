@@ -22,22 +22,31 @@ namespace NIST.CVP.Generation.AES_GCM
         public string IVGen { get { return "external"; } }
         public string Direction { get { return "encrypt"; } }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, BitString key, BitString plainText, BitString aad)
+        public TestCaseGenerateResponse Generate(TestGroup @group)
         {
             //known answer
             var iv = _random800_90.GetRandomBitString(@group.IVLength);
+            var key = _random800_90.GetRandomBitString(group.KeyLength);
+            var plainText = _random800_90.GetRandomBitString(group.PTLength);
+            var aad = _random800_90.GetRandomBitString(group.AADLength);
             var testCase = new TestCase
             {
                 IV = iv,
                 AAD = aad,
+                Key = key,
                 PlainText = plainText,
                 Deferred = false
             };
-           
+            return Generate(@group, testCase);
+
+        }
+
+        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        {
             EncryptionResult encryptionResult = null;
             try
             {
-                encryptionResult = _aes_gcm.BlockEncrypt(key, plainText, iv, aad, @group.TagLength);
+                encryptionResult = _aes_gcm.BlockEncrypt(testCase.Key, testCase.PlainText, testCase.IV, testCase.AAD, @group.TagLength);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
@@ -55,9 +64,7 @@ namespace NIST.CVP.Generation.AES_GCM
             }
             testCase.CipherText = encryptionResult.CipherText;
             testCase.Tag = encryptionResult.Tag;
-             
-            
-          return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse(testCase);
         }
 
         private Logger ThisLogger

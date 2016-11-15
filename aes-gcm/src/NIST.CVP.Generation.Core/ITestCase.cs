@@ -5,5 +5,6 @@
         int TestCaseId { get;}
         bool FailureTest { get; }
         bool Deferred { get; }
+        bool Merge(ITestCase otherTest);
     }
 }

@@ -4,12 +4,12 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class TestCaseGeneratorInternalDecrypt : ITestCaseGenerator
+    public class TestCaseGeneratorDecrypt : ITestCaseGenerator
     {
         private readonly IAES_GCM _aesGcm;
         private readonly IRandom800_90 _random800_90;
 
-        public TestCaseGeneratorInternalDecrypt(IRandom800_90 random800_90, IAES_GCM aesGcm)
+        public TestCaseGeneratorDecrypt(IRandom800_90 random800_90, IAES_GCM aesGcm)
         {
             _random800_90 = random800_90;
             _aesGcm = aesGcm;
@@ -18,7 +18,13 @@ namespace NIST.CVP.Generation.AES_GCM
         public string IVGen { get { return "internal"; } }
         public string Direction { get { return "decrypt"; } }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, BitString key, BitString plainText, BitString aad)
+        public TestCaseGenerateResponse Generate(TestGroup @group)
+        {
+            // @@@ todo
+            throw new NotImplementedException();
+        }
+
+        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
             // @@@ todo
             throw new NotImplementedException();

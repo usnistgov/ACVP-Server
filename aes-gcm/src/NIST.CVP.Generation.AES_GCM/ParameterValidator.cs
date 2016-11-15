@@ -10,6 +10,7 @@ namespace NIST.CVP.Generation.AES_GCM
     public class ParameterValidator : IParameterValidator
     {
         // @@@ better way to do this without having to redefine valid values in tests?
+   
         public static int[] VALID_KEY_SIZES = new int[] { 128, 192, 256 };
         public static int[] VALID_TAG_LENGTHS = new int[] { 32, 64, 96, 104, 112, 120, 128 };
         public static string[] VALID_DIRECTIONS = new string[] { "encrypt", "decrypt" };

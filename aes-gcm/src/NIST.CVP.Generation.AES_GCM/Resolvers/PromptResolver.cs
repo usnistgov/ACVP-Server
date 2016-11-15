@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.AES_GCM.Resolvers
 
         protected override string[] IgnoreProperties
         {
-            get { return new[] { "AnswerProjection", "ResultProjection", "TestGroups" ,"IsSample" }; }
+            get { return new[] { "answerprojection", "testresults" ,"issample" }; }
         }
     }
 }

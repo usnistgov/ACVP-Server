@@ -13,6 +13,25 @@ namespace NIST.CVP.Generation.AES_GCM
         {
             Tests = new List<ITestCase>();
         }
+
+        public TestGroup(dynamic source)
+        {
+           
+            IVGeneration = source.ivGen;
+            IVGenerationMode = source.ivGenMode;
+            AADLength = source.aadLen;
+            PTLength = source.ptLen;
+            IVLength = source.ivLen;
+            TagLength = source.tagLen;
+            KeyLength = source.keyLen;
+            Tests = new List<ITestCase>();
+            foreach (var test in source.tests)
+            {
+                Tests.Add(new TestCase(test));
+            }
+
+        }
+
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "keylen")]
@@ -30,5 +49,39 @@ namespace NIST.CVP.Generation.AES_GCM
         [JsonProperty(PropertyName = "taglen")]
         public int TagLength { get; set; }
         public List<ITestCase> Tests { get; set; }
+
+        public bool MergeTests(List<ITestCase> testsToMerge)
+        {
+            foreach (var test in Tests)
+            {
+                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
+                if (matchingTest == null)
+                {
+                    return false;
+                }
+                if (!test.Merge(matchingTest))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return
+                $"{Function}|{KeyLength}|{IVLength}|{IVGeneration}|{IVGenerationMode}|{PTLength}|{AADLength}|{TagLength}"
+                    .GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var otherGroup = obj as TestGroup;
+            if (otherGroup == null)
+            {
+                return false;
+            }
+            return this.GetHashCode() == otherGroup.GetHashCode();
+        }
     }
 }

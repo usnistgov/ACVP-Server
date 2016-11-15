@@ -20,9 +20,14 @@ namespace NIST.CVP.Generation.AES_GCM
             get { return "None"; }
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, BitString key, BitString plainText, BitString aad)
+        public TestCaseGenerateResponse Generate(TestGroup @group)
         {
-            return  new TestCaseGenerateResponse("This is the null generator -- nothing is generated");
+            return Generate(group, null);
+        }
+
+        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        {
+            return new TestCaseGenerateResponse("This is the null generator -- nothing is generated");
         }
     }
 }

@@ -12,8 +12,8 @@ namespace NIST.CVP.Generation.Core
         bool IsSample { get; set; }
         List<ITestGroup> TestGroups { get; set; }
         List<dynamic> AnswerProjection { get; }
-        List<ITestGroup> PromptProjection { get; }
-        List<ITestResult> ResultProjection { get; }
+        List<dynamic> PromptProjection { get; }
+        dynamic ResultProjection { get; }
 
     }
 }
