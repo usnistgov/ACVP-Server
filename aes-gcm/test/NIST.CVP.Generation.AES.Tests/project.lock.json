@@ -2657,37 +2657,18 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "NIST.CVP.Generation.AES_GCM/1.0.0": {
+      "NIST.CVP.Generation.AES/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.6",
         "dependencies": {
           "NETStandard.Library": "1.6.0",
-          "NIST.CVP.Generation.Core": "1.0.0",
-          "NIST.CVP.Math": "1.0.0",
-          "NLog": "4.4.0-betaV15",
-          "Newtonsoft.Json": "9.0.1"
+          "NIST.CVP.Math": "1.0.0"
         },
         "compile": {
-          "netstandard1.6/NIST.CVP.Generation.AES_GCM.dll": {}
+          "netstandard1.6/NIST.CVP.Generation.AES.dll": {}
         },
         "runtime": {
-          "netstandard1.6/NIST.CVP.Generation.AES_GCM.dll": {}
-        }
-      },
-      "NIST.CVP.Generation.Core/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v1.6",
-        "dependencies": {
-          "NETStandard.Library": "1.6.0",
-          "NIST.CVP.Math": "1.0.0",
-          "NLog": "4.4.0-betaV15",
-          "Newtonsoft.Json": "9.0.1"
-        },
-        "compile": {
-          "netstandard1.6/NIST.CVP.Generation.Core.dll": {}
-        },
-        "runtime": {
-          "netstandard1.6/NIST.CVP.Generation.Core.dll": {}
+          "netstandard1.6/NIST.CVP.Generation.AES.dll": {}
         }
       },
       "NIST.CVP.Math/1.0.0": {
@@ -3198,12 +3179,12 @@
         "tools/install.ps1"
       ]
     },
-    "NLog/4.4.0-betaV15": {
+    "NLog/4.4.0-betav15": {
       "sha512": "LDRcdjv5VG9EWz+mnFqdSolUci+j+DBPIPjm7Xdam3xa1F9Rt7o0UpYoCnNRulqHzpKbU704o7Ad4ck9WxDhnw==",
       "type": "package",
-      "path": "NLog/4.4.0-betaV15",
+      "path": "NLog/4.4.0-betav15",
       "files": [
-        "NLog.4.4.0-betaV15.nupkg.sha512",
+        "NLog.4.4.0-betav15.nupkg.sha512",
         "NLog.nuspec",
         "lib/monoandroid23/NLog.dll",
         "lib/monoandroid23/NLog.xml",
@@ -7959,15 +7940,10 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "NIST.CVP.Generation.AES_GCM/1.0.0": {
+    "NIST.CVP.Generation.AES/1.0.0": {
       "type": "project",
-      "path": "../../src/NIST.CVP.Generation.AES_GCM/project.json",
-      "msbuildProject": "../../src/NIST.CVP.Generation.AES_GCM/NIST.CVP.Generation.AES_GCM.xproj"
-    },
-    "NIST.CVP.Generation.Core/1.0.0": {
-      "type": "project",
-      "path": "../../src/NIST.CVP.Generation.Core/project.json",
-      "msbuildProject": "../../src/NIST.CVP.Generation.Core/NIST.CVP.Generation.Core.xproj"
+      "path": "../../src/NIST.CVP.Generation.AES/project.json",
+      "msbuildProject": "../../src/NIST.CVP.Generation.AES/NIST.CVP.Generation.AES.xproj"
     },
     "NIST.CVP.Math/1.0.0": {
       "type": "project",
@@ -7977,7 +7953,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "NIST.CVP.Generation.AES_GCM",
+      "NIST.CVP.Generation.AES",
       "NLog >= 4.4.0-betaV15",
       "NUnit >= 3.5.0",
       "dotnet-test-nunit >= 3.4.0-beta-3"

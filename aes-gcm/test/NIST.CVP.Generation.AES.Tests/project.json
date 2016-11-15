@@ -1,0 +1,27 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "NIST.CVP.Generation.AES": { "target": "project" },
+    "NUnit": "3.5.0",
+    "NLog": "4.4.0-betaV15",
+    "dotnet-test-nunit": "3.4.0-beta-3"
+  },
+  "testRunner": "nunit",
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "netcoreapp1.0",
+        "portable-net45+win8"
+      ],
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.0.1"
+        }
+      }
+
+    }
+  }
+}
