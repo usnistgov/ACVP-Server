@@ -32,14 +32,14 @@ namespace NIST.CVP.Math
 
         public BitString GetDifferentBitStringOfSameSize(BitString current)
         {
-            if (current == null || current.Length == 0)
+            if (current == null || current.BitLength == 0)
             {
                 return null;
             }
-            BitString newBitString = GetRandomBitString(current.Length);
+            BitString newBitString = GetRandomBitString(current.BitLength);
             while (current.Equals(newBitString))
             {
-                newBitString = GetRandomBitString(current.Length);
+                newBitString = GetRandomBitString(current.BitLength);
             };
             return newBitString;
         }

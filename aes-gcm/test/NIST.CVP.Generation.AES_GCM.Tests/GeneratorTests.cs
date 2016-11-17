@@ -1,39 +1,213 @@
-﻿using System;
+﻿using Moq;
+using NIST.CVP.Generation.AES_GCM.Parsers;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Generation.AES_GCM.Parsers;
-using NIST.CVP.Generation.AES_GCM.Tests.Fakes;
-using NIST.CVP.Math;
-using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
 {
+    // @@@ TODO Consider writing fake implementations for some/all of the dependencies for valid/invalid invokes.
+    // Mocking getting too complex.
     [TestFixture]
     public class GeneratorTests
     {
-        private string _testRoot = @"C:\Users\def2\Documents\UnitTests\ACAVP";
-        private string _testPath;
+
+        private const string _WORKING_PATH = @"C:\temp";
+
         [OneTimeSetUp]
         public void Setup()
         {
-            _testPath = Path.Combine(_testRoot, Guid.NewGuid().ToString());
-            Directory.CreateDirectory(_testPath);
+            if (!Directory.Exists(_WORKING_PATH))
+            {
+                Directory.CreateDirectory(_WORKING_PATH);
+            }
         }
 
         [Test]
-        public void ShouldGenerateResults()
+        public void GenerateShouldReturnErrorResponseWhenParametersNotParsedSuccessfully()
         {
-            var subject = new Generator(new TestVectorFactory(), new ParameterParserFake(), new ParameterValidator(), new TestCaseGeneratorFactory(new Random800_90(), new AES_GCM()));
-            var result = subject.Generate(Path.Combine(_testPath, "parameters.json"));
+            string errorMessage = "Invalid Parameters";
+            var mocks = new MockedSystemDependencies();
+            mocks.MockIParameterParser
+                .Setup(s => s.Parse(It.IsAny<string>()))
+                .Returns(new Core.ParseResponse<Parameters>(errorMessage));
+            var sut = GetSystem(mocks);
+
+            var result = sut.Generate(It.IsAny<string>());
+
+            Assert.IsFalse(result.Success);
+            Assert.AreEqual(errorMessage, result.ErrorMessage);
+        }
+
+        [Test]
+        public void GenerateShouldReturnErrorResponseWhenParametersNotValidatedSuccessfully()
+        {
+            string errorMessage = "Invalid Parameter Validation";
+            var mocks = new MockedSystemDependencies();
+            mocks.MockIParameterParser
+                .Setup(s => s.Parse(It.IsAny<string>()))
+                .Returns(new Core.ParseResponse<Parameters>(new Parameters()));
+            mocks.MockIParameterValidator
+                .Setup(s => s.Validate(It.IsAny<Parameters>()))
+                .Returns(new Core.ParameterValidateResponse(errorMessage));
+            var sut = GetSystem(mocks);
+
+            var result = sut.Generate(It.IsAny<string>());
+
+            Assert.IsFalse(result.Success);
+            Assert.AreEqual(errorMessage, result.ErrorMessage);
+        }
+
+        [Test]
+        public void GenerateShouldReturnErrorResponseWhenInvalidTestCaseResponse()
+        {
+            string errorMessage = "Invalid Test Case Response";
+            var mocks = new MockedSystemDependencies();
+            mocks.MockIParameterParser
+                .Setup(s => s.Parse(It.IsAny<string>()))
+                .Returns(new ParseResponse<Parameters>(new Parameters()
+                {
+                    aadLen = new[] { 1 },
+                    Algorithm = "AES-GCM",
+                    ivGen = "external",
+                    ivGenMode = "8.2.1",
+                    ivLen = new[] { 2 },
+                    KeyLen = new[] { 3 },
+                    PtLen = new[] { 4 },
+                    TagLen = new[] { 5 },
+                    Mode = new[] { "encrypt" }
+                }));
+            mocks.MockIParameterValidator
+                .Setup(s => s.Validate(It.IsAny<Parameters>()))
+                .Returns(new ParameterValidateResponse());
+            mocks.MockITestVectorFactory
+                .Setup(s => s.BuildTestVectorSet(It.IsAny<IParameters>()))
+                .Returns(new TestVectorSet()
+                {
+                    Algorithm = "AES",
+                    TestGroups = new List<ITestGroup>()
+                    {
+                        new TestGroup()
+                        {
+                            AADLength = 1,
+                            Function = "encrypt",
+                            IVGeneration = "external",
+                            IVGenerationMode = "8.2.1",
+                            IVLength = 2,
+                            KeyLength = 3,
+                            PTLength = 4,
+                            TagLength = 5
+                        }
+                    }
+                });
+
+            
+            var sut = GetSystem(mocks);
+
+            var result = sut.Generate(It.IsAny<string>());
+
+            Assert.IsFalse(result.Success);
+            Assert.AreEqual(errorMessage, result.ErrorMessage);
+        }
+
+        [Test]
+        public void GenerateShouldReturnSuccessWithValidCalls()
+        {
+            var mocks = new MockedSystemDependencies();
+            mocks.MockIParameterParser
+                .Setup(s => s.Parse(It.IsAny<string>()))
+                .Returns(new ParseResponse<Parameters>(new Parameters()
+                {
+                    aadLen = new[] { 1 },
+                    Algorithm = "AES-GCM",
+                    ivGen = "external",
+                    ivGenMode = "8.2.1",
+                    ivLen = new[] { 2 },
+                    KeyLen = new[] { 3 },
+                    PtLen = new[] { 4 },
+                    TagLen = new[] { 5 },
+                    Mode = new[] { "encrypt" }
+                }));
+            mocks.MockIParameterValidator
+                .Setup(s => s.Validate(It.IsAny<Parameters>()))
+                .Returns(new ParameterValidateResponse());
+            mocks.MockITestVectorFactory
+                .Setup(s => s.BuildTestVectorSet(It.IsAny<IParameters>()))
+                .Returns(new TestVectorSet()
+                {
+                    Algorithm = "AES",
+                    TestGroups = new List<ITestGroup>()
+                    {
+                        new TestGroup()
+                        {
+                            AADLength = 1,
+                            Function = "encrypt",
+                            IVGeneration = "external",
+                            IVGenerationMode = "8.2.1",
+                            IVLength = 2,
+                            KeyLength = 3,
+                            PTLength = 4,
+                            TagLength = 5
+                        }
+                    }
+                });
+ 
+
+            var sut = GetSystem(mocks);
+
+            GenerateResponse result = null;
+            Guid fileNameRoot = Guid.NewGuid();
+
+            try
+            {
+                result = sut.Generate($"{_WORKING_PATH}\\{fileNameRoot.ToString()}.json");
+            }
+            finally
+            {
+                // Find and delete files as a result of the test
+                List<string> files = new List<string>();
+                files = Directory.GetFiles(_WORKING_PATH, $"{fileNameRoot}*").ToList();
+
+                if (files.Count <= 4)
+                {
+                    foreach(var file in files)
+                    {
+                        File.Delete(file);
+                    }
+                }
+            }
             Assert.IsTrue(result.Success);
         }
 
-        [OneTimeTearDown]
-        public void Teardown()
+       
+
+        private Generator GetSystem(ITestVectorFactory testVectorFactory, IParameterParser parameterParser, IParameterValidator parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
         {
-           Directory.Delete(_testPath, true);
+            return new Generator(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactory);
+        }
+
+        private Generator GetSystem(MockedSystemDependencies mocks)
+        {
+            return GetSystem(
+                mocks.MockITestVectorFactory.Object,
+                mocks.MockIParameterParser.Object,
+                mocks.MockIParameterValidator.Object,
+                mocks.MockITestCaseGeneratorFactory.Object
+            );
+        }
+
+        private class MockedSystemDependencies
+        {
+            public Mock<ITestVectorFactory> MockITestVectorFactory { get; set; } = new Mock<ITestVectorFactory>();
+            public Mock<ITestCaseGeneratorFactory> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory>();
+            public Mock<IParameterParser> MockIParameterParser { get; set; } = new Mock<IParameterParser>();
+            public Mock<IParameterValidator> MockIParameterValidator { get; set; } = new Mock<IParameterValidator>();
+            
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using System.Numerics;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Math.Tests
 {
@@ -23,15 +24,16 @@ namespace NIST.CVP.Math.Tests
             BitString sut = new BitString(length);
 
             // Assert
-            Assert.AreEqual(length, sut.Length);
+            Assert.AreEqual(length, sut.BitLength);
         }
 
         [Test]
-        public void ShouldCreateInstanceWithByteArray()
+        [TestCase(new byte[] { 1 })]
+        [TestCase(new byte[] { 1, 2, 3, 4 })]
+        [TestCase(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 })]
+        [TestCase(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 })]
+        public void ShouldCreateInstanceWithByteArray(byte[] bytes)
         {
-            // Arrange
-            byte[] bytes = new byte[] { 1, 2, 3, 4 };
-
             // Act
             BitString sut = new BitString(bytes);
             var results = sut.ToBytes();
@@ -44,8 +46,24 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
+        [TestCase(1)]
+        [TestCase(254)]
+        [TestCase(255)]
+        [TestCase(256)]
+        [TestCase(1500)]
+        [TestCase(int.MaxValue)]
+        public void ShouldCreateInstanceWithByteArrayAndExpectedValue(int testInt)
+        {
+            var bytes = BitConverter.GetBytes(testInt).Reverse().ToArray();
+
+            var sut = new BitString(bytes);
+            Assert.AreEqual(new BigInteger(testInt), sut.ToBigInteger());
+        }
+
+        [Test]
         public void ShouldCreateInstanceWithBitArray()
         {
+            // TODO
             // Arrange
             bool[] bits = new bool[] { true, false, true, true };
 
@@ -53,30 +71,50 @@ namespace NIST.CVP.Math.Tests
             BitString sut = new BitString(new BitArray(bits));
 
             // Assert
-            for (int i = 0; i < sut.Length; i++)
+            for (int i = 0; i < sut.BitLength; i++)
             {
                 Assert.AreEqual(bits[i], sut.Bits[i]);
             }
         }
 
         [Test]
-        public void ShouldCreateInstanceWithBigInteger()
+        [TestCase(1)]
+        [TestCase(254)]
+        [TestCase(255)]
+        [TestCase(256)]
+        [TestCase(1500)]
+        [TestCase(int.MaxValue)]
+        public void ShouldCreateInstanceWithBitArrayAndExpectedValue(int testInt)
         {
             // Arrange
-            byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
-            int bitsToAByte = 8;
-            int totalBits = bytes.Length * bitsToAByte;
-            BigInteger bi = new BigInteger(bytes);
+            var bytesInMSB = BitConverter.GetBytes(testInt).Reverse().ToArray();
+            BigInteger expectedBi = new BigInteger(testInt);
 
             // Act
-            BitString sut = new BitString(bi, totalBits);
-            var resultBytes = sut.ToBytes();
+            BitString sut = new BitString(bytesInMSB);
+            var result = sut.ToBigInteger();
 
             // Assert
-            for (int i = 0; i < resultBytes.Length; i++)
-            {
-                Assert.AreEqual(bytes[i], resultBytes[i]);
-            }
+            Assert.AreEqual(expectedBi, result);
+        }
+
+        [Test]
+        [TestCase(1)]
+        [TestCase(255)]
+        [TestCase(256)]
+        [TestCase(1500)]
+        [TestCase(int.MaxValue)]
+        public void ShouldCreateInstanceWithBigInteger(int testInt)
+        {
+            // Arrange
+            var testBigInt = new BigInteger(testInt);
+
+            // Act
+            BitString sut = new BitString(testBigInt);
+            var resultBigInt = sut.ToBigInteger();
+
+            // Assert
+            Assert.AreEqual(testBigInt, resultBigInt);
         }
 
         [Test]
@@ -93,11 +131,12 @@ namespace NIST.CVP.Math.Tests
             BitString sut = new BitString(bi, setBitLengthTo);
 
             // Assert
-            Assert.IsTrue(setBitLengthTo == sut.Bits.Length, $"Resulting bits length should be {setBitLengthTo}");
+            Assert.AreEqual(setBitLengthTo, sut.Bits.Length, $"Resulting bits length should be {setBitLengthTo}");
+
         }
 
         [Test]
-        public void ShouldAddFalseBitsAfterBigInt()
+        public void ShouldAddFalseBitsBeforeBigInt()
         {
             // Arrange
             byte[] bytes = new byte[] { 1 };
@@ -112,49 +151,64 @@ namespace NIST.CVP.Math.Tests
 
             // Assert
             Assume.That(results.Length == 2);
-            Assert.IsTrue(results[0] == 1);
-            Assert.IsTrue(results[1] == 0);
+            Assert.IsTrue(results[0] == 0);
+            Assert.IsTrue(results[1] == 1);
         }
 
         [Test]
+        // MSB
         [TestCase(1, "01")]
         [TestCase(10, "0A")]
         [TestCase(15, "0F")]
-        [TestCase(1500, "DC 05")]
-        [TestCase(int.MaxValue, "FF FF FF 7F")]
-        public void ShouldCreateInstanceFromHexStringLSB(int testExpectation, string hexValue)
+        [TestCase(1500, "05 DC")]
+        [TestCase(int.MaxValue, "7F FF FF FF")]
+        //[Test]
+        //// LSB
+        //[TestCase(1, "01")]
+        //[TestCase(10, "0A")]
+        //[TestCase(15, "0F")]
+        //[TestCase(1500, "DC 05")]
+        //[TestCase(int.MaxValue, "FF FF FF 7F")]
+        public void ShouldCreateInstanceFromHexStringInt(int testExpectation, string hexValue)
         {
             // Arrange
-            var expectedBitString = BitString.To64BitString(testExpectation);
+            var expectedResult = new BigInteger(testExpectation);
 
             // Act
             var sut = new BitString(hexValue);
             var result = sut.ToBigInteger();
-            var bigIntByteArray = result.ToByteArray();
-            var createdBitStringFromBigIntByteArray = new BitString(bigIntByteArray);
 
             // Assert
-            for (int i = 0; i < createdBitStringFromBigIntByteArray.Bits.Length; i++)
-            {
-                Assert.AreEqual(expectedBitString.Bits[i], createdBitStringFromBigIntByteArray.Bits[i]);
-            }
+            Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
+        // MSB
         [TestCase(1, "01")]
         [TestCase(10, "0A")]
         [TestCase(15, "0F")]
-        [TestCase(1500, "DC 05")]
-        [TestCase(int.MaxValue, "FF FF FF 7F")]
-        public void ShouldCreateInstanceFromHexString(long testExpectation, string hexValue)
+        [TestCase(1500, "05 DC")]
+        [TestCase(int.MaxValue, "7F FF FF FF")]
+        [TestCase(long.MaxValue, "7F FF FF FF FF FF FF FF")]
+        //[Test]
+        //// LSB
+        //[TestCase(1, "01")]
+        //[TestCase(10, "0A")]
+        //[TestCase(15, "0F")]
+        //[TestCase(1500, "DC 05")]
+        //[TestCase(int.MaxValue, "FF FF FF 7F")]
+        //[TestCase(long.MaxValue, "FF FF FF FF FF FF FF 7F")]
+        public void ShouldCreateInstanceFromHexStringLong(long testExpectation, string hexValue)
         {
+            // Arrange
+            var expectedResult = new BigInteger(testExpectation);
+
             // Act
-            BitString sut = new BitString(hexValue);
+            var sut = new BitString(hexValue);
             var result = sut.ToBigInteger();
-            var comparison = result.CompareTo(testExpectation);
 
             // Assert
-            Assert.IsTrue(comparison == 0);
+            Assert.AreEqual(expectedResult, result);
         }
         #endregion ctor
 
@@ -232,7 +286,24 @@ namespace NIST.CVP.Math.Tests
         #endregion Equals
 
         #region ToBytes
+        //[Test]
+        //// MSb
+        //// less than one byte
+        //[TestCase(new bool[] { true }, 1)]
+        //[TestCase(new bool[] { true, false, false }, 4)]
+        //[TestCase(new bool[] { true, false, false, false }, 8)]
+        //[TestCase(new bool[] { true, false, false, false, true }, 17)]
+        //// one byte
+        //[TestCase(new bool[] { true, false, false, false, false, false, false, false }, 128)]
+        //// one byte plus some bits
+        //[TestCase(new bool[] { true, false, true, true, true, false, true, true, true, false, false }, 1500)]
+        //// two bytes
+        //[TestCase(new bool[] { false, true, false, false, false, false, false, false, false, true, false, false, false, false, false, true }, 16449)]
+        //[TestCase(new bool[] { true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false }, 32896)]
+        //// three bytes
+        //[TestCase(new bool[] { true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false }, 8421504)]
         [Test]
+        // LSb
         // less than one byte
         [TestCase(new bool[] { true }, 1)]
         [TestCase(new bool[] { false, false, true }, 4)]
@@ -252,14 +323,28 @@ namespace NIST.CVP.Math.Tests
             BitArray bitArray = new BitArray(bits);
             BitString bitString = new BitString(bitArray);
 
+            var expectedBytes = BitConverter.GetBytes(expectedResult).Reverse().ToArray();
+            int offsetDueToZeros = 0;
+            for (int i = 0; i < expectedBytes.Length; i++)
+            {
+                if (expectedBytes[i] == 0)
+                {
+                    offsetDueToZeros = i;
+                }
+                else
+                {
+                    offsetDueToZeros++;
+                    break;
+                }
+            }
+
             // Act
             var results = bitString.ToBytes();
 
             // Assert
-            var bytes = BitConverter.GetBytes(expectedResult);
-            for (int i = 0; i < results.Length; i++)
+            for (int i = 0; i < expectedBytes.Length - offsetDueToZeros; i++)
             {
-                Assert.AreEqual(bytes[i], results[i]);
+                Assert.AreEqual(expectedBytes[i + offsetDueToZeros], results[i]);
             }
         }
 
@@ -270,10 +355,9 @@ namespace NIST.CVP.Math.Tests
         [TestCase(long.MaxValue)]
         public void ToBytesLargerThanFourBytes(long largeNumber)
         {
-            var bytes = BitConverter.GetBytes(largeNumber);
+            var bytes = BitConverter.GetBytes(largeNumber).Reverse().ToArray();
 
-            BitArray bitArray = new BitArray(bytes);
-            BitString bitString = new BitString(bitArray);
+            BitString bitString = new BitString(bytes);
 
             var results = bitString.ToBytes();
 
@@ -314,15 +398,35 @@ namespace NIST.CVP.Math.Tests
             }
         }
 
+        //[Test]
+        //[TestCase(1, new byte[] { 1 })]
+        //[TestCase(255, new byte[] { 255, 0 })]
+        //[TestCase(256, new byte[] { 0, 1 })]
+        //[TestCase(1500, new byte[] { 220, 5 })]
+        //public void ToBytesShouldBeInLeastSignificantByteOrder(int valueToToBytes, byte[] expectedByteArrayOrder)
+        //{
+        //    // Arrange
+        //    BitString bs = new BitString(new BigInteger(valueToToBytes));
+
+        //    // Act
+        //    var sut = bs.ToBytes();
+
+        //    // Assert
+        //    for (int i = 0; i < expectedByteArrayOrder.Length; i++)
+        //    {
+        //        Assert.AreEqual(expectedByteArrayOrder[i], sut[i]);
+        //    }
+        //}
+
         [Test]
         [TestCase(1, new byte[] { 1 })]
-        [TestCase(255, new byte[] { 255 })]
-        [TestCase(256, new byte[] { 0, 1 })]
-        [TestCase(1500, new byte[] { 220, 5 })]
-        public void ToBytesShouldBeInLeastSignificantByteOrder(int valueToToBytes, byte[] expectedByteArrayOrder)
+        [TestCase(255, new byte[] { 0, 255 })]
+        [TestCase(256, new byte[] { 1, 0 })]
+        [TestCase(1500, new byte[] { 5, 220 })]
+        public void ToBytesShouldBeInMostSignificantByteOrder(int valueToToBytes, byte[] expectedByteArrayOrder)
         {
             // Arrange
-            BitString bs = new BitString(BitConverter.GetBytes(valueToToBytes));
+            BitString bs = new BitString(new BigInteger(valueToToBytes));
 
             // Act
             var sut = bs.ToBytes();
@@ -382,10 +486,9 @@ namespace NIST.CVP.Math.Tests
         public void ToStringShouldReturnABitRepresentationWithASpaceEveryEightBits(long toStringNumber, string expectedToString)
         {
             // Arrange
-            var bytes = BitConverter.GetBytes(toStringNumber);
+            var bytes = BitConverter.GetBytes(toStringNumber).Reverse().ToArray();
 
-            BitArray bitArray = new BitArray(bytes);
-            BitString bitString = new BitString(bitArray);
+            BitString bitString = new BitString(bytes);
 
             // Act
             var results = bitString.ToString();
@@ -401,7 +504,7 @@ namespace NIST.CVP.Math.Tests
         {
             // Arrange
             BitString bs = new BitString(new BitArray(new bool[] { false, false, false }));
-            int length = bs.Length;
+            int length = bs.BitLength;
 
             // Act
             var result = bs.Set(length, true);
@@ -415,7 +518,7 @@ namespace NIST.CVP.Math.Tests
         {
             // Arrange
             BitString bs = new BitString(new BitArray(new bool[] { false, false, false }));
-            int length = bs.Length;
+            int length = bs.BitLength;
 
             // Act
             var result = bs.Set(-1, true);
@@ -429,7 +532,7 @@ namespace NIST.CVP.Math.Tests
         {
             // Arrange
             BitString bs = new BitString(new BitArray(new bool[] { false, false, false }));
-            int length = bs.Length;
+            int length = bs.BitLength;
 
             // Act
             var result = bs.Set(length - 1, true);
@@ -456,7 +559,6 @@ namespace NIST.CVP.Math.Tests
 
         #region To64BitString
         [Test]
-        // Note "ToString" representation as MSb, internal storage as LSb
         [TestCase(1, "00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000001")]
         [TestCase(4, "00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000100")]
         [TestCase(128, "00000000 00000000 00000000 00000000 00000000 00000000 00000000 10000000")]
@@ -472,6 +574,11 @@ namespace NIST.CVP.Math.Tests
 
         #region ConcatenateBits
         [Test]
+        [TestCase(
+            new bool[] { false },
+            new bool[] { true },
+            new bool[] { true, false }
+        )]
         [TestCase(
             new bool[] { false, false, false, true },
             new bool[] { false, true, true, false },
@@ -492,14 +599,14 @@ namespace NIST.CVP.Math.Tests
             BitString results = BitString.ConcatenateBits(lsBs, rsBs);
 
             // Assert
-            for (int i = 0; i < results.Length; i++)
+            for (int i = 0; i < results.BitLength; i++)
             {
                 Assert.AreEqual(expectedResult[i], results.Bits[i]);
             }
         }
         #endregion ConcatenateBits
 
-        #region LeftMost
+        #region MostSignificant
         [Test]
         [TestCase(
         new bool[] { false, true, false, true, false, true, false, true },
@@ -521,20 +628,20 @@ namespace NIST.CVP.Math.Tests
             8,
             new bool[] { false, true, false, true, false, true, false, true }
         )]
-        public void LeftmostShouldReturnNumberOfDigitsSpecified(bool[] workingArray, int numberOfBits, bool[] expectedArray)
+        public void MostSignificantShouldReturnNumberOfDigitsSpecified(bool[] workingArray, int numberOfBits, bool[] expectedArray)
         {
             // Arrange
             BitString bs = new BitString(new BitArray(workingArray));
 
             // Act
-            var results = bs.Leftmost(numberOfBits);
+            var results = bs.GetMostSignificantBits(numberOfBits);
 
             // Assert
             Assert.AreEqual(expectedArray, results.Bits);
         }
-        #endregion LeftMost
+        #endregion MostSignificant
 
-        #region RightMost
+        #region LeftSignificant
         [Test]
         [TestCase(
             new bool[] { false, true, false, true, false, true, false, true },
@@ -556,18 +663,18 @@ namespace NIST.CVP.Math.Tests
             8,
             new bool[] { false, true, false, true, false, true, false, true }
         )]
-        public void RightmostShouldReturnNumberOfDigitsSpecified(bool[] workingArray, int numberOfBits, bool[] expectedArray)
+        public void LeastSignificantShouldReturnNumberOfDigitsSpecified(bool[] workingArray, int numberOfBits, bool[] expectedArray)
         {
             // Arrange
             BitString bs = new BitString(new BitArray(workingArray));
 
             // Act
-            var results = bs.Rightmost(numberOfBits);
+            var results = bs.GetLeastSignificantBits(numberOfBits);
 
             // Assert
             Assert.AreEqual(expectedArray, results.Bits);
         }
-        #endregion RightMost
+        #endregion LeftSignificant
 
         #region SubString
         [Test]
@@ -670,52 +777,7 @@ namespace NIST.CVP.Math.Tests
             Assert.AreEqual(expectedXorBs, results);
         }
 
-        [Test]
-        //[TestCase(
-        //            new bool[] { true, true },
-        //            new bool[] { true },
-        //            new bool[] { true, false }
-        //        )]
-        //[TestCase(
-        //            new bool[] { true, false },
-        //            new bool[] { true },
-        //            new bool[] { true, true }
-        //        )]
-        //[TestCase(
-        //            new bool[] { false, true },
-        //            new bool[] { true },
-        //            new bool[] { false, false }
-        //        )]
-        [TestCase(
-                    new bool[] { true, true },
-                    new bool[] { true },
-                    new bool[] { false, true }
-                )]
-        [TestCase(
-                    new bool[] { true, false },
-                    new bool[] { true },
-                    new bool[] { false, false }
-                )]
-        [TestCase(
-                    new bool[] { false, true },
-                    new bool[] { true },
-                    new bool[] { true, true }
-                )]
-        public void XORInstanceShouldPadZeroesForShorterBitStringAndReturnNewBitString(bool[] inputA, bool[] inputB, bool[] expectedResult)
-        {
-            // Arrange
-            BitString bsA = new BitString(new BitArray(inputA));
-            BitString bsB = new BitString(new BitArray(inputB));
-            BitString expectedXorBs = new BitString(new BitArray(expectedResult));
-
-            // Act
-            var results = bsA.XOR(bsB);
-
-            // Assert
-            Assert.AreEqual(expectedXorBs, results);
-        }
-
-        [Test]
+        //[Test]
         //[TestCase(
         //    new bool[] { true, true },
         //    new bool[] { true },
@@ -741,6 +803,7 @@ namespace NIST.CVP.Math.Tests
         //    new bool[] { false, true, true },
         //    new bool[] { true, false, true, true, false }
         //)]
+        [Test]
         [TestCase(
             new bool[] { true, true },
             new bool[] { true },
@@ -787,10 +850,11 @@ namespace NIST.CVP.Math.Tests
         [TestCase(250)]
         [TestCase(1024)]
         [TestCase(int.MaxValue)]
-        public void ToBigIntegerReturnsBigIntegerBasedOnBytes(int testInt)
+        public void ToBigIntegerIntReturnsBigIntegerBasedOnBytes(int testInt)
         {
             // Arrange
-            var bytes = BitConverter.GetBytes(testInt);
+            var bytes = BitConverter.GetBytes(testInt).Reverse().ToArray();
+
             BitString bs = new BitString(bytes);
             BigInteger expectedBigInt = new BigInteger(testInt);
 
@@ -807,10 +871,11 @@ namespace NIST.CVP.Math.Tests
         [TestCase(1024)]
         [TestCase(int.MaxValue)]
         [TestCase(long.MaxValue)]
-        public void ToBigIntegerReturnsBigIntegerBasedOnBytes(long testLong)
+        public void ToBigIntegerLongReturnsBigIntegerBasedOnBytes(long testLong)
         {
             // Arrange
-            var bytes = BitConverter.GetBytes(testLong);
+            var bytes = BitConverter.GetBytes(testLong).Reverse().ToArray();
+
             BitString bs = new BitString(bytes);
             BigInteger expectedBigInt = new BigInteger(testLong);
 
@@ -824,23 +889,36 @@ namespace NIST.CVP.Math.Tests
 
         #region ToHex
         [Test]
+        [TestCase("01")]
+        [TestCase("0A")]
+        [TestCase("0F")]
+        [TestCase("05DC")]
+        [TestCase("7FFFFFFF")]
+        public void ToHexShouldReturnSameHexStringFromConstructor(string expectedHexString)
+        {
+            var bs = new BitString(expectedHexString);
+            var result = bs.ToHex();
+            Assert.AreEqual(expectedHexString, result);
+        }
+
+        [Test]
         [TestCase(1, "01")]
         [TestCase(10, "0A")]
         [TestCase(15, "0F")]
-        [TestCase(1500, "DC05")]
-        [TestCase(int.MaxValue, "FFFFFF7F")]
-        public void ToHexShouldReturnHexStringOfBitString(int testLong, string expectedHex)
+        [TestCase(1500, "05DC")]
+        [TestCase(int.MaxValue, "7FFFFFFF")]
+        public void ToHexShouldReturnHexStringOfBitString(int testInt, string expectedHex)
         {
             // Arrange
-            var bytes = BitConverter.GetBytes(testLong);
-            var bs = new BitString(bytes);
+            var testBigInt = new BigInteger(testInt);
+            var bs = new BitString(testBigInt);
 
             // Act
             var results = bs.ToHex();
 
             // Assert
-            // Note LSB
-            Assert.IsTrue(results.StartsWith(expectedHex.ToUpper()));
+            // Note MSB
+            Assert.AreEqual(expectedHex, results);
         }
         #endregion ToHex
 

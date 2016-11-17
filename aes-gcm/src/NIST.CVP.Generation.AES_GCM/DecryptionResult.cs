@@ -29,8 +29,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 return ErrorMessage;
             }
 
-            //return $"PlainText: {PlainText.ToHex()}"; // @@@ TODO
-            return $"PlainText: {Encoding.UTF8.GetString(PlainText.ToBytes())}";
+            return $"PlainText: {PlainText.ToHex()}";
         }
     }
 }

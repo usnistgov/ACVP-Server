@@ -38,12 +38,17 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','));
         }
 
-        [Test]
-        [TestCase(null)]
-        public void ShouldReturnErrorWithInvalidDirection(string[] direction)
+        static object[] directionTestCases = new object[]
         {
-            // TODO if possible figure out how to do test cases with an array of string
-            // Nulls
+            new object[] { "null", null },
+            new object[] { "empty", new string[] { } },
+            new object[] { "Invalid value", new string[] { "notValid" } },
+            new object[] { "Partially valid", new string[] { "encrypt", "notValid" } }
+        };
+        [Test]
+        [TestCaseSource(nameof(directionTestCases))]
+        public void ShouldReturnErrorWithInvalidDirection(string testCaseLabel, string[] direction)
+        {
             ParameterValidator sut = new ParameterValidator();
             var result = sut.Validate(
                 new ParameterBuilder()
@@ -51,37 +56,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, "nulls");
-
-            // empty
-            sut = new ParameterValidator();
-            result = sut.Validate(
-                new ParameterBuilder()
-                    .WithMode(new string[] { })
-                    .Build()
-            );
-
-            Assert.IsFalse(result.Success, "empty");
-
-            // invalid value
-            sut = new ParameterValidator();
-            result = sut.Validate(
-                new ParameterBuilder()
-                    .WithMode(new string[] { "notValid" })
-                    .Build()
-            );
-
-            // valid values with invalid values
-            Assert.IsFalse(result.Success, "invalid and valid value");
-
-            sut = new ParameterValidator();
-            result = sut.Validate(
-                new ParameterBuilder()
-                    .WithMode(new string[] { "encrypt", "notValid" })
-                    .Build()
-            );
-
-            Assert.IsFalse(result.Success, "invalid value");
+            Assert.IsFalse(result.Success, testCaseLabel);
         }
 
         [Test]
@@ -176,6 +151,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase("external", true)]
         [TestCase("invalid", false)]
         [TestCase("", false)]
+        [TestCase(null, false)]
         public void ShouldReturnErrorWithInvalidIvGen(string ivGen, bool isValid)
         {
             ParameterValidator sut = new ParameterValidator();
@@ -193,6 +169,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase("8.2.2", true)]
         [TestCase("invalid", false)]
         [TestCase("", false)]
+        [TestCase(null, false)]
         public void ShouldReturnErrorWithInvalidIvGenMode(string ivGenMode, bool isValid)
         {
             ParameterValidator sut = new ParameterValidator();

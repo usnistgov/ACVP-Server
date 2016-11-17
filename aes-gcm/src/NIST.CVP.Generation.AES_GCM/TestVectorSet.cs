@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
+using System.Collections;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
@@ -47,6 +48,9 @@ namespace NIST.CVP.Generation.AES_GCM
         [JsonProperty(PropertyName = "testGroupsNotSerialized")]
         public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
 
+        /// <summary>
+        /// Expected answers (not sent to client)
+        /// </summary>
         public List<dynamic> AnswerProjection
         {
             get
@@ -78,14 +82,16 @@ namespace NIST.CVP.Generation.AES_GCM
                         tests.Add(testObject);
                     }
                     list.Add(updateObject);
+                    
                 }
-            
 
                 return list;
             }
         }
 
-
+        /// <summary>
+        /// What the client receives (should not include expected answers)
+        /// </summary>
         [JsonProperty(PropertyName = "testGroups")]
         public List<dynamic> PromptProjection
         {
@@ -122,6 +128,10 @@ namespace NIST.CVP.Generation.AES_GCM
             }
         }
 
+             /// <summary>
+        /// Debug projection (internal), as well as potentially sample projection (sent to client)
+        /// </summary>
+        
         [JsonProperty(PropertyName = "testResults")]
         public dynamic ResultProjection
         {

@@ -24,16 +24,16 @@ namespace NIST.CVP.Generation.AES_GCM
 
         public TestCaseGenerateResponse Generate(TestGroup @group)
         {
-            //known answer
+            //known answer - need to do an encryption operation to get the tag
+            var key = _random800_90.GetRandomBitString(@group.KeyLength);
             var iv = _random800_90.GetRandomBitString(@group.IVLength);
-            var key = _random800_90.GetRandomBitString(group.KeyLength);
             var plainText = _random800_90.GetRandomBitString(group.PTLength);
             var aad = _random800_90.GetRandomBitString(group.AADLength);
             var testCase = new TestCase
             {
+                Key = key,
                 IV = iv,
                 AAD = aad,
-                Key = key,
                 PlainText = plainText,
                 Deferred = false
             };
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.AES_GCM
             }
             testCase.CipherText = encryptionResult.CipherText;
             testCase.Tag = encryptionResult.Tag;
-            return new TestCaseGenerateResponse(testCase);
+            return  new TestCaseGenerateResponse(testCase);
         }
 
         private Logger ThisLogger

@@ -115,7 +115,8 @@ namespace NIST.CVP.Generation.AES_GCM
                 errorResults.Add(result);
             }
 
-            if (parameters.ivGen.ToLower() == "internal")
+            // Only validate ivGenMode when ivGen is not null and is internal
+            if (!string.IsNullOrEmpty(parameters.ivGen) && parameters.ivGen.Equals("internal", StringComparison.CurrentCultureIgnoreCase))
             {
                 result = ValidateValue(parameters.ivGenMode, VALID_IV_GEN_MODE, "IV Generation Mode (Internal)");
                 if (!string.IsNullOrEmpty(result))

@@ -56,7 +56,7 @@ namespace NIST.CVP.Math.Tests
             var subject = new Random800_90();
             var result = subject.GetRandomBitString(length);
             Assert.IsNotNull(result);
-            Assert.AreEqual(0, result.Length);
+            Assert.AreEqual(0, result.BitLength);
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace NIST.CVP.Math.Tests
             var subject = new Random800_90();
             var result = subject.GetRandomBitString(length);
             Assume.That(result != null);
-            Assert.AreEqual(length, result.Length);
+            Assert.AreEqual(length, result.BitLength);
         }
 
         [Test]

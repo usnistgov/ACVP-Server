@@ -1,112 +1,102 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading.Tasks;
+﻿using Moq;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
 {
     [TestFixture]
     public class TestCaseGeneratorExternalEncryptTests
     {
-        private  Random800_90 _randy = new Random800_90();
-        [Test]
-        public void ShouldReturnSuccessForInitialGenerate()
-        {
-            var subject = GetSubject();
-            var result = subject.Generate(GetTestGroup());
-            Assert.IsTrue(result.Success);
-        }
 
         [Test]
-        public void ShouldReturnSuppliedCipherTextLengthForGenerate()
+        public void GenerateShouldReturnTestCaseGenerateResponse()
         {
-            var subject = GetSubject();
-            var group = GetTestGroup();
-            var result = subject.Generate(group);
-            Assume.That(result.Success);
-            var testCase = (TestCase) result.TestCase;
-            Assert.AreEqual(group.PTLength, testCase.CipherText.Length);
+            TestCaseGeneratorExternalEncrypt sut =
+                new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, GetAESMock().Object);
+
+            var result = sut.Generate(new TestGroup());
+
+            Assert.IsNotNull(result, $"{nameof(result)} should be null");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
-        public void ShouldReturnSuppliedTagLengthForGenerate()
+        public void GenerateShouldReturnNullITestCaseOnFailedEncryption()
         {
-            var subject = GetSubject();
-            var group = GetTestGroup();
-            var result = subject.Generate(group);
-            Assume.That(result.Success);
-            var testCase = (TestCase)result.TestCase;
-            Assert.AreEqual(group.TagLength, testCase.Tag.Length);
+            var aes = GetAESMock();
+            aes
+                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
+                .Returns(new EncryptionResult("Fail"));
+
+            TestCaseGeneratorExternalEncrypt sut =
+                new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, aes.Object);
+
+            var result = sut.Generate(new TestGroup());
+
+            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
+            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
         }
 
         [Test]
-        public void ShouldReturnSuppliedCipherTextLengthForRegenerate()
+        public void GenerateShouldReturnNullITestCaseOnExceptionEncryption()
         {
-            var subject = GetSubject();
-            var group = GetTestGroup();
-            var testCaseProto = GetRegenerateTestCase(group);
+            var aes = GetAESMock();
+            aes
+                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
+                .Throws(new Exception());
 
-            var result = subject.Generate(group, testCaseProto);
-            Assume.That(result.Success);
-            var testCase = (TestCase)result.TestCase;
-            Assert.AreEqual(group.PTLength, testCase.CipherText.Length);
+            TestCaseGeneratorExternalEncrypt sut =
+                new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, aes.Object);
+
+            var result = sut.Generate(new TestGroup());
+
+            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
+            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
         }
 
         [Test]
-        public void ShouldReturnSuppliedTagLengthForRegenerate()
+        public void GenerateShouldReturnFilledTestCaseObjectOnSuccess()
         {
-            var subject = GetSubject();
-            var group = GetTestGroup();
-            var testCaseProto = GetRegenerateTestCase(group);
+            var fakeCipher = new BitString(new byte[] { 1 });
+            var fakeTag = new BitString(new byte[] { 2 });
+            var random = GetRandomMock();
+            random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(new byte[] { 3 }));
+            var aes = GetAESMock();
+            aes
+                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
+                .Returns(new EncryptionResult(fakeCipher, fakeTag));
 
-            var result = subject.Generate(group, testCaseProto);
-            Assume.That(result.Success);
-            var testCase = (TestCase)result.TestCase;
-            Assert.AreEqual(group.TagLength, testCase.Tag.Length);
+            TestCaseGeneratorExternalEncrypt sut =
+                new TestCaseGeneratorExternalEncrypt(random.Object, aes.Object);
+
+            var result = sut.Generate(new TestGroup());
+
+            Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
+            Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).AAD.ToString(), "AAD");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).CipherText.ToString(), "CipherText");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).IV.ToString(), "IV");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).Key.ToString(), "Key");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).Tag.ToString(), "Tag");
+            Assert.IsFalse(result.TestCase.Deferred, "Deferred");
         }
 
-        private TestCase GetRegenerateTestCase(TestGroup group)
+        private Mock<IRandom800_90> GetRandomMock()
         {
-            var testCase = new TestCase
-            {
-                PlainText = _randy.GetRandomBitString(group.PTLength),
-                Tag =  _randy.GetRandomBitString(group.TagLength),
-                Key = _randy.GetRandomBitString(group.KeyLength),
-                AAD = _randy.GetRandomBitString(group.AADLength),
-                IV = _randy.GetRandomBitString(group.IVLength)
-
-            };
-            return testCase;
+            return new Mock<IRandom800_90>();
         }
 
-
-        [Test]
-        public void ShouldHaveEncryptForDirection()
+        private Mock<IAES_GCM> GetAESMock()
         {
-            var subject = GetSubject();
-
-            Assert.AreEqual("encrypt", subject.Direction);
-        }
-
-        [Test]
-        public void ShouldHaveExternalForIVGen()
-        {
-            var subject = GetSubject();
-
-            Assert.AreEqual("external", subject.IVGen);
-        }
-
-        private TestGroup GetTestGroup()
-        {
-            return  new TestGroup { AADLength = 16, Function = "Encrypt", IVGeneration = "External", KeyLength = 128, PTLength = 512, TagLength = 32};
-        }
-
-        private TestCaseGeneratorExternalEncrypt GetSubject()
-        {
-            return  new TestCaseGeneratorExternalEncrypt(_randy, new AES_GCM());
+            return new Mock<IAES_GCM>();
         }
     }
 }

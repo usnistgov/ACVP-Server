@@ -22,6 +22,11 @@ namespace NIST.CVP.Generation.AES_GCM.Resolvers
                         return false;
                     };
             }
+            else
+            {
+                JsonProperty prop = base.CreateProperty(member, memberSerialization);
+                return prop;
+            }
             return property;
         }
     }

@@ -57,8 +57,8 @@ namespace NIST.CVP.Generation.AES_GCM
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
         public BitString PlainText { get; set; }
-        public BitString AAD { get; set; }
         public BitString Key { get; set; }
+        public BitString AAD { get; set; }
         public BitString IV { get; set; }
         public BitString CipherText { get; set; }
         public BitString Tag { get; set; }
