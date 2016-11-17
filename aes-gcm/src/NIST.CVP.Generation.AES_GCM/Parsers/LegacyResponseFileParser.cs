@@ -8,7 +8,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM.Parsers
 {
-    public class LegacyResponseFileParser
+    public class LegacyResponseFileParser : ILegacyResponseFileParser
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -35,6 +35,8 @@ namespace NIST.CVP.Generation.AES_GCM.Parsers
 
             var groups = new List<TestGroup>();
             TestGroup currentGroup = null;
+            TestCase currentTestCase = null;
+            bool inCases = false;
             foreach (var line in lines)
             {
                 var  workingLine = line.Trim();
@@ -48,18 +50,34 @@ namespace NIST.CVP.Generation.AES_GCM.Parsers
                 }
                 if (workingLine.StartsWith("["))
                 {
-                    if (currentGroup == null)
+                    if (currentGroup == null || inCases)
                     {
+                        inCases = false;
                         currentGroup = new TestGroup();
+                        groups.Add(currentGroup);
                     }
+                    workingLine = workingLine.Replace("[", "").Replace("]", "");
+                    string[] parts = workingLine.Split("=".ToCharArray());
+                    currentGroup.SetString(parts[0], parts[1]);
+                    continue;
                 }
-
-
+                if (workingLine.StartsWith("Count"))
+                {
+                    string[] parts = workingLine.Split("=".ToCharArray());
+                    int caseId = 0;
+                    int.TryParse(parts[1].Trim(), out caseId);
+                    currentTestCase = new TestCase {TestCaseId = caseId};
+                    currentGroup.Tests.Add(currentTestCase);
+                    continue;
+                }
+                inCases = true;
+                string[] valueParts = workingLine.Split("=".ToCharArray());
+                currentTestCase.SetString(valueParts[0].Trim(), valueParts[1].Trim());
 
             }
 
-
-            return  new ParseResponse<TestVectorSet>("Not done yet.");
+            var testVectorSet = new TestVectorSet { Algorithm = "AES-GCM", TestGroups = groups.Select(g => (ITestGroup)g).ToList()};
+            return  new ParseResponse<TestVectorSet>(testVectorSet);
         }
     }
 }

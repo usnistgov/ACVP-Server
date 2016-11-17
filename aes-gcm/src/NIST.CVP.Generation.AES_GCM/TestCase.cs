@@ -87,5 +87,38 @@ namespace NIST.CVP.Generation.AES_GCM
             return false;
         }
 
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+      
+            switch (name.ToLower())
+            {
+                case "key":
+                    Key = new BitString(value);
+                    return true;
+                case "aad":
+                    AAD = new BitString(value);
+                    return true;
+                case "tag":
+                    Tag= new BitString(value);
+                    return true;
+                case "iv":
+                    IV = new BitString(value);
+                    return true;
+                case "plaintext":
+                case "pt":
+                    PlainText= new BitString(value);
+                    return true;
+                case "ciphertext":
+                case "ct":
+                    CipherText = new BitString(value);
+                    return true;
+            }
+            return false;
+        }
+
     }
 }

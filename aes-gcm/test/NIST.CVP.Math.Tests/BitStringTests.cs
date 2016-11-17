@@ -156,6 +156,16 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
+        [TestCase("")]
+        [TestCase(null)]
+        public void ShouldCreateEmptyBitStringIfEmptyOrNullHexSupplied(string hexValue)
+        {
+            var sut = new BitString(hexValue);
+            Assert.IsNotNull(sut);
+            Assert.AreEqual(0, sut.BitLength);
+        }
+
+        [Test]
         // MSB
         [TestCase(1, "01")]
         [TestCase(10, "0A")]

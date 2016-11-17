@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
     public class LegacyReponseFileParserTests
     {
      
-        private string _unitTestPath = @"C:\Users\def2\Documents\UnitTests\ACAVP\Standard";
+        private string _unitTestPath = Path.GetFullPath(@"..\..\TestFiles\");
 
 
 
@@ -40,10 +40,91 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public void ShouldParseValidFile()
         {
             var subject = new LegacyResponseFileParser();
-            var path = Path.Combine(_unitTestPath, "answer.json");
+            var path = Path.Combine(_unitTestPath, "gcmEncryptIntIV128.rsp");
             var result = subject.Parse(path);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
+        }
+
+        [Test]
+        public void ShouldHaveProperNumberOfGroups()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmEncryptIntIV128.rsp");
+            var result = subject.Parse(path);
+            Assume.That(result != null);
+            var vectorSet = result.ParsedObject;
+            Assert.AreEqual(25, vectorSet.TestGroups.Count);
+        }
+
+        [Test]
+        public void ShouldHaveTestsWithAADFilled()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmEncryptIntIV128.rsp");
+            var result = subject.Parse(path);
+            Assume.That(result != null);
+            var vectorSet = result.ParsedObject;
+            var casesWithAAD = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase) t).AAD != null));
+            Assert.IsNotEmpty(casesWithAAD);
+        }
+        [Test]
+        public void ShouldHaveTestsWithKeyFilled()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmEncryptIntIV128.rsp");
+            var result = subject.Parse(path);
+            Assume.That(result != null);
+            var vectorSet = result.ParsedObject;
+            var casesWithKey = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).Key != null));
+            Assert.IsNotEmpty(casesWithKey);
+        }
+
+        [Test]
+        public void ShouldHaveTestsWithIVFilled()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmEncryptIntIV128.rsp");
+            var result = subject.Parse(path);
+            Assume.That(result != null);
+            var vectorSet = result.ParsedObject;
+            var casesWithIV = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).IV != null));
+            Assert.IsNotEmpty(casesWithIV);
+        }
+        [Test]
+        public void ShouldHaveTestsWithTagFilled()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmEncryptIntIV128.rsp");
+            var result = subject.Parse(path);
+            Assume.That(result != null);
+            var vectorSet = result.ParsedObject;
+            var casesWithTag = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).Tag != null));
+            Assert.IsNotEmpty(casesWithTag);
+        }
+
+        [Test]
+        public void ShouldHaveTestsWithPlainTextFilled()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmEncryptIntIV128.rsp");
+            var result = subject.Parse(path);
+            Assume.That(result != null);
+            var vectorSet = result.ParsedObject;
+            var casesWithPlainText = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).PlainText != null));
+            Assert.IsNotEmpty(casesWithPlainText);
+        }
+
+        [Test]
+        public void ShouldHaveTestsWithCipherTextFilled()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmEncryptIntIV128.rsp");
+            var result = subject.Parse(path);
+            Assume.That(result != null);
+            var vectorSet = result.ParsedObject;
+            var casesWithCipherText = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).CipherText != null));
+            Assert.IsNotEmpty(casesWithCipherText);
         }
     }
 }

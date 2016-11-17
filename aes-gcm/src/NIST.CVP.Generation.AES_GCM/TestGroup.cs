@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
@@ -82,6 +83,40 @@ namespace NIST.CVP.Generation.AES_GCM
                 return false;
             }
             return this.GetHashCode() == otherGroup.GetHashCode();
+        }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            int intVal = 0;
+            if (!int.TryParse(value, out intVal))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "keylen":
+                    KeyLength = intVal;
+                    return true;
+                case "aadlen":
+                    AADLength = intVal;
+                    return true;
+                case "taglen":
+                    TagLength = intVal;
+                    return true;
+                case "ivlen":
+                    IVLength = intVal;
+                    return true;
+                case "ptlen":
+                    PTLength = intVal;
+                    return true;
+            }
+            return false;
         }
     }
 }

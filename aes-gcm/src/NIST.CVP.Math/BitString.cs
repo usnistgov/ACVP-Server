@@ -89,15 +89,24 @@ namespace NIST.CVP.Math
         /// <param name="hexMSB">The MSB hexadecimal string</param>
         public BitString(string hexMSB)
         {
+            
+            if (string.IsNullOrEmpty(hexMSB))
+            {
+                _bits = new BitArray(0);
+                return;
+            }
+
             // TODO: Currently hex string must be an even length (with spaces stripped).
             // Should the string left pad with a 0 to make it even and not throw an exception?
             // Or should immediately throw if hex is odd (w/o spaces)?
-
             hexMSB = hexMSB.Replace(" ", "");
             int numberChars = hexMSB.Length;
             byte[] bytesInMSB = new byte[numberChars / 2];
             for (int i = 0; i < numberChars; i += 2)
+            {
                 bytesInMSB[i / 2] = Convert.ToByte(hexMSB.Substring(i, 2), 16);
+            }
+                
 
             _bits = Helper.MostSignificantByteArrayToLeastSignificantBitArray(bytesInMSB);
         }
