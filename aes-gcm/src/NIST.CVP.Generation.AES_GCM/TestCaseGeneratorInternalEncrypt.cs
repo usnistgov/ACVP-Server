@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 Deferred = true
             };
 
-            return Generate(@group, testCase);
+            return new TestCaseGenerateResponse(testCase);
         }
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)

@@ -44,13 +44,24 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [Test]
         public void GenerateShouldReturnFilledTestCaseObjectOnSuccess()
         {
+            var aes = GetAESMock();
+            aes.
+                Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
+                .Returns(
+                    new EncryptionResult(
+                        new BitString(new byte[] { 1 }), 
+                        new BitString(new byte[] { 2 })
+                    )
+                );
+
             var random = GetRandomMock();
             random
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
                 .Returns(new BitString(new byte[] { 3 }));
+            
 
             TestCaseGeneratorInternalEncrypt sut =
-                new TestCaseGeneratorInternalEncrypt(random.Object, GetAESMock().Object);
+                new TestCaseGeneratorInternalEncrypt(random.Object, aes.Object);
 
             var result = sut.Generate(new TestGroup());
 
@@ -60,7 +71,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");
             Assert.IsNull(((TestCase)result.TestCase).CipherText, "CipherText");
             Assert.IsNull(((TestCase)result.TestCase).IV, "IV");
-            Assert.IsNull(((TestCase)result.TestCase).Key, "Key");
+            Assert.IsNotNull(((TestCase)result.TestCase).Key.ToString(), "Key");
             Assert.IsNull(((TestCase)result.TestCase).Tag, "Tag");
             Assert.IsTrue(result.TestCase.Deferred, "Deferred");
         }
