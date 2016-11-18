@@ -7,6 +7,9 @@ namespace NIST.CVP.Generation.AES
 {
     public class RijndaelECB : Rijndael
     {
+        public RijndaelECB(IRijndaelInternals iRijndaelInternals)
+            : base(iRijndaelInternals) { }
+
         protected override void BlockEncryptWorker(Cipher cipher, Key key, byte[] plainText, int numBlocks, byte[,] block, byte[] outBuffer)
         {
             
