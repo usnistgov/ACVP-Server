@@ -66,11 +66,124 @@ namespace NIST.CVP.Generation.AES.Tests
         #endregion EncryptSingleBlock
 
         #region KeyAddition
-        // @@@ TODO
+        static object[] keyAdditionTestCase = new object[]
+        {
+            new object[]
+            {
+                new byte[4,1] { { 1 }, { 7 }, { 9 }, { 10 } },
+                new byte[4,1] { { 1 }, { 7 }, { 9 }, { 10 } },
+                new byte[4,1] { { 0 }, { 0 }, { 0 }, { 0 } }
+            },
+            new object[]
+            {
+                new byte[4,1] 
+                { 
+                    { 1 },      // 00000001
+                    { 7 },      // 00000111
+                    { 9 },      // 00001001
+                    { 10 }      // 00001010
+                },
+                new byte[4,1] 
+                { 
+                    { 123 },    // 01111011
+                    { 42 },     // 00101010
+                    { 55 },     // 00110111
+                    { 250 }     // 11111010
+                },
+                new byte[4,1] 
+                { 
+                    // 00000001 (1)
+                    // 01111011 (123)
+                    // --------
+                    // 01111010 (122)
+                    { 122 }, 
+                    // 00000111 (7)
+                    // 00101010 (42)
+                    // --------
+                    // 00101101 (45)
+                    { 45 }, 
+                    // 00001001 (9)
+                    // 00110111 (55)
+                    // --------
+                    // 00111110 (62)
+                    { 62 }, 
+                    // 00001010 (10)
+                    // 11111010 (250)
+                    // --------
+                    // 11110000 (240)
+                    { 240 }
+                }
+            },
+        };
+        /// <summary>
+        /// Implementation takes in a <see cref="RijndaelKeySchedule.Schedule"/>, 
+        /// using a fake schedule for testing purposes.
+        /// 
+        /// Should XOR the block[i,j] with the corresponding Schedule[i,j]
+        /// </summary>
+        [Test]
+        [TestCaseSource(nameof(keyAdditionTestCase))]
+        public void ShouldXorBlockWithProvidedBlockForKeyAddition(byte[,] block, byte[,] schedule, byte[,] expectedBlock)
+        {
+            RijndaelInternals sut = new RijndaelInternals();
+            Array2D array = new Array2D(block);
+
+            sut.KeyAddition(array.Array, schedule, array.Dimension2Size);
+
+            for (int dimension1 = 0; dimension1 < array.Dimension1Size; dimension1++)
+            {
+                for (int dimension2 = 0; dimension2 < array.Dimension2Size; dimension2++)
+                {
+                    Assert.AreEqual(expectedBlock[dimension1, dimension2], array.Array[dimension1, dimension2]);
+                }
+            }
+        }
         #endregion KeyAddition
 
         #region Substitution
-        // @@@ TODO
+        static object[] substituteTestCase = new object[]
+        {
+            new object[]
+            {
+                new byte[4,1] { { 1 }, { 7 }, { 9 }, { 10 } },
+                new byte[] { 100, 99, 98, 97, 96, 95, 94, 93, 92, 91, 90 },
+                new byte[4,1] { { 99 }, { 93 }, { 91 }, { 90 } }
+            },
+            new object[]
+            {
+                new byte[4,1] { { 1 }, { 2 }, { 3 }, { 10 } },
+                new byte[] { 255, 1, 55, 99, 100, 77, 66, 11, 13, 44, 59 },
+                new byte[4,1] { { 1 }, { 55 }, { 99 }, { 59 } }
+            },
+        };
+        /// <summary>
+        /// Note in implementation, <see cref="RijndaelBoxes.S"/> is used rather the passed test sBox
+        /// 
+        /// for each value in preSubBlock[i,j]
+        ///     - Find the index within the sBox that corresponds to the value of preSubBlock[i,j]
+        ///     - Replace preSubBlock[i,j] with the value found at the index of sBox
+        ///     
+        /// </summary>
+        /// <param name="block"></param>
+        /// <param name="sBox"></param>
+        /// <param name="expectedBlock"></param>
+        [Test]
+        [TestCaseSource(nameof(substituteTestCase))]
+        public void ShouldSubstituteFromProvidedSBox(byte[,] block, byte[] sBox, byte[,] expectedBlock)
+        {
+            RijndaelInternals sut = new RijndaelInternals();
+            Array2D array = new Array2D(block);
+
+            sut.Substitution(array.Array, sBox, array.Dimension2Size);
+
+            for (int dimension1 = 0; dimension1 < array.Dimension1Size; dimension1++)
+            {
+                for (int dimension2 = 0; dimension2 < array.Dimension2Size; dimension2++)
+                {
+                    Assert.AreEqual(expectedBlock[dimension1, dimension2], array.Array[dimension1, dimension2]);
+                }
+            }
+        }
         #endregion Substitution
 
         #region ShiftRow
@@ -100,7 +213,7 @@ namespace NIST.CVP.Generation.AES.Tests
             // Check row 0 has not changed
             for (int i = 0; i < 8; i++)
             {
-                Assert.AreEqual(testBlock[0,i], row0[i], "Equal check");
+                Assert.AreEqual(testBlock[0, i], row0[i], "Equal check");
             }
 
             // Check other rows have changed
