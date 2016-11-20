@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.AES.Tests
         /// <param name="dimension1Count">Dimension 1 size</param>
         /// <param name="dimension2Count">Dimension 2 size</param>
         /// <returns></returns>
-        private byte[,] GetTestBlock(int dimension1Count = 4, int dimension2Count = 8)
+        private static byte[,] GetTestBlock(int dimension1Count = 4, int dimension2Count = 8)
         {
             byte[,] result = new byte[dimension1Count, dimension2Count];
 
@@ -62,7 +62,57 @@ namespace NIST.CVP.Generation.AES.Tests
         }
 
         #region EncryptSingleBlock
-        // @@@ TODO
+        static object[] encryptSingleBlockTestCase = new object[]
+        {
+            new object[]
+            {
+                GetTestBlock(),
+                new Key()
+                {
+                    BlockLength = 8,
+                    Bytes = null,
+                    Direction = DirectionValues.Enrypt,
+                    KeySchedule = new RijndaelKeySchedule(
+                        128, 
+                        128, 
+                        new byte[4,1] { { 1 }, { 2 }, { 3 }, { 4 } }
+                    )
+                }
+            }
+        };
+        [Test]
+        [TestCaseSource(nameof(encryptSingleBlockTestCase))]
+        public void EncryptSingleBlockShouldRunInternalMethodsMultipleTimesAtLeastOnePerRound(byte[,] block, Key key)
+        {
+            Mock<RijndaelInternals> sut = new Mock<RijndaelInternals>();
+            sut.CallBase = true;
+            sut.Object.EncryptSingleBlock(block, key);
+
+            // KeyAddition runs 2x + 1x for each round within key - 1
+            int expectedKeyAdditionRounds = 2 + key.KeySchedule.Rounds - 1;
+            // Substitution runs 1x + 1x for each round within key - 1
+            int expectedSubstitutionRounds = 1 + key.KeySchedule.Rounds - 1;
+            // ShiftRow runs 1x + 1x for each round within key - 1
+            int expectedShiftRow = 1 + key.KeySchedule.Rounds - 1;
+            // MixColumn runs 1x for each round within key - 1
+            int expectedMixColumns = key.KeySchedule.Rounds - 1;
+
+            sut.Verify(v => v.EncryptSingleBlock(It.IsAny<byte[,]>(), It.IsAny<Key>()), 
+                Times.Once, 
+                nameof(sut.Object.EncryptSingleBlock));
+            sut.Verify(v => v.KeyAddition(It.IsAny<byte[,]>(), It.IsAny<byte[,]>(), It.IsAny<int>()), 
+                Times.Exactly(expectedKeyAdditionRounds), 
+                nameof(sut.Object.KeyAddition));
+            sut.Verify(v => v.Substitution(It.IsAny<byte[,]>(), It.IsAny<byte[]>(), It.IsAny<int>()),
+                Times.Exactly(expectedSubstitutionRounds),
+                nameof(sut.Object.Substitution));
+            sut.Verify(v => v.ShiftRow(It.IsAny<byte[,]>(), It.IsAny<int>(), It.IsAny<int>()),
+                Times.Exactly(expectedShiftRow),
+                nameof(sut.Object.ShiftRow));
+            sut.Verify(v => v.MixColumn(It.IsAny<byte[,]>(), It.IsAny<int>()),
+                Times.Exactly(expectedMixColumns),
+                nameof(sut.Object.MixColumn));
+        }
         #endregion EncryptSingleBlock
 
         #region KeyAddition
@@ -260,7 +310,7 @@ namespace NIST.CVP.Generation.AES.Tests
         }
         #endregion ShiftRow
 
-        #region ShouldMixColumns
+        #region MixColumns
         /// <summary>
         /// Given a 2d array[4,8]:
         /// 
@@ -350,7 +400,30 @@ namespace NIST.CVP.Generation.AES.Tests
 
             Assert.AreEqual(rowColumnExpectation, testBlock[row, column]);
         }
-        #endregion ShouldMixColumns
+
+        [Test]
+        public void ShouldCallMultiply2xForEachBlockIndex()
+        {
+            Mock<RijndaelInternals> sut = new Mock<RijndaelInternals>();
+            sut.CallBase = true;
+
+            var testBlock = GetTestBlock();
+            int blockCount = 8;
+
+            int runsPerBlockIndex = 2;
+            int totalBlockIndeces = 4 * 8;
+            int totalRuns = runsPerBlockIndex * totalBlockIndeces;
+
+            sut.Object.MixColumn(testBlock, blockCount);
+
+            sut.Verify(v => v.MixColumn(It.IsAny<byte[,]>(), It.IsAny<int>()),
+                Times.Once,
+                nameof(sut.Object.MixColumn));
+            sut.Verify(v => v.Multiply(It.IsAny<byte>(), It.IsAny<byte>()), 
+                Times.Exactly(totalRuns), 
+                nameof(sut.Object.Multiply));
+        }
+        #endregion MixColumns
 
         #region Multiply
         [Test]
