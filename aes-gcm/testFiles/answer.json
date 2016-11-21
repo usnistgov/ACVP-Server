@@ -1,0 +1,152 @@
+{
+  "algorithm": "AES",
+  "isSample": false,
+  "answerProjection": [
+    {
+      "ivGen": "external",
+      "ivGenMode": "8.2.1",
+      "ivLen": 2,
+      "ptLen": 4,
+      "aadLen": 1,
+      "tagLen": 5,
+      "keyLen": 3,
+      "tests": [
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 15,
+          "cipherText": null,
+          "tag": null,
+          "iv": null,
+          "key": null,
+          "deferred": false,
+          "failureTest": false
+        }
+      ]
+    }
+  ]
+}

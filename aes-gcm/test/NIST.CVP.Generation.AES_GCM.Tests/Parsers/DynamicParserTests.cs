@@ -8,9 +8,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
     [TestFixture]
     public class DynamicParserTests
     {
-        private string _unitTestPath =   @"C:\Users\def2\Documents\UnitTests\ACAVP\Standard";
-
-
+        string _unitTestPath = Path.GetFullPath(@"..\..\TestFiles");
 
         [Test]
         public void ShouldReturnErrorForNonExistentPath()
