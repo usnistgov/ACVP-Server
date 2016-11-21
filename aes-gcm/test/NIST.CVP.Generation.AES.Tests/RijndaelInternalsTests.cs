@@ -209,9 +209,9 @@ namespace NIST.CVP.Generation.AES.Tests
         /// <summary>
         /// Note in implementation, <see cref="RijndaelBoxes.S"/> is used rather the passed test sBox
         /// 
-        /// for each value in preSubBlock[i,j]
-        ///     - Find the index within the sBox that corresponds to the value of preSubBlock[i,j]
-        ///     - Replace preSubBlock[i,j] with the value found at the index of sBox
+        /// for each value in block[i,j]
+        ///     - Find the index within the sBox that corresponds to the value of block[i,j]
+        ///     - Replace block[i,j] with the value found at the index of sBox
         ///     
         /// </summary>
         /// <param name="block"></param>
