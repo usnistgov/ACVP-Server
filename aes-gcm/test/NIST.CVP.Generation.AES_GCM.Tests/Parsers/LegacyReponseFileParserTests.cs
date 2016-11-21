@@ -124,5 +124,73 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
             var casesWithCipherText = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).CipherText != null));
             Assert.IsNotEmpty(casesWithCipherText);
         }
+
+        [Test]
+        public void ShouldParseValidDecryptFile()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmDecrypt256.rsp");
+            var result = subject.Parse(path);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Success);
+        }
+
+        [Test]
+        public void ShouldParseValidDecryptFileWithFailureTest()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmDecrypt256.rsp");
+            var result = subject.Parse(path);
+            Assume.That(result != null);
+            var vectorSet = result.ParsedObject;
+            var casesWithFailureTests = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).FailureTest));
+            Assert.IsNotEmpty(casesWithFailureTests);
+        }
+
+        [Test]
+        public void ShouldParseDecryptDirectionFromFileName()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmDecrypt256.rsp");
+            var result = subject.Parse(path);
+            Assume.That(result != null);
+            var vectorSet = result.ParsedObject;
+            Assert.IsTrue(vectorSet.TestGroups.All(g => ((TestGroup) g).Function == "decrypt"));
+
+        }
+
+
+        [Test]
+        public void ShouldParseEncryptDirectionFromFileName()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmEncryptIntIV128.rsp");
+            var result = subject.Parse(path);
+            Assume.That(result != null);
+            var vectorSet = result.ParsedObject;
+            Assert.IsTrue(vectorSet.TestGroups.All(g => ((TestGroup)g).Function == "encrypt"));
+        }
+
+        [Test]
+        public void ShouldParseInternalGenerationFromFileName()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmEncryptIntIV128.rsp");
+            var result = subject.Parse(path);
+            Assume.That(result != null);
+            var vectorSet = result.ParsedObject;
+            Assert.IsTrue(vectorSet.TestGroups.All(g => ((TestGroup)g).IVGeneration == "internal"));
+        }
+
+        [Test]
+        public void ShouldParseExternalGenerationFromFileName()
+        {
+            var subject = new LegacyResponseFileParser();
+            var path = Path.Combine(_unitTestPath, "gcmEncryptExtIV256.rsp");
+            var result = subject.Parse(path);
+            Assume.That(result != null);
+            var vectorSet = result.ParsedObject;
+            Assert.IsTrue(vectorSet.TestGroups.All(g => ((TestGroup)g).IVGeneration == "external"));
+        }
     }
 }

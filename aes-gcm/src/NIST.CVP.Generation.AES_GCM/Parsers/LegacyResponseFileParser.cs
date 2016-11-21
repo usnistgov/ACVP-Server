@@ -32,6 +32,21 @@ namespace NIST.CVP.Generation.AES_GCM.Parsers
             {
                 return new ParseResponse<TestVectorSet>(ex.Message);
             }
+            string direction = "encrypt";
+            string ivGeneration = "external";
+            string fileName = Path.GetFileName(path).ToLower();
+            if (fileName.Contains("decrypt"))
+            {
+                direction = "decrypt";
+            }
+            else
+            {
+                if (fileName.Contains("intiv"))
+                {
+                    ivGeneration = "internal";
+                }
+            }
+
 
             var groups = new List<TestGroup>();
             TestGroup currentGroup = null;
@@ -53,7 +68,8 @@ namespace NIST.CVP.Generation.AES_GCM.Parsers
                     if (currentGroup == null || inCases)
                     {
                         inCases = false;
-                        currentGroup = new TestGroup();
+                        currentGroup = new TestGroup {Function = direction, IVGeneration = ivGeneration};
+                        ;
                         groups.Add(currentGroup);
                     }
                     workingLine = workingLine.Replace("[", "").Replace("]", "");
@@ -68,6 +84,11 @@ namespace NIST.CVP.Generation.AES_GCM.Parsers
                     int.TryParse(parts[1].Trim(), out caseId);
                     currentTestCase = new TestCase {TestCaseId = caseId};
                     currentGroup.Tests.Add(currentTestCase);
+                    continue;
+                }
+                if(workingLine == "FAIL")
+                {
+                    currentTestCase.FailureTest = true;
                     continue;
                 }
                 inCases = true;

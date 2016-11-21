@@ -46,10 +46,9 @@ namespace NIST.CVP.Generation.AES_GCM
             }
 
             var testVectorSet = new TestVectorSet(answerParseResponse.ParsedObject, promptParseResponse.ParsedObject);
-            var suppliedResults = GetTestCaseResults(testResultParseResponse.ParsedObject);
-            var testCases = BuildValidatorList(testVectorSet, suppliedResults);
-            var response = _resultValidator.ValidateResults(testCases, suppliedResults);
-            
+            var results = testResultParseResponse.ParsedObject;
+            var response = ValidateWorker(results, testVectorSet);
+
             var validationJson = JsonConvert.SerializeObject(response, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver(), NullValueHandling = NullValueHandling.Ignore });
             var saveResult = SaveToFile(Path.GetDirectoryName(resultPath), "validation.json", validationJson);
             if (!string.IsNullOrEmpty(saveResult))
@@ -60,11 +59,21 @@ namespace NIST.CVP.Generation.AES_GCM
             return  new ValidateResponse();
         }
 
+        public TestVectorValidation ValidateWorker(dynamic results, TestVectorSet testVectorSet)
+        {
+            var suppliedResults = GetTestCaseResults(results);
+            var testCases = BuildValidatorList(testVectorSet, suppliedResults);
+            var response = _resultValidator.ValidateResults(testCases, suppliedResults);
+            return response;
+        }
+
         private List<TestCase> GetTestCaseResults(dynamic results)
         {
             var list = new List<TestCase>();
-
-
+            foreach (var result in results)
+            {
+                list.Add(new TestCase(result));
+            }
             return list;
         }
 
