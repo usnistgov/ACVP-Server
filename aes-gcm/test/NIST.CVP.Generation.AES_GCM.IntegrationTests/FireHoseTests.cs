@@ -33,6 +33,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         public void ShouldRunThroughAllTestFilesAndValidate()
         {
             if (!Directory.Exists(_testFilePath))
+
             {
                 Assert.Fail("Test File Directory does not exist");
             }
