@@ -9,6 +9,11 @@ namespace NIST.CVP.Generation.AES_GCM
 {
     public class TestVectorFactory : ITestVectorFactory
     {
+        public TestVectorFactory()
+        {
+            
+        }
+
         public ITestVectorSet BuildTestVectorSet(IParameters parameters)
         {
             var groups = BuildTestGroups((Parameters)parameters);
