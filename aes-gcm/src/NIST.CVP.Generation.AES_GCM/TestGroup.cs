@@ -25,6 +25,7 @@ namespace NIST.CVP.Generation.AES_GCM
             IVLength = source.ivLen;
             TagLength = source.tagLen;
             KeyLength = source.keyLen;
+            Function = source.direction;
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {

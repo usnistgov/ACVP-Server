@@ -17,14 +17,14 @@ namespace NIST.CVP.Generation.AES_GCM
 
         public TestVectorSet(dynamic answers, dynamic prompts)
         {
-            foreach (var answer in answers)
+            foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 
                 TestGroups.Add(group);
             }
 
-            foreach (var prompt in prompts)
+            foreach (var prompt in prompts.testGroups)
             {
                 var promptGroup = new TestGroup(prompt);
                 var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
@@ -60,6 +60,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
                     ((IDictionary<string, object>)updateObject).Add("ivGen", group.IVGeneration);
                     ((IDictionary<string, object>)updateObject).Add("ivGenMode", group.IVGenerationMode);
                     ((IDictionary<string, object>)updateObject).Add("ivLen", group.IVLength);
@@ -102,6 +103,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
                     ((IDictionary<string, object>)updateObject).Add("ivGen", group.IVGeneration);
                     ((IDictionary<string, object>)updateObject).Add("ivGenMode", group.IVGenerationMode);
                     ((IDictionary<string, object>)updateObject).Add("ivLen", group.IVLength);
@@ -154,6 +156,15 @@ namespace NIST.CVP.Generation.AES_GCM
                 return tests;
             }
 
+        }
+
+        public dynamic ToDynamic()
+        {
+            dynamic vectorSetObject = new ExpandoObject();
+            ((IDictionary<string, object>)vectorSetObject).Add("answerProjection", AnswerProjection);
+            ((IDictionary<string, object>)vectorSetObject).Add("testGroups", PromptProjection);
+            ((IDictionary<string, object>)vectorSetObject).Add("resultProjection", ResultProjection);
+            return vectorSetObject;
         }
     }
 }

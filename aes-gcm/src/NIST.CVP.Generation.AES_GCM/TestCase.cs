@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -18,40 +19,53 @@ namespace NIST.CVP.Generation.AES_GCM
 
         public TestCase(dynamic source)
         {
-            TestCaseId = source.tcId;
-           
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
+            MapToProperties(source);
+        }
+
+        private void MapToProperties(dynamic source)
+        {
+            TestCaseId = (int)source.tcId;
+            if (((ExpandoObject) source).ContainsProperty("failureTest"))
             {
                 FailureTest = source.failureTest;
             }
-            if (((ExpandoObject)source).ContainsProperty("deferred"))
+            if (((ExpandoObject) source).ContainsProperty("deferred"))
             {
                 Deferred = source.deferred;
             }
-            if (((ExpandoObject)source).ContainsProperty("key"))
+
+            Key = BitStringFromObject("key", (ExpandoObject) source);
+            IV = BitStringFromObject("iv", (ExpandoObject)source);
+            Tag = BitStringFromObject("tag", (ExpandoObject)source);
+            AAD = BitStringFromObject("aad", (ExpandoObject)source);
+            CipherText = BitStringFromObject("cipherText", (ExpandoObject)source);
+            PlainText = BitStringFromObject("plainText", (ExpandoObject)source);
+        }
+
+        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
+        {
+            if (!source.ContainsProperty(sourcePropertyName))
             {
-                Key = source.key;
+                return null;
             }
-            if (((ExpandoObject)source).ContainsProperty("iv"))
+            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
+            if (sourcePropertyValue == null)
             {
-                IV = source.iv;
+                return null;
             }
-            if (((ExpandoObject) source).ContainsProperty("tag"))
+            var valueAsBitString = sourcePropertyValue as BitString;
+            if (valueAsBitString != null)
             {
-                Tag = source.tag;
+                return valueAsBitString;
+                
             }
-            if(((ExpandoObject)source).ContainsProperty("aad"))
-            { 
-                AAD = source.aad;
-            }
-            if (((ExpandoObject)source).ContainsProperty("cipherText"))
-            {
-                CipherText = source.cipherText;
-            }
-            if (((ExpandoObject)source).ContainsProperty("plainText"))
-            {
-                PlainText = source.plainText;
-            }
+            return new BitString(sourcePropertyValue.ToString());
+        }
+
+        public TestCase(JObject source)
+        {
+            var data = source.ToObject<ExpandoObject>();
+            MapToProperties(data);
         }
         public int TestCaseId { get; set; }
         public bool FailureTest { get; set; }

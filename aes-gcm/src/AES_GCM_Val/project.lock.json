@@ -3,6 +3,19 @@
   "version": 2,
   "targets": {
     ".NETCoreApp,Version=v1.0": {
+      "Autofac/4.2.0": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "System.ComponentModel": "4.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.1/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Autofac.dll": {}
+        }
+      },
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -2537,10 +2550,89 @@
         "runtime": {
           "lib/netstandard1.3/_._": {}
         }
+      },
+      "NIST.CVP.Generation.AES/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.6",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Json": "1.1.0",
+          "NETStandard.Library": "1.6.0",
+          "NIST.CVP.Math": "1.0.0"
+        },
+        "compile": {
+          "netstandard1.6/NIST.CVP.Generation.AES.dll": {}
+        },
+        "runtime": {
+          "netstandard1.6/NIST.CVP.Generation.AES.dll": {}
+        }
+      },
+      "NIST.CVP.Generation.AES_GCM/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.6",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Json": "1.1.0",
+          "NETStandard.Library": "1.6.0",
+          "NIST.CVP.Generation.AES": "1.0.0",
+          "NIST.CVP.Generation.Core": "1.0.0",
+          "NIST.CVP.Math": "1.0.0",
+          "NLog": "4.4.0-betaV15",
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "netstandard1.6/NIST.CVP.Generation.AES_GCM.dll": {}
+        },
+        "runtime": {
+          "netstandard1.6/NIST.CVP.Generation.AES_GCM.dll": {}
+        }
+      },
+      "NIST.CVP.Generation.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.6",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Json": "1.1.0",
+          "NETStandard.Library": "1.6.0",
+          "NIST.CVP.Math": "1.0.0",
+          "NLog": "4.4.0-betaV15",
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "netstandard1.6/NIST.CVP.Generation.Core.dll": {}
+        },
+        "runtime": {
+          "netstandard1.6/NIST.CVP.Generation.Core.dll": {}
+        }
+      },
+      "NIST.CVP.Math/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.6",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Json": "1.1.0",
+          "NETStandard.Library": "1.6.0",
+          "NLog": "4.4.0-betaV15"
+        },
+        "compile": {
+          "netstandard1.6/NIST.CVP.Math.dll": {}
+        },
+        "runtime": {
+          "netstandard1.6/NIST.CVP.Math.dll": {}
+        }
       }
     }
   },
   "libraries": {
+    "Autofac/4.2.0": {
+      "sha512": "WHiPMqI8FYa4Mf4yTb0P/aBibHn7Z0B9r02CEXy9oAAkQMJpHxLOE45iIMMW+xthXu26V9nRIz7o5lA7V3ztgw==",
+      "type": "package",
+      "path": "Autofac/4.2.0",
+      "files": [
+        "Autofac.4.2.0.nupkg.sha512",
+        "Autofac.nuspec",
+        "lib/net45/Autofac.dll",
+        "lib/net45/Autofac.xml",
+        "lib/netstandard1.1/Autofac.dll",
+        "lib/netstandard1.1/Autofac.xml"
+      ]
+    },
     "Libuv/1.9.0": {
       "sha512": "9Q7AaqtQhS8JDSIvRBt6ODSLWDBI4c8YxNxyCQemWebBFUtBbc6M5Vi5Gz1ZyIUlTW3rZK9bIr5gnVyv0z7a2Q==",
       "type": "package",
@@ -7877,12 +7969,37 @@
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
       ]
+    },
+    "NIST.CVP.Generation.AES/1.0.0": {
+      "type": "project",
+      "path": "../NIST.CVP.Generation.AES/project.json",
+      "msbuildProject": "../NIST.CVP.Generation.AES/NIST.CVP.Generation.AES.xproj"
+    },
+    "NIST.CVP.Generation.AES_GCM/1.0.0": {
+      "type": "project",
+      "path": "../NIST.CVP.Generation.AES_GCM/project.json",
+      "msbuildProject": "../NIST.CVP.Generation.AES_GCM/NIST.CVP.Generation.AES_GCM.xproj"
+    },
+    "NIST.CVP.Generation.Core/1.0.0": {
+      "type": "project",
+      "path": "../NIST.CVP.Generation.Core/project.json",
+      "msbuildProject": "../NIST.CVP.Generation.Core/NIST.CVP.Generation.Core.xproj"
+    },
+    "NIST.CVP.Math/1.0.0": {
+      "type": "project",
+      "path": "../NIST.CVP.Math/project.json",
+      "msbuildProject": "../NIST.CVP.Math/NIST.CVP.Math.xproj"
     }
   },
   "projectFileDependencyGroups": {
     "": [
+      "Autofac >= 4.2.0",
       "Microsoft.Extensions.Configuration.Json >= 1.1.0",
       "Microsoft.NETCore.App >= 1.0.1",
+      "NIST.CVP.Generation.AES >= 1.0.0-*",
+      "NIST.CVP.Generation.AES_GCM >= 1.0.0-*",
+      "NIST.CVP.Generation.Core >= 1.0.0-*",
+      "NIST.CVP.Math >= 1.0.0-*",
       "NLog >= 4.4.0-betaV15"
     ],
     ".NETCoreApp,Version=v1.0": []

@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.AES_GCM
 
         public TestVectorValidation ValidateWorker(dynamic results, TestVectorSet testVectorSet)
         {
-            var suppliedResults = GetTestCaseResults(results);
+            var suppliedResults = GetTestCaseResults(results.testResults);
             var testCases = BuildValidatorList(testVectorSet, suppliedResults);
             var response = _resultValidator.ValidateResults(testCases, suppliedResults);
             return response;

@@ -43,10 +43,10 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         }
 
         [Test]
-        public void ShouldReconstituteTestVectorFromAnswerAndResults()
+        public void ShouldReconstituteTestVectorFromAnswerAndPrompt()
         {
-            var source = GetSubject(2);
-            var subject = new TestVectorSet(source.AnswerProjection, source.PromptProjection);
+            var source = GetSubject(2).ToDynamic();
+            var subject = new TestVectorSet(source, source);
             Assert.AreEqual(2, subject.TestGroups.Count);
 
         }
