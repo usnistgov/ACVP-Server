@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         string _unitTestPath = Path.GetFullPath(@"..\..\TestFiles\AlgoFinderFiles");
         private string _targetFolder;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             _targetFolder = Path.Combine(_unitTestPath, Guid.NewGuid().ToString());
@@ -78,10 +78,9 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             Assert.AreEqual(0, result);
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void Teardown()
         {
-           
             Directory.Delete(_targetFolder, true);
         }
     }
