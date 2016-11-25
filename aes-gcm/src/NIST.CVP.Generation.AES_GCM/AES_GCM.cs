@@ -14,10 +14,12 @@ namespace NIST.CVP.Generation.AES_GCM
     {
 
         private readonly IAES_GCMInternals _iAES_GCMInternals;
+        private readonly IRijndaelFactory _iRijndaelFactory;
 
-        public AES_GCM(IAES_GCMInternals iAES_GCMInternals)
+        public AES_GCM(IAES_GCMInternals iAES_GCMInternals, IRijndaelFactory iRijndaelFactory)
         {
             _iAES_GCMInternals = iAES_GCMInternals;
+            _iRijndaelFactory = iRijndaelFactory;
         }
 
         public DecryptionResult BlockDecrypt(BitString keyBits, BitString cipherText, BitString iv, BitString aad, BitString tag)
@@ -25,9 +27,10 @@ namespace NIST.CVP.Generation.AES_GCM
             try
             {
                 byte[] keyBytes = keyBits.ToBytes();
-                var rijn = new RijndaelECB(new RijndaelInternals());//@@@inject?
+                ModeValues mode = ModeValues.ECB;
+                var rijn = _iRijndaelFactory.GetRijndael(mode);
                 var key = rijn.MakeKey(keyBytes, DirectionValues.Enrypt);
-                var cipher = new Cipher { BlockLength = 128, Mode = ModeValues.ECB };
+                var cipher = new Cipher { BlockLength = 128, Mode = mode };
                 var h = rijn.BlockEncrypt(cipher, key, new byte[16], 128);
                 var j0 = Getj0(h, iv);
 
@@ -71,9 +74,10 @@ namespace NIST.CVP.Generation.AES_GCM
                 ThisLogger.Debug($"iv: {iv.ToHex()}");
                 ThisLogger.Debug($"key: {keyBits.ToHex()}");
                 byte[] keyBytes = keyBits.ToBytes();
-                var rijn = new RijndaelECB(new RijndaelInternals());//@@@inject?
+                ModeValues mode = ModeValues.ECB;
+                var rijn = _iRijndaelFactory.GetRijndael(mode);
                 var key = rijn.MakeKey(keyBytes, DirectionValues.Enrypt);
-                var cipher = new Cipher { BlockLength = 128, Mode = ModeValues.ECB };
+                var cipher = new Cipher { BlockLength = 128, Mode = mode };
                 var h = rijn.BlockEncrypt(cipher, key, new byte[16], 128);
                 ThisLogger.Debug($"h: {h.ToHex()}");
                 var j0 = Getj0(h, iv);

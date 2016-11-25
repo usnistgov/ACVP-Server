@@ -7,6 +7,7 @@ using Autofac;
 using NIST.CVP.Generation.AES_GCM;
 using NIST.CVP.Generation.AES_GCM.Parsers;
 using NIST.CVP.Math;
+using NIST.CVP.Generation.AES;
 
 namespace AES_GCM_Val
 {
@@ -34,7 +35,8 @@ namespace AES_GCM_Val
             builder.RegisterType<ParameterParser>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
-
+            builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
+            builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
 
             _container = builder.Build();
 

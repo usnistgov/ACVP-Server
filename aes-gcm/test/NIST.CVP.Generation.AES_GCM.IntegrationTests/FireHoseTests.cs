@@ -8,6 +8,7 @@ using Microsoft.Extensions.Testing.Abstractions;
 using NIST.CVP.Generation.AES_GCM.Parsers;
 using NIST.CVP.Math;
 using NUnit.Framework;
+using NIST.CVP.Generation.AES;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
@@ -39,7 +40,23 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             }
             var testDir = new DirectoryInfo(_testFilePath);
             var parser = new LegacyResponseFileParser();
-            var validator = new Validator(new DynamicParser(),  new ResultValidator(), new TestCaseGeneratorFactory(new Random800_90(), new AES_GCM(new AES_GCMInternals()))) ;
+            var validator = new Validator(
+                new DynamicParser(),  
+                new ResultValidator(), 
+                new TestCaseGeneratorFactory(
+                    new Random800_90(), 
+                    new AES_GCM(
+                        new AES_GCMInternals(
+                            new RijndaelFactory(
+                                new RijndaelInternals()
+                            )
+                        ),
+                        new RijndaelFactory(
+                            new RijndaelInternals()
+                        )
+                    )
+                )
+            );
             foreach (var testFilePath in testDir.EnumerateFiles("*encrypt*.*"))
             {
                 var parseResult = parser.Parse(testFilePath.FullName);

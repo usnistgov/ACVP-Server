@@ -12,6 +12,13 @@ namespace NIST.CVP.Generation.AES_GCM
 {
     public class AES_GCMInternals : IAES_GCMInternals
     {
+        private readonly IRijndaelFactory _iRijndaelFactory;
+
+        public AES_GCMInternals(IRijndaelFactory iRijndaelFactory)
+        {
+            _iRijndaelFactory = iRijndaelFactory;
+        }
+
         public virtual BitString Getj0(BitString h, BitString iv)
         {
             BitString j0 = null;
@@ -105,8 +112,9 @@ namespace NIST.CVP.Generation.AES_GCM
             // Step 4: Let CB1 = ICB
             // Step 5: For i = 2 to n, let CBi = inc32(CBi-1)
             // Step 6: For i = 1 to n-1, let Yi = Xi xor CIPH_K(CBi)
-            var rijn = new RijndaelECB(new RijndaelInternals());//@@@inject?
-            var cipher = new Cipher { BlockLength = 128, Mode = ModeValues.ECB };
+            ModeValues mode = ModeValues.ECB;
+            var rijn = _iRijndaelFactory.GetRijndael(mode);
+            var cipher = new Cipher { BlockLength = 128, Mode = mode };
             BitString cbi = icb;
             BitString Y = new BitString(0);
             int sx = x.BitLength - 128;

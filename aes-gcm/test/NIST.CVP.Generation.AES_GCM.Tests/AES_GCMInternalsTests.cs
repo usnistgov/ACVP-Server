@@ -13,7 +13,11 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
     [TestFixture]
     public class AES_GCMInternalsTests
     {
-        AES_GCMInternals _sut = new AES_GCMInternals();
+        AES_GCMInternals _sut = new AES_GCMInternals(
+            new RijndaelFactory(
+                new RijndaelInternals()
+            )
+        );
 
         #region GHash
         [Test]

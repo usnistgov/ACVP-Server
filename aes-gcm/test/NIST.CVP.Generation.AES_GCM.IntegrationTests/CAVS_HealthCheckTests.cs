@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Generation.AES;
+using NIST.CVP.Math;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,23 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
     [TestFixture]
     public class CAVS_HealthCheckTests
     {
-        private AES_GCM _sut = new AES_GCM(new AES_GCMInternals());
+        private AES_GCM _sut;
         
+        [SetUp]
+        public void Setup()
+        {
+            _sut = new AES_GCM(
+                new AES_GCMInternals(
+                    new RijndaelFactory(
+                        new RijndaelInternals()
+                    )
+                ), 
+                new RijndaelFactory(
+                    new RijndaelInternals()
+                )
+            );
+        }
+
         static object[] aesGcmTestDataGroup = new object[]
         {
             new object[] // Example 1
