@@ -24,6 +24,7 @@ namespace AES_GCM
 
 
             builder.RegisterType<Generator>();
+            builder.RegisterType<AES_GCMInternals>().AsImplementedInterfaces();
             builder.RegisterType<NIST.CVP.Generation.AES_GCM.AES_GCM>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();

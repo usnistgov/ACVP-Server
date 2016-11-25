@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             }
             var testDir = new DirectoryInfo(_testFilePath);
             var parser = new LegacyResponseFileParser();
-            var validator = new Validator(new DynamicParser(),  new ResultValidator(), new TestCaseGeneratorFactory(new Random800_90(), new AES_GCM())) ;
+            var validator = new Validator(new DynamicParser(),  new ResultValidator(), new TestCaseGeneratorFactory(new Random800_90(), new AES_GCM(new AES_GCMInternals()))) ;
             foreach (var testFilePath in testDir.EnumerateFiles("*encrypt*.*"))
             {
                 var parseResult = parser.Parse(testFilePath.FullName);

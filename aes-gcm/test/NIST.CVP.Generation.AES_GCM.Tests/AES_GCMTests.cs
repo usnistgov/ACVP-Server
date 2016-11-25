@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             var aad = new BitString(0);
             var plainText = new BitString(0);
 
-            var subject = new AES_GCM();
+            var subject = new AES_GCM(new AES_GCMInternals());
             var results = subject.BlockEncrypt(key, plainText, iv, aad, 128);
             Assert.IsTrue(results.Success);
 
@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             var aad = new BitString(0);
             var plainText = new BitString("D9313225 F88406E5 A55909C5 AFF5269A 86A7A953 1534F7DA 2E4C303D 8A318A72 1C3C0C95 95680953 2FCF0E24 49A6B525 B16AEDF5 AA0DE657 BA637B39 1AAFD255");
 
-            var subject = new AES_GCM();
+            var subject = new AES_GCM(new AES_GCMInternals());
             var results = subject.BlockEncrypt(key, plainText, iv, aad, 128);
             Assert.IsTrue(results.Success);
             ThisLogger.Debug(results.Tag.ToHex());

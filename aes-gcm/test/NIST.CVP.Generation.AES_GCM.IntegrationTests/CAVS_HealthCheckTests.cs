@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
     [TestFixture]
     public class CAVS_HealthCheckTests
     {
-        private AES_GCM _sut = new AES_GCM();
+        private AES_GCM _sut = new AES_GCM(new AES_GCMInternals());
         
         static object[] aesGcmTestDataGroup = new object[]
         {
