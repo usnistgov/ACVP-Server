@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.AES_GCM
             return y;
         }
 
-        public virtual BitString GCTR(BitString k, BitString icb, BitString x, Key key)
+        public virtual BitString GCTR(BitString icb, BitString x, Key key)
         {
             // ICB must be 128 bits long
             // ThisLogger.Debug("GCTR");

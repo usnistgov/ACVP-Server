@@ -55,12 +55,11 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         #region GCTR
         public void GCTRShouldReturnNullWhenIcbBitLengthNot128()
         {
-            BitString k = new BitString(128);
             BitString icb = new BitString(127);
             BitString x = new BitString(128);
             Key key = new Key();
 
-            var result = _sut.GCTR(k, icb, x, key);
+            var result = _sut.GCTR(icb, x, key);
 
             Assert.IsNull(result);
         }
@@ -68,14 +67,14 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [Test]
         public void GCTRShouldReturnZeroLengthBitStringWhenXIsZeroLength()
         {
-            BitString k = new BitString(128);
+            
             BitString icb = new BitString(128);
             BitString x = new BitString(0);
             Key key = new Key();
 
             BitString expectation = new BitString(0);
 
-            var result = _sut.GCTR(k, icb, x, key);
+            var result = _sut.GCTR(icb, x, key);
 
             Assert.AreEqual(expectation, result);
         }

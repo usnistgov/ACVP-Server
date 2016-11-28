@@ -218,8 +218,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             public Mock<ITestCaseGenerator> MockITestCaseGenerator { get; set; } = new Mock<ITestCaseGenerator>();
             public Mock<IParameterParser> MockIParameterParser { get; set; } = new Mock<IParameterParser>();
             public Mock<IParameterValidator> MockIParameterValidator { get; set; } = new Mock<IParameterValidator>();
-            public Mock<IAES_GCM> MockIAES_GCM { get; set; } = new Mock<IAES_GCM>();
-            public Mock<IRandom800_90> MockIRandom800_90 { get; set; } = new Mock<IRandom800_90>();
+           
             
         }
     }

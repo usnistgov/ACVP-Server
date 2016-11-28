@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 return new ValidateResponse(promptParseResponse.ErrorMessage);
             }
 
-             var testResultParseResponse = _dynamicParser.Parse(resultPath);
+            var testResultParseResponse = _dynamicParser.Parse(resultPath);
             if (!testResultParseResponse.Success)
             {
                 return new ValidateResponse(testResultParseResponse.ErrorMessage);

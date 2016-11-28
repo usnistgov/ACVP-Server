@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.AES_GCM
         BitString Getj0(BitString h, BitString iv);
         int Ceiling(int numerator, int denominator);
         BitString GHash(BitString h, BitString x);
-        BitString GCTR(BitString k, BitString icb, BitString x, Key key);
+        BitString GCTR(BitString icb, BitString x, Key key);
         /// <summary>
         /// NIST SP 800-38D
         /// Recommendation for Block Cipher Modes of Operation: Galois/Counter
