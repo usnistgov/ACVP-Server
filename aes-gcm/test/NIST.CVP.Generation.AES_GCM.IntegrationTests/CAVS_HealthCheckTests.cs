@@ -287,6 +287,88 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 
             var decryptResult = _sut.BlockDecrypt(key, encryptResult.CipherText, iv, aad, encryptResult.Tag);
             Assert.IsTrue(decryptResult.Success, nameof(_sut.BlockDecrypt));
+
+            Assert.AreEqual(plainText, decryptResult.PlainText, nameof(plainText));
+        }
+
+        [Test]
+        [TestCaseSource(nameof(aesGcmTestDataGroup))]
+        [TestCaseSource(nameof(aesGcmTestDataGroup192))]
+        [TestCaseSource(nameof(aesGcmTestDataGroup256))]
+        public void ShouldReportErrorOnInvalidDecryptionTag(
+            string testLabel,
+            string keyString,
+            string ivString,
+            string aadString,
+            string plainTextString,
+            string cipherTextString,
+            string tagString,
+            int tagLength
+        )
+        {
+            BitString key = new BitString(keyString);
+            BitString iv = new BitString(ivString);
+            BitString aad = new BitString(aadString);
+            BitString plainText = new BitString(plainTextString);
+            BitString cipherText = new BitString(cipherTextString);
+            BitString tag = new BitString(tagString);
+
+            var encryptResult = _sut.BlockEncrypt(key, plainText, iv, aad, tagLength);
+
+            Assume.That(encryptResult.Success, nameof(_sut.BlockEncrypt));
+            Assume.That(tag.Equals(encryptResult.Tag), nameof(encryptResult.Tag));
+
+            var xoredTag = encryptResult.Tag.XOR(GetBitStringOfLengthWithAll1s(encryptResult.Tag.BitLength));
+
+            var decryptResult = _sut.BlockDecrypt(key, encryptResult.CipherText, iv, aad, xoredTag);
+            Assert.IsFalse(decryptResult.Success, nameof(_sut.BlockDecrypt));
+            Assert.AreEqual("Tags do not match", decryptResult.ErrorMessage, nameof(decryptResult.ErrorMessage));
+        }
+
+        [Test]
+        [TestCaseSource(nameof(aesGcmTestDataGroup))]
+        [TestCaseSource(nameof(aesGcmTestDataGroup192))]
+        [TestCaseSource(nameof(aesGcmTestDataGroup256))]
+        public void ShouldGetDifferingPlainTextAfterDecryptionWithModifiedCipherText(
+                    string testLabel,
+                    string keyString,
+                    string ivString,
+                    string aadString,
+                    string plainTextString,
+                    string cipherTextString,
+                    string tagString,
+                    int tagLength
+                )
+        {
+            BitString key = new BitString(keyString);
+            BitString iv = new BitString(ivString);
+            BitString aad = new BitString(aadString);
+            BitString plainText = new BitString(plainTextString);
+            BitString cipherText = new BitString(cipherTextString);
+            BitString tag = new BitString(tagString);
+
+            var encryptResult = _sut.BlockEncrypt(key, plainText, iv, aad, tagLength);
+
+            Assume.That(encryptResult.Success, nameof(_sut.BlockEncrypt));
+            Assume.That(tag.Equals(encryptResult.Tag), nameof(encryptResult.Tag));
+
+            var xoredTag = encryptResult.Tag.XOR(GetBitStringOfLengthWithAll1s(encryptResult.Tag.BitLength));
+
+            var decryptResult = _sut.BlockDecrypt(key, encryptResult.CipherText, iv, aad, xoredTag);
+
+            Assert.AreNotEqual(plainText, decryptResult.PlainText, nameof(plainText));
+        }
+
+        private BitString GetBitStringOfLengthWithAll1s(int length)
+        {
+            BitString bs = new BitString(length);
+
+            for (int i = 0; i < length; i++)
+            {
+                bs.Bits[i] = true;
+            }
+
+            return bs;
         }
     }
 }
