@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 byte[] keyBytes = keyBits.ToBytes();
                 ModeValues mode = ModeValues.ECB;
                 var rijn = _iRijndaelFactory.GetRijndael(mode);
-                var key = rijn.MakeKey(keyBytes, DirectionValues.Enrypt);
+                var key = rijn.MakeKey(keyBytes, DirectionValues.Encrypt);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode };
                 var h = rijn.BlockEncrypt(cipher, key, new byte[16], 128);
                 var j0 = Getj0(h, iv);
@@ -76,7 +76,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 byte[] keyBytes = keyBits.ToBytes();
                 ModeValues mode = ModeValues.ECB;
                 var rijn = _iRijndaelFactory.GetRijndael(mode);
-                var key = rijn.MakeKey(keyBytes, DirectionValues.Enrypt);
+                var key = rijn.MakeKey(keyBytes, DirectionValues.Encrypt);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode };
                 var h = rijn.BlockEncrypt(cipher, key, new byte[16], 128);
                 ThisLogger.Debug($"h: {h.ToHex()}");

@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.AES
 {
     public enum DirectionValues
     {
-        Enrypt,
+        Encrypt,
         Decrypt
     }
 

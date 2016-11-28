@@ -10,14 +10,14 @@ namespace NIST.CVP.Generation.AES.Tests
     [TestFixture]
     public class RijndaelTests
     {
-        private Mock<IRijndaelInternals> _mockIRijnddaelInternals;
+        private Mock<IRijndaelInternals> _mockIRijndaelInternals;
         private RijndaelTest _sut;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            _mockIRijnddaelInternals = new Mock<IRijndaelInternals>();
-            _sut = new RijndaelTest(_mockIRijnddaelInternals.Object);
+            _mockIRijndaelInternals = new Mock<IRijndaelInternals>();
+            _sut = new RijndaelTest(_mockIRijndaelInternals.Object);
         }
 
         #region MakeKey
@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.AES.Tests
             new object[]
             {
                 new byte[] { 1, 2, 3, 4, 5 },
-                DirectionValues.Enrypt
+                DirectionValues.Encrypt
             },
             new object[]
             {
@@ -87,7 +87,7 @@ namespace NIST.CVP.Generation.AES.Tests
         {
             _sut.KeyAddition(It.IsAny<byte[,]>(), It.IsAny<byte[,]>(), It.IsAny<int>());
 
-            _mockIRijnddaelInternals.
+            _mockIRijndaelInternals.
                 Verify(v => v.KeyAddition(It.IsAny<byte[,]>(), It.IsAny<byte[,]>(), It.IsAny<int>()),
                 Times.Once,
                 nameof(_sut.KeyAddition));
@@ -98,7 +98,7 @@ namespace NIST.CVP.Generation.AES.Tests
         {
             _sut.Substitution(It.IsAny<byte[,]>(), It.IsAny<byte[]>(), It.IsAny<int>());
 
-            _mockIRijnddaelInternals.
+            _mockIRijndaelInternals.
                 Verify(v => v.Substitution(It.IsAny<byte[,]>(), It.IsAny<byte[]>(), It.IsAny<int>()),
                 Times.Once,
                 nameof(_sut.Substitution));
@@ -109,7 +109,7 @@ namespace NIST.CVP.Generation.AES.Tests
         {
             _sut.ShiftRow(It.IsAny<byte[,]>(), It.IsAny<int>(), It.IsAny<int>());
 
-            _mockIRijnddaelInternals.
+            _mockIRijndaelInternals.
                 Verify(v => v.ShiftRow(It.IsAny<byte[,]>(), It.IsAny<int>(), It.IsAny<int>()),
                 Times.Once,
                 nameof(_sut.ShiftRow));
@@ -120,7 +120,7 @@ namespace NIST.CVP.Generation.AES.Tests
         {
             _sut.MixColumn(It.IsAny<byte[,]>(), It.IsAny<int>());
 
-            _mockIRijnddaelInternals.
+            _mockIRijndaelInternals.
                 Verify(v => v.MixColumn(It.IsAny<byte[,]>(), It.IsAny<int>()),
                 Times.Once,
                 nameof(_sut.MixColumn));
@@ -131,7 +131,7 @@ namespace NIST.CVP.Generation.AES.Tests
         {
             _sut.Multiply(It.IsAny<byte>(), It.IsAny<byte>());
 
-            _mockIRijnddaelInternals.
+            _mockIRijndaelInternals.
                 Verify(v => v.Multiply(It.IsAny<byte>(), It.IsAny<byte>()),
                 Times.Once,
                 nameof(_sut.Multiply));

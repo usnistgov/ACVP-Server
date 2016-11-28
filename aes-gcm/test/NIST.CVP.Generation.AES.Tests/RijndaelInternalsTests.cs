@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.AES.Tests
                 {
                     BlockLength = 8,
                     Bytes = null,
-                    Direction = DirectionValues.Enrypt,
+                    Direction = DirectionValues.Encrypt,
                     KeySchedule = new RijndaelKeySchedule(
                         128, 
                         128, 
