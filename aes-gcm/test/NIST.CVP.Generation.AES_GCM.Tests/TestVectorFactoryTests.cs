@@ -85,5 +85,32 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
             Assert.AreEqual(expectedResultCount, result.TestGroups.Count);
         }
+
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void ShouldSetIsSampleProperlyFromTheParameters(bool isSample)
+        {
+            Parameters p = new Parameters()
+            {
+                aadLen = new int[] { 1 },
+                Algorithm = "AES GCM",
+                ivGen = "",
+                ivGenMode = "",
+                ivLen = new int[] { 1 },
+                KeyLen = new int[] { 1 },
+                Mode = new [] {""},
+                PtLen = new int[] { 1 },
+                TagLen = new int[] { 1 },
+                IsSample = isSample
+            };
+         
+
+            TestVectorFactory sut = new TestVectorFactory();
+            var result = sut.BuildTestVectorSet(p);
+
+            Assert.AreEqual(isSample, result.IsSample);
+        }
+
     }
 }

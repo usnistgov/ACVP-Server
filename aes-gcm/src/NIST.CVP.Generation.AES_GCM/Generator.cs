@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 {
                     for (int caseNo = 0; caseNo < NUMBER_OF_CASES; ++caseNo)
                     {
-                        var testCaseResponse = generator.Generate(group);
+                        var testCaseResponse = generator.Generate(@group, testVector.IsSample);
                         if (!testCaseResponse.Success)
                         {
                             return new GenerateResponse(testCaseResponse.ErrorMessage);

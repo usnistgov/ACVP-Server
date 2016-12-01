@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             TestCaseGeneratorExternalEncrypt sut =
                 new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, GetAESMock().Object);
 
-            var result = sut.Generate(new TestGroup());
+            var result = sut.Generate(new TestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
             Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             TestCaseGeneratorExternalEncrypt sut =
                 new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup());
+            var result = sut.Generate(new TestGroup(), false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
             Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             TestCaseGeneratorExternalEncrypt sut =
                 new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup());
+            var result = sut.Generate(new TestGroup(), false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
             Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
@@ -76,7 +76,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             TestCaseGeneratorExternalEncrypt sut =
                 new TestCaseGeneratorExternalEncrypt(random.Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup());
+            var result = sut.Generate(new TestGroup(), false);
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");

@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_GCM
             get { return "None"; }
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group)
+        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
             return Generate(group, null);
         }

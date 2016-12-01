@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.AES_GCM
         public string IVGen { get { return "external"; } }
         public string Direction { get { return "encrypt"; } }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group)
+        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
             //known answer - need to do an encryption operation to get the tag
             var key = _random800_90.GetRandomBitString(@group.KeyLength);

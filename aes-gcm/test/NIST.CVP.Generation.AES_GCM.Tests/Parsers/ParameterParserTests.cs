@@ -36,7 +36,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
                 KeyLen = new[] { 128, 192, 256 },
                 Mode = new[] { "encrypt" },
                 PtLen = new[] { 0, 128, 136, 256, 264 },
-                TagLen = new[] { 96, 128 }
+                TagLen = new[] { 96, 128 },
+                IsSample = true
             };
 
             var json = JsonConvert.SerializeObject(p);
@@ -199,6 +200,18 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
                 Assert.IsNotNull(array.First(v => v == value));
             }
 
+        }
+
+        [Test]
+        public void ShouldParseProperIsSampleValueIntoParameters()
+        {
+            var subject = GetSubject();
+            var result = subject.Parse(FullFile);
+
+            Assume.That(result != null);
+            Assume.That(result.ParsedObject != null);
+            var parameters = result.ParsedObject;
+            Assert.AreEqual(true, parameters.IsSample);
         }
 
         private ParameterParser GetSubject()

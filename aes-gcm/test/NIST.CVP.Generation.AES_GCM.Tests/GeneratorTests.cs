@@ -106,7 +106,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                     }
                 });
             mocks.MockITestCaseGenerator
-                .Setup(s => s.Generate(It.IsAny<TestGroup>()))
+                .Setup(s => s.Generate(It.IsAny<TestGroup>(), false))
                 .Returns(new TestCaseGenerateResponse(errorMessage));
             mocks.MockITestCaseGeneratorFactory
                 .Setup(s => s.GetCaseGenerator(It.IsAny<string>(), It.IsAny<string>()))
@@ -162,7 +162,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                     }
                 });
             mocks.MockITestCaseGenerator
-               .Setup(s => s.Generate(It.IsAny<TestGroup>()))
+               .Setup(s => s.Generate(It.IsAny<TestGroup>(), false))
                .Returns(new TestCaseGenerateResponse(new TestCase()));
             mocks.MockITestCaseGeneratorFactory
                 .Setup(s => s.GetCaseGenerator(It.IsAny<string>(), It.IsAny<string>()))

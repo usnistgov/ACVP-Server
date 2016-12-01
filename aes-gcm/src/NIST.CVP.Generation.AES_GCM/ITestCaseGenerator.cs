@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.AES_GCM
     {
         string IVGen { get; }
         string Direction { get; }
-        TestCaseGenerateResponse Generate(TestGroup @group);
+        TestCaseGenerateResponse Generate(TestGroup @group, bool isSample);
         TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase);
     }
 }

@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public void ShouldReturnErrorForInitialGenerate()
         {
             var subject = new TestCaseGeneratorNull();
-            var result = subject.Generate(new TestGroup());
+            var result = subject.Generate(new TestGroup(), false);
             Assert.IsFalse(result.Success);
         }
 

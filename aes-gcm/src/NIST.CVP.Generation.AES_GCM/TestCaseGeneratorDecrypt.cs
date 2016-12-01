@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.AES_GCM
         public string IVGen { get { return "internal"; } }
         public string Direction { get { return "decrypt"; } }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group)
+        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
             // @@@ todo
             throw new NotImplementedException();

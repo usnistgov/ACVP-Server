@@ -22,12 +22,13 @@ namespace NIST.CVP.Generation.AES_GCM
         public string IVGen { get { return "internal"; } }
         public string Direction { get { return "encrypt"; } }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group)
+        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
             //no known answer, but we need the prompts
             var key = _random800_90.GetRandomBitString(group.KeyLength);
             var plainText = _random800_90.GetRandomBitString(group.PTLength);
             var aad = _random800_90.GetRandomBitString(group.AADLength);
+
             var testCase = new TestCase
             {
                 Key = key,
@@ -36,6 +37,13 @@ namespace NIST.CVP.Generation.AES_GCM
                 Deferred = true
             };
 
+            // if a sample is requested, we need to generate an IV and go through with the actual encryption like we do for External
+            if (isSample)
+            {
+                testCase.IV = _random800_90.GetRandomBitString(group.IVLength);
+                return Generate(group, testCase);
+            }
+            
             return new TestCaseGenerateResponse(testCase);
         }
 

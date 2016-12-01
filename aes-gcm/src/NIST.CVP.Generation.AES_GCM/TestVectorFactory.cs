@@ -16,8 +16,9 @@ namespace NIST.CVP.Generation.AES_GCM
 
         public ITestVectorSet BuildTestVectorSet(IParameters parameters)
         {
-            var groups = BuildTestGroups((Parameters)parameters);
-            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "AES-GCM"};
+            var typedParams = (Parameters)parameters;
+            var groups = BuildTestGroups(typedParams);
+            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "AES-GCM", IsSample = typedParams.IsSample};
 
             return testVector;
         }
