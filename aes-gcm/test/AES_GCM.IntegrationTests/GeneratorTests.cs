@@ -62,9 +62,9 @@ namespace AES_GCM.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-GCM",
-                // @@@ TODO avoid decrypt for now until test vectors/projections implemented
-                Mode = new string[] { "encrypt" },
-                //Mode = ParameterValidator.VALID_DIRECTIONS,
+                //// @@@ TODO avoid decrypt for now until test vectors/projections implemented
+                //Mode = new string[] { "encrypt" },
+                Mode = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 PtLen = new int[] { 128 },
                 ivLen = new int[] { 96 },
