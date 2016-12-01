@@ -97,5 +97,45 @@ namespace NIST.CVP.Math.Tests.Helpers
                 Assert.AreEqual(expectedLeastSignificantBits[i], result[i]);
             }
         }
+
+        [Test]
+        [TestCase(null)]
+        [TestCase("")]
+        public void ShouldThrowArgumentNullExceptionWhenStringNullOrEmpty(string testString)
+        {
+            Assert.Throws(
+                typeof(ArgumentNullException), 
+                () => MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(testString));
+        }
+
+        [Test]
+        [TestCase("10a")]
+        [TestCase("10f110")]
+        [TestCase("100002110")]
+        [TestCase("10000_110")]
+        public void ShouldThrowArgumentExceptionWhenStringContainsCharactersBesidesSpaceZeroAndOne(string testString)
+        {
+            Assert.Throws(
+                typeof(ArgumentException),
+                () => MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(testString));
+        }
+
+        /// <summary>
+        /// Note this only works for up to 8 characters as a "space" is added for each byte
+        /// </summary>
+        /// <param name="testString">The string to test with</param>
+        [Test]
+        [TestCase("1000")]
+        [TestCase("1100")]
+        [TestCase("11111110")]
+        public void ShouldReturnBitStringInCorrectOrderLt8Characters(string testString)
+        {
+            var expectation = testString.Reverse().ToArray();
+
+            var result = MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(testString);
+            var bs = new BitString(result);
+
+            Assert.AreEqual(expectation, bs.ToString());
+        }
     }
 }

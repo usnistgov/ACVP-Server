@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Math.Helpers
@@ -60,6 +61,41 @@ namespace NIST.CVP.Math.Helpers
 
             // the reverse of the LSb BitArray is a MSb BitArray
             return ReverseBitArrayBits(lsBitArray);
+        }
+
+        public static BitArray GetBitArrayFromStringOf1sAnd0s(string onesAndZeroes)
+        {
+            if (string.IsNullOrEmpty(onesAndZeroes))
+            {
+                throw new ArgumentNullException(nameof(onesAndZeroes));
+            }
+
+            // Remove spaces
+            onesAndZeroes = onesAndZeroes.Replace(" ", "");
+
+            // Check string is made up of only ones and zeroes
+            Regex rgx = new Regex("[^01]");
+            if (rgx.IsMatch(onesAndZeroes))
+            {
+                throw new ArgumentException($"{nameof(onesAndZeroes)} contains invalid characters.  Only spaces (' '), 0, and 1 should be present within string");
+            }
+
+            int length = onesAndZeroes.Length;
+
+            bool[] boolArray = new bool[length];
+            for (int i = 0; i < length; i++)
+            {
+                if (onesAndZeroes[i] == '0')
+                {
+                    boolArray[i] = false;
+                }
+                if (onesAndZeroes[i] == '1')
+                {
+                    boolArray[i] = true;
+                }
+            }
+
+            return new BitArray(boolArray);
         }
     }
 }
