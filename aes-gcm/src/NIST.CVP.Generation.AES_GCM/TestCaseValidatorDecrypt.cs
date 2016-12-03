@@ -27,10 +27,12 @@ namespace NIST.CVP.Generation.AES_GCM
             {
                 errors.Add("Plain Text does not match");
             }
+            // @@@ is AAD sent back in the decrypt results?
             if (!_expectedResult.AAD.Equals(suppliedResult.AAD))
             {
                 errors.Add("AAD does not match");
             }
+            // @@@ need to account for expected failure somewhere in here, need more information on what that looks like
 
             if (errors.Count > 0)
             {

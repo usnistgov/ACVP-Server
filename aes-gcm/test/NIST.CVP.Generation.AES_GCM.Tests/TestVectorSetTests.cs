@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NUnit.Framework;
+using Microsoft.CSharp.RuntimeBinder;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
 {
@@ -51,10 +52,162 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
         }
 
-        private TestVectorSet GetSubject(int groups = 1)
+        // @@@ possible to get strong typing out of projection?
+
+        [Test]
+        public void EncryptShouldIncludeCipherTextInAnswerProjection()
+        {
+            var subject = GetSubject(1);
+            var results = subject.AnswerProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
+            }
+        }
+
+        [Test]
+        public void EncryptShouldIncludePlainTextInPromptProjection()
+        {
+            var subject = GetSubject(1);
+            var results = subject.PromptProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
+            }
+        }
+
+        [Test]
+        public void EncryptShouldIncludeCipherTextInResultProjection()
+        {
+            var subject = GetSubject(1);
+            var results = subject.ResultProjection;
+            foreach (var item in results)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(item.cipherText.ToString()));
+            }
+        }
+
+        [Test]
+        public void EncryptShouldExcludePlainTextInAnswerProjection()
+        {
+            var subject = GetSubject(1);
+            var results = subject.AnswerProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
+            }
+        }
+
+        [Test]
+        public void EncryptShouldExcludeCipherTextInPromptProjection()
+        {
+            var subject = GetSubject(1);
+            var results = subject.PromptProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.Throws(typeof(RuntimeBinderException), () => test.cipherText.ToString());
+            }
+        }
+
+        [Test]
+        public void EncryptShouldExcludePlainTextInResultProjection()
+        {
+            var subject = GetSubject(1);
+            var results = subject.ResultProjection;
+            foreach (var item in results)
+            {
+                Assert.Throws(typeof(RuntimeBinderException), () => item.plainText.ToString());
+            }
+        }
+
+        [Test]
+        public void DecryptShouldIncludePlainTextInAnswerProjection()
+        {
+            var subject = GetSubject(1, "decrypt");
+            var results = subject.AnswerProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
+            }
+        }
+
+        [Test]
+        public void DecryptShouldIncludeCipherTextInPromptProjection()
+        {
+            var subject = GetSubject(1, "decrypt");
+            var results = subject.PromptProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
+            }
+        }
+
+        [Test]
+        public void DecryptShouldIncludePlainTextInResultProjection()
+        {
+            var subject = GetSubject(1, "decrypt");
+            var results = subject.ResultProjection;
+            foreach (var item in results)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(item.plainText.ToString()));
+            }
+        }
+
+        [Test]
+        public void DecryptShouldExcludeCipherTextInAnswerProjection()
+        {
+            var subject = GetSubject(1, "decrypt");
+            var results = subject.AnswerProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.Throws(typeof(RuntimeBinderException), () => test.cipherText.ToString());
+            }
+        }
+
+        [Test]
+        public void DecryptShouldExcludePlainTextInPromptProjection()
+        {
+            var subject = GetSubject(1, "decrypt");
+            var results = subject.PromptProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
+            }
+        }
+
+        [Test]
+        public void DecryptShouldExcludeCipherTextInResultProjection()
+        {
+            var subject = GetSubject(1, "decrypt");
+            var results = subject.ResultProjection;
+            foreach (var item in results)
+            {
+                Assert.Throws(typeof(RuntimeBinderException), () => item.cipherText.ToString());
+            }
+        }
+
+        // @@@ what does a "expected failure" test look like in the result projection?
+
+        private TestVectorSet GetSubject(int groups = 1, string direction = "encrypt")
         {
             var subject = new TestVectorSet {Algorithm = "AES-GCM"};
-            var testGroups = _tdm.GetTestGroups(groups);
+            var testGroups = _tdm.GetTestGroups(groups, direction);
             subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return subject;
         }

@@ -35,10 +35,7 @@ namespace NIST.CVP.Generation.AES_GCM
                         throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
                     }
                 }
-
             }
-
-
         }
 
         public string Algorithm { get; set; }
@@ -55,7 +52,6 @@ namespace NIST.CVP.Generation.AES_GCM
         {
             get
             {
-                //@@@this is for encrypt, will need to deal with decrypt
                 var list = new List<dynamic>();
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
@@ -74,7 +70,14 @@ namespace NIST.CVP.Generation.AES_GCM
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                        }
+                        if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                        }
                         ((IDictionary<string, object>)testObject).Add("tag", test.Tag);
                         ((IDictionary<string, object>)testObject).Add("iv", test.IV);
                         ((IDictionary<string, object>)testObject).Add("key", test.Key);
@@ -96,7 +99,6 @@ namespace NIST.CVP.Generation.AES_GCM
         [JsonProperty(PropertyName = "testGroups")]
         public List<dynamic> PromptProjection
         {
-            //@@@this is for encrypt, will need to deal with decrypt
             get
             {
                 var list = new List<dynamic>();
@@ -117,14 +119,20 @@ namespace NIST.CVP.Generation.AES_GCM
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                        }
+                        if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                        }
                         ((IDictionary<string, object>)testObject).Add("key", test.Key);
                         ((IDictionary<string, object>)testObject).Add("iv", test.IV);
                         tests.Add(testObject);
                     }
                     list.Add(updateObject);
                 }
-
 
                 return list;
             }
@@ -138,7 +146,6 @@ namespace NIST.CVP.Generation.AES_GCM
         {
             get
             {
-                //@@@this is for encrypt, will need to deal with decrypt
                 var tests = new List<dynamic>();
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
@@ -146,15 +153,22 @@ namespace NIST.CVP.Generation.AES_GCM
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
-                        ((IDictionary<string, object>)testObject).Add("tag", test.Tag);
-                        ((IDictionary<string, object>)testObject).Add("iv", test.IV);
+                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            ((IDictionary<string, object>)testObject).Add("tag", test.Tag);
+                            ((IDictionary<string, object>)testObject).Add("iv", test.IV);
+                        }
+                        if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            // @@@ TODO need information on what an "expected failure" test looks like
+                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                        }
                         tests.Add(testObject);
                     }
                 }
                 return tests;
             }
-
         }
 
         public dynamic ToDynamic()

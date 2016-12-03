@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 {
     public class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public List<TestGroup> GetTestGroups(int groups = 1, string direction = "encrypt")
         {
             var testGroups = new List<TestGroup>();
             for (int groupIdx = 0; groupIdx < groups; groupIdx++)
@@ -24,27 +24,27 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                         PlainText = new BitString("1AAADFFF"),
                         Deferred = false,
                         FailureTest = false,
-                        Tag =  new BitString("FFFA4444"),
+                        Tag = new BitString("FFFA4444"),
                         CipherText = new BitString("7EADDC"),
                         Key = new BitString("9998ADCD"),
                         TestCaseId = testId
                     });
                 }
 
-
                 testGroups.Add(
-               new TestGroup
-               {
-                   AADLength = 16 + groupIdx * 2,
-                   Function = "encrypt",
-                   IVGeneration = "blah",
-                   IVGenerationMode = "internal",
-                   IVLength = 96 + groupIdx * 2,
-                   KeyLength = 256 + groupIdx * 2,
-                   PTLength = 256 + groupIdx * 2,
-                   TagLength = 16 + groupIdx * 2,
-                   Tests = tests
-               });
+                    new TestGroup
+                    {
+                        AADLength = 16 + groupIdx * 2,
+                        Function = direction,
+                        IVGeneration = "blah",
+                        IVGenerationMode = "internal",
+                        IVLength = 96 + groupIdx * 2,
+                        KeyLength = 256 + groupIdx * 2,
+                        PTLength = 256 + groupIdx * 2,
+                        TagLength = 16 + groupIdx * 2,
+                        Tests = tests
+                    }
+                );
             }
             return testGroups;
         }
