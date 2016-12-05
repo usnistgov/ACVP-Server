@@ -44,7 +44,7 @@ namespace AES_GCM.IntegrationTests
         [OneTimeTearDown]
         public void Teardown()
         {
-            //Directory.Delete(_targetFolder, true);
+            Directory.Delete(_targetFolder, true);
         }
 
         [Test]
