@@ -14,19 +14,37 @@ namespace AES_GCM.IntegrationTests
     {
 
         string _unitTestPath = Path.GetFullPath(@"..\..\TestFiles\");
-        private string _targetFolder;
+        string _targetFolder;
+        string fileName = string.Empty;
+
+        string[] testVectorFileNames;
 
         [OneTimeSetUp]
         public void Setup()
         {
             _targetFolder = Path.Combine(_unitTestPath, Guid.NewGuid().ToString());
             Directory.CreateDirectory(_targetFolder);
+
+            testVectorFileNames = new string[]
+            {
+                $"{_targetFolder}\\testResults.json",
+                $"{_targetFolder}\\prompt.json",
+                $"{_targetFolder}\\answer.json"              
+            };
+
+            fileName = CreateTestFile();
+
+            // Run test vector generation
+            AES_GCM.Program.Main(new string[] { fileName });
+
+            // Run test vector validation
+            AES_GCM_Val.Program.Main(testVectorFileNames);
         }
 
         [OneTimeTearDown]
         public void Teardown()
         {
-            Directory.Delete(_targetFolder, true);
+            //Directory.Delete(_targetFolder, true);
         }
 
         [Test]
@@ -48,22 +66,24 @@ namespace AES_GCM.IntegrationTests
         [Test]
         public void ShouldCreateTestVectors()
         {
-            var fileName = CreateTestFile();
-
-            AES_GCM.Program.Main(new string[] { fileName });
-
-            Assert.IsTrue(File.Exists($"{_targetFolder}\\answer.json"), "answer");
-            Assert.IsTrue(File.Exists($"{_targetFolder}\\prompt.json"), "prompt");
             Assert.IsTrue(File.Exists($"{_targetFolder}\\testResults.json"), "testResults");
+            Assert.IsTrue(File.Exists($"{_targetFolder}\\prompt.json"), "prompt");
+            Assert.IsTrue(File.Exists($"{_targetFolder}\\answer.json"), "answer");
         }
+
+        [Test]
+        public void ShouldCreateValidationFile()
+        {
+            Assert.IsTrue(File.Exists($"{_targetFolder}\\validation.json"), "validation"); 
+        }
+
+        // @@@ test for introducing a failed test and validating the validator reports it (as opposed to an "expected failure" test.
 
         private string CreateTestFile()
         {
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-GCM",
-                //// @@@ TODO avoid decrypt for now until test vectors/projections implemented
-                //Mode = new string[] { "encrypt" },
                 Mode = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 PtLen = new int[] { 128 },
@@ -71,7 +91,8 @@ namespace AES_GCM.IntegrationTests
                 ivGen = ParameterValidator.VALID_IV_GEN[0],
                 ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],
                 aadLen = new int[] { 128 },
-                TagLen = ParameterValidator.VALID_TAG_LENGTHS
+                TagLen = ParameterValidator.VALID_TAG_LENGTHS,
+                IsSample = true
             };
 
             var json = JsonConvert.SerializeObject(p);

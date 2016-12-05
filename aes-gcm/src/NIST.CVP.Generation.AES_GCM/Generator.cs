@@ -50,25 +50,22 @@ namespace NIST.CVP.Generation.AES_GCM
             }
             var testVector = _testVectorFactory.BuildTestVectorSet(parameters);
             int testId = 1;
-            foreach (var direction in parameters.Mode)
+            foreach (var group in testVector.TestGroups.Select(g => (TestGroup)g))
             {
-                var generator = _testCaseGeneratorFactory.GetCaseGenerator(direction, parameters.ivGen);
-                foreach (var group in testVector.TestGroups.Select(g => (TestGroup)g))
+                var generator = _testCaseGeneratorFactory.GetCaseGenerator(group.Function, parameters.ivGen);
+                for (int caseNo = 0; caseNo < NUMBER_OF_CASES; ++caseNo)
                 {
-                    for (int caseNo = 0; caseNo < NUMBER_OF_CASES; ++caseNo)
+                    var testCaseResponse = generator.Generate(@group, testVector.IsSample);
+                    if (!testCaseResponse.Success)
                     {
-                        var testCaseResponse = generator.Generate(@group, testVector.IsSample);
-                        if (!testCaseResponse.Success)
-                        {
-                            return new GenerateResponse(testCaseResponse.ErrorMessage);
-                        }
-                        var testCase = (TestCase)testCaseResponse.TestCase;
-                        testCase.TestCaseId = testId;
-                        group.Tests.Add(testCase);
-                        testId++;
+                        return new GenerateResponse(testCaseResponse.ErrorMessage);
                     }
-                }   
-            }
+                    var testCase = (TestCase)testCaseResponse.TestCase;
+                    testCase.TestCaseId = testId;
+                    group.Tests.Add(testCase);
+                    testId++;
+                }
+            }   
             var outputDirPath = Path.GetDirectoryName(requestFilePath);
             foreach (var jsonOutput in JsonOutputs)
             {

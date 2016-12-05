@@ -69,12 +69,26 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             Assume.That("failed" == result.Result);
             Assert.IsTrue(result.Reason.Contains("AAD"));
         }
-
+        
+        [Test]
+        public void ShouldFailIfFailedTestDoesNotMatch()
+        {
+            var testCase = GetTestCase();
+            testCase.FailureTest = true;
+            var subject = new TestCaseValidatorDecrypt(testCase);
+            var suppliedResult = GetTestCase();
+            suppliedResult.FailureTest = false;
+            var result = subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assume.That("failed" == result.Result);
+            Assert.IsTrue(result.Reason.Contains("tag"));
+        }
 
         private TestCase GetTestCase()
         {
             var testCase = new TestCase
             {
+                FailureTest = false,
                 AAD = new BitString("AADAADAADAAD"),
                 PlainText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
                 TestCaseId = 1

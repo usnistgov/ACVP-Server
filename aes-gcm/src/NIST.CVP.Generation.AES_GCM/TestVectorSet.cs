@@ -81,6 +81,7 @@ namespace NIST.CVP.Generation.AES_GCM
                         ((IDictionary<string, object>)testObject).Add("tag", test.Tag);
                         ((IDictionary<string, object>)testObject).Add("iv", test.IV);
                         ((IDictionary<string, object>)testObject).Add("key", test.Key);
+                        ((IDictionary<string, object>)testObject).Add("aad", test.AAD);
                         ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
                         ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
                         tests.Add(testObject);
@@ -129,6 +130,7 @@ namespace NIST.CVP.Generation.AES_GCM
                         }
                         ((IDictionary<string, object>)testObject).Add("key", test.Key);
                         ((IDictionary<string, object>)testObject).Add("iv", test.IV);
+                        ((IDictionary<string, object>)testObject).Add("aad", test.AAD);
                         tests.Add(testObject);
                     }
                     list.Add(updateObject);
@@ -161,8 +163,12 @@ namespace NIST.CVP.Generation.AES_GCM
                         }
                         if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            // @@@ TODO need information on what an "expected failure" test looks like
                             ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                        }
+                        if (test.FailureTest)
+                        {
+                            // @@@ TODO need information on what an "expected failure" test looks like
+                            ((IDictionary<string, object>)testObject).Add("failureTest", true);
                         }
                         tests.Add(testObject);
                     }

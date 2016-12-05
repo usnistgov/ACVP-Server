@@ -32,7 +32,11 @@ namespace NIST.CVP.Generation.AES_GCM
             {
                 errors.Add("AAD does not match");
             }
-            // @@@ need to account for expected failure somewhere in here, need more information on what that looks like
+            // @@@ need to account for expected failure, need more information on what that looks like
+            if (_expectedResult.FailureTest && !suppliedResult.FailureTest)
+            {
+                errors.Add("Expected tag validation failure");
+            }
 
             if (errors.Count > 0)
             {
