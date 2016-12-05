@@ -8,66 +8,66 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.AES_GCM.Tests
 {
     [TestFixture]
-    public class TestCaseValidatorEncryptTests
+    public class TestCaseValidatorDecryptTests
     {
         [Test]
         public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             var result = subject.Validate(testCase);
             Assume.That(result != null);
             Assert.AreEqual("passed", result.Result);
         }
 
         [Test]
-        public void ShouldFailIfCipherTextDoesNotMatch()
+        public void ShouldFailIfPlainTextDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.CipherText = new BitString("D00000");
+            suppliedResult.PlainText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual("failed", result.Result);
         }
 
         [Test]
-        public void ShouldShowCipherTextAsReasonIfItDoesNotMatch()
+        public void ShouldShowPlainTextAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.CipherText = new BitString("D00000");
+            suppliedResult.PlainText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assume.That("failed" == result.Result);
-            Assert.IsTrue(result.Reason.Contains("Cipher Text"));
+            Assert.IsTrue(result.Reason.Contains("Plain Text"));
         }
 
         [Test]
-        public void ShouldFailIfTagDoesNotMatch()
+        public void ShouldFailIfAADDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.Tag= new BitString("D00000");
+            suppliedResult.AAD = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual("failed", result.Result);
         }
 
         [Test]
-        public void ShouldShowTagAsReasonIfItDoesNotMatch()
+        public void ShouldShowAADAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.Tag = new BitString("D00000");
+            suppliedResult.AAD = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assume.That("failed" == result.Result);
-            Assert.IsTrue(result.Reason.Contains("Tag"));
+            Assert.IsTrue(result.Reason.Contains("AAD"));
         }
 
 
@@ -75,8 +75,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         {
             var testCase = new TestCase
             {
-                Tag = new BitString("AADAADAADAAD"),
-                CipherText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
+                AAD = new BitString("AADAADAADAAD"),
+                PlainText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
                 TestCaseId = 1
             };
             return testCase;
