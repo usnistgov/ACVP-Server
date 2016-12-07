@@ -127,19 +127,9 @@ namespace AES_GCM.IntegrationTests
             var targetFolder = GetTestFolder();
             var fileName = GetTestFileLotsOfTestCases(targetFolder);
             
-            // Run test vector generation
-            var tvResult = AES_GCM.Program.Main(new string[] { fileName });
-            Assume.That(tvResult == 0);
-
-            var files = GetFileNamesWithPath(targetFolder, _testVectorFileNames);
-
-            // Modify testResults in order to contain some tests that will fail
-            var expectedFailTestCases = DoBadThingsToResultsFile(files[0]);
-
-            // Run test vector validation
-            var valResult = AES_GCM_Val.Program.Main(files);
-            Assume.That(valResult == 0);
-
+            List<int> expectedFailTestCases = new List<int>();
+            RunGenerationAndValidationWithExpectedFailures(targetFolder, fileName, ref expectedFailTestCases);
+            
             // Get object for the validation.json
             DynamicParser dp = new DynamicParser();
             var parsedValidation = dp.Parse($"{targetFolder}\\validation.json");
@@ -187,21 +177,89 @@ namespace AES_GCM.IntegrationTests
 
         private void RunGenerationAndValidation(string targetFolder, string fileName)
         {
+            RunGeneration(targetFolder, fileName);
+            RunValidation(targetFolder);
+        }
+
+        private void RunGenerationAndValidationWithExpectedFailures(string targetFolder, string fileName, ref List<int> failureTcIds)
+        {
+            RunGeneration(targetFolder, fileName);
+            GetFailureTestCases(targetFolder, ref failureTcIds);
+            RunValidation(targetFolder);
+        }
+
+        private void RunGeneration(string targetFolder, string fileName)
+        {
             // Run test vector generation
-            var tvResult = AES_GCM.Program.Main(new string[] { fileName });
-            Assume.That(tvResult == 0);
+            var result = AES_GCM.Program.Main(new string[] { fileName });
+            Assume.That(result == 0);
 
             Assume.That(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), "testResults");
             Assume.That(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), "prompt");
             Assume.That(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), "answer");
+        }
 
+        private void RunValidation(string targetFolder)
+        {
             // Run test vector validation
             var result = AES_GCM_Val.Program.Main(
                 GetFileNamesWithPath(targetFolder, _testVectorFileNames)
             );
             Assume.That(result == 0);
-
             Assume.That(File.Exists($"{targetFolder}\\validation.json"), "validation");
+        }
+
+        private void GetFailureTestCases(string targetFolder, ref List<int> failureTcIds)
+        {
+            var files = GetFileNamesWithPath(targetFolder, _testVectorFileNames);
+
+            // Modify testResults in order to contain some tests that will fail
+            var expectedFailTestCases = DoBadThingsToResultsFile(files[0]);
+            Assume.That(expectedFailTestCases.Count > 0);
+            failureTcIds.AddRange(expectedFailTestCases);
+        }
+
+        private List<int> DoBadThingsToResultsFile(string resultsFile)
+        {
+            // Parse file
+            DynamicParser dp = new DynamicParser();
+            var parsedValidation = dp.Parse(resultsFile);
+            Assume.That(parsedValidation != null);
+            Assume.That(parsedValidation.Success);
+
+            List<int> failedTestCases = new List<int>();
+            Random800_90 rand = new Random800_90();
+            foreach (var testCase in parsedValidation.ParsedObject.testResults)
+            {
+                if ((int)testCase.tcId % 2 == 0)
+                {
+                    failedTestCases.Add((int)testCase.tcId);
+
+                    // If TC has a cipherText, change it
+                    if (testCase.cipherText != null)
+                    {
+                        BitString bs = new BitString(testCase.cipherText.ToString());
+                        bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                        testCase.cipherText = bs.ToHex();
+                    }
+
+                    // If TC has a plainText, change it
+                    if (testCase.plainText != null)
+                    {
+                        BitString bs = new BitString(testCase.plainText.ToString());
+                        bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                        testCase.plainText = bs.ToHex();
+                    }
+                }
+            }
+
+            // Write the new JSON to the results file
+            File.Delete(resultsFile);
+            File.WriteAllText(resultsFile, parsedValidation.ParsedObject.ToString());
+
+            return failedTestCases;
         }
 
         private string GetTestFileWithZeroLengthAadAndPt(string targetFolder)
@@ -270,47 +328,5 @@ namespace AES_GCM.IntegrationTests
             return fileName;
         }
 
-        private List<int> DoBadThingsToResultsFile(string resultsFile)
-        {
-            // Parse file
-            DynamicParser dp = new DynamicParser();
-            var parsedValidation = dp.Parse(resultsFile);
-            Assume.That(parsedValidation != null);
-            Assume.That(parsedValidation.Success);
-
-            List<int> failedTestCases = new List<int>();
-            Random800_90 rand = new Random800_90();
-            foreach (var testCase in parsedValidation.ParsedObject.testResults)
-            {
-                if ((int)testCase.tcId % 2 == 0)
-                {
-                    failedTestCases.Add((int)testCase.tcId);
-
-                    // If TC has a cipherText, change it
-                    if (testCase.cipherText != null)
-                    {
-                        BitString bs = new BitString(testCase.cipherText.ToString());
-                        bs = rand.GetDifferentBitStringOfSameSize(bs);
-
-                        testCase.cipherText = bs.ToHex();
-                    }
-
-                    // If TC has a plainText, change it
-                    if (testCase.plainText != null)
-                    {
-                        BitString bs = new BitString(testCase.plainText.ToString());
-                        bs = rand.GetDifferentBitStringOfSameSize(bs);
-
-                        testCase.plainText = bs.ToHex();
-                    }
-                }
-            }
-
-            // Write the new JSON to the results file
-            File.Delete(resultsFile);
-            File.WriteAllText(resultsFile, parsedValidation.ParsedObject.ToString());
-
-            return failedTestCases;
-        }
     }
 }
