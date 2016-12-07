@@ -45,30 +45,31 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             Assert.IsTrue(result.Reason.Contains("Plain Text"));
         }
 
-        [Test]
-        public void ShouldFailIfAADDoesNotMatch()
-        {
-            var testCase = GetTestCase();
-            var subject = new TestCaseValidatorDecrypt(testCase);
-            var suppliedResult = GetTestCase();
-            suppliedResult.AAD = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
-            Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
-        }
+        // @@@ confirm AAD not a part of decryption result
+        //[Test]
+        //public void ShouldFailIfAADDoesNotMatch()
+        //{
+        //    var testCase = GetTestCase();
+        //    var subject = new TestCaseValidatorDecrypt(testCase);
+        //    var suppliedResult = GetTestCase();
+        //    suppliedResult.AAD = new BitString("D00000");
+        //    var result = subject.Validate(suppliedResult);
+        //    Assume.That(result != null);
+        //    Assert.AreEqual("failed", result.Result);
+        //}
 
-        [Test]
-        public void ShouldShowAADAsReasonIfItDoesNotMatch()
-        {
-            var testCase = GetTestCase();
-            var subject = new TestCaseValidatorDecrypt(testCase);
-            var suppliedResult = GetTestCase();
-            suppliedResult.AAD = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
-            Assume.That(result != null);
-            Assume.That("failed" == result.Result);
-            Assert.IsTrue(result.Reason.Contains("AAD"));
-        }
+        //[Test]
+        //public void ShouldShowAADAsReasonIfItDoesNotMatch()
+        //{
+        //    var testCase = GetTestCase();
+        //    var subject = new TestCaseValidatorDecrypt(testCase);
+        //    var suppliedResult = GetTestCase();
+        //    suppliedResult.AAD = new BitString("D00000");
+        //    var result = subject.Validate(suppliedResult);
+        //    Assume.That(result != null);
+        //    Assume.That("failed" == result.Result);
+        //    Assert.IsTrue(result.Reason.Contains("AAD"));
+        //}
         
         [Test]
         public void ShouldFailIfFailedTestDoesNotMatch()

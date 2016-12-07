@@ -59,6 +59,22 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         }
 
         [Test]
+        public void GenerateShouldInvokeEncryptionOperation()
+        {
+            var aes = GetAESMock();
+
+            TestCaseGeneratorDecrypt sut =
+                new TestCaseGeneratorDecrypt(GetRandomMock().Object, aes.Object);
+
+            var result = sut.Generate(new TestGroup(), true);
+
+            aes.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()),
+                Times.AtLeastOnce,
+                "BlockEncrypt should have been invoked"
+            );
+        }
+
+        [Test]
         public void GenerateShouldReturnFilledTestCaseObjectOnSuccess()
         {
             var fakeCipher = new BitString(new byte[] { 1 });

@@ -61,20 +61,20 @@ namespace NIST.CVP.Generation.AES_GCM
             testCase.CipherText = encryptionResult.CipherText;
             testCase.Tag = encryptionResult.Tag;
 
-            // Alter the tag 25% of the time for a "failure" test
-            int option = _random800_90.GetRandomInt(0, 4);
-            if (option == 0)
-            {
-                MangleTestCaseTag(testCase);
-            }
+            SometimesMangleTestCaseTag(testCase);
 
             return new TestCaseGenerateResponse(testCase);
         }
 
-        private void MangleTestCaseTag(TestCase testCase)
+        private void SometimesMangleTestCaseTag(TestCase testCase)
         {
-            testCase.Tag = _random800_90.GetDifferentBitStringOfSameSize(testCase.Tag);
-            testCase.FailureTest = true;
+            // Alter the tag 25% of the time for a "failure" test
+            int option = _random800_90.GetRandomInt(0, 4);
+            if (option == 0)
+            {
+                testCase.Tag = _random800_90.GetDifferentBitStringOfSameSize(testCase.Tag);
+                testCase.FailureTest = true;
+            }
         }
 
         private Logger ThisLogger

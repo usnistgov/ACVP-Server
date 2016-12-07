@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Generation.AES_GCM;
+using NIST.CVP.Generation.AES_GCM.Parsers;
+using NIST.CVP.Math;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -14,37 +16,21 @@ namespace AES_GCM.IntegrationTests
     {
 
         string _unitTestPath = Path.GetFullPath(@"..\..\TestFiles\");
-        string _targetFolder;
-        string fileName = string.Empty;
-
-        string[] testVectorFileNames;
-
-        [OneTimeSetUp]
-        public void Setup()
+        string[] _testVectorFileNames = new string[]
         {
-            _targetFolder = Path.Combine(_unitTestPath, Guid.NewGuid().ToString());
-            Directory.CreateDirectory(_targetFolder);
-
-            testVectorFileNames = new string[]
-            {
-                $"{_targetFolder}\\testResults.json",
-                $"{_targetFolder}\\prompt.json",
-                $"{_targetFolder}\\answer.json"              
-            };
-
-            fileName = CreateTestFile();
-
-            // Run test vector generation
-            AES_GCM.Program.Main(new string[] { fileName });
-
-            // Run test vector validation
-            AES_GCM_Val.Program.Main(testVectorFileNames);
-        }
+                "\\testResults.json",
+                "\\prompt.json",
+                "\\answer.json"
+        };
+        List<string> _testVectorWorkingFolders = new List<string>();
 
         [OneTimeTearDown]
         public void Teardown()
         {
-            Directory.Delete(_targetFolder, true);
+            foreach (var directory in _testVectorWorkingFolders)
+            {
+                Directory.Delete(directory, true);
+            }
         }
 
         [Test]
@@ -66,20 +52,197 @@ namespace AES_GCM.IntegrationTests
         [Test]
         public void ShouldCreateTestVectors()
         {
-            Assert.IsTrue(File.Exists($"{_targetFolder}\\testResults.json"), "testResults");
-            Assert.IsTrue(File.Exists($"{_targetFolder}\\prompt.json"), "prompt");
-            Assert.IsTrue(File.Exists($"{_targetFolder}\\answer.json"), "answer");
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+
+            RunGenerationAndValidation(targetFolder, fileName);
+
+            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), "testResults");
+            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), "prompt");
+            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), "answer");
         }
 
         [Test]
         public void ShouldCreateValidationFile()
         {
-            Assert.IsTrue(File.Exists($"{_targetFolder}\\validation.json"), "validation"); 
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+
+            RunGenerationAndValidation(targetFolder, fileName);
+
+            Assert.IsTrue(File.Exists($"{targetFolder}\\validation.json"), "validation");
         }
 
-        // @@@ test for introducing a failed test and validating the validator reports it (as opposed to an "expected failure" test.
+        [Test]
+        public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCases()
+        {
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
-        private string CreateTestFile()
+            RunGenerationAndValidation(targetFolder, fileName);
+
+            // Get object for the validation.json
+            DynamicParser dp = new DynamicParser();
+            var parsedValidation = dp.Parse($"{targetFolder}\\validation.json");
+
+            // Validate result as pass
+            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+        }
+
+        [Test]
+        public void ShouldReportAllSuccessfulTestsWithinValidationLotsOfTests()
+        {
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+
+            RunGenerationAndValidation(targetFolder, fileName);
+
+            // Get object for the validation.json
+            DynamicParser dp = new DynamicParser();
+            var parsedValidation = dp.Parse($"{targetFolder}\\validation.json");
+
+            // Validate result as pass
+            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+        }
+
+        [Test]
+        public void ShouldReportSuccessfulTestsWith0LengthAADAnd0LengthPt()
+        {
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileWithZeroLengthAadAndPt(targetFolder);
+
+            RunGenerationAndValidation(targetFolder, fileName);
+
+            // Get object for the validation.json
+            DynamicParser dp = new DynamicParser();
+            var parsedValidation = dp.Parse($"{targetFolder}\\validation.json");
+
+            // Validate result as pass
+            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+        }
+
+        [Test]
+        public void ShouldReportFailedDispositionOnErrorTests()
+        {
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            
+            // Run test vector generation
+            var tvResult = AES_GCM.Program.Main(new string[] { fileName });
+            Assume.That(tvResult == 0);
+
+            var files = GetFileNamesWithPath(targetFolder, _testVectorFileNames);
+
+            // Modify testResults in order to contain some tests that will fail
+            var expectedFailTestCases = DoBadThingsToResultsFile(files[0]);
+
+            // Run test vector validation
+            var valResult = AES_GCM_Val.Program.Main(files);
+            Assume.That(valResult == 0);
+
+            // Get object for the validation.json
+            DynamicParser dp = new DynamicParser();
+            var parsedValidation = dp.Parse($"{targetFolder}\\validation.json");
+
+            // Validate result as fail
+            Assert.AreEqual("failed", parsedValidation.ParsedObject.disposition.ToString());
+            foreach (var test in parsedValidation.ParsedObject.tests)
+            {
+                int tcId = test.tcId;
+                string result = test.result;
+                // Validate expected TCs are failure
+                if (expectedFailTestCases.Contains(tcId))
+                {
+                    Assert.AreEqual("failed", result);
+                }
+                // Validate other TCs are success
+                else
+                {
+                    Assert.AreEqual("passed", result);
+                }
+            }
+        }
+
+        private string[] GetFileNamesWithPath(string directory, string[] fileNames)
+        {
+            int numOfFiles = fileNames.Length;
+            string[] fileNamesWithPaths = new string[numOfFiles];
+
+            for (int i = 0; i < numOfFiles; i++)
+            {
+                fileNamesWithPaths[i] = $"{directory}{fileNames[i]}";
+            };
+
+            return fileNamesWithPaths;
+        }
+
+        private string GetTestFolder()
+        {
+            var targetFolder = Path.Combine(_unitTestPath, Guid.NewGuid().ToString());
+            Directory.CreateDirectory(targetFolder);
+            _testVectorWorkingFolders.Add(targetFolder);
+
+            return targetFolder;
+        }
+
+        private void RunGenerationAndValidation(string targetFolder, string fileName)
+        {
+            // Run test vector generation
+            var tvResult = AES_GCM.Program.Main(new string[] { fileName });
+            Assume.That(tvResult == 0);
+
+            Assume.That(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), "testResults");
+            Assume.That(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), "prompt");
+            Assume.That(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), "answer");
+
+            // Run test vector validation
+            var result = AES_GCM_Val.Program.Main(
+                GetFileNamesWithPath(targetFolder, _testVectorFileNames)
+            );
+            Assume.That(result == 0);
+
+            Assume.That(File.Exists($"{targetFolder}\\validation.json"), "validation");
+        }
+
+        private string GetTestFileWithZeroLengthAadAndPt(string targetFolder)
+        {
+            Parameters p = new Parameters()
+            {
+                Algorithm = "AES-GCM",
+                Mode = ParameterValidator.VALID_DIRECTIONS,
+                KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
+                PtLen = new int[] { 0 },
+                ivLen = new int[] { 96 },
+                ivGen = ParameterValidator.VALID_IV_GEN[1],
+                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
+                aadLen = new int[] { 0 },
+                TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
+                IsSample = false
+            };
+
+            return CreateRegistration(targetFolder, p);
+        }
+
+        private string GetTestFileFewTestCases(string targetFolder)
+        {
+            Parameters p = new Parameters()
+            {
+                Algorithm = "AES-GCM",
+                Mode = new string[] { "encrypt" },
+                KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
+                PtLen = new int[] { 128 },
+                ivLen = new int[] { 96 },
+                ivGen = ParameterValidator.VALID_IV_GEN[0],
+                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],
+                aadLen = new int[] { 128 },
+                TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
+                IsSample = true
+            };
+
+            return CreateRegistration(targetFolder, p);
+        }
+
+        private string GetTestFileLotsOfTestCases(string targetFolder)
         {
             Parameters p = new Parameters()
             {
@@ -88,20 +251,66 @@ namespace AES_GCM.IntegrationTests
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 PtLen = new int[] { 128 },
                 ivLen = new int[] { 96 },
-                ivGen = ParameterValidator.VALID_IV_GEN[0],
-                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],
+                ivGen = ParameterValidator.VALID_IV_GEN[1],
+                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
                 aadLen = new int[] { 128 },
                 TagLen = ParameterValidator.VALID_TAG_LENGTHS,
-                IsSample = true
+                IsSample = false
             };
 
-            var json = JsonConvert.SerializeObject(p);
+            return CreateRegistration(targetFolder, p);
+        }
 
-            string fileName = $"{_targetFolder}\\registration.json";
-
+        private static string CreateRegistration(string targetFolder, Parameters parameters)
+        {
+            var json = JsonConvert.SerializeObject(parameters);
+            string fileName = $"{targetFolder}\\registration.json";
             File.WriteAllText(fileName, json);
 
             return fileName;
+        }
+
+        private List<int> DoBadThingsToResultsFile(string resultsFile)
+        {
+            // Parse file
+            DynamicParser dp = new DynamicParser();
+            var parsedValidation = dp.Parse(resultsFile);
+            Assume.That(parsedValidation != null);
+            Assume.That(parsedValidation.Success);
+
+            List<int> failedTestCases = new List<int>();
+            Random800_90 rand = new Random800_90();
+            foreach (var testCase in parsedValidation.ParsedObject.testResults)
+            {
+                if ((int)testCase.tcId % 2 == 0)
+                {
+                    failedTestCases.Add((int)testCase.tcId);
+
+                    // If TC has a cipherText, change it
+                    if (testCase.cipherText != null)
+                    {
+                        BitString bs = new BitString(testCase.cipherText.ToString());
+                        bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                        testCase.cipherText = bs.ToHex();
+                    }
+
+                    // If TC has a plainText, change it
+                    if (testCase.plainText != null)
+                    {
+                        BitString bs = new BitString(testCase.plainText.ToString());
+                        bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                        testCase.plainText = bs.ToHex();
+                    }
+                }
+            }
+
+            // Write the new JSON to the results file
+            File.Delete(resultsFile);
+            File.WriteAllText(resultsFile, parsedValidation.ParsedObject.ToString());
+
+            return failedTestCases;
         }
     }
 }
