@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 {
     public class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1, string direction = "encrypt")
+        public List<TestGroup> GetTestGroups(int groups = 1, string direction = "encrypt", bool failureTest = false)
         {
             var testGroups = new List<TestGroup>();
             for (int groupIdx = 0; groupIdx < groups; groupIdx++)
@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                         AAD = new BitString("0AAD"),
                         PlainText = new BitString("1AAADFFF"),
                         Deferred = false,
-                        FailureTest = false,
+                        FailureTest = failureTest,
                         Tag = new BitString("FFFA4444"),
                         CipherText = new BitString("7EADDC"),
                         Key = new BitString("9998ADCD"),

@@ -23,19 +23,19 @@ namespace NIST.CVP.Generation.AES_GCM
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
-            if (!_expectedResult.PlainText.Equals(suppliedResult.PlainText))
+            if (_expectedResult.FailureTest)
             {
-                errors.Add("Plain Text does not match");
+                if (!suppliedResult.FailureTest)
+                {
+                    errors.Add("Expected tag validation failure");
+                }
             }
-            //// @@@ is AAD sent back in the decrypt results?
-            //if (!_expectedResult.AAD.Equals(suppliedResult.AAD))
-            //{
-            //    errors.Add("AAD does not match");
-            //}
-            // @@@ need to account for expected failure, need more information on what that looks like
-            if (_expectedResult.FailureTest && !suppliedResult.FailureTest)
+            else
             {
-                errors.Add("Expected tag validation failure");
+                if (!_expectedResult.PlainText.Equals(suppliedResult.PlainText))
+                {
+                    errors.Add("Plain Text does not match");
+                }
             }
 
             if (errors.Count > 0)

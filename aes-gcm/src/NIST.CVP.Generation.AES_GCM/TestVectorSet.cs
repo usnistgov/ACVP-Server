@@ -161,15 +161,19 @@ namespace NIST.CVP.Generation.AES_GCM
                             ((IDictionary<string, object>)testObject).Add("tag", test.Tag);
                             ((IDictionary<string, object>)testObject).Add("iv", test.IV);
                         }
-                        if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
-                        }
+
                         if (test.FailureTest)
                         {
-                            // @@@ TODO need information on what an "expected failure" test looks like
-                            ((IDictionary<string, object>)testObject).Add("failureTest", true);
+                            ((IDictionary<string, object>)testObject).Add("decryptFail", true);
                         }
+                        else
+                        {
+                            if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                            {
+                                ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            }
+                        }
+
                         tests.Add(testObject);
                     }
                 }

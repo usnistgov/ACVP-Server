@@ -15,22 +15,18 @@ namespace AES_GCM.IntegrationTests
     public class GeneratorTests
     {
 
-        string _unitTestPath = Path.GetFullPath(@"..\..\TestFiles\");
+        string _testPath = Path.GetFullPath(@"..\..\TestFiles\temp_integrationTests\");
         string[] _testVectorFileNames = new string[]
         {
                 "\\testResults.json",
                 "\\prompt.json",
                 "\\answer.json"
         };
-        List<string> _testVectorWorkingFolders = new List<string>();
 
         [OneTimeTearDown]
         public void Teardown()
         {
-            foreach (var directory in _testVectorWorkingFolders)
-            {
-                Directory.Delete(directory, true);
-            }
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -135,7 +131,7 @@ namespace AES_GCM.IntegrationTests
             var parsedValidation = dp.Parse($"{targetFolder}\\validation.json");
 
             // Validate result as fail
-            Assert.AreEqual("failed", parsedValidation.ParsedObject.disposition.ToString());
+            Assert.AreEqual("failed", parsedValidation.ParsedObject.disposition.ToString(), "disposition");
             foreach (var test in parsedValidation.ParsedObject.tests)
             {
                 int tcId = test.tcId;
@@ -143,12 +139,12 @@ namespace AES_GCM.IntegrationTests
                 // Validate expected TCs are failure
                 if (expectedFailTestCases.Contains(tcId))
                 {
-                    Assert.AreEqual("failed", result);
+                    Assert.AreEqual("failed", result, tcId.ToString());
                 }
                 // Validate other TCs are success
                 else
                 {
-                    Assert.AreEqual("passed", result);
+                    Assert.AreEqual("passed", result, tcId.ToString());
                 }
             }
         }
@@ -168,9 +164,8 @@ namespace AES_GCM.IntegrationTests
 
         private string GetTestFolder()
         {
-            var targetFolder = Path.Combine(_unitTestPath, Guid.NewGuid().ToString());
+            var targetFolder = Path.Combine(_testPath, Guid.NewGuid().ToString());
             Directory.CreateDirectory(targetFolder);
-            _testVectorWorkingFolders.Add(targetFolder);
 
             return targetFolder;
         }
@@ -234,6 +229,12 @@ namespace AES_GCM.IntegrationTests
                 if ((int)testCase.tcId % 2 == 0)
                 {
                     failedTestCases.Add((int)testCase.tcId);
+
+                    // If TC is intended to be a failure test, change it
+                    if (testCase.decryptFail != null)
+                    {
+                        testCase.decryptFail = false;
+                    }
 
                     // If TC has a cipherText, change it
                     if (testCase.cipherText != null)

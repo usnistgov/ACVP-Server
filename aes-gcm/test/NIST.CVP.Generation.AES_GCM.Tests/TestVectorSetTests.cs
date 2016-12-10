@@ -155,13 +155,25 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         }
 
         [Test]
-        public void DecryptShouldIncludePlainTextInResultProjection()
+        public void DecryptShouldIncludePlainTextInResultProjectionWhenNotFailureTest()
         {
-            var subject = GetSubject(1, "decrypt");
+            var subject = GetSubject(1, "decrypt", false);
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(item.plainText.ToString()));
+            }
+        }
+        
+        [Test]
+        public void DecryptShouldExcludePlainTextInResultProjectionWhenFailureTest()
+        {
+            var subject = GetSubject(1, "decrypt", true);
+            var results = subject.ResultProjection;
+            foreach (var item in results)
+            {
+                Assume.That(item.decryptFail);
+                Assert.Throws(typeof(RuntimeBinderException), () => item.plainText.ToString());
             }
         }
 
@@ -202,12 +214,10 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             }
         }
 
-        // @@@ what does a "expected failure" test look like in the result projection?
-
-        private TestVectorSet GetSubject(int groups = 1, string direction = "encrypt")
+        private TestVectorSet GetSubject(int groups = 1, string direction = "encrypt", bool failureTest = false)
         {
             var subject = new TestVectorSet {Algorithm = "AES-GCM"};
-            var testGroups = _tdm.GetTestGroups(groups, direction);
+            var testGroups = _tdm.GetTestGroups(groups, direction, failureTest);
             subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return subject;
         }

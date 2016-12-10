@@ -25,7 +25,11 @@ namespace NIST.CVP.Generation.AES_GCM
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
-            if (((ExpandoObject) source).ContainsProperty("failureTest"))
+            if (((ExpandoObject)source).ContainsProperty("decryptFail"))
+            {
+                FailureTest = source.decryptFail;
+            }
+            if (((ExpandoObject)source).ContainsProperty("failureTest"))
             {
                 FailureTest = source.failureTest;
             }
@@ -87,7 +91,6 @@ namespace NIST.CVP.Generation.AES_GCM
 
             if (PlainText == null && otherTypedTest.PlainText != null)
             {
-                AAD = otherTypedTest.AAD;
                 PlainText = otherTypedTest.PlainText;
                 return true;
             }
