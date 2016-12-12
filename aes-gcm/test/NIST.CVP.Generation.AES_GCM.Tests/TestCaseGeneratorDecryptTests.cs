@@ -109,6 +109,12 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [Test]
         public void GenerateShouldSometimesMangleTag()
         {
+            if (!TestCaseGeneratorDecrypt._SHOULD_CREATE_FAILURE_TESTS)
+            {
+                Assume.That(1 == 0, "Ignore test while decryption 'expected failure' tests turned off.");
+                return;
+            }
+
             var fakeCipher = new BitString(new byte[] { 1 });
             var fakeTag = new BitString(new byte[] { 2 });
             var mangledTag = new BitString(new byte[] { 42 });

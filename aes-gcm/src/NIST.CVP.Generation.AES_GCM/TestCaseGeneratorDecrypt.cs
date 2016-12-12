@@ -10,6 +10,14 @@ namespace NIST.CVP.Generation.AES_GCM
         private readonly IAES_GCM _aesGcm;
         private readonly IRandom800_90 _random800_90;
 
+        /// <summary>
+        /// Controls if expected failure tests should be created or not.
+        /// </summary>
+        /// <remarks>
+        /// @@@ Cisco not yet ready for expected failure
+        /// </remarks>
+        public const bool _SHOULD_CREATE_FAILURE_TESTS = false;
+
         public TestCaseGeneratorDecrypt(IRandom800_90 random800_90, IAES_GCM aesGcm)
         {
             _random800_90 = random800_90;
@@ -61,7 +69,10 @@ namespace NIST.CVP.Generation.AES_GCM
             testCase.CipherText = encryptionResult.CipherText;
             testCase.Tag = encryptionResult.Tag;
 
-            SometimesMangleTestCaseTag(testCase);
+            if (_SHOULD_CREATE_FAILURE_TESTS)
+            {
+                SometimesMangleTestCaseTag(testCase);
+            }
 
             return new TestCaseGenerateResponse(testCase);
         }
