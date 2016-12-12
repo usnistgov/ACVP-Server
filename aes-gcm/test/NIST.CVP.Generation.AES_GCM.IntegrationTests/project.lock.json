@@ -3,6 +3,19 @@
   "version": 2,
   "targets": {
     ".NETCoreApp,Version=v1.0": {
+      "Autofac/4.2.0": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "System.ComponentModel": "4.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.1/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Autofac.dll": {}
+        }
+      },
       "Castle.Core/4.0.0-beta001": {
         "type": "package",
         "dependencies": {
@@ -3014,6 +3027,46 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
+      "AES_GCM/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v1.0",
+        "dependencies": {
+          "Autofac": "4.2.0",
+          "Microsoft.Extensions.Configuration.Json": "1.1.0",
+          "Microsoft.NETCore.App": "1.0.1",
+          "NIST.CVP.Generation.AES": "1.0.0",
+          "NIST.CVP.Generation.AES_GCM": "1.0.0",
+          "NIST.CVP.Generation.Core": "1.0.0",
+          "NIST.CVP.Math": "1.0.0",
+          "NLog": "4.4.0-betaV15"
+        },
+        "compile": {
+          "netcoreapp1.0/AES_GCM.dll": {}
+        },
+        "runtime": {
+          "netcoreapp1.0/AES_GCM.dll": {}
+        }
+      },
+      "AES_GCM_Val/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v1.0",
+        "dependencies": {
+          "Autofac": "4.2.0",
+          "Microsoft.Extensions.Configuration.Json": "1.1.0",
+          "Microsoft.NETCore.App": "1.0.1",
+          "NIST.CVP.Generation.AES": "1.0.0",
+          "NIST.CVP.Generation.AES_GCM": "1.0.0",
+          "NIST.CVP.Generation.Core": "1.0.0",
+          "NIST.CVP.Math": "1.0.0",
+          "NLog": "4.4.0-betaV15"
+        },
+        "compile": {
+          "netcoreapp1.0/AES_GCM_Val.dll": {}
+        },
+        "runtime": {
+          "netcoreapp1.0/AES_GCM_Val.dll": {}
+        }
+      },
       "NIST.CVP.Generation.AES/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.6",
@@ -3083,6 +3136,19 @@
     }
   },
   "libraries": {
+    "Autofac/4.2.0": {
+      "sha512": "WHiPMqI8FYa4Mf4yTb0P/aBibHn7Z0B9r02CEXy9oAAkQMJpHxLOE45iIMMW+xthXu26V9nRIz7o5lA7V3ztgw==",
+      "type": "package",
+      "path": "Autofac/4.2.0",
+      "files": [
+        "Autofac.4.2.0.nupkg.sha512",
+        "Autofac.nuspec",
+        "lib/net45/Autofac.dll",
+        "lib/net45/Autofac.xml",
+        "lib/netstandard1.1/Autofac.dll",
+        "lib/netstandard1.1/Autofac.xml"
+      ]
+    },
     "Castle.Core/4.0.0-beta001": {
       "sha512": "AhlzkJEGZddWgUj2Vub2h2p171eETkQzymd4ZSgcxQBZaxgsFSJjQ7I6fLs86nS39+xxsZR3eXaH86DWVrfurA==",
       "type": "package",
@@ -8740,6 +8806,16 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
+    "AES_GCM/1.0.0": {
+      "type": "project",
+      "path": "../../src/AES_GCM/project.json",
+      "msbuildProject": "../../src/AES_GCM/AES_GCM.xproj"
+    },
+    "AES_GCM_Val/1.0.0": {
+      "type": "project",
+      "path": "../../src/AES_GCM_Val/project.json",
+      "msbuildProject": "../../src/AES_GCM_Val/AES_GCM_Val.xproj"
+    },
     "NIST.CVP.Generation.AES/1.0.0": {
       "type": "project",
       "path": "../../src/NIST.CVP.Generation.AES/project.json",
@@ -8763,6 +8839,8 @@
   },
   "projectFileDependencyGroups": {
     "": [
+      "AES_GCM",
+      "AES_GCM_Val",
       "Microsoft.Extensions.Configuration.Json >= 1.1.0",
       "Moq >= 4.6.38-alpha",
       "NIST.CVP.Generation.AES_GCM",

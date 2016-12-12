@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using NIST.CVP.Generation.AES_GCM;
 using NIST.CVP.Generation.AES_GCM.Parsers;
 using NIST.CVP.Math;
 using NUnit.Framework;
@@ -7,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using AES_GCM;
 
-namespace AES_GCM.IntegrationTests
+namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
     [TestFixture]
     public class GeneratorTests
@@ -32,7 +31,7 @@ namespace AES_GCM.IntegrationTests
         [Test]
         public void ShouldReturn1OnNoArgumentsSupplied()
         {
-            var result = AES_GCM.Program.Main(new string[] { });
+            var result = Program.Main(new string[] { });
 
             Assert.AreEqual(1, result);
         }
@@ -40,7 +39,7 @@ namespace AES_GCM.IntegrationTests
         [Test]
         public void ShouldReturn1OnInvalidFileName()
         {
-            var result = AES_GCM.Program.Main(new string[] { $"{Guid.NewGuid()}.json" });
+            var result = Program.Main(new string[] { $"{Guid.NewGuid()}.json" });
 
             Assert.AreEqual(1, result);
         }
@@ -186,7 +185,7 @@ namespace AES_GCM.IntegrationTests
         private void RunGeneration(string targetFolder, string fileName)
         {
             // Run test vector generation
-            var result = AES_GCM.Program.Main(new string[] { fileName });
+            var result = Program.Main(new string[] { fileName });
             Assume.That(result == 0);
 
             Assume.That(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), "testResults");
