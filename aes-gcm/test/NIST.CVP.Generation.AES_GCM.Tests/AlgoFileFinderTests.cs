@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
@@ -10,7 +11,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
     [TestFixture]
     public class AlgoFileFinderTests
     {
-        string _unitTestPath = Path.GetFullPath(@"..\..\TestFiles\AlgoFinderFiles");
+        string _unitTestPath = Utilities.GetConsistentTestingStartPath(@"..\..\TestFiles\AlgoFinderFiles");
         private string _targetFolder;
 
         [OneTimeSetUp]

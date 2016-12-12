@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using NIST.CVP.Generation.AES_GCM.Parsers;
+using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
@@ -10,9 +11,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
     public class LegacyReponseFileParserTests
     {
      
-        private string _unitTestPath = Path.GetFullPath(@"..\..\TestFiles\");
-
-
+        private string _unitTestPath = Utilities.GetConsistentTestingStartPath(@"..\..\TestFiles\");
 
         [Test]
         public void ShouldReturnErrorForNonExistentPath()

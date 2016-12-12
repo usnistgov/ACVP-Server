@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AES_GCM;
+using NIST.CVP.Tests.Core;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
     public class GeneratorTests
     {
 
-        string _testPath = Path.GetFullPath(@"..\..\TestFiles\temp_integrationTests\");
+        string _testPath = Utilities.GetConsistentTestingStartPath(@"..\..\TestFiles\temp_integrationTests\");
         string[] _testVectorFileNames = new string[]
         {
                 "\\testResults.json",
