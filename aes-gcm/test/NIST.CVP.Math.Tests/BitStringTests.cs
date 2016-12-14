@@ -619,6 +619,39 @@ namespace NIST.CVP.Math.Tests
         #region MostSignificant
         [Test]
         [TestCase(
+                new bool[] { false, true, false, true, false, true, false, true },
+                1,
+                new bool[] { true }
+                )]
+        [TestCase(
+                    new bool[] { false, true, false, true, false, true, false, true },
+                    4,
+                    new bool[] { false, true, false, true }
+                )]
+        [TestCase(
+                    new bool[] { false, true, false, true, false, true, false, true },
+                    5,
+                    new bool[] { true, false, true, false, true }
+                )]
+        [TestCase(
+                    new bool[] { false, true, false, true, false, true, false, true },
+                    8,
+                    new bool[] { false, true, false, true, false, true, false, true }
+                )]
+        public void StaticMostSignificantShouldReturnNumberOfDigitsSpecified(bool[] workingArray, int numberOfBits, bool[] expectedArray)
+        {
+            // Arrange
+            BitString bs = new BitString(new BitArray(workingArray));
+
+            // Act
+            var results = BitString.GetMostSignificantBits(numberOfBits, bs);
+
+            // Assert
+            Assert.AreEqual(expectedArray, results.Bits);
+        }
+
+        [Test]
+        [TestCase(
         new bool[] { false, true, false, true, false, true, false, true },
         1,
         new bool[] { true }
@@ -651,7 +684,40 @@ namespace NIST.CVP.Math.Tests
         }
         #endregion MostSignificant
 
-        #region LeftSignificant
+        #region LeastSignificant
+        [Test]
+        [TestCase(
+            new bool[] { false, true, false, true, false, true, false, true },
+            1,
+            new bool[] { false }
+        )]
+        [TestCase(
+            new bool[] { false, true, false, true, false, true, false, true },
+            4,
+            new bool[] { false, true, false, true }
+        )]
+        [TestCase(
+            new bool[] { false, true, false, true, false, true, false, true },
+            5,
+            new bool[] { false, true, false, true, false }
+        )]
+        [TestCase(
+            new bool[] { false, true, false, true, false, true, false, true },
+            8,
+            new bool[] { false, true, false, true, false, true, false, true }
+        )]
+        public void StaticLeastSignificantShouldReturnNumberOfDigitsSpecified(bool[] workingArray, int numberOfBits, bool[] expectedArray)
+        {
+            // Arrange
+            BitString bs = new BitString(new BitArray(workingArray));
+
+            // Act
+            var results = BitString.GetLeastSignificantBits(numberOfBits, bs);
+
+            // Assert
+            Assert.AreEqual(expectedArray, results.Bits);
+        }
+
         [Test]
         [TestCase(
             new bool[] { false, true, false, true, false, true, false, true },
@@ -684,7 +750,7 @@ namespace NIST.CVP.Math.Tests
             // Assert
             Assert.AreEqual(expectedArray, results.Bits);
         }
-        #endregion LeftSignificant
+        #endregion LeastSignificant
 
         #region SubString
         [Test]

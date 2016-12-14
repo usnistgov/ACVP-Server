@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Moq;
 using NIST.CVP.Math;
 using NLog;
 using NLog.Config;
@@ -20,7 +21,6 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         {
             ConfigureLogging();
         }
-
 
         [Test]
         public void ShouldEncryptSuccessfully()
@@ -43,7 +43,6 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             );
             var results = subject.BlockEncrypt(key, plainText, iv, aad, 128);
             Assert.IsTrue(results.Success);
-
 
             var dResults = subject.BlockDecrypt(key, results.CipherText, iv, aad, results.Tag);
             Assert.IsTrue(dResults.Success);
@@ -78,6 +77,56 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             Assert.IsTrue(dResults.Success);
             Assert.AreEqual(plainText, dResults.PlainText);
             Assert.AreEqual(new BitString("4D5C2AF3 27CD64A6 2CF35ABD 2BA6FAB4"), results.Tag);
+        }
+
+        [Test]
+        public void ShouldReturnDecryptionResultWithErrorOnException()
+        {
+            Mock<IAES_GCMInternals> iAes_gcmInternals = new Mock<IAES_GCMInternals>();
+            Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
+            AES_GCM sut = new AES_GCM(iAes_gcmInternals.Object, iRijndaelFactory.Object);
+            string exceptionMessage = "Something bad happened.";
+
+            iRijndaelFactory
+                .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
+                .Throws(new Exception(exceptionMessage));
+
+            var results = sut.BlockDecrypt(
+                new BitString(0),
+                new BitString(0),
+                new BitString(0),
+                new BitString(0),
+                new BitString(0)
+            );
+
+            Assert.IsFalse(results.Success, nameof(results));
+            Assert.IsInstanceOf<DecryptionResult>(results, $"{nameof(results)} type");
+            Assert.AreEqual(exceptionMessage, results.ErrorMessage, nameof(exceptionMessage));
+        }
+
+        [Test]
+        public void ShouldReturnEncryptionResultWithErrorOnException()
+        {
+            Mock<IAES_GCMInternals> iAes_gcmInternals = new Mock<IAES_GCMInternals>();
+            Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
+            AES_GCM sut = new AES_GCM(iAes_gcmInternals.Object, iRijndaelFactory.Object);
+            string exceptionMessage = "Something bad happened, sorry about that.";
+
+            iRijndaelFactory
+                .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
+                .Throws(new Exception(exceptionMessage));
+
+            var results = sut.BlockEncrypt(
+                new BitString(0),
+                new BitString(0),
+                new BitString(0),
+                new BitString(0),
+                It.IsAny<int>()
+            );
+
+            Assert.IsFalse(results.Success, nameof(results));
+            Assert.IsInstanceOf<EncryptionResult>(results, $"{nameof(results)} type");
+            Assert.AreEqual(exceptionMessage, results.ErrorMessage, nameof(exceptionMessage));
         }
 
         private Logger ThisLogger

@@ -5,10 +5,8 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM.Resolvers
 {
-    public class ResultResolver: ResolverBase
+    public class ResultResolver : ResolverBase
     {
-        public static readonly ResultResolver Instance = new ResultResolver();
-
         protected override string[] IgnoreProperties
         {
             get { return new[] {"testgroups", "answerprojection"}; }

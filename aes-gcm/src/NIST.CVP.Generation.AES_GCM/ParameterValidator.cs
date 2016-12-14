@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.AES_GCM
             {
                 errorResults.Add(result);
             }
-            result = ValidateMultipleOf(parameters.PtLen, true, 8, "Plaintext length (multiples check)");
+            result = ValidateMultipleOf(parameters.PtLen, 8, "Plaintext length (multiples check)");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
@@ -89,7 +89,7 @@ namespace NIST.CVP.Generation.AES_GCM
             {
                 errorResults.Add(result);
             }
-            result = ValidateMultipleOf(parameters.aadLen, true, 8, "AAD length (multiples check)");
+            result = ValidateMultipleOf(parameters.aadLen, 8, "AAD length (multiples check)");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
@@ -103,7 +103,7 @@ namespace NIST.CVP.Generation.AES_GCM
             {
                 errorResults.Add(result);
             }
-            result = ValidateMultipleOf(parameters.ivLen, true, 8, "IV length (multiples check)");
+            result = ValidateMultipleOf(parameters.ivLen, 8, "IV length (multiples check)");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
@@ -193,27 +193,18 @@ namespace NIST.CVP.Generation.AES_GCM
             return null;
         }
 
-        private string ValidateMultipleOf(int[] supplied, bool checkIsMultipleOf, int multiple, string friendlyName)
+        private string ValidateMultipleOf(int[] supplied, int multiple, string friendlyName)
         {
             if (supplied == null || supplied.Length == 0)
             {
                 return $"No {friendlyName} supplied.";
             }
 
-            int[] invalid;
-            if (checkIsMultipleOf)
-            {
-                invalid = supplied.Where(w => w % multiple != 0).ToArray();
-            }
-            else
-            {
-                invalid = supplied.Where(w => w % multiple == 0).ToArray();
-            }
+            int[] invalid = supplied.Where(w => w % multiple != 0).ToArray();
 
             if (invalid.Count() != 0)
             {
-                string invalidMessagePart = checkIsMultipleOf ? "were" : "were not";
-                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}.  Values {invalidMessagePart} a multiple of {multiple}";
+                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}.  Values were not a multiple of {multiple}";
             }
 
             return null;

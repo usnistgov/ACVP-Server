@@ -12,6 +12,23 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
     [TestFixture]
     public class TestCaseGeneratorExternalEncryptTests
     {
+        [Test]
+        public void ShouldReturnExternal()
+        {
+            TestCaseGeneratorExternalEncrypt sut =
+                new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, GetAESMock().Object);
+
+            Assert.AreEqual("external", sut.IVGen);
+        }
+
+        [Test]
+        public void ShouldReturnEncrypt()
+        {
+            TestCaseGeneratorExternalEncrypt sut =
+                new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, GetAESMock().Object);
+
+            Assert.AreEqual("encrypt", sut.Direction);
+        }
 
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()

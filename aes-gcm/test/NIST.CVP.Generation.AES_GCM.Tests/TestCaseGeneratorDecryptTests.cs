@@ -13,6 +13,24 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
     public class TestCaseGeneratorDecryptTests
     {
         [Test]
+        public void ShouldReturnInternal()
+        {
+            TestCaseGeneratorDecrypt sut =
+                new TestCaseGeneratorDecrypt(GetRandomMock().Object, GetAESMock().Object);
+
+            Assert.AreEqual("internal", sut.IVGen);
+        }
+
+        [Test]
+        public void ShouldReturnDecrypt()
+        {
+            TestCaseGeneratorDecrypt sut =
+                new TestCaseGeneratorDecrypt(GetRandomMock().Object, GetAESMock().Object);
+
+            Assert.AreEqual("decrypt", sut.Direction);
+        }
+
+        [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
             TestCaseGeneratorDecrypt sut =

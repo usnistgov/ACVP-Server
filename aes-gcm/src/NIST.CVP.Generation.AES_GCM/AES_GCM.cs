@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.AES_GCM
                         .ConcatenateBits(BitString.To64BitString(cipherText.BitLength));
 
                 var s = GHash(h,decryptedBits);
-                var tagPrime = MSB(tag.BitLength, GCTR(j0, s, key));
+                var tagPrime = BitString.GetMostSignificantBits(tag.BitLength, GCTR(j0, s, key));
                 if (!tag.Equals(tagPrime))
                 {
                     ThisLogger.Debug(plainText.ToHex());
@@ -68,7 +68,6 @@ namespace NIST.CVP.Generation.AES_GCM
         public EncryptionResult BlockEncrypt(BitString keyBits, BitString data, BitString iv, BitString aad, int tagLength)
         {
             try
-
             {
                 ThisLogger.Debug($"ivLen: {iv.BitLength}, klen: {keyBits.BitLength}");
                 ThisLogger.Debug($"iv: {iv.ToHex()}");
@@ -98,7 +97,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 ThisLogger.Debug($"encrBits: {encryptedBits.ToHex()}");
                 var s = GHash(h, encryptedBits);
                 ThisLogger.Debug($"s: {s.ToHex()}");
-                var tag = MSB(tagLength, GCTR(j0, s, key));
+                var tag = BitString.GetMostSignificantBits(tagLength, GCTR(j0, s, key));
                 ThisLogger.Debug($"Tag: {tag.ToHex()}");
                 return new EncryptionResult(cipherText, tag);
             }
@@ -143,21 +142,6 @@ namespace NIST.CVP.Generation.AES_GCM
         private BitString inc_s(int s, BitString X)
         {
             return _iAES_GCMInternals.inc_s(s, X);
-        }
-
-        private BitString LSB(int numBits, BitString x)
-        {
-            return _iAES_GCMInternals.LSB(numBits, x);
-        }
-
-        private BitString MSB(int numBits, BitString x)
-        {
-            return _iAES_GCMInternals.MSB(numBits, x);
-        }
-
-        private BitString BlockProduct(BitString x, BitString y)
-        {
-            return _iAES_GCMInternals.BlockProduct(x, y);
         }
 
         private Logger ThisLogger

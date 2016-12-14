@@ -12,6 +12,23 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
     [TestFixture]
     public class TestCaseGeneratorInternalEncryptTests
     {
+        [Test]
+        public void ShouldReturnInternal()
+        {
+            TestCaseGeneratorInternalEncrypt sut =
+                new TestCaseGeneratorInternalEncrypt(GetRandomMock().Object, GetAESMock().Object);
+
+            Assert.AreEqual("internal", sut.IVGen);
+        }
+
+        [Test]
+        public void ShouldReturnEncrypt()
+        {
+            TestCaseGeneratorInternalEncrypt sut =
+                new TestCaseGeneratorInternalEncrypt(GetRandomMock().Object, GetAESMock().Object);
+
+            Assert.AreEqual("encrypt", sut.Direction);
+        }
 
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
@@ -23,6 +40,40 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
             Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+        }
+
+        [Test]
+        public void GenerateShouldReturnNullITestCaseOnFailedEncryption()
+        {
+            var aes = GetAESMock();
+            aes
+                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
+                .Returns(new EncryptionResult("Fail"));
+
+            TestCaseGeneratorInternalEncrypt sut =
+                new TestCaseGeneratorInternalEncrypt(GetRandomMock().Object, aes.Object);
+
+            var result = sut.Generate(new TestGroup(), true);
+
+            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
+            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
+        }
+
+        [Test]
+        public void GenerateShouldReturnNullITestCaseOnExceptionEncryption()
+        {
+            var aes = GetAESMock();
+            aes
+                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
+                .Throws(new Exception());
+
+            TestCaseGeneratorInternalEncrypt sut =
+                new TestCaseGeneratorInternalEncrypt(GetRandomMock().Object, aes.Object);
+
+            var result = sut.Generate(new TestGroup(), true);
+
+            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
+            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
         }
 
         [Test]

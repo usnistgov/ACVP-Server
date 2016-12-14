@@ -275,14 +275,24 @@ namespace NIST.CVP.Math
             return new BitString(new BitArray(bits));
         }
 
+        public static BitString GetMostSignificantBits(int numBits, BitString bitString)
+        {
+            return BitString.Substring(bitString, bitString.BitLength - numBits, numBits);
+        }
+
         public BitString GetMostSignificantBits(int numBits)
         {
-            return Substring(BitLength - numBits, numBits);
+            return BitString.GetMostSignificantBits(numBits, this);
+        }
+
+        public static BitString GetLeastSignificantBits(int numBits, BitString bitString)
+        {
+            return BitString.Substring(bitString, 0, numBits);
         }
 
         public BitString GetLeastSignificantBits(int numBits)
         {
-            return Substring(0, numBits);
+            return BitString.GetLeastSignificantBits(numBits, this);
         }
 
         public override int GetHashCode()
@@ -358,12 +368,9 @@ namespace NIST.CVP.Math
 
         private static BitString PadShorterBitStringWithZeroes(BitString longerBitString, BitString shorterBitString)
         {
-            //int arrayOffset = longerBitString.Length - shorterBitString.Length;
-
             BitArray newArray = new BitArray(longerBitString.BitLength);
             for (int i = 0; i < shorterBitString.BitLength; i++)
             {
-                //newArray[i + arrayOffset] = shorterBitString.Bits[i];
                 newArray[i] = shorterBitString.Bits[i];
             }
 
