@@ -49,7 +49,25 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             var source = GetSubject(2).ToDynamic();
             var subject = new TestVectorSet(source, source);
             Assert.AreEqual(2, subject.TestGroups.Count);
+        }
 
+        [Test]
+        public void ShouldFailToReconstituteTestVectorSetWhenNotMatched()
+        {
+            var answers = GetSubject();
+            var prompts = GetSubject();
+
+            Random800_90 rand = new Random800_90();
+
+            foreach (var testGroup in prompts.TestGroups)
+            {
+                testGroup.Tests.Clear();
+            }
+
+            Assert.Throws(
+                Is.TypeOf<Exception>()
+                    .And.Message.EqualTo("Could not reconstitute TestVectorSet from supplied answers and prompts"),
+                () => new TestVectorSet(answers.ToDynamic(), prompts.ToDynamic()));
         }
 
         // @@@ possible to get strong typing out of projection?

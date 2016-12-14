@@ -11,7 +11,13 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
     public class LegacyReponseFileParserTests
     {
      
-        private string _unitTestPath = Utilities.GetConsistentTestingStartPath(@"..\..\TestFiles\");
+        private string _unitTestPath;
+
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\");
+        }
 
         [Test]
         public void ShouldReturnErrorForNonExistentPath()

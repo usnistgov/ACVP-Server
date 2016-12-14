@@ -59,10 +59,5 @@ namespace NIST.CVP.Generation.AES_GCM
             }
             return testGroups;
         }
-
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetLogger("Generator"); }
-        }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
@@ -21,7 +22,6 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             Assert.IsNotNull(subject);
            
         }
-
 
         [Test]
         public void ShouldSetProperIVGenFromDynamicAnswer()
@@ -42,8 +42,6 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             Assert.AreEqual(sourceAnswer.ivGenMode, subject.IVGenerationMode);
 
         }
-
-
 
         [Test]
         public void ShouldSetProperAADLengthFromDynamicAnswer()
@@ -116,6 +114,45 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         {
             var subject = new TestGroup();
             var result = subject.SetString("ivlen", value);
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void ShouldReturnFalseIfMergeFails()
+        {
+            Random800_90 rand = new Random800_90();
+            var testCase = new TestCase()
+            {
+                AAD = rand.GetRandomBitString(8),
+                Key = rand.GetRandomBitString(8),
+                CipherText = null,
+                Tag = rand.GetRandomBitString(8),
+                PlainText = null,
+                IV = rand.GetRandomBitString(8),
+                TestCaseId = 42
+            };
+
+            List<ITestCase> testCases = new List<ITestCase>
+            {
+                testCase
+            };
+
+            TestGroup tg = new TestGroup()
+            {
+                Tests = testCases
+            };
+
+            var result = tg.MergeTests(testCases);
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void ShouldReturnFalseIfPassObjectCannotCast()
+        {
+            var subject = new TestGroup();
+            var result = subject.Equals(null);
+
             Assert.IsFalse(result);
         }
 

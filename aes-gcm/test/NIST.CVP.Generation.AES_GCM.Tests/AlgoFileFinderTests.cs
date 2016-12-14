@@ -11,12 +11,13 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
     [TestFixture]
     public class AlgoFileFinderTests
     {
-        string _unitTestPath = Utilities.GetConsistentTestingStartPath(@"..\..\TestFiles\AlgoFinderFiles");
+        string _unitTestPath;
         private string _targetFolder;
 
         [OneTimeSetUp]
         public void Setup()
         {
+            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\AlgoFinderFiles");
             _targetFolder = Path.Combine(_unitTestPath, Guid.NewGuid().ToString());
             Directory.CreateDirectory(_targetFolder);
         }

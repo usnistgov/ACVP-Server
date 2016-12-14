@@ -14,14 +14,19 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
     [TestFixture]
     public class GeneratorTests
     {
-
-        string _testPath = Utilities.GetConsistentTestingStartPath(@"..\..\TestFiles\temp_integrationTests\");
+        string _testPath;
         string[] _testVectorFileNames = new string[]
         {
                 "\\testResults.json",
                 "\\prompt.json",
                 "\\answer.json"
         };
+
+        [OneTimeSetUp]
+        public void Setup()
+        {
+             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
+        }
 
         [OneTimeTearDown]
         public void Teardown()
@@ -44,7 +49,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 
             Assert.AreEqual(1, result);
         }
-
+        
         [Test]
         public void ShouldCreateTestVectors()
         {

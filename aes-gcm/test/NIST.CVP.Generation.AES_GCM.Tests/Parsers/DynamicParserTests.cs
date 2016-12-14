@@ -10,7 +10,13 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
     [TestFixture]
     public class DynamicParserTests
     {
-        string _unitTestPath = Utilities.GetConsistentTestingStartPath(@"..\..\TestFiles");
+        string _unitTestPath;
+
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles");
+        }
 
         [Test]
         public void ShouldReturnErrorForNonExistentPath()
@@ -45,7 +51,6 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
         private DynamicParser GetSubject()
         {
             return new DynamicParser();
-
         }
     }
 }

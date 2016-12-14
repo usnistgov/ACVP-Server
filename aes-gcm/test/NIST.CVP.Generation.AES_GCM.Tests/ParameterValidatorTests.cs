@@ -19,6 +19,32 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         }
 
         [Test]
+        public void ShouldReturnErrorWithNullTagSupplied()
+        {
+            ParameterValidator sut = new ParameterValidator();
+            var result = sut.Validate(
+                new ParameterBuilder()
+                    .WithTagLen(null)
+                    .Build()
+            );
+
+            Assert.IsFalse(result.Success);
+        }
+
+        [Test]
+        public void ShouldReturnErrorWithNullPtLengthSupplied()
+        {
+            ParameterValidator sut = new ParameterValidator();
+            var result = sut.Validate(
+                new ParameterBuilder()
+                    .WithPtLen(null)
+                    .Build()
+            );
+
+            Assert.IsFalse(result.Success);
+        }
+
+        [Test]
         [TestCase(null, 0)]
         [TestCase(new int[] { }, 0)]
         [TestCase(new int[] { -1 }, 0)]
@@ -43,7 +69,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             new object[] { "null", null },
             new object[] { "empty", new string[] { } },
             new object[] { "Invalid value", new string[] { "notValid" } },
-            new object[] { "Partially valid", new string[] { "encrypt", "notValid" } }
+            new object[] { "Partially valid", new string[] { "encrypt", "notValid" } },
+            new object[] { "Partially valid w/ null", new string[] { "encrypt", null } }
         };
         [Test]
         [TestCaseSource(nameof(directionTestCases))]

@@ -20,6 +20,23 @@ namespace NIST.CVP.Generation.AES.Tests
             _sut = new RijndaelTest(_mockIRijndaelInternals.Object);
         }
 
+        [Test]
+        public void ShouldThrowNotImplementedException()
+        {
+            Assert.Throws(
+                typeof(NotImplementedException),
+                () => _sut.BlockEncrypt(
+                    new Cipher()
+                    {
+                        BlockLength = 8
+                    }, 
+                    new Key(),
+                    new byte[] { }, 
+                    8
+                )
+            );
+        }
+
         #region MakeKey
         static object[] makeKeyTestData = new object[]
         {

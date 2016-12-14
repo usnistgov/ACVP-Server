@@ -170,6 +170,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         #endregion GHash
 
         #region GCTR
+        [Test]
         public void GCTRShouldReturnNullWhenIcbBitLengthNot128()
         {
             BitString icb = new BitString(127);
