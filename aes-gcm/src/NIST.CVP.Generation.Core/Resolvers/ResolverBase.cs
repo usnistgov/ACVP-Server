@@ -3,7 +3,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace NIST.CVP.Generation.AES_GCM.Resolvers
+namespace NIST.CVP.Generation.Core.Resolvers
 {
     public abstract class ResolverBase : CamelCasePropertyNamesContractResolver
     {

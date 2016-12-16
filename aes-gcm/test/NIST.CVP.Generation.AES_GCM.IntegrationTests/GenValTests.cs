@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AES_GCM;
+using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests

@@ -8,6 +8,7 @@ using NIST.CVP.Generation.AES_GCM;
 using NIST.CVP.Generation.AES_GCM.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Generation.AES;
+using NIST.CVP.Generation.Core.Parsers;
 
 namespace AES_GCM_Val
 {

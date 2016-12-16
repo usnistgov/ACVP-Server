@@ -2,7 +2,7 @@
   "profiles": {
     "AES_GCM": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\def2\\Documents\\UnitTests\\ACAVP\\capabilities.json\""
+      "commandLineArgs": "\"C:\\Users\\def2\\Documents\\UnitTests\\ACAVP\\capabilitiesSample.json\""
     }
   }
 }

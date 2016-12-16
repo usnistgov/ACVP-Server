@@ -4,27 +4,19 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.AES_GCM.Parsers;
-using NIST.CVP.Generation.AES_GCM.Resolvers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Resolvers;
 using NIST.CVP.Math;
 using NLog;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class Generator
+    public class Generator : GeneratorBase
     {
-        public const int NUMBER_OF_CASES = 15; //@@@Make configurable
         private readonly ITestVectorFactory _testVectorFactory;
         private readonly ITestCaseGeneratorFactory _testCaseGeneratorFactory;
         private readonly IParameterParser _parameterParser;
         private readonly IParameterValidator _parameterValidator;
-    
-        public readonly List<JsonOutputDetail> JsonOutputs = new List<JsonOutputDetail>
-        {
-            new JsonOutputDetail { OutputFileName = "answer.json", Resolver = new AnswerResolver()},
-            new JsonOutputDetail { OutputFileName = "prompt.json", Resolver = new PromptResolver()},
-            new JsonOutputDetail { OutputFileName = "testResults.json", Resolver = new ResultResolver()},
-        };
 
         public Generator(ITestVectorFactory testVectorFactory, IParameterParser parameterParser, IParameterValidator parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
         {
@@ -66,52 +58,7 @@ namespace NIST.CVP.Generation.AES_GCM
                     testId++;
                 }
             }   
-            var outputDirPath = Path.GetDirectoryName(requestFilePath);
-            foreach (var jsonOutput in JsonOutputs)
-            {
-                var saveResult = SaveProjectionToFile(outputDirPath, testVector, jsonOutput);
-                if (!string.IsNullOrEmpty(saveResult))
-                {
-                    return  new GenerateResponse(saveResult);
-                }
-            }
-
-            return new GenerateResponse();
-        }
-        private string SaveProjectionToFile(string outputPath, ITestVectorSet testVectorSet, JsonOutputDetail jsonOutput)
-        {
-            //serialize to file
-            var json = JsonConvert.SerializeObject(testVectorSet, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    ContractResolver = jsonOutput.Resolver,
-                    Converters = new List<JsonConverter> { new BitstringConverter() },
-                    NullValueHandling = NullValueHandling.Ignore
-                });
-            return SaveToFile(outputPath, jsonOutput.OutputFileName, json);
-            
-        }
-
-        private string SaveToFile(string fileRoot, string fileName, string json)
-        {
-            string path = Path.Combine(fileRoot, fileName);
-            try
-            {
-                File.WriteAllText(path, json);
-                return null;
-            }
-            catch (Exception ex)
-            {
-                ThisLogger.Error(ex);
-                return $"Could not create {path}";
-            }
-        }
-
-     
-
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
+            return SaveOutputs(requestFilePath, testVector);
         }
     }
 }

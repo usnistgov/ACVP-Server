@@ -1,6 +1,4 @@
-﻿using NIST.CVP.Generation.Core;
-
-namespace NIST.CVP.Generation.AES_GCM.Parsers
+﻿namespace NIST.CVP.Generation.Core.Parsers
 {
     public interface IDynamicParser
     {

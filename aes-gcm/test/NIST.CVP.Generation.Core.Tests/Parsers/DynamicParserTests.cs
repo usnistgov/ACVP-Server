@@ -1,22 +1,14 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
-using NIST.CVP.Generation.AES_GCM.Parsers;
-using NIST.CVP.Tests.Core;
+using NIST.CVP.Generation.Core.Parsers;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
+namespace NIST.CVP.Generation.Core.Tests.Parsers
 {
     [TestFixture]
     public class DynamicParserTests
     {
-        string _unitTestPath;
-
-        [OneTimeSetUp]
-        public void Setup()
-        {
-            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles");
-        }
+        string _unitTestPath = Path.GetFullPath(@"..\..\TestFiles");
 
         [Test]
         public void ShouldReturnErrorForNonExistentPath()
@@ -45,12 +37,13 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
             var path = Path.Combine(_unitTestPath, "answer.json");
             var result = subject.Parse(path);
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Success, _unitTestPath);
+            Assert.IsTrue(result.Success);
         }
 
         private DynamicParser GetSubject()
         {
             return new DynamicParser();
+
         }
     }
 }

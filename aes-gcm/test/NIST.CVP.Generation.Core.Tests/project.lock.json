@@ -3014,40 +3014,6 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "NIST.CVP.Generation.AES/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v1.6",
-        "dependencies": {
-          "Microsoft.Extensions.Configuration.Json": "1.1.0",
-          "NETStandard.Library": "1.6.0",
-          "NIST.CVP.Math": "1.0.0"
-        },
-        "compile": {
-          "netstandard1.6/NIST.CVP.Generation.AES.dll": {}
-        },
-        "runtime": {
-          "netstandard1.6/NIST.CVP.Generation.AES.dll": {}
-        }
-      },
-      "NIST.CVP.Generation.AES_GCM/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v1.6",
-        "dependencies": {
-          "Microsoft.Extensions.Configuration.Json": "1.1.0",
-          "NETStandard.Library": "1.6.0",
-          "NIST.CVP.Generation.AES": "1.0.0",
-          "NIST.CVP.Generation.Core": "1.0.0",
-          "NIST.CVP.Math": "1.0.0",
-          "NLog": "4.4.0-betaV15",
-          "Newtonsoft.Json": "9.0.1"
-        },
-        "compile": {
-          "netstandard1.6/NIST.CVP.Generation.AES_GCM.dll": {}
-        },
-        "runtime": {
-          "netstandard1.6/NIST.CVP.Generation.AES_GCM.dll": {}
-        }
-      },
       "NIST.CVP.Generation.Core/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.6",
@@ -3078,21 +3044,6 @@
         },
         "runtime": {
           "netstandard1.6/NIST.CVP.Math.dll": {}
-        }
-      },
-      "NIST.CVP.Tests.Core/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v1.0",
-        "dependencies": {
-          "Microsoft.NETCore.App": "1.0.1",
-          "NUnit": "3.5.0",
-          "dotnet-test-nunit": "3.4.0-beta-3"
-        },
-        "compile": {
-          "netcoreapp1.0/NIST.CVP.Tests.Core.dll": {}
-        },
-        "runtime": {
-          "netcoreapp1.0/NIST.CVP.Tests.Core.dll": {}
         }
       }
     }
@@ -8755,16 +8706,6 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "NIST.CVP.Generation.AES/1.0.0": {
-      "type": "project",
-      "path": "../../src/NIST.CVP.Generation.AES/project.json",
-      "msbuildProject": "../../src/NIST.CVP.Generation.AES/NIST.CVP.Generation.AES.xproj"
-    },
-    "NIST.CVP.Generation.AES_GCM/1.0.0": {
-      "type": "project",
-      "path": "../../src/NIST.CVP.Generation.AES_GCM/project.json",
-      "msbuildProject": "../../src/NIST.CVP.Generation.AES_GCM/NIST.CVP.Generation.AES_GCM.xproj"
-    },
     "NIST.CVP.Generation.Core/1.0.0": {
       "type": "project",
       "path": "../../src/NIST.CVP.Generation.Core/project.json",
@@ -8774,20 +8715,13 @@
       "type": "project",
       "path": "../../src/NIST.CVP.Math/project.json",
       "msbuildProject": "../../src/NIST.CVP.Math/NIST.CVP.Math.xproj"
-    },
-    "NIST.CVP.Tests.Core/1.0.0": {
-      "type": "project",
-      "path": "../NIST.CVP.Tests.Core/project.json",
-      "msbuildProject": "../NIST.CVP.Tests.Core/NIST.CVP.Tests.Core.xproj"
     }
   },
   "projectFileDependencyGroups": {
     "": [
       "Microsoft.Extensions.Configuration.Json >= 1.1.0",
       "Moq >= 4.6.38-alpha",
-      "NIST.CVP.Generation.AES_GCM",
-      "NIST.CVP.Generation.Core >= 1.0.0-*",
-      "NIST.CVP.Tests.Core",
+      "NIST.CVP.Generation.Core",
       "NLog >= 4.4.0-betaV15",
       "NUnit >= 3.5.0",
       "dotnet-test-nunit >= 3.4.0-beta-3"

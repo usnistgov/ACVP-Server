@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using NIST.CVP.Generation.Core;
 using NLog;
 
-namespace NIST.CVP.Generation.AES_GCM.Parsers
+namespace NIST.CVP.Generation.Core.Parsers
 {
     public class DynamicParser : IDynamicParser
     { 

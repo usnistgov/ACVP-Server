@@ -9,6 +9,7 @@ using Castle.Components.DictionaryAdapter;
 using Moq;
 using NIST.CVP.Generation.AES_GCM.Parsers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Parsers;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
