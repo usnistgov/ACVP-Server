@@ -8,35 +8,37 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{406519E2-A1E3-4F17-BDFF-E6BF6B989903}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		..\..\aes-gcm\src\global.json = ..\..\aes-gcm\src\global.json
+		..\..\aes-gcm\test\global.json = ..\..\aes-gcm\test\global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES_GCM", "src\NIST.CVP.Generation.AES_GCM\NIST.CVP.Generation.AES_GCM.xproj", "{B4F92259-AB1C-4E73-B834-87744C9F70D7}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES_GCM", "..\..\aes-gcm\src\NIST.CVP.Generation.AES_GCM\NIST.CVP.Generation.AES_GCM.xproj", "{B4F92259-AB1C-4E73-B834-87744C9F70D7}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.Core", "src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.xproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.xproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Math", "src\NIST.CVP.Math\NIST.CVP.Math.xproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.xproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AES_GCM", "src\AES_GCM\AES_GCM.xproj", "{811D42AD-09B7-4C2C-ABCD-B2A51E8DF850}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AES_GCM", "..\..\aes-gcm\src\AES_GCM\AES_GCM.xproj", "{811D42AD-09B7-4C2C-ABCD-B2A51E8DF850}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AES_GCM_Val", "src\AES_GCM_Val\AES_GCM_Val.xproj", "{F0F97792-9E2A-43B9-ACA4-97F494BB94DA}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AES_GCM_Val", "..\..\aes-gcm\src\AES_GCM_Val\AES_GCM_Val.xproj", "{F0F97792-9E2A-43B9-ACA4-97F494BB94DA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5AF6D6AA-1986-49F0-AE30-7CDC09D8F015}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Math.Tests", "test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.xproj", "{A3BDD4CF-B9E9-4E8A-856A-C757549F8817}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Math.Tests", "..\..\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.xproj", "{A3BDD4CF-B9E9-4E8A-856A-C757549F8817}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES_GCM.Tests", "test\NIST.CVP.Generation.AES_GCM.Tests\NIST.CVP.Generation.AES_GCM.Tests.xproj", "{12946645-762F-4F68-966B-E79A59D1AED5}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES_GCM.Tests", "..\..\aes-gcm\test\NIST.CVP.Generation.AES_GCM.Tests\NIST.CVP.Generation.AES_GCM.Tests.xproj", "{12946645-762F-4F68-966B-E79A59D1AED5}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES", "src\NIST.CVP.Generation.AES\NIST.CVP.Generation.AES.xproj", "{34AE5697-F226-4781-BCC8-5F49148BAAEA}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES", "..\..\common\src\NIST.CVP.Generation.AES\NIST.CVP.Generation.AES.xproj", "{34AE5697-F226-4781-BCC8-5F49148BAAEA}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES.Tests", "test\NIST.CVP.Generation.AES.Tests\NIST.CVP.Generation.AES.Tests.xproj", "{476BF88E-A8F8-47A5-8FB4-3F7C96997068}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES.Tests", "..\..\common\test\NIST.CVP.Generation.AES.Tests\NIST.CVP.Generation.AES.Tests.xproj", "{476BF88E-A8F8-47A5-8FB4-3F7C96997068}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AES_GCM_Harvest", "src\AES_GCM_Harvest\AES_GCM_Harvest.xproj", "{65FCE0FF-D8B5-42C3-A878-A33E4196E6EF}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AES_GCM_Harvest", "..\..\aes-gcm\src\AES_GCM_Harvest\AES_GCM_Harvest.xproj", "{65FCE0FF-D8B5-42C3-A878-A33E4196E6EF}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES_GCM.IntegrationTests", "test\NIST.CVP.Generation.AES_GCM.IntegrationTests\NIST.CVP.Generation.AES_GCM.IntegrationTests.xproj", "{88B606AC-7B26-4F3D-B400-7B0664AB1116}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES_GCM.IntegrationTests", "..\..\aes-gcm\test\NIST.CVP.Generation.AES_GCM.IntegrationTests\NIST.CVP.Generation.AES_GCM.IntegrationTests.xproj", "{88B606AC-7B26-4F3D-B400-7B0664AB1116}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Tests.Core", "test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.xproj", "{5C3D7A24-3267-4BF6-9413-0B7E8291B6A1}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.xproj", "{5C3D7A24-3267-4BF6-9413-0B7E8291B6A1}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.Core.Tests", "test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.xproj", "{ACD3221B-E9F1-40D2-90C7-65BAC0A1B265}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.Core.Tests", "..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.xproj", "{ACD3221B-E9F1-40D2-90C7-65BAC0A1B265}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
