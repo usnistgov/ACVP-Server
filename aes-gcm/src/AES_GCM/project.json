@@ -14,7 +14,7 @@
     "NIST.CVP.Generation.AES": "1.0.0-*",
     "NIST.CVP.Generation.AES_GCM": "1.0.0-*",
     "NIST.CVP.Generation.Core": "1.0.0-*",
-    "NIST.CVP.Math": "1.0.0-*",
+    "NIST.CVP.Math": "1.0.0.0-*",
     "NLog": "4.4.0-betaV15"
   },
 

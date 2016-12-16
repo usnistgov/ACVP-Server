@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.Core.Tests.Parsers
@@ -8,7 +9,13 @@ namespace NIST.CVP.Generation.Core.Tests.Parsers
     [TestFixture]
     public class DynamicParserTests
     {
-        string _unitTestPath = Path.GetFullPath(@"..\..\TestFiles");
+        private string _unitTestPath;
+
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles");
+        }
 
         [Test]
         public void ShouldReturnErrorForNonExistentPath()

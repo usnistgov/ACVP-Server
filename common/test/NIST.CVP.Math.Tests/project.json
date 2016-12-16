@@ -2,7 +2,7 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "NIST.CVP.Math": { "target": "project" },
+    "NIST.CVP.Math": "1.0.0-*",
     "NUnit": "3.5.0",
     "NLog": "4.4.0-betaV15",
     "dotnet-test-nunit": "3.4.0-beta-3",
