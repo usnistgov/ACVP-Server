@@ -9,7 +9,8 @@ namespace NIST.CVP.Generation.Core
     public abstract class AlgoFileFinderBase
     {
         public abstract string Name { get; }
-
+        public virtual string FilePrefix { get { return null; } }
+        public bool UseFilePrefix { get { return !string.IsNullOrEmpty(FilePrefix); } }
         private Logger ThisLogger
         {
             get { return LogManager.GetCurrentClassLogger(); }
@@ -29,7 +30,7 @@ namespace NIST.CVP.Generation.Core
 
         private int WalkDirectory(DirectoryInfo folder, string targetDirectory, string fileFolderName)
         {
-            //if aes_gcm grab files
+            //if folder grab files
             if (folder.Name == Name)
             {
                 return CopyFilesToTarget(folder, targetDirectory, fileFolderName);
@@ -87,13 +88,27 @@ namespace NIST.CVP.Generation.Core
                 return -1;
             }
 
-            foreach (var file in requestedChildFolder.GetFiles())
+            if (UseFilePrefix)
             {
-                string targetFileName = file.Name.Replace(".", $"_{Guid.NewGuid()}.");
-                string targetFilePath = Path.Combine(targetDirectory, targetFileName);
-                File.Copy(file.FullName, targetFilePath );
-                filesCopied++;
+                foreach (var file in requestedChildFolder.GetFiles($"{FilePrefix}*.*"))
+                {
+                    string targetFileName = file.Name.Replace(".", $"_{Guid.NewGuid()}.");
+                    string targetFilePath = Path.Combine(targetDirectory, targetFileName);
+                    File.Copy(file.FullName, targetFilePath);
+                    filesCopied++;
+                }
             }
+            else
+            {
+                foreach (var file in requestedChildFolder.GetFiles())
+                {
+                    string targetFileName = file.Name.Replace(".", $"_{Guid.NewGuid()}.");
+                    string targetFilePath = Path.Combine(targetDirectory, targetFileName);
+                    File.Copy(file.FullName, targetFilePath);
+                    filesCopied++;
+                }
+            }
+          
 
             return filesCopied;
         }

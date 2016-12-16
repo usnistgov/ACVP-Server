@@ -7,7 +7,7 @@ using System.Numerics;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class ParameterValidator : IParameterValidator
+    public class ParameterValidator : ParameterValidatorBase, IParameterValidator
     {
         // @@@ better way to do this without having to redefine valid values in tests?
    
@@ -126,88 +126,6 @@ namespace NIST.CVP.Generation.AES_GCM
             }
         }
 
-        //@@@make generic, move to base class?
-        private string ValidateArray(int[] supplied, int[] valid, string friendlyName)
-        {
-            if (supplied == null || supplied.Length == 0)
-            {
-                return $"No {friendlyName} supplied.";
-            }
-            var intersection = supplied.Intersect(valid);
-            if (intersection.Count() != supplied.Length)
-            {
-                var invalid = supplied.Except(valid);
-                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}";
-            }
-            return null;
-        }
 
-        private string ValidateArray(string[] supplied, string[] valid, string friendlyName)
-        {              
-            if (supplied == null || supplied.Length == 0)
-            {
-                return $"No {friendlyName} supplied.";
-            }
-            if (supplied.Contains(null))
-            {
-                return $"{friendlyName} Contains null value.";
-            }
-
-            var intersection = supplied.Select(v => v.ToLower()).Intersect(valid);
-            if (intersection.Count() != supplied.Length)
-            {
-                var invalid = supplied.Except(valid);
-                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}";
-            }
-            return null;
-        }
-
-        private string ValidateValue(string supplied, string[] validValues, string friendlyName)
-        {
-            if (string.IsNullOrEmpty(supplied))
-            {
-                return $"No {friendlyName} supplied.";
-            }
-
-            if (!validValues.Contains(supplied))
-            {
-                return $"Invalid {friendlyName} supplied: {supplied}";
-            }
-
-            return null;
-        }
-
-        private string ValidateRange(int[] supplied, int minInclusive, int maxInclusive, string friendlyName)
-        {
-            if (supplied == null || supplied.Length == 0)
-            {
-                return $"No {friendlyName} supplied.";
-            }
-
-            var invalid = supplied.Where(w => w < minInclusive || w > maxInclusive);
-            if (invalid.Count() != 0)
-            {
-                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}.  Values were not between {minInclusive} and {maxInclusive}";
-            }
-
-            return null;
-        }
-
-        private string ValidateMultipleOf(int[] supplied, int multiple, string friendlyName)
-        {
-            if (supplied == null || supplied.Length == 0)
-            {
-                return $"No {friendlyName} supplied.";
-            }
-
-            int[] invalid = supplied.Where(w => w % multiple != 0).ToArray();
-
-            if (invalid.Count() != 0)
-            {
-                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}.  Values were not a multiple of {multiple}";
-            }
-
-            return null;
-        }
     }
 }

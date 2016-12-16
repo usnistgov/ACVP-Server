@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "Autofac": "4.2.1",
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.1"
+    },
+    "NIST.CVP.Generation.AES": "1.0.0-*",
+    "NIST.CVP.Generation.AES_ECB": "1.0.0-*",
+    "NIST.CVP.Generation.Core": "1.0.0-*",
+    "NIST.CVP.Math": "1.0.0-*"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": "dnxcore50"
+    }
+  }
+}

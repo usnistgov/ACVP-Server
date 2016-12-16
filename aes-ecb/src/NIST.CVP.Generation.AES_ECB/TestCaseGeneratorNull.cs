@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+
+namespace NIST.CVP.Generation.AES_ECB
+{
+    public class TestCaseGeneratorNull : ITestCaseGenerator
+    {
+      
+        public string Direction
+        {
+            get { return "None"; }
+        }
+
+        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        {
+            return Generate(group, null);
+        }
+
+        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        {
+            return new TestCaseGenerateResponse("This is the null generator -- nothing is generated");
+        }
+    }
+}
