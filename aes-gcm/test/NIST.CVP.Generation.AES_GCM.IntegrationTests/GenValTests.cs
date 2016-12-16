@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AES_GCM;
+using Autofac;
+using NIST.CVP.Generation.AES_GCM.IntegrationTests.Fakes;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
 
@@ -23,10 +25,13 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 "\\answer.json"
         };
 
-        [OneTimeSetUp]
+        [SetUp]
         public void Setup()
         {
              _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
+
+            AutofacConfig.OverrideRegistrations = null;
+            AES_GCM_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         [OneTimeTearDown]
@@ -36,7 +41,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         }
 
         [Test]
-        public void ShouldReturn1OnNoArgumentsSupplied()
+        public void GenShouldReturn1OnNoArgumentsSupplied()
         {
             var result = Program.Main(new string[] { });
 
@@ -44,15 +49,47 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         }
 
         [Test]
-        public void ShouldReturn1OnInvalidFileName()
+        public void GenShouldReturn1OnInvalidFileName()
         {
             var result = Program.Main(new string[] { $"{Guid.NewGuid()}.json" });
 
             Assert.AreEqual(1, result);
         }
-        
+
         [Test]
-        public void ShouldCreateTestVectors()
+        public void GenShouldReturn1OnFailedRun()
+        {
+            AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeFailureParamterParser>().AsImplementedInterfaces();
+            };
+
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+
+            var result = Program.Main(new string[] { fileName });
+
+            Assert.AreEqual(1, result);
+        }
+
+        [Test]
+        public void GenShouldReturn1OnException()
+        {
+            AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeExceptionParameterParser>().AsImplementedInterfaces();
+            };
+
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+
+            var result = Program.Main(new string[] { fileName });
+
+            Assert.AreEqual(1, result);
+        }
+
+        [Test]
+        public void GenShouldCreateTestVectors()
         {
             var targetFolder = GetTestFolder();
             var fileName = GetTestFileLotsOfTestCases(targetFolder);
@@ -62,6 +99,46 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), "testResults");
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), "prompt");
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), "answer");
+        }
+
+        [Test]
+        public void ValShouldReturn1OnFailedRun()
+        {
+            AES_GCM_Val.AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
+            };
+
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+
+            RunGeneration(targetFolder, fileName);
+
+            var result = AES_GCM_Val.Program.Main(
+                GetFileNamesWithPath(targetFolder, _testVectorFileNames)
+            );
+
+            Assert.AreEqual(1, result);
+        }
+
+        [Test]
+        public void ValShouldReturn1OnException()
+        {
+            AES_GCM_Val.AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+            };
+
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+
+            RunGeneration(targetFolder, fileName);
+
+            var result = AES_GCM_Val.Program.Main(
+                GetFileNamesWithPath(targetFolder, _testVectorFileNames)
+            );
+
+            Assert.AreEqual(1, result);
         }
 
         [Test]
@@ -193,11 +270,10 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         {
             // Run test vector generation
             var result = Program.Main(new string[] { fileName });
-            Assume.That(result == 0);
-
-            Assume.That(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), "testResults");
-            Assume.That(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), "prompt");
-            Assume.That(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), "answer");
+            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), $"{targetFolder}{_testVectorFileNames[0]}");
+            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), $"{targetFolder}{_testVectorFileNames[1]}");
+            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), $"{targetFolder}{_testVectorFileNames[2]}");
+            Assert.IsTrue(result == 0);
         }
 
         private void RunValidation(string targetFolder)
@@ -206,8 +282,8 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             var result = AES_GCM_Val.Program.Main(
                 GetFileNamesWithPath(targetFolder, _testVectorFileNames)
             );
-            Assume.That(result == 0);
-            Assume.That(File.Exists($"{targetFolder}\\validation.json"), "validation");
+            Assert.IsTrue(File.Exists($"{targetFolder}\\validation.json"), $"{targetFolder}validation");
+            Assert.IsTrue(result == 0);
         }
 
         private void GetFailureTestCases(string targetFolder, ref List<int> failureTcIds)

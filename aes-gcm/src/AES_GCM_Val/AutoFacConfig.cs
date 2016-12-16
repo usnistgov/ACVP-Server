@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using Autofac;
 using NIST.CVP.Generation.AES_GCM;
 using NIST.CVP.Generation.AES_GCM.Parsers;
@@ -16,14 +12,15 @@ namespace AES_GCM_Val
     {
         private static IContainer _container;
 
+        public static Action<ContainerBuilder> OverrideRegistrations;
+
         public static IContainer Container
         {
             get { return _container; }
         }
         public static void IoCConfiguration()
         {
-            var builder = new ContainerBuilder();
-
+            ContainerBuilder builder = new ContainerBuilder();
 
             builder.RegisterType<Generator>();
             builder.RegisterType<Validator>();
@@ -38,6 +35,8 @@ namespace AES_GCM_Val
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
+
+            OverrideRegistrations?.Invoke(builder);
 
             _container = builder.Build();
 
