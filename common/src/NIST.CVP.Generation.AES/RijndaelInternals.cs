@@ -10,9 +10,24 @@ namespace NIST.CVP.Generation.AES
     {
         public virtual void EncryptSingleBlock(byte[,] block, Key key)
         {
+            switch (key.Direction)
+            {
+                case DirectionValues.Encrypt:
+                    Encrypt(block, key);
+                    break;
+                case DirectionValues.Decrypt:
+                    Decrypt(block, key);
+                    break;
+            }
+        }
+
+        private void Encrypt(byte[,] block, Key key)
+        {
             var roundKey = Array3D.GetSubArray(key.KeySchedule.Schedule, 0);
             var blockCount = key.KeySchedule.BlockCount;
+
             KeyAddition(block, roundKey, blockCount);
+
             for (int round = 1; round < key.KeySchedule.Rounds; round++)
             {
                 Substitution(block, RijndaelBoxes.S, blockCount);
@@ -21,9 +36,33 @@ namespace NIST.CVP.Generation.AES
                 roundKey = Array3D.GetSubArray(key.KeySchedule.Schedule, round);
                 KeyAddition(block, roundKey, blockCount);
             }
+
             Substitution(block, RijndaelBoxes.S, blockCount);
             ShiftRow(block, 0, blockCount);
+
             roundKey = Array3D.GetSubArray(key.KeySchedule.Schedule, key.KeySchedule.Rounds);
+            KeyAddition(block, roundKey, blockCount);
+        }
+
+        private void Decrypt(byte[,] block, Key key)
+        {
+            var roundKey = Array3D.GetSubArray(key.KeySchedule.Schedule, key.KeySchedule.Rounds);
+            var blockCount = key.KeySchedule.BlockCount;
+
+            KeyAddition(block, roundKey, blockCount);
+            Substitution(block, RijndaelBoxes.Si, blockCount);
+            ShiftRow(block, 1, blockCount);
+
+            for (int round = key.KeySchedule.Rounds-1; round > 0; round--)
+            {
+                roundKey = Array3D.GetSubArray(key.KeySchedule.Schedule, round);
+                KeyAddition(block, roundKey, blockCount);
+                InvMixColumn(block, blockCount);
+                Substitution(block, RijndaelBoxes.Si, blockCount);
+                ShiftRow(block, 1, blockCount);
+            }
+
+            roundKey = Array3D.GetSubArray(key.KeySchedule.Schedule, 0);
             KeyAddition(block, roundKey, blockCount);
         }
 
@@ -89,7 +128,31 @@ namespace NIST.CVP.Generation.AES
                 {
                     block[i, j] = tmp[i, j];
                 }
+            }
+        }
 
+        public virtual void InvMixColumn(byte[,] block, int blockCount)
+        {
+            byte[,] tmp = new byte[4, blockCount];
+            for (byte j = 0; j < blockCount; j++)
+            {
+                for (byte i = 0; i < 4; i++)
+                {
+                    tmp[i, j] = (byte)(
+                        Multiply(14, block[i, j]) ^
+                        Multiply(11, block[(i + 1) % 4, j]) ^
+                        Multiply(13, block[(i + 2) % 4, j]) ^
+                        Multiply(9, block[(i + 3) % 4, j])
+                    );
+                }
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < blockCount; j++)
+                {
+                    block[i, j] = tmp[i, j];
+                }
             }
         }
 

@@ -35,6 +35,12 @@ namespace NIST.CVP.Generation.AES
         /// <param name="block">Block to mix</param>
         /// <param name="blockCount">Number of blocks</param>
         void MixColumn(byte[,] block, int blockCount);
+        /// <summary>
+        /// Inverse of <see cref="MixColumn"/>
+        /// </summary>
+        /// <param name="block">Block to mix</param>
+        /// <param name="blockCount">Number of blocks</param>
+        void InvMixColumn(byte[,] block, int blockCount);
         byte Multiply(byte a, byte b);
     }
 }

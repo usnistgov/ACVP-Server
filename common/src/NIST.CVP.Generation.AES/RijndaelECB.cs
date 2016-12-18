@@ -25,6 +25,7 @@ namespace NIST.CVP.Generation.AES
                 }
 
                 EncryptSingleBlock(block, key);
+
                 //put encrypted block into into the cipher text
                 for (int j = 0; j < cipher.BlockLength / 32; j++)
                 {

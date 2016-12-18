@@ -78,6 +78,21 @@ namespace NIST.CVP.Generation.AES.Tests
                         new byte[4,1] { { 1 }, { 2 }, { 3 }, { 4 } }
                     )
                 }
+            },
+            new object[]
+            {
+                GetTestBlock(),
+                new Key()
+                {
+                    BlockLength = 8,
+                    Bytes = null,
+                    Direction = DirectionValues.Decrypt,
+                    KeySchedule = new RijndaelKeySchedule(
+                        128,
+                        128,
+                        new byte[4,1] { { 1 }, { 2 }, { 3 }, { 4 } }
+                    )
+                }
             }
         };
         [Test]
@@ -94,8 +109,10 @@ namespace NIST.CVP.Generation.AES.Tests
             int expectedSubstitutionRounds = 1 + key.KeySchedule.Rounds - 1;
             // ShiftRow runs 1x + 1x for each round within key - 1
             int expectedShiftRow = 1 + key.KeySchedule.Rounds - 1;
-            // MixColumn runs 1x for each round within key - 1
-            int expectedMixColumns = key.KeySchedule.Rounds - 1;
+            // MixColumn runs 1x for each round within key - 1, encrypt only
+            int expectedMixColumns = key.Direction == DirectionValues.Encrypt ? key.KeySchedule.Rounds - 1 : 0;
+            // InvMixColumn runs 1x for each round within key - 1, decrypt only
+            int expectedInvMixColumns = key.Direction == DirectionValues.Decrypt ? key.KeySchedule.Rounds - 1 : 0;
 
             sut.Verify(v => v.EncryptSingleBlock(It.IsAny<byte[,]>(), It.IsAny<Key>()), 
                 Times.Once, 
@@ -112,6 +129,9 @@ namespace NIST.CVP.Generation.AES.Tests
             sut.Verify(v => v.MixColumn(It.IsAny<byte[,]>(), It.IsAny<int>()),
                 Times.Exactly(expectedMixColumns),
                 nameof(sut.Object.MixColumn));
+            sut.Verify(v => v.InvMixColumn(It.IsAny<byte[,]>(), It.IsAny<int>()),
+                Times.Exactly(expectedInvMixColumns),
+                nameof(sut.Object.InvMixColumn));
         }
         #endregion EncryptSingleBlock
 
@@ -338,6 +358,12 @@ namespace NIST.CVP.Generation.AES.Tests
         ///     
         ///     block[2, 3] which was 19, should become 8.
         /// </summary>
+        /// <param name="multiplyFirstReturn">THe value the call to the first multiply should return</param>
+        /// <param name="multiplySecondReturn">THe value the call to the second multiply should return</param>
+        /// <param name="row">The row to use from the test block</param>
+        /// <param name="column">The column to use from the test block</param>
+        /// <param name="rowColumnOriginal">The original value of the row/column combination</param>
+        /// <param name="rowColumnExpectation">The expected value of the row/column combination</param>
         [Test]
         // See comments above for breakdown
         [TestCase(0, 0, 2, 3, 19, 8)]
@@ -380,7 +406,8 @@ namespace NIST.CVP.Generation.AES.Tests
          *              10100111 = 167
          */
         [TestCase(255, 80, 0, 0, 0, 167)]
-        public void ShouldMixColumns(byte multiplyFirstReturn, byte multiplySecondReturn, byte row, byte column, byte rowColumnOriginal, byte rowColumnExpectation)
+        public void ShouldMixColumns(byte multiplyFirstReturn, byte multiplySecondReturn, byte row, byte column, 
+            byte rowColumnOriginal, byte rowColumnExpectation)
         {
             Mock<RijndaelInternals> sut = new Mock<RijndaelInternals>();
             sut.CallBase = true;
@@ -397,6 +424,79 @@ namespace NIST.CVP.Generation.AES.Tests
             Assume.That(testBlock[row, column] == rowColumnOriginal);
 
             sut.Object.MixColumn(testBlock, blockCount);
+
+            Assert.AreEqual(rowColumnExpectation, testBlock[row, column]);
+        }
+
+        /// <summary>
+        /// Tests the inverse mix column function, similar to tests in <see cref="ShouldMixColumns"/>
+        /// </summary>
+        /// <param name="multiplyFirstReturn">THe value the call to the first multiply should return</param>
+        /// <param name="multiplySecondReturn">THe value the call to the second multiply should return</param>
+        /// <param name="multiplyThirdReturn">THe value the call to the third multiply should return</param>
+        /// <param name="multiplyFourthReturn">THe value the call to the fourth multiply should return</param>
+        /// <param name="row">The row to use from the test block</param>
+        /// <param name="column">The column to use from the test block</param>
+        /// <param name="rowColumnOriginal">The original value of the row/column combination</param>
+        /// <param name="rowColumnExpectation">The expected value of the row/column combination</param>
+        [Test]
+        //  0       00000000 ^
+        //  0       00000000 ^
+        //  0       00000000 ^
+        //  255     11111111
+        //          --------
+        //  expect  11111111
+        [TestCase(
+            0, // multiplyFirstReturn
+            0, // multiplySecondReturn
+            0, // multiplyThirdReturn
+            255, // multiplyFourthReturn
+            0, // row index from test block
+            0, // column index from test block
+            0, // testBlock[row, column] assumption value
+            255 // testBlock[row, column] expectation value after mixing
+        )]
+        //  0       00000000 ^
+        //  64      01000000 ^
+        //  171     10101011 ^
+        //  98      01100010
+        //          --------
+        //  expect  10001001    137
+        [TestCase(
+            0, // multiplyFirstReturn
+            64, // multiplySecondReturn
+            171, // multiplyThirdReturn
+            98, // multiplyFourthReturn
+            2, // row index from test block
+            4, // column index from test block
+            20, // testBlock[row, column] assumption value
+            137 // testBlock[row, column] expectation value after mixing
+        )]
+        public void ShouldInvMixColumns(byte multiplyFirstReturn, byte multiplySecondReturn, 
+            byte multiplyThirdReturn, byte multiplyFourthReturn,
+            byte row, byte column, byte rowColumnOriginal, byte rowColumnExpectation)
+        {
+            Mock<RijndaelInternals> sut = new Mock<RijndaelInternals>();
+            sut.CallBase = true;
+            sut
+                .Setup(s => s.Multiply(14, It.IsAny<byte>()))
+                .Returns(multiplyFirstReturn);
+            sut
+                .Setup(s => s.Multiply(11, It.IsAny<byte>()))
+                .Returns(multiplySecondReturn);
+            sut
+                .Setup(s => s.Multiply(13, It.IsAny<byte>()))
+                .Returns(multiplyThirdReturn);
+            sut
+                .Setup(s => s.Multiply(9, It.IsAny<byte>()))
+                .Returns(multiplyFourthReturn);
+
+            var testBlock = GetTestBlock();
+            int blockCount = 8;
+
+            Assume.That(testBlock[row, column] == rowColumnOriginal);
+
+            sut.Object.InvMixColumn(testBlock, blockCount);
 
             Assert.AreEqual(rowColumnExpectation, testBlock[row, column]);
         }
