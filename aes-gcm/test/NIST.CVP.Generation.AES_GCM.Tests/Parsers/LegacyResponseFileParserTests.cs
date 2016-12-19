@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
 {
     [TestFixture]
-    public class LegacyReponseFileParserTests
+    public class LegacyResponseFileParserTests
     {
      
         private string _unitTestPath;
@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
         public void ShouldReturnErrorForNonExistentPath()
         {
             var subject = new LegacyResponseFileParser();
-            var result = subject.Parse($"C:\\{Guid.NewGuid()}\\testResults.json");
+            var result = subject.Parse($@"C:\{Guid.NewGuid()}\testResults.json");
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Success);
         }

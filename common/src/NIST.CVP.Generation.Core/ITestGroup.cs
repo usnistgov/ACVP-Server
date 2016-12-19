@@ -9,5 +9,6 @@ namespace NIST.CVP.Generation.Core
     {
         List<ITestCase> Tests { get; }
         bool MergeTests(List<ITestCase> testsToMerge);
+        int KeyLength { get; }
     }
 }

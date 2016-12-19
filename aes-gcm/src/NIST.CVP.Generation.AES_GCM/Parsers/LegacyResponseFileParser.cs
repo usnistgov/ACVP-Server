@@ -69,7 +69,6 @@ namespace NIST.CVP.Generation.AES_GCM.Parsers
                     {
                         inCases = false;
                         currentGroup = new TestGroup {Function = direction, IVGeneration = ivGeneration};
-                        ;
                         groups.Add(currentGroup);
                     }
                     workingLine = workingLine.Replace("[", "").Replace("]", "");
@@ -80,7 +79,7 @@ namespace NIST.CVP.Generation.AES_GCM.Parsers
                 if (workingLine.StartsWith("Count"))
                 {
                     string[] parts = workingLine.Split("=".ToCharArray());
-                    int caseId = 0;
+                    int caseId = -1;
                     int.TryParse(parts[1].Trim(), out caseId);
                     currentTestCase = new TestCase {TestCaseId = caseId};
                     currentGroup.Tests.Add(currentTestCase);
@@ -98,7 +97,7 @@ namespace NIST.CVP.Generation.AES_GCM.Parsers
             }
 
             var testVectorSet = new TestVectorSet { Algorithm = "AES-GCM", TestGroups = groups.Select(g => (ITestGroup)g).ToList()};
-            return  new ParseResponse<TestVectorSet>(testVectorSet);
+            return new ParseResponse<TestVectorSet>(testVectorSet);
         }
     }
 }
