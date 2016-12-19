@@ -16,6 +16,8 @@ namespace AES_ECB
     {
         private static IContainer _container;
 
+        public static Action<ContainerBuilder> OverrideRegistrations;
+
         public static IContainer Container
         {
             get { return _container; }
@@ -34,6 +36,8 @@ namespace AES_ECB
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
+
+            OverrideRegistrations(builder);
 
             _container = builder.Build();
 

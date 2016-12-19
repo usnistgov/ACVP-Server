@@ -15,7 +15,7 @@ using NIST.CVP.Tests.Core;
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
     [TestFixture]
-    public class GeneratorTests
+    public class GenValTests
     {
         string _testPath;
         string[] _testVectorFileNames = new string[]
