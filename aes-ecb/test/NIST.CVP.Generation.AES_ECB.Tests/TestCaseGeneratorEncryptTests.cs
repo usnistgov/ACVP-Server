@@ -88,7 +88,6 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         public void GenerateShouldReturnFilledTestCaseObjectOnSuccess()
         {
             var fakeCipher = new BitString(new byte[] { 1 });
-            var fakeTag = new BitString(new byte[] { 2 });
             var random = GetRandomMock();
             random
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
@@ -96,7 +95,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult(fakeCipher, fakeTag));
+                .Returns(new EncryptionResult(fakeCipher));
 
             TestCaseGeneratorEncrypt sut =
                 new TestCaseGeneratorEncrypt(random.Object, aes.Object);

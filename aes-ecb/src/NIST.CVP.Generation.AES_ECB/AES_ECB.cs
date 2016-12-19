@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.AES_ECB
 
                 var encryptedBits = rijn.BlockEncrypt(cipher, key, data.ToBytes(), 128);
 
-                return new EncryptionResult(encryptedBits, new BitString(0));
+                return new EncryptionResult(encryptedBits);
             }
             catch (Exception ex)
             {

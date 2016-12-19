@@ -89,17 +89,14 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         public void GenerateShouldReturnFilledTestCaseObjectOnSuccess()
         {
             var fakeCipher = new BitString(new byte[] { 1 });
-            var fakeTag = new BitString(new byte[] { 2 });
             var random = GetRandomMock();
             random
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
                 .Returns(new BitString(new byte[] { 3 }));
-            random.Setup(s => s.GetDifferentBitStringOfSameSize(fakeTag))
-                .Returns(new BitString(new byte[] { 4 }));
             var aes = GetAESMock();
             aes
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult(fakeCipher, fakeTag));
+                .Returns(new EncryptionResult(fakeCipher));
 
             TestCaseGeneratorDecrypt sut =
                 new TestCaseGeneratorDecrypt(random.Object, aes.Object);

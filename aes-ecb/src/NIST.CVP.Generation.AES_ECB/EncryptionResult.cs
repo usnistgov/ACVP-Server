@@ -9,12 +9,10 @@ namespace NIST.CVP.Generation.AES_ECB
     public class EncryptionResult
     {
         public BitString CipherText { get; private set; }
-        public BitString Tag { get; private set; }
         public string ErrorMessage { get; private set; }
-        public EncryptionResult(BitString cipherText, BitString tag)
+        public EncryptionResult(BitString cipherText)
         {
             CipherText = cipherText;
-            Tag = tag;
         }
 
         public EncryptionResult(string errorMessage)
