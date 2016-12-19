@@ -37,7 +37,7 @@ namespace AES_ECB
             builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
 
-            OverrideRegistrations(builder);
+            OverrideRegistrations?.Invoke(builder);
 
             _container = builder.Build();
 
