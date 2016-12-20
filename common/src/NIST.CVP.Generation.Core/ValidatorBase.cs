@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.Core
                 return new ValidateResponse(saveResult);
             }
 
-            return  new ValidateResponse();
+            return new ValidateResponse();
         }
 
         public abstract TestVectorValidation ValidateWorker(ParseResponse<object> answerParseResponse, ParseResponse<object> promptParseResponse, ParseResponse<object> testResultParseResponse);

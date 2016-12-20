@@ -103,7 +103,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                    .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = "passed" } } });
             }
 
-            return new Validator(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object, mocks.MockITestCaseGeneratorFactory.Object);
+            return new Validator(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object);
         }
 
         private dynamic GetTestResults(int groups = 2)
@@ -133,7 +133,6 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
 
         private class MockedSystemDependencies
         {
-            public Mock<ITestCaseGeneratorFactory> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory>();
             public Mock<IResultValidator> MockIResultValidator { get; set; } = new Mock<IResultValidator>();
             public Mock<IDynamicParser> MockIDynamicParser { get; set; } = new Mock<IDynamicParser>();
         }

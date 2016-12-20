@@ -15,14 +15,11 @@ namespace NIST.CVP.Generation.AES_ECB
     public class Validator : ValidatorBase
     {
         private readonly IResultValidator _resultValidator;
-        private readonly ITestCaseGeneratorFactory _testCaseGeneratorFactory;
-       
 
-        public Validator(IDynamicParser dynamicParser, IResultValidator resultValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        public Validator(IDynamicParser dynamicParser, IResultValidator resultValidator)
         {
             _dynamicParser = dynamicParser;
             _resultValidator = resultValidator;
-            _testCaseGeneratorFactory = testCaseGeneratorFactory;
         }
 
         public override TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse, ParseResponse<dynamic> promptParseResponse, ParseResponse<dynamic> testResultParseResponse)
@@ -54,26 +51,9 @@ namespace NIST.CVP.Generation.AES_ECB
            
             foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
             {
-                var generator = _testCaseGeneratorFactory.GetCaseGenerator(group.Function);
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
                     var workingTest = test;
-                    if (test.Deferred)
-                    {
-                        //if we're waiting for additional input on the response...
-                        var matchingResult = suppliedResults.FirstOrDefault(r => r.TestCaseId == test.TestCaseId);
-                        var protoTest = new TestCase
-                        {
-                            Key = test.Key,
-                            PlainText = test.PlainText,
-                            CipherText = test.CipherText,
-                        };
-                        var genResult = generator.Generate(group, protoTest);
-                        if (!genResult.Success)
-                        {
-                            throw new Exception($"Could not generate results. for testCase = {test.TestCaseId}");
-                        }
-                    }
                     if (group.Function == "encrypt")
                     {
                         list.Add(new TestCaseValidatorEncrypt(workingTest));
@@ -82,7 +62,6 @@ namespace NIST.CVP.Generation.AES_ECB
                     {
                         list.Add(new TestCaseValidatorDecrypt(workingTest));
                     }
-                   
                 }
             }
 
