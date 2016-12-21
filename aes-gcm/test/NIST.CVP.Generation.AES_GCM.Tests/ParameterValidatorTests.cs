@@ -12,8 +12,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [Test]
         public void ShouldReturnNoErrorsWithValidParameters()
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(new ParameterBuilder().Build());
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(new ParameterBuilder().Build());
 
             Assert.IsTrue(result.Success);
         }
@@ -21,8 +21,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [Test]
         public void ShouldReturnErrorWithNullTagSupplied()
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithTagLen(null)
                     .Build()
@@ -34,8 +34,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [Test]
         public void ShouldReturnErrorWithNullPtLengthSupplied()
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithPtLen(null)
                     .Build()
@@ -53,8 +53,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase(new int[] { 128, -1, -2, -3 }, 2)]
         public void ShouldReturnErrorWithInvalidKeyLength(int[] keyLengths, int errorsExpected)
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithKeyLen(keyLengths)
                     .Build()
@@ -76,8 +76,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCaseSource(nameof(directionTestCases))]
         public void ShouldReturnErrorWithInvalidDirection(string testCaseLabel, string[] direction)
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithMode(direction)
                     .Build()
@@ -95,8 +95,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase(new int[] { 128, -1, -2, -3 }, 2)]
         public void ShouldReturnErrorWithInvalidTagLength(int[] tagLengths, int errorsExpected)
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithTagLen(tagLengths)
                     .Build()
@@ -117,8 +117,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase(new int[] { 128, 1, 2, 3 }, 2)]
         public void ShouldReturnErrorWithInvalidPtLength(int[] ptLengths, int errorsExpected)
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithPtLen(ptLengths)
                     .Build()
@@ -139,8 +139,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase(new int[] { 128, 1, 2, 3 }, 2)]
         public void ShouldReturnErrorWithInvalidAadLength(int[] aadLengths, int errorsExpected)
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithAadLen(aadLengths)
                     .Build()
@@ -162,8 +162,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase(new int[] { 128, 9, 10, 11 }, 2)]
         public void ShouldReturnErrorWithInvalidIvLength(int[] ivLengths, int errorsExpected)
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithIvLen(ivLengths)
                     .Build()
@@ -181,8 +181,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase(null, false)]
         public void ShouldReturnErrorWithInvalidIvGen(string ivGen, bool isValid)
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithIvGen(ivGen)
                     .Build()
@@ -199,8 +199,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase(null, false)]
         public void ShouldReturnErrorWithInvalidIvGenMode(string ivGenMode, bool isValid)
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithIvGen("internal")
                     .WithIvGenMode(ivGenMode)

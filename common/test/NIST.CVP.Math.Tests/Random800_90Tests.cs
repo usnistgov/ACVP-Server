@@ -102,8 +102,8 @@ namespace NIST.CVP.Math.Tests
         public void ShouldReturnDifferentBitStringWhenInvoked(bool[] bits)
         {
             var bs = new BitString(new BitArray(bits));
-            TestRandom800_90 sut = new TestRandom800_90(bs);
-            var result = sut.GetDifferentBitStringOfSameSize(bs);
+            TestRandom800_90 subject = new TestRandom800_90(bs);
+            var result = subject.GetDifferentBitStringOfSameSize(bs);
 
             Assert.AreNotEqual(bs, result);
         }

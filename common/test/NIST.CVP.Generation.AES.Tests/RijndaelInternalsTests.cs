@@ -99,9 +99,9 @@ namespace NIST.CVP.Generation.AES.Tests
         [TestCaseSource(nameof(encryptSingleBlockTestCase))]
         public void EncryptSingleBlockShouldRunInternalMethodsMultipleTimesAtLeastOnePerRound(byte[,] block, Key key)
         {
-            Mock<RijndaelInternals> sut = new Mock<RijndaelInternals>();
-            sut.CallBase = true;
-            sut.Object.EncryptSingleBlock(block, key);
+            Mock<RijndaelInternals> subject = new Mock<RijndaelInternals>();
+            subject.CallBase = true;
+            subject.Object.EncryptSingleBlock(block, key);
 
             // KeyAddition runs 2x + 1x for each round within key - 1
             int expectedKeyAdditionRounds = 2 + key.KeySchedule.Rounds - 1;
@@ -114,24 +114,24 @@ namespace NIST.CVP.Generation.AES.Tests
             // InvMixColumn runs 1x for each round within key - 1, decrypt only
             int expectedInvMixColumns = key.Direction == DirectionValues.Decrypt ? key.KeySchedule.Rounds - 1 : 0;
 
-            sut.Verify(v => v.EncryptSingleBlock(It.IsAny<byte[,]>(), It.IsAny<Key>()), 
+            subject.Verify(v => v.EncryptSingleBlock(It.IsAny<byte[,]>(), It.IsAny<Key>()), 
                 Times.Once, 
-                nameof(sut.Object.EncryptSingleBlock));
-            sut.Verify(v => v.KeyAddition(It.IsAny<byte[,]>(), It.IsAny<byte[,]>(), It.IsAny<int>()), 
+                nameof(subject.Object.EncryptSingleBlock));
+            subject.Verify(v => v.KeyAddition(It.IsAny<byte[,]>(), It.IsAny<byte[,]>(), It.IsAny<int>()), 
                 Times.Exactly(expectedKeyAdditionRounds), 
-                nameof(sut.Object.KeyAddition));
-            sut.Verify(v => v.Substitution(It.IsAny<byte[,]>(), It.IsAny<byte[]>(), It.IsAny<int>()),
+                nameof(subject.Object.KeyAddition));
+            subject.Verify(v => v.Substitution(It.IsAny<byte[,]>(), It.IsAny<byte[]>(), It.IsAny<int>()),
                 Times.Exactly(expectedSubstitutionRounds),
-                nameof(sut.Object.Substitution));
-            sut.Verify(v => v.ShiftRow(It.IsAny<byte[,]>(), It.IsAny<int>(), It.IsAny<int>()),
+                nameof(subject.Object.Substitution));
+            subject.Verify(v => v.ShiftRow(It.IsAny<byte[,]>(), It.IsAny<int>(), It.IsAny<int>()),
                 Times.Exactly(expectedShiftRow),
-                nameof(sut.Object.ShiftRow));
-            sut.Verify(v => v.MixColumn(It.IsAny<byte[,]>(), It.IsAny<int>()),
+                nameof(subject.Object.ShiftRow));
+            subject.Verify(v => v.MixColumn(It.IsAny<byte[,]>(), It.IsAny<int>()),
                 Times.Exactly(expectedMixColumns),
-                nameof(sut.Object.MixColumn));
-            sut.Verify(v => v.InvMixColumn(It.IsAny<byte[,]>(), It.IsAny<int>()),
+                nameof(subject.Object.MixColumn));
+            subject.Verify(v => v.InvMixColumn(It.IsAny<byte[,]>(), It.IsAny<int>()),
                 Times.Exactly(expectedInvMixColumns),
-                nameof(sut.Object.InvMixColumn));
+                nameof(subject.Object.InvMixColumn));
         }
         #endregion EncryptSingleBlock
 
@@ -195,10 +195,10 @@ namespace NIST.CVP.Generation.AES.Tests
         [TestCaseSource(nameof(keyAdditionTestCase))]
         public void ShouldXorBlockWithProvidedBlockForKeyAddition(byte[,] block, byte[,] schedule, byte[,] expectedBlock)
         {
-            RijndaelInternals sut = new RijndaelInternals();
+            RijndaelInternals subject = new RijndaelInternals();
             Array2D array = new Array2D(block);
 
-            sut.KeyAddition(array.Array, schedule, array.Dimension2Size);
+            subject.KeyAddition(array.Array, schedule, array.Dimension2Size);
 
             for (int dimension1 = 0; dimension1 < array.Dimension1Size; dimension1++)
             {
@@ -241,10 +241,10 @@ namespace NIST.CVP.Generation.AES.Tests
         [TestCaseSource(nameof(substituteTestCase))]
         public void ShouldSubstituteFromProvidedSBox(byte[,] block, byte[] sBox, byte[,] expectedBlock)
         {
-            RijndaelInternals sut = new RijndaelInternals();
+            RijndaelInternals subject = new RijndaelInternals();
             Array2D array = new Array2D(block);
 
-            sut.Substitution(array.Array, sBox, array.Dimension2Size);
+            subject.Substitution(array.Array, sBox, array.Dimension2Size);
 
             for (int dimension1 = 0; dimension1 < array.Dimension1Size; dimension1++)
             {
@@ -260,7 +260,7 @@ namespace NIST.CVP.Generation.AES.Tests
         [Test]
         public void ShouldNotModifyRow0ButOtherRowsAreModifiedWithShiftRow()
         {
-            RijndaelInternals sut = new RijndaelInternals();
+            RijndaelInternals subject = new RijndaelInternals();
             var testBlock = GetTestBlock();
 
             byte[] row0 = new byte[8];
@@ -278,7 +278,7 @@ namespace NIST.CVP.Generation.AES.Tests
                 }
             }
 
-            sut.ShiftRow(testBlock, 0, 8);
+            subject.ShiftRow(testBlock, 0, 8);
 
             // Check row 0 has not changed
             for (int i = 0; i < 8; i++)
@@ -299,7 +299,7 @@ namespace NIST.CVP.Generation.AES.Tests
         [Test]
         public void ShouldKeepValuesWithinRow()
         {
-            RijndaelInternals sut = new RijndaelInternals();
+            RijndaelInternals subject = new RijndaelInternals();
             var testBlock = GetTestBlock();
 
             byte[,] rowsOverIndex0 = new byte[3, 8];
@@ -311,7 +311,7 @@ namespace NIST.CVP.Generation.AES.Tests
                 }
             }
 
-            sut.ShiftRow(testBlock, 0, 8);
+            subject.ShiftRow(testBlock, 0, 8);
 
             // Ensure values within row are values only from the original values within that row
             for (int dimension1 = 0; dimension1 < 3; dimension1++)
@@ -409,12 +409,12 @@ namespace NIST.CVP.Generation.AES.Tests
         public void ShouldMixColumns(byte multiplyFirstReturn, byte multiplySecondReturn, byte row, byte column, 
             byte rowColumnOriginal, byte rowColumnExpectation)
         {
-            Mock<RijndaelInternals> sut = new Mock<RijndaelInternals>();
-            sut.CallBase = true;
-            sut
+            Mock<RijndaelInternals> subject = new Mock<RijndaelInternals>();
+            subject.CallBase = true;
+            subject
                 .Setup(s => s.Multiply(2, It.IsAny<byte>()))
                 .Returns(multiplyFirstReturn);
-            sut
+            subject
                 .Setup(s => s.Multiply(3, It.IsAny<byte>()))
                 .Returns(multiplySecondReturn);
 
@@ -423,7 +423,7 @@ namespace NIST.CVP.Generation.AES.Tests
 
             Assume.That(testBlock[row, column] == rowColumnOriginal);
 
-            sut.Object.MixColumn(testBlock, blockCount);
+            subject.Object.MixColumn(testBlock, blockCount);
 
             Assert.AreEqual(rowColumnExpectation, testBlock[row, column]);
         }
@@ -476,18 +476,18 @@ namespace NIST.CVP.Generation.AES.Tests
             byte multiplyThirdReturn, byte multiplyFourthReturn,
             byte row, byte column, byte rowColumnOriginal, byte rowColumnExpectation)
         {
-            Mock<RijndaelInternals> sut = new Mock<RijndaelInternals>();
-            sut.CallBase = true;
-            sut
+            Mock<RijndaelInternals> subject = new Mock<RijndaelInternals>();
+            subject.CallBase = true;
+            subject
                 .Setup(s => s.Multiply(14, It.IsAny<byte>()))
                 .Returns(multiplyFirstReturn);
-            sut
+            subject
                 .Setup(s => s.Multiply(11, It.IsAny<byte>()))
                 .Returns(multiplySecondReturn);
-            sut
+            subject
                 .Setup(s => s.Multiply(13, It.IsAny<byte>()))
                 .Returns(multiplyThirdReturn);
-            sut
+            subject
                 .Setup(s => s.Multiply(9, It.IsAny<byte>()))
                 .Returns(multiplyFourthReturn);
 
@@ -496,7 +496,7 @@ namespace NIST.CVP.Generation.AES.Tests
 
             Assume.That(testBlock[row, column] == rowColumnOriginal);
 
-            sut.Object.InvMixColumn(testBlock, blockCount);
+            subject.Object.InvMixColumn(testBlock, blockCount);
 
             Assert.AreEqual(rowColumnExpectation, testBlock[row, column]);
         }
@@ -504,8 +504,8 @@ namespace NIST.CVP.Generation.AES.Tests
         [Test]
         public void ShouldCallMultiply2xForEachBlockIndex()
         {
-            Mock<RijndaelInternals> sut = new Mock<RijndaelInternals>();
-            sut.CallBase = true;
+            Mock<RijndaelInternals> subject = new Mock<RijndaelInternals>();
+            subject.CallBase = true;
 
             var testBlock = GetTestBlock();
             int blockCount = 8;
@@ -514,14 +514,14 @@ namespace NIST.CVP.Generation.AES.Tests
             int totalBlockIndeces = 4 * 8;
             int totalRuns = runsPerBlockIndex * totalBlockIndeces;
 
-            sut.Object.MixColumn(testBlock, blockCount);
+            subject.Object.MixColumn(testBlock, blockCount);
 
-            sut.Verify(v => v.MixColumn(It.IsAny<byte[,]>(), It.IsAny<int>()),
+            subject.Verify(v => v.MixColumn(It.IsAny<byte[,]>(), It.IsAny<int>()),
                 Times.Once,
-                nameof(sut.Object.MixColumn));
-            sut.Verify(v => v.Multiply(It.IsAny<byte>(), It.IsAny<byte>()), 
+                nameof(subject.Object.MixColumn));
+            subject.Verify(v => v.Multiply(It.IsAny<byte>(), It.IsAny<byte>()), 
                 Times.Exactly(totalRuns), 
-                nameof(sut.Object.Multiply));
+                nameof(subject.Object.Multiply));
         }
         #endregion MixColumns
 
@@ -532,8 +532,8 @@ namespace NIST.CVP.Generation.AES.Tests
         [TestCase(0, 0)]
         public void MultiplyShouldReturnZeroIfEitherAorBAre0(byte a, byte b)
         {
-            RijndaelInternals sut = new RijndaelInternals();
-            var result = sut.Multiply(a, b);
+            RijndaelInternals subject = new RijndaelInternals();
+            var result = subject.Multiply(a, b);
             Assert.AreEqual(0, result);
         }
 
@@ -551,13 +551,13 @@ namespace NIST.CVP.Generation.AES.Tests
             byte expectedAlgoTableValue
         )
         {
-            RijndaelInternals sut = new RijndaelInternals();
+            RijndaelInternals subject = new RijndaelInternals();
 
             Assume.That(RijndaelBoxes.Logtable[a] == logTableAValue, nameof(logTableAValue));
             Assume.That(RijndaelBoxes.Logtable[b] == logTableBValue, nameof(logTableBValue));
             Assume.That(expectedAlgoTableIndex == (RijndaelBoxes.Logtable[a] + RijndaelBoxes.Logtable[b] % 255), nameof(expectedAlgoTableIndex));
 
-            var result = sut.Multiply(a, b);
+            var result = subject.Multiply(a, b);
             Assert.AreEqual(expectedAlgoTableValue, result, nameof(expectedAlgoTableValue));
         }
         #endregion Multiply

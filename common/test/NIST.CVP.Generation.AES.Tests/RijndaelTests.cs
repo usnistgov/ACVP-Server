@@ -11,13 +11,13 @@ namespace NIST.CVP.Generation.AES.Tests
     public class RijndaelTests
     {
         private Mock<IRijndaelInternals> _mockIRijndaelInternals;
-        private RijndaelTest _sut;
+        private RijndaelTest _subject;
 
         [OneTimeSetUp]
         public void Setup()
         {
             _mockIRijndaelInternals = new Mock<IRijndaelInternals>();
-            _sut = new RijndaelTest(_mockIRijndaelInternals.Object);
+            _subject = new RijndaelTest(_mockIRijndaelInternals.Object);
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.AES.Tests
         {
             Assert.Throws(
                 typeof(NotImplementedException),
-                () => _sut.BlockEncrypt(
+                () => _subject.BlockEncrypt(
                     new Cipher()
                     {
                         BlockLength = 8
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.AES.Tests
         [TestCaseSource(nameof(makeKeyTestData))]
         public void ShouldSetBytes(byte[] keyData, DirectionValues direction)
         {
-            var result = _sut.MakeKey(keyData, direction);
+            var result = _subject.MakeKey(keyData, direction);
 
             Assert.AreEqual(keyData, result.Bytes);
         }
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.AES.Tests
         [TestCaseSource(nameof(makeKeyTestData))]
         public void ShouldSetBlockLength(byte[] keyData, DirectionValues direction)
         {
-            var result = _sut.MakeKey(keyData, direction);
+            var result = _subject.MakeKey(keyData, direction);
 
             Assert.AreEqual(128, result.BlockLength);
         }
@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.AES.Tests
         [TestCaseSource(nameof(makeKeyTestData))]
         public void ShouldSetKeyDirection(byte[] keyData, DirectionValues direction)
         {
-            var result = _sut.MakeKey(keyData, direction);
+            var result = _subject.MakeKey(keyData, direction);
 
             Assert.AreEqual(direction, result.Direction);
         }
@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.AES.Tests
         [TestCaseSource(nameof(makeKeyTestData))]
         public void ShouldReturnAppropriateKeyLengthBasedOnBytesData(byte[] keyData, DirectionValues direction)
         {
-            var result = _sut.MakeKey(keyData, direction);
+            var result = _subject.MakeKey(keyData, direction);
 
             Assert.AreEqual(keyData.Length, result.Length);
         }
@@ -91,7 +91,7 @@ namespace NIST.CVP.Generation.AES.Tests
         [TestCaseSource(nameof(makeKeyTestData))]
         public void ShouldReturnComposedKeyWithMakeKey(byte[] keyData, DirectionValues direction)
         {
-            var result = _sut.MakeKey(keyData, direction);
+            var result = _subject.MakeKey(keyData, direction);
 
             Assert.IsNotNull(result.KeySchedule);
         }
@@ -102,56 +102,56 @@ namespace NIST.CVP.Generation.AES.Tests
         [Test]
         public void ShouldInvokeKeyAddition()
         {
-            _sut.KeyAddition(It.IsAny<byte[,]>(), It.IsAny<byte[,]>(), It.IsAny<int>());
+            _subject.KeyAddition(It.IsAny<byte[,]>(), It.IsAny<byte[,]>(), It.IsAny<int>());
 
             _mockIRijndaelInternals.
                 Verify(v => v.KeyAddition(It.IsAny<byte[,]>(), It.IsAny<byte[,]>(), It.IsAny<int>()),
                 Times.Once,
-                nameof(_sut.KeyAddition));
+                nameof(_subject.KeyAddition));
         }
 
         [Test]
         public void ShouldInvokeSubstitution()
         {
-            _sut.Substitution(It.IsAny<byte[,]>(), It.IsAny<byte[]>(), It.IsAny<int>());
+            _subject.Substitution(It.IsAny<byte[,]>(), It.IsAny<byte[]>(), It.IsAny<int>());
 
             _mockIRijndaelInternals.
                 Verify(v => v.Substitution(It.IsAny<byte[,]>(), It.IsAny<byte[]>(), It.IsAny<int>()),
                 Times.Once,
-                nameof(_sut.Substitution));
+                nameof(_subject.Substitution));
         }
 
         [Test]
         public void ShouldInvokeShiftRow()
         {
-            _sut.ShiftRow(It.IsAny<byte[,]>(), It.IsAny<int>(), It.IsAny<int>());
+            _subject.ShiftRow(It.IsAny<byte[,]>(), It.IsAny<int>(), It.IsAny<int>());
 
             _mockIRijndaelInternals.
                 Verify(v => v.ShiftRow(It.IsAny<byte[,]>(), It.IsAny<int>(), It.IsAny<int>()),
                 Times.Once,
-                nameof(_sut.ShiftRow));
+                nameof(_subject.ShiftRow));
         }
 
         [Test]
         public void ShouldInvokeMixColumn()
         {
-            _sut.MixColumn(It.IsAny<byte[,]>(), It.IsAny<int>());
+            _subject.MixColumn(It.IsAny<byte[,]>(), It.IsAny<int>());
 
             _mockIRijndaelInternals.
                 Verify(v => v.MixColumn(It.IsAny<byte[,]>(), It.IsAny<int>()),
                 Times.Once,
-                nameof(_sut.MixColumn));
+                nameof(_subject.MixColumn));
         }
 
         [Test]
         public void ShouldInvokeMultiply()
         {
-            _sut.Multiply(It.IsAny<byte>(), It.IsAny<byte>());
+            _subject.Multiply(It.IsAny<byte>(), It.IsAny<byte>());
 
             _mockIRijndaelInternals.
                 Verify(v => v.Multiply(It.IsAny<byte>(), It.IsAny<byte>()),
                 Times.Once,
-                nameof(_sut.Multiply));
+                nameof(_subject.Multiply));
         }
     }
 }

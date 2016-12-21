@@ -12,8 +12,8 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         [Test]
         public void ShouldReturnNoErrorsWithValidParameters()
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(new ParameterBuilder().Build());
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(new ParameterBuilder().Build());
 
             Assert.IsTrue(result.Success);
         }
@@ -23,8 +23,8 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         [Test]
         public void ShouldReturnErrorWithNullPtLengthSupplied()
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithPtLen(null)
                     .Build()
@@ -42,8 +42,8 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         [TestCase(new int[] { 128, -1, -2, -3 }, 2)]
         public void ShouldReturnErrorWithInvalidKeyLength(int[] keyLengths, int errorsExpected)
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithKeyLen(keyLengths)
                     .Build()
@@ -65,8 +65,8 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         [TestCaseSource(nameof(directionTestCases))]
         public void ShouldReturnErrorWithInvalidDirection(string testCaseLabel, string[] direction)
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithMode(direction)
                     .Build()
@@ -88,8 +88,8 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         [TestCase(new int[] { 128, 1, 2, 3 }, 2)]
         public void ShouldReturnErrorWithInvalidPtLength(int[] ptLengths, int errorsExpected)
         {
-            ParameterValidator sut = new ParameterValidator();
-            var result = sut.Validate(
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
                 new ParameterBuilder()
                     .WithPtLen(ptLengths)
                     .Build()

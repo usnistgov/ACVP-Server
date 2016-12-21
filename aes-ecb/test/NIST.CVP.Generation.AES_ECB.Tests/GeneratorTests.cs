@@ -34,9 +34,9 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             mocks.MockIParameterParser
                 .Setup(s => s.Parse(It.IsAny<string>()))
                 .Returns(new Core.ParseResponse<Parameters>(errorMessage));
-            var sut = GetSystem(mocks);
+            var subject = GetSystem(mocks);
 
-            var result = sut.Generate(It.IsAny<string>());
+            var result = subject.Generate(It.IsAny<string>());
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorMessage, result.ErrorMessage);
@@ -53,9 +53,9 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             mocks.MockIParameterValidator
                 .Setup(s => s.Validate(It.IsAny<Parameters>()))
                 .Returns(new Core.ParameterValidateResponse(errorMessage));
-            var sut = GetSystem(mocks);
+            var subject = GetSystem(mocks);
 
-            var result = sut.Generate(It.IsAny<string>());
+            var result = subject.Generate(It.IsAny<string>());
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorMessage, result.ErrorMessage);
@@ -100,9 +100,9 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 .Setup(s => s.GetCaseGenerator(It.IsAny<string>()))
                 .Returns(mocks.MockITestCaseGenerator.Object);
 
-            var sut = GetSystem(mocks);
+            var subject = GetSystem(mocks);
 
-            var result = sut.Generate(It.IsAny<string>());
+            var result = subject.Generate(It.IsAny<string>());
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorMessage, result.ErrorMessage);
@@ -146,14 +146,14 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 .Setup(s => s.GetCaseGenerator(It.IsAny<string>()))
                 .Returns(mocks.MockITestCaseGenerator.Object);
 
-            var sut = GetSystem(mocks);
+            var subject = GetSystem(mocks);
 
             GenerateResponse result = null;
             Guid fileNameRoot = Guid.NewGuid();
 
             try
             {
-                result = sut.Generate($"{_WORKING_PATH}\\{fileNameRoot.ToString()}.json");
+                result = subject.Generate($"{_WORKING_PATH}\\{fileNameRoot.ToString()}.json");
             }
             finally
             {

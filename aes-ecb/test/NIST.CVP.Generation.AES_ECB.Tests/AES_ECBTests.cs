@@ -16,14 +16,14 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         public void ShouldReturnDecryptionResultWithErrorOnException()
         {
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
-            AES_ECB sut = new AES_ECB(iRijndaelFactory.Object);
+            AES_ECB subject = new AES_ECB(iRijndaelFactory.Object);
             string exceptionMessage = "Something bad happened.";
 
             iRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
                 .Throws(new Exception(exceptionMessage));
 
-            var results = sut.BlockDecrypt(
+            var results = subject.BlockDecrypt(
                 new BitString(0),
                 new BitString(0)
             );
@@ -38,13 +38,13 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         {
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
             Mock<IRijndaelInternals> iRijndaelInternals = new Mock<IRijndaelInternals>();
-            AES_ECB sut = new AES_ECB(iRijndaelFactory.Object);
+            AES_ECB subject = new AES_ECB(iRijndaelFactory.Object);
 
             iRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
                 .Returns(new RijndaelECB(iRijndaelInternals.Object));
 
-            var results = sut.BlockDecrypt(
+            var results = subject.BlockDecrypt(
                 new BitString(128),
                 new BitString(128)
             );
@@ -61,14 +61,14 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         public void ShouldReturnEncryptionResultWithErrorOnException()
         {
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
-            AES_ECB sut = new AES_ECB(iRijndaelFactory.Object);
+            AES_ECB subject = new AES_ECB(iRijndaelFactory.Object);
             string exceptionMessage = "Something bad happened, sorry about that.";
 
             iRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
                 .Throws(new Exception(exceptionMessage));
 
-            var results = sut.BlockEncrypt(
+            var results = subject.BlockEncrypt(
                 new BitString(0),
                 new BitString(0)
             );
@@ -83,13 +83,13 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         {
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
             Mock<IRijndaelInternals> iRijndaelInternals = new Mock<IRijndaelInternals>();
-            AES_ECB sut = new AES_ECB(iRijndaelFactory.Object);
+            AES_ECB subject = new AES_ECB(iRijndaelFactory.Object);
 
             iRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
                 .Returns(new RijndaelECB(iRijndaelInternals.Object));
 
-            var results = sut.BlockEncrypt(
+            var results = subject.BlockEncrypt(
                 new BitString(128),
                 new BitString(128)
             );

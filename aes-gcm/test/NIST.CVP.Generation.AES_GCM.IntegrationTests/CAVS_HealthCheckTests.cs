@@ -11,12 +11,12 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
     [TestFixture]
     public class CAVS_HealthCheckTests
     {
-        private AES_GCM _sut;
+        private AES_GCM _subject;
         
         [SetUp]
         public void Setup()
         {
-            _sut = new AES_GCM(
+            _subject = new AES_GCM(
                 new AES_GCMInternals(
                     new RijndaelFactory(
                         new RijndaelInternals()
@@ -248,12 +248,12 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             BitString salt = new BitString("12345678 87654388 44888844");
             BitString newIV;
             newIV = iv.XOR(salt);
-            var encryptResult = _sut.BlockEncrypt(key, plainText, newIV, aad, 128);
+            var encryptResult = _subject.BlockEncrypt(key, plainText, newIV, aad, 128);
 
             Assert.IsTrue(encryptResult.Success);
             Assert.AreEqual(encryptResult.Tag, new BitString("e47971b2 c83ed28a d66fb896 2478d01f"), nameof(encryptResult.Tag));
 
-            var decryptResult = _sut.BlockDecrypt(key, encryptResult.CipherText, newIV, aad, encryptResult.Tag);
+            var decryptResult = _subject.BlockDecrypt(key, encryptResult.CipherText, newIV, aad, encryptResult.Tag);
 
             Assert.IsTrue(decryptResult.Success);
         }
@@ -280,13 +280,13 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             BitString cipherText = new BitString(cipherTextString);
             BitString tag = new BitString(tagString);
 
-            var encryptResult = _sut.BlockEncrypt(key, plainText, iv, aad, tagLength);
+            var encryptResult = _subject.BlockEncrypt(key, plainText, iv, aad, tagLength);
 
-            Assert.IsTrue(encryptResult.Success, nameof(_sut.BlockEncrypt));
+            Assert.IsTrue(encryptResult.Success, nameof(_subject.BlockEncrypt));
             Assert.AreEqual(tag, encryptResult.Tag, nameof(encryptResult.Tag));
 
-            var decryptResult = _sut.BlockDecrypt(key, encryptResult.CipherText, iv, aad, encryptResult.Tag);
-            Assert.IsTrue(decryptResult.Success, nameof(_sut.BlockDecrypt));
+            var decryptResult = _subject.BlockDecrypt(key, encryptResult.CipherText, iv, aad, encryptResult.Tag);
+            Assert.IsTrue(decryptResult.Success, nameof(_subject.BlockDecrypt));
 
             Assert.AreEqual(plainText, decryptResult.PlainText, nameof(plainText));
         }
@@ -313,15 +313,15 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             BitString cipherText = new BitString(cipherTextString);
             BitString tag = new BitString(tagString);
 
-            var encryptResult = _sut.BlockEncrypt(key, plainText, iv, aad, tagLength);
+            var encryptResult = _subject.BlockEncrypt(key, plainText, iv, aad, tagLength);
 
-            Assume.That(encryptResult.Success, nameof(_sut.BlockEncrypt));
+            Assume.That(encryptResult.Success, nameof(_subject.BlockEncrypt));
             Assume.That(tag.Equals(encryptResult.Tag), nameof(encryptResult.Tag));
 
             var xoredTag = encryptResult.Tag.XOR(GetBitStringOfLengthWithAll1s(encryptResult.Tag.BitLength));
 
-            var decryptResult = _sut.BlockDecrypt(key, encryptResult.CipherText, iv, aad, xoredTag);
-            Assert.IsFalse(decryptResult.Success, nameof(_sut.BlockDecrypt));
+            var decryptResult = _subject.BlockDecrypt(key, encryptResult.CipherText, iv, aad, xoredTag);
+            Assert.IsFalse(decryptResult.Success, nameof(_subject.BlockDecrypt));
             Assert.AreEqual("Tags do not match", decryptResult.ErrorMessage, nameof(decryptResult.ErrorMessage));
         }
 
@@ -347,14 +347,14 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             BitString cipherText = new BitString(cipherTextString);
             BitString tag = new BitString(tagString);
 
-            var encryptResult = _sut.BlockEncrypt(key, plainText, iv, aad, tagLength);
+            var encryptResult = _subject.BlockEncrypt(key, plainText, iv, aad, tagLength);
 
-            Assume.That(encryptResult.Success, nameof(_sut.BlockEncrypt));
+            Assume.That(encryptResult.Success, nameof(_subject.BlockEncrypt));
             Assume.That(tag.Equals(encryptResult.Tag), nameof(encryptResult.Tag));
 
             var xoredTag = encryptResult.Tag.XOR(GetBitStringOfLengthWithAll1s(encryptResult.Tag.BitLength));
 
-            var decryptResult = _sut.BlockDecrypt(key, encryptResult.CipherText, iv, aad, xoredTag);
+            var decryptResult = _subject.BlockDecrypt(key, encryptResult.CipherText, iv, aad, xoredTag);
 
             Assert.AreNotEqual(plainText, decryptResult.PlainText, nameof(plainText));
         }

@@ -21,10 +21,10 @@ namespace NIST.CVP.Math.Tests
             int length = 10;
 
             // Act
-            BitString sut = new BitString(length);
+            BitString subject = new BitString(length);
 
             // Assert
-            Assert.AreEqual(length, sut.BitLength);
+            Assert.AreEqual(length, subject.BitLength);
         }
 
         [Test]
@@ -35,8 +35,8 @@ namespace NIST.CVP.Math.Tests
         public void ShouldCreateInstanceWithByteArray(byte[] bytes)
         {
             // Act
-            BitString sut = new BitString(bytes);
-            var results = sut.ToBytes();
+            BitString subject = new BitString(bytes);
+            var results = subject.ToBytes();
 
             // Assert
             for (int i = 0; i < results.Length; i++)
@@ -56,8 +56,8 @@ namespace NIST.CVP.Math.Tests
         {
             var bytes = BitConverter.GetBytes(testInt).Reverse().ToArray();
 
-            var sut = new BitString(bytes);
-            Assert.AreEqual(new BigInteger(testInt), sut.ToBigInteger());
+            var subject = new BitString(bytes);
+            Assert.AreEqual(new BigInteger(testInt), subject.ToBigInteger());
         }
 
         [Test]
@@ -68,12 +68,12 @@ namespace NIST.CVP.Math.Tests
             bool[] bits = new bool[] { true, false, true, true };
 
             // Act
-            BitString sut = new BitString(new BitArray(bits));
+            BitString subject = new BitString(new BitArray(bits));
 
             // Assert
-            for (int i = 0; i < sut.BitLength; i++)
+            for (int i = 0; i < subject.BitLength; i++)
             {
-                Assert.AreEqual(bits[i], sut.Bits[i]);
+                Assert.AreEqual(bits[i], subject.Bits[i]);
             }
         }
 
@@ -91,8 +91,8 @@ namespace NIST.CVP.Math.Tests
             BigInteger expectedBi = new BigInteger(testInt);
 
             // Act
-            BitString sut = new BitString(bytesInMSB);
-            var result = sut.ToBigInteger();
+            BitString subject = new BitString(bytesInMSB);
+            var result = subject.ToBigInteger();
 
             // Assert
             Assert.AreEqual(expectedBi, result);
@@ -110,8 +110,8 @@ namespace NIST.CVP.Math.Tests
             var testBigInt = new BigInteger(testInt);
 
             // Act
-            BitString sut = new BitString(testBigInt);
-            var resultBigInt = sut.ToBigInteger();
+            BitString subject = new BitString(testBigInt);
+            var resultBigInt = subject.ToBigInteger();
 
             // Assert
             Assert.AreEqual(testBigInt, resultBigInt);
@@ -128,10 +128,10 @@ namespace NIST.CVP.Math.Tests
             int setBitLengthTo = totalBits + bitsToAByte; // one additional byte over what's provided in byte array
 
             // Act
-            BitString sut = new BitString(bi, setBitLengthTo);
+            BitString subject = new BitString(bi, setBitLengthTo);
 
             // Assert
-            Assert.AreEqual(setBitLengthTo, sut.Bits.Length, $"Resulting bits length should be {setBitLengthTo}");
+            Assert.AreEqual(setBitLengthTo, subject.Bits.Length, $"Resulting bits length should be {setBitLengthTo}");
 
         }
 
@@ -146,8 +146,8 @@ namespace NIST.CVP.Math.Tests
             int setBitLengthTo = totalBits + bitsToAByte; // one additional byte over what's provided in byte array
 
             // Act
-            BitString sut = new BitString(bi, setBitLengthTo);
-            var results = sut.ToBytes();
+            BitString subject = new BitString(bi, setBitLengthTo);
+            var results = subject.ToBytes();
 
             // Assert
             Assume.That(results.Length == 2);
@@ -160,9 +160,9 @@ namespace NIST.CVP.Math.Tests
         [TestCase(null)]
         public void ShouldCreateEmptyBitStringIfEmptyOrNullHexSupplied(string hexValue)
         {
-            var sut = new BitString(hexValue);
-            Assert.IsNotNull(sut);
-            Assert.AreEqual(0, sut.BitLength);
+            var subject = new BitString(hexValue);
+            Assert.IsNotNull(subject);
+            Assert.AreEqual(0, subject.BitLength);
         }
 
         [Test]
@@ -185,8 +185,8 @@ namespace NIST.CVP.Math.Tests
             var expectedResult = new BigInteger(testExpectation);
 
             // Act
-            var sut = new BitString(hexValue);
-            var result = sut.ToBigInteger();
+            var subject = new BitString(hexValue);
+            var result = subject.ToBigInteger();
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -214,8 +214,8 @@ namespace NIST.CVP.Math.Tests
             var expectedResult = new BigInteger(testExpectation);
 
             // Act
-            var sut = new BitString(hexValue);
-            var result = sut.ToBigInteger();
+            var subject = new BitString(hexValue);
+            var result = subject.ToBigInteger();
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -419,12 +419,12 @@ namespace NIST.CVP.Math.Tests
         //    BitString bs = new BitString(new BigInteger(valueToToBytes));
 
         //    // Act
-        //    var sut = bs.ToBytes();
+        //    var subject = bs.ToBytes();
 
         //    // Assert
         //    for (int i = 0; i < expectedByteArrayOrder.Length; i++)
         //    {
-        //        Assert.AreEqual(expectedByteArrayOrder[i], sut[i]);
+        //        Assert.AreEqual(expectedByteArrayOrder[i], subject[i]);
         //    }
         //}
 
@@ -439,12 +439,12 @@ namespace NIST.CVP.Math.Tests
             BitString bs = new BitString(new BigInteger(valueToToBytes));
 
             // Act
-            var sut = bs.ToBytes();
+            var subject = bs.ToBytes();
 
             // Assert
             for (int i = 0; i < expectedByteArrayOrder.Length; i++)
             {
-                Assert.AreEqual(expectedByteArrayOrder[i], sut[i]);
+                Assert.AreEqual(expectedByteArrayOrder[i], subject[i]);
             }
         }
         #endregion ToBytes

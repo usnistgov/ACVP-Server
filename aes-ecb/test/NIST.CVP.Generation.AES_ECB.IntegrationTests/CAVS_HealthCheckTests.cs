@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
     public class CAVS_HealthCheckTests
     {
 
-        private AES_ECB _sut = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+        private AES_ECB _subject = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
         [Test]
         public void ShouldEncryptWith128BitKey()
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 
             BitString plainTextBits = new BitString(plainText);
 
-            var encryptOperation = _sut.BlockEncrypt(keyBits, plainTextBits);
+            var encryptOperation = _subject.BlockEncrypt(keyBits, plainTextBits);
             Assert.IsTrue(encryptOperation.Success, nameof(encryptOperation));
             var ct = encryptOperation.CipherText.ToBytes();
             if ((ct[0] != 0x03) || (ct[1] != 0x36) || (ct[2] != 0x76) || (ct[3] != 0x3e) ||
@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
                 Assert.Fail("Invalid cipher");
 
             // Do the decryption to ensure we arrive back at plain text
-            var decryptOperation = _sut.BlockDecrypt(keyBits, encryptOperation.CipherText);
+            var decryptOperation = _subject.BlockDecrypt(keyBits, encryptOperation.CipherText);
             var pt = decryptOperation.PlainText.ToBytes();
             for (int i = 0; i < pt.Length; i++)
             {
@@ -91,7 +91,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 
             BitString plainTextBits = new BitString(plainText);
 
-            var encryptOperation = _sut.BlockEncrypt(keyBits, plainTextBits);
+            var encryptOperation = _subject.BlockEncrypt(keyBits, plainTextBits);
 
             Assert.IsTrue(encryptOperation.Success, nameof(encryptOperation));
 
@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
                 Assert.Fail("Invalid cipher");
 
             // Do the decryption to ensure we arrive back at plain text
-            var decryptOperation = _sut.BlockDecrypt(keyBits, encryptOperation.CipherText);
+            var decryptOperation = _subject.BlockDecrypt(keyBits, encryptOperation.CipherText);
             var pt = decryptOperation.PlainText.ToBytes();
             for (int i = 0; i < pt.Length; i++)
             {
@@ -142,7 +142,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 
             BitString plainTextBits = new BitString(plainText);
 
-            var encryptOperation = _sut.BlockEncrypt(keyBits, plainTextBits);
+            var encryptOperation = _subject.BlockEncrypt(keyBits, plainTextBits);
 
             Assert.IsTrue(encryptOperation.Success, nameof(encryptOperation));
 
@@ -155,7 +155,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
                 Assert.Fail("Invalid cipher");
 
             // Do the decryption to ensure we arrive back at plain text
-            var decryptOperation = _sut.BlockDecrypt(keyBits, encryptOperation.CipherText);
+            var decryptOperation = _subject.BlockDecrypt(keyBits, encryptOperation.CipherText);
             var pt = decryptOperation.PlainText.ToBytes();
             for (int i = 0; i < pt.Length; i++)
             {

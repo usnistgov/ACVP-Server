@@ -15,28 +15,28 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [Test]
         public void ShouldReturnInternal()
         {
-            TestCaseGeneratorDecrypt sut =
+            TestCaseGeneratorDecrypt subject =
                 new TestCaseGeneratorDecrypt(GetRandomMock().Object, GetAESMock().Object);
 
-            Assert.AreEqual("internal", sut.IVGen);
+            Assert.AreEqual("internal", subject.IVGen);
         }
 
         [Test]
         public void ShouldReturnDecrypt()
         {
-            TestCaseGeneratorDecrypt sut =
+            TestCaseGeneratorDecrypt subject =
                 new TestCaseGeneratorDecrypt(GetRandomMock().Object, GetAESMock().Object);
 
-            Assert.AreEqual("decrypt", sut.Direction);
+            Assert.AreEqual("decrypt", subject.Direction);
         }
 
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
-            TestCaseGeneratorDecrypt sut =
+            TestCaseGeneratorDecrypt subject =
                 new TestCaseGeneratorDecrypt(GetRandomMock().Object, GetAESMock().Object);
 
-            var result = sut.Generate(new TestGroup(), false);
+            var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
             Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
@@ -50,10 +50,10 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Returns(new EncryptionResult("Fail"));
 
-            TestCaseGeneratorDecrypt sut =
+            TestCaseGeneratorDecrypt subject =
                 new TestCaseGeneratorDecrypt(GetRandomMock().Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup(), false);
+            var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
             Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
@@ -67,10 +67,10 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Throws(new Exception());
 
-            TestCaseGeneratorDecrypt sut =
+            TestCaseGeneratorDecrypt subject =
                 new TestCaseGeneratorDecrypt(GetRandomMock().Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup(), false);
+            var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
             Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
@@ -81,10 +81,10 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         {
             var aes = GetAESMock();
 
-            TestCaseGeneratorDecrypt sut =
+            TestCaseGeneratorDecrypt subject =
                 new TestCaseGeneratorDecrypt(GetRandomMock().Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup(), true);
+            var result = subject.Generate(new TestGroup(), true);
 
             aes.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()),
                 Times.AtLeastOnce,
@@ -108,10 +108,10 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Returns(new EncryptionResult(fakeCipher, fakeTag));
 
-            TestCaseGeneratorDecrypt sut =
+            TestCaseGeneratorDecrypt subject =
                 new TestCaseGeneratorDecrypt(random.Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup(), false);
+            var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
@@ -147,7 +147,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Returns(new EncryptionResult(fakeCipher, fakeTag));
 
-            TestCaseGeneratorDecrypt sut =
+            TestCaseGeneratorDecrypt subject =
                 new TestCaseGeneratorDecrypt(random.Object, aes.Object);
 
             bool originalFakeTagHit = false;
@@ -158,7 +158,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                     .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(i);
 
-                var result = sut.Generate(new TestGroup(), false);
+                var result = subject.Generate(new TestGroup(), false);
                 var tc = (TestCase)result.TestCase;
                 if (tc.Tag == fakeTag)
                 {

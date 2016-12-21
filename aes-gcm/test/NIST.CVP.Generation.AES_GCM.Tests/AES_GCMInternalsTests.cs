@@ -17,8 +17,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
     {
         Mock<IRijndaelInternals> _mockIRijndaelInternals;
         Mock<IRijndaelFactory> _mockiRijndaelFactory;
-        AES_GCMInternals _sut;
-        Mock<AES_GCMInternals> _mockSut;
+        AES_GCMInternals _subject;
+        Mock<AES_GCMInternals> _mockSubject;
 
         [SetUp]
         public void Setup()
@@ -28,9 +28,9 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             _mockiRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
                 .Returns(new RijndaelECB(_mockIRijndaelInternals.Object));
-            _sut = new AES_GCMInternals(new RijndaelFactory(new RijndaelInternals()));
-            _mockSut = new Mock<AES_GCMInternals>(_mockiRijndaelFactory.Object);
-            _mockSut.CallBase = true;
+            _subject = new AES_GCMInternals(new RijndaelFactory(new RijndaelInternals()));
+            _mockSubject = new Mock<AES_GCMInternals>(_mockiRijndaelFactory.Object);
+            _mockSubject.CallBase = true;
         }
 
         #region GetJ0
@@ -57,18 +57,18 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             BitString iv = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(ivString));
             BitString expectedJ0 = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(expectedString));
 
-            var result = _mockSut.Object.Getj0(h, iv);
+            var result = _mockSubject.Object.Getj0(h, iv);
 
             Assert.AreEqual(expectedJ0, result, nameof(expectedJ0));
-            _mockSut.Verify(
+            _mockSubject.Verify(
                 v => v.Ceiling(It.IsAny<int>(), It.IsAny<int>()),
                 Times.Never,
-                nameof(_mockSut.Object.Ceiling)
+                nameof(_mockSubject.Object.Ceiling)
             );
-            _mockSut.Verify(
+            _mockSubject.Verify(
                 v => v.GHash(It.IsAny<BitString>(), It.IsAny<BitString>()),
                 Times.Never,
-                nameof(_mockSut.Object.GHash)
+                nameof(_mockSubject.Object.GHash)
             );
         }
 
@@ -80,28 +80,28 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             BitString iv = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(ivString));
             BitString fakeGHashReturn = new BitString(5);
 
-            _mockSut
+            _mockSubject
                 .Setup(s => s.Ceiling(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(96);
-            _mockSut
+            _mockSubject
                 .Setup(s => s.GHash(It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Returns(fakeGHashReturn);
 
-            var result = _mockSut.Object.Getj0(h, iv);
+            var result = _mockSubject.Object.Getj0(h, iv);
 
             var expectedS = 128 * 96 - iv.BitLength;
             var expectedX = iv.ConcatenateBits(new BitString(new BitArray(expectedS + 64))).ConcatenateBits(BitString.To64BitString(iv.BitLength));
 
             Assert.AreEqual(fakeGHashReturn, result, nameof(result));
-            _mockSut.Verify(
+            _mockSubject.Verify(
                 v => v.Ceiling(iv.BitLength, 128),
                 Times.Once,
-                nameof(_mockSut.Object.Ceiling)
+                nameof(_mockSubject.Object.Ceiling)
             );
-            _mockSut.Verify(
+            _mockSubject.Verify(
                 v => v.GHash(h, iv.ConcatenateBits(expectedX)),
                 Times.Once,
-                nameof(_mockSut.Object.GHash)
+                nameof(_mockSubject.Object.GHash)
             );
         }
         #endregion GetJ0
@@ -112,7 +112,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase(200, 13, 16)] // 200 / 13 = 15 (15.38), 200 mod 13 = 5, 15+1 = 16
         public void ShouldReturnCeiling(int numerator, int denominator, int expectedCeiling)
         {
-            var result = _sut.Ceiling(numerator, denominator);
+            var result = _subject.Ceiling(numerator, denominator);
 
             Assert.AreEqual(expectedCeiling, result);
         }
@@ -129,7 +129,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             BitString h = new BitString(bitLength);
             BitString x = new BitString(128);
 
-            var result = _sut.GHash(h, x);
+            var result = _subject.GHash(h, x);
 
             Assert.IsTrue(shouldBeNull ? result == null : result != null);
         }
@@ -145,7 +145,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             BitString h = new BitString(128);
             BitString x = new BitString(bitLength);
 
-            var result = _sut.GHash(h, x);
+            var result = _subject.GHash(h, x);
 
             Assert.IsTrue(shouldBeNull ? result == null : result != null);
         }
@@ -158,12 +158,12 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             BitString x = new BitString(xLength);
             int expectedInvokes = xLength / 128;
 
-            var result = _mockSut.Object.GHash(h, x);
+            var result = _mockSubject.Object.GHash(h, x);
 
-            _mockSut.Verify(
+            _mockSubject.Verify(
                 v => v.BlockProduct(It.IsAny<BitString>(), h),
                 Times.Exactly(expectedInvokes),
-                nameof(_mockSut.Object.BlockProduct)
+                nameof(_mockSubject.Object.BlockProduct)
             );
 
         }
@@ -177,7 +177,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             BitString x = new BitString(128);
             Key key = new Key();
 
-            var result = _sut.GCTR(icb, x, key);
+            var result = _subject.GCTR(icb, x, key);
 
             Assert.IsNull(result);
         }
@@ -192,7 +192,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
             BitString expectation = new BitString(0);
 
-            var result = _sut.GCTR(icb, x, key);
+            var result = _subject.GCTR(icb, x, key);
 
             Assert.AreEqual(expectation, result);
         }
@@ -214,21 +214,21 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 KeySchedule = new RijndaelKeySchedule(128, 128, new byte[4,8])
             };
 
-            _mockSut
+            _mockSubject
                 .Setup(s => s.Ceiling(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(mockedCeiling);
 
-            var result = _mockSut.Object.GCTR(icb, x, key);
+            var result = _mockSubject.Object.GCTR(icb, x, key);
 
-            _mockSut.Verify(
+            _mockSubject.Verify(
                 v => v.Ceiling(x.BitLength, 128),
                 Times.Once,
-                nameof(_mockSut.Object.Ceiling)
+                nameof(_mockSubject.Object.Ceiling)
             );
-            _mockSut.Verify(
+            _mockSubject.Verify(
                 v => v.inc_s(It.IsAny<int>(), It.IsAny<BitString>()), 
                 Times.Exactly(mockedCeiling), 
-                nameof(_mockSut.Object.inc_s)
+                nameof(_mockSubject.Object.inc_s)
             );
             _mockIRijndaelInternals.Verify(
                 v => v.EncryptSingleBlock(It.IsAny<byte[,]>(), It.IsAny<Key>()), 
@@ -250,21 +250,21 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 KeySchedule = new RijndaelKeySchedule(128, 128, new byte[4, 8])
             };
 
-            _mockSut
+            _mockSubject
                 .Setup(s => s.Ceiling(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(mockedCeiling);
 
-            var result = _mockSut.Object.GCTR(icb, x, key);
+            var result = _mockSubject.Object.GCTR(icb, x, key);
 
-            _mockSut.Verify(
+            _mockSubject.Verify(
                 v => v.Ceiling(x.BitLength, 128),
                 Times.Once,
-                nameof(_mockSut.Object.Ceiling)
+                nameof(_mockSubject.Object.Ceiling)
             );
-            _mockSut.Verify(
+            _mockSubject.Verify(
                 v => v.inc_s(It.IsAny<int>(), It.IsAny<BitString>()),
                 Times.Exactly(mockedCeiling - 1),
-                nameof(_mockSut.Object.inc_s)
+                nameof(_mockSubject.Object.inc_s)
             );
             _mockIRijndaelInternals.Verify(
                 v => v.EncryptSingleBlock(It.IsAny<byte[,]>(), It.IsAny<Key>()),
@@ -280,7 +280,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             BitString bs = new BitString(128);
             int s = 129;
 
-            var result = _sut.inc_s(s, bs);
+            var result = _subject.inc_s(s, bs);
 
             Assert.IsNull(result);
         }
@@ -349,7 +349,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             BitString X = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(onesAndZeroes));
             BitString expectation = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(expectationOnesAndZeroes));
 
-            var result = _sut.inc_s(s, X);
+            var result = _subject.inc_s(s, X);
 
             Assert.AreEqual(expectation, result);
         }
@@ -369,7 +369,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         {
             BitString bs = new BitString(new BitArray(bitsInLSb));
             BitString expectation = new BitString(new BitArray(expectedBits));
-            var result = _sut.LSB(numberOfBits, bs);
+            var result = _subject.LSB(numberOfBits, bs);
 
             Assert.AreEqual(expectation, result);
         }
@@ -389,7 +389,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         {
             BitString bs = new BitString(new BitArray(bitsInLSb));
             BitString expectation = new BitString(new BitArray(expectedBits));
-            var result = _sut.MSB(numberOfBits, bs);
+            var result = _subject.MSB(numberOfBits, bs);
 
             Assert.AreEqual(expectation, result);
         }
@@ -406,7 +406,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             BitString x = new BitString(xLength);
             BitString y = new BitString(yLength);
 
-            var result = _sut.BlockProduct(x, y);
+            var result = _subject.BlockProduct(x, y);
 
             Assert.IsTrue(shouldBeNull ? result == null : result != null);
         }
@@ -418,7 +418,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
             BitString x = new BitString(128);
             BitString y = x.XOR(x);
-            var result = _sut.BlockProduct(x, y);
+            var result = _subject.BlockProduct(x, y);
 
             Assert.AreEqual(expectation, result.ToBigInteger());
         }

@@ -37,9 +37,9 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             mocks.MockIParameterParser
                 .Setup(s => s.Parse(It.IsAny<string>()))
                 .Returns(new Core.ParseResponse<Parameters>(errorMessage));
-            var sut = GetSystem(mocks);
+            var subject = GetSubject(mocks);
 
-            var result = sut.Generate(It.IsAny<string>());
+            var result = subject.Generate(It.IsAny<string>());
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorMessage, result.ErrorMessage);
@@ -56,9 +56,9 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             mocks.MockIParameterValidator
                 .Setup(s => s.Validate(It.IsAny<Parameters>()))
                 .Returns(new Core.ParameterValidateResponse(errorMessage));
-            var sut = GetSystem(mocks);
+            var subject = GetSubject(mocks);
 
-            var result = sut.Generate(It.IsAny<string>());
+            var result = subject.Generate(It.IsAny<string>());
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorMessage, result.ErrorMessage);
@@ -113,9 +113,9 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 .Setup(s => s.GetCaseGenerator(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(mocks.MockITestCaseGenerator.Object);
 
-            var sut = GetSystem(mocks);
+            var subject = GetSubject(mocks);
 
-            var result = sut.Generate(It.IsAny<string>());
+            var result = subject.Generate(It.IsAny<string>());
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorMessage, result.ErrorMessage);
@@ -169,14 +169,14 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 .Setup(s => s.GetCaseGenerator(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(mocks.MockITestCaseGenerator.Object);
 
-            var sut = GetSystem(mocks);
+            var subject = GetSubject(mocks);
 
             GenerateResponse result = null;
             Guid fileNameRoot = Guid.NewGuid();
 
             try
             {
-                result = sut.Generate($"{_WORKING_PATH}\\{fileNameRoot.ToString()}.json");
+                result = subject.Generate($"{_WORKING_PATH}\\{fileNameRoot.ToString()}.json");
             }
             finally
             {
@@ -197,14 +197,14 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
        
 
-        private Generator GetSystem(ITestVectorFactory testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        private Generator GetSubject(ITestVectorFactory testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
         {
             return new Generator(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactory);
         }
 
-        private Generator GetSystem(MockedSystemDependencies mocks)
+        private Generator GetSubject(MockedSystemDependencies mocks)
         {
-            return GetSystem(
+            return GetSubject(
                 mocks.MockITestVectorFactory.Object,
                 mocks.MockIParameterParser.Object,
                 mocks.MockIParameterValidator.Object,

@@ -80,8 +80,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             };
             int expectedResultCount = aadLen.Length * ivLen.Length * keyLen.Length * mode.Length * ptLen.Length * tagLen.Length;
 
-            TestVectorFactory sut = new TestVectorFactory();
-            var result = sut.BuildTestVectorSet(p);
+            TestVectorFactory subject = new TestVectorFactory();
+            var result = subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(expectedResultCount, result.TestGroups.Count);
         }
@@ -106,8 +106,8 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             };
          
 
-            TestVectorFactory sut = new TestVectorFactory();
-            var result = sut.BuildTestVectorSet(p);
+            TestVectorFactory subject = new TestVectorFactory();
+            var result = subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(isSample, result.IsSample);
         }

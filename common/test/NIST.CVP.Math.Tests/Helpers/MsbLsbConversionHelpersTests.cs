@@ -18,11 +18,11 @@ namespace NIST.CVP.Math.Tests.Helpers
         public void ReverseByteOrderReturnsBytesInReverseOrder(byte[] bytes)
         {
             var expectedResults = bytes.Reverse().ToArray();
-            var sut = MsbLsbConversionHelpers.ReverseByteOrder(bytes);
+            var subject = MsbLsbConversionHelpers.ReverseByteOrder(bytes);
 
             for (int i = 0; i < bytes.Length; i++)
             {
-                Assert.AreEqual(expectedResults[i], sut[i]);
+                Assert.AreEqual(expectedResults[i], subject[i]);
             }
         }
 
@@ -35,10 +35,10 @@ namespace NIST.CVP.Math.Tests.Helpers
         public void ReverseBitArrayBitsShouldReturnBitArrayInReverseOrder(bool[] bits)
         {
             var ba = new BitArray(bits);
-            var sut = MsbLsbConversionHelpers.ReverseBitArrayBits(ba);
-            for (int i = 0; i < sut.Length; i++)
+            var subject = MsbLsbConversionHelpers.ReverseBitArrayBits(ba);
+            for (int i = 0; i < subject.Length; i++)
             {
-                Assert.AreEqual(ba[i], sut[sut.Length - 1 - i]);
+                Assert.AreEqual(ba[i], subject[subject.Length - 1 - i]);
             }
         }
 

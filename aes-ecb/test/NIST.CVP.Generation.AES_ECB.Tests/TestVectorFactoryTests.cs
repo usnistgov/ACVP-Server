@@ -51,8 +51,8 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             };
             int expectedResultCount =  keyLen.Length * mode.Length * ptLen.Length;
 
-            TestVectorFactory sut = new TestVectorFactory();
-            var result = sut.BuildTestVectorSet(p);
+            TestVectorFactory subject = new TestVectorFactory();
+            var result = subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(expectedResultCount, result.TestGroups.Count);
         }
@@ -72,8 +72,8 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             };
          
 
-            TestVectorFactory sut = new TestVectorFactory();
-            var result = sut.BuildTestVectorSet(p);
+            TestVectorFactory subject = new TestVectorFactory();
+            var result = subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(isSample, result.IsSample);
         }

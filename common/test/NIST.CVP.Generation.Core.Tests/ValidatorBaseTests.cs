@@ -44,14 +44,14 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldParseSuccessfullyAndCreateValidationFile()
         {
-            var sut = new FakeSuccessValidatorBase(_mockDynamicParser.Object);
+            var subject = new FakeSuccessValidatorBase(_mockDynamicParser.Object);
             string localTestPath = GetUniqueTestPath(_testPath);
 
             _mockDynamicParser
                 .Setup(s => s.Parse(It.IsAny<string>()))
                 .Returns(new ParseResponse<object>(new object()));
 
-            sut
+            subject
                 .Validate(
                 $"{localTestPath}{_testVectorFileNames[0]}", 
                 $"{localTestPath}{_testVectorFileNames[1]}", 
@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.Core.Tests
         [TestCase(2)]
         public void ShouldHandleFailedFIleParse(int failFileIndex)
         {
-            var sut = new FakeSuccessValidatorBase(_mockDynamicParser.Object);
+            var subject = new FakeSuccessValidatorBase(_mockDynamicParser.Object);
             string localTestPath = GetUniqueTestPath(_testPath);
 
             var failFile = $"{localTestPath}{_testVectorFileNames[failFileIndex]}";
@@ -79,7 +79,7 @@ namespace NIST.CVP.Generation.Core.Tests
                 .Setup(s => s.Parse(failFile))
                 .Returns(new ParseResponse<object>(failFile));
 
-            var result = sut
+            var result = subject
                 .Validate(
                     $"{localTestPath}{_testVectorFileNames[0]}",
                     $"{localTestPath}{_testVectorFileNames[1]}",
@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldHandleFailedFileSaveGracefully()
         {
-            var sut = new FakeSuccessValidatorBase(_mockDynamicParser.Object);
+            var subject = new FakeSuccessValidatorBase(_mockDynamicParser.Object);
             string localTestPath = GetUniqueTestPath(_testPath);
 
             string validationFileLocation = $"{localTestPath}\\validation.json";
@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.Core.Tests
 
             using (FileStream fs = File.Create(validationFileLocation))
             {
-                var result = sut
+                var result = subject
                     .Validate(
                         $"{localTestPath}{_testVectorFileNames[0]}",
                         $"{localTestPath}{_testVectorFileNames[1]}",

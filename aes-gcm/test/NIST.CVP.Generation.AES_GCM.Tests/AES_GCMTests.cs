@@ -84,14 +84,14 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         {
             Mock<IAES_GCMInternals> iAes_gcmInternals = new Mock<IAES_GCMInternals>();
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
-            AES_GCM sut = new AES_GCM(iAes_gcmInternals.Object, iRijndaelFactory.Object);
+            AES_GCM subject = new AES_GCM(iAes_gcmInternals.Object, iRijndaelFactory.Object);
             string exceptionMessage = "Something bad happened.";
 
             iRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
                 .Throws(new Exception(exceptionMessage));
 
-            var results = sut.BlockDecrypt(
+            var results = subject.BlockDecrypt(
                 new BitString(0),
                 new BitString(0),
                 new BitString(0),
@@ -109,14 +109,14 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         {
             Mock<IAES_GCMInternals> iAes_gcmInternals = new Mock<IAES_GCMInternals>();
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
-            AES_GCM sut = new AES_GCM(iAes_gcmInternals.Object, iRijndaelFactory.Object);
+            AES_GCM subject = new AES_GCM(iAes_gcmInternals.Object, iRijndaelFactory.Object);
             string exceptionMessage = "Something bad happened, sorry about that.";
 
             iRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
                 .Throws(new Exception(exceptionMessage));
 
-            var results = sut.BlockEncrypt(
+            var results = subject.BlockEncrypt(
                 new BitString(0),
                 new BitString(0),
                 new BitString(0),

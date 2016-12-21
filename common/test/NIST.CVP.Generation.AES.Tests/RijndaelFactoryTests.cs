@@ -12,20 +12,20 @@ namespace NIST.CVP.Generation.AES.Tests
     public class RijndaelFactoryTests
     {
 
-        private RijndaelFactory _sut;
+        private RijndaelFactory _subject;
         private Mock<IRijndaelInternals> _mockRijndaelInternals;
 
         [OneTimeSetUp]
         public void Setup()
         {
             _mockRijndaelInternals = new Mock<IRijndaelInternals>();
-            _sut = new RijndaelFactory(_mockRijndaelInternals.Object);
+            _subject = new RijndaelFactory(_mockRijndaelInternals.Object);
         }
 
         [Test]
         public void ShouldReturnRijndaelECB()
         {
-            var result = _sut.GetRijndael(ModeValues.ECB);
+            var result = _subject.GetRijndael(ModeValues.ECB);
 
             Assert.IsInstanceOf(typeof(RijndaelECB), result);
         }
@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.AES.Tests
 
             Assert.Throws(
                 typeof(ArgumentException), 
-                () => _sut.GetRijndael(badCast)
+                () => _subject.GetRijndael(badCast)
             );
         }
     }

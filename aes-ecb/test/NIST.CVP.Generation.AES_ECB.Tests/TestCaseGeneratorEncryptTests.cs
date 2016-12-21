@@ -16,19 +16,19 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         [Test]
         public void ShouldReturnEncrypt()
         {
-            TestCaseGeneratorEncrypt sut =
+            TestCaseGeneratorEncrypt subject =
                 new TestCaseGeneratorEncrypt(GetRandomMock().Object, GetAESMock().Object);
 
-            Assert.AreEqual("encrypt", sut.Direction);
+            Assert.AreEqual("encrypt", subject.Direction);
         }
 
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
-            TestCaseGeneratorEncrypt sut =
+            TestCaseGeneratorEncrypt subject =
                 new TestCaseGeneratorEncrypt(GetRandomMock().Object, GetAESMock().Object);
 
-            var result = sut.Generate(new TestGroup(), false);
+            var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
             Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
@@ -42,10 +42,10 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Returns(new EncryptionResult("Fail"));
 
-            TestCaseGeneratorEncrypt sut =
+            TestCaseGeneratorEncrypt subject =
                 new TestCaseGeneratorEncrypt(GetRandomMock().Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup(), false);
+            var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
             Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
@@ -59,10 +59,10 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Throws(new Exception());
 
-            TestCaseGeneratorEncrypt sut =
+            TestCaseGeneratorEncrypt subject =
                 new TestCaseGeneratorEncrypt(GetRandomMock().Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup(), false);
+            var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
             Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
@@ -73,10 +73,10 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         {
             var aes = GetAESMock();
 
-            TestCaseGeneratorEncrypt sut =
+            TestCaseGeneratorEncrypt subject =
                 new TestCaseGeneratorEncrypt(GetRandomMock().Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup(), true);
+            var result = subject.Generate(new TestGroup(), true);
 
             aes.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()),
                 Times.AtLeastOnce,
@@ -97,10 +97,10 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Returns(new EncryptionResult(fakeCipher));
 
-            TestCaseGeneratorEncrypt sut =
+            TestCaseGeneratorEncrypt subject =
                 new TestCaseGeneratorEncrypt(random.Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup(), false);
+            var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");

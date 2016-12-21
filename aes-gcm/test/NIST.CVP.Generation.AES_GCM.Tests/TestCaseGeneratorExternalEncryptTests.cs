@@ -15,28 +15,28 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [Test]
         public void ShouldReturnExternal()
         {
-            TestCaseGeneratorExternalEncrypt sut =
+            TestCaseGeneratorExternalEncrypt subject =
                 new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, GetAESMock().Object);
 
-            Assert.AreEqual("external", sut.IVGen);
+            Assert.AreEqual("external", subject.IVGen);
         }
 
         [Test]
         public void ShouldReturnEncrypt()
         {
-            TestCaseGeneratorExternalEncrypt sut =
+            TestCaseGeneratorExternalEncrypt subject =
                 new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, GetAESMock().Object);
 
-            Assert.AreEqual("encrypt", sut.Direction);
+            Assert.AreEqual("encrypt", subject.Direction);
         }
 
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
-            TestCaseGeneratorExternalEncrypt sut =
+            TestCaseGeneratorExternalEncrypt subject =
                 new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, GetAESMock().Object);
 
-            var result = sut.Generate(new TestGroup(), false);
+            var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
             Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
@@ -50,10 +50,10 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Returns(new EncryptionResult("Fail"));
 
-            TestCaseGeneratorExternalEncrypt sut =
+            TestCaseGeneratorExternalEncrypt subject =
                 new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup(), false);
+            var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
             Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
@@ -67,10 +67,10 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Throws(new Exception());
 
-            TestCaseGeneratorExternalEncrypt sut =
+            TestCaseGeneratorExternalEncrypt subject =
                 new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup(), false);
+            var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
             Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
@@ -81,10 +81,10 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         {
             var aes = GetAESMock();
 
-            TestCaseGeneratorExternalEncrypt sut =
+            TestCaseGeneratorExternalEncrypt subject =
                 new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup(), true);
+            var result = subject.Generate(new TestGroup(), true);
 
             aes.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()),
                 Times.AtLeastOnce,
@@ -106,10 +106,10 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Returns(new EncryptionResult(fakeCipher, fakeTag));
 
-            TestCaseGeneratorExternalEncrypt sut =
+            TestCaseGeneratorExternalEncrypt subject =
                 new TestCaseGeneratorExternalEncrypt(random.Object, aes.Object);
 
-            var result = sut.Generate(new TestGroup(), false);
+            var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
