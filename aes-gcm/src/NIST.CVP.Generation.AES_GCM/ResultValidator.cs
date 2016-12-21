@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class ResultValidator : IResultValidator
+    public class ResultValidator : IResultValidator<TestCase>
     {
         
         public TestVectorValidation ValidateResults(List<ITestCaseValidator<TestCase>> testCaseValidators, List<TestCase> testResults)

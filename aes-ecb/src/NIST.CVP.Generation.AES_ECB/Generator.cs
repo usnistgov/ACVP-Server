@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using NIST.CVP.Generation.AES_GCM;
+﻿using System.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 

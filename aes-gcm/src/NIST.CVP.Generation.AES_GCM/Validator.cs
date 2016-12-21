@@ -1,25 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using NIST.CVP.Generation.AES_GCM.Parsers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Math;
-using NLog;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
     public class Validator : ValidatorBase
     {
-        private readonly IResultValidator _resultValidator;
+        private readonly IResultValidator<TestCase> _resultValidator;
         private readonly ITestCaseGeneratorFactory _testCaseGeneratorFactory;
        
 
-        public Validator(IDynamicParser dynamicParser, IResultValidator resultValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        public Validator(IDynamicParser dynamicParser, IResultValidator<TestCase> resultValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
         {
             _dynamicParser = dynamicParser;
             _resultValidator = resultValidator;

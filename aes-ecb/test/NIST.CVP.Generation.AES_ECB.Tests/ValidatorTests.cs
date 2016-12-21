@@ -130,7 +130,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
 
         private class MockedSystemDependencies
         {
-            public Mock<IResultValidator> MockIResultValidator { get; set; } = new Mock<IResultValidator>();
+            public Mock<IResultValidator<TestCase>> MockIResultValidator { get; set; } = new Mock<IResultValidator<TestCase>>();
             public Mock<IDynamicParser> MockIDynamicParser { get; set; } = new Mock<IDynamicParser>();
         }
     }

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NIST.CVP.Generation.AES_GCM;
 using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_ECB.Tests

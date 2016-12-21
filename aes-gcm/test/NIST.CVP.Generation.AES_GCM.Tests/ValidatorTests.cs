@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Castle.Components.DictionaryAdapter;
 using Moq;
-using NIST.CVP.Generation.AES_GCM.Parsers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NUnit.Framework;
@@ -135,7 +131,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         private class MockedSystemDependencies
         {
             public Mock<ITestCaseGeneratorFactory> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory>();
-            public Mock<IResultValidator> MockIResultValidator { get; set; } = new Mock<IResultValidator>();
+            public Mock<IResultValidator<TestCase>> MockIResultValidator { get; set; } = new Mock<IResultValidator<TestCase>>();
             public Mock<IDynamicParser> MockIDynamicParser { get; set; } = new Mock<IDynamicParser>();
         }
     }

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.AES_GCM;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
-using NLog;
 
 namespace NIST.CVP.Generation.AES_ECB
 {

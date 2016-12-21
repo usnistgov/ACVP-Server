@@ -7,9 +7,9 @@ namespace NIST.CVP.Generation.AES_ECB
 {
     public class Validator : ValidatorBase
     {
-        private readonly IResultValidator _resultValidator;
+        private readonly IResultValidator<TestCase> _resultValidator;
 
-        public Validator(IDynamicParser dynamicParser, IResultValidator resultValidator)
+        public Validator(IDynamicParser dynamicParser, IResultValidator<TestCase> resultValidator)
         {
             _dynamicParser = dynamicParser;
             _resultValidator = resultValidator;
