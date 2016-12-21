@@ -25,19 +25,16 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldReturnErrorForNonExistentFile()
         {
-            string path = Path.Combine(_unitTestPath, "badPath.json");
-            ConfigParser configParser = new ConfigParser(path);
-            Assert.IsNotNull(configParser.success);
-            Assert.IsFalse(configParser.success);
+            ConfigParser subject = getSubject("badFile.json");
+            Assert.IsFalse(subject.success);
         }
 
         [Test]
         public void ShouldReturnErrorForNonExistentPath()
         {
             string path = $@"C:\{Guid.NewGuid()}\exampleConfig.json";
-            ConfigParser configParser = new ConfigParser(path);
-            Assert.IsNotNull(configParser.success);
-            Assert.IsFalse(configParser.success);
+            ConfigParser subject = new ConfigParser(path);
+            Assert.IsFalse(subject.success);
         }
 
         [Test]
@@ -45,47 +42,34 @@ namespace NIST.CVP.Generation.Core.Tests
         [TestCase(null)]
         public void ShouldReturnErrorForNullOrEmptyPath(string path)
         {
-            ConfigParser configParser = new ConfigParser(path);
-            Assert.IsNotNull(configParser.success);
-            Assert.IsFalse(configParser.success);
+            ConfigParser subject = new ConfigParser(path);
+            Assert.IsFalse(subject.success);
         }
 
         [Test]
         public void ShouldParseValidFile()
         {
-            string path = Path.Combine(_unitTestPath, "exampleConfig.json");
-            ConfigParser configParser = new ConfigParser(path);
-            Assert.IsNotNull(configParser.success);
-            Assert.IsTrue(configParser.success);
+            ConfigParser subject = getSubject("exampleConfig.json");
+            Assert.IsTrue(subject.success);
         }
 
         [Test]
-        public void ShouldReadCorrectValuesFromFields()
+        [TestCase("testField", 10)]                 // Tests a regular field
+        [TestCase("secondField", 20)]               // ''
+        [TestCase("arrayField:0", 30)]              // Tests a field that holds an array
+        [TestCase("arrayField:1", 40)]              // ''
+        [TestCase("objectField:insideField", 50)]    // Tests an object that has a field inside
+        public void ShouldReadCorrectValuesFromFields(string field, int value)
         {
-            string path = Path.Combine(_unitTestPath, "exampleConfig.json");
-            ConfigParser configParser = new ConfigParser(path);
-            Assume.That(configParser.success);
-            Assert.AreEqual(10, int.Parse(configParser.Configuration["testField"]));
-            Assert.AreEqual(20, int.Parse(configParser.Configuration["secondField"]));
+            ConfigParser subject = getSubject("exampleConfig.json");
+            Assume.That(subject.success);
+            Assert.AreEqual(value, int.Parse(subject.Configuration[field]));
         }
 
-        [Test]
-        public void ShouldReadCorrectValuesFromArrays()
+        private ConfigParser getSubject(string fileName)
         {
-            string path = Path.Combine(_unitTestPath, "exampleConfig.json");
-            ConfigParser configParser = new ConfigParser(path);
-            Assume.That(configParser.success);
-            Assert.AreEqual(30, int.Parse(configParser.Configuration["arrayField:0"]));
-            Assert.AreEqual(40, int.Parse(configParser.Configuration["arrayField:1"]));
-        }
-
-        [Test]
-        public void ShouldReadCorrectValuesFromObjects()
-        {
-            string path = Path.Combine(_unitTestPath, "exampleConfig.json");
-            ConfigParser configParser = new ConfigParser(path);
-            Assume.That(configParser.success);
-            Assert.AreEqual(50, int.Parse(configParser.Configuration["objectField:insideField"]));
+            string path = Path.Combine(_unitTestPath, fileName);
+            return new ConfigParser(path);
         }
     }
 }

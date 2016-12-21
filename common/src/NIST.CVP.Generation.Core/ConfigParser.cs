@@ -14,7 +14,6 @@ namespace NIST.CVP.Generation.Core
 
         public ConfigParser(string path)
         {
-
             if(string.IsNullOrEmpty(path) || !File.Exists(path))
             {
                 success = false;
@@ -27,7 +26,6 @@ namespace NIST.CVP.Generation.Core
                     success = true;
                     var configBuilder = new ConfigurationBuilder().AddJsonFile(path);
                     Configuration = configBuilder.Build();
-
                 } catch
                 {
                     success = false;
