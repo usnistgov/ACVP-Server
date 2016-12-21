@@ -18,9 +18,9 @@ namespace NIST.CVP.Generation.Core.Tests
         string _testPath;
         string[] _testVectorFileNames = new string[]
         {
-                "\\testResults.json",
-                "\\answer.json",
-                "\\prompt.json",
+                @"\testResults.json",
+                @"\answer.json",
+                @"\prompt.json"
         };
 
         [OneTimeSetUp]
@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.Core.Tests
                 $"{localTestPath}{_testVectorFileNames[1]}", 
                 $"{localTestPath}{_testVectorFileNames[2]}");
 
-            var expectedFile = $"{localTestPath}\\validation.json";
+            var expectedFile = $@"{localTestPath}\validation.json";
             Assert.IsTrue(File.Exists(expectedFile));
         }
 
@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.Core.Tests
         [TestCase(0)]
         [TestCase(1)]
         [TestCase(2)]
-        public void ShouldHandleFailedFIleParse(int failFileIndex)
+        public void ShouldHandleFailedFileParse(int failFileIndex)
         {
             var subject = new FakeSuccessValidatorBase(_mockDynamicParser.Object);
             string localTestPath = GetUniqueTestPath(_testPath);

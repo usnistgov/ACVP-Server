@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.Core
             var answerParseResponse = _dynamicParser.Parse(answerPath);
             if (!answerParseResponse.Success)
             {
-                return  new ValidateResponse(answerParseResponse.ErrorMessage);
+                return new ValidateResponse(answerParseResponse.ErrorMessage);
             }
             var promptParseResponse = _dynamicParser.Parse(promptPath);
             if (!promptParseResponse.Success)
@@ -34,8 +34,7 @@ namespace NIST.CVP.Generation.Core
             {
                 return new ValidateResponse(testResultParseResponse.ErrorMessage);
             }
-
-            
+   
             var response = ValidateWorker(answerParseResponse, promptParseResponse, testResultParseResponse);
 
             var validationJson = JsonConvert.SerializeObject(response, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver(), NullValueHandling = NullValueHandling.Ignore });
