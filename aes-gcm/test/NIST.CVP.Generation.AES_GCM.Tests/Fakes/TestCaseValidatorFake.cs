@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests.Fakes
 {
-    public class TestCaseValidatorFake : ITestCaseValidator
+    public class TestCaseValidatorFake : ITestCaseValidator<TestCase>
     {
         public int TestCaseId { get; set; }
         private readonly string _result;

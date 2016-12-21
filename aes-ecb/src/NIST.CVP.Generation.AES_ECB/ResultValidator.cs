@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Generation.Core;
 
@@ -8,7 +7,7 @@ namespace NIST.CVP.Generation.AES_ECB
     public class ResultValidator : IResultValidator
     {
         
-        public TestVectorValidation ValidateResults(List<ITestCaseValidator> testCaseValidators, List<TestCase> testResults)
+        public TestVectorValidation ValidateResults(List<ITestCaseValidator<TestCase>> testCaseValidators, List<TestCase> testResults)
         {
             var validations = new List<TestCaseValidation>();
             foreach (var caseValidator in testCaseValidators)

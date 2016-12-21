@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.AES_GCM
     public class ResultValidator : IResultValidator
     {
         
-        public TestVectorValidation ValidateResults(List<ITestCaseValidator> testCaseValidators, List<TestCase> testResults)
+        public TestVectorValidation ValidateResults(List<ITestCaseValidator<TestCase>> testCaseValidators, List<TestCase> testResults)
         {
             var validations = new List<TestCaseValidation>();
             foreach (var caseValidator in testCaseValidators)

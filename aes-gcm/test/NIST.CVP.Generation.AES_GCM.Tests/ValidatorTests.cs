@@ -94,13 +94,13 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             if (validationFail)
             {
                 mocks.MockIResultValidator
-                    .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator>>(), It.IsAny<List<TestCase>>()))
+                    .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<TestCase>>>(), It.IsAny<List<TestCase>>()))
                     .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> {new TestCaseValidation { Result = "failed"} } });
             }
             else
             {
                 mocks.MockIResultValidator
-                   .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator>>(), It.IsAny<List<TestCase>>()))
+                   .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<TestCase>>>(), It.IsAny<List<TestCase>>()))
                    .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = "passed" } } });
             }
 

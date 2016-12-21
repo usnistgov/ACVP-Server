@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_ECB
 {
-    public class TestCaseValidatorDecrypt : ITestCaseValidator
+    public class TestCaseValidatorDecrypt : ITestCaseValidator<TestCase>
     {
         private readonly TestCase _expectedResult;
 

@@ -8,6 +8,6 @@ namespace NIST.CVP.Generation.AES_GCM
 {
     public interface IResultValidator
     {
-        TestVectorValidation ValidateResults(List<ITestCaseValidator> testCaseValidators, List<TestCase> testResults);
+        TestVectorValidation ValidateResults(List<ITestCaseValidator<TestCase>> testCaseValidators, List<TestCase> testResults);
     }
 }

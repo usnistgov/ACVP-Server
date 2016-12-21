@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Math;
-using NLog;
 
 namespace NIST.CVP.Generation.AES_ECB
 {
@@ -44,10 +37,10 @@ namespace NIST.CVP.Generation.AES_ECB
 
       
 
-        private List<ITestCaseValidator> BuildValidatorList(TestVectorSet testVectorSet, List<TestCase>  suppliedResults)
+        private List<ITestCaseValidator<TestCase>> BuildValidatorList(TestVectorSet testVectorSet, List<TestCase>  suppliedResults)
         {
 
-            var list = new List<ITestCaseValidator>();
+            var list = new List<ITestCaseValidator<TestCase>>();
            
             foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
             {

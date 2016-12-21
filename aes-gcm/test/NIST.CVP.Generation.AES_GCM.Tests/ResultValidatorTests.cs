@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Generation.AES_GCM.Tests.Fakes;
+using NIST.CVP.Generation.Core;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
@@ -14,7 +13,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public void ShouldReturnValidation()
         {
             var subject = new ResultValidator();
-            var valdiation = subject.ValidateResults(new List<ITestCaseValidator>(), new List<TestCase>());
+            var valdiation = subject.ValidateResults(new List<ITestCaseValidator<TestCase>>(), new List<TestCase>());
             Assert.IsNotNull(valdiation);
         }
 
@@ -23,7 +22,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase(16)]
         public void ShouldReturnOnResultValidationPerSuppliedValidator(int count)
         {
-            var validators = new List<ITestCaseValidator>();
+            var validators = new List<ITestCaseValidator<TestCase>>();
             for (int idx = 0; idx < count; idx++)
             {
                 validators.Add(new TestCaseValidatorFake("passed") {TestCaseId = idx+1});
@@ -39,7 +38,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public void ShouldMarkMissingIfNoMatchingResultPresent()
         {
             var subject = new ResultValidator();
-            var validation = subject.ValidateResults(new List<ITestCaseValidator> {new TestCaseValidatorEncrypt(new TestCase {TestCaseId = 1})}, new List<TestCase>());
+            var validation = subject.ValidateResults(new List<ITestCaseValidator<TestCase>> {new TestCaseValidatorEncrypt(new TestCase {TestCaseId = 1})}, new List<TestCase>());
             Assume.That(validation != null);
             var firstResultValidation = validation.Validations.FirstOrDefault();
             Assume.That(firstResultValidation != null);
@@ -51,7 +50,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public void ShouldMarkPassedForValidResult()
         {
             var subject = new ResultValidator();
-            var validation = subject.ValidateResults(new List<ITestCaseValidator> { new TestCaseValidatorFake("passed"){ TestCaseId = 1 }}, new List<TestCase> { new TestCase {TestCaseId = 1} });
+            var validation = subject.ValidateResults(new List<ITestCaseValidator<TestCase>> { new TestCaseValidatorFake("passed"){ TestCaseId = 1 }}, new List<TestCase> { new TestCase {TestCaseId = 1} });
             Assume.That(validation != null);
             var firstResultValidation = validation.Validations.FirstOrDefault();
             Assume.That(firstResultValidation != null);
@@ -63,7 +62,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public void ShouldMarkFailedForInvalidResult()
         {
             var subject = new ResultValidator();
-            var validation = subject.ValidateResults(new List<ITestCaseValidator> { new TestCaseValidatorFake("failed") { TestCaseId = 1 } }, new List<TestCase> { new TestCase { TestCaseId = 1 } });
+            var validation = subject.ValidateResults(new List<ITestCaseValidator<TestCase>> { new TestCaseValidatorFake("failed") { TestCaseId = 1 } }, new List<TestCase> { new TestCase { TestCaseId = 1 } });
             Assume.That(validation != null);
             var firstResultValidation = validation.Validations.FirstOrDefault();
             Assume.That(firstResultValidation != null);
@@ -75,7 +74,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         public void ShouldMarkAllResultsProperly()
         {
             var subject = new ResultValidator();
-            var validation = subject.ValidateResults(new List<ITestCaseValidator> { new TestCaseValidatorFake("failed") { TestCaseId = 1 }, new TestCaseValidatorFake("passed") { TestCaseId = 2 }, new TestCaseValidatorFake("passed") { TestCaseId = 3 } }, new List<TestCase> { new TestCase { TestCaseId = 1 }, new TestCase { TestCaseId = 2 } });
+            var validation = subject.ValidateResults(new List<ITestCaseValidator<TestCase>> { new TestCaseValidatorFake("failed") { TestCaseId = 1 }, new TestCaseValidatorFake("passed") { TestCaseId = 2 }, new TestCaseValidatorFake("passed") { TestCaseId = 3 } }, new List<TestCase> { new TestCase { TestCaseId = 1 }, new TestCase { TestCaseId = 2 } });
             Assume.That(validation != null);
             var firstResultValidation = validation.Validations.FirstOrDefault(v => v.TestCaseId == 1);
             Assert.AreEqual("failed", firstResultValidation.Result);

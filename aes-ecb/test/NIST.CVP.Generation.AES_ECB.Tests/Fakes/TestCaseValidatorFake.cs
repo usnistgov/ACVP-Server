@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_ECB.Tests.Fakes
 {
-    public class TestCaseValidatorFake : ITestCaseValidator
+    public class TestCaseValidatorFake : ITestCaseValidator<TestCase>
     {
         public int TestCaseId { get; set; }
         private readonly string _result;

@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class TestCaseValidatorEncrypt : ITestCaseValidator
+    public class TestCaseValidatorEncrypt : ITestCaseValidator<TestCase>
     {
         private readonly TestCase _expectedResult;
 

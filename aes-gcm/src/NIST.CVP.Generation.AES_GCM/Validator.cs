@@ -48,10 +48,10 @@ namespace NIST.CVP.Generation.AES_GCM
 
       
 
-        private List<ITestCaseValidator> BuildValidatorList(TestVectorSet testVectorSet, List<TestCase>  suppliedResults)
+        private List<ITestCaseValidator<TestCase>> BuildValidatorList(TestVectorSet testVectorSet, List<TestCase>  suppliedResults)
         {
 
-            var list = new List<ITestCaseValidator>();
+            var list = new List<ITestCaseValidator<TestCase>>();
            
             foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
             {

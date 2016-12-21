@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Castle.Components.DictionaryAdapter;
 using Moq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
@@ -93,13 +90,13 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             if (validationFail)
             {
                 mocks.MockIResultValidator
-                    .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator>>(), It.IsAny<List<TestCase>>()))
+                    .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<TestCase>>>(), It.IsAny<List<TestCase>>()))
                     .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> {new TestCaseValidation { Result = "failed"} } });
             }
             else
             {
                 mocks.MockIResultValidator
-                   .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator>>(), It.IsAny<List<TestCase>>()))
+                   .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<TestCase>>>(), It.IsAny<List<TestCase>>()))
                    .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = "passed" } } });
             }
 
