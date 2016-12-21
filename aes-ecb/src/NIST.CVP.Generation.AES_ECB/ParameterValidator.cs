@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.AES_ECB
 {
     
 
-    public class ParameterValidator : ParameterValidatorBase, IParameterValidator
+    public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         // @@@ better way to do this without having to redefine valid values in tests?
    

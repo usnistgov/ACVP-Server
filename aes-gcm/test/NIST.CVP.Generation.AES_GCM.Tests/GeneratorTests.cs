@@ -197,7 +197,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
        
 
-        private Generator GetSubject(ITestVectorFactory testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        private Generator GetSubject(ITestVectorFactory testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
         {
             return new Generator(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactory);
         }
@@ -218,7 +218,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             public Mock<ITestCaseGeneratorFactory> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory>();
             public Mock<ITestCaseGenerator> MockITestCaseGenerator { get; set; } = new Mock<ITestCaseGenerator>();
             public Mock<IParameterParser<Parameters>> MockIParameterParser { get; set; } = new Mock<IParameterParser<Parameters>>();
-            public Mock<IParameterValidator> MockIParameterValidator { get; set; } = new Mock<IParameterValidator>();
+            public Mock<IParameterValidator<Parameters>> MockIParameterValidator { get; set; } = new Mock<IParameterValidator<Parameters>>();
            
             
         }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
@@ -9,9 +10,9 @@ namespace NIST.CVP.Generation.AES_ECB
         private readonly ITestVectorFactory _testVectorFactory;
         private readonly ITestCaseGeneratorFactory _testCaseGeneratorFactory;
         private readonly IParameterParser<Parameters> _parameterParser;
-        private readonly IParameterValidator _parameterValidator;
+        private readonly IParameterValidator<Parameters> _parameterValidator;
 
-        public Generator(ITestVectorFactory testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        public Generator(ITestVectorFactory testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
         {
             _testVectorFactory = testVectorFactory;
             _testCaseGeneratorFactory = testCaseGeneratorFactory;
