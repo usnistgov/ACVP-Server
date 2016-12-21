@@ -25,16 +25,16 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldReturnErrorForNonExistentFile()
         {
-            ConfigParser subject = getSubject("badFile.json");
-            Assert.IsFalse(subject.success);
+            var subject = getSubject("badFile.json");
+            Assert.IsFalse(subject.Success);
         }
 
         [Test]
         public void ShouldReturnErrorForNonExistentPath()
         {
             string path = $@"C:\{Guid.NewGuid()}\exampleConfig.json";
-            ConfigParser subject = new ConfigParser(path);
-            Assert.IsFalse(subject.success);
+            var subject = new ConfigParser(path);
+            Assert.IsFalse(subject.Success);
         }
 
         [Test]
@@ -42,15 +42,22 @@ namespace NIST.CVP.Generation.Core.Tests
         [TestCase(null)]
         public void ShouldReturnErrorForNullOrEmptyPath(string path)
         {
-            ConfigParser subject = new ConfigParser(path);
-            Assert.IsFalse(subject.success);
+            var subject = new ConfigParser(path);
+            Assert.IsFalse(subject.Success);
+        }
+
+        [Test]
+        public void ShouldReturnErrorForBadFile()
+        {
+            var subject = getSubject("notJsonConfig.json");
+            Assert.IsFalse(subject.Success);
         }
 
         [Test]
         public void ShouldParseValidFile()
         {
-            ConfigParser subject = getSubject("exampleConfig.json");
-            Assert.IsTrue(subject.success);
+            var subject = getSubject("exampleConfig.json");
+            Assert.IsTrue(subject.Success);
         }
 
         [Test]
@@ -61,14 +68,14 @@ namespace NIST.CVP.Generation.Core.Tests
         [TestCase("objectField:insideField", 50)]    // Tests an object that has a field inside
         public void ShouldReadCorrectValuesFromFields(string field, int value)
         {
-            ConfigParser subject = getSubject("exampleConfig.json");
-            Assume.That(subject.success);
+            var subject = getSubject("exampleConfig.json");
+            Assume.That(subject.Success);
             Assert.AreEqual(value, int.Parse(subject.Configuration[field]));
         }
 
         private ConfigParser getSubject(string fileName)
         {
-            string path = Path.Combine(_unitTestPath, fileName);
+            var path = Path.Combine(_unitTestPath, fileName);
             return new ConfigParser(path);
         }
     }

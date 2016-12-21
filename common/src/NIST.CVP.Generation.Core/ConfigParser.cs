@@ -10,25 +10,25 @@ namespace NIST.CVP.Generation.Core
     public class ConfigParser
     {
         public IConfigurationRoot Configuration { get; set; }
-        public bool success { get; set; }
+        public bool Success { get; set; }
 
         public ConfigParser(string path)
         {
             if(string.IsNullOrEmpty(path) || !File.Exists(path))
             {
-                success = false;
+                Success = false;
                 Configuration = null;
             }else
             {
                 try
                 {
                     // Put the success flag first so when it fails we know it is changed
-                    success = true;
+                    Success = true;
                     var configBuilder = new ConfigurationBuilder().AddJsonFile(path);
                     Configuration = configBuilder.Build();
                 } catch
                 {
-                    success = false;
+                    Success = false;
                     Configuration = null;
                 }
             }

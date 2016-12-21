@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.Core.Tests.Parsers
         public void ShouldReturnErrorForNonExistentPath()
         {
             var subject = GetSubject();
-            var result = subject.Parse($"C:\\{Guid.NewGuid()}\\testResults.json");
+            var result = subject.Parse($@"C:\{Guid.NewGuid()}\testResults.json");
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Success);
         }
@@ -32,6 +32,16 @@ namespace NIST.CVP.Generation.Core.Tests.Parsers
         public void ShouldReturnErrorForNullOrEmptyPath(string path)
         {
             var subject = GetSubject();
+            var result = subject.Parse(path);
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.Success);
+        }
+
+        [Test]
+        public void ShouldReturnErrorForBadFile()
+        {
+            var subject = GetSubject();
+            var path = Path.Combine(_unitTestPath, "notJson.json");
             var result = subject.Parse(path);
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Success);
