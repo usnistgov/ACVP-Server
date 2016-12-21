@@ -87,7 +87,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 .Setup(s => s.Validate(It.IsAny<Parameters>()))
                 .Returns(new ParameterValidateResponse());
             mocks.MockITestVectorFactory
-                .Setup(s => s.BuildTestVectorSet(It.IsAny<IParameters>()))
+                .Setup(s => s.BuildTestVectorSet(It.IsAny<Parameters>()))
                 .Returns(new TestVectorSet()
                 {
                     Algorithm = "AES",
@@ -143,7 +143,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 .Setup(s => s.Validate(It.IsAny<Parameters>()))
                 .Returns(new ParameterValidateResponse());
             mocks.MockITestVectorFactory
-                .Setup(s => s.BuildTestVectorSet(It.IsAny<IParameters>()))
+                .Setup(s => s.BuildTestVectorSet(It.IsAny<Parameters>()))
                 .Returns(new TestVectorSet()
                 {
                     Algorithm = "AES",
@@ -197,7 +197,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
        
 
-        private Generator GetSubject(ITestVectorFactory testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        private Generator GetSubject(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
         {
             return new Generator(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactory);
         }
@@ -214,7 +214,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
         private class MockedSystemDependencies
         {
-            public Mock<ITestVectorFactory> MockITestVectorFactory { get; set; } = new Mock<ITestVectorFactory>();
+            public Mock<ITestVectorFactory<Parameters>> MockITestVectorFactory { get; set; } = new Mock<ITestVectorFactory<Parameters>>();
             public Mock<ITestCaseGeneratorFactory> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory>();
             public Mock<ITestCaseGenerator> MockITestCaseGenerator { get; set; } = new Mock<ITestCaseGenerator>();
             public Mock<IParameterParser<Parameters>> MockIParameterParser { get; set; } = new Mock<IParameterParser<Parameters>>();

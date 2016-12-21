@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
-using NLog;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class TestVectorFactory : ITestVectorFactory
+    public class TestVectorFactory : ITestVectorFactory<Parameters>
     {
-        public TestVectorFactory()
+        public ITestVectorSet BuildTestVectorSet(Parameters parameters)
         {
-            
-        }
-
-        public ITestVectorSet BuildTestVectorSet(IParameters parameters)
-        {
-            var typedParams = (Parameters)parameters;
-            var groups = BuildTestGroups(typedParams);
-            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "AES-GCM", IsSample = typedParams.IsSample};
+            var groups = BuildTestGroups(parameters);
+            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "AES-GCM", IsSample = parameters.IsSample};
 
             return testVector;
         }

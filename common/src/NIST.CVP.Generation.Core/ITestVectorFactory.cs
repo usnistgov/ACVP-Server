@@ -6,8 +6,9 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public interface ITestVectorFactory
+    public interface ITestVectorFactory<in TParameters>
+        where TParameters : IParameters
     {
-        ITestVectorSet BuildTestVectorSet(IParameters parameters);
+        ITestVectorSet BuildTestVectorSet(TParameters parameters);
     }
 }

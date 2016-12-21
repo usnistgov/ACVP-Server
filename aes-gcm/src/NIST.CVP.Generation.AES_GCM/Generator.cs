@@ -6,12 +6,12 @@ namespace NIST.CVP.Generation.AES_GCM
 {
     public class Generator : GeneratorBase
     {
-        private readonly ITestVectorFactory _testVectorFactory;
+        private readonly ITestVectorFactory<Parameters> _testVectorFactory;
         private readonly ITestCaseGeneratorFactory _testCaseGeneratorFactory;
         private readonly IParameterParser<Parameters> _parameterParser;
         private readonly IParameterValidator<Parameters> _parameterValidator;
 
-        public Generator(ITestVectorFactory testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        public Generator(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
         {
             _testVectorFactory = testVectorFactory;
             _testCaseGeneratorFactory = testCaseGeneratorFactory;
