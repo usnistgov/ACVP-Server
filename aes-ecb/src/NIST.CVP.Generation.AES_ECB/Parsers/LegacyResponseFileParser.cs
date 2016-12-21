@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.IO;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_ECB.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_GCM.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {

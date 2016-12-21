@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
-using System.Collections;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
