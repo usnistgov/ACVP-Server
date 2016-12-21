@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
 {
@@ -214,9 +215,9 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
             Assert.AreEqual(true, parameters.IsSample);
         }
 
-        private ParameterParser GetSubject()
+        private ParameterParser<Parameters> GetSubject()
         {
-            return new ParameterParser();
+            return new ParameterParser<Parameters>();
         }
     }
 }

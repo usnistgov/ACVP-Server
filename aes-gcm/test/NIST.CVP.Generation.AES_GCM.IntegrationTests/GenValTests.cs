@@ -11,6 +11,7 @@ using Autofac;
 using NIST.CVP.Generation.AES_GCM.IntegrationTests.Fakes;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.Fakes;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
@@ -61,7 +62,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeFailureParamterParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
             };
 
             var targetFolder = GetTestFolder();
@@ -77,7 +78,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionParameterParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeExceptionParameterParser<Parameters>>().AsImplementedInterfaces();
             };
 
             var targetFolder = GetTestFolder();

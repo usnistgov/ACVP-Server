@@ -1,13 +1,11 @@
 ﻿using Moq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.AES_ECB.Parsers;
+using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_ECB.Tests
 {
@@ -176,7 +174,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
 
        
 
-        private Generator GetSystem(ITestVectorFactory testVectorFactory, IParameterParser parameterParser, IParameterValidator parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        private Generator GetSystem(ITestVectorFactory testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
         {
             return new Generator(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactory);
         }
@@ -196,7 +194,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             public Mock<ITestVectorFactory> MockITestVectorFactory { get; set; } = new Mock<ITestVectorFactory>();
             public Mock<ITestCaseGeneratorFactory> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory>();
             public Mock<ITestCaseGenerator> MockITestCaseGenerator { get; set; } = new Mock<ITestCaseGenerator>();
-            public Mock<IParameterParser> MockIParameterParser { get; set; } = new Mock<IParameterParser>();
+            public Mock<IParameterParser<Parameters>> MockIParameterParser { get; set; } = new Mock<IParameterParser<Parameters>>();
             public Mock<IParameterValidator> MockIParameterValidator { get; set; } = new Mock<IParameterValidator>();
            
             

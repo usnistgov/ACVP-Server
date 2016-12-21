@@ -9,6 +9,7 @@ using NIST.CVP.Generation.AES_ECB.IntegrationTests.Fakes;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.Fakes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
@@ -60,7 +61,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeFailureParamterParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
             };
 
             var targetFolder = GetTestFolder();
@@ -76,7 +77,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionParameterParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeExceptionParameterParser<Parameters>>().AsImplementedInterfaces();
             };
 
             var targetFolder = GetTestFolder();

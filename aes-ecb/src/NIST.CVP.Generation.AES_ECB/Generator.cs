@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Newtonsoft.Json;
-using NIST.CVP.Generation.AES_ECB.Parsers;
+﻿using System.Linq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Resolvers;
-using NIST.CVP.Math;
-using NLog;
+using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_ECB
 {
@@ -15,10 +8,10 @@ namespace NIST.CVP.Generation.AES_ECB
     {
         private readonly ITestVectorFactory _testVectorFactory;
         private readonly ITestCaseGeneratorFactory _testCaseGeneratorFactory;
-        private readonly IParameterParser _parameterParser;
+        private readonly IParameterParser<Parameters> _parameterParser;
         private readonly IParameterValidator _parameterValidator;
 
-        public Generator(ITestVectorFactory testVectorFactory, IParameterParser parameterParser, IParameterValidator parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        public Generator(ITestVectorFactory testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
         {
             _testVectorFactory = testVectorFactory;
             _testCaseGeneratorFactory = testCaseGeneratorFactory;
@@ -35,7 +28,7 @@ namespace NIST.CVP.Generation.AES_ECB
                 return new GenerateResponse(parameterResponse.ErrorMessage);
             }
             var parameters = parameterResponse.ParsedObject;
-            var validateResponse = _parameterValidator.Validate(parameters);
+            var validateResponse = _parameterValidator.Validate((Parameters)parameters);
             if (!validateResponse.Success)
             {
                 return new GenerateResponse(validateResponse.ErrorMessage);
