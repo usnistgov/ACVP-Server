@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
-namespace NIST.CVP.Generation.AES_GCM.IntegrationTests.Fakes
+namespace NIST.CVP.Tests.Core.Fakes
 {
     public class FakeExceptionDynamicParser : IDynamicParser
     {

@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using AES_GCM;
 using Autofac;
-using NIST.CVP.Generation.AES_GCM.IntegrationTests.Fakes;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;

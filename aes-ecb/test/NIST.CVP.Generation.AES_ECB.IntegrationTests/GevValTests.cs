@@ -5,7 +5,6 @@ using System.Linq;
 using AES_ECB;
 using Autofac;
 using Newtonsoft.Json;
-using NIST.CVP.Generation.AES_ECB.IntegrationTests.Fakes;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
