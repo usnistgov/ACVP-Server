@@ -73,6 +73,66 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         // @@@ possible to get strong typing out of projection?
 
         [Test]
+        public void ShouldContainElementsWithinAnswerProjection()
+        {
+            var subject = GetSubject(1);
+            var results = subject.AnswerProjection;
+            var group = results[0];
+            Assert.IsTrue(!string.IsNullOrEmpty(group.direction.ToString()), nameof(group.direction));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.ivGen.ToString()), nameof(group.ivGen));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.ivGenMode.ToString()), nameof(group.ivGenMode));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.ivLen.ToString()), nameof(group.ivLen));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.ptLen.ToString()), nameof(group.ptLen));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.aadLen.ToString()), nameof(group.aadLen));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.tagLen.ToString()), nameof(group.tagLen));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.keyLen.ToString()), nameof(group.keyLen));
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.tag.ToString()), nameof(test.tag));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.key.ToString()), nameof(test.key));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.aad.ToString()), nameof(test.aad));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.deferred.ToString()), nameof(test.deferred));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.failureTest.ToString()), nameof(test.failureTest));
+            }
+        }
+
+        [Test]
+        public void ShouldContainElementsWithinPromptProjection()
+        {
+            var subject = GetSubject(1);
+            var results = subject.PromptProjection;
+            var group = results[0];
+            Assert.IsTrue(!string.IsNullOrEmpty(group.direction.ToString()), nameof(group.direction));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.ivGen.ToString()), nameof(group.ivGen));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.ivGenMode.ToString()), nameof(group.ivGenMode));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.ivLen.ToString()), nameof(group.ivLen));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.ptLen.ToString()), nameof(group.ptLen));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.aadLen.ToString()), nameof(group.aadLen));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.tagLen.ToString()), nameof(group.tagLen));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.keyLen.ToString()), nameof(group.keyLen));
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.key.ToString()), nameof(test.key));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.aad.ToString()), nameof(test.aad));
+            }
+        }
+
+        [Test]
+        public void ShouldContainElementsWithinResultProjection()
+        {
+            var subject = GetSubject(1);
+            var results = subject.ResultProjection;
+            foreach (var item in results)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(item.tcId.ToString()), nameof(item.tcId));
+            }
+        }
+
+        [Test]
         public void EncryptShouldIncludeCipherTextInAnswerProjection()
         {
             var subject = GetSubject(1);
