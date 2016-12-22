@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldReturnErrorForNonExistentFile()
         {
-            var subject = getSubject("badFile.json");
+            var subject = GetSubject("badFile.json");
             Assert.IsFalse(subject.Success);
         }
 
@@ -49,14 +49,14 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldReturnErrorForBadFile()
         {
-            var subject = getSubject("notJsonConfig.json");
+            var subject = GetSubject("notJsonConfig.json");
             Assert.IsFalse(subject.Success);
         }
 
         [Test]
         public void ShouldParseValidFile()
         {
-            var subject = getSubject("exampleConfig.json");
+            var subject = GetSubject("exampleConfig.json");
             Assert.IsTrue(subject.Success);
         }
 
@@ -68,12 +68,12 @@ namespace NIST.CVP.Generation.Core.Tests
         [TestCase("objectField:insideField", 50)]    // Tests an object that has a field inside
         public void ShouldReadCorrectValuesFromFields(string field, int value)
         {
-            var subject = getSubject("exampleConfig.json");
+            var subject = GetSubject("exampleConfig.json");
             Assume.That(subject.Success);
             Assert.AreEqual(value, int.Parse(subject.Configuration[field]));
         }
 
-        private ConfigParser getSubject(string fileName)
+        private ConfigParser GetSubject(string fileName)
         {
             var path = Path.Combine(_unitTestPath, fileName);
             return new ConfigParser(path);
