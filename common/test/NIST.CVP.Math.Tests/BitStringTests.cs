@@ -614,6 +614,38 @@ namespace NIST.CVP.Math.Tests
                 Assert.AreEqual(expectedResult[i], results.Bits[i]);
             }
         }
+
+        [Test]
+        [TestCase(
+            new bool[] { false },
+            new bool[] { true },
+            new bool[] { true, false }
+        )]
+        [TestCase(
+            new bool[] { false, false, false, true },
+            new bool[] { false, true, true, false },
+            new bool[] { false, true, true, false, false, false, false, true }
+        )]
+        [TestCase(
+            new bool[] { false, false, false, false, false, true, false, false },
+            new bool[] { true, true, true, true, false, true, true },
+            new bool[] { true, true, true, true, false, true, true, false, false, false, false, false, true, false, false }
+        )]
+        public void ConcatenateBitsToExistingBits(bool[] leftSide, bool[] rightSide, bool[] expectedResult)
+        {
+            // Arrange
+            BitString subject = new BitString(new BitArray(leftSide));
+            BitString newBits = new BitString(new BitArray(rightSide));
+
+            // Act
+            BitString results = subject.ConcatenateBits(newBits);
+
+            // Assert
+            for (int i = 0; i < results.BitLength; i++)
+            {
+                Assert.AreEqual(expectedResult[i], results.Bits[i]);
+            }
+        }
         #endregion ConcatenateBits
 
         #region MostSignificant
@@ -1001,5 +1033,79 @@ namespace NIST.CVP.Math.Tests
         // TODO - does this method do anything outside of the scope of itself currently?
         #region ToDigit
         #endregion ToDigit
+
+        #region GetHashCode
+        [Test]
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(15)]
+        [TestCase(1500)]
+        public void GetHashCodeShouldBeConsistent(int testInt)
+        {
+            // Arrange
+            var testBigInt = new BigInteger(testInt);
+            var bs1 = new BitString(testBigInt);
+            var bs2 = new BitString(testBigInt);
+
+            // Act
+            var firstHash = bs1.GetHashCode();
+            var secondHash = bs2.GetHashCode();
+
+            // Assert
+            Assume.That(bs1.Equals(bs2));
+            Assert.AreEqual(firstHash, secondHash);
+        }
+
+        // The logic here is a -> b
+        // Equality of BitStrings corresponds to a
+        // Matching GetHashCodes corresponds to b
+        // If two BitStrings are equal, then their GetHashCodes must also be equal
+        [Test]
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(15)]
+        [TestCase(1500)]
+        public void EqualityShouldImplyMatchingGetHashCode(int testInt)
+        {
+            // Arrange
+            var testBigInt = new BigInteger(testInt);
+            var bs1 = new BitString(testBigInt);
+            var bs2 = bs1;
+
+            // Act
+            var firstHash = bs1.GetHashCode();
+            var secondHash = bs2.GetHashCode();
+
+            // Assert
+            Assume.That(bs1.Equals(bs2));
+            Assert.AreEqual(firstHash, secondHash);
+        }
+
+        // Using the contrapositive, ~b -> ~a
+        // Inequality of BitStrings corresponds to ~a
+        // Mismatching GetHashCodes corresponds to ~b
+        // If their GetHashCodes are unequal, then two BitStrings must be unequal
+        [Test]
+        [TestCase(1, 2)]
+        [TestCase(10, 11)]
+        [TestCase(15, 51)]
+        [TestCase(1500, 1050)]
+        public void MismatchingGetHashCodeShouldImplyInequality(int testInt1, int testInt2)
+        {
+            // Arange
+            var testBigInt1 = new BigInteger(testInt1);
+            var testBigInt2 = new BigInteger(testInt2);
+            var bs1 = new BitString(testBigInt1);
+            var bs2 = new BitString(testBigInt2);
+
+            // Act
+            var firstHash = bs1.GetHashCode();
+            var secondHash = bs2.GetHashCode();
+
+            // Assert
+            Assume.That(firstHash != secondHash);
+            Assert.AreNotEqual(bs1, bs2);
+        }
+        #endregion GetHexCode 
     }
 }
