@@ -13,73 +13,78 @@ namespace NIST.CVP.Generation.Core.Tests
     public class AlgoFileFinderBaseTests
     {
 
-        // TODO: Do actual file pathing for everything
-        // TODO: Make sure tests reflect purpose of the class
-
-        private string _testPath;
+        string _unitTestPath;
+        private string _targetFolder;
 
         [OneTimeSetUp]
-        public void OneTimeSetUp()
+        public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\algoFileFinderBaseTests");
-        }
-
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            Directory.Delete(_testPath, true);
+            _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\FakeAlgoFinderFiles");
+            _targetFolder = Path.Combine(_unitTestPath, Guid.NewGuid().ToString());
+            Directory.CreateDirectory(_targetFolder);
         }
 
         [Test]
-        [TestCase(@"some/file/path/")]
-        [TestCase(null)]
-        [TestCase("")]
-        public void ShouldCorrectlyHandleAllFilePrefixes(string filePrefix)
+        [TestCase("resp", 3)]
+        [TestCase("fax", 2)]
+        [TestCase("req", 1)]
+        [TestCase("sample", 4)]
+        public void ShouldCopyProperFilesFromSuppliedSubFolder(string fileFolderName, int expected)
         {
-            var subject = GetSubject(filePrefix);
-            Assume.That(subject.Name == "FakeAlgo");
-            Assert.IsTrue(subject.FilePrefix == filePrefix);
+            var subject = new FakeAlgoFileFinderBase();
+            string path = Path.Combine(_unitTestPath, "FakeAlgo");
+            var result = subject.CopyFoundFilesToTargetDirectory(path, fileFolderName, _targetFolder);
+            Assert.AreEqual(expected, result);
         }
 
         [Test]
-        public void UseFilePrefixShouldBeTrueForNonNullOrNonEmptyFilePrefix()
+        [TestCase("resp", 3)]
+        [TestCase("fax", 2)]
+        [TestCase("req", 1)]
+        [TestCase("sample", 4)]
+        public void ShouldCopyProperFilesFromNestedSuppliedSubFolder(string fileFolderName, int expected)
         {
-            var subject = GetSubject(@"some/file/path/");
-            Assert.IsTrue(subject.UseFilePrefix);
+            var subject = new FakeAlgoFileFinderBase();
+            string path = Path.Combine(_unitTestPath, "SomeImplementation", "FakeAlgo");
+            var result = subject.CopyFoundFilesToTargetDirectory(path, fileFolderName, _targetFolder);
+            Assert.AreEqual(expected, result);
         }
 
         [Test]
-        public void ShouldNotCopyFilesIfSourceDirectoryDoesNotExist()
+        [TestCase("resp", 3)]
+        [TestCase("fax", 2)]
+        [TestCase("req", 1)]
+        [TestCase("sample", 4)]
+        public void ShouldCopyFilesFromZipFileSuppliedSubFolder(string fileFolderName, int expected)
         {
-            var subject = GetSubject(@"some/file/path/");
-            var result = subject.CopyFoundFilesToTargetDirectory(@"file/path/that/does/not/exist/", "fileFolderName",
-                "targetDirectory");
+            var subject = new FakeAlgoFileFinderBase();
+            string path = Path.Combine(_unitTestPath, "SomeLab");
+            var result = subject.CopyFoundFilesToTargetDirectory(path, fileFolderName, _targetFolder);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ShouldNotCopyFilesFromNonExistentSubFolder()
+        {
+            var subject = new FakeAlgoFileFinderBase();
+            string path = Path.Combine(_unitTestPath, "FakeAlgo");
+            var result = subject.CopyFoundFilesToTargetDirectory(path, "FolderDoesNotExist", _targetFolder);
             Assert.AreEqual(-1, result);
         }
 
         [Test]
-        public void ExtractFilesFromZipShouldBeTrueWhenValid()
+        public void ShouldNotCopyFilesFromNonPrefixFolder()
         {
-            var subject = GetSubject(null);
-            var result = subject.ExtractFilesFromZip("filepath", "extractionpath");
-            Assert.IsTrue(result);
+            var subject = new FakeAlgoFileFinderBase();
+            string path = Path.Combine(_unitTestPath, "FA_FakeMode");
+            var result = subject.CopyFoundFilesToTargetDirectory(path, "resp", _targetFolder);
+            Assert.AreEqual(0, result);
         }
 
-        [Test]
-        [TestCase(@"source/does/not/exist/", "extractionpath")]
-        [TestCase("sourcepath", @"destination/does/not/exist/")]
-        [TestCase(@"source/does/not/exist/", @"destination/does/not/exist")]
-        public void ExtractFilesFromZipShouldBeFalseWhenInvalid(string sourcePath, string destinationPath)
+        [OneTimeTearDown]
+        public void Teardown()
         {
-            var subject = GetSubject(null);
-            var result = subject.ExtractFilesFromZip(sourcePath, destinationPath);
-            Assert.IsFalse(result);
-        }
-        
-        private FakeAlgoFileFinderBase GetSubject(string filePrefix)
-        {
-            string path = Path.Combine(_testPath, filePrefix);
-            return new FakeAlgoFileFinderBase("FakeAlgo", path);
+            Directory.Delete(_targetFolder, true);
         }
     }
 }

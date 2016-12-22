@@ -7,13 +7,7 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
     public class FakeAlgoFileFinderBase : AlgoFileFinderBase
     {
-        public override string Name { get; }
-        public override string FilePrefix { get; }
-
-        public FakeAlgoFileFinderBase(string algoName, string filePrefix)
-        {
-            Name = algoName;
-            FilePrefix = filePrefix;
-        }
+        public override string Name { get { return "FakeAlgo"; } }
+        public override string FilePrefix { get { return "FA"; } }
     }
 }
