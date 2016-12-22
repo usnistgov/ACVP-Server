@@ -12,17 +12,6 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
     [TestFixture]
     public class TestCaseGeneratorDecryptTests
     {
-       
-
-        [Test]
-        public void ShouldReturnDecrypt()
-        {
-            TestCaseGeneratorDecrypt subject =
-                new TestCaseGeneratorDecrypt(GetRandomMock().Object, GetAESMock().Object);
-
-            Assert.AreEqual("decrypt", subject.Direction);
-        }
-
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {

@@ -13,24 +13,6 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
     public class TestCaseGeneratorInternalEncryptTests
     {
         [Test]
-        public void ShouldReturnInternal()
-        {
-            TestCaseGeneratorInternalEncrypt subject =
-                new TestCaseGeneratorInternalEncrypt(GetRandomMock().Object, GetAESMock().Object);
-
-            Assert.AreEqual("internal", subject.IVGen);
-        }
-
-        [Test]
-        public void ShouldReturnEncrypt()
-        {
-            TestCaseGeneratorInternalEncrypt subject =
-                new TestCaseGeneratorInternalEncrypt(GetRandomMock().Object, GetAESMock().Object);
-
-            Assert.AreEqual("encrypt", subject.Direction);
-        }
-
-        [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
             TestCaseGeneratorInternalEncrypt subject =

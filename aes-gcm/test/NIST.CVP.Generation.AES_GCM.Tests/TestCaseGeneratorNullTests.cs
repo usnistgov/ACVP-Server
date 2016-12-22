@@ -24,21 +24,5 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             var result = subject.Generate(new TestGroup(), new TestCase());
             Assert.IsFalse(result.Success);
         }
-
-        [Test]
-        public void ShouldHaveNoneForDirection()
-        {
-            var subject = new TestCaseGeneratorNull();
-            
-            Assert.AreEqual("None", subject.Direction);
-        }
-
-        [Test]
-        public void ShouldHaveNoneForIVGen()
-        {
-            var subject = new TestCaseGeneratorNull();
-
-            Assert.AreEqual("None", subject.IVGen);
-        }
     }
 }

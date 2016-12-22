@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_ECB
@@ -17,7 +14,7 @@ namespace NIST.CVP.Generation.AES_ECB
             _random800_90 = random800_90;
         }
 
-        public ITestCaseGenerator GetCaseGenerator(string direction)
+        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(string direction)
         {
             direction = direction.ToLower();
             if (direction == "encrypt")
@@ -29,6 +26,7 @@ namespace NIST.CVP.Generation.AES_ECB
             {
                 return new TestCaseGeneratorDecrypt(_random800_90, _algo);
             }
+
             return new TestCaseGeneratorNull();
         }
     }

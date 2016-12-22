@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_GCM
@@ -17,7 +18,7 @@ namespace NIST.CVP.Generation.AES_GCM
             _random800_90 = random800_90;
         }
 
-        public ITestCaseGenerator GetCaseGenerator(string direction, string ivGen)
+        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(string direction, string ivGen)
         {
             direction = direction.ToLower();
             ivGen = ivGen.ToLower();
@@ -37,6 +38,7 @@ namespace NIST.CVP.Generation.AES_GCM
             {
                 return new TestCaseGeneratorDecrypt(_random800_90, _aesGcm);
             }
+
             return new TestCaseGeneratorNull();
         }
     }

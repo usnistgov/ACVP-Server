@@ -5,7 +5,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.AES_ECB
 {
-    public class TestCaseGeneratorDecrypt : ITestCaseGenerator
+    public class TestCaseGeneratorDecrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IAES_ECB _algo;
         private readonly IRandom800_90 _random800_90;
@@ -16,9 +16,6 @@ namespace NIST.CVP.Generation.AES_ECB
             _random800_90 = random800_90;
             _algo = algo;
         }
-
-       
-        public string Direction { get { return "decrypt"; } }
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {

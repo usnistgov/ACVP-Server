@@ -216,7 +216,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         {
             public Mock<ITestVectorFactory<Parameters>> MockITestVectorFactory { get; set; } = new Mock<ITestVectorFactory<Parameters>>();
             public Mock<ITestCaseGeneratorFactory> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory>();
-            public Mock<ITestCaseGenerator> MockITestCaseGenerator { get; set; } = new Mock<ITestCaseGenerator>();
+            public Mock<ITestCaseGenerator<TestGroup, TestCase>> MockITestCaseGenerator { get; set; } = new Mock<ITestCaseGenerator<TestGroup, TestCase>>();
             public Mock<IParameterParser<Parameters>> MockIParameterParser { get; set; } = new Mock<IParameterParser<Parameters>>();
             public Mock<IParameterValidator<Parameters>> MockIParameterValidator { get; set; } = new Mock<IParameterValidator<Parameters>>();
            

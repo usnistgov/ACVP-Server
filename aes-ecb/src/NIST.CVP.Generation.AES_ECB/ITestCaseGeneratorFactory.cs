@@ -1,7 +1,9 @@
-﻿namespace NIST.CVP.Generation.AES_ECB
+﻿using NIST.CVP.Generation.Core;
+
+namespace NIST.CVP.Generation.AES_ECB
 {
     public interface ITestCaseGeneratorFactory
     {
-        ITestCaseGenerator GetCaseGenerator(string direction);
+        ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(string direction);
     }
 }

@@ -5,7 +5,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class TestCaseGeneratorDecrypt : ITestCaseGenerator
+    public class TestCaseGeneratorDecrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IAES_GCM _aesGcm;
         private readonly IRandom800_90 _random800_90;
@@ -15,6 +15,7 @@ namespace NIST.CVP.Generation.AES_GCM
         /// </summary>
         /// <remarks>
         /// @@@ Cisco not yet ready for expected failure
+        /// @@@ TODO make configurable?
         /// </remarks>
         public const bool _SHOULD_CREATE_FAILURE_TESTS = false;
 
@@ -23,9 +24,6 @@ namespace NIST.CVP.Generation.AES_GCM
             _random800_90 = random800_90;
             _aesGcm = aesGcm;
         }
-
-        public string IVGen { get { return "internal"; } }
-        public string Direction { get { return "decrypt"; } }
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {

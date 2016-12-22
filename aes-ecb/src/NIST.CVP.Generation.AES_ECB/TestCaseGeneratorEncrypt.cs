@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 
 namespace NIST.CVP.Generation.AES_ECB
 {
-    public class TestCaseGeneratorEncrypt : ITestCaseGenerator
+    public class TestCaseGeneratorEncrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
         private readonly IAES_ECB _algo;
@@ -18,9 +15,6 @@ namespace NIST.CVP.Generation.AES_ECB
             _random800_90 = random800_90;
             _algo = algo;
         }
-
-       
-        public string Direction { get { return "encrypt"; } }
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
