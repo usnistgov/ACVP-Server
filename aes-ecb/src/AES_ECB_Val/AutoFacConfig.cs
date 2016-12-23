@@ -8,6 +8,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_ECB;
 using NIST.CVP.Generation.AES_ECB.Parsers;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
 namespace AES_ECB_Val
@@ -33,7 +34,7 @@ namespace AES_ECB_Val
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
-            builder.RegisterType<ResultValidator>().AsImplementedInterfaces();
+            builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();

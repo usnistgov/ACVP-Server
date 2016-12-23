@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.AES_GCM
+namespace NIST.CVP.Generation.Core
 {
-    public class ResultValidator : IResultValidator<TestCase>
+    public class ResultValidator<TTestCase> : IResultValidator<TTestCase>
+        where TTestCase : ITestCase
     {
         
-        public TestVectorValidation ValidateResults(List<ITestCaseValidator<TestCase>> testCaseValidators, List<TestCase> testResults)
+        public TestVectorValidation ValidateResults(List<ITestCaseValidator<TTestCase>> testCaseValidators, List<TTestCase> testResults)
         {
             var validations = new List<TestCaseValidation>();
             foreach (var caseValidator in testCaseValidators)

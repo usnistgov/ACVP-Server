@@ -9,6 +9,7 @@ using NIST.CVP.Generation.AES_GCM.Parsers;
 using NIST.CVP.Math;
 using NUnit.Framework;
 using NIST.CVP.Generation.AES;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
@@ -43,7 +44,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             var parser = new LegacyResponseFileParser();
             var validator = new Validator(
                 new DynamicParser(),  
-                new ResultValidator(), 
+                new ResultValidator<TestCase>(), 
                 new TestCaseGeneratorFactory(
                     new Random800_90(), 
                     new AES_GCM(
