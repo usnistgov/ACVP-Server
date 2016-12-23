@@ -6,7 +6,7 @@
 
         protected override string[] IgnoreProperties
         {
-            get { return new[] { "answerprojection", "testresults" ,"issample" }; }
+            get { return new[] { "answerprojection", "testresults", "issample" }; }
         }
     }
 }
