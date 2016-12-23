@@ -22,6 +22,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
                         FailureTest = failureTest,
                         CipherText = new BitString("7EADDC"),
                         Key = new BitString("9998ADCD"),
+                        IV = new BitString("CAFECAFE"),
                         TestCaseId = testId
                     });
                 }

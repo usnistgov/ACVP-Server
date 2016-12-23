@@ -101,7 +101,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests.Parsers
             Assume.That(result != null);
             Assume.That(result.ParsedObject != null);
             var parameters = result.ParsedObject;
-            Assert.AreEqual("AES-ECB", parameters.Algorithm);
+            Assert.AreEqual("AES-CBC", parameters.Algorithm);
 
         }
 
