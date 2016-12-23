@@ -51,7 +51,7 @@ namespace NIST.CVP.Math.Tests
         [TestCase(0)]
         [TestCase(-1)]
         [TestCase(int.MinValue)]
-        public void ShouldReturnZeroLngthBitStringForZeroOrLessLengths(int length)
+        public void ShouldReturnZeroLengthBitStringForZeroOrLessLengths(int length)
         {
             var subject = new Random800_90();
             var result = subject.GetRandomBitString(length);
