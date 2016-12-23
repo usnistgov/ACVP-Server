@@ -31,6 +31,14 @@ namespace NIST.CVP.Generation.AES.Tests
         }
 
         [Test]
+        public void ShouldReturnRijndaelCBC()
+        {
+            var result = _subject.GetRijndael(ModeValues.CBC);
+
+            Assert.IsInstanceOf(typeof(RijndaelCBC), result);
+        }
+
+        [Test]
         [TestCase(100)]
         [TestCase(-1)]
         public void ShouldReturnArgumentExceptionWithInvalidMode(int mode)

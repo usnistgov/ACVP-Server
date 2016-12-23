@@ -20,6 +20,8 @@ namespace NIST.CVP.Generation.AES
             {
                 case ModeValues.ECB:
                     return new RijndaelECB(_iRijndaelInternals);
+                case ModeValues.CBC:
+                    return new RijndaelCBC(_iRijndaelInternals);
                 default:
                     throw new ArgumentException($"invalid value for {nameof(mode)}");
             }
