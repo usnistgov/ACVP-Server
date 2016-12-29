@@ -15,11 +15,17 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         private string _targetFolder;
 
         [OneTimeSetUp]
-        public void Setup()
+        public void OneTimeSetUp()
         {
             _unitTestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\AlgoFinderFiles");
             _targetFolder = Path.Combine(_unitTestPath, Guid.NewGuid().ToString());
             Directory.CreateDirectory(_targetFolder);
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            Directory.Delete(_targetFolder, true);
         }
 
         [Test]
@@ -78,12 +84,6 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             string path = Path.Combine(_unitTestPath, "AES_GCM");
             var result = subject.CopyFoundFilesToTargetDirectory(path, "resp", _targetFolder);
             Assert.AreEqual(0, result);
-        }
-
-        [OneTimeTearDown]
-        public void Teardown()
-        {
-            Directory.Delete(_targetFolder, true);
         }
     }
 }
