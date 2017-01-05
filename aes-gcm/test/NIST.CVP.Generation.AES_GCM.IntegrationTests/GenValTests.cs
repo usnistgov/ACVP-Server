@@ -390,7 +390,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 Algorithm = "AES-GCM",
                 Mode = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
-                PtLen = new int[] { 128 },
+                PtLen = new int[] { 128, 256 },
                 ivLen = new int[] { 96 },
                 ivGen = ParameterValidator.VALID_IV_GEN[1],
                 ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],

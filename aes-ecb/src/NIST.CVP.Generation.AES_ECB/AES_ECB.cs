@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.AES_ECB
                 var key = rijn.MakeKey(keyBytes, DirectionValues.Decrypt);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode };
 
-                var decryptBits = rijn.BlockEncrypt(cipher, key, cipherText.ToBytes(), 128);
+                var decryptBits = rijn.BlockEncrypt(cipher, key, cipherText.ToBytes(), cipherText.BitLength);
                 
                 return new DecryptionResult(decryptBits);
             }
@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.AES_ECB
                 var key = rijn.MakeKey(keyBytes, DirectionValues.Encrypt);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode };
 
-                var encryptedBits = rijn.BlockEncrypt(cipher, key, data.ToBytes(), 128);
+                var encryptedBits = rijn.BlockEncrypt(cipher, key, data.ToBytes(), data.BitLength);
 
                 return new EncryptionResult(encryptedBits);
             }
