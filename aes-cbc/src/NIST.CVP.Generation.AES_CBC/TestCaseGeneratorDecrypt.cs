@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.AES_CBC
             //known answer - need to do an encryption operation to get the tag
             var key = _random800_90.GetRandomBitString(@group.KeyLength);
             var plainText = _random800_90.GetRandomBitString(group.PTLength);
-            var iv = _random800_90.GetRandomBitString((Cipher._MAX_IV_BYTE_LENGTH));
+            var iv = _random800_90.GetRandomBitString((Cipher._MAX_IV_BYTE_LENGTH * 8));
             var testCase = new TestCase
             {
                 IV = iv,

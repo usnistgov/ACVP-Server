@@ -17,7 +17,6 @@ namespace NIST.CVP.Generation.AES_CBC
             _testCaseGeneratorFactory = testCaseGeneratorFactory;
             _parameterParser = parameterParser;
             _parameterValidator = parameterValidator;
-           
         }
 
         public GenerateResponse Generate(string requestFilePath)

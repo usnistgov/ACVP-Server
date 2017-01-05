@@ -61,7 +61,7 @@ namespace AES_CBC_Val
             var fileTarget = new FileTarget();
             config.AddTarget("file", fileTarget);
             string baseDir = Path.GetDirectoryName(requestFile);
-            fileTarget.FileName = Path.Combine(baseDir, "aes-gcm-val.log");
+            fileTarget.FileName = Path.Combine(baseDir, "aes-cbc-val.log");
             fileTarget.Layout = "${longdate} ${level} ${logger} ${message}";
             config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, fileTarget));
 

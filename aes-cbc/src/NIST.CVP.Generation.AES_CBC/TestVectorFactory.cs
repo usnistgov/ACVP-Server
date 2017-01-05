@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.AES_CBC
         public ITestVectorSet BuildTestVectorSet(Parameters parameters)
         {
             var groups = BuildTestGroups(parameters);
-            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "AES-ECB", IsSample = parameters.IsSample};
+            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "AES-CBC", IsSample = parameters.IsSample};
 
             return testVector;
         }

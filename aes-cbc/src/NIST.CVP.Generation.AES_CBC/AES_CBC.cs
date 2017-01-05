@@ -16,12 +16,46 @@ namespace NIST.CVP.Generation.AES_CBC
 
         public DecryptionResult BlockDecrypt(BitString iv, BitString keyBits, BitString cipherText)
         {
-            throw new NotImplementedException();
+            try
+            {
+                byte[] keyBytes = keyBits.ToBytes();
+                ModeValues mode = ModeValues.CBC;
+                var rijn = _iRijndaelFactory.GetRijndael(mode);
+                var key = rijn.MakeKey(keyBytes, DirectionValues.Decrypt);
+                var cipher = new Cipher { BlockLength = 128, Mode = mode, IV = iv.ToBytes()};
+
+                var decryptBits = rijn.BlockEncrypt(cipher, key, cipherText.ToBytes(), cipherText.BitLength);
+
+                return new DecryptionResult(decryptBits);
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Debug($"keyLen:{keyBits.BitLength}; cipherTextLen:{cipherText.BitLength}");
+                ThisLogger.Error(ex);
+                return new DecryptionResult(ex.Message);
+            }
         }
 
         public EncryptionResult BlockEncrypt(BitString iv, BitString keyBits, BitString data)
         {
-            throw new NotImplementedException();
+            try
+            {
+                byte[] keyBytes = keyBits.ToBytes();
+                ModeValues mode = ModeValues.CBC;
+                var rijn = _iRijndaelFactory.GetRijndael(mode);
+                var key = rijn.MakeKey(keyBytes, DirectionValues.Encrypt);
+                var cipher = new Cipher { BlockLength = 128, Mode = mode, IV = iv.ToBytes()};
+
+                var encryptedBits = rijn.BlockEncrypt(cipher, key, data.ToBytes(), data.BitLength);
+
+                return new EncryptionResult(encryptedBits);
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Debug($"keyLen:{keyBits.BitLength}; dataLen:{data.BitLength}");
+                ThisLogger.Error(ex);
+                return new EncryptionResult(ex.Message);
+            }
         }
 
         private Logger ThisLogger

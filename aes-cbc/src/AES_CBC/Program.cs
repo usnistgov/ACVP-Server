@@ -65,7 +65,7 @@ namespace AES_CBC
             var fileTarget = new FileTarget();
             config.AddTarget("file", fileTarget);
             string baseDir = Path.GetDirectoryName(requestFile);
-            fileTarget.FileName = Path.Combine(baseDir, "aes-ecb.log");
+            fileTarget.FileName = Path.Combine(baseDir, "aes-cbc.log");
             fileTarget.Layout = "${longdate} ${level} ${logger} ${message}";
             config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, fileTarget));
 
