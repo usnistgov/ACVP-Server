@@ -182,23 +182,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
             // Validate result as pass
             Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
         }
-
-        [Test]
-        public void ShouldReportSuccessfulTestsWith0LengthAADAnd0LengthPt()
-        {
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileWithZeroLengthAadAndPt(targetFolder);
-
-            RunGenerationAndValidation(targetFolder, fileName);
-
-            // Get object for the validation.json
-            DynamicParser dp = new DynamicParser();
-            var parsedValidation = dp.Parse($"{targetFolder}\\validation.json");
-
-            // Validate result as pass
-            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
-        }
-
+        
         [Test]
         public void ShouldReportFailedDispositionOnErrorTests()
         {
@@ -343,21 +327,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 
             return failedTestCases;
         }
-
-        private string GetTestFileWithZeroLengthAadAndPt(string targetFolder)
-        {
-            Parameters p = new Parameters()
-            {
-                Algorithm = "AES-ECB",
-                Mode = ParameterValidator.VALID_DIRECTIONS,
-                KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new int[] { 0 },
-                IsSample = false
-            };
-
-            return CreateRegistration(targetFolder, p);
-        }
-
+        
         private string GetTestFileFewTestCases(string targetFolder)
         {
             Parameters p = new Parameters()
