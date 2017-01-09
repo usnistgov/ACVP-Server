@@ -11,94 +11,86 @@ namespace NIST.CVP.Generation.AES_ECB.Parsers
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
-            // Gracefully handle errors
             if (string.IsNullOrEmpty(path))
             {
                 return new ParseResponse<TestVectorSet>("There was no path supplied.");
             }
 
-            if (!File.Exists(path))
+            if (!Directory.Exists(path))
             {
-                return new ParseResponse<TestVectorSet>($"Could not find file: {path}");
+                return new ParseResponse<TestVectorSet>($"Could not find path {path}");
             }
 
-            List<string> lines = new List<string>();
-            try
+            var groups = new List<TestGroup>();
+
+            var files = Directory.GetFiles(path, "*.rsp");
+            foreach (var file in files)
             {
-                lines = File.ReadAllLines(path).ToList();
-            }catch(Exception e)
-            {
-                return new ParseResponse<TestVectorSet>(e.Message);
-            }
-
-            string fileName = Path.GetFileName(path).ToLower();
-            string direction = "";
-
-            List<TestGroup> groups = new List<TestGroup>();
-            TestGroup currentGroup = null;
-            TestCase currentTestCase = null;
-            int keyLen = -1;
-            int ptLen = -1;
-
-            foreach(string line in lines)
-            {
-                string workingLine = line.Trim();
-
-                // Ignore blank lines
-                if(string.IsNullOrEmpty(workingLine))
+                // @@@ TODO if MCT (Monte Carlo Test) is implemented, stop excluding the MCT files
+                if (file.Contains("MCT"))
                 {
                     continue;
                 }
 
-                // Ignore header, but grab key length
-                if (workingLine.StartsWith("#"))
+                var lines = new List<string>();
+                try
                 {
-                    if(keyLen == -1 && workingLine.Contains("Key Length"))
+                    lines = File.ReadAllLines(file).ToList();
+                }
+                catch (Exception ex)
+                {
+                    return new ParseResponse<TestVectorSet>(ex.Message);
+                }
+
+                TestGroup currentGroup = null;
+                TestCase currentTestCase = null;
+
+                foreach (var line in lines)
+                {
+                    var workingLine = line.Trim();
+                    if (string.IsNullOrEmpty(workingLine))
                     {
-                        string[] parts = workingLine.Split(":".ToCharArray());
-                        int.TryParse(parts[1].Trim(), out keyLen);
+                        continue;
                     }
-                    continue;
-                }
+                    if (workingLine.StartsWith("#"))
+                    {
+                        continue;
+                    }
+                    if (workingLine.StartsWith("["))
+                    {
+                        // New test group when "[" encountered
+                        workingLine = workingLine.Replace("[", "").Replace("]", "");
 
-                // Determine direction, always marks start of new TestGroup
-                if (workingLine.StartsWith("["))
-                {
-                    direction = workingLine.Replace("[", "").Replace("]", "").ToLower();
-                    currentGroup = new TestGroup { Function = direction };
-                    currentGroup.SetString("keylen", keyLen.ToString());
-                    groups.Add(currentGroup);
+                        currentGroup = new TestGroup()
+                        {
+                            Function = workingLine,
+                            KeyLength = 0,
+                            PTLength = 0
+                        };
+                        groups.Add(currentGroup);
+                        continue;
+                    }
 
-                    // Refresh plaintext length for the new TestGroup
-                    ptLen = -1;
+                    if (workingLine.StartsWith("Count", StringComparison.OrdinalIgnoreCase))
+                    {
+                        string[] parts = workingLine.Split("=".ToCharArray());
+                        int caseId = -1;
+                        int.TryParse(parts[1].Trim(), out caseId);
+                        currentTestCase = new TestCase {TestCaseId = caseId};
+                        currentGroup.Tests.Add(currentTestCase);
+                        continue;
+                    }
 
-                    continue;
-                }
-
-                // Build TestCases
-                if (workingLine.ToLower().StartsWith("count"))
-                {
-                    string[] parts = workingLine.Split("=".ToCharArray());
-                    int caseId = -1;
-                    int.TryParse(parts[1].Trim(), out caseId);
-                    currentTestCase = new TestCase { TestCaseId = caseId };
-                    currentGroup.Tests.Add(currentTestCase);
-                    continue;
-                }
-
-                // Add to each TestCase
-                string[] valueParts = workingLine.Split("=".ToCharArray());
-                currentTestCase.SetString(valueParts[0].Trim().ToLower(), valueParts[1].Trim().ToLower());
-
-                // Initial set for plaintext length
-                if (ptLen == -1 && valueParts[0] == "plaintext")
-                {
-                    ptLen = valueParts[1].Length * 4;
-                    currentGroup.SetString("ptlen", ptLen.ToString());
+                    string[] valueParts = workingLine.Split("=".ToCharArray());
+                    currentTestCase.SetString(valueParts[0].Trim(), valueParts[1].Trim());
                 }
             }
 
-            TestVectorSet testVectorSet = new TestVectorSet { Algorithm = "AES-ECB", TestGroups = groups.Select(g => (ITestGroup)g).ToList() };
+            var testVectorSet = new TestVectorSet
+            {
+                Algorithm = "AES-ECB",
+                TestGroups = groups.Select(g => (ITestGroup) g).ToList()
+            };
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
     }
