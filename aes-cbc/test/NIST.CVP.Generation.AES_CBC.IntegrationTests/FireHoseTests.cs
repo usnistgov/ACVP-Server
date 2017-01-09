@@ -39,6 +39,11 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
                 Assert.Fail("Failed parsing test files");
             }
 
+            if (parsedTestVectorSet.ParsedObject.TestGroups.Count == 0)
+            {
+                Assert.Fail("No TestGroups were parsed.");
+            }
+
             int count = 0;
             int passes = 0;
             int fails = 0;
