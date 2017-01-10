@@ -11,55 +11,49 @@ using NUnit.Framework;
 using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Tests.Core;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
     [TestFixture]
     public class FireHoseTests
     {
-        private string _testFilePath = @"C:\ACAVPTestFiles\AES_GCM";
+        string _testPath;
 
-        [OneTimeSetUp]
-        public void SetUp()
+        [SetUp]
+        public void Setup()
         {
-           // ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-           // configurationBuilder.AddJsonFile("config.json");
-            
-           // var config = configurationBuilder.Build();
-
-           //_testFilePath= config["TestFileDirectory"];
-
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
         }
-        
-        [Ignore("For integration -- coming soon")]
+ 
+        //[Ignore("For integration -- coming soon")]
         [Test]
         public void ShouldRunThroughAllTestFilesAndValidate()
         {
-            if (!Directory.Exists(_testFilePath))
+            if (!Directory.Exists(_testPath))
 
             {
                 Assert.Fail("Test File Directory does not exist");
             }
-            var testDir = new DirectoryInfo(_testFilePath);
+            var testDir = new DirectoryInfo(_testPath);
             var parser = new LegacyResponseFileParser();
-            var validator = new Validator(
-                new DynamicParser(),  
-                new ResultValidator<TestCase>(), 
-                new TestCaseGeneratorFactory(
-                    new Random800_90(), 
-                    new AES_GCM(
-                        new AES_GCMInternals(
-                            new RijndaelFactory(
-                                new RijndaelInternals()
-                            )
-                        ),
-                        new RijndaelFactory(
-                            new RijndaelInternals()
-                        )
+            var algo = new AES_GCM(
+                new AES_GCMInternals(
+                    new RijndaelFactory(
+                        new RijndaelInternals()
                     )
+                ), 
+                new RijndaelFactory(
+                    new RijndaelInternals()
                 )
             );
-            foreach (var testFilePath in testDir.EnumerateFiles("*encrypt*.*"))
+
+            int count = 0;
+            int passes = 0;
+            int fails = 0;
+            int failureTests = 0;
+            foreach (var testFilePath in testDir.EnumerateFiles())
             {
                 var parseResult = parser.Parse(testFilePath.FullName);
                 if (!parseResult.Success)
@@ -67,9 +61,93 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                     Assert.Fail($"Could not parse: {testFilePath.FullName}");
                 }
                 var testVector = parseResult.ParsedObject;
-               // var validationResult = validator.ValidateWorker(testVector testVector.ResultProjection,);
-               // Assert.AreEqual("passed", validationResult.Disposition);
+
+                if (testVector.TestGroups.Count == 0)
+                {
+                    Assert.Fail("No TestGroups were parsed.");
+                }
+
+                foreach (var iTestGroup in testVector.TestGroups)
+                {
+
+                    var testGroup = (TestGroup)iTestGroup;
+                    foreach (var iTestCase in testGroup.Tests)
+                    {
+                        count++;
+
+                        var testCase = (TestCase)iTestCase;
+
+                        if (testGroup.Function.ToLower() == "encrypt")
+                        {
+                            var result = algo.BlockEncrypt(
+                                testCase.Key,
+                                testCase.PlainText,
+                                testCase.IV,
+                                testCase.AAD,
+                                testCase.Tag.BitLength
+                            );
+
+                            if (!result.Success)
+                            {
+                                fails++;
+                                continue;
+                            }
+
+                            if (testCase.CipherText.ToHex() == result.CipherText.ToHex())
+                            {
+                                passes++;
+                            }
+                            else
+                            {
+                                fails++;
+                            }
+
+                            Assert.AreEqual(testCase.CipherText.ToHex(), result.CipherText.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.CipherText.ToHex()}");
+                            continue;
+                        }
+
+                        if (testGroup.Function.ToLower() == "decrypt")
+                        {
+                            var result = algo.BlockDecrypt(
+                                testCase.Key,
+                                testCase.CipherText,
+                                testCase.IV,
+                                testCase.AAD,
+                                testCase.Tag
+                            );
+
+                            if (testCase.FailureTest)
+                            {
+                                failureTests++;
+                                if (result.Success)
+                                {
+                                    fails++;
+                                }
+                                else
+                                {
+                                    passes++;
+                                }
+                                continue;
+                            }
+
+                            if (testCase.PlainText.ToHex() == result.PlainText.ToHex())
+                            {
+                                passes++;
+                            }
+                            else
+                            {
+                                fails++;
+                            }
+
+                            Assert.AreEqual(testCase.PlainText.ToHex(), result.PlainText.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.PlainText.ToHex()}");
+                            continue;
+                        }
+
+                        Assert.Fail($"{testGroup.Function} did not meet expected function values");
+                    }
+                }
             }
+            //Assert.Fail($"Passes {passes}, fails {fails}, count {count}.  Failure tests {failureTests}");
         }
        
     }
