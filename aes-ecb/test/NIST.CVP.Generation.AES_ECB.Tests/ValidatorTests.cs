@@ -113,7 +113,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
 
         private TestVectorSet GetTestTestVectorSet(int groups = 2)
         {
-            var vectorSet = new TestVectorSet { Algorithm = "AES-GCM" };
+            var vectorSet = new TestVectorSet { Algorithm = "AES-ECB" };
             var testGroups = _tdm.GetTestGroups(groups);
             vectorSet.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return vectorSet;

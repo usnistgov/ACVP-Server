@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_ECB
 
         public TestGroup(dynamic source)
         {
-           
+            TestType = source.testType;
             PTLength = source.ptLen;
             KeyLength = source.keyLen;
             Function = source.direction;
@@ -29,6 +29,10 @@ namespace NIST.CVP.Generation.AES_ECB
 
         }
 
+        public bool StaticGroupOfTests { get; set; }
+
+        [JsonProperty(PropertyName = "testType")]
+        public string TestType { get; set; } = "MMT";
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "keylen")]
@@ -57,7 +61,7 @@ namespace NIST.CVP.Generation.AES_ECB
         public override int GetHashCode()
         {
             return
-                $"{Function}|{KeyLength}|{PTLength}"
+                $"{Function}|{TestType}|{KeyLength}|{PTLength}"
                     .GetHashCode();
         }
 

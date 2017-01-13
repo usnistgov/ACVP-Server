@@ -7,6 +7,7 @@ namespace NIST.CVP.Generation.Core
 {
     public interface ITestGroup
     {
+        string TestType { get; }
         List<ITestCase> Tests { get; }
         bool MergeTests(List<ITestCase> testsToMerge);
         int KeyLength { get; }

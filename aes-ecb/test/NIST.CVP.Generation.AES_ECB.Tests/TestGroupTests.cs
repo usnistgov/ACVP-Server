@@ -23,7 +23,14 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
            
         }
 
-      
+        [Test]
+        public void ShouldSetProperTestTypeFromDynamicAnswer()
+        {
+            var sourceAnswer = GetSourceAnswer();
+            var subject = new TestGroup(sourceAnswer);
+            Assume.That(subject != null);
+            Assert.AreEqual(sourceAnswer.testType, subject.TestType);
+        }
 
         [Test]
         public void ShouldSetProperKeyLengthFromDynamicAnswer()

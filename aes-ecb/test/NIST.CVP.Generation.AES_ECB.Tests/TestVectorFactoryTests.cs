@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Components.DictionaryAdapter;
+using Moq;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_ECB.Tests
 {
@@ -35,7 +38,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             new int[] { 1, 2, 3 }
 
         )]
-        public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
+        public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamtersWithNoKatOrMctImpl(
             string[] mode,
             int[] keyLen,
             int[] ptLen
@@ -50,8 +53,15 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                
             };
             int expectedResultCount =  keyLen.Length * mode.Length * ptLen.Length;
-
-            TestVectorFactory subject = new TestVectorFactory();
+            Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iKATTestGroupFactory = new Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            iKATTestGroupFactory
+                .Setup(s => s.BuildKATTestGroups(It.IsAny<Parameters>()))
+                .Returns(new List<TestGroup>());
+            Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iMCTTestGroupFactory = new Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            iMCTTestGroupFactory
+                .Setup(s => s.BuildMCTTestGroups(It.IsAny<Parameters>()))
+                .Returns(new List<TestGroup>());
+            TestVectorFactory subject = new TestVectorFactory(iKATTestGroupFactory.Object, iMCTTestGroupFactory.Object);
             var result = subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(expectedResultCount, result.TestGroups.Count);
@@ -70,9 +80,16 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 PtLen = new int[] { 1 },
                 IsSample = isSample
             };
-         
 
-            TestVectorFactory subject = new TestVectorFactory();
+            Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iKATTestGroupFactory = new Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            iKATTestGroupFactory
+                .Setup(s => s.BuildKATTestGroups(It.IsAny<Parameters>()))
+                .Returns(new List<TestGroup>());
+            Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iMCTTestGroupFactory = new Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            iMCTTestGroupFactory
+                .Setup(s => s.BuildMCTTestGroups(It.IsAny<Parameters>()))
+                .Returns(new List<TestGroup>());
+            TestVectorFactory subject = new TestVectorFactory(iKATTestGroupFactory.Object, iMCTTestGroupFactory.Object);
             var result = subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(isSample, result.IsSample);

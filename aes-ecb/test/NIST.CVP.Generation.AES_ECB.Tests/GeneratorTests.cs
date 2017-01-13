@@ -93,12 +93,9 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                         }
                     }
                 });
-            mocks.MockITestCaseGenerator
-                .Setup(s => s.Generate(It.IsAny<TestGroup>(), false))
-                .Returns(new TestCaseGenerateResponse(errorMessage));
-            mocks.MockITestCaseGeneratorFactory
-                .Setup(s => s.GetCaseGenerator(It.IsAny<string>()))
-                .Returns(mocks.MockITestCaseGenerator.Object);
+            mocks.MockITestCaseGeneratorFactoryFactory
+                .Setup(s => s.BuildTestCases(It.IsAny<TestVectorSet>()))
+                .Returns(new GenerateResponse(errorMessage));
 
             var subject = GetSystem(mocks);
 
@@ -139,12 +136,9 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                         }
                     }
                 });
-            mocks.MockITestCaseGenerator
-               .Setup(s => s.Generate(It.IsAny<TestGroup>(), false))
-               .Returns(new TestCaseGenerateResponse(new TestCase()));
-            mocks.MockITestCaseGeneratorFactory
-                .Setup(s => s.GetCaseGenerator(It.IsAny<string>()))
-                .Returns(mocks.MockITestCaseGenerator.Object);
+            mocks.MockITestCaseGeneratorFactoryFactory
+                .Setup(s => s.BuildTestCases(It.IsAny<TestVectorSet>()))
+                .Returns(new GenerateResponse());
 
             var subject = GetSystem(mocks);
 
@@ -172,11 +166,9 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             Assert.IsTrue(result.Success);
         }
 
-       
-
-        private Generator GetSystem(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        private Generator GetSystem(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactoryFactory<TestVectorSet> testCaseGeneratorFactoryFactory)
         {
-            return new Generator(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactory);
+            return new Generator(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactoryFactory);
         }
 
         private Generator GetSystem(MockedSystemDependencies mocks)
@@ -185,19 +177,17 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 mocks.MockITestVectorFactory.Object,
                 mocks.MockIParameterParser.Object,
                 mocks.MockIParameterValidator.Object,
-                mocks.MockITestCaseGeneratorFactory.Object
+                mocks.MockITestCaseGeneratorFactoryFactory.Object
             );
         }
 
         private class MockedSystemDependencies
         {
             public Mock<ITestVectorFactory<Parameters>> MockITestVectorFactory { get; set; } = new Mock<ITestVectorFactory<Parameters>>();
-            public Mock<ITestCaseGeneratorFactory> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory>();
+            public Mock<ITestCaseGeneratorFactoryFactory<TestVectorSet>> MockITestCaseGeneratorFactoryFactory { get; set; } = new Mock<ITestCaseGeneratorFactoryFactory<TestVectorSet>>();
             public Mock<ITestCaseGenerator<TestGroup, TestCase>> MockITestCaseGenerator { get; set; } = new Mock<ITestCaseGenerator<TestGroup, TestCase>>();
             public Mock<IParameterParser<Parameters>> MockIParameterParser { get; set; } = new Mock<IParameterParser<Parameters>>();
             public Mock<IParameterValidator<Parameters>> MockIParameterValidator { get; set; } = new Mock<IParameterValidator<Parameters>>();
-           
-            
         }
     }
 }

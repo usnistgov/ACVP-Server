@@ -34,6 +34,8 @@ namespace NIST.CVP.Generation.AES_GCM
 
         }
 
+        [JsonProperty(PropertyName = "testType")]
+        public string TestType { get; set; } = "KAT";
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "keylen")]

@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.AES_ECB
             }
         }
 
-        public string Algorithm { get; set; }
+        public string Algorithm { get; set; } = "AES-ECB";
         public bool IsSample { get; set; }
 
         [JsonIgnore]
@@ -58,6 +58,7 @@ namespace NIST.CVP.Generation.AES_ECB
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
 
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
                     ((IDictionary<string, object>)updateObject).Add("ptLen", group.PTLength);
                     ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
                     var tests = new List<dynamic>();
@@ -100,6 +101,7 @@ namespace NIST.CVP.Generation.AES_ECB
                 {
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
                     ((IDictionary<string, object>)updateObject).Add("ptLen", group.PTLength);
                     ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
                     var tests = new List<dynamic>();

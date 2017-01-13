@@ -56,9 +56,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         {
             var answers = GetSubject();
             var prompts = GetSubject();
-
-            Random800_90 rand = new Random800_90();
-
+            
             foreach (var testGroup in prompts.TestGroups)
             {
                 testGroup.Tests.Clear();

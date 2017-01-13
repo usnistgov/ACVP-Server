@@ -25,5 +25,7 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
 
             KeyLength = 1;
         }
+
+        public string TestType { get; }
     }
 }

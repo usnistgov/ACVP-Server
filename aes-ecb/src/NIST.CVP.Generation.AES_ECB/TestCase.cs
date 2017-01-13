@@ -74,7 +74,7 @@ namespace NIST.CVP.Generation.AES_ECB
         public BitString PlainText { get; set; }
         public BitString Key { get; set; }
         public BitString CipherText { get; set; }
-      
+        public List<AlgoArrayResponse> MultiResponse { get; set; } = new List<AlgoArrayResponse>();
 
         public bool Merge(ITestCase otherTest)
         {
