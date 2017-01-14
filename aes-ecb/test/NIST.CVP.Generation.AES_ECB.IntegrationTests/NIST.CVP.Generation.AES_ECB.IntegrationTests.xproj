@@ -6,7 +6,7 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>502e5323-bba4-404d-a518-81a4f8ec693f</ProjectGuid>
+    <ProjectGuid>de47290c-5152-490c-8c69-4ac79a5de62b</ProjectGuid>
     <RootNamespace>NIST.CVP.Generation.AES_ECB.IntegrationTests</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
