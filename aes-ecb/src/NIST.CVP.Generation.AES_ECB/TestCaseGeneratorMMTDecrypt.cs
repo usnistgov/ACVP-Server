@@ -10,6 +10,8 @@ namespace NIST.CVP.Generation.AES_ECB
         private readonly IAES_ECB _algo;
         private readonly IRandom800_90 _random800_90;
 
+        public int NumberOfTestCasesToGenerate { get { return 15; } }
+
         public TestCaseGeneratorMMTDecrypt(IRandom800_90 random800_90, IAES_ECB algo)
         {
             _random800_90 = random800_90;

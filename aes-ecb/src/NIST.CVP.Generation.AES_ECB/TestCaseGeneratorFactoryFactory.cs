@@ -17,15 +17,13 @@ namespace NIST.CVP.Generation.AES_ECB
             _staticTestCaseGeneratorFactory = iStaticTestCaseGeneratorFactory;
         }
 
-        public int NumberOfCases { get { return 15; } }
-
         public GenerateResponse BuildTestCases(TestVectorSet testVector)
         {
             int testId = 1;
             foreach (var group in testVector.TestGroups.Select(g => (TestGroup)g).Where(w => !w.StaticGroupOfTests))
             {
                 var generator = _testCaseGeneratorFactory.GetCaseGenerator(group.Function, group.TestType);
-                for (int caseNo = 0; caseNo < NumberOfCases; ++caseNo)
+                for (int caseNo = 0; caseNo < generator.NumberOfTestCasesToGenerate; ++caseNo)
                 {
                     var testCaseResponse = generator.Generate(@group, testVector.IsSample);
                     if (!testCaseResponse.Success)

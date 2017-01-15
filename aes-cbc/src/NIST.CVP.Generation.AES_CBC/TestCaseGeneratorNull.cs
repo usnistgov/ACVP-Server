@@ -4,6 +4,9 @@ namespace NIST.CVP.Generation.AES_CBC
 {
     public class TestCaseGeneratorNull : ITestCaseGenerator<TestGroup, TestCase>
     {
+
+        public int NumberOfTestCasesToGenerate { get { return 0; } }
+
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
             return Generate(group, null);

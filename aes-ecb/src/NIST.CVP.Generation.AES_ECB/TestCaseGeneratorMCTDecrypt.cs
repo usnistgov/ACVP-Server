@@ -10,6 +10,8 @@ namespace NIST.CVP.Generation.AES_ECB
         private readonly IRandom800_90 _iRandom80090;
         private readonly IAES_ECB_MCT _iAesEcbMct;
 
+        public int NumberOfTestCasesToGenerate { get { return 1; } }
+
         public TestCaseGeneratorMCTDecrypt(IRandom800_90 iRandom80090, IAES_ECB_MCT iAesEcbMct)
         {
             _iRandom80090 = iRandom80090;
@@ -51,7 +53,7 @@ namespace NIST.CVP.Generation.AES_ECB
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
-            testCase.MultiResponse = decryptionResult.Response;
+            testCase.ResultsArray = decryptionResult.Response;
             return new TestCaseGenerateResponse(testCase);
         }
 

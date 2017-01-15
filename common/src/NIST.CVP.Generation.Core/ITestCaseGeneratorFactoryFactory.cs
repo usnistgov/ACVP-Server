@@ -9,6 +9,5 @@ namespace NIST.CVP.Generation.Core
         where TTestVectorSet : ITestVectorSet
     {
         GenerateResponse BuildTestCases(TTestVectorSet testVectorSet);
-        int NumberOfCases { get; }
     }
 }

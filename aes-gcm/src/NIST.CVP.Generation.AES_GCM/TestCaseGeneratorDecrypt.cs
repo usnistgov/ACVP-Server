@@ -19,6 +19,8 @@ namespace NIST.CVP.Generation.AES_GCM
         /// </remarks>
         public const bool _SHOULD_CREATE_FAILURE_TESTS = false;
 
+        public int NumberOfTestCasesToGenerate { get { return 15; } }
+
         public TestCaseGeneratorDecrypt(IRandom800_90 random800_90, IAES_GCM aesGcm)
         {
             _random800_90 = random800_90;

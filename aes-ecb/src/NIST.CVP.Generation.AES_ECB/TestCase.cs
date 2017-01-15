@@ -37,10 +37,36 @@ namespace NIST.CVP.Generation.AES_ECB
             {
                 Deferred = source.deferred;
             }
+            if (((ExpandoObject) source).ContainsProperty("resultsArray"))
+            {
+                ResultsArray = ResultsArrayToObject(source.resultsArray);
+            }
 
             Key = BitStringFromObject("key", (ExpandoObject) source);
             CipherText = BitStringFromObject("cipherText", (ExpandoObject)source);
             PlainText = BitStringFromObject("plainText", (ExpandoObject)source);
+        }
+
+        private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
+        {
+            List<AlgoArrayResponse> list = new List<AlgoArrayResponse>();
+
+            foreach (dynamic item in resultsArray)
+            {
+                AlgoArrayResponse response = new AlgoArrayResponse();
+
+                if (((ExpandoObject)item).ContainsProperty("count"))
+                {
+                    response.Count = (int)item.count;
+                }
+                response.Key = BitStringFromObject("key", (ExpandoObject) item);
+                response.PlainText = BitStringFromObject("plainText", (ExpandoObject) item);
+                response.CipherText = BitStringFromObject("cipherText", (ExpandoObject) item);
+
+                list.Add(response);
+            }
+
+            return list;
         }
 
         private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
@@ -74,7 +100,7 @@ namespace NIST.CVP.Generation.AES_ECB
         public BitString PlainText { get; set; }
         public BitString Key { get; set; }
         public BitString CipherText { get; set; }
-        public List<AlgoArrayResponse> MultiResponse { get; set; } = new List<AlgoArrayResponse>();
+        public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
 
         public bool Merge(ITestCase otherTest)
         {
@@ -93,6 +119,11 @@ namespace NIST.CVP.Generation.AES_ECB
             if (CipherText == null && otherTypedTest.CipherText != null)
             {
                 CipherText = otherTypedTest.CipherText;
+                return true;
+            }
+
+            if (ResultsArray.Count != 0 && otherTypedTest.ResultsArray.Count != 0)
+            {
                 return true;
             }
             return false;
@@ -115,6 +146,7 @@ namespace NIST.CVP.Generation.AES_ECB
                 case "pt":
                     PlainText= new BitString(value);
                     return true;
+
                 case "ciphertext":
                 case "ct":
                     CipherText = new BitString(value);

@@ -35,9 +35,7 @@ namespace NIST.CVP.Generation.AES_ECB
             return list;
         }
 
-      
-
-        private List<ITestCaseValidator<TestCase>> BuildValidatorList(TestVectorSet testVectorSet, List<TestCase>  suppliedResults)
+        private List<ITestCaseValidator<TestCase>> BuildValidatorList(TestVectorSet testVectorSet, List<TestCase> suppliedResults)
         {
 
             var list = new List<ITestCaseValidator<TestCase>>();
@@ -47,13 +45,27 @@ namespace NIST.CVP.Generation.AES_ECB
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
                     var workingTest = test;
-                    if (group.Function == "encrypt")
+                    if (group.TestType.ToLower() == "mct")
                     {
-                        list.Add(new TestCaseValidatorEncrypt(workingTest));
+                        if (group.Function == "encrypt")
+                        {
+                            list.Add(new TestCaseValidatorMCTEncrypt(workingTest));
+                        }
+                        else
+                        {
+                            list.Add(new TestCaseValidatorMCTDecrypt(workingTest));
+                        }
                     }
                     else
                     {
-                        list.Add(new TestCaseValidatorDecrypt(workingTest));
+                        if (group.Function == "encrypt")
+                        {
+                            list.Add(new TestCaseValidatorEncrypt(workingTest));
+                        }
+                        else
+                        {
+                            list.Add(new TestCaseValidatorDecrypt(workingTest));
+                        }
                     }
                 }
             }

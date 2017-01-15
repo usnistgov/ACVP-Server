@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.AES_CBC
         private readonly IAES_CBC _algo;
         private readonly IRandom800_90 _random800_90;
 
+        public int NumberOfTestCasesToGenerate { get { return 15; } }
 
         public TestCaseGeneratorDecrypt(IRandom800_90 random800_90, IAES_CBC algo)
         {

@@ -93,7 +93,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
             var targetFolder = GetTestFolder();
             var fileName = GetTestFileLotsOfTestCases(targetFolder);
 
-            RunGenerationAndValidation(targetFolder, fileName);
+            RunGeneration(targetFolder, fileName);
 
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), "testResults");
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), "prompt");
@@ -317,6 +317,15 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
 
                         testCase.plainText = bs.ToHex();
+                    }
+
+                    // If TC has a resultsArray, change some of the elements
+                    if (testCase.resultsArray != null)
+                    {
+                        BitString bs = new BitString(testCase.resultsArray[0].plainText.ToString());
+                        bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                        testCase.resultsArray[0].plainText = bs.ToHex();
                     }
                 }
             }

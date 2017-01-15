@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
+using NLog;
 
 namespace NIST.CVP.Generation.AES_ECB
 {
@@ -20,9 +22,8 @@ namespace NIST.CVP.Generation.AES_ECB
         {
             var groups = BuildTestGroups(parameters); // Random tests for test groups
             groups.AddRange(_iKATTestGroupFactory.BuildKATTestGroups(parameters));
-            // @@@ TODO complete MCT validation implementation prior to adding to groups
-            // groups.AddRange(_IMCTTestGroupFactory.BuildMCTTestGroups(parameters));
-            var testVector = new TestVectorSet {TestGroups = groups, IsSample = parameters.IsSample};
+            groups.AddRange(_IMCTTestGroupFactory.BuildMCTTestGroups(parameters));
+            var testVector = new TestVectorSet { TestGroups = groups, IsSample = parameters.IsSample };
 
             return testVector;
         }

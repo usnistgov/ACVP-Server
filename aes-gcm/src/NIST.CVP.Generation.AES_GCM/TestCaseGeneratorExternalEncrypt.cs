@@ -10,6 +10,8 @@ namespace NIST.CVP.Generation.AES_GCM
         private readonly IRandom800_90 _random800_90;
         private readonly IAES_GCM _aes_gcm;
 
+        public int NumberOfTestCasesToGenerate { get { return 15; } }
+
         public TestCaseGeneratorExternalEncrypt(IRandom800_90 random800_90, IAES_GCM aes_gcm)
         {
             _random800_90 = random800_90;
