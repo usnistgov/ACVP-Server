@@ -124,6 +124,32 @@ namespace NIST.CVP.Generation.AES_ECB
             return false;
         }
 
+        public bool SetResultsArrayString(int index, string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "key":
+                    ResultsArray[index].Key = new BitString(value);
+                    return true;
+
+                case "plaintext":
+                case "pt":
+                    ResultsArray[index].PlainText = new BitString(value);
+                    return true;
+
+                case "ciphertext":
+                case "ct":
+                    ResultsArray[index].CipherText = new BitString(value);
+                    return true;
+            }
+            return false;
+        }
+
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -149,6 +175,5 @@ namespace NIST.CVP.Generation.AES_ECB
             }
             return false;
         }
-
     }
 }

@@ -15,12 +15,15 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
     {
         string _testPath;
 
-        AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+        private AES_ECB _aesEcb;
+        private AES_ECB_MCT _aesEcbMct;
 
         [SetUp]
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _aesEcb = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            _aesEcbMct = new AES_ECB_MCT(_aesEcb);
         }
 
         [Test]
@@ -57,36 +60,72 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 
                     var testCase = (TestCase)iTestCase;
 
-                    if (testGroup.Function.ToLower() == "encrypt")
+                    if (testGroup.TestType.ToLower() == "mct")
                     {
-                        var result = algo.BlockEncrypt(
-                            testCase.Key,
-                            testCase.PlainText
-                        );
+                        if (testGroup.Function.ToLower() == "encrypt")
+                        {
+                            var result = _aesEcbMct.MCTEncrypt(
+                                testCase.ResultsArray.First().Key,
+                                testCase.ResultsArray.First().PlainText
+                            );
 
-                        if (testCase.CipherText.ToHex() == result.CipherText.ToHex())
-                            passes++;
-                        else
-                            fails++;
+                            Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
+                            for (int i = 0; i < testCase.ResultsArray.Count; i++)
+                            {
+                                Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
+                            }
+                            continue;
+                        }
+                        if (testGroup.Function.ToLower() == "decrypt")
+                        {
+                            var result = _aesEcbMct.MCTDecrypt(
+                                testCase.ResultsArray.First().Key,
+                                testCase.ResultsArray.First().CipherText
+                            );
 
-                        Assert.AreEqual(testCase.CipherText.ToHex(), result.CipherText.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.CipherText.ToHex()}");
-                        continue;
+                            Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
+                            for (int i = 0; i < testCase.ResultsArray.Count; i++)
+                            {
+                                Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
+                            }
+                            continue;
+                        }
                     }
-
-                    if (testGroup.Function.ToLower() == "decrypt")
+                    else
                     {
-                        var result = algo.BlockDecrypt(
-                            testCase.Key,
-                            testCase.CipherText
-                        );
+                        if (testGroup.Function.ToLower() == "encrypt")
+                        {
+                            var result = _aesEcb.BlockEncrypt(
+                                testCase.Key,
+                                testCase.PlainText
+                            );
 
-                        if (testCase.PlainText.ToHex() == result.PlainText.ToHex())
-                            passes++;
-                        else
-                            fails++;
+                            if (testCase.CipherText.ToHex() == result.CipherText.ToHex())
+                                passes++;
+                            else
+                                fails++;
 
-                        Assert.AreEqual(testCase.PlainText.ToHex(), result.PlainText.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.PlainText.ToHex()}");
-                        continue;
+                            Assert.AreEqual(testCase.CipherText.ToHex(), result.CipherText.ToHex(),
+                                $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.CipherText.ToHex()}");
+                            continue;
+                        }
+
+                        if (testGroup.Function.ToLower() == "decrypt")
+                        {
+                            var result = _aesEcb.BlockDecrypt(
+                                testCase.Key,
+                                testCase.CipherText
+                            );
+
+                            if (testCase.PlainText.ToHex() == result.PlainText.ToHex())
+                                passes++;
+                            else
+                                fails++;
+
+                            Assert.AreEqual(testCase.PlainText.ToHex(), result.PlainText.ToHex(),
+                                $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.PlainText.ToHex()}");
+                            continue;
+                        }
                     }
 
                     Assert.Fail($"{testGroup.Function} did not meet expected function values");

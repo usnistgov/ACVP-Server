@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using Autofac;
 using NIST.CVP.Math;
 using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_ECB;
-using NIST.CVP.Generation.AES_ECB.Parsers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
@@ -40,6 +35,7 @@ namespace AES_ECB_Val
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
 
             OverrideRegistrations?.Invoke(builder);
 

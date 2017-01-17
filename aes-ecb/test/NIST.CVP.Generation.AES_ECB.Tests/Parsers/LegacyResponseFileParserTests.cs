@@ -140,8 +140,8 @@ PLAINTEXT = 09424ff1ed3fb8ad593f82619a7e1794bbddc1fc1013ae78c3d3f34632215100ba95
             File.WriteAllText($@"{_unitTestPath}\file1.rsp", _testFIleContents); // 2 groups, 18 tests 
             File.WriteAllText($@"{_unitTestPath}\file2.rsp", _testFIleContents); // + 2 groups, 18 tests
             File.WriteAllText($@"{_unitTestPath}\fileThatShouldntBeParsed.dat", _testFIleContents); // + 0 (shouldn't be included)
-            File.WriteAllText($@"{_unitTestPath}\MCT.rsp", _testFIleContents); // + 0 @@@ TODO (shouldn't be included while MCT not implemented)
-            // Total groups = 4, total tests = 36
+            File.WriteAllText($@"{_unitTestPath}\MCT.rsp", _testFIleContents); // + 2 
+            // Total groups = 6, total tests = 54
         }
 
         [OneTimeTearDown]
@@ -186,7 +186,7 @@ PLAINTEXT = 09424ff1ed3fb8ad593f82619a7e1794bbddc1fc1013ae78c3d3f34632215100ba95
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assert.AreEqual(4, vectorSet.TestGroups.Count);
+            Assert.AreEqual(6, vectorSet.TestGroups.Count);
         }
 
         [Test]
@@ -238,9 +238,9 @@ PLAINTEXT = 09424ff1ed3fb8ad593f82619a7e1794bbddc1fc1013ae78c3d3f34632215100ba95
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assume.That(vectorSet.TestGroups.Count() == 4);
+            Assume.That(vectorSet.TestGroups.Count() == 6);
             var decryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "decrypt");
-            Assert.AreEqual(2, decryptCount, decryptCount.ToString());
+            Assert.AreEqual(3, decryptCount, decryptCount.ToString());
         }
 
         [Test]
@@ -250,10 +250,9 @@ PLAINTEXT = 09424ff1ed3fb8ad593f82619a7e1794bbddc1fc1013ae78c3d3f34632215100ba95
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assume.That(vectorSet.TestGroups.Count() == 4);
+            Assume.That(vectorSet.TestGroups.Count() == 6);
             var encryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "encrypt");
-            Assert.AreEqual(2, encryptCount, encryptCount.ToString());
-
+            Assert.AreEqual(3, encryptCount, encryptCount.ToString());
         }
     }
 }
