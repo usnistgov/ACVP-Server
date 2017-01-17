@@ -48,7 +48,6 @@ namespace NIST.CVP.Generation.AES_ECB
                 {
                     AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
                     {
-                        Count = i,
                         Key = key,
                         PlainText = plainText
                     };
@@ -112,7 +111,6 @@ namespace NIST.CVP.Generation.AES_ECB
                 {
                     AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
                     {
-                        Count = i,
                         Key = key,
                         CipherText = cipherText
                     };

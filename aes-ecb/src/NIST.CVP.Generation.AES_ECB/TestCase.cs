@@ -54,11 +54,6 @@ namespace NIST.CVP.Generation.AES_ECB
             foreach (dynamic item in resultsArray)
             {
                 AlgoArrayResponse response = new AlgoArrayResponse();
-
-                if (((ExpandoObject)item).ContainsProperty("count"))
-                {
-                    response.Count = (int)item.count;
-                }
                 response.Key = BitStringFromObject("key", (ExpandoObject) item);
                 response.PlainText = BitStringFromObject("plainText", (ExpandoObject) item);
                 response.CipherText = BitStringFromObject("cipherText", (ExpandoObject) item);

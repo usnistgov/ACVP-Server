@@ -27,15 +27,15 @@ namespace NIST.CVP.Generation.AES_ECB
             {
                 if (!_expectedResult.ResultsArray[i].Key.Equals(suppliedResult.ResultsArray[i].Key))
                 {
-                    errors.Add($"Key does not match on count {_expectedResult.ResultsArray[i].Count}");
+                    errors.Add($"Key does not match on iteration {i}");
                 }
                 if (!_expectedResult.ResultsArray[i].PlainText.Equals(suppliedResult.ResultsArray[i].PlainText))
                 {
-                    errors.Add($"Plain Text does not match on count {_expectedResult.ResultsArray[i].Count}");
+                    errors.Add($"Plain Text does not match on iteration {i}");
                 }
                 if (!_expectedResult.ResultsArray[i].CipherText.Equals(suppliedResult.ResultsArray[i].CipherText))
                 {
-                    errors.Add($"Cipher Text does not match on count {_expectedResult.ResultsArray[i].Count}");
+                    errors.Add($"Cipher Text does not match on iteration {i}");
                 }
             }
 

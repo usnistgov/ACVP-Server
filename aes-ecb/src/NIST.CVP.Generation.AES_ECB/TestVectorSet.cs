@@ -74,7 +74,6 @@ namespace NIST.CVP.Generation.AES_ECB
                             foreach (var result in test.ResultsArray)
                             {
                                 dynamic resultObject = new ExpandoObject();
-                                ((IDictionary<string, object>)resultObject).Add("count", result.Count);
                                 ((IDictionary<string, object>)resultObject).Add("key", result.Key);
                                 if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                                 {
@@ -146,7 +145,6 @@ namespace NIST.CVP.Generation.AES_ECB
                             // @@@ TODO do we want this be in an array?  It could be accomplished with the "non MCT" response since only giving a single key and ct/pt
                             var result = test.ResultsArray.First();
                             dynamic resultObject = new ExpandoObject();
-                            ((IDictionary<string, object>)resultObject).Add("count", result.Count);
                             ((IDictionary<string, object>)resultObject).Add("key", result.Key);
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
@@ -201,7 +199,6 @@ namespace NIST.CVP.Generation.AES_ECB
                             foreach (var result in test.ResultsArray)
                             {
                                 dynamic resultObject = new ExpandoObject();
-                                ((IDictionary<string, object>)resultObject).Add("count", result.Count);
                                 ((IDictionary<string, object>)resultObject).Add("key", result.Key);
                                 if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                                 {
