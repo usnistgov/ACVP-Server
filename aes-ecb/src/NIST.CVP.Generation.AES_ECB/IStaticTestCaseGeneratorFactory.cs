@@ -5,7 +5,7 @@ namespace NIST.CVP.Generation.AES_ECB
 {
     public interface IStaticTestCaseGeneratorFactory<in TTestGroup, TTestCase>
         where TTestGroup : ITestGroup
-        where TTestCase : IEnumerable<ITestCase>
+        where TTestCase : ITestCase
     {
         IStaticTestCaseGenerator<TTestGroup, TTestCase> GetStaticCaseGenerator(string direction, string testType);
     }

@@ -3,9 +3,9 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_ECB
 {
-    public class StaticTestCaseGeneratorFactory : IStaticTestCaseGeneratorFactory<TestGroup, IEnumerable<TestCase>>
+    public class StaticTestCaseGeneratorFactory : IStaticTestCaseGeneratorFactory<TestGroup, TestCase>
     {
-        public IStaticTestCaseGenerator<TestGroup, IEnumerable<TestCase>> GetStaticCaseGenerator(string direction, string testType)
+        public IStaticTestCaseGenerator<TestGroup, TestCase> GetStaticCaseGenerator(string direction, string testType)
         {
             direction = direction.ToLower();
             testType = testType.ToLower();

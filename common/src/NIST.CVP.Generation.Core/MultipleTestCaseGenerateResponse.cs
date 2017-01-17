@@ -4,12 +4,12 @@ using NIST.CVP.Generation.Core;
 namespace NIST.CVP.Generation.Core
 {
     public class MultipleTestCaseGenerateResponse<TTestCase>
-        where TTestCase : IEnumerable<ITestCase>
+        where TTestCase : ITestCase
     {
-        public TTestCase TestCases { get; private set; }
+        public IEnumerable<TTestCase> TestCases { get; private set; }
         public string ErrorMessage { get; private set; }
 
-        public MultipleTestCaseGenerateResponse(TTestCase testCases)
+        public MultipleTestCaseGenerateResponse(IEnumerable<TTestCase> testCases)
         {
             TestCases = testCases;
         }

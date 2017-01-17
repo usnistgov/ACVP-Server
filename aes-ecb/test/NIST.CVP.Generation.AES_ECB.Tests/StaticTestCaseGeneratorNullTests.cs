@@ -9,6 +9,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
     [TestFixture]
     public class StaticTestCaseGeneratorNullTests
     {
+        [Test]
         public void ShouldReturnResponseWithErrorMessage()
         {
             TestGroup testGroup = new TestGroup();

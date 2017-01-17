@@ -60,7 +60,25 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         }
 
         [Test]
-        public void ShouldReturnErrorMessageIfAlgoFails()
+        public void ShouldReturnErrorMessageIfAlgoNotSuccessful()
+        {
+            string errorMessage = "something bad happened!";
+            _mockMCT.Setup(s => s.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Returns(new MCTResult(errorMessage));
+
+            TestGroup testGroup = new TestGroup()
+            {
+                KeyLength = 128
+            };
+            TestCase testCase = new TestCase();
+            var result = _subject.Generate(testGroup, testCase);
+
+            Assert.IsFalse(result.Success, nameof(result.Success));
+            Assert.AreEqual(errorMessage, result.ErrorMessage);
+        }
+
+        [Test]
+        public void ShouldReturnErrorMessageIfAlgoFailsWithException()
         {
             string errorMessage = "something bad happened! oh noes!";
             _mockMCT.Setup(s => s.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))

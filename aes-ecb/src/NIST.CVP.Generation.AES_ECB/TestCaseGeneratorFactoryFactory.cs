@@ -8,10 +8,10 @@ namespace NIST.CVP.Generation.AES_ECB
 {
     public class TestCaseGeneratorFactoryFactory : ITestCaseGeneratorFactoryFactory<TestVectorSet>
     {
-        private readonly IStaticTestCaseGeneratorFactory<TestGroup, IEnumerable<TestCase>>  _staticTestCaseGeneratorFactory;
+        private readonly IStaticTestCaseGeneratorFactory<TestGroup, TestCase>  _staticTestCaseGeneratorFactory;
         private readonly ITestCaseGeneratorFactory _testCaseGeneratorFactory;
 
-        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactory iTestCaseGeneratorFactory, IStaticTestCaseGeneratorFactory<TestGroup, IEnumerable<TestCase>> iStaticTestCaseGeneratorFactory)
+        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactory iTestCaseGeneratorFactory, IStaticTestCaseGeneratorFactory<TestGroup, TestCase> iStaticTestCaseGeneratorFactory)
         {
             _testCaseGeneratorFactory = iTestCaseGeneratorFactory;
             _staticTestCaseGeneratorFactory = iStaticTestCaseGeneratorFactory;

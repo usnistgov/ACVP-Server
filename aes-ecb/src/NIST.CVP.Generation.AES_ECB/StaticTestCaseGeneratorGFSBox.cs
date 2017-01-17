@@ -7,9 +7,9 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_ECB
 {
-    public class StaticTestCaseGeneratorGFSBox : IStaticTestCaseGenerator<TestGroup, IEnumerable<TestCase>>
+    public class StaticTestCaseGeneratorGFSBox : IStaticTestCaseGenerator<TestGroup, TestCase>
     {
-        public MultipleTestCaseGenerateResponse<IEnumerable<TestCase>> Generate(TestGroup testGroup)
+        public MultipleTestCaseGenerateResponse<TestCase> Generate(TestGroup testGroup)
         {
             List<AlgoArrayResponse> data = new List<AlgoArrayResponse>();
 
@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.AES_ECB
                     data = KATData.GetGFSBox256BitKey();
                     break;
                 default:
-                    return new MultipleTestCaseGenerateResponse<IEnumerable<TestCase>>($"Invalid {nameof(testGroup.KeyLength)} of {testGroup.KeyLength}");
+                    return new MultipleTestCaseGenerateResponse<TestCase>($"Invalid {nameof(testGroup.KeyLength)} of {testGroup.KeyLength}");
             }
 
             var testCases = data.Select(s => new TestCase()
@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.AES_ECB
                 CipherText = s.CipherText
             }).ToList();
 
-            return new MultipleTestCaseGenerateResponse<IEnumerable<TestCase>>(testCases);
+            return new MultipleTestCaseGenerateResponse<TestCase>(testCases);
         }
     }
 }

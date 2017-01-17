@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 list.Add(new TestCase());
             }
 
-            MultipleTestCaseGenerateResponse<IEnumerable<TestCase>> subject = new MultipleTestCaseGenerateResponse<IEnumerable<TestCase>>(list);
+            MultipleTestCaseGenerateResponse<TestCase> subject = new MultipleTestCaseGenerateResponse<TestCase>(list);
 
             Assert.AreEqual(numberOfResponses, subject.TestCases.Count());
         }
@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         public void ShouldBeSuccessfulWhenResponsesAssignedToInstance()
         {
             List<TestCase> list = new List<TestCase>();
-            MultipleTestCaseGenerateResponse<IEnumerable<TestCase>> subject = new MultipleTestCaseGenerateResponse<IEnumerable<TestCase>>(list);
+            MultipleTestCaseGenerateResponse<TestCase> subject = new MultipleTestCaseGenerateResponse<TestCase>(list);
 
             Assert.IsTrue(subject.Success, nameof(subject.Success));
             Assert.IsTrue(string.IsNullOrEmpty(subject.ErrorMessage), nameof(subject.ErrorMessage));
@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         public void ShouldBeNotSuccessfulOnError()
         {
             string error = "Error!";
-            MultipleTestCaseGenerateResponse<IEnumerable<TestCase>> subject = new MultipleTestCaseGenerateResponse<IEnumerable<TestCase>>(error);
+            MultipleTestCaseGenerateResponse<TestCase> subject = new MultipleTestCaseGenerateResponse<TestCase>(error);
 
             Assert.IsFalse(subject.Success, nameof(subject.Success));
             Assert.AreEqual(error, subject.ErrorMessage);

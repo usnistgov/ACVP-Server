@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NIST.CVP.Generation.Core;
 using NLog;
 
@@ -21,8 +22,16 @@ namespace NIST.CVP.Generation.AES_ECB
         public ITestVectorSet BuildTestVectorSet(Parameters parameters)
         {
             var groups = BuildTestGroups(parameters); // Random tests for test groups
-            groups.AddRange(_iKATTestGroupFactory.BuildKATTestGroups(parameters));
-            groups.AddRange(_IMCTTestGroupFactory.BuildMCTTestGroups(parameters));
+            var katGroups = _iKATTestGroupFactory.BuildKATTestGroups(parameters);
+            if (katGroups != null && katGroups.Count() != 0)
+            {
+                groups.AddRange(katGroups);
+            }
+            var mctGroups = _IMCTTestGroupFactory.BuildMCTTestGroups(parameters);
+            if (mctGroups != null && mctGroups.Count() != 0)
+            {
+                groups.AddRange(mctGroups);
+            }
             var testVector = new TestVectorSet { TestGroups = groups, IsSample = parameters.IsSample };
 
             return testVector;

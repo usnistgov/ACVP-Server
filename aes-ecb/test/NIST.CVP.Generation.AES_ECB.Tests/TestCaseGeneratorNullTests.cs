@@ -10,6 +10,13 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
     public class TestCaseGeneratorNullTests
     {
         [Test]
+        public void ShouldHaveZeroForNumberOfTestCases()
+        {
+            var subject = new TestCaseGeneratorNull();
+            Assert.AreEqual(1, subject.NumberOfTestCasesToGenerate);
+        }
+
+        [Test]
         public void ShouldReturnErrorForInitialGenerate()
         {
             var subject = new TestCaseGeneratorNull();

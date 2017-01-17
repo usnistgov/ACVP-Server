@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             var result = Program.Main(new string[] { fileName });
 
@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             var result = Program.Main(new string[] { fileName });
 
@@ -91,7 +91,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         public void GenShouldCreateTestVectors()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -109,7 +109,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -129,7 +129,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -144,7 +144,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         public void ShouldCreateValidationFile()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -187,7 +187,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         public void ShouldReportFailedDispositionOnErrorTests()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             List<int> expectedFailTestCases = new List<int>();
             RunGenerationAndValidationWithExpectedFailures(targetFolder, fileName, ref expectedFailTestCases);
@@ -322,10 +322,17 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
                     // If TC has a resultsArray, change some of the elements
                     if (testCase.resultsArray != null)
                     {
-                        BitString bs = new BitString(testCase.resultsArray[0].plainText.ToString());
-                        bs = rand.GetDifferentBitStringOfSameSize(bs);
+                        BitString bsKey = new BitString(testCase.resultsArray[0].key.ToString());
+                        bsKey = rand.GetDifferentBitStringOfSameSize(bsKey);
+                        testCase.resultsArray[0].key = bsKey.ToHex();
 
-                        testCase.resultsArray[0].plainText = bs.ToHex();
+                        BitString bsPlainText = new BitString(testCase.resultsArray[0].plainText.ToString());
+                        bsPlainText = rand.GetDifferentBitStringOfSameSize(bsPlainText);
+                        testCase.resultsArray[0].plainText = bsPlainText.ToHex();
+
+                        BitString bsCipherText = new BitString(testCase.resultsArray[0].cipherText.ToString());
+                        bsCipherText = rand.GetDifferentBitStringOfSameSize(bsCipherText);
+                        testCase.resultsArray[0].cipherText = bsCipherText.ToHex();
                     }
                 }
             }
@@ -339,6 +346,8 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         
         private string GetTestFileFewTestCases(string targetFolder)
         {
+            RemoveMCTAndKATTestGroupFactories();
+
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-ECB",
@@ -363,6 +372,15 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
             };
 
             return CreateRegistration(targetFolder, p);
+        }
+
+        private void RemoveMCTAndKATTestGroupFactories()
+        {
+            AutofacConfig.OverrideRegistrations += builder =>
+            {
+                builder.RegisterType<NullKATTestGroupFactory>().AsImplementedInterfaces();
+                builder.RegisterType<NullMCTTestGroupFactory>().AsImplementedInterfaces();
+            };
         }
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
