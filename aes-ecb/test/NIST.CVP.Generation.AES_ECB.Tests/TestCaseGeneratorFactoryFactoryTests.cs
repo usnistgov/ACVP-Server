@@ -32,7 +32,6 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                         Function = "encrypt",
                         TestType = "",
                         KeyLength = 128,
-                        PTLength = 128,
                         StaticGroupOfTests = true
                     },
                     new TestGroup()
@@ -40,7 +39,6 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                         Function = "encrypt",
                         TestType = "",
                         KeyLength = 128,
-                        PTLength = 128,
                         StaticGroupOfTests = false
                     },
                 }

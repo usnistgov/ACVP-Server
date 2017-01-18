@@ -59,7 +59,6 @@ namespace NIST.CVP.Generation.AES_ECB
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
 
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("ptLen", group.PTLength);
                     ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
@@ -128,7 +127,6 @@ namespace NIST.CVP.Generation.AES_ECB
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("ptLen", group.PTLength);
                     ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);

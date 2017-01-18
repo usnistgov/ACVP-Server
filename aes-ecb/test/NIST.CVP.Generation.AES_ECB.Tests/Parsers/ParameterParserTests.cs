@@ -29,7 +29,6 @@ namespace NIST.CVP.Generation.AES_ECB.Tests.Parsers
                 Algorithm = "AES-ECB",
                 KeyLen = new[] { 128, 192, 256 },
                 Mode = new[] { "encrypt" },
-                PtLen = new[] { 0, 128, 136, 256, 264 },
                 IsSample = true
             };
 
@@ -105,10 +104,6 @@ namespace NIST.CVP.Generation.AES_ECB.Tests.Parsers
 
         }
 
-
-
-    
-
         [Test]
         public void ShouldParseProperKeyLengthValuesIntoParameters()
         {
@@ -119,20 +114,6 @@ namespace NIST.CVP.Generation.AES_ECB.Tests.Parsers
             Assume.That(result.ParsedObject != null);
             ValidateArray(result.ParsedObject.KeyLen, new[] { 128, 192, 256 });
         }
-
-     
-
-        [Test]
-        public void ShouldParseProperptLengthValuesIntoParameters()
-        {
-            var subject = GetSubject();
-            var result = subject.Parse(FullFile);
-
-            Assume.That(result != null);
-            Assume.That(result.ParsedObject != null);
-            ValidateArray(result.ParsedObject.PtLen, new[] { 0, 128, 136, 256, 264 });
-        }
-
      
         private void ValidateArray(int[] array, int[] expectedArray)
         {

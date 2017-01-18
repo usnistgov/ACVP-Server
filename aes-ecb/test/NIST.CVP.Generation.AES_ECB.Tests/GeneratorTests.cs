@@ -72,7 +72,6 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 {
                     Algorithm = "AES-ECB",
                     KeyLen = new[] { 3 },
-                    PtLen = new[] { 4 },
                     Mode = new[] { "encrypt" }
                 }));
             mocks.MockIParameterValidator
@@ -88,8 +87,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                         new TestGroup()
                         {
                             Function = "encrypt",
-                            KeyLength = 3,
-                            PTLength = 4,
+                            KeyLength = 3
                         }
                     }
                 });
@@ -115,7 +113,6 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 {
                     Algorithm = "AES-ECB",
                     KeyLen = new[] { 3 },
-                    PtLen = new[] { 4 },
                     Mode = new[] { "encrypt" }
                 }));
             mocks.MockIParameterValidator
@@ -131,8 +128,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                         new TestGroup()
                         {
                             Function = "encrypt",
-                            KeyLength = 3,
-                            PTLength = 4
+                            KeyLength = 3
                         }
                     }
                 });

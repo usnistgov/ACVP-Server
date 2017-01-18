@@ -44,17 +44,13 @@ namespace NIST.CVP.Generation.AES_ECB
             {
                 foreach (var keyLength in parameters.KeyLen)
                 {
-                    foreach (var ptLength in parameters.PtLen)
-                    {
                         var testGroup = new TestGroup
                         {
                             Function = function,
-                            PTLength = ptLength,
                             KeyLength = keyLength,
                             TestType = "MMT"
                         };
                         testGroups.Add(testGroup);
-                    }
                 }
             }
             return testGroups;

@@ -353,7 +353,6 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
                 Algorithm = "AES-ECB",
                 Mode = new string[] { "encrypt" },
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new int[] { 128 },
                 IsSample = true
             };
 
@@ -367,7 +366,6 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
                 Algorithm = "AES-ECB",
                 Mode = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
-                PtLen = new int[] { 128, 256 },
                 IsSample = false
             };
 
