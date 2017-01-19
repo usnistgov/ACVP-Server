@@ -18,7 +18,7 @@ namespace NIST.CVP.Math.Helpers
         public static BitArray ReverseBitArrayBits(BitArray array)
         {
             BitArray copy = new BitArray(array);
-
+            
             int length = copy.Length;
             int mid = (length / 2);
 
