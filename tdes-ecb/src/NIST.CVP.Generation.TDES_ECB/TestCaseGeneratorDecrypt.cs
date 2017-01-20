@@ -64,5 +64,7 @@ namespace NIST.CVP.Generation.TDES_ECB
         {
             get { return LogManager.GetCurrentClassLogger(); }
         }
+
+        public int NumberOfTestCasesToGenerate { get; set; }
     }
 }

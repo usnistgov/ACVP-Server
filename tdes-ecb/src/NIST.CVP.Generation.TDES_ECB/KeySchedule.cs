@@ -323,8 +323,8 @@ namespace NIST.CVP.Generation.TDES_ECB
             long[] pc2out = new long[2];
             for (int idx = 0; idx < 28; idx++)
             {
-                pcct |= pc1c.GetKeyBit(idx);
-                pcdt |= pc1d.GetKeyBit(idx);
+                pcct |= rawkey.GetKeyBit( pc1c[idx]);
+                pcdt |= rawkey.GetKeyBit( pc1d[idx]);
                 if (idx < 27)
                 {
                     pcct <<= 1;
@@ -339,7 +339,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             for (int round = 0; round < NUMBER_OF_ROUNDS; round++)
             {
                 pcct = lrot28(pcct);
-                pcdt = lrot28(pcct);
+                pcdt = lrot28(pcdt);
                 if (shiftsked[round] == 2)
                 {   /* this round needs another shift */
                     pcct = lrot28(pcct);
@@ -370,7 +370,7 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         }
 
-        private long lrot28(long lval)
+        public long lrot28(long lval)
         {
             lval <<= 1;
             if ((0X10000000L & lval) != 0)
@@ -390,7 +390,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             long scopy = 0;
             inar[0] = FourBytesToLong(input, 0);
             inar[1] = FourBytesToLong(input, 4);
-            long[] outar = DoIPPermute(inar);
+            long[] outar = DoInitialPermutation(inar);
             for (int round = 0; round < 16; round++)
             {
                 long sbout = 0;
@@ -407,7 +407,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                 expan[1] = (uint)tlong;
 
                 tlong = outar[1];
-                oddbit = (int)(tlong & 0X80000000L); //!!(tlong & 0X80000000L)
+                oddbit = (int)(tlong & 0X80000000L); // DEF 1/18/2017 - the original code:  !!(tlong & 0X80000000L)
                 tlong <<= 3;
                 if (oddbit != 0)
                 {
@@ -418,7 +418,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                 expan[3] = (uint)tlong;
                 for (int expIdx = 0; expIdx < 4; expIdx++)
                 {
-                    expan[expIdx] ^= this.Schedule[round, 0];
+                    expan[expIdx] ^= this.Schedule[round, expIdx];
                     sbout |= snop[2 * expIdx, 0X3F & (expan[expIdx] >> 10)];
                     sbout |= snop[1 + 2 * expIdx, 0X3F & (expan[expIdx] >> 2)];
                 }
@@ -429,7 +429,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             scopy = outar[0];
             outar[0] = outar[1];
             outar[1] = scopy;
-            outar = DoIPIPermuteInverse(outar);
+            outar = DoPermutationInverse(outar);
             var first4Bytes = LongToFourBytes(outar[0]);
             var next4Bytes = LongToFourBytes(outar[1]);
             Array.Copy(first4Bytes, 0, output, 0, 4);
@@ -439,9 +439,9 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         }
 
-        private long[] DoIPPermute(long[] inar)
+        public long[] DoInitialPermutation(long[] inar)
         {
-            long[] outar = inar;
+            long[] outar =  {inar[0], inar[1]};
             EXSHMSK(ref outar[1], 0x0f0f0f0f, ref outar[0], 4);
             EXSHMSK(ref outar[1], 0x0000ffff, ref outar[0], 16);
             EXSHMSK(ref outar[0], 0x33333333, ref outar[1], 2);
@@ -449,9 +449,9 @@ namespace NIST.CVP.Generation.TDES_ECB
             EXSHMSK(ref outar[1], 0x55555555, ref outar[0], 1);
             return outar;
         }
-        private long[] DoIPIPermuteInverse(long[] inar)
+        public long[] DoPermutationInverse(long[] inar)
         {
-            long[] outar = inar;
+            long[] outar =  { inar[0], inar[1] };
             EXSHMSK(ref outar[1], 0x55555555, ref outar[0], 1);
             EXSHMSK(ref outar[0], 0x00ff00ff, ref outar[1], 8);
             EXSHMSK(ref outar[0], 0x33333333, ref outar[1], 2);
@@ -471,10 +471,9 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         }
 
-        private long FourBytesToLong(byte[] input, int startIdx)
+        public long FourBytesToLong(byte[] input, int startIdx)
         {
-            long output = 0;
-            output = input[startIdx] & 0xff;
+            long output =  input[startIdx] & 0xff;
             output <<= 8;
             output |= input[startIdx + 1] & 0xff;
             output <<= 8;
@@ -485,7 +484,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             return output;
         }
 
-        private byte[] LongToFourBytes(long l)
+        public byte[] LongToFourBytes(long l)
         {
             byte[] output = new byte[4];
             output[0] = (byte)((l >> 24) & 0xff);

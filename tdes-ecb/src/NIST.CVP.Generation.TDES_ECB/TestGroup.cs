@@ -95,5 +95,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             }
             return false;
         }
+
+        public string TestType { get; set; }
     }
 }

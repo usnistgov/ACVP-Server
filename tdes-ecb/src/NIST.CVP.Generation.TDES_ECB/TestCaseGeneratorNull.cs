@@ -13,5 +13,7 @@ namespace NIST.CVP.Generation.TDES_ECB
         {
             return new TestCaseGenerateResponse("This is the null generator -- nothing is generated");
         }
+
+        public int NumberOfTestCasesToGenerate { get; set; }
     }
 }

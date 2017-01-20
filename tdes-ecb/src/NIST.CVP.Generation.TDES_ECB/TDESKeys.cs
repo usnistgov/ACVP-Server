@@ -15,7 +15,20 @@ namespace NIST.CVP.Generation.TDES_ECB
         public TDESKeys(BitString bitString)
         {
 
-           MakeKeys(bitString);
+           //MakeKeys(bitString);
+           MakeKeySimple(bitString);
+        }
+
+        private void MakeKeySimple(BitString keyBits)
+        {
+            Keys = new List<byte[]>();
+            var keyBytes = keyBits.ToBytes();
+            var withParityKey = keyBytes; //.SetOddParityBitInSuppliedBytes();
+            for (int keyIdx = 0; keyIdx < 3; keyIdx++)
+            {
+                Keys.Add(withParityKey);
+            }
+
         }
 
         private void MakeKeys(BitString bitString)
@@ -26,7 +39,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             for (int keyIdx = 0; keyIdx < 3; keyIdx++)
             {
                 byte[] keyBytes = new byte[7];
-                Array.Copy(rawBytes, keyIdx *7, keyBytes, 0, 7);
+                Array.Copy(rawBytes, 0, keyBytes, 0, 7); //see if we need to split bytes kyIdx * 7
                 var key64 = Key56to64(keyBytes);
                 var withParityKey = key64.SetOddParityBitInSuppliedBytes();
                 Keys.Add(withParityKey);
