@@ -17,10 +17,16 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var sourceAnswer = GetSourceAnswer();
             var subject = new TestGroup(sourceAnswer );
             Assert.IsNotNull(subject);
-           
         }
 
-      
+        [Test]
+        public void ShouldSetProperTestTypeFromDynamicAnswer()
+        {
+            var sourceAnswer = GetSourceAnswer();
+            var subject = new TestGroup(sourceAnswer);
+            Assume.That(subject != null);
+            Assert.AreEqual(sourceAnswer.testType, subject.TestType);
+        }
 
         [Test]
         public void ShouldSetProperKeyLengthFromDynamicAnswer()
@@ -29,7 +35,6 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var subject = new TestGroup(sourceAnswer);
             Assume.That(subject != null);
             Assert.AreEqual(sourceAnswer.keyLen, subject.KeyLength);
-
         }
 
         [Test]

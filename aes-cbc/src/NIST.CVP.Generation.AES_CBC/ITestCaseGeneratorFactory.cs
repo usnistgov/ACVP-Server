@@ -4,6 +4,6 @@ namespace NIST.CVP.Generation.AES_CBC
 {
     public interface ITestCaseGeneratorFactory
     {
-        ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(string direction);
+        ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(string direction, string testType);
     }
 }

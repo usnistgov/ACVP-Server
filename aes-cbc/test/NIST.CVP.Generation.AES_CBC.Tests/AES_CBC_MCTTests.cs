@@ -1,0 +1,135 @@
+﻿using System;
+using Moq;
+using NIST.CVP.Math;
+using NUnit.Framework;
+
+namespace NIST.CVP.Generation.AES_CBC.Tests
+{
+    [TestFixture]
+    public class AES_CBC_MCTTests
+    {
+        private Mock<IAES_CBC> _aesEcb;
+        private AES_CBC_MCT _subject;
+
+        [SetUp]
+        public void Setup()
+        {
+            _aesEcb = new Mock<IAES_CBC>();
+            _subject = new AES_CBC_MCT(_aesEcb.Object);
+        }
+
+        #region Encrypt
+        [Test]
+        [TestCase(128)]
+        [TestCase(192)]
+        [TestCase(256)]
+        public void ShouldRunEncryptOperation100000TimesForTestCase(int keySize)
+        {
+            BitString iv = new BitString(128);
+            BitString key = new BitString(keySize);
+            BitString plainText = new BitString(128);
+            _aesEcb
+                .Setup(s => s.BlockEncrypt(iv, key, plainText))
+                .Returns(new EncryptionResult(new BitString(128)));
+
+            var result = _subject.MCTEncrypt(iv, key, plainText);
+
+            Assert.IsTrue(result.Success, nameof(result.Success));
+            _aesEcb.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()), Times.Exactly(100000), nameof(_aesEcb.Object.BlockEncrypt));
+        }
+
+        [Test]
+        [TestCase(128)]
+        [TestCase(192)]
+        [TestCase(256)]
+        public void ShouldReturnEncrypResponseWith100Count(int keySize)
+        {
+            BitString iv = new BitString(128);
+            BitString key = new BitString(keySize);
+            BitString plainText = new BitString(128);
+            _aesEcb
+                .Setup(s => s.BlockEncrypt(iv, key, plainText))
+                .Returns(new EncryptionResult(new BitString(128)));
+
+            var result = _subject.MCTEncrypt(iv, key, plainText);
+
+            Assert.AreEqual(100, result.Response.Count);
+        }
+
+        [Test]
+        public void ShouldReturnErrorMessageOnErrorEncrypt()
+        {
+            string error = "Algo failure!";
+
+            BitString iv = new BitString(128);
+            BitString key = new BitString(128);
+            BitString plainText = new BitString(128);
+            _aesEcb
+                .Setup(s => s.BlockEncrypt(iv, key, plainText))
+                .Throws(new Exception(error));
+
+            var result = _subject.MCTEncrypt(iv, key, plainText);
+
+            Assert.IsFalse(result.Success, nameof(result.Success));
+            Assert.AreEqual(error, result.ErrorMessage, nameof(result.ErrorMessage));
+        }
+        #endregion Encrypt
+
+        #region Decrypt
+        [Test]
+        [TestCase(128)]
+        [TestCase(192)]
+        [TestCase(256)]
+        public void ShouldRunDecryptOperation100000TimesForTestCase(int keySize)
+        {
+            BitString iv = new BitString(128);
+            BitString key = new BitString(keySize);
+            BitString cipherText = new BitString(128);
+            _aesEcb
+                .Setup(s => s.BlockDecrypt(iv, key, cipherText))
+                .Returns(new DecryptionResult(new BitString(128)));
+
+            var result = _subject.MCTDecrypt(iv, key, cipherText);
+
+            Assert.IsTrue(result.Success, nameof(result.Success));
+            _aesEcb.Verify(v => v.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()), Times.Exactly(100000), nameof(_aesEcb.Object.BlockDecrypt));
+        }
+
+        [Test]
+        [TestCase(128)]
+        [TestCase(192)]
+        [TestCase(256)]
+        public void ShouldReturnDecrypResponseWith100Count(int keySize)
+        {
+            BitString iv = new BitString(128);
+            BitString key = new BitString(keySize);
+            BitString cipherText = new BitString(128);
+            _aesEcb
+                .Setup(s => s.BlockDecrypt(iv, key, cipherText))
+                .Returns(new DecryptionResult(new BitString(128)));
+
+            var result = _subject.MCTDecrypt(iv, key, cipherText);
+
+            Assert.AreEqual(100, result.Response.Count);
+        }
+
+        [Test]
+        public void ShouldReturnErrorMessageOnErrorDecrypt()
+        {
+            string error = "Algo failure!";
+
+            BitString iv = new BitString(128);
+            BitString key = new BitString(128);
+            BitString cipherText = new BitString(128);
+            _aesEcb
+                .Setup(s => s.BlockDecrypt(iv, key, cipherText))
+                .Throws(new Exception(error));
+
+            var result = _subject.MCTDecrypt(iv, key, cipherText);
+
+            Assert.IsFalse(result.Success, nameof(result.Success));
+            Assert.AreEqual(error, result.ErrorMessage, nameof(result.ErrorMessage));
+        }
+        #endregion Decrypt
+    }
+}

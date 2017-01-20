@@ -6,14 +6,14 @@ using NLog;
 
 namespace NIST.CVP.Generation.AES_CBC
 {
-    public class TestCaseGeneratorEncrypt : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMMTDecrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IRandom800_90 _random800_90;
         private readonly IAES_CBC _algo;
+        private readonly IRandom800_90 _random800_90;
 
         public int NumberOfTestCasesToGenerate { get { return 15; } }
 
-        public TestCaseGeneratorEncrypt(IRandom800_90 random800_90, IAES_CBC algo)
+        public TestCaseGeneratorMMTDecrypt(IRandom800_90 random800_90, IAES_CBC algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
@@ -21,10 +21,10 @@ namespace NIST.CVP.Generation.AES_CBC
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
-            
-            var key = _random800_90.GetRandomBitString(group.KeyLength);
+            //known answer - need to do an encryption operation to get the tag
+            var key = _random800_90.GetRandomBitString(@group.KeyLength);
             var plainText = _random800_90.GetRandomBitString(group.PTLength);
-            var iv = _random800_90.GetRandomBitString(Cipher._MAX_IV_BYTE_LENGTH * 8);
+            var iv = _random800_90.GetRandomBitString((Cipher._MAX_IV_BYTE_LENGTH * 8));
             var testCase = new TestCase
             {
                 IV = iv,
@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.AES_CBC
                 PlainText = plainText,
                 Deferred = false
             };
-            return Generate(group, testCase);
+            return Generate(@group, testCase);
         }
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
@@ -57,9 +57,13 @@ namespace NIST.CVP.Generation.AES_CBC
                 }
             }
             testCase.CipherText = encryptionResult.CipherText;
+           
+         
+
             return new TestCaseGenerateResponse(testCase);
         }
 
+      
         private Logger ThisLogger
         {
             get { return LogManager.GetCurrentClassLogger(); }

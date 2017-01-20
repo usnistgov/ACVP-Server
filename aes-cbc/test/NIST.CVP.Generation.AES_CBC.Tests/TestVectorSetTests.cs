@@ -279,10 +279,158 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             }
         }
 
+        [Test]
+        public void MCTEncryptShouldIncludeIVKeyPlainTextAndCipherTextInResultArrayWithinAnswerProjection()
+        {
+            var subject = GetMCTSubject(1, "encrypt");
+            var results = subject.AnswerProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                foreach (var result in test.resultsArray)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.iv.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.key.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.plainText.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.cipherText.ToString()));
+                }
+            }
+        }
+
+        [Test]
+        public void MCTDecryptShouldIncludeIVKeyPlainTextAndCipherTextInResultArrayWithinAnswerProjection()
+        {
+            var subject = GetMCTSubject(1, "decrypt");
+            var results = subject.AnswerProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                foreach (var result in test.resultsArray)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.iv.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.key.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.plainText.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.cipherText.ToString()));
+                }
+            }
+        }
+
+        [Test]
+        public void MCTEncryptShouldIncludeIVKeyAndPlainTextInResultArrayWithinPromptProjection()
+        {
+            var subject = GetMCTSubject(1, "encrypt");
+            var results = subject.PromptProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                foreach (var result in test.resultsArray)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.iv.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.key.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.plainText.ToString()));
+                }
+            }
+        }
+
+        [Test]
+        public void MCTDecryptShouldIncludeIVKeyAndCipherTextInResultArrayWithinPromptProjection()
+        {
+            var subject = GetMCTSubject(1, "decrypt");
+            var results = subject.PromptProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                foreach (var result in test.resultsArray)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.iv.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.key.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.cipherText.ToString()));
+                }
+            }
+        }
+
+        [Test]
+        public void MCTEncryptShouldExcludeCipherTextInResultArrayWithinPromptProjection()
+        {
+            var subject = GetMCTSubject(1, "encrypt");
+            var results = subject.PromptProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                foreach (var result in test.resultsArray)
+                {
+                    Assert.Throws(typeof(RuntimeBinderException), () => result.cipherText.ToString());
+                }
+            }
+        }
+
+        [Test]
+        public void MCTDecryptShouldExcludePlainTextInResultArrayWithinPromptProjection()
+        {
+            var subject = GetMCTSubject(1, "decrypt");
+            var results = subject.PromptProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                foreach (var result in test.resultsArray)
+                {
+                    Assert.Throws(typeof(RuntimeBinderException), () => result.plainText.ToString());
+                }
+            }
+        }
+
+        [Test]
+        public void MCTEncryptShouldIncludeIvKeyPlainTextAndCipherTextInResultProjection()
+        {
+            var subject = GetMCTSubject(1, "encrypt");
+            var results = subject.ResultProjection;
+            foreach (var item in results)
+            {
+                foreach (var result in item.resultsArray)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.iv.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.key.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.plainText.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.cipherText.ToString()));
+                }
+            }
+        }
+
+        [Test]
+        public void MCTDecryptShouldIncludeIvKeyPlainTextAndCipherTextInResultProjection()
+        {
+            var subject = GetMCTSubject(1, "decrypt");
+            var results = subject.ResultProjection;
+            foreach (var item in results)
+            {
+                foreach (var result in item.resultsArray)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.iv.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.key.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.plainText.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.cipherText.ToString()));
+                }
+            }
+        }
+
         private TestVectorSet GetSubject(int groups = 1, string direction = "encrypt", bool failureTest = false)
         {
             var subject = new TestVectorSet {Algorithm = "AES-CBC"};
             var testGroups = _tdm.GetTestGroups(groups, direction, failureTest);
+            subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
+            return subject;
+        }
+
+        private TestVectorSet GetMCTSubject(int groups = 1, string direction = "encrypt")
+        {
+            var subject = new TestVectorSet { Algorithm = "AES-CBC" };
+            var testGroups = _tdm.GetMCTTestGroups(groups, direction);
             subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return subject;
         }

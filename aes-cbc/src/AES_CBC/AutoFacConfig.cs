@@ -25,8 +25,13 @@ namespace AES_CBC
 
             builder.RegisterType<Generator>();
             builder.RegisterType<NIST.CVP.Generation.AES_CBC.AES_CBC>().AsImplementedInterfaces();
+            builder.RegisterType<AES_CBC_MCT>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<StaticTestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<KATTestGroupFactory>().AsImplementedInterfaces();
+            builder.RegisterType<MCTTestGroupFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();

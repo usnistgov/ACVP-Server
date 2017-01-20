@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using Moq;
+using NIST.CVP.Generation.Core;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CBC.Tests
 {
@@ -47,7 +50,15 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             };
             int expectedResultCount =  keyLen.Length * mode.Length * ptLen.Length;
 
-            TestVectorFactory subject = new TestVectorFactory();
+            Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iKATTestGroupFactory = new Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            iKATTestGroupFactory
+                .Setup(s => s.BuildKATTestGroups(It.IsAny<Parameters>()))
+                .Returns(new List<TestGroup>());
+            Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iMCTTestGroupFactory = new Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            iMCTTestGroupFactory
+                .Setup(s => s.BuildMCTTestGroups(It.IsAny<Parameters>()))
+                .Returns(new List<TestGroup>());
+            TestVectorFactory subject = new TestVectorFactory(iKATTestGroupFactory.Object, iMCTTestGroupFactory.Object);
             var result = subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(expectedResultCount, result.TestGroups.Count);
@@ -66,9 +77,16 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
                 PtLen = new int[] { 1 },
                 IsSample = isSample
             };
-         
 
-            TestVectorFactory subject = new TestVectorFactory();
+            Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iKATTestGroupFactory = new Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            iKATTestGroupFactory
+                .Setup(s => s.BuildKATTestGroups(It.IsAny<Parameters>()))
+                .Returns(new List<TestGroup>());
+            Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iMCTTestGroupFactory = new Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            iMCTTestGroupFactory
+                .Setup(s => s.BuildMCTTestGroups(It.IsAny<Parameters>()))
+                .Returns(new List<TestGroup>());
+            TestVectorFactory subject = new TestVectorFactory(iKATTestGroupFactory.Object, iMCTTestGroupFactory.Object);
             var result = subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(isSample, result.IsSample);

@@ -106,11 +106,43 @@ namespace NIST.CVP.Math
             {
                 bytesInMSB[i / 2] = Convert.ToByte(hexMSB.Substring(i, 2), 16);
             }
-                
 
             _bits = Helper.MostSignificantByteArrayToLeastSignificantBitArray(bytesInMSB);
         }
         #endregion Constructors
+
+        /// <summary>
+        /// Gets/Sets the byte at index specified.
+        /// Index 0 is the most significant byte.
+        /// </summary>
+        /// <param name="index">The index to get/set (index 0 is most significant byte)</param>
+        /// <returns></returns>
+        public byte this[int index]
+        {
+            get
+            {
+                // Get bits for index (bits are in LSb, whereas bytes as MSB).
+                // So byte index 0, is the last 8 bits of the BitArray
+                BitString bits = this.Substring(BitLength - ((index + 1) * 8), 8);
+
+                return bits.ToBytes().FirstOrDefault();
+            }
+            set
+            {
+                // Put the single byte in a byte array
+                byte[] byteArray = new byte[1] { value };
+                // convert that byte array to a bit array
+                BitArray bits = new BitArray(byteArray);
+
+                // For each bit, set that bit in this, 
+                // noting that bits and bytes are in opposite endianness.
+                for (int i = 0; i < bits.Length; i++)
+                {
+                    var bitToSet = BitLength - ((index + 1) * 8) + i;
+                    this.Set(bitToSet, bits[i]);
+                }
+            }
+        }
 
         public override bool Equals(object obj)
         {

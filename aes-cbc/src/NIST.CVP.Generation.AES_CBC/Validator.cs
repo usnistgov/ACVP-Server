@@ -8,11 +8,13 @@ namespace NIST.CVP.Generation.AES_CBC
     public class Validator : ValidatorBase
     {
         private readonly IResultValidator<TestCase> _resultValidator;
+        private readonly ITestCaseValidatorFactory<TestVectorSet, TestCase> _testCaseValidatorFactory;
 
-        public Validator(IDynamicParser dynamicParser, IResultValidator<TestCase> resultValidator)
+        public Validator(IDynamicParser dynamicParser, IResultValidator<TestCase> resultValidator, ITestCaseValidatorFactory<TestVectorSet, TestCase> testCaseValidatorFactory)
         {
             _dynamicParser = dynamicParser;
             _resultValidator = resultValidator;
+            _testCaseValidatorFactory = testCaseValidatorFactory;
         }
 
         public override TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse, ParseResponse<dynamic> promptParseResponse, ParseResponse<dynamic> testResultParseResponse)
@@ -20,8 +22,8 @@ namespace NIST.CVP.Generation.AES_CBC
             var testVectorSet = new TestVectorSet(answerParseResponse.ParsedObject, promptParseResponse.ParsedObject);
             var results = testResultParseResponse.ParsedObject;
             var suppliedResults = GetTestCaseResults(results.testResults);
-            var testCases = BuildValidatorList(testVectorSet, suppliedResults);
-            var response = _resultValidator.ValidateResults(testCases, suppliedResults);
+            var testCases = _testCaseValidatorFactory.GetValidators(testVectorSet);
+            var response = _resultValidator.ValidateResults(testCases.ToList(), suppliedResults);
             return response;
         }
 
@@ -32,32 +34,6 @@ namespace NIST.CVP.Generation.AES_CBC
             {
                 list.Add(new TestCase(result));
             }
-            return list;
-        }
-
-      
-
-        private List<ITestCaseValidator<TestCase>> BuildValidatorList(TestVectorSet testVectorSet, List<TestCase>  suppliedResults)
-        {
-
-            var list = new List<ITestCaseValidator<TestCase>>();
-           
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
-            {
-                foreach (var test in group.Tests.Select(t => (TestCase)t))
-                {
-                    var workingTest = test;
-                    if (group.Function == "encrypt")
-                    {
-                        list.Add(new TestCaseValidatorEncrypt(workingTest));
-                    }
-                    else
-                    {
-                        list.Add(new TestCaseValidatorDecrypt(workingTest));
-                    }
-                }
-            }
-
             return list;
         }
     }

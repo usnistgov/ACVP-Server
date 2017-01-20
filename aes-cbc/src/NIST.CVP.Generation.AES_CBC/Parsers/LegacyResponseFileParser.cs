@@ -27,12 +27,6 @@ namespace NIST.CVP.Generation.AES_CBC.Parsers
             var files = Directory.GetFiles(path, "*.rsp");
             foreach (var file in files)
             {
-                // @@@ TODO if MCT (Monte Carlo Test) is implemented, stop excluding the MCT files
-                if (file.Contains("MCT"))
-                {
-                    continue;
-                }
-
                 var lines = new List<string>();
                 try
                 {
@@ -45,9 +39,15 @@ namespace NIST.CVP.Generation.AES_CBC.Parsers
 
                 TestGroup currentGroup = null;
                 TestCase currentTestCase = null;
+                int currentResultArrayPosition = 0;
+                AlgoArrayResponse currentArrayResponse = null;
+
+                int lineIterator = 0;
 
                 foreach (var line in lines)
                 {
+                    lineIterator++;
+
                     var workingLine = line.Trim();
                     if (string.IsNullOrEmpty(workingLine))
                     {
@@ -66,24 +66,57 @@ namespace NIST.CVP.Generation.AES_CBC.Parsers
                         {
                             Function = workingLine,
                             KeyLength = 0,
-                            PTLength = 0
+                            PTLength = 0,
+                            TestType = file.Contains("MCT") ? "MCT" : string.Empty
                         };
                         groups.Add(currentGroup);
                         continue;
                     }
 
-                    if (workingLine.StartsWith("Count", StringComparison.OrdinalIgnoreCase))
+                    if (currentGroup.TestType.ToLower() == "mct")
                     {
-                        string[] parts = workingLine.Split("=".ToCharArray());
-                        int caseId = -1;
-                        int.TryParse(parts[1].Trim(), out caseId);
-                        currentTestCase = new TestCase { TestCaseId = caseId };
-                        currentGroup.Tests.Add(currentTestCase);
-                        continue;
+                        // New test case on count 0
+                        if (workingLine.StartsWith("COUNT = 0", StringComparison.OrdinalIgnoreCase))
+                        {
+                            currentTestCase = new TestCase() { TestCaseId = 0 };
+                            currentTestCase.ResultsArray = new List<AlgoArrayResponse>();
+                            currentResultArrayPosition = 0;
+                            currentArrayResponse = new AlgoArrayResponse();
+                            currentTestCase.ResultsArray.Add(currentArrayResponse);
+
+                            continue;
+                        }
+
+                        // This is the beginning of a resultsArray element
+                        if (workingLine.StartsWith("COUNT = ", StringComparison.OrdinalIgnoreCase))
+                        {
+                            currentResultArrayPosition++;
+                            currentArrayResponse = new AlgoArrayResponse();
+                            currentTestCase.ResultsArray.Add(currentArrayResponse);
+                            continue;
+                        }
+
+                        // Set the parts of the test case
+                        string[] valueParts = workingLine.Split("=".ToCharArray());
+                        currentTestCase.SetResultsArrayString(currentResultArrayPosition, valueParts[0].Trim(), valueParts[1].Trim());
+                    }
+                    else
+                    {
+                        if (workingLine.StartsWith("Count", StringComparison.OrdinalIgnoreCase))
+                        {
+                            string[] parts = workingLine.Split("=".ToCharArray());
+                            int caseId = -1;
+                            int.TryParse(parts[1].Trim(), out caseId);
+                            currentTestCase = new TestCase { TestCaseId = caseId };
+                            currentGroup.Tests.Add(currentTestCase);
+                            continue;
+                        }
+
+                        string[] valueParts = workingLine.Split("=".ToCharArray());
+                        currentTestCase.SetString(valueParts[0].Trim(), valueParts[1].Trim());
                     }
 
-                    string[] valueParts = workingLine.Split("=".ToCharArray());
-                    currentTestCase.SetString(valueParts[0].Trim(), valueParts[1].Trim());
+                    
                 }
             }
 

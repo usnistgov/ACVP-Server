@@ -222,6 +222,50 @@ namespace NIST.CVP.Math.Tests
         }
         #endregion ctor
 
+        #region index get/set
+        [Test]
+        public void ShouldReturnMostSignificantByteAtIndex0()
+        {
+            byte[] bytesInMSB = new byte[3] { 1, 2, 3 };
+            BitString subject = new BitString(bytesInMSB);
+
+            var result = subject[0];
+            Assert.AreEqual(1, result);
+        }
+
+        [Test]
+        public void ShouldReturnLeastSignificantByteAtLastIndex()
+        {
+            byte[] bytesInMSB = new byte[3] { 1, 2, 3 };
+            BitString subject = new BitString(bytesInMSB);
+
+            var result = subject[2];
+            Assert.AreEqual(3, result);
+        }
+
+        [Test]
+        public void ShouldSetMostSignificantByteAt0Index()
+        {
+            BitString subject = new BitString(128);
+            subject[0] = 255;
+
+            var results = subject.ToBytes();
+            Assert.AreEqual(255, results.First(), "index 0");
+            Assert.AreEqual(0, results.Last(), "last index");
+        }
+
+        [Test]
+        public void ShouldSetLeastSignificantByteAtLastIndex()
+        {
+            BitString subject = new BitString(128);
+            subject[subject.BitLength/8-1] = 255;
+
+            var results = subject.ToBytes();
+            Assert.AreEqual(255, results.Last(), "last index");
+            Assert.AreEqual(0, results.First(), "index 0");
+        }
+        #endregion index get/set
+
         #region Equals
         [Test]
         [TestCase(new bool[] { true }, new bool[] { true })]

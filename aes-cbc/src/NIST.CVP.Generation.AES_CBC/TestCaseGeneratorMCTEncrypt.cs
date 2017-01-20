@@ -1,46 +1,45 @@
-﻿using System;
-using NIST.CVP.Generation.AES;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
+using System;
 using NIST.CVP.Math;
 using NLog;
 
 namespace NIST.CVP.Generation.AES_CBC
 {
-    public class TestCaseGeneratorDecrypt : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMCTEncrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IAES_CBC _algo;
-        private readonly IRandom800_90 _random800_90;
+        private readonly IRandom800_90 _iRandom80090;
+        private readonly IAES_CBC_MCT _iAesEcbMct;
 
-        public int NumberOfTestCasesToGenerate { get { return 15; } }
+        public int NumberOfTestCasesToGenerate { get { return 1; } }
 
-        public TestCaseGeneratorDecrypt(IRandom800_90 random800_90, IAES_CBC algo)
+        public TestCaseGeneratorMCTEncrypt(IRandom800_90 iRandom80090, IAES_CBC_MCT iAesEcbMct)
         {
-            _random800_90 = random800_90;
-            _algo = algo;
+            _iRandom80090 = iRandom80090;
+            _iAesEcbMct = iAesEcbMct;
         }
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
-            //known answer - need to do an encryption operation to get the tag
-            var key = _random800_90.GetRandomBitString(@group.KeyLength);
-            var plainText = _random800_90.GetRandomBitString(group.PTLength);
-            var iv = _random800_90.GetRandomBitString((Cipher._MAX_IV_BYTE_LENGTH * 8));
-            var testCase = new TestCase
+            var iv = _iRandom80090.GetRandomBitString(128);
+            var key = _iRandom80090.GetRandomBitString(@group.KeyLength);
+            var plainText = _iRandom80090.GetRandomBitString(128);
+            TestCase testCase = new TestCase()
             {
                 IV = iv,
                 Key = key,
                 PlainText = plainText,
                 Deferred = false
             };
+
             return Generate(@group, testCase);
         }
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            EncryptionResult encryptionResult = null;
+            MCTResult encryptionResult = null;
             try
             {
-                encryptionResult = _algo.BlockEncrypt(testCase.IV, testCase.Key, testCase.PlainText);
+                encryptionResult = _iAesEcbMct.MCTEncrypt(testCase.IV, testCase.Key, testCase.PlainText);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
@@ -56,14 +55,10 @@ namespace NIST.CVP.Generation.AES_CBC
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
-            testCase.CipherText = encryptionResult.CipherText;
-           
-         
-
+            testCase.ResultsArray = encryptionResult.Response;
             return new TestCaseGenerateResponse(testCase);
         }
 
-      
         private Logger ThisLogger
         {
             get { return LogManager.GetCurrentClassLogger(); }
