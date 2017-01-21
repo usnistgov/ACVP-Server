@@ -3,7 +3,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CBC
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
         private readonly IAES_CBC _aesCbc;
@@ -16,10 +16,10 @@ namespace NIST.CVP.Generation.AES_CBC
             _aesCbcMct = aesCbcMct;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(string direction, string testType)
+        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            direction = direction.ToLower();
-            testType = testType.ToLower();
+            var direction = testGroup.Function.ToLower();
+            var testType = testGroup.TestType.ToLower();
 
             if (testType == "mct")
             {

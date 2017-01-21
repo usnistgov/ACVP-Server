@@ -9,10 +9,10 @@ namespace NIST.CVP.Generation.AES_GCM
     public class Validator : ValidatorBase
     {
         private readonly IResultValidator<TestCase> _resultValidator;
-        private readonly ITestCaseGeneratorFactory _testCaseGeneratorFactory;
+        private readonly ITestCaseGeneratorFactory<TestGroup, TestCase> _testCaseGeneratorFactory;
        
 
-        public Validator(IDynamicParser dynamicParser, IResultValidator<TestCase> resultValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        public Validator(IDynamicParser dynamicParser, IResultValidator<TestCase> resultValidator, ITestCaseGeneratorFactory<TestGroup, TestCase> testCaseGeneratorFactory)
         {
             _dynamicParser = dynamicParser;
             _resultValidator = resultValidator;
@@ -39,8 +39,6 @@ namespace NIST.CVP.Generation.AES_GCM
             return list;
         }
 
-      
-
         private List<ITestCaseValidator<TestCase>> BuildValidatorList(TestVectorSet testVectorSet, List<TestCase>  suppliedResults)
         {
 
@@ -48,7 +46,7 @@ namespace NIST.CVP.Generation.AES_GCM
            
             foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
             {
-                var generator = _testCaseGeneratorFactory.GetCaseGenerator(group.Function, group.IVGeneration);
+                var generator = _testCaseGeneratorFactory.GetCaseGenerator(group);
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
                     var workingTest = test;

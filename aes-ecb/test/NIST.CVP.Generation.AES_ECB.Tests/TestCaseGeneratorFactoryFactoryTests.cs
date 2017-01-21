@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
     public class TestCaseGeneratorFactoryFactoryTests
     {
         private Mock<IStaticTestCaseGeneratorFactory<TestGroup, TestCase>> _staticTestCaseGeneratorFactory;
-        private Mock<ITestCaseGeneratorFactory> _testCaseGeneratorFactory;
+        private Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>> _testCaseGeneratorFactory;
         private TestCaseGeneratorFactoryFactory _subject;
         private TestVectorSet _testVectorSet;
 
@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         public void Setup()
         {
             _staticTestCaseGeneratorFactory = new Mock<IStaticTestCaseGeneratorFactory<TestGroup, TestCase>>();
-            _testCaseGeneratorFactory = new Mock<ITestCaseGeneratorFactory>();
+            _testCaseGeneratorFactory = new Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>>();
             _subject = new TestCaseGeneratorFactoryFactory(_testCaseGeneratorFactory.Object, _staticTestCaseGeneratorFactory.Object);
             _testVectorSet = new TestVectorSet()
             {
@@ -45,9 +45,9 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             };
 
             _staticTestCaseGeneratorFactory
-                .Setup(s => s.GetStaticCaseGenerator(It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(s => s.GetStaticCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(new FakeStaticTestCaseGenerator<TestGroup, TestCase>());
-            _testCaseGeneratorFactory.Setup(s => s.GetCaseGenerator(It.IsAny<string>(), It.IsAny<string>()))
+            _testCaseGeneratorFactory.Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(new FakeTestCaseGenerator<TestGroup, TestCase>());
         }
 
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         public void ShouldReturnErrorMessageWithinGenerateResponseWhenStaticFails()
         {
             _staticTestCaseGeneratorFactory
-                .Setup(s => s.GetStaticCaseGenerator(It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(s => s.GetStaticCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(new StaticTestCaseGeneratorNull());
 
             var result = _subject.BuildTestCases(_testVectorSet);
@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         public void ShouldReturnErrorMessageWithinGenerateResponseWhenFails()
         {
             _testCaseGeneratorFactory
-                .Setup(s => s.GetCaseGenerator(It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(new TestCaseGeneratorNull());
 
             var result = _subject.BuildTestCases(_testVectorSet);
@@ -85,13 +85,13 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             Assert.IsTrue(results.Success);
             _staticTestCaseGeneratorFactory
                 .Verify(v => v.GetStaticCaseGenerator(
-                        It.IsAny<string>(), It.IsAny<string>()), 
+                        It.IsAny<TestGroup>()), 
                         Times.AtLeastOnce(), 
                         nameof(_staticTestCaseGeneratorFactory.Object.GetStaticCaseGenerator)
                 );
             _testCaseGeneratorFactory
                 .Verify(v => v.GetCaseGenerator(
-                        It.IsAny<string>(), It.IsAny<string>()),
+                        It.IsAny<TestGroup>()),
                         Times.AtLeastOnce(),
                         nameof(_testCaseGeneratorFactory.Object.GetCaseGenerator)
                 );

@@ -130,7 +130,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
         private class MockedSystemDependencies
         {
-            public Mock<ITestCaseGeneratorFactory> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory>();
+            public Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>>();
             public Mock<IResultValidator<TestCase>> MockIResultValidator { get; set; } = new Mock<IResultValidator<TestCase>>();
             public Mock<IDynamicParser> MockIDynamicParser { get; set; } = new Mock<IDynamicParser>();
         }

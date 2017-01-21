@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
         private readonly IAES_GCM _aesGcm;
@@ -18,10 +14,10 @@ namespace NIST.CVP.Generation.AES_GCM
             _random800_90 = random800_90;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(string direction, string ivGen)
+        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            direction = direction.ToLower();
-            ivGen = ivGen.ToLower();
+            var direction = testGroup.Function.ToLower();
+            var ivGen = testGroup.IVGeneration.ToLower();
             if (direction == "encrypt")
             {
                 if (ivGen == "internal")

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CBC.Tests
 {
@@ -6,31 +7,43 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
     public class TestCaseGeneratorFactoryTests
     {
         [Test]
-        [TestCase("encrypt", "MMT", "Encrypt")]
-        [TestCase("Encrypt", "MmT", "Encrypt")]
-        [TestCase("ENcrypt", "MMT", "Encrypt")]
-        [TestCase("Decrypt", "mMT", "Decrypt")]
-        [TestCase("decrypt", "MMt", "Decrypt")]
-        [TestCase("encrypt", "MCT", "Encrypt")]
-        [TestCase("Encrypt", "something", "Encrypt")]
-        [TestCase("ENcrypt", "kat", "Encrypt")]
-        [TestCase("Decrypt", "MCT", "Decrypt")]
-        [TestCase("decrypt", "MMt", "Decrypt")]
-        [TestCase("Junk", "", "Null")]
-        [TestCase("", "", "Null")]
-        public void ShouldReturnProperGenerator(string direction, string testType, string genNameHint)
+        [TestCase("encrypt", "MMT", typeof(TestCaseGeneratorMMTEncrypt))]
+        [TestCase("Encrypt", "MmT", typeof(TestCaseGeneratorMMTEncrypt))]
+        [TestCase("ENcrypt", "MMT", typeof(TestCaseGeneratorMMTEncrypt))]
+        [TestCase("Decrypt", "mMT", typeof(TestCaseGeneratorMMTDecrypt))]
+        [TestCase("decrypt", "MMt", typeof(TestCaseGeneratorMMTDecrypt))]
+        [TestCase("encrypt", "MCT", typeof(TestCaseGeneratorMCTEncrypt))]
+        [TestCase("Encrypt", "something", typeof(TestCaseGeneratorMMTEncrypt))]
+        [TestCase("ENcrypt", "kat", typeof(TestCaseGeneratorMMTEncrypt))]
+        [TestCase("Decrypt", "MCT", typeof(TestCaseGeneratorMCTDecrypt))]
+        [TestCase("decrypt", "MMt", typeof(TestCaseGeneratorMMTDecrypt))]
+        [TestCase("Junk", "", typeof(TestCaseGeneratorNull))]
+        [TestCase("", "", typeof(TestCaseGeneratorNull))]
+        public void ShouldReturnProperGenerator(string direction, string testType, Type expectedType)
         {
+            TestGroup testGroup = new TestGroup()
+            {
+                Function = direction,
+                TestType = testType
+            };
+
             var subject = new TestCaseGeneratorFactory(null, null, null);
-            var generator = subject.GetCaseGenerator(direction, testType);
+            var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
-            Assert.IsTrue(generator.GetType().Name.EndsWith(genNameHint));
+            Assert.IsInstanceOf(expectedType, generator);
         }
 
         [Test]
         public void ShouldReturnAGenerator()
         {
+            TestGroup testGroup = new TestGroup()
+            {
+                Function = string.Empty,
+                TestType = string.Empty
+            };
+
             var subject = new TestCaseGeneratorFactory(null, null, null);
-            var generator = subject.GetCaseGenerator("", "");
+            var generator = subject.GetCaseGenerator(testGroup);
             Assert.IsNotNull(generator);
         }
     }

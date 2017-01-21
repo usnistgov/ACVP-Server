@@ -18,8 +18,14 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
         [TestCase("vArkEy", typeof(StaticTestCaseGeneratorVarKey))]
         public void ShouldReturnCorrectType(string testType, Type type)
         {
+            TestGroup testGroup = new TestGroup()
+            {
+                TestType = testType,
+                Function = string.Empty
+            };
+
             StaticTestCaseGeneratorFactory subject = new StaticTestCaseGeneratorFactory();
-            var result = subject.GetStaticCaseGenerator(string.Empty, testType);
+            var result = subject.GetStaticCaseGenerator(testGroup);
 
             Assert.IsInstanceOf(type, result);
         }

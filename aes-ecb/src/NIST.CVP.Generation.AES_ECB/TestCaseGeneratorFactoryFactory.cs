@@ -9,9 +9,9 @@ namespace NIST.CVP.Generation.AES_ECB
     public class TestCaseGeneratorFactoryFactory : ITestCaseGeneratorFactoryFactory<TestVectorSet>
     {
         private readonly IStaticTestCaseGeneratorFactory<TestGroup, TestCase>  _staticTestCaseGeneratorFactory;
-        private readonly ITestCaseGeneratorFactory _testCaseGeneratorFactory;
+        private readonly ITestCaseGeneratorFactory<TestGroup, TestCase> _testCaseGeneratorFactory;
 
-        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactory iTestCaseGeneratorFactory, IStaticTestCaseGeneratorFactory<TestGroup, TestCase> iStaticTestCaseGeneratorFactory)
+        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactory<TestGroup, TestCase> iTestCaseGeneratorFactory, IStaticTestCaseGeneratorFactory<TestGroup, TestCase> iStaticTestCaseGeneratorFactory)
         {
             _testCaseGeneratorFactory = iTestCaseGeneratorFactory;
             _staticTestCaseGeneratorFactory = iStaticTestCaseGeneratorFactory;
@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.AES_ECB
             int testId = 1;
             foreach (var group in testVector.TestGroups.Select(g => (TestGroup)g).Where(w => !w.StaticGroupOfTests))
             {
-                var generator = _testCaseGeneratorFactory.GetCaseGenerator(group.Function, group.TestType);
+                var generator = _testCaseGeneratorFactory.GetCaseGenerator(group);
                 for (int caseNo = 0; caseNo < generator.NumberOfTestCasesToGenerate; ++caseNo)
                 {
                     var testCaseResponse = generator.Generate(@group, testVector.IsSample);
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.AES_ECB
             }
             foreach (var group in testVector.TestGroups.Select(g => (TestGroup)g).Where(w => w.StaticGroupOfTests))
             {
-                var generator = _staticTestCaseGeneratorFactory.GetStaticCaseGenerator(group.Function, group.TestType);
+                var generator = _staticTestCaseGeneratorFactory.GetStaticCaseGenerator(group);
                 var tests = generator.Generate(group);
                 if (!tests.Success)
                 {

@@ -5,10 +5,9 @@ namespace NIST.CVP.Generation.AES_ECB
 {
     public class StaticTestCaseGeneratorFactory : IStaticTestCaseGeneratorFactory<TestGroup, TestCase>
     {
-        public IStaticTestCaseGenerator<TestGroup, TestCase> GetStaticCaseGenerator(string direction, string testType)
+        public IStaticTestCaseGenerator<TestGroup, TestCase> GetStaticCaseGenerator(TestGroup testGroup)
         {
-            direction = direction.ToLower();
-            testType = testType.ToLower();
+            var testType = testGroup.TestType.ToLower();
 
             switch (testType)
             {

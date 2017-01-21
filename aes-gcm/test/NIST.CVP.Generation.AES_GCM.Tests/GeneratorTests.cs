@@ -110,7 +110,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 .Setup(s => s.Generate(It.IsAny<TestGroup>(), false))
                 .Returns(new TestCaseGenerateResponse(errorMessage));
             mocks.MockITestCaseGeneratorFactory
-                .Setup(s => s.GetCaseGenerator(It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(mocks.MockITestCaseGenerator.Object);
 
             var subject = GetSubject(mocks);
@@ -166,7 +166,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                .Setup(s => s.Generate(It.IsAny<TestGroup>(), false))
                .Returns(new TestCaseGenerateResponse(new TestCase()));
             mocks.MockITestCaseGeneratorFactory
-                .Setup(s => s.GetCaseGenerator(It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(mocks.MockITestCaseGenerator.Object);
 
             var subject = GetSubject(mocks);
@@ -195,9 +195,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             Assert.IsTrue(result.Success);
         }
 
-       
-
-        private Generator GetSubject(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        private Generator GetSubject(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory<TestGroup, TestCase> testCaseGeneratorFactory)
         {
             return new Generator(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactory);
         }
@@ -215,7 +213,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         private class MockedSystemDependencies
         {
             public Mock<ITestVectorFactory<Parameters>> MockITestVectorFactory { get; set; } = new Mock<ITestVectorFactory<Parameters>>();
-            public Mock<ITestCaseGeneratorFactory> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory>();
+            public Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>>();
             public Mock<ITestCaseGenerator<TestGroup, TestCase>> MockITestCaseGenerator { get; set; } = new Mock<ITestCaseGenerator<TestGroup, TestCase>>();
             public Mock<IParameterParser<Parameters>> MockIParameterParser { get; set; } = new Mock<IParameterParser<Parameters>>();
             public Mock<IParameterValidator<Parameters>> MockIParameterValidator { get; set; } = new Mock<IParameterValidator<Parameters>>();

@@ -19,8 +19,13 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         [TestCase("vArkEy", typeof(StaticTestCaseGeneratorVarKey))]
         public void ShouldReturnCorrectType(string testType, Type type)
         {
+            TestGroup testGroup = new TestGroup()
+            {
+                TestType = testType
+            };
+
             StaticTestCaseGeneratorFactory subject = new StaticTestCaseGeneratorFactory();
-            var result = subject.GetStaticCaseGenerator(string.Empty, testType);
+            var result = subject.GetStaticCaseGenerator(testGroup);
 
             Assert.IsInstanceOf(type, result);
         }

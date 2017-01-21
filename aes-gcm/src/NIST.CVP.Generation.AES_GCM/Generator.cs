@@ -7,11 +7,11 @@ namespace NIST.CVP.Generation.AES_GCM
     public class Generator : GeneratorBase
     {
         private readonly ITestVectorFactory<Parameters> _testVectorFactory;
-        private readonly ITestCaseGeneratorFactory _testCaseGeneratorFactory;
+        private readonly ITestCaseGeneratorFactory<TestGroup, TestCase> _testCaseGeneratorFactory;
         private readonly IParameterParser<Parameters> _parameterParser;
         private readonly IParameterValidator<Parameters> _parameterValidator;
 
-        public Generator(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        public Generator(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory<TestGroup, TestCase> testCaseGeneratorFactory)
         {
             _testVectorFactory = testVectorFactory;
             _testCaseGeneratorFactory = testCaseGeneratorFactory;
@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.AES_GCM
             int testId = 1;
             foreach (var group in testVector.TestGroups.Select(g => (TestGroup)g))
             {
-                var generator = _testCaseGeneratorFactory.GetCaseGenerator(group.Function, parameters.ivGen);
+                var generator = _testCaseGeneratorFactory.GetCaseGenerator(group);
                 for (int caseNo = 0; caseNo < NUMBER_OF_CASES; ++caseNo)
                 {
                     var testCaseResponse = generator.Generate(@group, testVector.IsSample);

@@ -10,31 +10,43 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
     public class TestCaseGeneratorFactoryTests
     {
         [Test]
-        [TestCase("encrypt", "external", "ExternalEncrypt")]
-        [TestCase("Encrypt", "external", "ExternalEncrypt")]
-        [TestCase("Encrypt", "EXternaL", "ExternalEncrypt")]
-        [TestCase("ENcrypt", "External", "ExternalEncrypt")]
-        [TestCase("Encrypt", "Internal", "InternalEncrypt")]
-        [TestCase("encrypt", "internal", "InternalEncrypt")]
-        [TestCase("Decrypt", "Internal", "Decrypt")]
-        [TestCase("decrypt", "internal", "Decrypt")]
-        [TestCase("decrypt", "external", "Decrypt")]
-        [TestCase("decrypt", "junk", "Decrypt")]
-        [TestCase("Junk", "internal", "Null")]
-        [TestCase("encrypt", "junk", "Null")]
-        public void ShouldReturnProperGenerator(string direction, string ivGen, string genNameHint)
+        [TestCase("encrypt", "external", typeof(TestCaseGeneratorExternalEncrypt))]
+        [TestCase("Encrypt", "external", typeof(TestCaseGeneratorExternalEncrypt))]
+        [TestCase("Encrypt", "EXternaL", typeof(TestCaseGeneratorExternalEncrypt))]
+        [TestCase("ENcrypt", "External", typeof(TestCaseGeneratorExternalEncrypt))]
+        [TestCase("Encrypt", "Internal", typeof(TestCaseGeneratorInternalEncrypt))]
+        [TestCase("encrypt", "internal", typeof(TestCaseGeneratorInternalEncrypt))]
+        [TestCase("Decrypt", "Internal", typeof(TestCaseGeneratorDecrypt))]
+        [TestCase("decrypt", "internal", typeof(TestCaseGeneratorDecrypt))]
+        [TestCase("decrypt", "external", typeof(TestCaseGeneratorDecrypt))]
+        [TestCase("decrypt", "junk", typeof(TestCaseGeneratorDecrypt))]
+        [TestCase("Junk", "internal", typeof(TestCaseGeneratorNull))]
+        [TestCase("encrypt", "junk", typeof(TestCaseGeneratorNull))]
+        public void ShouldReturnProperGenerator(string direction, string ivGen, Type expectedType)
         {
+            TestGroup testGroup = new TestGroup()
+            {
+                Function = direction,
+                IVGeneration = ivGen
+            };
+
             var subject = new TestCaseGeneratorFactory(null, null);
-            var generator = subject.GetCaseGenerator(direction, ivGen);
+            var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
-            Assert.IsTrue(generator.GetType().Name.EndsWith(genNameHint));
+            Assert.IsInstanceOf(expectedType, generator);
         }
 
         [Test]
         public void ShouldReturnAGenerator()
         {
+            TestGroup testGroup = new TestGroup()
+            {
+                Function = string.Empty,
+                IVGeneration = string.Empty
+            };
+
             var subject = new TestCaseGeneratorFactory(null, null);
-            var generator = subject.GetCaseGenerator("", "");
+            var generator = subject.GetCaseGenerator(testGroup);
             Assert.IsNotNull(generator);
         }
     }
