@@ -11,7 +11,12 @@ namespace NIST.CVP.Generation.AES_CBC
         private readonly IRandom800_90 _random800_90;
         private readonly IAES_CBC _algo;
 
-        public int NumberOfTestCasesToGenerate { get { return 15; } }
+        private const int _PT_LENGTH_MULTIPLIER = 16;
+        private const int _BITS_IN_BYTE = 8;
+
+        private int _ptLenGenIteration = 1;
+
+        public int NumberOfTestCasesToGenerate { get { return 10; } }
 
         public TestCaseGeneratorMMTEncrypt(IRandom800_90 random800_90, IAES_CBC algo)
         {
@@ -23,7 +28,7 @@ namespace NIST.CVP.Generation.AES_CBC
         {
             
             var key = _random800_90.GetRandomBitString(group.KeyLength);
-            var plainText = _random800_90.GetRandomBitString(group.PTLength);
+            var plainText = _random800_90.GetRandomBitString(_ptLenGenIteration++ * _PT_LENGTH_MULTIPLIER * _BITS_IN_BYTE);
             var iv = _random800_90.GetRandomBitString(Cipher._MAX_IV_BYTE_LENGTH * 8);
             var testCase = new TestCase
             {

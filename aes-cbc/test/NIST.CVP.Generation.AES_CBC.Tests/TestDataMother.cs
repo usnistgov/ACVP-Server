@@ -34,7 +34,6 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
                         
                         Function = direction,
                         KeyLength = 256 + groupIdx * 2,
-                        PTLength = 256 + groupIdx * 2,
                         Tests = tests,
                         TestType = "Sample"
                     }
@@ -76,7 +75,6 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
                         Function = direction,
                         KeyLength = 256 + groupIdx * 2,
-                        PTLength = 256 + groupIdx * 2,
                         Tests = tests,
                         TestType = "MCT"
                     }

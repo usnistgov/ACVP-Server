@@ -10,12 +10,6 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
         private string _algorithm;
         private string[] _mode;
         private int[] _keyLen;
-        private int[] _ptLen;
-        private int[] _ivLen;
-        private string _ivGen;
-        private string _ivGenMode;
-        private int[] _aadLen;
-        private int[] _tagLen;
 
         public ParameterBuilder()
         {
@@ -23,7 +17,6 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             _algorithm = "AES-ECB";
             _mode = ParameterValidator.VALID_DIRECTIONS;
             _keyLen = ParameterValidator.VALID_KEY_SIZES;
-            _ptLen = new int[] { 128 };
         }
 
         public ParameterBuilder WithAlgorithm(string value)
@@ -44,12 +37,6 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             return this;
         }
 
-        public ParameterBuilder WithPtLen(int[] value)
-        {
-            _ptLen = value;
-            return this;
-        }
-
         public Parameters Build()
         {
             return new Parameters()
@@ -57,8 +44,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
                 Algorithm = _algorithm,
 
                 KeyLen = _keyLen,
-                Mode = _mode,
-                PtLen = _ptLen,
+                Mode = _mode
             };
         }
     }

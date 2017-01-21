@@ -15,7 +15,6 @@ namespace NIST.CVP.Generation.AES_CBC
         public TestGroup(dynamic source)
         {
             TestType = source.testType;
-            PTLength = source.ptLen;
             KeyLength = source.keyLen;
             Function = source.direction;
             Tests = new List<ITestCase>();
@@ -34,8 +33,7 @@ namespace NIST.CVP.Generation.AES_CBC
         public string Function { get; set; }
         [JsonProperty(PropertyName = "keylen")]
         public int KeyLength { get; set; }
-        [JsonProperty(PropertyName = "ptlen")]
-        public int PTLength { get; set; }
+
         public List<ITestCase> Tests { get; set; }
 
         public bool MergeTests(List<ITestCase> testsToMerge)
@@ -58,7 +56,7 @@ namespace NIST.CVP.Generation.AES_CBC
         public override int GetHashCode()
         {
             return
-                $"{Function}|{TestType}|{KeyLength}|{PTLength}"
+                $"{Function}|{TestType}|{KeyLength}"
                     .GetHashCode();
         }
 
@@ -89,9 +87,6 @@ namespace NIST.CVP.Generation.AES_CBC
             {
                 case "keylen":
                     KeyLength = intVal;
-                    return true;
-                case "ptlen":
-                    PTLength = intVal;
                     return true;
             }
             return false;

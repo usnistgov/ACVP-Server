@@ -66,7 +66,6 @@ namespace NIST.CVP.Generation.AES_CBC.Parsers
                         {
                             Function = workingLine,
                             KeyLength = 0,
-                            PTLength = 0,
                             TestType = file.Contains("MCT") ? "MCT" : string.Empty
                         };
                         groups.Add(currentGroup);

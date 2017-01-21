@@ -12,43 +12,36 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
         // 0
         [TestCase(
             new string[] { },
-            new int[] { },
             new int[] { }
         )]
         // 0
         [TestCase(
             new string[] { },
-            new int[] { 1 },
-            new int[] { 1, 2 }
-        )]
-        // 3 (3*1*1)
-        [TestCase(
-            new string[] { "", "", "" },
-            new int[] { 1 },
             new int[] { 1 }
         )]
-        // 27 (3*3*3)
+        // 3 (3*1)
         [TestCase(
             new string[] { "", "", "" },
-            new int[] { 1, 2, 3 },
+            new int[] { 1 }
+        )]
+        // 9 (3*3)
+        [TestCase(
+            new string[] { "", "", "" },
             new int[] { 1, 2, 3 }
 
         )]
         public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
             string[] mode,
-            int[] keyLen,
-            int[] ptLen
+            int[] keyLen
         )
         {
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-ECB",
                 KeyLen = keyLen,
-                Mode = mode,
-                PtLen = ptLen,
-               
+                Mode = mode
             };
-            int expectedResultCount =  keyLen.Length * mode.Length * ptLen.Length;
+            int expectedResultCount =  keyLen.Length * mode.Length;
 
             Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iKATTestGroupFactory = new Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
             iKATTestGroupFactory
@@ -74,7 +67,6 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
                 Algorithm = "AES-ECB",
                 KeyLen = new int[] { 1 },
                 Mode = new [] {""},
-                PtLen = new int[] { 1 },
                 IsSample = isSample
             };
 

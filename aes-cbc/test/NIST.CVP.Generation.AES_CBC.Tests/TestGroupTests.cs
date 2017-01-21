@@ -38,16 +38,6 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
         }
 
         [Test]
-        public void ShouldSetProperPTLengthFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.ptLen, subject.PTLength);
-
-        }
-
-        [Test]
         [TestCase("Fredo")]
         [TestCase("")]
         [TestCase("NULL")]
@@ -117,18 +107,6 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var result = subject.SetString(name,"13");
             Assert.IsTrue(result);
             Assert.AreEqual(13, subject.KeyLength);
-        }
-
-     
-        [Test]
-        [TestCase("ptLen")]
-        [TestCase("ptlen")]
-        public void ShouldSetPTLength(string name)
-        {
-            var subject = new TestGroup();
-            var result = subject.SetString(name, "13");
-            Assert.IsTrue(result);
-            Assert.AreEqual(13, subject.PTLength);
         }
 
         private dynamic GetSourceAnswer()

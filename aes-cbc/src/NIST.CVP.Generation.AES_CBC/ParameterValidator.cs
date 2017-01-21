@@ -20,7 +20,6 @@ namespace NIST.CVP.Generation.AES_CBC
             var errorResults = new List<string>();
             ValidateKeySizes(parameters, errorResults);
             ValidateDirection(parameters, errorResults);
-            ValidatePlainText(parameters, errorResults);
 
             if (errorResults.Count > 0)
             {
@@ -28,20 +27,6 @@ namespace NIST.CVP.Generation.AES_CBC
             }
 
             return new ParameterValidateResponse();
-        }
-
-        private void ValidatePlainText(Parameters parameters,  List<string> errorResults)
-        {
-            var result = ValidateRange(parameters.PtLen, VALID_MIN_PT, VALID_MAX_PT, "Plaintext length (range check)");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
-            result = ValidateMultipleOf(parameters.PtLen, 8, "Plaintext length (multiples check)");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
         }
         
         private void ValidateKeySizes(Parameters parameters,  List<string> errorResults)
