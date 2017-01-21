@@ -23,10 +23,7 @@ namespace NIST.CVP.Generation.AES_CBC
                 var rijn = _iRijndaelFactory.GetRijndael(mode);
                 var key = rijn.MakeKey(keyBytes, DirectionValues.Decrypt);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode, IV = iv};
-
-                var ivPreRun = cipher.IV.ToBytes();
                 var decryptBits = rijn.BlockEncrypt(cipher, key, cipherText.ToBytes(), cipherText.BitLength);
-                var ivPostRun = cipher.IV.ToBytes();
                 return new DecryptionResult(decryptBits);
             }
             catch (Exception ex)
@@ -41,9 +38,6 @@ namespace NIST.CVP.Generation.AES_CBC
         {
             try
             {
-                // @@@ TODO need to get changes of IV within CBC implementation to the caller.
-                // @@@ TODO By ref?  Or update implementation of algorithm to work with a BitString instead of byte[]
-
                 byte[] keyBytes = keyBits.ToBytes();
                 ModeValues mode = ModeValues.CBC;
                 var rijn = _iRijndaelFactory.GetRijndael(mode);
