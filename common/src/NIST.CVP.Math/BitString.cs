@@ -25,19 +25,6 @@ namespace NIST.CVP.Math
         public const int BITSINBYTE = 8;
         private readonly BitArray _bits;
 
-        /// <summary>
-        /// In LSb
-        /// </summary>
-        public BitArray Bits
-        {
-            get { return _bits; }
-        }
-
-        public int BitLength
-        {
-            get { return _bits.Length; }
-        }
-
         #region Constructors
         public BitString(int bitCount)
         {
@@ -111,66 +98,7 @@ namespace NIST.CVP.Math
         }
         #endregion Constructors
 
-        /// <summary>
-        /// Gets/Sets the byte at index specified.
-        /// Index 0 is the most significant byte.
-        /// </summary>
-        /// <param name="index">The index to get/set (index 0 is most significant byte)</param>
-        /// <returns></returns>
-        public byte this[int index]
-        {
-            get
-            {
-                // Get bits for index (bits are in LSb, whereas bytes as MSB).
-                // So byte index 0, is the last 8 bits of the BitArray
-                BitString bits = this.Substring(BitLength - ((index + 1) * 8), 8);
-
-                return bits.ToBytes().FirstOrDefault();
-            }
-            set
-            {
-                // Put the single byte in a byte array
-                byte[] byteArray = new byte[1] { value };
-                // convert that byte array to a bit array
-                BitArray bits = new BitArray(byteArray);
-
-                // For each bit, set that bit in this, 
-                // noting that bits and bytes are in opposite endianness.
-                for (int i = 0; i < bits.Length; i++)
-                {
-                    var bitToSet = BitLength - ((index + 1) * 8) + i;
-                    this.Set(bitToSet, bits[i]);
-                }
-            }
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherBitString = obj as BitString;
-            if (otherBitString == null)
-            {
-                return false;
-            }
-
-            if (this.BitLength != otherBitString.BitLength)
-            {
-                return false;
-            }
-
-            var copiedBits = new BitArray(this.Bits);
-            var comparison = copiedBits.Xor(otherBitString.Bits);
-
-            foreach (bool val in comparison)
-            {
-                if (val)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
+        #region Conversions
         /// <summary>
         /// Returns bytes based on <see cref="Bits"/> in MSB.
         /// </summary>
@@ -215,17 +143,6 @@ namespace NIST.CVP.Math
             }
         }
 
-        public bool Set(int bitIndex, bool value)
-        {
-            if ((bitIndex < 0) || (bitIndex >= BitLength))
-            {
-                return false;
-            }
-            _bits[bitIndex] = value;
-
-            return true;
-        }
-
         public static BitString To64BitString(long value)
         {
             var bytesInLSB = BitConverter.GetBytes(value);
@@ -234,20 +151,6 @@ namespace NIST.CVP.Math
             return new BitString(bitArrayLSb);
         }
 
-        public static BitString XOR(BitString left, BitString right)
-        {
-            // Pad shorter BitString with 0s to match longer BitString length
-            BitString.PadShorterBitStringWithZeroes(ref left, ref right);
-            BitArray xorArray = left.Bits.Xor(right.Bits);
-
-            return new BitString(new BitArray(xorArray));
-        }
-
-        public BitString XOR(BitString comparisonBitString)
-        {
-            return XOR(this, comparisonBitString);
-        }
-        
         /// <summary>
         /// Returns <see cref="Bits"/> as a string in MSb
         /// </summary>
@@ -274,6 +177,216 @@ namespace NIST.CVP.Math
             return new string(builder.ToString().Reverse().ToArray());
         }
 
+        public BigInteger ToBigInteger()
+        {
+            return new BigInteger(ToBytes(true));
+        }
+
+        public string ToHex()
+        {
+            if (BitLength == 0)
+            {
+                return "";
+            }
+
+            var bytes = ToBytes();
+
+            StringBuilder hex = new StringBuilder(bytes.Length * 2);
+            for (int index = 0; index < bytes.Length; index++)
+            {
+                hex.AppendFormat("{0:x2}", bytes[index]);
+            }
+
+            return hex.ToString().ToUpper();
+        }
+        #endregion Conversions
+
+        #region Logical Operators
+        public static BitString XOR(BitString sourceLeft, BitString sourceRight)
+        {
+            // Deep copies to avoid accidental assignment
+            BitString left = sourceLeft.GetDeepCopy();
+            BitString right = sourceRight.GetDeepCopy();
+
+            // Pad shorter BitString with 0s to match longer BitString length
+            BitString.PadShorterBitStringWithZeroes(ref left, ref right);
+            BitArray xorArray = left.Bits.Xor(right.Bits);
+
+            return new BitString(new BitArray(xorArray));
+        }
+
+        public BitString XOR(BitString comparisonBitString)
+        {
+            return XOR(this, comparisonBitString);
+        }
+
+        public static BitString OR(BitString sourceLeft, BitString sourceRight)
+        {
+            // Deep copies to avoid accidental assignment
+            BitString left = sourceLeft.GetDeepCopy();
+            BitString right = sourceRight.GetDeepCopy();
+
+            BitString.PadShorterBitStringWithZeroes(ref left, ref right);
+            BitArray orArray = left.Bits.Or(right.Bits);
+
+            return new BitString(new BitArray(orArray));
+        }
+
+        public BitString OR(BitString comparisonBitString)
+        {
+            return OR(this, comparisonBitString);
+        }
+
+        public static BitString AND(BitString sourceLeft, BitString sourceRight)
+        {
+            BitString left = sourceLeft.GetDeepCopy();
+            BitString right = sourceRight.GetDeepCopy();
+
+            BitString.PadShorterBitStringWithZeroes(ref left, ref right);
+            BitArray andArray = left.Bits.And(right.Bits);
+
+            return new BitString(new BitArray(andArray));
+        }
+
+        public BitString AND(BitString comparisonBitString)
+        {
+            return AND(this, comparisonBitString);
+        }
+
+        // Shifts in the MSB direction
+        public static BitString CircularShiftMSB(BitString shiftBitString, int distance)
+        {
+            var bits = shiftBitString.GetDeepCopy().GetBitsMSB();
+            var bitLength = shiftBitString.BitLength;
+            var newBits = new bool[bitLength];
+
+            for (var i = 0; i < bitLength; i++)
+            {
+                newBits[i] = bits[(i + distance) % bitLength];
+            }
+
+            Array.Reverse(newBits);
+            return new BitString(new BitArray(newBits));
+        }
+
+        public BitString CircularShiftMSB(int distance)
+        {
+            return CircularShiftMSB(this, distance);
+        }
+
+        // Adds two BitStrings and truncates the MSBs not needed
+        public static BitString AddWithModulo(BitString left, BitString right, int moduloPower)
+        {
+            var leftBits = left.GetDeepCopy().GetBitsMSB();
+            var rightBits = right.GetDeepCopy().GetBitsMSB();
+            var resultBits = new bool[moduloPower];
+            var carryOver = false;
+
+            for (var i = moduloPower - 1; i >= 0; i--)
+            {
+                // Lack of implicit conversion here is gross
+                var bitResult = Convert.ToInt32(leftBits[i]) + Convert.ToInt32(rightBits[i]) + Convert.ToInt32(carryOver);
+
+                carryOver = (bitResult >= 2);
+                resultBits[i] = (bitResult % 2 == 1);
+            }
+
+            Array.Reverse(resultBits);
+
+            return new BitString(new BitArray(resultBits));
+        }
+
+        public BitString AddWithModulo(BitString right, int moduloPower)
+        {
+            return AddWithModulo(this, right, moduloPower);
+        }
+        #endregion Logical Operators
+
+        #region Getters and Setters
+        /// <summary>
+        /// In LSb
+        /// </summary>
+        public BitArray Bits
+        {
+            get { return _bits; }
+        }
+
+        public int BitLength
+        {
+            get { return _bits.Length; }
+        }
+
+        /// <summary>
+        /// Gets/Sets the byte at index specified.
+        /// Index 0 is the most significant byte.
+        /// </summary>
+        /// <param name="index">The index to get/set (index 0 is most significant byte)</param>
+        /// <returns></returns>
+        public byte this[int index]
+        {
+            get
+            {
+                // Get bits for index (bits are in LSb, whereas bytes as MSB).
+                // So byte index 0, is the last 8 bits of the BitArray
+                BitString bits = this.Substring(BitLength - ((index + 1) * 8), 8);
+
+                return bits.ToBytes().FirstOrDefault();
+            }
+            set
+            {
+                // Put the single byte in a byte array
+                byte[] byteArray = new byte[1] { value };
+                // convert that byte array to a bit array
+                BitArray bits = new BitArray(byteArray);
+
+                // For each bit, set that bit in this, 
+                // noting that bits and bytes are in opposite endianness.
+                for (int i = 0; i < bits.Length; i++)
+                {
+                    var bitToSet = BitLength - ((index + 1) * 8) + i;
+                    this.Set(bitToSet, bits[i]);
+                }
+            }
+        }
+
+        public BitString GetDeepCopy()
+        {
+            return new BitString(new BitArray(_bits));
+        }
+
+        public bool Set(int bitIndex, bool value)
+        {
+            if ((bitIndex < 0) || (bitIndex >= BitLength))
+            {
+                return false;
+            }
+            _bits[bitIndex] = value;
+
+            return true;
+        }
+
+        public static BitString GetMostSignificantBits(int numBits, BitString bitString)
+        {
+            return BitString.Substring(bitString, bitString.BitLength - numBits, numBits);
+        }
+
+        public BitString GetMostSignificantBits(int numBits)
+        {
+            return BitString.GetMostSignificantBits(numBits, this);
+        }
+
+        public static BitString GetLeastSignificantBits(int numBits, BitString bitString)
+        {
+            return BitString.Substring(bitString, 0, numBits);
+        }
+
+        public BitString GetLeastSignificantBits(int numBits)
+        {
+            return BitString.GetLeastSignificantBits(numBits, this);
+        }
+        #endregion Getters and Setters
+
+        #region Concatenation
         public BitString ConcatenateBits(BitString bitsToAppend)
         {
             return BitString.ConcatenateBits(this, bitsToAppend);
@@ -306,32 +419,9 @@ namespace NIST.CVP.Math
 
             return new BitString(new BitArray(bits));
         }
+        #endregion Concatentation
 
-        public static BitString GetMostSignificantBits(int numBits, BitString bitString)
-        {
-            return BitString.Substring(bitString, bitString.BitLength - numBits, numBits);
-        }
-
-        public BitString GetMostSignificantBits(int numBits)
-        {
-            return BitString.GetMostSignificantBits(numBits, this);
-        }
-
-        public static BitString GetLeastSignificantBits(int numBits, BitString bitString)
-        {
-            return BitString.Substring(bitString, 0, numBits);
-        }
-
-        public BitString GetLeastSignificantBits(int numBits)
-        {
-            return BitString.GetLeastSignificantBits(numBits, this);
-        }
-
-        public override int GetHashCode()
-        {
-            return this.Bits.GetHashCode();
-        }
-
+        #region Substring
         public BitString Substring(int startIndex, int numberOfBits)
         {
             return Substring(this, startIndex, numberOfBits);
@@ -356,28 +446,39 @@ namespace NIST.CVP.Math
 
             return new BitString(new BitArray(newBits));
         }
+        #endregion Substring
 
-        public BigInteger ToBigInteger()
+        public override bool Equals(object obj)
         {
-            return new BigInteger(ToBytes(true));
+            var otherBitString = obj as BitString;
+            if (otherBitString == null)
+            {
+                return false;
+            }
+
+            if (this.BitLength != otherBitString.BitLength)
+            {
+                return false;
+            }
+
+            var copiedBits = new BitArray(this.Bits);
+            var comparison = copiedBits.Xor(otherBitString.Bits);
+
+            foreach (bool val in comparison)
+            {
+                if (val)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
-        public string ToHex()
+        public override int GetHashCode()
         {
-            if (BitLength == 0)
-            {
-                return "";
-            }
-
-            var bytes = ToBytes();
-
-            StringBuilder hex = new StringBuilder(bytes.Length * 2);
-            for (int index = 0; index < bytes.Length; index++)
-            {
-                hex.AppendFormat("{0:x2}", bytes[index]);
-            }
-
-            return hex.ToString().ToUpper();
+            return this.ToHex().GetHashCode();
+            // return this.Bits.GetHashCode();
         }
 
         #region Private methods
@@ -407,6 +508,19 @@ namespace NIST.CVP.Math
             }
 
             return new BitString(newArray);
+        }
+
+        // Return an array of bits with MSB in the first index
+        private bool[] GetBitsMSB()
+        {
+            bool[] MSBBits = new bool[BitLength];
+            for (var i = 0; i < BitLength; i++)
+            {
+                MSBBits[i] = Bits[i];
+            }
+
+            Array.Reverse(MSBBits);
+            return MSBBits;
         }
         #endregion Private methods
     }

@@ -994,7 +994,375 @@ namespace NIST.CVP.Math.Tests
             // Assert
             Assert.AreEqual(expectedXorBs, results);
         }
+
+        [Test]
+        [TestCase(
+            "1234",
+            "ABCD",
+            "B9F9"    
+        )]
+        [TestCase(
+            "1234567890",
+            "ABCDEABCDE",
+            "B9F9BCC44E"    
+        )]
+        [TestCase(
+            "0001",
+            "FFFFFFFE",
+            "FFFFFFFF"
+        )]
+        public void XORShouldNotModifyParameters(string inputA, string inputB, string inputC)
+        {
+            // Arrange
+            var originalA = new BitString(inputA);
+            var originalB = new BitString(inputB);
+            var expectedResult = new BitString(inputC);
+
+            // Act
+            var result = BitString.XOR(originalA, originalB);
+
+            // Assume
+            Assume.That(expectedResult.Equals(result));
+
+            // Assert
+            Assert.AreEqual(originalA, new BitString(inputA));
+            Assert.AreEqual(originalB, new BitString(inputB));
+        }
         #endregion XOR
+
+        #region OR
+        [Test]
+        [TestCase(
+            new bool[] { true, true, true },
+            new bool[] { false, false, false },
+            new bool[] { true, true, true }
+        )]
+        [TestCase(
+            new bool[] { true, false, true, false },
+            new bool[] { false, false, true, true },
+            new bool[] { true, false, true, true }
+        )]
+        [TestCase(
+            new bool[] { false, false, true, false, false },
+            new bool[] { false, false, false, true, true },
+            new bool[] { false, false, true, true, true }
+        )]
+        public void ORShouldReturnNewBitStringWithOrOfTwoBitStrings(bool[] inputA, bool[] inputB, bool[] expectedResult)
+        {
+            // Arrange
+            BitString bsA = new BitString(new BitArray(inputA));
+            BitString bsB = new BitString(new BitArray(inputB));
+            BitString expectedOrBs = new BitString(new BitArray(expectedResult));
+
+            // Act
+            var results = BitString.OR(bsA, bsB);
+
+            // Assert
+            Assert.AreEqual(expectedOrBs, results);
+        }
+
+        [Test]
+        [TestCase(
+            new bool[] { true, true, true },
+            new bool[] { false },
+            new bool[] { true, true, true }
+        )]
+        [TestCase(
+            new bool[] { true, false, true, false },
+            new bool[] { false, false, true },
+            new bool[] { true, false, true, false }
+        )]
+        [TestCase(
+            new bool[] { false, false, true, false, false },
+            new bool[] { false, false, false },
+            new bool[] { false, false, true, false, false }
+        )]
+        public void ORShouldPadShorterWithZeroesAndReturnNewBitString(bool[] inputA, bool[] inputB, bool[] expectedResult)
+        {
+            // Arrange
+            BitString bsA = new BitString(new BitArray(inputA));
+            BitString bsB = new BitString(new BitArray(inputB));
+            BitString expectedOrBs = new BitString(new BitArray(expectedResult));
+
+            // Act
+            var results = BitString.OR(bsA, bsB);
+
+            // Assert
+            Assert.AreEqual(expectedOrBs, results);
+        }
+
+        [Test]
+        [TestCase(
+            "1234",
+            "ABCD",
+            "BBFD"
+        )]
+        [TestCase(
+            "1234567890",
+            "ABCDEABCDE",
+            "BBFDFEFCDE"
+        )]
+        [TestCase(
+            "0001",
+            "FFFFFFFE",
+            "FFFFFFFF"
+        )]
+        public void ORShouldNotModifyParameters(string inputA, string inputB, string inputC)
+        {
+            // Arrange
+            var originalA = new BitString(inputA);
+            var originalB = new BitString(inputB);
+            var expectedResult = new BitString(inputC);
+
+            // Act
+            var result = BitString.OR(originalA, originalB);
+
+            // Assume
+            Assume.That(expectedResult.Equals(result));
+
+            // Assert
+            Assert.AreEqual(originalA, new BitString(inputA));
+            Assert.AreEqual(originalB, new BitString(inputB));
+        }
+        #endregion
+
+        #region AND
+        [Test]
+        [TestCase(
+            new bool[] { true, true, true },
+            new bool[] { false, false, false },
+            new bool[] { false, false, false }
+        )]
+        [TestCase(
+            new bool[] { true, false, true, false },
+            new bool[] { false, false, true, true },
+            new bool[] { false, false, true, false }
+        )]
+        [TestCase(
+            new bool[] { false, false, true, true, true },
+            new bool[] { false, false, false, true, true },
+            new bool[] { false, false, false, true, true }
+        )]
+        public void ANDShouldReturnNewBitStringWithAndOfTwoBitStrings(bool[] inputA, bool[] inputB, bool[] expectedResult)
+        {
+            // Arrange
+            BitString bsA = new BitString(new BitArray(inputA));
+            BitString bsB = new BitString(new BitArray(inputB));
+            BitString expectedAndBs = new BitString(new BitArray(expectedResult));
+
+            // Act
+            var results = BitString.AND(bsA, bsB);
+
+            // Assert
+            Assert.AreEqual(expectedAndBs, results);
+        }
+
+        [Test]
+        [TestCase(
+            new bool[] { true, true, true },
+            new bool[] { false },
+            new bool[] { false, false, false }
+        )]
+        [TestCase(
+            new bool[] { true, false, true, false },
+            new bool[] { false, false, true },
+            new bool[] { false, false, true, false }
+        )]
+        [TestCase(
+            new bool[] { true, false, true, true, false },
+            new bool[] { true, false, true },
+            new bool[] { true, false, true, false, false }
+        )]
+        public void ANDShouldPadShorterWithZeroesAndReturnNewBitString(bool[] inputA, bool[] inputB, bool[] expectedResult)
+        {
+            // Arrange
+            BitString bsA = new BitString(new BitArray(inputA));
+            BitString bsB = new BitString(new BitArray(inputB));
+            BitString expectedAndBs = new BitString(new BitArray(expectedResult));
+
+            // Act
+            var results = BitString.AND(bsA, bsB);
+
+            // Assert
+            Assert.AreEqual(expectedAndBs, results);
+        }
+
+        [Test]
+        [TestCase(
+            "1234",
+            "ABCD",
+            "0204"
+        )]
+        [TestCase(
+            "1234567890",
+            "ABCDEABCDE",
+            "0204423890"
+        )]
+        [TestCase(
+            "0707",
+            "EEEEEEEE",
+            "00000606"
+        )]
+        public void ANDShouldNotModifyParameters(string inputA, string inputB, string inputC)
+        {
+            // Arrange
+            var originalA = new BitString(inputA);
+            var originalB = new BitString(inputB);
+            var expectedResult = new BitString(inputC);
+
+            // Act
+            var result = BitString.AND(originalA, originalB);
+
+            // Assume
+            Assume.That(expectedResult.Equals(result));
+
+            // Assert
+            Assert.AreEqual(originalA, new BitString(inputA));
+            Assert.AreEqual(originalB, new BitString(inputB));
+        }
+        #endregion
+
+        #region AddWithModulo
+        // Make all of these actually correct and test this method...
+        [Test]
+        [TestCase(
+            "ABCD",
+            "2222",
+            16,
+            "CDEF"
+        )]
+        [TestCase(
+            "1111",
+            "3333",
+            8,
+            "44"
+        )]
+        [TestCase(
+            "ABCDEF",
+            "FEDCBA",
+            24,
+            "AAAAA9"
+        )]
+        public void AddWithModuloShouldAddProperly(string inputA, string inputB, int modulo, string inputResult)
+        {
+            // Arrange
+            var leftBS = new BitString(inputA);
+            var rightBS = new BitString(inputB);
+            var expectedResult = new BitString(inputResult);
+
+            // Act
+            var result = BitString.AddWithModulo(leftBS, rightBS, modulo);
+
+            // Assert
+            Assert.AreEqual(expectedResult.ToHex(), result.ToHex());
+        }
+
+        [Test]
+        [TestCase(
+            "111111",
+            "FFFFFF",
+            24,
+            "111110"
+        )]
+        [TestCase(
+            "ABCD",
+            "2222",
+            16,
+            "CDEF"
+        )]
+        [TestCase(
+            "1111",
+            "3333",
+            8,
+            "44"
+        )]
+        [TestCase(
+            "ABCDEF",
+            "FEDCBA",
+            24,
+            "AAAAA9"
+        )]
+        public void AddWithModuloShouldNotModifyParameters(string inputA, string inputB, int modulo, string inputResult)
+        {
+            // Arrange
+            var originalLeft = new BitString(inputA);
+            var originalRight = new BitString(inputB);
+            var expectedResult = new BitString(inputResult);
+
+            // Act
+            var result = BitString.AddWithModulo(originalLeft, originalRight, modulo);
+
+            // Assume
+            Assume.That(expectedResult.Equals(result));
+
+            // Assert
+            Assert.AreEqual(originalLeft, new BitString(inputA));
+            Assert.AreEqual(originalRight, new BitString(inputB));
+        }
+        #endregion AddWithModulo
+
+        #region BitShifts
+        [Test]
+        [TestCase(
+            new bool[] { true, false, true, false, true, false },
+            1,
+            new bool[] { false, true, false, true, false, true }
+        )]
+        [TestCase(
+            new bool[] { false, false, false, true, true, false },
+            4,
+            new bool[] { false, true, true, false, false, false }
+        )]
+        [TestCase(
+            new bool[] { false, false, true, false, true, false },
+            8,
+            new bool[] { true, false, false, false, true, false }
+        )]
+        public void CircularShiftMSBShouldShiftBitsAndReturnNewBitString(bool[] bits, int distance, bool[] expectedBits)
+        {
+            // Arrange
+            var inputString = new BitString(new BitArray(bits));
+            var expectedResult = new BitString(new BitArray(expectedBits));
+
+            // Act
+            var results = BitString.CircularShiftMSB(inputString, distance);
+
+            // Assert
+            Assert.AreEqual(expectedResult, results);
+        }
+
+        [Test]
+        [TestCase(
+            new bool[] { true, false, true, false, true, false },
+            1,
+            new bool[] { false, true, false, true, false, true }
+        )]
+        [TestCase(
+            new bool[] { false, false, false, true, true, false },
+            4,
+            new bool[] { false, true, true, false, false, false }
+        )]
+        [TestCase(
+            new bool[] { false, false, true, false, true, false },
+            8,
+            new bool[] { true, false, false, false, true, false }
+        )]
+        public void CircularShiftMSBShouldNotModifyParameters(bool[] bits, int distance, bool[] expectedBits)
+        {
+            // Arrange
+            var originalString = new BitString(new BitArray(bits));
+            var expectedResult = new BitString(new BitArray(expectedBits));
+
+            // Act
+            var results = BitString.CircularShiftMSB(originalString, distance);
+
+            // Assume
+            Assume.That(expectedResult.Equals(results));
+
+            // Assert
+            Assert.AreEqual(originalString, new BitString(new BitArray(bits)));
+        }
+        #endregion BitShifts
 
         #region ToBigInteger
         [Test]
@@ -1084,7 +1452,6 @@ namespace NIST.CVP.Math.Tests
         [TestCase(10)]
         [TestCase(15)]
         [TestCase(1500)]
-        [Ignore("Will fail for current implementation of BitString until a new GetHashCode() is implemented.")]
         public void GetHashCodeShouldBeConsistent(int testInt)
         {
             // Arrange
