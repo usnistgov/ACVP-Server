@@ -1,0 +1,15 @@
+{
+    "version": "1.0.0-*",
+
+    "dependencies": {
+        "AES_OFB": "1.0.0-*",
+        "AES_OFB_Val": "1.0.0-*",
+        "NETStandard.Library": "1.6.0"
+    },
+
+    "frameworks": {
+        "netcoreapp1.0": {
+            "imports": "dnxcore50"
+        }
+    }
+}
