@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.TDES_ECB
     {
         private readonly ITDES_ECB _algo;
         private readonly IRandom800_90 _random800_90;
-
+        private const int BLOCK_SIZE_BITS = 64;
 
         public TestCaseGeneratorDecrypt(IRandom800_90 random800_90, ITDES_ECB algo)
         {
@@ -20,8 +20,8 @@ namespace NIST.CVP.Generation.TDES_ECB
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
             //known answer - need to do an encryption operation to get the tag
-            var key = _random800_90.GetRandomBitString(@group.KeyLength);
-            var plainText = _random800_90.GetRandomBitString(group.PTLength);
+            var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
+            var plainText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
             var testCase = new TestCase
             {
                 Key = key,

@@ -22,6 +22,13 @@ namespace NIST.CVP.Generation.TDES_ECB
             MapToProperties(source);
         }
 
+        public TestCase(string key, string plainText, string cipherText)
+        {
+            Key = new BitString(key);
+            PlainText = new BitString(plainText);
+            CipherText = new BitString(cipherText);
+        }
+
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
@@ -74,7 +81,9 @@ namespace NIST.CVP.Generation.TDES_ECB
         public BitString PlainText { get; set; }
         public BitString Key { get; set; }
         public BitString CipherText { get; set; }
-      
+        public BitString Key1 { get; set; }
+        public BitString Key2 { get; set; }
+        public BitString Key3 { get; set; }
 
         public bool Merge(ITestCase otherTest)
         {

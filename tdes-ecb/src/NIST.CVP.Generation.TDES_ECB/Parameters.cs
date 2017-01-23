@@ -13,7 +13,6 @@ namespace NIST.CVP.Generation.TDES_ECB
         public bool IsSample { get; set; }
         [JsonProperty(PropertyName = "direction")]
         public string[] Mode { get; set; }
-        public int[] KeyLen { get; set; }
-        public int[] PtLen { get; set; }
+      
     }
 }

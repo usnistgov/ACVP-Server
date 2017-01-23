@@ -14,18 +14,9 @@ namespace NIST.CVP.Generation.TDES_ECB
             _random800_90 = random800_90;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(string direction)
+        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group)
         {
-            direction = direction.ToLower();
-            if (direction == "encrypt")
-            {
-                return new TestCaseGeneratorEncrypt(_random800_90, _algo);
-            }
-
-            if (direction == "decrypt")
-            {
-                return new TestCaseGeneratorDecrypt(_random800_90, _algo);
-            }
+          
 
             return new TestCaseGeneratorNull();
         }

@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.TDES_ECB
 {
     public class TDESKeys
     {
-        public const int EXPECTED_BYTE_SIZE = 24;
+       
         public List<byte[]> Keys { get; private set; }
         public TDESKeys(BitString bitString)
         {
@@ -21,13 +21,38 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         private void MakeKeySimple(BitString keyBits)
         {
-            Keys = new List<byte[]>();
+            
+            byte[] key1 = new byte[8];
+            byte[] key2 = new byte[8];
+            byte[] key3 = new byte[8];
+
             var keyBytes = keyBits.ToBytes();
-            var withParityKey = keyBytes; //.SetOddParityBitInSuppliedBytes();
-            for (int keyIdx = 0; keyIdx < 3; keyIdx++)
+           
+            //we have one key, re-use for all three
+            if (keyBytes.Length == 8)
             {
-                Keys.Add(withParityKey);
+                Array.Copy(keyBytes, key1, 8);
+                Array.Copy(keyBytes, key2, 8);
+                Array.Copy(keyBytes, key3, 8);
             }
+            if (keyBytes.Length == 16)
+            {
+                //we have two keys, key1 = key3
+                Array.Copy(keyBytes, key1, 8);
+                Array.Copy(keyBytes, key3, 8);
+                Array.Copy(keyBytes,8, key2, 0,8);
+            }
+            if (keyBytes.Length == 24)
+            {
+                //we have three keys
+                Array.Copy(keyBytes, key1, 8);
+                Array.Copy(keyBytes, 8, key2, 0, 8);
+                Array.Copy(keyBytes, 16, key3, 0, 8);
+            }
+            Keys = new List<byte[]>();
+            Keys.Add(key1);
+            Keys.Add(key2);
+            Keys.Add(key3);
 
         }
 

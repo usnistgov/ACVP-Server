@@ -8,7 +8,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup: ITestGroup
     {
         public TestGroup()
         {
@@ -18,8 +18,8 @@ namespace NIST.CVP.Generation.TDES_ECB
         public TestGroup(dynamic source)
         {
            
-            PTLength = source.ptLen;
-            KeyLength = source.keyLen;
+            NumberOfKeys = source.numberOfKeys;
+            TestType = source.testType;
             Function = source.direction;
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
@@ -29,13 +29,20 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         }
 
+        public int KeyLength
+        {
+            get { return 64; }
+        }
+
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
-        [JsonProperty(PropertyName = "keylen")]
-        public int KeyLength { get; set; }
-        [JsonProperty(PropertyName = "ptlen")]
-        public int PTLength { get; set; }
+        [JsonProperty(PropertyName = "testType")]
+        public string TestType{ get; set; }
+        [JsonProperty(PropertyName = "numberOfKeys")]
+        public int NumberOfKeys { get; set; }
         public List<ITestCase> Tests { get; set; }
+
+      
 
         public bool MergeTests(List<ITestCase> testsToMerge)
         {
@@ -57,7 +64,7 @@ namespace NIST.CVP.Generation.TDES_ECB
         public override int GetHashCode()
         {
             return
-                $"{Function}|{KeyLength}|{PTLength}"
+                $"{Function}|{TestType}|{NumberOfKeys}"
                     .GetHashCode();
         }
 
@@ -78,6 +85,13 @@ namespace NIST.CVP.Generation.TDES_ECB
                 return false;
             }
 
+            switch (name.ToLower())
+            {
+                case "testType":
+                    TestType = value;
+                    return true;
+            }
+
             int intVal = 0;
             if (!int.TryParse(value, out intVal))
             {
@@ -86,16 +100,13 @@ namespace NIST.CVP.Generation.TDES_ECB
 
             switch (name.ToLower())
             {
-                case "keylen":
-                    KeyLength = intVal;
-                    return true;
-                case "ptlen":
-                    PTLength = intVal;
+                case "numberOfKeys":
+                    NumberOfKeys = intVal;
                     return true;
             }
             return false;
         }
 
-        public string TestType { get; set; }
+        
     }
 }
