@@ -14,6 +14,7 @@ namespace NIST.CVP.Generation.AES
     public enum ModeValues
     {
         ECB,
-        CBC
+        CBC,
+        OFB
     }
 }

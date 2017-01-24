@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.AES
             return new BitString(outBuffer);
         }
 
-        protected abstract void BlockEncryptWorker(Cipher cipher, Key key, byte[] plainText, int numBlocks, byte[,] block,
+        protected abstract void BlockEncryptWorker(Cipher cipher, Key key, byte[] input, int numBlocks, byte[,] block,
             byte[] outBuffer);
 
         protected void EncryptSingleBlock(byte[,] block, Key key)

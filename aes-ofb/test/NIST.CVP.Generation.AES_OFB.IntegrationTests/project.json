@@ -2,14 +2,32 @@
     "version": "1.0.0-*",
 
     "dependencies": {
+        "NETStandard.Library": "1.6.0",
+        "NUnit": "3.5.0",
+        "dotnet-test-nunit": "3.4.0-beta-3",
+        "NLog": "4.4.0-betaV15",
+        "Moq": "4.6.38-alpha",
+        "NIST.CVP.Generation.AES": "1.0.0-*",
+        "NIST.CVP.Generation.AES_OFB": "1.0.0-*",
+        "NIST.CVP.Tests.Core": "1.0.0-*",
         "AES_OFB": "1.0.0-*",
-        "AES_OFB_Val": "1.0.0-*",
-        "NETStandard.Library": "1.6.0"
+        "AES_OFB_Val": "1.0.0-*"
     },
+    "testRunner": "nunit",
 
     "frameworks": {
         "netcoreapp1.0": {
-            "imports": "dnxcore50"
+            "imports": [
+                "netcoreapp1.0",
+                "portable-net45+win8"
+            ],
+            "dependencies": {
+                "Microsoft.NETCore.App": {
+                    "type": "platform",
+                    "version": "1.0.1"
+                }
+            }
+
         }
     }
 }
