@@ -83,6 +83,8 @@ namespace NIST.CVP.Generation.AES_CBC.Parsers
                             currentArrayResponse = new AlgoArrayResponse();
                             currentTestCase.ResultsArray.Add(currentArrayResponse);
 
+                            currentGroup.Tests.Add(currentTestCase);
+
                             continue;
                         }
 

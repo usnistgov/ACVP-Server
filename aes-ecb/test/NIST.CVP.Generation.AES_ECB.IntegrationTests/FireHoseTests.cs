@@ -50,6 +50,8 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
             int count = 0;
             int passes = 0;
             int fails = 0;
+            bool mctTestHit = false;
+            bool nonMctTestHit = false;
             foreach (var iTestGroup in parsedTestVectorSet.ParsedObject.TestGroups)
             {
 
@@ -62,6 +64,8 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 
                     if (testGroup.TestType.ToLower() == "mct")
                     {
+                        mctTestHit = true;
+
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
                             var result = _aesEcbMct.MCTEncrypt(
@@ -93,6 +97,8 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
                     }
                     else
                     {
+                        nonMctTestHit = true;
+
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
                             var result = _aesEcb.BlockEncrypt(
@@ -132,6 +138,8 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
                 }
             }
 
+            Assert.IsTrue(mctTestHit, "No MCT tests were run");
+            Assert.IsTrue(nonMctTestHit, "No normal (non MCT) tests were run");
             // Assert.Fail($"Passes {passes}, fails {fails}, count {count}");
         }
     }

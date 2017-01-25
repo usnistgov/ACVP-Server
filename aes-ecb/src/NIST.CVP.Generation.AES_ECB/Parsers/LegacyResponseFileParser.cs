@@ -80,7 +80,9 @@ namespace NIST.CVP.Generation.AES_ECB.Parsers
                             currentResultArrayPosition = 0;
                             currentArrayResponse = new AlgoArrayResponse();
                             currentTestCase.ResultsArray.Add(currentArrayResponse);
-                            
+
+                            currentGroup.Tests.Add(currentTestCase);
+
                             continue;
                         }
 
@@ -99,7 +101,6 @@ namespace NIST.CVP.Generation.AES_ECB.Parsers
                     }
                     else
                     {
-
                         if (workingLine.StartsWith("Count", StringComparison.OrdinalIgnoreCase))
                         {
                             string[] parts = workingLine.Split("=".ToCharArray());
