@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Moq;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Parsers;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_OFB.Tests
 {

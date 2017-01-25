@@ -1,4 +1,8 @@
 ﻿using System;
+using Moq;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_OFB.Tests
 {
@@ -99,9 +103,9 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
             return new Mock<IRandom800_90>();
         }
 
-        private Mock<IAES_CBC> GetAESMock()
+        private Mock<IAES_OFB> GetAESMock()
         {
-            return new Mock<IAES_CBC>();
+            return new Mock<IAES_OFB>();
         }
     }
 }

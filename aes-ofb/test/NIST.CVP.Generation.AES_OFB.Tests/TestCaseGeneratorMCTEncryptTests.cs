@@ -1,4 +1,7 @@
 ﻿using System;
+using Moq;
+using NIST.CVP.Math;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_OFB.Tests
 {
@@ -6,14 +9,14 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
     public class TestCaseGeneratorMCTEncryptTests
     {
         private Mock<IRandom800_90> _mockRandom;
-        private Mock<IAES_CBC_MCT> _mockMCT;
+        private Mock<IAES_OFB_MCT> _mockMCT;
         private TestCaseGeneratorMCTEncrypt _subject;
 
         [SetUp]
         public void Setup()
         {
             _mockRandom = new Mock<IRandom800_90>();
-            _mockMCT = new Mock<IAES_CBC_MCT>();
+            _mockMCT = new Mock<IAES_OFB_MCT>();
             _subject = new TestCaseGeneratorMCTEncrypt(_mockRandom.Object, _mockMCT.Object);
         }
 

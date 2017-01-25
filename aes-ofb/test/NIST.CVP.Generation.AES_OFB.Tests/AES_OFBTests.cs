@@ -1,15 +1,19 @@
 ﻿using System;
+using Moq;
+using NIST.CVP.Generation.AES;
+using NIST.CVP.Math;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_OFB.Tests
 {
     [TestFixture]
-    public class AES_CBCTests
+    public class AES_OFBTests
     {
         [Test]
         public void ShouldReturnDecryptionResultWithErrorOnException()
         {
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
-            AES_CBC subject = new AES_CBC(iRijndaelFactory.Object);
+            AES_OFB subject = new AES_OFB(iRijndaelFactory.Object);
             string exceptionMessage = "Something bad happened.";
 
             iRijndaelFactory
@@ -32,7 +36,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         {
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
             Mock<IRijndaelInternals> iRijndaelInternals = new Mock<IRijndaelInternals>();
-            AES_CBC subject = new AES_CBC(iRijndaelFactory.Object);
+            AES_OFB subject = new AES_OFB(iRijndaelFactory.Object);
 
             iRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
@@ -56,7 +60,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         public void ShouldReturnEncryptionResultWithErrorOnException()
         {
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
-            AES_CBC subject = new AES_CBC(iRijndaelFactory.Object);
+            AES_OFB subject = new AES_OFB(iRijndaelFactory.Object);
             string exceptionMessage = "Something bad happened, sorry about that.";
 
             iRijndaelFactory
@@ -79,7 +83,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         {
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
             Mock<IRijndaelInternals> iRijndaelInternals = new Mock<IRijndaelInternals>();
-            AES_CBC subject = new AES_CBC(iRijndaelFactory.Object);
+            AES_OFB subject = new AES_OFB(iRijndaelFactory.Object);
 
             iRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))

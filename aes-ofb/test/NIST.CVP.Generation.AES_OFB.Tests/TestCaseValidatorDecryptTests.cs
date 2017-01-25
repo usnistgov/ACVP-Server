@@ -1,4 +1,7 @@
-﻿namespace NIST.CVP.Generation.AES_OFB.Tests
+﻿using NIST.CVP.Math;
+using NUnit.Framework;
+
+namespace NIST.CVP.Generation.AES_OFB.Tests
 {
     [TestFixture]
     public class TestCaseValidatorDecryptTests

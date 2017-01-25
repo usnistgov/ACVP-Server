@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Generation.AES_OFB.Tests
+﻿using NUnit.Framework;
+
+namespace NIST.CVP.Generation.AES_OFB.Tests
 {
     [TestFixture]
     public class TestCaseGeneratorNullTests
