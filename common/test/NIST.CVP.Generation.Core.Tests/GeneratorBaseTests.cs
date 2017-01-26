@@ -17,6 +17,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public void OneTimeSetUp()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\GeneratorBaseTests\");
+            Directory.CreateDirectory(_testPath);
         }
 
         [OneTimeTearDown]
@@ -26,29 +27,20 @@ namespace NIST.CVP.Generation.Core.Tests
         }
 
         [Test]
-        [TestCase("answer")]
-        [TestCase("prompt")]
-        [TestCase("result")]
-        [Ignore("Incomplete")]
-        public void ShouldProperlySaveOutputsForEachResolverWithValidFiles(string resolverType)
+        public void ShouldProperlySaveOutputsForEachResolverWithValidFiles()
         {
-            var subject = new FakeGeneratorBase(resolverType);
-            var jsonPath = Path.Combine(_testPath, $"{resolverType}output.json");
+            var subject = new FakeGeneratorBase();
             var testVectorSet = new FakeTestVectorSet();
-            var result = subject.SaveOutputsTester(jsonPath, testVectorSet);
+            var result = subject.SaveOutputsTester(_testPath, testVectorSet);
             Assert.IsTrue(result.Success);
         }
 
         [Test]
-        [TestCase("answer")]
-        [TestCase("prompt")]
-        [TestCase("result")]
-        [Ignore("Incomplete")]
-        public void ShouldNotSaveOutputsForEachResolverWithInvalidFiles(string resolverType)
+        public void ShouldNotSaveOutputsForEachResolverWithInvalidPath()
         {
-            var subject = new FakeGeneratorBase(resolverType);
-            var jsonPath = Path.Combine(_testPath, $"{resolverType}Output.json");
+            var subject = new FakeGeneratorBase();
             var testVectorSet = new FakeTestVectorSet();
+            var jsonPath = Path.Combine(_testPath, "fakePath/");
             var result = subject.SaveOutputsTester(jsonPath, testVectorSet);
             Assert.IsFalse(result.Success);
         }

@@ -16,7 +16,8 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
         {
             Algorithm = "FakeAlgo";
             IsSample = true;
-            
+
+            TestGroups = new List<ITestGroup>();
             TestGroups.Add(new FakeTestGroup());
         }
     }
