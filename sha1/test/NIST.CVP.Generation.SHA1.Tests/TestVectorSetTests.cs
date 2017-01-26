@@ -75,8 +75,12 @@ namespace NIST.CVP.Generation.SHA1.Tests
             var subject = GetSubject();
             var results = subject.AnswerProjection;
             var group = results[0];
+
             Assert.IsTrue(!string.IsNullOrEmpty(group.msgLen.ToString()), nameof(group.msgLen));
             Assert.IsTrue(!string.IsNullOrEmpty(group.digLen.ToString()), nameof(group.digLen));
+            Assert.NotNull(group.bitOriented);
+            Assert.NotNull(group.includeNull);
+
             var tests = group.tests;
             foreach (var test in tests)
             {
@@ -94,8 +98,12 @@ namespace NIST.CVP.Generation.SHA1.Tests
             var subject = GetSubject();
             var results = subject.PromptProjection;
             var group = results[0];
+
             Assert.IsTrue(!string.IsNullOrEmpty(group.msgLen.ToString()), nameof(group.msgLen));
             Assert.IsTrue(!string.IsNullOrEmpty(group.digLen.ToString()), nameof(group.digLen));
+            Assert.NotNull(group.bitOriented);
+            Assert.NotNull(group.includeNull);
+
             var tests = group.tests;
             foreach (var test in tests)
             {
@@ -190,11 +198,36 @@ namespace NIST.CVP.Generation.SHA1.Tests
             }
         }
 
+        [Test]
+        public void MCTHashShouldIncludeMessageAndDigestInResultArrayWithAnswerProjection()
+        {
+            var subject = GetMCTSubject(1);
+            var results = subject.AnswerProjection;
+            var groups = results[0];
+            var tests = groups.tests;
+            foreach(var test in tests)
+            {
+                foreach(var result in test.resultsArray)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.message.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.digest.ToString()));
+                }
+            }
+        }
+
         private TestVectorSet GetSubject(int groups = 1, bool failureTest = false)
         {
             var subject = new TestVectorSet {Algorithm = "SHA1"};
             var testGroups = _tdm.GetTestGroups(groups, failureTest);
             subject.TestGroups = testGroups.Select(g => (ITestGroup) g).ToList();
+            return subject;
+        }
+
+        private TestVectorSet GetMCTSubject(int groups = 1)
+        {
+            var subject = new TestVectorSet { Algorithm = "SHA1" };
+            var testGroups = _tdm.GetMCTTestGroups(groups);
+            subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return subject;
         }
     }

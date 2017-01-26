@@ -7,6 +7,7 @@ using Autofac;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.SHA;
 using NIST.CVP.Math;
+using NIST.CVP.Generation.SHA1;
 
 namespace SHA1
 {
@@ -22,15 +23,17 @@ namespace SHA1
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-            //builder.RegisterType<Generator>();
+            builder.RegisterType<Generator>();
             builder.RegisterType<NIST.CVP.Generation.SHA1.SHA1>().AsImplementedInterfaces();
-            //builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
-            //builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
-            //builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
-            //builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
+            builder.RegisterType<SHA1_MCT>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
-            //builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
             builder.RegisterType<SHAFactory>().AsImplementedInterfaces();
+            builder.RegisterType<MCTTestGroupFactory>().AsImplementedInterfaces();
 
             OverrideRegistrations?.Invoke(builder);
 

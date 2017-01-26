@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.SHA;
 using NIST.CVP.Math;
+using NIST.CVP.Generation.SHA1;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Parsers;
 
 namespace SHA1_Val
 {
@@ -22,17 +25,18 @@ namespace SHA1_Val
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-            //builder.RegisterType<Generator>();
-            //builder.RegisterType<Validator>();
+            builder.RegisterType<Generator>();
+            builder.RegisterType<Validator>();
             builder.RegisterType<NIST.CVP.Generation.SHA1.SHA1>().AsImplementedInterfaces();
-            //builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
-            //builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
-            //builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
-            //builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
-            //builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
-            //builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
+            builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
+            builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<SHAFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
 
             OverrideRegistrations?.Invoke(builder);
 

@@ -29,15 +29,15 @@ namespace SHA1_Val
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    //var validator = scope.Resolve<NIST.CVP.Generation.SHA1.Validator>();
-                    //var result = validator.Validate(resultFile, answerFile, promptFile);
-                    //if (!result.Success)
-                    //{
-                    //    Console.Error.WriteLine($"ERROR! Validating Test Vectors for {resultFile}: {result.ErrorMessage}");
-                    //    Logger.Error($"ERROR! Validating Test Vectors for {resultFile}: {result.ErrorMessage}");
-                    //    //Console.ReadLine();
-                    //    return 1;
-                    //}
+                    var validator = scope.Resolve<NIST.CVP.Generation.SHA1.Validator>();
+                    var result = validator.Validate(resultFile, answerFile, promptFile);
+                    if (!result.Success)
+                    {
+                        Console.Error.WriteLine($"ERROR! Validating Test Vectors for {resultFile}: {result.ErrorMessage}");
+                        Logger.Error($"ERROR! Validating Test Vectors for {resultFile}: {result.ErrorMessage}");
+                        //Console.ReadLine();
+                        return 1;
+                    }
                 }
             }
             catch (Exception ex)

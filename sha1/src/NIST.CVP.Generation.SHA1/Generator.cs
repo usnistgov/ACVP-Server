@@ -10,14 +10,14 @@ namespace NIST.CVP.Generation.SHA1
     public class Generator : GeneratorBase
     {
         private readonly ITestVectorFactory<Parameters> _testVectorFactory;
-        private readonly ITestCaseGeneratorFactory _testCaseGeneratorFactory;
         private readonly IParameterParser<Parameters> _parameterParser;
         private readonly IParameterValidator<Parameters> _parameterValidator;
+        private readonly ITestCaseGeneratorFactoryFactory<TestVectorSet> _testCaseGeneratorFactoryFactory;
 
-        public Generator(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        public Generator(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactoryFactory<TestVectorSet> testCaseGeneratorFactoryFactory)
         {
             _testVectorFactory = testVectorFactory;
-            _testCaseGeneratorFactory = testCaseGeneratorFactory;
+            _testCaseGeneratorFactoryFactory = testCaseGeneratorFactoryFactory;
             _parameterParser = parameterParser;
             _parameterValidator = parameterValidator;
         }
@@ -31,7 +31,6 @@ namespace NIST.CVP.Generation.SHA1
             }
 
             var parameters = parameterResponse.ParsedObject;
-
             var validateResponse = _parameterValidator.Validate(parameters);
             if (!validateResponse.Success)
             {
@@ -39,25 +38,10 @@ namespace NIST.CVP.Generation.SHA1
             }
 
             var testVector = _testVectorFactory.BuildTestVectorSet(parameters);
-            int testId = 1;
-
-            foreach (var group in testVector.TestGroups.Select(g => (TestGroup)g))
+            var testCasesResult = _testCaseGeneratorFactoryFactory.BuildTestCases((TestVectorSet)testVector);
+            if (!testCasesResult.Success)
             {
-                var generator = _testCaseGeneratorFactory.GetCaseGenerator();
-
-                for (int caseNo = 0; caseNo < NUMBER_OF_CASES; ++caseNo)
-                {
-                    var testCaseResponse = generator.Generate(group, testVector.IsSample);
-                    if (!testCaseResponse.Success)
-                    {
-                        return new GenerateResponse(testCaseResponse.ErrorMessage);
-                    }
-
-                    var testCase = (TestCase)testCaseResponse.TestCase;
-                    testCase.TestCaseId = testId;
-                    group.Tests.Add(testCase);
-                    testId++;
-                }
+                return testCasesResult;
             }
 
             return SaveOutputs(requestFilePath, testVector);

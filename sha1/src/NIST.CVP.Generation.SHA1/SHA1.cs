@@ -17,6 +17,11 @@ namespace NIST.CVP.Generation.SHA1
             _iSHAFactory = iSHAFactory;
         }
 
+        public SHA1()
+        {
+            _iSHAFactory = new SHAFactory();
+        }
+
         public HashResult HashMessage(BitString message)
         {
             try
@@ -26,17 +31,22 @@ namespace NIST.CVP.Generation.SHA1
                 var hashFunction = new HashFunction { DigestSize = 160, Mode = mode };
                 var digest = sha.HashMessage(hashFunction, message);
 
-                ThisLogger.Debug($"mode: {hashFunction.Mode}");
-                ThisLogger.Debug($"digest size: {hashFunction.DigestSize}");
-                ThisLogger.Debug($"message: {message.ToHex()}");
-                ThisLogger.Debug($"digest: {digest.ToHex()}");
+                if(digest.BitLength != 160)
+                {
+                    throw new Exception("Error hashing. Digest is not proper length.");
+                }
+
+                // ThisLogger.Debug($"mode: {hashFunction.Mode}");
+                // ThisLogger.Debug($"digest size: {hashFunction.DigestSize}");
+                // ThisLogger.Debug($"message: {message.ToHex()}");
+                // ThisLogger.Debug($"digest: {digest.ToHex()}");
 
                 return new HashResult(digest);
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new HashResult($"Some Error Message: {ex.StackTrace}");
+                return new HashResult(ex.Message);
             }
         }
 

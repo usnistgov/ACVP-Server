@@ -102,7 +102,7 @@ namespace NIST.CVP.Generation.SHA1.Tests
                    .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = "passed" } } });
             }
 
-            return new Validator(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object, mocks.MockITestCaseGeneratorFactory.Object);
+            return new Validator(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object, mocks.MockITestCaseValidatorFactory.Object);
         }
 
         private dynamic GetTestResults(int groups = 2)
@@ -132,7 +132,7 @@ namespace NIST.CVP.Generation.SHA1.Tests
 
         private class MockedSystemDependencies
         {
-            public Mock<ITestCaseGeneratorFactory> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory>();
+            public Mock<ITestCaseValidatorFactory<TestVectorSet, TestCase>> MockITestCaseValidatorFactory { get; set; } = new Mock<ITestCaseValidatorFactory<TestVectorSet, TestCase>>();
             public Mock<IResultValidator<TestCase>> MockIResultValidator { get; set; } = new Mock<IResultValidator<TestCase>>();
             public Mock<IDynamicParser> MockIDynamicParser { get; set; } = new Mock<IDynamicParser>();
         }

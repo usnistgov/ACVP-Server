@@ -17,6 +17,8 @@ namespace NIST.CVP.Generation.SHA1
             var errorResults = new List<string>();
             ValidateMessageSizes(parameters, errorResults);
             ValidateDigestSizes(parameters, errorResults);
+            ValidateIncludeNull(parameters, errorResults);
+            ValidateBitOriented(parameters, errorResults);
 
             if (errorResults.Count > 0)
             {
@@ -39,6 +41,24 @@ namespace NIST.CVP.Generation.SHA1
         private void ValidateDigestSizes(Parameters parameters, List<String> errorResults)
         {
             var result = ValidateRange(parameters.DigestLen, VALID_DIGEST, VALID_DIGEST, "Digest length (range check)");
+            if (!string.IsNullOrEmpty(result))
+            {
+                errorResults.Add(result);
+            }
+        }
+
+        private void ValidateIncludeNull(Parameters parameters, List<String> errorResults)
+        {
+            var result = ValidateBoolean(parameters.IncludeNull, "Include Null (true or false)");
+            if (!string.IsNullOrEmpty(result))
+            {
+                errorResults.Add(result);
+            }
+        }
+
+        private void ValidateBitOriented(Parameters parameters, List<String> errorResults)
+        {
+            var result = ValidateBoolean(parameters.BitOriented, "Bit oriented (true or false)");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);

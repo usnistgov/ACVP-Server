@@ -83,50 +83,5 @@ namespace NIST.CVP.Generation.SHA1.Tests
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ',') + 1);
         }
-
-        private class ParameterBuilder
-        {
-            private string _algorithm;
-            //private string[] _mode;
-            private int[] _msgLen;
-            private int[] _digLen;
-
-            public ParameterBuilder()
-            {
-                // Provides a valid (as of construction) set of parameters
-                _algorithm = "AES-GCM";
-                //_mode = ParameterValidator.VALID_DIRECTIONS;
-                _msgLen = new int[] {128};
-                _digLen = new int[] {160};
-            }
-
-            public ParameterBuilder WithAlgorithm(string value)
-            {
-                _algorithm = value;
-                return this;
-            }
-
-            public ParameterBuilder WithMessageLen(int[] value)
-            {
-                _msgLen = value;
-                return this;
-            }
-
-            public ParameterBuilder WithDigestLen(int[] value)
-            {
-                _digLen = value;
-                return this;
-            }
-
-            public Parameters Build()
-            {
-                return new Parameters()
-                {
-                    Algorithm = _algorithm,
-                    MessageLen = _msgLen,
-                    DigestLen = _digLen
-                };
-            }
-        }
     }
 }

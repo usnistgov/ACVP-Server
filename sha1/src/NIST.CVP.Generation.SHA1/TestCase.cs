@@ -29,6 +29,7 @@ namespace NIST.CVP.Generation.SHA1
         public bool Deferred { get; set; }
         public BitString Message { get; set; }
         public BitString Digest { get; set; }
+        public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
 
         public bool Merge(ITestCase otherTest)
         {
@@ -51,6 +52,11 @@ namespace NIST.CVP.Generation.SHA1
                 return true;
             }
 
+            if(ResultsArray.Count != 0 && otherTypedTest.ResultsArray.Count != 0)
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -64,10 +70,33 @@ namespace NIST.CVP.Generation.SHA1
             switch (name.ToLower())
             {
                 case "message":
+                case "msg":
                     Message = new BitString(value);
                     return true;
                 case "digest":
+                case "dig":
                     Digest = new BitString(value);
+                    return true;
+            }
+            return false;
+        }
+
+        public bool SetResultsArrayString(int index, string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "message":
+                case "msg":
+                    ResultsArray[index].Message = new BitString(value);
+                    return true;
+                case "digest":
+                case "dig":
+                    ResultsArray[index].Digest = new BitString(value);
                     return true;
             }
             return false;
@@ -107,9 +136,29 @@ namespace NIST.CVP.Generation.SHA1
             {
                 Deferred = source.deferred;
             }
+            if(((ExpandoObject)source).ContainsProperty("resultsArray"))
+            {
+                ResultsArray = ResultsArrayToObject(source.resultsArray);
+            }
 
             Message = BitStringFromObject("message", (ExpandoObject) source);
             Digest = BitStringFromObject("digest", (ExpandoObject) source);
+        }
+
+        private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
+        {
+            List<AlgoArrayResponse> list = new List<AlgoArrayResponse>();
+
+            foreach(dynamic item in resultsArray)
+            {
+                AlgoArrayResponse response = new AlgoArrayResponse();
+                response.Message = BitStringFromObject("message", (ExpandoObject)item);
+                response.Digest = BitStringFromObject("digest", (ExpandoObject)item);
+
+                list.Add(response);
+            }
+
+            return list;
         }
     }
 }

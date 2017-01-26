@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.SHA
             }
 
             // Pad message until length is -64 mod 512, (or 448 mod 512).
-            var bitsNeeded = (448 - message.BitLength) % 512;
+            var bitsNeeded = (((448 - message.BitLength) % 512) + 512) % 512;
 
             // Constructor defaults to a BitString of bitsNeeded length full of 0s
             message = BitString.ConcatenateBits(message, new BitString(bitsNeeded));
@@ -160,27 +160,21 @@ namespace NIST.CVP.Generation.SHA
         private BitString F1(BitString x, BitString y, BitString z)
         {
             // (x & (y ^ z)) ^ z
-            var copyX = x.GetDeepCopy();
-            var copyY = y.GetDeepCopy();
-            var copyZ = z.GetDeepCopy();
-            return BitString.XOR(BitString.AND(copyX, BitString.XOR(copyY, copyZ)), copyZ);
+            return BitString.XOR(BitString.AND(x, BitString.XOR(y, z)), z);
         }
 
         private BitString F2(BitString x, BitString y, BitString z)
         {
             // x ^ y ^ z
-            var copyX = x.GetDeepCopy();
-            var copyY = y.GetDeepCopy();
-            var copyZ = z.GetDeepCopy();
-            return BitString.XOR(BitString.XOR(copyX, copyY), copyZ);
+            return BitString.XOR(BitString.XOR(x, y), z);
         }
 
         private BitString F3(BitString x, BitString y, BitString z)
         {
             // (x & y) | (x & z) | (y & z)
-            var firstAND = BitString.AND(x.GetDeepCopy(), y.GetDeepCopy());
-            var secondAND = BitString.AND(x.GetDeepCopy(), z.GetDeepCopy());
-            var thirdAND = BitString.AND(y.GetDeepCopy(), z.GetDeepCopy());
+            var firstAND = BitString.AND(x, y);
+            var secondAND = BitString.AND(x, z);
+            var thirdAND = BitString.AND(y, z);
             return BitString.OR(firstAND, BitString.OR(secondAND, thirdAND));
         }
         #endregion F Functions

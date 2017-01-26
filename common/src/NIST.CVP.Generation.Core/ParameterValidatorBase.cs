@@ -89,5 +89,15 @@ namespace NIST.CVP.Generation.Core
 
             return null;
         }
+
+        protected string ValidateBoolean(bool? supplied, string friendlyName)
+        {
+            if(supplied == null)
+            {
+                return $"No {friendlyName} supplied.";
+            }
+
+            return null;
+        }
     }
 }

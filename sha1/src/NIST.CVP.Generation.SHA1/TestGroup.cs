@@ -20,7 +20,9 @@ namespace NIST.CVP.Generation.SHA1
             TestType = source.testType;
             MessageLength = source.msgLen;
             DigestLength = source.digLen;
-            
+            BitOriented = source.bitOriented;
+            IncludeNull = source.includeNull;
+
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {
@@ -37,6 +39,10 @@ namespace NIST.CVP.Generation.SHA1
         public int MessageLength { get; set; }
         [JsonProperty(PropertyName = "diglen")]
         public int DigestLength { get; set; }
+        [JsonProperty(PropertyName = "bitOriented")]
+        public bool BitOriented { get; set; } = false;
+        [JsonProperty(PropertyName = "includeNull")]
+        public bool IncludeNull { get; set; } = false;
 
         public List<ITestCase> Tests { get; set; }
 
@@ -59,7 +65,7 @@ namespace NIST.CVP.Generation.SHA1
 
         public override int GetHashCode()
         {
-            return $"{TestType}|{MessageLength}|{DigestLength}".GetHashCode();
+            return $"{TestType}|{MessageLength}|{DigestLength}|{BitOriented}|{IncludeNull}".GetHashCode();
         }
 
         public override bool Equals(object obj)

@@ -49,8 +49,11 @@ namespace NIST.CVP.Generation.SHA1
                 foreach (var group in TestGroups.Select(g => (TestGroup) g))
                 {
                     dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
                     ((IDictionary<string, object>)updateObject).Add("msgLen", group.MessageLength);
                     ((IDictionary<string, object>)updateObject).Add("digLen", group.DigestLength);
+                    ((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
+                    ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
@@ -58,10 +61,27 @@ namespace NIST.CVP.Generation.SHA1
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        //((IDictionary<string, object>)testObject).Add("message", test.Message);
-                        ((IDictionary<string, object>)testObject).Add("digest", test.Digest);
-                        ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
-                        ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
+
+                        if(group.TestType.ToLower() == "mct")
+                        {
+                            var resultsArray = new List<dynamic>();
+                            foreach(var result in test.ResultsArray)
+                            {
+                                dynamic resultObject = new ExpandoObject();
+                                ((IDictionary<string, object>)resultObject).Add("message", result.Message);
+                                ((IDictionary<string, object>)resultObject).Add("digest", result.Digest);
+
+                                resultsArray.Add(resultObject);
+                            }
+
+                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
+                        }
+                        else
+                        {
+                            ((IDictionary<string, object>)testObject).Add("digest", test.Digest);
+                            ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
+                            ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
+                        }
 
                         tests.Add(testObject);
                     }
@@ -82,8 +102,11 @@ namespace NIST.CVP.Generation.SHA1
                 foreach (var group in TestGroups.Select(g => (TestGroup) g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>) updateObject).Add("msgLen", group.MessageLength);
-                    ((IDictionary<string, object>) updateObject).Add("digLen", group.DigestLength);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+                    ((IDictionary<string, object>)updateObject).Add("msgLen", group.MessageLength);
+                    ((IDictionary<string, object>)updateObject).Add("digLen", group.DigestLength);
+                    ((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
+                    ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>) updateObject).Add("tests", tests);
@@ -92,7 +115,6 @@ namespace NIST.CVP.Generation.SHA1
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>) testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>) testObject).Add("message", test.Message);
-                        //((IDictionary<string, object>) testObject).Add("digest", test.Digest);
 
                         tests.Add(testObject);
                     }
@@ -116,7 +138,6 @@ namespace NIST.CVP.Generation.SHA1
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        //((IDictionary<string, object>)testObject).Add("message", test.Message);
                         ((IDictionary<string, object>)testObject).Add("digest", test.Digest);
 
                         if (test.FailureTest)

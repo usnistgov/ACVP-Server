@@ -34,16 +34,16 @@ namespace SHA1
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    //var gen = scope.Resolve<Generator>();
-                    //var result = gen.Generate(requestFile);
-                    //if (!result.Success)
-                    //{
-                    //    Console.Error.WriteLine(
-                    //        $"ERROR! Generating Test Vectors for {requestFile}: {result.ErrorMessage}");
-                    //    Logger.Error($"ERROR! Generating Test Vectors for {requestFile}: {result.ErrorMessage}");
-                    //    //Console.ReadLine();
-                    //    return 1;
-                    //}
+                    var gen = scope.Resolve<Generator>();
+                    var result = gen.Generate(requestFile);
+                    if (!result.Success)
+                    {
+                        Console.Error.WriteLine(
+                            $"ERROR! Generating Test Vectors for {requestFile}: {result.ErrorMessage}");
+                        Logger.Error($"ERROR! Generating Test Vectors for {requestFile}: {result.ErrorMessage}");
+                        //Console.ReadLine();
+                        return 1;
+                    }
                 }
             }
             catch (Exception ex)

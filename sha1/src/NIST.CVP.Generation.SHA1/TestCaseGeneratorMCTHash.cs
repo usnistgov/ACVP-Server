@@ -9,23 +9,37 @@ using NLog;
 
 namespace NIST.CVP.Generation.SHA1
 {
-    public class TestCaseGeneratorHash : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMCTHash : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly ISHA1 _sha1;
+        private readonly ISHA1_MCT _sha1_mct;
         private readonly IRandom800_90 _random800_90;
 
-        public TestCaseGeneratorHash(IRandom800_90 random800_90, ISHA1 sha1)
+        public int NumberOfTestCasesToGenerate { get { return 1; } }
+
+        public TestCaseGeneratorMCTHash(IRandom800_90 random800_90, ISHA1_MCT sha1_mct)
         {
             _random800_90 = random800_90;
-            _sha1 = sha1;
+            _sha1_mct = sha1_mct;
+        }
+
+        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        {
+            var message = _random800_90.GetRandomBitString(group.MessageLength);
+            var testCase = new TestCase
+            {
+                Message = message,
+                Deferred = false
+            };
+
+            return Generate(group, testCase);
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
         {
-            HashResult hashResult = null;
+            MCTResult hashResult = null;
             try
             {
-                hashResult = _sha1.HashMessage(testCase.Message);
+                hashResult = _sha1_mct.MCTHash(testCase.Message);
                 if (!hashResult.Success)
                 {
                     ThisLogger.Warn(hashResult.ErrorMessage);
@@ -38,19 +52,8 @@ namespace NIST.CVP.Generation.SHA1
                 return new TestCaseGenerateResponse(ex.Message);
             }
 
-            testCase.Digest = hashResult.Digest;
+            testCase.ResultsArray = hashResult.Response;
             return new TestCaseGenerateResponse(testCase);
-        }
-
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
-        {
-            var message = _random800_90.GetRandomBitString(group.MessageLength);
-            var testCase = new TestCase
-            {
-                Message = message,
-                Deferred = false
-            };
-            return Generate(group, testCase);
         }
 
         private Logger ThisLogger

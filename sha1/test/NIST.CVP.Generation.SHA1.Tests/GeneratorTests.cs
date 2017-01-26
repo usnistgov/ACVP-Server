@@ -7,6 +7,7 @@ using Moq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NUnit.Framework;
+using NIST.CVP.Generation.SHA1;
 
 namespace NIST.CVP.Generation.SHA1.Tests
 {   
@@ -80,7 +81,7 @@ namespace NIST.CVP.Generation.SHA1.Tests
                 .Setup(s => s.BuildTestVectorSet(It.IsAny<Parameters>()))
                 .Returns(new TestVectorSet()
                 {
-                    Algorithm = "AES",
+                    Algorithm = "NotSHA1",
                     TestGroups = new List<ITestGroup>()
                     {
                         new TestGroup()
@@ -90,13 +91,10 @@ namespace NIST.CVP.Generation.SHA1.Tests
                         }
                     }
                 });
-            mocks.MockITestCaseGenerator
-                .Setup(s => s.Generate(It.IsAny<TestGroup>(), false))
-                .Returns(new TestCaseGenerateResponse(errorMessage));
-            mocks.MockITestCaseGeneratorFactory
-                .Setup(s => s.GetCaseGenerator())
-                .Returns(mocks.MockITestCaseGenerator.Object);
-
+            mocks.MockITestCaseGeneratorFactoryFactory
+                .Setup(s => s.BuildTestCases(It.IsAny<TestVectorSet>()))
+                .Returns(new GenerateResponse(errorMessage));
+            
             var subject = GetSubject(mocks);
 
             var result = subject.Generate(It.IsAny<string>());
@@ -124,7 +122,7 @@ namespace NIST.CVP.Generation.SHA1.Tests
                 .Setup(s => s.BuildTestVectorSet(It.IsAny<Parameters>()))
                 .Returns(new TestVectorSet()
                 {
-                    Algorithm = "AES",
+                    Algorithm = "SHA1",
                     TestGroups = new List<ITestGroup>()
                     {
                         new TestGroup()
@@ -134,13 +132,10 @@ namespace NIST.CVP.Generation.SHA1.Tests
                         }
                     }
                 });
-            mocks.MockITestCaseGenerator
-               .Setup(s => s.Generate(It.IsAny<TestGroup>(), false))
-               .Returns(new TestCaseGenerateResponse(new TestCase()));
-            mocks.MockITestCaseGeneratorFactory
-                .Setup(s => s.GetCaseGenerator())
-                .Returns(mocks.MockITestCaseGenerator.Object);
-
+            mocks.MockITestCaseGeneratorFactoryFactory
+                .Setup(s => s.BuildTestCases(It.IsAny<TestVectorSet>()))
+                .Returns(new GenerateResponse());
+            
             var subject = GetSubject(mocks);
 
             GenerateResponse result = null;
@@ -167,9 +162,9 @@ namespace NIST.CVP.Generation.SHA1.Tests
             Assert.IsTrue(result.Success);
         }
 
-        private Generator GetSubject(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactory testCaseGeneratorFactory)
+        private Generator GetSubject(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactoryFactory<TestVectorSet> testCaseGeneratorFactoryFactory)
         {
-            return new Generator(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactory);
+            return new Generator(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactoryFactory);
         }
 
         private Generator GetSubject(MockedSystemDependencies mocks)
@@ -178,14 +173,14 @@ namespace NIST.CVP.Generation.SHA1.Tests
                 mocks.MockITestVectorFactory.Object,
                 mocks.MockIParameterParser.Object,
                 mocks.MockIParameterValidator.Object,
-                mocks.MockITestCaseGeneratorFactory.Object
+                mocks.MockITestCaseGeneratorFactoryFactory.Object
             );
         }
 
         private class MockedSystemDependencies
         {
             public Mock<ITestVectorFactory<Parameters>> MockITestVectorFactory { get; set; } = new Mock<ITestVectorFactory<Parameters>>();
-            public Mock<ITestCaseGeneratorFactory> MockITestCaseGeneratorFactory { get; set; } = new Mock<ITestCaseGeneratorFactory>();
+            public Mock<ITestCaseGeneratorFactoryFactory<TestVectorSet>> MockITestCaseGeneratorFactoryFactory { get; set; } = new Mock<ITestCaseGeneratorFactoryFactory<TestVectorSet>>();
             public Mock<ITestCaseGenerator<TestGroup, TestCase>> MockITestCaseGenerator { get; set; } = new Mock<ITestCaseGenerator<TestGroup, TestCase>>();
             public Mock<IParameterParser<Parameters>> MockIParameterParser { get; set; } = new Mock<IParameterParser<Parameters>>();
             public Mock<IParameterValidator<Parameters>> MockIParameterValidator { get; set; } = new Mock<IParameterValidator<Parameters>>();

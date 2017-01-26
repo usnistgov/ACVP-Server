@@ -8,6 +8,7 @@ namespace NIST.CVP.Generation.SHA1
 {
     public class AlgoArrayResponse
     {
+        public BitString Message { get; set; }
         public BitString Digest { get; set; }
     }
 }

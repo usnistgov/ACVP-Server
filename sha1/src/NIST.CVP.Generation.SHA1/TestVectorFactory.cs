@@ -8,9 +8,22 @@ namespace NIST.CVP.Generation.SHA1
 {
     public class TestVectorFactory : ITestVectorFactory<Parameters>
     {
+        private readonly IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>> _iMCTTestGroupFactory;
+
+        public TestVectorFactory(IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>> iMCTTestGroupFactory)
+        {
+            _iMCTTestGroupFactory = iMCTTestGroupFactory;
+        }
+
         public ITestVectorSet BuildTestVectorSet(Parameters parameters)
         {
             var groups = BuildTestGroups(parameters);
+            var mctGroups = _iMCTTestGroupFactory.BuildMCTTestGroups(parameters);
+            if(mctGroups != null && mctGroups.Count() != 0)
+            {
+                groups.AddRange(mctGroups);
+            }
+
             var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "SHA1", IsSample = parameters.IsSample};
 
             return testVector;
@@ -25,8 +38,11 @@ namespace NIST.CVP.Generation.SHA1
                 {
                     var testGroup = new TestGroup
                     {
+                        BitOriented = parameters.BitOriented,
+                        IncludeNull = parameters.IncludeNull,
                         MessageLength = msgLen,
-                        DigestLength = digLen
+                        DigestLength = digLen,
+                        TestType = "MMT"
                     };
 
                     testGroups.Add(testGroup);

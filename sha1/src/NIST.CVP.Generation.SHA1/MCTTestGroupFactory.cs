@@ -12,12 +12,17 @@ namespace NIST.CVP.Generation.SHA1
 
         public IEnumerable<TestGroup> BuildMCTTestGroups(Parameters parameters)
         {
+            // We don't actually need anything from the parameters... 
+            // None of the testGroup values will change
+
             var testGroups = new List<TestGroup>();
 
             var testGroup = new TestGroup()
             {
-                DigestLength = parameters.DigestLen[0],
-                MessageLength = parameters.DigestLen[0] * 3,
+                BitOriented = false,
+                IncludeNull = false,
+                DigestLength = 160,
+                MessageLength = 160,
                 TestType = _MCT_TEST_TYPE_LABEL
             };
             

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NIST.CVP.Generation.Core;
+using Moq;
 
 namespace NIST.CVP.Generation.SHA1.Tests
 {
@@ -21,13 +23,20 @@ namespace NIST.CVP.Generation.SHA1.Tests
             Parameters parameters = new Parameters()
             {
                 Algorithm = "SHA1",
+                BitOriented = true,
+                IncludeNull = true,
                 DigestLen = digLen,
                 MessageLen = msgLen
             };
 
             int expectedResultCount = msgLen.Length * digLen.Length;
 
-            TestVectorFactory subject = new TestVectorFactory();
+            var iMCTTestGroupFactory = new Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            iMCTTestGroupFactory
+                .Setup(s => s.BuildMCTTestGroups(It.IsAny<Parameters>()))
+                .Returns(new List<TestGroup>());
+
+            TestVectorFactory subject = new TestVectorFactory(iMCTTestGroupFactory.Object);
             var result = subject.BuildTestVectorSet(parameters);
 
             Assert.AreEqual(expectedResultCount, result.TestGroups.Count);
@@ -41,12 +50,19 @@ namespace NIST.CVP.Generation.SHA1.Tests
             Parameters parameters = new Parameters()
             {
                 Algorithm = "SHA1",
+                BitOriented = true,
+                IncludeNull = true,
                 DigestLen = new int[] {1},
                 MessageLen = new int[] {1},
                 IsSample = isSample
             };
 
-            TestVectorFactory subject = new TestVectorFactory();
+            var iMCTTestGroupFactory = new Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            iMCTTestGroupFactory
+                .Setup(s => s.BuildMCTTestGroups(It.IsAny<Parameters>()))
+                .Returns(new List<TestGroup>());
+
+            TestVectorFactory subject = new TestVectorFactory(iMCTTestGroupFactory.Object);
             var result = subject.BuildTestVectorSet(parameters);
 
             Assert.AreEqual(isSample, result.IsSample);

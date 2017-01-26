@@ -96,7 +96,7 @@ namespace NIST.CVP.Generation.SHA1.Tests
             var result = subject.SetString(name, "00AA");
             Assert.IsFalse(result);
         }
-
+        
         [Test]
         [TestCase("message")]
         [TestCase("digest")]

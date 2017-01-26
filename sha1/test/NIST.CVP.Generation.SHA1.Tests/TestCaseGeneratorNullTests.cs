@@ -10,6 +10,13 @@ namespace NIST.CVP.Generation.SHA1.Tests
     public class TestCaseGeneratorNullTests
     {
         [Test]
+        public void ShouldHaveZeroForNumberOfTestCases()
+        {
+            var subject = new TestCaseGeneratorNull();
+            Assert.AreEqual(1, subject.NumberOfTestCasesToGenerate);
+        }
+
+        [Test]
         public void ShouldReturnErrorForInitialGenerate()
         {
             var subject = new TestCaseGeneratorNull();
