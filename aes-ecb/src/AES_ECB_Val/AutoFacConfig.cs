@@ -23,7 +23,7 @@ namespace AES_ECB_Val
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Generator>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
             builder.RegisterType<Validator>();
             builder.RegisterType<NIST.CVP.Generation.AES_ECB.AES_ECB>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

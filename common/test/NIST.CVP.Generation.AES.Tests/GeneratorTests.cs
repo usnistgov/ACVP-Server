@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Moq;
+using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Tests.Core.Fakes;
 using NUnit.Framework;
+using FakeTestVectorSet = NIST.CVP.Tests.Core.Fakes.FakeTestVectorSet;
 
-namespace NIST.CVP.Generation.AES_CBC.Tests
+namespace NIST.CVP.Generation.AES_OFB.Tests
 {
     // @@@ TODO Consider writing fake implementations for some/all of the dependencies for valid/invalid invokes.
     // Mocking getting too complex.
@@ -33,7 +37,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var mocks = new MockedSystemDependencies();
             mocks.MockIParameterParser
                 .Setup(s => s.Parse(It.IsAny<string>()))
-                .Returns(new Core.ParseResponse<Parameters>(errorMessage));
+                .Returns(new Core.ParseResponse<FakeParameters>(errorMessage));
             var subject = GetSystem(mocks);
 
             var result = subject.Generate(It.IsAny<string>());
@@ -49,9 +53,9 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var mocks = new MockedSystemDependencies();
             mocks.MockIParameterParser
                 .Setup(s => s.Parse(It.IsAny<string>()))
-                .Returns(new Core.ParseResponse<Parameters>(new Parameters()));
+                .Returns(new Core.ParseResponse<FakeParameters>(new FakeParameters()));
             mocks.MockIParameterValidator
-                .Setup(s => s.Validate(It.IsAny<Parameters>()))
+                .Setup(s => s.Validate(It.IsAny<FakeParameters>()))
                 .Returns(new Core.ParameterValidateResponse(errorMessage));
             var subject = GetSystem(mocks);
 
@@ -68,31 +72,15 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var mocks = new MockedSystemDependencies();
             mocks.MockIParameterParser
                 .Setup(s => s.Parse(It.IsAny<string>()))
-                .Returns(new ParseResponse<Parameters>(new Parameters()
-                {
-                    Algorithm = "AES-ECB",
-                    KeyLen = new[] { 3 },
-                    Mode = new[] { "encrypt" }
-                }));
+                .Returns(new ParseResponse<FakeParameters>(new FakeParameters()));
             mocks.MockIParameterValidator
-                .Setup(s => s.Validate(It.IsAny<Parameters>()))
+                .Setup(s => s.Validate(It.IsAny<FakeParameters>()))
                 .Returns(new ParameterValidateResponse());
             mocks.MockITestVectorFactory
-                .Setup(s => s.BuildTestVectorSet(It.IsAny<Parameters>()))
-                .Returns(new TestVectorSet()
-                {
-                    Algorithm = "AES",
-                    TestGroups = new List<ITestGroup>()
-                    {
-                        new TestGroup()
-                        {
-                            Function = "encrypt",
-                            KeyLength = 3
-                        }
-                    }
-                });
+                .Setup(s => s.BuildTestVectorSet(It.IsAny<FakeParameters>()))
+                .Returns(new FakeTestVectorSet());
             mocks.MockITestCaseGeneratorFactoryFactory
-                .Setup(s => s.BuildTestCases(It.IsAny<TestVectorSet>()))
+                .Setup(s => s.BuildTestCases(It.IsAny<FakeTestVectorSet>()))
                 .Returns(new GenerateResponse(errorMessage));
 
             var subject = GetSystem(mocks);
@@ -109,31 +97,22 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var mocks = new MockedSystemDependencies();
             mocks.MockIParameterParser
                 .Setup(s => s.Parse(It.IsAny<string>()))
-                .Returns(new ParseResponse<Parameters>(new Parameters()
-                {
-                    Algorithm = "AES-ECB",
-                    KeyLen = new[] { 3 },
-                    Mode = new[] { "encrypt" }
-                }));
+                .Returns(new ParseResponse<FakeParameters>(new FakeParameters()));
             mocks.MockIParameterValidator
-                .Setup(s => s.Validate(It.IsAny<Parameters>()))
+                .Setup(s => s.Validate(It.IsAny<FakeParameters>()))
                 .Returns(new ParameterValidateResponse());
             mocks.MockITestVectorFactory
-                .Setup(s => s.BuildTestVectorSet(It.IsAny<Parameters>()))
-                .Returns(new TestVectorSet()
+                .Setup(s => s.BuildTestVectorSet(It.IsAny<FakeParameters>()))
+                .Returns(new FakeTestVectorSet()
                 {
                     Algorithm = "AES",
                     TestGroups = new List<ITestGroup>()
                     {
-                        new TestGroup()
-                        {
-                            Function = "encrypt",
-                            KeyLength = 3
-                        }
+                        new FakeTestGroup()
                     }
                 });
             mocks.MockITestCaseGeneratorFactoryFactory
-                .Setup(s => s.BuildTestCases(It.IsAny<TestVectorSet>()))
+                .Setup(s => s.BuildTestCases(It.IsAny<FakeTestVectorSet>()))
                 .Returns(new GenerateResponse());
 
             var subject = GetSystem(mocks);
@@ -162,12 +141,12 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             Assert.IsTrue(result.Success);
         }
 
-        private Generator GetSystem(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactoryFactory<TestVectorSet> testCaseGeneratorFactoryFactory)
+        private Generator<FakeParameters,FakeTestVectorSet> GetSystem(ITestVectorFactory<FakeParameters> testVectorFactory, IParameterParser<FakeParameters> parameterParser, IParameterValidator<FakeParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<FakeTestVectorSet> testCaseGeneratorFactoryFactory)
         {
-            return new Generator(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactoryFactory);
+            return new Generator<FakeParameters, FakeTestVectorSet>(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactoryFactory);
         }
 
-        private Generator GetSystem(MockedSystemDependencies mocks)
+        private Generator<FakeParameters, FakeTestVectorSet> GetSystem(MockedSystemDependencies mocks)
         {
             return GetSystem(
                 mocks.MockITestVectorFactory.Object,
@@ -179,11 +158,10 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
         private class MockedSystemDependencies
         {
-            public Mock<ITestVectorFactory<Parameters>> MockITestVectorFactory { get; set; } = new Mock<ITestVectorFactory<Parameters>>();
-            public Mock<ITestCaseGeneratorFactoryFactory<TestVectorSet>> MockITestCaseGeneratorFactoryFactory { get; set; } = new Mock<ITestCaseGeneratorFactoryFactory<TestVectorSet>>();
-            public Mock<ITestCaseGenerator<TestGroup, TestCase>> MockITestCaseGenerator { get; set; } = new Mock<ITestCaseGenerator<TestGroup, TestCase>>();
-            public Mock<IParameterParser<Parameters>> MockIParameterParser { get; set; } = new Mock<IParameterParser<Parameters>>();
-            public Mock<IParameterValidator<Parameters>> MockIParameterValidator { get; set; } = new Mock<IParameterValidator<Parameters>>();
+            public Mock<ITestVectorFactory<FakeParameters>> MockITestVectorFactory { get; set; } = new Mock<ITestVectorFactory<FakeParameters>>();
+            public Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet>> MockITestCaseGeneratorFactoryFactory { get; set; } = new Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet>>();
+            public Mock<IParameterParser<FakeParameters>> MockIParameterParser { get; set; } = new Mock<IParameterParser<FakeParameters>>();
+            public Mock<IParameterValidator<FakeParameters>> MockIParameterValidator { get; set; } = new Mock<IParameterValidator<FakeParameters>>();
         }
     }
 }

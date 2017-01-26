@@ -23,7 +23,7 @@ namespace AES_OFB_Val
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Generator>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
             builder.RegisterType<Validator>();
             builder.RegisterType<AES_OFB>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

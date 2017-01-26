@@ -23,7 +23,7 @@ namespace AES_CBC
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Generator>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
             builder.RegisterType<NIST.CVP.Generation.AES_CBC.AES_CBC>().AsImplementedInterfaces();
             builder.RegisterType<AES_CBC_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();

@@ -2,16 +2,18 @@
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
-namespace NIST.CVP.Generation.AES_CBC
+namespace NIST.CVP.Generation.AES
 {
-    public class Generator : GeneratorBase
+    public class Generator<TParameters, TTestVectorSet> : GeneratorBase
+        where TParameters : IParameters
+        where TTestVectorSet : ITestVectorSet
     {
-        private readonly ITestVectorFactory<Parameters> _testVectorFactory;
-        private readonly IParameterParser<Parameters> _parameterParser;
-        private readonly IParameterValidator<Parameters> _parameterValidator;
-        private readonly ITestCaseGeneratorFactoryFactory<TestVectorSet> _testCaseGeneratorFactoryFactory;
+        private readonly ITestVectorFactory<TParameters> _testVectorFactory;
+        private readonly IParameterParser<TParameters> _parameterParser;
+        private readonly IParameterValidator<TParameters> _parameterValidator;
+        private readonly ITestCaseGeneratorFactoryFactory<TTestVectorSet> _testCaseGeneratorFactoryFactory;
 
-        public Generator(ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactoryFactory<TestVectorSet> iTestCaseGeneratorFactoryFactory)
+        public Generator(ITestVectorFactory<TParameters> testVectorFactory, IParameterParser<TParameters> parameterParser, IParameterValidator<TParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<TTestVectorSet> iTestCaseGeneratorFactoryFactory)
         {
             _testVectorFactory = testVectorFactory;
             _parameterParser = parameterParser;
@@ -27,13 +29,13 @@ namespace NIST.CVP.Generation.AES_CBC
                 return new GenerateResponse(parameterResponse.ErrorMessage);
             }
             var parameters = parameterResponse.ParsedObject;
-            var validateResponse = _parameterValidator.Validate((Parameters)parameters);
+            var validateResponse = _parameterValidator.Validate(parameters);
             if (!validateResponse.Success)
             {
                 return new GenerateResponse(validateResponse.ErrorMessage);
             }
             var testVector = _testVectorFactory.BuildTestVectorSet(parameters);
-            var testCasesResult = _testCaseGeneratorFactoryFactory.BuildTestCases((TestVectorSet)testVector);
+            var testCasesResult = _testCaseGeneratorFactoryFactory.BuildTestCases((TTestVectorSet)testVector);
             if (!testCasesResult.Success)
             {
                 return testCasesResult;

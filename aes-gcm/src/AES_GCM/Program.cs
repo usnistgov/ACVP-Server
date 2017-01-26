@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
+using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_GCM;
 using NIST.CVP.Generation.AES_GCM.Parsers;
 using NIST.CVP.Math;
@@ -34,7 +35,7 @@ namespace AES_GCM
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    var gen = scope.Resolve<Generator>();
+                    var gen = scope.Resolve<Generator<Parameters, TestVectorSet>>();
                     var result = gen.Generate(requestFile);
                     if (!result.Success)
                     {

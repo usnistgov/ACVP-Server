@@ -8,6 +8,7 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using Autofac;
+using NIST.CVP.Generation.AES;
 
 namespace AES_ECB
 {
@@ -32,7 +33,7 @@ namespace AES_ECB
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    var gen = scope.Resolve<Generator>();
+                    var gen = scope.Resolve<Generator<Parameters, TestVectorSet>>();
                     var result = gen.Generate(requestFile);
                     if (!result.Success)
                     {

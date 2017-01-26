@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Autofac;
+using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_CBC;
 using NLog;
 using NLog.Config;
@@ -29,7 +30,7 @@ namespace AES_CBC
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    var gen = scope.Resolve<Generator>();
+                    var gen = scope.Resolve<Generator<Parameters, TestVectorSet>>();
                     var result = gen.Generate(requestFile);
                     if (!result.Success)
                     {
