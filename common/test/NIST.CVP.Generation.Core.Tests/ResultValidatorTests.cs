@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_GCM.Tests
+namespace NIST.CVP.Generation.Core.Tests
 {
     [TestFixture]
     public class ResultValidatorTests

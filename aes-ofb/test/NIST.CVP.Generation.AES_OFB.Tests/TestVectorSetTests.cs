@@ -419,7 +419,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
 
         private TestVectorSet GetSubject(int groups = 1, string direction = "encrypt", bool failureTest = false)
         {
-            var subject = new TestVectorSet {Algorithm = "AES-CBC"};
+            var subject = new TestVectorSet {Algorithm = "AES-OFB"};
             var testGroups = _tdm.GetTestGroups(groups, direction, failureTest);
             subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return subject;
@@ -427,7 +427,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
 
         private TestVectorSet GetMCTSubject(int groups = 1, string direction = "encrypt")
         {
-            var subject = new TestVectorSet { Algorithm = "AES-CBC" };
+            var subject = new TestVectorSet { Algorithm = "AES-OFB" };
             var testGroups = _tdm.GetMCTTestGroups(groups, direction);
             subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return subject;

@@ -113,7 +113,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
 
         private TestVectorSet GetTestTestVectorSet(int groups = 2)
         {
-            var vectorSet = new TestVectorSet { Algorithm = "AES-CBC" };
+            var vectorSet = new TestVectorSet { Algorithm = "AES-OFB" };
             var testGroups = _tdm.GetTestGroups(groups);
             vectorSet.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return vectorSet;

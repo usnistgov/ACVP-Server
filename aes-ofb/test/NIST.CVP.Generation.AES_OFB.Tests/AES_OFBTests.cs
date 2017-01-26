@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
 
             iRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
-                .Returns(new RijndaelCBC(iRijndaelInternals.Object));
+                .Returns(new RijndaelOFB(iRijndaelInternals.Object));
 
             var results = subject.BlockDecrypt(
                 new BitString(128),
@@ -87,7 +87,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
 
             iRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
-                .Returns(new RijndaelCBC(iRijndaelInternals.Object));
+                .Returns(new RijndaelOFB(iRijndaelInternals.Object));
 
             var results = subject.BlockEncrypt(
                 new BitString(128),

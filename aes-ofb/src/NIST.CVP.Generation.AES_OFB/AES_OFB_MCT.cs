@@ -45,12 +45,150 @@ namespace NIST.CVP.Generation.AES_OFB
 
         public MCTResult MCTEncrypt(BitString iv, BitString key, BitString plainText)
         {
-            throw new NotImplementedException();
+            List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
+
+            int i = 0;
+            int j = 0;
+            try
+            {
+                for (i = 0; i < 100; i++)
+                {
+                    AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
+                    {
+                        IV = iv,
+                        Key = key,
+                        PlainText = plainText
+                    };
+
+                    BitString jCipherText = null;
+                    BitString previousCipherText = null;
+                    BitString copyPreviousCipherText = null;
+                    var ivCopiedBytes = iIterationResponse.IV.ToBytes();
+                    iv = new BitString(ivCopiedBytes);
+                    for (j = 0; j < 1000; j++)
+                    {
+                        var jResult = _iAES_OFB.BlockEncrypt(iv, key, plainText);
+                        jCipherText = jResult.CipherText;
+
+                        if (j == 0)
+                        {
+                            previousCipherText = iIterationResponse.IV;
+                        }
+
+                        plainText = previousCipherText;
+                        copyPreviousCipherText = previousCipherText;
+                        previousCipherText = jCipherText;
+                    }
+
+                    iIterationResponse.CipherText = jCipherText;
+                    responses.Add(iIterationResponse);
+
+                    if (key.BitLength == 128)
+                    {
+                        key = key.XOR(previousCipherText);
+                    }
+                    if (key.BitLength == 192)
+                    {
+                        var mostSignificant16KeyBitStringXor =
+                            key.GetMostSignificantBits(64).XOR( // XOR 64 most significant key bits w/
+                                copyPreviousCipherText.Substring(0, 64) // the 64 least significant bits of the previous cipher text
+                            );
+                        var leastSignificant128KeyBitStringXor = key.GetLeastSignificantBits(16 * 8).XOR(previousCipherText);
+
+                        key = mostSignificant16KeyBitStringXor.ConcatenateBits(leastSignificant128KeyBitStringXor);
+                    }
+                    if (key.BitLength == 256)
+                    {
+                        var mostSignificantFirst16BitStringXor = key.GetMostSignificantBits(16 * 8).XOR(copyPreviousCipherText);
+                        var leastSignificant16BitStringXor = key.GetLeastSignificantBits(16 * 8).XOR(previousCipherText);
+                        key = mostSignificantFirst16BitStringXor.ConcatenateBits(leastSignificant16BitStringXor);
+                    }
+
+                    iv = previousCipherText;
+                }
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Debug($"i count {i}, j count {j}");
+                ThisLogger.Error(ex);
+                return new MCTResult(ex.Message);
+            }
+
+            return new MCTResult(responses);
         }
 
         public MCTResult MCTDecrypt(BitString iv, BitString key, BitString cipherText)
         {
-            throw new NotImplementedException();
+            List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
+
+            int i = 0;
+            int j = 0;
+            try
+            {
+                for (i = 0; i < 100; i++)
+                {
+                    AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
+                    {
+                        IV = iv,
+                        Key = key,
+                        CipherText = cipherText
+                    };
+
+                    BitString jPlainText = null;
+                    BitString previousPlainText = null;
+                    BitString copyPreviousPlainText = null;
+                    var ivCopiedBytes = iIterationResponse.IV.ToBytes();
+                    iv = new BitString(ivCopiedBytes);
+                    for (j = 0; j < 1000; j++)
+                    {
+                        var jResult = _iAES_OFB.BlockDecrypt(iv, key, cipherText);
+                        jPlainText = jResult.PlainText;
+
+                        if (j == 0)
+                        {
+                            previousPlainText = iIterationResponse.IV;
+                        }
+
+                        cipherText = previousPlainText;
+                        copyPreviousPlainText = previousPlainText;
+                        previousPlainText = jPlainText;
+                    }
+
+                    iIterationResponse.PlainText = jPlainText;
+                    responses.Add(iIterationResponse);
+
+                    if (key.BitLength == 128)
+                    {
+                        key = key.XOR(previousPlainText);
+                    }
+                    if (key.BitLength == 192)
+                    {
+                        var mostSignificant16KeyBitStringXor =
+                            key.GetMostSignificantBits(64).XOR( // XOR 64 most significant key bits w/
+                                copyPreviousPlainText.Substring(0, 64) // the 64 least significant bits of the previous plain text
+                            );
+                        var leastSignificant128KeyBitStringXor = key.GetLeastSignificantBits(16 * 8).XOR(previousPlainText);
+
+                        key = mostSignificant16KeyBitStringXor.ConcatenateBits(leastSignificant128KeyBitStringXor);
+                    }
+                    if (key.BitLength == 256)
+                    {
+                        var mostSignificantFirst16BitStringXor = key.GetMostSignificantBits(16 * 8).XOR(copyPreviousPlainText);
+                        var leastSignificant16BitStringXor = key.GetLeastSignificantBits(16 * 8).XOR(previousPlainText);
+                        key = mostSignificantFirst16BitStringXor.ConcatenateBits(leastSignificant16BitStringXor);
+                    }
+
+                    iv = previousPlainText;
+                }
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Debug($"i count {i}, j count {j}");
+                ThisLogger.Error(ex);
+                return new MCTResult(ex.Message);
+            }
+
+            return new MCTResult(responses);
         }
 
         private Logger ThisLogger
