@@ -7,7 +7,8 @@ namespace NIST.CVP.Generation.SHA
 {
     public struct HashFunction
     {
-        public int DigestSize { get; set; }
+        // public int DigestSize { get; set; }
         public ModeValues Mode { get; set; }
+        public DigestSizes DigestSize { get; set; }
     }
 }

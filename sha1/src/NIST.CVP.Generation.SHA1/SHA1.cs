@@ -27,8 +27,9 @@ namespace NIST.CVP.Generation.SHA1
             try
             {
                 var mode = ModeValues.SHA1;                 // Only one way to do SHA1
+                var digestSize = DigestSizes.d160;
                 var sha = _iSHAFactory.GetSHA(mode);
-                var hashFunction = new HashFunction { DigestSize = 160, Mode = mode };
+                var hashFunction = new HashFunction { DigestSize = digestSize, Mode = mode };
                 var digest = sha.HashMessage(hashFunction, message);
 
                 if(digest.BitLength != 160)

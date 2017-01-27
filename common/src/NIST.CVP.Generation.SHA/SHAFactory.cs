@@ -15,7 +15,8 @@ namespace NIST.CVP.Generation.SHA
                 case ModeValues.SHA1:
                     return new SHA1();
                 case ModeValues.SHA2:
-                    // return new SHA2();
+                case ModeValues.SHA2t:
+                     return new SHA2();
                 default:
                     throw new ArgumentException($"Invalid value for {nameof(mode)}");
             }

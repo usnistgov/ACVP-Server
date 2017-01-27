@@ -253,6 +253,17 @@ namespace NIST.CVP.Math
             return AND(this, comparisonBitString);
         }
 
+        public static BitString NOT(BitString source)
+        {
+            BitString val = source.GetDeepCopy();
+            return new BitString(val.Bits.Not());
+        }
+
+        public BitString NOT()
+        {
+            return NOT(this);
+        }
+
         // Shifts in the MSB direction
         public static BitString CircularShiftMSB(BitString shiftBitString, int distance)
         {
