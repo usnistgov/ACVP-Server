@@ -81,9 +81,11 @@ namespace NIST.CVP.Generation.TDES_ECB
         public BitString PlainText { get; set; }
         public BitString Key { get; set; }
         public BitString CipherText { get; set; }
-        public BitString Key1 { get; set; }
-        public BitString Key2 { get; set; }
-        public BitString Key3 { get; set; }
+
+        public TDESKeys Keys
+        {
+            get { return new TDESKeys(Key);}
+        }
 
         public bool Merge(ITestCase otherTest)
         {

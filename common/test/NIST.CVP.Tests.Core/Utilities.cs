@@ -4,6 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 
 namespace NIST.CVP.Tests.Core
 {
@@ -44,6 +47,39 @@ namespace NIST.CVP.Tests.Core
             directory = Path.GetFullPath(directory + pathAdditions);
 
             return directory;
+        }
+
+
+        public static void ConfigureLogging(string testTag, bool includeFile = true, string baseDir = @"C:\Users\def2\Documents\UnitTests\ACAVP")
+        {
+            var config = new LoggingConfiguration();
+
+            var debugTarget = new DebugTarget($"{testTag}");
+            debugTarget.Layout = "${message}";
+            config.AddTarget(debugTarget);
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, debugTarget));
+
+            var consoleTarget = new ConsoleTarget($"{testTag}_C");
+            consoleTarget.Layout = "${message}";
+            config.AddTarget(consoleTarget);
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, consoleTarget));
+
+
+         
+
+
+            if (includeFile)
+            {
+                var fileTarget = new FileTarget();
+                config.AddTarget("file", fileTarget);
+                fileTarget.FileName = Path.Combine(baseDir, $"test_{testTag}.log");
+                fileTarget.Layout = "${callsite:includeNamespace=false;includeSourcePath=false}:  ${message}";
+                fileTarget.DeleteOldFileOnStartup = true;
+                config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, fileTarget));
+            }
+         
+
+            LogManager.Configuration = config;
         }
     }
 }

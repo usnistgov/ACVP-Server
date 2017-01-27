@@ -12,6 +12,19 @@ namespace NIST.CVP.Generation.TDES_ECB
     {
        
         public List<byte[]> Keys { get; private set; }
+
+        public List<BitString> KeysAsBitStrings
+        {
+            get
+            {
+                var list = new List<BitString>();
+                foreach (var keyByteArray in Keys)
+                {
+                    list.Add(new BitString(keyByteArray));
+                }
+                return list;
+            }
+        }
         public TDESKeys(BitString bitString)
         {
 
@@ -54,6 +67,24 @@ namespace NIST.CVP.Generation.TDES_ECB
             Keys.Add(key2);
             Keys.Add(key3);
 
+        }
+
+        public KeyOptionValues KeyOption
+        {
+            get
+            {
+                if (KeysAsBitStrings.All(k => k.Equals(KeysAsBitStrings[0])))
+                {
+                    return KeyOptionValues.OneKey;
+                }
+
+                if (KeysAsBitStrings[0].Equals(KeysAsBitStrings[2]))
+                {
+                    return KeyOptionValues.TwoKey;
+                }
+
+                return KeyOptionValues.ThreeKey;
+            }
         }
 
         private void MakeKeys(BitString bitString)

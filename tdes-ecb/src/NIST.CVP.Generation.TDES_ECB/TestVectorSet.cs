@@ -115,7 +115,19 @@ namespace NIST.CVP.Generation.TDES_ECB
                         {
                             ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
                         }
-                        ((IDictionary<string, object>)testObject).Add("key", test.Key);
+                        if (test.Keys.KeyOption == KeyOptionValues.OneKey)
+                        {
+                            ((IDictionary<string, object>)testObject).Add("key", test.Key);
+                        }
+                        else
+                        {
+                            for (int iKeyIndex = 0; iKeyIndex < test.Keys.Keys.Count; iKeyIndex++)
+                            {
+                                ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex+1}", test.Keys.KeysAsBitStrings[iKeyIndex]);
+                            }
+                        }
+
+                        
                         tests.Add(testObject);
                     }
                     list.Add(updateObject);

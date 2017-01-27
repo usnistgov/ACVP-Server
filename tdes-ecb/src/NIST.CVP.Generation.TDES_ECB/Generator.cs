@@ -54,7 +54,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                 }
                 else
                 {
-                    var generator = _testCaseGeneratorFactory.GetCaseGenerator(@group);
+                    var generator = _testCaseGeneratorFactory.GetCaseGenerator(@group, testVector.IsSample);
                     for (int caseNo = 0; caseNo < generator.NumberOfTestCasesToGenerate; ++caseNo)
                     {
                         var testCaseResponse = generator.Generate(@group, testVector.IsSample);

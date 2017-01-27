@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             {
                 return ErrorMessage;
             }
-            return $"Cipher: {CipherText.ToHex()}";
+            return $"CipherText: {CipherText.ToHex()}";
         }
     }
 }

@@ -10,7 +10,12 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         public List<TestCase> GetKATTestCases(string direction, string testType)
         {
-
+            if (string.IsNullOrEmpty(direction) || string.IsNullOrEmpty(testType))
+            {
+                return new List<TestCase>();
+            }
+            direction = direction.ToLower();
+            testType = testType.ToLower();
             if (direction == "encrypt")
             {
                 if (_encryptionKATs.ContainsKey(testType))

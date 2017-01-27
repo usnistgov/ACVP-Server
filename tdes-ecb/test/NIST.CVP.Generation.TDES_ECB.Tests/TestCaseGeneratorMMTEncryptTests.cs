@@ -20,6 +20,13 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         }
 
         [Test]
+        public void ShouldHaveProperNumberOfTestCasesToGenerate()
+        {
+            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new TdesEcb());
+            Assert.AreEqual(10, subject.NumberOfTestCasesToGenerate);
+        }
+
+        [Test]
         public void ShouldGenerateProperlySizedPlainTextForEachGenerateCall()
         {
             var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new TdesEcb());

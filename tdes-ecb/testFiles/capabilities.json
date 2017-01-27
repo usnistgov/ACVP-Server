@@ -1,0 +1,4 @@
+{
+  "algorithm" : "TDES-ECB",
+  "direction" : [ "encrypt" ]
+}
