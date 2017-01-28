@@ -6,6 +6,6 @@ namespace NIST.CVP.Generation.Core
         where TTestVectorSet : ITestVectorSet
         where TTestCase : ITestCase
     {
-        IEnumerable<ITestCaseValidator<TTestCase>> GetValidators(TTestVectorSet testVectorSet);
+        IEnumerable<ITestCaseValidator<TTestCase>> GetValidators(TTestVectorSet testVectorSet, IEnumerable<TTestCase> suppliedResults);
     }
 }

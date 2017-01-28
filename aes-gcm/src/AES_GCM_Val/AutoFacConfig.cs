@@ -23,10 +23,12 @@ namespace AES_GCM_Val
             ContainerBuilder builder = new ContainerBuilder();
 
             builder.RegisterType<Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<Validator>();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
             builder.RegisterType<AES_GCMInternals>().AsImplementedInterfaces();
             builder.RegisterType<NIST.CVP.Generation.AES_GCM.AES_GCM>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();

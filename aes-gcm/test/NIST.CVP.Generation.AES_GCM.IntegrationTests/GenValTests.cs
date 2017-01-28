@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             var targetFolder = GetTestFolder();
             var fileName = GetTestFileLotsOfTestCases(targetFolder);
 
-            RunGenerationAndValidation(targetFolder, fileName);
+            RunGeneration(targetFolder, fileName);
 
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), "testResults");
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), "prompt");

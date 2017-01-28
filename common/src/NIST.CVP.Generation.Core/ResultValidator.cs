@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.Core
         where TTestCase : ITestCase
     {
         
-        public TestVectorValidation ValidateResults(List<ITestCaseValidator<TTestCase>> testCaseValidators, List<TTestCase> testResults)
+        public TestVectorValidation ValidateResults(IEnumerable<ITestCaseValidator<TTestCase>> testCaseValidators, IEnumerable<TTestCase> testResults)
         {
             var validations = new List<TestCaseValidation>();
             foreach (var caseValidator in testCaseValidators)

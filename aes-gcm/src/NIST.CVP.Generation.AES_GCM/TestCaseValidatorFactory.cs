@@ -1,49 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class Validator : ValidatorBase
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
     {
-        private readonly IResultValidator<TestCase> _resultValidator;
         private readonly ITestCaseGeneratorFactory<TestGroup, TestCase> _testCaseGeneratorFactory;
-       
 
-        public Validator(IDynamicParser dynamicParser, IResultValidator<TestCase> resultValidator, ITestCaseGeneratorFactory<TestGroup, TestCase> testCaseGeneratorFactory)
+        public TestCaseValidatorFactory(ITestCaseGeneratorFactory<TestGroup, TestCase> testCaseGeneratorFactory)
         {
-            _dynamicParser = dynamicParser;
-            _resultValidator = resultValidator;
             _testCaseGeneratorFactory = testCaseGeneratorFactory;
         }
 
-        public override TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse, ParseResponse<dynamic> promptParseResponse, ParseResponse<dynamic> testResultParseResponse)
+        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
         {
-            var testVectorSet = new TestVectorSet(answerParseResponse.ParsedObject, promptParseResponse.ParsedObject);
-            var results = testResultParseResponse.ParsedObject;
-            var suppliedResults = GetTestCaseResults(results.testResults);
-            var testCases = BuildValidatorList(testVectorSet, suppliedResults);
-            var response = _resultValidator.ValidateResults(testCases, suppliedResults);
-            return response;
-        }
-
-        private List<TestCase> GetTestCaseResults(dynamic results)
-        {
-            var list = new List<TestCase>();
-            foreach (var result in results)
-            {
-                list.Add(new TestCase(result));
-            }
-            return list;
-        }
-
-        private List<ITestCaseValidator<TestCase>> BuildValidatorList(TestVectorSet testVectorSet, List<TestCase>  suppliedResults)
-        {
-
             var list = new List<ITestCaseValidator<TestCase>>();
-           
+
             foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
             {
                 var generator = _testCaseGeneratorFactory.GetCaseGenerator(group);
@@ -56,12 +31,12 @@ namespace NIST.CVP.Generation.AES_GCM
                         var matchingResult = suppliedResults.FirstOrDefault(r => r.TestCaseId == test.TestCaseId);
                         var protoTest = new TestCase
                         {
-                            AAD =  test.AAD,
+                            AAD = test.AAD,
                             Key = test.Key,
                             PlainText = test.PlainText,
                             CipherText = test.CipherText,
                             Tag = test.Tag,
-                            IV =  matchingResult.IV
+                            IV = matchingResult.IV
                         };
                         var genResult = generator.Generate(group, protoTest);
                         if (!genResult.Success)
@@ -77,7 +52,7 @@ namespace NIST.CVP.Generation.AES_GCM
                     {
                         list.Add(new TestCaseValidatorDecrypt(workingTest));
                     }
-                   
+
                 }
             }
 

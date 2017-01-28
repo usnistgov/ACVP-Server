@@ -7,6 +7,8 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using Autofac;
+using NIST.CVP.Generation.AES;
+using NIST.CVP.Generation.AES_ECB;
 
 namespace AES_ECB_Val
 {
@@ -29,7 +31,7 @@ namespace AES_ECB_Val
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    var validator = scope.Resolve<NIST.CVP.Generation.AES_ECB.Validator>();
+                    var validator = scope.Resolve<Validator<TestVectorSet, TestCase>>();
                     var result = validator.Validate(resultFile, answerFile, promptFile);
                     if (!result.Success)
                     {

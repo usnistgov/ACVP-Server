@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
@@ -14,5 +15,11 @@ namespace NIST.CVP.Tests.Core.Fakes
         public List<dynamic> AnswerProjection { get; } = null;
         public List<dynamic> PromptProjection { get; } = null;
         public dynamic ResultProjection { get; } = null;
+        public dynamic ToDynamic()
+        {
+            dynamic vectorSetObject = new ExpandoObject();
+
+            return vectorSetObject;
+        }
     }
 }

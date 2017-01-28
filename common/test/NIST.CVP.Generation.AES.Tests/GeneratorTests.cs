@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Moq;
-using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests.Fakes;
@@ -11,7 +10,7 @@ using NIST.CVP.Tests.Core.Fakes;
 using NUnit.Framework;
 using FakeTestVectorSet = NIST.CVP.Tests.Core.Fakes.FakeTestVectorSet;
 
-namespace NIST.CVP.Generation.AES_OFB.Tests
+namespace NIST.CVP.Generation.AES.Tests
 {
     // @@@ TODO Consider writing fake implementations for some/all of the dependencies for valid/invalid invokes.
     // Mocking getting too complex.

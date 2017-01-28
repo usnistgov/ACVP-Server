@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Autofac;
+using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_CBC;
 using NLog;
 using NLog.Config;
@@ -27,7 +28,7 @@ namespace AES_CBC_Val
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    var validator = scope.Resolve<Validator>();
+                    var validator = scope.Resolve<Validator<TestVectorSet, TestCase>>();
                     var result = validator.Validate(resultFile, answerFile, promptFile);
                     if (!result.Success)
                     {

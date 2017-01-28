@@ -5,6 +5,6 @@ namespace NIST.CVP.Generation.Core
     public interface IResultValidator<TTestCase>
         where TTestCase : ITestCase
     {
-        TestVectorValidation ValidateResults(List<ITestCaseValidator<TTestCase>> testCaseValidators, List<TTestCase> testResults);
+        TestVectorValidation ValidateResults(IEnumerable<ITestCaseValidator<TTestCase>> testCaseValidators, IEnumerable<TTestCase> testResults);
     }
 }

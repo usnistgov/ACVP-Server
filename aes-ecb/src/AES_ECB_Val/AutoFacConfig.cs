@@ -24,9 +24,10 @@ namespace AES_ECB_Val
 
 
             builder.RegisterType<Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<Validator>();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
             builder.RegisterType<NIST.CVP.Generation.AES_ECB.AES_ECB>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
