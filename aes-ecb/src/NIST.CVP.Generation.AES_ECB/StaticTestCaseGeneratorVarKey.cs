@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_ECB

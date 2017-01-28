@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
+﻿using System.Collections.Generic;
+using NIST.CVP.Generation.AES;
 
-namespace NIST.CVP.Generation.AES_ECB
+namespace NIST.CVP.Generation.AES
 {
     public class MCTResult
     {

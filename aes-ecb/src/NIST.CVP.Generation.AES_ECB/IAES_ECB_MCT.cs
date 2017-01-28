@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Generation.AES;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_ECB
 {

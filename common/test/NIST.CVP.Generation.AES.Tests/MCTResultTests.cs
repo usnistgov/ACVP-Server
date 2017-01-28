@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Generation.AES;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_CBC.Tests
+namespace NIST.CVP.Generation.AES.Tests
 {
     [TestFixture]
     public class MCTResultTests

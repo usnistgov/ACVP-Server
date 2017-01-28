@@ -1,16 +1,31 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.AES_CBC
+namespace NIST.CVP.Generation.AES
 {
+    /// <summary>
+    /// KAT Data for use in KAT tests.
+    /// 
+    /// NOTE NOTE NOTE
+    /// 
+    ///     In some cases there are slight modifications to the KAT data, 
+    ///     depending on the mode of operation.  These changes can be done in 
+    ///     a mode specific version of this class as to not need to duplicate
+    ///     all of the other information contained within the KAT.
+    /// 
+    /// NOTE NOTE NOTE
+    /// 
+    /// </summary>
     public static class KATData
     {
+        private static BitString _iv = new BitString("00000000000000000000000000000000");
+
         #region GFSBox
         public static List<AlgoArrayResponse> GetGFSBox128BitKey()
         {
             BitString key = new BitString("00000000000000000000000000000000");
 
-            return new List<AlgoArrayResponse>()
+            var result = new List<AlgoArrayResponse>()
             {
                 new AlgoArrayResponse()
                 {
@@ -62,14 +77,17 @@ namespace NIST.CVP.Generation.AES_CBC
                     CipherText = new BitString("08a4e2efec8a8e3312ca7460b9040bbf")
                 }
             };
+
+            result.ForEach(fe => fe.IV = _iv.GetDeepCopy());
+
+            return result;
         }
 
         public static List<AlgoArrayResponse> GetGFSBox192BitKey()
         {
-            int count = 0;
             BitString key = new BitString("000000000000000000000000000000000000000000000000");
 
-            return new List<AlgoArrayResponse>()
+            var result = new List<AlgoArrayResponse>()
             {
                 new AlgoArrayResponse()
                 {
@@ -114,14 +132,17 @@ namespace NIST.CVP.Generation.AES_CBC
                     CipherText = new BitString("067cd9d3749207791841562507fa9626")
                 }
             };
+
+            result.ForEach(fe => fe.IV = _iv.GetDeepCopy());
+
+            return result;
         }
 
         public static List<AlgoArrayResponse> GetGFSBox256BitKey()
         {
-            int count = 0;
             BitString key = new BitString("0000000000000000000000000000000000000000000000000000000000000000");
 
-            return new List<AlgoArrayResponse>()
+            var result = new List<AlgoArrayResponse>()
             {
                 new AlgoArrayResponse()
                 {
@@ -159,16 +180,19 @@ namespace NIST.CVP.Generation.AES_CBC
                     CipherText = new BitString("1bc704f1bce135ceb810341b216d7abe")
                 },
             };
+
+            result.ForEach(fe => fe.IV = _iv.GetDeepCopy());
+
+            return result;
         }
         #endregion GFSBox
 
         #region KeySBox
         public static List<AlgoArrayResponse> GetKeySBox128BitKey()
         {
-            int count = 0;
             BitString plainText = new BitString("00000000000000000000000000000000");
 
-            return new List<AlgoArrayResponse>()
+            var result = new List<AlgoArrayResponse>()
             {
                 new AlgoArrayResponse()
                 {
@@ -318,14 +342,17 @@ namespace NIST.CVP.Generation.AES_CBC
                     CipherText = new BitString("f4a70d8af877f9b02b4c40df57d45b17")
                 },
             };
+
+            result.ForEach(fe => fe.IV = _iv.GetDeepCopy());
+
+            return result;
         }
 
         public static List<AlgoArrayResponse> GetKeySBox192BitKey()
         {
-            int count = 0;
             BitString plainText = new BitString("00000000000000000000000000000000");
 
-            return new List<AlgoArrayResponse>()
+            var result = new List<AlgoArrayResponse>()
             {
                 new AlgoArrayResponse()
                 {
@@ -496,14 +523,17 @@ namespace NIST.CVP.Generation.AES_CBC
                     CipherText = new BitString("a67cf333b314d411d3c0ae6e1cfcd8f5")
                 },
             };
+
+            result.ForEach(fe => fe.IV = _iv.GetDeepCopy());
+
+            return result;
         }
 
         public static List<AlgoArrayResponse> GetKeySBox256BitKey()
         {
-            int count = 0;
             BitString plainText = new BitString("00000000000000000000000000000000");
 
-            return new List<AlgoArrayResponse>()
+            var result = new List<AlgoArrayResponse>()
             {
                 new AlgoArrayResponse()
                 {
@@ -618,16 +648,19 @@ namespace NIST.CVP.Generation.AES_CBC
                     CipherText = new BitString("179a49c712154bbffbe6e7a84a18e220")
                 },
             };
+
+            result.ForEach(fe => fe.IV = _iv.GetDeepCopy());
+
+            return result;
         }
         #endregion KeySBox
 
         #region VarTxt
         public static List<AlgoArrayResponse> GetVarTxt128BitKey()
         {
-            int count = 0;
             BitString key = new BitString("00000000000000000000000000000000");
 
-            return new List<AlgoArrayResponse>()
+            var result = new List<AlgoArrayResponse>()
             {
                 new AlgoArrayResponse()
                 {
@@ -1526,14 +1559,17 @@ namespace NIST.CVP.Generation.AES_CBC
                     CipherText = new BitString("3f5b8cc9ea855a0afa7347d23e8d664e")
                 },
             };
+
+            result.ForEach(fe => fe.IV = _iv.GetDeepCopy());
+
+            return result;
         }
 
         public static List<AlgoArrayResponse> GetVarTxt192BitKey()
         {
-            int count = 0;
             BitString key = new BitString("000000000000000000000000000000000000000000000000");
 
-            return new List<AlgoArrayResponse>()
+            var result = new List<AlgoArrayResponse>()
             {
                 new AlgoArrayResponse()
                 {
@@ -2432,14 +2468,17 @@ namespace NIST.CVP.Generation.AES_CBC
                     CipherText = new BitString("b13db4da1f718bc6904797c82bcf2d32")
                 },
             };
+
+            result.ForEach(fe => fe.IV = _iv.GetDeepCopy());
+
+            return result;
         }
 
         public static List<AlgoArrayResponse> GetVarTxt256BitKey()
         {
-            int count = 0;
             BitString key = new BitString("0000000000000000000000000000000000000000000000000000000000000000");
 
-            return new List<AlgoArrayResponse>()
+            var result = new List<AlgoArrayResponse>()
             {
                 new AlgoArrayResponse()
                 {
@@ -3338,16 +3377,19 @@ namespace NIST.CVP.Generation.AES_CBC
                     CipherText = new BitString("acdace8078a32b1a182bfa4987ca1347")
                 },
             };
+
+            result.ForEach(fe => fe.IV = _iv.GetDeepCopy());
+
+            return result;
         }
         #endregion VarTxt
 
         #region VarKey
         public static List<AlgoArrayResponse> GetVarKey128BitKey()
         {
-            int count = 0;
             BitString plainText = new BitString("00000000000000000000000000000000");
 
-            return new List<AlgoArrayResponse>()
+            var result = new List<AlgoArrayResponse>()
             {
                 new AlgoArrayResponse()
                 {
@@ -4246,14 +4288,17 @@ namespace NIST.CVP.Generation.AES_CBC
                     CipherText = new BitString("a1f6258c877d5fcd8964484538bfc92c")
                 },
             };
+
+            result.ForEach(fe => fe.IV = _iv.GetDeepCopy());
+
+            return result;
         }
 
         public static List<AlgoArrayResponse> GetVarKey192BitKey()
         {
-            int count = 0;
             BitString plainText = new BitString("00000000000000000000000000000000");
 
-            return new List<AlgoArrayResponse>()
+            var result = new List<AlgoArrayResponse>()
             {
                 new AlgoArrayResponse()
                 {
@@ -5600,14 +5645,17 @@ namespace NIST.CVP.Generation.AES_CBC
                     CipherText = new BitString("dd8a493514231cbf56eccee4c40889fb")
                 },
             };
+
+            result.ForEach(fe => fe.IV = _iv.GetDeepCopy());
+
+            return result;
         }
 
         public static List<AlgoArrayResponse> GetVarKey256BitKey()
         {
-            int count = 0;
             BitString plainText = new BitString("00000000000000000000000000000000");
 
-            return new List<AlgoArrayResponse>()
+            var result = new List<AlgoArrayResponse>()
             {
                 new AlgoArrayResponse()
                 {
@@ -7402,6 +7450,10 @@ namespace NIST.CVP.Generation.AES_CBC
                     CipherText = new BitString("4bf85f1b5d54adbc307b0a048389adcb")
                 },
             };
+
+            result.ForEach(fe => fe.IV = _iv.GetDeepCopy());
+
+            return result;
         }
         #endregion VarKey
     }

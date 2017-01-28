@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.AES_OFB
+namespace NIST.CVP.Generation.AES
 {
     public class AlgoArrayResponse
     {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.AES;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_OFB
