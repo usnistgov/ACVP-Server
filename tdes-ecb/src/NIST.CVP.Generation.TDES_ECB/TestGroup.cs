@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -15,10 +17,18 @@ namespace NIST.CVP.Generation.TDES_ECB
             Tests = new List<ITestCase>();
         }
 
+        public TestGroup(JObject source):this(source.ToObject<ExpandoObject>())
+        {
+          
+        }
+
         public TestGroup(dynamic source)
         {
+            if (((ExpandoObject)source).ContainsProperty("numberOfKeys"))
+            {
+                NumberOfKeys = (int)source.numberOfKeys;
+            }
            
-            NumberOfKeys = source.numberOfKeys;
             TestType = source.testType;
             Function = source.direction;
             Tests = new List<ITestCase>();

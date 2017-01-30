@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TDES_ECB_Val": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\def2\\Documents\\Visual Studio 2015\\Projects\\GenVal\\tdes-ecb\\testFiles\\testResults.json\" \"C:\\Users\\def2\\Documents\\Visual Studio 2015\\Projects\\GenVal\\tdes-ecb\\testFiles\\prompt.json\" \"C:\\Users\\def2\\Documents\\Visual Studio 2015\\Projects\\GenVal\\tdes-ecb\\testFiles\\answer.json\" "
+    }
+  }
+}

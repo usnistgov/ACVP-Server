@@ -26,5 +26,12 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             Assert.IsFalse(result.Success);
             Assert.AreEqual("This is the null generator -- nothing is generated", result.ErrorMessage);
         }
+
+        [Test]
+        public void ShouldHave0NumberOfCases()
+        {
+            var subject = new TestCaseGeneratorNull();
+            Assert.AreEqual(0, subject.NumberOfTestCasesToGenerate);
+        }
     }
 }

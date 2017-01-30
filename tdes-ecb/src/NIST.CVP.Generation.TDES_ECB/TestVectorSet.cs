@@ -101,6 +101,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+                    ((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))

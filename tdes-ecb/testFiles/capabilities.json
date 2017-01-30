@@ -1,4 +1,5 @@
 {
   "algorithm" : "TDES-ECB",
-  "direction" : [ "encrypt" ]
+  "direction" : [ "encrypt" ],
+   "isSample" : true
 }

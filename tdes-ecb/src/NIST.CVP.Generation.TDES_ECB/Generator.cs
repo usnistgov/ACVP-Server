@@ -67,10 +67,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                         group.Tests.Add(testCase);
                         testId++;
                     }
-                }
-
-
-              
+                }    
             }   
             return SaveOutputs(requestFilePath, testVector);
         }

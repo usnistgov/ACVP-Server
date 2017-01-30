@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Moq;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
@@ -39,6 +40,19 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                 Assert.AreEqual((caseIdx + 1) * 8, testCase.PlainText.ToBytes().Length );
             }
             
+        }
+
+        [Test]
+        public void ShouldReturnAnErrorIfAnEncryptionFails()
+        { 
+            var algo = new Mock<ITDES_ECB>();
+            algo.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
+               .Returns(new EncryptionResult("I Failed to encrypt"));
+            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), algo.Object);
+            var result = subject.Generate(new TestGroup { Function = "encrypt", NumberOfKeys = 3 }, false);
+            Assert.IsFalse(result.Success);
+
+
         }
     }
 }

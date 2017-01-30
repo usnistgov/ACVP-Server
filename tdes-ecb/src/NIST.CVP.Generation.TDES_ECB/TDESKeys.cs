@@ -87,36 +87,36 @@ namespace NIST.CVP.Generation.TDES_ECB
             }
         }
 
-        private void MakeKeys(BitString bitString)
-        {
-            var rawBytes = bitString.ToBytes();
+        //private void MakeKeys(BitString bitString)
+        //{
+        //    var rawBytes = bitString.ToBytes();
             
-            Keys = new List<byte[]>();
-            for (int keyIdx = 0; keyIdx < 3; keyIdx++)
-            {
-                byte[] keyBytes = new byte[7];
-                Array.Copy(rawBytes, 0, keyBytes, 0, 7); //see if we need to split bytes kyIdx * 7
-                var key64 = Key56to64(keyBytes);
-                var withParityKey = key64.SetOddParityBitInSuppliedBytes();
-                Keys.Add(withParityKey);
-            }
-        }
+        //    Keys = new List<byte[]>();
+        //    for (int keyIdx = 0; keyIdx < 3; keyIdx++)
+        //    {
+        //        byte[] keyBytes = new byte[7];
+        //        Array.Copy(rawBytes, 0, keyBytes, 0, 7); //see if we need to split bytes kyIdx * 7
+        //        var key64 = Key56to64(keyBytes);
+        //        var withParityKey = key64.SetOddParityBitInSuppliedBytes();
+        //        Keys.Add(withParityKey);
+        //    }
+        //}
 
-        public byte[] Key56to64(byte[] input)
-        {
-            byte[] output = new byte[8];
-            for (int i = 7; i >= 0; i--)
-            {
-                output[i] = (byte)(input[6] << 1);
-                for (int j = 0; j < 7; j++)
-                {
-                    var inputBitArray = new BitArray(input);
-                    inputBitArray = inputBitArray.BitShiftRight();
-                    input = inputBitArray.ToBytes();
-                }
-            }
-            return output;
-        }
+        //public byte[] Key56to64(byte[] input)
+        //{
+        //    byte[] output = new byte[8];
+        //    for (int i = 7; i >= 0; i--)
+        //    {
+        //        output[i] = (byte)(input[6] << 1);
+        //        for (int j = 0; j < 7; j++)
+        //        {
+        //            var inputBitArray = new BitArray(input);
+        //            inputBitArray = inputBitArray.BitShiftRight();
+        //            input = inputBitArray.ToBytes();
+        //        }
+        //    }
+        //    return output;
+        //}
 
 
 

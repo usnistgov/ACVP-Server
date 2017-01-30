@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                         
                         Function = direction,
                         TestType = "MultiBlockMessage",
-                      
+                        NumberOfKeys = groupIdx+1,
                         Tests = tests
                     }
                 );

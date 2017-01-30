@@ -73,24 +73,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             Assert.AreEqual(sourceTest.failureTest, subject.FailureTest);
         }
 
-        [Test]
-        public void ShouldSetProperIVFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.iv, subject.IV);
-        }
-
-        [Test]
-        public void ShouldSetProperTagFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.tag, subject.Tag);
-        }
-
+    
         [Test]
         public void ShouldSetProperCipherTextFromDynamicAnswerTest()
         {
@@ -113,8 +96,6 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         }
 
         [Test]
-        [TestCase("aad")]
-        [TestCase("tag")]
         [TestCase("key")]
         public void ShouldSetNullValues(string name)
         {
@@ -124,16 +105,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             
         }
 
-        [Test]
-        [TestCase("aad")]
-        [TestCase("AAD")]
-        public void ShouldSetAAD(string name)
-        {
-            var subject = new TestCase();
-            var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.AAD.ToHex());
-        }
+       
 
         [Test]
         [TestCase("key")]
@@ -146,27 +118,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             Assert.AreEqual("00AA", subject.Key.ToHex());
         }
 
-        [Test]
-        [TestCase("iv")]
-        [TestCase("IV")]
-        public void ShouldSetIV(string name)
-        {
-            var subject = new TestCase();
-            var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.IV.ToHex());
-        }
-
-        [Test]
-        [TestCase("tag")]
-        [TestCase("TAG")]
-        public void ShouldSetTag(string name)
-        {
-            var subject = new TestCase();
-            var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.Tag.ToHex());
-        }
+      
 
         [Test]
         [TestCase("CipherText")]

@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.TDES_ECB
 {
     public class TDESContext
     {
-        public int kBit { get; set; }
+       
         public List<KeySchedule> Schedule{ get;}
         public TDESIVs IVs { get; set; }
         public FunctionValues Function { get; }

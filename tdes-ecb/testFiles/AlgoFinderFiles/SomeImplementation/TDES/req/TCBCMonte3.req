@@ -1,0 +1,23 @@
+# CAVS 20.2
+# Config Info for : "Certicom FIPS 810"
+# TDES Monte Carlo (Modes) Test for CBC
+# State : Encrypt and Decrypt
+# Tue Nov 29 02:49:46 PM
+
+[ENCRYPT]
+NumKeys = 3
+
+KEY1 = 29469264c25ed54a
+KEY2 = b90e3737049e7301
+KEY3 = e3198aecc4ae4c4c
+IV = 06c3cedd527b1206
+PLAINTEXT = bed1e248f734d16d
+
+[DECRYPT]
+NumKeys = 3
+
+KEY1 = 2fe56894d501341a
+KEY2 = 6179f2e5d9d0e568
+KEY3 = c7e95404c215a8ba
+IV = f23ea484df4a458f
+CIPHERTEXT = fa7c94a2eb67dbf0

@@ -9,6 +9,6 @@ namespace NIST.CVP.Generation.TDES_ECB
     public class AlgoFileFinder : AlgoFileFinderBase
     {
         public override string Name { get { return "TDES"; } }
-        public override string FilePrefix { get { return "ECB"; } }
+        public override string FilePrefix { get { return "TECB"; } }
     }
 }
