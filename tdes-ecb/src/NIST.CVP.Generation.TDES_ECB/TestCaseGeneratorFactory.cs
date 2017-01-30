@@ -25,6 +25,11 @@ namespace NIST.CVP.Generation.TDES_ECB
                 {
                     return new TestCaseGeneratorMMTEncrypt(_random800_90, _algo);
                 }
+
+                if (@group.Function.ToLower() == "decrypt")
+                {
+                    return new TestCaseGeneratorMMTDecrypt(_random800_90, _algo);
+                }
             }
             if (@group.TestType.ToLower() == "montecarlo")
             {
