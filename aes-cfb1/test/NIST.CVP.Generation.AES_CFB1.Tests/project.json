@@ -1,0 +1,30 @@
+﻿{
+  "version": "1.0.0-*",
+
+    "dependencies": {
+        "NIST.CVP.Generation.Core": "1.0.0-*",
+        "NUnit": "3.5.0",
+        "NLog": "4.4.0-betaV15",
+        "dotnet-test-nunit": "3.4.0-beta-3",
+        "Moq": "4.6.38-alpha",
+        "Microsoft.Extensions.Configuration.Json": "1.1.0",
+        "NIST.CVP.Tests.Core": "1.0.0-*"
+    },
+  "testRunner": "nunit",
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "netcoreapp1.0",
+        "portable-net45+win8"
+      ],
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.0.1"
+        }
+      }
+
+    }
+  }
+}
