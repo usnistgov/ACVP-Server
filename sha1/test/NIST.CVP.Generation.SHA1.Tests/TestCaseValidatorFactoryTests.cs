@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.SHA1.Tests
         public void ShouldReturnCorrectValidatorType(string testType, Type expectedType)
         {
             var testVectorSet = GetTestGroup(testType);
-            var result = _subject.GetValidators(testVectorSet);
+            var result = _subject.GetValidators(testVectorSet, null);
 
             Assert.AreEqual(1, result.Count());
             Assert.IsInstanceOf(expectedType, result.First());

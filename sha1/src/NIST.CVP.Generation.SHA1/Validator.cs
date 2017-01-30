@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.SHA1
             var testVectorSet = new TestVectorSet(answerParseResponse.ParsedObject, promptParseResponse.ParsedObject);
             var results = testResultParseResponse.ParsedObject;
             var suppliedResults = GetTestCaseResults(results.testResults);
-            var testCases = _testCaseValidatorFactory.GetValidators(testVectorSet);
+            var testCases = _testCaseValidatorFactory.GetValidators(testVectorSet, null);
             var response = _resultValidator.ValidateResults(testCases.ToList(), suppliedResults);
             return response;
         }
