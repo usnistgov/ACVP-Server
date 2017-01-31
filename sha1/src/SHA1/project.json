@@ -5,22 +5,24 @@
   },
 
   "dependencies": {
-    "Autofac": "4.2.1",
+    "Autofac": "4.3.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.0.1"
-    },
     "NIST.CVP.Generation.SHA": "1.0.0-*",
-    "NIST.CVP.Generation.SHA1": "1.0.0-*",  
+    "NIST.CVP.Generation.SHA1": "1.0.0-*",
     "NIST.CVP.Generation.Core": "1.0.0-*",
     "NIST.CVP.Math": "1.0.0-*",
-    "NLog": "4.4.0-betaV15"
+    "Microsoft.NETCore.App": "1.1.0",
+    "NLog": "5.0.0-beta05"
   },
 
   "frameworks": {
     "netcoreapp1.0": {
       "imports": "dnxcore50"
     }
+  },
+
+  "runtimes": {
+    "win10-x64": {},
+    "win7-x64": {}
   }
 }

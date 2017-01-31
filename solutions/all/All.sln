@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 		..\..\aes-cbc\src\global.json = ..\..\aes-cbc\src\global.json
 		..\..\aes-cbc\test\global.json = ..\..\aes-cbc\test\global.json
+		..\..\aes-cfb1\src\global.json = ..\..\aes-cfb1\src\global.json
+		..\..\aes-cfb1\test\global.json = ..\..\aes-cfb1\test\global.json
 	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AES_CBC", "..\..\aes-cbc\src\AES_CBC\AES_CBC.xproj", "{FFE663B4-0F62-45AB-87EF-81DECF13D4DB}"
@@ -159,6 +161,8 @@ EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES_ECB", "..\..\tdes-ecb\src\NIST.CVP.Generation.TDES_ECB\NIST.CVP.Generation.TDES_ECB.xproj", "{68C9E116-21F0-4188-83CB-E6B8702AAFE6}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES_ECB.Tests", "..\..\tdes-ecb\test\NIST.CVP.Generation.TDES_ECB.Tests\NIST.CVP.Generation.TDES_ECB.Tests.xproj", "{9E4B3754-058F-4AAB-84DD-A36082E424B4}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TDES_ECB_Val", "..\..\tdes-ecb\src\TDES_ECB_Val\TDES_ECB_Val.xproj", "{41D39B4C-E88D-40DA-81EC-FB22C58EA1D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -338,6 +342,10 @@ Global
 		{9E4B3754-058F-4AAB-84DD-A36082E424B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E4B3754-058F-4AAB-84DD-A36082E424B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E4B3754-058F-4AAB-84DD-A36082E424B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41D39B4C-E88D-40DA-81EC-FB22C58EA1D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41D39B4C-E88D-40DA-81EC-FB22C58EA1D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41D39B4C-E88D-40DA-81EC-FB22C58EA1D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41D39B4C-E88D-40DA-81EC-FB22C58EA1D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -417,5 +425,6 @@ Global
 		{B1096E4F-BB2D-4899-B7DE-6989B257DD94} = {96533087-27F7-4F2E-993B-28C7495F977F}
 		{68C9E116-21F0-4188-83CB-E6B8702AAFE6} = {96533087-27F7-4F2E-993B-28C7495F977F}
 		{9E4B3754-058F-4AAB-84DD-A36082E424B4} = {92846AEF-86A1-4722-BAC7-493AF89197A5}
+		{41D39B4C-E88D-40DA-81EC-FB22C58EA1D1} = {96533087-27F7-4F2E-993B-28C7495F977F}
 	EndGlobalSection
 EndGlobal

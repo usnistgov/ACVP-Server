@@ -3,6 +3,7 @@ using System.IO;
 using Autofac;
 using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_CBC;
+using NIST.CVP.Generation.Core;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -19,7 +20,7 @@ namespace AES_CBC
                 return 1;
             }
             var requestFile = args[0];
-            ConfigureLogging(requestFile);
+            LoggingHelper.ConfigureLogging(requestFile, "aes-cbc");
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
             //get generator and call it
@@ -60,21 +61,6 @@ namespace AES_CBC
             get { return LogManager.GetLogger("Generate"); }
         }
 
-        private static void ConfigureLogging(string requestFile)
-        {
-            var config = new LoggingConfiguration();
-            var fileTarget = new FileTarget();
-            config.AddTarget("file", fileTarget);
-            string baseDir = Path.GetDirectoryName(requestFile);
-            fileTarget.FileName = Path.Combine(baseDir, "aes-cbc.log");
-            fileTarget.Layout = "${longdate} ${level} ${logger} ${message}";
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, fileTarget));
-
-            var consoleTarget = new ConsoleTarget("Console");
-            consoleTarget.Layout = "${longdate} ${level} ${logger} ${message}";
-            config.AddTarget(consoleTarget);
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, consoleTarget));
-            LogManager.Configuration = config;
-        }
+     
     }
 }

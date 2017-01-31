@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Generation.SHA1;
 using NIST.CVP.Math;
 using Autofac;
+using NIST.CVP.Generation.Core;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -23,7 +24,7 @@ namespace SHA1
             }
 
             var requestFile = args[0];
-            ConfigureLogging(requestFile);
+            LoggingHelper.ConfigureLogging(requestFile, "sha1");
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
             //get generator and call it
@@ -63,21 +64,6 @@ namespace SHA1
             get { return LogManager.GetLogger("Generate"); }
         }
 
-        private static void ConfigureLogging(string requestFile)
-        {
-            var config = new LoggingConfiguration();
-            var fileTarget = new FileTarget();
-            config.AddTarget("file", fileTarget);
-            string baseDir = Path.GetDirectoryName(requestFile);
-            fileTarget.FileName = Path.Combine(baseDir, "sha1.log");
-            fileTarget.Layout = "${longdate} ${level} ${logger} ${message}";
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, fileTarget));
-
-            var consoleTarget = new ConsoleTarget("Console");
-            consoleTarget.Layout = "${longdate} ${level} ${logger} ${message}";
-            config.AddTarget(consoleTarget);
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, consoleTarget));
-            LogManager.Configuration = config;
-        }
+      
     }
 }

@@ -27,3 +27,5 @@ Cannot resolve parameter 'NIST.CVP.Generation.Core.IResultValidator`1[NIST.CVP.G
 2017-01-30 13:21:58.5570 Error Validate ERROR! Validating Test Vectors for C:\Users\def2\Documents\Visual Studio 2015\Projects\GenVal\tdes-ecb\testFiles\testResults.json: Cannot implicitly convert type 'long' to 'int'. An explicit conversion exists (are you missing a cast?)
 2017-01-30 13:22:21.1158 Info Validate Validating test results for C:\Users\def2\Documents\Visual Studio 2015\Projects\GenVal\tdes-ecb\testFiles\testResults.json
 2017-01-30 13:22:26.8314 Info Validate Success! Validating Test Results for C:\Users\def2\Documents\Visual Studio 2015\Projects\GenVal\tdes-ecb\testFiles\testResults.json
+2017-01-31 14:31:55.3658 Info Validate Validating test results for C:\Users\def2\Documents\Visual Studio 2015\Projects\GenVal\tdes-ecb\testFiles\testResults.json
+2017-01-31 14:32:01.0302 Info Validate Success! Validating Test Results for C:\Users\def2\Documents\Visual Studio 2015\Projects\GenVal\tdes-ecb\testFiles\testResults.json

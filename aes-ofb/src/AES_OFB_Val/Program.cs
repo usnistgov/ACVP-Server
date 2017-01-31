@@ -3,6 +3,7 @@ using System.IO;
 using Autofac;
 using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_OFB;
+using NIST.CVP.Generation.Core;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -21,7 +22,7 @@ namespace AES_OFB_Val
             var resultFile = args[0];
             var promptFile = args[1];
             var answerFile = args[2];
-            ConfigureLogging(resultFile);
+            LoggingHelper.ConfigureLogging(resultFile, "aes-ofb-val");
             Logger.Info($"Validating test results for {resultFile}");
             try
             {

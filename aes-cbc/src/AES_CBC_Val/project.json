@@ -5,11 +5,8 @@
   },
 
   "dependencies": {
-    "Autofac": "4.2.1",
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.0.1"
-    },
+    "Autofac": "4.3.0",
+    "Microsoft.NETCore.App": "1.1.0",
     "NIST.CVP.Generation.AES": "1.0.0-*",
     "NIST.CVP.Generation.AES_CBC": "1.0.0-*",
     "NIST.CVP.Generation.Core": "1.0.0-*",
@@ -20,5 +17,10 @@
     "netcoreapp1.0": {
       "imports": "dnxcore50"
     }
+  },
+
+  "runtimes": {
+    "win10-x64": {},
+    "win7-x64": {}
   }
 }

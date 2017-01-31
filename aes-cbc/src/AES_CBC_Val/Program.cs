@@ -3,6 +3,7 @@ using System.IO;
 using Autofac;
 using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_CBC;
+using NIST.CVP.Generation.Core;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -21,7 +22,7 @@ namespace AES_CBC_Val
             var resultFile = args[0];
             var promptFile = args[1];
             var answerFile = args[2];
-            ConfigureLogging(resultFile);
+            LoggingHelper.ConfigureLogging(resultFile, "aes-cbc-val");
             Logger.Info($"Validating test results for {resultFile}");
             try
             {
@@ -56,21 +57,6 @@ namespace AES_CBC_Val
             get { return LogManager.GetLogger("Validate"); }
         }
 
-        private static void ConfigureLogging(string requestFile)
-        {
-            var config = new LoggingConfiguration();
-            var fileTarget = new FileTarget();
-            config.AddTarget("file", fileTarget);
-            string baseDir = Path.GetDirectoryName(requestFile);
-            fileTarget.FileName = Path.Combine(baseDir, "aes-cbc-val.log");
-            fileTarget.Layout = "${longdate} ${level} ${logger} ${message}";
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, fileTarget));
-
-            var consoleTarget = new ConsoleTarget("Console");
-            consoleTarget.Layout = "${longdate} ${level} ${logger} ${message}";
-            config.AddTarget(consoleTarget);
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, consoleTarget));
-            LogManager.Configuration = config;
-        }
+      
     }
 }

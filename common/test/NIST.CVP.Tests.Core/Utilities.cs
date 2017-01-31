@@ -12,6 +12,8 @@ namespace NIST.CVP.Tests.Core
 {
     public static class Utilities
     {
+        private const string UNIT_TEST_FOLDER_NAME = "UnitTests/ACAVP";
+
         /// <summary>
         /// NUnit test runner and ReSharper test runner start from different directories.  Get a consistent start directory for the runners.
         /// </summary>
@@ -50,7 +52,7 @@ namespace NIST.CVP.Tests.Core
         }
 
 
-        public static void ConfigureLogging(string testTag, bool includeFile = true, string baseDir = @"C:\Users\def2\Documents\UnitTests\ACAVP")
+        public static void ConfigureLogging(string testTag, bool includeFile = true)
         {
             var config = new LoggingConfiguration();
 
@@ -68,14 +70,28 @@ namespace NIST.CVP.Tests.Core
             {
                 var fileTarget = new FileTarget();
                 config.AddTarget("file", fileTarget);
-                fileTarget.FileName = Path.Combine(baseDir, $"test_{testTag}.log");
-                fileTarget.Layout = "${callsite:includeNamespace=false;includeSourcePath=false}:  ${message}";
+                fileTarget.FileName = Path.Combine(BaseDir, $"test_{testTag}.log");
+                fileTarget.Layout = "${logger}:  ${message}";
                 fileTarget.DeleteOldFileOnStartup = true;
                 config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, fileTarget));
             }
          
 
             LogManager.Configuration = config;
+        }
+
+        public static string BaseDir
+        {
+            get { return Path.Combine(UserDocumentsDir, UNIT_TEST_FOLDER_NAME); }
+        }
+
+        public static string UserHomeDir
+        {
+            get { return Environment.GetEnvironmentVariable("USERPROFILE"); }
+        }
+        public static string UserDocumentsDir
+        {
+            get { return Path.Combine(UserHomeDir, "Documents"); }
         }
     }
 }

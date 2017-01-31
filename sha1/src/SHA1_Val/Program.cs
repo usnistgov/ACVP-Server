@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NLog;
 using Autofac;
 using System.IO;
+using NIST.CVP.Generation.Core;
 using NLog.Config;
 using NLog.Targets;
 
@@ -22,7 +23,7 @@ namespace SHA1_Val
             var resultFile = args[0];
             var promptFile = args[1];
             var answerFile = args[2];
-            ConfigureLogging(resultFile);
+            LoggingHelper.ConfigureLogging(resultFile, "sha1-val");
             Logger.Info($"Validating test results for {resultFile}");
             try
             {

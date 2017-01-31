@@ -1,17 +1,18 @@
 {
   "version": "1.0.0-*",
 
-    "dependencies": {
-        "NIST.CVP.Generation.AES_GCM": "1.0.0-*",
-      "NIST.CVP.Tests.Core": "1.0.0-*",
-        "dotnet-test-nunit": "3.4.0-beta-3",
-        "NUnit": "3.5.0",
-        "NLog": "4.4.0-betaV15",
-      "Moq": "4.6.38-alpha",
-      "Microsoft.Extensions.Configuration.Json": "1.1.0",
-      "NIST.CVP.Generation.Core": "1.0.0-*",
-      "NIST.CVP.Math": "1.0.0-*"
-    },
+  "dependencies": {
+    "NIST.CVP.Generation.AES_GCM": "1.0.0-*",
+    "NIST.CVP.Tests.Core": "1.0.0-*",
+    "dotnet-test-nunit": "3.4.0-beta-3",
+    "Moq": "4.6.38-alpha",
+    "Microsoft.Extensions.Configuration.Json": "1.1.0",
+    "NIST.CVP.Generation.Core": "1.0.0-*",
+    "NIST.CVP.Math": "1.0.0-*",
+    "Microsoft.NETCore.App": "1.1.0",
+    "NLog": "5.0.0-beta05",
+    "NUnit": "3.6.0"
+  },
   "testRunner": "nunit",
 
   "frameworks": {
@@ -21,12 +22,13 @@
         "portable-net45+win8"
       ],
       "dependencies": {
-        "Microsoft.NETCore.App": {
-            "type": "platform",
-            "version": "1.0.1"
-        }
       }
 
     }
+  },
+
+  "runtimes": {
+    "win10-x64": {},
+    "win7-x64": {}
   }
 }

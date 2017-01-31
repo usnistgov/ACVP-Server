@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.TDES_ECB;
 using NLog;
 using NLog.Config;
@@ -21,7 +22,7 @@ namespace tdes_ecb
                 return 1;
             }
             var requestFile = args[0];
-            ConfigureLogging(requestFile);
+            LoggingHelper.ConfigureLogging(requestFile, "tdes-ecb");
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
             //get generator and call it
@@ -62,21 +63,7 @@ namespace tdes_ecb
             get { return LogManager.GetLogger("Generate"); }
         }
 
-        private static void ConfigureLogging(string requestFile)
-        {
-            var config = new LoggingConfiguration();
-            var fileTarget = new FileTarget();
-            config.AddTarget("file", fileTarget);
-            string baseDir = Path.GetDirectoryName(requestFile);
-            fileTarget.FileName = Path.Combine(baseDir, "tdes-ecb.log");
-            fileTarget.Layout = "${longdate} ${level} ${logger} ${message}";
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, fileTarget));
-
-            var consoleTarget = new ConsoleTarget("Console");
-            consoleTarget.Layout = "${longdate} ${level} ${logger} ${message}";
-            config.AddTarget(consoleTarget);
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, consoleTarget));
-            LogManager.Configuration = config;
-        }
+      
+       
     }
 }

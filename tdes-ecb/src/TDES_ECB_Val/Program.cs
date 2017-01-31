@@ -7,6 +7,8 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using Autofac;
+using NIST.CVP.Generation.Core;
+
 namespace TDES_ECB_Val
 {
 
@@ -23,7 +25,9 @@ namespace TDES_ECB_Val
             var resultFile = args[0];
             var promptFile = args[1];
             var answerFile = args[2];
-            ConfigureLogging(resultFile);
+            LoggingHelper.ConfigureLogging(resultFile, "tdes-ecb-val");
+            LogManager.ThrowExceptions = true;
+            
             Logger.Info($"Validating test results for {resultFile}");
             try
             {
@@ -57,23 +61,7 @@ namespace TDES_ECB_Val
         {
             get { return LogManager.GetLogger("Validate"); }
         }
-
-        private static void ConfigureLogging(string requestFile)
-        {
-            var config = new LoggingConfiguration();
-            var fileTarget = new FileTarget();
-            config.AddTarget("file", fileTarget);
-            string baseDir = Path.GetDirectoryName(requestFile);
-            fileTarget.FileName = Path.Combine(baseDir, "aes-gcm-val.log");
-            fileTarget.Layout = "${longdate} ${level} ${logger} ${message}";
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, fileTarget));
-
-            var consoleTarget = new ConsoleTarget("Console");
-            consoleTarget.Layout = "${longdate} ${level} ${logger} ${message}";
-            config.AddTarget(consoleTarget);
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, consoleTarget));
-            LogManager.Configuration = config;
-        }
+      
     }
     
 

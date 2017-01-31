@@ -7,6 +7,7 @@ using Autofac;
 using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_GCM;
 using NIST.CVP.Generation.AES_GCM.Parsers;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using NLog.Config;
@@ -24,7 +25,7 @@ namespace AES_GCM
                 return 1;
             }
             var requestFile = args[0];
-            ConfigureLogging(requestFile);
+            LoggingHelper.ConfigureLogging(requestFile, "aes-gcm");
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
             //get generator and call it
@@ -65,21 +66,6 @@ namespace AES_GCM
             get { return LogManager.GetLogger("Generate"); }
         }
 
-        private static void ConfigureLogging(string requestFile)
-        {
-            var config = new LoggingConfiguration();
-            var fileTarget = new FileTarget();
-            config.AddTarget("file", fileTarget);
-            string baseDir = Path.GetDirectoryName(requestFile);
-            fileTarget.FileName = Path.Combine(baseDir, "aes-gcm.log");
-            fileTarget.Layout = "${longdate} ${level} ${logger} ${message}";
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, fileTarget));
-
-            var consoleTarget = new ConsoleTarget("Console");
-            consoleTarget.Layout = "${longdate} ${level} ${logger} ${message}";
-            config.AddTarget(consoleTarget);
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, consoleTarget));
-            LogManager.Configuration = config;
-        }
+      
     }
 }

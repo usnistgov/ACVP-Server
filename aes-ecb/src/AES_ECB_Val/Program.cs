@@ -9,6 +9,7 @@ using NLog.Targets;
 using Autofac;
 using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_ECB;
+using NIST.CVP.Generation.Core;
 
 namespace AES_ECB_Val
 {
@@ -24,7 +25,7 @@ namespace AES_ECB_Val
             var resultFile = args[0];
             var promptFile = args[1];
             var answerFile = args[2];
-            ConfigureLogging(resultFile);
+            LoggingHelper.ConfigureLogging(resultFile, "aes-ecb-val");
             Logger.Info($"Validating test results for {resultFile}");
             try
             {
