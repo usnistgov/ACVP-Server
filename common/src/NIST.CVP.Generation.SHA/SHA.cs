@@ -8,6 +8,6 @@ namespace NIST.CVP.Generation.SHA
 {
     public abstract class SHA
     {
-        public abstract BitString HashMessage(HashFunction hashFunction, BitString message);
+        public abstract BitString HashMessage(BitString message);
     }
 }

@@ -26,8 +26,8 @@ namespace NIST.CVP.Generation.SHA2
         {
             try
             {
-                var sha = _iSHAFactory.GetSHA(hashFunction.Mode);
-                var digest = sha.HashMessage(hashFunction, message);
+                var sha = _iSHAFactory.GetSHA(hashFunction);
+                var digest = sha.HashMessage(message);
 
                 return new HashResult(digest);
             }

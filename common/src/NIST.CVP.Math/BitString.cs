@@ -10,7 +10,6 @@ using Helper = NIST.CVP.Math.Helpers.MsbLsbConversionHelpers;
 
 namespace NIST.CVP.Math
 {
-
     /// <summary>
     /// Bit and Byte functions manipulation functions.
     /// NOTE:
@@ -264,8 +263,13 @@ namespace NIST.CVP.Math
             return NOT(this);
         }
 
-        // Shifts in the MSB direction
-        public static BitString CircularShiftMSB(BitString shiftBitString, int distance)
+        /// <summary>
+        /// Rotates bist in the MSB direction. Rotate puts the bits that 'fall off' onto the end.
+        /// </summary>
+        /// <param name="bStr"></param>
+        /// <param name="distance">Amount the bits to rotate.</param>
+        /// <returns></returns>
+        public static BitString MSBRotate(BitString shiftBitString, int distance)
         {
             var bits = shiftBitString.GetDeepCopy().GetBitsMSB();
             var bitLength = shiftBitString.BitLength;
@@ -280,12 +284,58 @@ namespace NIST.CVP.Math
             return new BitString(new BitArray(newBits));
         }
 
-        public BitString CircularShiftMSB(int distance)
+        public BitString MSBRotate(int distance)
         {
-            return CircularShiftMSB(this, distance);
+            return MSBRotate(this, distance);
         }
 
-        // Adds two BitStrings and truncates the MSBs not needed
+        /// <summary>
+        /// Rotates bist in the LSB direction. Rotate puts the bits that 'fall off' onto the end.
+        /// </summary>
+        /// <param name="bStr"></param>
+        /// <param name="distance">Amount the bits to rotate.</param>
+        /// <returns></returns>
+        public static BitString LSBRotate(BitString bStr, int distance)
+        {
+            var minDistance = distance % bStr.BitLength;
+            return BitString.MSBRotate(bStr, bStr.BitLength - minDistance);
+        }
+
+        public BitString LSBRotate(int distance)
+        {
+            return BitString.LSBRotate(this, distance);
+        }
+
+        /// <summary>
+        /// Shifts bits in the LSB direction. Shift adds 0s to the end.
+        /// </summary>
+        /// <param name="bStr"></param>
+        /// <param name="distance">Amount of bits to shift.</param>
+        /// <returns></returns>
+        public static BitString LSBShift(BitString bStr, int distance)
+        {
+            var minDistance = System.Math.Min(bStr.BitLength, distance);
+            var circleShift = BitString.MSBRotate(bStr, bStr.BitLength - minDistance);
+            for (var i = 0; i < minDistance; i++)
+            {
+                circleShift.Set(bStr.BitLength - i - 1, false);
+            }
+
+            return circleShift;
+        }
+
+        public BitString LSBShift(int distance)
+        {
+            return BitString.LSBShift(this, distance);
+        }
+
+        /// <summary>
+        /// Adds two BitStrings and truncates the result to fit within the limit.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <param name="moduloPower">Amount of bits kept in the result.</param>
+        /// <returns></returns>
         public static BitString AddWithModulo(BitString left, BitString right, int moduloPower)
         {
             var leftBits = left.GetDeepCopy().GetBitsMSB();
@@ -433,11 +483,13 @@ namespace NIST.CVP.Math
         #endregion Concatentation
 
         #region Substring
-        public BitString Substring(int startIndex, int numberOfBits)
-        {
-            return Substring(this, startIndex, numberOfBits);
-        }
-
+        /// <summary>
+        /// Gets substring of a BitString from the LSB direction.
+        /// </summary>
+        /// <param name="bsToSub"></param>
+        /// <param name="startIndex">Least significant bit is 0 index.</param>
+        /// <param name="numberOfBits"></param>
+        /// <returns></returns>
         public static BitString Substring(BitString bsToSub, int startIndex, int numberOfBits)
         {
             if ((startIndex > bsToSub.BitLength - 1) || startIndex < 0)
@@ -456,6 +508,28 @@ namespace NIST.CVP.Math
             }
 
             return new BitString(new BitArray(newBits));
+        }
+
+        public BitString Substring(int startIndex, int numberOfBits)
+        {
+            return Substring(this, startIndex, numberOfBits);
+        }
+
+        /// <summary>
+        /// Gets a substring of bits from the MSB direction. 
+        /// </summary>
+        /// <param name="bsToSub"></param>
+        /// <param name="startIndex">Start index from the MSB side. Most significant bit is index 0.</param>
+        /// <param name="numberOfBits"></param>
+        /// <returns></returns>
+        public static BitString MSBSubstring(BitString bsToSub, int startIndex, int numberOfBits)
+        {
+            return Substring(bsToSub, bsToSub.BitLength - startIndex - numberOfBits, numberOfBits);
+        }
+
+        public BitString MSBSubstring(int startIndex, int numberOfBits)
+        {
+            return MSBSubstring(this, startIndex, numberOfBits);
         }
         #endregion Substring
 
@@ -489,7 +563,6 @@ namespace NIST.CVP.Math
         public override int GetHashCode()
         {
             return this.ToHex().GetHashCode();
-            // return this.Bits.GetHashCode();
         }
 
         #region Private methods

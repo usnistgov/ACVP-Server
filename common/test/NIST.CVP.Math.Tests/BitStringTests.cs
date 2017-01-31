@@ -12,7 +12,6 @@ namespace NIST.CVP.Math.Tests
     [TestFixture]
     public class BitStringTests
     {
-
         #region ctor
         [Test]
         public void ShouldCreateInstanceWithLength()
@@ -1318,14 +1317,14 @@ namespace NIST.CVP.Math.Tests
             8,
             new bool[] { true, false, false, false, true, false }
         )]
-        public void CircularShiftMSBShouldShiftBitsAndReturnNewBitString(bool[] bits, int distance, bool[] expectedBits)
+        public void MSBRotateShouldShiftBitsAndReturnNewBitString(bool[] bits, int distance, bool[] expectedBits)
         {
             // Arrange
             var inputString = new BitString(new BitArray(bits));
             var expectedResult = new BitString(new BitArray(expectedBits));
 
             // Act
-            var results = BitString.CircularShiftMSB(inputString, distance);
+            var results = BitString.MSBRotate(inputString, distance);
 
             // Assert
             Assert.AreEqual(expectedResult, results);
@@ -1347,14 +1346,136 @@ namespace NIST.CVP.Math.Tests
             8,
             new bool[] { true, false, false, false, true, false }
         )]
-        public void CircularShiftMSBShouldNotModifyParameters(bool[] bits, int distance, bool[] expectedBits)
+        public void MSBRotateShouldNotModifyParameters(bool[] bits, int distance, bool[] expectedBits)
         {
             // Arrange
             var originalString = new BitString(new BitArray(bits));
             var expectedResult = new BitString(new BitArray(expectedBits));
 
             // Act
-            var results = BitString.CircularShiftMSB(originalString, distance);
+            var results = BitString.MSBRotate(originalString, distance);
+
+            // Assume
+            Assume.That(expectedResult.Equals(results));
+
+            // Assert
+            Assert.AreEqual(originalString, new BitString(new BitArray(bits)));
+        }
+
+        [Test]
+        [TestCase(
+            new bool[] { true, false, true, false, true, false },
+            1,
+            new bool[] { false, true, false, true, false, true }
+        )]
+        [TestCase(
+            new bool[] { false, false, false, true, true, false },
+            4,
+            new bool[] { true, false, false, false, false, true }
+        )]
+        [TestCase(
+            new bool[] { false, false, true, false, true, false },
+            8,
+            new bool[] { true, false, true, false, false, false }
+        )]
+        public void LSBRotateShouldShiftBitsAndReturnNewBitString(bool[] bits, int distance, bool[] expectedBits)
+        {
+            // Arrange
+            var inputString = new BitString(new BitArray(bits));
+            var expectedResult = new BitString(new BitArray(expectedBits));
+
+            // Act
+            var results = BitString.LSBRotate(inputString, distance);
+
+            // Assert
+            Assert.AreEqual(expectedResult, results);
+        }
+
+        [Test]
+        [TestCase(
+            new bool[] { true, false, true, false, true, false },
+            1,
+            new bool[] { false, true, false, true, false, true }
+        )]
+        [TestCase(
+            new bool[] { false, false, false, true, true, false },
+            4,
+            new bool[] { true, false, false, false, false, true }
+        )]
+        [TestCase(
+            new bool[] { false, false, true, false, true, false },
+            8,
+            new bool[] { true, false, true, false, false, false }
+        )]
+        public void LSBRotateShouldNotModifyParameters(bool[] bits, int distance, bool[] expectedBits)
+        {
+            // Arrange
+            var originalString = new BitString(new BitArray(bits));
+            var expectedResult = new BitString(new BitArray(expectedBits));
+
+            // Act
+            var results = BitString.LSBRotate(originalString, distance);
+
+            // Assume
+            Assume.That(expectedResult.Equals(results));
+
+            // Assert
+            Assert.AreEqual(originalString, new BitString(new BitArray(bits)));
+        }
+
+        [Test]
+        [TestCase(
+            new bool[] { true, false, true, false, true, false },
+            1,
+            new bool[] { false, true, false, true, false, false }
+        )]
+        [TestCase(
+            new bool[] { false, false, false, true, true, false },
+            4,
+            new bool[] { true, false, false, false, false, false }
+        )]
+        [TestCase(
+            new bool[] { false, false, true, false, true, false },
+            8,
+            new bool[] { false, false, false, false, false, false }
+        )]
+        public void LSBShiftShouldShiftBitsAndReturnNewBitString(bool[] bits, int distance, bool[] expectedBits)
+        {
+            // Arrange
+            var inputString = new BitString(new BitArray(bits));
+            var expectedResult = new BitString(new BitArray(expectedBits));
+
+            // Act
+            var results = BitString.LSBShift(inputString, distance);
+
+            // Assert
+            Assert.AreEqual(expectedResult, results);
+        }
+
+        [Test]
+        [TestCase(
+            new bool[] { true, false, true, false, true, false },
+            1,
+            new bool[] { false, true, false, true, false, false }
+        )]
+        [TestCase(
+            new bool[] { false, false, false, true, true, false },
+            4,
+            new bool[] { true, false, false, false, false, false }
+        )]
+        [TestCase(
+            new bool[] { false, false, true, false, true, false },
+            8,
+            new bool[] { false, false, false, false, false, false }
+        )]
+        public void LSBShiftShouldNotModifyParameters(bool[] bits, int distance, bool[] expectedBits)
+        {
+            // Arrange
+            var originalString = new BitString(new BitArray(bits));
+            var expectedResult = new BitString(new BitArray(expectedBits));
+
+            // Act
+            var results = BitString.LSBShift(originalString, distance);
 
             // Assume
             Assume.That(expectedResult.Equals(results));

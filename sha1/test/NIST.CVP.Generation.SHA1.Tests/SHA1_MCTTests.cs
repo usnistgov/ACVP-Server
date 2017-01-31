@@ -86,7 +86,7 @@ namespace NIST.CVP.Generation.SHA1.Tests
             "0D93 736A F479 3413 72D2 EED3 A909 F5FE ACB6 0E92",
             "ADCB 8A75 9D08 759C E0E1 920B 0E42 6C68 C7ED 424C"
         )]
-        [Ignore("Takes ~3 minutes to run. Only run when needed.")]
+        [Ignore("Crypto takes long to run")]
         public void ShouldRunFullMCTHashWithCorrectResponse(string seedHex, string expectedResultHex)
         {
             var seed = new BitString(seedHex);

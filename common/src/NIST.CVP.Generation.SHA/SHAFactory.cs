@@ -8,17 +8,18 @@ namespace NIST.CVP.Generation.SHA
 {
     public class SHAFactory : ISHAFactory
     {
-        public SHA GetSHA(ModeValues mode)
+        public SHA GetSHA(HashFunction hashFunction)
         {
-            switch (mode)
+            var shaInternals = new SHAInternals(hashFunction);
+
+            switch (hashFunction.Mode)
             {
                 case ModeValues.SHA1:
-                    return new SHA1();
+                    return new SHA1(shaInternals);
                 case ModeValues.SHA2:
-                case ModeValues.SHA2t:
-                     return new SHA2();
+                    return new SHA2(shaInternals);
                 default:
-                    throw new ArgumentException($"Invalid value for {nameof(mode)}");
+                    throw new ArgumentException($"Invalid value for {nameof(hashFunction.Mode)}");
             }
         }
     }
