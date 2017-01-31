@@ -1,9 +1,7 @@
 {
-  "version": "1.0.0-*",
   "buildOptions": {
     "emitEntryPoint": true
   },
-
   "dependencies": {
     "Autofac": "4.3.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
@@ -14,15 +12,14 @@
     "Microsoft.NETCore.App": "1.1.0",
     "NLog": "5.0.0-beta05"
   },
-
   "frameworks": {
     "netcoreapp1.0": {
       "imports": "dnxcore50"
     }
   },
-
   "runtimes": {
     "win10-x64": {},
     "win7-x64": {}
-  }
+  },
+  "version": "1.0.0-*"
 }

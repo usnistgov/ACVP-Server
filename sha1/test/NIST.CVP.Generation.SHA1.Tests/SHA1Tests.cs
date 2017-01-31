@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.SHA1.Tests
             var exceptionMessage = "Error message";
 
             iSHAFactory
-                .Setup(s => s.GetSHA(It.IsAny<ModeValues>()))
+                .Setup(s => s.GetSHA(It.IsAny<HashFunction>()))
                 .Throws(new Exception(exceptionMessage));
 
             var results = subject.HashMessage(new BitString(0));
@@ -84,10 +84,15 @@ namespace NIST.CVP.Generation.SHA1.Tests
         {
             var iSHAFactory = new Mock<ISHAFactory>();
             var subject = new SHA1(iSHAFactory.Object);
+            var hashFunction = new HashFunction
+            {
+                DigestSize = DigestSizes.d160,
+                Mode = ModeValues.SHA1
+            };
 
             iSHAFactory
-                .Setup(s => s.GetSHA(It.IsAny<ModeValues>()))
-                .Returns(new SHA.SHA1());       // Find a rename for this?
+                .Setup(s => s.GetSHA(hashFunction))
+                .Returns(new SHA.SHA1(new SHAInternals(hashFunction)));
 
             var results = subject.HashMessage(new BitString(20));
 

@@ -1,6 +1,4 @@
 {
-  "version": "1.0.0-*",
-
   "dependencies": {
     "dotnet-test-nunit": "3.4.0-beta-3",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
@@ -13,8 +11,6 @@
     "NIST.CVP.Tests.Core": "1.0.0-*",
     "NLog": "5.0.0-beta05"
   },
-  "testRunner": "nunit",
-
   "frameworks": {
     "netcoreapp1.0": {
       "imports": [
@@ -26,9 +22,10 @@
 
     }
   },
-
   "runtimes": {
     "win10-x64": {},
     "win7-x64": {}
-  }
+  },
+  "testRunner": "nunit",
+  "version": "1.0.0-*"
 }
