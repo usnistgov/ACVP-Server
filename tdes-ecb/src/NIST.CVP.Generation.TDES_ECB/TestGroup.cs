@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.TDES_ECB
 
             switch (name.ToLower())
             {
-                case "testType":
+                case "testtype":
                     TestType = value;
                     return true;
             }
@@ -110,7 +110,7 @@ namespace NIST.CVP.Generation.TDES_ECB
 
             switch (name.ToLower())
             {
-                case "numberOfKeys":
+                case "numberofkeys":
                     NumberOfKeys = intVal;
                     return true;
             }

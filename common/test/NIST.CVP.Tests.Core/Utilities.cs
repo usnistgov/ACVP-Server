@@ -64,10 +64,6 @@ namespace NIST.CVP.Tests.Core
             config.AddTarget(consoleTarget);
             config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, consoleTarget));
 
-
-         
-
-
             if (includeFile)
             {
                 var fileTarget = new FileTarget();

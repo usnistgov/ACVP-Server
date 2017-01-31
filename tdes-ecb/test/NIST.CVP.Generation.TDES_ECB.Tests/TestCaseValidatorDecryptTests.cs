@@ -4,41 +4,41 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.TDES_ECB.Tests
 {
     [TestFixture]
-    public class TestCaseValidatorEncryptTests
+    public class TestCaseValidatorDecryptTests
     {
         [Test]
         public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             var result = subject.Validate(testCase);
             Assume.That(result != null);
             Assert.AreEqual("passed", result.Result);
         }
 
         [Test]
-        public void ShouldFailIfCipherTextDoesNotMatch()
+        public void ShouldFailIfPlainTextDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.CipherText = new BitString("D00000");
+            suppliedResult.PlainText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual("failed", result.Result);
         }
 
         [Test]
-        public void ShouldShowCipherTextAsReasonIfItDoesNotMatch()
+        public void ShouldShowPlainTextAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.CipherText = new BitString("D00000");
+            suppliedResult.PlainText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assume.That("failed" == result.Result);
-            Assert.IsTrue(result.Reason.Contains("Cipher Text"));
+            Assert.IsTrue(result.Reason.Contains("Plain Text"));
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         public void ShouldHaveTestCaseIdSetFromResult(int id)
         {
             var testCase = GetTestCase(id);
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             Assert.AreEqual(id, subject.TestCaseId);
         }
 
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var testCase = new TestCase
             {
-                CipherText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
+                PlainText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
                 TestCaseId = id
             };
             return testCase;

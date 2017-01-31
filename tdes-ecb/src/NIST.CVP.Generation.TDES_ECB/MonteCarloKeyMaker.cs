@@ -8,30 +8,30 @@ namespace NIST.CVP.Generation.TDES_ECB
 {
     public class MonteCarloKeyMaker : IMonteCarloKeyMaker
     {
-        public BitString MixKeys(TDESKeys keys, List<BitString> lastThreeCipherTexts)
+        public BitString MixKeys(TDESKeys keys, List<BitString> lastThreeOpResults)
         {
             if (keys == null)
             {
                 throw new ArgumentNullException(nameof(keys));
             }
 
-            if (lastThreeCipherTexts== null || lastThreeCipherTexts.Count < 3)
+            if (lastThreeOpResults== null || lastThreeOpResults.Count < 3)
             {
-                throw new ArgumentException("Need three cipherText entries to mix keys", nameof(lastThreeCipherTexts));
+                throw new ArgumentException("Need three cipherText entries to mix keys", nameof(lastThreeOpResults));
             }
 
-            var newKey1 = keys.KeysAsBitStrings[0].XOR(lastThreeCipherTexts[0]);
-            var newKey2 = keys.KeysAsBitStrings[1].XOR(lastThreeCipherTexts[0]);
-            var newKey3 = keys.KeysAsBitStrings[2].XOR(lastThreeCipherTexts[0]);
+            var newKey1 = keys.KeysAsBitStrings[0].XOR(lastThreeOpResults[0]);
+            var newKey2 = keys.KeysAsBitStrings[1].XOR(lastThreeOpResults[0]);
+            var newKey3 = keys.KeysAsBitStrings[2].XOR(lastThreeOpResults[0]);
            
             if (keys.KeyOption == KeyOptionValues.ThreeKey)
             {
-                newKey2 = keys.KeysAsBitStrings[1].XOR(lastThreeCipherTexts[1]);
-                newKey3 = keys.KeysAsBitStrings[2].XOR(lastThreeCipherTexts[2]);
+                newKey2 = keys.KeysAsBitStrings[1].XOR(lastThreeOpResults[1]);
+                newKey3 = keys.KeysAsBitStrings[2].XOR(lastThreeOpResults[2]);
             }
             if (keys.KeyOption == KeyOptionValues.TwoKey)
             {
-                newKey2 = keys.KeysAsBitStrings[1].XOR(lastThreeCipherTexts[1]);
+                newKey2 = keys.KeysAsBitStrings[1].XOR(lastThreeOpResults[1]);
             }
             byte[] outputArray = new byte[24];
 

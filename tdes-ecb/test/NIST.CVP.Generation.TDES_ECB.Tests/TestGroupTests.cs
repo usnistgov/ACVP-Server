@@ -46,6 +46,17 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         }
 
         [Test]
+        [TestCase("NumberOfKeys", "13")]
+        [TestCase("testType", "Monte Carlo")]
+        [TestCase("NumberOfKEYs", "130")]
+        public void ShouldReturnSetStringName(string name, string value)
+        {
+            var subject = new TestGroup();
+            var result = subject.SetString(name, value);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
         [TestCase("Fredo")]
         [TestCase("A5")]
         [TestCase("NULL")]
@@ -53,7 +64,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         public void ShouldReturnFalseIfUnparsableValues(string value)
         {
             var subject = new TestGroup();
-            var result = subject.SetString("ivlen", value);
+            var result = subject.SetString("numberOfkeys", value);
             Assert.IsFalse(result);
         }
 
