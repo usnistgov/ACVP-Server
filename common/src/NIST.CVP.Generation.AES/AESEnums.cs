@@ -15,6 +15,7 @@ namespace NIST.CVP.Generation.AES
     {
         ECB,
         CBC,
-        OFB
+        OFB,
+        CFB1
     }
 }

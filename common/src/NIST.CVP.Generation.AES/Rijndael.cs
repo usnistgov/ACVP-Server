@@ -37,12 +37,24 @@ namespace NIST.CVP.Generation.AES
 
         public BitString BlockEncrypt(Cipher cipher, Key key, byte[] plainText, int outputLengthInBits)
         {
-            int numBlocks = plainText.Length * 8 / cipher.BlockLength;
+            int numBlocks;
+            numBlocks = SetNumberOfBlocks(ref cipher, plainText);
+
             byte[,] block = new byte[4, 8];
             byte[] outBuffer = new byte[outputLengthInBits / 8];
 
             BlockEncryptWorker(cipher, key, plainText, numBlocks, block, outBuffer);
             return new BitString(outBuffer);
+        }
+
+        private static int SetNumberOfBlocks(ref Cipher cipher, byte[] plainText)
+        {
+            if (cipher.SegmentLength == 0)
+            {
+                return plainText.Length * 8 / cipher.BlockLength;
+            }
+
+            return plainText.Length / cipher.SegmentLength;
         }
 
         protected abstract void BlockEncryptWorker(Cipher cipher, Key key, byte[] input, int numBlocks, byte[,] block,
