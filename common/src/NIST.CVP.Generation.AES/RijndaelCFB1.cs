@@ -76,7 +76,7 @@ namespace NIST.CVP.Generation.AES
         {
             BitString iv = cipher.IV.GetDeepCopy();
             byte inbit;
-
+            
             for (int i = 0; i < numBlocks; i++)
             {
                 if (i == 0)
@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.AES
                     {
                         for (int t = 0; t < 4; t++)
                         {
-                            iv[t + 4 * j] = block[t, j] = cipher.IV[t + 4 * j];
+                            iv[t + 4 * j] = block[t,j] = cipher.IV[t + 4 * j];
                         }
                     }
                 }
@@ -109,7 +109,7 @@ namespace NIST.CVP.Generation.AES
                 }
 
                 _iRijndaelInternals.EncryptSingleBlock(block, key);
-
+                
                 inbit = GetBit(input[i / 8], i);
 
                 block[0,0] ^= (byte) (inbit << 7);
@@ -120,7 +120,7 @@ namespace NIST.CVP.Generation.AES
             {
                 cipher.IV[j] = (byte) (((iv[j] << 1) & 0xfe) | ((iv[j + 1] >> 7) & 0x01));
             }
-            inbit = GetBit(input[(numBlocks - 1) / 8], numBlocks - 1);
+            inbit = GetBit(input[(numBlocks) / 8], numBlocks);
             cipher.IV[cipher.BlockLength / 8 - 1] =
                 (byte) (((iv[cipher.BlockLength / 8 - 1] << 1) & 0xfe) | inbit);
         }
@@ -133,7 +133,7 @@ namespace NIST.CVP.Generation.AES
 
             if ((byte) (ch & mask) == mask)
             {
-                return mask;
+                return 1;
             }
             
             return 0;

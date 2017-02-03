@@ -22,10 +22,13 @@ namespace NIST.CVP.Generation.AES_CFB1
                 byte[] keyBytes = keyBits.ToBytes();
                 ModeValues mode = ModeValues.CFB1;
                 var rijn = _iRijndaelFactory.GetRijndael(mode);
-                var key = rijn.MakeKey(keyBytes, DirectionValues.Encrypt);
+                var key = rijn.MakeKey(keyBytes, DirectionValues.Decrypt);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode, IV = iv, SegmentLength = 1};
-                var decryptBits = rijn.BlockEncrypt(cipher, key, data.ToBytes(), cipher.SegmentLength * 8);
-                return new DecryptionResult(decryptBits);
+
+                var paddedData = BitString.PadToNextByteBoundry(data);
+
+                var decryptedBits = rijn.BlockEncrypt(cipher, key, paddedData.ToBytes(), data.BitLength);
+                return new DecryptionResult(decryptedBits.GetMostSignificantBits(data.BitLength));
             }
             catch (Exception ex)
             {
@@ -44,8 +47,11 @@ namespace NIST.CVP.Generation.AES_CFB1
                 var rijn = _iRijndaelFactory.GetRijndael(mode);
                 var key = rijn.MakeKey(keyBytes, DirectionValues.Encrypt);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode, IV = iv, SegmentLength = 1 };
-                var encryptedBits = rijn.BlockEncrypt(cipher, key, data.ToBytes(), cipher.SegmentLength * 8);
-                return new EncryptionResult(encryptedBits.GetMostSignificantBits(cipher.SegmentLength));
+
+                var paddedData = BitString.PadToNextByteBoundry(data);
+
+                var encryptedBits = rijn.BlockEncrypt(cipher, key, paddedData.ToBytes(), data.BitLength);
+                return new EncryptionResult(encryptedBits.GetMostSignificantBits(data.BitLength));
             }
             catch (Exception ex)
             {

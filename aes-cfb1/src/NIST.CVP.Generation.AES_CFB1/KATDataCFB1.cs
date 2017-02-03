@@ -144,8 +144,10 @@ namespace NIST.CVP.Generation.AES_CFB1
             // CFB1 - PT is always "0" (hex), CT is the most significant bit of the normal KAT.
             results.ForEach(fe =>
             {
-                fe.PlainText = new BitString(1);
-                fe.CipherText = BitString.GetMostSignificantBits(1, fe.CipherText);
+                fe.PlainText = BitString.GetBitStringEachCharacterOfInputIsBit("0");
+                var mostSignificantBit = BitString.GetMostSignificantBits(1, fe.CipherText).Bits[0];
+                var newBitString = mostSignificantBit ? "1" : "0";
+                fe.CipherText = BitString.GetBitStringEachCharacterOfInputIsBit(newBitString);
             });
         }
     }

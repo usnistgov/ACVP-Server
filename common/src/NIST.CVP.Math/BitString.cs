@@ -98,6 +98,19 @@ namespace NIST.CVP.Math
         #endregion Constructors
 
         #region Conversions
+
+        /// <summary>
+        /// @@@ TODO
+        /// </summary>
+        /// <param name="bitInputInMsb"></param>
+        /// <returns></returns>
+        public static BitString GetBitStringEachCharacterOfInputIsBit(string bitInputInMsb)
+        {
+            //var bitArray = MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(bitInputInMsb);
+            var bitArray = MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(new string(bitInputInMsb.Reverse().ToArray()));
+            return new BitString(bitArray);
+        }
+
         /// <summary>
         /// Returns bytes based on <see cref="Bits"/> in MSB.
         /// </summary>
@@ -508,6 +521,23 @@ namespace NIST.CVP.Math
             }
 
             return new BitString(new BitArray(newBits));
+        }
+
+        /// <summary>
+        /// @@@ TODO
+        /// </summary>
+        /// <param name="bs"></param>
+        /// <returns></returns>
+        public static BitString PadToNextByteBoundry(BitString bs)
+        {
+            if (bs.BitLength % 8 == 0)
+            {
+                return bs;
+            }
+
+            var bitsToAdd = (8 - bs.BitLength % 8);
+
+            return bs.ConcatenateBits(new BitString(bitsToAdd));
         }
 
         public BitString Substring(int startIndex, int numberOfBits)
