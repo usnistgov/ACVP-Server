@@ -110,7 +110,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -130,7 +130,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -145,7 +145,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         public void ShouldCreateValidationFile()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -204,7 +204,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         public void ShouldReportFailedDispositionOnErrorTests()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
             
             List<int> expectedFailTestCases = new List<int>();
             RunGenerationAndValidationWithExpectedFailures(targetFolder, fileName, ref expectedFailTestCases);
