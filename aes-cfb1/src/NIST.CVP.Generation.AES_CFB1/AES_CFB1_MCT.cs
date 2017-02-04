@@ -102,31 +102,79 @@ namespace NIST.CVP.Generation.AES_CFB1
             return new MCTResult(responses);
         }
 
-        private void SetupNextOuterLoopValues(ref BitString iv, ref BitString key, ref BitString plainText, int j, List<BitString> previousCipherTexts)
+        public MCTResult MCTDecrypt(BitString iv, BitString key, BitString cipherText)
+        {
+            List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
+
+            int i = 0;
+            int j = 0;
+
+            try
+            {
+                for (i = 0; i < _OUTPUT_ITERATIONS; i++)
+                {
+                    AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
+                    {
+                        IV = iv,
+                        Key = key,
+                        CipherText = cipherText
+                    };
+                    responses.Add(iIterationResponse);
+
+                    List<BitString> previousPlainTexts = new List<BitString>();
+                    iv = iv.GetDeepCopy();
+                    cipherText = cipherText.GetDeepCopy();
+                    for (j = 0; j < _INNER_ITERATIONS_PER_OUTPUT; j++)
+                    {
+                        var jResult = _algo.BlockDecrypt(iv, key, cipherText);
+                        var jPlainText = jResult.PlainText.GetDeepCopy();
+                        previousPlainTexts.Add(jPlainText);
+                        iIterationResponse.PlainText = jPlainText;
+
+                        if (j < 128)
+                        {
+                            // Note, Bits are stored in the opposite direction on the BitString in comparison to where the MCT pseudo code expects them
+                            cipherText = iIterationResponse.IV.Substring(iIterationResponse.IV.BitLength - 1 - j, 1).GetDeepCopy();
+                        }
+                        else
+                        {
+                            cipherText = previousPlainTexts[j - 128].GetDeepCopy();
+                        }
+
+                        SetupNextOuterLoopValues(ref iv, ref key, ref cipherText, j, previousPlainTexts);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Debug($"i count {i}, j count {j}");
+                ThisLogger.Error(ex);
+                return new MCTResult(ex.Message);
+            }
+
+            return new MCTResult(responses);
+        }
+
+        private void SetupNextOuterLoopValues(ref BitString iv, ref BitString key, ref BitString input, int j, List<BitString> previousOutputs)
         {
             if (j == _INNER_ITERATIONS_PER_OUTPUT - 1)
             {
                 var len = j - key.BitLength + 1;
-                var keyConcatenation = ConcatenateCipherTextsStartingAtIndex(previousCipherTexts, len);
+                var keyConcatenation = ConcatenateOutputsStartingAtIndex(previousOutputs, len);
                 key = key.XOR(keyConcatenation).GetDeepCopy();
 
-                iv = ConcatenateCipherTextsStartingAtIndex(previousCipherTexts, j - 128 + 1).GetDeepCopy();
-                plainText = previousCipherTexts[j - 128].GetDeepCopy();
+                iv = ConcatenateOutputsStartingAtIndex(previousOutputs, j - 128 + 1).GetDeepCopy();
+                input = previousOutputs[j - 128].GetDeepCopy();
             }
         }
 
-        public MCTResult MCTDecrypt(BitString iv, BitString key, BitString cipherText)
+        private BitString ConcatenateOutputsStartingAtIndex(List<BitString> previousOutputs, int startingIndex)
         {
-            throw new NotImplementedException();
-        }
+            BitString bs = previousOutputs[startingIndex].GetMostSignificantBits(1);
 
-        private BitString ConcatenateCipherTextsStartingAtIndex(List<BitString> previousCipherTexts, int startingIndex)
-        {
-            BitString bs = previousCipherTexts[startingIndex].GetMostSignificantBits(1);
-
-            for (int iterator = startingIndex + 1; iterator < previousCipherTexts.Count; iterator++)
+            for (int iterator = startingIndex + 1; iterator < previousOutputs.Count; iterator++)
             {
-                bs = bs.ConcatenateBits(previousCipherTexts[iterator].GetMostSignificantBits(1));
+                bs = bs.ConcatenateBits(previousOutputs[iterator].GetMostSignificantBits(1));
             }
 
             return bs;

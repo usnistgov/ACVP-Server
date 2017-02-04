@@ -122,7 +122,7 @@ namespace NIST.CVP.Generation.AES
             {
                 cipher.IV[j] = (byte) (((iv[j] << 1) & 0xfe) | ((iv[j + 1] >> 7) & 0x01));
             }
-            inbit = GetBit(input[(numBlocks) / 8], numBlocks);
+            inbit = GetBit(input[(numBlocks - 1) / 8], numBlocks - 1);
             cipher.IV[cipher.BlockLength / 8 - 1] =
                 (byte) (((iv[cipher.BlockLength / 8 - 1] << 1) & 0xfe) | inbit);
         }
