@@ -357,18 +357,13 @@ namespace NIST.CVP.Math.Tests
         //[TestCase(new bool[] { true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false }, 8421504)]
         [Test]
         // LSb
-        // less than one byte
         [TestCase(new bool[] { true }, 1)]
         [TestCase(new bool[] { false, false, true }, 4)]
         [TestCase(new bool[] { false, false, false, true }, 8)]
         [TestCase(new bool[] { true, false, false, false, true }, 17)]
-        // one byte
         [TestCase(new bool[] { false, false, false, false, false, false, false, true }, 128)]
-        // one byte plus some bits
         [TestCase(new bool[] { true, false, false, false, false, false, true, false, false, false, false, false, false, false, true }, 16449)]
-        // two bytes
         [TestCase(new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true }, 32896)]
-        // three bytes
         [TestCase(new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true }, 8421504)]
         public void ToBytesConvertsBinaryToBytes(bool[] bits, int expectedResult)
         {
@@ -1640,5 +1635,47 @@ namespace NIST.CVP.Math.Tests
             Assert.AreNotEqual(bs1, bs2);
         }
         #endregion GetHexCode 
+
+        #region BitOriented
+        [Test]
+        [TestCase("80", 0, new bool[] { })]
+        [TestCase("80", 1, new bool[] { true })]
+        [TestCase("F0", 2, new bool[] { true, true })]
+        [TestCase("C0", 3, new bool[] { false, true, true })]
+        [TestCase("70", 4, new bool[] { true, true, true, false })]
+        [TestCase("8A", 5, new bool[] { true, false, false, false, true })]
+        [TestCase("FF", 6, new bool[] { true, true, true, true, true, true })]
+        [TestCase("8E", 7, new bool[] { true, true, true, false, false, false, true })]
+        [TestCase("AB", 8, new bool[] { true, true, false, true, false, true, false, true })]
+        [TestCase("8003", 9, new bool[] { false, false, false, false, false, false, false, false, true })]
+        public void ShouldReturnBitStringFromBitOrientedConstructor(string hex, int len, bool[] expected)
+        {
+            var subject = new BitString(hex, len);
+            var expectedResult = new BitString(new BitArray(expected));
+
+            Assert.AreEqual(len, expectedResult.BitLength);
+            Assert.AreEqual(expectedResult, subject);
+        }
+
+        [Test]
+        [TestCase("80", 1, "80")]
+        [TestCase("30", 2, "00")]
+        [TestCase("D0", 3, "C0")]
+        [TestCase("E0", 4, "E0")]
+        [TestCase("AF", 5, "A8")]
+        [TestCase("BF", 6, "BC")]
+        [TestCase("CF", 7, "CE")]
+        [TestCase("55", 8, "55")]
+        [TestCase("ABCD", 9, "AB80")]
+        [TestCase("BEEF FACE", 30, "BEEF FACC")]
+        public void ShouldConvertBitOrientedBitStringToHex(string hex, int len, string expectedHex)
+        {
+            var subject = new BitString(hex, len);
+            var expectedResult = new BitString(expectedHex);
+            var result = subject.ToHex();
+
+            Assert.AreEqual(expectedResult.ToHex(), result);
+        }
+        #endregion BitOriented
     }
 }

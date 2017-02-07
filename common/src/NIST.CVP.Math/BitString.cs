@@ -73,18 +73,15 @@ namespace NIST.CVP.Math
         /// Create a <see cref="BitString"/> using MSB hex.
         /// </summary>
         /// <param name="hexMSB">The MSB hexadecimal string</param>
-        public BitString(string hexMSB)
+        /// <param name="bitLength">The length of the resulting <see cref="BitString"/> by taking that amount of MSBs</param>
+        public BitString(string hexMSB, int bitLength = -1)
         {
-            
-            if (string.IsNullOrEmpty(hexMSB))
+            if (string.IsNullOrEmpty(hexMSB) || bitLength == 0)
             {
                 _bits = new BitArray(0);
                 return;
             }
 
-            // TODO: Currently hex string must be an even length (with spaces stripped).
-            // Should the string left pad with a 0 to make it even and not throw an exception?
-            // Or should immediately throw if hex is odd (w/o spaces)?
             hexMSB = hexMSB.Replace(" ", "");
             int numberChars = hexMSB.Length;
             byte[] bytesInMSB = new byte[numberChars / 2];
@@ -93,7 +90,24 @@ namespace NIST.CVP.Math
                 bytesInMSB[i / 2] = Convert.ToByte(hexMSB.Substring(i, 2), 16);
             }
 
-            _bits = Helper.MostSignificantByteArrayToLeastSignificantBitArray(bytesInMSB);
+            if(bitLength < 0)
+            {
+                _bits = Helper.MostSignificantByteArrayToLeastSignificantBitArray(bytesInMSB);
+            }
+            else
+            {
+                var bitsNeeded = System.Math.Min(bitLength, numberChars * BITSINBYTE);
+
+                var bitsInMSB = Helper.MostSignificantByteArrayToMostSignificantBitArray(bytesInMSB);
+                var truncatedBits = new BitArray(bitsNeeded);
+
+                for(var i = 0; i < bitsNeeded; i++)
+                {
+                    truncatedBits[i] = bitsInMSB[i];
+                }
+
+                _bits = Helper.ReverseBitArrayBits(truncatedBits);
+            }
         }
         #endregion Constructors
 
@@ -198,10 +212,28 @@ namespace NIST.CVP.Math
         {
             if (BitLength == 0)
             {
-                return "";
+                return "00";
             }
 
-            var bytes = ToBytes();
+            var bytes = new byte[] { };
+
+            // Make a padded BitString if the length isn't % 8
+            if (BitLength % 8 != 0)
+            {
+                var padding = BITSINBYTE - BitLength % BITSINBYTE;
+                var paddedBS = new BitString(BitLength + padding);
+
+                for (var i = 0; i < BitLength; i++)
+                {
+                    paddedBS.Set(i + padding, Bits[i]);
+                }
+
+                bytes = paddedBS.ToBytes();
+            }
+            else
+            {
+                bytes = ToBytes();
+            }
 
             StringBuilder hex = new StringBuilder(bytes.Length * 2);
             for (int index = 0; index < bytes.Length; index++)
