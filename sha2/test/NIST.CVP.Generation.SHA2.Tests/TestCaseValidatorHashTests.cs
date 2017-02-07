@@ -1,0 +1,60 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using NIST.CVP.Math;
+using NUnit.Framework.Internal;
+using NUnit.Framework;
+
+namespace NIST.CVP.Generation.SHA2.Tests
+{
+    [TestFixture]
+    public class TestCaseValidatorHashTests
+    {
+        [Test]
+        public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
+        {
+            var testCase = GetTestCase();
+            var subject = new TestCaseValidatorHash(testCase);
+            var result = subject.Validate(testCase);
+            Assume.That(result != null);
+            Assert.AreEqual("passed", result.Result);
+        }
+
+        [Test]
+        public void ShouldFailIfDigestDoesNotMatch()
+        {
+            var testCase = GetTestCase();
+            var subject = new TestCaseValidatorHash(testCase);
+            var suppliedResult = GetTestCase();
+            suppliedResult.Digest = new BitString("BEEFFACE");
+            var result = subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assert.AreEqual("failed", result.Result);
+        }
+
+        [Test]
+        public void ShouldShowDigestAsReasonIfItDoesNotMatch()
+        {
+            var testCase = GetTestCase();
+            var subject = new TestCaseValidatorHash(testCase);
+            var suppliedResult = GetTestCase();
+            suppliedResult.Digest = new BitString("BEEFFACE");
+            var result = subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason.Contains("Digest"));
+        }
+
+        private TestCase GetTestCase(int id = 1)
+        {
+            var testCase = new TestCase
+            {
+                Digest = new BitString("1234567890ABCDEF1234567890ABCDEF"),
+                TestCaseId = id
+            };
+
+            return testCase;
+        }
+    }
+}
