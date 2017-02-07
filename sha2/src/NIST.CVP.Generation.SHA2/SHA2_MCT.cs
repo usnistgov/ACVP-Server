@@ -10,9 +10,9 @@ namespace NIST.CVP.Generation.SHA2
 {
     public class SHA2_MCT : ISHA2_MCT
     {
-        private readonly ISHA2 _iSHA2;
+        private readonly ISHA _iSHA2;
 
-        public SHA2_MCT(ISHA2 iSHA2)
+        public SHA2_MCT(ISHA iSHA2)
         {
             _iSHA2 = iSHA2;
         }

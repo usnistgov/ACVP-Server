@@ -8,9 +8,14 @@ namespace NIST.CVP.Generation.SHA
 {
     public class SHAFactory : ISHAFactory
     {
-        public SHA GetSHA(HashFunction hashFunction)
+        public ISHA GetSHA(HashFunction hashFunction)
         {
             var shaInternals = new SHAInternals(hashFunction);
+
+            if (!IsValidHashFunction(hashFunction))
+            {
+                throw new ArgumentException($"Invalid hash function. Cannot combine {hashFunction.Mode} and {hashFunction.DigestSize}.");
+            }
 
             switch (hashFunction.Mode)
             {
@@ -21,6 +26,26 @@ namespace NIST.CVP.Generation.SHA
                 default:
                     throw new ArgumentException($"Invalid value for {nameof(hashFunction.Mode)}");
             }
+        }
+
+        private bool IsValidHashFunction(HashFunction hashFunction)
+        {
+            if(hashFunction.Mode == ModeValues.SHA1)
+            {
+                if(hashFunction.DigestSize != DigestSizes.d160)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if(hashFunction.DigestSize == DigestSizes.d160)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -6,8 +6,8 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.SHA
 {
-    public interface ISHAFactory
+    public interface ISHA
     {
-        ISHA GetSHA(HashFunction hashFunction);
+        BitString HashMessage(BitString message);
     }
 }

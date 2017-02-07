@@ -8,7 +8,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.SHA
 {
-    public class SHA2 : SHA
+    public class SHA2 : ISHA
     {
         // Internal state variables
         private BitString[] _k;
@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.SHA
             _sigmaShifts = _shaProperties.SigmaShifts;
         }
 
-        public override BitString HashMessage(BitString message)
+        public BitString HashMessage(BitString message)
         {
             _k = _shaProperties.KValues;
             _h = _shaProperties.HValues;

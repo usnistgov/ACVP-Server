@@ -8,7 +8,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.SHA
 {
-    public class SHA1 : SHA
+    public class SHA1 : ISHA
     {
         private BitString[] _k;
         private BitString[] _h;
@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.SHA
             _shaProperties = _shaInternals.SHAProperties;
         }
 
-        public override BitString HashMessage(BitString message)
+        public BitString HashMessage(BitString message)
         {
             _k = _shaProperties.KValues;
             _h = _shaProperties.HValues;

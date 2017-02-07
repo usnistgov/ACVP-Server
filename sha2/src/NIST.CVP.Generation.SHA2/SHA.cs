@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.SHA2
 {
-    public class SHA2 : ISHA2
+    public class SHA : ISHA
     {
         private readonly ISHAFactory _iSHAFactory;
 
-        public SHA2(ISHAFactory iSHAFactory)
+        public SHA(ISHAFactory iSHAFactory)
         {
             _iSHAFactory = iSHAFactory;
         }
 
-        public SHA2()
+        public SHA()
         {
             _iSHAFactory = new SHAFactory();
         }

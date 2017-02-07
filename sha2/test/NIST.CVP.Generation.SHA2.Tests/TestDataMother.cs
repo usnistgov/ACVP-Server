@@ -1,0 +1,45 @@
+﻿using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.SHA;
+using NIST.CVP.Math;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace NIST.CVP.Generation.SHA2.Tests
+{
+    public class TestDataMother
+    {
+        public List<TestGroup> GetTestGroups(HashFunction hashFunction, int groups = 1, bool failureTest = false)
+        {
+            var testGroups = new List<TestGroup>();
+            for(int groupIdx = 0; groupIdx < groups; groupIdx++)
+            {
+                var tests = new List<ITestCase>();
+                for(int testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
+                {
+                    tests.Add(new TestCase
+                    {
+                        Message = new BitString("BEEFFACE"),
+                        Deferred = false,
+                        FailureTest = failureTest,
+                        Digest = new BitString("FACEDAD1"),
+                        TestCaseId = testId
+                    });
+                }
+
+                testGroups.Add(new TestGroup
+                {
+                    Function = hashFunction.Mode,
+                    DigestSize = hashFunction.DigestSize + groupIdx,        // This is bad and will fail for many groups but needs to be done to separate the tests based on different hashes...
+                    TestType = "multiblockmessage",
+                    BitOriented = false,
+                    IncludeNull = false,
+                    Tests = tests
+                });
+            }
+
+            return testGroups;
+        }
+    }
+}

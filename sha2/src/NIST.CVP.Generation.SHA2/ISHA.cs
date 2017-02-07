@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.SHA2
 {
-    public interface ISHA2
+    public interface ISHA
     {
         HashResult HashMessage(HashFunction hashFunction, BitString message);
     }

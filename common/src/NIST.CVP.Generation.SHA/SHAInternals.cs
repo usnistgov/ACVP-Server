@@ -22,10 +22,7 @@ namespace NIST.CVP.Generation.SHA
         public BitString PreProcessing(BitString message)
         {
             var messageLength = message.BitLength;
-            if(message.BitLength % 8 == 0)
-            {
-                message = BitString.ConcatenateBits(message, new BitString("80"));
-            }
+            message = BitString.ConcatenateBits(message, new BitString("80", 1));
 
             var bitsNeeded = ((((SHAProperties.BlockSize - SHAProperties.AppendedLength) - message.BitLength) % SHAProperties.BlockSize) + SHAProperties.BlockSize) % SHAProperties.BlockSize;
             message = BitString.ConcatenateBits(message, new BitString(bitsNeeded));
