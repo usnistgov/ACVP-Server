@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
+using Microsoft.Extensions.PlatformAbstractions;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.TDES_ECB;
 using NLog;
@@ -16,6 +17,7 @@ namespace tdes_ecb
     {
         public static int Main(string[] args)
         {
+
             if (args.Length < 1)
             {
                 Console.Error.WriteLine("No arguments supplied");
@@ -23,6 +25,7 @@ namespace tdes_ecb
             }
             var requestFile = args[0];
             LoggingHelper.ConfigureLogging(requestFile, "tdes-ecb");
+            Logger.Info($"Running {PlatformServices.Default.Application.ApplicationName} { PlatformServices.Default.Application.ApplicationVersion}");
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
             //get generator and call it

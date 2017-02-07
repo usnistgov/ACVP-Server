@@ -4,6 +4,7 @@
     {
       "direction": "encrypt",
       "testType": "Permutation",
+      "numberOfKeys": 1,
       "tests": [
         {
           "tcId": 1,
@@ -170,6 +171,7 @@
     {
       "direction": "encrypt",
       "testType": "InversePermutation",
+      "numberOfKeys": 1,
       "tests": [
         {
           "tcId": 33,
@@ -496,6 +498,7 @@
     {
       "direction": "encrypt",
       "testType": "SubstitutionTable",
+      "numberOfKeys": 1,
       "tests": [
         {
           "tcId": 97,
@@ -597,6 +600,7 @@
     {
       "direction": "encrypt",
       "testType": "VariableKey",
+      "numberOfKeys": 1,
       "tests": [
         {
           "tcId": 116,
@@ -883,6 +887,7 @@
     {
       "direction": "encrypt",
       "testType": "VariableText",
+      "numberOfKeys": 1,
       "tests": [
         {
           "tcId": 172,
@@ -1209,103 +1214,105 @@
     {
       "direction": "encrypt",
       "testType": "MultiBlockMessage",
+      "numberOfKeys": 3,
       "tests": [
         {
           "tcId": 236,
-          "plainText": "4C5BAF7A2F3E9981",
-          "key1": "6DE189E46C7AE553",
-          "key2": "6D33832ED49956F7",
-          "key3": "AF9535784F14A521"
+          "plainText": "C8D8994F554F8D2F",
+          "key1": "D64D773B7FF3C283",
+          "key2": "7DC7B41407FD95FE",
+          "key3": "EFF1A98962E4286C"
         },
         {
           "tcId": 237,
-          "plainText": "22C62D21485C4DFA483566F6DECDA6C4",
-          "key1": "97C72C5F06864C35",
-          "key2": "489F4209E0277DAD",
-          "key3": "F7A831A60561E677"
+          "plainText": "4D046C65F66534BC649F9C59FB320DDA",
+          "key1": "F4A705BEA4BCEB73",
+          "key2": "CE33D442A5913689",
+          "key3": "6A2336785A4F1DA1"
         },
         {
           "tcId": 238,
-          "plainText": "A61E086CFFE48E42C235606DDCC96386072657E6BBE5DF47",
-          "key1": "4600CA64FF41C91F",
-          "key2": "4BED54292DF9F6F9",
-          "key3": "3F64016267BF833D"
+          "plainText": "89883ABAD8A2D77A320DA20E34066FE606683C6F0DE82C97",
+          "key1": "ED1027036A7F5A76",
+          "key2": "9C0A33DC64E18159",
+          "key3": "5B93A8E604F6899E"
         },
         {
           "tcId": 239,
-          "plainText": "4F1C58617A30423599A6B140F45956A5C01CCE2ED55B3EC03FD900E5D5BD7F94",
-          "key1": "BFDD118AC5A6F1CF",
-          "key2": "A158A81C831F7882",
-          "key3": "72BEC6EB57281160"
+          "plainText": "555C1BBCDEBF84ECF472533405BB90254C195EBBA7E35FA35D3338852BF04D4D",
+          "key1": "D38ED52C6D7EDB18",
+          "key2": "1DEB85BFBA6D0879",
+          "key3": "764A99ED0A80C82A"
         },
         {
           "tcId": 240,
-          "plainText": "3FB0EA48E493E0EB4A97E8387BA52ECFB14CC9EF6156D8C9BCB8B00BC5A10C2267DE5ED0A3A023D8",
-          "key1": "E27EE9B7331FE5D5",
-          "key2": "0173834DDDC2DF9E",
-          "key3": "818DE8086CC36933"
+          "plainText": "81C8EFDFADC5C30DB23BBFD38A1C0522A852113C24307A9F06A379A10E6C8E0288A05478013FFBDA",
+          "key1": "F99F881A9C4731C2",
+          "key2": "BA6244A2601610D5",
+          "key3": "41F01EA9A0BDAC3A"
         },
         {
           "tcId": 241,
-          "plainText": "CC005FBC7CB88AEE5A08CAD38ACC802B9E860E16590D84ECCDB6B87ED54D803922CF0B0E94601627DF74D31C2BDA5774",
-          "key1": "3A2E62B9A1D3EED7",
-          "key2": "0FF31D93DF69632D",
-          "key3": "25F5ADE141BA5A01"
+          "plainText": "6B150EC5A8EE4E1999953B521DC11BD8594955104804FC06935A9BC192FBD3ECCED03DB3AEB4AFB1AF27F5B3DD00BA52",
+          "key1": "43B5163773DF97A9",
+          "key2": "C9BD7A579FFD418E",
+          "key3": "481953D7145E8E6F"
         },
         {
           "tcId": 242,
-          "plainText": "07E2885C2DCA9537427263E08514B0FB66BBC77121C1F962D98E71F6FBEC9FC1D394708CC6E910C4D28A4DA6653A40848D113A00F4E7F377",
-          "key1": "6E4E453E8E68C190",
-          "key2": "18C81BC6983E0CA0",
-          "key3": "BCBB59143868B11F"
+          "plainText": "614C96F572FD1F1C818D9E5D58D1E0A0AE0B0DAAB725D69413EF7E386A4292AF3AA7DD63E5BD099AB53EE4CE008198E6F7CDB1AC7378623E",
+          "key1": "B07BB27C97D55B66",
+          "key2": "5B9EDFF1B7D76D5F",
+          "key3": "B781231A648710C6"
         },
         {
           "tcId": 243,
-          "plainText": "101EA387D82CF6F267FC733A5AC2E569F96703A7D29527E3516B3651A433D42150AB06BCD9D9CE34CEB6C5617FD30119E5195B955DC1B917DA7D60A661C4A92D",
-          "key1": "5DF20E5CDBCB8254",
-          "key2": "FC61698CAC0260B2",
-          "key3": "1297154D6032135F"
+          "plainText": "C0AC38090E04B7FE6FDDEC9EA36108D00D439D8BFA6D6D4E2BE8A516AE15B4606C54C951E573711495C29533F0B068213C3EF0486DFCC489FD1E7D80194DC004",
+          "key1": "10DD4E0C83440FFE",
+          "key2": "8C0B87BFF76B6DA8",
+          "key3": "68BE636F1AC43DBB"
         },
         {
           "tcId": 244,
-          "plainText": "183074BE37DB05B8C20C23210D8BA29414D65D8B64857B0FC06AF020AB2F5BB702DA39C35CE88E5ABECC4733A771FBCF0E37C3D7B9C4DF51F4D0A6C636C4850940CA93095BB1CBD8",
-          "key1": "AD165044D670E067",
-          "key2": "3026E430399C8196",
-          "key3": "E3947428C03C710E"
+          "plainText": "1960FDF1F537CC545EF27DF813B0795FBF27B38E8367D4337EE70F3D7A048B62A7DBC8E034BD9AC3BE586223A3E08DAD3646174B1A22E4E14032AE90FA8AADC11621D9A05EB0A6D7",
+          "key1": "73CDB1674915652D",
+          "key2": "770AC728C5A18480",
+          "key3": "7C2690DB940D906F"
         },
         {
           "tcId": 245,
-          "plainText": "6B4AABE88EC31CE3DF6E5A2FECE927023BEF18B23746A06CFA086F51006DC0535CA26807546CFDAD5FC9D499262B6EE0386A0FABEA7FDDD35100548B717BADB307805B5BCA5F6D4A9A0232151AF26D4F",
-          "key1": "93E1CCAD21C8D3B8",
-          "key2": "FD3267C2B798B091",
-          "key3": "DEEE8C937B01C105"
+          "plainText": "7F23B5C8D1C1B94DF7ED403E2946384B790D9A6EB0D4A743F4D8185903E642510B141C5BADDB3BD4B4C588A66C28D2CC4102FA28F383279C7F63A30D966E137F93AC67FB137A4D73358DF1D87026A698",
+          "key1": "E5AEC71766D5FD72",
+          "key2": "102FD5FB4F7062A5",
+          "key3": "9DF9CC12C0B77B09"
         }
       ]
     },
     {
       "direction": "encrypt",
       "testType": "MonteCarlo",
+      "numberOfKeys": 3,
       "tests": [
         {
           "tcId": 246,
-          "plainText": "0610244C3392C25E",
-          "key1": "F82DB57EDF52310E",
-          "key2": "95AC918DF9B93166",
-          "key3": "70E76AA1EA97223B"
+          "plainText": "809629975F2A1D2F",
+          "key1": "10CCEAD52261622D",
+          "key2": "3A4615B4FF2934F9",
+          "key3": "B4E7FE13E5A27713"
         },
         {
           "tcId": 247,
-          "plainText": "DBFBE2AEF1B65C73",
-          "key1": "FE3D9132ECC0F350",
-          "key2": "9D8948F8A6AE69B3",
-          "key3": "778BDD3A70BBCC6F"
+          "plainText": "C9F29238DCCF37C1",
+          "key1": "905AC3427D4B7F02",
+          "key2": "F638CB2BF5321246",
+          "key3": "5A9B1CBAEE8E2DE1"
         },
         {
           "tcId": 248,
-          "plainText": "399D09CD0290F33A",
-          "key1": "25C6739C1D76AF23",
-          "key2": "55E10C561AF0FBE9",
-          "key3": "954C3A3D84E5D659"
+          "plainText": "7CA4C66A05175DB5",
+          "key1": "59A8517AA18448C3",
+          "key2": "E81BA67567C0A9E2",
+          "key3": "D18E8DDB17EA9433"
         }
       ]
     }

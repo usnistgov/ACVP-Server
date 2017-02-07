@@ -7,6 +7,7 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using Autofac;
+using Microsoft.Extensions.PlatformAbstractions;
 using NIST.CVP.Generation.Core;
 
 namespace TDES_ECB_Val
@@ -26,8 +27,8 @@ namespace TDES_ECB_Val
             var promptFile = args[1];
             var answerFile = args[2];
             LoggingHelper.ConfigureLogging(resultFile, "tdes-ecb-val");
-            LogManager.ThrowExceptions = true;
-            
+            Logger.Info($"Running {PlatformServices.Default.Application.ApplicationName} { PlatformServices.Default.Application.ApplicationVersion}");
+
             Logger.Info($"Validating test results for {resultFile}");
             try
             {
