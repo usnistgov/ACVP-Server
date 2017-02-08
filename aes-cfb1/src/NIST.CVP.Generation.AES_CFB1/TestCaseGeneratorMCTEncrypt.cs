@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -23,12 +25,12 @@ namespace NIST.CVP.Generation.AES_CFB1
         {
             var iv = _iRandom80090.GetRandomBitString(128);
             var key = _iRandom80090.GetRandomBitString(@group.KeyLength);
-            var plainText = _iRandom80090.GetRandomBitString(128);
+            var plainText = _iRandom80090.GetRandomBitString(1).GetMostSignificantBits(1);
             TestCase testCase = new TestCase()
             {
                 IV = iv,
                 Key = key,
-                PlainText = plainText,
+                PlainText = BitOrientedBitString.GetDerivedFromBase(plainText),
                 Deferred = false
             };
 
@@ -37,7 +39,7 @@ namespace NIST.CVP.Generation.AES_CFB1
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            MCTResult encryptionResult = null;
+            MCTResult<BitOrientedAlgoArrayResponse> encryptionResult = null;
             try
             {
                 encryptionResult = _iAesOfbMct.MCTEncrypt(testCase.IV, testCase.Key, testCase.PlainText);

@@ -40,23 +40,23 @@ namespace NIST.CVP.Generation.AES_CFB1
                 ResultsArray = ResultsArrayToObject(source.resultsArray);
             }
 
-            IV = BitStringFromObject("iv", (ExpandoObject) source);
-            Key = BitStringFromObject("key", (ExpandoObject) source);
-            CipherText = BitStringFromObject("cipherText", (ExpandoObject)source);
-            PlainText = BitStringFromObject("plainText", (ExpandoObject)source);
+            IV = BitStringFromObject("iv", (ExpandoObject) source, false);
+            Key = BitStringFromObject("key", (ExpandoObject) source, false);
+            CipherText = BitOrientedBitString.GetDerivedFromBase(BitStringFromObject("cipherText", (ExpandoObject)source, true));
+            PlainText = BitOrientedBitString.GetDerivedFromBase(BitStringFromObject("plainText", (ExpandoObject)source, true));
         }
 
-        private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
+        private List<BitOrientedAlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
         {
-            List<AlgoArrayResponse> list = new List<AlgoArrayResponse>();
+            List<BitOrientedAlgoArrayResponse> list = new List<BitOrientedAlgoArrayResponse>();
 
             foreach (dynamic item in resultsArray)
             {
-                AlgoArrayResponse response = new AlgoArrayResponse();
-                response.IV = BitStringFromObject("iv", (ExpandoObject)item);
-                response.Key = BitStringFromObject("key", (ExpandoObject)item);
-                response.PlainText = BitStringFromObject("plainText", (ExpandoObject)item);
-                response.CipherText = BitStringFromObject("cipherText", (ExpandoObject)item);
+                BitOrientedAlgoArrayResponse response = new BitOrientedAlgoArrayResponse();
+                response.IV = BitStringFromObject("iv", (ExpandoObject)item, false);
+                response.Key = BitStringFromObject("key", (ExpandoObject)item, false);
+                response.PlainText = BitOrientedBitString.GetDerivedFromBase(BitStringFromObject("plainText", (ExpandoObject)item, true));
+                response.CipherText = BitOrientedBitString.GetDerivedFromBase(BitStringFromObject("cipherText", (ExpandoObject)item, true));
 
                 list.Add(response);
             }
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.AES_CFB1
             return list;
         }
 
-        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
+        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source, bool isBitsModeBitString)
         {
             if (!source.ContainsProperty(sourcePropertyName))
             {
@@ -79,8 +79,13 @@ namespace NIST.CVP.Generation.AES_CFB1
             if (valueAsBitString != null)
             {
                 return valueAsBitString;
-                
             }
+
+            if (isBitsModeBitString)
+            {
+                return BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(sourcePropertyValue.ToString());
+            }
+
             return new BitString(sourcePropertyValue.ToString());
         }
 
@@ -93,10 +98,10 @@ namespace NIST.CVP.Generation.AES_CFB1
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
         public BitString IV { get; set; } 
-        public BitString PlainText { get; set; }
+        public BitOrientedBitString PlainText { get; set; }
         public BitString Key { get; set; }
-        public BitString CipherText { get; set; }
-        public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
+        public BitOrientedBitString CipherText { get; set; }
+        public List<BitOrientedAlgoArrayResponse> ResultsArray { get; set; } = new List<BitOrientedAlgoArrayResponse>();
 
 
         public bool Merge(ITestCase otherTest)
@@ -146,12 +151,12 @@ namespace NIST.CVP.Generation.AES_CFB1
 
                 case "plaintext":
                 case "pt":
-                    ResultsArray[index].PlainText = new BitString(value);
+                    ResultsArray[index].PlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(value);
                     return true;
 
                 case "ciphertext":
                 case "ct":
-                    ResultsArray[index].CipherText = new BitString(value);
+                    ResultsArray[index].CipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(value);
                     return true;
             }
             return false;
@@ -176,12 +181,12 @@ namespace NIST.CVP.Generation.AES_CFB1
 
                 case "plaintext":
                 case "pt":
-                    PlainText= new BitString(value);
+                    PlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(value);
                     return true;
 
                 case "ciphertext":
                 case "ct":
-                    CipherText = new BitString(value);
+                    CipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(value);
                     return true;
             }
             return false;

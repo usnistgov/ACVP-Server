@@ -4,7 +4,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.Core
 {
-    public class BitstringConverter:JsonConverter
+    public class BitstringConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

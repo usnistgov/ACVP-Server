@@ -105,7 +105,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         #region GFSbox
         [Test]
         [TestCaseSource(nameof(_GetGFSBox128BitKey))]
-        public void ShouldGFSboxCorrectlyWith128BitKey(string testName, AlgoArrayResponse algoArrayResponse)
+        public void ShouldGFSboxCorrectlyWith128BitKey(string testName, BitOrientedAlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
 
@@ -115,7 +115,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 
         [Test]
         [TestCaseSource(nameof(_GetGFSBox192BitKey))]
-        public void ShouldGFSboxCorrectlyWith192BitKey(string testName, AlgoArrayResponse algoArrayResponse)
+        public void ShouldGFSboxCorrectlyWith192BitKey(string testName, BitOrientedAlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
 
@@ -125,7 +125,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 
         [Test]
         [TestCaseSource(nameof(_GetGFSBox256BitKey))]
-        public void ShouldGFSboxCorrectlyWith256BitKey(string testName, AlgoArrayResponse algoArrayResponse)
+        public void ShouldGFSboxCorrectlyWith256BitKey(string testName, BitOrientedAlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
 
@@ -137,7 +137,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         #region KeySBox
         [Test]
         [TestCaseSource(nameof(_GetKeySBox128BitKey))]
-        public void ShouldKeySboxCorrectlyWith128BitKey(string testName, AlgoArrayResponse algoArrayResponse)
+        public void ShouldKeySboxCorrectlyWith128BitKey(string testName, BitOrientedAlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
 
@@ -147,7 +147,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 
         [Test]
         [TestCaseSource(nameof(_GetKeySBox192BitKey))]
-        public void ShouldKeySboxCorrectlyWith192BitKey(string testName, AlgoArrayResponse algoArrayResponse)
+        public void ShouldKeySboxCorrectlyWith192BitKey(string testName, BitOrientedAlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
 
@@ -157,7 +157,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 
         [Test]
         [TestCaseSource(nameof(_GetKeySBox256BitKey))]
-        public void ShouldKeySboxCorrectlyWith256BitKey(string testName, AlgoArrayResponse algoArrayResponse)
+        public void ShouldKeySboxCorrectlyWith256BitKey(string testName, BitOrientedAlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
 
@@ -169,7 +169,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         #region VarTxt
         [Test]
         [TestCaseSource(nameof(_GetVarTxt128BitKey))]
-        public void ShouldVarTxtCorrectlyWith128BitKey(string testName, AlgoArrayResponse algoArrayResponse)
+        public void ShouldVarTxtCorrectlyWith128BitKey(string testName, BitOrientedAlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
 
@@ -179,7 +179,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         
         [Test]
         [TestCaseSource(nameof(_GetVarTxt192BitKey))]
-        public void ShouldVarTxtCorrectlyWith192BitKey(string testName, AlgoArrayResponse algoArrayResponse)
+        public void ShouldVarTxtCorrectlyWith192BitKey(string testName, BitOrientedAlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
 
@@ -189,7 +189,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 
         [Test]
         [TestCaseSource(nameof(_GetVarTxt256BitKey))]
-        public void ShouldVarTxtCorrectlyWith256BitKey(string testName, AlgoArrayResponse algoArrayResponse)
+        public void ShouldVarTxtCorrectlyWith256BitKey(string testName, BitOrientedAlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
 
@@ -201,7 +201,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         #region VarKey
         [Test]
         [TestCaseSource(nameof(_GetVarKey128BitKey))]
-        public void ShouldVarKeyCorrectlyWith128BitKey(string testName, AlgoArrayResponse algoArrayResponse)
+        public void ShouldVarKeyCorrectlyWith128BitKey(string testName, BitOrientedAlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
 
@@ -211,7 +211,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 
         [Test]
         [TestCaseSource(nameof(_GetVarKey192BitKey))]
-        public void ShouldVarKeyCorrectlyWith196BitKey(string testName, AlgoArrayResponse algoArrayResponse)
+        public void ShouldVarKeyCorrectlyWith196BitKey(string testName, BitOrientedAlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
 
@@ -221,7 +221,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 
         [Test]
         [TestCaseSource(nameof(_GetVarKey256BitKey))]
-        public void ShouldVarKeyCorrectlyWith256BitKey(string testName, AlgoArrayResponse algoArrayResponse)
+        public void ShouldVarKeyCorrectlyWith256BitKey(string testName, BitOrientedAlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
 

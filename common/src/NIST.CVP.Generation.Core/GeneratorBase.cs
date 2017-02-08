@@ -11,6 +11,13 @@ namespace NIST.CVP.Generation.Core
     {
         public const int NUMBER_OF_CASES = 15; //@@@Make configurable
 
+        protected readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>();
+        
+        public GeneratorBase()
+        {
+            _jsonConverters.Add(new BitstringConverter());
+        }
+
         public readonly List<JsonOutputDetail> JsonOutputs = new List<JsonOutputDetail>
         {
             new JsonOutputDetail { OutputFileName = "answer.json", Resolver = new AnswerResolver()},
@@ -40,11 +47,10 @@ namespace NIST.CVP.Generation.Core
                 new JsonSerializerSettings
                 {
                     ContractResolver = jsonOutput.Resolver,
-                    Converters = new List<JsonConverter> { new BitstringConverter() },
+                    Converters = _jsonConverters,
                     NullValueHandling = NullValueHandling.Ignore
                 });
             return SaveToFile(outputPath, jsonOutput.OutputFileName, json);
-            
         }
 
         private string SaveToFile(string fileRoot, string fileName, string json)

@@ -11,9 +11,6 @@ namespace NIST.CVP.Generation.AES_CFB1
         private readonly IRandom800_90 _random800_90;
         private readonly IAES_CFB1 _algo;
 
-        private const int _PT_LENGTH_MULTIPLIER = 16;
-        private const int _BITS_IN_BYTE = 8;
-
         private int _ptLenGenIteration = 1;
 
         public int NumberOfTestCasesToGenerate { get { return 10; } }
@@ -26,15 +23,14 @@ namespace NIST.CVP.Generation.AES_CFB1
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
-            
             var key = _random800_90.GetRandomBitString(group.KeyLength);
-            var plainText = _random800_90.GetRandomBitString(_ptLenGenIteration++ * _PT_LENGTH_MULTIPLIER * _BITS_IN_BYTE);
+            var plainText = _random800_90.GetRandomBitString(_ptLenGenIteration).GetMostSignificantBits(_ptLenGenIteration++);
             var iv = _random800_90.GetRandomBitString(Cipher._MAX_IV_BYTE_LENGTH * 8);
             var testCase = new TestCase
             {
                 IV = iv,
                 Key = key,
-                PlainText = plainText,
+                PlainText = BitOrientedBitString.GetDerivedFromBase(plainText),
                 Deferred = false
             };
             return Generate(group, testCase);
@@ -61,7 +57,7 @@ namespace NIST.CVP.Generation.AES_CFB1
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
-            testCase.CipherText = encryptionResult.CipherText;
+            testCase.CipherText = BitOrientedBitString.GetDerivedFromBase(encryptionResult.CipherText);
             return new TestCaseGenerateResponse(testCase);
         }
 

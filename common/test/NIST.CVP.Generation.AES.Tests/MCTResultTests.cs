@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.AES.Tests
                 list.Add(new AlgoArrayResponse());
             }
 
-            MCTResult subject = new MCTResult(list);
+            MCTResult<AlgoArrayResponse> subject = new MCTResult<AlgoArrayResponse>(list);
 
             Assert.AreEqual(numberOfResponses, subject.Response.Count);
         }
@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.AES.Tests
         public void ShouldBeSuccessfulWhenResponsesAssignedToInstance()
         {
             List<AlgoArrayResponse> list = new List<AlgoArrayResponse>();
-            MCTResult subject = new MCTResult(list);
+            MCTResult<AlgoArrayResponse> subject = new MCTResult<AlgoArrayResponse>(list);
 
             Assert.IsTrue(subject.Success, nameof(subject.Success));
             Assert.IsTrue(string.IsNullOrEmpty(subject.ErrorMessage), nameof(subject.ErrorMessage));
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.AES.Tests
         public void ShouldBeNotSuccessfulOnError()
         {
             string error = "Error!";
-            MCTResult subject = new MCTResult(error);
+            MCTResult<AlgoArrayResponse> subject = new MCTResult<AlgoArrayResponse>(error);
 
             Assert.IsFalse(subject.Success, nameof(subject.Success));
             Assert.AreEqual(error, subject.ErrorMessage);

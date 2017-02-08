@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.AES_CFB1
     {
         public MultipleTestCaseGenerateResponse<TestCase> Generate(TestGroup testGroup)
         {
-            List<AlgoArrayResponse> data = new List<AlgoArrayResponse>();
+            List<BitOrientedAlgoArrayResponse> data = new List<BitOrientedAlgoArrayResponse>();
 
             switch (testGroup.KeyLength)
             {

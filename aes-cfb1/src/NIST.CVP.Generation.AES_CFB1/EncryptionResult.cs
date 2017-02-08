@@ -4,9 +4,9 @@ namespace NIST.CVP.Generation.AES_CFB1
 {
     public class EncryptionResult
     {
-        public BitString CipherText { get; private set; }
+        public BitOrientedBitString CipherText { get; private set; }
         public string ErrorMessage { get; private set; }
-        public EncryptionResult(BitString cipherText)
+        public EncryptionResult(BitOrientedBitString cipherText)
         {
             CipherText = cipherText;
         }

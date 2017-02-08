@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.AES_CBC
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            MCTResult encryptionResult = null;
+            MCTResult<AlgoArrayResponse> encryptionResult = null;
             try
             {
                 encryptionResult = _iAesEcbMct.MCTEncrypt(testCase.IV, testCase.Key, testCase.PlainText);

@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         {
             string errorMessage = "something bad happened!";
             _mockMCT.Setup(s => s.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new MCTResult(errorMessage));
+                .Returns(new MCTResult<AlgoArrayResponse>(errorMessage));
 
             TestGroup testGroup = new TestGroup()
             {

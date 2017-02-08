@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.AES_CFB1
                 var paddedData = BitString.PadToNextByteBoundry(data);
 
                 var decryptedBits = rijn.BlockEncrypt(cipher, key, paddedData.ToBytes(), data.BitLength);
-                return new DecryptionResult(decryptedBits.GetMostSignificantBits(data.BitLength));
+                return new DecryptionResult(BitOrientedBitString.GetDerivedFromBase(decryptedBits.GetMostSignificantBits(data.BitLength)));
             }
             catch (Exception ex)
             {
@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.AES_CFB1
                 var paddedData = BitString.PadToNextByteBoundry(data);
 
                 var encryptedBits = rijn.BlockEncrypt(cipher, key, paddedData.ToBytes(), data.BitLength);
-                return new EncryptionResult(encryptedBits.GetMostSignificantBits(data.BitLength));
+                return new EncryptionResult(BitOrientedBitString.GetDerivedFromBase(encryptedBits.GetMostSignificantBits(data.BitLength)));
             }
             catch (Exception ex)
             {

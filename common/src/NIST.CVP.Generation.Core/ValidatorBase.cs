@@ -34,10 +34,15 @@ namespace NIST.CVP.Generation.Core
             {
                 return new ValidateResponse(testResultParseResponse.ErrorMessage);
             }
-   
+
             var response = ValidateWorker(answerParseResponse, promptParseResponse, testResultParseResponse);
 
-            var validationJson = JsonConvert.SerializeObject(response, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver(), NullValueHandling = NullValueHandling.Ignore });
+            var validationJson = JsonConvert.SerializeObject(response, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    NullValueHandling = NullValueHandling.Ignore
+                });
             var saveResult = SaveToFile(Path.GetDirectoryName(resultPath), "validation.json", validationJson);
             if (!string.IsNullOrEmpty(saveResult))
             {

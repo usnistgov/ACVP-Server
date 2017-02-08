@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.AES_OFB
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            MCTResult decryptionResult = null;
+            MCTResult<AlgoArrayResponse> decryptionResult = null;
             try
             {
                 decryptionResult = _iAesOfbMct.MCTDecrypt(testCase.IV, testCase.Key, testCase.CipherText);

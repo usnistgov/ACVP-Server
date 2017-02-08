@@ -114,18 +114,6 @@ namespace NIST.CVP.Math
         #region Conversions
 
         /// <summary>
-        /// @@@ TODO
-        /// </summary>
-        /// <param name="bitInputInMsb"></param>
-        /// <returns></returns>
-        public static BitString GetBitStringEachCharacterOfInputIsBit(string bitInputInMsb)
-        {
-            //var bitArray = MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(bitInputInMsb);
-            var bitArray = MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(new string(bitInputInMsb.Reverse().ToArray()));
-            return new BitString(bitArray);
-        }
-
-        /// <summary>
         /// Returns bytes based on <see cref="Bits"/> in MSB.
         /// </summary>
         /// <remarks>

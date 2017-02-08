@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.AES_ECB
         */
         #endregion MonteCarloAlgorithm Pseudocode
 
-        public MCTResult MCTEncrypt(BitString key, BitString plainText)
+        public MCTResult<AlgoArrayResponse> MCTEncrypt(BitString key, BitString plainText)
         {
             List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
 
@@ -94,13 +94,13 @@ namespace NIST.CVP.Generation.AES_ECB
             {
                 ThisLogger.Debug($"i count {i}, j count {j}");
                 ThisLogger.Error(ex);
-                return new MCTResult(ex.Message);
+                return new MCTResult<AlgoArrayResponse>(ex.Message);
             }
 
-            return new MCTResult(responses);
+            return new MCTResult<AlgoArrayResponse>(responses);
         }
 
-        public MCTResult MCTDecrypt(BitString key, BitString cipherText)
+        public MCTResult<AlgoArrayResponse> MCTDecrypt(BitString key, BitString cipherText)
         {
             List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
 
@@ -157,10 +157,10 @@ namespace NIST.CVP.Generation.AES_ECB
             {
                 ThisLogger.Debug($"i count {i}, j count {j}");
                 ThisLogger.Error(ex);
-                return new MCTResult(ex.Message);
+                return new MCTResult<AlgoArrayResponse>(ex.Message);
             }
 
-            return new MCTResult(responses);
+            return new MCTResult<AlgoArrayResponse>(responses);
         }
 
         private Logger ThisLogger

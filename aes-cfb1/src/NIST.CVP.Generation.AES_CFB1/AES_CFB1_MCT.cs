@@ -49,9 +49,9 @@ namespace NIST.CVP.Generation.AES_CFB1
         */
         #endregion MonteCarloAlgorithm Pseudocode
 
-        public MCTResult MCTEncrypt(BitString iv, BitString key, BitString plainText)
+        public MCTResult<BitOrientedAlgoArrayResponse> MCTEncrypt(BitString iv, BitString key, BitString plainText)
         {
-            List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
+            List<BitOrientedAlgoArrayResponse> responses = new List<BitOrientedAlgoArrayResponse>();
 
             int i = 0;
             int j = 0;
@@ -60,11 +60,11 @@ namespace NIST.CVP.Generation.AES_CFB1
             {
                 for (i = 0; i < _OUTPUT_ITERATIONS; i++)
                 {
-                    AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
+                    BitOrientedAlgoArrayResponse iIterationResponse = new BitOrientedAlgoArrayResponse()
                     {
                         IV = iv,
                         Key = key,
-                        PlainText = plainText
+                        PlainText = BitOrientedBitString.GetDerivedFromBase(plainText)
                     };
                     responses.Add(iIterationResponse);
 
@@ -76,7 +76,7 @@ namespace NIST.CVP.Generation.AES_CFB1
                         var jResult = _algo.BlockEncrypt(iv, key, plainText);
                         var jCipherText = jResult.CipherText.GetDeepCopy();
                         previousCipherTexts.Add(jCipherText);
-                        iIterationResponse.CipherText = jCipherText;
+                        iIterationResponse.CipherText = BitOrientedBitString.GetDerivedFromBase(jCipherText);
 
                         if (j < 128)
                         {
@@ -96,15 +96,15 @@ namespace NIST.CVP.Generation.AES_CFB1
             {
                 ThisLogger.Debug($"i count {i}, j count {j}");
                 ThisLogger.Error(ex);
-                return new MCTResult(ex.Message);
+                return new MCTResult<BitOrientedAlgoArrayResponse>(ex.Message);
             }
 
-            return new MCTResult(responses);
+            return new MCTResult<BitOrientedAlgoArrayResponse>(responses);
         }
 
-        public MCTResult MCTDecrypt(BitString iv, BitString key, BitString cipherText)
+        public MCTResult<BitOrientedAlgoArrayResponse> MCTDecrypt(BitString iv, BitString key, BitString cipherText)
         {
-            List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
+            List<BitOrientedAlgoArrayResponse> responses = new List<BitOrientedAlgoArrayResponse>();
 
             int i = 0;
             int j = 0;
@@ -113,11 +113,11 @@ namespace NIST.CVP.Generation.AES_CFB1
             {
                 for (i = 0; i < _OUTPUT_ITERATIONS; i++)
                 {
-                    AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
+                    BitOrientedAlgoArrayResponse iIterationResponse = new BitOrientedAlgoArrayResponse()
                     {
                         IV = iv,
                         Key = key,
-                        CipherText = cipherText
+                        CipherText = BitOrientedBitString.GetDerivedFromBase(cipherText)
                     };
                     responses.Add(iIterationResponse);
 
@@ -129,7 +129,7 @@ namespace NIST.CVP.Generation.AES_CFB1
                         var jResult = _algo.BlockDecrypt(iv, key, cipherText);
                         var jPlainText = jResult.PlainText.GetDeepCopy();
                         previousPlainTexts.Add(jPlainText);
-                        iIterationResponse.PlainText = jPlainText;
+                        iIterationResponse.PlainText = BitOrientedBitString.GetDerivedFromBase(jPlainText);
 
                         if (j < 128)
                         {
@@ -149,10 +149,10 @@ namespace NIST.CVP.Generation.AES_CFB1
             {
                 ThisLogger.Debug($"i count {i}, j count {j}");
                 ThisLogger.Error(ex);
-                return new MCTResult(ex.Message);
+                return new MCTResult<BitOrientedAlgoArrayResponse>(ex.Message);
             }
 
-            return new MCTResult(responses);
+            return new MCTResult<BitOrientedAlgoArrayResponse>(responses);
         }
 
         private void SetupNextOuterLoopValues(ref BitString iv, ref BitString key, ref BitString input, int j, List<BitString> previousOutputs)

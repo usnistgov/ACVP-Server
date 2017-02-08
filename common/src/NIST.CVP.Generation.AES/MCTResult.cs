@@ -3,11 +3,12 @@ using NIST.CVP.Generation.AES;
 
 namespace NIST.CVP.Generation.AES
 {
-    public class MCTResult
+    public class MCTResult<TAlgoArrayResponse>
+        where TAlgoArrayResponse : AlgoArrayResponse
     {
-        public List<AlgoArrayResponse> Response { get; private set; }
+        public List<TAlgoArrayResponse> Response { get; private set; }
         public string ErrorMessage { get; private set; }
-        public MCTResult(List<AlgoArrayResponse> result)
+        public MCTResult(List<TAlgoArrayResponse> result)
         {
             Response = result;
         }

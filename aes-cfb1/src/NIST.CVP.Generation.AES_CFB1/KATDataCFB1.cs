@@ -8,25 +8,25 @@ namespace NIST.CVP.Generation.AES_CFB1
     public class KATDataCFB1
     {
         #region GFSBox
-        public static List<AlgoArrayResponse> GetGFSBox128BitKey()
+        public static List<BitOrientedAlgoArrayResponse> GetGFSBox128BitKey()
         {
-            var results = KATData.GetGFSBox128BitKey();
+            var results = BitOrientedAlgoArrayResponse.GetDerivedFromBase(KATData.GetGFSBox128BitKey());
             GFSBoxTransform(results);
             AllTransform(results);
             return results;
         }
 
-        public static List<AlgoArrayResponse> GetGFSBox192BitKey()
+        public static List<BitOrientedAlgoArrayResponse> GetGFSBox192BitKey()
         {
-            var results = KATData.GetGFSBox192BitKey();
+            var results = BitOrientedAlgoArrayResponse.GetDerivedFromBase(KATData.GetGFSBox192BitKey());
             GFSBoxTransform(results);
             AllTransform(results);
             return results;
         }
 
-        public static List<AlgoArrayResponse> GetGFSBox256BitKey()
+        public static List<BitOrientedAlgoArrayResponse> GetGFSBox256BitKey()
         {
-            var results = KATData.GetGFSBox256BitKey();
+            var results = BitOrientedAlgoArrayResponse.GetDerivedFromBase(KATData.GetGFSBox256BitKey());
             GFSBoxTransform(results);
             AllTransform(results);
             return results;
@@ -34,25 +34,25 @@ namespace NIST.CVP.Generation.AES_CFB1
         #endregion GFSBox
 
         #region KeySBox
-        public static List<AlgoArrayResponse> GetKeySBox128BitKey()
+        public static List<BitOrientedAlgoArrayResponse> GetKeySBox128BitKey()
         {
-            var results = KATData.GetKeySBox128BitKey();
+            var results = BitOrientedAlgoArrayResponse.GetDerivedFromBase(KATData.GetKeySBox128BitKey());
             KeySBoxTransform(results);
             AllTransform(results);
             return results;
         }
 
-        public static List<AlgoArrayResponse> GetKeySBox192BitKey()
+        public static List<BitOrientedAlgoArrayResponse> GetKeySBox192BitKey()
         {
-            var results = KATData.GetKeySBox192BitKey();
+            var results = BitOrientedAlgoArrayResponse.GetDerivedFromBase(KATData.GetKeySBox192BitKey());
             KeySBoxTransform(results);
             AllTransform(results);
             return results;
         }
 
-        public static List<AlgoArrayResponse> GetKeySBox256BitKey()
+        public static List<BitOrientedAlgoArrayResponse> GetKeySBox256BitKey()
         {
-            var results = KATData.GetKeySBox256BitKey();
+            var results = BitOrientedAlgoArrayResponse.GetDerivedFromBase(KATData.GetKeySBox256BitKey());
             KeySBoxTransform(results);
             AllTransform(results);
             return results;
@@ -60,25 +60,25 @@ namespace NIST.CVP.Generation.AES_CFB1
         #endregion KeySBox
 
         #region VarTxt
-        public static List<AlgoArrayResponse> GetVarTxt128BitKey()
+        public static List<BitOrientedAlgoArrayResponse> GetVarTxt128BitKey()
         {
-            var results = KATData.GetVarTxt128BitKey();
+            var results = BitOrientedAlgoArrayResponse.GetDerivedFromBase(KATData.GetVarTxt128BitKey());
             VarTxtTransform(results);
             AllTransform(results);
             return results;
         }
 
-        public static List<AlgoArrayResponse> GetVarTxt192BitKey()
+        public static List<BitOrientedAlgoArrayResponse> GetVarTxt192BitKey()
         {
-            var results = KATData.GetVarTxt192BitKey();
+            var results = BitOrientedAlgoArrayResponse.GetDerivedFromBase(KATData.GetVarTxt192BitKey());
             VarTxtTransform(results);
             AllTransform(results);
             return results;
         }
 
-        public static List<AlgoArrayResponse> GetVarTxt256BitKey()
+        public static List<BitOrientedAlgoArrayResponse> GetVarTxt256BitKey()
         {
-            var results = KATData.GetVarTxt256BitKey();
+            var results = BitOrientedAlgoArrayResponse.GetDerivedFromBase(KATData.GetVarTxt256BitKey());
             VarTxtTransform(results);
             AllTransform(results);
             return results;
@@ -86,32 +86,32 @@ namespace NIST.CVP.Generation.AES_CFB1
         #endregion VarTxt
 
         #region VarTxt
-        public static List<AlgoArrayResponse> GetVarKey128BitKey()
+        public static List<BitOrientedAlgoArrayResponse> GetVarKey128BitKey()
         {
-            var results = KATData.GetVarKey128BitKey();
+            var results = BitOrientedAlgoArrayResponse.GetDerivedFromBase(KATData.GetVarKey128BitKey());
             VarKeyTransform(results);
             AllTransform(results);
             return results;
         }
 
-        public static List<AlgoArrayResponse> GetVarKey192BitKey()
+        public static List<BitOrientedAlgoArrayResponse> GetVarKey192BitKey()
         {
-            var results = KATData.GetVarKey192BitKey();
+            var results = BitOrientedAlgoArrayResponse.GetDerivedFromBase(KATData.GetVarKey192BitKey());
             VarKeyTransform(results);
             AllTransform(results);
             return results;
         }
 
-        public static List<AlgoArrayResponse> GetVarKey256BitKey()
+        public static List<BitOrientedAlgoArrayResponse> GetVarKey256BitKey()
         {
-            var results = KATData.GetVarKey256BitKey();
+            var results = BitOrientedAlgoArrayResponse.GetDerivedFromBase(KATData.GetVarKey256BitKey());
             VarKeyTransform(results);
             AllTransform(results);
             return results;
         }
         #endregion VarTxt
         
-        private static void GFSBoxTransform(List<AlgoArrayResponse> results)
+        private static void GFSBoxTransform(List<BitOrientedAlgoArrayResponse> results)
         {
             // IV should be the pt from the original set
             results.ForEach(fe =>
@@ -120,17 +120,17 @@ namespace NIST.CVP.Generation.AES_CFB1
             });
         }
 
-        private static void KeySBoxTransform(List<AlgoArrayResponse> results)
+        private static void KeySBoxTransform(List<BitOrientedAlgoArrayResponse> results)
         {
             // nothing
         }
 
-        private static void VarKeyTransform(List<AlgoArrayResponse> results)
+        private static void VarKeyTransform(List<BitOrientedAlgoArrayResponse> results)
         {
             // nothing
         }
 
-        private static void VarTxtTransform(List<AlgoArrayResponse> results)
+        private static void VarTxtTransform(List<BitOrientedAlgoArrayResponse> results)
         {
             // IV should be the pt from the original set
             results.ForEach(fe =>
@@ -139,15 +139,15 @@ namespace NIST.CVP.Generation.AES_CFB1
             });
         }
 
-        private static void AllTransform(List<AlgoArrayResponse> results)
+        private static void AllTransform(List<BitOrientedAlgoArrayResponse> results)
         {
             // CFB1 - PT is always "0" (hex), CT is the most significant bit of the normal KAT.
             results.ForEach(fe =>
             {
-                fe.PlainText = BitString.GetBitStringEachCharacterOfInputIsBit("0");
+                fe.PlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
                 var mostSignificantBit = BitString.GetMostSignificantBits(1, fe.CipherText).Bits[0];
                 var newBitString = mostSignificantBit ? "1" : "0";
-                fe.CipherText = BitString.GetBitStringEachCharacterOfInputIsBit(newBitString);
+                fe.CipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(newBitString);
             });
         }
     }

@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Parsers
                 TestGroup currentGroup = null;
                 TestCase currentTestCase = null;
                 int currentResultArrayPosition = 0;
-                AlgoArrayResponse currentArrayResponse = null;
+                BitOrientedAlgoArrayResponse currentArrayResponse = null;
 
                 int lineIterator = 0;
 
@@ -78,9 +78,9 @@ namespace NIST.CVP.Generation.AES_CFB1.Parsers
                         if (workingLine.StartsWith("COUNT = 0", StringComparison.OrdinalIgnoreCase))
                         {
                             currentTestCase = new TestCase() { TestCaseId = 0 };
-                            currentTestCase.ResultsArray = new List<AlgoArrayResponse>();
+                            currentTestCase.ResultsArray = new List<BitOrientedAlgoArrayResponse>();
                             currentResultArrayPosition = 0;
-                            currentArrayResponse = new AlgoArrayResponse();
+                            currentArrayResponse = new BitOrientedAlgoArrayResponse();
                             currentTestCase.ResultsArray.Add(currentArrayResponse);
 
                             currentGroup.Tests.Add(currentTestCase);
@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Parsers
                         if (workingLine.StartsWith("COUNT = ", StringComparison.OrdinalIgnoreCase))
                         {
                             currentResultArrayPosition++;
-                            currentArrayResponse = new AlgoArrayResponse();
+                            currentArrayResponse = new BitOrientedAlgoArrayResponse();
                             currentTestCase.ResultsArray.Add(currentArrayResponse);
                             continue;
                         }

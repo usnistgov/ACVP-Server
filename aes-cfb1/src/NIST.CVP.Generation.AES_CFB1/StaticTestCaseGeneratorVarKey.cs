@@ -10,18 +10,18 @@ namespace NIST.CVP.Generation.AES_CFB1
     {
         public MultipleTestCaseGenerateResponse<TestCase> Generate(TestGroup testGroup)
         {
-            List<AlgoArrayResponse> data = new List<AlgoArrayResponse>();
+            List<BitOrientedAlgoArrayResponse> data = new List<BitOrientedAlgoArrayResponse>();
 
             switch (testGroup.KeyLength)
             {
                 case 128:
-                    data = KATData.GetVarKey128BitKey();
+                    data = KATDataCFB1.GetVarKey128BitKey();
                     break;
                 case 192:
-                    data = KATData.GetVarKey192BitKey();
+                    data = KATDataCFB1.GetVarKey192BitKey();
                     break;
                 case 256:
-                    data = KATData.GetVarKey256BitKey();
+                    data = KATDataCFB1.GetVarKey256BitKey();
                     break;
                 default:
                     return new MultipleTestCaseGenerateResponse<TestCase>($"Invalid {nameof(testGroup.KeyLength)} of {testGroup.KeyLength}");
@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.AES_CFB1
 
             var testCases = data.Select(s => new TestCase()
             {
-                IV = new BitString("00000000000000000000000000000000"),
+                IV = s.IV,
                 Key = s.Key,
                 PlainText = s.PlainText,
                 CipherText = s.CipherText
