@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.SHA2
 {
     public class TestCaseGeneratorMonteCarloHash : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private const int NUMBER_OF_ITERATIONS = 10000;
+        private const int NUMBER_OF_ITERATIONS = 1000;
         private const int NUMBER_OF_DIGESTS_TO_SAVE = 3;
         private const int NUMBER_OF_CASES = 100;
         private const int NUMBER_OF_SAMPLE_CASES = 3;
@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.SHA2
         private int _testCaseId;
         private TestCase _previousCase = null;
         public bool IsSample { get; } = false;
-        private readonly List<BitString> _lastDigests = new List<BitString>();
+        private List<BitString> _lastDigests = new List<BitString>();
         private TestCase _seedCaseForTest = null;
 
         public TestCaseGeneratorMonteCarloHash(IRandom800_90 random800_90, ISHA algo, bool isSample)
@@ -67,19 +67,22 @@ namespace NIST.CVP.Generation.SHA2
 
         public TestCaseGenerateResponse Generate(TestGroup group, TestCase seedCase)
         {
-            TestCase tempTestCase = seedCase;
+            TestCase workingTestCase = seedCase;
             HashFunction hashFunction = new HashFunction
             {
                 Mode = group.Function,
                 DigestSize = group.DigestSize
             };
 
+            FillDigestList(workingTestCase.Message);
+            workingTestCase.Message = MixMessages();
+
             try
             {
                 HashResult hashResult = null;
                 for(var i = 0; i < NUMBER_OF_ITERATIONS; i++)
                 {
-                    hashResult = _algo.HashMessage(hashFunction, tempTestCase.Message);
+                    hashResult = _algo.HashMessage(hashFunction, workingTestCase.Message);
 
                     if (!hashResult.Success)
                     {
@@ -90,7 +93,7 @@ namespace NIST.CVP.Generation.SHA2
                     }
 
                     SaveDigestForMessageMixing(hashResult.Digest);
-                    tempTestCase.Message = MixMessages(hashResult.Digest);
+                    workingTestCase.Message = MixMessages();
                 }
 
                 var testCase = new TestCase { Message = seedCase.Message, Digest = hashResult.Digest, TestCaseId = _testCaseId };
@@ -112,20 +115,12 @@ namespace NIST.CVP.Generation.SHA2
                 return GetInitialSeedCase(group);
             }
 
-            var newMessage = MixMessages(_previousCase.Digest);
-            return new TestCase { Message = newMessage };
+            return new TestCase { Message = _previousCase.Digest };
         }
 
-        private BitString MixMessages(BitString message)
+        private BitString MixMessages()
         {
-            // If we don't have enough digests, just keep adding the given message until we do
-            // Logically this only happens once
-            while(_lastDigests.Count < 3)
-            {
-                SaveDigestForMessageMixing(message);
-            }
-
-            return BitString.ConcatenateBits(_lastDigests[0], BitString.ConcatenateBits(_lastDigests[1], _lastDigests[2]));
+            return BitString.ConcatenateBits(_lastDigests[2], BitString.ConcatenateBits(_lastDigests[1], _lastDigests[0]));
         }
 
         private TestCase GetInitialSeedCase(TestGroup group)
@@ -158,9 +153,16 @@ namespace NIST.CVP.Generation.SHA2
             }
 
             var seed = _random800_90.GetRandomBitString(digestSize);
-            var message = MixMessages(seed);
+            return new TestCase { Message = seed };
+        }
 
-            return new TestCase { Message = message };
+        private void FillDigestList(BitString digest)
+        {
+            _lastDigests = new List<BitString>();
+            while (_lastDigests.Count < 3)
+            {
+                _lastDigests.Add(digest);
+            }
         }
 
         private void SaveDigestForMessageMixing(BitString digest)

@@ -33,16 +33,19 @@ namespace NIST.CVP.Generation.SHA2
 
             var message = new BitString(0);
 
-            if (group.IncludeNull)
+            if (_currentCase == 0)
             {
-                if(_currentCase == 0)
+                if (group.IncludeNull)
                 {
                     _numberOfCases++;
                 }
-            }else
-            {
-                message = _random800_90.GetRandomBitString(unitSize * (_currentCase + 1));
+                else
+                {
+                    _currentCase = 1;
+                }
             }
+
+            message = _random800_90.GetRandomBitString(unitSize * _currentCase);
 
             var testCase = new TestCase
             {

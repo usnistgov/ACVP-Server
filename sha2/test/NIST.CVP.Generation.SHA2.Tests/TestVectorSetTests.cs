@@ -117,7 +117,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         }
 
         [Test]
-        public void EncryptShouldIncludeDigestInAnswerProjection()
+        public void HashShouldIncludeDigestInAnswerProjection()
         {
             var subject = GetSubject(1);
             var results = subject.AnswerProjection;
@@ -130,7 +130,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         }
 
         [Test]
-        public void EncryptShouldIncludeMessageInPromptProjection()
+        public void HashShouldIncludeMessageInPromptProjection()
         {
             var subject = GetSubject(1);
             var results = subject.PromptProjection;
@@ -143,7 +143,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         }
 
         [Test]
-        public void EncryptShouldIncludeDigestInResultProjection()
+        public void HashShouldIncludeDigestInResultProjection()
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
@@ -154,7 +154,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         }
 
         [Test]
-        public void EncryptShouldExcludeMessageInAnswerProjection()
+        public void HashShouldExcludeMessageInAnswerProjection()
         {
             var subject = GetSubject(1);
             var results = subject.AnswerProjection;
@@ -167,7 +167,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         }
 
         [Test]
-        public void EncryptShouldExcludeDigestInPromptProjection()
+        public void HashShouldExcludeDigestInPromptProjection()
         {
             var subject = GetSubject(1);
             var results = subject.PromptProjection;
@@ -180,7 +180,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         }
 
         [Test]
-        public void EncryptShouldExcludeMessageInResultProjection()
+        public void HashShouldExcludeMessageInResultProjection()
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
