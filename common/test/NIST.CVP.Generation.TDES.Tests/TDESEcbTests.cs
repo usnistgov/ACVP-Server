@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.TDES_ECB.Tests
+namespace NIST.CVP.Generation.TDES.Tests
 {
     [TestFixture]
     public class TDESEcbTests
@@ -19,7 +15,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             var expectedBytes = new byte[] { 0x3f, 0xa4, 0x0e, 0x8a, 0x98, 0x4d, 0x48, 0x15 };
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(keyBytes), new BitString(plainTextBytes));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
             var actual = result.CipherText.ToBytes();
             Assert.AreEqual(expectedBytes, actual);
         }
@@ -93,7 +89,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreEqual(new BitString(cipherText), result.CipherText );
         }
@@ -135,7 +131,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreEqual(new BitString(cipherText), result.CipherText);
         }
@@ -164,7 +160,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreEqual(new BitString(cipherText), result.CipherText);
         }
@@ -231,7 +227,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             string plaintext = "0000000000000000";
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreEqual(new BitString(cipherText), result.CipherText);
         }
@@ -306,7 +302,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             string key = "0101010101010101";
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreEqual(new BitString(cipherText), result.CipherText);
         }
@@ -319,7 +315,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreEqual(new BitString(cipherText), result.CipherText);
         }
@@ -331,7 +327,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreNotEqual(new BitString(cipherText), result.CipherText);
         }
@@ -374,7 +370,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
@@ -448,7 +444,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
@@ -477,7 +473,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
@@ -545,7 +541,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             string plaintext = "0000000000000000";
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
@@ -620,7 +616,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             string key = "0101010101010101";
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
@@ -632,7 +628,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
@@ -644,7 +640,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue((bool) result.Success);
 
             Assert.AreNotEqual(new BitString(plaintext), result.PlainText);
         }

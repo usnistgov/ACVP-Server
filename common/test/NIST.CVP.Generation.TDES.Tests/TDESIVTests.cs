@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace NIST.CVP.Generation.TDES_ECB.Tests
+namespace NIST.CVP.Generation.TDES.Tests
 {
     [TestFixture]
     public class TDESIVTests
@@ -20,7 +16,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         public void ShouldCreateThreeIVs()
         {
             var subject = new TDESIVs(new byte[] {0, 0, 0, 0, 0, 0, 0, 0});
-            Assume.That(subject.IVs != null);
+            Assume.That((bool) (subject.IVs != null));
             Assert.AreEqual(3, subject.IVs.Count);
         }
 
@@ -28,7 +24,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         public void ShouldCreateIV2AsR1AddedToIV1()
         {
             var subject = new TDESIVs(new byte[] {0, 0, 0, 0, 0, 0, 0, 0});
-            Assume.That(subject.IVs != null);
+            Assume.That((bool) (subject.IVs != null));
             var iv2 = subject.IVs[1];
             Assert.AreEqual(subject.R1, iv2);
         }
@@ -37,7 +33,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         public void ShouldCreateIV3AsR2AddedToIV1()
         {
             var subject = new TDESIVs(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
-            Assume.That(subject.IVs != null);
+            Assume.That((bool) (subject.IVs != null));
             var iv3 = subject.IVs[2];
             Assert.AreEqual(subject.R2, iv3);
         }

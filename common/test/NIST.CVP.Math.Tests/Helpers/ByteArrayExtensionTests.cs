@@ -90,5 +90,31 @@ namespace NIST.CVP.Math.Tests.Helpers
             var result = bArray.AllBytesHaveOddParity();
             Assert.IsFalse(result);
         }
+
+        [Test]
+        [TestCase(new byte[] { 0 }, 1, 0)]
+        [TestCase(new byte[] { 2 }, 0, 0)]
+        [TestCase(new byte[] { 2 }, 7, 1)]
+        [TestCase(new byte[] { 3 }, 7, 1)]
+        [TestCase(new byte[] { 4 }, 6, 1)]
+        [TestCase(new byte[] { 5 }, 6, 1)]
+        [TestCase(new byte[] { 5 }, 6, 1)]
+        [TestCase(new byte[] { 255 }, 1, 1)]
+        [TestCase(new byte[] { 255 }, 2, 1)]
+        [TestCase(new byte[] { 255 }, 3, 1)]
+        [TestCase(new byte[] { 255 }, 4, 1)]
+        [TestCase(new byte[] { 255 }, 5, 1)]
+        [TestCase(new byte[] { 255 }, 6, 1)]
+        [TestCase(new byte[] { 255 }, 7, 1)]
+        [TestCase(new byte[] { 255 }, 0, 0)]
+        [TestCase(new byte[] { 255,1 }, 8, 0)]
+        [TestCase(new byte[] { 255, 2 }, 15, 1)]
+        [TestCase(new byte[] { 0, 3 }, 15, 1)]
+        [TestCase(new byte[] { 0,0,255 }, 17, 1)]
+        public void ShouldGetProperKeyBit(byte[] subject, int bitNum, byte expected)
+        { 
+            var result = subject.GetKeyBit(bitNum);
+            Assert.AreEqual(expected, result);
+        }
     }
 }

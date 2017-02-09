@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.TDES_ECB
+namespace NIST.CVP.Generation.TDES
 {
     public class TdesEcb: ITDES_ECB
     {

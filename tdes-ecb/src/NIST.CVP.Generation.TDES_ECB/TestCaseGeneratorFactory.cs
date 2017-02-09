@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.TDES;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.TDES_ECB

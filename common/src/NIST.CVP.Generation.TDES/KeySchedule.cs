@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using NIST.CVP.Math.Helpers;
 
-namespace NIST.CVP.Generation.TDES_ECB
+namespace NIST.CVP.Generation.TDES
 {
     public class KeySchedule
     {

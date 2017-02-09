@@ -1,7 +1,6 @@
 ﻿using NIST.CVP.Math;
-using System.Text;
 
-namespace NIST.CVP.Generation.TDES_ECB
+namespace NIST.CVP.Generation.TDES
 {
     public class DecryptionResult
     {

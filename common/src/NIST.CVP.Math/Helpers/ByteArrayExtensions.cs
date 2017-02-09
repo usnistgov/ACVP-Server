@@ -100,9 +100,8 @@ namespace NIST.CVP.Math.Helpers
         }
 
         
-
-
-        //@@@does endian come into play?
+        //1-based
+        //1-bit (bNum == 0) always returns 0
         public static byte GetKeyBit(this byte[] bArrayA, int bnum)
         {
             byte b = bArrayA[bnum/8];

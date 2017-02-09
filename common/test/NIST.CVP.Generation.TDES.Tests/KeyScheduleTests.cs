@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace NIST.CVP.Generation.TDES_ECB.Tests
+namespace NIST.CVP.Generation.TDES.Tests
 {
     [TestFixture]
     public class KeyScheduleTests

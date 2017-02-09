@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.TDES_ECB.Tests
+namespace NIST.CVP.Generation.TDES.Tests
 {
     [TestFixture]
     public class DecryptionResultTests
@@ -23,7 +19,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var plain = new BitString("AE1100");
             var subject = new DecryptionResult(plain);
-            Assert.IsTrue(subject.Success);
+            Assert.IsTrue((bool) subject.Success);
         }
 
         [Test]
@@ -37,7 +33,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         public void ShouldNotBeSuccessfulIfErrorSet()
         {
             var subject = new DecryptionResult("ooops!");
-            Assert.IsFalse(subject.Success);
+            Assert.IsFalse((bool) subject.Success);
         }
 
         [Test]
@@ -45,7 +41,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var plain = new BitString("AE1100");
             var subject = new DecryptionResult(plain);
-            Assume.That(subject.Success);
+            Assume.That((bool) subject.Success);
             Assert.AreEqual("PlainText: AE1100", subject.ToString());
         }
 
@@ -54,7 +50,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
 
             var subject = new DecryptionResult("ooops!");
-            Assume.That(!subject.Success);
+            Assume.That((bool) !subject.Success);
             Assert.AreEqual("ooops!", subject.ToString());
         }
     }

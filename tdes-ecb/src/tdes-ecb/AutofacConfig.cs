@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Generation.TDES;
 using NIST.CVP.Generation.TDES_ECB;
 using NIST.CVP.Math;
 
