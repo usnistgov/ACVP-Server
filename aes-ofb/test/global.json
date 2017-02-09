@@ -1,3 +1,3 @@
 {
-  "projects": [ "../src", "../../common/test" ]
+  "projects": [ "../src", "../../common/test", "../../common/src" ]
 }
