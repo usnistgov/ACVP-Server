@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA1
 {
-    public class MCTTestGroupFactory : IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>
+    public class MCTTestGroupFactory : IMonteCarloTestGroupFactory<Parameters, TestGroup>
     {
         public const string _MCT_TEST_TYPE_LABEL = "MCT";
 

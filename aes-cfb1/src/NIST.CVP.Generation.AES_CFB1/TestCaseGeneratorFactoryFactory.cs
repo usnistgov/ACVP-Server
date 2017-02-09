@@ -5,10 +5,10 @@ namespace NIST.CVP.Generation.AES_CFB1
 {
     public class TestCaseGeneratorFactoryFactory : ITestCaseGeneratorFactoryFactory<TestVectorSet>
     {
-        private readonly IStaticTestCaseGeneratorFactory<TestGroup, TestCase>  _staticTestCaseGeneratorFactory;
+        private readonly IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase>  _staticTestCaseGeneratorFactory;
         private readonly ITestCaseGeneratorFactory<TestGroup, TestCase> _testCaseGeneratorFactory;
 
-        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactory<TestGroup, TestCase> iTestCaseGeneratorFactory, IStaticTestCaseGeneratorFactory<TestGroup, TestCase> iStaticTestCaseGeneratorFactory)
+        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactory<TestGroup, TestCase> iTestCaseGeneratorFactory, IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase> iStaticTestCaseGeneratorFactory)
         {
             _testCaseGeneratorFactory = iTestCaseGeneratorFactory;
             _staticTestCaseGeneratorFactory = iStaticTestCaseGeneratorFactory;

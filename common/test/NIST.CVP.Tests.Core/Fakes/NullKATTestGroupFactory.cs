@@ -3,7 +3,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Tests.Core.Fakes
 {
-    public class NullKATTestGroupFactory : IKATTestGroupFactory<IParameters, IEnumerable<ITestGroup>>
+    public class NullKATTestGroupFactory : IKnownAnswerTestGroupFactory<IParameters, ITestGroup>
     {
         public IEnumerable<ITestGroup> BuildKATTestGroups(IParameters parameters)
         {

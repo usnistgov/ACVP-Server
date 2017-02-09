@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.SHA1.Tests
 
             int expectedResultCount = msgLen.Length * digLen.Length;
 
-            var iMCTTestGroupFactory = new Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            var iMCTTestGroupFactory = new Mock<IMonteCarloTestGroupFactory<Parameters, TestGroup>>();
             iMCTTestGroupFactory
                 .Setup(s => s.BuildMCTTestGroups(It.IsAny<Parameters>()))
                 .Returns(new List<TestGroup>());
@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.SHA1.Tests
                 IsSample = isSample
             };
 
-            var iMCTTestGroupFactory = new Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            var iMCTTestGroupFactory = new Mock<IMonteCarloTestGroupFactory<Parameters, TestGroup>>();
             iMCTTestGroupFactory
                 .Setup(s => s.BuildMCTTestGroups(It.IsAny<Parameters>()))
                 .Returns(new List<TestGroup>());

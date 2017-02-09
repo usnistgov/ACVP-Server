@@ -8,10 +8,10 @@ namespace NIST.CVP.Generation.SHA1
 {
     public class TestCaseGeneratorFactoryFactory : ITestCaseGeneratorFactoryFactory<TestVectorSet>
     {
-        private readonly IStaticTestCaseGeneratorFactory<TestGroup, TestCase> _staticTestCaseGeneratorFactory;
+        private readonly IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase> _staticTestCaseGeneratorFactory;
         private readonly ITestCaseGeneratorFactory<TestGroup, TestCase> _testCaseGeneratorFactory;
 
-        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactory<TestGroup, TestCase> iTestCaseGeneratorFactory, IStaticTestCaseGeneratorFactory<TestGroup, TestCase> iStaticTestCaseGeneratorFactory = null)
+        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactory<TestGroup, TestCase> iTestCaseGeneratorFactory, IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase> iStaticTestCaseGeneratorFactory = null)
         {
             _testCaseGeneratorFactory = iTestCaseGeneratorFactory;
             

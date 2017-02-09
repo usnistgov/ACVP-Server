@@ -3,7 +3,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CFB1
 {
-    public class KATTestGroupFactory : IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>
+    public class KATTestGroupFactory : IKnownAnswerTestGroupFactory<Parameters, TestGroup>
     {
         private readonly string[] _katTests = new string[]
         {

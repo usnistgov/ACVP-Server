@@ -6,12 +6,12 @@ namespace NIST.CVP.Generation.AES_CBC
 {
     public class TestVectorFactory : ITestVectorFactory<Parameters>
     {
-        private readonly IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>> _iKATTestGroupFactory;
-        private readonly IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>> _IMCTTestGroupFactory;
+        private readonly IKnownAnswerTestGroupFactory<Parameters, TestGroup> _iKATTestGroupFactory;
+        private readonly IMonteCarloTestGroupFactory<Parameters, TestGroup> _IMCTTestGroupFactory;
 
         public TestVectorFactory(
-            IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>> iKATTestGroupFactory,
-            IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>> iMCTTestGroupFactory)
+            IKnownAnswerTestGroupFactory<Parameters, TestGroup> iKATTestGroupFactory,
+            IMonteCarloTestGroupFactory<Parameters, TestGroup> iMCTTestGroupFactory)
         {
             _iKATTestGroupFactory = iKATTestGroupFactory;
             _IMCTTestGroupFactory = iMCTTestGroupFactory;

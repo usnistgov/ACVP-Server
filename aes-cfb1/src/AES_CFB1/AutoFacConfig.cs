@@ -27,7 +27,7 @@ namespace AES_CFB1
             builder.RegisterType<AES_CFB1_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<StaticTestCaseGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<KnownAnswerTestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
             builder.RegisterType<KATTestGroupFactory>().AsImplementedInterfaces();
             builder.RegisterType<MCTTestGroupFactory>().AsImplementedInterfaces();

@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
     [TestFixture]
     public class TestCaseGeneratorFactoryFactoryTests
     {
-        private Mock<IStaticTestCaseGeneratorFactory<TestGroup, TestCase>> _staticTestCaseGeneratorFactory;
+        private Mock<IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase>> _staticTestCaseGeneratorFactory;
         private Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>> _testCaseGeneratorFactory;
         private TestCaseGeneratorFactoryFactory _subject;
         private TestVectorSet _testVectorSet;
@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
         [SetUp]
         public void Setup()
         {
-            _staticTestCaseGeneratorFactory = new Mock<IStaticTestCaseGeneratorFactory<TestGroup, TestCase>>();
+            _staticTestCaseGeneratorFactory = new Mock<IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase>>();
             _testCaseGeneratorFactory = new Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>>();
             _subject = new TestCaseGeneratorFactoryFactory(_testCaseGeneratorFactory.Object, _staticTestCaseGeneratorFactory.Object);
             _testVectorSet = new TestVectorSet()
@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
         {
             _staticTestCaseGeneratorFactory
                 .Setup(s => s.GetStaticCaseGenerator(It.IsAny<TestGroup>()))
-                .Returns(new StaticTestCaseGeneratorNull());
+                .Returns(new KnownAnswerTestCaseGeneratorNull());
 
             var result = _subject.BuildTestCases(_testVectorSet);
             

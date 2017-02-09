@@ -45,11 +45,11 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 Mode = mode,
             };
             int expectedResultCount =  keyLen.Length * mode.Length;
-            Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iKATTestGroupFactory = new Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            Mock<IKnownAnswerTestGroupFactory<Parameters, TestGroup>> iKATTestGroupFactory = new Mock<IKnownAnswerTestGroupFactory<Parameters, TestGroup>>();
             iKATTestGroupFactory
                 .Setup(s => s.BuildKATTestGroups(It.IsAny<Parameters>()))
                 .Returns(new List<TestGroup>());
-            Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iMCTTestGroupFactory = new Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            Mock<IMonteCarloTestGroupFactory<Parameters, TestGroup>> iMCTTestGroupFactory = new Mock<IMonteCarloTestGroupFactory<Parameters, TestGroup>>();
             iMCTTestGroupFactory
                 .Setup(s => s.BuildMCTTestGroups(It.IsAny<Parameters>()))
                 .Returns(new List<TestGroup>());
@@ -72,11 +72,11 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
                 IsSample = isSample
             };
 
-            Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iKATTestGroupFactory = new Mock<IKATTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            Mock<IKnownAnswerTestGroupFactory<Parameters, TestGroup>> iKATTestGroupFactory = new Mock<IKnownAnswerTestGroupFactory<Parameters, TestGroup>>();
             iKATTestGroupFactory
                 .Setup(s => s.BuildKATTestGroups(It.IsAny<Parameters>()))
                 .Returns(new List<TestGroup>());
-            Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>> iMCTTestGroupFactory = new Mock<IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>>>();
+            Mock<IMonteCarloTestGroupFactory<Parameters, TestGroup>> iMCTTestGroupFactory = new Mock<IMonteCarloTestGroupFactory<Parameters, TestGroup>>();
             iMCTTestGroupFactory
                 .Setup(s => s.BuildMCTTestGroups(It.IsAny<Parameters>()))
                 .Returns(new List<TestGroup>());

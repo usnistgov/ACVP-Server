@@ -8,9 +8,9 @@ namespace NIST.CVP.Generation.SHA1
 {
     public class TestVectorFactory : ITestVectorFactory<Parameters>
     {
-        private readonly IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>> _iMCTTestGroupFactory;
+        private readonly IMonteCarloTestGroupFactory<Parameters, TestGroup> _iMCTTestGroupFactory;
 
-        public TestVectorFactory(IMCTTestGroupFactory<Parameters, IEnumerable<TestGroup>> iMCTTestGroupFactory)
+        public TestVectorFactory(IMonteCarloTestGroupFactory<Parameters, TestGroup> iMCTTestGroupFactory)
         {
             _iMCTTestGroupFactory = iMCTTestGroupFactory;
         }
