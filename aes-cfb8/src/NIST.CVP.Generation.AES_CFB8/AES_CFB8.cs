@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.AES_CFB8
                 byte[] keyBytes = keyBits.ToBytes();
                 ModeValues mode = ModeValues.CFB8;
                 var rijn = _iRijndaelFactory.GetRijndael(mode);
-                var key = rijn.MakeKey(keyBytes, DirectionValues.Encrypt);
+                var key = rijn.MakeKey(keyBytes, DirectionValues.Decrypt);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode, IV = iv, SegmentLength = 8};
                 var decryptBits = rijn.BlockEncrypt(cipher, key, cipherText.ToBytes(), cipherText.BitLength);
                 return new DecryptionResult(decryptBits);
