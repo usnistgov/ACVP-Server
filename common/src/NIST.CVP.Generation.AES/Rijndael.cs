@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.AES
             numBlocks = SetNumberOfBlocks(ref cipher, plainText, outputLengthInBits);
 
             byte[,] block = new byte[4, 8];
-            byte[] outBuffer = SetOutputBufferLength(cipher, outputLengthInBits);
+            byte[] outBuffer = SetOutputBufferLength(outputLengthInBits);
 
             BlockEncryptWorker(cipher, key, plainText, numBlocks, block, outBuffer);
             return new BitString(outBuffer).GetMostSignificantBits(outputLengthInBits);
@@ -54,17 +54,13 @@ namespace NIST.CVP.Generation.AES
                 return plainText.Length * 8 / cipher.BlockLength;
             }
 
-            return outputLengthInBits * cipher.SegmentLength;
+            return outputLengthInBits / cipher.SegmentLength;
         }
 
-        private byte[] SetOutputBufferLength(Cipher cipher, int outputLengthInBits)
+        private byte[] SetOutputBufferLength(int outputLengthInBits)
         {
-            if (cipher.SegmentLength == 0)
-            {
-                return new byte[outputLengthInBits / 8];
-            }
-
-            return new byte[(outputLengthInBits / cipher.SegmentLength / 8) + (outputLengthInBits % 8 > 0 ? 1 : 0)];
+            var byteLength = outputLengthInBits / 8 + (outputLengthInBits % 8 > 0 ? 1 : 0);
+            return new byte[byteLength];
         }
 
         protected abstract void BlockEncryptWorker(Cipher cipher, Key key, byte[] input, int numBlocks, byte[,] block,

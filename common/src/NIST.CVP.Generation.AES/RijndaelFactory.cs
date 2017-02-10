@@ -26,6 +26,8 @@ namespace NIST.CVP.Generation.AES
                     return new RijndaelOFB(_iRijndaelInternals);
                 case ModeValues.CFB1:
                     return new RijndaelCFB1(_iRijndaelInternals);
+                case ModeValues.CFB8:
+                    return new RijndaelCFB8(_iRijndaelInternals);
                 default:
                     throw new ArgumentException($"invalid value for {nameof(mode)}");
             }
