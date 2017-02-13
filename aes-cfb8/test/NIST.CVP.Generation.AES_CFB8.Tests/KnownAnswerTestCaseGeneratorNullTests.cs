@@ -1,0 +1,20 @@
+﻿using NUnit.Framework;
+
+namespace NIST.CVP.Generation.AES_CFB8.Tests
+{
+    [TestFixture]
+    public class KnownAnswerTestCaseGeneratorNullTests
+    {
+        [Test]
+        public void ShouldReturnResponseWithErrorMessage()
+        {
+            TestGroup testGroup = new TestGroup();
+
+            KnownAnswerTestCaseGeneratorNull subject = new KnownAnswerTestCaseGeneratorNull();
+            var result = subject.Generate(testGroup);
+
+            Assert.IsFalse(result.Success, nameof(result.Success));
+            Assert.IsTrue(!string.IsNullOrEmpty(result.ErrorMessage));
+        }
+    }
+}
