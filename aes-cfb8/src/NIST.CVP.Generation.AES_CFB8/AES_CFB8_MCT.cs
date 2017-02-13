@@ -8,11 +8,13 @@ namespace NIST.CVP.Generation.AES_CFB8
 {
     public class AES_CFB8_MCT : IAES_CFB8_MCT
     {
-        private readonly IAES_CFB8 _iAES_OFB;
+        private readonly IAES_CFB8 _algo;
+        private const int _OUTPUT_ITERATIONS = 100;
+        private const int _INNER_ITERATIONS_PER_OUTPUT = 1000;
 
-        public AES_CFB8_MCT(IAES_CFB8 iAES_OFB)
+        public AES_CFB8_MCT(IAES_CFB8 iAES_CFB8)
         {
-            _iAES_OFB = iAES_OFB;
+            _algo = iAES_CFB8;
         }
 
         #region MonteCarloAlgorithm Pseudocode
@@ -48,12 +50,131 @@ namespace NIST.CVP.Generation.AES_CFB8
 
         public MCTResult<AlgoArrayResponse> MCTEncrypt(BitString iv, BitString key, BitString plainText)
         {
-            throw new NotImplementedException();
+            List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
+
+            int i = 0;
+            int j = 0;
+
+            try
+            {
+                for (i = 0; i < _OUTPUT_ITERATIONS; i++)
+                {
+                    AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
+                    {
+                        IV = iv,
+                        Key = key,
+                        PlainText = plainText
+                    };
+                    responses.Add(iIterationResponse);
+
+                    List<BitString> previousCipherTexts = new List<BitString>();
+                    iv = iv.GetDeepCopy();
+                    plainText = plainText.GetDeepCopy();
+                    for (j = 0; j < _INNER_ITERATIONS_PER_OUTPUT; j++)
+                    {
+                        var jResult = _algo.BlockEncrypt(iv, key, plainText);
+                        var jCipherText = jResult.CipherText.GetDeepCopy();
+                        previousCipherTexts.Add(jCipherText);
+                        iIterationResponse.CipherText = jCipherText;
+
+                        if (j < 16)
+                        {
+                            plainText = new BitString(new byte[] {iIterationResponse.IV[j]});
+                        }
+                        else
+                        {
+                            plainText = previousCipherTexts[j - 16].GetDeepCopy();
+                        }
+
+                        SetupNextOuterLoopValues(ref iv, ref key, ref plainText, j, previousCipherTexts);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Debug($"i count {i}, j count {j}");
+                ThisLogger.Error(ex);
+                return new MCTResult<AlgoArrayResponse>(ex.Message);
+            }
+
+            return new MCTResult<AlgoArrayResponse>(responses);
         }
 
         public MCTResult<AlgoArrayResponse> MCTDecrypt(BitString iv, BitString key, BitString cipherText)
         {
-            throw new NotImplementedException();
+            List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
+
+            int i = 0;
+            int j = 0;
+
+            try
+            {
+                for (i = 0; i < _OUTPUT_ITERATIONS; i++)
+                {
+                    AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
+                    {
+                        IV = iv,
+                        Key = key,
+                        CipherText = cipherText
+                    };
+                    responses.Add(iIterationResponse);
+
+                    List<BitString> previousPlainTexts = new List<BitString>();
+                    iv = iv.GetDeepCopy();
+                    cipherText = cipherText.GetDeepCopy();
+                    for (j = 0; j < _INNER_ITERATIONS_PER_OUTPUT; j++)
+                    {
+                        var jResult = _algo.BlockDecrypt(iv, key, cipherText);
+                        var jPlainText = jResult.PlainText.GetDeepCopy();
+                        previousPlainTexts.Add(jPlainText);
+                        iIterationResponse.PlainText = jPlainText;
+
+                        if (j < 16)
+                        {
+                            cipherText = new BitString(new byte[] { iIterationResponse.IV[j] });
+                        }
+                        else
+                        {
+                            cipherText = previousPlainTexts[j - 16].GetDeepCopy();
+                        }
+
+                        SetupNextOuterLoopValues(ref iv, ref key, ref cipherText, j, previousPlainTexts);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Debug($"i count {i}, j count {j}");
+                ThisLogger.Error(ex);
+                return new MCTResult<AlgoArrayResponse>(ex.Message);
+            }
+
+            return new MCTResult<AlgoArrayResponse>(responses);
+        }
+
+        private void SetupNextOuterLoopValues(ref BitString iv, ref BitString key, ref BitString input, int j, List<BitString> previousOutputs)
+        {
+            if (j == _INNER_ITERATIONS_PER_OUTPUT - 1)
+            {
+                var index = j - (key.BitLength / 8) + 1;
+                var keyConcatenation = ConcatenateOutputsStartingAtIndex(previousOutputs, index);
+                key = key.XOR(keyConcatenation).GetDeepCopy();
+
+                iv = ConcatenateOutputsStartingAtIndex(previousOutputs, j - (128 / 8) + 1).GetDeepCopy();
+                input = previousOutputs[j - 16].GetDeepCopy();
+            }
+        }
+
+        private BitString ConcatenateOutputsStartingAtIndex(List<BitString> previousOutputs, int startingIndex)
+        {
+            BitString bs = previousOutputs[startingIndex];
+
+            for (int iterator = startingIndex + 1; iterator < previousOutputs.Count; iterator++)
+            {
+                bs = bs.ConcatenateBits(previousOutputs[iterator]);
+            }
+
+            return bs;
         }
 
         private Logger ThisLogger

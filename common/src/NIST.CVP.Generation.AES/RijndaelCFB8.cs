@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.AES
                     Encrypt(cipher, key, input, numBlocks, block, outBuffer);
                     break;
                 case DirectionValues.Decrypt:
-                    // CFB1 contains different logic for setting up the block for decrypt, but uses the internal encrypt operation.
+                    // CFB8 contains different logic for setting up the block for decrypt, but uses the internal encrypt operation.
                     key.Direction = DirectionValues.Encrypt;
                     Decrypt(cipher, key, input, numBlocks, block, outBuffer);
                     break;
