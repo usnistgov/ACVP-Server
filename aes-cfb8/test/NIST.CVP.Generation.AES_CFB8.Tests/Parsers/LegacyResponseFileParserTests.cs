@@ -148,6 +148,7 @@ CIPHERTEXT = 643644bbe279795c7c73
 PLAINTEXT = 4f34dba6219cc94d86a8
 ";
         #endregion File
+        private const string _EXTENSION = ".fax";
 
         [OneTimeSetUp]
         public void Setup()
@@ -158,10 +159,10 @@ PLAINTEXT = 4f34dba6219cc94d86a8
                 Directory.Delete(_unitTestPath, true);
             }
             Directory.CreateDirectory(_unitTestPath);
-            File.WriteAllText($@"{_unitTestPath}\file1.fax", _testFIleContents); // 2 groups, 18 tests 
-            File.WriteAllText($@"{_unitTestPath}\file2.fax", _testFIleContents); // + 2 groups, 18 tests
+            File.WriteAllText($@"{_unitTestPath}\file1{_EXTENSION}", _testFIleContents); // 2 groups, 18 tests 
+            File.WriteAllText($@"{_unitTestPath}\file2{_EXTENSION}", _testFIleContents); // + 2 groups, 18 tests
             File.WriteAllText($@"{_unitTestPath}\fileThatShouldntBeParsed.dat", _testFIleContents); // + 0 (shouldn't be included)
-            File.WriteAllText($@"{_unitTestPath}\MCT.fax", _testFIleContents); // + 2 groups, 18 tests
+            File.WriteAllText($@"{_unitTestPath}\MCT{_EXTENSION}", _testFIleContents); // + 2 groups, 18 tests
             // Total groups = 6, total tests = 54
         }
 
@@ -175,7 +176,7 @@ PLAINTEXT = 4f34dba6219cc94d86a8
         public void ShouldReturnErrorForNonExistentPath()
         {
             var subject = new LegacyResponseFileParser();
-            var result = subject.Parse($@"{_unitTestPath}\{Guid.NewGuid()}.rsp");
+            var result = subject.Parse($@"{_unitTestPath}\{Guid.NewGuid()}{_EXTENSION}");
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Success);
         }
@@ -209,7 +210,7 @@ PLAINTEXT = 4f34dba6219cc94d86a8
             var vectorSet = result.ParsedObject;
             Assert.AreEqual(6, vectorSet.TestGroups.Count);
         }
-        
+
         [Test]
         public void ShouldHaveTestsWithKeyFilled()
         {
@@ -231,7 +232,7 @@ PLAINTEXT = 4f34dba6219cc94d86a8
             var casesWithIV = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).IV != null));
             Assert.IsNotEmpty(casesWithIV);
         }
-        
+
         [Test]
         public void ShouldHaveTestsWithPlainTextFilled()
         {
@@ -262,7 +263,7 @@ PLAINTEXT = 4f34dba6219cc94d86a8
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
-        
+
         [Test]
         public void ShouldParseDecryptFromFileContents()
         {
@@ -271,7 +272,7 @@ PLAINTEXT = 4f34dba6219cc94d86a8
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
             Assume.That(vectorSet.TestGroups.Count() == 6);
-            var decryptCount = vectorSet.TestGroups.Count(g => ((TestGroup) g).Function.ToLower() == "decrypt");
+            var decryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "decrypt");
             Assert.AreEqual(3, decryptCount, decryptCount.ToString());
         }
 
