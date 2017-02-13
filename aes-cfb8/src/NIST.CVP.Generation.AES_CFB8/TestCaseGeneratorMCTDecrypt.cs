@@ -9,21 +9,21 @@ namespace NIST.CVP.Generation.AES_CFB8
     public class TestCaseGeneratorMCTDecrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _iRandom80090;
-        private readonly IAES_CFB8_MCT _iAesOfbMct;
+        private readonly IAES_CFB8_MCT _algo;
 
         public int NumberOfTestCasesToGenerate { get { return 1; } }
 
-        public TestCaseGeneratorMCTDecrypt(IRandom800_90 iRandom80090, IAES_CFB8_MCT iAesOfbMct)
+        public TestCaseGeneratorMCTDecrypt(IRandom800_90 iRandom80090, IAES_CFB8_MCT algo)
         {
             _iRandom80090 = iRandom80090;
-            _iAesOfbMct = iAesOfbMct;
+            _algo = algo;
         }
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
             var iv = _iRandom80090.GetRandomBitString(128);
             var key = _iRandom80090.GetRandomBitString(@group.KeyLength);
-            var cipherText = _iRandom80090.GetRandomBitString(16);
+            var cipherText = _iRandom80090.GetRandomBitString(8);
             TestCase testCase = new TestCase()
             {
                 IV = iv,
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.AES_CFB8
             MCTResult<AlgoArrayResponse> decryptionResult = null;
             try
             {
-                decryptionResult = _iAesOfbMct.MCTDecrypt(testCase.IV, testCase.Key, testCase.CipherText);
+                decryptionResult = _algo.MCTDecrypt(testCase.IV, testCase.Key, testCase.CipherText);
                 if (!decryptionResult.Success)
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);

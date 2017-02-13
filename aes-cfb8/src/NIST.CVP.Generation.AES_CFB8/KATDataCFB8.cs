@@ -142,7 +142,7 @@ namespace NIST.CVP.Generation.AES_CFB8
 
         private static void AllTransform(List<AlgoArrayResponse> results)
         {
-            // CFB1 - PT is always "0" (hex), CT is the most significant bit of the normal KAT.
+            // CFB8 - PT is always "0" (hex), CT is the most significant bit of the normal KAT.
             results.ForEach(fe =>
             {
                 fe.PlainText = new BitString(8);

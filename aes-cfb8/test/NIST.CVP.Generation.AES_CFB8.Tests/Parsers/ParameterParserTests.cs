@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.AES_CFB8.Tests.Parsers
 
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-OFB",
+                Algorithm = "AES-CFB8",
                 KeyLen = new[] { 128, 192, 256 },
                 Mode = new[] { "encrypt" },
                 IsSample = true
@@ -100,7 +100,7 @@ namespace NIST.CVP.Generation.AES_CFB8.Tests.Parsers
             Assume.That(result != null);
             Assume.That(result.ParsedObject != null);
             var parameters = result.ParsedObject;
-            Assert.AreEqual("AES-OFB", parameters.Algorithm);
+            Assert.AreEqual("AES-CFB8", parameters.Algorithm);
 
         }
 

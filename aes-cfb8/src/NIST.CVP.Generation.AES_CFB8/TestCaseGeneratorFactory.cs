@@ -6,14 +6,14 @@ namespace NIST.CVP.Generation.AES_CFB8
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly IAES_CFB8 _aesOfb;
-        private readonly IAES_CFB8_MCT _aesOfbMct;
+        private readonly IAES_CFB8 _algo;
+        private readonly IAES_CFB8_MCT _mctAlgo;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, IAES_CFB8 aesOfb, IAES_CFB8_MCT aesOfbMct)
+        public TestCaseGeneratorFactory(IRandom800_90 random800_90, IAES_CFB8 algo, IAES_CFB8_MCT mctAlgo)
         {
             _random800_90 = random800_90;
-            _aesOfb = aesOfb;
-            _aesOfbMct = aesOfbMct;
+            _algo = algo;
+            _mctAlgo = mctAlgo;
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
@@ -25,24 +25,24 @@ namespace NIST.CVP.Generation.AES_CFB8
             {
                 if (direction == "encrypt")
                 {
-                    return new TestCaseGeneratorMCTEncrypt(_random800_90, _aesOfbMct);
+                    return new TestCaseGeneratorMCTEncrypt(_random800_90, _mctAlgo);
                 }
 
                 if (direction == "decrypt")
                 {
-                    return new TestCaseGeneratorMCTDecrypt(_random800_90, _aesOfbMct);
+                    return new TestCaseGeneratorMCTDecrypt(_random800_90, _mctAlgo);
                 }
             }
             else
             {
                 if (direction == "encrypt")
                 {
-                    return new TestCaseGeneratorMMTEncrypt(_random800_90, _aesOfb);
+                    return new TestCaseGeneratorMMTEncrypt(_random800_90, _algo);
                 }
 
                 if (direction == "decrypt")
                 {
-                    return new TestCaseGeneratorMMTDecrypt(_random800_90, _aesOfb);
+                    return new TestCaseGeneratorMMTDecrypt(_random800_90, _algo);
                 }
             }
             return new TestCaseGeneratorNull();
