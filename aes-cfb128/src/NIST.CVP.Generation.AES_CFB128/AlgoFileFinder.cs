@@ -1,0 +1,11 @@
+﻿using NIST.CVP.Generation.Core;
+
+namespace NIST.CVP.Generation.AES_CFB128
+{
+    
+    public class AlgoFileFinder : AlgoFileFinderBase
+    {
+        public override string Name { get { return "AES"; } }
+        public override string FilePrefix { get { return "CFB128"; } }
+    }
+}
