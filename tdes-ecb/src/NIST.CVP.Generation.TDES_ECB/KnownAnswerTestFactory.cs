@@ -8,41 +8,37 @@ namespace NIST.CVP.Generation.TDES_ECB
     public class KnownAnswerTestFactory : IKnownAnswerTestFactory
     {
 
-        public List<TestCase> GetKATTestCases(string direction, string testType)
+        public List<TestCase> GetKATTestCases(string testType)
         {
-            if (string.IsNullOrEmpty(direction) || string.IsNullOrEmpty(testType))
+            if (string.IsNullOrEmpty(testType))
             {
                 return new List<TestCase>();
             }
-            direction = direction.ToLower();
-            testType = testType.ToLower();
-            if (direction == "encrypt")
-            {
-                if (_encryptionKATs.ContainsKey(testType))
-                {
-                    return _encryptionKATs[testType];
-                }
-            }
-            if (direction == "decrypt")
-            {
+          
 
+            testType = testType.ToLower();
+ 
+            if (_kats.ContainsKey(testType))
+            {
+                return _kats[testType];
             }
+         
             return new List<TestCase>();
 
         }
 
-        private readonly Dictionary<string, List<TestCase>> _encryptionKATs =
+        private readonly Dictionary<string, List<TestCase>> _kats =
             new Dictionary<string, List<TestCase>>
             {
-                 { "inversepermutation", InversePermutationEncryptionTests},
-                 { "permutation", PermutationEncryptionTests},
-                 { "substitutiontable", SubstitutionTableEncryptionTests},
-                 { "variablekey", VariableKeyEncryptionTests},
-                 { "variabletext", VariablePlainTextEncryptionTests}
+                 { "inversepermutation", InversePermutationTests},
+                 { "permutation", PermutationTests},
+                 { "substitutiontable", SubstitutionTableTests},
+                 { "variablekey", VariableKeyTests},
+                 { "variabletext", VariablePlainTextTests}
             };
 
-
-        private static readonly List<TestCase> InversePermutationEncryptionTests = new List<TestCase>
+      
+        private static readonly List<TestCase> InversePermutationTests = new List<TestCase>
         {
             new TestCase("0101010101010101", "95f8a5e5dd31d900", "8000000000000000"),
             new TestCase("0101010101010101", "dd7f121ca5015619", "4000000000000000"),
@@ -109,8 +105,8 @@ namespace NIST.CVP.Generation.TDES_ECB
             new TestCase("0101010101010101", "06e7ea22ce92708f", "0000000000000002"),
             new TestCase("0101010101010101", "166b40b44aba4bd6", "0000000000000001")
         };
-
-        private static readonly List<TestCase> PermutationEncryptionTests = new List<TestCase>
+      
+        private static readonly List<TestCase> PermutationTests = new List<TestCase>
         {
             new TestCase("1046913489980131", "0000000000000000", "88d55e54f54c97b4"),
             new TestCase("1007103489988020", "0000000000000000", "0c0cc00c83ea48fd"),
@@ -146,7 +142,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             new TestCase("1002911698100101", "0000000000000000", "1aeac39a61f0a464")
         };
 
-        private static readonly List<TestCase> SubstitutionTableEncryptionTests = new List<TestCase>
+        private static readonly List<TestCase> SubstitutionTableTests = new List<TestCase>
         {
             new TestCase("7ca110454a1a6e57", "01a1d6d039776742", "690f5b0d9a26939b"),
             new TestCase("0131d9619dc1376e", "5cd54ca83def57da", "7a389d10354bd271"),
@@ -169,7 +165,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             new TestCase("1c587f1c13924fef", "305532286d6f295a", "63fac0d034d9f793")
         };
 
-        private static readonly List<TestCase> VariableKeyEncryptionTests = new List<TestCase>
+        private static readonly List<TestCase> VariableKeyTests = new List<TestCase>
         {
             new TestCase("8001010101010101", "0000000000000000", "95a8d72813daa94d"),
             new TestCase("4001010101010101", "0000000000000000", "0eec1487dd8c26d5"),
@@ -229,7 +225,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             new TestCase("0101010101010102", "0000000000000000", "869efd7f9f265a09")
         };
 
-        private static readonly List<TestCase> VariablePlainTextEncryptionTests = new List<TestCase>
+        private static readonly List<TestCase> VariablePlainTextTests = new List<TestCase>
         {
             new TestCase("0101010101010101", "8000000000000000", "95f8a5e5dd31d900"),
             new TestCase("0101010101010101", "4000000000000000", "dd7f121ca5015619"),
