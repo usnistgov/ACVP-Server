@@ -6,7 +6,6 @@ using System.Linq;
 using Moq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Generation.SHA;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA2.Tests

@@ -1,8 +1,7 @@
-﻿using Moq;
-using NIST.CVP.Generation.SHA;
+﻿using System;
+using Moq;
 using NIST.CVP.Math;
 using NUnit.Framework;
-using System;
 
 namespace NIST.CVP.Generation.SHA2.Tests
 {

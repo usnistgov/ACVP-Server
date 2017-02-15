@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.SHA2;
 using NLog;
 
 namespace SHA2_Val
@@ -26,7 +27,7 @@ namespace SHA2_Val
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    var validator = scope.Resolve<NIST.CVP.Generation.SHA2.Validator>();
+                    var validator = scope.Resolve<Validator>();
                     var result = validator.Validate(resultFile, answerFile, promptFile);
                     if (!result.Success)
                     {

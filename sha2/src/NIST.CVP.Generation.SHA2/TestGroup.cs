@@ -1,12 +1,9 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.SHA;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA2
 {
@@ -40,8 +37,8 @@ namespace NIST.CVP.Generation.SHA2
         public TestGroup(dynamic source)
         {
             TestType = source.testType;
-            Function = source.function;
-            DigestSize = source.digestSize;
+            Function = (ModeValues)source.function;
+            DigestSize = (DigestSizes)source.digestSize;
             BitOriented = source.bitOriented;
             IncludeNull = source.includeNull;
 

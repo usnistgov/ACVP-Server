@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.SHA;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
 using NLog;

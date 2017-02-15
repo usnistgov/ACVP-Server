@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
@@ -41,7 +39,6 @@ namespace NIST.CVP.Generation.SHA2
 
         private List<ITestCaseValidator<TestCase>> BuildValidatorList(TestVectorSet testVectorSet, List<TestCase> suppliedResults)
         {
-
             var list = new List<ITestCaseValidator<TestCase>>();
 
             foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))

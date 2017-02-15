@@ -1,7 +1,6 @@
-﻿using NIST.CVP.Generation.SHA;
+﻿using System;
 using NIST.CVP.Math;
 using NLog;
-using System;
 
 namespace NIST.CVP.Generation.SHA2
 {

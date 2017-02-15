@@ -4,7 +4,6 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.SHA2;
 using NIST.CVP.Math;
-using NIST.CVP.Generation.SHA;
 
 namespace SHA2_Val
 {

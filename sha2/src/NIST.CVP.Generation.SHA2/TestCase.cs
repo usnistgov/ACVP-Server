@@ -1,11 +1,8 @@
-﻿using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using Newtonsoft.Json.Linq;
-using System.Linq;
-using System.Threading.Tasks;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.SHA2
 {
@@ -60,7 +57,7 @@ namespace NIST.CVP.Generation.SHA2
             return false;
         }
 
-        public bool SetString(string name, string value)
+        public bool SetString(string name, string value, int length = -1)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -71,10 +68,11 @@ namespace NIST.CVP.Generation.SHA2
             {
                 case "message":
                 case "msg":
-                    Message = new BitString(value);
+                    Message = new BitString(value, length);
                     return true;
                 case "digest":
                 case "dig":
+                case "md":
                     Digest = new BitString(value);
                     return true;
             }

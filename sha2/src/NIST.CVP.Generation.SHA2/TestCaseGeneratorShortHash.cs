@@ -1,12 +1,7 @@
-﻿using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.SHA;
-using NIST.CVP.Generation.SHA2;
+﻿using System;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.SHA2
 {
