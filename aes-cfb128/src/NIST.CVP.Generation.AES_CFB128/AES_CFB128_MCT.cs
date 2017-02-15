@@ -47,12 +47,147 @@ namespace NIST.CVP.Generation.AES_CFB128
 
         public MCTResult<AlgoArrayResponse> MCTEncrypt(BitString iv, BitString key, BitString plainText)
         {
-            throw new NotImplementedException();
+            List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
+
+            int i = 0;
+            int j = 0;
+
+            try
+            {
+                for (i = 0; i < _OUTPUT_ITERATIONS; i++)
+                {
+                    AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
+                    {
+                        IV = iv,
+                        Key = key,
+                        PlainText = plainText
+                    };
+                    responses.Add(iIterationResponse);
+
+                    BitString previousCipherText = null;
+                    BitString currentCipherText = null;
+                    iv = iv.GetDeepCopy();
+                    plainText = plainText.GetDeepCopy();
+
+                    for (j = 0; j < _INNER_ITERATIONS_PER_OUTPUT; j++)
+                    {
+                        var jResult = _algo.BlockEncrypt(iv, key, plainText);
+                        currentCipherText = jResult.CipherText.GetDeepCopy();
+                        
+                        iIterationResponse.CipherText = currentCipherText;
+
+                        if (j == 0)
+                        {
+                            plainText = iIterationResponse.IV;
+                        }
+                        else
+                        {
+                            plainText = previousCipherText.GetDeepCopy();
+                        }
+
+                        // The previous cipherText is recorded for use in the next iteration of the loop.  
+                        // If the last iteration, we do not want to overwrite the current value.
+                        if (j != _INNER_ITERATIONS_PER_OUTPUT - 1)
+                        {
+                            previousCipherText = currentCipherText.GetDeepCopy();
+                        }
+                    }
+
+                    SetupOuterLoopInputs(ref iv, ref key, ref plainText, previousCipherText, currentCipherText);
+                }
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Debug($"i count {i}, j count {j}");
+                ThisLogger.Error(ex);
+                return new MCTResult<AlgoArrayResponse>(ex.Message);
+            }
+
+            return new MCTResult<AlgoArrayResponse>(responses);
         }
 
         public MCTResult<AlgoArrayResponse> MCTDecrypt(BitString iv, BitString key, BitString cipherText)
         {
-            throw new NotImplementedException();
+            List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
+
+            int i = 0;
+            int j = 0;
+
+            try
+            {
+                for (i = 0; i < _OUTPUT_ITERATIONS; i++)
+                {
+                    AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
+                    {
+                        IV = iv,
+                        Key = key,
+                        CipherText = cipherText
+                    };
+                    responses.Add(iIterationResponse);
+
+                    BitString previousPlainText = null;
+                    BitString currentPlainText = null;
+                    iv = iv.GetDeepCopy();
+                    cipherText = cipherText.GetDeepCopy();
+
+                    for (j = 0; j < _INNER_ITERATIONS_PER_OUTPUT; j++)
+                    {
+                        var jResult = _algo.BlockDecrypt(iv, key, cipherText);
+                        currentPlainText = jResult.PlainText.GetDeepCopy();
+
+                        iIterationResponse.PlainText = currentPlainText;
+
+                        if (j == 0)
+                        {
+                            cipherText = iIterationResponse.IV;
+                        }
+                        else
+                        {
+                            cipherText = previousPlainText.GetDeepCopy();
+                        }
+
+                        // The previous cipherText is recorded for use in the next iteration of the loop.  
+                        // If the last iteration, we do not want to overwrite the current value.
+                        if (j != _INNER_ITERATIONS_PER_OUTPUT - 1)
+                        {
+                            previousPlainText = currentPlainText.GetDeepCopy();
+                        }
+                    }
+
+                    SetupOuterLoopInputs(ref iv, ref key, ref cipherText, previousPlainText, currentPlainText);
+                }
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Debug($"i count {i}, j count {j}");
+                ThisLogger.Error(ex);
+                return new MCTResult<AlgoArrayResponse>(ex.Message);
+            }
+
+            return new MCTResult<AlgoArrayResponse>(responses);
+        }
+
+        private static void SetupOuterLoopInputs(ref BitString iv, ref BitString key, ref BitString input, BitString previousOutput, BitString currentOutput)
+        {
+            if (key.BitLength == 128)
+            {
+                key = key.XOR(currentOutput);
+            }
+            if (key.BitLength == 192)
+            {
+                key = key.XOR(
+                    previousOutput.GetLeastSignificantBits(64).ConcatenateBits(currentOutput)
+                );
+            }
+            if (key.BitLength == 256)
+            {
+                key = key.XOR(
+                    previousOutput.ConcatenateBits(currentOutput)
+                );
+            }
+
+            iv = currentOutput.GetDeepCopy();
+            input = previousOutput.GetDeepCopy();
         }
 
         private Logger ThisLogger
