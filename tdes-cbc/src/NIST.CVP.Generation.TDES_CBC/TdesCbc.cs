@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Math;
+using NIST.CVP.Generation.TDES;
 
-namespace NIST.CVP.Generation.TDES
+namespace NIST.CVP.Generation.TDES_CBC
 {
     public class TdesCbc
     {
