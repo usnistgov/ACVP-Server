@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72EE30C8-1788-41BC-BC51-D6C9F92A9D01}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		..\..\tdes-cbc\src\global.json = ..\..\tdes-cbc\src\global.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6FBD67E5-0222-4BB6-B0D2-67636943A362}"
@@ -27,6 +28,8 @@ EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES_CBC", "..\..\tdes-cbc\src\NIST.CVP.Generation.TDES_CBC\NIST.CVP.Generation.TDES_CBC.xproj", "{74A8BF70-7F7B-4FA0-A61F-61AFC4283964}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "tdes-cbc", "..\..\tdes-cbc\src\TDES_CBC\tdes-cbc.xproj", "{AE7E14BD-0903-4DC8-B8B7-6B8394CACB54}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES_CBC.Tests", "..\..\tdes-cbc\src\NIST.CVP.Generation.TDES_CBC.Tests\NIST.CVP.Generation.TDES_CBC.Tests.xproj", "{929B2F03-6900-48ED-B940-22CA3A0FD6E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +69,10 @@ Global
 		{AE7E14BD-0903-4DC8-B8B7-6B8394CACB54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE7E14BD-0903-4DC8-B8B7-6B8394CACB54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE7E14BD-0903-4DC8-B8B7-6B8394CACB54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{929B2F03-6900-48ED-B940-22CA3A0FD6E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{929B2F03-6900-48ED-B940-22CA3A0FD6E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{929B2F03-6900-48ED-B940-22CA3A0FD6E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{929B2F03-6900-48ED-B940-22CA3A0FD6E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,5 +86,6 @@ Global
 		{A3BDD4CF-B9E9-4E8A-856A-C757549F8817} = {2900417F-03FA-4EF9-9640-9F1C67DEE621}
 		{74A8BF70-7F7B-4FA0-A61F-61AFC4283964} = {6FBD67E5-0222-4BB6-B0D2-67636943A362}
 		{AE7E14BD-0903-4DC8-B8B7-6B8394CACB54} = {6FBD67E5-0222-4BB6-B0D2-67636943A362}
+		{929B2F03-6900-48ED-B940-22CA3A0FD6E2} = {2900417F-03FA-4EF9-9640-9F1C67DEE621}
 	EndGlobalSection
 EndGlobal

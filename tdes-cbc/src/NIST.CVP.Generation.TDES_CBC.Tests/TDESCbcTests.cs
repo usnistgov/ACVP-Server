@@ -5,7 +5,7 @@ using NIST.CVP.Generation.TDES_CBC;
 namespace NIST.CVP.Generation.TDES_CBC.Tests
 {
     [TestFixture]
-    public class TDESCbcTests
+    public class TdesCbcTests
     {
 
         [Test]
@@ -607,5 +607,57 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
+
+        [Test]
+        [TestCase("198f973b5462df64946245e0b6ec0d98a4e5136ba75294b3", "60dd7b8f00554bb6003161ba62fd66adc2757a40dbf5d6d84d30b0e49e255f6d7e4fc0ee4f1cd867e4a1bbad898cac04445a85ef5bca5a471691598bc64ff47706c243d84139a39e", "b141cecac08330b579ad8554dbaec7c1a7d411e4ab4697dbd78ee0bdb54271d20d64b3b0b0f0b451182e858012eb7bb5c94dfce73b42b803ded904534fbe3c52b65f8501ccbfe5f7")]
+        [TestCase("c1da626de38389f11cc28fe0f8fdb623374ccb495d20c81f", "5fe074a3c30b281ec7db62b76ddbcb7d51c784242ffbc410a42ac2b03953d50d9df1d9a33273d66fcbebdc49b50a3174f44caf74ce70671f8e2b8af7821d8ab746047c2c4430c1467c37e56f81e9c71b", "d7f5edf35f207dfcc2004d7172b984ad37626519a3b9c51e85ed84f56a6b2856d9ba220380fadad19175ce56557fdbb7f8fa691ccc8232f24a4b4a034d9ce966ce1177118d078e27d8c4b622e3a05d86")]
+        public void ShouldPassMultiBlockEncryptTests(string key, string plaintext, string cipherText)
+        {
+            var subject = new TdesCbc();
+            var iv = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
+            Assert.IsTrue((bool)result.Success);
+
+            Assert.AreEqual(new BitString(cipherText), result.CipherText);
+        }
+
+        [Test]
+        [TestCase("198f973b5462df64946245e0b6ec0d98a4e5136ba75294b3", "60dd7b8f00554bb6003161ba62fd66adc2757a40dbf5d6d84d30b0e49e255f6d7e4fc0ee4f1cd867e4a1bbad898cac04445a85ef5bca5a471691598bc64ff47706c243d84139a39a", "b141cecac08330b54c182e9115881265693cd5a84e505c903dd81757fc351dfcc6ecdd23672d24761c7cb05978abc45dd4a5dc34ae11d65eaa02606aac3bffc76f5d6c4a7d5d17b0")]
+        [TestCase("c1da626de38389f11cc28fe0f8fdb623374ccb495d20c81f", "5fe074a3c30b281ec7db62b76ddbcb7d51c784242ffbc410a42ac2b03953d50d9df1d9a33273d66fcbebdc49b50a3174f44caf74ce70671f8e2b8af7821d8ab746047c2c4430c1467c37e56f81e9c71c", "d7f5edf35f207dfcdae580d4d903a3c289da22a9ec1c0e06ffd333f47773d3193570cc048571b923d21a1871eb228f4155455535da42e71289764000356acf089605a5f57aba25533bda531db14f6553")]
+        public void ShouldFailMultiBlockEncryptTests(string key, string plaintext, string cipherText)
+        {
+            var subject = new TdesCbc();
+            var iv = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
+            Assert.IsTrue((bool)result.Success);
+
+            Assert.AreNotEqual(new BitString(cipherText), result.CipherText);
+        }
+        [Test]
+        [TestCase("198f973b5462df64946245e0b6ec0d98a4e5136ba75294b3", "60dd7b8f00554bb6003161ba62fd66adc2757a40dbf5d6d84d30b0e49e255f6d7e4fc0ee4f1cd867e4a1bbad898cac04445a85ef5bca5a471691598bc64ff47706c243d84139a39e", "b141cecac08330b579ad8554dbaec7c1a7d411e4ab4697dbd78ee0bdb54271d20d64b3b0b0f0b451182e858012eb7bb5c94dfce73b42b803ded904534fbe3c52b65f8501ccbfe5f7")]
+        [TestCase("c1da626de38389f11cc28fe0f8fdb623374ccb495d20c81f", "5fe074a3c30b281ec7db62b76ddbcb7d51c784242ffbc410a42ac2b03953d50d9df1d9a33273d66fcbebdc49b50a3174f44caf74ce70671f8e2b8af7821d8ab746047c2c4430c1467c37e56f81e9c71b", "d7f5edf35f207dfcc2004d7172b984ad37626519a3b9c51e85ed84f56a6b2856d9ba220380fadad19175ce56557fdbb7f8fa691ccc8232f24a4b4a034d9ce966ce1177118d078e27d8c4b622e3a05d86")]
+        public void ShouldPassMultiBlockDecryptTests(string key, string plaintext, string cipherText)
+        {
+            var subject = new TdesCbc();
+            var iv = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
+            Assert.IsTrue((bool)result.Success);
+
+            Assert.AreEqual(new BitString(plaintext), result.PlainText);
+        }
+
+        [Test]
+        [TestCase("198f973b5462df64946245e0b6ec0d98a4e5136ba75294b3", "60dd7b8f00554bb6003161ba62fd66adc2757a40dbf5d6d84d30b0e49e255f6d7e4fc0ee4f1cd867e4a1bbad898cac04445a85ef5bca5a471691598bc64ff47706c243d84139a39a", "b141cecac08330b54c182e9115881265693cd5a84e505c903dd81757fc351dfcc6ecdd23672d24761c7cb05978abc45dd4a5dc34ae11d65eaa02606aac3bffc76f5d6c4a7d5d17b0")]
+        [TestCase("c1da626de38389f11cc28fe0f8fdb623374ccb495d20c81f", "5fe074a3c30b281ec7db62b76ddbcb7d51c784242ffbc410a42ac2b03953d50d9df1d9a33273d66fcbebdc49b50a3174f44caf74ce70671f8e2b8af7821d8ab746047c2c4430c1467c37e56f81e9c71c", "d7f5edf35f207dfcdae580d4d903a3c289da22a9ec1c0e06ffd333f47773d3193570cc048571b923d21a1871eb228f4155455535da42e71289764000356acf089605a5f57aba25533bda531db14f6553")]
+        public void ShouldFailMultiBlockDecryptTests(string key, string plaintext, string cipherText)
+        {
+            var subject = new TdesCbc();
+            var iv = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
+            Assert.IsTrue((bool)result.Success);
+
+            Assert.AreNotEqual(new BitString(plaintext), result.PlainText);
+        }
+
     }
 }

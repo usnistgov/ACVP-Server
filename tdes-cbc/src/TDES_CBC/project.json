@@ -14,6 +14,7 @@
     "NIST.CVP.Generation.TDES": "1.0.0-*",
     "NIST.CVP.Generation.TDES.Tests": "1.0.0-*",
     "NIST.CVP.Generation.TDES_CBC": "1.0.0-*",
+    "NIST.CVP.Generation.TDES_CBC.Tests": "1.0.0-*",
     "NIST.CVP.Math": "1.0.0-*",
     "NIST.CVP.Math.Tests": "1.0.0-*",
     "NIST.CVP.Tests.Core": "1.0.0-*"
