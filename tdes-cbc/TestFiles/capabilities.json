@@ -1,0 +1,5 @@
+{
+  "algorithm" : "TDES-CBC",
+  "direction" : [ "encrypt" ],
+   "isSample" : true
+}

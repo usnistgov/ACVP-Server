@@ -27,6 +27,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
 
                         CipherText = new BitString("7EADDC"),
                         Key = new BitString("9998ADCD"),
+                        Iv = new BitString("00000000"),
                         TestCaseId = testId
                     });
                 }
