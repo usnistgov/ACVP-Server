@@ -7,7 +7,7 @@ using NIST.CVP.Generation.TDES;
 
 namespace NIST.CVP.Generation.TDES_CBC
 {
-    public class TdesCbc
+    public class TdesCbc : ITDES_CBC
     {
         public const int EXPECTED_BLOCK_SIZE = 64;
 
@@ -26,7 +26,12 @@ namespace NIST.CVP.Generation.TDES_CBC
             {
                 byte[] input = new byte[8];
                 Array.Copy(plainTextBytes, blockIdx * 8, input, 0, 8);
-                var blockOutput = EncryptWorker(keyBits, input, vector);
+                
+                var inputToBeXOR = new BitString(input); //Create input variable that we can XOR
+                var XorInput = vector.XOR(inputToBeXOR);
+                input = XorInput.ToBytes(); //Set input equal to the XOR'd input, in byte format
+
+                var blockOutput = EncryptWorker(keyBits, input);
                 Array.Copy(blockOutput, 0, output, blockIdx * 8, 8);
                 vector = new BitString(blockOutput);
             }
@@ -34,13 +39,10 @@ namespace NIST.CVP.Generation.TDES_CBC
 
         }
 
-        private byte[] EncryptWorker(BitString keyBits, byte[] input, BitString vector)
+        private byte[] EncryptWorker(BitString keyBits, byte[] input)
         {
             var keys = new TDESKeys(keyBits);
             var context = new TDESContext(keys, FunctionValues.Encryption);
-            var data = new BitString(input);
-            var dataXor = vector.XOR(data);
-            input = dataXor.ToBytes();
             byte[] interm1 = context.Schedule[0].Apply(input);
             byte[] interm2 = context.Schedule[1].Apply(interm1);
             byte[] output = context.Schedule[2].Apply(interm2);
@@ -61,14 +63,19 @@ namespace NIST.CVP.Generation.TDES_CBC
             {
                 byte[] input = new byte[8];
                 Array.Copy(cipherTextBytes, blockIdx * 8, input, 0, 8);
-                var blockOutput = DecryptWorker(keyBits, input, vector);
+                var blockOutput = DecryptWorker(keyBits, input);
+
+                var outputToBeXOR = new BitString(blockOutput); //Create output variable that we can XOR
+                var XorOutput = vector.XOR(outputToBeXOR);
+                blockOutput = XorOutput.ToBytes(); //Set output equal to the XOR'd output, in byte format
+
                 Array.Copy(blockOutput, 0, output, blockIdx * 8, 8);
                 vector = new BitString(input);
             }
             return new DecryptionResult(new BitString(output));
         }
 
-        private byte[] DecryptWorker(BitString keyBits, byte[] input, BitString vector)
+        private byte[] DecryptWorker(BitString keyBits, byte[] input)
         {
             var keys = new TDESKeys(keyBits);
             var context = new TDESContext(keys, FunctionValues.Decryption);
@@ -76,8 +83,6 @@ namespace NIST.CVP.Generation.TDES_CBC
             byte[] interm2 = context.Schedule[1].Apply(interm1);
             byte[] output = context.Schedule[0].Apply(interm2);
             var data = new BitString(output);
-            var dataXor = vector.XOR(data);
-            output = dataXor.ToBytes();
             return output;
         }
 
