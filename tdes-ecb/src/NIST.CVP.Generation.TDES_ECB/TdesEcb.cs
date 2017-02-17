@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using NIST.CVP.Generation.TDES;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.TDES
+namespace NIST.CVP.Generation.TDES_ECB
 {
-    public class TdesEcb: ITDES_ECB
+    public class TdesEcb : ITDES_ECB
     {
         public const int EXPECTED_BLOCK_SIZE = 64;
-      
+
 
         public EncryptionResult BlockEncrypt(BitString keyBits, BitString data)
         {
@@ -25,7 +29,7 @@ namespace NIST.CVP.Generation.TDES
                 Array.Copy(blockOutput, 0, output, blockIdx * 8, 8);
             }
             return new EncryptionResult(new BitString(output));
-           
+
         }
 
         private byte[] EncryptWorker(BitString keyBits, byte[] input)
@@ -66,7 +70,5 @@ namespace NIST.CVP.Generation.TDES
             byte[] output = context.Schedule[0].Apply(interm2);
             return output;
         }
-
-
     }
 }

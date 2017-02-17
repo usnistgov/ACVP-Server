@@ -11,10 +11,10 @@ namespace NIST.CVP.Generation.TDES_CBC
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly ITDES_ECB _algo;
+        private readonly ITDES_CBC _algo;
         private readonly IMonteCarloKeyMaker _keyMaker;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ITDES_ECB algo, IMonteCarloKeyMaker keyMaker)
+        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ITDES_CBC algo, IMonteCarloKeyMaker keyMaker)
         {
             _algo = algo;
             _random800_90 = random800_90;

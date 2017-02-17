@@ -1,7 +1,12 @@
-﻿using NIST.CVP.Math;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using NIST.CVP.Math;
 using NUnit.Framework;
+using NIST.CVP.Generation.TDES_ECB;
 
-namespace NIST.CVP.Generation.TDES.Tests
+namespace NIST.CVP.Generation.TDES_ECB.Tests
 {
     [TestFixture]
     public class TDESEcbTests
@@ -10,12 +15,12 @@ namespace NIST.CVP.Generation.TDES.Tests
         [Test]
         public void ShouldPassStartupTest()
         {
-            var keyBytes = new byte[] { 0x01 , 0x23, 0x45, 0x67, 0x89, 0xab , 0xcd, 0xef};
+            var keyBytes = new byte[] { 0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef };
             var plainTextBytes = new byte[] { 0x4e, 0x6f, 0x77, 0x20, 0x69, 0x73, 0x20, 0x74 };
             var expectedBytes = new byte[] { 0x3f, 0xa4, 0x0e, 0x8a, 0x98, 0x4d, 0x48, 0x15 };
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(keyBytes), new BitString(plainTextBytes));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
             var actual = result.CipherText.ToBytes();
             Assert.AreEqual(expectedBytes, actual);
         }
@@ -89,9 +94,9 @@ namespace NIST.CVP.Generation.TDES.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
-            Assert.AreEqual(new BitString(cipherText), result.CipherText );
+            Assert.AreEqual(new BitString(cipherText), result.CipherText);
         }
 
         [Test]
@@ -131,7 +136,7 @@ namespace NIST.CVP.Generation.TDES.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(cipherText), result.CipherText);
         }
@@ -160,7 +165,7 @@ namespace NIST.CVP.Generation.TDES.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(cipherText), result.CipherText);
         }
@@ -227,7 +232,7 @@ namespace NIST.CVP.Generation.TDES.Tests
             string plaintext = "0000000000000000";
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(cipherText), result.CipherText);
         }
@@ -253,56 +258,56 @@ namespace NIST.CVP.Generation.TDES.Tests
         [TestCase("0000400000000000", "889de068a16f0be6")]
         [TestCase("0000200000000000", "e19e275d846a1298")]
         [TestCase("0000100000000000", "329a8ed523d71aec")]
-        [TestCase( "0000080000000000" , "e7fce22557d23c97")]
-        [TestCase( "0000040000000000" , "12a9f5817ff2d65d")]
-        [TestCase( "0000020000000000" , "a484c3ad38dc9c19")]
-        [TestCase( "0000010000000000" , "fbe00a8a1ef8ad72")]
-        [TestCase( "0000008000000000" , "750d079407521363")]
-        [TestCase( "0000004000000000" , "64feed9c724c2faf")]
-        [TestCase( "0000002000000000" , "f02b263b328e2b60")]
-        [TestCase( "0000001000000000" , "9d64555a9a10b852")]
-        [TestCase( "0000000800000000" , "d106ff0bed5255d7")]
-        [TestCase( "0000000400000000" , "e1652c6b138c64a5")]
-        [TestCase( "0000000200000000" , "e428581186ec8f46")]
-        [TestCase( "0000000100000000" , "aeb5f5ede22d1a36")]
-        [TestCase( "0000000080000000" , "e943d7568aec0c5c")]
-        [TestCase( "0000000040000000" , "df98c8276f54b04b")]
-        [TestCase( "0000000020000000" , "b160e4680f6c696f")]
-        [TestCase( "0000000010000000" , "fa0752b07d9c4ab8")]
-        [TestCase( "0000000008000000" , "ca3a2b036dbc8502")]
-        [TestCase( "0000000004000000" , "5e0905517bb59bcf")]
-        [TestCase( "0000000002000000" , "814eeb3b91d90726")]
-        [TestCase( "0000000001000000" , "4d49db1532919c9f")]
-        [TestCase( "0000000000800000" , "25eb5fc3f8cf0621")]
-        [TestCase( "0000000000400000" , "ab6a20c0620d1c6f")]
-        [TestCase( "0000000000200000" , "79e90dbc98f92cca")]
-        [TestCase( "0000000000100000" , "866ecedd8072bb0e")]
-        [TestCase( "0000000000080000" , "8b54536f2f3e64a8")]
-        [TestCase( "0000000000040000" , "ea51d3975595b86b")]
-        [TestCase( "0000000000020000" , "caffc6ac4542de31")]
-        [TestCase( "0000000000010000" , "8dd45a2ddf90796c")]
-        [TestCase( "0000000000008000" , "1029d55e880ec2d0")]
-        [TestCase( "0000000000004000" , "5d86cb23639dbea9")]
-        [TestCase( "0000000000002000" , "1d1ca853ae7c0c5f")]
-        [TestCase( "0000000000001000" , "ce332329248f3228")]
-        [TestCase( "0000000000000800" , "8405d1abe24fb942")]
-        [TestCase( "0000000000000400" , "e643d78090ca4207")]
-        [TestCase( "0000000000000200" , "48221b9937748a23")]
-        [TestCase( "0000000000000100" , "dd7c0bbd61fafd54")]
-        [TestCase( "0000000000000080" , "2fbc291a570db5c4")]
-        [TestCase( "0000000000000040" , "e07c30d7e4e26e12")]
-        [TestCase( "0000000000000020" , "0953e2258e8e90a1")]
-        [TestCase( "0000000000000010" , "5b711bc4ceebf2ee")]
-        [TestCase( "0000000000000008" , "cc083f1e6d9e85f6")]
-        [TestCase( "0000000000000004" , "d2fd8867d50d2dfe")]
-        [TestCase( "0000000000000002" , "06e7ea22ce92708f")]
-        [TestCase( "0000000000000001" , "166b40b44aba4bd6")]
+        [TestCase("0000080000000000", "e7fce22557d23c97")]
+        [TestCase("0000040000000000", "12a9f5817ff2d65d")]
+        [TestCase("0000020000000000", "a484c3ad38dc9c19")]
+        [TestCase("0000010000000000", "fbe00a8a1ef8ad72")]
+        [TestCase("0000008000000000", "750d079407521363")]
+        [TestCase("0000004000000000", "64feed9c724c2faf")]
+        [TestCase("0000002000000000", "f02b263b328e2b60")]
+        [TestCase("0000001000000000", "9d64555a9a10b852")]
+        [TestCase("0000000800000000", "d106ff0bed5255d7")]
+        [TestCase("0000000400000000", "e1652c6b138c64a5")]
+        [TestCase("0000000200000000", "e428581186ec8f46")]
+        [TestCase("0000000100000000", "aeb5f5ede22d1a36")]
+        [TestCase("0000000080000000", "e943d7568aec0c5c")]
+        [TestCase("0000000040000000", "df98c8276f54b04b")]
+        [TestCase("0000000020000000", "b160e4680f6c696f")]
+        [TestCase("0000000010000000", "fa0752b07d9c4ab8")]
+        [TestCase("0000000008000000", "ca3a2b036dbc8502")]
+        [TestCase("0000000004000000", "5e0905517bb59bcf")]
+        [TestCase("0000000002000000", "814eeb3b91d90726")]
+        [TestCase("0000000001000000", "4d49db1532919c9f")]
+        [TestCase("0000000000800000", "25eb5fc3f8cf0621")]
+        [TestCase("0000000000400000", "ab6a20c0620d1c6f")]
+        [TestCase("0000000000200000", "79e90dbc98f92cca")]
+        [TestCase("0000000000100000", "866ecedd8072bb0e")]
+        [TestCase("0000000000080000", "8b54536f2f3e64a8")]
+        [TestCase("0000000000040000", "ea51d3975595b86b")]
+        [TestCase("0000000000020000", "caffc6ac4542de31")]
+        [TestCase("0000000000010000", "8dd45a2ddf90796c")]
+        [TestCase("0000000000008000", "1029d55e880ec2d0")]
+        [TestCase("0000000000004000", "5d86cb23639dbea9")]
+        [TestCase("0000000000002000", "1d1ca853ae7c0c5f")]
+        [TestCase("0000000000001000", "ce332329248f3228")]
+        [TestCase("0000000000000800", "8405d1abe24fb942")]
+        [TestCase("0000000000000400", "e643d78090ca4207")]
+        [TestCase("0000000000000200", "48221b9937748a23")]
+        [TestCase("0000000000000100", "dd7c0bbd61fafd54")]
+        [TestCase("0000000000000080", "2fbc291a570db5c4")]
+        [TestCase("0000000000000040", "e07c30d7e4e26e12")]
+        [TestCase("0000000000000020", "0953e2258e8e90a1")]
+        [TestCase("0000000000000010", "5b711bc4ceebf2ee")]
+        [TestCase("0000000000000008", "cc083f1e6d9e85f6")]
+        [TestCase("0000000000000004", "d2fd8867d50d2dfe")]
+        [TestCase("0000000000000002", "06e7ea22ce92708f")]
+        [TestCase("0000000000000001", "166b40b44aba4bd6")]
         public void ShouldPassVariablePlainTextEncryptKnownAnswerTest(string plaintext, string cipherText)
         {
             string key = "0101010101010101";
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(cipherText), result.CipherText);
         }
@@ -315,7 +320,7 @@ namespace NIST.CVP.Generation.TDES.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(cipherText), result.CipherText);
         }
@@ -327,7 +332,7 @@ namespace NIST.CVP.Generation.TDES.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreNotEqual(new BitString(cipherText), result.CipherText);
         }
@@ -370,7 +375,7 @@ namespace NIST.CVP.Generation.TDES.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
@@ -444,7 +449,7 @@ namespace NIST.CVP.Generation.TDES.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
@@ -473,7 +478,7 @@ namespace NIST.CVP.Generation.TDES.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
@@ -541,7 +546,7 @@ namespace NIST.CVP.Generation.TDES.Tests
             string plaintext = "0000000000000000";
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
@@ -616,7 +621,7 @@ namespace NIST.CVP.Generation.TDES.Tests
             string key = "0101010101010101";
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
@@ -628,7 +633,7 @@ namespace NIST.CVP.Generation.TDES.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(plaintext), result.PlainText);
         }
@@ -640,7 +645,7 @@ namespace NIST.CVP.Generation.TDES.Tests
         {
             var subject = new TdesEcb();
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText));
-            Assert.IsTrue((bool) result.Success);
+            Assert.IsTrue((bool)result.Success);
 
             Assert.AreNotEqual(new BitString(plaintext), result.PlainText);
         }
