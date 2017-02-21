@@ -231,6 +231,21 @@ namespace NIST.CVP.Math
 
             return hex.ToString().ToUpper();
         }
+
+
+        /// <summary>
+        /// Returns the MSb (or index of the LSb array) as a boolean value
+        /// </summary>
+        /// <param name="index">Index of the LSb BitArray to retrieve</param>
+        /// <returns>Boolean of a specific bit.</returns>
+        public bool ToBool(int index = -1)
+        {
+            if (index < 0)
+            {
+                index = Bits.Length - 1;
+            }
+            return Bits[index];
+        }
         #endregion Conversions
 
         #region Logical Operators
@@ -615,8 +630,18 @@ namespace NIST.CVP.Math
             return this.ToHex().GetHashCode();
         }
 
-        #region Private methods
-        private static void PadShorterBitStringWithZeroes(ref BitString inputA, ref BitString inputB)
+        public static BitString Zero()
+        {
+            return new BitString("00", 1);
+        }
+
+        public static BitString One()
+        {
+            return new BitString("80", 1);
+        }
+
+    #region Private methods
+    private static void PadShorterBitStringWithZeroes(ref BitString inputA, ref BitString inputB)
         {
             if (inputA.BitLength == inputB.BitLength)
             {
