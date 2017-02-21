@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.TDES_CBC
 
             var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * @group.NumberOfKeys);
             var plainText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * (_currentCase + 1));
-            var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * (_currentCase + 1));
+            var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
             var testCase = new TestCase
             {
                 Key = key,
