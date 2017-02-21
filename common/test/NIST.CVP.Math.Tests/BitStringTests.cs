@@ -1677,5 +1677,37 @@ namespace NIST.CVP.Math.Tests
             Assert.AreEqual(expectedResult.ToHex(), result);
         }
         #endregion BitOriented
+
+        #region ToBool
+        [Test]
+        [TestCase("00", false)]
+        [TestCase("10", false)]
+        [TestCase("80", true)]
+        [TestCase("FF", true)]
+        public void ShouldConvertBitStringToBool(string hex, bool expectedResult)
+        {
+            var subject = new BitString(hex);
+            var result = subject.ToBool();
+            Assert.AreEqual(expectedResult, result);
+        }
+        #endregion ToBool
+
+        #region ZERO and ONE
+        [Test]
+        public void ShouldReturnOne()
+        {
+            var subject = BitString.One();
+            Assert.AreEqual(1, subject.BitLength);
+            Assert.IsTrue(subject.ToBool());
+        }
+
+        [Test]
+        public void ShouldReturnZero()
+        {
+            var subject = BitString.Zero();
+            Assert.AreEqual(1, subject.BitLength);
+            Assert.IsFalse(subject.ToBool());
+        }
+        #endregion ZERO and ONE
     }
 }
