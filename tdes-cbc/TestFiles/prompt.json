@@ -1445,84 +1445,94 @@
           "initialization vector": "0000000000000000"
         }
       ]
+    },
+    {
+      "direction": "encrypt",
+      "testType": "MultiBlockMessage",
+      "numberOfKeys": 3,
+      "tests": [
+        {
+          "tcId": 236,
+          "plainText": "C8D8994F554F8D2F",
+          "initialization vector": "fbee88f2d5a40d6b",
+          "key1": "D64D773B7FF3C283",
+          "key2": "7DC7B41407FD95FE",
+          "key3": "EFF1A98962E4286C"
+        },
+        {
+          "tcId": 237,
+          "plainText": "4D046C65F66534BC649F9C59FB320DDA",
+          "initialization vector": "870eae899bb29c69",
+          "key1": "F4A705BEA4BCEB73",
+          "key2": "CE33D442A5913689",
+          "key3": "6A2336785A4F1DA1"
+        },
+        {
+          "tcId": 238,
+          "plainText": "89883ABAD8A2D77A320DA20E34066FE606683C6F0DE82C97",
+          "initialization vector": "5dfcbfc4fb49ee76",
+          "key1": "ED1027036A7F5A76",
+          "key2": "9C0A33DC64E18159",
+          "key3": "5B93A8E604F6899E"
+        },
+        {
+          "tcId": 239,
+          "plainText": "555C1BBCDEBF84ECF472533405BB90254C195EBBA7E35FA35D3338852BF04D4D",
+          "initialization vector": "1d262b5d9cf82793",
+          "key1": "D38ED52C6D7EDB18",
+          "key2": "1DEB85BFBA6D0879",
+          "key3": "764A99ED0A80C82A"
+        },
+        {
+          "tcId": 240,
+          "plainText": "81C8EFDFADC5C30DB23BBFD38A1C0522A852113C24307A9F06A379A10E6C8E0288A05478013FFBDA",
+          "initialization vector": "60a2e4f9665f4961",
+          "key1": "F99F881A9C4731C2",
+          "key2": "BA6244A2601610D5",
+          "key3": "41F01EA9A0BDAC3A"
+        },
+        {
+          "tcId": 241,
+          "plainText": "6B150EC5A8EE4E1999953B521DC11BD8594955104804FC06935A9BC192FBD3ECCED03DB3AEB4AFB1AF27F5B3DD00BA52",
+          "initialization vector": "6f44d7cb7bd353d0",
+          "key1": "43B5163773DF97A9",
+          "key2": "C9BD7A579FFD418E",
+          "key3": "481953D7145E8E6F"
+        },
+        {
+          "tcId": 242,
+          "plainText": "614C96F572FD1F1C818D9E5D58D1E0A0AE0B0DAAB725D69413EF7E386A4292AF3AA7DD63E5BD099AB53EE4CE008198E6F7CDB1AC7378623E",
+          "initialization vector": "b778a984a7c48d6a",
+          "key1": "B07BB27C97D55B66",
+          "key2": "5B9EDFF1B7D76D5F",
+          "key3": "B781231A648710C6"
+        },
+        {
+          "tcId": 243,
+          "plainText": "C0AC38090E04B7FE6FDDEC9EA36108D00D439D8BFA6D6D4E2BE8A516AE15B4606C54C951E573711495C29533F0B068213C3EF0486DFCC489FD1E7D80194DC004",
+          "initialization vector": "586f84b995fd4557",
+          "key1": "10DD4E0C83440FFE",
+          "key2": "8C0B87BFF76B6DA8",
+          "key3": "68BE636F1AC43DBB"
+        },
+        {
+          "tcId": 244,
+          "plainText": "1960FDF1F537CC545EF27DF813B0795FBF27B38E8367D4337EE70F3D7A048B62A7DBC8E034BD9AC3BE586223A3E08DAD3646174B1A22E4E14032AE90FA8AADC11621D9A05EB0A6D7",
+          "initialization vector": "28513297c58d43aa",
+          "key1": "73CDB1674915652D",
+          "key2": "770AC728C5A18480",
+          "key3": "7C2690DB940D906F"
+        },
+        {
+          "tcId": 245,
+          "plainText": "7F23B5C8D1C1B94DF7ED403E2946384B790D9A6EB0D4A743F4D8185903E642510B141C5BADDB3BD4B4C588A66C28D2CC4102FA28F383279C7F63A30D966E137F93AC67FB137A4D73358DF1D87026A698",
+          "initialization vector": "3e703d2e1a3583c1",
+          "key1": "E5AEC71766D5FD72",
+          "key2": "102FD5FB4F7062A5",
+          "key3": "9DF9CC12C0B77B09"
+        }
+      ]
     }//,
-    //{
-    //  "direction": "encrypt",
-    //  "testType": "MultiBlockMessage",
-    //  "numberOfKeys": 3,
-    //  "tests": [
-    //    {
-    //      "tcId": 236,
-    //      "plainText": "C8D8994F554F8D2F",
-    //      "key1": "D64D773B7FF3C283",
-    //      "key2": "7DC7B41407FD95FE",
-    //      "key3": "EFF1A98962E4286C"
-    //    },
-    //    {
-    //      "tcId": 237,
-    //      "plainText": "4D046C65F66534BC649F9C59FB320DDA",
-    //      "key1": "F4A705BEA4BCEB73",
-    //      "key2": "CE33D442A5913689",
-    //      "key3": "6A2336785A4F1DA1"
-    //    },
-    //    {
-    //      "tcId": 238,
-    //      "plainText": "89883ABAD8A2D77A320DA20E34066FE606683C6F0DE82C97",
-    //      "key1": "ED1027036A7F5A76",
-    //      "key2": "9C0A33DC64E18159",
-    //      "key3": "5B93A8E604F6899E"
-    //    },
-    //    {
-    //      "tcId": 239,
-    //      "plainText": "555C1BBCDEBF84ECF472533405BB90254C195EBBA7E35FA35D3338852BF04D4D",
-    //      "key1": "D38ED52C6D7EDB18",
-    //      "key2": "1DEB85BFBA6D0879",
-    //      "key3": "764A99ED0A80C82A"
-    //    },
-    //    {
-    //      "tcId": 240,
-    //      "plainText": "81C8EFDFADC5C30DB23BBFD38A1C0522A852113C24307A9F06A379A10E6C8E0288A05478013FFBDA",
-    //      "key1": "F99F881A9C4731C2",
-    //      "key2": "BA6244A2601610D5",
-    //      "key3": "41F01EA9A0BDAC3A"
-    //    },
-    //    {
-    //      "tcId": 241,
-    //      "plainText": "6B150EC5A8EE4E1999953B521DC11BD8594955104804FC06935A9BC192FBD3ECCED03DB3AEB4AFB1AF27F5B3DD00BA52",
-    //      "key1": "43B5163773DF97A9",
-    //      "key2": "C9BD7A579FFD418E",
-    //      "key3": "481953D7145E8E6F"
-    //    },
-    //    {
-    //      "tcId": 242,
-    //      "plainText": "614C96F572FD1F1C818D9E5D58D1E0A0AE0B0DAAB725D69413EF7E386A4292AF3AA7DD63E5BD099AB53EE4CE008198E6F7CDB1AC7378623E",
-    //      "key1": "B07BB27C97D55B66",
-    //      "key2": "5B9EDFF1B7D76D5F",
-    //      "key3": "B781231A648710C6"
-    //    },
-    //    {
-    //      "tcId": 243,
-    //      "plainText": "C0AC38090E04B7FE6FDDEC9EA36108D00D439D8BFA6D6D4E2BE8A516AE15B4606C54C951E573711495C29533F0B068213C3EF0486DFCC489FD1E7D80194DC004",
-    //      "key1": "10DD4E0C83440FFE",
-    //      "key2": "8C0B87BFF76B6DA8",
-    //      "key3": "68BE636F1AC43DBB"
-    //    },
-    //    {
-    //      "tcId": 244,
-    //      "plainText": "1960FDF1F537CC545EF27DF813B0795FBF27B38E8367D4337EE70F3D7A048B62A7DBC8E034BD9AC3BE586223A3E08DAD3646174B1A22E4E14032AE90FA8AADC11621D9A05EB0A6D7",
-    //      "key1": "73CDB1674915652D",
-    //      "key2": "770AC728C5A18480",
-    //      "key3": "7C2690DB940D906F"
-    //    },
-    //    {
-    //      "tcId": 245,
-    //      "plainText": "7F23B5C8D1C1B94DF7ED403E2946384B790D9A6EB0D4A743F4D8185903E642510B141C5BADDB3BD4B4C588A66C28D2CC4102FA28F383279C7F63A30D966E137F93AC67FB137A4D73358DF1D87026A698",
-    //      "key1": "E5AEC71766D5FD72",
-    //      "key2": "102FD5FB4F7062A5",
-    //      "key3": "9DF9CC12C0B77B09"
-    //    }
-    //  ]
-    //},
     //{
     //  "direction": "encrypt",
     //  "testType": "MonteCarlo",

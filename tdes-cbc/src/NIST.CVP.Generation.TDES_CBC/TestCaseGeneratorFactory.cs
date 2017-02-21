@@ -28,12 +28,12 @@ namespace NIST.CVP.Generation.TDES_CBC
             {
                 if (@group.Function.ToLower() == "encrypt")
                 {
-                    //return new TestCaseGeneratorMMTEncrypt(_random800_90, _algo);
+                    return new TestCaseGeneratorMMTEncrypt(_random800_90, _algo);
                 }
 
                 if (@group.Function.ToLower() == "decrypt")
                 {
-                    //return new TestCaseGeneratorMMTDecrypt(_random800_90, _algo);
+                    return new TestCaseGeneratorMMTDecrypt(_random800_90, _algo);
                 }
             }
             if (@group.TestType.ToLower() == "montecarlo")

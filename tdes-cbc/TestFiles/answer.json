@@ -1916,84 +1916,94 @@
           "failureTest": false
         }
       ]
+    },
+    {
+      "direction": "encrypt",
+      "testType": "MultiBlockMessage",
+      "numberOfKeys": 3,
+      "tests": [
+        {
+          "tcId": 236,
+          "cipherText": "3D6F43EE45C24BCF",
+          "key": "D64D773B7FF3C2837DC7B41407FD95FEEFF1A98962E4286C",
+          "initialization vector": "fbee88f2d5a40d6b",
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 237,
+          "cipherText": "e8bc979e579e871c6ff014677bb44c7",
+          "key": "F4A705BEA4BCEB73CE33D442A59136896A2336785A4F1DA1",
+          "initialization vector": "870eae899bb29c69",
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 238,
+          "cipherText": "fcf51eaa7866ad274af523268d87c6b97e0640b91e77bd10",
+          "key": "ED1027036A7F5A769C0A33DC64E181595B93A8E604F6899E",
+          "initialization vector": "5dfcbfc4fb49ee76",
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 239,
+          "cipherText": "090ec57446ed176569417ce1a498c985ed6fff9fb4c1d6370df52c674c67d0a6",
+          "key": "D38ED52C6D7EDB181DEB85BFBA6D0879764A99ED0A80C82A",
+          "initialization vector": "1d262b5d9cf82793",
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 240,
+          "cipherText": "f1f80d0ee3fbbf0338728a3bea318954d747fbee362d74bd36856903c20006879c3fc561ecec5701",
+          "key": "F99F881A9C4731C2BA6244A2601610D541F01EA9A0BDAC3A",
+          "initialization vector": "60a2e4f9665f4961",
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 241,
+          "cipherText": "c56b9780f1cfebefaeb226312af7d6855c4d7c218d7daacb2e12623d1e816b0e1ed3340f09a867ca655fcd96bef4300b",
+          "key": "43B5163773DF97A9C9BD7A579FFD418E481953D7145E8E6F",
+          "initialization vector": "6f44d7cb7bd353d0",
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 242,
+          "cipherText": "7c8d1f7748fba36848676f15d70674f38a8775825bb845db3317dc174c1d12b90231190dfada88f1a3bd5e4bcddadc174e525227c455fabc",
+          "key": "B07BB27C97D55B665B9EDFF1B7D76D5FB781231A648710C6",
+          "initialization vector": "b778a984a7c48d6a",
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 243,
+          "cipherText": "b6643fcb689b672e55bc9648b778ef4e736f9347920221ffcc759f5b2c9e0fee31864d148ba7aa840ee0b77279e4cadb7193e07b7accc961577c4ca1cd421f37",
+          "key": "10DD4E0C83440FFE8C0B87BFF76B6DA868BE636F1AC43DBB",
+          "initialization vector": "586f84b995fd4557",
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 244,
+          "cipherText": "c7a5b96c8839cefcfc66ef51fca100cb9d68237409594aa36a47b0b1af3667afa7d328eeb4cd217a7e2cecff4f8c450983c0c8ab35bbb8dacccd9dd26ee0096f56e1c5bcefc46eb5",
+          "key": "73CDB1674915652D770AC728C5A184807C2690DB940D906F",
+          "initialization vector": "28513297c58d43aa",
+          "deferred": false,
+          "failureTest": false
+        },
+        {
+          "tcId": 245,
+          "cipherText": "35d5cfb0011855fe2ee9afd203537b0c78a911cf42968ac6de58826dae5c3d335b6028b3d2ae1367dd19e5075cbe10b446fbc2b957ac5f27c8b8c3acd8adbde27c38afe2d10afe585a8a2a5a09166443",
+          "key": "E5AEC71766D5FD72102FD5FB4F7062A59DF9CC12C0B77B09",
+          "initialization vector": "3e703d2e1a3583c1",
+          "deferred": false,
+          "failureTest": false
+        }
+      ]
     }//,
-    //{
-    //  "direction": "encrypt",
-    //  "testType": "MultiBlockMessage",
-    //  "numberOfKeys": 3,
-    //  "tests": [
-    //    {
-    //      "tcId": 236,
-    //      "cipherText": "E961C76149DF86E7",
-    //      "key": "D64D773B7FF3C2837DC7B41407FD95FEEFF1A98962E4286C",
-    //      "deferred": false,
-    //      "failureTest": false
-    //    },
-    //    {
-    //      "tcId": 237,
-    //      "cipherText": "B759F6DE7766D63B009C3C50327EB328",
-    //      "key": "F4A705BEA4BCEB73CE33D442A59136896A2336785A4F1DA1",
-    //      "deferred": false,
-    //      "failureTest": false
-    //    },
-    //    {
-    //      "tcId": 238,
-    //      "cipherText": "D132978469A732F47F863DA9E023995B8D160A9366FA0FCD",
-    //      "key": "ED1027036A7F5A769C0A33DC64E181595B93A8E604F6899E",
-    //      "deferred": false,
-    //      "failureTest": false
-    //    },
-    //    {
-    //      "tcId": 239,
-    //      "cipherText": "222016826D6FD1FA9CAC7FB96ABBA3B3489F7D37DAD37647340F67430B0B510B",
-    //      "key": "D38ED52C6D7EDB181DEB85BFBA6D0879764A99ED0A80C82A",
-    //      "deferred": false,
-    //      "failureTest": false
-    //    },
-    //    {
-    //      "tcId": 240,
-    //      "cipherText": "225CD19076688ADA059A0EA649FD83B405EBE68853D502E5DA7827E0D7359A5084C687837A3FFF78",
-    //      "key": "F99F881A9C4731C2BA6244A2601610D541F01EA9A0BDAC3A",
-    //      "deferred": false,
-    //      "failureTest": false
-    //    },
-    //    {
-    //      "tcId": 241,
-    //      "cipherText": "0E36945E9A591FC7A5B41A6461364392BB4E513A8FD3E8ECAEBECE3D35589AB5B7335B9ED2833864794A91BED4BCD668",
-    //      "key": "43B5163773DF97A9C9BD7A579FFD418E481953D7145E8E6F",
-    //      "deferred": false,
-    //      "failureTest": false
-    //    },
-    //    {
-    //      "tcId": 242,
-    //      "cipherText": "9DF8DE49E98AB568614EE8508EB0778A9137090A7A4CD224FCCE357ACB66C76F68029B64FC81D9F0F14085402EE000E9A50B756A8EE8B299",
-    //      "key": "B07BB27C97D55B665B9EDFF1B7D76D5FB781231A648710C6",
-    //      "deferred": false,
-    //      "failureTest": false
-    //    },
-    //    {
-    //      "tcId": 243,
-    //      "cipherText": "CBE84B7EA8C019244B04A6B3E4D8FABE9DBCDC361D685D1D7B3F5E2F428B14D4509C8EFAF4648A57B950757C99E85965F09E98E0CD1FFECC75959BC1F548D6EA",
-    //      "key": "10DD4E0C83440FFE8C0B87BFF76B6DA868BE636F1AC43DBB",
-    //      "deferred": false,
-    //      "failureTest": false
-    //    },
-    //    {
-    //      "tcId": 244,
-    //      "cipherText": "97F2CB132D132EDD3F9FE14FC3DCBC92545C9E103F4B3B64713E662D4523CFF53019E388DEF0AD29DCBCDC00720EB5BC33C5DE98CABD002340366A35D8322D5A606302B3787E52BC",
-    //      "key": "73CDB1674915652D770AC728C5A184807C2690DB940D906F",
-    //      "deferred": false,
-    //      "failureTest": false
-    //    },
-    //    {
-    //      "tcId": 245,
-    //      "cipherText": "7E2C8FD20E930E90FA979C00503C69572341361BD33A134C964F8855502DEAAB0CEF7E8A1B03998CA729239B28DF378511F3CBAF1A3A0C8FE3B23400E743C45092768698C9255B0B146275C5E89C7801",
-    //      "key": "E5AEC71766D5FD72102FD5FB4F7062A59DF9CC12C0B77B09",
-    //      "deferred": false,
-    //      "failureTest": false
-    //    }
-    //  ]
-    //},
     //{
     //  "direction": "encrypt",
     //  "testType": "MonteCarlo",
