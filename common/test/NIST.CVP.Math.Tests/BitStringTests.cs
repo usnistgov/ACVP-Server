@@ -62,7 +62,6 @@ namespace NIST.CVP.Math.Tests
         [Test]
         public void ShouldCreateInstanceWithBitArray()
         {
-            // TODO
             // Arrange
             bool[] bits = new bool[] { true, false, true, true };
 
@@ -1558,7 +1557,6 @@ namespace NIST.CVP.Math.Tests
         }
         #endregion ToHex
 
-        // TODO - does this method do anything outside of the scope of itself currently?
         #region ToDigit
         #endregion ToDigit
 
