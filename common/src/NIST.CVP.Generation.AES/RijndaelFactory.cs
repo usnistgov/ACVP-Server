@@ -30,6 +30,10 @@ namespace NIST.CVP.Generation.AES
                     return new RijndaelCFB8(_iRijndaelInternals);
                 case ModeValues.CFB128:
                     return new RijndaelCFB128(_iRijndaelInternals);
+                case ModeValues.Counter:
+                    return new RijndaelCounter(_iRijndaelInternals);
+                case ModeValues.CBCMac:
+                    return new RijndaelCBCMac(_iRijndaelInternals);
                 default:
                     throw new ArgumentException($"invalid value for {nameof(mode)}");
             }
