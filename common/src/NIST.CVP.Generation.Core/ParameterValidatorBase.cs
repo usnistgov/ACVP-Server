@@ -57,6 +57,16 @@ namespace NIST.CVP.Generation.Core
             return null;
         }
 
+        protected string ValidateValue(int supplied, int[] validValues, string friendlyName)
+        {
+            if (!validValues.Contains(supplied))
+            {
+                return $"Invalid {friendlyName} supplied: {supplied}";
+            }
+
+            return null;
+        }
+
         protected string ValidateRange(int[] supplied, int minInclusive, int maxInclusive, string friendlyName)
         {
             if (supplied == null || supplied.Length == 0)

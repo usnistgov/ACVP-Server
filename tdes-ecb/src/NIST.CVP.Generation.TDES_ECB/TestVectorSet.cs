@@ -67,6 +67,19 @@ namespace NIST.CVP.Generation.TDES_ECB
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+
+                        if (test.Keys.KeyOption == KeyOptionValues.OneKey)
+                        {
+                            ((IDictionary<string, object>)testObject).Add("key", test.Key);
+                        }
+                        else
+                        {
+                            for (int iKeyIndex = 0; iKeyIndex < test.Keys.Keys.Count; iKeyIndex++)
+                            {
+                                ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}", test.Keys.KeysAsBitStrings[iKeyIndex]);
+                            }
+                        }
+
                         if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
                             ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
@@ -75,7 +88,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                         {
                             ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
                         }
-                        ((IDictionary<string, object>)testObject).Add("key", test.Key);
+
                         ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
                         ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
                         tests.Add(testObject);
@@ -109,14 +122,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
-                        }
-                        if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
-                        }
+
                         if (test.Keys.KeyOption == KeyOptionValues.OneKey)
                         {
                             ((IDictionary<string, object>)testObject).Add("key", test.Key);
@@ -125,10 +131,18 @@ namespace NIST.CVP.Generation.TDES_ECB
                         {
                             for (int iKeyIndex = 0; iKeyIndex < test.Keys.Keys.Count; iKeyIndex++)
                             {
-                                ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex+1}", test.Keys.KeysAsBitStrings[iKeyIndex]);
+                                ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}", test.Keys.KeysAsBitStrings[iKeyIndex]);
                             }
                         }
 
+                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                        }
+                        if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                        }
                         
                         tests.Add(testObject);
                     }
