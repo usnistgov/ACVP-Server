@@ -18,6 +18,6 @@ namespace NIST.CVP.Generation.TDES_ECB
         /// Keying Option 2 - 2 Key TDES
         /// Keying Option 3 (No longer supported) - 1 Key TDES - only used in KATs
         /// </summary>
-        public int[] KeyingOptions { get; set; }
+        public int[] KeyingOption { get; set; }
     }
 }

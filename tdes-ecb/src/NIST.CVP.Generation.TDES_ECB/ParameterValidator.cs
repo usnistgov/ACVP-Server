@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         private void ValidateKeyingOption(Parameters parameters, List<string> errorResults)
         {
-            string result = ValidateArray(parameters.KeyingOptions, VALID_KEYING_OPTIONS, "Keying Options");
+            string result = ValidateArray(parameters.KeyingOption, VALID_KEYING_OPTIONS, "Keying Options");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);

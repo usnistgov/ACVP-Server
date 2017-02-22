@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                 new Parameters
                 {
                     Mode = new[] {"encrypt"},
-                    KeyingOptions = new[] {1, 2}
+                    KeyingOption = new[] {1, 2}
                 });
             Assert.IsNotNull(result);
         }
@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                 new Parameters
                 {
                     Mode = new[] {"encrypt"},
-                    KeyingOptions = new[] { 1, 2 }
+                    KeyingOption = new[] { 1, 2 }
                 });
             Assume.That(result != null);
             Assert.AreEqual(7, result.TestGroups.Count);
@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                 new Parameters
                 {
                     Mode = new[] { "decrypt" },
-                    KeyingOptions = new [] { 1, 2 }
+                    KeyingOption = new [] { 1, 2 }
                 });
             Assume.That(result != null);
             Assert.AreEqual(14, result.TestGroups.Count);
@@ -76,7 +76,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                 new Parameters
                 {
                     Mode = new[] { "encrypt", "decrypt" },
-                    KeyingOptions = new [] { 1, 2 }
+                    KeyingOption = new [] { 1, 2 }
                 });
             Assume.That(result != null);
             Assert.AreEqual(21, result.TestGroups.Count);

@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             var testGroups = new List<ITestGroup>();
             foreach (var function in parameters.Mode)
             {
-                foreach (var keyingOption in parameters.KeyingOptions)
+                foreach (var keyingOption in parameters.KeyingOption)
                 {
                     // Encrypt Keying Option 2 is not valid, skip test groups
                     if (function.ToLower() == "encrypt" && keyingOption == 2)
