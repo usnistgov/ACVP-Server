@@ -129,6 +129,7 @@ namespace NIST.CVP.Generation.TDES_CBC
             switch (name.ToLower())
             {
                 case "key":
+                case "keys":
                 case "key1":
                     Key = new BitString(value);
                     return true;

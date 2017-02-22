@@ -40,10 +40,12 @@ namespace NIST.CVP.Generation.TDES_CBC.Parsers
 
                 TestGroup currentGroup = null;
                 TestCase currentTestCase = null;
-                int currentResultArrayPosition = 0;
+                //int currentResultArrayPosition = 0;
                 //AlgoArrayResponse currentArrayResponse = null;
 
                 int lineIterator = 0;
+
+
 
                 foreach (var line in lines)
                 {
@@ -66,11 +68,13 @@ namespace NIST.CVP.Generation.TDES_CBC.Parsers
                         currentGroup = new TestGroup()
                         {
                             Function = workingLine,
-                            TestType = file.Contains("MCT") ? "MCT" : string.Empty
+                            //If the file name contains "MCT", TestType is "MCT"; if file name contains "MMT", TestType is "MMT", otherwise it is an empty String.
+                            TestType = file.Contains("MCT") ? "MCT" : file.Contains("MMT") ? "MMT" : string.Empty 
                         };
                         groups.Add(currentGroup);
                         continue;
                     }
+
 
                     //if (currentGroup.TestType.ToLower() == "mct")
                     //{
