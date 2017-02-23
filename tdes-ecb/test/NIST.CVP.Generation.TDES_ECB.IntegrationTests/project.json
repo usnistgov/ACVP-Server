@@ -1,19 +1,20 @@
 ﻿{
   "version": "1.0.0-*",
 
-    "dependencies": {
-        "dotnet-test-nunit": "3.4.0-beta-3",
-        "Moq": "4.6.38-alpha",
-        "NIST.CVP.Generation.TDES": "1.0.0-*",
-        "NIST.CVP.Generation.TDES_ECB": "1.0.0-*",
-        "NIST.CVP.Tests.Core": "1.0.0-*",
-        "tdes-ecb": "1.0.0-*",
-        "TDES_ECB_Val": "1.0.0-*",
-        "Microsoft.NETCore.App": "1.1.0",
-        "NETStandard.Library": "1.6.1",
-        "NLog": "5.0.0-beta05",
-        "NUnit": "3.6.0"
-    },
+  "dependencies": {
+    "dotnet-test-nunit": "3.4.0-beta-3",
+    "Moq": "4.6.38-alpha",
+    "Microsoft.NETCore.App": "1.1.0",
+    "NETStandard.Library": "1.6.1",
+    "NLog": "5.0.0-beta05",
+    "NUnit": "3.6.0",
+    "NIST.CVP.Generation.Core": "1.0.0-*",
+    "NIST.CVP.Generation.TDES": "1.0.0-*",
+    "NIST.CVP.Generation.TDES_ECB": "1.0.0-*",
+    "NIST.CVP.Tests.Core": "1.0.0-*",
+    "TDES_ECB_Val": "1.0.0-*",
+    "tdes-ecb": "1.0.0-*"
+  },
   "testRunner": "nunit",
 
   "frameworks": {

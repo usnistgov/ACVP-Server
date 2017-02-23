@@ -81,11 +81,20 @@ namespace NIST.CVP.Generation.TDES_ECB
         public bool Deferred { get; set; }
         public BitString PlainText { get; set; }
         public BitString Key { get; set; }
+        public BitString Key2 { get; set; }
+        public BitString Key3 { get; set; }
         public BitString CipherText { get; set; }
 
         public TDESKeys Keys
         {
-            get { return new TDESKeys(Key);}
+            get
+            {
+                if (Key2 == null)
+                {
+                    return new TDESKeys(Key);
+                }
+                return new TDESKeys(Key.ConcatenateBits(Key2.ConcatenateBits(Key3)));
+            }
         }
 
         public bool Merge(ITestCase otherTest)
@@ -120,12 +129,22 @@ namespace NIST.CVP.Generation.TDES_ECB
             switch (name.ToLower())
             {
                 case "key":
+                case "keys":
+                case "key1":
                     Key = new BitString(value);
                     return true;
-               
+
+                case "key2":
+                    Key2 = new BitString(value);
+                    return true;
+
+                case "key3":
+                    Key3 = new BitString(value);
+                    return true;
+
                 case "plaintext":
                 case "pt":
-                    PlainText= new BitString(value);
+                    PlainText = new BitString(value);
                     return true;
                 case "ciphertext":
                 case "ct":
