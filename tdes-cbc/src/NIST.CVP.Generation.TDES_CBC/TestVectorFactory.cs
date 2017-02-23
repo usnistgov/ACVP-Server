@@ -30,19 +30,41 @@ namespace NIST.CVP.Generation.TDES_CBC
 
         private List<ITestGroup> BuildTestGroups(Parameters parameters)
         {
+
             var testGroups = new List<ITestGroup>();
             foreach (var function in parameters.Mode)
             {
-                var testTypesToRun = TestTypesAndNumberOfKeys;
-                if (function.ToLower() == "encrypt")
+                foreach (var keyingOption in parameters.KeyingOption)
                 {
-                    //only do the KnownAnswer (KAT) 1 key tests and 3 key tests for encryption
-                    testTypesToRun = TestTypesAndNumberOfKeys.Where(t => t.Item2 != 2).ToList();
+                    // Encrypt Keying Option 2 is not valid, skip test groups
+                    if (function.ToLower() == "encrypt" && keyingOption == 2)
+                    {
+                        continue;
+                    }
 
+                    var translatedKeyingOptionToNumberOfKeys = GetNumberOfKeysFromKeyingOption(keyingOption);
+
+                    // Create groups for the 1 key (KATs) as well as the number of keys for the keying option
+                    var testTypesToRun = TestTypesAndNumberOfKeys
+                        .Where(w => w.Item2 == translatedKeyingOptionToNumberOfKeys || w.Item2 == 1);
+
+                    AddTestGroups(testTypesToRun, function, testGroups);
                 }
-                AddTestGroups(testTypesToRun, function, testGroups);
             }
             return testGroups;
+        }
+
+        private int GetNumberOfKeysFromKeyingOption(int keyingOption)
+        {
+            switch (keyingOption)
+            {
+                case 1:
+                    return 3;
+                case 2:
+                    return 2;
+                default:
+                    throw new ArgumentException(nameof(keyingOption));
+            }
         }
 
         private void AddTestGroups(IEnumerable<Tuple<string, int>> testTypesToRun, string function, List<ITestGroup> testGroups)

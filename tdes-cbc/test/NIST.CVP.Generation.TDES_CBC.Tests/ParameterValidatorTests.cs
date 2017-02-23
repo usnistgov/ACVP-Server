@@ -18,9 +18,6 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             Assert.IsTrue(result.Success);
         }
 
-
-
-
         static object[] directionTestCases = new object[]
         {
             new object[] { "null", null },
@@ -43,26 +40,59 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             Assert.IsFalse(result.Success, testCaseLabel);
         }
 
+        static object[] failKeyingOptionTestCases = new object[]
+        {
+            new object[] { "Zero", new int[] { 0 }},
+            new object[] { "Three", new int[] { 3 }},
+            new object[] { "Four", new int[] { 4 }},
+            new object[] { "Partially valid", new int[] { 1, 4 }}
+        };
+        [Test]
+        [TestCaseSource(nameof(failKeyingOptionTestCases))]
+        public void ShouldReturnErrorWithInvalidKeyingOption(string testCaseLabel, int[] keyingOption)
+        {
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithKeyingOptions(keyingOption)
+                    .Build()
+            );
 
+            Assert.IsFalse(result.Success, testCaseLabel);
+        }
+
+        static object[] successKeyingOptionTestCases = new object[]
+        {
+            new object[] { "OneTwo", new int[] { 1, 2}},
+            new object[] { "One", new int[] { 1 }},
+            new object[] { "Two", new int[] { 2 }}
+        };
+        [Test]
+        [TestCaseSource(nameof(successKeyingOptionTestCases))]
+        public void ShouldReturnNoErrorWithValidKeyingOption(string testCaseLabel, int[] keyingOption)
+        {
+            ParameterValidator subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithKeyingOptions(keyingOption)
+                    .Build()
+            );
+
+            Assert.IsTrue(result.Success, testCaseLabel);
+        }
 
         private class ParameterBuilder
         {
             private string _algorithm;
             private string[] _mode;
-
+            private int[] _keyingOptions;
 
             public ParameterBuilder()
             {
                 // Provides a valid (as of construction) set of parameters
-                _algorithm = "TDES_CBC";
+                _algorithm = "TDES_ECB";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
-
-            }
-
-            public ParameterBuilder WithAlgorithm(string value)
-            {
-                _algorithm = value;
-                return this;
+                _keyingOptions = ParameterValidator.VALID_KEYING_OPTIONS;
             }
 
             public ParameterBuilder WithMode(string[] value)
@@ -71,17 +101,18 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
                 return this;
             }
 
-
+            public ParameterBuilder WithKeyingOptions(int[] value)
+            {
+                _keyingOptions = value;
+                return this;
+            }
 
             public Parameters Build()
             {
                 return new Parameters()
                 {
-
-                    Algorithm = _algorithm,
-
                     Mode = _mode,
-
+                    KeyingOption = _keyingOptions
                 };
             }
         }

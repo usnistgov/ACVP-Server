@@ -13,7 +13,12 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         public void ShouldReturnVectorSet()
         {
             var subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(new Parameters { Mode = new[] { "encrypt" } });
+            var result = subject.BuildTestVectorSet(
+                new Parameters
+                {
+                    Mode = new[] { "encrypt" },
+                    KeyingOption = new[] { 1, 2 }
+                });
             Assert.IsNotNull(result);
         }
 
@@ -23,12 +28,17 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [TestCase("SubstitutionTable", 1)]
         [TestCase("VariableKey", 1)]
         [TestCase("VariableText", 1)]
-        //[TestCase("MultiBlockMessage", 3)]
-        //[TestCase("MonteCarlo", 3)]
+        [TestCase("MultiBlockMessage", 3)]
+        [TestCase("MonteCarlo", 3)]
         public void ShouldReturnVectorSetWithProperEncryptionTestGroups(string testType, int keyCount)
         {
             var subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(new Parameters { Mode = new[] { "encrypt" } });
+            var result = subject.BuildTestVectorSet(
+                new Parameters
+                {
+                    Mode = new[] { "encrypt" },
+                    KeyingOption = new[] { 1, 2 }
+                });
             Assume.That(result != null);
             Assert.AreEqual(7, result.TestGroups.Count);
             Assert.IsNotNull(result.TestGroups.First(tg => tg.TestType == testType && ((TestGroup)tg).NumberOfKeys == keyCount && ((TestGroup)tg).Function == "encrypt"));
@@ -40,16 +50,21 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [TestCase("SubstitutionTable", 1)]
         [TestCase("VariableKey", 1)]
         [TestCase("VariableText", 1)]
-        //[TestCase("MultiBlockMessage", 2)]
-        //[TestCase("MonteCarlo", 2)]
-        //[TestCase("MultiBlockMessage", 3)]
-        //[TestCase("MonteCarlo", 3)]
+        [TestCase("MultiBlockMessage", 2)]
+        [TestCase("MonteCarlo", 2)]
+        [TestCase("MultiBlockMessage", 3)]
+        [TestCase("MonteCarlo", 3)]
         public void ShouldReturnVectorSetWithProperDecryptionTestGroups(string testType, int keyCount)
         {
             var subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(new Parameters { Mode = new[] { "decrypt" } });
+            var result = subject.BuildTestVectorSet(
+                new Parameters
+                {
+                    Mode = new[] { "decrypt" },
+                    KeyingOption = new[] { 1, 2 }
+                });
             Assume.That(result != null);
-            Assert.AreEqual(9, result.TestGroups.Count);
+            Assert.AreEqual(14, result.TestGroups.Count);
             Assert.IsNotNull(result.TestGroups.First(tg => tg.TestType == testType && ((TestGroup)tg).NumberOfKeys == keyCount && ((TestGroup)tg).Function == "decrypt"));
         }
 
@@ -57,9 +72,14 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         public void ShouldReturnVectorSetWithProperTestGroupsForBothDirections()
         {
             var subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(new Parameters { Mode = new[] { "encrypt", "decrypt" } });
+            var result = subject.BuildTestVectorSet(
+                new Parameters
+                {
+                    Mode = new[] { "encrypt", "decrypt" },
+                    KeyingOption = new[] { 1, 2 }
+                });
             Assume.That(result != null);
-            Assert.AreEqual(16, result.TestGroups.Count);
+            Assert.AreEqual(21, result.TestGroups.Count);
 
         }
 
