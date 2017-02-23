@@ -36,6 +36,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES", 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES.Tests", "..\..\common\test\NIST.CVP.Generation.TDES.Tests\NIST.CVP.Generation.TDES.Tests.xproj", "{F2889E37-3248-4489-B6BD-380384A19B39}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES_ECB.IntegrationTests", "..\..\tdes-ecb\test\NIST.CVP.Generation.TDES_ECB.IntegrationTests\NIST.CVP.Generation.TDES_ECB.IntegrationTests.xproj", "{409DE774-C423-415F-8DCC-81CD9E436CBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{F2889E37-3248-4489-B6BD-380384A19B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2889E37-3248-4489-B6BD-380384A19B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2889E37-3248-4489-B6BD-380384A19B39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{409DE774-C423-415F-8DCC-81CD9E436CBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{409DE774-C423-415F-8DCC-81CD9E436CBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{409DE774-C423-415F-8DCC-81CD9E436CBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{409DE774-C423-415F-8DCC-81CD9E436CBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,5 +108,6 @@ Global
 		{41D39B4C-E88D-40DA-81EC-FB22C58EA1D1} = {AED8EEB2-0897-4EA5-8A8B-FF13FD612242}
 		{797499C0-B2AC-4DAE-AE8B-CDBB529C842C} = {AED8EEB2-0897-4EA5-8A8B-FF13FD612242}
 		{F2889E37-3248-4489-B6BD-380384A19B39} = {314F52DA-DDC8-4120-947C-672C05813575}
+		{409DE774-C423-415F-8DCC-81CD9E436CBD} = {314F52DA-DDC8-4120-947C-672C05813575}
 	EndGlobalSection
 EndGlobal
