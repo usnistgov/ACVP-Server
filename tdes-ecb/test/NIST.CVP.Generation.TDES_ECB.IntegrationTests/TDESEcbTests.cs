@@ -6,7 +6,7 @@ using NIST.CVP.Math;
 using NUnit.Framework;
 using NIST.CVP.Generation.TDES_ECB;
 
-namespace NIST.CVP.Generation.TDES_ECB.Tests
+namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
 {
     [TestFixture]
     public class TDESEcbTests
