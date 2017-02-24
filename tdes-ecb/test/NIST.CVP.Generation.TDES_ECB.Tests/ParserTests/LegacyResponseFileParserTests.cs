@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Generation.TDES_CBC.Parsers;
+using NIST.CVP.Generation.TDES_ECB.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.TDES_CBC.Tests.ParserTests
+namespace NIST.CVP.Generation.TDES_ECB.Tests.ParserTests
 {
     [TestFixture]
     public class LegacyResponseFileParserTests
@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests.ParserTests
         private string _testFIleContents = @"
 # CAVS 20.2
 # Config Info for : Certicom FIPS 810
-# TDES Multi block Message Test for CBC
+# TDES Multi block Message Test for ecb
 # State : Encrypt and Decrypt
 
 [ENCRYPT]
@@ -201,6 +201,8 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             File.WriteAllText($@"{_unitTestPath}\file1.rsp", _testFIleContents); // 2 groups, 18 tests 
             File.WriteAllText($@"{_unitTestPath}\file2.rsp", _testFIleContents); // + 2 groups, 18 tests
             File.WriteAllText($@"{_unitTestPath}\fileThatShouldntBeParsed.dat", _testFIleContents); // + 0 (shouldn't be included)
+            File.WriteAllText($@"{_unitTestPath}\MMT.fax", _testFIleContents); // + 2 groups, 18 tests
+
             //File.WriteAllText($@"{_unitTestPath}\MCT.rsp", _testFIleContents); // + 2 groups, 18 tests
             // Total groups = 6, total tests = 54
         }
@@ -247,7 +249,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assert.AreEqual(4, vectorSet.TestGroups.Count); //todo: WE NEED TO CHANGE TO 6 WHEN WE IMPLEMENT MCT. 
+            Assert.AreEqual(6, vectorSet.TestGroups.Count); //todo: NEED TO CHANGE TO 8 WHEN WE IMPLEMENT MCT. 
         }
 
         [Test]
@@ -261,16 +263,16 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             Assert.IsNotEmpty(casesWithKey);
         }
 
-        [Test]
-        public void ShouldHaveTestsWithIVFilled()
-        {
-            var subject = new LegacyResponseFileParser();
-            var result = subject.Parse(_unitTestPath);
-            Assume.That(result != null);
-            var vectorSet = result.ParsedObject;
-            var casesWithIV = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).Iv != null));
-            Assert.IsNotEmpty(casesWithIV);
-        }
+        //[Test]
+        //public void ShouldHaveTestsWithIVFilled()
+        //{
+        //    var subject = new LegacyResponseFileParser();
+        //    var result = subject.Parse(_unitTestPath);
+        //    Assume.That(result != null);
+        //    var vectorSet = result.ParsedObject;
+        //    var casesWithIV = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).Iv != null));
+        //    Assert.IsNotEmpty(casesWithIV);
+        //}
 
         [Test]
         public void ShouldHaveTestsWithPlainTextFilled()
@@ -310,9 +312,9 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assume.That(vectorSet.TestGroups.Count() == 4); //todo: WE NEED TO CHANGE TO 6 WHEN WE IMPLEMENT MCT. 
+            Assume.That(vectorSet.TestGroups.Count() == 6); //to do: WE NEED TO CHANGE TO 8 WHEN WE IMPLEMENT MCT. 
             var decryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "decrypt");
-            Assert.AreEqual(2, decryptCount, decryptCount.ToString()); //todo: WE NEED TO CHANGE TO 3 WHEN WE IMPLEMENT MCT. 
+            Assert.AreEqual(3, decryptCount, decryptCount.ToString()); //WE NEED TO CHANGE TO 4 WHEN WE IMPLEMENT MCT. 
         }
 
         [Test]
@@ -322,9 +324,9 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assume.That(vectorSet.TestGroups.Count() == 4); //todo: WE NEED TO CHANGE TO 6 WHEN WE IMPLEMENT MCT. 
+            Assume.That(vectorSet.TestGroups.Count() == 6); //WE NEED TO CHANGE TO 8 WHEN WE IMPLEMENT MCT. 
             var encryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "encrypt");
-            Assert.AreEqual(2, encryptCount, encryptCount.ToString()); //todo: WE NEED TO CHANGE TO 3 WHEN WE IMPLEMENT MCT. 
+            Assert.AreEqual(3, encryptCount, encryptCount.ToString()); //WE NEED TO CHANGE TO 4 WHEN WE IMPLEMENT MCT. 
 
         }
     }

@@ -64,9 +64,9 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
 
                     if (testGroup.TestType.ToLower() == "mct")
                     {
-                        mctTestHit = true;//REMOVE WHEN MCT IS IMPLEMENTED
+                        mctTestHit = true;//todo: REMOVE WHEN MCT IS IMPLEMENTED
 
-                        continue; //REMOVE WHEN MCT IS IMPLEMENTED
+                        continue; //todo: REMOVE WHEN MCT IS IMPLEMENTED
 
                         /*
                         mctTestHit = true;

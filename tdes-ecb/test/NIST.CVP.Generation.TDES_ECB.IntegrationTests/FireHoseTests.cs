@@ -66,9 +66,9 @@ namespace NIST.CVP.Generation.TDES_EBC.IntegrationTests
 
                     if (testGroup.TestType.ToLower() == "mct")
                     {
-                        mctTestHit = true;//REMOVE WHEN MCT IS IMPLEMENTED
+                        mctTestHit = true;//todo: REMOVE WHEN MCT IS IMPLEMENTED
 
-                        continue; //REMOVE WHEN MCT IS IMPLEMENTED
+                        continue; //todo: REMOVE WHEN MCT IS IMPLEMENTED
 
                         /*
                         mctTestHit = true;
@@ -158,9 +158,10 @@ namespace NIST.CVP.Generation.TDES_EBC.IntegrationTests
                 }
             }
 
-         //   Assert.IsTrue(mctTestHit, "No MCT tests were run");
+            Assert.IsTrue(mctTestHit, "No MCT tests were run");
             Assert.IsTrue(nonMctTestHit, "No normal (non MCT) tests were run");
             // Assert.Fail($"Passes {passes}, fails {fails}, count {count}");
+            Console.WriteLine(count);
         }
     }
     

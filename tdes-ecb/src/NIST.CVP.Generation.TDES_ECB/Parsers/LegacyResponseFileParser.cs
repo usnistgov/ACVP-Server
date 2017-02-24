@@ -25,7 +25,11 @@ namespace NIST.CVP.Generation.TDES_ECB.Parsers
 
             var groups = new List<TestGroup>();
 
-            var files = Directory.GetFiles(path, "*.rsp");
+            var rspFiles = Directory.GetFiles(path, "*.rsp");
+            var faxFiles = Directory.GetFiles(path, "*.fax");
+
+            var files = rspFiles.Concat(faxFiles);
+            
             foreach (var file in files)
             {
                 var lines = new List<string>();
