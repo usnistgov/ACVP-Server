@@ -100,7 +100,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             foreach (var test in tests)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
-                Assert.IsTrue(!string.IsNullOrEmpty(test.key.ToString()), nameof(test.key));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.key1.ToString()), nameof(test.key));
             }
         }
 

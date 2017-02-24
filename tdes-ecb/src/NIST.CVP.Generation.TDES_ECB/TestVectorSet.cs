@@ -178,7 +178,9 @@ namespace NIST.CVP.Generation.TDES_ECB
 
                             if (test.Keys.KeyOption == KeyOptionValues.OneKey)
                             {
-                                ((IDictionary<string, object>) testObject).Add("key", test.Key);
+                                ((IDictionary<string, object>) testObject).Add("key1", test.Key);
+                                ((IDictionary<string, object>) testObject).Add("key2", test.Key);
+                                ((IDictionary<string, object>) testObject).Add("key3", test.Key);
                             }
                             else
                             {
@@ -225,7 +227,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (group.TestType.ToLower() == "mct")
+                        if (group.TestType.ToLower() == "montecarlo")
                         {
                             var resultsArray = new List<dynamic>();
                             foreach (var result in test.ResultsArray)

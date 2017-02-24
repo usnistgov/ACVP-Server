@@ -100,7 +100,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                    .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = "passed" } } });
             }
 
-            return new Validator(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object);
+            return new Validator(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object, mocks.MockITestCaseValidatorFactory.Object);
         }
 
         private dynamic GetTestResults(int groups = 2)
