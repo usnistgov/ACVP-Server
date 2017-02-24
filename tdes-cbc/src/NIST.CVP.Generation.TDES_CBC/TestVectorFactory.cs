@@ -16,8 +16,8 @@ namespace NIST.CVP.Generation.TDES_CBC
             new Tuple<string, int>("VariableText", 1),
             new Tuple<string, int>("MultiBlockMessage", 2),
             new Tuple<string, int>("MultiBlockMessage", 3),
-            new Tuple<string, int>("MonteCarlo", 2),
-            new Tuple<string, int>("MonteCarlo", 3)
+            //new Tuple<string, int>("MonteCarlo", 2),
+            //new Tuple<string, int>("MonteCarlo", 3) Be sure to add back with MCT
 
         };
         public ITestVectorSet BuildTestVectorSet(Parameters parameters)

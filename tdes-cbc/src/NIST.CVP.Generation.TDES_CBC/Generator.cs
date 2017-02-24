@@ -41,10 +41,12 @@ namespace NIST.CVP.Generation.TDES_CBC
                 int testId = 1;
                 foreach (var group in testVector.TestGroups.Select(g => (TestGroup)g))
                 {
-                    if (group.NumberOfKeys == 1)
+                //int testId = 1;
+                if (group.NumberOfKeys == 1)
                     {
                         //known answer test -- just grab 'em, add a test case Id and move along
-                        var kats = _knownAnswerTestFactory.GetKATTestCases(@group.TestType);
+                        var kats = _knownAnswerTestFactory.GetKATTestCases(@group.TestType, @group.Function);
+                    //Decrypt kats already have TestCaseId set. Decrypt and Encrypt are not separate
                         if (kats.Count == 0)
                         {
                             return new GenerateResponse($"Found 0 {group.Function}: {group.TestType} tests");

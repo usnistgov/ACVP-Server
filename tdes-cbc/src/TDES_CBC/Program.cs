@@ -21,7 +21,7 @@ namespace tdes_cbc
                 return 1;
             }
             var requestFile = args[0];
-            LoggingHelper.ConfigureLogging(requestFile, "tdes-ecb");
+            LoggingHelper.ConfigureLogging(requestFile, "tdes-cbc");
             Logger.Info($"Running {PlatformServices.Default.Application.ApplicationName} { PlatformServices.Default.Application.ApplicationVersion}");
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
