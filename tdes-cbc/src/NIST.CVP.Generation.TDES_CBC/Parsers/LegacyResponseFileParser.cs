@@ -68,8 +68,8 @@ namespace NIST.CVP.Generation.TDES_CBC.Parsers
                         currentGroup = new TestGroup()
                         {
                             Function = workingLine,
-                            //If the file name contains "MCT", TestType is "MCT"; if file name contains "MMT", TestType is "MMT", otherwise it is an empty String.
-                            TestType = file.Contains("MCT") ? "MCT" : file.Contains("MMT") ? "MMT" : string.Empty 
+                            //If the file name contains "Monte", TestType is "MCT"; if file name contains "MMT", TestType is "MMT", otherwise it is an empty String.
+                            TestType = file.Contains("Monte") ? "MCT" : file.Contains("MMT") ? "MMT" : string.Empty 
                         };
                         groups.Add(currentGroup);
                         continue;
