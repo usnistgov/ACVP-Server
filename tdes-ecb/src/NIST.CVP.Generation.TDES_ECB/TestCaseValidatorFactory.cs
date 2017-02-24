@@ -16,14 +16,29 @@ namespace NIST.CVP.Generation.TDES_ECB
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
                     var workingTest = test;
-                    if (group.Function == "encrypt")
+                    if (group.TestType.ToLower() == "montecarlo")
                     {
-                        list.Add(new TestCaseValidatorEncrypt(workingTest));
+                        if (group.Function == "encrypt")
+                        {
+                            list.Add(new TestCaseValidatorMonteCarloEncrypt(workingTest));
+                        }
+                        else
+                        {
+                            list.Add(new TestCaseValidatorMonteCarloDecrypt(workingTest));
+                        }
                     }
                     else
                     {
-                        list.Add(new TestCaseValidatorDecrypt(workingTest));
-                    }            
+
+                        if (group.Function == "encrypt")
+                        {
+                            list.Add(new TestCaseValidatorEncrypt(workingTest));
+                        }
+                        else
+                        {
+                            list.Add(new TestCaseValidatorDecrypt(workingTest));
+                        }
+                    }
                 }
             }
 

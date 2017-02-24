@@ -35,27 +35,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
         }
-
-        [Test]
-        [TestCase(true)]
-        [TestCase(false)]
-        public void ShouldReturSampleMonteCarloGeneratorIfRequested(bool isSample)
-        {
-            TestGroup testGroup = new TestGroup()
-            {
-                Function = "encrypt",
-                TestType = "MonteCarlo"
-            };
-
-            var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(testGroup, isSample);
-            Assume.That(generator != null);
-            var typedGen = generator as TestCaseGeneratorMonteCarloEncrypt;
-            Assume.That(typedGen != null);
-            Assert.AreEqual(isSample, typedGen.IsSample);
-        }
-
-
+        
         [Test]
         public void ShouldReturnAGenerator()
         {
@@ -68,8 +48,8 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var randy = new Mock<IRandom800_90>().Object;
             var algo = new Mock<ITDES_ECB>().Object;
-            var keyMaker = new Mock<IMonteCarloKeyMaker>().Object;
-            return new TestCaseGeneratorFactory(randy, algo, keyMaker);
+            var algoMct = new Mock<ITDES_ECB_MCT>().Object;
+            return new TestCaseGeneratorFactory(randy, algo, algoMct);
         }
 
       

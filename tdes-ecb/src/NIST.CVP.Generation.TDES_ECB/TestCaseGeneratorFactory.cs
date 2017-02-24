@@ -8,13 +8,13 @@ namespace NIST.CVP.Generation.TDES_ECB
     {
         private readonly IRandom800_90 _random800_90;
         private readonly ITDES_ECB _algo;
-        private readonly IMonteCarloKeyMaker _keyMaker;
+        private readonly ITDES_ECB_MCT _mctAlgo;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ITDES_ECB algo, IMonteCarloKeyMaker keyMaker)
+        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ITDES_ECB algo, ITDES_ECB_MCT mctAlgo)
         {
             _algo = algo;
             _random800_90 = random800_90;
-            _keyMaker = keyMaker;
+            _mctAlgo = mctAlgo;
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group, bool isSample)
@@ -36,12 +36,12 @@ namespace NIST.CVP.Generation.TDES_ECB
             {
                 if (@group.Function.ToLower() == "encrypt")
                 {
-                    return new TestCaseGeneratorMonteCarloEncrypt(_random800_90,_algo, _keyMaker, isSample);
+                    return new TestCaseGeneratorMonteCarloEncrypt(_random800_90, _mctAlgo);
                 }
 
                 if (@group.Function.ToLower() == "decrypt")
                 {
-                    return new TestCaseGeneratorMonteCarloDecrypt(_random800_90, _algo, _keyMaker, isSample);
+                    return new TestCaseGeneratorMonteCarloDecrypt(_random800_90, _mctAlgo);
                 }
             }
             return new TestCaseGeneratorNull();

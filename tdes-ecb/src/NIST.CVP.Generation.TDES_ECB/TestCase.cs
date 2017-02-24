@@ -45,10 +45,36 @@ namespace NIST.CVP.Generation.TDES_ECB
             {
                 Deferred = source.deferred;
             }
+            if (((ExpandoObject)source).ContainsProperty("resultsArray"))
+            {
+                ResultsArray = ResultsArrayToObject(source.resultsArray);
+            }
 
             Key = BitStringFromObject("key", (ExpandoObject) source);
             CipherText = BitStringFromObject("cipherText", (ExpandoObject)source);
             PlainText = BitStringFromObject("plainText", (ExpandoObject)source);
+        }
+
+        private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
+        {
+            List<AlgoArrayResponse> list = new List<AlgoArrayResponse>();
+
+            foreach (dynamic item in resultsArray)
+            {
+                AlgoArrayResponse response = new AlgoArrayResponse();
+
+                var key1 = BitStringFromObject("key1", (ExpandoObject)item);
+                var key2 = BitStringFromObject("key2", (ExpandoObject)item);
+                var key3 = BitStringFromObject("key3", (ExpandoObject)item);
+
+                response.Keys = key1.ConcatenateBits(key2.ConcatenateBits(key3));
+                response.PlainText = BitStringFromObject("plainText", (ExpandoObject)item);
+                response.CipherText = BitStringFromObject("cipherText", (ExpandoObject)item);
+
+                list.Add(response);
+            }
+
+            return list;
         }
 
         private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
@@ -84,6 +110,7 @@ namespace NIST.CVP.Generation.TDES_ECB
         public BitString Key2 { get; set; }
         public BitString Key3 { get; set; }
         public BitString CipherText { get; set; }
+        public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
 
         public TDESKeys Keys
         {
@@ -115,6 +142,39 @@ namespace NIST.CVP.Generation.TDES_ECB
             {
                 CipherText = otherTypedTest.CipherText;
                 return true;
+            }
+
+            if (ResultsArray.Count != 0 && otherTypedTest.ResultsArray.Count != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool SetResultsArrayString(int index, string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "key":
+                case "keys":
+                case "key1":
+                    ResultsArray[index].Keys = new BitString(value);
+                    return true;
+
+                case "plaintext":
+                case "pt":
+                    ResultsArray[index].PlainText = new BitString(value);
+                    return true;
+
+                case "ciphertext":
+                case "ct":
+                    ResultsArray[index].CipherText = new BitString(value);
+                    return true;
             }
             return false;
         }

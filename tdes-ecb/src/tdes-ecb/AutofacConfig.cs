@@ -28,6 +28,7 @@ namespace tdes_ecb
             builder.RegisterType<Generator>();
            
             builder.RegisterType<TdesEcb>().AsImplementedInterfaces();
+            builder.RegisterType<TDES_ECB_MCT>().AsImplementedInterfaces();
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
             builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

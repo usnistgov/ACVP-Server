@@ -17,15 +17,17 @@ namespace NIST.CVP.Generation.TDES_EBC.IntegrationTests
     public class FireHoseTests
     {
         private string _testPath;
-        private TdesEcb _tdesEbc;
-        //private AES_ECB_MCT _aesEcbMct;
-        
+        private TdesEcb _algo;
+        private TDES_ECB_MCT _algoMct;
+        private MonteCarloKeyMaker _keyMaker;
+
         [SetUp]
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-            _tdesEbc = new TdesEcb();
-            //_aesCbcMct = new AES_CBC_MCT(_aesCbc);
+            _algo = new TdesEcb();
+            _keyMaker = new MonteCarloKeyMaker();
+            _algoMct = new TDES_ECB_MCT(_algo, _keyMaker);
         }
 
         [Test]
@@ -64,20 +66,14 @@ namespace NIST.CVP.Generation.TDES_EBC.IntegrationTests
 
                     var testCase = (TestCase) iTestCase;
 
-                    if (testGroup.TestType.ToLower() == "mct")
+                    if (testGroup.TestType.ToLower() == "montecarlo")
                     {
-                        mctTestHit = true;//todo: REMOVE WHEN MCT IS IMPLEMENTED
-
-                        continue; //todo: REMOVE WHEN MCT IS IMPLEMENTED
-
-                        /*
                         mctTestHit = true;
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            var result = _aesCbcMct.MCTEncrypt(
-                                testCase.ResultsArray.First().IV,
-                                testCase.ResultsArray.First().Key,
+                            var result = _algoMct.MCTEncrypt(
+                                testCase.ResultsArray.First().Keys,
                                 testCase.ResultsArray.First().PlainText
                             );
 
@@ -90,9 +86,8 @@ namespace NIST.CVP.Generation.TDES_EBC.IntegrationTests
                         }
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = _aesCbcMct.MCTDecrypt(
-                                testCase.ResultsArray.First().IV,
-                                testCase.ResultsArray.First().Key,
+                            var result = _algoMct.MCTDecrypt(
+                                testCase.ResultsArray.First().Keys,
                                 testCase.ResultsArray.First().CipherText
                             );
 
@@ -103,7 +98,6 @@ namespace NIST.CVP.Generation.TDES_EBC.IntegrationTests
                             }
                             continue;
                         }
-                        */
                     }
 
                     else
@@ -116,7 +110,7 @@ namespace NIST.CVP.Generation.TDES_EBC.IntegrationTests
                             {
                                 testCase.Key = testCase.Key.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
                             }
-                            var result = _tdesEbc.BlockEncrypt(
+                            var result = _algo.BlockEncrypt(
                                 testCase.Key,
                                 testCase.PlainText
                             );
@@ -138,7 +132,7 @@ namespace NIST.CVP.Generation.TDES_EBC.IntegrationTests
                                 //Since MMT files include 3 keys (while KAT files only include 1), we concatenate them into a single key before inputing them into the DEA.
                                 testCase.Key = testCase.Key.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
                             }
-                            var result = _tdesEbc.BlockDecrypt(
+                            var result = _algo.BlockDecrypt(
                                 testCase.Key,
                                 testCase.CipherText
                             );
@@ -161,7 +155,6 @@ namespace NIST.CVP.Generation.TDES_EBC.IntegrationTests
             Assert.IsTrue(mctTestHit, "No MCT tests were run");
             Assert.IsTrue(nonMctTestHit, "No normal (non MCT) tests were run");
             // Assert.Fail($"Passes {passes}, fails {fails}, count {count}");
-            Console.WriteLine(count);
         }
     }
     

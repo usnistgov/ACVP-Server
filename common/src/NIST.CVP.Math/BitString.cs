@@ -246,6 +246,13 @@ namespace NIST.CVP.Math
             }
             return Bits[index];
         }
+
+        public BitString ToOddParityBitString()
+        {
+            var bitStringAsBytes = ToBytes();
+            var oddParityBytes = bitStringAsBytes.SetOddParityBitInSuppliedBytes();
+            return new BitString(oddParityBytes);
+        }
         #endregion Conversions
 
         #region Logical Operators

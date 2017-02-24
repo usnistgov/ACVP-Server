@@ -188,6 +188,7 @@ CIPHERTEXT = 47e2ecac878ede30276f3f448ba3c39440d57cc3ec6162b085b933f8c2077dbccf1
 PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd12a59308efe7094bf4e2e794d48f2f0ec1c150656c5e0ae647d49c3f7f2dcf94e050b30051a18d234fe5daf8c2bc
 ";
         #endregion File
+        private const string _EXTENSION = ".fax";
 
         [OneTimeSetUp]
         public void Setup()
@@ -198,13 +199,12 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
                 Directory.Delete(_unitTestPath, true);
             }
             Directory.CreateDirectory(_unitTestPath);
-            File.WriteAllText($@"{_unitTestPath}\file1.rsp", _testFIleContents); // 2 groups, 18 tests 
-            File.WriteAllText($@"{_unitTestPath}\file2.rsp", _testFIleContents); // + 2 groups, 18 tests
+            File.WriteAllText($@"{_unitTestPath}\file1{_EXTENSION}", _testFIleContents); // 2 groups, 18 tests 
+            File.WriteAllText($@"{_unitTestPath}\file2{_EXTENSION}", _testFIleContents); // + 2 groups, 18 tests
             File.WriteAllText($@"{_unitTestPath}\fileThatShouldntBeParsed.dat", _testFIleContents); // + 0 (shouldn't be included)
             File.WriteAllText($@"{_unitTestPath}\MMT.fax", _testFIleContents); // + 2 groups, 18 tests
-
-            //File.WriteAllText($@"{_unitTestPath}\MCT.rsp", _testFIleContents); // + 2 groups, 18 tests
-            // Total groups = 6, total tests = 54
+            File.WriteAllText($@"{_unitTestPath}\MCT{_EXTENSION}", _testFIleContents); // + 2 groups, 18 tests
+            // Total groups = 8, total tests = 72
         }
 
         [OneTimeTearDown]
@@ -217,7 +217,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
         public void ShouldReturnErrorForNonExistentPath()
         {
             var subject = new LegacyResponseFileParser();
-            var result = subject.Parse($@"{_unitTestPath}\{Guid.NewGuid()}.rsp");
+            var result = subject.Parse($@"{_unitTestPath}\{Guid.NewGuid()}{_EXTENSION}");
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Success);
         }
@@ -249,7 +249,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assert.AreEqual(6, vectorSet.TestGroups.Count); //todo: NEED TO CHANGE TO 8 WHEN WE IMPLEMENT MCT. 
+            Assert.AreEqual(8, vectorSet.TestGroups.Count);
         }
 
         [Test]
@@ -262,17 +262,6 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var casesWithKey = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).Keys.Keys != null));
             Assert.IsNotEmpty(casesWithKey);
         }
-
-        //[Test]
-        //public void ShouldHaveTestsWithIVFilled()
-        //{
-        //    var subject = new LegacyResponseFileParser();
-        //    var result = subject.Parse(_unitTestPath);
-        //    Assume.That(result != null);
-        //    var vectorSet = result.ParsedObject;
-        //    var casesWithIV = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).Iv != null));
-        //    Assert.IsNotEmpty(casesWithIV);
-        //}
 
         [Test]
         public void ShouldHaveTestsWithPlainTextFilled()
@@ -312,9 +301,9 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assume.That(vectorSet.TestGroups.Count() == 6); //to do: WE NEED TO CHANGE TO 8 WHEN WE IMPLEMENT MCT. 
+            Assume.That(vectorSet.TestGroups.Count() == 8);
             var decryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "decrypt");
-            Assert.AreEqual(3, decryptCount, decryptCount.ToString()); //WE NEED TO CHANGE TO 4 WHEN WE IMPLEMENT MCT. 
+            Assert.AreEqual(4, decryptCount, decryptCount.ToString());
         }
 
         [Test]
@@ -324,9 +313,9 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assume.That(vectorSet.TestGroups.Count() == 6); //WE NEED TO CHANGE TO 8 WHEN WE IMPLEMENT MCT. 
+            Assume.That(vectorSet.TestGroups.Count() == 8);
             var encryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "encrypt");
-            Assert.AreEqual(3, encryptCount, encryptCount.ToString()); //WE NEED TO CHANGE TO 4 WHEN WE IMPLEMENT MCT. 
+            Assert.AreEqual(4, encryptCount, encryptCount.ToString());
 
         }
     }

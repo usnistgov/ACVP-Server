@@ -1690,6 +1690,22 @@ namespace NIST.CVP.Math.Tests
         }
         #endregion ToBool
 
+        #region ToOddParityBitString
+        [Test]
+        [TestCase("All even sets first bit to false", new bool[] { true, true, true, true, true, true, true, true }, false)]
+        [TestCase("first bit false, stays false", new bool[] { false, true, true, true, true, true, true, true }, false)]
+        [TestCase("two first bits false (even number of odds), set first bit true", new bool[] { false, false, true, true, true, true, true, true }, true)]
+        [TestCase("first three bits false, odd number of falses, keep first bit false", new bool[] { false, false, false, true, true, true, true, true }, false)]
+        public void ShouldSetOddParityBit(string label, bool[] bits, bool expectation)
+        {
+            BitArray ba = new BitArray(bits);
+            var subject = new BitString(ba);
+            var result = subject.ToOddParityBitString();
+
+            Assert.AreEqual(expectation, result.GetLeastSignificantBits(1).Bits[0], label);
+        }
+        #endregion ToOddParityBitString
+
         #region ZERO and ONE
         [Test]
         public void ShouldReturnOne()
