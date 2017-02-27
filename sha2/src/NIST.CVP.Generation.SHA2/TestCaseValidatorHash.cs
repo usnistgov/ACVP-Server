@@ -20,7 +20,6 @@ namespace NIST.CVP.Generation.SHA2
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
-
             if (!_expectedResult.Digest.Equals(suppliedResult.Digest))
             {
                 errors.Add("Digests do not match");

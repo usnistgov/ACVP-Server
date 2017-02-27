@@ -45,6 +45,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         {
             var testCase = new TestCase
             {
+                Message = new BitString("ABCD"),
                 Digest = new BitString("1234567890ABCDEF1234567890ABCDEF"),
                 TestCaseId = id
             };

@@ -23,10 +23,10 @@ namespace SHA2
             builder.RegisterType<Generator>();
 
             builder.RegisterType<SHA>().AsImplementedInterfaces();
+            builder.RegisterType<SHA_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
-
             builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
-
+            builder.RegisterType<MCTTestGroupFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
@@ -34,7 +34,6 @@ namespace SHA2
             OverrideRegistrations?.Invoke(builder);
 
             _container = builder.Build();
-
         }
     }
 }

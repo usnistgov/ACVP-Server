@@ -36,23 +36,10 @@ namespace NIST.CVP.Generation.SHA2
             }
 
             var testVector = _testVectorFactory.BuildTestVectorSet(parameters);
-            var testId = 1;
-            foreach (var group in testVector.TestGroups.Select(g => (TestGroup) g))
+            var testCasesResult = _testCaseGeneratorFactory.BuildTestCases(testVector);
+            if (!testCasesResult.Success)
             {
-                var generator = _testCaseGeneratorFactory.GetCaseGenerator(group, testVector.IsSample);
-                for (var caseNo = 0; caseNo < generator.NumberOfTestCasesToGenerate; caseNo++)
-                {
-                    var testCaseResponse = generator.Generate(group, testVector.IsSample);
-                    if (!testCaseResponse.Success)
-                    {
-                        return new GenerateResponse(testCaseResponse.ErrorMessage);
-                    }
-
-                    var testCase = (TestCase) testCaseResponse.TestCase;
-                    testCase.TestCaseId = testId;
-                    group.Tests.Add(testCase);
-                    testId++;
-                }
+                return testCasesResult;
             }
 
             return SaveOutputs(requestFilePath, testVector);

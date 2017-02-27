@@ -20,7 +20,11 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         public void ShouldGenerateProperlySizedBitOrientedMessageForEachGenerateCall()
         {
-            var subject = new TestCaseGeneratorShortHash(new Random800_90(), new SHA());
+            var mockSHA = new Mock<ISHA>();
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
+                .Returns(new HashResult(new BitString("ABCD")));
+
+            var subject = new TestCaseGeneratorShortHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(
@@ -43,7 +47,11 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         public void ShouldGenerateProperlySizedByteOrientedMessageForEachGenerateCall()
         {
-            var subject = new TestCaseGeneratorShortHash(new Random800_90(), new SHA());
+            var mockSHA = new Mock<ISHA>();
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
+                .Returns(new HashResult(new BitString("ABCD")));
+
+            var subject = new TestCaseGeneratorShortHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(
@@ -66,7 +74,11 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         public void ShouldGenerateProperlyWhenIncludingNullMessageForBitOrientedMessages()
         {
-            var subject = new TestCaseGeneratorShortHash(new Random800_90(), new SHA());
+            var mockSHA = new Mock<ISHA>();
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
+                .Returns(new HashResult(new BitString("ABCD")));
+
+            var subject = new TestCaseGeneratorShortHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(
@@ -89,7 +101,11 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         public void ShouldGenerateProperlyWhenIncludingNullMessageForByteOrientedMessages()
         {
-            var subject = new TestCaseGeneratorShortHash(new Random800_90(), new SHA());
+            var mockSHA = new Mock<ISHA>();
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
+                .Returns(new HashResult(new BitString("ABCD")));
+
+            var subject = new TestCaseGeneratorShortHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(

@@ -37,5 +37,42 @@ namespace NIST.CVP.Generation.SHA2.Tests
 
             return testGroups;
         }
+
+        public List<TestGroup> GetMCTTestGroups(int groups = 1)
+        {
+            var testGroups = new List<TestGroup>();
+            for (int groupIdx = 0; groupIdx < groups; groupIdx++)
+            {
+                var tests = new List<ITestCase>();
+                for (int testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
+                {
+                    tests.Add(new TestCase
+                    {
+                        Deferred = false,
+                        ResultsArray = new List<AlgoArrayResponse>
+                        {
+                            new AlgoArrayResponse
+                            {
+                                Message = new BitString("DEADBEEF"),
+                                Digest = new BitString("ADD4FACE")
+                            }
+                        },
+                        TestCaseId = testId
+                    });
+                }
+
+                testGroups.Add(
+                    new TestGroup
+                    {
+                        Function = ModeValues.SHA2,
+                        DigestSize = DigestSizes.d224,
+                        Tests = tests,
+                        TestType = "montecarlo"
+                    }
+                );
+            }
+
+            return testGroups;
+        }
     }
 }

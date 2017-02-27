@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             Assert.IsFalse(result.Success, label);
         }
 
-        private class ParameterBuilder
+        public class ParameterBuilder
         {
             private string _algorithm;
             private string[] _mode;

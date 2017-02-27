@@ -63,9 +63,25 @@ namespace NIST.CVP.Generation.SHA2
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("digest", test.Digest);
-                        ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
-                        ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
+
+                        if (group.TestType.ToLower() == "montecarlo")
+                        {
+                            var resultsArray = new List<dynamic>();
+                            foreach (var result in test.ResultsArray)
+                            {
+                                dynamic resultObject = new ExpandoObject();
+                                ((IDictionary<string, object>) resultObject).Add("message", result.Message);
+                                ((IDictionary<string, object>) resultObject).Add("digest", result.Digest);
+
+                                resultsArray.Add(resultObject);
+                            }
+
+                            ((IDictionary<string, object>) testObject).Add("resultsArray", resultsArray);
+                        }
+                        else
+                        {
+                            ((IDictionary<string, object>)testObject).Add("digest", test.Digest);
+                        }
 
                         tests.Add(testObject);
                     }
@@ -102,8 +118,17 @@ namespace NIST.CVP.Generation.SHA2
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("message", test.Message);
-                        ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
-                        ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
+
+                        if (group.TestType.ToLower() == "montecarlo")
+                        {
+                            var resultsArray = new List<dynamic>();
+                            var resultOne = test.ResultsArray.First();
+                            dynamic resultObject = new ExpandoObject();
+                            ((IDictionary<string, object>)resultObject).Add("message", resultOne.Message);
+
+                            resultsArray.Add(resultObject);
+                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
+                        }
 
                         tests.Add(testObject);
                     }
@@ -131,9 +156,19 @@ namespace NIST.CVP.Generation.SHA2
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (test.FailureTest)
+                        if (group.TestType.ToLower() == "montecarlo")
                         {
-                            ((IDictionary<string, object>)testObject).Add("hashFail", true);
+                            var resultsArray = new List<dynamic>();
+                            foreach (var result in test.ResultsArray)
+                            {
+                                dynamic resultObject = new ExpandoObject();
+                                ((IDictionary<string, object>)resultObject).Add("message", result.Message);
+                                ((IDictionary<string, object>)resultObject).Add("digest", result.Digest);
+
+                                resultsArray.Add(resultObject);
+                            }
+
+                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
                         }
                         else
                         {

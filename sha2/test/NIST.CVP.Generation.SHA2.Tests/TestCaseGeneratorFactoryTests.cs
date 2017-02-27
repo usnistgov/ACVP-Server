@@ -63,8 +63,9 @@ namespace NIST.CVP.Generation.SHA2.Tests
         {
             var random = new Mock<IRandom800_90>().Object;
             var algo = new Mock<ISHA>().Object;
+            var mctAlgo = new Mock<ISHA_MCT>().Object;
 
-            return new TestCaseGeneratorFactory(random, algo);
+            return new TestCaseGeneratorFactory(random, algo, mctAlgo);
         }
     }
 }

@@ -10,7 +10,11 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         public void ShouldSuccessfullyGenerate()
         {
-            var subject = new TestCaseGeneratorLongHash(new Random800_90(), new SHA());
+            var mockSHA = new Mock<ISHA>();
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
+                .Returns(new HashResult(new BitString("ABCD")));
+
+            var subject = new TestCaseGeneratorLongHash(new Random800_90(), mockSHA.Object);
             var result = subject.Generate(new TestGroup { Function = ModeValues.SHA2, DigestSize = DigestSizes.d224 },
                 false);
             Assert.IsNotNull(result);
@@ -20,7 +24,11 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         public void ShouldGenerateProperlySizedBitOrientedMessageForEachGenerateCall()
         {
-            var subject = new TestCaseGeneratorLongHash(new Random800_90(), new SHA());
+            var mockSHA = new Mock<ISHA>();
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
+                .Returns(new HashResult(new BitString("ABCD")));
+
+            var subject = new TestCaseGeneratorLongHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(
@@ -42,7 +50,11 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         public void ShouldGenerateProperlySizedByteOrientedMessageForEachGenerateCall()
         {
-            var subject = new TestCaseGeneratorLongHash(new Random800_90(), new SHA());
+            var mockSHA = new Mock<ISHA>();
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
+                .Returns(new HashResult(new BitString("ABCD")));
+
+            var subject = new TestCaseGeneratorLongHash(new Random800_90(), mockSHA.Object);
             for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(
@@ -79,6 +91,10 @@ namespace NIST.CVP.Generation.SHA2.Tests
         public void ShouldGenerateProperNumberOfTestCasesForDifferentBlockSizes(ModeValues mode, DigestSizes digestSize,
             bool bitOriented, int expectedCount)
         {
+            var mockSHA = new Mock<ISHA>();
+            mockSHA.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
+                .Returns(new HashResult(new BitString("ABCD")));
+
             var testGroup = new TestGroup
             {
                 Function = mode,
@@ -88,7 +104,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 TestType = "long"
             };
 
-            var subject = new TestCaseGeneratorLongHash(new Random800_90(), new SHA());
+            var subject = new TestCaseGeneratorLongHash(new Random800_90(), mockSHA.Object);
             var result = subject.Generate(testGroup, false);
             Assume.That(result != null);
             Assume.That(result.Success);

@@ -47,24 +47,6 @@ namespace NIST.CVP.Generation.SHA2.Tests
         }
 
         [Test]
-        public void ShouldSetProperDeferredFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.deferred, subject.Deferred);
-        }
-
-        [Test]
-        public void ShouldSetProperFailureTestFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.failureTest, subject.FailureTest);
-        }
-
-        [Test]
         public void ShouldSetProperDigestFromDynamicAnswerTest()
         {
             var sourceTest = GetSourceAnswerTest();

@@ -227,16 +227,16 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         private void RunGeneration(string targetFolder, string fileName)
         {
             var result = Program.Main(new string[] {fileName});
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), $"{targetFolder}{_testVectorFileNames[0]}");
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), $"{targetFolder}{_testVectorFileNames[1]}");
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), $"{targetFolder}{_testVectorFileNames[2]}");
+            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), $@"{targetFolder}\{_testVectorFileNames[0]} file");
+            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), $@"{targetFolder}\{_testVectorFileNames[1]} file");
+            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), $@"{targetFolder}\{_testVectorFileNames[2]} file");
             Assert.IsTrue(result == 0);
         }
 
         private void RunValidation(string targetFolder)
         {
             var result = SHA2_Val.Program.Main(GetFileNamesWithPath(targetFolder, _testVectorFileNames));
-            Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder}validation");
+            Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $@"{targetFolder}\validation file");
             Assert.IsTrue(result == 0);
         }
 
@@ -280,6 +280,17 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
                         var bs = new BitString(testCase.message.ToString());
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
                         testCase.message = bs.ToHex();
+                    }
+
+                    if (testCase.resultsArray != null)
+                    {
+                        var bsMessage = new BitString(testCase.resultsArray[0].message.ToString());
+                        bsMessage = rand.GetDifferentBitStringOfSameSize(bsMessage);
+                        testCase.resultsArray[0].message = bsMessage.ToHex();
+
+                        var bsDigest = new BitString(testCase.resultsArray[0].digest.ToString());
+                        bsDigest = rand.GetDifferentBitStringOfSameSize(bsDigest);
+                        testCase.resultsArray[0].digest = bsDigest.ToHex();
                     }
                 }
             }

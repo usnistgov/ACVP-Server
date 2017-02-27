@@ -113,7 +113,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                     });
             }
 
-            return new Validator(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object);
+            return new Validator(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object, mocks.MockITestCaseValidatorFactory.Object);
         }
 
         private dynamic GetTestResults(int groups = 2)

@@ -11,12 +11,14 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
     {
         private string _testPath;
         private SHA _sha;
+        private SHA_MCT _shaMCT;
 
         [SetUp]
         public void SetUp()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles");
             _sha = new SHA();
+            _shaMCT = new SHA_MCT(_sha);
         }
 
         [Test]
@@ -61,9 +63,16 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
                     
                     if (testGroup.TestType.ToLower() == "montecarlo")
                     {
-                        var testCaseGenerator = new TestCaseGeneratorMonteCarloHash(new Random800_90(), _sha, false);
-                        var generateResponse = testCaseGenerator.Generate(testGroup, testCase);
-                        Assert.AreEqual(((TestCase)generateResponse.TestCase).Digest.ToHex(), testCase.Digest.ToHex(), $"Failed in montecarlo on count {count}"); 
+                        var result = _shaMCT.MCTHash(hashFunction, testCase.Message);
+
+                        Assert.IsTrue(result.Success, "result.Success must be successful");
+                        Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT hash count should be greater than 0");
+                        Assert.IsTrue(result.Response.Count > 0, $"{nameof(result)} MCT hash count should be greater than 0");
+
+                        for (var i = 0; i < testCase.ResultsArray.Count; i++)
+                        {
+                            Assert.AreEqual(testCase.ResultsArray[i].Digest, result.Response[i].Digest, $"Digest mismatch on index {i}");
+                        }
                     }
                     else
                     {

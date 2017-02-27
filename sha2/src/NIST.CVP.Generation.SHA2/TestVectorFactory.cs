@@ -1,83 +1,95 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA2
 {
     public class TestVectorFactory : ITestVectorFactory<Parameters>
     {
-        public readonly List<string> TestTypes = new List<string>
+        private readonly IMonteCarloTestGroupFactory<Parameters, TestGroup> _iMCTTestGroupFactory;
+        private readonly string[] _testTypes = new string[] {"shortmessage", "longmessage"};
+
+        public TestVectorFactory(IMonteCarloTestGroupFactory<Parameters, TestGroup> iMCTTestGroupFactory)
         {
-            "short",
-            "long",
-            "montecarlo"
-        };
+            _iMCTTestGroupFactory = iMCTTestGroupFactory;
+        }
 
         public ITestVectorSet BuildTestVectorSet(Parameters parameters)
         {
             var groups = BuildTestGroups(parameters);
+
+            var mctGroups = _iMCTTestGroupFactory.BuildMCTTestGroups(parameters);
+            if (mctGroups != null && mctGroups.Count() != 0)
+            {
+                groups.AddRange(mctGroups);
+            }
+
             return new TestVectorSet {TestGroups = groups, Algorithm = "SHA", IsSample = parameters.IsSample};
         }
 
         private List<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<ITestGroup>();
-            foreach (var mode in parameters.Mode)
+            foreach (var size in parameters.DigestSize)
             {
-                foreach (var size in parameters.DigestSize)
+                foreach (var testType in _testTypes)
                 {
-                    AddTestGroups(TestTypes, mode, size, parameters.IncludeNull, parameters.BitOriented, testGroups);                    
+                    var testGroup = new TestGroup
+                    {
+                        Function = GetMode(size),
+                        DigestSize = GetSize(size),
+                        TestType = testType,
+                        IncludeNull = parameters.IncludeNull,
+                        BitOriented = parameters.BitOriented
+                    };
+                    testGroups.Add(testGroup);
                 }
             }
-
+            
             return testGroups;
         }
 
-        private void AddTestGroups(List<string> testTypesToRun, string function, string digestSize, bool includeNull, bool bitOriented,
-            List<ITestGroup> testGroups)
+        private ModeValues GetMode(string digSize)
         {
-            ModeValues mode;
-            switch (function)
+            if (digSize.Contains("160"))
             {
-                case "SHA1":
-                    mode = ModeValues.SHA1;
-                    break;
-                case "SHA2":
-                default:
-                    mode = ModeValues.SHA2;
-                    break;
+                return ModeValues.SHA1;
             }
-
-            DigestSizes digest;
-            switch (digestSize)
+            else
             {
-                case "224":
-                    digest = DigestSizes.d224;
-                    break;
-                case "256":
-                    digest = DigestSizes.d256;
-                    break;
-                case "384":
-                    digest = DigestSizes.d384;
-                    break;
-                case "512":
-                    digest = DigestSizes.d512;
-                    break;
-                case "512t224":
-                    digest = DigestSizes.d512t224;
-                    break;
-                case "512t256":
-                    digest = DigestSizes.d512t256;
-                    break;
-                case "160":
-                default:
-                    digest = DigestSizes.d160;
-                    break;
+                return ModeValues.SHA2;
             }
+        }
 
-            foreach (var testType in testTypesToRun)
+        private DigestSizes GetSize(string digSize)
+        {
+            if (digSize.Contains("512t256"))
             {
-                var testGroup = new TestGroup {Function = mode, DigestSize = digest, TestType = testType, IncludeNull = includeNull, BitOriented = bitOriented};
-                testGroups.Add(testGroup);
+                return DigestSizes.d512t256;
+            }
+            else if (digSize.Contains("512t224"))
+            {
+                return DigestSizes.d512t224;
+            }
+            else if (digSize.Contains("512"))
+            {
+                return DigestSizes.d512;
+            }
+            else if (digSize.Contains("384"))
+            {
+                return DigestSizes.d384;
+            }
+            else if (digSize.Contains("256"))
+            {
+                return DigestSizes.d256;
+            }
+            else if (digSize.Contains("224"))
+            {
+                return DigestSizes.d224;
+            }
+            else
+            {
+                return DigestSizes.d160;
             }
         }
     }

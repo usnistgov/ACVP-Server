@@ -5,6 +5,7 @@ using System.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
+using NLog.LayoutRenderers;
 
 namespace NIST.CVP.Generation.SHA2.Parsers
 {
@@ -39,6 +40,9 @@ namespace NIST.CVP.Generation.SHA2.Parsers
 
                 TestGroup currentGroup = null;
                 TestCase currentTestCase = null;
+                int currentResultArrayPosition = 0;
+                AlgoArrayResponse currentArrayResponse = null;
+
                 int currentCaseNumber = 0;
                 int currentLength = 0;
 
@@ -75,7 +79,7 @@ namespace NIST.CVP.Generation.SHA2.Parsers
 
                         workingLine = workingLine.Replace("[", "").Replace("]", "");
 
-                        currentGroup = new TestGroup()
+                        currentGroup = new TestGroup
                         {
                             Function = mode,
                             DigestSize = digestSize,
@@ -91,29 +95,26 @@ namespace NIST.CVP.Generation.SHA2.Parsers
                     {
                         if (workingLine.StartsWith("Seed", StringComparison.OrdinalIgnoreCase))
                         {
-                            var parts = workingLine.Split("=".ToCharArray());
-                            currentTestCase = new TestCase {TestCaseId = currentCaseNumber, Message = new BitString(parts[1].Trim())};
+                            currentTestCase = new TestCase {TestCaseId = 0};
+                            currentTestCase.Message = new BitString(workingLine.Split("=".ToCharArray())[1].Trim());
+                            currentTestCase.ResultsArray = new List<AlgoArrayResponse>();
+                            currentResultArrayPosition = -1;
+
                             currentGroup.Tests.Add(currentTestCase);
+
                             continue;
                         }
 
                         if (workingLine.StartsWith("COUNT = ", StringComparison.OrdinalIgnoreCase))
                         {
-                            var parts = workingLine.Split("=".ToCharArray());
-                            currentCaseNumber++;
+                            currentResultArrayPosition++;
+                            currentArrayResponse = new AlgoArrayResponse();
+                            currentTestCase.ResultsArray.Add(currentArrayResponse);
                             continue;
                         }
 
                         var valueParts = workingLine.Split("=".ToCharArray());
-                        var digest = new BitString(valueParts[1].Trim());
-                        currentTestCase.Digest = digest;
-                        currentTestCase = new TestCase {TestCaseId = currentCaseNumber, Message = digest};
-
-                        // Don't add a test case for the last digest
-                        if (currentGroup.Tests.Count < 100)
-                        {
-                            currentGroup.Tests.Add(currentTestCase);
-                        }
+                        currentTestCase.SetResultsArrayString(currentResultArrayPosition, valueParts[0].Trim(), valueParts[1].Trim());
                     }
                     else
                     {

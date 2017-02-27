@@ -9,10 +9,11 @@ namespace NIST.CVP.Generation.SHA2
     public class TestCase : ITestCase
     {
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
+        public bool FailureTest { get; set; }       // Not used
+        public bool Deferred { get; set; }          // Not used -- both can be toggled but do not reflect in vectorset
         public BitString Message { get; set; }
         public BitString Digest { get; set; }
+        public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
 
         public TestCase() { }
 
@@ -54,6 +55,11 @@ namespace NIST.CVP.Generation.SHA2
                 return true;
             }
 
+            if (ResultsArray.Count != 0 && otherTypedTest.ResultsArray.Count != 0)
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -79,6 +85,29 @@ namespace NIST.CVP.Generation.SHA2
             return false;
         }
 
+        public bool SetResultsArrayString(int index, string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "message":
+                case "msg":
+                    ResultsArray[index].Message = new BitString(value);
+                    return true;
+
+                case "digest":
+                case "dig":
+                case "md":
+                    ResultsArray[index].Digest = new BitString(value);
+                    return true;
+            }
+            return false;
+        }
+
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
@@ -94,9 +123,29 @@ namespace NIST.CVP.Generation.SHA2
             {
                 Deferred = source.deferred;
             }
+            if (((ExpandoObject) source).ContainsProperty("resultsArray"))
+            {
+                ResultsArray = ResultsArrayToObject(source.resultsArray);
+            }
 
             Digest = BitStringFromObject("digest", (ExpandoObject)source);
             Message = BitStringFromObject("message", (ExpandoObject)source);
+        }
+
+        private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
+        {
+            List<AlgoArrayResponse> list = new List<AlgoArrayResponse>();
+
+            foreach (dynamic item in resultsArray)
+            {
+                var response = new AlgoArrayResponse();
+                response.Message = BitStringFromObject("message", (ExpandoObject) item);
+                response.Digest = BitStringFromObject("digest", (ExpandoObject) item);
+
+                list.Add(response);
+            }
+
+            return list;
         }
 
         private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
@@ -122,3 +171,4 @@ namespace NIST.CVP.Generation.SHA2
         }
     }
 }
+
