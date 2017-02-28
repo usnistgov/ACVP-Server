@@ -11,12 +11,81 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
     [TestFixture]
     public class AES_CCMTests
     {
-
         AES_CCM _subject = new AES_CCM(new AES_CCMInternals(), new RijndaelFactory(new RijndaelInternals()));
 
         [Test]
-        public void Test()
+        public void ShouldEncryptAndDecryptWithValidatedTag()
         {
+            var testData = GetTestData();
+
+            // Perform encryption operation and assert
+            var encryptionResult = _subject.Encrypt(testData.Key, testData.Nonce, testData.Payload, testData.AssocData,
+                128);
+            
+            Assert.IsTrue(encryptionResult.Success, $"{nameof(encryptionResult.Success)} Encrypt");
+            Assert.AreEqual(testData.CipherText, encryptionResult.CipherText, nameof(testData.CipherText));
+
+            // Validate the decryption operation / tag
+            var decryptionResult = _subject.Decrypt(testData.Key, testData.Nonce, encryptionResult.CipherText,
+                testData.AssocData, 128);
+
+            Assert.IsTrue(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
+            Assert.AreEqual(testData.Payload, decryptionResult.PlainText);
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        public void ShouldFailDueToInvalidTag(int indexToChange)
+        {
+            var testData = GetTestData();
+
+            // Perform encryption operation and assert
+            var encryptionResult = _subject.Encrypt(testData.Key, testData.Nonce, testData.Payload, testData.AssocData,
+                128);
+
+            Assert.IsTrue(encryptionResult.Success, $"{nameof(encryptionResult.Success)} Encrypt");
+            Assert.AreEqual(testData.CipherText, encryptionResult.CipherText, nameof(testData.CipherText));
+
+            // Change a byte value to invalidate the decryption
+            var encryptionResultBytes = encryptionResult.CipherText.ToBytes();
+            if (encryptionResultBytes.Length >= indexToChange)
+            {
+                if (encryptionResultBytes[indexToChange] == 255)
+                {
+                    encryptionResultBytes[indexToChange]--;
+                }
+                else
+                {
+                    encryptionResultBytes[indexToChange]++;
+                }
+            }
+
+            var newCipherText = new BitString(encryptionResultBytes);
+
+            // Validate the decryption operation / tag
+            var decryptionResult = _subject.Decrypt(testData.Key, testData.Nonce, newCipherText,
+                testData.AssocData, 128);
+
+            Assert.IsFalse(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
+            Assert.AreEqual(AES_CCM.INVALID_TAG_MESSAGE, decryptionResult.ErrorMessage);
+        }
+
+        private class TestData
+        {
+            public BitString CipherText { get; set; }
+            public BitString Key { get; set; }
+            public BitString AssocData { get; set; }
+            public BitString Payload { get; set; }
+            public BitString Nonce { get; set; }
+        }
+
+        private TestData GetTestData()
+        {
+            TestData resp = new TestData();
 
             var NonceBytes = new byte[10];
             var AssocDataBytes = new byte[16];
@@ -56,7 +125,6 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
             NonceBytes[6] = 0x07; NonceBytes[7] = 0x08;
             NonceBytes[8] = 0x09; NonceBytes[9] = 0x0a;
 
-
             byte[] expectedCtBytes = new byte[32];
             expectedCtBytes[0] = 0x57;
             expectedCtBytes[1] = 0x49;
@@ -91,17 +159,14 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
             expectedCtBytes[30] = 0x21;
             expectedCtBytes[31] = 0x35;
 
-            var ct = new BitString(expectedCtBytes);
+            resp.CipherText = new BitString(expectedCtBytes);
+            resp.Key = new BitString(KeyBytes);
+            resp.AssocData = new BitString(AssocDataBytes);
+            resp.Payload = new BitString(PayloadBytes);
+            resp.Nonce = new BitString(NonceBytes);
 
-            var key = new BitString(KeyBytes);
-            var assoc = new BitString(AssocDataBytes);
-            var payload = new BitString(PayloadBytes);
-            var nonce = new BitString(NonceBytes);
-
-            var result = _subject.Encrypt(key, nonce, payload, assoc, 128);
-            
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(ct, result.CipherText, nameof(ct));
+            return resp;
         }
+
     }
 }

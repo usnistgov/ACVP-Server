@@ -64,9 +64,7 @@ namespace NIST.CVP.Generation.AES_CCM
 
             //  r has the length of space to encode Adata and payload
             //    + 1 so you can have space for B_0
-            // TODO B = new byte[r+1];
             B = new byte[(r+1)*16];
-            // @@@ TODO what is 16 from "(BYTE)calloc(*r + 1, 16);"
 
             if (Alen == 0)
             {
