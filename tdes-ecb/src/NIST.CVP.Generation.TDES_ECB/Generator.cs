@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                 if (group.NumberOfKeys == 1)
                 {
                     //known answer test -- just grab 'em, add a test case Id and move along
-                    var kats = _knownAnswerTestFactory.GetKATTestCases(@group.TestType);
+                    var kats = _knownAnswerTestFactory.GetKATTestCases(@group.TestType, @group.Function);
                     if (kats.Count == 0)
                     {
                         return new GenerateResponse($"Found 0 {group.Function}: {group.TestType} tests");

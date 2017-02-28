@@ -4,6 +4,6 @@ namespace NIST.CVP.Generation.TDES_ECB
 {
     public interface IKnownAnswerTestFactory
     {
-        List<TestCase> GetKATTestCases(string testType);
+        List<TestCase> GetKATTestCases(string testType, string direction);
     }
 }

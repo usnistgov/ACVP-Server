@@ -9,7 +9,9 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
 {
     public class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1, string direction = "encrypt", bool failureTest = false)
+        private string direction;
+
+        public List<TestGroup> GetTestGroups(int groups = 1, string direction1 = "encrypt", string direction2 = "decrypt", bool failureTest = false)
         {
             var testGroups = new List<TestGroup>();
             for (int groupIdx = 0; groupIdx < groups; groupIdx++)
@@ -21,23 +23,31 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                     tests.Add(new TestCase
                     {
                        
-                        PlainText = new BitString("1AAADFFF"),
+                        PlainText = new BitString("1AAADFFF1AAADFFF"),
                         Deferred = false,
                         FailureTest = failureTest,
-                       
-                        CipherText = new BitString("7EADDC"),
-                        Key = new BitString("9998ADCD"),
+                        CipherText = new BitString("1164a939c1936151"),
+                        Key1 = new BitString("9998ADCD9998ADCD"),
+                        Key2 = new BitString("9998ADCD9998ADCD"),
+                        Key3 = new BitString("9998ADCD9998ADCD"),
                         TestCaseId = testId
                     });
                 }
-
+                if (groupIdx % 2 == 0)
+                {
+                    direction = direction1;
+                }
+                else
+                {
+                    direction = direction2;
+                }
                 testGroups.Add(
                     new TestGroup
                     {
                         
                         Function = direction,
                         TestType = "MultiBlockMessage",
-                        NumberOfKeys = groupIdx+1,
+                        //NumberOfKeys = groupIdx+1,
                         Tests = tests
                     }
                 );

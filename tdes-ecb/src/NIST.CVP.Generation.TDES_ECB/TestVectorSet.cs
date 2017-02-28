@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
 
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
+                    //((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
@@ -100,7 +100,12 @@ namespace NIST.CVP.Generation.TDES_ECB
                         }
                         else
                         {
-                            ((IDictionary<string, object>)testObject).Add("key", test.Key);
+                            TDESKeys keys = test.Keys;
+                            for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
+                            {
+                                ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}",
+                                    keys.KeysAsBitStrings[iKeyIndex]);
+                            }
 
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
@@ -138,7 +143,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
+                   // ((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
@@ -176,19 +181,11 @@ namespace NIST.CVP.Generation.TDES_ECB
                         else
                         {
 
-                            if (test.Keys.KeyOption == KeyOptionValues.OneKey)
+                            TDESKeys keys = test.Keys;
+                            for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
                             {
-                                ((IDictionary<string, object>) testObject).Add("key1", test.Key);
-                                ((IDictionary<string, object>) testObject).Add("key2", test.Key);
-                                ((IDictionary<string, object>) testObject).Add("key3", test.Key);
-                            }
-                            else
-                            {
-                                for (int iKeyIndex = 0; iKeyIndex < test.Keys.Keys.Count; iKeyIndex++)
-                                {
-                                    ((IDictionary<string, object>) testObject).Add($"key{iKeyIndex + 1}",
-                                        test.Keys.KeysAsBitStrings[iKeyIndex]);
-                                }
+                                ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}",
+                                    keys.KeysAsBitStrings[iKeyIndex]);
                             }
 
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))

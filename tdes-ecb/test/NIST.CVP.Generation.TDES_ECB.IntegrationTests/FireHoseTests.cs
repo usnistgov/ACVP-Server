@@ -108,7 +108,7 @@ namespace NIST.CVP.Generation.TDES_EBC.IntegrationTests
                         {
                             if(testGroup.TestType.ToLower() == "mmt")
                             {
-                                testCase.Key = testCase.Key.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
+                                testCase.Key = testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
                             }
                             var result = _algo.BlockEncrypt(
                                 testCase.Key,
@@ -130,7 +130,7 @@ namespace NIST.CVP.Generation.TDES_EBC.IntegrationTests
                             if (testGroup.TestType.ToLower() == "mmt")
                             {
                                 //Since MMT files include 3 keys (while KAT files only include 1), we concatenate them into a single key before inputing them into the DEA.
-                                testCase.Key = testCase.Key.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
+                                testCase.Key = testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
                             }
                             var result = _algo.BlockDecrypt(
                                 testCase.Key,

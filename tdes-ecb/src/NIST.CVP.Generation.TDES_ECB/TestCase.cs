@@ -107,6 +107,7 @@ namespace NIST.CVP.Generation.TDES_ECB
         public bool Deferred { get; set; }
         public BitString PlainText { get; set; }
         public BitString Key { get; set; }
+        public BitString Key1 { get; set; }
         public BitString Key2 { get; set; }
         public BitString Key3 { get; set; }
         public BitString CipherText { get; set; }
@@ -120,7 +121,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                 {
                     return new TDESKeys(Key);
                 }
-                return new TDESKeys(Key.ConcatenateBits(Key2.ConcatenateBits(Key3)));
+                return new TDESKeys(Key1.ConcatenateBits(Key2.ConcatenateBits(Key3)));
             }
         }
 
@@ -190,8 +191,11 @@ namespace NIST.CVP.Generation.TDES_ECB
             {
                 case "key":
                 case "keys":
-                case "key1":
                     Key = new BitString(value);
+                    return true;
+
+                case "key1":
+                    Key1 = new BitString(value);
                     return true;
 
                 case "key2":
