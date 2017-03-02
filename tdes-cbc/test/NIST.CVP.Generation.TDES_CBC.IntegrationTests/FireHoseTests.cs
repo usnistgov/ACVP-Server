@@ -10,20 +10,22 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
 {
-    
+
     [TestFixture]
     public class FireHoseTests
     {
         private string _testPath;
-        private TdesCbc _tdesCbc;
-        //private AES_CBC_MCT _aesCbcMct;
-        
+        private TdesCbc _algo;
+        private TDES_CBC_MCT _algoMct;
+        private MonteCarloKeyMaker _keyMaker;
+
         [SetUp]
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-            _tdesCbc = new TdesCbc();
-            //_aesCbcMct = new AES_CBC_MCT(_aesCbc);
+            _algo = new TdesCbc();
+            _keyMaker = new MonteCarloKeyMaker();
+            _algoMct = new TDES_CBC_MCT(_algo, _keyMaker);
         }
 
         [Test]
@@ -55,28 +57,23 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
             foreach (var iTestGroup in parsedTestVectorSet.ParsedObject.TestGroups)
             {
 
-                var testGroup = (TestGroup) iTestGroup;
+                var testGroup = (TestGroup)iTestGroup;
                 foreach (var iTestCase in testGroup.Tests)
                 {
                     count++;
 
-                    var testCase = (TestCase) iTestCase;
+                    var testCase = (TestCase)iTestCase;
 
-                    if (testGroup.TestType.ToLower() == "mct")
+                    if (testGroup.TestType.ToLower() == "montecarlo")
                     {
-                        mctTestHit = true;//todo: REMOVE WHEN MCT IS IMPLEMENTED
-
-                        continue; //todo: REMOVE WHEN MCT IS IMPLEMENTED
-
-                        /*
                         mctTestHit = true;
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            var result = _aesCbcMct.MCTEncrypt(
-                                testCase.ResultsArray.First().IV,
-                                testCase.ResultsArray.First().Key,
-                                testCase.ResultsArray.First().PlainText
+                            var result = _algoMct.MCTEncrypt(
+                                testCase.ResultsArray.First().Keys,
+                                testCase.ResultsArray.First().PlainText, 
+                                testCase.ResultsArray.First().IV
                             );
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
@@ -88,10 +85,10 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
                         }
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = _aesCbcMct.MCTDecrypt(
-                                testCase.ResultsArray.First().IV,
-                                testCase.ResultsArray.First().Key,
-                                testCase.ResultsArray.First().CipherText
+                            var result = _algoMct.MCTDecrypt(
+                                testCase.ResultsArray.First().Keys,
+                                testCase.ResultsArray.First().CipherText,
+                                testCase.ResultsArray.First().IV
                             );
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
@@ -101,22 +98,21 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
                             }
                             continue;
                         }
-                        */
                     }
 
                     else
                     {
                         nonMctTestHit = true;
-                        
+
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            if(testGroup.TestType.ToLower() == "mmt")
+                            if (testGroup.TestType.ToLower() == "mmt")
                             {
                                 testCase.Key = testCase.Key.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
                             }
-                            var result = _tdesCbc.BlockEncrypt(
+                            var result = _algo.BlockEncrypt(
                                 testCase.Key,
-                                testCase.PlainText,
+                                testCase.PlainText, 
                                 testCase.Iv
                             );
 
@@ -137,7 +133,7 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
                                 //Since MMT files include 3 keys (while KAT files only include 1), we concatenate them into a single key before inputing them into the DEA.
                                 testCase.Key = testCase.Key.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
                             }
-                            var result = _tdesCbc.BlockDecrypt(
+                            var result = _algo.BlockDecrypt(
                                 testCase.Key,
                                 testCase.CipherText,
                                 testCase.Iv
@@ -163,5 +159,4 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
             // Assert.Fail($"Passes {passes}, fails {fails}, count {count}");
         }
     }
-    
 }

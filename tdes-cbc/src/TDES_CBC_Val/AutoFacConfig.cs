@@ -28,6 +28,7 @@ namespace TDES_CBC_Val
             builder.RegisterType<Generator>();
             builder.RegisterType<Validator>();
             builder.RegisterType<TdesCbc>().AsImplementedInterfaces();
+            builder.RegisterType<TDES_CBC_MCT>().AsImplementedInterfaces();
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
             builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

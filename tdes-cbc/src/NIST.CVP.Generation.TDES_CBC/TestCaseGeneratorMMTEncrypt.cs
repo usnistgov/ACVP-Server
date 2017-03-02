@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.TDES_CBC
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
 
-            var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * @group.NumberOfKeys);
+            var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * @group.NumberOfKeys).ToOddParityBitString();
             var plainText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * (_currentCase + 1));
             var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
             var testCase = new TestCase
