@@ -14,15 +14,12 @@ namespace NIST.CVP.Math.Tests
     {
         #region ctor
         [Test]
-        public void ShouldCreateInstanceWithLength()
+        [TestCase(0)]
+        [TestCase(10)]
+        [TestCase(16000)]
+        public void ShouldCreateInstanceWithLength(int length)
         {
-            // Arrange
-            int length = 10;
-
-            // Act
             BitString subject = new BitString(length);
-
-            // Assert
             Assert.AreEqual(length, subject.BitLength);
         }
 
@@ -1311,6 +1308,11 @@ namespace NIST.CVP.Math.Tests
             8,
             new bool[] { true, false, false, false, true, false }
         )]
+        [TestCase(
+            new bool[] { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            3,
+            new bool[] { false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false}    
+        )]
         public void MSBRotateShouldShiftBitsAndReturnNewBitString(bool[] bits, int distance, bool[] expectedBits)
         {
             // Arrange
@@ -1322,6 +1324,19 @@ namespace NIST.CVP.Math.Tests
 
             // Assert
             Assert.AreEqual(expectedResult, results);
+        }
+
+        [Test]
+        [TestCase("00 40 90 00 00 D0 4C 00", 1, "00 81 20 00 01 A0 98 00")]
+        [TestCase("00 4C D0 00 00 90 40 00", 1, "00 99 A0 00 01 20 80 00")]
+        public void MSBRotateShouldShiftHexBitStrings(string inputHex, int distance, string outputHex)
+        {
+            var inputString = new BitString(inputHex);
+            var expectedResult = new BitString(outputHex);
+
+            var result = BitString.MSBRotate(inputString, distance);
+
+            Assert.AreEqual(expectedResult.ToHex(), result.ToHex());
         }
 
         [Test]
@@ -1721,6 +1736,21 @@ namespace NIST.CVP.Math.Tests
             var subject = BitString.Zero();
             Assert.AreEqual(1, subject.BitLength);
             Assert.IsFalse(subject.ToBool());
+        }
+
+        [Test]
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(1000)]
+        public void ShouldReturnOnes(int count)
+        {
+            var subject = BitString.Ones(count);
+            Assert.AreEqual(count, subject.BitLength);
+
+            for (var i = 0; i < count; i++)
+            {
+                Assert.IsTrue(subject.ToBool(i));
+            }
         }
         #endregion ZERO and ONE
     }

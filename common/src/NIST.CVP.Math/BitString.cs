@@ -319,11 +319,11 @@ namespace NIST.CVP.Math
         }
 
         /// <summary>
-        /// Rotates bist in the MSB direction. Rotate puts the bits that 'fall off' onto the end.
+        /// Rotates bits in the MSB direction. Rotate puts the bits that 'fall off' onto the end.
         /// </summary>
-        /// <param name="bStr"></param>
+        /// <param name="shiftBitString">BitString to rotate</param>
         /// <param name="distance">Amount the bits to rotate.</param>
-        /// <returns></returns>
+        /// <returns>Rotated BitString</returns>
         public static BitString MSBRotate(BitString shiftBitString, int distance)
         {
             var bits = shiftBitString.GetDeepCopy().GetBitsMSB();
@@ -645,6 +645,21 @@ namespace NIST.CVP.Math
         public static BitString One()
         {
             return new BitString("80", 1);
+        }
+
+        public static BitString Ones(int length)
+        {
+            var result = new BitString(0);
+            for (var i = 0; i < length; i++)
+            {
+                result = ConcatenateBits(result, One());
+            }
+            return result;
+        }
+
+        public static BitString ReverseByteOrder(BitString input)
+        {
+            return new BitString(MsbLsbConversionHelpers.ReverseByteOrder(input.ToBytes()));
         }
 
     #region Private methods

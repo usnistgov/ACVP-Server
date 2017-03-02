@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SHA3
+namespace NIST.CVP.Generation.SHA3
 {
-    public class Program
+    public interface ISHA3Factory
     {
-        public static void Main(string[] args)
-        {
-        }
+        ISHA3 GetSHA();
     }
 }
