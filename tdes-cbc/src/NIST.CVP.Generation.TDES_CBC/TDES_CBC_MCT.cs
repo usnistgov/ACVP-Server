@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Generation.TDES;
 using NIST.CVP.Math;
 using NLog;
+//using System.Diagnostics;
 
 namespace NIST.CVP.Generation.TDES_CBC
 {
@@ -37,7 +38,7 @@ namespace NIST.CVP.Generation.TDES_CBC
             {
                 Keys = keyBits.GetDeepCopy(),
                 PlainText = originalPlainTextForOutput.GetDeepCopy(),
-                IV = iv.GetDeepCopy()
+                IV = originalIVForOutput.GetDeepCopy()
             };
 
             var cv = new BitString(64);
@@ -47,9 +48,10 @@ namespace NIST.CVP.Generation.TDES_CBC
 
             for (int outerLoop = 0; outerLoop < NumberOfCases; outerLoop++)
             {
-                if (originalPlainTextForOutput == null)
+                if (originalPlainTextForOutput == null && originalIVForOutput == null)
                 {
                     originalPlainTextForOutput = tempAlgoArrayResponse.PlainText.GetDeepCopy();
+                    originalIVForOutput = cv.GetDeepCopy();
                 }
 
                 if (outerLoop == 0)
@@ -95,10 +97,12 @@ namespace NIST.CVP.Generation.TDES_CBC
                         Keys = tempAlgoArrayResponse.Keys.GetDeepCopy(),
                         PlainText = originalPlainTextForOutput.GetDeepCopy(),
                         CipherText = encryptionResult.CipherText.GetDeepCopy(),
-                        IV = iv.GetDeepCopy() //This will only return original IV.
+                        IV = originalIVForOutput.GetDeepCopy()
                     });
-                
+
+
                 originalPlainTextForOutput = null;
+                originalIVForOutput = null;
 
                 // Setup next loop values
                 tempAlgoArrayResponse.Keys =
@@ -116,26 +120,30 @@ namespace NIST.CVP.Generation.TDES_CBC
             List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
 
             BitString originalCipherTextForOutput = data.GetDeepCopy();
+            BitString originalIVForOutput = iv.GetDeepCopy();
+
             List<BitString> lastPlainTexts = new List<BitString>();
 
             var cv = new BitString(64);
             var copyOfPreviousCipherText = new BitString(64);
+            var copyOfPreviousIV = new BitString(64);
 
             AlgoArrayResponse tempAlgoArrayResponse = new AlgoArrayResponse()
             {
                 Keys = keyBits.GetDeepCopy(),
                 CipherText = originalCipherTextForOutput.GetDeepCopy(),
-                IV = iv.GetDeepCopy()
+                IV = originalIVForOutput.GetDeepCopy()
             };
 
             for (int outerLoop = 0; outerLoop < NumberOfCases; outerLoop++)
             {
-                if (originalCipherTextForOutput == null)
+                if (originalCipherTextForOutput == null && originalIVForOutput == null)
                 {
                     originalCipherTextForOutput = tempAlgoArrayResponse.CipherText.GetDeepCopy();
+                    originalIVForOutput = cv.GetDeepCopy();
                 }
 
-                if(outerLoop == 0)
+                if (outerLoop == 0)
                 {
                     cv = iv.GetDeepCopy(); //For the first outerloop interation, set CV0 to IV.
                 }
@@ -165,10 +173,12 @@ namespace NIST.CVP.Generation.TDES_CBC
                         Keys = tempAlgoArrayResponse.Keys.GetDeepCopy(),
                         PlainText = decryptionResult.PlainText.GetDeepCopy(),
                         CipherText = originalCipherTextForOutput.GetDeepCopy(),
-                        IV = iv.GetDeepCopy()  //This will only return original IV.
+                        IV = originalIVForOutput.GetDeepCopy() 
                     });
 
+
                 originalCipherTextForOutput = null;
+                originalIVForOutput = null;
 
                 // Setup next loop values
                 tempAlgoArrayResponse.Keys =
