@@ -157,7 +157,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                             // For the prompt file, we only want to include the first index of ResultsArray
                             // As a part of the test is to ensure all "iterations" are performing properly.
                             // @@@ TODO do we want this be in an array?  It could be accomplished with the "non MCT" response since only giving a single key and ct/pt
-                            var result = test.ResultsArray.First();
+                            var result = test.ResultsArray.FirstOrDefault();
                             dynamic resultObject = new ExpandoObject();
 
                             TDESKeys keys = new TDESKeys(result.Keys);
