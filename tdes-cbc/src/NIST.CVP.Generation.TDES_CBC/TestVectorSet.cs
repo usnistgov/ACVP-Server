@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
 
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
+                    //((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
@@ -68,27 +68,55 @@ namespace NIST.CVP.Generation.TDES_CBC
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (test.Keys.KeyOption == KeyOptionValues.OneKey)
+                        if (group.TestType.Equals("MonteCarlo", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("key", test.Key);
+                            var resultsArray = new List<dynamic>();
+
+                            foreach (var result in test.ResultsArray)
+                            {
+                                dynamic resultObject = new ExpandoObject();
+
+                                TDESKeys keys = new TDESKeys(result.Keys);
+                                for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
+                                {
+                                    ((IDictionary<string, object>)resultObject).Add($"key{iKeyIndex + 1}",
+                                        keys.KeysAsBitStrings[iKeyIndex]);
+                                }
+                                ((IDictionary<string, object>)resultObject).Add("iv", result.IV);
+                                if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    ((IDictionary<string, object>)resultObject).Add("plainText", result.PlainText);
+                                    ((IDictionary<string, object>)resultObject).Add("cipherText", result.CipherText);
+                                }
+                                if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    ((IDictionary<string, object>)resultObject).Add("cipherText", result.CipherText);
+                                    ((IDictionary<string, object>)resultObject).Add("plainText", result.PlainText);
+                                }
+
+                                resultsArray.Add(resultObject);
+                            }
+                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
                         }
                         else
                         {
-                            for (int iKeyIndex = 0; iKeyIndex < test.Keys.Keys.Count; iKeyIndex++)
+                            TDESKeys keys = test.Keys;
+                            for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
                             {
-                                ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}", test.Keys.KeysAsBitStrings[iKeyIndex]);
+                                ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}",
+                                    keys.KeysAsBitStrings[iKeyIndex]);
                             }
-                        }
 
-                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                            {
+                                ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            }
+                            else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                            {
+                                ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            }
+                            ((IDictionary<string, object>)testObject).Add("iv", test.Iv);
                         }
-                        if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
-                        }
-                        ((IDictionary<string, object>)testObject).Add("iv", test.Iv);
                         //((IDictionary<string, object>)testObject).Add("key", test.Key);
                         ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
                         ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
@@ -116,7 +144,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
+                    //((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
@@ -124,28 +152,54 @@ namespace NIST.CVP.Generation.TDES_CBC
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (test.Keys.KeyOption == KeyOptionValues.OneKey)
+                        if (group.TestType.Equals("MonteCarlo", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("key", test.Key);
+                            var resultsArray = new List<dynamic>();
+                            // For the prompt file, we only want to include the first index of ResultsArray
+                            // As a part of the test is to ensure all "iterations" are performing properly.
+                            // @@@ TODO do we want this be in an array?  It could be accomplished with the "non MCT" response since only giving a single key and ct/pt
+                            var result = test.ResultsArray.FirstOrDefault();
+                            dynamic resultObject = new ExpandoObject();
+
+                            TDESKeys keys = new TDESKeys(result.Keys);
+                            for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
+                            {
+                                ((IDictionary<string, object>)resultObject).Add($"key{iKeyIndex + 1}",
+                                    keys.KeysAsBitStrings[iKeyIndex]);
+                            }
+                            ((IDictionary<string, object>)resultObject).Add("iv", result.IV);
+                            if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                            {
+                                ((IDictionary<string, object>)resultObject).Add("plainText", result.PlainText);
+                            }
+                            if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                            {
+                                ((IDictionary<string, object>)resultObject).Add("cipherText", result.CipherText);
+                            }
+                            resultsArray.Add(resultObject);
+                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
                         }
                         else
                         {
-                            for (int iKeyIndex = 0; iKeyIndex < test.Keys.Keys.Count; iKeyIndex++)
+
+                            TDESKeys keys = test.Keys;
+                            for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
                             {
-                                ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}", test.Keys.KeysAsBitStrings[iKeyIndex]);
+                                ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}",
+                                    keys.KeysAsBitStrings[iKeyIndex]);
                             }
+
+                            if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                            {
+                                ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            }
+                            else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                            {
+                                ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            }
+                            ((IDictionary<string, object>)testObject).Add("iv", test.Iv);
                         }
 
-                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
-                        }
-                        if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
-                        }
-                       
-                        ((IDictionary<string, object>)testObject).Add("iv", test.Iv);
                         
                         tests.Add(testObject);
                     }
@@ -171,20 +225,55 @@ namespace NIST.CVP.Generation.TDES_CBC
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                        if (group.TestType.ToLower() == "montecarlo")
                         {
-                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
-                        }
+                            var resultsArray = new List<dynamic>();
+                            foreach (var result in test.ResultsArray)
+                            {
+                                dynamic resultObject = new ExpandoObject();
 
-                        if (test.FailureTest)
-                        {
-                            ((IDictionary<string, object>)testObject).Add("decryptFail", true);
+                                TDESKeys keys = new TDESKeys(result.Keys);
+                                for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
+                                {
+                                    ((IDictionary<string, object>)resultObject).Add($"key{iKeyIndex + 1}",
+                                        keys.KeysAsBitStrings[iKeyIndex]);
+                                }
+
+                                if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    ((IDictionary<string, object>)resultObject).Add("plainText", result.PlainText);
+                                    ((IDictionary<string, object>)resultObject).Add("cipherText", result.CipherText);
+                                    ((IDictionary<string, object>)resultObject).Add("iv", result.IV);
+                                }
+                                else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    ((IDictionary<string, object>)resultObject).Add("cipherText", result.CipherText);
+                                    ((IDictionary<string, object>)resultObject).Add("plainText", result.PlainText);
+                                    ((IDictionary<string, object>)resultObject).Add("iv", result.IV);
+                                }
+                                resultsArray.Add(resultObject);
+                            }
+                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
                         }
                         else
                         {
-                            if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+
+
+                            if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
-                                ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                                ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            }
+
+                            if (test.FailureTest)
+                            {
+                                ((IDictionary<string, object>)testObject).Add("decryptFail", true);
+                            }
+                            else
+                            {
+                                if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                                }
                             }
                         }
 

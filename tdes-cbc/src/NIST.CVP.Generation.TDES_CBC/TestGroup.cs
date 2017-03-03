@@ -73,9 +73,7 @@ namespace NIST.CVP.Generation.TDES_CBC
 
         public override int GetHashCode()
         {
-            return
-                $"{Function}|{TestType}|{NumberOfKeys}"
-                    .GetHashCode();
+            return $"{Function}|{TestType}|{NumberOfKeys}".GetHashCode();
         }
 
         public override bool Equals(object obj)

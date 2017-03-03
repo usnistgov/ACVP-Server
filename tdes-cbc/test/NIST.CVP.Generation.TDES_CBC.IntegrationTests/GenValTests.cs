@@ -327,9 +327,17 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
                         bsIV = rand.GetDifferentBitStringOfSameSize(bsIV);
                         testCase.resultsArray[0].iv = bsIV.ToHex();
 
-                        BitString bsKey = new BitString(testCase.resultsArray[0].key.ToString());
-                        bsKey = rand.GetDifferentBitStringOfSameSize(bsKey);
-                        testCase.resultsArray[0].key = bsKey.ToHex();
+                        BitString bsKey1 = new BitString(testCase.resultsArray[0].key1.ToString());
+                        bsKey1 = rand.GetDifferentBitStringOfSameSize(bsKey1);
+                        testCase.resultsArray[0].key1 = bsKey1.ToHex();
+
+                        BitString bsKey2 = new BitString(testCase.resultsArray[0].key2.ToString());
+                        bsKey2 = rand.GetDifferentBitStringOfSameSize(bsKey2);
+                        testCase.resultsArray[0].key2 = bsKey2.ToHex();
+
+                        BitString bsKey3 = new BitString(testCase.resultsArray[0].key3.ToString());
+                        bsKey3 = rand.GetDifferentBitStringOfSameSize(bsKey3);
+                        testCase.resultsArray[0].key3 = bsKey3.ToHex();
 
                         BitString bsPlainText = new BitString(testCase.resultsArray[0].plainText.ToString());
                         bsPlainText = rand.GetDifferentBitStringOfSameSize(bsPlainText);

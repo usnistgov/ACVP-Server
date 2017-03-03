@@ -28,8 +28,8 @@ namespace NIST.CVP.Generation.TDES_CBC
                 Array.Copy(plainTextBytes, blockIdx * 8, input, 0, 8);
                 
                 var inputToBeXOR = new BitString(input); //Create input variable that we can XOR
-                var XorInput = vector.XOR(inputToBeXOR);
-                input = XorInput.ToBytes(); //Set input equal to the XOR'd input, in byte format
+                var xorInput = vector.XOR(inputToBeXOR);
+                input = xorInput.ToBytes(); //Set input equal to the XOR'd input, in byte format
 
                 var blockOutput = EncryptWorker(keyBits, input);
                 Array.Copy(blockOutput, 0, output, blockIdx * 8, 8);

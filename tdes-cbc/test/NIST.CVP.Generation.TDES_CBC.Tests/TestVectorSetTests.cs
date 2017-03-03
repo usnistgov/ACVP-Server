@@ -81,7 +81,9 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             foreach (var test in tests)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
-                Assert.IsTrue(!string.IsNullOrEmpty(test.key.ToString()), nameof(test.key));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.key1.ToString()), nameof(test.key1));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.key2.ToString()), nameof(test.key2));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.key3.ToString()), nameof(test.key3));
                 Assert.IsTrue(!string.IsNullOrEmpty(test.deferred.ToString()), nameof(test.deferred));
                 Assert.IsTrue(!string.IsNullOrEmpty(test.failureTest.ToString()), nameof(test.failureTest));
             }
@@ -99,7 +101,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             foreach (var test in tests)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
-                Assert.IsTrue(!string.IsNullOrEmpty(test.key.ToString()), nameof(test.key));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.key1.ToString()), nameof(test.key1), !string.IsNullOrEmpty(test.key2.ToString()), nameof(test.key2), !string.IsNullOrEmpty(test.key3.ToString()), nameof(test.key3));
             }
         }
 
@@ -217,7 +219,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [Test]
         public void DecryptShouldIncludePlainTextInResultProjectionWhenNotFailureTest()
         {
-            var subject = GetSubject(1, "decrypt", false);
+            var subject = GetSubject(1, "decrypt", null, false);
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
@@ -228,7 +230,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [Test]
         public void DecryptShouldExcludePlainTextInResultProjectionWhenFailureTest()
         {
-            var subject = GetSubject(1, "decrypt", true);
+            var subject = GetSubject(1, "decrypt", null, true);
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
@@ -274,17 +276,10 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             }
         }
 
-
-
-
-
-
-
-
-        private TestVectorSet GetSubject(int groups = 1, string direction = "encrypt", bool failureTest = false)
+        private TestVectorSet GetSubject(int groups = 1, string direction1 = "encrypt", string direction2 = "decrypt", bool failureTest = false)
         {
-            var subject = new TestVectorSet { Algorithm = "TDES-CBC" };
-            var testGroups = _tdm.GetTestGroups(groups, direction, failureTest);
+            var subject = new TestVectorSet { Algorithm = "TDES-ECB" };
+            var testGroups = _tdm.GetTestGroups(groups, direction1, direction2, failureTest);
             subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return subject;
         }

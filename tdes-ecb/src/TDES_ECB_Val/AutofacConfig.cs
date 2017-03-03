@@ -33,11 +33,8 @@ namespace TDES_ECB_Val
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
             builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
-          
             builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
-
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
-
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();

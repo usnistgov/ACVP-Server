@@ -61,7 +61,8 @@ namespace NIST.CVP.Generation.TDES_CBC
         {
             var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * @group.NumberOfKeys).ToOddParityBitString();
             var cipherText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
-            return new TestCase { Key = key, CipherText = cipherText };
+            var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
+            return new TestCase { Key = key, CipherText = cipherText, Iv = iv};
         }
 
         private Logger ThisLogger

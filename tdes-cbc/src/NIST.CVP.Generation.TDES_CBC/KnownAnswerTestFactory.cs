@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                  { "inversepermutationdecrypt", InversePermutationTestsDecrypt},
                  { "inversepermutationencrypt", InversePermutationTestsEncrypt},
                  { "permutationdecrypt", PermutationTestsDecrypt},
-                 { "permutationencrypt", PermutationTestsEncryt},
+                 { "permutationencrypt", PermutationTestsEncrypt},
                  { "substitutiontabledecrypt", SubstitutionTableTestsDecrypt},
                  { "substitutiontableencrypt", SubstitutionTableTestsEncrypt},
                  { "variablekeydecrypt", VariableKeyTestsDecrypt},
@@ -112,7 +112,7 @@ private static readonly List<TestCase> InversePermutationTestsEncrypt = new List
             new TestCase("0101010101010101", "166b40b44aba4bd6", "0000000000000001", "0000000000000000")
         };
 
-private static readonly List<TestCase> PermutationTestsEncryt = new List<TestCase>
+private static readonly List<TestCase> PermutationTestsEncrypt = new List<TestCase>
         {
             new TestCase("1046913489980131", "0000000000000000", "88d55e54f54c97b4", "0000000000000000"),
             new TestCase("1007103489988020", "0000000000000000", "0c0cc00c83ea48fd", "0000000000000000"),

@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.TDES_CBC
 
             BitString originalPlainTextForOutput = data.GetDeepCopy();
             BitString originalIVForOutput = iv.GetDeepCopy();
-
+            
             List<BitString> lastCipherTexts = new List<BitString>();
             AlgoArrayResponse tempAlgoArrayResponse = new AlgoArrayResponse()
             {

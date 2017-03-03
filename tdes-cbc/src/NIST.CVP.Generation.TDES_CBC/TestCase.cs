@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.TDES_CBC
         {
             MapToProperties(source);
         }
-
+        //todo find all references and see if we can separate out keys
         public TestCase(string key, string plainText, string cipherText, string iv)
         {
             Iv = new BitString(iv);
@@ -49,8 +49,16 @@ namespace NIST.CVP.Generation.TDES_CBC
             {
                 ResultsArray = ResultsArrayToObject(source.resultsArray);
             }
-
-            Key = BitStringFromObject("key", (ExpandoObject)source);
+            //if (((ExpandoObject) source).ContainsProperty("key1"))
+            //{
+            //    Key1 = BitStringFromObject("key1", (ExpandoObject) source);
+            //    Key2 = BitStringFromObject("key2", (ExpandoObject) source);
+            //    Key3 = BitStringFromObject("key3", (ExpandoObject) source);
+            //}
+            //else
+            //{
+                Key = BitStringFromObject("key", (ExpandoObject) source);
+            //}
             CipherText = BitStringFromObject("cipherText", (ExpandoObject)source);
             PlainText = BitStringFromObject("plainText", (ExpandoObject)source);
             Iv = BitStringFromObject("iv", (ExpandoObject)source);
@@ -109,6 +117,7 @@ namespace NIST.CVP.Generation.TDES_CBC
         public bool Deferred { get; set; }
         public BitString PlainText { get; set; }
         public BitString Key { get; set; }
+        public BitString Key1 { get; set; }
         public BitString Key2 { get; set; }
         public BitString Key3 { get; set; }
         public BitString CipherText { get; set; }
@@ -123,7 +132,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                 {
                     return new TDESKeys(Key);
                 }
-                return new TDESKeys(Key.ConcatenateBits(Key2.ConcatenateBits(Key3)));
+                return new TDESKeys(Key1.ConcatenateBits(Key2.ConcatenateBits(Key3)));
             }
         }
 
@@ -196,11 +205,14 @@ namespace NIST.CVP.Generation.TDES_CBC
             {
                 case "key":
                 case "keys":
-                case "key1":
                     Key = new BitString(value);
                     return true;
 
-               case "key2":
+                case "key1":
+                    Key1 = new BitString(value);
+                    return true;
+
+                case "key2":
                     Key2 = new BitString(value);
                     return true;
 
