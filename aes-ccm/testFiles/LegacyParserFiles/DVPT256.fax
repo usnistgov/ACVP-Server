@@ -1,0 +1,1589 @@
+#  CAVS 20.2
+#  "CCM-DVPT" information for "test"
+#  AES Keylen: 256
+#  Generated on Fri Mar  3 08:20:56 2017
+
+
+[Alen = 0, Plen = 0, Nlen = 7, Tlen = 4]
+
+Key = 1ea8cf3ac56b9302758edb591bd0b625e04b257365aa7d544d960ceafd71ffc2
+
+Count = 0
+Nonce = 481958f6b98bf5
+Adata = 00
+CT = d3089a72
+Result = Fail (1 - Adata changed)
+
+Count = 1
+Nonce = c817e2cce01e27
+Adata = 00
+CT = d07aa53b
+Result = Fail (1 - Adata changed)
+
+Count = 2
+Nonce = b6d425648243a4
+Adata = 00
+CT = 7995c122
+Result = Fail (1 - Adata changed)
+
+Count = 3
+Nonce = d7a088f282da66
+Adata = 00
+CT = 63e4d644
+Result = Fail (2 - CT changed)
+
+Count = 4
+Nonce = fc8e32ecc26093
+Adata = 00
+CT = a1bba336
+Result = Fail (2 - CT changed)
+
+Count = 5
+Nonce = 931687b658d271
+Adata = 00
+CT = 247f36a7
+Result = Fail (1 - Adata changed)
+
+Count = 6
+Nonce = e9b5e8768a8791
+Adata = 00
+CT = 6aecb222
+Result = Fail (2 - CT changed)
+
+Count = 7
+Nonce = 8441a1ef2bb353
+Adata = 00
+CT = ec7e1540
+Result = Pass (0)
+Payload = 00
+
+Count = 8
+Nonce = 9dbbb3c4d448b1
+Adata = 00
+CT = 6c16d30a
+Result = Pass (0)
+Payload = 00
+
+Count = 9
+Nonce = 393304c3a2a005
+Adata = 00
+CT = 48c4b219
+Result = Fail (2 - CT changed)
+
+Count = 10
+Nonce = ba0acb6533699b
+Adata = 00
+CT = 29efda0e
+Result = Pass (0)
+Payload = 00
+
+Count = 11
+Nonce = fa9cf7d0733464
+Adata = 00
+CT = 387ff4bd
+Result = Pass (0)
+Payload = 00
+
+Count = 12
+Nonce = c625a1d0080457
+Adata = 00
+CT = c12daad3
+Result = Fail (2 - CT changed)
+
+Count = 13
+Nonce = c818e1c60571e5
+Adata = 00
+CT = 4bbefefb
+Result = Fail (1 - Adata changed)
+
+Count = 14
+Nonce = 6c9fd2c57442fb
+Adata = 00
+CT = 3206e464
+Result = Pass (0)
+Payload = 00
+
+[Alen = 0, Plen = 0, Nlen = 7, Tlen = 16]
+
+Key = ea2011b4d30b959047dcdbd47b8361157f5e5acac3af535bd94d167b7c9acfb8
+
+Count = 15
+Nonce = 481958f6b98bf5
+Adata = 00
+CT = a585d2e3f5ea92c4c6dddc59b38f5956
+Result = Fail (1 - Adata changed)
+
+Count = 16
+Nonce = c817e2cce01e27
+Adata = 00
+CT = e6518f983b67e7c5d81fecc7fd2d58d6
+Result = Fail (1 - Adata changed)
+
+Count = 17
+Nonce = b6d425648243a4
+Adata = 00
+CT = 1d49e511f83d8a37331cf878804be1ce
+Result = Fail (1 - Adata changed)
+
+Count = 18
+Nonce = d7a088f282da66
+Adata = 00
+CT = cc046eff634e0336099ec5f429bee9c5
+Result = Fail (2 - CT changed)
+
+Count = 19
+Nonce = fc8e32ecc26093
+Adata = 00
+CT = f98a01f69001cacf81d9db52e03b3220
+Result = Fail (2 - CT changed)
+
+Count = 20
+Nonce = 931687b658d271
+Adata = 00
+CT = 6c87739fb3f2c187e4a55284164f9b79
+Result = Fail (1 - Adata changed)
+
+Count = 21
+Nonce = e9b5e8768a8791
+Adata = 00
+CT = f0c4addddf1f9db3f811aa79c8c86dfa
+Result = Fail (2 - CT changed)
+
+Count = 22
+Nonce = 8441a1ef2bb353
+Adata = 00
+CT = 4bb29adc0ba63c50c6e8b904ae9e9cca
+Result = Pass (0)
+Payload = 00
+
+Count = 23
+Nonce = 9dbbb3c4d448b1
+Adata = 00
+CT = ee394348988fc0e2cdc5a0bf5404deba
+Result = Pass (0)
+Payload = 00
+
+Count = 24
+Nonce = 393304c3a2a005
+Adata = 00
+CT = d6a2dbff2a3a5e27f93f928f31c18946
+Result = Fail (2 - CT changed)
+
+Count = 25
+Nonce = ba0acb6533699b
+Adata = 00
+CT = bb3d88aadb66902ba6c327dc3f5f3127
+Result = Pass (0)
+Payload = 00
+
+Count = 26
+Nonce = fa9cf7d0733464
+Adata = 00
+CT = 7e59d58fbf1219d77d9815a18ca5a4b0
+Result = Pass (0)
+Payload = 00
+
+Count = 27
+Nonce = c625a1d0080457
+Adata = 00
+CT = bdee27f770168ab12ed22397e63dddfd
+Result = Fail (2 - CT changed)
+
+Count = 28
+Nonce = c818e1c60571e5
+Adata = 00
+CT = 1691b7350baa7e2aaba54633cd3c57ce
+Result = Fail (1 - Adata changed)
+
+Count = 29
+Nonce = 6c9fd2c57442fb
+Adata = 00
+CT = 7dc82dc73db224f4ae8d5a75f257e15f
+Result = Pass (0)
+Payload = 00
+
+[Alen = 0, Plen = 0, Nlen = 13, Tlen = 4]
+
+Key = ea2011b4d30b959047dcdbd47b8361157f5e5acac3af535bd94d167b7c9acfb8
+
+Count = 30
+Nonce = 481958f6b98bf58cf61ab44138
+Adata = 00
+CT = 2211762f
+Result = Fail (1 - Adata changed)
+
+Count = 31
+Nonce = 8c61a86f79aec4526c4200f5ba
+Adata = 00
+CT = 1752e5d2
+Result = Fail (1 - Adata changed)
+
+Count = 32
+Nonce = fa1b7bc3a40254c81e3610cbb0
+Adata = 00
+CT = a6c4696c
+Result = Fail (1 - Adata changed)
+
+Count = 33
+Nonce = 159b2954c256f04f19b8d5bfaa
+Adata = 00
+CT = be563b71
+Result = Fail (2 - CT changed)
+
+Count = 34
+Nonce = e1d7999354b2a6d3a2e301355f
+Adata = 00
+CT = 5af887d1
+Result = Fail (2 - CT changed)
+
+Count = 35
+Nonce = 7036132172c1fdfd5306bc56c3
+Adata = 00
+CT = 977b7313
+Result = Fail (1 - Adata changed)
+
+Count = 36
+Nonce = 61c3c1c955b2c96f7081419a6f
+Adata = 00
+CT = cc455887
+Result = Fail (2 - CT changed)
+
+Count = 37
+Nonce = 8afe5fb2441c570cadbe20eba7
+Adata = 00
+CT = b87effab
+Result = Pass (0)
+Payload = 00
+
+Count = 38
+Nonce = d6703eb49f2530e91d98505a96
+Adata = 00
+CT = e3e8dc24
+Result = Pass (0)
+Payload = 00
+
+Count = 39
+Nonce = b549205440d43c0a3dba34679e
+Adata = 00
+CT = 592ed5c7
+Result = Fail (2 - CT changed)
+
+Count = 40
+Nonce = efce5b26a10de6f42dc3ef9748
+Adata = 00
+CT = d0d32f0d
+Result = Pass (0)
+Payload = 00
+
+Count = 41
+Nonce = fea53b076c8f21a8cde6f1fad0
+Adata = 00
+CT = 5c2d60be
+Result = Pass (0)
+Payload = 00
+
+Count = 42
+Nonce = 1337e67715b324e39ff40a7b40
+Adata = 00
+CT = 30a37365
+Result = Fail (2 - CT changed)
+
+Count = 43
+Nonce = d5771e36b418c9cf63e221e40d
+Adata = 00
+CT = 10280665
+Result = Fail (1 - Adata changed)
+
+Count = 44
+Nonce = 6c2149ece0d72885b3cd4096b8
+Adata = 00
+CT = c6b4947f
+Result = Pass (0)
+Payload = 00
+
+[Alen = 0, Plen = 0, Nlen = 13, Tlen = 16]
+
+Key = 36f584263f2457cb33e09dcfeda8a5cee32549d151bb2b7d945f3f8ad3a88a77
+
+Count = 45
+Nonce = 481958f6b98bf58cf61ab44138
+Adata = 00
+CT = 0d75d9b5123f12213d05a363c44fb56e
+Result = Fail (1 - Adata changed)
+
+Count = 46
+Nonce = 8c61a86f79aec4526c4200f5ba
+Adata = 00
+CT = d537fca4e759621c770cbfe3168edc3f
+Result = Fail (1 - Adata changed)
+
+Count = 47
+Nonce = fa1b7bc3a40254c81e3610cbb0
+Adata = 00
+CT = 1091fecb7d60da71cb786e5abb2e5537
+Result = Fail (1 - Adata changed)
+
+Count = 48
+Nonce = 159b2954c256f04f19b8d5bfaa
+Adata = 00
+CT = 814f0850af54aac2cdbda978388e4131
+Result = Fail (2 - CT changed)
+
+Count = 49
+Nonce = e1d7999354b2a6d3a2e301355f
+Adata = 00
+CT = bb3d7324f297b14252c6bb878af74dcd
+Result = Fail (2 - CT changed)
+
+Count = 50
+Nonce = 7036132172c1fdfd5306bc56c3
+Adata = 00
+CT = 5378510ceeff5910c22b64bf17e4d857
+Result = Fail (1 - Adata changed)
+
+Count = 51
+Nonce = 61c3c1c955b2c96f7081419a6f
+Adata = 00
+CT = a51b4f45808f4f6f76ca0b35d31b9183
+Result = Fail (2 - CT changed)
+
+Count = 52
+Nonce = 8afe5fb2441c570cadbe20eba7
+Adata = 00
+CT = 895347c638b91481b7f46d4cd7cb0c3d
+Result = Pass (0)
+Payload = 00
+
+Count = 53
+Nonce = d6703eb49f2530e91d98505a96
+Adata = 00
+CT = f953d2891bfae589058ca4d7a7107c69
+Result = Pass (0)
+Payload = 00
+
+Count = 54
+Nonce = b549205440d43c0a3dba34679e
+Adata = 00
+CT = 8c65e43effb4f539f4c119105e2668d7
+Result = Fail (2 - CT changed)
+
+Count = 55
+Nonce = efce5b26a10de6f42dc3ef9748
+Adata = 00
+CT = eb68a01dbfd8251b33addfe41cec578b
+Result = Pass (0)
+Payload = 00
+
+Count = 56
+Nonce = fea53b076c8f21a8cde6f1fad0
+Adata = 00
+CT = af40cd57b3527e2cc0119f52e9268d4f
+Result = Pass (0)
+Payload = 00
+
+Count = 57
+Nonce = 1337e67715b324e39ff40a7b40
+Adata = 00
+CT = 4b92f215da16c48edb3d2aeebf997b4d
+Result = Fail (2 - CT changed)
+
+Count = 58
+Nonce = d5771e36b418c9cf63e221e40d
+Adata = 00
+CT = e73af672ab994ea67659b00161e4b8bc
+Result = Fail (1 - Adata changed)
+
+Count = 59
+Nonce = 6c2149ece0d72885b3cd4096b8
+Adata = 00
+CT = 82859376c2aed5251347d4cacfed98ba
+Result = Pass (0)
+Payload = 00
+
+[Alen = 0, Plen = 32, Nlen = 7, Tlen = 4]
+
+Key = 36f584263f2457cb33e09dcfeda8a5cee32549d151bb2b7d945f3f8ad3a88a77
+
+Count = 60
+Nonce = 481958f6b98bf5
+Adata = 00
+CT = e229651a20d8baf066cd9e32bca88e06da32687fe0fd48b73626733186699369b0454875
+Result = Fail (1 - Adata changed)
+
+Count = 61
+Nonce = a70fb3e3ec31b8
+Adata = 00
+CT = 5ca09de61292be3ce7824120eeaf513786997a760cd797cff5d1095972487d58da32bc4b
+Result = Fail (1 - Adata changed)
+
+Count = 62
+Nonce = c0ca7d5d8899dc
+Adata = 00
+CT = 15450a5b9c656cd07c780e9a65a2aeb7f024b6257b0f5e7951aabb17a02263450a7d45cd
+Result = Fail (1 - Adata changed)
+
+Count = 63
+Nonce = 92fd8486ecec05
+Adata = 00
+CT = 72a86e3e3d7ee12e7e442be197379ef2635e02391fef3d3c2c8f8abc7dd15634423e3728
+Result = Fail (2 - CT changed)
+
+Count = 64
+Nonce = 9605d483cfd245
+Adata = 00
+CT = ebcaff61302233d4f47e27aea8a72150b729be4ff5f15d110b9ffdab6349e3ed9044843e
+Result = Fail (2 - CT changed)
+
+Count = 65
+Nonce = a0f64033d6ab63
+Adata = 00
+CT = 59204b8b56a9b3bebba7001c41061a1681d6aa24a4fdfb9262b34076aa4237e5e8001b12
+Result = Fail (1 - Adata changed)
+
+Count = 66
+Nonce = 49b3d1526db3cf
+Adata = 00
+CT = b91f1fbe6b0c310111d8e3ecd9157963a59f6664c78468e68d96f1c8fe2cc5bd488bd2bd
+Result = Fail (2 - CT changed)
+
+Count = 67
+Nonce = df5efc02bfc5ee
+Adata = 00
+CT = f62339ed3d3959e7297ca1c1de826c04b63934325d5f54afa49ebd7f970cd2fbbf8c87f3
+Result = Pass (0)
+Payload = cb88a6c0c3b42861a402a208bae7c5687657c3c2ac2d1d64ffcdb57099082bde
+
+Count = 68
+Nonce = addcd9326777ee
+Adata = 00
+CT = 6e679535ae9ad753e621e803ae0304c46b10015a76aea503ef9c55de6964ee9485109d3e
+Result = Pass (0)
+Payload = 4cc5f406a053e4a0d2fb778a6a6ea4b032a69070a384a7599db7ec335bdf8d3f
+
+Count = 69
+Nonce = c6a425c339d248
+Adata = 00
+CT = d36a7fa46afe02cb9b3fd9e75d05957a23f1e77547c0cc0c6eabb3c74f635a2c6a40452a
+Result = Fail (2 - CT changed)
+
+Count = 70
+Nonce = cacb5d58002c6d
+Adata = 00
+CT = 24921b58183ee87130d5f0ff92e1ef2bc66793fc2a83308aa559a7118aa3f976ab2556fd
+Result = Pass (0)
+Payload = d4df980e3bb72b4be4df8bdd56502492f9613baad984d132a730ca8d011e4e54
+
+Count = 71
+Nonce = b306b9498d1bd3
+Adata = 00
+CT = 20bc6a4579d9ff45c04806f347b3cecefde7944a5845858254482720dc0cfd3d9508317b
+Result = Pass (0)
+Payload = 5241f4463ffa81b5f418b7a79ce44663747a6c78dc87b0a4ae52d3f5cef9042e
+
+Count = 72
+Nonce = 35fb6a89dc0590
+Adata = 00
+CT = 467ee8c657388dbd58c4fee416a412a2e2a2c4648955a0b6a0f83722e256a3bd5b1ff16c
+Result = Fail (2 - CT changed)
+
+Count = 73
+Nonce = 72ee751be40cfe
+Adata = 00
+CT = 2e2613c909f7739380bef47449bebbffa02e33f5ed0bbf91aaf035813df090268ae007df
+Result = Fail (1 - Adata changed)
+
+Count = 74
+Nonce = 5c51498d294884
+Adata = 00
+CT = c2a54aa0852cef1939b7adc94e11fc34111077ddb85cccc9c6a8943b6379c1ed2ebecb4f
+Result = Pass (0)
+Payload = bffdc0ae2e05ef946db6c9799dc407cace0ddb7e64727691bfe6cdb41bc49d43
+
+[Alen = 0, Plen = 32, Nlen = 7, Tlen = 16]
+
+Key = 8d0b8f3716a270de7e9268df03b244e27910219c922ed4a45c6b89820bbfa909
+
+Count = 75
+Nonce = c5ba7f72476ef3
+Adata = 00
+CT = 53028062bf4aeb27c070ed7058d622c23b0d2e3dc406d49155ed40c3169a1c93a0623868932709de4a3a41d256e2c605
+Result = Pass (0)
+Payload = 8c6e23a627b2593cfabbf96a86162e3ef25ef358ad54d69d5532fb30d83d639e
+
+Count = 76
+Nonce = 279b34fe8ffa8e
+Adata = 00
+CT = 23269276fb2f454d0773032714b448c356094ba6219bd324fd1fd2ba80634c061ceb32ee9a18e80f6577a68e7500b099
+Result = Pass (0)
+Payload = c3b5dedc256e55cc969b8f1ceb0e23d891cc14c5c76ea5eb0ac76e51d1c7b008
+
+Count = 77
+Nonce = 904816c0b56941
+Adata = 00
+CT = ada8a0c9c4ec851f45377f28bf3b4330d036847dfaac63c8b18ad80d1c800db0db2bb39b3930cd119ccabb370293602b
+Result = Fail (2 - CT changed)
+
+Count = 78
+Nonce = 5122118809c7fb
+Adata = 00
+CT = 0450c797882e8d21f76873a4036a6671c2bfc38a0ad063c9a5bccbacd1af07e557118b121f7fc7b0ba622943ffd0f590
+Result = Pass (0)
+Payload = 0771236af5e25d589504345d28a19ab0dbc1c9b74d1ee21c4bd8d423de6a803b
+
+Count = 79
+Nonce = 40e5f6b6ceeb16
+Adata = 00
+CT = 8be622309784f7ae33118ee1d25d97bb0bef72d14f0c5b5326e80a2060083a3f63de379d508e81551e05a99584311743
+Result = Fail (1 - Adata changed)
+
+Count = 80
+Nonce = 5dfc297064a04f
+Adata = 00
+CT = 395be6554d6a8bc578ed5ed2e25be9a2ef345c2be01400d0e0eeb8fe62780831a3702eb0c6178db3354dbd62d91e1815
+Result = Fail (2 - CT changed)
+
+Count = 81
+Nonce = 3b094f5bd10d2d
+Adata = 00
+CT = 962ee1d78664729582dcc73946507e291eefb969d247ed44cb0cbf19b8e045f3225d7bf799d318897de1d3007b9c6a87
+Result = Pass (0)
+Payload = 235713cc0b7e438c16b4da5740d8ce9e4386d68bb0e11ee73f903f3a63076e34
+
+Count = 82
+Nonce = 757c22ad84c427
+Adata = 00
+CT = a964a6ab0a0ccf52ba835dd0807cda0d1db0569bc243e0289649714c2905e754aea04b253fc05aa68ceb88accdaa9b61
+Result = Pass (0)
+Payload = fdbd88ef90a04ba8a9c8b210d0719ce4e4ceff8eaf4e1e92bc1e03286def292a
+
+Count = 83
+Nonce = ea1e179a36a877
+Adata = 00
+CT = d552dedd5e9d482f4f793b04c5be4bd7fd824d654dfebb1f072f15007e6c756e1b3a9641876af50181229334574f263f
+Result = Fail (2 - CT changed)
+
+Count = 84
+Nonce = 98cbb1af14739a
+Adata = 00
+CT = cda3da91864118c9b4e8c330a9f47d29179b6ed63d42d8d1001e62b2e22ed64c8df9878d241635cf1fbea3a41f1a20f2
+Result = Fail (1 - Adata changed)
+
+Count = 85
+Nonce = f73d95818fdfb2
+Adata = 00
+CT = 35f1a777605759c98ab14613be7fc5d8fc4aa0cca42bbc62c6b0ad83ee97c5aa286f34e5d5caa022b0ece4beb63ef40f
+Result = Fail (2 - CT changed)
+
+Count = 86
+Nonce = 4f0a0f53c2344e
+Adata = 00
+CT = a142bba7e7f0007ebcb401cc504d6a59b599cfb4e72d01eb1928f2f0455ce5461ac8aee4f30199a3548a58de6267e182
+Result = Fail (2 - CT changed)
+
+Count = 87
+Nonce = 85e9947db23382
+Adata = 00
+CT = 3527577dcaed9bad224b775c957290ebf4b1df32480b24564f026c72146996d9f6287124dbfa90f2a6f20f6f6e2b3176
+Result = Fail (1 - Adata changed)
+
+Count = 88
+Nonce = ed681f3531b33c
+Adata = 00
+CT = b98116aa84718a3a8a18ee90d39974362656c1e206547d7044ee26013e4bda5af5fd707edb09e704a4f590355678ebfe
+Result = Fail (1 - Adata changed)
+
+Count = 89
+Nonce = 5326ba0a6810bb
+Adata = 00
+CT = c72c5548be80e2fb130637f1c0811d6c4d7542e55c6edb04c000df1219935870c22dff944327dda02528a462881f3add
+Result = Fail (1 - Adata changed)
+
+[Alen = 0, Plen = 32, Nlen = 13, Tlen = 4]
+
+Key = af80e07316cbc1d13be22db93804b980e43d8eb856de1049a42cbdc4f05557f3
+
+Count = 90
+Nonce = c5ba7f72476ef3aa238bcccde8
+Adata = 00
+CT = 87f5a6c6dad40bb3ea12f500fa69269cd2e0ddef12b73ae5c42ef3b9a9d638110518bf04
+Result = Pass (0)
+Payload = 0db9ec1ed9a869073c62d3435dc1aa21da3e957bbb12f9f3a59bca7d5000a11e
+
+Count = 91
+Nonce = e358d1cecf55d9f7cb39e0076f
+Adata = 00
+CT = 91192784008e006e4092211e704209274abe34785042d78a6695b606146ed6638ba69f4b
+Result = Pass (0)
+Payload = e49f24275b399d256160b865356c3d198d493aaa7eca03ad9b3f78136149869f
+
+Count = 92
+Nonce = 6d9cd9b1b18b1df10a73cdf023
+Adata = 00
+CT = ed63fa40304a935c8064107a0b6444ab9930d1d78fa4dfb76215c682067e1c1178178193
+Result = Fail (2 - CT changed)
+
+Count = 93
+Nonce = 23a45267bc33df537ca5abc9ce
+Adata = 00
+CT = 48eba4524354f05a73c3f5fbadc6af900ca11f5e1e0c3635150c2252b15703ff45c25906
+Result = Pass (0)
+Payload = 49750ce3b6a745042cfa7544446d274e0ab1d8f80becaf26afb768ebc96892f2
+
+Count = 94
+Nonce = dba7d8f5406de7e4608287aa62
+Adata = 00
+CT = b40325c74a3d12cdc5e9ab4dd977ab074fec808cf1f778469a750aa65cf645060770561f
+Result = Fail (1 - Adata changed)
+
+Count = 95
+Nonce = f015b45fb5e04afc09aadbbab6
+Adata = 00
+CT = aef76942260ac451bf372f1eefad04a49209f25c17e634fe64d1fcb9f12b2305d40155e8
+Result = Fail (2 - CT changed)
+
+Count = 96
+Nonce = b42e2aeabe7a52949b93369cab
+Adata = 00
+CT = 528d057f8d71d23d3cb6eadc90bb3e4f2c93b365cda1f6375d02f3e89a77944ca2097be7
+Result = Pass (0)
+Payload = 5b867f130b7bd4bc5be7b9d4fd8786a71ab1cad3e69585ae77c398e2d7ed795a
+
+Count = 97
+Nonce = bd2b6264d7c323cce605558aed
+Adata = 00
+CT = 685e91842d40704202060fa8ed7bb470947337cd3f423a8aa11d52953a5a94490fa2965a
+Result = Pass (0)
+Payload = de082e7d3938179a9d1c7a7d11ac46e89de353ea665ea00d1a25dfd18ec93359
+
+Count = 98
+Nonce = 4cb1936c556e16f7b97899c67e
+Adata = 00
+CT = 78c8e8f69ece42edb156f6de30faf2845913f3cd2c2a52ea32a269c7f83e6eda0bde48a7
+Result = Fail (2 - CT changed)
+
+Count = 99
+Nonce = 89c0946205222d999cf04aebf1
+Adata = 00
+CT = 970ec23f30d6213c42b165b3df702030f99d89451dfebec53fef3f59b6a69fea79d60444
+Result = Fail (1 - Adata changed)
+
+Count = 100
+Nonce = 55a7eb645ac44e4abda1e82b49
+Adata = 00
+CT = d0e72c0b12cbac557aa02920ea00145a1de7fc0fc37c5f1091950a6898beece7fb83a762
+Result = Fail (2 - CT changed)
+
+Count = 101
+Nonce = 45cc64070ba6937fd2039f3275
+Adata = 00
+CT = c2cd330a2ffd3362f2360d90da28ebbc074aa6f3422f2d60914ce6b53d583df4226db651
+Result = Fail (2 - CT changed)
+
+Count = 102
+Nonce = ea60cf384dcefc92db949e0b94
+Adata = 00
+CT = 75e12c5f13b6116a322ada38b16a62be480b929c0a5df0e399d61adfdaa5bc08004c70b0
+Result = Fail (1 - Adata changed)
+
+Count = 103
+Nonce = e1837f503d4bd0a1c19e7fe15c
+Adata = 00
+CT = 0e4ff0d406d22073a90b6a131deaa4179fc1f6c679e7ca82e72e44f352ff2bca88c08c3e
+Result = Fail (1 - Adata changed)
+
+Count = 104
+Nonce = a09799129ec6d63bc4b044ae75
+Adata = 00
+CT = 8bf54dee87ccd98b68fe499d7d15b6c000345a65d09620a50cbd3dc5b38f7f21d282c322
+Result = Fail (1 - Adata changed)
+
+[Alen = 0, Plen = 32, Nlen = 13, Tlen = 16]
+
+Key = e7f00563e3495a8949d7b0c60d4e3b949bfe5ed51a0214acedbb8e91807d1ea5
+
+Count = 105
+Nonce = c5ba7f72476ef3aa238bcccde8
+Adata = 00
+CT = 193827982ce2d449933c832b831461bc3827468c4732271037d56662ae1759a3e90e53c5b93fa7c8a5b8b23fabf2ea3d
+Result = Pass (0)
+Payload = 0db9ec1ed9a869073c62d3435dc1aa21da3e957bbb12f9f3a59bca7d5000a11e
+
+Count = 106
+Nonce = e358d1cecf55d9f7cb39e0076f
+Adata = 00
+CT = 98bf83b4c69a7462d744ea83bfbb3943a4b2e6a8753e6270d026966cc21f25cdc536ed6791c99a7a87cf31ff92edbfa4
+Result = Pass (0)
+Payload = e49f24275b399d256160b865356c3d198d493aaa7eca03ad9b3f78136149869f
+
+Count = 107
+Nonce = 6d9cd9b1b18b1df10a73cdf023
+Adata = 00
+CT = 5fd753aa076a6822316b01b34e9c2747cec98478af9e13c1abccdba092b1ee6d92040324e5bf73002a3802f36be5eb4a
+Result = Fail (2 - CT changed)
+
+Count = 108
+Nonce = 23a45267bc33df537ca5abc9ce
+Adata = 00
+CT = 88b0e6f329431de5cb32ff1fbe606720d7af325d06906ed88d14ac315e77c0e0bcc4be547b38465268cbb123f86cadca
+Result = Pass (0)
+Payload = 49750ce3b6a745042cfa7544446d274e0ab1d8f80becaf26afb768ebc96892f2
+
+Count = 109
+Nonce = dba7d8f5406de7e4608287aa62
+Adata = 00
+CT = e6fe331749f893242991d9f65614b2e9430b64340fc63387d17a40b20630bc4035f9cd50a9f30462030a2c5e115b8e81
+Result = Fail (1 - Adata changed)
+
+Count = 110
+Nonce = f015b45fb5e04afc09aadbbab6
+Adata = 00
+CT = 13d28e16da51c0aa14fb4a533921a20face0f34f68b83fcf2f06737f40b89a23bdff7dda844541209554a4fb27da9923
+Result = Fail (2 - CT changed)
+
+Count = 111
+Nonce = b42e2aeabe7a52949b93369cab
+Adata = 00
+CT = a5a43c559a29bbb3d4f1234a6218b922e172bf45f07fd4d53ac9f2f9bdf4260b600935ed4c7e4d80e5abbf5a55957940
+Result = Pass (0)
+Payload = 5b867f130b7bd4bc5be7b9d4fd8786a71ab1cad3e69585ae77c398e2d7ed795a
+
+Count = 112
+Nonce = bd2b6264d7c323cce605558aed
+Adata = 00
+CT = c955fac0fe56d8b9bb7bc8273cceb2bd93c37719f910070bd20088d179c751b172d22b14b6dfde54e20f522572843c9f
+Result = Pass (0)
+Payload = de082e7d3938179a9d1c7a7d11ac46e89de353ea665ea00d1a25dfd18ec93359
+
+Count = 113
+Nonce = 4cb1936c556e16f7b97899c67e
+Adata = 00
+CT = 716670c8aa249a7c68ffa655a5802c937d5b8dc37c33b6e359189939a7b3f1715b5c6b94cf3957de63051e89e611cc96
+Result = Fail (2 - CT changed)
+
+Count = 114
+Nonce = 89c0946205222d999cf04aebf1
+Adata = 00
+CT = bee35ed26c849414bd812890356d9044d8534eef52ece5578e44a0b4b04b74dab4b9bcc511bcaffaf550e9be4b5a62ea
+Result = Fail (1 - Adata changed)
+
+Count = 115
+Nonce = 55a7eb645ac44e4abda1e82b49
+Adata = 00
+CT = 1559cde7f68a1e00e952478b0d03424b1fc2a81351369492f7aecca273d1d421c6d0fae4aede033edddeb97e77bcf857
+Result = Fail (2 - CT changed)
+
+Count = 116
+Nonce = 45cc64070ba6937fd2039f3275
+Adata = 00
+CT = a7e17083607d14d24d915efd5a0d622c7918582824512ba8da3338ffeb566daddaf06a8e47b260625618e21d80d67b16
+Result = Fail (2 - CT changed)
+
+Count = 117
+Nonce = ea60cf384dcefc92db949e0b94
+Adata = 00
+CT = e995563942b226406a4e1f7b57e8492769e798781e56274434758f47641a2951442d8f767cb137e37b9eef7cb06eb2f6
+Result = Fail (1 - Adata changed)
+
+Count = 118
+Nonce = e1837f503d4bd0a1c19e7fe15c
+Adata = 00
+CT = f0a4985462920fa8fcd70e53c5a05addcbd4383ac4cad30c01e08227c7bd92c0eec5644a582f7c506179c3f87b9f932d
+Result = Fail (1 - Adata changed)
+
+Count = 119
+Nonce = a09799129ec6d63bc4b044ae75
+Adata = 00
+CT = 2d58c9491cfa72e32bf14b4ec74c7ee60204e29a0c5829dbf7ea561e224f075835c13220578c67f0d49410bbacb8a377
+Result = Fail (1 - Adata changed)
+
+[Alen = 32, Plen = 0, Nlen = 7, Tlen = 4]
+
+Key = e7f00563e3495a8949d7b0c60d4e3b949bfe5ed51a0214acedbb8e91807d1ea5
+
+Count = 120
+Nonce = c5ba7f72476ef3
+Adata = 8c6e23a627b2593cfabbf96a86162e3ef25ef358ad54d69d5532fb30d83d639e
+CT = 48e3010f
+Result = Pass (0)
+Payload = 00
+
+Count = 121
+Nonce = 279b34fe8ffa8e
+Adata = c3b5dedc256e55cc969b8f1ceb0e23d891cc14c5c76ea5eb0ac76e51d1c7b008
+CT = 494c8fc3
+Result = Pass (0)
+Payload = 00
+
+Count = 122
+Nonce = 904816c0b56941
+Adata = 4191d7990943e15487fa71cbecaee6f12d147c2107846fb5413a64d431c2048b
+CT = bf99ba00
+Result = Fail (2 - CT changed)
+
+Count = 123
+Nonce = 5122118809c7fb
+Adata = 0771236af5e25d589504345d28a19ab0dbc1c9b74d1ee21c4bd8d423de6a803b
+CT = e2827b5e
+Result = Pass (0)
+Payload = 00
+
+Count = 124
+Nonce = 40e5f6b6ceeb16
+Adata = 63a090b7cf8d2fe7540208f98c526d01095a20cd336c7476908cae3643dfb179
+CT = f1346473
+Result = Fail (1 - Adata changed)
+
+Count = 125
+Nonce = 5dfc297064a04f
+Adata = d7ae032931defbe2637107b54ae37c3085649f1820e668136f7486a43dc5a25c
+CT = bcfa5c75
+Result = Fail (2 - CT changed)
+
+Count = 126
+Nonce = 3b094f5bd10d2d
+Adata = 235713cc0b7e438c16b4da5740d8ce9e4386d68bb0e11ee73f903f3a63076e34
+CT = 933b64ce
+Result = Pass (0)
+Payload = 00
+
+Count = 127
+Nonce = 757c22ad84c427
+Adata = fdbd88ef90a04ba8a9c8b210d0719ce4e4ceff8eaf4e1e92bc1e03286def292a
+CT = fee8e42b
+Result = Pass (0)
+Payload = 00
+
+Count = 128
+Nonce = ea1e179a36a877
+Adata = af7cf3253d9f667a77824a672462373634fc4aa049fcc9e677b8051d481e85c9
+CT = ae762b69
+Result = Fail (2 - CT changed)
+
+Count = 129
+Nonce = 98cbb1af14739a
+Adata = 5570e47d03ef6351dcaaa186ae22b03a2d0df980379d76bbad05224b823aae6c
+CT = 80fbd3aa
+Result = Fail (1 - Adata changed)
+
+Count = 130
+Nonce = f73d95818fdfb2
+Adata = a96674a862e14e7a0eb9734730f41d737225e83ae99c338b99dac91a3c48c1b1
+CT = 810b3c12
+Result = Fail (2 - CT changed)
+
+Count = 131
+Nonce = 4f0a0f53c2344e
+Adata = a52be739617e9c4fc3af45e0a779c027f18520b47c8e49b453c3ba72246da91e
+CT = f20172bf
+Result = Fail (2 - CT changed)
+
+Count = 132
+Nonce = 85e9947db23382
+Adata = c9da70ae63ac89f70e5bac3e6607c8c7732bbe00b6d0c35ab2000558ab7e91e5
+CT = f33d5768
+Result = Fail (1 - Adata changed)
+
+Count = 133
+Nonce = ed681f3531b33c
+Adata = 292defd8be9a0c96886e3a4fd08377608cc39b8b85a3d29d69ee4f4d1cc43f68
+CT = 2468b562
+Result = Fail (1 - Adata changed)
+
+Count = 134
+Nonce = 5326ba0a6810bb
+Adata = c747fca29098b3b8da54f2e9c0774dc5a2ad59e0d4cc1c78ada1c158daef90fc
+CT = ced13db8
+Result = Fail (1 - Adata changed)
+
+[Alen = 32, Plen = 0, Nlen = 7, Tlen = 16]
+
+Key = af80e07316cbc1d13be22db93804b980e43d8eb856de1049a42cbdc4f05557f3
+
+Count = 135
+Nonce = c5ba7f72476ef3
+Adata = 8c6e23a627b2593cfabbf96a86162e3ef25ef358ad54d69d5532fb30d83d639e
+CT = 6f9b9d4d6282853c5dcd1e0f191233d0
+Result = Pass (0)
+Payload = 00
+
+Count = 136
+Nonce = 279b34fe8ffa8e
+Adata = c3b5dedc256e55cc969b8f1ceb0e23d891cc14c5c76ea5eb0ac76e51d1c7b008
+CT = 51ca656ef6c3d4be0870a4c132c482f2
+Result = Pass (0)
+Payload = 00
+
+Count = 137
+Nonce = 904816c0b56941
+Adata = 4191d7990943e15487fa71cbecaee6f12d147c2107846fb5413a64d431c2048b
+CT = 2e756cd5d64667dd5007bff39a177ed7
+Result = Fail (2 - CT changed)
+
+Count = 138
+Nonce = 5122118809c7fb
+Adata = 0771236af5e25d589504345d28a19ab0dbc1c9b74d1ee21c4bd8d423de6a803b
+CT = 0c404414e75ef614d7f868d9f21c88e5
+Result = Pass (0)
+Payload = 00
+
+Count = 139
+Nonce = 40e5f6b6ceeb16
+Adata = 63a090b7cf8d2fe7540208f98c526d01095a20cd336c7476908cae3643dfb179
+CT = c7393148862e392d8f6dc0bca302c6a3
+Result = Fail (1 - Adata changed)
+
+Count = 140
+Nonce = 5dfc297064a04f
+Adata = d7ae032931defbe2637107b54ae37c3085649f1820e668136f7486a43dc5a25c
+CT = e9eb15a99ccd90404bf9c5f21914094e
+Result = Fail (2 - CT changed)
+
+Count = 141
+Nonce = 3b094f5bd10d2d
+Adata = 235713cc0b7e438c16b4da5740d8ce9e4386d68bb0e11ee73f903f3a63076e34
+CT = 73b1a03df0ee7e6b6cc138a70bf85896
+Result = Pass (0)
+Payload = 00
+
+Count = 142
+Nonce = 757c22ad84c427
+Adata = fdbd88ef90a04ba8a9c8b210d0719ce4e4ceff8eaf4e1e92bc1e03286def292a
+CT = e430f6abc3cf26a0610796a85b3949a3
+Result = Pass (0)
+Payload = 00
+
+Count = 143
+Nonce = ea1e179a36a877
+Adata = af7cf3253d9f667a77824a672462373634fc4aa049fcc9e677b8051d481e85c9
+CT = fc3e764615fce3ff837146435f0a2849
+Result = Fail (2 - CT changed)
+
+Count = 144
+Nonce = 98cbb1af14739a
+Adata = 5570e47d03ef6351dcaaa186ae22b03a2d0df980379d76bbad05224b823aae6c
+CT = 5e02dcf8566c2616848fda2e46e18906
+Result = Fail (1 - Adata changed)
+
+Count = 145
+Nonce = f73d95818fdfb2
+Adata = a96674a862e14e7a0eb9734730f41d737225e83ae99c338b99dac91a3c48c1b1
+CT = cf83e39ba8b017303b8d7f0b2cc46587
+Result = Fail (2 - CT changed)
+
+Count = 146
+Nonce = 4f0a0f53c2344e
+Adata = a52be739617e9c4fc3af45e0a779c027f18520b47c8e49b453c3ba72246da91e
+CT = f25d62dfad11c11d3c7a19d0155107da
+Result = Fail (2 - CT changed)
+
+Count = 147
+Nonce = 85e9947db23382
+Adata = c9da70ae63ac89f70e5bac3e6607c8c7732bbe00b6d0c35ab2000558ab7e91e5
+CT = 22685f654f03b603440d9ca8a22a05ef
+Result = Fail (1 - Adata changed)
+
+Count = 148
+Nonce = ed681f3531b33c
+Adata = 292defd8be9a0c96886e3a4fd08377608cc39b8b85a3d29d69ee4f4d1cc43f68
+CT = 49020399ea4e8e13b597df829b202a63
+Result = Fail (1 - Adata changed)
+
+Count = 149
+Nonce = 5326ba0a6810bb
+Adata = c747fca29098b3b8da54f2e9c0774dc5a2ad59e0d4cc1c78ada1c158daef90fc
+CT = 663b96f10e43573e2fd648a2151706c8
+Result = Fail (1 - Adata changed)
+
+[Alen = 32, Plen = 0, Nlen = 13, Tlen = 4]
+
+Key = af80e07316cbc1d13be22db93804b980e43d8eb856de1049a42cbdc4f05557f3
+
+Count = 150
+Nonce = c5ba7f72476ef3aa238bcccde8
+Adata = 0db9ec1ed9a869073c62d3435dc1aa21da3e957bbb12f9f3a59bca7d5000a11e
+CT = 4e79e390
+Result = Pass (0)
+Payload = 00
+
+Count = 151
+Nonce = e358d1cecf55d9f7cb39e0076f
+Adata = e49f24275b399d256160b865356c3d198d493aaa7eca03ad9b3f78136149869f
+CT = 7d347000
+Result = Pass (0)
+Payload = 00
+
+Count = 152
+Nonce = 6d9cd9b1b18b1df10a73cdf023
+Adata = 238569cfd8befaadd15eb6e61ec9c21bb5ac6784b63370ccf37dd322af4d948d
+CT = eed766a0
+Result = Fail (2 - CT changed)
+
+Count = 153
+Nonce = 23a45267bc33df537ca5abc9ce
+Adata = 49750ce3b6a745042cfa7544446d274e0ab1d8f80becaf26afb768ebc96892f2
+CT = 9b4d9dee
+Result = Pass (0)
+Payload = 00
+
+Count = 154
+Nonce = dba7d8f5406de7e4608287aa62
+Adata = 9fb7d7f0e82432345d459018f6ec88a8211e1daa1a74922362c1801d6df525a8
+CT = 3b541997
+Result = Fail (1 - Adata changed)
+
+Count = 155
+Nonce = f015b45fb5e04afc09aadbbab6
+Adata = 833325b77cafbe0b6970232290f4ed027209c28bfd3128fd034b96bbeb70d14f
+CT = 0d6b130a
+Result = Fail (2 - CT changed)
+
+Count = 156
+Nonce = b42e2aeabe7a52949b93369cab
+Adata = 5b867f130b7bd4bc5be7b9d4fd8786a71ab1cad3e69585ae77c398e2d7ed795a
+CT = 59ec15bd
+Result = Pass (0)
+Payload = 00
+
+Count = 157
+Nonce = bd2b6264d7c323cce605558aed
+Adata = de082e7d3938179a9d1c7a7d11ac46e89de353ea665ea00d1a25dfd18ec93359
+CT = 6cb23314
+Result = Pass (0)
+Payload = 00
+
+Count = 158
+Nonce = 4cb1936c556e16f7b97899c67e
+Adata = ff9d616bba386bfb45272a56a7e877071175ad0864be53d7f256fbcd896d69ac
+CT = e05c83e6
+Result = Fail (2 - CT changed)
+
+Count = 159
+Nonce = 89c0946205222d999cf04aebf1
+Adata = 3cc7a837a6ef84ecef201027dbc7185aa38ead200680bc7e876ee569d5928989
+CT = 80ad1020
+Result = Fail (1 - Adata changed)
+
+Count = 160
+Nonce = 55a7eb645ac44e4abda1e82b49
+Adata = 2facc7326c3b8cce1602267408c35e9a6d4ae00b795191e757a222eb627be6f2
+CT = df9395d0
+Result = Fail (2 - CT changed)
+
+Count = 161
+Nonce = 45cc64070ba6937fd2039f3275
+Adata = 1f0090f9616ee84aa24ea4446a13381c69c3651b1506034e957dff7ede54a062
+CT = 91a9ca96
+Result = Fail (2 - CT changed)
+
+Count = 162
+Nonce = ea60cf384dcefc92db949e0b94
+Adata = 5ead8a044f756135dea674460e30c6bf9503592c2221f0ce41f719917eed6b3e
+CT = e47f982f
+Result = Fail (1 - Adata changed)
+
+Count = 163
+Nonce = e1837f503d4bd0a1c19e7fe15c
+Adata = 0ebe84ff5b53f46257285ac3bab1e9dc602a7b6b21dbcb93a69be47f7a93d948
+CT = 0e7b5a13
+Result = Fail (1 - Adata changed)
+
+Count = 164
+Nonce = a09799129ec6d63bc4b044ae75
+Adata = 5798551e344ee2b20c4b98c66d94bc9c5f9e3c7cde079404dd84eec08a1b8dfb
+CT = bb14c4c6
+Result = Fail (1 - Adata changed)
+
+[Alen = 32, Plen = 0, Nlen = 13, Tlen = 16]
+
+Key = e7f00563e3495a8949d7b0c60d4e3b949bfe5ed51a0214acedbb8e91807d1ea5
+
+Count = 165
+Nonce = c5ba7f72476ef3aa238bcccde8
+Adata = 0db9ec1ed9a869073c62d3435dc1aa21da3e957bbb12f9f3a59bca7d5000a11e
+CT = 21a904967f7a1d51b4a0eea35a9b4a2d
+Result = Pass (0)
+Payload = 00
+
+Count = 166
+Nonce = e358d1cecf55d9f7cb39e0076f
+Adata = e49f24275b399d256160b865356c3d198d493aaa7eca03ad9b3f78136149869f
+CT = 26662b1d09faeff6686e9a4973d784cc
+Result = Pass (0)
+Payload = 00
+
+Count = 167
+Nonce = 6d9cd9b1b18b1df10a73cdf023
+Adata = 238569cfd8befaadd15eb6e61ec9c21bb5ac6784b63370ccf37dd322af4d948d
+CT = 9677ce1d1bc415a809379eacca843292
+Result = Fail (2 - CT changed)
+
+Count = 168
+Nonce = 23a45267bc33df537ca5abc9ce
+Adata = 49750ce3b6a745042cfa7544446d274e0ab1d8f80becaf26afb768ebc96892f2
+CT = ba67f1c73215b71a81c9a6d3e962d39c
+Result = Pass (0)
+Payload = 00
+
+Count = 169
+Nonce = dba7d8f5406de7e4608287aa62
+Adata = 9fb7d7f0e82432345d459018f6ec88a8211e1daa1a74922362c1801d6df525a8
+CT = 278b10529b6798185254fed32c7754fd
+Result = Fail (1 - Adata changed)
+
+Count = 170
+Nonce = f015b45fb5e04afc09aadbbab6
+Adata = 833325b77cafbe0b6970232290f4ed027209c28bfd3128fd034b96bbeb70d14f
+CT = 756f0b3ac1e45c7e97143246ea598a06
+Result = Fail (2 - CT changed)
+
+Count = 171
+Nonce = b42e2aeabe7a52949b93369cab
+Adata = 5b867f130b7bd4bc5be7b9d4fd8786a71ab1cad3e69585ae77c398e2d7ed795a
+CT = 5cd62851cd043a59bb71a910e020befd
+Result = Pass (0)
+Payload = 00
+
+Count = 172
+Nonce = bd2b6264d7c323cce605558aed
+Adata = de082e7d3938179a9d1c7a7d11ac46e89de353ea665ea00d1a25dfd18ec93359
+CT = ea428c379a9b1e929918a9936ea81cd5
+Result = Pass (0)
+Payload = 00
+
+Count = 173
+Nonce = 4cb1936c556e16f7b97899c67e
+Adata = ff9d616bba386bfb45272a56a7e877071175ad0864be53d7f256fbcd896d69ac
+CT = 505bcc8f44fb0f5e4419e4aa1a3e40af
+Result = Fail (2 - CT changed)
+
+Count = 174
+Nonce = 89c0946205222d999cf04aebf1
+Adata = 3cc7a837a6ef84ecef201027dbc7185aa38ead200680bc7e876ee569d5928989
+CT = 3ed409a52640e0272f674ade30c8aeb9
+Result = Fail (1 - Adata changed)
+
+Count = 175
+Nonce = 55a7eb645ac44e4abda1e82b49
+Adata = 2facc7326c3b8cce1602267408c35e9a6d4ae00b795191e757a222eb627be6f2
+CT = b102aaecb60dc560e38104b9a826b4a2
+Result = Fail (2 - CT changed)
+
+Count = 176
+Nonce = 45cc64070ba6937fd2039f3275
+Adata = 1f0090f9616ee84aa24ea4446a13381c69c3651b1506034e957dff7ede54a062
+CT = acb479f80945f7a0ce585cd960f8de15
+Result = Fail (2 - CT changed)
+
+Count = 177
+Nonce = ea60cf384dcefc92db949e0b94
+Adata = 5ead8a044f756135dea674460e30c6bf9503592c2221f0ce41f719917eed6b3e
+CT = a5d54fa688489c09164df129280777b7
+Result = Fail (1 - Adata changed)
+
+Count = 178
+Nonce = e1837f503d4bd0a1c19e7fe15c
+Adata = 0ebe84ff5b53f46257285ac3bab1e9dc602a7b6b21dbcb93a69be47f7a93d948
+CT = 17e6227c72ce9648aa9a7c447353c5fb
+Result = Fail (1 - Adata changed)
+
+Count = 179
+Nonce = a09799129ec6d63bc4b044ae75
+Adata = 5798551e344ee2b20c4b98c66d94bc9c5f9e3c7cde079404dd84eec08a1b8dfb
+CT = e2a21232ed38a4cff31e7f6ee9b4e92e
+Result = Fail (1 - Adata changed)
+
+[Alen = 32, Plen = 32, Nlen = 7, Tlen = 4]
+
+Key = e7f00563e3495a8949d7b0c60d4e3b949bfe5ed51a0214acedbb8e91807d1ea5
+
+Count = 180
+Nonce = c5ba7f72476ef3
+Adata = 8c6e23a627b2593cfabbf96a86162e3ef25ef358ad54d69d5532fb30d83d639e
+CT = 9292da8a5bc48e24077b7e4f302bedfac499ae415f16bc6b5aa69351bfff745b5f046410
+Result = Pass (0)
+Payload = 279b34fe8ffa8ec5f7cc3d8883f4aad905475eee7339185c99b51c230b4ccdeb
+
+Count = 181
+Nonce = 00f622247b8e7f
+Adata = 76932bc92ef3b56bcadc089045ec95f241cdb0a84c67f1f76353da6cb493bb27
+CT = 8cffe33974899807dc5b5a9f0b7e68faa7a2a245bb62498273be353d11b732127d6a2ff0
+Result = Pass (0)
+Payload = 1517bff3404b45363b5382c0178ea70f2e7a8bafad264d5050ea3c1b6d55f346
+
+Count = 182
+Nonce = f790bb85b723c8
+Adata = f9c1c0f0454922172acc46e456cfec2a22d5d8aa17d5782bb1ebc6cd644e709a
+CT = a544a894c96985edf73b157d222b1181832d45172068b39fcea7507d19b15d665248afa8
+Result = Fail (2 - CT changed)
+
+Count = 183
+Nonce = e25fb150e34771
+Adata = 51f6aebe52fcc15655d1e83119c77d4f6d026314f42cec9e256bfa56959065c5
+CT = 2240fb2558663ce4419bab981cbbfd273f54f1d7b6581c10153c7c00332acba20f608a75
+Result = Pass (0)
+Payload = 950ac1cbcd505fde0a7a7ee8f6d93d5cca11bbabc0c22c0bca682c77848052f7
+
+Count = 184
+Nonce = 97dd182fc1f54a
+Adata = af1663cc51732d0a074516739d4af25caa0b3a2a8dbb5f5b5e615ec6253a9523
+CT = bc795f7a06ad25456578e152315d08b2bd915539c5668cfac3817679140ae90e01370383
+Result = Fail (1 - Adata changed)
+
+Count = 185
+Nonce = afdf87944eaf4e
+Adata = 672e53a3e53bd568fc05912a18d3fe9401dec8b560be740e7f2344e950c55aed
+CT = b36a346bb857e042907c5ed9a52971c21e1c4ad9ac85497e17b21c24639a95422b980b83
+Result = Fail (2 - CT changed)
+
+Count = 186
+Nonce = a9638754af08b2
+Adata = d751551cbcb04b4372515b78e6fe79ef4caa1b5864a79bb5fb1adc69b4ab3092
+CT = faabdfb3ff996f1819afa8d3c2c80b4cd66a95c42cfb7c41e223c846eff1f6ce80b82ce8
+Result = Pass (0)
+Payload = fdae14a31ee6d85554a5b89ff96c7f30d27cbe6694476f65a624d8672946b253
+
+Count = 187
+Nonce = d67718562c2928
+Adata = 276155fd2a2bbfa9aa5e4ad9e19e1bf33211d1e55fc15daefc421420239402e4
+CT = 572d3715db1faf6e2342f174d00e2822a209f7f70a357a3e498296c04df7ecf67ab3eb12
+Result = Pass (0)
+Payload = 182bcffa26c4f6ed52719b3dea5a14739e774a6b2ca674093dfb2528895789d3
+
+Count = 188
+Nonce = 6abb071be98fde
+Adata = 7a8efaaedbe6bf3408637da00eaec4931e056adae03f8092090a84903078d800
+CT = a87f7bac6cdc4ce6cd241ca614da1659b9685e8aa4488b56fa18dabb79cdf94fb8ee0270
+Result = Fail (2 - CT changed)
+
+Count = 189
+Nonce = b29e84445a0b4d
+Adata = d12d6523adf0f23a670336336d5f1cdca4654ad285b9a5f4c35417172dd590fc
+CT = 0fae68c4cb1c0e9b7be0b226ec88d4484982cf0cd87cc61af701437b8d41c99736e6bdfe
+Result = Fail (1 - Adata changed)
+
+Count = 190
+Nonce = a3965a25abd3db
+Adata = a388e0f3d77d87a8f6a8ad80d518751c6296d7a8e3d7feb483f6ee3f0a216a15
+CT = a360deddc5ce205b7f3ee89ed4216deb2b04917a972fec09efb4c3180b79c5cb33327f80
+Result = Fail (2 - CT changed)
+
+Count = 191
+Nonce = c9f7001a5e4623
+Adata = ed9c5ca175836d5eacd3d75377b3b57af8896807a7bd4448a5c188d04d4e94d4
+CT = a95677ed709d582047c704e2c9a69eb842c46cad537b808fc802e88ce302993546c4d904
+Result = Fail (2 - CT changed)
+
+Count = 192
+Nonce = 30cab0d02a5db2
+Adata = 1fcab5a049c0f1d04e3359983406911f57b86cf8cc9654f6eb2fed420a09f5aa
+CT = eb5df8a8ec1c77254d1f579e7bb9316127e0f52e3e424ba71b099d6ebf462fc854e5f439
+Result = Fail (1 - Adata changed)
+
+Count = 193
+Nonce = cac0cf7adfafb5
+Adata = 3820241e13b5bb962a304836bc6914ac0ca32675f462c450887d36f2f673cdfb
+CT = 04962506bddfd3d3ed0d60336a340ab45804815bd56ee823251ca6ac49d8b8b70d4b00cc
+Result = Fail (1 - Adata changed)
+
+Count = 194
+Nonce = c27a05bb478d26
+Adata = e22289ce001aad7fd81184046a32e0f6c3e3db195f3f7679eec780b85754baa6
+CT = 33afd28376a974b2109d0eb8f233f00ec9c7f74f552b12ebb2be53f1fbbcd1b68a61be09
+Result = Fail (1 - Adata changed)
+
+[Alen = 32, Plen = 32, Nlen = 7, Tlen = 16]
+
+Key = 7cdde8b14d81fea9f32494acddcda5950bcb53d1c39c3766860df53442a3137b
+
+Count = 195
+Nonce = c5ba7f72476ef3
+Adata = 8c6e23a627b2593cfabbf96a86162e3ef25ef358ad54d69d5532fb30d83d639e
+CT = f6a226843ee3553fa4e3e30c48e158656fe1279489466639063649461ba8d99907ccc3bdfb2f0456d4cecbae34403778
+Result = Pass (0)
+Payload = 279b34fe8ffa8ec5f7cc3d8883f4aad905475eee7339185c99b51c230b4ccdeb
+
+Count = 196
+Nonce = 00f622247b8e7f
+Adata = 76932bc92ef3b56bcadc089045ec95f241cdb0a84c67f1f76353da6cb493bb27
+CT = f4dbb1110f508bdfcc18d89cab52f13f38d6b6f698194ae2108974e599bc257d44d4470e4527a80798b4b4a4abf53398
+Result = Pass (0)
+Payload = 1517bff3404b45363b5382c0178ea70f2e7a8bafad264d5050ea3c1b6d55f346
+
+Count = 197
+Nonce = f790bb85b723c8
+Adata = f9c1c0f0454922172acc46e456cfec2a22d5d8aa17d5782bb1ebc6cd644e709a
+CT = eeae550ea47796549c1e9744ca7742edf93edf205cda769c2137a0f48ff068b8a6c89b568540ceb6c6097d30425b839d
+Result = Fail (2 - CT changed)
+
+Count = 198
+Nonce = e25fb150e34771
+Adata = 51f6aebe52fcc15655d1e83119c77d4f6d026314f42cec9e256bfa56959065c5
+CT = d514c29e2324e3b60b0ecb7096fce665c961cb75a70ced49551224c746663d7764a3ff34a54b2b89730cf4d15a1fb62d
+Result = Pass (0)
+Payload = 950ac1cbcd505fde0a7a7ee8f6d93d5cca11bbabc0c22c0bca682c77848052f7
+
+Count = 199
+Nonce = 97dd182fc1f54a
+Adata = af1663cc51732d0a074516739d4af25caa0b3a2a8dbb5f5b5e615ec6253a9523
+CT = aac0bfecf7741b28fc4f5546ad9c0234ccef345199e9d0fccdf61916fb091e0d6ece28120a16c084bd2c57b0d34aa5db
+Result = Fail (1 - Adata changed)
+
+Count = 200
+Nonce = afdf87944eaf4e
+Adata = 672e53a3e53bd568fc05912a18d3fe9401dec8b560be740e7f2344e950c55aed
+CT = 692d50c3c1ced6444ce247850726a3c07d11ae8714d7bc2165474ff0b90b72b811ecc9846739d8aa1ba186ec939503a9
+Result = Fail (2 - CT changed)
+
+Count = 201
+Nonce = a9638754af08b2
+Adata = d751551cbcb04b4372515b78e6fe79ef4caa1b5864a79bb5fb1adc69b4ab3092
+CT = b61be4cbc45ad71375ea5f822501e41a0a7afb317f1afba168aaa9d8c6825b404ae1b24de096d77bcfa96e06ed4498ed
+Result = Pass (0)
+Payload = fdae14a31ee6d85554a5b89ff96c7f30d27cbe6694476f65a624d8672946b253
+
+Count = 202
+Nonce = d67718562c2928
+Adata = 276155fd2a2bbfa9aa5e4ad9e19e1bf33211d1e55fc15daefc421420239402e4
+CT = 5b08f47ab8b985b40e6edfaa477e56ca6013a53268f69f500abb30683b902f2e378799f07a91f75061735d4893508425
+Result = Pass (0)
+Payload = 182bcffa26c4f6ed52719b3dea5a14739e774a6b2ca674093dfb2528895789d3
+
+Count = 203
+Nonce = 6abb071be98fde
+Adata = 7a8efaaedbe6bf3408637da00eaec4931e056adae03f8092090a84903078d800
+CT = 8b9649ae33ee75d2af4b6c3302f11bb09509683abf045fd6c703ea38e1f871b0327cb5f79cfb6ccb10bbcbb93ece46aa
+Result = Fail (2 - CT changed)
+
+Count = 204
+Nonce = b29e84445a0b4d
+Adata = d12d6523adf0f23a670336336d5f1cdca4654ad285b9a5f4c35417172dd590fc
+CT = a89572373b50d6a991c71e419b51be93b52472b49243919512783fc7a8090bfc4e35e6b3cbec01cd5f72cabdbd907019
+Result = Fail (1 - Adata changed)
+
+Count = 205
+Nonce = a3965a25abd3db
+Adata = a388e0f3d77d87a8f6a8ad80d518751c6296d7a8e3d7feb483f6ee3f0a216a15
+CT = 737ef4f667bb43e30f3b9205f260710b1bcc93b76ddad4eb497062299ea3222875e6beee1c2a414ac12fd43c29f684bd
+Result = Fail (2 - CT changed)
+
+Count = 206
+Nonce = c9f7001a5e4623
+Adata = ed9c5ca175836d5eacd3d75377b3b57af8896807a7bd4448a5c188d04d4e94d4
+CT = dc26da3e0c9a86149488787a5023e8ab5af6f7bff4e23d830a00553a97d702ecaa89ed226a7ac584500515ed081d61f7
+Result = Fail (2 - CT changed)
+
+Count = 207
+Nonce = 30cab0d02a5db2
+Adata = 1fcab5a049c0f1d04e3359983406911f57b86cf8cc9654f6eb2fed420a09f5aa
+CT = 39886862b82fa959e8cd8ad2f57dd62590b9145e9b2ed6d303598c894858d9dcc88c743cac42d15c52b81209176154d7
+Result = Fail (1 - Adata changed)
+
+Count = 208
+Nonce = cac0cf7adfafb5
+Adata = 3820241e13b5bb962a304836bc6914ac0ca32675f462c450887d36f2f673cdfb
+CT = 44f3f91ea72f125272c1c0b581aefbfe36c4e8b0925d33281dc74b15fa4e34170ebad45b87e5eec4e58f712498fde0a5
+Result = Fail (1 - Adata changed)
+
+Count = 209
+Nonce = c27a05bb478d26
+Adata = e22289ce001aad7fd81184046a32e0f6c3e3db195f3f7679eec780b85754baa6
+CT = 6fab7e22808cc3f7b4563dc7e28e5fcaba9445593b4f6e8aafc1f60138204e7817b0372b7c734be9158a3e3bd726a7b8
+Result = Fail (1 - Adata changed)
+
+[Alen = 32, Plen = 32, Nlen = 13, Tlen = 4]
+
+Key = 7cdde8b14d81fea9f32494acddcda5950bcb53d1c39c3766860df53442a3137b
+
+Count = 210
+Nonce = c5ba7f72476ef3aa238bcccde8
+Adata = 0db9ec1ed9a869073c62d3435dc1aa21da3e957bbb12f9f3a59bca7d5000a11e
+CT = ad3196851bb95a210cd770d7d8a30004279fa46236c8b8d31c2c2932e769907e696fa0ee
+Result = Pass (0)
+Payload = e358d1cecf55d9f7cb39e0076f0e5aeefce4a7dded1644abcece437851cbf890
+
+Count = 211
+Nonce = b2bb73c29f1c14d5cbab70e669
+Adata = 676d18129c475e02c812526526acab26c08569563553b87fba0716355fffb8ef
+CT = 8fee2c1f80624a31ba235a08bdf7778429cf204fc3750dd2992ed8a12108e5a451bd6d1b
+Result = Pass (0)
+Payload = a67827dbece17a75a36b0b71db760a53dcbe95ca688a248540262548ea92e33f
+
+Count = 212
+Nonce = 07ecbfefd5749377752ae943e3
+Adata = 2cc260d3467773462a538d2b1fc96827c453a134b95c0ba49c5e496337489c7c
+CT = 167c08a91bdaee980d7c811795797fe9e98b60161c5b5e8da4073f082d80f3545278b7ee
+Result = Fail (2 - CT changed)
+
+Count = 213
+Nonce = dc5f40cf39a788d5cc4108af79
+Adata = 950fa7391f8c1a5b89194d75625c5b08b582ce4481e0b5ce68d9f7c0ab02e6f2
+CT = 7fbbce0f37ce814616afec41e465d3c036ab17fad4b914ba8680188ff406a286adeee182
+Result = Pass (0)
+Payload = 3348eef6e14908909cbfee4b63c2252a82770d99fde565ec31041108b9171b60
+
+Count = 214
+Nonce = 93772111a62b7cd80a17b86eab
+Adata = d6fe5fb2441c570cadbe20eba7475afa84d57f5c27d124e665c57b8bb16d1d17
+CT = be335fcea5632531793bc08bddfc1ef9b4b17f96e1ef8db325fee918ee4a457869abfb2f
+Result = Fail (1 - Adata changed)
+
+Count = 215
+Nonce = 3741c4c7ca8635f1149b636021
+Adata = d76d4b80645df45a9bae63243348b225a5cec4439175cb765e170d7e2283e7d1
+CT = b268882e1ba1ad5ae547432d13fa130f18a79d4059ea2b07aa5ac511bb92411e8b285a5f
+Result = Fail (2 - CT changed)
+
+Count = 216
+Nonce = 2b8a7beb7e0cc2f11e5a91982f
+Adata = ac51db02adf726a2819c177172ecf79ec5aec442f8f68e3b479c213775ece40f
+CT = 623907e9aef572bf9df8496ee02065fc1c2d8901062c5cbe6c5a002badd048b5bf7fd3e0
+Result = Pass (0)
+Payload = 0482d6a2598fcab2a381c1a67926a2da9cc8da167da6feaaffa6b1bd7d44c9e2
+
+Count = 217
+Nonce = 6d5d1a285c1c758ffdf0159a63
+Adata = 1431000f9f24abc59a1f300d7a96ca896cd02c6be833bbdb89c2fa991ce445e3
+CT = 0a51b97dc6ef2d3ab1bb42c5ecee905baa32f3fd2990cf78de042efff37dbe3777e2ec12
+Result = Pass (0)
+Payload = 3a102fdde500c5291962ea186e372c5105f2c086d37f749c3c83e50ce4e6f289
+
+Count = 218
+Nonce = 8907326e6e846de0efbdd2ca28
+Adata = 3693ead1cc788d34f92c025e1b243c8a5098e3c83a35414fff135f1494e66b9c
+CT = 4d2e88a9984b3b376dc8e8f5e7405a00c1eba136ed139de54fb6a167bd1b63fa3e58a0de
+Result = Fail (2 - CT changed)
+
+Count = 219
+Nonce = c5da5b491b05979e4451992547
+Adata = 4235cd5fcb90d829e8016422698413b41a7d440f7a4089cfcdd65cd86dff0d85
+CT = 111e127da0598868994c8c57595d50f9f7407295cfeb68e26cb966582fe7acbdd59ea9d5
+Result = Fail (1 - Adata changed)
+
+Count = 220
+Nonce = a25d753ee3682bdffe5db5430b
+Adata = 4bd66266d5c4345ceec973f84d512634d34ada7c119244be0aab28c13ab67ab7
+CT = 78633a6bb8c0555fc6b925c48da8e69bd7c6fd49913c9052e87c69ac2bb909a6af891b81
+Result = Fail (2 - CT changed)
+
+Count = 221
+Nonce = c2ca38900db7413df09363fb88
+Adata = 227cdbe603e5c0180744a0c366438c82e2ee7358fa14f43b61f071d3ae08657f
+CT = c406042b9f6684778a1a6d2484558e519535ca0db10d0e757467dea8e7a1cb12b9c032ae
+Result = Fail (2 - CT changed)
+
+Count = 222
+Nonce = eb05d678fc22d0da2dd0424cc0
+Adata = 672837f3b58212ea7e600f72a6dfe33daed42559f56a5dfa730d5f7aa987d79e
+CT = 4ab8692be26d5a83c13a56bc818cab86c47ad43a53c73fd12da513b7ef2858bdc877d82a
+Result = Fail (1 - Adata changed)
+
+Count = 223
+Nonce = 16d30d3c8ac2a1a425b1d2529a
+Adata = 7eac2c094837d75f7e2e678d9d171c5f8f42d3d1b5a1887f86d9195d79994ca8
+CT = 83f263e3d8cb951de78502ded65cd02046a77233383e53686d48389827a4c7783fabc0c0
+Result = Fail (1 - Adata changed)
+
+Count = 224
+Nonce = cc6d6b84ecca63ab8af60880ff
+Adata = 182ff77141083b7ed4613b9e528c1250d193b294de1e31f2739764bd238daf99
+CT = c85e9c38b8f7fd9ca70c905ce7758ec3497d071f2691c837f61113173aa96ce855607486
+Result = Fail (1 - Adata changed)
+
+[Alen = 32, Plen = 32, Nlen = 13, Tlen = 16]
+
+Key = bcc32d5fa4b39c90dded874d6c2b46df889ce279aca0cd19eaccd1af82354781
+
+Count = 225
+Nonce = c5ba7f72476ef3aa238bcccde8
+Adata = 0db9ec1ed9a869073c62d3435dc1aa21da3e957bbb12f9f3a59bca7d5000a11e
+CT = 3ba322d1fc12fc18e5fa3f1aea53def638bdf739f54ff0d9b6e1bfba22a9b8691bc1b8627ca1e0e3e96b218b4188c561
+Result = Pass (0)
+Payload = e358d1cecf55d9f7cb39e0076f0e5aeefce4a7dded1644abcece437851cbf890
+
+Count = 226
+Nonce = b2bb73c29f1c14d5cbab70e669
+Adata = 676d18129c475e02c812526526acab26c08569563553b87fba0716355fffb8ef
+CT = c1ff424b87eb046a6942beffe6294e4d17781df181ad98c4d1a79990fc148eb4f5a6dea423a4d39254ddff1b92cf51cd
+Result = Pass (0)
+Payload = a67827dbece17a75a36b0b71db760a53dcbe95ca688a248540262548ea92e33f
+
+Count = 227
+Nonce = 07ecbfefd5749377752ae943e3
+Adata = 2cc260d3467773462a538d2b1fc96827c453a134b95c0ba49c5e496337489c7c
+CT = 9605304280266cb1fd8f04298684b4bcce4a6642c7dd352116ee853ce14512633bd5c975d64bad90e2d4d03a165aea6b
+Result = Fail (2 - CT changed)
+
+Count = 228
+Nonce = dc5f40cf39a788d5cc4108af79
+Adata = 950fa7391f8c1a5b89194d75625c5b08b582ce4481e0b5ce68d9f7c0ab02e6f2
+CT = 76d36e873397a8066d0abf253c66cad369485747f4877e8d545ebd7ebde3ca40f6470b56fc7c8100b4518e92dd7f1fa8
+Result = Pass (0)
+Payload = 3348eef6e14908909cbfee4b63c2252a82770d99fde565ec31041108b9171b60
+
+Count = 229
+Nonce = 93772111a62b7cd80a17b86eab
+Adata = d6fe5fb2441c570cadbe20eba7475afa84d57f5c27d124e665c57b8bb16d1d17
+CT = 3e5d87da42a7f810d6b42a46b2f8ebe032350e5e31ea055c6dc36fd7d95b7d6c2d3c544bdfccd40c703514beb8f860c2
+Result = Fail (1 - Adata changed)
+
+Count = 230
+Nonce = 3741c4c7ca8635f1149b636021
+Adata = d76d4b80645df45a9bae63243348b225a5cec4439175cb765e170d7e2283e7d1
+CT = 7b4083be193404251d631271a04b9196731b4c861b0528ea83d6cc9eec26f3ce1f743fe1e579bbfea04d5c6728f4e3c9
+Result = Fail (2 - CT changed)
+
+Count = 231
+Nonce = 2b8a7beb7e0cc2f11e5a91982f
+Adata = ac51db02adf726a2819c177172ecf79ec5aec442f8f68e3b479c213775ece40f
+CT = 54f570cb85e7cbd56da383bc7c6a66659549dfbc176db8fa9db850141a87deb1d25c0dd8c289304e03607c2ca5d619e6
+Result = Pass (0)
+Payload = 0482d6a2598fcab2a381c1a67926a2da9cc8da167da6feaaffa6b1bd7d44c9e2
+
+Count = 232
+Nonce = 6d5d1a285c1c758ffdf0159a63
+Adata = 1431000f9f24abc59a1f300d7a96ca896cd02c6be833bbdb89c2fa991ce445e3
+CT = b895de09982f64bb680cc00361007b9e8eaddb0588ab634c644e8b708eed684d7e26ddf963b9e35c71c33738dd765656
+Result = Pass (0)
+Payload = 3a102fdde500c5291962ea186e372c5105f2c086d37f749c3c83e50ce4e6f289
+
+Count = 233
+Nonce = 8907326e6e846de0efbdd2ca28
+Adata = 3693ead1cc788d34f92c025e1b243c8a5098e3c83a35414fff135f1494e66b9c
+CT = c2757e2b77d241f5b80222c48d46b64ecc4183098a0c72a6c818a3888244cc983096cb5fb2ff78c000019cdfd1227d88
+Result = Fail (2 - CT changed)
+
+Count = 234
+Nonce = c5da5b491b05979e4451992547
+Adata = 4235cd5fcb90d829e8016422698413b41a7d440f7a4089cfcdd65cd86dff0d85
+CT = 5a7a21f51671e69db2de0fab7a24b4eacdfabd518162fdbea09b930eca9f54793bb0dab90c50378e7fe45f1334ad0722
+Result = Fail (1 - Adata changed)
+
+Count = 235
+Nonce = a25d753ee3682bdffe5db5430b
+Adata = 4bd66266d5c4345ceec973f84d512634d34ada7c119244be0aab28c13ab67ab7
+CT = d6a13d31b4d5d590e896f75ea6c7f33cd7078cd11c91b54ddbe95745fe67c2100e5da640eb35a6c936873c1ee9eb23f1
+Result = Fail (2 - CT changed)
+
+Count = 236
+Nonce = c2ca38900db7413df09363fb88
+Adata = 227cdbe603e5c0180744a0c366438c82e2ee7358fa14f43b61f071d3ae08657f
+CT = d1d9ae4cb9c8428623ae067f9809cdf1edb5e3170b89dfd4e7061dab7eb8cd5cfc905880acfed1f17616cf3fef7e2930
+Result = Fail (2 - CT changed)
+
+Count = 237
+Nonce = eb05d678fc22d0da2dd0424cc0
+Adata = 672837f3b58212ea7e600f72a6dfe33daed42559f56a5dfa730d5f7aa987d79e
+CT = 3bf58d5cfb31c7c928ba9bf04f85f9e713e85e248f59d8b3102b6cba00587d12dd1a0db73ea553d822512c99efe0abff
+Result = Fail (1 - Adata changed)
+
+Count = 238
+Nonce = 16d30d3c8ac2a1a425b1d2529a
+Adata = 7eac2c094837d75f7e2e678d9d171c5f8f42d3d1b5a1887f86d9195d79994ca8
+CT = 54b7e23aa3c3aab0e89e9f799b8faa17c24c3adfe31f3e40c8c127cf14f133b0d75f0d3d42556d390346eb158eca8054
+Result = Fail (1 - Adata changed)
+
+Count = 239
+Nonce = cc6d6b84ecca63ab8af60880ff
+Adata = 182ff77141083b7ed4613b9e528c1250d193b294de1e31f2739764bd238daf99
+CT = 5ac4839825adeab2001be210231005c51ea69dbc787cda71f958e597f1532ef76005f42877670f3ced5f1cbb7841a261
+Result = Fail (1 - Adata changed)

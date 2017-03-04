@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.AES
         public BitString BlockEncrypt(Cipher cipher, Key key, byte[] plainText, int outputLengthInBits)
         {
             int numBlocks;
-            numBlocks = SetNumberOfBlocks(ref cipher, plainText, outputLengthInBits);
+            numBlocks = SetNumberOfBlocks(ref cipher, outputLengthInBits);
 
             byte[,] block = new byte[4, 8];
             byte[] outBuffer = SetOutputBufferLength(outputLengthInBits);
@@ -47,11 +47,11 @@ namespace NIST.CVP.Generation.AES
             return new BitString(outBuffer).GetMostSignificantBits(outputLengthInBits);
         }
 
-        private int SetNumberOfBlocks(ref Cipher cipher, byte[] plainText, int outputLengthInBits)
+        private int SetNumberOfBlocks(ref Cipher cipher, int outputLengthInBits)
         {
             if (cipher.SegmentLength == 0)
             {
-                return plainText.Length * 8 / cipher.BlockLength;
+                return outputLengthInBits / cipher.BlockLength;
             }
 
             return outputLengthInBits / cipher.SegmentLength;

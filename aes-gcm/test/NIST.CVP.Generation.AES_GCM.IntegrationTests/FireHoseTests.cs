@@ -143,6 +143,9 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                             continue;
                         }
 
+                        if (fails > 0)
+                            Assert.Fail("Unexpected failures were encountered.");
+
                         Assert.Fail($"{testGroup.Function} did not meet expected function values");
                     }
                 }

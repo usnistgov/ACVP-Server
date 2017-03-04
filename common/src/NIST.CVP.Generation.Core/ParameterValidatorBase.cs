@@ -109,5 +109,35 @@ namespace NIST.CVP.Generation.Core
 
             return null;
         }
+
+        protected string ValidateCollectionCountNoMoreThan<T>(IEnumerable<T> supplied, int maximumCount, string friendlyName)
+        {
+            if (supplied == null)
+            {
+                return $"No {friendlyName} supplied.";
+            }
+
+            if (supplied.Count() > maximumCount)
+            {
+                return $"Invalid {friendlyName} supplied. Supplied collection must contain no more than {maximumCount} elements.";
+            }
+
+            return null;
+        }
+
+        protected string ValidateCollectionCountExactly<T>(IEnumerable<T> supplied, int expectedCount, string friendlyName)
+        {
+            if (supplied == null)
+            {
+                return $"No {friendlyName} supplied.";
+            }
+
+            if (supplied.Count() != expectedCount)
+            {
+                return $"Invalid {friendlyName} supplied. Supplied collection must contain exactly {expectedCount} elements.";
+            }
+
+            return null;
+        }
     }
 }

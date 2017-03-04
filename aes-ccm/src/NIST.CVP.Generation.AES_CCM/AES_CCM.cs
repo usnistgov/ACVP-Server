@@ -43,7 +43,6 @@ namespace NIST.CVP.Generation.AES_CCM
                 // MAC
                 var cbcMacRijndael = _iRijndaelFactory.GetRijndael(ModeValues.CBCMac);
                 var cbcMacKey = cbcMacRijndael.MakeKey(keyBits.ToBytes(), DirectionValues.Encrypt);
-
                 BitString iv = new BitString(Cipher._MAX_IV_BYTE_LENGTH * 8);
                 Cipher cbcMacCipher = new Cipher()
                 {
@@ -65,12 +64,14 @@ namespace NIST.CVP.Generation.AES_CCM
                     Mode = ModeValues.Counter
                 };
 
+                // Tag
                 var T = counterRijndael.BlockEncrypt(counterCipher, counterKey, mac.ToBytes(), 128);
-
+                
                 int m = (payload.BitLength + 127) / 128;
                 var ct = counterRijndael.BlockEncrypt(counterCipher, counterKey, payload.ToBytes(), m * 128);
-
-                return new EncryptionResult(ct.ConcatenateBits(T));
+                
+                // Concatenate ct and T, but only enough bits from T to make up the tag length
+                return new EncryptionResult(ct.ConcatenateBits(T.GetMostSignificantBits(tagLength)));
             }
             catch (Exception ex)
             {
@@ -95,7 +96,12 @@ namespace NIST.CVP.Generation.AES_CCM
                 var tagPortion = new BitString(cipherText.ToBytes().Skip(plen / 8).Take(tagLength / 8).ToArray());
                 var cipherTextPortion = new BitString(cipherText.ToBytes().Take(plen / 8).ToArray());
 
-                byte[] ct = tagPortion.ConcatenateBits(cipherTextPortion).ToBytes();
+                // tagPortion should be exactly 16 bytes, bitString should be ended on a block boundry
+                byte[] ct = tagPortion
+                    .ConcatenateBits(new BitString(8 * 16 - tagPortion.BitLength)) // add bits to hit the 16 byte boundry for tag
+                    .ConcatenateBits(cipherTextPortion)
+                    .ConcatenateBits(new BitString((m * 128) - (8 * 16 + cipherTextPortion.BitLength))) // Add bits to hit a block boundry
+                    .ToBytes();
 
                 var counterRijndael = _iRijndaelFactory.GetRijndael(ModeValues.Counter);
                 var counterKey = counterRijndael.MakeKey(key.ToBytes(), DirectionValues.Encrypt);
@@ -108,16 +114,15 @@ namespace NIST.CVP.Generation.AES_CCM
 
                 var pt = counterRijndael.BlockEncrypt(counterCipher, counterKey, ct,
                     m * 128);
-
+                
                 // Payload starts at 16th byte of PT
                 var payload = new BitString(pt.ToBytes().Skip(16).ToArray());
-
+                
                 // The tag is the first Tlen/8 bytes of the PT
-                var T = new BitString(16 * 8).XOR(pt.GetMostSignificantBits(tagLength));
-
+                var T = pt.GetMostSignificantBits(tagLength);
+                
                 // Format the data
                 byte[] b = null;
-
                 _iAesCcmInternals.CCM_format_80211(ref b, nonce.ToBytes(), nonce.BitLength, payload.ToBytes(), plen,
                     associatedData.ToBytes(), associatedData.BitLength, tagLength, ref ctr, ref r);
 
@@ -132,10 +137,10 @@ namespace NIST.CVP.Generation.AES_CCM
                     Mode = ModeValues.CBCMac
                 };
 
-                var mac = cbcMacRijndael.BlockEncrypt(cbcMacCipher, cbcMacKey, b, (r + 1) * 128);
-                mac = new BitString(mac.ToBytes().Take(16).ToArray());
+                var mac =
+                    cbcMacRijndael.BlockEncrypt(cbcMacCipher, cbcMacKey, b, (r + 1) * 128);
 
-                if (!mac.Equals(T))
+                if (!mac.GetMostSignificantBits(tagLength).Equals(T.GetMostSignificantBits(tagLength)))
                 {
                     return new DecryptionResult(INVALID_TAG_MESSAGE);
                 }
