@@ -8,10 +8,46 @@ using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Generation.SHA3
 {
-    public class Keccak
+    public class KeccakInternals
     {
-        private readonly int _b = 1600;
-        private readonly int _numRounds = 24;
+        private static int _b = 1600;
+        private static int _numRounds = 24;
+
+        /// <summary>
+        /// External Keccak function. This is the method to call.
+        /// </summary>
+        /// <param name="message">Message to hash</param>
+        /// <param name="digestSize">Size of the digest to returb</param>
+        /// <param name="capacity">Capacity of the function</param>
+        /// <param name="XOF">Extendable output function? True for SHAKE, false for SHA</param>
+        /// <returns>Message digest as BitString</returns>
+        public static BitString Keccak(BitString message, int digestSize, int capacity, bool XOF)
+        {
+            var messageLen = message.BitLength;
+            if (message.BitLength != 0)
+            {
+                var fullHex = new BitString(message.ToHex());
+                var reversedBits = MsbLsbConversionHelpers.ReverseBitArrayBits(fullHex.Bits);
+                var normalizedBits = MsbLsbConversionHelpers.ReverseByteOrder(new BitString(reversedBits).ToBytes());
+
+                //var origMessage = message.GetDeepCopy();
+
+                message = BitString.Substring(new BitString(normalizedBits), 0, messageLen);
+                //throw new Exception($"expected: {origMessage.ToHex()}, actual: {message.ToHex()}");
+            }
+
+            if (XOF)
+            {
+                message = BitString.ConcatenateBits(message, BitString.Ones(4));
+            }
+            else
+            {
+                message = BitString.ConcatenateBits(message, BitString.Zero());
+                message = BitString.ConcatenateBits(message, BitString.One());
+            }
+
+            return Sponge(message, digestSize, capacity);
+        }
 
         /// <summary>
         /// pad10*1
@@ -19,7 +55,7 @@ namespace NIST.CVP.Generation.SHA3
         /// <param name="message">Message to which to add padding</param>
         /// <param name="x">Positive integer, rate of sponge function</param>
         /// <returns></returns>
-        public BitString PadMessage(BitString message, int x)
+        public static BitString PadMessage(BitString message, int x)
         {
             var m = message.BitLength;
             var j = ((-1 * m - 2) % x + x) % x;
@@ -36,12 +72,12 @@ namespace NIST.CVP.Generation.SHA3
         /// </summary>
         /// <param name="message">Raw BitString message</param>
         /// <param name="digestSize">Digest Size</param>
+        /// <param name="capacity">Capacity of the sponge function</param>
         /// <returns>Message digest</returns>
-        public BitString Sponge(BitString message, int digestSize)
+        public static BitString Sponge(BitString message, int digestSize, int capacity)
         {
             // Define properties
-            var c = digestSize * 2;
-            var rate = _b - c;
+            var rate = _b - capacity;
 
             // Pad the message
             var paddedMessage = PadMessage(message, rate);
@@ -68,7 +104,7 @@ namespace NIST.CVP.Generation.SHA3
                 var normalizedBits = MsbLsbConversionHelpers.ReverseByteOrder(new BitString(reversedBits).ToBytes());
                 var expectedMessage = new BitString(normalizedBits);
 
-                var spongeContent = BitString.XOR(sponge, BitString.ConcatenateBits(expectedMessage, new BitString(c)));
+                var spongeContent = BitString.XOR(sponge, BitString.ConcatenateBits(expectedMessage, new BitString(capacity)));
                 sponge = Keccak_p(spongeContent);
             }
 
@@ -91,7 +127,7 @@ namespace NIST.CVP.Generation.SHA3
         /// </summary>
         /// <param name="message">BitString to transform. Should already be processed by Keccak.</param>
         /// <returns>BitString</returns>
-        public BitString Keccak_p(BitString message)
+        public static BitString Keccak_p(BitString message)
         {
             var A = new KeccakState(message, _b);
 
@@ -107,7 +143,7 @@ namespace NIST.CVP.Generation.SHA3
             return A.ToBitString();
         }
 
-        public KeccakState Round(KeccakState A, int roundNumber)
+        public static KeccakState Round(KeccakState A, int roundNumber)
         {
             return KeccakState.Iota(KeccakState.Chi(KeccakState.Pi(KeccakState.Rho(KeccakState.Theta(A)))), roundNumber);
         }
