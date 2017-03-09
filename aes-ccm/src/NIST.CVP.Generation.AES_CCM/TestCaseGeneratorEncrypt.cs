@@ -10,7 +10,11 @@ namespace NIST.CVP.Generation.AES_CCM
         private readonly IRandom800_90 _random800_90;
         private readonly IAES_CCM _algo;
 
-        public int NumberOfTestCasesToGenerate { get { return 10; } }
+        private BitString _key = null;
+        private BitString _nonce = null;
+
+        private int _numberOfTestCases = 10;
+        public int NumberOfTestCasesToGenerate { get { return _numberOfTestCases; } }
 
         public TestCaseGeneratorEncrypt(IRandom800_90 random800_90, IAES_CCM algo)
         {
@@ -20,9 +24,14 @@ namespace NIST.CVP.Generation.AES_CCM
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
-            //known answer - need to do an encryption operation to get the tag
-            var key = _random800_90.GetRandomBitString(@group.KeyLength);
-            var iv = _random800_90.GetRandomBitString(@group.IVLength);
+            // In instances like 2^16 aadLength, we only want to do a single test case.
+            if (group.AADLength > 32)
+            {
+                _numberOfTestCases = 1;
+            }
+
+            var key = GetReusableInput(ref _key, group.GroupReusesKeyForTestCases, group.KeyLength);
+            var iv = GetReusableInput(ref _nonce, group.GroupReusesNonceForTestCases, group.IVLength);
             var plainText = _random800_90.GetRandomBitString(group.PTLength);
             var aad = _random800_90.GetRandomBitString(group.AADLength);
             var testCase = new TestCase
@@ -59,6 +68,21 @@ namespace NIST.CVP.Generation.AES_CCM
             }
             testCase.CipherText = encryptionResult.CipherText;
             return  new TestCaseGenerateResponse(testCase);
+        }
+
+        private BitString GetReusableInput(ref BitString holdInstance, bool isReusable, int lengthToGenerate)
+        {
+            if (!isReusable)
+            {
+                holdInstance = null;
+            }
+
+            if (holdInstance == null)
+            {
+                holdInstance = _random800_90.GetRandomBitString(lengthToGenerate);
+            }
+
+            return holdInstance;
         }
 
         private Logger ThisLogger

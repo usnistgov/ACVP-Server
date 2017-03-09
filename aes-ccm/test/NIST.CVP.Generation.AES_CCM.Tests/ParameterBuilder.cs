@@ -7,7 +7,6 @@
         private int[] _ptLen;
         private int[] _nonceLen;
         private int[] _aadLen;
-        private bool _supportsAad2Pow16;
         private int[] _tagLen;
 
         public ParameterBuilder()
@@ -51,12 +50,6 @@
             return this;
         }
 
-        public ParameterBuilder WithSupportsAadLen2Pow16(bool value)
-        {
-            _supportsAad2Pow16 = value;
-            return this;
-        }
-
         public ParameterBuilder WithTagLen(int[] value)
         {
             _tagLen = value;
@@ -73,7 +66,6 @@
                 Nonce = _nonceLen,
                 PtLen = _ptLen,
                 AadLen = _aadLen,
-                SupportsAad2Pow16 = _supportsAad2Pow16,
                 TagLen = _tagLen
             };
         }

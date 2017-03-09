@@ -1,9 +1,7 @@
 ﻿using System.Linq;
-using NIST.CVP.Generation.AES_CCM;
-using NIST.CVP.Generation.AES_CCM.Tests;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_CFB128.Tests
+namespace NIST.CVP.Generation.AES_CCM.Tests
 {
     [TestFixture]
     public class ParameterValidatorTests
@@ -89,10 +87,8 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests
         }
 
         [Test]
-        [TestCase(null, 0)]
         [TestCase(new int[] { }, 0)]
         [TestCase(new int[] { -1 }, 0)]
-        [TestCase(new int[] { 128, -1}, 1)]
         public void ShouldReturnErrorWithInvalidAadLength(int[] aadLengths, int errorsExpected)
         {
             ParameterValidator subject = new ParameterValidator();

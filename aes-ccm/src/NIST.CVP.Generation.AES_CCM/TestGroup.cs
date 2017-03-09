@@ -44,6 +44,9 @@ namespace NIST.CVP.Generation.AES_CCM
         public int TagLength { get; set; }
         public List<ITestCase> Tests { get; set; }
 
+        public bool GroupReusesKeyForTestCases { get; set; }
+        public bool GroupReusesNonceForTestCases { get; set; }
+
         public bool MergeTests(List<ITestCase> testsToMerge)
         {
             foreach (var test in Tests)

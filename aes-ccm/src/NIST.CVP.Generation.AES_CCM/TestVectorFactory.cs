@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.AES_CCM
                 CreateGroups(testType, parameters, groups);
             }
 
-            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "AES-GCM", IsSample = parameters.IsSample};
+            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "AES-CCM", IsSample = parameters.IsSample};
 
             return testVector;
         }
@@ -78,10 +78,15 @@ namespace NIST.CVP.Generation.AES_CCM
                                     AADLength = aadLen,
                                     PTLength = ptLen,
                                     IVLength = nonceLen,
-                                    TagLength = tagLen
+                                    TagLength = tagLen,
+                                    GroupReusesKeyForTestCases = true
                                 };
 
-                                groups.Add(group);
+                                // If the min and max are the same, no need to add the same group
+                                if (!groups.Contains(group))
+                                {
+                                    groups.Add(group);
+                                }
                             }
                         }
                     }
@@ -107,28 +112,36 @@ namespace NIST.CVP.Generation.AES_CCM
             var ptLen = parameters.PtLen.Max();
             var nonceLen = parameters.Nonce.Max();
             var tagLen = parameters.TagLen.Max();
+            var minAadLen = parameters.AadLen.Min();
+            var maxAadLen = parameters.AadLen.Max();
 
             foreach (var keyLen in parameters.KeyLen)
             {
-                foreach (var aadLen in parameters.AadLen)
+                for (int i = minAadLen; i <= maxAadLen; i++)
                 {
-                    TestGroup tg = new TestGroup()
+                    TestGroup group = new TestGroup()
                     {
                         Function = "encrypt",
                         TestType = testType.ToString(),
                         KeyLength = keyLen,
-                        AADLength = aadLen,
+                        AADLength = i,
                         PTLength = ptLen,
                         IVLength = nonceLen,
-                        TagLength = tagLen
+                        TagLength = tagLen,
+                        GroupReusesKeyForTestCases = true,
+                        GroupReusesNonceForTestCases = true
                     };
 
-                    groups.Add(tg);
+                    // If the min and max are the same, no need to add the same group
+                    if (!groups.Contains(group))
+                    {
+                        groups.Add(group);
+                    }
                 }
-
+                
                 if (parameters.SupportsAad2Pow16)
                 {
-                    TestGroup tg = new TestGroup()
+                    TestGroup group = new TestGroup()
                     {
                         Function = "encrypt",
                         TestType = testType.ToString(),
@@ -136,10 +149,16 @@ namespace NIST.CVP.Generation.AES_CCM
                         AADLength = 65536,
                         PTLength = ptLen,
                         IVLength = nonceLen,
-                        TagLength = tagLen
+                        TagLength = tagLen,
+                        GroupReusesKeyForTestCases = true,
+                        GroupReusesNonceForTestCases = true
                     };
 
-                    groups.Add(tg);
+                    // If the min and max are the same, no need to add the same group
+                    if (!groups.Contains(group))
+                    {
+                        groups.Add(group);
+                    }
                 }
             }
         }
@@ -167,7 +186,7 @@ namespace NIST.CVP.Generation.AES_CCM
             {
                 foreach (var nonceLen in parameters.Nonce)
                 {
-                    TestGroup tg = new TestGroup()
+                    TestGroup group = new TestGroup()
                     {
                         Function = "encrypt",
                         TestType = testType.ToString(),
@@ -175,10 +194,11 @@ namespace NIST.CVP.Generation.AES_CCM
                         AADLength = aadLen,
                         PTLength = ptLen,
                         IVLength = nonceLen,
-                        TagLength = tagLen
+                        TagLength = tagLen,
+                        GroupReusesKeyForTestCases = true
                     };
 
-                    groups.Add(tg);
+                    groups.Add(group);
                 }
             }
         }
@@ -201,23 +221,31 @@ namespace NIST.CVP.Generation.AES_CCM
             var aadLen = parameters.AadLen.Max();
             var nonceLen = parameters.Nonce.Max();
             var tagLen = parameters.TagLen.Max();
+            var minPtLen = parameters.PtLen.Min();
+            var maxPtLen = parameters.PtLen.Max();
 
             foreach (var keyLen in parameters.KeyLen)
             {
-                foreach (var ptLen in parameters.PtLen)
+                for (int i = minPtLen; i <= maxPtLen; i++)
                 {
-                    TestGroup tg = new TestGroup()
+                    TestGroup group = new TestGroup()
                     {
                         Function = "encrypt",
                         TestType = testType.ToString(),
                         KeyLength = keyLen,
                         AADLength = aadLen,
-                        PTLength = ptLen,
+                        PTLength = i,
                         IVLength = nonceLen,
-                        TagLength = tagLen
+                        TagLength = tagLen,
+                        GroupReusesKeyForTestCases = true,
+                        GroupReusesNonceForTestCases = true
                     };
 
-                    groups.Add(tg);
+                    // If the min and max are the same, no need to add the same group
+                    if (!groups.Contains(group))
+                    {
+                        groups.Add(group);
+                    }
                 }
             }
         }
@@ -245,7 +273,7 @@ namespace NIST.CVP.Generation.AES_CCM
             {
                 foreach (var tagLen in parameters.TagLen)
                 {
-                    TestGroup tg = new TestGroup()
+                    TestGroup @group = new TestGroup()
                     {
                         Function = "encrypt",
                         TestType = testType.ToString(),
@@ -253,10 +281,12 @@ namespace NIST.CVP.Generation.AES_CCM
                         AADLength = aadLen,
                         PTLength = ptLen,
                         IVLength = nonceLen,
-                        TagLength = tagLen
+                        TagLength = tagLen,
+                        GroupReusesKeyForTestCases = true,
+                        GroupReusesNonceForTestCases = true
                     };
 
-                    groups.Add(tg);
+                    groups.Add(@group);
                 }
             }
         }

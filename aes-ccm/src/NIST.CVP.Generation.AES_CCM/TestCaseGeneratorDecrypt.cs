@@ -9,7 +9,10 @@ namespace NIST.CVP.Generation.AES_CCM
     {
         private readonly IRandom800_90 _random800_90;
         private readonly IAES_CCM _algo;
-        
+
+        private BitString _key = null;
+        private BitString _nonce = null;
+
         public int NumberOfTestCasesToGenerate { get { return 15; } }
 
         public TestCaseGeneratorDecrypt(IRandom800_90 random800_90, IAES_CCM algo)
@@ -20,9 +23,8 @@ namespace NIST.CVP.Generation.AES_CCM
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
-            //known answer - need to do an encryption operation to get the tag
-            var key = _random800_90.GetRandomBitString(@group.KeyLength);
-            var iv = _random800_90.GetRandomBitString(@group.IVLength);
+            var key = GetReusableInput(ref _key, group.GroupReusesKeyForTestCases, group.KeyLength);
+            var iv = GetReusableInput(ref _nonce, group.GroupReusesNonceForTestCases, group.IVLength);
             var plainText = _random800_90.GetRandomBitString(group.PTLength);
             var aad = _random800_90.GetRandomBitString(group.AADLength);
             var testCase = new TestCase
@@ -35,7 +37,7 @@ namespace NIST.CVP.Generation.AES_CCM
             };
             return Generate(@group, testCase);
         }
-
+        
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
             EncryptionResult encryptionResult = null;
@@ -62,6 +64,21 @@ namespace NIST.CVP.Generation.AES_CCM
             SometimesMangleTestCaseCipherText(testCase);
 
             return new TestCaseGenerateResponse(testCase);
+        }
+        
+        private BitString GetReusableInput(ref BitString holdInstance, bool isReusable, int lengthToGenerate)
+        {
+            if (!isReusable)
+            {
+                holdInstance = null;
+            }
+
+            if (holdInstance == null)
+            {
+                holdInstance = _random800_90.GetRandomBitString(lengthToGenerate);
+            }
+
+            return holdInstance;
         }
 
         private void SometimesMangleTestCaseCipherText(TestCase testCase)

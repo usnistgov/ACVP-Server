@@ -51,8 +51,10 @@ namespace NIST.CVP.Generation.AES_CCM
                     Mode = ModeValues.CBCMac
                 };
 
-                var mac = cbcMacRijndael.BlockEncrypt(cbcMacCipher, cbcMacKey, b, (r + 1) * 128);
-                mac = new BitString(mac.ToBytes().Take(16).ToArray());
+                var mac = 
+                    new BitString(cbcMacRijndael.BlockEncrypt(cbcMacCipher, cbcMacKey, b, (r + 1) * 128)
+                        .ToBytes().Take(16).ToArray() // mac is the first 16 bytes
+                    );
 
                 // Encrypt Payload and MAC
                 var counterRijndael = _iRijndaelFactory.GetRijndael(ModeValues.Counter);
