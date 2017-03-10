@@ -34,9 +34,9 @@ namespace NIST.CVP.Generation.AES_CCM
             {
                 Deferred = source.deferred;
             }
-            if (((ExpandoObject)source).ContainsProperty("tagLength"))
+            if (((ExpandoObject)source).ContainsProperty("tagLen"))
             {
-                TagLength = source.tagLength;
+                TagLength = (int)source.tagLen;
             }
 
             Key = BitStringFromObject("key", (ExpandoObject) source);

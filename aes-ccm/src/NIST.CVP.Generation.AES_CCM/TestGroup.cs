@@ -20,6 +20,7 @@ namespace NIST.CVP.Generation.AES_CCM
             TagLength = source.tagLen;
             KeyLength = source.keyLen;
             Function = source.direction;
+            TestType = source.testType;
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {

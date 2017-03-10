@@ -66,14 +66,20 @@ namespace NIST.CVP.Generation.AES_CCM
                     Mode = ModeValues.Counter
                 };
 
-                // Tag
-                var T = counterRijndael.BlockEncrypt(counterCipher, counterKey, mac.ToBytes(), 128);
+                // Tag - made up of the most significant bits of the length of the tag
+                var T = counterRijndael.BlockEncrypt(counterCipher, counterKey, mac.ToBytes(), 128).GetMostSignificantBits(tagLength);
                 
                 int m = (payload.BitLength + 127) / 128;
-                var ct = counterRijndael.BlockEncrypt(counterCipher, counterKey, payload.ToBytes(), m * 128);
-                
-                // Concatenate ct and T, but only enough bits from T to make up the tag length
-                return new EncryptionResult(ct.ConcatenateBits(T.GetMostSignificantBits(tagLength)));
+                var payLoadAtBlockSize = payload.ConcatenateBits(new BitString((m * 128) - payload.BitLength));
+
+                // ct should be made up of the most significant bits of the length of the payload.
+                BitString ct;
+                ct = m > 0 ? 
+                    counterRijndael.BlockEncrypt(counterCipher, counterKey, payLoadAtBlockSize.ToBytes(), m * 128).GetMostSignificantBits(payload.BitLength) : 
+                    new BitString(0);
+               
+                // final return is made up of the CT contatenated with  T
+                return new EncryptionResult(ct.ConcatenateBits(T));
             }
             catch (Exception ex)
             {

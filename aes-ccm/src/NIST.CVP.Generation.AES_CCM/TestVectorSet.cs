@@ -55,6 +55,7 @@ namespace NIST.CVP.Generation.AES_CCM
                 {
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
                     ((IDictionary<string, object>)updateObject).Add("ivLen", group.IVLength);
                     ((IDictionary<string, object>)updateObject).Add("ptLen", group.PTLength);
                     ((IDictionary<string, object>)updateObject).Add("aadLen", group.AADLength);
@@ -103,6 +104,7 @@ namespace NIST.CVP.Generation.AES_CCM
                 {
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
                     ((IDictionary<string, object>)updateObject).Add("ivLen", group.IVLength);
                     ((IDictionary<string, object>)updateObject).Add("ptLen", group.PTLength);
                     ((IDictionary<string, object>)updateObject).Add("aadLen", group.AADLength);
