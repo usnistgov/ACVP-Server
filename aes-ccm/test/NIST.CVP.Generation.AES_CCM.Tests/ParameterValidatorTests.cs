@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NIST.CVP.Generation.Core;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CCM.Tests
@@ -36,31 +37,15 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         }
 
         [Test]
-        [TestCase(null, 0)]
-        [TestCase(new int[] { }, 0)]
-        [TestCase(new int[] { -1 }, 0)]
-        [TestCase(new int[] { 128, -1 }, 1)]
-        [TestCase(new int[] { 128, -1, -2 }, 2)]
-        [TestCase(new int[] { 128, -1, -2, -3 }, 3)]
-        public void ShouldReturnErrorWithInvalidPtLength(int[] ptLengths, int errorsExpected)
+        [TestCase("Max invalid, negative", new int[] { 0, -1 })]
+        [TestCase("min invalid, negative", new int[] { -1, -32 })]
+        [TestCase("min gt max", new int[] { 20, 10 })]
+        public void ShouldReturnErrorWithInvalidPtLength(string testLabel, int[] ptLengths)
         {
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithPtLen(ptLengths)
-                    .Build()
-            );
-
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','), result.ErrorMessage);
-        }
-
-        public void ShouldReturnErrorWithTooManyElementsInPtArray()
-        {
-            ParameterValidator subject = new ParameterValidator();
-            var result = subject.Validate(
-                new ParameterBuilder()
-                    .WithPtLen(new[] {1,2,3})
+                    .WithPtLen(new Range() {Min = ptLengths[0], Max = ptLengths[1]})
                     .Build()
             );
 
@@ -87,27 +72,15 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         }
 
         [Test]
-        [TestCase(new int[] { }, 0)]
-        [TestCase(new int[] { -1 }, 0)]
-        public void ShouldReturnErrorWithInvalidAadLength(int[] aadLengths, int errorsExpected)
+        [TestCase("Max invalid, negative", new int[] { 0, -1 })]
+        [TestCase("min invalid, negative", new int[] { -1, -32 })]
+        [TestCase("min gt max", new int[] { 20, 10 })]
+        public void ShouldReturnErrorWithInvalidAadLength(string testLabel, int[] aadLengths)
         {
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAadLen(aadLengths)
-                    .Build()
-            );
-
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','), result.ErrorMessage);
-        }
-
-        public void ShouldReturnErrorWithTooManyElementsInAadArray()
-        {
-            ParameterValidator subject = new ParameterValidator();
-            var result = subject.Validate(
-                new ParameterBuilder()
-                    .WithAadLen(new[] { 1, 2, 3 })
+                    .WithAadLen(new Range() { Min = aadLengths[0], Max = aadLengths[1] })
                     .Build()
             );
 

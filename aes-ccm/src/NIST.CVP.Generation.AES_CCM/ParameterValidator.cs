@@ -46,13 +46,7 @@ namespace NIST.CVP.Generation.AES_CCM
 
         private void ValidatePlainText(Parameters parameters, List<string> errorResults)
         {
-            var result = ValidateCollectionCountNoMoreThan(parameters.PtLen, 2, "Payload count");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
-
-            result = ValidateRange(parameters.PtLen, VALID_MIN_PT, VALID_MAX_PT, "Payload length (range check)");
+            var result = ValidateRange(parameters.PtLen, VALID_MIN_PT, VALID_MAX_PT, "Payload length (range check)");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
@@ -70,13 +64,7 @@ namespace NIST.CVP.Generation.AES_CCM
 
         private void ValidateAAD(Parameters parameters,  List<string> errorResults)
         {
-            var result = ValidateCollectionCountNoMoreThan(parameters.AadLen, 2, "AAD count");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
-
-            result = ValidateRange(parameters.AadLen, VALID_MIN_AAD, VALID_MAX_AAD, "AAD length (range check)");
+            var result = ValidateRange(parameters.AadLen, VALID_MIN_AAD, VALID_MAX_AAD, "AAD length (range check)");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);

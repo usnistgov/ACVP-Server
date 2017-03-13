@@ -1,12 +1,14 @@
-﻿namespace NIST.CVP.Generation.AES_CCM.Tests
+﻿using NIST.CVP.Generation.Core;
+
+namespace NIST.CVP.Generation.AES_CCM.Tests
 {
     public class ParameterBuilder
     {
         private string _algorithm;
         private int[] _keyLen;
-        private int[] _ptLen;
+        private Range _ptLen;
         private int[] _nonceLen;
-        private int[] _aadLen;
+        private Range _aadLen;
         private int[] _tagLen;
 
         public ParameterBuilder()
@@ -14,9 +16,17 @@
             // Provides a valid (as of construction) set of parameters
             _algorithm = "AES-CCM";
             _keyLen = ParameterValidator.VALID_KEY_SIZES;
-            _ptLen = new int[] { ParameterValidator.VALID_MIN_PT, ParameterValidator.VALID_MAX_PT };
+            _ptLen = new Range()
+            {
+                Min = ParameterValidator.VALID_MIN_PT,
+                Max = ParameterValidator.VALID_MAX_PT
+            };
             _nonceLen = ParameterValidator.VALID_NONCE_LENGTHS;
-            _aadLen = new int[] { ParameterValidator.VALID_MIN_AAD, ParameterValidator.VALID_MAX_AAD };
+            _aadLen = new Range()
+            {
+                Min = ParameterValidator.VALID_MIN_AAD,
+                Max = ParameterValidator.VALID_MAX_AAD
+            };
             _tagLen = ParameterValidator.VALID_TAG_LENGTHS;
         }
 
@@ -32,7 +42,7 @@
             return this;
         }
 
-        public ParameterBuilder WithPtLen(int[] value)
+        public ParameterBuilder WithPtLen(Range value)
         {
             _ptLen = value;
             return this;
@@ -44,7 +54,7 @@
             return this;
         }
 
-        public ParameterBuilder WithAadLen(int[] value)
+        public ParameterBuilder WithAadLen(Range value)
         {
             _aadLen = value;
             return this;

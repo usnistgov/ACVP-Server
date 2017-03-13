@@ -2,6 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CCM.Tests
 {
@@ -16,8 +17,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             {
                 "minimum inputs",
                 new[] {128},
-                new[] {0},
-                new[] {0},
+                new Range() { Min = 0, Max = 0 },
+                new Range() { Min = 0, Max = 0 },
                 new[] {7},
                 new[] {4}
             },
@@ -25,8 +26,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             {
                 "multiple inputs, single array",
                 new[] {128, 192, 256},
-                new[] {0},
-                new[] {0},
+                new Range() { Min = 0, Max = 0 },
+                new Range() { Min = 0, Max = 0 },
                 new[] {7},
                 new[] {4}
             },
@@ -34,17 +35,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             {
                 "multiple differing inputs, in min/max array",
                 new[] {128},
-                new[] {0, 32},
-                new[] {0},
-                new[] {7},
-                new[] {4}
-            },
-            new object[]
-            {
-                "multiple same inputs, in min/max array",
-                new[] {128},
-                new[] {0, 0},
-                new[] {0},
+                new Range() { Min = 0, Max = 32 },
+                new Range() { Min = 0, Max = 0 },
                 new[] {7},
                 new[] {4}
             },
@@ -52,8 +44,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             {
                 "max number of groups, no 2^16",
                 new[] {128, 192, 256},
-                new[] {0, 32},
-                new[] {0, 32},
+                new Range() { Min = 0, Max = 32 },
+                new Range() { Min = 0, Max = 32 },
                 new[] {7, 8, 9, 10, 11, 12, 13},
                 new[] {4, 6, 8, 10, 12, 14, 16}
             },
@@ -61,8 +53,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             {
                 "max number of groups, max aad",
                 new[] {128, 192, 256},
-                new[] {0, 65536},
-                new[] {0, 32},
+                new Range() { Min = 0, Max = 65536 },
+                new Range() { Min = 0, Max = 32 },
                 new[] {7, 8, 9, 10, 11, 12, 13},
                 new[] {4, 6, 8, 10, 12, 14, 16}
             }
@@ -76,8 +68,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             {
                 Algorithm = "AES-CCM",
                 KeyLen = new[] { 128 },
-                AadLen = new[] { 0, 32 },
-                PtLen = new[] { 0, 32 },
+                AadLen = new Range() { Min = 0, Max = 32 },
+                PtLen = new Range() { Min = 0, Max = 32 },
                 Nonce = new [] { 7 },
                 TagLen = new [] { 4 },
             };
@@ -105,8 +97,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         public void ShouldHaveValidNumberOfGroupsForDecryptionVerification(
             string testLabel,
             int[] keyLen,
-            int[] aadLen,
-            int[] ptLen,
+            Range aadLen,
+            Range ptLen,
             int[] ivLen,
             int[] tagLen
         )
@@ -124,8 +116,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             };
 
             // Only the min/max aadLen and ptLens go into the creation of the group
-            int aadLenMultiplier = (aadLen.Min() == aadLen.Max()) ? 1 : 2;
-            int ptLenMultiplier = (ptLen.Min() == ptLen.Max()) ? 1 : 2;
+            int aadLenMultiplier = (aadLen.Min == aadLen.Max) ? 1 : 2;
+            int ptLenMultiplier = (ptLen.Min == ptLen.Max) ? 1 : 2;
 
             int expectedResultCount = keyLen.Length * aadLenMultiplier * ptLenMultiplier * ivLen.Length * tagLen.Length;
             
@@ -149,8 +141,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         public void ShouldHaveValidNumberOfGroupsForVariableAssocatedData(
             string testLabel,
             int[] keyLen,
-            int[] aadLen,
-            int[] ptLen,
+            Range aadLen,
+            Range ptLen,
             int[] ivLen,
             int[] tagLen
         )
@@ -168,7 +160,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             };
 
             // AAD is a range of values, add an additional group if SupportsAad2Pow16
-            int aadLenRange = aadLen.Max() - aadLen.Min() + 1 + (p.SupportsAad2Pow16 ? 1 : 0);
+            int aadLenRange = aadLen.Max - aadLen.Min + 1 + (p.SupportsAad2Pow16 ? 1 : 0);
 
             // pt, tag, and nonce use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * aadLenRange * 1 * 1 * 1;
@@ -194,8 +186,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         public void ShouldHaveValidNumberOfGroupsForVariableNonce(
             string testLabel,
             int[] keyLen,
-            int[] aadLen,
-            int[] ptLen,
+            Range aadLen,
+            Range ptLen,
             int[] ivLen,
             int[] tagLen
         )
@@ -236,8 +228,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         public void ShouldHaveValidNumberOfGroupsForVariablePayload(
             string testLabel,
             int[] keyLen,
-            int[] aadLen,
-            int[] ptLen,
+            Range aadLen,
+            Range ptLen,
             int[] ivLen,
             int[] tagLen
         )
@@ -255,7 +247,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             };
 
             // Payload is a range of values, add an additional group if SupportsAad2Pow16
-            var payloadCount = ptLen.Max() - ptLen.Min() + 1;
+            var payloadCount = ptLen.Max - ptLen.Min + 1;
 
             // aad, nonce, and tag use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * 1 * payloadCount * 1 * 1;
@@ -281,8 +273,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         public void ShouldHaveValidNumberOfGroupsForVariableTag(
             string testLabel,
             int[] keyLen,
-            int[] aadLen,
-            int[] ptLen,
+            Range aadLen,
+            Range ptLen,
             int[] ivLen,
             int[] tagLen
         )
@@ -338,11 +330,11 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         {
             Parameters p = new Parameters()
             {
-                AadLen = new int[] { 1 },
+                AadLen = new Range { Min = 1, Max = 1 },
                 Algorithm = "AES CCM",
                 Nonce = new int[] { 1 },
                 KeyLen = new int[] { 1 },
-                PtLen = new int[] { 1 },
+                PtLen = new Range { Min = 1, Max = 1 },
                 TagLen = new int[] { 1 },
                 IsSample = isSample
             };
@@ -351,27 +343,6 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var result = subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(isSample, result.IsSample);
-        }
-
-        [TestCase(
-        "max number of groups, no 2^16",
-            new int[] {128, 192, 256},
-            new int[] {0, 32},
-            new int[] {0, 32},
-            new int[] {7, 8, 9, 10, 11, 12, 13},
-            new int[] {4, 6, 8, 10, 12, 14, 16}
-            )]
-        [TestCase(
-            "max number of groups, max aad",
-            new int[] { 128, 192, 256 },
-            new int[] { 0, 65536 },
-            new int[] { 0, 32 },
-            new int[] { 7, 8, 9, 10, 11, 12, 13 },
-            new int[] { 4, 6, 8, 10, 12, 14, 16 }
-        )]
-        public void MyTest(string testLabel, int[] keyLen, int[] aadLen, int[] ptLen, int[] nonceLen, int[] tagLen)
-        {
-            // impl
         }
 
     }

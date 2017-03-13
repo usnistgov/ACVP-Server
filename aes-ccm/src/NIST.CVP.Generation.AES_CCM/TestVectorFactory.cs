@@ -61,10 +61,12 @@ namespace NIST.CVP.Generation.AES_CCM
             foreach (var keyLen in parameters.KeyLen)
             {
                 foreach (var aadLen in parameters.AadLen
-                    .Where(w => w == parameters.AadLen.Min() || w == parameters.AadLen.Max()))
+                    .GetMinMaxAsEnumerable()
+                    .Where(w => w == parameters.AadLen.Min || w == parameters.AadLen.Max))
                 {
                     foreach (var ptLen in parameters.PtLen
-                        .Where(w => w == parameters.PtLen.Min() || w == parameters.PtLen.Max()))
+                        .GetMinMaxAsEnumerable()
+                        .Where(w => w == parameters.PtLen.Min || w == parameters.PtLen.Max))
                     {
                         foreach (var nonceLen in parameters.Nonce)
                         {
@@ -109,22 +111,20 @@ namespace NIST.CVP.Generation.AES_CCM
         /// <param name="groups"></param>
         private void CreateVariableAssocatedDataTestGroups(TestTypes testType, Parameters parameters, List<ITestGroup> groups)
         {
-            var ptLen = parameters.PtLen.Max();
+            var ptLen = parameters.PtLen.Max;
             var nonceLen = parameters.Nonce.Max();
             var tagLen = parameters.TagLen.Max();
-            var minAadLen = parameters.AadLen.Min();
-            var maxAadLen = parameters.AadLen.Max();
 
             foreach (var keyLen in parameters.KeyLen)
             {
-                for (int i = minAadLen; i <= maxAadLen; i++)
+                foreach (var aadLen in parameters.AadLen.GetValues())
                 {
                     TestGroup group = new TestGroup()
                     {
                         Function = "encrypt",
                         TestType = testType.ToString(),
                         KeyLength = keyLen,
-                        AADLength = i,
+                        AADLength = aadLen,
                         PTLength = ptLen,
                         IVLength = nonceLen,
                         TagLength = tagLen,
@@ -138,7 +138,7 @@ namespace NIST.CVP.Generation.AES_CCM
                         groups.Add(group);
                     }
                 }
-                
+
                 if (parameters.SupportsAad2Pow16)
                 {
                     TestGroup group = new TestGroup()
@@ -178,8 +178,8 @@ namespace NIST.CVP.Generation.AES_CCM
         /// <param name="groups"></param>
         private void CreateVariableNonceTestGroups(TestTypes testType, Parameters parameters, List<ITestGroup> groups)
         {
-            var aadLen = parameters.AadLen.Max();
-            var ptLen = parameters.PtLen.Max();
+            var aadLen = parameters.AadLen.Max;
+            var ptLen = parameters.PtLen.Max;
             var tagLen = parameters.TagLen.Max();
 
             foreach (var keyLen in parameters.KeyLen)
@@ -218,15 +218,13 @@ namespace NIST.CVP.Generation.AES_CCM
         /// <param name="groups"></param>
         private void CreateVariablePayloadTestGroups(TestTypes testType, Parameters parameters, List<ITestGroup> groups)
         {
-            var aadLen = parameters.AadLen.Max();
+            var aadLen = parameters.AadLen.Max;
             var nonceLen = parameters.Nonce.Max();
             var tagLen = parameters.TagLen.Max();
-            var minPtLen = parameters.PtLen.Min();
-            var maxPtLen = parameters.PtLen.Max();
 
             foreach (var keyLen in parameters.KeyLen)
             {
-                for (int i = minPtLen; i <= maxPtLen; i++)
+                foreach (var ptLen in parameters.PtLen.GetValues())
                 {
                     TestGroup group = new TestGroup()
                     {
@@ -234,7 +232,7 @@ namespace NIST.CVP.Generation.AES_CCM
                         TestType = testType.ToString(),
                         KeyLength = keyLen,
                         AADLength = aadLen,
-                        PTLength = i,
+                        PTLength = ptLen,
                         IVLength = nonceLen,
                         TagLength = tagLen,
                         GroupReusesKeyForTestCases = true,
@@ -265,8 +263,8 @@ namespace NIST.CVP.Generation.AES_CCM
         /// <param name="groups"></param>
         private void CreateVariableTagTestGroups(TestTypes testType, Parameters parameters, List<ITestGroup> groups)
         {
-            var aadLen = parameters.AadLen.Max();
-            var ptLen = parameters.PtLen.Max();
+            var aadLen = parameters.AadLen.Max;
+            var ptLen = parameters.PtLen.Max;
             var nonceLen = parameters.Nonce.Max();
             
             foreach (var keyLen in parameters.KeyLen)

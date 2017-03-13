@@ -5,6 +5,7 @@ using System.Linq;
 using AES_CCM;
 using Autofac;
 using Newtonsoft.Json;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
@@ -348,10 +349,10 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-GCM",
+                Algorithm = "AES-CCM",
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new int[] { 0 },
-                AadLen = new int[] { 0 },
+                PtLen = new Range() { Min = 0, Max = 0},
+                AadLen = new Range() { Min = 0, Max = 0},
                 TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
                 Nonce = new int[] { ParameterValidator.VALID_NONCE_LENGTHS.First() },
                 IsSample = false
@@ -364,10 +365,10 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-GCM",
+                Algorithm = "AES-CCM",
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new int[] { 1 },
-                AadLen = new int[] { 1 },
+                PtLen = new Range() { Min = 1, Max = 1 },
+                AadLen = new Range() { Min = 1, Max = 1 },
                 TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
                 Nonce = new int[] { ParameterValidator.VALID_NONCE_LENGTHS.First() },
                 IsSample = true
@@ -380,10 +381,10 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-GCM",
+                Algorithm = "AES-CCM",
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
-                PtLen = new int[] { 0, 32 },
-                AadLen = new int[] { 0, 65536 },
+                PtLen = new Range() { Min = 0, Max = 32 },
+                AadLen = new Range() { Min = 0, Max = 65536 },
                 TagLen = ParameterValidator.VALID_TAG_LENGTHS,
                 Nonce = ParameterValidator.VALID_NONCE_LENGTHS,
                 IsSample = false
@@ -394,7 +395,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters);
+            var json = JsonConvert.SerializeObject(parameters, Formatting.Indented);
             string fileName = $"{targetFolder}\\registration.json";
             File.WriteAllText(fileName, json);
 
