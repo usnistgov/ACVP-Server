@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             var result = Program.Main(new string[] { fileName });
 
@@ -81,7 +81,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             var result = Program.Main(new string[] { fileName });
 
@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         public void GenShouldCreateTestVectors()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -390,11 +390,11 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 Algorithm = "AES-GCM",
                 Mode = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
-                PtLen = new int[] { 128, 256 },
-                ivLen = new int[] { 96 },
+                PtLen = new int[] { 128, 120, 256 },
+                ivLen = new int[] { 96, 128 },
                 ivGen = ParameterValidator.VALID_IV_GEN[1],
                 ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
-                aadLen = new int[] { 128 },
+                aadLen = new int[] { 128, 120 },
                 TagLen = ParameterValidator.VALID_TAG_LENGTHS,
                 IsSample = false
             };
