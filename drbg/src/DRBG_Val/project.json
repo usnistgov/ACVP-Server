@@ -1,0 +1,25 @@
+﻿{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
+    "dependencies": {
+        "Autofac": "4.3.0",
+        "Microsoft.NETCore.App": "1.1.0",
+        "NIST.CVP.Generation.DRBG": "1.0.0-*",
+        "NIST.CVP.Generation.Core": "1.0.0-*",
+        "NIST.CVP.Math": "1.0.0-*"
+    },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": "dnxcore50"
+    }
+  },
+
+  "runtimes": {
+    "win10-x64": {},
+    "win7-x64": {}
+  }
+}
