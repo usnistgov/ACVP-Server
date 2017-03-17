@@ -145,7 +145,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         public void ShouldCreateValidationFile()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesEncryptDecrypt(targetFolder);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -383,6 +383,25 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             return CreateRegistration(targetFolder, p);
         }
 
+        private string GetTestFileFewTestCasesEncryptDecrypt(string targetFolder)
+        {
+            Parameters p = new Parameters()
+            {
+                Algorithm = "AES-GCM",
+                Mode = new string[] { "encrypt", "decrypt" },
+                KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
+                PtLen = new int[] { 128 },
+                ivLen = new int[] { 96 },
+                ivGen = ParameterValidator.VALID_IV_GEN[1],
+                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
+                aadLen = new int[] { 128 },
+                TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
+                IsSample = false
+            };
+
+            return CreateRegistration(targetFolder, p);
+        }
+
         private string GetTestFileLotsOfTestCases(string targetFolder)
         {
             Parameters p = new Parameters()
@@ -404,7 +423,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters);
+            var json = JsonConvert.SerializeObject(parameters, Formatting.Indented);
             string fileName = $"{targetFolder}\\registration.json";
             File.WriteAllText(fileName, json);
 
