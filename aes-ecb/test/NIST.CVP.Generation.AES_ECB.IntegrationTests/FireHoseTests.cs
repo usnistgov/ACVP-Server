@@ -4,7 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.AES;
-using NIST.CVP.Generation.AES_ECB.Parsers;
+using NIST.CVP.Generation.AES_ECB.GenVal;
+using NIST.CVP.Generation.AES_ECB.GenVal.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 

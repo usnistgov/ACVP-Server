@@ -9,6 +9,7 @@ using NLog.Targets;
 using Autofac;
 using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_ECB;
+using NIST.CVP.Generation.AES_ECB.GenVal;
 using NIST.CVP.Generation.Core;
 
 namespace AES_ECB_Val

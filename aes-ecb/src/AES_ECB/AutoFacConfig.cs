@@ -2,6 +2,7 @@
 using Autofac;
 using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_ECB;
+using NIST.CVP.Generation.AES_ECB.GenVal;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 
