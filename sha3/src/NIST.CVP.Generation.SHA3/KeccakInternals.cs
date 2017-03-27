@@ -13,28 +13,65 @@ namespace NIST.CVP.Generation.SHA3
         private static int _b = 1600;
         private static int _numRounds = 24;
 
+        private static BitString ConvertEndianness(BitString message)
+        {
+            // This is kinda gross... The message input is in the correct byte order but reversed bit order
+            // So we must reverse the bits, then reverse the bytes to put everything in the correct order
+            //
+            // For a small example... 60 01 (hex) = 0110 0001 (binary)
+            //    should turn into    06 80 (hex) = 0110 1000 (binary
+
+            var messageLen = message.BitLength;
+
+            // Convert to big endian byte order but little endian bit order
+            var reversedBits = MsbLsbConversionHelpers.ReverseBitArrayBits(message.Bits);
+            var normalizedBits = MsbLsbConversionHelpers.ReverseByteOrder(new BitString(reversedBits).ToBytes());
+
+            // After the byte conversion make sure the result is the correct length
+            // The constructor here handles this for us
+            message = new BitString(normalizedBits);
+            var hex = message.ToHex();
+            message = new BitString(hex, messageLen, false);
+
+            return message;
+        }
+
+        // Use this method when you need a Little Endian substring that is not a multiple of 8 bits in length
+        // For the last byte, we would need to pull bits from the other end of the byte, rather than like reading an array in order
+        // This only occurs once under SHAKE with variable output sizes
+        private static BitString LittleEndianSubstring(BitString message, int startIdx, int length)
+        {
+            var lastFullByte = (length / 8) * 8;                                    // Integer division rounds down for us
+            var firstBytes = BitString.MSBSubstring(message, startIdx, lastFullByte);
+
+            if (length == lastFullByte)
+            {
+                return firstBytes;
+            }
+
+            var nextByte = BitString.MSBSubstring(message, startIdx + lastFullByte, 8);
+
+            var bitsNeeded = length % 8;
+            var lastBits = new BitString(0);
+            if (bitsNeeded != 0)
+            {
+                lastBits = BitString.Substring(nextByte, 0, bitsNeeded);
+            }
+
+            return BitString.ConcatenateBits(firstBytes, lastBits);
+        }
+
         /// <summary>
         /// External Keccak function. This is the method to call.
         /// </summary>
         /// <param name="message">Message to hash</param>
-        /// <param name="digestSize">Size of the digest to returb</param>
+        /// <param name="digestSize">Size of the digest to return</param>
         /// <param name="capacity">Capacity of the function</param>
         /// <param name="XOF">Extendable output function? True for SHAKE, false for SHA</param>
         /// <returns>Message digest as BitString</returns>
         public static BitString Keccak(BitString message, int digestSize, int capacity, bool XOF)
         {
-            var messageLen = message.BitLength;
-            if (message.BitLength != 0)
-            {
-                var fullHex = new BitString(message.ToHex());
-                var reversedBits = MsbLsbConversionHelpers.ReverseBitArrayBits(fullHex.Bits);
-                var normalizedBits = MsbLsbConversionHelpers.ReverseByteOrder(new BitString(reversedBits).ToBytes());
-
-                //var origMessage = message.GetDeepCopy();
-
-                message = BitString.Substring(new BitString(normalizedBits), 0, messageLen);
-                //throw new Exception($"expected: {origMessage.ToHex()}, actual: {message.ToHex()}");
-            }
+            message = ConvertEndianness(message);
 
             if (XOF)
             {
@@ -77,6 +114,7 @@ namespace NIST.CVP.Generation.SHA3
         public static BitString Sponge(BitString message, int digestSize, int capacity)
         {
             // Define properties
+            // All possible rates are divisible by 8
             var rate = _b - capacity;
 
             // Pad the message
@@ -94,17 +132,9 @@ namespace NIST.CVP.Generation.SHA3
             var sponge = new BitString(_b);
             for (var i = 0; i < n; i++)
             {
-                // This is kinda gross... The message input P[i] is in the correct byte order but reversed bit order
-                // So we must reverse the bits, then reverse the bytes to put everything in the correct order
-                //
-                // For a small example... 60 01 (hex) = 0110 0001 (binary)
-                //    should turn into    06 80 (hex) = 0110 1000 (binary)
+                var P_i = ConvertEndianness(P[i]);
 
-                var reversedBits = MsbLsbConversionHelpers.ReverseBitArrayBits(P[i].Bits);
-                var normalizedBits = MsbLsbConversionHelpers.ReverseByteOrder(new BitString(reversedBits).ToBytes());
-                var expectedMessage = new BitString(normalizedBits);
-
-                var spongeContent = BitString.XOR(sponge, BitString.ConcatenateBits(expectedMessage, new BitString(capacity)));
+                var spongeContent = BitString.XOR(sponge, BitString.ConcatenateBits(P_i, new BitString(capacity)));
                 sponge = Keccak_p(spongeContent);
             }
 
@@ -115,7 +145,7 @@ namespace NIST.CVP.Generation.SHA3
                 Z = BitString.ConcatenateBits(Z, BitString.MSBSubstring(sponge, 0, rate));
                 if (digestSize <= Z.BitLength)
                 {
-                    return BitString.MSBSubstring(Z, 0, digestSize);
+                    return LittleEndianSubstring(Z, 0, digestSize);
                 }
 
                 sponge = Keccak_p(sponge);

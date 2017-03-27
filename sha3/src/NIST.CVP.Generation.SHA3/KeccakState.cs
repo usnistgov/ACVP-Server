@@ -215,6 +215,7 @@ namespace NIST.CVP.Generation.SHA3
         #region Helpers
         private static BitString KeccakRotateLeft(BitString input, int distance)
         {
+            // This will ALWAYS work because the bitlength will be a multiple of 8
             return BitString.ReverseByteOrder(BitString.MSBRotate(BitString.ReverseByteOrder(input), distance));
         }
 

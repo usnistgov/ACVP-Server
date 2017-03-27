@@ -215,6 +215,39 @@ namespace NIST.CVP.Math.Tests
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
+
+        [Test]
+        [TestCase(1, "01", "1")]
+        [TestCase(2, "02", "10")]
+        [TestCase(2, "03", "11")]
+        [TestCase(3, "05", "101")]
+        [TestCase(3, "06", "110")]
+        [TestCase(4, "07", "0111")]
+        [TestCase(5, "13", "1 0011")]
+        [TestCase(6, "34", "11 0100")]
+        [TestCase(7, "73", "111 0011")]
+        [TestCase(8, "AB", "1010 1011")]
+        [TestCase(9, "CA01", "1100 1010 1")]
+        [TestCase(9, "3400", "0011 0100 0")]
+        [TestCase(10, "4902", "0100 1001 10")]
+        [TestCase(10, "5603", "0101 0110 11")]
+        [TestCase(10, "E301", "1110 0011 01")]
+        [TestCase(15, "FA74", "1111 1010 111 0100")]
+        [TestCase(16, "BEEF", "1011 1110 1110 1111")]
+        [TestCase(17, "BEEF01", "1011 1110 1110 1111 1")]
+        public void ShouldCreateInstanceFromHexWithReverseTruncation(int length, string hex, string expectedString)
+        {
+            var chars = expectedString.ToCharArray();
+            Array.Reverse(chars);
+            var reversedString = new string(chars);
+
+            var bits = MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(reversedString);
+            var expectedResult = new BitString(bits);
+
+            var result = new BitString(hex, length, false);
+
+            Assert.AreEqual(expectedResult, result);
+        }
         #endregion ctor
 
         #region index get/set
@@ -539,6 +572,24 @@ namespace NIST.CVP.Math.Tests
 
             // Assert
             Assert.AreEqual(expectedToString, results);
+        }
+
+        [Test]
+        [TestCase(new[] { false }, "0")]
+        [TestCase(new[] { false, false, true, true, false, true }, "101100")]
+        [TestCase(new[] { true, false, false, true, false, false, false, true }, "10001001")]
+        [TestCase(new[] { true, false, false, true, true, false, false, true, true, false }, "01100110 01")]
+        [TestCase(new[] { false, true, false, true, true, false, true, true, true, true, false, false, true, true }, "11001111 011010")]
+        [TestCase(new[] { false, false, false, true, true, true, true, true, false, true, true, false, true, false, true, true }, "11010110 11111000")]
+        [TestCase(new[] { false, false, false, true, true, true, true, true, false, true, true, false, true, false, true, true, false }, "01101011 01111100 0")]
+        public void ToStringShouldReturnCorrectMSBString(bool[] inputBits, string expectedResult)
+        {
+            var bits = new BitArray(inputBits);
+            var subject = new BitString(bits);
+
+            var result = subject.ToString();
+
+            Assert.AreEqual(expectedResult, result);
         }
         #endregion ToString
 

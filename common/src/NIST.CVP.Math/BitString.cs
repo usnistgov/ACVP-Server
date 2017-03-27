@@ -74,7 +74,8 @@ namespace NIST.CVP.Math
         /// </summary>
         /// <param name="hexMSB">The MSB hexadecimal string</param>
         /// <param name="bitLength">The length of the resulting <see cref="BitString"/> by taking that amount of MSBs</param>
-        public BitString(string hexMSB, int bitLength = -1)
+        /// <param name="truncateBitsFromEndOfLastByte">When the bitLength is not a multiple of 8, the hex needs to be truncated in the last byte. This parameter determines which side of the last byte is truncated</param>
+        public BitString(string hexMSB, int bitLength = -1, bool truncateBitsFromEndOfLastByte = true)
         {
             if (string.IsNullOrEmpty(hexMSB) || bitLength == 0)
             {
@@ -96,14 +97,32 @@ namespace NIST.CVP.Math
             }
             else
             {
-                var bitsNeeded = System.Math.Min(bitLength, numberChars * BITSINBYTE);
+
+                var bitsNeeded = System.Math.Min(bitLength, numberChars * BITSINBYTE / 2);
 
                 var bitsInMSB = Helper.MostSignificantByteArrayToMostSignificantBitArray(bytesInMSB);
                 var truncatedBits = new BitArray(bitsNeeded);
 
-                for(var i = 0; i < bitsNeeded; i++)
+                if (truncateBitsFromEndOfLastByte)
                 {
-                    truncatedBits[i] = bitsInMSB[i];
+                    for (var i = 0; i < bitsNeeded; i++)
+                    {
+                        truncatedBits[i] = bitsInMSB[i];
+                    }
+                }
+                else
+                {
+                    var firstBits = bitsNeeded - (bitsNeeded % 8);
+                    for (var i = 0; i < firstBits; i++)
+                    {
+                        truncatedBits[i] = bitsInMSB[i];
+                    }
+
+                    var skippedBits = (bytesInMSB.Length * BITSINBYTE) - bitsNeeded;
+                    for (var i = firstBits; i < bitsNeeded; i++)
+                    {
+                        truncatedBits[i] = bitsInMSB[i + skippedBits];
+                    }
                 }
 
                 _bits = Helper.ReverseBitArrayBits(truncatedBits);
@@ -171,23 +190,27 @@ namespace NIST.CVP.Math
         /// <returns>string representation of <see cref="Bits"/></returns>
         public override string ToString()
         {
-            var builder = new StringBuilder();
-
-            for (int bit = 0; bit < BitLength; bit++)
+            if (BitLength == 0)
             {
-                builder.Append(Bits[bit] ? "1" : "0");
+                return "";
+            }
 
+            var builder = new StringBuilder();
+            var offset = BitLength % BITSINBYTE;
+
+            for (var bit = 0; bit < BitLength; bit++)
+            {
                 // Add a space to the builder if the bit is a multiple of 8, but not the last character
-                if ((bit + 1) % BITSINBYTE == 0
-                    && bit > 0
-                    && (bit + 1) != Bits.Length)
+                if (bit % BITSINBYTE == offset && bit > 0)
                 {
                     builder.Append(" ");
                 }
+
+                builder.Append(Bits[bit] ? "1" : "0");
             }
 
             // Note: reversing the string in order to represent a "most significant bit" order. 
-            // e.g. "3" is written as "00000011" rather than "1100000".
+            // e.g. "3" is written as "00000011" rather than "11000000".
             return new string(builder.ToString().Reverse().ToArray());
         }
 
