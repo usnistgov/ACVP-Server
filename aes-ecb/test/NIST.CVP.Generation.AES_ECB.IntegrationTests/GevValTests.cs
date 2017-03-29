@@ -384,7 +384,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters);
+            var json = JsonConvert.SerializeObject(parameters, Formatting.Indented);
             string fileName = $"{targetFolder}\\registration.json";
             File.WriteAllText(fileName, json);
 
