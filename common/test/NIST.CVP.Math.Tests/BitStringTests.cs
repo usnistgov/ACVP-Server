@@ -1263,6 +1263,41 @@ namespace NIST.CVP.Math.Tests
         }
         #endregion
 
+        #region BitStringAddition
+        [Test]
+        [TestCase(1, 1, 2)]
+        [TestCase(5, 5, 10)]
+        [TestCase(10000, 1, 10001)]
+        [TestCase(255, 1, 256)]
+        public void BitStringAdditionShouldProperlyAddBitStrings(int num1, int num2, int expectation)
+        {
+            BigInteger num1Bi = new BigInteger(num1);
+            BigInteger num1B2 = new BigInteger(num2);
+            BigInteger expectationBigInteger = new BigInteger(expectation);
+
+            BitString num1bs = new BitString(num1Bi);
+            BitString num2bs = new BitString(num1B2);
+
+            var result = BitString.BitStringAddition(num1bs, num2bs).ToBigInteger();
+
+            Assert.AreEqual(expectationBigInteger, result);
+        }
+
+        [Test]
+        [TestCase("1")]
+        [TestCase("1111")]
+        public void BitStringAdditionShouldAddABitToAll1BitsDueToCarry(string testBitString)
+        {
+            BitString bs = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(testBitString));
+
+            Assert.AreEqual(testBitString.Length, bs.BitLength, "sanity check");
+
+            var subject = bs.BitStringAddition(BitString.One());
+
+            Assert.AreEqual(testBitString.Length + 1, subject.BitLength, "should be equal");
+        }
+        #endregion BitStringAddition
+
         #region AddWithModulo
         // Make all of these actually correct and test this method...
         [Test]

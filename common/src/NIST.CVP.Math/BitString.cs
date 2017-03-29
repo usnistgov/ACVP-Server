@@ -408,6 +408,58 @@ namespace NIST.CVP.Math
         }
 
         /// <summary>
+        /// Adds two bit strings together - e.g. "11" (3) + 111 (7) = 1010 (10).
+        /// Similar to <see cref="AddWithModulo(NIST.CVP.Math.BitString,NIST.CVP.Math.BitString,int)"/>, but without truncation.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static BitString BitStringAddition(BitString left, BitString right)
+        {
+            left = left.GetDeepCopy();
+            right = right.GetDeepCopy();
+
+            PadShorterBitStringWithZeroes(ref left, ref right);
+
+            int length = left.BitLength; // they are now of equal length, doesn't matter which is used
+            int carry = 0;
+            List<bool> bits = new List<bool>();
+
+            // Add all bits one by one
+            for (int i = 0; i < length; i++)
+            {
+                int firstBit = left.Bits[i] ? 1 : 0;
+                int secondBit = right.Bits[i] ? 1 : 0;
+
+                bool sum = (firstBit ^ secondBit ^ carry) == 1;
+
+                bits.Add(sum);
+
+                carry = (firstBit & secondBit) | (secondBit & carry) | (firstBit & carry);
+            }
+
+            // if overflow, then add a bit
+            if (carry == 1)
+            {
+                bits.Add(true);
+            }
+
+            return new BitString(new BitArray(bits.ToArray()));
+        }
+
+        /// <summary>
+        /// Adds two bit strings together - e.g. "11" (3) + 111 (7) = 1010 (10).
+        /// Similar to <see cref="AddWithModulo(NIST.CVP.Math.BitString,NIST.CVP.Math.BitString,int)"/>, but without truncation.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public BitString BitStringAddition(BitString right)
+        {
+            return BitStringAddition(this, right);
+        }
+
+        /// <summary>
         /// Adds two BitStrings and truncates the result to fit within the limit.
         /// </summary>
         /// <param name="left"></param>
@@ -589,9 +641,10 @@ namespace NIST.CVP.Math
         }
 
         /// <summary>
-        /// @@@ TODO
+        /// Takes a BitString and adds LSbs to make the BitString hit a byte boundry.  
+        /// Returns the original BitString if already at a byte boundry.
         /// </summary>
-        /// <param name="bs"></param>
+        /// <param name="bs">The BitString to pad.</param>
         /// <returns></returns>
         public static BitString PadToNextByteBoundry(BitString bs)
         {
