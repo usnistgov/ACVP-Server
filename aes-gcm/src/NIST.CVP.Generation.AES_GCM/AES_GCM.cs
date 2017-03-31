@@ -61,7 +61,9 @@ namespace NIST.CVP.Generation.AES_GCM
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new DecryptionResult(ex.Message);
+                {
+                    return new DecryptionResult(ex.Message);
+                }
             }
         }
 
@@ -103,12 +105,11 @@ namespace NIST.CVP.Generation.AES_GCM
             }
             catch (Exception ex)
             {
-                ThisLogger.Debug($"keyLen:{keyBits.BitLength}; dataLen:{data.BitLength}; ivLen:{iv.BitLength}; aadLen:{aad.BitLength}, tagLength:{tagLength}");
                 ThisLogger.Error(ex);
-                return new EncryptionResult(ex.Message);
+                {
+                    return new EncryptionResult(ex.Message);
+                }
             }
-
-            
         }
 
         private BitString Getj0(BitString h, BitString iv)

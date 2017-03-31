@@ -31,18 +31,25 @@ namespace NIST.CVP.Generation.AES_GCM
                         var matchingResult = suppliedResults.FirstOrDefault(r => r.TestCaseId == test.TestCaseId);
                         var protoTest = new TestCase
                         {
+                            TestCaseId = test.TestCaseId,
                             AAD = test.AAD,
                             Key = test.Key,
                             PlainText = test.PlainText,
-                            CipherText = test.CipherText,
-                            Tag = test.Tag,
                             IV = matchingResult.IV
                         };
                         var genResult = generator.Generate(group, protoTest);
+
                         if (!genResult.Success)
                         {
-                            throw new Exception($"Could not generate results. for testCase = {test.TestCaseId}");
+                            list.Add(new TestCaseValidatorNull($"Could not generate results. for testCase = {matchingResult.TestCaseId}", matchingResult.TestCaseId));
+                            continue;
                         }
+
+                        TestCase generatedTestCase = (TestCase)genResult.TestCase;
+
+                        test.CipherText = generatedTestCase.CipherText;
+                        test.Tag = generatedTestCase.Tag;
+                        test.IV = generatedTestCase.IV;
                     }
                     if (group.Function == "encrypt")
                     {

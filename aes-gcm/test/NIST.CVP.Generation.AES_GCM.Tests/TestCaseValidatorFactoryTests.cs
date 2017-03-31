@@ -70,21 +70,6 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             _mockTestCaseGenerator.Verify(v => v.Generate(It.IsAny<TestGroup>(), It.IsAny<TestCase>()), Times.Exactly(timesToCall), nameof(_mockTestCaseGenerator.Object.Generate));
         }
 
-        [Test]
-        public void ShouldThrowExceptionIfGeneratorFails()
-        {
-            _mockTestCaseGenerator
-                .Setup(s => s.Generate(It.IsAny<TestGroup>(), It.IsAny<TestCase>()))
-                .Returns(new TestCaseGenerateResponse("Error"));
-
-            TestVectorSet testVectorSet = null;
-            List<TestCase> suppliedResults = null;
-
-            GetData(ref testVectorSet, ref suppliedResults, "encrypt", true);
-
-            Assert.Throws(typeof(Exception), () => _subject.GetValidators(testVectorSet, suppliedResults));
-        }
-
         private void GetData(ref TestVectorSet testVectorSet, ref List<TestCase> suppliedResults, string function, bool isDeferred)
         {
             testVectorSet = new TestVectorSet()

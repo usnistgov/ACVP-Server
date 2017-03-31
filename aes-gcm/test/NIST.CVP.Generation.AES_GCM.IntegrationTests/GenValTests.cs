@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
         {
             Directory.Delete(_testPath, true);
         }
-
+        
         [Test]
         public void GenShouldReturn1OnNoArgumentsSupplied()
         {
@@ -232,6 +232,22 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             }
         }
 
+        [Test]
+        public void ShouldReportFailedValidationWithMissingPropertiesFromJson()
+        {
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileInternalIvNotSample(targetFolder);
+
+            RunGenerationAndValidation(targetFolder, fileName);
+
+            // Get object for the validation.json
+            DynamicParser dp = new DynamicParser();
+            var parsedValidation = dp.Parse($"{targetFolder}\\validation.json");
+
+            // Validate result as pass
+            Assert.AreEqual("failed", parsedValidation.ParsedObject.disposition.ToString());
+        }
+
         private string[] GetFileNamesWithPath(string directory, string[] fileNames)
         {
             int numOfFiles = fileNames.Length;
@@ -378,6 +394,25 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 aadLen = new int[] { 128 },
                 TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
                 IsSample = true
+            };
+
+            return CreateRegistration(targetFolder, p);
+        }
+
+        private string GetTestFileInternalIvNotSample(string targetFolder)
+        {
+            Parameters p = new Parameters()
+            {
+                Algorithm = "AES-GCM",
+                Mode = new string[] { "encrypt" },
+                KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
+                PtLen = new int[] { 128 },
+                ivLen = new int[] { 96 },
+                ivGen = ParameterValidator.VALID_IV_GEN[0],
+                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],
+                aadLen = new int[] { 128 },
+                TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
+                IsSample = false
             };
 
             return CreateRegistration(targetFolder, p);

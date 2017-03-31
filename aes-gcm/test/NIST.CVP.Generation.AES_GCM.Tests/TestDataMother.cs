@@ -27,6 +27,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                         Tag = new BitString("FFFA4444"),
                         CipherText = new BitString("7EADDC"),
                         Key = new BitString("9998ADCD"),
+                        IV = new BitString("ABABACCC"),
                         TestCaseId = testId
                     });
                 }
@@ -37,7 +38,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                         AADLength = 16 + groupIdx * 2,
                         Function = direction,
                         IVGeneration = "blah",
-                        IVGenerationMode = "internal",
+                        IVGenerationMode = "external",
                         IVLength = 96 + groupIdx * 2,
                         KeyLength = 256 + groupIdx * 2,
                         PTLength = 256 + groupIdx * 2,
