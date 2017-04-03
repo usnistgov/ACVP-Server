@@ -4,11 +4,15 @@ using System.Dynamic;
 using System.Linq;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
     public class TestVectorSet: ITestVectorSet
     {
+        private readonly DynamicBitStringPrintWithOptions _dynamicBitStringPrintWithOptions = new DynamicBitStringPrintWithOptions(PrintOptionBitStringNull.DoNotPrintProperty, PrintOptionBitStringEmpty.PrintAsEmptyString);
+
         public TestVectorSet()
         {
         }
@@ -70,16 +74,18 @@ namespace NIST.CVP.Generation.AES_GCM
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
                         }
                         if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            DynamicHelpers.AddBitStringToDynamicWithOptions(testObject, "plainText", test.PlainText);
                         }
-                        ((IDictionary<string, object>)testObject).Add("tag", test.Tag);
-                        ((IDictionary<string, object>)testObject).Add("iv", test.IV);
-                        ((IDictionary<string, object>)testObject).Add("key", test.Key);
-                        ((IDictionary<string, object>)testObject).Add("aad", test.AAD);
+
+                        _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "tag", test.Tag);
+                        _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "iv", test.IV);
+                        _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key", test.Key);
+                        _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "aad", test.AAD);
+
                         ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
                         ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
                         tests.Add(testObject);
@@ -120,15 +126,16 @@ namespace NIST.CVP.Generation.AES_GCM
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
                         }
                         if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
                         }
-                        ((IDictionary<string, object>)testObject).Add("key", test.Key);
-                        ((IDictionary<string, object>)testObject).Add("iv", test.IV);
-                        ((IDictionary<string, object>)testObject).Add("aad", test.AAD);
+
+                        _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key", test.Key);
+                        _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "iv", test.IV);
+                        _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "aad", test.AAD);
                         tests.Add(testObject);
                     }
                     list.Add(updateObject);
@@ -155,9 +162,9 @@ namespace NIST.CVP.Generation.AES_GCM
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
-                            ((IDictionary<string, object>)testObject).Add("tag", test.Tag);
-                            ((IDictionary<string, object>)testObject).Add("iv", test.IV);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "tag", test.Tag);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "iv", test.IV);
                         }
 
                         if (test.FailureTest)
@@ -168,7 +175,7 @@ namespace NIST.CVP.Generation.AES_GCM
                         {
                             if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                             {
-                                ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
                             }
                         }
 
