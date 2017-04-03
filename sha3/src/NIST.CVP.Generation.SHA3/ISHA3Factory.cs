@@ -7,6 +7,6 @@ namespace NIST.CVP.Generation.SHA3
 {
     public interface ISHA3Factory
     {
-        ISHA3 GetSHA();
+        SHA3Wrapper GetSHA(HashFunction hashFunction);
     }
 }

@@ -1,37 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using NIST.CVP.Math;
+using NLog;
 
 namespace NIST.CVP.Generation.SHA3
 {
     public class SHA3 : ISHA3
     {
-        private BitString _message;
+        private readonly ISHA3Factory _iSHA3Factory;
 
-        public HashResult HashMessage(BitString message)
+        public SHA3(ISHA3Factory iSHA3Factory)
         {
-            Init();
-            Update(message);
-            var digest = Final();
-            return new HashResult(digest);
+            _iSHA3Factory = iSHA3Factory;
         }
 
-        private void Init()
+        public SHA3()
         {
-            
+            _iSHA3Factory = new SHA3Factory();
         }
 
-        private void Update(BitString newContent)
+        public HashResult HashMessage(HashFunction hashFunction, BitString message)
         {
-            
+            try
+            {
+                var sha = _iSHA3Factory.GetSHA(hashFunction);
+                var digest = sha.HashMessage(message, hashFunction.DigestSize, hashFunction.Capacity, hashFunction.XOF);
+
+                return new HashResult(digest);
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex);
+                return new HashResult(ex.Message);
+            }
         }
 
-        private BitString Final()
-        {
-            return KeccakInternals.Keccak(_message, 0, 0, false);
-        }
+        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
     }
 }

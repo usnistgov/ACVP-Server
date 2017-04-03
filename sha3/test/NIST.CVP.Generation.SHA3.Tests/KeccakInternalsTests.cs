@@ -35,20 +35,6 @@ namespace NIST.CVP.Generation.SHA3.Tests
         {
             var message = new BitString(inputHex, length, false);
             var expectedResult = new BitString(outputHex);
-            
-            //throw new Exception(message.ToString());
-
-            // "13", 5 bits, little endian. This one works.
-            //var message = new BitString(new BitArray(new [] {true, true, false, false, true}));
-
-            // "3e40", 16 bits, little endian. This one works.
-            //var message = new BitString(new BitArray(new [] { false, false, false, false, false, false, true, false, false, true, true, true, true, true, false, false}));
-
-            // "4902", 10 bits, in little endian
-            // This one doesn't work, probably need to figure out bit ordering with multiple bytes.
-            //var message = new BitString(new BitArray(new [] {false, true, true, false, false, true, false, false, true, false}));
-
-            //var message = new BitString(new BitArray(new [] {false, false, true, true, true, true, true, false, false}));
 
             var result = KeccakInternals.Keccak(message, digestSize, digestSize * 2, false);
 

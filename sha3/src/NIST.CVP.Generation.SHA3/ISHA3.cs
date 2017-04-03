@@ -8,6 +8,6 @@ namespace NIST.CVP.Generation.SHA3
 {
     public interface ISHA3
     {
-        HashResult HashMessage(BitString message);
+        HashResult HashMessage(HashFunction hashFunction, BitString message);
     }
 }

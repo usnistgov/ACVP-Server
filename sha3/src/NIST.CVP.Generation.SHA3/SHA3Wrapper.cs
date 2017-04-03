@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+using System.Threading.Tasks;
+using NIST.CVP.Math;
+
+namespace NIST.CVP.Generation.SHA3
+{
+    public class SHA3Wrapper
+    {
+        private BitString _message;
+
+        public BitString HashMessage(BitString message, int digestSize, int capacity, bool XOF)
+        {
+            Init();
+            Update(message);
+            return Final(digestSize, capacity, XOF);
+        }
+
+        // These functions are for portability
+        private void Init()
+        {
+            _message = new BitString(0);
+        }
+
+        private void Update(BitString newContent)
+        {
+            _message = BitString.ConcatenateBits(_message, newContent);
+        }
+
+        private BitString Final(int digestSize, int capacity, bool XOF)
+        {
+            return KeccakInternals.Keccak(_message, digestSize, capacity, XOF);
+        }
+    }
+}

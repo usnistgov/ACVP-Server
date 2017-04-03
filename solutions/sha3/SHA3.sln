@@ -25,6 +25,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SHA3_Val", "..\..\sha3\src\
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.SHA3.Tests", "..\..\sha3\test\NIST.CVP.Generation.SHA3.Tests\NIST.CVP.Generation.SHA3.Tests.xproj", "{60340A9F-82DD-40AE-8D08-0564B59F1C92}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.SHA3.IntegrationTests", "..\..\sha3\test\NIST.CVP.Generation.SHA3.IntegrationTests\NIST.CVP.Generation.SHA3.IntegrationTests.xproj", "{A9BF33F3-0C66-4C21-8A66-5D98884157EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{60340A9F-82DD-40AE-8D08-0564B59F1C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60340A9F-82DD-40AE-8D08-0564B59F1C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60340A9F-82DD-40AE-8D08-0564B59F1C92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9BF33F3-0C66-4C21-8A66-5D98884157EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9BF33F3-0C66-4C21-8A66-5D98884157EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9BF33F3-0C66-4C21-8A66-5D98884157EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9BF33F3-0C66-4C21-8A66-5D98884157EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,5 +87,6 @@ Global
 		{1DB2A2F5-A5FD-45B6-999F-EC72E77EC16E} = {AA8892E3-894B-4538-95BE-C60BE8C61180}
 		{0F05AA5D-9686-45E6-8FB7-1C430E0BFEF5} = {AA8892E3-894B-4538-95BE-C60BE8C61180}
 		{60340A9F-82DD-40AE-8D08-0564B59F1C92} = {1695A724-2423-4A36-AAEC-9325E16E1A99}
+		{A9BF33F3-0C66-4C21-8A66-5D98884157EB} = {1695A724-2423-4A36-AAEC-9325E16E1A99}
 	EndGlobalSection
 EndGlobal

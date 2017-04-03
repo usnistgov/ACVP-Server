@@ -715,22 +715,26 @@ namespace NIST.CVP.Math
 
         public static BitString Zero()
         {
-            return new BitString("00", 1);
+            return Zeroes(1);
+        }
+
+        public static BitString Zeroes(int length)
+        {
+            var bits = new BitArray(length);
+            bits.SetAll(false);
+            return new BitString(bits);
         }
 
         public static BitString One()
         {
-            return new BitString("80", 1);
+            return Ones(1);
         }
 
         public static BitString Ones(int length)
         {
-            var result = new BitString(0);
-            for (var i = 0; i < length; i++)
-            {
-                result = ConcatenateBits(result, One());
-            }
-            return result;
+            var bits = new BitArray(length);
+            bits.SetAll(true);
+            return new BitString(bits);
         }
 
         public static BitString ReverseByteOrder(BitString input)
