@@ -6,7 +6,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.SHA2
 {
-    public class TestCaseGeneratorMonteCarloHash : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorMCTHash : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
         private readonly ISHA_MCT _algo;
@@ -16,14 +16,14 @@ namespace NIST.CVP.Generation.SHA2
 
         public int NumberOfTestCasesToGenerate { get { return 1; } }
 
-        public TestCaseGeneratorMonteCarloHash(IRandom800_90 random800_90, ISHA_MCT algo, bool isSample)
+        public TestCaseGeneratorMCTHash(IRandom800_90 random800_90, ISHA_MCT algo, bool isSample)
         {
             _random800_90 = random800_90;
             _algo = algo;
             IsSample = isSample;
         }
         
-        public TestCaseGeneratorMonteCarloHash(IRandom800_90 random800_90, ISHA_MCT algo, TestCase seedCase)
+        public TestCaseGeneratorMCTHash(IRandom800_90 random800_90, ISHA_MCT algo, TestCase seedCase)
         {
             _random800_90 = random800_90;
             _algo = algo;

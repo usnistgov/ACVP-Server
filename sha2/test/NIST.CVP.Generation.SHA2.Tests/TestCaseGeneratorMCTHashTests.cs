@@ -9,18 +9,18 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.SHA2.Tests
 {
     [TestFixture]
-    public class TestCaseGeneratorMonteCarloHashTests
+    public class TestCaseGeneratorMCTHashTests
     {
         private Mock<IRandom800_90> _mockRandom;
         private Mock<ISHA_MCT> _mockMCT;
-        private TestCaseGeneratorMonteCarloHash _subject;
+        private TestCaseGeneratorMCTHash _subject;
 
         [SetUp]
         public void SetUp()
         {
             _mockRandom = new Mock<IRandom800_90>();
             _mockMCT = new Mock<ISHA_MCT>();
-            _subject = new TestCaseGeneratorMonteCarloHash(_mockRandom.Object, _mockMCT.Object, true);
+            _subject = new TestCaseGeneratorMCTHash(_mockRandom.Object, _mockMCT.Object, true);
         }
 
         [Test]

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -37,8 +38,8 @@ namespace NIST.CVP.Generation.SHA2
         public TestGroup(dynamic source)
         {
             TestType = source.testType;
-            Function = (ModeValues)source.function;
-            DigestSize = (DigestSizes)source.digestSize;
+            Function = SHAEnumHelpers.StringToMode(source.function);
+            DigestSize = SHAEnumHelpers.StringToDigest(source.digestSize);
             BitOriented = source.bitOriented;
             IncludeNull = source.includeNull;
 
@@ -92,59 +93,29 @@ namespace NIST.CVP.Generation.SHA2
 
             name = name.ToLower();
 
-            switch (name)
+            try
             {
-                case "testtype":
+                if (name == "testtype")
+                {
                     TestType = value;
                     return true;
-            }
+                }
 
-            if(name == "function")
-            {
-                switch (value.ToLower())
+                if (name == "function")
                 {
-                    case "sha1":
-                        Function = ModeValues.SHA1;
-                        return true;
-                    case "sha2":
-                        Function = ModeValues.SHA2;
-                        return true;
+                    Function = SHAEnumHelpers.StringToMode(value);
+                    return true;
+                }
+
+                if (name == "digestsize")
+                {
+                    DigestSize = SHAEnumHelpers.StringToDigest(value);
+                    return true;
                 }
             }
-
-            if(name == "digestsize")
+            catch (Exception ex)
             {
-                switch (value.ToLower())
-                {
-                    case "160":
-                        DigestSize = DigestSizes.d160;
-                        Function = ModeValues.SHA1;
-                        return true;
-                    case "224":
-                        DigestSize = DigestSizes.d224;
-                        Function = ModeValues.SHA2;
-                        return true;
-                    case "256":
-                        DigestSize = DigestSizes.d256;
-                        Function = ModeValues.SHA2;
-                        return true;
-                    case "384":
-                        DigestSize = DigestSizes.d384;
-                        Function = ModeValues.SHA2;
-                        return true;
-                    case "512":
-                        DigestSize = DigestSizes.d512;
-                        Function = ModeValues.SHA2;
-                        return true;
-                    case "512t224":
-                        DigestSize = DigestSizes.d512t224;
-                        Function = ModeValues.SHA2;
-                        return true;
-                    case "512t256":
-                        DigestSize = DigestSizes.d512t256;
-                        Function = ModeValues.SHA2;
-                        return true;
-                }
+                return false;
             }
 
             return false;

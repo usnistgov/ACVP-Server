@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.SHA2
     public class TestVectorFactory : ITestVectorFactory<Parameters>
     {
         private readonly IMonteCarloTestGroupFactory<Parameters, TestGroup> _iMCTTestGroupFactory;
-        private readonly string[] _testTypes = new string[] {"shortmessage", "longmessage"};
+        private readonly string[] _testTypes = {"aft"};
 
         public TestVectorFactory(IMonteCarloTestGroupFactory<Parameters, TestGroup> iMCTTestGroupFactory)
         {
@@ -36,8 +36,8 @@ namespace NIST.CVP.Generation.SHA2
                 {
                     var testGroup = new TestGroup
                     {
-                        Function = GetMode(size),
-                        DigestSize = GetSize(size),
+                        Function = SHAEnumHelpers.DigestSizeToMode(size),
+                        DigestSize = SHAEnumHelpers.StringToDigest(size),
                         TestType = testType,
                         IncludeNull = parameters.IncludeNull,
                         BitOriented = parameters.BitOriented
@@ -47,50 +47,6 @@ namespace NIST.CVP.Generation.SHA2
             }
             
             return testGroups;
-        }
-
-        private ModeValues GetMode(string digSize)
-        {
-            if (digSize.Contains("160"))
-            {
-                return ModeValues.SHA1;
-            }
-            else
-            {
-                return ModeValues.SHA2;
-            }
-        }
-
-        private DigestSizes GetSize(string digSize)
-        {
-            if (digSize.Contains("512t256"))
-            {
-                return DigestSizes.d512t256;
-            }
-            else if (digSize.Contains("512t224"))
-            {
-                return DigestSizes.d512t224;
-            }
-            else if (digSize.Contains("512"))
-            {
-                return DigestSizes.d512;
-            }
-            else if (digSize.Contains("384"))
-            {
-                return DigestSizes.d384;
-            }
-            else if (digSize.Contains("256"))
-            {
-                return DigestSizes.d256;
-            }
-            else if (digSize.Contains("224"))
-            {
-                return DigestSizes.d224;
-            }
-            else
-            {
-                return DigestSizes.d160;
-            }
         }
     }
 }

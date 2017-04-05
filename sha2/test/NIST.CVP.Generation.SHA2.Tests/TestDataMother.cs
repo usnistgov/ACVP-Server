@@ -55,6 +55,11 @@ namespace NIST.CVP.Generation.SHA2.Tests
                             {
                                 Message = new BitString("DEADBEEF"),
                                 Digest = new BitString("ADD4FACE")
+                            },
+                            new AlgoArrayResponse
+                            {
+                                Message = new BitString("DEADBEEF02"),
+                                Digest = new BitString("ADD4FACE02")
                             }
                         },
                         TestCaseId = testId

@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.SHA2
         public static string[] VALID_MODES = new string[] {"sha1", "sha2"};
 
         public static string[] VALID_DIGEST_SIZES = new string[]
-            {"160", "224", "256", "384", "512", "512t224", "512t256"};
+            {"160", "224", "256", "384", "512", "512/224", "512/256"};
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {

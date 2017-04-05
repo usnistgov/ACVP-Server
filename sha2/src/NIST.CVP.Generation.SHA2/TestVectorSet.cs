@@ -51,11 +51,15 @@ namespace NIST.CVP.Generation.SHA2
                 foreach(var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("function", group.Function);
+                    ((IDictionary<string, object>)updateObject).Add("function", SHAEnumHelpers.ModeToString(group.Function));
+                    ((IDictionary<string, object>)updateObject).Add("digestSize", SHAEnumHelpers.DigestToString(group.DigestSize));
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
-                    ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
-                    ((IDictionary<string, object>)updateObject).Add("digestSize", group.DigestSize);
+
+                    if (group.TestType.ToLower() != "montecarlo")
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
+                        ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
+                    }
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
@@ -105,11 +109,15 @@ namespace NIST.CVP.Generation.SHA2
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("function", group.Function);
+                    ((IDictionary<string, object>)updateObject).Add("function", SHAEnumHelpers.ModeToString(group.Function));
+                    ((IDictionary<string, object>)updateObject).Add("digestSize", SHAEnumHelpers.DigestToString(group.DigestSize));
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
-                    ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
-                    ((IDictionary<string, object>)updateObject).Add("digestSize", group.DigestSize);
+
+                    if (group.TestType.ToLower() != "montecarlo")
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
+                        ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
+                    }
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
@@ -119,14 +127,26 @@ namespace NIST.CVP.Generation.SHA2
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("message", test.Message);
 
+                        if (group.TestType.ToLower() != "montecarlo")
+                        {
+                            ((IDictionary<string, object>)testObject).Add("messageLength", test.Message.BitLength);
+                        }
+
                         if (group.TestType.ToLower() == "montecarlo")
                         {
                             var resultsArray = new List<dynamic>();
-                            var resultOne = test.ResultsArray.First();
-                            dynamic resultObject = new ExpandoObject();
-                            ((IDictionary<string, object>)resultObject).Add("message", resultOne.Message);
 
-                            resultsArray.Add(resultObject);
+                            // Add two messages to MCT file for simple checking
+                            var resultOne = test.ResultsArray[0];
+                            dynamic resultObjectOne = new ExpandoObject();
+                            ((IDictionary<string, object>)resultObjectOne).Add("message", resultOne.Message);
+
+                            var resultTwo = test.ResultsArray[1];
+                            dynamic resultObjectTwo = new ExpandoObject();
+                            ((IDictionary<string, object>)resultObjectTwo).Add("message", resultTwo.Message);
+
+                            resultsArray.Add(resultObjectOne);
+                            resultsArray.Add(resultObjectTwo);
                             ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
                         }
 

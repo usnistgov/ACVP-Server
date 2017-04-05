@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.SHA2
                 foreach (var test in group.Tests.Select(t => (TestCase) t))
                 {
                     var workingTest = test;
-                    if (group.TestType.ToLower() == "montecarlo")
+                    if (group.TestType.ToLower() == "mct")
                     {
                         list.Add(new TestCaseValidatorMCTHash(workingTest));
                     }

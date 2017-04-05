@@ -310,7 +310,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
                 Algorithm = "SHA",
                 Mode = new string[] {"sha2"},
                 DigestSize = new string[] {"224", "256", "384"},
-                BitOriented = false,
+                BitOriented = true,
                 IncludeNull = false,
                 IsSample = true
             };
@@ -324,7 +324,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             {
                 Algorithm = "SHA",
                 Mode = new string[] {"sha2"},
-                DigestSize = new string[] {"224", "256", "384", "512", "512t224", "512t256"},
+                DigestSize = new string[] {"224", "256", "384", "512", "512/224", "512/256"},
                 IsSample = false
             };
 

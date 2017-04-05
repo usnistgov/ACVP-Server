@@ -75,7 +75,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         }
 
         [Test]
-        public void ShouldNotCopyFilesFromNonTDESFolder()
+        public void ShouldNotCopyFilesFromNonSHAFolder()
         {
             var subject = new AlgoFileFinder();
             string path = Path.Combine(_unitTestPath, "AES");

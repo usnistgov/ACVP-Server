@@ -9,11 +9,10 @@ namespace NIST.CVP.Generation.SHA2.Tests
     public class TestCaseGeneratorFactoryTests
     {
         [Test]
-        [TestCase(ModeValues.SHA1, DigestSizes.d160, "longmessage", typeof(TestCaseGeneratorLongHash))]
-        [TestCase(ModeValues.SHA2, DigestSizes.d224, "LongMessage", typeof(TestCaseGeneratorLongHash))]
-        [TestCase(ModeValues.SHA2, DigestSizes.d512, "MONTECARLO", typeof(TestCaseGeneratorMonteCarloHash))]
-        [TestCase(ModeValues.SHA2, DigestSizes.d384, "MonteCarlo", typeof(TestCaseGeneratorMonteCarloHash))]
-        [TestCase(ModeValues.SHA2, DigestSizes.d512t256, "ShOrTmEsSaGe", typeof(TestCaseGeneratorShortHash))]
+        [TestCase(ModeValues.SHA1, DigestSizes.d160, "aFt", typeof(TestCaseGeneratorAFTHash))]
+        [TestCase(ModeValues.SHA2, DigestSizes.d224, "AFT", typeof(TestCaseGeneratorAFTHash))]
+        [TestCase(ModeValues.SHA2, DigestSizes.d512, "MCT", typeof(TestCaseGeneratorMCTHash))]
+        [TestCase(ModeValues.SHA2, DigestSizes.d384, "mCt", typeof(TestCaseGeneratorMCTHash))]
         [TestCase(ModeValues.SHA1, DigestSizes.d160, "junk", typeof(TestCaseGeneratorNull))]
         public void ShouldReturnProperGenerator(ModeValues mode, DigestSizes size, string testType, Type expectedType)
         {
@@ -39,14 +38,14 @@ namespace NIST.CVP.Generation.SHA2.Tests
             {
                 Function = ModeValues.SHA1,
                 DigestSize = DigestSizes.d160,
-                TestType = "MonteCarlo"
+                TestType = "mct"
             };
 
             var subject = GetSubject();
             var generator = subject.GetCaseGenerator(testGroup, isSample);
             Assume.That(generator != null);
 
-            var typedGen = generator as TestCaseGeneratorMonteCarloHash;
+            var typedGen = generator as TestCaseGeneratorMCTHash;
             Assume.That(generator != null);
             Assert.AreEqual(isSample, typedGen.IsSample);
         }

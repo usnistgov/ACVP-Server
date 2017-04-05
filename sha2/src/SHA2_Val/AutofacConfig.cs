@@ -21,7 +21,6 @@ namespace SHA2_Val
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<Generator>();
             builder.RegisterType<Validator>();
             builder.RegisterType<SHA2>().AsImplementedInterfaces();
             builder.RegisterType<SHA_MCT>().AsImplementedInterfaces();

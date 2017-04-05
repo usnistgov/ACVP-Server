@@ -19,17 +19,13 @@ namespace NIST.CVP.Generation.SHA2
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup group, bool isSample)
         {
-            if(group.TestType.ToLower() == "longmessage")
+            if(group.TestType.ToLower() == "aft")
             {
-                return new TestCaseGeneratorLongHash(_random800_90, _algo);
+                return new TestCaseGeneratorAFTHash(_random800_90, _algo);
             }
-            else if(group.TestType.ToLower() == "shortmessage")
+            else if(group.TestType.ToLower() == "mct")
             {
-                return new TestCaseGeneratorShortHash(_random800_90, _algo);
-            }
-            else if(group.TestType.ToLower() == "montecarlo")
-            {
-                return new TestCaseGeneratorMonteCarloHash(_random800_90, _mctAlgo, isSample);
+                return new TestCaseGeneratorMCTHash(_random800_90, _mctAlgo, isSample);
             }
 
             return new TestCaseGeneratorNull();

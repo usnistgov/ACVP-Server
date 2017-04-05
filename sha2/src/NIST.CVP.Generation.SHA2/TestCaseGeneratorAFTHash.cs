@@ -5,17 +5,19 @@ using NLog;
 
 namespace NIST.CVP.Generation.SHA2
 {
-    public class TestCaseGeneratorLongHash : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAFTHash : ITestCaseGenerator<TestGroup, TestCase>
     {
         private int _numberOfCases = 512;
-        private int _currentCase = 1;
+        private int _currentSmallCase = 0;
+        private int _currentLargeCase = 1;
+        private int _currentCase = 0;
 
         private readonly IRandom800_90 _random800_90;
         private readonly ISHA _algo;
 
         public int NumberOfTestCasesToGenerate { get { return _numberOfCases; } }
 
-        public TestCaseGeneratorLongHash(IRandom800_90 random800_90, ISHA algo)
+        public TestCaseGeneratorAFTHash(IRandom800_90 random800_90, ISHA algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
@@ -23,18 +25,43 @@ namespace NIST.CVP.Generation.SHA2
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {
-            var blockSize = DetermineBlockSize(group.DigestSize);
-            var unitSize = (group.BitOriented ? 1 : 8);
-            _numberOfCases = blockSize / unitSize;
+            var unitSize = group.BitOriented ? 1 : 8;
+            var blockSize = SHAEnumHelpers.DetermineBlockSize(group.DigestSize);
 
-            var message = _random800_90.GetRandomBitString(blockSize + (unitSize * 99 * _currentCase));
+            var numSmallCases = blockSize / unitSize;
+            var numLargeCases = blockSize / unitSize;
+
+            if (!group.IncludeNull)
+            {
+                if (_currentSmallCase == 0)
+                {
+                    _currentSmallCase = 1;
+                }
+            }
+            else
+            {
+                numSmallCases = blockSize / unitSize + 1;
+            }
+
+            _numberOfCases = numSmallCases + numLargeCases;
+
+            var message = new BitString(0);
+            if (_currentSmallCase <= numSmallCases)
+            {
+                message = _random800_90.GetRandomBitString(unitSize * _currentSmallCase);
+                _currentSmallCase++;
+            }
+            else
+            {
+                message = _random800_90.GetRandomBitString(blockSize + (unitSize * 99 * _currentLargeCase));
+                _currentLargeCase++;
+            }
+
             var testCase = new TestCase
             {
                 Message = message,
                 Deferred = false
             };
-
-            _currentCase++;
 
             return Generate(group, testCase);
         }
@@ -70,25 +97,6 @@ namespace NIST.CVP.Generation.SHA2
 
             testCase.Digest = hashResult.Digest;
             return new TestCaseGenerateResponse(testCase);
-        }
-
-        private int DetermineBlockSize(DigestSizes digestSize)
-        {
-            switch (digestSize)
-            {
-                case DigestSizes.d160:
-                case DigestSizes.d224:
-                case DigestSizes.d256:
-                    return 512;
-
-                case DigestSizes.d384:
-                case DigestSizes.d512:
-                case DigestSizes.d512t224:
-                case DigestSizes.d512t256:
-                    return 1024;
-            }
-
-            throw new Exception("Invalid block size in TestCaseGenerator");
         }
 
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }

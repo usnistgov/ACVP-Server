@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 7,
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithMode(new string[] { "sha1", "sha2", "sha2", "sha2", "sha2", "sha2", "sha2"})
-                    .WithDigestSize(new string[] { "160", "224", "256", "384", "512", "512t224", "512t256"})
+                    .WithDigestSize(new string[] { "160", "224", "256", "384", "512", "512/224", "512/256"})
                     .Build()
             },
         };
