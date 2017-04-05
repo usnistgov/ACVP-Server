@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.SHA3
                 }
                 else if (group.TestType.ToLower() == "vot")
                 {
-                    return null;
+                    return new TestCaseGeneratorSHAKEVOTHash(_random800_90, _algo);
                 }
             }
 

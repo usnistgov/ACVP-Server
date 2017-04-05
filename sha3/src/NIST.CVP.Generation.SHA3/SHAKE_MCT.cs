@@ -84,14 +84,7 @@ namespace NIST.CVP.Generation.SHA3
                         // Will always have 16 bits to pull from
                         var rightmostBits = BitString.Substring(innerDigest, 0, 16).Bits;
 
-                        //var intValue = GetIntFromBits(rightmostBits);
-                        //throw new Exception($"{LiteralBits(rightmostBits)} :: {intValue}\n");
-
-                        //C596
-                        //rightmostBits = new BitArray(new bool[] {false, true, true, false, true, false, false, true, true, false, true, false, false, false, true, true});
                         outputLen = minOutputLength + (8 * GetIntFromBits(rightmostBits)) % range;
-
-                        //throw new Exception($"outputlen - {outputLen} :: rightmost - {GetIntFromBits(rightmostBits)} :: range - {range}");
 
                         innerMessage = innerDigest.GetDeepCopy();
                     }
@@ -124,17 +117,6 @@ namespace NIST.CVP.Generation.SHA3
             }
 
             return value;
-        }
-
-        private string LiteralBits(BitArray bits)
-        {
-            var result = "";
-            for (var i = 0; i < bits.Length; i++)
-            {
-                result += bits[i] ? "1" : "0";
-            }
-
-            return result;
         }
     }
 }
