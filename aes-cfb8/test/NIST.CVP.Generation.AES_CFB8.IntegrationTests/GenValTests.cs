@@ -383,8 +383,8 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
         {
             AutofacConfig.OverrideRegistrations += builder =>
             {
-                builder.RegisterType<NullKATTestGroupFactory>().AsImplementedInterfaces();
-                builder.RegisterType<NullMCTTestGroupFactory>().AsImplementedInterfaces();
+                builder.RegisterType<NullKATTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
+                builder.RegisterType<NullMCTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
             };
         }
 

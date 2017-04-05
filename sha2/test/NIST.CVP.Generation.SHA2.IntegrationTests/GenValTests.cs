@@ -335,7 +335,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         {
             AutofacConfig.OverrideRegistrations += builder =>
             {
-                builder.RegisterType<NullMCTTestGroupFactory>().AsImplementedInterfaces();
+                builder.RegisterType<NullMCTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
             };
         }
 

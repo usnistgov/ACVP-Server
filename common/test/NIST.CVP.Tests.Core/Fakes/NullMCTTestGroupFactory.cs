@@ -3,9 +3,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Tests.Core.Fakes
 {
-    public class NullMCTTestGroupFactory : IMonteCarloTestGroupFactory<IParameters, ITestGroup>
+    public class NullMCTTestGroupFactory<TParameters, TTestGroup> : IMonteCarloTestGroupFactory<TParameters, TTestGroup>
+        where TParameters : IParameters
+        where TTestGroup : ITestGroup
     {
-        public IEnumerable<ITestGroup> BuildMCTTestGroups(IParameters parameters)
+        public IEnumerable<TTestGroup> BuildMCTTestGroups(TParameters parameters)
         {
             return null;
         }
