@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var sourceTest = GetSourceAnswerTest();
             var subject = new TestCase(sourceTest);
             Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.digest, subject.Digest);
+            Assert.AreEqual(sourceTest.digest, subject.Digest.ToLittleEndianHex());
         }
 
         [Test]

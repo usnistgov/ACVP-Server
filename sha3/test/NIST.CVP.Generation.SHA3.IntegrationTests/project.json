@@ -7,6 +7,8 @@
     "Microsoft.NETCore.App": "1.1.0",
     "Moq": "4.6.38-alpha",
     "NIST.CVP.Generation.SHA3": "1.0.0-*",
+    "SHA3": "1.0.0-*",
+    "SHA3_Val": "1.0.0-*",
     "NIST.CVP.Tests.Core": "1.0.0-*",
     "NLog": "5.0.0-beta05",
     "NUnit": "3.6.0"

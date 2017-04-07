@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.SHA2
                     ((IDictionary<string, object>)updateObject).Add("digestSize", SHAEnumHelpers.DigestToString(group.DigestSize));
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
 
-                    if (group.TestType.ToLower() != "montecarlo")
+                    if (group.TestType.ToLower() != "mct")
                     {
                         ((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
                         ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.SHA2
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (group.TestType.ToLower() == "montecarlo")
+                        if (group.TestType.ToLower() == "mct")
                         {
                             var resultsArray = new List<dynamic>();
                             foreach (var result in test.ResultsArray)
@@ -113,7 +113,7 @@ namespace NIST.CVP.Generation.SHA2
                     ((IDictionary<string, object>)updateObject).Add("digestSize", SHAEnumHelpers.DigestToString(group.DigestSize));
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
 
-                    if (group.TestType.ToLower() != "montecarlo")
+                    if (group.TestType.ToLower() != "mct")
                     {
                         ((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
                         ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
@@ -127,12 +127,12 @@ namespace NIST.CVP.Generation.SHA2
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("message", test.Message);
 
-                        if (group.TestType.ToLower() != "montecarlo")
+                        if (group.TestType.ToLower() != "mct")
                         {
                             ((IDictionary<string, object>)testObject).Add("messageLength", test.Message.BitLength);
                         }
 
-                        if (group.TestType.ToLower() == "montecarlo")
+                        if (group.TestType.ToLower() == "mct")
                         {
                             var resultsArray = new List<dynamic>();
 
@@ -176,7 +176,7 @@ namespace NIST.CVP.Generation.SHA2
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (group.TestType.ToLower() == "montecarlo")
+                        if (group.TestType.ToLower() == "mct")
                         {
                             var resultsArray = new List<dynamic>();
                             foreach (var result in test.ResultsArray)

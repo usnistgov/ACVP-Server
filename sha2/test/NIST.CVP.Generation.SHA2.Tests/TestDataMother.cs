@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 {
                     Function = hashFunction.Mode,
                     DigestSize = hashFunction.DigestSize + groupIdx,        // This is bad and will fail for many groups but needs to be done to separate the tests based on different hashes...
-                    TestType = "multiblockmessage",
+                    TestType = "aft",
                     BitOriented = false,
                     IncludeNull = false,
                     Tests = tests
@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                         Function = ModeValues.SHA2,
                         DigestSize = DigestSizes.d224,
                         Tests = tests,
-                        TestType = "montecarlo"
+                        TestType = "mct"
                     }
                 );
             }

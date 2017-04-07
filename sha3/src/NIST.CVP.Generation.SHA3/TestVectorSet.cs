@@ -96,7 +96,7 @@ namespace NIST.CVP.Generation.SHA3
                         }
                         else
                         {
-                            ((IDictionary<string, object>)testObject).Add("digest", test.Digest);
+                            ((IDictionary<string, object>)testObject).Add("digest", test.Digest.ToLittleEndianHex());
                         }
 
                         tests.Add(testObject);
@@ -145,7 +145,7 @@ namespace NIST.CVP.Generation.SHA3
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("message", test.Message);
+                        ((IDictionary<string, object>)testObject).Add("message", test.Message.ToLittleEndianHex());
 
                         if (group.TestType.ToLower() == "mct")
                         {
@@ -160,6 +160,10 @@ namespace NIST.CVP.Generation.SHA3
                         else if (group.TestType.ToLower() == "aft")
                         {
                             ((IDictionary<string, object>)testObject).Add("inputLength", test.Message.BitLength);
+                        }
+                        else if (group.TestType.ToLower() == "vot")
+                        {
+                            ((IDictionary<string, object>) testObject).Add("outputLength", test.Digest.BitLength);
                         }
 
                         tests.Add(testObject);

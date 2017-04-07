@@ -68,7 +68,8 @@ namespace NIST.CVP.Generation.SHA3.Tests
                                 Digest = new BitString("ADD4FACE02")
                             }
                         },
-                        TestCaseId = testId
+                        TestCaseId = testId,
+                        Message = new BitString("5EED")
                     });
                 }
 

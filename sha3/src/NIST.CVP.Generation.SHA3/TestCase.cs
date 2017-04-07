@@ -80,6 +80,7 @@ namespace NIST.CVP.Generation.SHA3
                 case "digest":
                 case "dig":
                 case "md":
+                case "output":
                     Digest = new BitString(value, length, false);
                     return true;
             }
@@ -103,6 +104,7 @@ namespace NIST.CVP.Generation.SHA3
                 case "digest":
                 case "dig":
                 case "md":
+                case "output":
                     ResultsArray[index].Digest = new BitString(value, length, false);
                     return true;
             }

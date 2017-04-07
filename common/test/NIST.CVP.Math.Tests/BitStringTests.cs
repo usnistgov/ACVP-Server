@@ -1658,6 +1658,26 @@ namespace NIST.CVP.Math.Tests
         }
         #endregion ToHex
 
+        #region ToLittleEndianHex
+        [Test]
+        [TestCase(0, "00")]
+        [TestCase(1, "01")]
+        [TestCase(7, "76")]
+        [TestCase(8, "D3")]
+        [TestCase(9, "D901")]
+        [TestCase(15, "4375")]
+        [TestCase(16, "5AE8")]
+        [TestCase(17, "91AD00")]
+        [TestCase(400, "1234567890ABCDEFABCDABCDABCDABCDABCDABCDABCDABCDABCDEDF4EDFAEDFAEDFABEEFBEEFDEADBEEFDEADBEEFDEADBEEF")]
+        [TestCase(401, "FACEBEEFBEADDEADACEDFADECAFEBABECEEDFEEDFACEBEEFBEADDEADACEDFADECAFEBABECEEDFEEDDEAFBEEFDEAFBEEDAEFD01")]
+        public void LittleEndianInputShouldMatchLittleEndianOutput(int length, string hex)
+        {
+            var subject = new BitString(hex, length, false);
+            var result = subject.ToLittleEndianHex();
+            Assert.AreEqual(hex, result, subject.ToString());
+        }
+        #endregion ToLittleEndianHex
+
         #region ToDigit
         #endregion ToDigit
 

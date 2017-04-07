@@ -255,6 +255,56 @@ namespace NIST.CVP.Math
             return hex.ToString().ToUpper();
         }
 
+        /// <summary>
+        /// Only for use in SHA3
+        /// </summary>
+        /// <returns>Normal hex, but the last byte is truncated to match little endian format</returns>
+        public string ToLittleEndianHex()
+        {
+            if (BitLength == 0)
+            {
+                return "00";
+            }
+
+            var bytes = new byte[] { };
+
+            // Make a padded BitString if the length isn't % 8
+            if (BitLength % BITSINBYTE != 0)
+            {
+                var padding = BITSINBYTE - BitLength % BITSINBYTE;
+                var extraBits = BitLength % BITSINBYTE;
+                var lastBits = this.Substring(0, extraBits);
+
+                var paddedBS = new BitString(0);
+                if (BitLength < BITSINBYTE)
+                {
+                    paddedBS = BitString.Zeroes(padding);
+                    paddedBS = BitString.ConcatenateBits(paddedBS, lastBits);
+                }
+                else
+                {
+                    var firstBits = this.Substring(extraBits, BitLength - extraBits);
+                    paddedBS = BitString.ConcatenateBits(paddedBS, firstBits);
+
+                    paddedBS = BitString.ConcatenateBits(paddedBS, BitString.Zeroes(padding));
+                    paddedBS = BitString.ConcatenateBits(paddedBS, lastBits);
+                }
+
+                bytes = paddedBS.ToBytes();
+            }
+            else
+            {
+                bytes = ToBytes();
+            }
+
+            StringBuilder hex = new StringBuilder(bytes.Length * 2);
+            for (int index = 0; index < bytes.Length; index++)
+            {
+                hex.AppendFormat("{0:x2}", bytes[index]);
+            }
+
+            return hex.ToString().ToUpper();
+        }
 
         /// <summary>
         /// Returns the MSb (or index of the LSb array) as a boolean value
