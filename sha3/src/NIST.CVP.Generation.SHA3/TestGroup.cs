@@ -34,10 +34,10 @@ namespace NIST.CVP.Generation.SHA3
         public bool IncludeNull { get; set; } = false;
 
         [JsonProperty(PropertyName = "minOutputLength")]
-        public int MinOutputLength { get; set; }
+        public int MinOutputLength { get; set; } = 0;
 
         [JsonProperty(PropertyName = "maxOutputLength")]
-        public int MaxOutputLength { get; set; }
+        public int MaxOutputLength { get; set; } = 0;
 
         public TestGroup()
         {
@@ -50,12 +50,12 @@ namespace NIST.CVP.Generation.SHA3
         {
             TestType = source.testType;
             Function = source.function;
-            DigestSize = source.digestSize;
+            DigestSize = (int)source.digestSize;
             BitOrientedInput = source.bitOrientedInput;
             BitOrientedOutput = source.bitOrientedOutput;
             IncludeNull = source.includeNull;
-            MinOutputLength = source.minOutputLength;
-            MaxOutputLength = source.maxOutputLength;
+            MinOutputLength = (int)source.minOutputLength;
+            MaxOutputLength = (int)source.maxOutputLength;
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)

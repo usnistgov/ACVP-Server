@@ -16,19 +16,21 @@ namespace NIST.CVP.Generation.SHA3
         public static int[] VALID_SHAKE_DIGEST_SIZES = { 128, 256 };
 
         public static int VALID_MIN_OUTPUT_SIZE = 16;
-        public static int VALID_MAX_OUTPUT_SIZE = 65336;
+        public static int VALID_MAX_OUTPUT_SIZE = 65536;
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errorResults = new List<string>();
 
-            var result = ValidateArray(parameters.Function, VALID_FUNCTIONS, "SHA3 Function");
+            // need special case here because ["sha3", "sha3", "sha3"] is valid and necessary
+            // this way if ["sha3", "shake"] is given with [224, 256, 384, 256] we error out.
+            var result = ValidateSHAFunction(parameters.Function);
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
             }
 
-            result = ValidateArray(parameters.DigestSize, VALID_DIGEST_SIZES, "Digest Size");
+            result = ValidateSHADigests(parameters.DigestSize);
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
@@ -46,7 +48,7 @@ namespace NIST.CVP.Generation.SHA3
                 }
 
                 result = ValidateRange(new[] { parameters.MaxOutputLength }, VALID_MIN_OUTPUT_SIZE, VALID_MAX_OUTPUT_SIZE,
-                    "Minimum output length");
+                    "Maximum output length");
                 if (!string.IsNullOrEmpty(result))
                 {
                     errorResults.Add(result);
@@ -96,6 +98,32 @@ namespace NIST.CVP.Generation.SHA3
             {
                 errorResults.Add("Each function must have exactly one digest size");
             }
+        }
+
+        private string ValidateSHAFunction(string[] functions)
+        {
+            foreach (var function in functions)
+            {
+                if (!VALID_FUNCTIONS.Contains(function))
+                {
+                    return "Invalid SHA3 Function, must be sha3 or shake";
+                }
+            }
+
+            return "";
+        }
+
+        private string ValidateSHADigests(int[] digestSizes)
+        {
+            foreach (var digestSize in digestSizes)
+            {
+                if (!VALID_DIGEST_SIZES.Contains(digestSize))
+                {
+                    return "Invalid SHA3 digest sizes, must be 128, 224, 256, 384, 512";
+                }
+            }
+
+            return "";
         }
     }
 }

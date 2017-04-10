@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.Core
             if (intersection.Count() != supplied.Length)
             {
                 var invalid = supplied.Except(valid);
-                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}";
+                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}, intersect : {intersection.Count()}, supplied: {supplied.Length}";
             }
             return null;
         }

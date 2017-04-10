@@ -11,7 +11,6 @@ using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
 using NUnit.Framework;
 using SHA3;
-using Program = NUnit.Runner.Program;
 
 namespace NIST.CVP.Generation.SHA3.IntegrationTests
 {
@@ -315,7 +314,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             var parameters = new Parameters
             {
                 Algorithm = "SHA3",
-                Function = new [] {"sha3"},
+                Function = new [] {"sha3", "sha3", "sha3"},
                 DigestSize = new [] {224, 256, 384},
                 BitOrientedInput = true,
                 IncludeNull = false,

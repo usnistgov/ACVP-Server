@@ -28,9 +28,9 @@ namespace NIST.CVP.Generation.SHA3
         public bool IncludeNull { get; set; } = false;
 
         [JsonProperty(PropertyName = "minOutputLength")]
-        public int MinOutputLength { get; set; }
+        public int MinOutputLength { get; set; } = 0;
 
         [JsonProperty(PropertyName = "maxOutputLength")]
-        public int MaxOutputLength { get; set; }
+        public int MaxOutputLength { get; set; } = 0;
     }
 }

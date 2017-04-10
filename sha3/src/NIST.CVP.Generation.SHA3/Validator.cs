@@ -12,10 +12,10 @@ namespace NIST.CVP.Generation.SHA3
         private readonly IResultValidator<TestCase> _resultValidator;
         private readonly ITestCaseValidatorFactory<TestVectorSet, TestCase> _testCaseValidatorFactory;
 
-        public Validator(IDynamicParser dyanmicParser, IResultValidator<TestCase> resultValidator,
+        public Validator(IDynamicParser dynamicParser, IResultValidator<TestCase> resultValidator,
             ITestCaseValidatorFactory<TestVectorSet, TestCase> testCaseValidatorFactory)
         {
-            _dynamicParser = dyanmicParser;
+            _dynamicParser = dynamicParser;
             _resultValidator = resultValidator;
             _testCaseValidatorFactory = testCaseValidatorFactory;
         }

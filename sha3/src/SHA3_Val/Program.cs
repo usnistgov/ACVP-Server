@@ -21,7 +21,7 @@ namespace SHA3_Val
             var resultFile = args[0];
             var promptFile = args[1];
             var answerFile = args[2];
-            LoggingHelper.ConfigureLogging(resultFile, "sha2-val");
+            LoggingHelper.ConfigureLogging(resultFile, "sha3-val");
             LogManager.ThrowExceptions = true;
 
             Logger.Info($"Validating test results for {resultFile}");
@@ -42,7 +42,7 @@ namespace SHA3_Val
             }
             catch (Exception ex)
             {
-                Logger.Error($"ERROR! Validating Test Vectors for {resultFile}: {ex.Message}");
+                Logger.Error($"ERROR! Validating Test Vectors for {resultFile}: {ex.Message}: {ex.StackTrace}");
                 return 1;
             }
 

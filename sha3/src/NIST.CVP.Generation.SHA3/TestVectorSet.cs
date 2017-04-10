@@ -56,22 +56,28 @@ namespace NIST.CVP.Generation.SHA3
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
                     ((IDictionary<string, object>)updateObject).Add("digestSize", group.DigestSize);
 
-                    if (group.TestType.ToLower() != "mct")
-                    {
-                        ((IDictionary<string, object>)updateObject).Add("bitOrientedInput", group.BitOrientedInput);
-                    }
+                    ((IDictionary<string, object>)updateObject).Add("bitOrientedInput", group.BitOrientedInput);
+                    ((IDictionary<string, object>)updateObject).Add("bitOrientedOutput", group.BitOrientedOutput);
+                    ((IDictionary<string, object>)updateObject).Add("minOutputLength", group.MinOutputLength);
+                    ((IDictionary<string, object>)updateObject).Add("maxOutputLength", group.MaxOutputLength);
+                    ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
 
-                    if (group.Function.ToLower() != "shake")
-                    {
-                        ((IDictionary<string, object>)updateObject).Add("minOutputLength", group.MinOutputLength);
-                        ((IDictionary<string, object>)updateObject).Add("maxOutputLength", group.MaxOutputLength);
-                        ((IDictionary<string, object>)updateObject).Add("bitOrientedOutput", group.BitOrientedOutput);
-                    }
+                    //if (group.TestType.ToLower() != "mct")
+                    //{
+                    //    ((IDictionary<string, object>)updateObject).Add("bitOrientedInput", group.BitOrientedInput);
+                    //}
 
-                    if (group.TestType.ToLower() == "aft")
-                    {
-                        ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
-                    }
+                    //if (group.Function.ToLower() != "shake")
+                    //{
+                    //    ((IDictionary<string, object>)updateObject).Add("bitOrientedOutput", group.BitOrientedOutput);
+                    //    ((IDictionary<string, object>)updateObject).Add("minOutputLength", group.MinOutputLength);
+                    //    ((IDictionary<string, object>)updateObject).Add("maxOutputLength", group.MaxOutputLength);
+                    //}
+
+                    //if (group.TestType.ToLower() == "aft")
+                    //{
+                    //    ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
+                    //}
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>) updateObject).Add("tests", tests);
@@ -122,22 +128,28 @@ namespace NIST.CVP.Generation.SHA3
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
                     ((IDictionary<string, object>)updateObject).Add("digestSize", group.DigestSize);
 
-                    if (group.TestType.ToLower() != "mct")
-                    {
-                        ((IDictionary<string, object>)updateObject).Add("bitOrientedInput", group.BitOrientedInput);
-                    }
+                    ((IDictionary<string, object>)updateObject).Add("bitOrientedInput", group.BitOrientedInput);
+                    ((IDictionary<string, object>)updateObject).Add("bitOrientedOutput", group.BitOrientedOutput);
+                    ((IDictionary<string, object>)updateObject).Add("minOutputLength", group.MinOutputLength);
+                    ((IDictionary<string, object>)updateObject).Add("maxOutputLength", group.MaxOutputLength);
+                    ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
 
-                    if (group.Function.ToLower() != "shake")
-                    {
-                        ((IDictionary<string, object>)updateObject).Add("bitOrientedOutput", group.BitOrientedOutput);
-                        ((IDictionary<string, object>)updateObject).Add("minOutputLength", group.MinOutputLength);
-                        ((IDictionary<string, object>)updateObject).Add("maxOutputLength", group.MaxOutputLength);
-                    }
+                    //if (group.TestType.ToLower() != "mct")
+                    //{
+                    //    ((IDictionary<string, object>)updateObject).Add("bitOrientedInput", group.BitOrientedInput);
+                    //}
 
-                    if (group.TestType.ToLower() == "aft")
-                    {
-                        ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
-                    }
+                    //if (group.Function.ToLower() != "shake")
+                    //{
+                    //    ((IDictionary<string, object>)updateObject).Add("bitOrientedOutput", group.BitOrientedOutput);
+                    //    ((IDictionary<string, object>)updateObject).Add("minOutputLength", group.MinOutputLength);
+                    //    ((IDictionary<string, object>)updateObject).Add("maxOutputLength", group.MaxOutputLength);
+                    //}
+
+                    //if (group.TestType.ToLower() == "aft")
+                    //{
+                    //    ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
+                    //}
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>) updateObject).Add("tests", tests);
@@ -208,7 +220,7 @@ namespace NIST.CVP.Generation.SHA3
                         }
                         else
                         {
-                            ((IDictionary<string, object>)testObject).Add("digest", test.Digest);
+                            ((IDictionary<string, object>)testObject).Add("digest", test.Digest.ToLittleEndianHex());
                         }
 
                         list.Add(testObject);

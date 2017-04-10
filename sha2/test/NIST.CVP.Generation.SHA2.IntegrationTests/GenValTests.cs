@@ -308,8 +308,8 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             var parameters = new Parameters
             {
                 Algorithm = "SHA",
-                Mode = new string[] {"sha2"},
-                DigestSize = new string[] {"224", "256", "384"},
+                Mode = new string[] {"sha1", "sha2"},
+                DigestSize = new string[] {"160", "224", "256", "384"},
                 BitOriented = true,
                 IncludeNull = false,
                 IsSample = true
@@ -323,8 +323,8 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             var parameters = new Parameters
             {
                 Algorithm = "SHA",
-                Mode = new string[] {"sha2"},
-                DigestSize = new string[] {"224", "256", "384", "512", "512/224", "512/256"},
+                Mode = new string[] {"sha1", "sha2"},
+                DigestSize = new string[] {"160", "224", "256", "384", "512", "512/224", "512/256"},
                 IsSample = false
             };
 
