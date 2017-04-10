@@ -55,6 +55,10 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
                     tests.Add(new TestCase
                     {
                         Deferred = false,
+                        PlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1"),
+                        CipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0"),
+                        Key = new BitString("9998ADCD"),
+                        IV = new BitString("CAFECAFE"),
                         ResultsArray = new List<BitOrientedAlgoArrayResponse>()
                         {
                             new BitOrientedAlgoArrayResponse()
