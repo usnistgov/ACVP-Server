@@ -55,6 +55,10 @@ namespace NIST.CVP.Generation.AES_CFB8.Tests
                     tests.Add(new TestCase
                     {
                         Deferred = false,
+                        PlainText = new BitString("1AAADFFF"),
+                        CipherText = new BitString("7EADDC"),
+                        Key = new BitString("9998ADCD"),
+                        IV = new BitString("CAFECAFE"),
                         ResultsArray = new List<AlgoArrayResponse>()
                         {
                             new AlgoArrayResponse()
