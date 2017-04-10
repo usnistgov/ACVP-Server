@@ -324,12 +324,9 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                foreach (var result in test.resultsArray)
-                {
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.iv.ToString()));
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.key.ToString()));
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.plainText.ToString()));
-                }
+                Assert.IsTrue(!string.IsNullOrEmpty(test.iv.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.key.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
             }
         }
 
@@ -342,12 +339,9 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                foreach (var result in test.resultsArray)
-                {
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.iv.ToString()));
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.key.ToString()));
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.cipherText.ToString()));
-                }
+                Assert.IsTrue(!string.IsNullOrEmpty(test.iv.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.key.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
             }
         }
 
@@ -360,10 +354,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                foreach (var result in test.resultsArray)
-                {
-                    Assert.Throws(typeof(RuntimeBinderException), () => result.cipherText.ToString());
-                }
+                Assert.Throws(typeof(RuntimeBinderException), () => test.cipherText.ToString());
             }
         }
 
@@ -376,10 +367,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                foreach (var result in test.resultsArray)
-                {
-                    Assert.Throws(typeof(RuntimeBinderException), () => result.plainText.ToString());
-                }
+                Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
             }
         }
 
