@@ -48,13 +48,16 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
 
             for (int groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-
                 var tests = new List<ITestCase>();
                 for (int testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
                     tests.Add(new TestCase
                     {
                         Deferred = false,
+                        PlainText = new BitString("1AAADFFF"),
+                        CipherText = new BitString("7EADDC"),
+                        Key = new BitString("9998ADCD"),
+                        IV = new BitString("CAFECAFE"),
                         ResultsArray = new List<AlgoArrayResponse>()
                         {
                             new AlgoArrayResponse()

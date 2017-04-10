@@ -135,39 +135,15 @@ namespace NIST.CVP.Generation.AES_OFB
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (group.TestType.ToLower() == "mct")
+                        ((IDictionary<string, object>)testObject).Add("iv", test.IV);
+                        ((IDictionary<string, object>)testObject).Add("key", test.Key);
+                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            var resultsArray = new List<dynamic>();
-                            // For the prompt file, we only want to include the first index of ResultsArray
-                            // As a part of the test is to ensure all "iterations" are performing properly.
-                            // @@@ TODO do we want this be in an array?  It could be accomplished with the "non MCT" response since only giving a single key and ct/pt
-                            var result = test.ResultsArray.First();
-                            dynamic resultObject = new ExpandoObject();
-                            ((IDictionary<string, object>)resultObject).Add("iv", result.IV);
-                            ((IDictionary<string, object>)resultObject).Add("key", result.Key);
-                            if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                            {
-                                ((IDictionary<string, object>)resultObject).Add("plainText", result.PlainText);
-                            }
-                            if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                            {
-                                ((IDictionary<string, object>)resultObject).Add("cipherText", result.CipherText);
-                            }
-                            resultsArray.Add(resultObject);
-                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
+                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
                         }
-                        else
+                        if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("iv", test.IV);
-                            ((IDictionary<string, object>)testObject).Add("key", test.Key);
-                            if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                            {
-                                ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
-                            }
-                            if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                            {
-                                ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
-                            }
+                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
                         }
                         
                         tests.Add(testObject);
