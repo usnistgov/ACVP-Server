@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
 
                     var testCase = (TestCase)iTestCase;
 
-                    if (testGroup.TestType.ToLower() == "montecarlo")
+                    if (testGroup.TestType.ToLower() == "mct")
                     {
                         mctTestHit = true;
 

@@ -69,14 +69,14 @@ namespace NIST.CVP.Generation.TDES_ECB.Parsers
                         currentGroup = new TestGroup()
                         {
                             Function = workingLine,
-                            //If the file name contains "Monte", TestType is "MonteCarlo"; if file name contains "MMT", TestType is "MMT", otherwise it is an empty String.
-                            TestType = file.Contains("Monte") ? "MonteCarlo" : file.Contains("MMT") ? "MMT" : string.Empty
+                            //If the file name contains "Monte", TestType is "MCT"; if file name contains "MMT", TestType is "MMT", otherwise it is an empty String.
+                            TestType = file.Contains("Monte") ? "MCT" : file.Contains("MMT") ? "MMT" : string.Empty
                         };
                         groups.Add(currentGroup);
                         continue;
                     }
 
-                    if (currentGroup.TestType.ToLower() == "montecarlo")
+                    if (currentGroup.TestType.ToLower() == "mct")
                     {
                         // New test case on count 0
                         if (workingLine.StartsWith("COUNT = 0", StringComparison.OrdinalIgnoreCase))

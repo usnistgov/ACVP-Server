@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [TestCase("VariableKey", 1)]
         [TestCase("VariableText", 1)]
         [TestCase("MultiBlockMessage", 3)]
-        [TestCase("MonteCarlo", 3)]
+        [TestCase("MCT", 3)]
         public void ShouldReturnVectorSetWithProperEncryptionTestGroups(string testType, int keyCount)
         {
             var subject = new TestVectorFactory();
@@ -51,9 +51,9 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [TestCase("VariableKey", 1)]
         [TestCase("VariableText", 1)]
         [TestCase("MultiBlockMessage", 2)]
-        [TestCase("MonteCarlo", 2)]
+        [TestCase("MCT", 2)]
         [TestCase("MultiBlockMessage", 3)]
-        [TestCase("MonteCarlo", 3)]
+        [TestCase("MCT", 3)]
         public void ShouldReturnVectorSetWithProperDecryptionTestGroups(string testType, int keyCount)
         {
             var subject = new TestVectorFactory();

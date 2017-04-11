@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (group.TestType.Equals("MonteCarlo", StringComparison.OrdinalIgnoreCase))
+                        if (group.TestType.Equals("MCT", StringComparison.OrdinalIgnoreCase))
                         {
                             var resultsArray = new List<dynamic>();
 
@@ -192,7 +192,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (group.TestType.ToLower() == "montecarlo")
+                        if (group.TestType.ToLower() == "mct")
                         {
                             var resultsArray = new List<dynamic>();
                             foreach (var result in test.ResultsArray)

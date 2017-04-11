@@ -19,8 +19,8 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         }
 
         [Test]
-        [TestCase("encrypt", "mct", typeof(TestCaseValidatorEncrypt))]
-        [TestCase("decrypt", "mct", typeof(TestCaseValidatorDecrypt))]
+        [TestCase("encrypt", "mct", typeof(TestCaseValidatorMonteCarloEncrypt))]
+        [TestCase("decrypt", "mct", typeof(TestCaseValidatorMonteCarloDecrypt))]
         [TestCase("encrypt", "somethingThatIsntMct", typeof(TestCaseValidatorEncrypt))]
         [TestCase("decrypt", "somethingThatIsntMct", typeof(TestCaseValidatorDecrypt))]
         public void ShouldReturnCorrectValidatorType(string direction, string testType, Type expectedType)

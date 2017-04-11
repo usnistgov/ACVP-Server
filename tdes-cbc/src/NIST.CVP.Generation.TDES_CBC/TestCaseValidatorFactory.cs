@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
                     var workingTest = test;
-                    if (group.TestType.ToLower() == "montecarlo")
+                    if (group.TestType.ToLower() == "mct")
                     {
                         if (group.Function == "encrypt")
                         {

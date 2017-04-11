@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                     return new TestCaseGeneratorMMTDecrypt(_random800_90, _algo);
                 }
             }
-            if (@group.TestType.ToLower() == "montecarlo")
+            if (@group.TestType.ToLower() == "mct")
             {
                 if (@group.Function.ToLower() == "encrypt")
                 {

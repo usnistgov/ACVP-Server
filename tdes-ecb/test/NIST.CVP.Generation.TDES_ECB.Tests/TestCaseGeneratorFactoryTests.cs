@@ -19,9 +19,9 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [TestCase("Junk", "", typeof(TestCaseGeneratorNull))]
         [TestCase("", "", typeof(TestCaseGeneratorNull))]
         [TestCase("Encrypt", "", typeof(TestCaseGeneratorNull))]
-        [TestCase("encrypt", "MonteCarlo", typeof(TestCaseGeneratorMonteCarloEncrypt))]
+        [TestCase("encrypt", "MCT", typeof(TestCaseGeneratorMonteCarloEncrypt))]
         [TestCase("Decrypt", "MultiBlockMessage", typeof(TestCaseGeneratorMMTDecrypt))]
-        [TestCase("Decrypt", "MonteCarlo", typeof(TestCaseGeneratorMonteCarloDecrypt))]
+        [TestCase("Decrypt", "MCT", typeof(TestCaseGeneratorMonteCarloDecrypt))]
         public void ShouldReturnProperGenerator(string direction, string testType, Type expectedType)
         {
             TestGroup testGroup = new TestGroup()
