@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using NUnit.Framework;
 

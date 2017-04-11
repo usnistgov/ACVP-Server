@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using Newtonsoft.Json;
+using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA2

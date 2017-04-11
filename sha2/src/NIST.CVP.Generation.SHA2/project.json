@@ -4,6 +4,7 @@
   "dependencies": {
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
     "Newtonsoft.Json": "9.0.1",
+    "NIST.CVP.Crypto.SHA2": "1.0.0-*",
     "NIST.CVP.Generation.Core": "1.0.0-*",
     "NIST.CVP.Math": "1.0.0-*",
     "NETStandard.Library": "1.6.1",

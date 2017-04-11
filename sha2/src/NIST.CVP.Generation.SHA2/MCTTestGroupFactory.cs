@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.SHA2;
 
 namespace NIST.CVP.Generation.SHA2
 {

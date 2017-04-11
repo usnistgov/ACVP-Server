@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA2

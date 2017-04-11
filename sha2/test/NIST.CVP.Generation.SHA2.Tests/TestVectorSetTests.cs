@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.CSharp.RuntimeBinder;
+using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 using NUnit.Framework;
 

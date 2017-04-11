@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.SHA2;
