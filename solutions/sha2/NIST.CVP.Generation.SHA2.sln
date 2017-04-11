@@ -29,7 +29,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.SHA2.In
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.SHA2", "..\..\crypto\NIST.CVP.Crypto.SHA2\NIST.CVP.Crypto.SHA2.xproj", "{B9C5A5BE-2399-4346-80B0-91F635EC0382}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.SHA2.Tests", "..\..\crypto\NIST.CVP.Crypto.SHA2.Tests\NIST.CVP.Crypto.SHA2.Tests\NIST.CVP.Crypto.SHA2.Tests.xproj", "{0D2B0FC7-9969-4D08-B34F-62C931FC1583}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.SHA2.Tests", "..\..\crypto\NIST.CVP.Crypto.SHA2.Tests\NIST.CVP.Crypto.SHA2.Tests.xproj", "{0D2B0FC7-9969-4D08-B34F-62C931FC1583}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
