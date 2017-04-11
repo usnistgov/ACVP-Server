@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.SHA3.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
@@ -13,7 +14,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
     public class FireHoseTests
     {
         private string _testPath;
-        private SHA3 _sha3;
+        private Crypto.SHA3.SHA3 _sha3;
         private SHA3_MCT _sha3MCT;
         private SHAKE_MCT _shakeMCT;
 
@@ -21,7 +22,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         public void SetUp()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles");
-            _sha3 = new SHA3();
+            _sha3 = new Crypto.SHA3.SHA3();
             _sha3MCT = new SHA3_MCT(_sha3);
             _shakeMCT = new SHAKE_MCT(_sha3);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.SHA3;
 using NIST.CVP.Math;
@@ -20,7 +21,7 @@ namespace SHA3
 
             builder.RegisterType<Generator>();
 
-            builder.RegisterType<NIST.CVP.Generation.SHA3.SHA3>().AsImplementedInterfaces();
+            builder.RegisterType<NIST.CVP.Crypto.SHA3.SHA3>().AsImplementedInterfaces();
             builder.RegisterType<SHA3_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();

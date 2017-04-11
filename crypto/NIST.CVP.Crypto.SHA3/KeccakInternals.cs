@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading.Tasks;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 
-namespace NIST.CVP.Generation.SHA3
+namespace NIST.CVP.Crypto.SHA3
 {
     public class KeccakInternals
     {

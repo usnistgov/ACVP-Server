@@ -66,7 +66,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             public ParameterBuilder()
             {
                 _algorithm = "SHA3";
-                _mode = new [] {"SHA3", "SHAKE"};
+                _mode = new [] {"sha3", "shake"};
                 _digestSize = new [] { 256, 128 };
             }
 
@@ -94,7 +94,12 @@ namespace NIST.CVP.Generation.SHA3.Tests
                 {
                     Algorithm = _algorithm,
                     DigestSize = _digestSize,
-                    Function = _mode
+                    Function = _mode,
+                    BitOrientedInput = true,
+                    BitOrientedOutput = false,
+                    IncludeNull = true,
+                    MinOutputLength = 16,
+                    MaxOutputLength = 65536
                 };
             }
         }

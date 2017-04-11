@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
 using NIST.CVP.Math;
 using NLog;
 
-namespace NIST.CVP.Generation.SHA3
+namespace NIST.CVP.Crypto.SHA3
 {
     public class SHAKE_MCT : ISHA3_MCT
     {

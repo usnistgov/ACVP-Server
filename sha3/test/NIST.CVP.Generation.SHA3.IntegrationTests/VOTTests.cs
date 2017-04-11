@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         [TestCase(5679, 12409, true)]
         public void ShouldGenerateSHAKEVOTWithProperSizes(int min, int max, bool bitOriented)
         {
-            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new SHA3());
+            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new Crypto.SHA3.SHA3());
 
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
@@ -59,7 +59,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         [TestCase(5679, 12409, true)]
         public void TestCasesShouldNeverExceedMinimumAndMaximum(int min, int max, bool bitOriented)
         {
-            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new SHA3());
+            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new Crypto.SHA3.SHA3());
 
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
@@ -95,7 +95,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         [TestCase(5679, 12409, true)]
         public void TestCasesShouldConstantlyGrow(int min, int max, bool bitOriented)
         {
-            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new SHA3());
+            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new Crypto.SHA3.SHA3());
             var prevCase = 0;
 
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)

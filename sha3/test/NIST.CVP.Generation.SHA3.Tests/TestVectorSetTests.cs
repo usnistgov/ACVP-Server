@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CSharp.RuntimeBinder;
+using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
 using NUnit.Framework;
 

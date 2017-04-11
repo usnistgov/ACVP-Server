@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
+using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NUnit.Framework;
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [Test]
         public void ShouldSuccessfullyGenerate()
         {
-            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new SHA3());
+            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new Crypto.SHA3.SHA3());
             var result = subject.Generate(
                 new TestGroup
                 {
@@ -56,7 +57,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [TestCase(65536)]
         public void FirstTestShouldHaveMinimumLength(int minLength)
         {
-            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new SHA3());
+            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new Crypto.SHA3.SHA3());
             var result = subject.Generate(
                 new TestGroup
                 {
@@ -81,7 +82,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [TestCase(65536)]
         public void LastTestShouldHaveMaximumLength(int maxLength)
         {
-            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new SHA3());
+            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new Crypto.SHA3.SHA3());
             var result = subject.Generate(
                 new TestGroup
                 {
@@ -112,7 +113,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [TestCase(5679, 12409, true)]
         public void ShouldHaveApproximately1000Tests(int min, int max, bool bitOriented)
         {
-            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new SHA3());
+            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), new Crypto.SHA3.SHA3());
             var result = subject.Generate(
                 new TestGroup
                 {

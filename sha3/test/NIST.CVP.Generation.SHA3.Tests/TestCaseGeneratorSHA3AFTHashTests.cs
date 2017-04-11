@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
+using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [Test]
         public void ShouldSuccessfullyGenerate()
         {
-            var subject = new TestCaseGeneratorSHA3AFTHash(new Random800_90(), new SHA3());
+            var subject = new TestCaseGeneratorSHA3AFTHash(new Random800_90(), new Crypto.SHA3.SHA3());
             var result = subject.Generate(new TestGroup { Function = "SHA3", DigestSize = 224 },
                 false);
             Assert.IsNotNull(result);

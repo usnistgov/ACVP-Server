@@ -53,11 +53,11 @@ namespace NIST.CVP.Generation.SHA3
             Function = source.function;
             DigestSize = (int)source.digestSize;
 
-            BitOrientedInput = SetValue<bool>(source, "bitOrientedInput");
-            BitOrientedOutput = SetValue<bool>(source, "bitOrientedOutput");
-            IncludeNull = SetValue<bool>(source, "includeNull");
-            MinOutputLength = (int)SetValue<long>(source, "minOutputLength");
-            MaxOutputLength = (int)SetValue<long>(source, "maxOutputLength");        // this is silly but apparently (int)object is actually (long)object
+            BitOrientedInput = SetBoolValue(source, "bitOrientedInput");
+            BitOrientedOutput = SetBoolValue(source, "bitOrientedOutput");
+            IncludeNull = SetBoolValue(source, "includeNull");
+            MinOutputLength = SetIntValue(source, "minOutputLength");
+            MaxOutputLength = SetIntValue(source, "maxOutputLength");
             
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
@@ -122,14 +122,24 @@ namespace NIST.CVP.Generation.SHA3
             return false;
         }
 
-        public static T SetValue<T>(IDictionary<string, object> source, string label)
+        private bool SetBoolValue(IDictionary<string, object> source, string label)
         {
             if (source.ContainsKey(label))
             {
-                return (T)source[label];
+                return (bool)source[label];
             }
 
-            return default(T);
+            return default(bool);
+        }
+
+        private int SetIntValue(IDictionary<string, object> source, string label)
+        {
+            if (source.ContainsKey(label))
+            {
+                return (int)source[label];
+            }
+
+            return default(int);
         }
     }
 }

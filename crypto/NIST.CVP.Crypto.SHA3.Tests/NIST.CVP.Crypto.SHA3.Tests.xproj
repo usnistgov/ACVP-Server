@@ -6,8 +6,8 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>a9bf33f3-0c66-4c21-8a66-5d98884157eb</ProjectGuid>
-    <RootNamespace>NIST.CVP.Generation.SHA3.IntegrationTests</RootNamespace>
+    <ProjectGuid>39562a73-462f-4254-94e9-87b6941df1bc</ProjectGuid>
+    <RootNamespace>NIST.CVP.Crypto.SHA3.Tests</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>

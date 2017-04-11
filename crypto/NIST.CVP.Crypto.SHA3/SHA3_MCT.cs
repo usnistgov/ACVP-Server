@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Math;
 using NLog;
 
-namespace NIST.CVP.Generation.SHA3
+namespace NIST.CVP.Crypto.SHA3
 {
     public class SHA3_MCT : ISHA3_MCT
     {

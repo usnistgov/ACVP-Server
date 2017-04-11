@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace NIST.CVP.Generation.SHA3
+namespace NIST.CVP.Crypto.SHA3
 {
     public class MCTResult<TAlgoArrayResponse> where TAlgoArrayResponse : AlgoArrayResponse
     {
