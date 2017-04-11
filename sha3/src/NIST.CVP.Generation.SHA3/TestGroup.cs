@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -51,12 +52,13 @@ namespace NIST.CVP.Generation.SHA3
             TestType = source.testType;
             Function = source.function;
             DigestSize = (int)source.digestSize;
-            BitOrientedInput = source.bitOrientedInput;
-            BitOrientedOutput = source.bitOrientedOutput;
-            IncludeNull = source.includeNull;
-            MinOutputLength = (int)source.minOutputLength;
-            MaxOutputLength = (int)source.maxOutputLength;
 
+            BitOrientedInput = SetValue<bool>(source, "bitOrientedInput");
+            BitOrientedOutput = SetValue<bool>(source, "bitOrientedOutput");
+            IncludeNull = SetValue<bool>(source, "includeNull");
+            MinOutputLength = (int)SetValue<long>(source, "minOutputLength");
+            MaxOutputLength = (int)SetValue<long>(source, "maxOutputLength");        // this is silly but apparently (int)object is actually (long)object
+            
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {
@@ -118,6 +120,16 @@ namespace NIST.CVP.Generation.SHA3
             }
 
             return false;
+        }
+
+        public static T SetValue<T>(IDictionary<string, object> source, string label)
+        {
+            if (source.ContainsKey(label))
+            {
+                return (T)source[label];
+            }
+
+            return default(T);
         }
     }
 }
