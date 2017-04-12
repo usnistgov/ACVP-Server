@@ -1,18 +1,13 @@
-﻿using NIST.CVP.Generation.AES;
-using NIST.CVP.Math;
-using NUnit.Framework;
-using System;
+﻿using NUnit.Framework;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using NIST.CVP.Crypto.AES;
 
 namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 {
     [TestFixture]
     public class KATs
     {
-        AES_ECB _subject = new AES_ECB(
+        Crypto.AES_ECB.AES_ECB _subject = new Crypto.AES_ECB.AES_ECB(
             new RijndaelFactory(
                 new RijndaelInternals()
             )

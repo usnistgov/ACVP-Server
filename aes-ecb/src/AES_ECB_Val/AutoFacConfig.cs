@@ -1,9 +1,8 @@
 ﻿using System;
 using Autofac;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Math;
-using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.AES_ECB;
-using NIST.CVP.Generation.AES_ECB.GenVal;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
@@ -26,7 +25,7 @@ namespace AES_ECB_Val
 
             builder.RegisterType<Generator<Parameters, TestVectorSet>>();
             builder.RegisterType<Validator<TestVectorSet, TestCase>>();
-            builder.RegisterType<NIST.CVP.Generation.AES_ECB.AES_ECB>().AsImplementedInterfaces();
+            builder.RegisterType<NIST.CVP.Crypto.AES_ECB.AES_ECB>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();

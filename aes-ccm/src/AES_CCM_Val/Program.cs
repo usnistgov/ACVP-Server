@@ -1,6 +1,6 @@
 ﻿using System;
 using Autofac;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.AES_CCM;
 using NIST.CVP.Generation.Core;
 using NLog;

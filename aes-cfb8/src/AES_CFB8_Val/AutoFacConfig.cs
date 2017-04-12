@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CFB8;
 using NIST.CVP.Generation.AES_CFB8;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;

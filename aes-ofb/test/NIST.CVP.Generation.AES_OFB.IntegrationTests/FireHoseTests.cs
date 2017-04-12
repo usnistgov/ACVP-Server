@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Generation.AES_OFB.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
@@ -11,14 +12,14 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
     public class FireHoseTests
     {
         private string _testPath;
-        private AES_OFB _aesOfb;
+        private Crypto.AES_OFB.AES_OFB _aesOfb;
         private AES_OFB_MCT _aesOfbMct;
         
         [SetUp]
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-            _aesOfb = new AES_OFB(new RijndaelFactory(new RijndaelInternals()));
+            _aesOfb = new Crypto.AES_OFB.AES_OFB(new RijndaelFactory(new RijndaelInternals()));
             _aesOfbMct = new AES_OFB_MCT(_aesOfb);
         }
 

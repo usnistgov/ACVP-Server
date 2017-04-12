@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
@@ -16,7 +17,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         public void ShouldReturnDecryptionResultWithErrorOnException()
         {
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
-            AES_ECB subject = new AES_ECB(iRijndaelFactory.Object);
+            Crypto.AES_ECB.AES_ECB subject = new Crypto.AES_ECB.AES_ECB(iRijndaelFactory.Object);
             string exceptionMessage = "Something bad happened.";
 
             iRijndaelFactory
@@ -38,7 +39,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         {
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
             Mock<IRijndaelInternals> iRijndaelInternals = new Mock<IRijndaelInternals>();
-            AES_ECB subject = new AES_ECB(iRijndaelFactory.Object);
+            Crypto.AES_ECB.AES_ECB subject = new Crypto.AES_ECB.AES_ECB(iRijndaelFactory.Object);
 
             iRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
@@ -61,7 +62,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         public void ShouldReturnEncryptionResultWithErrorOnException()
         {
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
-            AES_ECB subject = new AES_ECB(iRijndaelFactory.Object);
+            Crypto.AES_ECB.AES_ECB subject = new Crypto.AES_ECB.AES_ECB(iRijndaelFactory.Object);
             string exceptionMessage = "Something bad happened, sorry about that.";
 
             iRijndaelFactory
@@ -83,7 +84,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         {
             Mock<IRijndaelFactory> iRijndaelFactory = new Mock<IRijndaelFactory>();
             Mock<IRijndaelInternals> iRijndaelInternals = new Mock<IRijndaelInternals>();
-            AES_ECB subject = new AES_ECB(iRijndaelFactory.Object);
+            Crypto.AES_ECB.AES_ECB subject = new Crypto.AES_ECB.AES_ECB(iRijndaelFactory.Object);
 
             iRijndaelFactory
                 .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))

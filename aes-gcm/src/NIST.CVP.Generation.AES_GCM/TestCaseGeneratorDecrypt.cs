@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;

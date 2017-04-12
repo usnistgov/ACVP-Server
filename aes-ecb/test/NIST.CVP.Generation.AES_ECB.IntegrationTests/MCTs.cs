@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.AES;
+﻿using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
@@ -15,7 +12,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         [Test]
         public void ShouldMonteCarloTestEncrypt128BitKey()
         {
-            AES_ECB_MCT subject = new AES_ECB_MCT(new AES_ECB(new RijndaelFactory(new RijndaelInternals())));
+            AES_ECB_MCT subject = new AES_ECB_MCT(new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals())));
 
             BitString key = new BitString("71cdc0006a5de45e31a56ddab56e5595");
             BitString plainText = new BitString("0333cf639a8e98b4e5383d21c659d0c7");
@@ -37,7 +34,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         [Test]
         public void ShouldMonteCarloTestEncrypt192BitKey()
         {
-            AES_ECB_MCT subject = new AES_ECB_MCT(new AES_ECB(new RijndaelFactory(new RijndaelInternals())));
+            AES_ECB_MCT subject = new AES_ECB_MCT(new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals())));
 
             BitString key = new BitString("ebbc71ca8573fb5b81ab065a63ac4ee5da381a749510b675");
             BitString plainText = new BitString("2f12359490fe7ed3c7c2429e63383dcf");
@@ -59,7 +56,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         [Test]
         public void ShouldMonteCarloTestEncrypt256BitKey()
         {
-            AES_ECB_MCT subject = new AES_ECB_MCT(new AES_ECB(new RijndaelFactory(new RijndaelInternals())));
+            AES_ECB_MCT subject = new AES_ECB_MCT(new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals())));
 
             BitString key = new BitString("a1b76968592787f921a4d7f899172b3a5697ca3eec31200d4ce9b36451fc5915");
             BitString plainText = new BitString("9d9cb8cb51ae38627c9780cac96825d0");
@@ -83,7 +80,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         [Test]
         public void ShouldMonteCarloTestDecrypt128BitKey()
         {
-            AES_ECB_MCT subject = new AES_ECB_MCT(new AES_ECB(new RijndaelFactory(new RijndaelInternals())));
+            AES_ECB_MCT subject = new AES_ECB_MCT(new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals())));
 
             BitString key = new BitString("da9c44768fa8ddb20aeb367d64ec4c34");
             BitString cipherText = new BitString("ac057c3f729274bb0ecdda820b223d79");
@@ -105,7 +102,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         [Test]
         public void ShouldMonteCarloTestDecrypt192BitKey()
         {
-            AES_ECB_MCT subject = new AES_ECB_MCT(new AES_ECB(new RijndaelFactory(new RijndaelInternals())));
+            AES_ECB_MCT subject = new AES_ECB_MCT(new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals())));
 
             BitString key = new BitString("f1b7f4fc55e8890c038dcce9bcb2af8b29ac3fa3cc4333da");
             BitString cipherText = new BitString("69f2245ac801b9956774b3f0bf6ff8c6");
@@ -127,7 +124,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
         [Test]
         public void ShouldMonteCarloTestDecrypt256BitKey()
         {
-            AES_ECB_MCT subject = new AES_ECB_MCT(new AES_ECB(new RijndaelFactory(new RijndaelInternals())));
+            AES_ECB_MCT subject = new AES_ECB_MCT(new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals())));
 
             BitString key = new BitString("e60840ea6635f07a1c2624092b03b422c7bb25453ff6cd7e3a4c383c40b4cb61");
             BitString cipherText = new BitString("01b74579771b03c15987d06d5da33f13");

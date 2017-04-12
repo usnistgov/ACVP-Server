@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Autofac;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.AES_CFB128;
 using NIST.CVP.Generation.Core;
 using NLog;

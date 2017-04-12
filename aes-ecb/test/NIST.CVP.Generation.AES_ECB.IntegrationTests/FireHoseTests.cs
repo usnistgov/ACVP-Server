@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.AES;
-using NIST.CVP.Generation.AES_ECB.GenVal;
-using NIST.CVP.Generation.AES_ECB.GenVal.Parsers;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_ECB;
+using NIST.CVP.Generation.AES_ECB.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 
@@ -16,14 +13,14 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
     {
         string _testPath;
 
-        private AES_ECB _aesEcb;
+        private Crypto.AES_ECB.AES_ECB _aesEcb;
         private AES_ECB_MCT _aesEcbMct;
 
         [SetUp]
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-            _aesEcb = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            _aesEcb = new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
             _aesEcbMct = new AES_ECB_MCT(_aesEcb);
         }
 

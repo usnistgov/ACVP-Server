@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.AES;
+﻿using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Helpers;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
@@ -12,7 +8,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
     [TestFixture]
     public class MCTs
     {
-        private AES_CFB1_MCT _subject = new AES_CFB1_MCT(new AES_CFB1(new RijndaelFactory(new RijndaelInternals())));
+        private AES_CFB1_MCT _subject = new AES_CFB1_MCT(new Crypto.AES_CFB1.AES_CFB1(new RijndaelFactory(new RijndaelInternals())));
 
         #region Encrypt
         [Test]

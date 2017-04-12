@@ -1,22 +1,19 @@
-﻿using NIST.CVP.Generation.AES;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_GCM;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
     [TestFixture]
     public class CAVS_HealthCheckTests
     {
-        private AES_GCM _subject;
+        private Crypto.AES_GCM.AES_GCM _subject;
         
         [SetUp]
         public void Setup()
         {
-            _subject = new AES_GCM(
+            _subject = new Crypto.AES_GCM.AES_GCM(
                 new AES_GCMInternals(
                     new RijndaelFactory(
                         new RijndaelInternals()

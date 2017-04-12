@@ -1,8 +1,9 @@
 ﻿using System;
 using Autofac;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Generation.AES_GCM;
 using NIST.CVP.Math;
-using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
@@ -25,7 +26,7 @@ namespace AES_GCM_Val
             builder.RegisterType<Generator<Parameters, TestVectorSet>>();
             builder.RegisterType<Validator<TestVectorSet, TestCase>>();
             builder.RegisterType<AES_GCMInternals>().AsImplementedInterfaces();
-            builder.RegisterType<NIST.CVP.Generation.AES_GCM.AES_GCM>().AsImplementedInterfaces();
+            builder.RegisterType<NIST.CVP.Crypto.AES_GCM.AES_GCM>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();

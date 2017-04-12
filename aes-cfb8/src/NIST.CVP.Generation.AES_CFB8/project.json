@@ -3,7 +3,8 @@
 
     "dependencies": {
         "NETStandard.Library": "1.6.1",
-        "NIST.CVP.Generation.AES": "1.0.0-*",
+        "NIST.CVP.Crypto.AES": "1.0.0-*",
+        "NIST.CVP.Crypto.AES_CFB8": "1.0.0-*",
         "NIST.CVP.Generation.Core": "1.0.0-*",
         "NIST.CVP.Math": "1.0.0-*"
     },

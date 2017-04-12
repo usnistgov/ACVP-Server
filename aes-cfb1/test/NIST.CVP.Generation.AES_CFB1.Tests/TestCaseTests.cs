@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json.Linq;
+using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Generation.Core;
 using NUnit.Framework;
 

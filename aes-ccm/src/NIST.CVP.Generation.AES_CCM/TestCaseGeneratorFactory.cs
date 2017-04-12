@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Crypto.AES_CCM;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CCM

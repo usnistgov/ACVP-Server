@@ -111,6 +111,22 @@ namespace NIST.CVP.Generation.Core
             return null;
         }
 
+        protected string ValidateRange(long[] supplied, long minInclusive, long maxInclusive, string friendlyName)
+        {
+            if (supplied == null || supplied.Length == 0)
+            {
+                return $"No {friendlyName} supplied.";
+            }
+
+            var invalid = supplied.Where(w => w < minInclusive || w > maxInclusive);
+            if (invalid.Count() != 0)
+            {
+                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}.  Values were not between {minInclusive} and {maxInclusive}";
+            }
+
+            return null;
+        }
+
         protected string ValidateMultipleOf(int[] supplied, int multiple, string friendlyName)
         {
             if (supplied == null || supplied.Length == 0)
@@ -119,6 +135,23 @@ namespace NIST.CVP.Generation.Core
             }
 
             int[] invalid = supplied.Where(w => w % multiple != 0).ToArray();
+
+            if (invalid.Count() != 0)
+            {
+                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}.  Values were not a multiple of {multiple}";
+            }
+
+            return null;
+        }
+
+        protected string ValidateMultipleOf(long[] supplied, long multiple, string friendlyName)
+        {
+            if (supplied == null || supplied.Length == 0)
+            {
+                return $"No {friendlyName} supplied.";
+            }
+
+            long[] invalid = supplied.Where(w => w % multiple != 0).ToArray();
 
             if (invalid.Count() != 0)
             {

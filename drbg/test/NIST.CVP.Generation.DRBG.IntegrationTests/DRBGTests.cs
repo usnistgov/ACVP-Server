@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.AES;
+﻿using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_ECB;
+using NIST.CVP.Crypto.DRBG;
+using NIST.CVP.Crypto.DRBG.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DRBG.Enums;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
@@ -24,7 +22,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes128NoReseedNoDfNoPrNoNonceNoAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB.AES_ECB algo = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
             DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
 
@@ -62,7 +60,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256NoDfNoPrNoAddInputNoNonce()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB.AES_ECB algo = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
             DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
 
@@ -99,7 +97,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256NoDfNoPrNoNonceAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB.AES_ECB algo = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
             DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
 
@@ -137,7 +135,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256NoDfNoPrNonceNoAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB.AES_ECB algo = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
             DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
 
@@ -175,7 +173,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256NoDfPrNoNonceNoAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB.AES_ECB algo = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
             DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
 
@@ -215,7 +213,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256DfNoPrNonceNoAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB.AES_ECB algo = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
             DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
 
@@ -254,7 +252,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256DfPrNonceNoAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB.AES_ECB algo = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
             DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
 
@@ -294,7 +292,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256DfPrNonceAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB.AES_ECB algo = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
             DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
 

@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.AES;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CFB1;
 using NUnit.Framework;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 {
     [TestFixture]
     public class MMTs
     {
-        private AES_CFB1 _subject =new AES_CFB1(new RijndaelFactory(new RijndaelInternals()));
+        private Crypto.AES_CFB1.AES_CFB1 _subject =new Crypto.AES_CFB1.AES_CFB1(new RijndaelFactory(new RijndaelInternals()));
 
         #region Encrypt
         [Test]

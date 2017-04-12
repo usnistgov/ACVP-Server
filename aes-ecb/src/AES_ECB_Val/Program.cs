@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
 using Autofac;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.AES_ECB;
-using NIST.CVP.Generation.AES_ECB.GenVal;
 using NIST.CVP.Generation.Core;
 
 namespace AES_ECB_Val

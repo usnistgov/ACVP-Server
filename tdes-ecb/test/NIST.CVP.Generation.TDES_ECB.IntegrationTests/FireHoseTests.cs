@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.TDES;
 using NIST.CVP.Generation.TDES_ECB.Parsers;
 using NIST.CVP.Tests.Core;
-using NIST.CVP.Generation.TDES_ECB;
 using NUnit.Framework;
 
-
-namespace NIST.CVP.Generation.TDES_EBC.IntegrationTests
+namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
 {
     
     [TestFixture]

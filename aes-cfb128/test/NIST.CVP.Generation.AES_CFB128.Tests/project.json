@@ -4,6 +4,8 @@
     "dependencies": {
         "NIST.CVP.Generation.Core": "1.0.0-*",
         "NIST.CVP.Generation.AES_CFB128": "1.0.0-*",
+        "NIST.CVP.Crypto.AES_CFB128": "1.0.0-*",
+        "NIST.CVP.Crypto.AES": "1.0.0-*",
         "dotnet-test-nunit": "3.4.0-beta-3",
         "Moq": "4.6.38-alpha",
         "Microsoft.Extensions.Configuration.Json": "1.1.0",

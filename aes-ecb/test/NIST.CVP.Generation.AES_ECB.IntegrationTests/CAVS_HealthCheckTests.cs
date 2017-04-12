@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.AES;
+﻿using NIST.CVP.Crypto.AES;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
@@ -12,7 +8,7 @@ namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
     public class CAVS_HealthCheckTests
     {
 
-        private AES_ECB _subject = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+        private Crypto.AES_ECB.AES_ECB _subject = new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
         [Test]
         public void ShouldEncryptWith128BitKey()

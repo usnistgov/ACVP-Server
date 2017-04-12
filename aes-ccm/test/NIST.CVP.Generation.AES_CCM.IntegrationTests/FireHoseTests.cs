@@ -5,9 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Testing.Abstractions;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Math;
 using NUnit.Framework;
-using NIST.CVP.Generation.AES;
+
 using NIST.CVP.Generation.AES_CCM.Parsers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
@@ -22,7 +24,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
     {
         string _testPath;
 
-        AES_CCM _subject = new AES_CCM(
+        Crypto.AES_CCM.AES_CCM _subject = new Crypto.AES_CCM.AES_CCM(
             new AES_CCMInternals(),
             new RijndaelFactory(
                 new RijndaelInternals()

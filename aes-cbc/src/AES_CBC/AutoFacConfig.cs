@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CBC;
 using NIST.CVP.Generation.AES_CBC;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -24,7 +25,7 @@ namespace AES_CBC
 
 
             builder.RegisterType<Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<NIST.CVP.Generation.AES_CBC.AES_CBC>().AsImplementedInterfaces();
+            builder.RegisterType<NIST.CVP.Crypto.AES_CBC.AES_CBC>().AsImplementedInterfaces();
             builder.RegisterType<AES_CBC_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
     [TestFixture]
     public class KATs
     {
-        AES_OFB _subject = new AES_OFB(
+        Crypto.AES_OFB.AES_OFB _subject = new Crypto.AES_OFB.AES_OFB(
                     new RijndaelFactory(
                         new RijndaelInternals()
                     )

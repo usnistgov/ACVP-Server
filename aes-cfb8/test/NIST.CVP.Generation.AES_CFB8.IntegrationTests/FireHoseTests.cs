@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CFB8;
 using NIST.CVP.Generation.AES_CFB8.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
@@ -11,14 +12,14 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
     public class FireHoseTests
     {
         private string _testPath;
-        private AES_CFB8 _algo;
+        private Crypto.AES_CFB8.AES_CFB8 _algo;
         private AES_CFB8_MCT _algoMct;
         
         [SetUp]
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-            _algo = new AES_CFB8(new RijndaelFactory(new RijndaelInternals()));
+            _algo = new Crypto.AES_CFB8.AES_CFB8(new RijndaelFactory(new RijndaelInternals()));
             _algoMct = new AES_CFB8_MCT(_algo);
         }
 

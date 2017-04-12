@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
 
 namespace NIST.CVP.Generation.AES_CFB128
 {

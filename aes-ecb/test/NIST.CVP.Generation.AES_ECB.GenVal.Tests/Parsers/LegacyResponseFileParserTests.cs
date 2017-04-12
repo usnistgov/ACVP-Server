@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using NIST.CVP.Generation.AES_ECB.GenVal.Parsers;
+using NIST.CVP.Generation.AES_ECB.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 

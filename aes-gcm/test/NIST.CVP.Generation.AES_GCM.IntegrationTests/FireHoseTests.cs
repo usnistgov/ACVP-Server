@@ -5,10 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Testing.Abstractions;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Generation.AES_GCM.Parsers;
 using NIST.CVP.Math;
 using NUnit.Framework;
-using NIST.CVP.Generation.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
@@ -38,7 +39,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             }
             var testDir = new DirectoryInfo(_testPath);
             var parser = new LegacyResponseFileParser();
-            var algo = new AES_GCM(
+            var algo = new Crypto.AES_GCM.AES_GCM(
                 new AES_GCMInternals(
                     new RijndaelFactory(
                         new RijndaelInternals()

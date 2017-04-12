@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.AES;
-using NIST.CVP.Math;
+﻿using System.Collections;
+using NIST.CVP.Crypto.AES;
+
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
@@ -12,7 +8,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
     [TestFixture]
     public class KATs
     {
-        AES_CBC _subject = new AES_CBC(
+        Crypto.AES_CBC.AES_CBC _subject = new Crypto.AES_CBC.AES_CBC(
                     new RijndaelFactory(
                         new RijndaelInternals()
                     )

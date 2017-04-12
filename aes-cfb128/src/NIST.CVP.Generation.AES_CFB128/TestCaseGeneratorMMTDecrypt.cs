@@ -1,5 +1,6 @@
 ﻿using System;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CFB128;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;

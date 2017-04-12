@@ -1,13 +1,9 @@
 ﻿using System;
-using System.IO;
 using Autofac;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.AES_GCM;
 using NIST.CVP.Generation.Core;
 using NLog;
-using NLog.Config;
-using NLog.Targets;
-
 
 namespace AES_GCM_Val
 {

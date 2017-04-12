@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CFB8;
 using NIST.CVP.Generation.AES_CFB8;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -23,7 +24,7 @@ namespace AES_CFB8
 
 
             builder.RegisterType<Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<NIST.CVP.Generation.AES_CFB8.AES_CFB8>().AsImplementedInterfaces();
+            builder.RegisterType<NIST.CVP.Crypto.AES_CFB8.AES_CFB8>().AsImplementedInterfaces();
             builder.RegisterType<AES_CFB8_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

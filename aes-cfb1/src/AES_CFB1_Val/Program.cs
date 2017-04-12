@@ -1,12 +1,9 @@
 ﻿using System;
-using System.IO;
 using Autofac;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.AES_CFB1;
 using NIST.CVP.Generation.Core;
 using NLog;
-using NLog.Config;
-using NLog.Targets;
 
 namespace AES_CFB1_Val
 {

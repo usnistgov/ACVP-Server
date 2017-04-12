@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
@@ -11,7 +12,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
     [TestFixture]
     public class AES_CCMTests
     {
-        AES_CCM _subject = new AES_CCM(new AES_CCMInternals(), new RijndaelFactory(new RijndaelInternals()));
+        Crypto.AES_CCM.AES_CCM _subject = new Crypto.AES_CCM.AES_CCM(new AES_CCMInternals(), new RijndaelFactory(new RijndaelInternals()));
 
         [Test]
         public void ShouldEncryptAndDecryptWithValidatedTag()
@@ -71,7 +72,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
                 testData.AssocData, 128);
 
             Assert.IsFalse(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
-            Assert.AreEqual(AES_CCM.INVALID_TAG_MESSAGE, decryptionResult.ErrorMessage);
+            Assert.AreEqual(Crypto.AES_CCM.AES_CCM.INVALID_TAG_MESSAGE, decryptionResult.ErrorMessage);
         }
 
         private class TestData

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CBC;
 using NIST.CVP.Generation.AES_CBC.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
@@ -14,14 +15,14 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
     public class FireHoseTests
     {
         private string _testPath;
-        private AES_CBC _aesCbc;
+        private Crypto.AES_CBC.AES_CBC _aesCbc;
         private AES_CBC_MCT _aesCbcMct;
         
         [SetUp]
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-            _aesCbc = new AES_CBC(new RijndaelFactory(new RijndaelInternals()));
+            _aesCbc = new Crypto.AES_CBC.AES_CBC(new RijndaelFactory(new RijndaelInternals()));
             _aesCbcMct = new AES_CBC_MCT(_aesCbc);
         }
 

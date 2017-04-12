@@ -6,6 +6,7 @@ using System.Text;
 using AES_CFB1;
 using Autofac;
 using Newtonsoft.Json;
+using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;

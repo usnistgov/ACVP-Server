@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Math;
 using NUnit.Framework;
 

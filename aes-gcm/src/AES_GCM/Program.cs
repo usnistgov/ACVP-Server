@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.AES_GCM;
-using NIST.CVP.Generation.AES_GCM.Parsers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NLog;
-using NLog.Config;
-using NLog.Targets;
 
 namespace AES_GCM
 {

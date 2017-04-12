@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.AES;
+﻿using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CFB128;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
@@ -12,7 +9,7 @@ namespace NIST.CVP.Generation.AES_CFB128.IntegrationTests
     public class MCTs
     {
         AES_CFB128_MCT _subject = new AES_CFB128_MCT(
-            new AES_CFB128(
+            new Crypto.AES_CFB128.AES_CFB128(
                 new RijndaelFactory(
                     new RijndaelInternals()
                 )

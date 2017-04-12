@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-
-using NIST.CVP.Generation.AES;
-using NIST.CVP.Math;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CFB1;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
@@ -9,7 +8,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
     [TestFixture]
     public class KATs
     {
-        AES_CFB1 _subject = new AES_CFB1(
+        Crypto.AES_CFB1.AES_CFB1 _subject = new Crypto.AES_CFB1.AES_CFB1(
                     new RijndaelFactory(
                         new RijndaelInternals()
                     )

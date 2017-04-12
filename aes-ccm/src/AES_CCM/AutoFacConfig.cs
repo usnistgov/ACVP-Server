@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
-using NIST.CVP.Generation.AES;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Generation.AES_CCM;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -23,7 +24,7 @@ namespace AES_CCM
             
             builder.RegisterType<Generator<Parameters, TestVectorSet>>();
             builder.RegisterType<AES_CCMInternals>().AsImplementedInterfaces();
-            builder.RegisterType<NIST.CVP.Generation.AES_CCM.AES_CCM>().AsImplementedInterfaces();
+            builder.RegisterType<NIST.CVP.Crypto.AES_CCM.AES_CCM>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
