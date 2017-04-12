@@ -41,8 +41,9 @@ namespace NIST.CVP.Generation.SHA2
             TestType = source.testType;
             Function = SHAEnumHelpers.StringToMode(source.function);
             DigestSize = SHAEnumHelpers.StringToDigest(source.digestSize);
-            BitOriented = source.bitOriented;
-            IncludeNull = source.includeNull;
+
+            BitOriented = SetBoolValue(source, "bitOriented");
+            IncludeNull = SetBoolValue(source, "includeNull");
 
             Tests = new List<ITestCase>();
             foreach(var test in source.tests)
@@ -120,6 +121,16 @@ namespace NIST.CVP.Generation.SHA2
             }
 
             return false;
+        }
+
+        private bool SetBoolValue(IDictionary<string, object> source, string label)
+        {
+            if (source.ContainsKey(label))
+            {
+                return (bool)source[label];
+            }
+
+            return default(bool);
         }
     }
 }
