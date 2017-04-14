@@ -12,12 +12,9 @@ namespace NIST.CVP.Generation.SHA3
         public string Algorithm { get; set; }
         public bool IsSample { get; set; }
 
-        [JsonProperty(PropertyName = "function")]
-        public string[] Function { get; set; }
-
-        [JsonProperty(PropertyName = "digestSize")]
-        public int[] DigestSize { get; set; }
-
+        [JsonProperty(PropertyName = "functions")]
+        public Function[] Functions { get; set; }
+        
         [JsonProperty(PropertyName = "bitOrientedInput")]
         public bool BitOrientedInput { get; set; } = false;
 

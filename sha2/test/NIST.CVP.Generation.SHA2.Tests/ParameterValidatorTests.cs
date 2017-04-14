@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Castle.Core.Internal;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA2.Tests
@@ -19,18 +20,27 @@ namespace NIST.CVP.Generation.SHA2.Tests
 
         [Test]
         [TestCase("null", new object[] { null })]
-        [TestCase("empty", new object[] { })]
         [TestCase("Invalid valid", new object[] { "notValid" })]
         [TestCase("Partially valid", new object[] { "SHA1", "notValid" })]
-        [TestCase("Partially valid with null", new object[] { "SHA2", null })]
+        [TestCase("Partially valid with null", new object[] { "SHA1", null })]
         public void ShouldReturnErrorWithInvalidMode(string label, object[] mode)
         {
             var strModes = mode.Select(v => (string) v).ToArray();
+            var functions = new Function[strModes.Length];
 
+            for (var i = 0; i < strModes.Length; i++)
+            {
+                functions[i] = new Function
+                {
+                    Mode = strModes[i],
+                    DigestSizes = new [] {"224"}
+                };
+            }
+          
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithMode(strModes)
+                    .WithFunctions(functions)
                     .Build()
             );
 
@@ -46,28 +56,118 @@ namespace NIST.CVP.Generation.SHA2.Tests
         public void ShouldReturnErrorWithInvalidDigestSize(string label, object[] digestSize)
         {
             var strDigs = digestSize.Select(v => (string)v).ToArray();
-
+            var functions = new []
+            {
+                new Function
+                {
+                    Mode = "sha2",
+                    DigestSizes = strDigs
+                }
+            };
+            
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithDigestSize(strDigs)
+                    .WithFunctions(functions)
                     .Build()
             );
 
             Assert.IsFalse(result.Success, label);
         }
 
+        [Test]
+        public void ShouldRejectBadSHA1DigestSize()
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithFunctions(
+                        new Function[]
+                        {
+                            new Function
+                            {
+                                Mode = "sha1",
+                                DigestSizes = new [] {"224"}
+                            }
+                        })
+                    .Build()
+            );
+
+            Assert.IsFalse(result.Success);
+        }
+
+        [Test]
+        public void ShouldRejectBadSHA2DigestSize()
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithFunctions(
+                        new Function[]
+                        {
+                            new Function
+                            {
+                                Mode = "sha2",
+                                DigestSizes = new [] {"160"}
+                            }
+                        })
+                    .Build()
+            );
+
+            Assert.IsFalse(result.Success);
+        }
+
+        [Test]
+        public void ShouldReturnSuccessWithNewIncludeNull()
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithIncludeNull(false)
+                    .Build()
+            );
+            
+            Assert.IsTrue(result.Success);
+        }
+
+        [Test]
+        public void ShouldReturnSuccessWithNewBitOriented()
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithBitOriented(false)
+                    .Build()
+            );
+
+            Assert.IsTrue(result.Success);
+        }
+
         public class ParameterBuilder
         {
             private string _algorithm;
-            private string[] _mode;
-            private string[] _digestSize;
+            private Function[] _functions;
+            private bool _includeNull;
+            private bool _bitOriented;
 
             public ParameterBuilder()
             {
                 _algorithm = "SHA";
-                _mode = ParameterValidator.VALID_MODES;
-                _digestSize = ParameterValidator.VALID_DIGEST_SIZES;
+                _functions = new[]
+                {
+                    new Function
+                    {
+                        Mode = "sha1",
+                        DigestSizes = new[] {"160"}
+                    },
+                    new Function
+                    {
+                        Mode = "sha2",
+                        DigestSizes = new [] {"224", "256", "384", "512", "512/224", "512/256"}
+                    }
+                };
+                _includeNull = true;
+                _bitOriented = true;
             }
 
             public ParameterBuilder WithAlgorithm(string value)
@@ -76,15 +176,21 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 return this;
             }
 
-            public ParameterBuilder WithMode(string[] value)
+            public ParameterBuilder WithFunctions(Function[] value)
             {
-                _mode = value;
+                _functions = value;
                 return this;
             }
 
-            public ParameterBuilder WithDigestSize(string[] value)
+            public ParameterBuilder WithIncludeNull(bool value)
             {
-                _digestSize = value;
+                _includeNull = value;
+                return this;
+            }
+
+            public ParameterBuilder WithBitOriented(bool value)
+            {
+                _bitOriented = value;
                 return this;
             }
 
@@ -93,8 +199,9 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 return new Parameters
                 {
                     Algorithm = _algorithm,
-                    DigestSize = _digestSize,
-                    Mode = _mode
+                    Functions = _functions,
+                    BitOriented = _bitOriented,
+                    IncludeNull = _includeNull
                 };
             }
         }

@@ -136,10 +136,10 @@ namespace NIST.CVP.Generation.SHA3
         {
             if (source.ContainsKey(label))
             {
-                return (int)source[label];
+                return Convert.ToInt32(source[label]);
             }
 
-            return default(int);
+            return 0;
         }
     }
 }

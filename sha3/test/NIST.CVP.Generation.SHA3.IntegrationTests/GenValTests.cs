@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            //Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -314,8 +314,14 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             var parameters = new Parameters
             {
                 Algorithm = "SHA3",
-                Function = new [] {"sha3", "sha3", "sha3"},
-                DigestSize = new [] {224, 256, 384},
+                Functions = new []
+                {
+                    new Function
+                    {
+                        Mode = "sha3",
+                        DigestSizes = new [] {224, 256, 384}
+                    }
+                },
                 BitOrientedInput = true,
                 IncludeNull = false,
                 IsSample = true
@@ -329,8 +335,19 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             var parameters = new Parameters
             {
                 Algorithm = "SHA3",
-                Function = new [] {"sha3", "sha3", "sha3", "sha3", "shake", "shake"},
-                DigestSize = new [] {224, 256, 384, 512, 128, 256},
+                Functions = new[]
+                {
+                    new Function
+                    {
+                        Mode = "sha3",
+                        DigestSizes = new [] {224, 256, 384, 512}
+                    },
+                    new Function
+                    {
+                        Mode = "shake",
+                        DigestSizes = new [] {128, 256}
+                    }
+                },
                 BitOrientedInput = true,
                 BitOrientedOutput = true,
                 IncludeNull = true,
@@ -352,7 +369,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters);
+            var json = JsonConvert.SerializeObject(parameters, Formatting.Indented);
             string fileName = $@"{targetFolder}\registration.json";
             File.WriteAllText(fileName, json);
             return fileName;

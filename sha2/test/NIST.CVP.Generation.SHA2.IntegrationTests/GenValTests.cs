@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            //Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -308,10 +308,21 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             var parameters = new Parameters
             {
                 Algorithm = "SHA",
-                Mode = new string[] {"sha1", "sha2"},
-                DigestSize = new string[] {"160", "224", "256", "384"},
+                Functions = new []
+                {
+                    new Function
+                    {
+                        Mode = "sha1",
+                        DigestSizes = new [] {"160"}
+                    },
+                    new Function
+                    {
+                        Mode = "sha2",
+                        DigestSizes = new [] {"224", "256"}
+                    }
+                },
                 BitOriented = true,
-                IncludeNull = false,
+                IncludeNull = true,
                 IsSample = true
             };
 
@@ -323,9 +334,22 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             var parameters = new Parameters
             {
                 Algorithm = "SHA",
-                Mode = new string[] {"sha1", "sha2"},
-                DigestSize = new string[] {"160", "224", "256", "384", "512", "512/224", "512/256"},
-                IsSample = false
+                Functions = new[]
+                {
+                    new Function
+                    {
+                        Mode = "sha1",
+                        DigestSizes = new [] {"160"}
+                    },
+                    new Function
+                    {
+                        Mode = "sha2",
+                        DigestSizes = new [] {"224", "256", "384", "512", "512/224", "512/256"}
+                    }
+                },
+                BitOriented = false,
+                IncludeNull = false,
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);
@@ -341,7 +365,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters);
+            var json = JsonConvert.SerializeObject(parameters, Formatting.Indented);
             string fileName = $@"{targetFolder}\registration.json";
             File.WriteAllText(fileName, json);
             return fileName;

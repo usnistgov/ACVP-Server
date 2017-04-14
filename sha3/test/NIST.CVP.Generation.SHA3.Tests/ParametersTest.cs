@@ -15,8 +15,19 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var parameters = new Parameters
             {
                 Algorithm = "SHA3",
-                Function = new[] { "SHA3", "SHAKE" },
-                DigestSize = new[] { 256, 128 },
+                Functions = new []
+                {
+                    new Function
+                    {
+                        Mode = "SHA3",
+                        DigestSizes = new [] {256}
+                    },
+                    new Function
+                    {
+                        Mode = "SHAKE",
+                        DigestSizes = new [] {128}
+                    }
+                },
                 BitOrientedInput = true,
                 BitOrientedOutput = false,
                 IncludeNull = true,
@@ -33,8 +44,19 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var parameters = new Parameters
             {
                 Algorithm = "SHA3",
-                Function = new[] { "SHA3", "SHAKE" },
-                DigestSize = new[] { 256, 128 },
+                Functions = new []
+                {
+                    new Function
+                    {
+                        Mode = "SHA3",
+                        DigestSizes = new [] {256}
+                    },
+                    new Function
+                    {
+                        Mode = "SHAKE",
+                        DigestSizes = new [] {128}
+                    }
+                },
                 BitOrientedInput = true,
                 BitOrientedOutput = false,
                 IncludeNull = true,

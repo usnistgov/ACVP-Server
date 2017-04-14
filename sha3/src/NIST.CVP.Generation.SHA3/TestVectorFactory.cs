@@ -18,26 +18,29 @@ namespace NIST.CVP.Generation.SHA3
         private List<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<ITestGroup>();
-            for (var i = 0; i < parameters.Function.Length; i++)
+            foreach (var function in parameters.Functions)
             {
-                foreach (var testType in _testTypes)
+                foreach (var digestSize in function.DigestSizes)
                 {
-                    var testGroup = new TestGroup
+                    foreach (var testType in _testTypes)
                     {
-                        Function = parameters.Function[i],
-                        DigestSize = parameters.DigestSize[i],
-                        IncludeNull = parameters.IncludeNull,
-                        BitOrientedInput = parameters.BitOrientedInput,
-                        BitOrientedOutput = parameters.BitOrientedOutput,
-                        MinOutputLength = parameters.MinOutputLength,
-                        MaxOutputLength = parameters.MaxOutputLength,
-                        TestType = testType
-                    };
+                        var testGroup = new TestGroup
+                        {
+                            Function = function.Mode,
+                            DigestSize = digestSize,
+                            IncludeNull = parameters.IncludeNull,
+                            BitOrientedInput = parameters.BitOrientedInput,
+                            BitOrientedOutput = parameters.BitOrientedOutput,
+                            MinOutputLength = parameters.MinOutputLength,
+                            MaxOutputLength = parameters.MaxOutputLength,
+                            TestType = testType
+                        };
 
-                    // We cannot have SHA3 + VOT, so we just don't add that one
-                    if (!(testGroup.Function.ToLower() == "sha3" && testGroup.TestType.ToLower() == "vot"))
-                    {
-                        testGroups.Add(testGroup);
+                        // We cannot have SHA3 + VOT, so we just don't add that one
+                        if (!(testGroup.Function.ToLower() == "sha3" && testGroup.TestType.ToLower() == "vot"))
+                        {
+                            testGroups.Add(testGroup);
+                        }
                     }
                 }
             }

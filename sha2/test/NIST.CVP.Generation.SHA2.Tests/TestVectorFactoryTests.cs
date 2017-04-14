@@ -8,16 +8,53 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         public void ShouldReturnVectorSet()
         {
-            var subject = new TestVectorFactory(new MCTTestGroupFactory());
-            var result = subject.BuildTestVectorSet(new Parameters {Mode = new[] {"SHA1"}, DigestSize = new[] {"160"}});
+            var subject = new TestVectorFactory();
+            var result = subject.BuildTestVectorSet(
+                new Parameters
+                {
+                    Algorithm = "SHA",
+                    Functions = new []
+                    {
+                        new Function
+                        {
+                            Mode = "sha1",
+                            DigestSizes = new [] {"160"}
+                        }
+                    },
+                    BitOriented = true,
+                    IncludeNull = true,
+                }
+            );
+
             Assert.IsNotNull(result);
         }
 
         [Test]
         public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
-            var subject = new TestVectorFactory(new MCTTestGroupFactory());
-            var result = subject.BuildTestVectorSet(new Parameters {Mode = new[] {"SHA1", "SHA2"}, DigestSize = new[]{ "160", "224", "256", "384", "512", "512/224", "512/256" } });
+            var subject = new TestVectorFactory();
+            var result = subject.BuildTestVectorSet(
+                new Parameters
+                {
+                    Algorithm = "SHA",
+                    Functions = new []
+                    {
+                        new Function
+                        {
+                            Mode = "sha1",
+                            DigestSizes = new [] {"160"}
+                        },
+                        new Function
+                        {
+                            Mode = "sha2",
+                            DigestSizes = new [] {"224", "256", "384", "512", "512/224", "512/256"}
+                        }
+                    },
+                    BitOriented = true,
+                    IncludeNull = true,
+                }
+            );
+
             Assume.That(result != null);
             Assert.AreEqual(14, result.TestGroups.Count);       // 2 * 7 (aft + mct X digest sizes)
         }
