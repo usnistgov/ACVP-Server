@@ -85,9 +85,11 @@ namespace NIST.CVP.Generation.SHA3
 
         public override int GetHashCode()
         {
-            return
-                $"{Function}|{DigestSize}|{TestType}|{BitOrientedInput}|{IncludeNull}|{BitOrientedOutput}|{MinOutputLength}|{MaxOutputLength}"
-                    .GetHashCode();
+            //return
+            //    $"{Function}|{DigestSize}|{TestType}|{BitOrientedInput}|{IncludeNull}|{BitOrientedOutput}|{MinOutputLength}|{MaxOutputLength}"
+            //        .GetHashCode();
+
+            return $"{Function}|{DigestSize}|{TestType}".GetHashCode();
         }
 
         public override bool Equals(object obj)

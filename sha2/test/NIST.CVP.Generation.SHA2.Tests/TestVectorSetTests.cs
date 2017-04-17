@@ -203,37 +203,37 @@ namespace NIST.CVP.Generation.SHA2.Tests
             }
         }
 
-        [Test]
-        public void MCTHashShouldIncludeMessageInResultArrayWithinPromptProjection()
-        {
-            var subject = GetMCTSubject(1);
-            var results = subject.PromptProjection;
-            var group = results[0];
-            var tests = group.tests;
-            foreach (var test in tests)
-            {
-                foreach (var result in test.resultsArray)
-                {
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.message.ToString()));
-                }
-            }
-        }
+        //[Test]
+        //public void MCTHashShouldIncludeMessageInResultArrayWithinPromptProjection()
+        //{
+        //    var subject = GetMCTSubject(1);
+        //    var results = subject.PromptProjection;
+        //    var group = results[0];
+        //    var tests = group.tests;
+        //    foreach (var test in tests)
+        //    {
+        //        foreach (var result in test.resultsArray)
+        //        {
+        //            Assert.IsTrue(!string.IsNullOrEmpty(result.message.ToString()));
+        //        }
+        //    }
+        //}
 
-        [Test]
-        public void MCTHashShouldExcludeDigestInResultArrayWithinPromptProjection()
-        {
-            var subject = GetMCTSubject(1);
-            var results = subject.PromptProjection;
-            var group = results[0];
-            var tests = group.tests;
-            foreach (var test in tests)
-            {
-                foreach (var result in test.resultsArray)
-                {
-                    Assert.Throws(typeof(RuntimeBinderException), () => result.digest.ToString());
-                }
-            }
-        }
+        //[Test]
+        //public void MCTHashShouldExcludeDigestInResultArrayWithinPromptProjection()
+        //{
+        //    var subject = GetMCTSubject(1);
+        //    var results = subject.PromptProjection;
+        //    var group = results[0];
+        //    var tests = group.tests;
+        //    foreach (var test in tests)
+        //    {
+        //        foreach (var result in test.resultsArray)
+        //        {
+        //            Assert.Throws(typeof(RuntimeBinderException), () => result.digest.ToString());
+        //        }
+        //    }
+        //}
 
         [Test]
         public void MCTHashShouldIncludeMessageAndDigestInResultProjection()

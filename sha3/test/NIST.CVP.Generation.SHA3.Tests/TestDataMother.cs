@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
                 testGroups.Add(new TestGroup
                 {
                     Function = hashFunction.XOF ? "SHAKE" : "SHA3",
-                    DigestSize = hashFunction.DigestSize,
+                    DigestSize = hashFunction.DigestSize + groupIdx,
                     TestType = "AFT",
                     BitOrientedInput = false,
                     BitOrientedOutput = false,
@@ -56,19 +56,19 @@ namespace NIST.CVP.Generation.SHA3.Tests
                     tests.Add(new TestCase
                     {
                         Deferred = false,
-                        ResultsArray = new List<AlgoArrayResponse>
-                        {
-                            new AlgoArrayResponse
-                            {
-                                Message = new BitString("DEADBEEF"),
-                                Digest = new BitString("ADD4FACE")
-                            },
-                            new AlgoArrayResponse
-                            {
-                                Message = new BitString("DEADBEEF02"),
-                                Digest = new BitString("ADD4FACE02")
-                            }
-                        },
+                        //ResultsArray = new List<AlgoArrayResponse>
+                        //{
+                        //    new AlgoArrayResponse
+                        //    {
+                        //        Message = new BitString("DEADBEEF"),
+                        //        Digest = new BitString("ADD4FACE")
+                        //    },
+                        //    new AlgoArrayResponse
+                        //    {
+                        //        Message = new BitString("DEADBEEF02"),
+                        //        Digest = new BitString("ADD4FACE02")
+                        //    }
+                        //},
                         TestCaseId = testId,
                         Message = new BitString("5EED")
                     });

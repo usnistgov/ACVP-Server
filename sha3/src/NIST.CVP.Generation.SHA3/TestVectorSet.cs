@@ -138,13 +138,13 @@ namespace NIST.CVP.Generation.SHA3
 
                         if (group.TestType.ToLower() == "mct")
                         {
-                            var resultsArray = new List<dynamic>();
-                            var resultOne = test.ResultsArray[1];
-                            dynamic resultObject = new ExpandoObject();
-                            ((IDictionary<string, object>)resultObject).Add("message", resultOne.Message);
+                            //var resultsArray = new List<dynamic>();
+                            //var resultOne = test.ResultsArray[1];
+                            //dynamic resultObject = new ExpandoObject();
+                            //((IDictionary<string, object>)resultObject).Add("message", resultOne.Message);
 
-                            resultsArray.Add(resultObject);
-                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
+                            //resultsArray.Add(resultObject);
+                            //((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
                         }
                         else if (group.TestType.ToLower() == "aft")
                         {

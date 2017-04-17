@@ -133,23 +133,23 @@ namespace NIST.CVP.Generation.SHA2
                             ((IDictionary<string, object>)testObject).Add("messageLength", test.Message.BitLength);
                         }
 
-                        if (group.TestType.ToLower() == "mct")
-                        {
-                            var resultsArray = new List<dynamic>();
+                        //if (group.TestType.ToLower() == "mct")
+                        //{
+                        //    var resultsArray = new List<dynamic>();
 
-                            // Add two messages to MCT file for simple checking
-                            var resultOne = test.ResultsArray[0];
-                            dynamic resultObjectOne = new ExpandoObject();
-                            ((IDictionary<string, object>)resultObjectOne).Add("message", resultOne.Message);
+                        //    // Add two messages to MCT file for simple checking
+                        //    var resultOne = test.ResultsArray[0];
+                        //    dynamic resultObjectOne = new ExpandoObject();
+                        //    ((IDictionary<string, object>)resultObjectOne).Add("message", resultOne.Message);
 
-                            var resultTwo = test.ResultsArray[1];
-                            dynamic resultObjectTwo = new ExpandoObject();
-                            ((IDictionary<string, object>)resultObjectTwo).Add("message", resultTwo.Message);
+                        //    var resultTwo = test.ResultsArray[1];
+                        //    dynamic resultObjectTwo = new ExpandoObject();
+                        //    ((IDictionary<string, object>)resultObjectTwo).Add("message", resultTwo.Message);
 
-                            resultsArray.Add(resultObjectOne);
-                            resultsArray.Add(resultObjectTwo);
-                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
-                        }
+                        //    resultsArray.Add(resultObjectOne);
+                        //    resultsArray.Add(resultObjectTwo);
+                        //    ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
+                        //}
 
                         tests.Add(testObject);
                     }
