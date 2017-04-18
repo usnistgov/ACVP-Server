@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Generation.TDES;
+using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Crypto.TDES_CBC;
 using NIST.CVP.Generation.TDES_CBC;
 using NIST.CVP.Math;
 

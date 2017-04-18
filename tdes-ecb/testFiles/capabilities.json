@@ -1,5 +1,0 @@
-{
-  "algorithm" : "TDES-ECB",
-  "direction" : [ "encrypt" ],
-   "isSample" : true
-}

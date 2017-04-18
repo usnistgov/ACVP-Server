@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "NIST.CVP.Math": "1.0.0-*",
+    "NETStandard.Library": "1.6.1",
+    "NLog": "5.0.0-beta05"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  }
+}

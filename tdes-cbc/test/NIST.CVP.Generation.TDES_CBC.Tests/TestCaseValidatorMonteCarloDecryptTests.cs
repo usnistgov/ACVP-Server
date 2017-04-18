@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Cryptography;
-using NIST.CVP.Generation.TDES;
+using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 using NUnit.Framework;
 

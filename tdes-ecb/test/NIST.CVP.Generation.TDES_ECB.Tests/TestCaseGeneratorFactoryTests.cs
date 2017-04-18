@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
-using NIST.CVP.Generation.TDES;
+using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Math;
 using NUnit.Framework;
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using System.Collections;
-using NIST.CVP.Generation.TDES;
+using NIST.CVP.Crypto.TDES;
 using System.Dynamic;
 
 namespace NIST.CVP.Generation.TDES_CBC

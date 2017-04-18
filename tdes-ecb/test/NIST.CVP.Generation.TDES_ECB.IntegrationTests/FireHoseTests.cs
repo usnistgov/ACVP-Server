@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Generation.TDES_ECB.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
@@ -11,7 +12,7 @@ namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
     public class FireHoseTests
     {
         private string _testPath;
-        private TdesEcb _algo;
+        private Crypto.TDES_ECB.TDES_ECB _algo;
         private TDES_ECB_MCT _algoMct;
         private MonteCarloKeyMaker _keyMaker;
 
@@ -19,7 +20,7 @@ namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-            _algo = new TdesEcb();
+            _algo = new Crypto.TDES_ECB.TDES_ECB();
             _keyMaker = new MonteCarloKeyMaker();
             _algoMct = new TDES_ECB_MCT(_algo, _keyMaker);
         }

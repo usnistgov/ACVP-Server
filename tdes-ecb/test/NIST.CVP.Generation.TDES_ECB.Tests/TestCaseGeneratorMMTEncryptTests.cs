@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
-using NIST.CVP.Generation.TDES;
+using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         public void ShouldSuccessfullyGenerate()
         {
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new TdesEcb());
+            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new Crypto.TDES_ECB.TDES_ECB());
             var result = subject.Generate(new TestGroup {Function = "encrypt", NumberOfKeys = 3}, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
@@ -24,14 +25,14 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         public void ShouldHaveProperNumberOfTestCasesToGenerate()
         {
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new TdesEcb());
+            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new Crypto.TDES_ECB.TDES_ECB());
             Assert.AreEqual(10, subject.NumberOfTestCasesToGenerate);
         }
 
         [Test]
         public void ShouldGenerateProperlySizedPlainTextForEachGenerateCall()
         {
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new TdesEcb());
+            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new Crypto.TDES_ECB.TDES_ECB());
             for (int caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(new TestGroup { Function = "encrypt", NumberOfKeys = 3 }, false);

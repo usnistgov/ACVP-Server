@@ -11,7 +11,7 @@
       "version": "1.0.1"
     },
     "NIST.CVP.Generation.Core": "1.0.0-*",
-    "NIST.CVP.Generation.TDES": "1.0.0-*",
+    "NIST.CVP.Crypto.TDES": "1.0.0-*",
     "NIST.CVP.Generation.TDES_CBC": "1.0.0-*"
   },
 
