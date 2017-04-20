@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.DRBG.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.DRBG
 {
@@ -23,32 +24,16 @@ namespace NIST.CVP.Generation.DRBG
         private long _minimumAdditionalInput;
         private long _maximumAdditionalInput;
 
-
-
-        /// <summary>
-        /// algorithm, DrbgMechanism, mode, DrbgMode, maxSecurityStrength
-        /// TODO Update this with strongly typed tuple implementation from C# 7
-        /// </summary>
-        public static readonly List<Tuple<string, DrbgMechanism, string, DrbgMode, int>> _securityStrengthsForModes = new List
-            <Tuple<string, DrbgMechanism, string, DrbgMode, int>>()
-            {
-                new Tuple<string, DrbgMechanism, string, DrbgMode, int>("ctrDRBG", DrbgMechanism.Counter, "AES-128",
-                    DrbgMode.AES128, 128),
-                new Tuple<string, DrbgMechanism, string, DrbgMode, int>("ctrDRBG", DrbgMechanism.Counter, "AES-192",
-                    DrbgMode.AES192, 192),
-                new Tuple<string, DrbgMechanism, string, DrbgMode, int>("ctrDRBG", DrbgMechanism.Counter, "AES-256",
-                    DrbgMode.AES256, 256)
-            };
-
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             DrbgMechanism drbgMechanism = 0;
             DrbgMode drbgMode = 0;
             int securityStrength = 0;
+            int blockSize = 0;
 
             List<string> errorResults = new List<string>();
 
-            ValidateAndGetOptions(parameters, errorResults, ref drbgMechanism, ref drbgMode, ref securityStrength);
+            ValidateAndGetOptions(parameters, errorResults, ref drbgMechanism, ref drbgMode, ref securityStrength, ref blockSize);
 
             // Cannot validate the rest of the parameters as they are dependant on the successful validation of the mechanism and mode.
             if (errorResults.Count > 0)
@@ -58,28 +43,33 @@ namespace NIST.CVP.Generation.DRBG
 
             SetDrbgValidationAttributes(parameters, drbgMechanism, drbgMode, securityStrength);
 
-            // TODO All values should be mod 8 to make validation easier?
             ValidateEntropy(parameters, errorResults);
             ValidateNonce(parameters, errorResults);
             ValidatePersonalizationString(parameters, errorResults);
             ValidateAdditionalInput(parameters, errorResults);
-            ValidateSeedMaterial(parameters, errorResults);
+            ValidateOutputBitLength(parameters, errorResults, blockSize);
+
+            if (errorResults.Count > 0)
+            {
+                return new ParameterValidateResponse(string.Join(";", errorResults));
+            }
 
             return new ParameterValidateResponse();
         }
         
         private void ValidateAndGetOptions(Parameters parameters, List<string> errorResults,
-            ref DrbgMechanism drbgMechanism, ref DrbgMode drbgMode, ref int securityStrength)
+            ref DrbgMechanism drbgMechanism, ref DrbgMode drbgMode, ref int securityStrength, ref int blockSize)
         {
-            var found = _securityStrengthsForModes
+            var found = DrbgSpecToDomainMapping.Map
                 .FirstOrDefault(w => w.Item1.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) &&
                                      w.Item3.Equals(parameters.Mode, StringComparison.OrdinalIgnoreCase));
 
-            if (found == null)
+            if (found != null)
             {
                 drbgMechanism = found.Item2;
                 drbgMode = found.Item4;
                 securityStrength = found.Item5;
+                blockSize = found.Item6;
             }
             else
             {
@@ -116,6 +106,8 @@ namespace NIST.CVP.Generation.DRBG
             {
                 _minimumEntropy = securityStrength;
                 _maximumEntropy = (long) 1 << 35;
+                _minimumNonce = securityStrength / 2;
+                _maximumNonce = (long) 1 << 35;
                 _maximumPersonalizationString = (long) 1 << 35;
                 _maximumAdditionalInput = (long) 1 << 35;
             }
@@ -123,6 +115,8 @@ namespace NIST.CVP.Generation.DRBG
             {
                 _minimumEntropy = _seedLength;
                 _maximumEntropy = _seedLength;
+                _minimumNonce = 0;
+                _maximumNonce = (long)1 << 35;
                 _maximumPersonalizationString = _seedLength;
                 _maximumAdditionalInput = _seedLength;
             }
@@ -130,89 +124,70 @@ namespace NIST.CVP.Generation.DRBG
 
         private void ValidateEntropy(Parameters parameters, List<string> errorResults)
         {
-            var entropy = parameters.EntropyInputLen.GetDomainMinMax();
+            var entropyFullDomain = parameters.EntropyInputLen.GetDomainMinMax();
 
-            var result = ValidateRange(new long[] {_minimumEntropy, _maximumEntropy}, entropy.Minimum, entropy.Maximum,
-                "Entropy Range");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
+            var rangeCheck = ValidateRange(
+                new long[] { entropyFullDomain.Minimum , entropyFullDomain.Maximum },
+                _minimumEntropy, 
+                _maximumEntropy,
+                "Entropy Range"
+            );
+            errorResults.AddIfNotNullOrEmpty(rangeCheck);
+
+            var modCheck = ValidateMultipleOf(parameters.EntropyInputLen, 8, "Entropy Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
         private void ValidateNonce(Parameters parameters, List<string> errorResults)
         {
-            var nonce = parameters.NonceLen.GetDomainMinMax();
+            var nonceFullDomain = parameters.NonceLen.GetDomainMinMax();
+            var rangeCheck = ValidateRange(
+                new long[] { nonceFullDomain.Minimum, nonceFullDomain.Maximum },
+                _minimumNonce, 
+                _maximumNonce,
+                "Nonce Range"
+            );
+            errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            var result = ValidateRange(new long[] {_minimumNonce, _maximumNonce}, nonce.Minimum, nonce.Maximum,
-                "Nonce Range");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
+            var modCheck = ValidateMultipleOf(parameters.NonceLen, 8, "Nonce Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
         private void ValidatePersonalizationString(Parameters parameters, List<string> errorResults)
         {
-            var personalizationString = parameters.PersoStringLen.GetDomainMinMax();
+            var personalizationStringFullDomain = parameters.PersoStringLen.GetDomainMinMax();
 
-            var result = ValidateRange(new long[] {_minimumPersonalizationString, _maximumPersonalizationString},
-                personalizationString.Minimum, personalizationString.Maximum, "Personalization String Range");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
+            var rangeCheck = ValidateRange(
+                new long[] {personalizationStringFullDomain.Minimum, personalizationStringFullDomain.Maximum, },
+                _minimumPersonalizationString, 
+                _maximumPersonalizationString,
+                "Personalization String Range"
+            );
+            errorResults.AddIfNotNullOrEmpty(rangeCheck);
+
+            var modCheck = ValidateMultipleOf(parameters.PersoStringLen, 8, "Personalization String Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
         private void ValidateAdditionalInput(Parameters parameters, List<string> errorResults)
         {
-            var additionalInput = parameters.AdditionalInputLen.GetDomainMinMax();
+            var additionalInputFullDomain = parameters.AdditionalInputLen.GetDomainMinMax();
 
-            var result = ValidateRange(new long[] {_minimumAdditionalInput, _maximumAdditionalInput},
-                additionalInput.Minimum, additionalInput.Maximum, "Additional Input Range");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
+            var rangeCheck = ValidateRange(new long[] { additionalInputFullDomain.Minimum, additionalInputFullDomain.Maximum, },
+                _minimumAdditionalInput, 
+                _maximumAdditionalInput,
+                "Additional Input Range"
+            );
+            errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            if (parameters.DerFuncEnabled)
-            {
-                result = ValidateMultipleOf(new long[] {additionalInput.Minimum, additionalInput.Maximum}, 8,
-                    "Additional Input (mod)");
-                if (!string.IsNullOrEmpty(result))
-                {
-                    errorResults.Add(result);
-                }
-            }
+            var modCheck = ValidateMultipleOf(parameters.AdditionalInputLen, 8, "Additional Input Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
         }
-
-        private void ValidateSeedMaterial(Parameters parameters, List<string> errorResults)
+        
+        private void ValidateOutputBitLength(Parameters parameters, List<string> errorResults, int blockSize)
         {
-            if (parameters.DerFuncEnabled)
-            {
-                var entropy = parameters.EntropyInputLen.GetValues(2).ToList();
-                var nonce = parameters.NonceLen.GetValues(2).ToList();
-                var personalizationString = parameters.PersoStringLen.GetValues(2).ToList();
-
-                List<long> allSummed = new List<long>();
-
-                // Add all combinations of the min and max together from entropy, nonce, and personalization
-                foreach (var e in entropy.Where(w => w == entropy.Min() || w == entropy.Max()))
-                {
-                    foreach (var n in nonce.Where(w => w == nonce.Min() || w == nonce.Max()))
-                    {
-                        foreach (var p in personalizationString.Where(w => w == personalizationString.Min() || w == personalizationString.Max()))
-                        {
-                            allSummed.Add(e + n + p);
-                        }
-                    }
-                }
-
-                if (allSummed.Any(a => a % 8 != 0))
-                {
-                    errorResults.Add($"Invalid {nameof(entropy)} + {nameof(nonce)} + {nameof(personalizationString)} modulus.");
-                }
-            }
+            var modCheck = ValidateMultipleOf(new int[] {parameters.ReturnedBitsLen}, blockSize, "Returned Bits Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
         }
     }
 }

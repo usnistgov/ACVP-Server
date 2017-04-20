@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Math
+﻿namespace NIST.CVP.Math.Entropy
 {
     public class EntropyProvider : IEntropyProvider
     {

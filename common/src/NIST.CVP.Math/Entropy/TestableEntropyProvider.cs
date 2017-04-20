@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
-namespace NIST.CVP.Math
+namespace NIST.CVP.Math.Entropy
 {
-    public class TestableEntropyProvider : IEntropyProvider
+    public class TestableEntropyProvider : IEntropyProvider, ITestableEntropyProvider
     {
         private readonly List<BitString> _entropy = new List<BitString>();
 

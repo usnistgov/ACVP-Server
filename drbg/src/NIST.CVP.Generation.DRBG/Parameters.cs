@@ -7,6 +7,7 @@ namespace NIST.CVP.Generation.DRBG
     {
         public string Algorithm { get; set; }
         public string Mode { get; set; }
+        public bool IsSample { get; set; }
         public bool DerFuncEnabled { get; set; }
         public bool PredResistanceEnabled { get; set; }
         public bool ReseedImplemented { get; set; }

@@ -1,9 +1,9 @@
 ﻿using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Crypto.DRBG.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.DRBG.IntegrationTests
@@ -22,9 +22,9 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes128NoReseedNoDfNoPrNoNonceNoAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            Crypto.AES_ECB.AES_ECB algo = new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
-            DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
+            DrbgFactory factory = new DrbgFactory();
 
             DrbgParameters parameters = new DrbgParameters()
             {
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                 ReseedImplemented = false
             };
 
-            var subject = factory.GetDrbgInstance(parameters);
+            var subject = factory.GetDrbgInstance(parameters, entropyProvider);
 
             entropyProvider.AddEntropy(new BitString("ed435694a0c1bc5a11ceb7c315984d8f62fda0b1327840c0775569a86257f566")); // Entropy Input
             entropyProvider.AddEntropy(new BitString(0)); // Nonce
@@ -60,9 +60,9 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256NoDfNoPrNoAddInputNoNonce()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            Crypto.AES_ECB.AES_ECB algo = new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
-            DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
+            DrbgFactory factory = new DrbgFactory();
 
             DrbgParameters parameters = new DrbgParameters()
             {
@@ -78,7 +78,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                 ReseedImplemented = true
             };
 
-            var subject = factory.GetDrbgInstance(parameters);
+            var subject = factory.GetDrbgInstance(parameters, entropyProvider);
 
             entropyProvider.AddEntropy(new BitString("0510f0fea150f9f193fda43dc3f2b6115ff5aa5f9c6aab7529ca007acd5d755422bb0250df0e0289576f3c6d0501701c")); // Entropy Input
             entropyProvider.AddEntropy(new BitString(0)); // Nonce
@@ -97,9 +97,9 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256NoDfNoPrNoNonceAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            Crypto.AES_ECB.AES_ECB algo = new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
-            DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
+            DrbgFactory factory = new DrbgFactory();
 
             DrbgParameters parameters = new DrbgParameters()
             {
@@ -115,7 +115,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                 ReseedImplemented = true
             };
 
-            var subject = factory.GetDrbgInstance(parameters);
+            var subject = factory.GetDrbgInstance(parameters, entropyProvider);
 
             entropyProvider.AddEntropy(new BitString("5f59060ab389bce8641d52253d2ab6d88d9b114a64b00de522b4f07be26a56c8f0cbdf33b81a888d389f343d19909f34")); // Entropy Input
             entropyProvider.AddEntropy(new BitString(0)); // Nonce
@@ -135,9 +135,9 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256NoDfNoPrNonceNoAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            Crypto.AES_ECB.AES_ECB algo = new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
-            DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
+            DrbgFactory factory = new DrbgFactory();
 
             DrbgParameters parameters = new DrbgParameters()
             {
@@ -153,7 +153,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                 ReseedImplemented = true
             };
 
-            var subject = factory.GetDrbgInstance(parameters);
+            var subject = factory.GetDrbgInstance(parameters, entropyProvider);
 
             entropyProvider.AddEntropy(new BitString("0510f0fea150f9f193fda43dc3f2b6115ff5aa5f9c6aab7529ca007acd5d755422bb0250df0e0289576f3c6d0501701c")); // Entropy Input
             entropyProvider.AddEntropy(new BitString(0)); // Nonce
@@ -173,9 +173,9 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256NoDfPrNoNonceNoAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            Crypto.AES_ECB.AES_ECB algo = new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
-            DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
+            DrbgFactory factory = new DrbgFactory();
 
             DrbgParameters parameters = new DrbgParameters()
             {
@@ -191,7 +191,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                 ReseedImplemented = true
             };
 
-            var subject = factory.GetDrbgInstance(parameters);
+            var subject = factory.GetDrbgInstance(parameters, entropyProvider);
 
             entropyProvider.AddEntropy(new BitString("de23cda6223a2fb5cfbd23952bc4a703301c0a7804da5ce657c0c6c07eaf0d0460542647d4deb1d9c2efe26aa83ff2a8")); // Entropy Input
             entropyProvider.AddEntropy(new BitString(0)); // Nonce
@@ -213,9 +213,9 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256DfNoPrNonceNoAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            Crypto.AES_ECB.AES_ECB algo = new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
-            DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
+            DrbgFactory factory = new DrbgFactory();
 
             DrbgParameters parameters = new DrbgParameters()
             {
@@ -231,7 +231,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                 ReseedImplemented = true
             };
 
-            var subject = factory.GetDrbgInstance(parameters);
+            var subject = factory.GetDrbgInstance(parameters, entropyProvider);
 
             entropyProvider.AddEntropy(new BitString("a621cd10710b229bdfd61db8e6424865db9fe09c2e6d4ecc13f8336c106f8d90")); // Entropy Input
             entropyProvider.AddEntropy(new BitString("5ff15f2ea0815396a7b89e86925c9a87")); // Nonce
@@ -252,9 +252,9 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256DfPrNonceNoAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            Crypto.AES_ECB.AES_ECB algo = new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
-            DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
+            DrbgFactory factory = new DrbgFactory();
 
             DrbgParameters parameters = new DrbgParameters()
             {
@@ -270,7 +270,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                 ReseedImplemented = true
             };
 
-            var subject = factory.GetDrbgInstance(parameters);
+            var subject = factory.GetDrbgInstance(parameters, entropyProvider);
 
             entropyProvider.AddEntropy(new BitString("2027493bdcc0b3c31bf77ff3bca20b08971246694f6ed1b5eb5250a2cd1371b5")); // Entropy Input
             entropyProvider.AddEntropy(new BitString("445ba13c425ece265930de9a56251d49")); // Nonce
@@ -292,9 +292,9 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public void ShouldAes256DfPrNonceAddInput()
         {
             TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
-            AES_ECB algo = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            Crypto.AES_ECB.AES_ECB algo = new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
-            DrbgFactory factory = new DrbgFactory(entropyProvider, algo);
+            DrbgFactory factory = new DrbgFactory();
 
             DrbgParameters parameters = new DrbgParameters()
             {
@@ -310,7 +310,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                 ReseedImplemented = true
             };
 
-            var subject = factory.GetDrbgInstance(parameters);
+            var subject = factory.GetDrbgInstance(parameters, entropyProvider);
 
             entropyProvider.AddEntropy(new BitString("9c78fc049d3f0eb4d537d2cc4ddd790aeaaba616cb4bfc6fce61f2a4d93813d5")); // Entropy Input
             entropyProvider.AddEntropy(new BitString("a5bb6569e0b6c60e28fa7333ee8667b6")); // Nonce

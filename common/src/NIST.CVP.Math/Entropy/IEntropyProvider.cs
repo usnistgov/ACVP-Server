@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Math
+﻿namespace NIST.CVP.Math.Entropy
 {
     /// <summary>
     /// Provides an interface for getting entropy as <see cref="BitString"/> with a specified number of bits

@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.DRBG
 {

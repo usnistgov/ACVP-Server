@@ -46,6 +46,22 @@ namespace NIST.CVP.Math.Domain
             }
         }
 
+        public IEnumerable<int> GetDomainMinMaxAsEnumerable()
+        {
+            var rangeMinMax = GetDomainMinMax();
+            List<int> minMax = new List<int>();
+
+            minMax.Add(rangeMinMax.Minimum);
+
+            // Add the max only if it's a different value than the minimum
+            if (rangeMinMax.Minimum != rangeMinMax.Maximum)
+            {
+                minMax.Add(rangeMinMax.Maximum);
+            }
+
+            return minMax;
+        }
+        
         /// <summary>
         /// Gets the minimum and maximum for the entire domain
         /// </summary>
@@ -81,6 +97,18 @@ namespace NIST.CVP.Math.Domain
             }
 
             return minMax;
+        }
+
+        public IEnumerable<RangeMinMax> GetMinMaxRanges()
+        {
+            List<RangeMinMax> list = new List<RangeMinMax>();
+
+            foreach (var segment in DomainSegments)
+            {
+                list.Add(segment.RangeMinMax);
+            }
+
+            return list;
         }
 
         /// <summary>

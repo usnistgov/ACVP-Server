@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.Core
 {
@@ -139,6 +140,69 @@ namespace NIST.CVP.Generation.Core
             if (invalid.Count() != 0)
             {
                 return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}.  Values were not a multiple of {multiple}";
+            }
+
+            return null;
+        }
+
+        protected string ValidateMultipleOf(MathDomain supplied, int multiple, string friendlyName)
+        {
+            if (supplied == null)
+            {
+                return $"No {friendlyName} supplied.";
+            }
+
+            List<string> invalid = new List<string>();
+
+            foreach (var segment in supplied.GetMinMaxRanges())
+            {
+                var segmentCheck = ValidateMultipleOf(segment, multiple, "Domain Segment");
+                invalid.AddIfNotNullOrEmpty(segmentCheck);
+            }
+
+            if (invalid.Count() != 0)
+            {
+                return $"Invalid {friendlyName} supplied: {string.Join(",", invalid)}.  {friendlyName} contained values that were not a multiple of {multiple}";
+            }
+
+            return null;
+        }
+
+        protected string ValidateMultipleOf(RangeMinMax supplied, int multiple, string friendlyName)
+        {
+            if (supplied == null)
+            {
+                return $"No {friendlyName} supplied.";
+            }
+
+            List<string> invalid = new List<string>();
+
+            if (supplied.Minimum == supplied.Maximum)
+            {
+                if (supplied.Minimum % multiple != 0)
+                {
+                    invalid.Add($"{supplied.Minimum}");
+                }
+            }
+            else
+            {
+                if (supplied.Minimum % multiple != 0)
+                {
+                    invalid.Add($"{supplied.Minimum}");
+                }
+                if (supplied.Maximum % multiple != 0)
+                {
+                    invalid.Add($"{supplied.Maximum}");
+                }
+                if (supplied.Increment % multiple != 0)
+                {
+                    invalid.Add($"{supplied.Increment}");
+                }
+            }
+
+            if (invalid.Count != 0)
+            {
+                return $"Invalid {friendlyName} supplied.  Domain Segment {supplied} contained values ({string.Join(",", invalid)}) that were not a multiple of {multiple}";
             }
 
             return null;

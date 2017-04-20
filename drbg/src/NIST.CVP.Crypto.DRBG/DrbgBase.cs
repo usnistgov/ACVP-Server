@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using NIST.CVP.Crypto.DRBG.Enums;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NLog;
 
 namespace NIST.CVP.Crypto.DRBG

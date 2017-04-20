@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
+using NIST.CVP.Math.Entropy;
 
-namespace NIST.CVP.Math.Tests
+namespace NIST.CVP.Math.Tests.Entropy
 {
     [TestFixture]
     public class EntropyProviderTests

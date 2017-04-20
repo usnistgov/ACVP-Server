@@ -6,6 +6,7 @@ namespace NIST.CVP.Crypto.DRBG
     {
         public DrbgMechanism Mechanism { get; set; }
         public DrbgMode Mode { get; set; }
+        public int SecurityStrength { get; set; }
         public bool DerFuncEnabled { get; set; }
         public bool PredResistanceEnabled { get; set; }
         public bool ReseedImplemented { get; set; }

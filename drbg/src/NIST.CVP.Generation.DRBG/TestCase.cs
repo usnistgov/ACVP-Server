@@ -1,0 +1,112 @@
+﻿using System.Collections.Generic;
+using System.Dynamic;
+using Newtonsoft.Json.Linq;
+using NIST.CVP.Crypto.DRBG;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Math;
+
+namespace NIST.CVP.Generation.DRBG
+{
+    public class TestCase : ITestCase
+    {
+
+        public int TestCaseId { get; set; }
+
+        public BitString EntropyInput { get; set; }
+        public BitString Nonce { get; set; }
+        public BitString PersoString { get; set; }
+        public List<OtherInfo> OtherInput { get; set; } = new List<OtherInfo>();
+
+        public BitString ReturnedBits { get; set; }
+
+        public bool FailureTest => false;
+        public bool Deferred => false;
+
+        public TestCase()
+        {
+            
+        }
+
+        public TestCase(dynamic source)
+        {
+            MapToProperties(source);
+        }
+
+        public TestCase(JObject source)
+        {
+            var data = source.ToObject<ExpandoObject>();
+            MapToProperties(data);
+        }
+
+        public bool Merge(ITestCase promptTestCase)
+        {
+            if (TestCaseId == promptTestCase.TestCaseId)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+      
+            switch (name.ToLower())
+            {
+                case "entropyinput":
+                    EntropyInput = new BitString(value);
+                    return true;
+                case "nonce":
+                    Nonce = new BitString(value);
+                    return true;
+                case "persostring":
+                    PersoString = new BitString(value);
+                    return true;
+                case "returnedbits":
+                    ReturnedBits = new BitString(value);
+                    return true;
+            }
+            return false;
+        }
+
+        private void MapToProperties(dynamic source)
+        {
+            TestCaseId = (int)source.tcId;
+
+            ExpandoObject expandoSource = (ExpandoObject)source;
+            EntropyInput = expandoSource.GetBitStringFromProperty("entropyInput");
+            Nonce = expandoSource.GetBitStringFromProperty("nonce");
+            PersoString = expandoSource.GetBitStringFromProperty("persoString");
+
+            if (((ExpandoObject)source).ContainsProperty("otherInput"))
+            {
+                OtherInput = OtherInputToObject(source.otherInput);
+            }
+
+            ReturnedBits = expandoSource.GetBitStringFromProperty("returnedBits");
+        }
+
+        private List<OtherInfo> OtherInputToObject(dynamic otherInput)
+        {
+            List<OtherInfo> list = new List<OtherInfo>();
+
+            foreach (dynamic item in otherInput)
+            {
+                ExpandoObject expandoItem = (ExpandoObject) item;
+
+                OtherInfo response = new OtherInfo();
+                response.AdditionalInput = expandoItem.GetBitStringFromProperty("additionalInput");
+                response.EntropyInput = expandoItem.GetBitStringFromProperty("entropyInput");
+
+                list.Add(response);
+            }
+
+            return list;
+        }
+    }
+}

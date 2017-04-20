@@ -111,6 +111,21 @@ namespace NIST.CVP.Math.Tests.Domain
         [Test]
         [TestCase(1)]
         [TestCase(5)]
+        public void ShouldGetRangeMinMaxForEachSegment(int numberOfSegments)
+        {
+            while (_subject.DomainSegments.Count() < numberOfSegments)
+            {
+                _subject.AddSegment(_mockDomainSegment.Object);
+            }
+
+            _subject.GetMinMaxRanges();
+
+            _mockDomainSegment.VerifyGet(v => v.RangeMinMax, Times.Exactly(numberOfSegments));
+        }
+
+        [Test]
+        [TestCase(1)]
+        [TestCase(5)]
         public void ShouldCallIsWithinDomainForEachSegment(int numberOfSegments)
         {
             while (_subject.DomainSegments.Count() < numberOfSegments)

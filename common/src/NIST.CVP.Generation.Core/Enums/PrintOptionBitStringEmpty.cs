@@ -3,6 +3,7 @@
     public enum PrintOptionBitStringEmpty
     {
         PrintAsEmptyString,
-        PrintAsDoubleZero
+        PrintAsDoubleZero,
+        DoNotPrintProperty
     }
 }

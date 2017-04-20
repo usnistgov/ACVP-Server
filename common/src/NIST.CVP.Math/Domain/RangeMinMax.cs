@@ -13,5 +13,17 @@ namespace NIST.CVP.Math.Domain
         public int Minimum { get; set; }
 
         public int Maximum { get; set; }
+
+        public int Increment { get; set; }
+
+        public override string ToString()
+        {
+            if (Minimum == Maximum)
+            {
+                return $"{Minimum}";
+            }
+
+            return $"{{Min: {Minimum}, Max: {Maximum}, Increment {Increment}}}";
+        }
     }
 }

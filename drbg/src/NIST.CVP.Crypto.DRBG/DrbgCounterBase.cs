@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using NIST.CVP.Crypto.DRBG.Enums;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.DRBG
 {

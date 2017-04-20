@@ -69,7 +69,8 @@ namespace NIST.CVP.Math.Domain
         public RangeMinMax RangeMinMax => new RangeMinMax()
         {
             Minimum = _min,
-            Maximum = _max
+            Maximum = _max,
+            Increment = _increment
         };
 
         /// <summary>
