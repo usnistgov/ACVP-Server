@@ -131,6 +131,7 @@ namespace NIST.CVP.Generation.AES_GCM
                         if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
                             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "tag", test.Tag);
                         }
 
                         _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key", test.Key);

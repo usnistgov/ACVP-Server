@@ -196,6 +196,17 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         }
 
         [Test]
+        public void EncryptShouldExcludeTagInPromptProjection()
+        {
+            var subject = GetSubject(1);
+            var results = subject.PromptProjection;
+            foreach (var item in results)
+            {
+                Assert.Throws(typeof(RuntimeBinderException), () => item.tag.ToString());
+            }
+        }
+
+        [Test]
         public void EncryptShouldExcludePlainTextInResultProjection()
         {
             var subject = GetSubject(1);
@@ -229,6 +240,19 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             foreach (var test in tests)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
+            }
+        }
+
+        [Test]
+        public void DecryptShouldIncludeTagInPromptProjection()
+        {
+            var subject = GetSubject(1, "decrypt");
+            var results = subject.PromptProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(test.tag.ToString()));
             }
         }
 
