@@ -7,21 +7,43 @@ using NIST.CVP.Math.Domain;
 namespace NIST.CVP.Generation.Core
 {
     /// <summary>
-    /// Used to properly deserialize the <see cref="MathDomain"/> object.
+    /// Used to properly serialize/deserialize the <see cref="MathDomain"/> object.
     /// </summary>
     public class DomainConverter : JsonConverter
     {
 
-        private readonly IRandom800_90 _random;
-
-        public DomainConverter(IRandom800_90 random)
-        {
-            _random = random;
-        }
+        private readonly IRandom800_90 _random = new Random800_90();
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            MathDomain md = (MathDomain)value;
+
+            writer.WriteStartArray();
+            
+            foreach (var segment in md.DomainSegments)
+            {
+                var valueSegment = segment as ValueDomainSegment;
+                if (valueSegment != null)
+                {
+                    writer.WriteValue(valueSegment.RangeMinMax.Minimum);
+                }
+                var rangeSegment = segment as RangeDomainSegment;
+                if (rangeSegment != null)
+                {
+                    var minMax = rangeSegment.RangeMinMax;
+
+                    writer.WriteStartObject();
+                    writer.WritePropertyName("min");
+                    writer.WriteValue(minMax.Minimum);
+                    writer.WritePropertyName("max");
+                    writer.WriteValue(minMax.Maximum);
+                    writer.WritePropertyName("increment");
+                    writer.WriteValue(minMax.Increment);
+                    writer.WriteEndObject();
+                }
+            }
+
+            writer.WriteEndArray();
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -37,7 +59,7 @@ namespace NIST.CVP.Generation.Core
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(MathDomain); ;
+            return objectType == typeof(MathDomain);
         }
 
         private class RangeDomainModel

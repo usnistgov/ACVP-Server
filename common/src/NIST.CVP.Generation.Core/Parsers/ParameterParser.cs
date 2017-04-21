@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using NLog;
@@ -8,6 +9,13 @@ namespace NIST.CVP.Generation.Core.Parsers
     public class ParameterParser<TParameters> : IParameterParser<TParameters> 
         where TParameters : IParameters
     {
+
+        protected readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>()
+        {
+            new BitstringConverter(),
+            new DomainConverter()
+        };
+
         public ParseResponse<TParameters> Parse(string path)
         {
             if (!File.Exists(path))
@@ -17,7 +25,13 @@ namespace NIST.CVP.Generation.Core.Parsers
 
             try
             {
-                var parameters = JsonConvert.DeserializeObject<TParameters>(File.ReadAllText(path));
+                var parameters = JsonConvert.DeserializeObject<TParameters>(
+                    File.ReadAllText(path),
+                    new JsonSerializerSettings
+                    {
+                        Converters = _jsonConverters
+                    }
+                );
                 return new ParseResponse<TParameters>(parameters);
             }
             catch (Exception ex)
