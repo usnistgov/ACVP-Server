@@ -11,23 +11,23 @@ namespace NIST.CVP.Generation.SHA3
     {
         public string Algorithm { get; set; }
         public bool IsSample { get; set; }
-
-        [JsonProperty(PropertyName = "functions")]
-        public Function[] Functions { get; set; }
         
-        [JsonProperty(PropertyName = "bitOrientedInput")]
+        [JsonProperty(PropertyName = "digestSizes")]
+        public int[] DigestSizes { get; set; }
+
+        [JsonProperty(PropertyName = "inBit")]
         public bool BitOrientedInput { get; set; } = false;
 
-        [JsonProperty(PropertyName = "bitOrientedOutput")]
+        [JsonProperty(PropertyName = "outBit")]
         public bool BitOrientedOutput { get; set; } = false;
 
-        [JsonProperty(PropertyName = "includeNull")]
+        [JsonProperty(PropertyName = "inEmpty")]
         public bool IncludeNull { get; set; } = false;
 
-        [JsonProperty(PropertyName = "minOutputLength")]
+        [JsonProperty(PropertyName = "outLengthMin")]
         public int MinOutputLength { get; set; } = 0;
 
-        [JsonProperty(PropertyName = "maxOutputLength")]
+        [JsonProperty(PropertyName = "outLengthMax")]
         public int MaxOutputLength { get; set; } = 0;
     }
 }

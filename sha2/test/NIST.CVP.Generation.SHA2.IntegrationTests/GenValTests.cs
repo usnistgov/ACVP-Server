@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA2(targetFolder);
             var result = Program.Main(new string[] {fileName});
             Assert.AreEqual(1, result);
         }
@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA2(targetFolder);
 
             var result = Program.Main(new string[] {fileName});
             Assert.AreEqual(1, result);
@@ -77,7 +77,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         public void GenShouldCreateTestVectors()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA2(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -95,7 +95,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA2(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -113,7 +113,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA1(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -126,7 +126,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         public void ShouldCreateValidationFile()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA2(targetFolder);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -134,10 +134,10 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         }
 
         [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCases()
+        public void ShouldReportAllSuccessfulTestsWithinValidationFewSHA1TestCases()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA1(targetFolder);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -148,10 +148,24 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         }
 
         [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationManyTests()
+        public void ShouldReportAllSuccessfulTestsWithinValidationFewSHA2TestCases()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileManyTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA2(targetFolder);
+
+            RunGenerationAndValidation(targetFolder, fileName);
+
+            var dp = new DynamicParser();
+            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+
+            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+        }
+
+        [Test]
+        public void ShouldReportAllSuccessfulTestsWithinValidationManySHA2Tests()
+        {
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileManyTestCasesSHA2(targetFolder);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -165,7 +179,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         public void ShouldReportFailedDispositionOnErrorTests()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA2(targetFolder);
 
             var expectedFailTestCases = new List<int>();
             RunGenerationAndValidationWithExpectedFailures(targetFolder, fileName, ref expectedFailTestCases);
@@ -268,29 +282,29 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
                         testCase.hashFail = false;
                     }
 
-                    if (testCase.digest != null)
+                    if (testCase.md != null)
                     {
-                        var bs = new BitString(testCase.digest.ToString());
+                        var bs = new BitString(testCase.md.ToString());
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
-                        testCase.digest = bs.ToHex();
+                        testCase.md = bs.ToHex();
                     }
 
-                    if (testCase.message != null)
+                    if (testCase.msg != null)
                     {
-                        var bs = new BitString(testCase.message.ToString());
+                        var bs = new BitString(testCase.msg.ToString());
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
-                        testCase.message = bs.ToHex();
+                        testCase.msg = bs.ToHex();
                     }
 
                     if (testCase.resultsArray != null)
                     {
-                        var bsMessage = new BitString(testCase.resultsArray[0].message.ToString());
+                        var bsMessage = new BitString(testCase.resultsArray[0].msg.ToString());
                         bsMessage = rand.GetDifferentBitStringOfSameSize(bsMessage);
-                        testCase.resultsArray[0].message = bsMessage.ToHex();
+                        testCase.resultsArray[0].msg = bsMessage.ToHex();
 
-                        var bsDigest = new BitString(testCase.resultsArray[0].digest.ToString());
+                        var bsDigest = new BitString(testCase.resultsArray[0].md.ToString());
                         bsDigest = rand.GetDifferentBitStringOfSameSize(bsDigest);
-                        testCase.resultsArray[0].digest = bsDigest.ToHex();
+                        testCase.resultsArray[0].md = bsDigest.ToHex();
                     }
                 }
             }
@@ -301,26 +315,14 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             return failedTestCases;
         }
 
-        private string GetTestFileFewTestCases(string targetFolder)
+        private string GetTestFileFewTestCasesSHA1(string targetFolder)
         {
             RemoveMCTTestGroupFactories();
 
             var parameters = new Parameters
             {
-                Algorithm = "SHA",
-                Functions = new []
-                {
-                    new Function
-                    {
-                        Mode = "sha1",
-                        DigestSizes = new [] {"160"}
-                    },
-                    new Function
-                    {
-                        Mode = "sha2",
-                        DigestSizes = new [] {"224", "256"}
-                    }
-                },
+                Algorithm = "SHA1",
+                DigestSizes = new[] {"160"},
                 BitOriented = true,
                 IncludeNull = true,
                 IsSample = true
@@ -329,26 +331,30 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             return CreateRegistration(targetFolder, parameters);
         }
 
-        private string GetTestFileManyTestCases(string targetFolder)
+        private string GetTestFileFewTestCasesSHA2(string targetFolder)
+        {
+            RemoveMCTTestGroupFactories();
+
+            var parameters = new Parameters
+            {
+                Algorithm = "SHA2",
+                DigestSizes = new[] {"224"},
+                BitOriented = false,
+                IncludeNull = false,
+                IsSample = true
+            };
+
+            return CreateRegistration(targetFolder, parameters);
+        }
+
+        private string GetTestFileManyTestCasesSHA2(string targetFolder)
         {
             var parameters = new Parameters
             {
-                Algorithm = "SHA",
-                Functions = new[]
-                {
-                    new Function
-                    {
-                        Mode = "sha1",
-                        DigestSizes = new [] {"160"}
-                    },
-                    new Function
-                    {
-                        Mode = "sha2",
-                        DigestSizes = new [] {"224", "256", "384", "512", "512/224", "512/256"}
-                    }
-                },
-                BitOriented = false,
-                IncludeNull = false,
+                Algorithm = "SHA2",
+                DigestSizes = new[] { "224", "256", "384", "512", "512/224", "512/256" },
+                BitOriented = true,
+                IncludeNull = true,
                 IsSample = true
             };
 

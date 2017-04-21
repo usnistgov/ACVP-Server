@@ -18,12 +18,18 @@ namespace NIST.CVP.Generation.SHA2.Tests
         private TestDataMother _tdm = new TestDataMother();
 
         [OneTimeSetUp]
-        public void Setup()
+        public void OneTimeSetUp()
         {
             if (!Directory.Exists(_WORKING_PATH))
             {
                 Directory.CreateDirectory(_WORKING_PATH);
             }
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            Directory.Delete(_WORKING_PATH);
         }
 
         [Test]
@@ -127,7 +133,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
 
         private TestVectorSet GetTestTestVectorSet(int groups = 2)
         {
-            var vectorSet = new TestVectorSet {Algorithm = "SHA"};
+            var vectorSet = new TestVectorSet {Algorithm = "SHA2"};
             var hashFunction = new HashFunction
             {
                 Mode = ModeValues.SHA2,

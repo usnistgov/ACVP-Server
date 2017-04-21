@@ -15,24 +15,9 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var parameters = new Parameters
             {
                 Algorithm = "SHA3",
-                Functions = new []
-                {
-                    new Function
-                    {
-                        Mode = "SHA3",
-                        DigestSizes = new [] {256}
-                    },
-                    new Function
-                    {
-                        Mode = "SHAKE",
-                        DigestSizes = new [] {128}
-                    }
-                },
+                DigestSizes = new [] {224, 256, 384, 512},
                 BitOrientedInput = true,
-                BitOrientedOutput = false,
                 IncludeNull = true,
-                MinOutputLength = 16,
-                MaxOutputLength = 65336,
                 IsSample = false
             };
             Assert.IsNotNull(parameters);
@@ -43,20 +28,8 @@ namespace NIST.CVP.Generation.SHA3.Tests
         {
             var parameters = new Parameters
             {
-                Algorithm = "SHA3",
-                Functions = new []
-                {
-                    new Function
-                    {
-                        Mode = "SHA3",
-                        DigestSizes = new [] {256}
-                    },
-                    new Function
-                    {
-                        Mode = "SHAKE",
-                        DigestSizes = new [] {128}
-                    }
-                },
+                Algorithm = "SHAKE",
+                DigestSizes = new [] {128, 256},
                 BitOrientedInput = true,
                 BitOrientedOutput = false,
                 IncludeNull = true,
@@ -66,7 +39,8 @@ namespace NIST.CVP.Generation.SHA3.Tests
             };
 
             Assume.That(parameters != null);
-            Assert.AreEqual("SHA3", parameters.Algorithm);
+            Assert.AreEqual("SHAKE", parameters.Algorithm);
         }
     }
 }
+

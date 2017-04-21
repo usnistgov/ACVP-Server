@@ -2,7 +2,6 @@
 using System.Linq;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA2.Tests
@@ -67,25 +66,24 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         public void ShouldReturnFalseIfMergeFails()
         {
-            Random800_90 rand = new Random800_90();
-            var testCase = new TestCase()
+            var testCase = new TestCase
             {
                 Message = null,
                 Digest = null,
                 TestCaseId = 42,
             };
 
-            List<ITestCase> testCases = new List<ITestCase>
+            var testCases = new List<ITestCase>
             {
                 testCase
             };
 
-            TestGroup tg = new TestGroup()
+            var group = new TestGroup
             {
                 Tests = testCases
             };
 
-            var result = tg.MergeTests(testCases);
+            var result = group.MergeTests(testCases);
 
             Assert.IsFalse(result);
         }
@@ -107,8 +105,9 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 DigestSize = DigestSizes.d224
             };
 
-            var sourceVector = new TestVectorSet()
+            var sourceVector = new TestVectorSet
             {
+                Algorithm = "SHA2",
                 TestGroups = _tdm.GetTestGroups(hashFunction).Select(g => (ITestGroup) g).ToList()
             };
 

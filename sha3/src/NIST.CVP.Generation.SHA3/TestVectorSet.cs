@@ -56,11 +56,11 @@ namespace NIST.CVP.Generation.SHA3
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
                     ((IDictionary<string, object>)updateObject).Add("digestSize", group.DigestSize);
 
-                    ((IDictionary<string, object>)updateObject).Add("bitOrientedInput", group.BitOrientedInput);
-                    ((IDictionary<string, object>)updateObject).Add("bitOrientedOutput", group.BitOrientedOutput);
-                    ((IDictionary<string, object>)updateObject).Add("minOutputLength", group.MinOutputLength);
-                    ((IDictionary<string, object>)updateObject).Add("maxOutputLength", group.MaxOutputLength);
-                    ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
+                    //((IDictionary<string, object>)updateObject).Add("bitOrientedInput", group.BitOrientedInput);
+                    //((IDictionary<string, object>)updateObject).Add("bitOrientedOutput", group.BitOrientedOutput);
+                    //((IDictionary<string, object>)updateObject).Add("minOutputLength", group.MinOutputLength);
+                    //((IDictionary<string, object>)updateObject).Add("maxOutputLength", group.MaxOutputLength);
+                    //((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>) updateObject).Add("tests", tests);
@@ -75,8 +75,8 @@ namespace NIST.CVP.Generation.SHA3
                             foreach (var result in test.ResultsArray)
                             {
                                 dynamic resultObject = new ExpandoObject();
-                                ((IDictionary<string, object>) resultObject).Add("message", result.Message);
-                                ((IDictionary<string, object>) resultObject).Add("digest", result.Digest);
+                                ((IDictionary<string, object>) resultObject).Add("msg", result.Message);
+                                ((IDictionary<string, object>) resultObject).Add("md", result.Digest);
 
                                 resultsArray.Add(resultObject);
                             }
@@ -85,7 +85,12 @@ namespace NIST.CVP.Generation.SHA3
                         }
                         else
                         {
-                            ((IDictionary<string, object>)testObject).Add("digest", test.Digest.ToLittleEndianHex());
+                            ((IDictionary<string, object>)testObject).Add("md", test.Digest.ToLittleEndianHex());
+
+                            if (group.TestType.ToLower() == "vot")
+                            {
+                                ((IDictionary<string, object>)testObject).Add("outLen", test.Digest.BitLength);
+                            }
                         }
 
                         tests.Add(testObject);
@@ -113,19 +118,19 @@ namespace NIST.CVP.Generation.SHA3
 
                     if (group.TestType.ToLower() != "mct")
                     {
-                        ((IDictionary<string, object>)updateObject).Add("bitOrientedInput", group.BitOrientedInput);
+                        //((IDictionary<string, object>)updateObject).Add("bitOrientedInput", group.BitOrientedInput);
                     }
 
                     if (group.Function.ToLower() == "shake")
                     {
-                        ((IDictionary<string, object>)updateObject).Add("bitOrientedOutput", group.BitOrientedOutput);
-                        ((IDictionary<string, object>)updateObject).Add("minOutputLength", group.MinOutputLength);
-                        ((IDictionary<string, object>)updateObject).Add("maxOutputLength", group.MaxOutputLength);
+                        //((IDictionary<string, object>)updateObject).Add("bitOrientedOutput", group.BitOrientedOutput);
+                        //((IDictionary<string, object>)updateObject).Add("minOutputLength", group.MinOutputLength);
+                        //((IDictionary<string, object>)updateObject).Add("maxOutputLength", group.MaxOutputLength);
                     }
 
                     if (group.TestType.ToLower() == "aft")
                     {
-                        ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
+                        //((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
                     }
 
                     var tests = new List<dynamic>();
@@ -134,7 +139,7 @@ namespace NIST.CVP.Generation.SHA3
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("message", test.Message.ToLittleEndianHex());
+                        ((IDictionary<string, object>)testObject).Add("msg", test.Message.ToLittleEndianHex());
 
                         if (group.TestType.ToLower() == "mct")
                         {
@@ -148,11 +153,11 @@ namespace NIST.CVP.Generation.SHA3
                         }
                         else if (group.TestType.ToLower() == "aft")
                         {
-                            ((IDictionary<string, object>)testObject).Add("inputLength", test.Message.BitLength);
+                            ((IDictionary<string, object>)testObject).Add("len", test.Message.BitLength);
                         }
                         else if (group.TestType.ToLower() == "vot")
                         {
-                            ((IDictionary<string, object>) testObject).Add("outputLength", test.Digest.BitLength);
+                            ((IDictionary<string, object>) testObject).Add("outLen", test.Digest.BitLength);
                         }
 
                         tests.Add(testObject);
@@ -187,8 +192,8 @@ namespace NIST.CVP.Generation.SHA3
                             foreach (var result in test.ResultsArray)
                             {
                                 dynamic resultObject = new ExpandoObject();
-                                ((IDictionary<string, object>) resultObject).Add("message", result.Message);
-                                ((IDictionary<string, object>) resultObject).Add("digest", result.Digest);
+                                ((IDictionary<string, object>) resultObject).Add("msg", result.Message);
+                                ((IDictionary<string, object>) resultObject).Add("md", result.Digest);
 
                                 resultsArray.Add(resultObject);
                             }
@@ -197,7 +202,12 @@ namespace NIST.CVP.Generation.SHA3
                         }
                         else
                         {
-                            ((IDictionary<string, object>)testObject).Add("digest", test.Digest.ToLittleEndianHex());
+                            ((IDictionary<string, object>)testObject).Add("md", test.Digest.ToLittleEndianHex());
+
+                            if (group.TestType.ToLower() == "vot")
+                            {
+                                ((IDictionary<string, object>) testObject).Add("outLen", test.Digest.BitLength);
+                            }
                         }
 
                         list.Add(testObject);

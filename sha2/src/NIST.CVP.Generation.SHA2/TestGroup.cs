@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.SHA2
         public override int GetHashCode()
         {
             return
-                $"{Function}|{DigestSize}|{TestType}|{BitOriented}|{IncludeNull}"
+                $"{Function}|{DigestSize}|{TestType}"
                     .GetHashCode();
         }
 

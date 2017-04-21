@@ -26,41 +26,35 @@ namespace NIST.CVP.Generation.SHA2
 
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)
         {
-            foreach (var function in parameters.Functions)
+            string result = ValidateValue(parameters.Algorithm.ToLower(), VALID_MODES, "SHA Function");
+            if (!string.IsNullOrEmpty(result))
             {
-                string result = ValidateValue(function.Mode, VALID_MODES, "SHA Function");
-                if (!string.IsNullOrEmpty(result))
-                {
-                    errorResults.Add(result);
-                }
+                errorResults.Add(result);
+            }
 
-                result = ValidateArray(function.DigestSizes, VALID_DIGEST_SIZES, "Digest Size");
-                if (!string.IsNullOrEmpty(result))
-                {
-                    errorResults.Add(result);
-                }
+            result = ValidateArray(parameters.DigestSizes, VALID_DIGEST_SIZES, "Digest Size");
+            if (!string.IsNullOrEmpty(result))
+            {
+                errorResults.Add(result);
             }
         }
 
         private void ValidateMatching(Parameters parameters, List<string> errorResults)
         {
-            foreach (var function in parameters.Functions)
+            if (parameters.Algorithm.ToLower() == "sha1")
             {
-                if (function.Mode == "sha1")
+                string result = ValidateArray(parameters.DigestSizes, VALID_SHA1_SIZES, "SHA1 digest size");
+                if (!string.IsNullOrEmpty(result))
                 {
-                    string result = ValidateArray(function.DigestSizes, VALID_SHA1_SIZES, "SHA1 digest size");
-                    if (!string.IsNullOrEmpty(result))
-                    {
-                        errorResults.Add(result);
-                    }
+                    errorResults.Add(result);
                 }
-                else if (function.Mode == "sha2")
+            }
+            else if (parameters.Algorithm.ToLower() == "sha2")
+            {
+                string result = ValidateArray(parameters.DigestSizes, VALID_SHA2_SIZES, "SHA2 digest size");
+                if (!string.IsNullOrEmpty(result))
                 {
-                    string result = ValidateArray(function.DigestSizes, VALID_SHA2_SIZES, "SHA2 digest size");
-                    if (!string.IsNullOrEmpty(result))
-                    {
-                        errorResults.Add(result);
-                    }
+                    errorResults.Add(result);
                 }
             }
         }

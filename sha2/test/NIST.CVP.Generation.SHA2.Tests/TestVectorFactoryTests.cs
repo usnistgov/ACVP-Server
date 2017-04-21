@@ -12,15 +12,8 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var result = subject.BuildTestVectorSet(
                 new Parameters
                 {
-                    Algorithm = "SHA",
-                    Functions = new []
-                    {
-                        new Function
-                        {
-                            Mode = "sha1",
-                            DigestSizes = new [] {"160"}
-                        }
-                    },
+                    Algorithm = "SHA1",
+                    DigestSizes = new [] {"160"},
                     BitOriented = true,
                     IncludeNull = true,
                 }
@@ -36,27 +29,15 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var result = subject.BuildTestVectorSet(
                 new Parameters
                 {
-                    Algorithm = "SHA",
-                    Functions = new []
-                    {
-                        new Function
-                        {
-                            Mode = "sha1",
-                            DigestSizes = new [] {"160"}
-                        },
-                        new Function
-                        {
-                            Mode = "sha2",
-                            DigestSizes = new [] {"224", "256", "384", "512", "512/224", "512/256"}
-                        }
-                    },
+                    Algorithm = "SHA2",
+                    DigestSizes = new [] {"224", "256", "384", "512", "512/224", "512/256"},
                     BitOriented = true,
                     IncludeNull = true,
                 }
             );
 
             Assume.That(result != null);
-            Assert.AreEqual(14, result.TestGroups.Count);       // 2 * 7 (aft + mct X digest sizes)
+            Assert.AreEqual(12, result.TestGroups.Count);       // 2 * 6 (aft + mct X digest sizes)
         }
     }
 }

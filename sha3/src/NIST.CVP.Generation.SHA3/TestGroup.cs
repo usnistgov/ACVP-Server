@@ -25,19 +25,19 @@ namespace NIST.CVP.Generation.SHA3
         [JsonProperty(PropertyName = "digestSize")]
         public int DigestSize { get; set; }
 
-        [JsonProperty(PropertyName = "bitOrientedInput")]
+        [JsonProperty(PropertyName = "inBit")]
         public bool BitOrientedInput { get; set; } = false;
 
-        [JsonProperty(PropertyName = "bitOrientedOutput")]
+        [JsonProperty(PropertyName = "outBit")]
         public bool BitOrientedOutput { get; set; } = false;
 
-        [JsonProperty(PropertyName = "includeNull")]
+        [JsonProperty(PropertyName = "inEmpty")]
         public bool IncludeNull { get; set; } = false;
 
-        [JsonProperty(PropertyName = "minOutputLength")]
+        [JsonProperty(PropertyName = "outLengthMin")]
         public int MinOutputLength { get; set; } = 0;
 
-        [JsonProperty(PropertyName = "maxOutputLength")]
+        [JsonProperty(PropertyName = "outLengthMax")]
         public int MaxOutputLength { get; set; } = 0;
 
         public TestGroup()
@@ -53,11 +53,11 @@ namespace NIST.CVP.Generation.SHA3
             Function = source.function;
             DigestSize = (int)source.digestSize;
 
-            BitOrientedInput = SetBoolValue(source, "bitOrientedInput");
-            BitOrientedOutput = SetBoolValue(source, "bitOrientedOutput");
-            IncludeNull = SetBoolValue(source, "includeNull");
-            MinOutputLength = SetIntValue(source, "minOutputLength");
-            MaxOutputLength = SetIntValue(source, "maxOutputLength");
+            BitOrientedInput = SetBoolValue(source, "inBit");
+            BitOrientedOutput = SetBoolValue(source, "outBit");
+            IncludeNull = SetBoolValue(source, "inEmpty");
+            MinOutputLength = SetIntValue(source, "outLengthMin");
+            MaxOutputLength = SetIntValue(source, "outLengthMax");
             
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)

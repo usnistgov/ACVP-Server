@@ -8,13 +8,13 @@ namespace NIST.CVP.Generation.SHA2
         public string Algorithm { get; set; }
         public bool IsSample { get; set; }
 
-        [JsonProperty(PropertyName = "functions")]
-        public Function[] Functions { get; set; }
+        [JsonProperty(PropertyName = "digestSizes")]
+        public string[] DigestSizes { get; set; }
         
-        [JsonProperty(PropertyName = "bitOriented")]
+        [JsonProperty(PropertyName = "inBit")]
         public bool BitOriented { get; set; } = false;
 
-        [JsonProperty(PropertyName = "includeNull")]
+        [JsonProperty(PropertyName = "inEmpty")]
         public bool IncludeNull { get; set; } = false;
     }
 }

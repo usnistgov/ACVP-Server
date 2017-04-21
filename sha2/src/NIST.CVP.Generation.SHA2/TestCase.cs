@@ -129,8 +129,8 @@ namespace NIST.CVP.Generation.SHA2
                 ResultsArray = ResultsArrayToObject(source.resultsArray);
             }
 
-            Digest = BitStringFromObject("digest", (ExpandoObject)source);
-            Message = BitStringFromObject("message", (ExpandoObject)source);
+            Message = BitStringFromObject("msg", (ExpandoObject)source);
+            Digest = BitStringFromObject("md", (ExpandoObject)source);
         }
 
         private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
@@ -140,8 +140,8 @@ namespace NIST.CVP.Generation.SHA2
             foreach (dynamic item in resultsArray)
             {
                 var response = new AlgoArrayResponse();
-                response.Message = BitStringFromObject("message", (ExpandoObject) item);
-                response.Digest = BitStringFromObject("digest", (ExpandoObject) item);
+                response.Message = BitStringFromObject("msg", (ExpandoObject) item);
+                response.Digest = BitStringFromObject("md", (ExpandoObject) item);
 
                 list.Add(response);
             }

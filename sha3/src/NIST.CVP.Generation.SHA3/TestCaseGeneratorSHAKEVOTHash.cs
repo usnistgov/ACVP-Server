@@ -17,6 +17,8 @@ namespace NIST.CVP.Generation.SHA3
 
         private List<int> _testCaseSizes = new List<int>();
 
+        private int _digestSize = 0;
+
         private readonly IRandom800_90 _random800_90;
         private readonly ISHA3 _algo;
 
@@ -40,7 +42,7 @@ namespace NIST.CVP.Generation.SHA3
                 _capacity = 2 * group.DigestSize;
             }
 
-            group.DigestSize = _testCaseSizes[_currentCase];
+            _digestSize = _testCaseSizes[_currentCase];
             _currentCase++;
 
             var message = _random800_90.GetRandomBitString(_capacity / 2);
@@ -62,7 +64,7 @@ namespace NIST.CVP.Generation.SHA3
                 var hashFunction = new HashFunction
                 {
                     Capacity = _capacity,
-                    DigestSize = group.DigestSize,
+                    DigestSize = _digestSize,
                     XOF = true
                 };
 

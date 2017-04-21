@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            //Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
             var result = Program.Main(new string[] {fileName});
             Assert.AreEqual(1, result);
         }
@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
 
             var result = Program.Main(new string[] {fileName});
             Assert.AreEqual(1, result);
@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         public void GenShouldCreateTestVectors()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -98,7 +98,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -116,7 +116,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             };
 
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -129,7 +129,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         public void ShouldCreateValidationFile()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -137,10 +137,10 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         }
 
         [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCases()
+        public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCasesSHA3()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -151,10 +151,38 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         }
 
         [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationManyTests()
+        public void ShouldReportAllSuccessfulTestsWithinValidationManyTestsSHA3()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileManyTestCases(targetFolder);
+            var fileName = GetTestFileManyTestCasesSHA3(targetFolder);
+
+            RunGenerationAndValidation(targetFolder, fileName);
+
+            var dp = new DynamicParser();
+            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+
+            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+        }
+
+        [Test]
+        public void ShouldReportAllSuccessfulTestsWithinValidationFewTestsSHAKE()
+        {
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileFewTestCasesSHAKE(targetFolder);
+
+            RunGenerationAndValidation(targetFolder, fileName);
+
+            var dp = new DynamicParser();
+            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+
+            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+        }
+
+        [Test]
+        public void ShouldReportAllSuccessfulTestsWithinValidationManyTestsSHAKE()
+        {
+            var targetFolder = GetTestFolder();
+            var fileName = GetTestFileManyTestCasesSHAKE(targetFolder);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -168,7 +196,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         public void ShouldReportFailedDispositionOnErrorTests()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
 
             var expectedFailTestCases = new List<int>();
             RunGenerationAndValidationWithExpectedFailures(targetFolder, fileName, ref expectedFailTestCases);
@@ -274,29 +302,29 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                         testCase.hashFail = false;
                     }
 
-                    if (testCase.digest != null)
+                    if (testCase.md != null)
                     {
-                        var bs = new BitString(testCase.digest.ToString());
+                        var bs = new BitString(testCase.md.ToString());
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
-                        testCase.digest = bs.ToHex();
+                        testCase.md = bs.ToHex();
                     }
 
-                    if (testCase.message != null)
+                    if (testCase.msg != null)
                     {
-                        var bs = new BitString(testCase.message.ToString());
+                        var bs = new BitString(testCase.msg.ToString());
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
-                        testCase.message = bs.ToHex();
+                        testCase.msg = bs.ToHex();
                     }
 
                     if (testCase.resultsArray != null)
                     {
-                        var bsMessage = new BitString(testCase.resultsArray[0].message.ToString());
+                        var bsMessage = new BitString(testCase.resultsArray[0].msg.ToString());
                         bsMessage = rand.GetDifferentBitStringOfSameSize(bsMessage);
-                        testCase.resultsArray[0].message = bsMessage.ToHex();
+                        testCase.resultsArray[0].msg = bsMessage.ToHex();
 
-                        var bsDigest = new BitString(testCase.resultsArray[0].digest.ToString());
+                        var bsDigest = new BitString(testCase.resultsArray[0].md.ToString());
                         bsDigest = rand.GetDifferentBitStringOfSameSize(bsDigest);
-                        testCase.resultsArray[0].digest = bsDigest.ToHex();
+                        testCase.resultsArray[0].md = bsDigest.ToHex();
                     }
                 }
             }
@@ -307,22 +335,13 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             return failedTestCases;
         }
 
-        private string GetTestFileFewTestCases(string targetFolder)
+        private string GetTestFileFewTestCasesSHA3(string targetFolder)
         {
-            RemoveMCTTestGroupFactories();
-
             var parameters = new Parameters
             {
                 Algorithm = "SHA3",
-                Functions = new []
-                {
-                    new Function
-                    {
-                        Mode = "sha3",
-                        DigestSizes = new [] {224, 256, 384}
-                    }
-                },
-                BitOrientedInput = true,
+                DigestSizes = new [] {224},
+                BitOrientedInput = false,
                 IncludeNull = false,
                 IsSample = true
             };
@@ -330,24 +349,43 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             return CreateRegistration(targetFolder, parameters);
         }
 
-        private string GetTestFileManyTestCases(string targetFolder)
+        private string GetTestFileManyTestCasesSHA3(string targetFolder)
         {
             var parameters = new Parameters
             {
                 Algorithm = "SHA3",
-                Functions = new[]
-                {
-                    new Function
-                    {
-                        Mode = "sha3",
-                        DigestSizes = new [] {224, 256, 384, 512}
-                    },
-                    new Function
-                    {
-                        Mode = "shake",
-                        DigestSizes = new [] {128, 256}
-                    }
-                },
+                DigestSizes = new [] {224, 256, 384, 512},
+                BitOrientedInput = true,
+                IncludeNull = true,
+                IsSample = false
+            };
+
+            return CreateRegistration(targetFolder, parameters);
+        }
+
+        private string GetTestFileFewTestCasesSHAKE(string targetFolder)
+        {
+            var parameters = new Parameters
+            {
+                Algorithm = "SHAKE",
+                DigestSizes = new[] { 128 },
+                BitOrientedInput = false,
+                BitOrientedOutput = false,
+                IncludeNull = false,
+                MinOutputLength = 256,
+                MaxOutputLength = 512,
+                IsSample = true
+            };
+
+            return CreateRegistration(targetFolder, parameters);
+        }
+
+        private string GetTestFileManyTestCasesSHAKE(string targetFolder)
+        {
+            var parameters = new Parameters
+            {
+                Algorithm = "SHAKE",
+                DigestSizes = new[] { 128, 256 },
                 BitOrientedInput = true,
                 BitOrientedOutput = true,
                 IncludeNull = true,
@@ -357,14 +395,6 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             };
 
             return CreateRegistration(targetFolder, parameters);
-        }
-
-        private void RemoveMCTTestGroupFactories()
-        {
-            AutofacConfig.OverrideRegistrations += builder =>
-            {
-                builder.RegisterType<NullMCTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
-            };
         }
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)

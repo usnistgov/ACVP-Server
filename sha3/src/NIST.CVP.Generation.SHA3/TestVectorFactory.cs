@@ -12,35 +12,32 @@ namespace NIST.CVP.Generation.SHA3
        
         public ITestVectorSet BuildTestVectorSet(Parameters parameters)
         {
-            return new TestVectorSet {TestGroups = BuildTestGroups(parameters), Algorithm = "SHA3", IsSample = parameters.IsSample};
+            return new TestVectorSet {TestGroups = BuildTestGroups(parameters), Algorithm = parameters.Algorithm, IsSample = parameters.IsSample};
         }
 
         private List<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<ITestGroup>();
-            foreach (var function in parameters.Functions)
+            foreach (var digestSize in parameters.DigestSizes)
             {
-                foreach (var digestSize in function.DigestSizes)
+                foreach (var testType in _testTypes)
                 {
-                    foreach (var testType in _testTypes)
+                    var testGroup = new TestGroup
                     {
-                        var testGroup = new TestGroup
-                        {
-                            Function = function.Mode,
-                            DigestSize = digestSize,
-                            IncludeNull = parameters.IncludeNull,
-                            BitOrientedInput = parameters.BitOrientedInput,
-                            BitOrientedOutput = parameters.BitOrientedOutput,
-                            MinOutputLength = parameters.MinOutputLength,
-                            MaxOutputLength = parameters.MaxOutputLength,
-                            TestType = testType
-                        };
+                        Function = parameters.Algorithm,
+                        DigestSize = digestSize,
+                        IncludeNull = parameters.IncludeNull,
+                        BitOrientedInput = parameters.BitOrientedInput,
+                        BitOrientedOutput = parameters.BitOrientedOutput,
+                        MinOutputLength = parameters.MinOutputLength,
+                        MaxOutputLength = parameters.MaxOutputLength,
+                        TestType = testType
+                    };
 
-                        // We cannot have SHA3 + VOT, so we just don't add that one
-                        if (!(testGroup.Function.ToLower() == "sha3" && testGroup.TestType.ToLower() == "vot"))
-                        {
-                            testGroups.Add(testGroup);
-                        }
+                    // We cannot have SHA3 + VOT, so we just don't add that one
+                    if (!(testGroup.Function.ToLower() == "sha3" && testGroup.TestType.ToLower() == "vot"))
+                    {
+                        testGroups.Add(testGroup);
                     }
                 }
             }

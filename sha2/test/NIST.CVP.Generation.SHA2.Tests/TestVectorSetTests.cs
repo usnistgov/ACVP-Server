@@ -72,16 +72,16 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var subject = GetSubject(1);
             var results = subject.AnswerProjection;
             var group = results[0];
-            Assert.IsTrue(!string.IsNullOrEmpty(group.function.ToString()), nameof(group.function));
+            //Assert.IsTrue(!string.IsNullOrEmpty(group.function.ToString()), nameof(group.function));
             Assert.IsTrue(!string.IsNullOrEmpty(group.digestSize.ToString()), nameof(group.digestSize));
-            Assert.IsTrue(!string.IsNullOrEmpty(group.bitOriented.ToString()), nameof(group.bitOriented));
-            Assert.IsTrue(!string.IsNullOrEmpty(group.includeNull.ToString()), nameof(group.includeNull));
+            //Assert.IsTrue(!string.IsNullOrEmpty(group.bitOriented.ToString()), nameof(group.bitOriented));
+            //Assert.IsTrue(!string.IsNullOrEmpty(group.includeNull.ToString()), nameof(group.includeNull));
 
             var tests = group.tests;
             foreach (var test in tests)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
-                Assert.IsTrue(!string.IsNullOrEmpty(test.digest.ToString()), nameof(test.digest));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.md.ToString()), nameof(test.md));
             }
         }
 
@@ -91,13 +91,13 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var subject = GetSubject(1);
             var results = subject.PromptProjection;
             var group = results[0];
-            Assert.IsTrue(!string.IsNullOrEmpty(group.function.ToString()), nameof(group.function));
+            //Assert.IsTrue(!string.IsNullOrEmpty(group.function.ToString()), nameof(group.function));
 
             var tests = group.tests;
             foreach (var test in tests)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
-                Assert.IsTrue(!string.IsNullOrEmpty(test.message.ToString()), nameof(test.message));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.msg.ToString()), nameof(test.msg));
             }
         }
 
@@ -121,7 +121,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(test.digest.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.md.ToString()));
             }
         }
 
@@ -134,7 +134,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(test.message.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.msg.ToString()));
             }
         }
 
@@ -145,7 +145,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.digest.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(item.md.ToString()));
             }
         }
 
@@ -158,7 +158,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => test.message.ToString());
+                Assert.Throws(typeof(RuntimeBinderException), () => test.msg.ToString());
             }
         }
 
@@ -171,7 +171,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => test.digest.ToString());
+                Assert.Throws(typeof(RuntimeBinderException), () => test.md.ToString());
             }
         }
 
@@ -182,7 +182,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => item.message.ToString());
+                Assert.Throws(typeof(RuntimeBinderException), () => item.msg.ToString());
             }
         }
 
@@ -197,8 +197,8 @@ namespace NIST.CVP.Generation.SHA2.Tests
             {
                 foreach (var result in test.resultsArray)
                 {
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.message.ToString()));
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.digest.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.msg.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.md.ToString()));
                 }
             }
         }
@@ -244,8 +244,8 @@ namespace NIST.CVP.Generation.SHA2.Tests
             {
                 foreach (var result in item.resultsArray)
                 {
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.message.ToString()));
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.digest.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.msg.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(result.md.ToString()));
                 }
             }
         }

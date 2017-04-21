@@ -10,20 +10,8 @@ namespace NIST.CVP.Generation.SHA2.Tests
         {
             var parameters = new Parameters
             {
-                Algorithm = "SHA",
-                Functions = new []
-                {
-                    new Function
-                    {
-                        Mode = "sha1",
-                        DigestSizes = new [] {"160"}
-                    },
-                    new Function
-                    {
-                        Mode = "sha2",
-                        DigestSizes = new [] {"512"}
-                    }
-                },
+                Algorithm = "SHA1",
+                DigestSizes = new [] {"160"},
                 IsSample = false,
                 BitOriented = false,
                 IncludeNull = false
@@ -36,25 +24,13 @@ namespace NIST.CVP.Generation.SHA2.Tests
         {
             var parameters = new Parameters
             {
-                Algorithm = "SHA",
-                Functions = new[]
-                {
-                    new Function
-                    {
-                        Mode = "sha1",
-                        DigestSizes = new [] {"160"}
-                    },
-                    new Function
-                    {
-                        Mode = "sha2",
-                        DigestSizes = new [] {"512"}
-                    }
-                },
+                Algorithm = "SHA2",
+                DigestSizes = new [] {"224", "256", "384", "512", "512/224", "512/256"},
                 IsSample = false,
                 BitOriented = false,
                 IncludeNull = false
             };
-            Assert.AreEqual("SHA", parameters.Algorithm);
+            Assert.AreEqual("SHA2", parameters.Algorithm);
         }
     }
 }

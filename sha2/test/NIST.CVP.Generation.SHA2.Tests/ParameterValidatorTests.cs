@@ -19,28 +19,14 @@ namespace NIST.CVP.Generation.SHA2.Tests
         }
 
         [Test]
-        [TestCase("null", new object[] { null })]
-        [TestCase("Invalid valid", new object[] { "notValid" })]
-        [TestCase("Partially valid", new object[] { "SHA1", "notValid" })]
-        [TestCase("Partially valid with null", new object[] { "SHA1", null })]
-        public void ShouldReturnErrorWithInvalidMode(string label, object[] mode)
+        [TestCase("Invalid valid", "notValid")]
+        [TestCase("Partially valid", "SHA")]
+        public void ShouldReturnErrorWithInvalidAlgorithm(string label, string mode)
         {
-            var strModes = mode.Select(v => (string) v).ToArray();
-            var functions = new Function[strModes.Length];
-
-            for (var i = 0; i < strModes.Length; i++)
-            {
-                functions[i] = new Function
-                {
-                    Mode = strModes[i],
-                    DigestSizes = new [] {"224"}
-                };
-            }
-          
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithFunctions(functions)
+                    .WithAlgorithm(mode)
                     .Build()
             );
 
@@ -50,25 +36,18 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [Test]
         [TestCase("null", new object[] { null })]
         [TestCase("empty", new object[] { })]
-        [TestCase("Invalid valid", new object[] { "notValid" })]
+        [TestCase("Invalid", new object[] { "notValid" })]
         [TestCase("Partially valid", new object[] { "224", "notValid" })]
         [TestCase("Partially valid with null", new object[] { "512t256", null })]
         public void ShouldReturnErrorWithInvalidDigestSize(string label, object[] digestSize)
         {
             var strDigs = digestSize.Select(v => (string)v).ToArray();
-            var functions = new []
-            {
-                new Function
-                {
-                    Mode = "sha2",
-                    DigestSizes = strDigs
-                }
-            };
             
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithFunctions(functions)
+                    .WithAlgorithm("SHA2")
+                    .WithDigestSizes(strDigs)
                     .Build()
             );
 
@@ -81,15 +60,8 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithFunctions(
-                        new Function[]
-                        {
-                            new Function
-                            {
-                                Mode = "sha1",
-                                DigestSizes = new [] {"224"}
-                            }
-                        })
+                    .WithAlgorithm("SHA1")
+                    .WithDigestSizes(new [] {"256"})
                     .Build()
             );
 
@@ -102,15 +74,8 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithFunctions(
-                        new Function[]
-                        {
-                            new Function
-                            {
-                                Mode = "sha2",
-                                DigestSizes = new [] {"160"}
-                            }
-                        })
+                    .WithAlgorithm("SHA2")
+                    .WithDigestSizes(new [] {"160"})
                     .Build()
             );
 
@@ -146,26 +111,14 @@ namespace NIST.CVP.Generation.SHA2.Tests
         public class ParameterBuilder
         {
             private string _algorithm;
-            private Function[] _functions;
+            private string[] _digestSizes;
             private bool _includeNull;
             private bool _bitOriented;
 
             public ParameterBuilder()
             {
-                _algorithm = "SHA";
-                _functions = new[]
-                {
-                    new Function
-                    {
-                        Mode = "sha1",
-                        DigestSizes = new[] {"160"}
-                    },
-                    new Function
-                    {
-                        Mode = "sha2",
-                        DigestSizes = new [] {"224", "256", "384", "512", "512/224", "512/256"}
-                    }
-                };
+                _algorithm = "SHA2";
+                _digestSizes = new[] {"224", "256"};
                 _includeNull = true;
                 _bitOriented = true;
             }
@@ -176,9 +129,9 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 return this;
             }
 
-            public ParameterBuilder WithFunctions(Function[] value)
+            public ParameterBuilder WithDigestSizes(string[] value)
             {
-                _functions = value;
+                _digestSizes = value;
                 return this;
             }
 
@@ -199,7 +152,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 return new Parameters
                 {
                     Algorithm = _algorithm,
-                    Functions = _functions,
+                    DigestSizes = _digestSizes,
                     BitOriented = _bitOriented,
                     IncludeNull = _includeNull
                 };

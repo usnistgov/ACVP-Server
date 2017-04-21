@@ -21,28 +21,14 @@ namespace NIST.CVP.Generation.SHA3.Tests
         }
 
         [Test]
-        [TestCase("null", new object[] { null })]
-        [TestCase("Invalid valid", new object[] { "notValid" })]
-        [TestCase("Partially valid", new object[] { "SHA3", "notValid" })]
-        [TestCase("Partially valid with null", new object[] { "SHAKE", null })]
-        public void ShouldReturnErrorWithInvalidMode(string label, object[] mode)
+        [TestCase("Invalid valid", "notValid")]
+        [TestCase("Partially valid", "SHA")]
+        public void ShouldReturnErrorWithInvalidAlgorithm(string label, string mode)
         {
-            var strModes = mode.Select(v => (string)v).ToArray();
-            var functions = new Function[strModes.Length];
-
-            for (var i = 0; i < strModes.Length; i++)
-            {
-                functions[i] = new Function
-                {
-                    Mode = strModes[i],
-                    DigestSizes = new[] { 224 }
-                };
-            }
-
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithFunctions(functions)
+                    .WithAlgorithm(mode)
                     .Build()
             );
 
@@ -51,24 +37,17 @@ namespace NIST.CVP.Generation.SHA3.Tests
 
         [Test]
         [TestCase("empty", new object[] { })]
-        [TestCase("Invalid valid", new object[] { 152 })]
-        [TestCase("Partially valid", new object[] { 224, 9000 })]
+        [TestCase("Invalid", new object[] { 225 })]
+        [TestCase("Partially valid", new object[] { 224, 200 })]
         public void ShouldReturnErrorWithInvalidDigestSize(string label, object[] digestSize)
         {
-            var strDigs = digestSize.Select(v => (int)v).ToArray();
-            var functions = new[]
-            {
-                new Function
-                {
-                    Mode = "sha3",
-                    DigestSizes = strDigs
-                }
-            };
+            var intDigs = digestSize.Select(v => (int)v).ToArray();
 
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithFunctions(functions)
+                    .WithAlgorithm("SHA3")
+                    .WithDigestSizes(intDigs)
                     .Build()
             );
 
@@ -81,15 +60,8 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithFunctions(
-                        new Function[]
-                        {
-                            new Function
-                            {
-                                Mode = "sha3",
-                                DigestSizes = new [] {128}
-                            }
-                        })
+                    .WithAlgorithm("SHA3")
+                    .WithDigestSizes(new[] { 128 })
                     .Build()
             );
 
@@ -102,15 +74,8 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithFunctions(
-                        new Function[]
-                        {
-                            new Function
-                            {
-                                Mode = "shake",
-                                DigestSizes = new[] {224}
-                            }
-                        })
+                    .WithAlgorithm("SHAKE")
+                    .WithDigestSizes(new[] { 224 })
                     .Build()
             );
 
@@ -146,26 +111,14 @@ namespace NIST.CVP.Generation.SHA3.Tests
         public class ParameterBuilder
         {
             private string _algorithm;
-            private Function[] _functions;
+            private int[] _digestSizes;
             private bool _includeNull;
             private bool _bitOrientedInput;
 
             public ParameterBuilder()
             {
                 _algorithm = "SHA3";
-                _functions = new[]
-                {
-                    new Function
-                    {
-                        Mode = "sha3",
-                        DigestSizes = new[] {224, 256, 384, 512}
-                    },
-                    new Function
-                    {
-                        Mode = "shake",
-                        DigestSizes = new [] {128, 256}
-                    }
-                };
+                _digestSizes = new [] { 224 };
                 _includeNull = true;
                 _bitOrientedInput = true;
             }
@@ -176,9 +129,9 @@ namespace NIST.CVP.Generation.SHA3.Tests
                 return this;
             }
 
-            public ParameterBuilder WithFunctions(Function[] value)
+            public ParameterBuilder WithDigestSizes(int[] value)
             {
-                _functions = value;
+                _digestSizes = value;
                 return this;
             }
 
@@ -199,7 +152,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
                 return new Parameters
                 {
                     Algorithm = _algorithm,
-                    Functions = _functions,
+                    DigestSizes = _digestSizes,
                     BitOrientedInput = _bitOrientedInput,
                     BitOrientedOutput = false,
                     IncludeNull = _includeNull,

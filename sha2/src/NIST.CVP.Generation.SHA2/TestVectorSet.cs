@@ -58,8 +58,8 @@ namespace NIST.CVP.Generation.SHA2
 
                     if (group.TestType.ToLower() != "mct")
                     {
-                        ((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
-                        ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
+                        //((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
+                        //((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
                     }
 
                     var tests = new List<dynamic>();
@@ -75,8 +75,8 @@ namespace NIST.CVP.Generation.SHA2
                             foreach (var result in test.ResultsArray)
                             {
                                 dynamic resultObject = new ExpandoObject();
-                                ((IDictionary<string, object>) resultObject).Add("message", result.Message);
-                                ((IDictionary<string, object>) resultObject).Add("digest", result.Digest);
+                                ((IDictionary<string, object>) resultObject).Add("msg", result.Message);
+                                ((IDictionary<string, object>) resultObject).Add("md", result.Digest);
 
                                 resultsArray.Add(resultObject);
                             }
@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.SHA2
                         }
                         else
                         {
-                            ((IDictionary<string, object>)testObject).Add("digest", test.Digest);
+                            ((IDictionary<string, object>)testObject).Add("md", test.Digest);
                         }
 
                         tests.Add(testObject);
@@ -116,8 +116,8 @@ namespace NIST.CVP.Generation.SHA2
 
                     if (group.TestType.ToLower() != "mct")
                     {
-                        ((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
-                        ((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
+                        //((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
+                        //((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
                     }
 
                     var tests = new List<dynamic>();
@@ -126,11 +126,11 @@ namespace NIST.CVP.Generation.SHA2
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("message", test.Message);
+                        ((IDictionary<string, object>)testObject).Add("msg", test.Message);
 
                         if (group.TestType.ToLower() != "mct")
                         {
-                            ((IDictionary<string, object>)testObject).Add("messageLength", test.Message.BitLength);
+                            ((IDictionary<string, object>)testObject).Add("len", test.Message.BitLength);
                         }
 
                         //if (group.TestType.ToLower() == "mct")
@@ -183,8 +183,8 @@ namespace NIST.CVP.Generation.SHA2
                             foreach (var result in test.ResultsArray)
                             {
                                 dynamic resultObject = new ExpandoObject();
-                                ((IDictionary<string, object>)resultObject).Add("message", result.Message);
-                                ((IDictionary<string, object>)resultObject).Add("digest", result.Digest);
+                                ((IDictionary<string, object>)resultObject).Add("msg", result.Message);
+                                ((IDictionary<string, object>)resultObject).Add("md", result.Digest);
 
                                 resultsArray.Add(resultObject);
                             }
@@ -193,7 +193,7 @@ namespace NIST.CVP.Generation.SHA2
                         }
                         else
                         {
-                            ((IDictionary<string, object>)testObject).Add("digest", test.Digest);
+                            ((IDictionary<string, object>)testObject).Add("md", test.Digest);
                         }
 
                         list.Add(testObject);

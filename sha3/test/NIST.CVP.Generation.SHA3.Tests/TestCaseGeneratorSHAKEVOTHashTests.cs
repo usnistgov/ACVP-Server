@@ -155,5 +155,35 @@ namespace NIST.CVP.Generation.SHA3.Tests
                 Assert.IsTrue(result.Success);
             }
         }
+
+        [Test]
+        public void ShouldNotModifyTestGroup()
+        {
+            var algo = new Mock<ISHA3>();
+            algo.Setup(s => s.HashMessage(It.IsAny<HashFunction>(), It.IsAny<BitString>()))
+                .Returns(new HashResult(new BitString("ABCD")));
+
+            var subject = new TestCaseGeneratorSHAKEVOTHash(new Random800_90(), algo.Object);
+            var testGroup = new TestGroup
+            {
+                Function = "shake",
+                DigestSize = 128,
+                BitOrientedOutput = true,
+                MinOutputLength = 16,
+                MaxOutputLength = 65536
+            };
+
+            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            {
+                var result = subject.Generate(testGroup, false);
+
+                Assert.IsTrue(result.Success);
+                Assert.AreEqual("shake", testGroup.Function);
+                Assert.AreEqual(128, testGroup.DigestSize);
+                Assert.AreEqual(true, testGroup.BitOrientedOutput);
+                Assert.AreEqual(16, testGroup.MinOutputLength);
+                Assert.AreEqual(65536, testGroup.MaxOutputLength);
+            }
+        }
     }
 }
