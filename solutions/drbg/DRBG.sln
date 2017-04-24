@@ -37,13 +37,9 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.AES.Tests",
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.AES", "..\..\common\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.xproj", "{713110FA-7520-4D30-BCE1-281C07FB99A8}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.AES_OFB", "..\..\aes-ofb\src\NIST.CVP.Crypto.AES_OFB\NIST.CVP.Crypto.AES_OFB.xproj", "{EBAE1089-6A56-47BC-8100-BC0790499859}"
-EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.DRBG", "..\..\drbg\src\NIST.CVP.Crypto.DRBG\NIST.CVP.Crypto.DRBG.xproj", "{A094E20E-55BB-40E0-9562-5DE2B23C13A9}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.DRBG.Tests", "..\..\drbg\test\NIST.CVP.Crypto.DRBG.Tests\NIST.CVP.Crypto.DRBG.Tests.xproj", "{27E05AF2-E407-4956-90DE-18914ED88623}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES_ECB", "..\..\aes-ecb\src\NIST.CVP.Generation.AES_ECB\NIST.CVP.Generation.AES_ECB.xproj", "{F0BE5870-141D-481C-9541-CB5892C93044}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,10 +107,6 @@ Global
 		{713110FA-7520-4D30-BCE1-281C07FB99A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{713110FA-7520-4D30-BCE1-281C07FB99A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{713110FA-7520-4D30-BCE1-281C07FB99A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EBAE1089-6A56-47BC-8100-BC0790499859}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBAE1089-6A56-47BC-8100-BC0790499859}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBAE1089-6A56-47BC-8100-BC0790499859}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBAE1089-6A56-47BC-8100-BC0790499859}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A094E20E-55BB-40E0-9562-5DE2B23C13A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A094E20E-55BB-40E0-9562-5DE2B23C13A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A094E20E-55BB-40E0-9562-5DE2B23C13A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -123,10 +115,6 @@ Global
 		{27E05AF2-E407-4956-90DE-18914ED88623}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27E05AF2-E407-4956-90DE-18914ED88623}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27E05AF2-E407-4956-90DE-18914ED88623}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0BE5870-141D-481C-9541-CB5892C93044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0BE5870-141D-481C-9541-CB5892C93044}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0BE5870-141D-481C-9541-CB5892C93044}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0BE5870-141D-481C-9541-CB5892C93044}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
