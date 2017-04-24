@@ -61,8 +61,7 @@ namespace NIST.CVP.Generation.DRBG
                                 SecurityStrength = mapped.Item5,
 
                                 DerFuncEnabled = parameters.DerFuncEnabled,
-                                // Prediction resistance test only when reseed implemented
-                                PredResistanceEnabled = parameters.ReseedImplemented && parameters.PredResistanceEnabled,
+                                PredResistanceEnabled = parameters.PredResistanceEnabled,
                                 ReseedImplemented = parameters.ReseedImplemented,
 
                                 EntropyInputLen = entropyLen,

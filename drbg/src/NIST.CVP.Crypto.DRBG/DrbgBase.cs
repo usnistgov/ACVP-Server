@@ -172,11 +172,8 @@ namespace NIST.CVP.Crypto.DRBG
             DrbgState.LastNonce = nonce;
 
             // 9. Initial working state
-            InstantiateAlgorithm(entropyInput, nonce, personalizationString);
-
             IsInstantiated = true;
-
-            return DrbgStatus.Success;
+            return InstantiateAlgorithm(entropyInput, nonce, personalizationString);
         }
 
         public DrbgStatus Reseed(BitString additionalInput)
@@ -185,9 +182,7 @@ namespace NIST.CVP.Crypto.DRBG
             
             DrbgState.LastEntropy = entropyInput;
 
-            ReseedAlgorithm(entropyInput, additionalInput);
-
-            return DrbgStatus.Success;
+            return ReseedAlgorithm(entropyInput, additionalInput);
         }
 
         public DrbgResult Generate(int requestedNumberOfBits, BitString additionalInput)

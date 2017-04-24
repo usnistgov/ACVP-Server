@@ -64,6 +64,7 @@ namespace NIST.CVP.Generation.DRBG
                 case "nonce":
                     Nonce = new BitString(value);
                     return true;
+                case "personalizationstring":
                 case "persostring":
                     PersoString = new BitString(value);
                     return true;

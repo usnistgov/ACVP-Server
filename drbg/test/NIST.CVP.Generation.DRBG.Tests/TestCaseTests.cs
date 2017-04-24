@@ -101,7 +101,8 @@ namespace NIST.CVP.Generation.DRBG.Tests
         }
 
         [Test]
-        [TestCase("persostring")]
+        [TestCase("personalizationString")]
+        [TestCase("PERSOnalIzAtiOnstring")]
         [TestCase("PERSOstring")]
         public void ShouldSetPersoString(string name)
         {

@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.DRBG
             _iDrbgFactory = iDrbgFactory;
         }
 
-        public int NumberOfTestCasesToGenerate => 10;
+        public int NumberOfTestCasesToGenerate => 15;
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
@@ -65,24 +65,25 @@ namespace NIST.CVP.Generation.DRBG
             return new TestCaseGenerateResponse(testCase);
         }
 
+        private void AddOtherInput(TestGroup group, IEntropyProvider randomEntropyProvider, TestCase tc)
+        {
+            tc.OtherInput.Add(
+                new OtherInfo()
+                {
+                    EntropyInput = randomEntropyProvider.GetEntropy(group.EntropyInputLen),
+                    AdditionalInput = randomEntropyProvider.GetEntropy(group.AdditionalInputLen)
+                }
+            );
+        }
+
         private void SetupTestableEntropy(TestCase testCase, TestableEntropyProvider testableEntropyProvider)
         {
             testableEntropyProvider.AddEntropy(testCase.EntropyInput);
             testableEntropyProvider.AddEntropy(testCase.Nonce);
             foreach (var entropy in testCase.OtherInput)
             {
-                testableEntropyProvider.AddEntropy(entropy.AdditionalInput);
+                testableEntropyProvider.AddEntropy(entropy.EntropyInput);
             }
-        }
-
-        private void AddOtherInput(TestGroup group, IEntropyProvider randomEntropyProvider, TestCase tc)
-        {
-            tc.OtherInput.Add(
-                new OtherInfo()
-                {
-                    AdditionalInput = randomEntropyProvider.GetEntropy(group.AdditionalInputLen)
-                }
-            );
         }
     }
 }

@@ -6,18 +6,18 @@ namespace NIST.CVP.Crypto.DRBG
 {
     public class DrbgCounterAes : DrbgCounterBase
     {
-        private readonly IAES_ECB _aesEcb;
+        protected IAES_ECB AesEcb;
 
         public DrbgCounterAes(IEntropyProvider entropyProvider, IAES_ECB aesEcb, DrbgParameters drbgParameters, int keyLength)
             : base(entropyProvider, drbgParameters, keyLength)
         {
-            _aesEcb = aesEcb;
+            AesEcb = aesEcb;
             OutputLength = 128;
         }
 
-        protected override BitString BlockEncrypt(BitString K, BitString X)
+        protected override BitString BlockEncrypt(BitString k, BitString x)
         {
-            return _aesEcb.BlockEncrypt(K, X).CipherText;
+            return AesEcb.BlockEncrypt(k, x).CipherText;
         }
     }
 }

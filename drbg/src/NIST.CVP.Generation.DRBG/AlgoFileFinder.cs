@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.AES_ECB
+namespace NIST.CVP.Generation.DRBG
 {
     
     public class AlgoFileFinder : AlgoFileFinderBase

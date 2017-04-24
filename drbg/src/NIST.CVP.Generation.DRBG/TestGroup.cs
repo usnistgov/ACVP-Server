@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.DRBG
 {
     public class TestGroup : ITestGroup
     {
-        private DrbgParameters _drbgParameters;
+        private DrbgParameters _drbgParameters = new DrbgParameters();
         /// <summary>
         /// Setting this property also updates the "base" equivalent properties of the class.
         /// </summary>
@@ -126,28 +126,49 @@ namespace NIST.CVP.Generation.DRBG
                 return false;
             }
 
+            name = name.ToLower();
+
+            bool boolVal;
+            if (bool.TryParse(value, out boolVal))
+            {
+                switch (name)
+                {
+                    case "predictionresistance":
+                        PredResistance = boolVal;
+                        DrbgParameters.PredResistanceEnabled = boolVal;
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
             int intVal = 0;
             if (!int.TryParse(value, out intVal))
             {
                 return false;
             }
 
-            switch (name.ToLower())
+            switch (name)
             {
                 case "entropyinputlen":
                     EntropyInputLen = intVal;
+                    DrbgParameters.EntropyInputLen = intVal;
                     return true;
                 case "noncelen":
                     NonceLen = intVal;
+                    DrbgParameters.NonceLen = intVal;
                     return true;
                 case "persostringlen":
                     PersoStringLen = intVal;
+                    DrbgParameters.PersoStringLen = intVal;
                     return true;
                 case "additionalinputlen":
                     AdditionalInputLen = intVal;
+                    DrbgParameters.AdditionalInputLen = intVal;
                     return true;
                 case "returnedbitslen":
                     ReturnedBitsLen = intVal;
+                    DrbgParameters.ReturnedBitsLen = intVal;
                     return true;
             }
             return false;

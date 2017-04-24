@@ -145,6 +145,16 @@ namespace NIST.CVP.Generation.Core
             return null;
         }
 
+        protected string ValidateSegmentCountGreaterThanZero(MathDomain supplied, string friendlyName)
+        {
+            if (!supplied.DomainSegments.Any())
+            {
+                return $"Invalid {friendlyName} supplied.  Domain must contain literals, or ranges of values.";
+            }
+
+            return null;
+        }
+
         protected string ValidateMultipleOf(MathDomain supplied, int multiple, string friendlyName)
         {
             if (supplied == null)

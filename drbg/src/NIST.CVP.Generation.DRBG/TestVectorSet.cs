@@ -83,6 +83,7 @@ namespace NIST.CVP.Generation.DRBG
         /// <summary>
         /// What the client receives (should not include expected answers)
         /// </summary>
+        [JsonProperty(PropertyName = "testGroups")]
         public List<dynamic> PromptProjection
         {
             get
@@ -164,7 +165,7 @@ namespace NIST.CVP.Generation.DRBG
             _bitStringPrinter.AddToDynamic(testObject, "nonce", test.Nonce);
             _bitStringPrinter.AddToDynamic(testObject, "persoString", test.PersoString);
 
-            BuildOtherInputs(updateObject, group, test);
+            BuildOtherInputs(testObject, group, test);
             return testObject;
         }
 

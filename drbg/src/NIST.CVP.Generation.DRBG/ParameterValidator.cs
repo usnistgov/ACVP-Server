@@ -124,6 +124,13 @@ namespace NIST.CVP.Generation.DRBG
 
         private void ValidateEntropy(Parameters parameters, List<string> errorResults)
         {
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.EntropyInputLen, "Entropy Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+
             var entropyFullDomain = parameters.EntropyInputLen.GetDomainMinMax();
 
             var rangeCheck = ValidateRange(
@@ -140,6 +147,13 @@ namespace NIST.CVP.Generation.DRBG
 
         private void ValidateNonce(Parameters parameters, List<string> errorResults)
         {
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.NonceLen, "Nonce Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+
             var nonceFullDomain = parameters.NonceLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { nonceFullDomain.Minimum, nonceFullDomain.Maximum },
@@ -155,6 +169,13 @@ namespace NIST.CVP.Generation.DRBG
 
         private void ValidatePersonalizationString(Parameters parameters, List<string> errorResults)
         {
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.PersoStringLen, "Personalization String Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+
             var personalizationStringFullDomain = parameters.PersoStringLen.GetDomainMinMax();
 
             var rangeCheck = ValidateRange(
@@ -171,6 +192,13 @@ namespace NIST.CVP.Generation.DRBG
 
         private void ValidateAdditionalInput(Parameters parameters, List<string> errorResults)
         {
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.AdditionalInputLen, "Additional Input Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+
             var additionalInputFullDomain = parameters.AdditionalInputLen.GetDomainMinMax();
 
             var rangeCheck = ValidateRange(new long[] { additionalInputFullDomain.Minimum, additionalInputFullDomain.Maximum, },

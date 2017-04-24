@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.DRBG
             _iDrbgFactory = iDrbgFactory;
         }
 
-        public int NumberOfTestCasesToGenerate => 10;
+        public int NumberOfTestCasesToGenerate => 15;
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
@@ -35,15 +35,15 @@ namespace NIST.CVP.Generation.DRBG
                 Nonce = randomEntropyProvider.GetEntropy(@group.NonceLen),
                 PersoString = randomEntropyProvider.GetEntropy(@group.PersoStringLen)
             };
-
+            
             // Reseed - needs entropy and additional input
-            AddOtherInput(group, randomEntropyProvider, testCase, true);
+            AddOtherInput(group, randomEntropyProvider, testCase);
 
             // Gen 1 - needs additional input
-            AddOtherInput(group, randomEntropyProvider, testCase, false);
+            AddOtherInput(group, randomEntropyProvider, testCase);
 
             // Gen 2 - needs additional input
-            AddOtherInput(group, randomEntropyProvider, testCase, false);
+            AddOtherInput(group, randomEntropyProvider, testCase);
 
             return Generate(group, testCase);
         }
@@ -91,16 +91,15 @@ namespace NIST.CVP.Generation.DRBG
             foreach (var entropy in testCase.OtherInput)
             {
                 testableEntropyProvider.AddEntropy(entropy.EntropyInput);
-                testableEntropyProvider.AddEntropy(entropy.AdditionalInput);
             }
         }
 
-        private void AddOtherInput(TestGroup group, IEntropyProvider randomEntropyProvider, TestCase tc, bool needsEntropyInput = false)
+        private void AddOtherInput(TestGroup group, IEntropyProvider randomEntropyProvider, TestCase tc)
         {
             tc.OtherInput.Add(
                 new OtherInfo()
                 {
-                    EntropyInput = needsEntropyInput ? randomEntropyProvider.GetEntropy(group.EntropyInputLen) : new BitString(0),
+                    EntropyInput = randomEntropyProvider.GetEntropy(group.EntropyInputLen),
                     AdditionalInput = randomEntropyProvider.GetEntropy(group.AdditionalInputLen)
                 }
             );

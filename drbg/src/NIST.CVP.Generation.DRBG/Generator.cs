@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DRBG
 {
@@ -12,7 +13,7 @@ namespace NIST.CVP.Generation.DRBG
         protected readonly IParameterValidator<TParameters> _parameterValidator;
         protected readonly ITestCaseGeneratorFactoryFactory<TTestVectorSet> _testCaseGeneratorFactoryFactory;
 
-        public Generator(ITestVectorFactory<TParameters> testVectorFactory, IParameterParser<TParameters> parameterParser, IParameterValidator<TParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<TTestVectorSet> iTestCaseGeneratorFactoryFactory)
+        public Generator(ITestVectorFactory<TParameters> testVectorFactory, IParameterParser<TParameters> parameterParser, IParameterValidator<TParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<TTestVectorSet> iTestCaseGeneratorFactoryFactory, IRandom800_90 iRandom800_90)
         {
             _testVectorFactory = testVectorFactory;
             _parameterParser = parameterParser;
