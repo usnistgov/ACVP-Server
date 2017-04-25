@@ -8,7 +8,8 @@ namespace NIST.CVP.Crypto.RSA
 {
     public class PublicKey
     {
-        public BigInteger e { get; set; }
-        public BigInteger n { get; set; }
+        public BigInteger E { get; set; }
+        public BigInteger N { get; set; }
+        public BigInteger Phi_N { get; set; }
     }
 }

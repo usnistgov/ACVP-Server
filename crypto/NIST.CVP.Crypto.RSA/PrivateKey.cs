@@ -8,8 +8,8 @@ namespace NIST.CVP.Crypto.RSA
 {
     public class PrivateKey
     {
-        public BigInteger p { get; set; }
-        public BigInteger q { get; set; }
-        public BigInteger d { get; set; }
+        public BigInteger P { get; set; }
+        public BigInteger Q { get; set; }
+        public BigInteger D { get; set; }
     }
 }

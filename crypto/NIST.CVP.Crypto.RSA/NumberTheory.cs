@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.RSA
 {
@@ -16,36 +17,6 @@ namespace NIST.CVP.Crypto.RSA
         public static bool MillerRabin()
         {
             return false;
-        }
-
-        /// <summary>
-        /// Solve for x in the equation x = a^b mod m using Fast Squares method (Binary Exponentiation)
-        /// </summary>
-        /// <param name="a">base</param>
-        /// <param name="b">exponent</param>
-        /// <param name="m">modulo</param>
-        /// <returns></returns>
-        public static BigInteger ModularExponent(BigInteger a, BigInteger b, BigInteger m)
-        {
-            if (m == 1)
-            {
-                return 0;
-            }
-
-            BigInteger result = 1;
-            a %= m;
-            while (b > 0)
-            {
-                if (!b.IsEven)
-                {
-                    result = (result * a) % m;
-                }
-
-                b >>= 1;
-                a = (a * a) % m;
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -109,6 +80,37 @@ namespace NIST.CVP.Crypto.RSA
         public static BigInteger LCM(BigInteger a, BigInteger b)
         {
             return a * b / GCD(a, b);
+        }
+
+        /// <summary>
+        /// Rounds up after dividing a by b
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static BigInteger CeilingDivide(BigInteger a, BigInteger b)
+        {
+            var result = a / b;
+            var remainder = a % b;
+
+            if (remainder != 0)
+            {
+                result++;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Calculates exponent a^b
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static BigInteger Pow(BigInteger a, BigInteger b)
+        {
+            // This is a bit lazy but should suffice. It's mainly just to solve some casting problems
+            return BigInteger.Pow(a, (int)b);
         }
     }
 }

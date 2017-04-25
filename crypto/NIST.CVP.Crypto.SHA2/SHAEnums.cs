@@ -113,6 +113,27 @@ namespace NIST.CVP.Crypto.SHA2
             }
         }
 
+        public static int DigestSizeToInt(DigestSizes digestSize)
+        {
+            switch (digestSize)
+            {
+                case DigestSizes.d160:
+                    return 160;
+                case DigestSizes.d224:
+                case DigestSizes.d512t224:
+                    return 224;
+                case DigestSizes.d256:
+                case DigestSizes.d512t256:
+                    return 256;
+                case DigestSizes.d384:
+                    return 384;
+                case DigestSizes.d512:
+                    return 512;
+                default:
+                    throw new Exception("Bad digest size for SHA");
+            }
+        }
+
         public static int DetermineBlockSize(DigestSizes digestSize)
         {
             switch (digestSize)
