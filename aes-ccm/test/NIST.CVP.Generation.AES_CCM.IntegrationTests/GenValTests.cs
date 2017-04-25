@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
 using NUnit.Framework;
@@ -347,14 +348,26 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 
         private string GetTestFileWithZeroLengthAadAndPt(string targetFolder)
         {
+            MathDomain ptDomain = new MathDomain();
+            ptDomain.AddSegment(new ValueDomainSegment(0));
+
+            MathDomain aadDomain = new MathDomain();
+            aadDomain.AddSegment(new ValueDomainSegment(0));
+
+            MathDomain tagDomain = new MathDomain();
+            tagDomain.AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First()));
+
+            MathDomain nonceDomain = new MathDomain();
+            nonceDomain.AddSegment(new ValueDomainSegment(ParameterValidator.VALID_NONCE_LENGTHS.First()));
+
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-CCM",
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new Range() { Min = 0, Max = 0},
-                AadLen = new Range() { Min = 0, Max = 0},
-                TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
-                Nonce = new int[] { ParameterValidator.VALID_NONCE_LENGTHS.First() },
+                PtLen = ptDomain,
+                AadLen = aadDomain,
+                TagLen = tagDomain,
+                Nonce = nonceDomain,
                 IsSample = false
             };
 
@@ -363,14 +376,26 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 
         private string GetTestFileFewTestCases(string targetFolder)
         {
+            MathDomain ptDomain = new MathDomain();
+            ptDomain.AddSegment(new ValueDomainSegment(8));
+
+            MathDomain aadDomain = new MathDomain();
+            aadDomain.AddSegment(new ValueDomainSegment(8));
+
+            MathDomain tagDomain = new MathDomain();
+            tagDomain.AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First()));
+
+            MathDomain nonceDomain = new MathDomain();
+            nonceDomain.AddSegment(new ValueDomainSegment(ParameterValidator.VALID_NONCE_LENGTHS.First()));
+
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-CCM",
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new Range() { Min = 1, Max = 1 },
-                AadLen = new Range() { Min = 1, Max = 1 },
-                TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
-                Nonce = new int[] { ParameterValidator.VALID_NONCE_LENGTHS.First() },
+                PtLen = ptDomain,
+                AadLen = aadDomain,
+                TagLen = tagDomain,
+                Nonce = nonceDomain,
                 IsSample = true
             };
 
@@ -379,14 +404,34 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 
         private string GetTestFileLotsOfTestCases(string targetFolder)
         {
+            Random800_90 random = new Random800_90();
+
+            MathDomain ptDomain = new MathDomain();
+            ptDomain.AddSegment(new RangeDomainSegment(random, 0, 32*8, 8 ));
+
+            MathDomain aadDomain = new MathDomain();
+            aadDomain.AddSegment(new RangeDomainSegment(random, 0, (1 << 19), 8));
+
+            MathDomain tagDomain = new MathDomain();
+            foreach (var length in ParameterValidator.VALID_TAG_LENGTHS)
+            {
+                tagDomain.AddSegment(new ValueDomainSegment(length));
+            }
+
+            MathDomain nonceDomain = new MathDomain();
+            foreach (var length in ParameterValidator.VALID_NONCE_LENGTHS)
+            {
+                nonceDomain.AddSegment(new ValueDomainSegment(length));
+            }
+
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-CCM",
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
-                PtLen = new Range() { Min = 0, Max = 32 },
-                AadLen = new Range() { Min = 0, Max = 65536 },
-                TagLen = ParameterValidator.VALID_TAG_LENGTHS,
-                Nonce = ParameterValidator.VALID_NONCE_LENGTHS,
+                PtLen = ptDomain,
+                AadLen = aadDomain,
+                TagLen = tagDomain,
+                Nonce = nonceDomain,
                 IsSample = false
             };
 
@@ -395,7 +440,15 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings()
+            {
+                Converters = new List<JsonConverter>()
+                {
+                    new BitstringConverter(),
+                    new DomainConverter()
+                },
+                Formatting = Formatting.Indented
+            });
             string fileName = $"{targetFolder}\\registration.json";
             File.WriteAllText(fileName, json);
 

@@ -25,9 +25,9 @@ namespace NIST.CVP.Generation.AES_CCM
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
             var key = GetReusableInput(ref _key, group.GroupReusesKeyForTestCases, group.KeyLength);
-            var iv = GetReusableInput(ref _nonce, group.GroupReusesNonceForTestCases, group.IVLength * 8);
-            var plainText = _random800_90.GetRandomBitString(group.PTLength * 8);
-            var aad = _random800_90.GetRandomBitString(group.AADLength * 8);
+            var iv = GetReusableInput(ref _nonce, group.GroupReusesNonceForTestCases, group.IVLength);
+            var plainText = _random800_90.GetRandomBitString(group.PTLength);
+            var aad = _random800_90.GetRandomBitString(group.AADLength);
             var testCase = new TestCase
             {
                 Key = key,
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.AES_CCM
             EncryptionResult encryptionResult = null;
             try
             {
-                encryptionResult = _algo.Encrypt(testCase.Key, testCase.IV, testCase.PlainText, testCase.AAD, @group.TagLength * 8);
+                encryptionResult = _algo.Encrypt(testCase.Key, testCase.IV, testCase.PlainText, testCase.AAD, @group.TagLength);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);

@@ -16,21 +16,27 @@ namespace NIST.CVP.Math.Domain
         /// Adds a domain segment to the Domain
         /// </summary>
         /// <param name="domainSegment">The domain segment to add</param>
-        public void AddSegment(IDomainSegment domainSegment)
+        /// <returns>Returns itself for fluent API</returns>
+        public MathDomain AddSegment(IDomainSegment domainSegment)
         {
             _domainSegments.Add(domainSegment);
+
+            return this;
         }
 
         /// <summary>
         /// Sets get value option for the domain segments
         /// </summary>
         /// <param name="option">The option to set</param>
-        public void SetRangeOptions(RangeDomainSegmentOptions option)
+        /// <returns>Returns itself for fluent API</returns>
+        public MathDomain SetRangeOptions(RangeDomainSegmentOptions option)
         {
             foreach (var domainSegment in _domainSegments)
             {
                 domainSegment.SegmentValueOptions = option;
             }
+
+            return this;
         }
 
         /// <summary>
@@ -38,12 +44,15 @@ namespace NIST.CVP.Math.Domain
         /// as to create a pseudo "subset" from a full range.
         /// </summary>
         /// <param name="value"></param>
-        public void SetMaximumAllowedValue(int value)
+        /// <returns>Returns itself for fluent API</returns>
+        public MathDomain SetMaximumAllowedValue(int value)
         {
             foreach (var domainSegment in _domainSegments)
             {
                 domainSegment.SetMaximumAllowedValue(value);
             }
+
+            return this;
         }
 
         public IEnumerable<int> GetDomainMinMaxAsEnumerable()

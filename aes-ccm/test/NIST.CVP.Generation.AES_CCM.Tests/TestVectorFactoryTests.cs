@@ -2,7 +2,10 @@
 using System.Linq;
 using NUnit.Framework;
 using System.Collections.Generic;
+using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.AES_CCM.Tests
 {
@@ -11,69 +14,71 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
     {
 
         #region Parameter test scenarios
-        private static object[] testParameterData = new[]
+        private static object[] GetTestParameterData()
         {
-            new object[]
+
+            List<object[]> list = new List<object[]>()
             {
-                "minimum inputs",
-                new[] {128},
-                new Range() { Min = 0, Max = 0 },
-                new Range() { Min = 0, Max = 0 },
-                new[] {7},
-                new[] {4}
-            },
-            new object[]
-            {
-                "multiple inputs, single array",
-                new[] {128, 192, 256},
-                new Range() { Min = 0, Max = 0 },
-                new Range() { Min = 0, Max = 0 },
-                new[] {7},
-                new[] {4}
-            },
-            new object[]
-            {
-                "multiple differing inputs, in min/max array",
-                new[] {128},
-                new Range() { Min = 0, Max = 32 },
-                new Range() { Min = 0, Max = 0 },
-                new[] {7},
-                new[] {4}
-            },
-            new object[]
-            {
-                "max number of groups, no 2^16",
-                new[] {128, 192, 256},
-                new Range() { Min = 0, Max = 32 },
-                new Range() { Min = 0, Max = 32 },
-                new[] {7, 8, 9, 10, 11, 12, 13},
-                new[] {4, 6, 8, 10, 12, 14, 16}
-            },
-            new object[]
-            {
-                "max number of groups, max aad",
-                new[] {128, 192, 256},
-                new Range() { Min = 0, Max = 65536 },
-                new Range() { Min = 0, Max = 32 },
-                new[] {7, 8, 9, 10, 11, 12, 13},
-                new[] {4, 6, 8, 10, 12, 14, 16}
-            }
-        };
+                new object[]
+                {
+                    "minimum inputs",
+                    new[] {128},
+                    new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                    new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                    new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.VALID_NONCE_LENGTHS.First())),
+                    new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First())),
+                },
+                new object[]
+                {
+                    "multiple inputs, single array",
+                    new[] {128, 192, 256},
+                    new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                    new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                    new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.VALID_NONCE_LENGTHS.First())),
+                    new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First())),
+                },
+                new object[]
+                {
+                    "multiple differing inputs, in min/max array",
+                    new[] {128},
+                    new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 32 * 8, 8)),
+                    new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                    new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.VALID_NONCE_LENGTHS.First())),
+                    new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First())),
+                },
+                new object[]
+                {
+                    "max number of groups, no 2^16",
+                    new[] {128, 192, 256},
+                    new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 32 * 8, 8)),
+                    new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 32 * 8, 8)),
+                    new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(),
+                        ParameterValidator.VALID_NONCE_LENGTHS.First(), ParameterValidator.VALID_NONCE_LENGTHS.Last(), 8)),
+                    new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(),
+                        ParameterValidator.VALID_TAG_LENGTHS.First(), ParameterValidator.VALID_TAG_LENGTHS.Last(), 16)),
+                },
+                new object[]
+                {
+                    "max number of groups, max aad",
+                    new[] {128, 192, 256},
+                    new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, (1 << 19), 8)),
+                    new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 32 * 8, 8)),
+                    new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(),
+                        ParameterValidator.VALID_NONCE_LENGTHS.First(), ParameterValidator.VALID_NONCE_LENGTHS.Last(), 8)),
+                    new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(),
+                        ParameterValidator.VALID_TAG_LENGTHS.First(), ParameterValidator.VALID_TAG_LENGTHS.Last(), 16)),
+                }
+            };
+
+            return list.ToArray();
+        }
         #endregion Parameter test scenarios
 
         [Test]
         public void ShouldContainGroupsForEachTestType()
         {
-            Parameters p = new Parameters()
-            {
-                Algorithm = "AES-CCM",
-                KeyLen = new[] { 128 },
-                AadLen = new Range() { Min = 0, Max = 32 },
-                PtLen = new Range() { Min = 0, Max = 32 },
-                Nonce = new [] { 7 },
-                TagLen = new [] { 4 },
-            };
-
+            Parameters p = new ParameterBuilder().Build();
+            
             TestVectorFactory subject = new TestVectorFactory();
             var result = subject.BuildTestVectorSet(p);
 
@@ -93,14 +98,14 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         ///     - Each Tag length
         /// </summary>
         [Test]
-        [TestCaseSource(nameof(testParameterData))]
+        [TestCaseSource(nameof(GetTestParameterData))]
         public void ShouldHaveValidNumberOfGroupsForDecryptionVerification(
             string testLabel,
             int[] keyLen,
-            Range aadLen,
-            Range ptLen,
-            int[] ivLen,
-            int[] tagLen
+            MathDomain aadLen,
+            MathDomain ptLen,
+            MathDomain ivLen,
+            MathDomain tagLen
         )
         {
             TestTypes testType = TestTypes.DecryptionVerification;
@@ -115,14 +120,14 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            // Only the min/max aadLen and ptLens go into the creation of the group
-            int aadLenMultiplier = (aadLen.Min == aadLen.Max) ? 1 : 2;
-            int ptLenMultiplier = (ptLen.Min == ptLen.Max) ? 1 : 2;
-
-            int expectedResultCount = keyLen.Length * aadLenMultiplier * ptLenMultiplier * ivLen.Length * tagLen.Length;
-            
             TestVectorFactory subject = new TestVectorFactory();
             var result = subject.BuildTestVectorSet(p);
+
+            // Only the min/max aadLen and ptLens go into the creation of the group
+            int aadLenMultiplier = (subject.AadLens.Min() == subject.AadLens.Max()) ? 1 : 2;
+            int ptLenMultiplier = (subject.PtLens.Min() == subject.PtLens.Max()) ? 1 : 2;
+
+            int expectedResultCount = subject.KeyLens.Length * aadLenMultiplier * ptLenMultiplier * subject.NonceLens.Count() * subject.TagLens.Count();
 
             Assert.AreEqual(expectedResultCount, result.TestGroups.Count(c => c.TestType == testType.ToString()));
         }
@@ -137,14 +142,14 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         ///     - The maximum tag length
         /// </summary>
         [Test]
-        [TestCaseSource(nameof(testParameterData))]
+        [TestCaseSource(nameof(GetTestParameterData))]
         public void ShouldHaveValidNumberOfGroupsForVariableAssocatedData(
             string testLabel,
             int[] keyLen,
-            Range aadLen,
-            Range ptLen,
-            int[] ivLen,
-            int[] tagLen
+            MathDomain aadLen,
+            MathDomain ptLen,
+            MathDomain ivLen,
+            MathDomain tagLen
         )
         {
             TestTypes testType = TestTypes.VariableAssociatedData;
@@ -159,14 +164,15 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
+            TestVectorFactory subject = new TestVectorFactory();
+            var result = subject.BuildTestVectorSet(p);
+
             // AAD is a range of values, add an additional group if SupportsAad2Pow16
-            int aadLenRange = aadLen.Max - aadLen.Min + 1 + (p.SupportsAad2Pow16 ? 1 : 0);
+            int aadLenRange = (subject.AadLens.Max() - subject.AadLens.Min()) / 8 + 1 +
+                              (subject.Supports2pow16bytes ? 1 : 0);
 
             // pt, tag, and nonce use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * aadLenRange * 1 * 1 * 1;
-
-            TestVectorFactory subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(expectedResultCount, result.TestGroups.Count(c => c.TestType == testType.ToString()));
         }
@@ -182,14 +188,14 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         /// 
         /// </summary>
         [Test]
-        [TestCaseSource(nameof(testParameterData))]
+        [TestCaseSource(nameof(GetTestParameterData))]
         public void ShouldHaveValidNumberOfGroupsForVariableNonce(
             string testLabel,
             int[] keyLen,
-            Range aadLen,
-            Range ptLen,
-            int[] ivLen,
-            int[] tagLen
+            MathDomain aadLen,
+            MathDomain ptLen,
+            MathDomain ivLen,
+            MathDomain tagLen
         )
         {
             TestTypes testType = TestTypes.VariableNonce;
@@ -204,11 +210,11 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            // aad, pt, and tag use the max value, will always be a multiplier of 1
-            int expectedResultCount = keyLen.Length * 1 * ivLen.Length * 1 * 1;
-
             TestVectorFactory subject = new TestVectorFactory();
             var result = subject.BuildTestVectorSet(p);
+
+            // aad, pt, and tag use the max value, will always be a multiplier of 1
+            int expectedResultCount = keyLen.Length * 1 * subject.NonceLens.Count() * 1 * 1;
 
             Assert.AreEqual(expectedResultCount, result.TestGroups.Count(c => c.TestType == testType.ToString()));
         }
@@ -224,14 +230,14 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         /// 
         /// </summary>
         [Test]
-        [TestCaseSource(nameof(testParameterData))]
+        [TestCaseSource(nameof(GetTestParameterData))]
         public void ShouldHaveValidNumberOfGroupsForVariablePayload(
             string testLabel,
             int[] keyLen,
-            Range aadLen,
-            Range ptLen,
-            int[] ivLen,
-            int[] tagLen
+            MathDomain aadLen,
+            MathDomain ptLen,
+            MathDomain ivLen,
+            MathDomain tagLen
         )
         {
             TestTypes testType = TestTypes.VariablePayload;
@@ -246,14 +252,14 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
+            TestVectorFactory subject = new TestVectorFactory();
+            var result = subject.BuildTestVectorSet(p);
+
             // Payload is a range of values, add an additional group if SupportsAad2Pow16
-            var payloadCount = ptLen.Max - ptLen.Min + 1;
+            var payloadCount = (subject.PtLens.Max() - subject.PtLens.Min()) / 8 + 1;
 
             // aad, nonce, and tag use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * 1 * payloadCount * 1 * 1;
-
-            TestVectorFactory subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(expectedResultCount, result.TestGroups.Count(c => c.TestType == testType.ToString()));
         }
@@ -269,14 +275,14 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         /// 
         /// </summary>
         [Test]
-        [TestCaseSource(nameof(testParameterData))]
+        [TestCaseSource(nameof(GetTestParameterData))]
         public void ShouldHaveValidNumberOfGroupsForVariableTag(
             string testLabel,
             int[] keyLen,
-            Range aadLen,
-            Range ptLen,
-            int[] ivLen,
-            int[] tagLen
+            MathDomain aadLen,
+            MathDomain ptLen,
+            MathDomain ivLen,
+            MathDomain tagLen
         )
         {
             TestTypes testType = TestTypes.VariableTag;
@@ -291,11 +297,11 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            // aad, pt, and nonce use the max value, will always be a multiplier of 1
-            int expectedResultCount = keyLen.Length * 1 * 1 * 1 * tagLen.Length;
-
             TestVectorFactory subject = new TestVectorFactory();
             var result = subject.BuildTestVectorSet(p);
+
+            // aad, pt, and nonce use the max value, will always be a multiplier of 1
+            int expectedResultCount = keyLen.Length * 1 * 1 * 1 * subject.TagLens.Length;
 
             Assert.AreEqual(expectedResultCount, result.TestGroups.Count(c => c.TestType == testType.ToString()));
         }
@@ -328,16 +334,8 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         [TestCase(false)]
         public void ShouldSetIsSampleProperlyFromTheParameters(bool isSample)
         {
-            Parameters p = new Parameters()
-            {
-                AadLen = new Range { Min = 1, Max = 1 },
-                Algorithm = "AES CCM",
-                Nonce = new int[] { 1 },
-                KeyLen = new int[] { 1 },
-                PtLen = new Range { Min = 1, Max = 1 },
-                TagLen = new int[] { 1 },
-                IsSample = isSample
-            };
+            Parameters p = new ParameterBuilder().Build();
+            p.IsSample = isSample;
 
             TestVectorFactory subject = new TestVectorFactory();
             var result = subject.BuildTestVectorSet(p);

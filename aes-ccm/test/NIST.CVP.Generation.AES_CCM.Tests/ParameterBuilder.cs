@@ -1,4 +1,7 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using System.Linq;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.AES_CCM.Tests
 {
@@ -6,28 +9,34 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
     {
         private string _algorithm;
         private int[] _keyLen;
-        private Range _ptLen;
-        private int[] _nonceLen;
-        private Range _aadLen;
-        private int[] _tagLen;
+        private MathDomain _ptLen;
+        private MathDomain _nonceLen;
+        private MathDomain _aadLen;
+        private MathDomain _tagLen;
 
         public ParameterBuilder()
         {
             // Provides a valid (as of construction) set of parameters
             _algorithm = "AES-CCM";
             _keyLen = ParameterValidator.VALID_KEY_SIZES;
-            _ptLen = new Range()
-            {
-                Min = ParameterValidator.VALID_MIN_PT,
-                Max = ParameterValidator.VALID_MAX_PT
-            };
-            _nonceLen = ParameterValidator.VALID_NONCE_LENGTHS;
-            _aadLen = new Range()
-            {
-                Min = ParameterValidator.VALID_MIN_AAD,
-                Max = ParameterValidator.VALID_MAX_AAD
-            };
-            _tagLen = ParameterValidator.VALID_TAG_LENGTHS;
+
+            Random800_90 random = new Random800_90();
+
+            _ptLen = new MathDomain();
+            _ptLen.AddSegment(new RangeDomainSegment(random, 0, 32 * 8, 8));
+
+            _aadLen = new MathDomain();
+            _aadLen.AddSegment(new RangeDomainSegment(random, 0, (1 << 19), 8));
+
+            _tagLen = new MathDomain();
+            ParameterValidator.VALID_TAG_LENGTHS
+                .ToList()
+                .ForEach(fe => _tagLen.AddSegment(new ValueDomainSegment(fe)));
+            
+            _nonceLen = new MathDomain();
+            ParameterValidator.VALID_NONCE_LENGTHS
+                .ToList()
+                .ForEach(fe => _nonceLen.AddSegment(new ValueDomainSegment(fe)));
         }
 
         public ParameterBuilder WithAlgorithm(string value)
@@ -42,25 +51,25 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             return this;
         }
 
-        public ParameterBuilder WithPtLen(Range value)
+        public ParameterBuilder WithPtLen(MathDomain value)
         {
             _ptLen = value;
             return this;
         }
 
-        public ParameterBuilder WithNonceLen(int[] value)
+        public ParameterBuilder WithNonceLen(MathDomain value)
         {
             _nonceLen = value;
             return this;
         }
 
-        public ParameterBuilder WithAadLen(Range value)
+        public ParameterBuilder WithAadLen(MathDomain value)
         {
             _aadLen = value;
             return this;
         }
 
-        public ParameterBuilder WithTagLen(int[] value)
+        public ParameterBuilder WithTagLen(MathDomain value)
         {
             _tagLen = value;
             return this;
