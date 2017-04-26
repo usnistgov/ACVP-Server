@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.RSA
+namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     internal struct PPCResult
     {
         public bool Status;
         public BigInteger P, P1, P2, PSeed;
+        public string ErrorMessage;
 
         public PPCResult(string fail)
         {
+            ErrorMessage = fail;
             Status = false;
             P = P1 = P2 = PSeed = 0;
         }
@@ -27,22 +24,32 @@ namespace NIST.CVP.Crypto.RSA
             P1 = p1;
             P2 = p2;
             PSeed = pSeed;
+            ErrorMessage = "";
         }
     }
 
-    // B.3.2 
     public class RandomProvablePrimeGenerator : PrimeGeneratorBase
     {
+        public RandomProvablePrimeGenerator(HashFunction hashFunction) : base(hashFunction) { }
+        public RandomProvablePrimeGenerator() : base() { }
+
+        /// <summary>
+        /// B.3.2 Generate Random Provable Primes
+        /// </summary>
+        /// <param name="nlen"></param>
+        /// <param name="e"></param>
+        /// <param name="seed"></param>
+        /// <returns></returns>
         public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             // 1
-            if (nlen != 2048 || nlen != 3072)
+            if (nlen != 2048 && nlen != 3072)
             {
                 return new PrimeGeneratorResult("Incorrect nlen, must be 2048, 3072");
             }
 
             // 2
-            if (e <= BigInteger.Pow(2, 16) || e >= BigInteger.Pow(2, 256) || e.IsEven)
+            if (e <=  NumberTheory.Pow2(16) || e >= NumberTheory.Pow2(256) || e.IsEven)
             {
                 return new PrimeGeneratorResult("Incorrect e, must be greater than 2^16, less than 2^256, odd");
             }
@@ -65,13 +72,13 @@ namespace NIST.CVP.Crypto.RSA
             }
 
             // 5
-            var workingSeed = seed.ToBigInteger();
+            var workingSeed = seed.ToPositiveBigInteger();
 
             // 6
             var ppcResult = ProvablePrimeConstruction(nlen / 2, 1, 1, workingSeed, e);
             if (!ppcResult.Status)
             {
-                return new PrimeGeneratorResult("Bad Provable Prime Construction for p");
+                return new PrimeGeneratorResult($"Bad Provable Prime Construction for p: {ppcResult.ErrorMessage}");
             }
             var p = ppcResult.P;
             workingSeed = ppcResult.PSeed;
@@ -83,13 +90,13 @@ namespace NIST.CVP.Crypto.RSA
                 ppcResult = ProvablePrimeConstruction(nlen / 2, 1, 1, workingSeed, e);
                 if (!ppcResult.Status)
                 {
-                    return new PrimeGeneratorResult("Bad Provable Prime Construction for q");
+                    return new PrimeGeneratorResult($"Bad Provable Prime Construction for q: {ppcResult.ErrorMessage}");
                 }
                 q = ppcResult.P;
                 workingSeed = ppcResult.PSeed;
 
                 // 8
-                if (BigInteger.Abs(p - q) <= BigInteger.Pow(2, nlen / 2 - 100))
+                if (BigInteger.Abs(p - q) <= NumberTheory.Pow2(nlen / 2 - 100))
                 {
                     break;
                 }
@@ -99,13 +106,21 @@ namespace NIST.CVP.Crypto.RSA
             return new PrimeGeneratorResult(p, q);
         }
 
-        // C.10
+        /// <summary>
+        /// C.10 Provable Prime Construction
+        /// </summary>
+        /// <param name="L"></param>
+        /// <param name="N1"></param>
+        /// <param name="N2"></param>
+        /// <param name="firstSeed"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
         private PPCResult ProvablePrimeConstruction(int L, int N1, int N2, BigInteger firstSeed, BigInteger e)
         {
             // 1
             if (N1 + N2 > L - System.Math.Ceiling(L / 2.0) - 4)
             {
-                return new PPCResult("fail");
+                return new PPCResult("PPC: fail N1 + N2 check");
             }
 
             BigInteger p, p0, p1, p2;
@@ -124,7 +139,7 @@ namespace NIST.CVP.Crypto.RSA
                 var stResult = ShaweTaylorRandomPrime(N1, firstSeed);
                 if (!stResult.Success)
                 {
-                    return new PPCResult("fail");
+                    return new PPCResult("PPC: fail ST p1 gen");
                 }
 
                 p1 = stResult.Prime;
@@ -144,7 +159,7 @@ namespace NIST.CVP.Crypto.RSA
                 var stResult = ShaweTaylorRandomPrime(N2, p2Seed);
                 if (!stResult.Success)
                 {
-                    return new PPCResult("fail");
+                    return new PPCResult("PPC: fail ST p2 gen");
                 }
 
                 p2 = stResult.Prime;
@@ -155,7 +170,7 @@ namespace NIST.CVP.Crypto.RSA
             var result = ShaweTaylorRandomPrime((int)System.Math.Ceiling(L / 2.0) + 1, p0Seed);
             if (!result.Success)
             {
-                return new PPCResult("fail");
+                return new PPCResult("PPC: fail ST p0 gen");
             }
 
             p0 = result.Prime;
@@ -170,20 +185,21 @@ namespace NIST.CVP.Crypto.RSA
             // 10
             for (var i = 0; i < iterations; i++)
             {
-                x += Hash(pSeed + i) * (BigInteger)System.Math.Pow(2, i * outLen);
+                x += Hash(pSeed + i) * NumberTheory.Pow2(i * outLen);
             }
 
             // 11
             pSeed += iterations + 1;
 
             // 12
-            var lowerBound = (BigInteger) System.Math.Sqrt(2) * BigInteger.Pow(2, L - 1);
-            x = lowerBound + x % (BigInteger.Pow(2, L - 1) - lowerBound);
+            // sqrt(2) * 2^(L-1)
+            var lowerBound = L == 1536 ? _root2Mult2Pow1536Minus1 : _root2Mult2Pow1024Minus1;
+            x = lowerBound + x % (NumberTheory.Pow2(L - 1) - lowerBound);
 
             // 13
             if (NumberTheory.GCD(p0 * p1, p2) != 1)
             {
-                return new PPCResult("fail");
+                return new PPCResult("PPC: GCD fail for p0 * p1 and p2");
             }
 
             // 14
@@ -199,7 +215,7 @@ namespace NIST.CVP.Crypto.RSA
             while (true)
             {
                 // 16
-                if (2 * (t * p2 - y) * p0 * p1 + 1 > BigInteger.Pow(2, L))
+                if (2 * (t * p2 - y) * p0 * p1 + 1 > NumberTheory.Pow2(L))
                 {
                     t = NumberTheory.CeilingDivide(2 * y * p0 * p1 + lowerBound, 2 * p0 * p1 * p2);
                 }
@@ -214,14 +230,14 @@ namespace NIST.CVP.Crypto.RSA
                     BigInteger a = 0;
                     for (var i = 0; i < iterations; i++)
                     {
-                        a += Hash(pSeed + i) * BigInteger.Pow(2, i * outLen);
+                        a += Hash(pSeed + i) * NumberTheory.Pow2(i * outLen);
                     }
 
                     pSeed += iterations + 1;
                     a = 2 + a % (p - 3);
-                    var z = NumberTheory.Pow(a, 2 * (t * p2 - y) * p1) % p;
+                    var z = BigInteger.ModPow(a, 2 * (t * p2 - y) * p1, p);
 
-                    if (NumberTheory.GCD(z - 1, p) == 1 && 1 == NumberTheory.Pow(z, p0) % p)
+                    if (NumberTheory.GCD(z - 1, p) == 1 && 1 == BigInteger.ModPow(z, p0, p))
                     {
                         return new PPCResult(p, p1, p2, pSeed);
                     }
@@ -230,7 +246,7 @@ namespace NIST.CVP.Crypto.RSA
                 // 20
                 if (pGenCounter >= 5 * L)
                 {
-                    return new PPCResult("fail");
+                    return new PPCResult("PPC: too many iterations");
                 }
 
                 // 21

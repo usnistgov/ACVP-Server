@@ -159,6 +159,18 @@ namespace NIST.CVP.Crypto.RSA.Tests
         }
         #endregion Pow
 
+        #region Pow2
+        [Test]
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(100)]
+        [TestCase(2048)]
+        public void ShouldPow2Correctly(int exp)
+        {
+            Assert.AreEqual(BigInteger.Pow(2, exp), NumberTheory.Pow2(exp));
+        }
+        #endregion Pow2
+
         #region Ceiling Divide
         private static object[] DivSource =
 {

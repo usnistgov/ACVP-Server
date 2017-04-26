@@ -219,6 +219,13 @@ namespace NIST.CVP.Math
             return new BigInteger(ToBytes(true));
         }
 
+        public BigInteger ToPositiveBigInteger()
+        {
+            // Add an empty byte to the beginning to get rid of two's complement
+            var paddedBitString = ConcatenateBits(Zeroes(2), this);
+            return new BigInteger(paddedBitString.ToBytes(true));
+        }
+
         public string ToHex()
         {
             if (BitLength == 0)

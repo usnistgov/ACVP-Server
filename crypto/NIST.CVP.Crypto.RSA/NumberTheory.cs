@@ -1,22 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+﻿using System.Numerics;
+using Microsoft.Extensions.FileProviders.Physical;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.RSA
 {
     public static class NumberTheory
     {
+        private static readonly Random800_90 _rand = new Random800_90();
+
         /// <summary>
         /// Probabilistic Primality Check, Miller-Rabin Algorithm
         /// </summary>
-        /// <returns></returns>
-        public static bool MillerRabin()
+        /// <param name="w"></param>
+        /// <param name="iterations"></param>
+        /// <returns>True if probably prime. False if composite.</returns>
+        public static bool MillerRabin(BigInteger w, int iterations)
         {
-            return false;
+            var wLen = new BitString(w.ToByteArray()).BitLength;
+            var a = 0;
+            BigInteger m = 0;
+            for (var i = 0; i < wLen; i++)
+            {
+                if (BigInteger.Pow(2, i) % (w - 1) == 0)
+                {
+                    a = i;
+                    m = (w - 1) / BigInteger.Pow(2, i);
+                }
+            }
+
+            for (var i = 1; i < iterations; i++)
+            {
+                var b = _rand.GetRandomBitString(wLen).ToPositiveBigInteger();
+                if (b <= 1 || b >= w - 1)
+                {
+                    i--;
+                    continue;
+                }
+
+                var z = BigInteger.ModPow(b, m, w);
+                if (z == 1 || z == w - 1)
+                {
+                    continue;
+                }
+
+                for (var j = 1; j < a - 1; j++)
+                {
+                    z = BigInteger.ModPow(z, 2, w);
+                    if (z == w - 1)
+                    {
+                        break;
+                    }
+
+                    if (z == 1)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -111,6 +153,16 @@ namespace NIST.CVP.Crypto.RSA
         {
             // This is a bit lazy but should suffice. It's mainly just to solve some casting problems
             return BigInteger.Pow(a, (int)b);
+        }
+
+        /// <summary>
+        /// Calculates exponent 2^exp quickly
+        /// </summary>
+        /// <param name="exp"></param>
+        /// <returns></returns>
+        public static BigInteger Pow2(int exp)
+        {
+            return BigInteger.One << exp;
         }
     }
 }

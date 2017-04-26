@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Numerics;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.RSA
+namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     public abstract class PrimeGeneratorBase
     {
+        protected readonly BigInteger _root2Mult2Pow1024Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768D2202E8742AF1F4E53059C6011BC337BCAB1BC911688458A460ABC722F7C4E33C6D5A8A38BB7E9DCCB2A634331F3C84DF52F120F836E582EEAA4A0899040CA4A").ToPositiveBigInteger();
+        protected readonly BigInteger _root2Mult2Pow1536Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768D2202E8742AF1F4E53059C6011BC337BCAB1BC911688458A460ABC722F7C4E33C6D5A8A38BB7E9DCCB2A634331F3C84DF52F120F836E582EEAA4A0899040CA4A81394AB6D8FD0EFDF4D3A02CEBC93E0C4264DABCD528B651B8CF341B6F8236C70104DC01FE32352F332A5E9F7BDA1EBFF6A1BE3FCA221307DEA06241F7AA81C2").ToPositiveBigInteger();
+        protected readonly IRandom800_90 _rand = new Random800_90();
+
         private readonly ISHA _hash;
         private HashFunction _hashFunction;
 
@@ -24,9 +24,9 @@ namespace NIST.CVP.Crypto.RSA
             };
         }
 
-        protected void SetDigestSize(DigestSizes digestSize)
+        protected void SetHashFunction(HashFunction hashFunction)
         {
-            _hashFunction.DigestSize = digestSize;
+            _hashFunction = hashFunction;
         }
 
         protected int GetOutLen()
@@ -34,14 +34,10 @@ namespace NIST.CVP.Crypto.RSA
             return SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize);
         }
 
-        protected PrimeGeneratorBase(DigestSizes digestSize)
+        protected PrimeGeneratorBase(HashFunction hashFunction)
         {
             _hash = new SHA(new SHAFactory());
-            _hashFunction = new HashFunction
-            {
-                DigestSize = digestSize,
-                Mode = ModeValues.SHA2
-            };
+            SetHashFunction(hashFunction);
         }
 
         public abstract PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed);
@@ -54,7 +50,7 @@ namespace NIST.CVP.Crypto.RSA
             {
                 throw new Exception("Bad Hash in RSA");
             }
-            return new BigInteger(result.Digest.ToBytes());
+            return result.Digest.ToPositiveBigInteger();
         }
 
         /// <summary>
@@ -85,7 +81,7 @@ namespace NIST.CVP.Crypto.RSA
                 {
                     // 5, 6, 7
                     prime = Hash(primeSeed) ^ Hash(primeSeed + 1);
-                    prime = BigInteger.Pow(2, length - 1) + prime % BigInteger.Pow(2, length - 1);
+                    prime = NumberTheory.Pow2(length - 1) + prime % NumberTheory.Pow2(length - 1);
                     prime = 2 * (prime / 2) + 1;
 
                     // 8, 9
@@ -129,20 +125,20 @@ namespace NIST.CVP.Crypto.RSA
             BigInteger x = 0;
             for (var i = 0; i < iterations; i++)
             {
-                x += Hash(primeSeed + i) * BigInteger.Pow(2, i * outLen);
+                x += Hash(primeSeed + i) * NumberTheory.Pow2(i * outLen);
             }
 
             // 20, 21, 22
             primeSeed += iterations + 1;
-            x = BigInteger.Pow(2, length - 1) + x % BigInteger.Pow(2, length - 1);
-            var t = NumberTheory.CeilingDivide(x, 2 * prime);
+            x = NumberTheory.Pow2(length - 1) + x % NumberTheory.Pow2(length - 1);
+            var t = NumberTheory.CeilingDivide(x, 2 * prime0);
 
             while (true)
             {
                 // 23
-                if (2 * t * prime0 + 1 > BigInteger.Pow(2, length))
+                if (2 * t * prime0 + 1 > NumberTheory.Pow2(length))
                 {
-                    t = NumberTheory.CeilingDivide(BigInteger.Pow(2, length - 1), 2 * prime0);
+                    t = NumberTheory.CeilingDivide(NumberTheory.Pow2(length - 1), 2 * prime0);
                 }
 
                 // 24, 25
@@ -153,7 +149,7 @@ namespace NIST.CVP.Crypto.RSA
                 BigInteger a = 0;
                 for (var i = 0; i < iterations; i++)
                 {
-                    a += Hash(primeSeed + i) * BigInteger.Pow(2, i * outLen);
+                    a += Hash(primeSeed + i) * NumberTheory.Pow2(i * outLen);
                 }
 
                 // 28, 29
@@ -190,7 +186,7 @@ namespace NIST.CVP.Crypto.RSA
         /// <returns></returns>
         private bool TrialDivision(BigInteger c)
         {
-            // Safe to cast this as int. this value shouldnt be over the size of an int
+            // Safe to cast this as int/double. c value shouldn't be over the size of an uint
             var cap = System.Math.Ceiling(System.Math.Sqrt((uint)c));
 
             #region primes

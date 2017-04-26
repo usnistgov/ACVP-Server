@@ -17,5 +17,15 @@ namespace NIST.CVP.Crypto.RSA
         {
             throw new NotImplementedException();
         }
+
+        public SignatureResult SignRSA(BigInteger message, KeyPair keyPair)
+        {
+            throw new NotImplementedException();
+        }
+
+        public VerifyResult VerifyRSA(BigInteger signature, KeyPair keyPair)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

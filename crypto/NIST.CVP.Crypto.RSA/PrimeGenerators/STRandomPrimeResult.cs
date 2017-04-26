@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
-namespace NIST.CVP.Crypto.RSA
+namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     public class STRandomPrimeResult
     {

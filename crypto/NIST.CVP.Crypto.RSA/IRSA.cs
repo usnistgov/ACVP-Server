@@ -11,5 +11,7 @@ namespace NIST.CVP.Crypto.RSA
     {
         EncryptResult EncryptRSA(BigInteger message, KeyPair keyPair);
         DecryptResult DecryptRSA(BigInteger ciphertext, KeyPair keyPair);
+        SignatureResult SignRSA(BigInteger message, KeyPair keyPair);
+        VerifyResult VerifyRSA(BigInteger signature, KeyPair keyPair);
     }
 }

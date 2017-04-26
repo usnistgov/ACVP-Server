@@ -1623,6 +1623,28 @@ namespace NIST.CVP.Math.Tests
         }
         #endregion ToBigInteger
 
+        #region ToPositiveBigInteger
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(1231245)]
+        [TestCase(999999)]
+        [TestCase(int.MinValue)]
+        [TestCase(int.MaxValue)]
+        public void ToPositiveBigIntegerReturnsCorrectPositiveValue(int testInt)
+        {
+            var bytes = BitConverter.GetBytes(testInt).Reverse().ToArray();
+            var bs = new BitString(bytes);
+            var expectedBigInt = new BigInteger(testInt);
+
+            var result = bs.ToPositiveBigInteger();
+
+            Assert.GreaterOrEqual(result, 0);       // Verify result > 0
+            Assert.AreEqual(expectedBigInt, result);
+        }
+        #endregion ToPositiveBigInteger
+
         #region ToHex
         [Test]
         [TestCase("01")]
