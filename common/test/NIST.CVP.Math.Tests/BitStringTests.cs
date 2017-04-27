@@ -1636,11 +1636,11 @@ namespace NIST.CVP.Math.Tests
         {
             var bytes = BitConverter.GetBytes(testInt).Reverse().ToArray();
             var bs = new BitString(bytes);
-            var expectedBigInt = new BigInteger(testInt);
+            var expectedBigInt = BigInteger.Abs(new BigInteger(testInt));
 
             var result = bs.ToPositiveBigInteger();
 
-            Assert.GreaterOrEqual(result, 0);       // Verify result > 0
+            Assert.GreaterOrEqual(result, (BigInteger)0);       // Verify result > 0
             Assert.AreEqual(expectedBigInt, result);
         }
         #endregion ToPositiveBigInteger
