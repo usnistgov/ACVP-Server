@@ -19,7 +19,7 @@ namespace AES_CCM_Val
             var resultFile = args[0];
             var promptFile = args[1];
             var answerFile = args[2];
-            LoggingHelper.ConfigureLogging(resultFile, "aes-gcm-val");
+            LoggingHelper.ConfigureLogging(resultFile, "aes-ccm-val");
             Logger.Info($"Validating test results for {resultFile}");
             try
             {

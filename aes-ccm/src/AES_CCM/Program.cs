@@ -17,7 +17,7 @@ namespace AES_CCM
                 return 1;
             }
             var requestFile = args[0];
-            LoggingHelper.ConfigureLogging(requestFile, "aes-gcm");
+            LoggingHelper.ConfigureLogging(requestFile, "aes-ccm");
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
             //get generator and call it
