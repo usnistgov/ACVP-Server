@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.DRBG.Parsers
                 TestGroup currentGroup = null;
                 TestCase currentTestCase = null;
                 int currentResultArrayPosition = 0;
-                OtherInfo currentOtherInput = null;
+                OtherInput currentOtherInput = null;
 
                 bool nextLeftBracketIsStartOfGroup = true;
                 foreach (var line in lines)
@@ -109,7 +109,7 @@ namespace NIST.CVP.Generation.DRBG.Parsers
                     // EntropyInputReseed is the start of a new "OtherInput"
                     if (workingLine.StartsWith("EntropyInputReseed", StringComparison.OrdinalIgnoreCase))
                     {
-                        currentTestCase.OtherInput.Add(new OtherInfo());
+                        currentTestCase.OtherInput.Add(new OtherInput());
                         int lastIndex = currentTestCase.OtherInput.Count - 1;
                         currentTestCase.OtherInput[lastIndex].EntropyInput = new BitString(parts[1].Trim());
                         continue;
@@ -127,7 +127,7 @@ namespace NIST.CVP.Generation.DRBG.Parsers
                     if (workingLine.StartsWith("AdditionalInput", StringComparison.OrdinalIgnoreCase) &&
                         !workingLine.StartsWith("AdditionalInputReseed", StringComparison.OrdinalIgnoreCase))
                     {
-                        currentTestCase.OtherInput.Add(new OtherInfo());
+                        currentTestCase.OtherInput.Add(new OtherInput());
                         int lastIndex = currentTestCase.OtherInput.Count - 1;
                         currentTestCase.OtherInput[lastIndex].AdditionalInput = new BitString(parts[1].Trim());
                         continue;

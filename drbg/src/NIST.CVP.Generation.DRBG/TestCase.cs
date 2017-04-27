@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.DRBG
         public BitString EntropyInput { get; set; }
         public BitString Nonce { get; set; }
         public BitString PersoString { get; set; }
-        public List<OtherInfo> OtherInput { get; set; } = new List<OtherInfo>();
+        public List<OtherInput> OtherInput { get; set; } = new List<OtherInput>();
 
         public BitString ReturnedBits { get; set; }
 
@@ -92,15 +92,15 @@ namespace NIST.CVP.Generation.DRBG
             ReturnedBits = expandoSource.GetBitStringFromProperty("returnedBits");
         }
 
-        private List<OtherInfo> OtherInputToObject(dynamic otherInput)
+        private List<OtherInput> OtherInputToObject(dynamic otherInput)
         {
-            List<OtherInfo> list = new List<OtherInfo>();
+            List<OtherInput> list = new List<OtherInput>();
 
             foreach (dynamic item in otherInput)
             {
                 ExpandoObject expandoItem = (ExpandoObject) item;
 
-                OtherInfo response = new OtherInfo();
+                OtherInput response = new OtherInput();
                 response.AdditionalInput = expandoItem.GetBitStringFromProperty("additionalInput");
                 response.EntropyInput = expandoItem.GetBitStringFromProperty("entropyInput");
 

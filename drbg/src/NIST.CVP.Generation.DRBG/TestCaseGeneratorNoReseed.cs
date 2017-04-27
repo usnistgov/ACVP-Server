@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.DRBG
         private void AddOtherInput(TestGroup group, IEntropyProvider randomEntropyProvider, TestCase tc)
         {
             tc.OtherInput.Add(
-                new OtherInfo()
+                new OtherInput()
                 {
                     EntropyInput = randomEntropyProvider.GetEntropy(group.EntropyInputLen),
                     AdditionalInput = randomEntropyProvider.GetEntropy(group.AdditionalInputLen)

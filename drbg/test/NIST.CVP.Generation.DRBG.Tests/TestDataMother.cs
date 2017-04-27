@@ -39,9 +39,9 @@ namespace NIST.CVP.Generation.DRBG.Tests
                         EntropyInput = new BitString("11"),
                         Nonce = new BitString("22"),
                         PersoString = new BitString("33"),
-                        OtherInput = new List<OtherInfo>()
+                        OtherInput = new List<OtherInput>()
                         {
-                            new OtherInfo()
+                            new OtherInput()
                             {
                                 AdditionalInput = new BitString("44"),
                                 EntropyInput = new BitString("55")

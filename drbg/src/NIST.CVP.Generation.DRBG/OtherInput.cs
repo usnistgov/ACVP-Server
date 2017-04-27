@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Generation.DRBG
 {
-    public class OtherInfo
+    public class OtherInput
     {
         public BitString AdditionalInput { get; set; }
         public BitString EntropyInput { get; set; }
