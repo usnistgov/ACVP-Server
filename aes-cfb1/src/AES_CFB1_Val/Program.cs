@@ -19,7 +19,7 @@ namespace AES_CFB1_Val
             var resultFile = args[0];
             var promptFile = args[1];
             var answerFile = args[2];
-            LoggingHelper.ConfigureLogging(resultFile, "aes-ofb-val");
+            LoggingHelper.ConfigureLogging(resultFile, "aes-cfb1-val");
             Logger.Info($"Validating test results for {resultFile}");
             try
             {

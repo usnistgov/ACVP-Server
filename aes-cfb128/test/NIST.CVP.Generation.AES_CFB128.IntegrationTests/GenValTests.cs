@@ -224,7 +224,7 @@ namespace NIST.CVP.Generation.AES_CFB128.IntegrationTests
             for (int i = 0; i < numOfFiles; i++)
             {
                 fileNamesWithPaths[i] = $"{directory}{fileNames[i]}";
-            };
+            }
 
             return fileNamesWithPaths;
         }
@@ -389,7 +389,15 @@ namespace NIST.CVP.Generation.AES_CFB128.IntegrationTests
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters);
+            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings()
+            {
+                Converters = new List<JsonConverter>()
+                {
+                    new BitstringConverter(),
+                    new DomainConverter()
+                },
+                Formatting = Formatting.Indented
+            });
             string fileName = $"{targetFolder}\\registration.json";
             File.WriteAllText(fileName, json);
 

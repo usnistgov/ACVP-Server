@@ -20,7 +20,7 @@ namespace AES_CFB128
                 return 1;
             }
             var requestFile = args[0];
-            LoggingHelper.ConfigureLogging(requestFile, "aes-cfb8");
+            LoggingHelper.ConfigureLogging(requestFile, "aes-cfb128");
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
             //get generator and call it

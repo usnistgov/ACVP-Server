@@ -17,7 +17,7 @@ namespace AES_CFB1
                 return 1;
             }
             var requestFile = args[0];
-            LoggingHelper.ConfigureLogging(requestFile, "aes-ofb");
+            LoggingHelper.ConfigureLogging(requestFile, "aes-cfb1");
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
             //get generator and call it

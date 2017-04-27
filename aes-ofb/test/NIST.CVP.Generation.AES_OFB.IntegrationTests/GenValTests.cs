@@ -5,6 +5,7 @@ using System.Linq;
 using AES_OFB;
 using Autofac;
 using Newtonsoft.Json;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
@@ -387,7 +388,15 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings()
+            {
+                Converters = new List<JsonConverter>()
+                {
+                    new BitstringConverter(),
+                    new DomainConverter()
+                },
+                Formatting = Formatting.Indented
+            });
             string fileName = $"{targetFolder}\\registration.json";
             File.WriteAllText(fileName, json);
 

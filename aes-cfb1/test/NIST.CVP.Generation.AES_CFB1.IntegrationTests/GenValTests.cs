@@ -384,7 +384,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-OFB",
+                Algorithm = "AES-CFB1",
                 Mode = new string[] { "encrypt" },
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 IsSample = true
@@ -397,7 +397,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-OFB",
+                Algorithm = "AES-CFB1",
                 Mode = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 IsSample = false
@@ -417,7 +417,15 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters);
+            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings()
+            {
+                Converters = new List<JsonConverter>()
+                {
+                    new BitstringConverter(),
+                    new DomainConverter()
+                },
+                Formatting = Formatting.Indented
+            });
             string fileName = $"{targetFolder}\\registration.json";
             File.WriteAllText(fileName, json);
 

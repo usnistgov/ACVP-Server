@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.AES_CFB1
             }
         }
 
-        public string Algorithm { get; set; } = "AES-OFB";
+        public string Algorithm { get; set; } = "AES-CFB1";
         public bool IsSample { get; set; }
 
         [JsonIgnore]

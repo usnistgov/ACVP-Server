@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.AES_CFB1
                 groups.AddRange(mctGroups);
             }
 
-            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "AES-OFB", IsSample = parameters.IsSample};
+            var testVector = new TestVectorSet {TestGroups = groups, IsSample = parameters.IsSample};
 
             return testVector;
         }

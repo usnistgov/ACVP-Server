@@ -390,7 +390,15 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters);
+            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings()
+            {
+                Converters = new List<JsonConverter>()
+                {
+                    new BitstringConverter(),
+                    new DomainConverter()
+                },
+                Formatting = Formatting.Indented
+            });
             string fileName = $"{targetFolder}\\registration.json";
             File.WriteAllText(fileName, json);
 
