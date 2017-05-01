@@ -126,6 +126,90 @@ namespace NIST.CVP.Generation.AES_CFB8.Tests
             Assert.IsTrue(result.Reason.ToLower().Contains("iv"), "Reason does not contain the expected value IV");
         }
 
+        [Test]
+        public void ShouldFailDueToMissingResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray = null;
+
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
+
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingKeyInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.Key = null);
+
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
+
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason
+                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Key)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingIvInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.IV = null);
+
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
+
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason
+                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.IV)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingPlainTextInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.PlainText = null);
+
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
+
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason
+                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.PlainText)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingCipherTextInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.CipherText = null);
+
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
+
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason
+                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}"));
+        }
+
         private TestCase GetTestCase()
         {
             var testCase = new TestCase

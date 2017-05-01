@@ -213,7 +213,6 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
                 .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}"));
         }
 
-
         private TestCase GetTestCase()
         {
             var testCase = new TestCase

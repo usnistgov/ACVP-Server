@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.AES_CFB1;
+﻿using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
@@ -40,6 +41,23 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             Assume.That(result != null);
             Assume.That("failed" == result.Result);
             Assert.IsTrue(result.Reason.Contains("Cipher Text"));
+        }
+
+
+        [Test]
+        public void ShouldFailDueToMissingResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray = null;
+
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
+
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
         }
 
         private TestCase GetTestCase()
