@@ -20,17 +20,34 @@ namespace NIST.CVP.Generation.SHA3
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
-            if (!_expectedResult.Digest.Equals(suppliedResult.Digest))
+            ValidateResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
             {
-                errors.Add("Digests do not match");
+                CheckResults(suppliedResult, errors);
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation {TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors)};
+                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors) };
             }
 
-            return new TestCaseValidation {TestCaseId = suppliedResult.TestCaseId, Result = "passed"};
+            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
+        }
+
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
+        {
+            if (suppliedResult.Digest == null)
+            {
+                errors.Add($"{nameof(suppliedResult.Digest)} was not present in the {nameof(TestCase)}");
+            }
+        }
+
+        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        {
+            if (!_expectedResult.Digest.Equals(suppliedResult.Digest))
+            {
+                errors.Add("Digests do not match");
+            }
         }
     }
 }

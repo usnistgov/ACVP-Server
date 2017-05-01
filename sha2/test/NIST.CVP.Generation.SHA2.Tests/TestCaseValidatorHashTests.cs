@@ -41,6 +41,22 @@ namespace NIST.CVP.Generation.SHA2.Tests
             Assert.IsTrue(result.Reason.Contains("Digest"));
         }
 
+        [Test]
+        public void ShouldFailIfDigestNotPresent()
+        {
+            var testCase = GetTestCase();
+            var subject = new TestCaseValidatorHash(testCase);
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.Digest = null;
+
+            var result = subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assume.That("failed" == result.Result);
+
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.Digest)} was not present in the {nameof(TestCase)}"));
+        }
+
         private TestCase GetTestCase(int id = 1)
         {
             var testCase = new TestCase

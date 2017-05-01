@@ -23,18 +23,34 @@ namespace NIST.CVP.Generation.TDES_CBC
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
-
-            if (!_expectedResult.PlainText.Equals(suppliedResult.PlainText))
+            ValidateResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
             {
-                errors.Add("Plain Text does not match");
+                CheckResults(suppliedResult, errors);
             }
-
 
             if (errors.Count > 0)
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors) };
             }
+
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
+        }
+
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
+        {
+            if (suppliedResult.PlainText == null)
+            {
+                errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}");
+            }
+        }
+
+        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        {
+            if (!_expectedResult.PlainText.Equals(suppliedResult.PlainText))
+            {
+                errors.Add("Plain Text does not match");
+            }
         }
     }
 }

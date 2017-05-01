@@ -55,6 +55,22 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             Assert.AreEqual(id, subject.TestCaseId);
         }
 
+        [Test]
+        public void ShouldFailIfCipherTextNotPresent()
+        {
+            var testCase = GetTestCase();
+            var subject = new TestCaseValidatorEncrypt(testCase);
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.CipherText = null;
+
+            var result = subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assume.That("failed" == result.Result);
+
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}"));
+        }
+
         private TestCase GetTestCase(int id = 1)
         {
             var testCase = new TestCase
