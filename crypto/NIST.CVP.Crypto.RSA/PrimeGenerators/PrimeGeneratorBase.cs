@@ -2,6 +2,7 @@
 using System.Numerics;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
@@ -549,12 +550,12 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             // 16, 17
-            var iterations = (int)System.Math.Ceiling(length / (double)outLen) - 1;
+            var iterations = NumberTheory.CeilingDivide(length, outLen) - 1;
             var oldCounter = primeGenCounter;
 
             // 18, 19
             BigInteger x = 0;
-            for (var i = 0; i < iterations; i++)
+            for (var i = 0; i <= iterations; i++)
             {
                 x += Hash(primeSeed + i) * NumberTheory.Pow2(i * outLen);
             }
@@ -578,7 +579,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 
                 // 26, 27
                 BigInteger a = 0;
-                for (var i = 0; i < iterations; i++)
+                for (var i = 0; i <= iterations; i++)
                 {
                     a += Hash(primeSeed + i) * NumberTheory.Pow2(i * outLen);
                 }

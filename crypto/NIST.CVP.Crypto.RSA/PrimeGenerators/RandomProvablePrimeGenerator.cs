@@ -96,7 +96,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 workingSeed = ppcResult.PSeed;
 
                 // 8
-                if (BigInteger.Abs(p - q) <= NumberTheory.Pow2(nlen / 2 - 100))
+                if (BigInteger.Abs(p - q) > NumberTheory.Pow2(nlen / 2 - 100))
                 {
                     break;
                 }
@@ -183,7 +183,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             BigInteger x = 0;
 
             // 10
-            for (var i = 0; i < iterations; i++)
+            for (var i = 0; i <= iterations; i++)
             {
                 x += Hash(pSeed + i) * NumberTheory.Pow2(i * outLen);
             }
@@ -206,11 +206,11 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             var y = NumberTheory.ModularInverse(p0 * p1, p2);
             if (y == 0)
             {
-                y = p2;
+                return new PPCResult("PPC: Error finding modular inverse of p0 * p1 % p2");
             }
 
             // 15
-            var t = NumberTheory.CeilingDivide(2 * y * p0 * p1 + x, 2 * p0 * p1 * p2);
+            var t = NumberTheory.CeilingDivide((2 * y * p0 * p1) + x, 2 * p0 * p1 * p2);
 
             while (true)
             {
@@ -228,13 +228,13 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 if (NumberTheory.GCD(p - 1, e) == 1)
                 {
                     BigInteger a = 0;
-                    for (var i = 0; i < iterations; i++)
+                    for (var i = 0; i <= iterations; i++)
                     {
                         a += Hash(pSeed + i) * NumberTheory.Pow2(i * outLen);
                     }
 
                     pSeed += iterations + 1;
-                    a = 2 + a % (p - 3);
+                    a = 2 + (a % (p - 3));
                     var z = BigInteger.ModPow(a, 2 * (t * p2 - y) * p1, p);
 
                     if (NumberTheory.GCD(z - 1, p) == 1 && 1 == BigInteger.ModPow(z, p0, p))
