@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CBC
@@ -23,6 +24,50 @@ namespace NIST.CVP.Generation.AES_CBC
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
+
+            // Can only check the contents of the array, 
+            // if the array and all expected elements within the array are available
+            ValidateArrayResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
+            {
+                CheckResults(suppliedResult, errors);
+            }
+
+            if (errors.Count > 0)
+            {
+                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors) };
+            }
+            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
+        }
+
+        private void ValidateArrayResultPresent(TestCase suppliedResult, List<string> errors)
+        {
+            if (suppliedResult.ResultsArray == null || suppliedResult.ResultsArray.Count == 0)
+            {
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}");
+                return;
+            }
+
+            if (suppliedResult.ResultsArray.Any(a => a.Key == null))
+            {
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Key)}");
+            }
+            if (suppliedResult.ResultsArray.Any(a => a.IV == null))
+            {
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.IV)}");
+            }
+            if (suppliedResult.ResultsArray.Any(a => a.PlainText == null))
+            {
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.PlainText)}");
+            }
+            if (suppliedResult.ResultsArray.Any(a => a.CipherText == null))
+            {
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}");
+            }
+        }
+
+        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        {
             for (int i = 0; i < _expectedResult.ResultsArray.Count; i++)
             {
                 if (!_expectedResult.ResultsArray[i].IV.Equals(suppliedResult.ResultsArray[i].IV))
@@ -42,12 +87,6 @@ namespace NIST.CVP.Generation.AES_CBC
                     errors.Add($"Cipher Text does not match on iteration {i}");
                 }
             }
-
-            if (errors.Count > 0)
-            {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors) };
-            }
-            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
         }
     }
 }
