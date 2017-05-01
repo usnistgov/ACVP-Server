@@ -116,7 +116,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 KeyLen = keyLen,
                 AadLen = aadLen,
                 PtLen = ptLen,
-                Nonce = ivLen,
+                IvLen = ivLen,
                 TagLen = tagLen
             };
 
@@ -160,7 +160,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 KeyLen = keyLen,
                 AadLen = aadLen,
                 PtLen = ptLen,
-                Nonce = ivLen,
+                IvLen = ivLen,
                 TagLen = tagLen
             };
 
@@ -206,7 +206,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 KeyLen = keyLen,
                 AadLen = aadLen,
                 PtLen = ptLen,
-                Nonce = ivLen,
+                IvLen = ivLen,
                 TagLen = tagLen
             };
 
@@ -248,7 +248,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 KeyLen = keyLen,
                 AadLen = aadLen,
                 PtLen = ptLen,
-                Nonce = ivLen,
+                IvLen = ivLen,
                 TagLen = tagLen
             };
 
@@ -293,7 +293,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 KeyLen = keyLen,
                 AadLen = aadLen,
                 PtLen = ptLen,
-                Nonce = ivLen,
+                IvLen = ivLen,
                 TagLen = tagLen
             };
 

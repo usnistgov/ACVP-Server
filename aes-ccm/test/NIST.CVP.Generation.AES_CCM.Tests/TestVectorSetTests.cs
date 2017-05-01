@@ -86,7 +86,6 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             foreach (var test in tests)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
-                Assert.IsTrue(!string.IsNullOrEmpty(test.tagLen.ToString()), nameof(test.tagLen));
                 Assert.IsTrue(!string.IsNullOrEmpty(test.key.ToString()), nameof(test.key));
                 Assert.IsTrue(!string.IsNullOrEmpty(test.aad.ToString()), nameof(test.aad));
                 Assert.IsTrue(!string.IsNullOrEmpty(test.deferred.ToString()), nameof(test.deferred));

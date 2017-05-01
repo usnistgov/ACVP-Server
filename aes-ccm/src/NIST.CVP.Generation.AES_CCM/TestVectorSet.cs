@@ -75,7 +75,6 @@ namespace NIST.CVP.Generation.AES_CCM
                         {
                             ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
                         }
-                        ((IDictionary<string, object>)testObject).Add("tagLen", test.TagLength);
                         ((IDictionary<string, object>)testObject).Add("iv", test.IV);
                         ((IDictionary<string, object>)testObject).Add("key", test.Key);
                         ((IDictionary<string, object>)testObject).Add("aad", test.AAD);
@@ -127,7 +126,6 @@ namespace NIST.CVP.Generation.AES_CCM
                         ((IDictionary<string, object>)testObject).Add("key", test.Key);
                         ((IDictionary<string, object>)testObject).Add("iv", test.IV);
                         ((IDictionary<string, object>)testObject).Add("aad", test.AAD);
-                        ((IDictionary<string, object>)testObject).Add("tagLen", test.TagLength);
                         tests.Add(testObject);
                     }
                     list.Add(updateObject);

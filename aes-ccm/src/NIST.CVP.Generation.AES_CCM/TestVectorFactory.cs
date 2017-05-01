@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.AES_CCM
             // (max PT len value / 8) + 1 gives all possible values 0-32.
             PtLens = parameters.PtLen.GetValues(ParameterValidator.VALID_MAX_PT / 8 + 1).ToArray();
 
-            NonceLens = parameters.Nonce.GetValues(ParameterValidator.VALID_NONCE_LENGTHS.Length).ToArray();
+            NonceLens = parameters.IvLen.GetValues(ParameterValidator.VALID_NONCE_LENGTHS.Length).ToArray();
             
             // For AAD, we only want up to a maximum of 32 bytes, so limit the range to 32*8 for bits.
             // Take in a maximum of 33 values (0-32)

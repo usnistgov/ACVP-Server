@@ -59,6 +59,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 {
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
                     ((IDictionary<string, object>)updateObject).Add("ivGen", group.IVGeneration);
                     ((IDictionary<string, object>)updateObject).Add("ivGenMode", group.IVGenerationMode);
                     ((IDictionary<string, object>)updateObject).Add("ivLen", group.IVLength);
@@ -111,6 +112,7 @@ namespace NIST.CVP.Generation.AES_GCM
                 {
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
                     ((IDictionary<string, object>)updateObject).Add("ivGen", group.IVGeneration);
                     ((IDictionary<string, object>)updateObject).Add("ivGenMode", group.IVGenerationMode);
                     ((IDictionary<string, object>)updateObject).Add("ivLen", group.IVLength);

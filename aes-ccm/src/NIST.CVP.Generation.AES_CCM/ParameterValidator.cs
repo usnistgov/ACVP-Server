@@ -68,14 +68,14 @@ namespace NIST.CVP.Generation.AES_CCM
 
         private void ValidateNonce(Parameters parameters, List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.Nonce, "Nonce Domain");
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.IvLen, "Nonce Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
                 return;
             }
 
-            var domain = parameters.Nonce.GetDomainMinMax();
+            var domain = parameters.IvLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { domain.Minimum, domain.Maximum },
                 VALID_NONCE_LENGTHS.Min(),
@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.AES_CCM
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            var modCheck = ValidateMultipleOf(parameters.Nonce, 8, "Nonce Modulus");
+            var modCheck = ValidateMultipleOf(parameters.IvLen, 8, "Nonce Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 

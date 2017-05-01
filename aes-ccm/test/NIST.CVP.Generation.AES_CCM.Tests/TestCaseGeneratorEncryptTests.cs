@@ -101,12 +101,14 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         }
 
         [Test]
-        [TestCase("No change 0", 0, 10)]
-        [TestCase("No change 10", 10, 10)]
-        [TestCase("No change 32", 32, 10)]
-        [TestCase("change 33", 33, 1)]
+        [TestCase("No change 0 bits", 0, 10)]
+        [TestCase("No change 10 bits", 10, 10)]
+        [TestCase("No change 32 bits", 32, 10)]
+        [TestCase("no change 33 bits", 33, 10)]
+        [TestCase("no change 256 bits", 256, 10)]
+        [TestCase("change 257 bits", 257, 1)]
         [TestCase("change 65536", 65536, 1)]
-        public void ShouldChangeNumberOfTestCasesWhenAadLenGt32(string testLabel, int aadLen, int expectedNumberOfCases)
+        public void ShouldChangeNumberOfTestCasesWhenAadLenGt32bytes(string testLabel, int aadLen, int expectedNumberOfCases)
         {
             TestCaseGeneratorEncrypt subject =
                 new TestCaseGeneratorEncrypt(GetRandomMock().Object, GetAESMock().Object);

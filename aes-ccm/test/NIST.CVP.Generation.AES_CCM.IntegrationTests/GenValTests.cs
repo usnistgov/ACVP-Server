@@ -367,7 +367,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
                 PtLen = ptDomain,
                 AadLen = aadDomain,
                 TagLen = tagDomain,
-                Nonce = nonceDomain,
+                IvLen = nonceDomain,
                 IsSample = false
             };
 
@@ -395,7 +395,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
                 PtLen = ptDomain,
                 AadLen = aadDomain,
                 TagLen = tagDomain,
-                Nonce = nonceDomain,
+                IvLen = nonceDomain,
                 IsSample = true
             };
 
@@ -431,7 +431,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
                 PtLen = ptDomain,
                 AadLen = aadDomain,
                 TagLen = tagDomain,
-                Nonce = nonceDomain,
+                IvLen = nonceDomain,
                 IsSample = false
             };
 

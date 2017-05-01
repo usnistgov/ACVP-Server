@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_GCM
 
         public TestGroup(dynamic source)
         {
-           
+            TestType = source.testType;
             IVGeneration = source.ivGen;
             IVGenerationMode = source.ivGenMode;
             AADLength = source.aadLen;
@@ -74,7 +74,7 @@ namespace NIST.CVP.Generation.AES_GCM
         public override int GetHashCode()
         {
             return
-                $"{Function}|{KeyLength}|{IVLength}|{IVGeneration}|{IVGenerationMode}|{PTLength}|{AADLength}|{TagLength}"
+                $"{Function}|{TestType}|{KeyLength}|{IVLength}|{IVGeneration}|{IVGenerationMode}|{PTLength}|{AADLength}|{TagLength}"
                     .GetHashCode();
         }
 

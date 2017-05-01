@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.AES_CCM
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
             // In instances like 2^16 aadLength, we only want to do a single test case.
-            if (group.AADLength > 32)
+            if (group.AADLength > 32 * 8)
             {
                 _numberOfTestCases = 1;
             }

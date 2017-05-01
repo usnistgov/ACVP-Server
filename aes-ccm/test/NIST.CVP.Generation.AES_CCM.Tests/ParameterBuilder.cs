@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 Algorithm = _algorithm,
 
                 KeyLen = _keyLen,
-                Nonce = _nonceLen,
+                IvLen = _nonceLen,
                 PtLen = _ptLen,
                 AadLen = _aadLen,
                 TagLen = _tagLen

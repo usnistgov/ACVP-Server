@@ -121,7 +121,6 @@ namespace NIST.CVP.Generation.AES_CCM.Parsers
                             TestCaseId = caseId,
                             Key = key,
                             IV = nonce,
-                            TagLength = tLen * 8
                         };
 
                         currentGroup.Tests.Add(currentTestCase);

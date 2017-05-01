@@ -34,11 +34,7 @@ namespace NIST.CVP.Generation.AES_CCM
             {
                 Deferred = source.deferred;
             }
-            if (((ExpandoObject)source).ContainsProperty("tagLen"))
-            {
-                TagLength = (int)source.tagLen;
-            }
-
+            
             Key = BitStringFromObject("key", (ExpandoObject) source);
             IV = BitStringFromObject("iv", (ExpandoObject)source);
             AAD = BitStringFromObject("aad", (ExpandoObject)source);
@@ -79,7 +75,6 @@ namespace NIST.CVP.Generation.AES_CCM
         public BitString AAD { get; set; }
         public BitString IV { get; set; }
         public BitString CipherText { get; set; }
-        public int TagLength { get; set; }
         
         public bool Merge(ITestCase otherTest)
         {
