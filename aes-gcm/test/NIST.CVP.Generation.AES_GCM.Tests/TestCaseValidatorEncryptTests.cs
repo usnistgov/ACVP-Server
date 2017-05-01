@@ -70,6 +70,37 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             Assert.IsTrue(result.Reason.Contains("Tag"));
         }
 
+        [Test]
+        public void ShouldFailIfCipherTextNotPresent()
+        {
+            var testCase = GetTestCase();
+            var subject = new TestCaseValidatorEncrypt(testCase);
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.CipherText = null;
+
+            var result = subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assume.That("failed" == result.Result);
+
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}"));
+        }
+
+        [Test]
+        public void ShouldFailIfTagNotPresent()
+        {
+            var testCase = GetTestCase();
+            var subject = new TestCaseValidatorEncrypt(testCase);
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.Tag = null;
+
+            var result = subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assume.That("failed" == result.Result);
+
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.Tag)} was not present in the {nameof(TestCase)}"));
+        }
 
         private TestCase GetTestCase()
         {

@@ -23,6 +23,34 @@ namespace NIST.CVP.Generation.AES_GCM
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
+
+            ValidateResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
+            {
+                CheckResults(suppliedResult, errors);
+            }
+
+            if (errors.Count > 0)
+            {
+                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors) };
+            }
+            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
+        }
+
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
+        {
+            if (suppliedResult.CipherText == null)
+            {
+                errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}");
+            }
+            if (suppliedResult.Tag == null)
+            {
+                errors.Add($"{nameof(suppliedResult.Tag)} was not present in the {nameof(TestCase)}");
+            }
+        }
+
+        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        {
             if (!_expectedResult.CipherText.Equals(suppliedResult.CipherText))
             {
                 errors.Add("Cipher Text does not match");
@@ -31,12 +59,6 @@ namespace NIST.CVP.Generation.AES_GCM
             {
                 errors.Add("Tag does not match");
             }
-
-            if (errors.Count > 0)
-            {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors) };
-            }
-            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
         }
     }
 }

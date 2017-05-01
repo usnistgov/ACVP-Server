@@ -42,6 +42,22 @@ namespace NIST.CVP.Generation.DRBG.Tests
             Assert.IsTrue(result.Reason.Contains("Returned Bits"));
         }
 
+        [Test]
+        public void ShouldFailIfReturnedBitsNotPresent()
+        {
+            var testCase = GetTestCase();
+            var subject = new TestCaseValidator(testCase);
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ReturnedBits = null;
+
+            var result = subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assume.That("failed" == result.Result);
+
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ReturnedBits)} was not present in the {nameof(TestCase)}"));
+        }
+
         private TestCase GetTestCase()
         {
             var testCase = new TestCase

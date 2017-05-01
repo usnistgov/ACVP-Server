@@ -20,9 +20,11 @@ namespace NIST.CVP.Generation.AES_ECB
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
-            if (!_expectedResult.CipherText.Equals(suppliedResult.CipherText))
+
+            ValidateResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
             {
-                errors.Add("Cipher Text does not match");
+                CheckResults(suppliedResult, errors);
             }
 
             if (errors.Count > 0)
@@ -30,6 +32,23 @@ namespace NIST.CVP.Generation.AES_ECB
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors) };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
+        }
+
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
+        {
+            if (suppliedResult.CipherText == null)
+            {
+                errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}");
+                return;
+            }
+        }
+
+        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        {
+            if (!_expectedResult.CipherText.Equals(suppliedResult.CipherText))
+            {
+                errors.Add("Cipher Text does not match");
+            }
         }
     }
 }

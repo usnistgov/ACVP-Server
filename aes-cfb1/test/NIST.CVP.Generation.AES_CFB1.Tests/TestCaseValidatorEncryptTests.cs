@@ -42,8 +42,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             Assume.That("failed" == result.Result);
             Assert.IsTrue(result.Reason.Contains("Cipher Text"));
         }
-
-
+        
         [Test]
         public void ShouldFailDueToMissingResultsArray()
         {
@@ -58,6 +57,22 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
 
             Assert.AreEqual("failed", result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
+        }
+
+        [Test]
+        public void ShouldFailIfCipherTextNotPresent()
+        {
+            var testCase = GetTestCase();
+            var subject = new TestCaseValidatorEncrypt(testCase);
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.CipherText = null;
+
+            var result = subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assume.That("failed" == result.Result);
+
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}"));
         }
 
         private TestCase GetTestCase()

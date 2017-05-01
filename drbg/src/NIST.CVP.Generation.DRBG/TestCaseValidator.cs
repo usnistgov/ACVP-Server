@@ -13,13 +13,15 @@ namespace NIST.CVP.Generation.DRBG
         }
 
         public int TestCaseId => _expectedResult.TestCaseId;
-
+        
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
-            if (!_expectedResult.ReturnedBits.Equals(suppliedResult.ReturnedBits))
+
+            ValidateResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
             {
-                errors.Add("Returned Bits do not match");
+                CheckResults(suppliedResult, errors);
             }
 
             if (errors.Count > 0)
@@ -29,6 +31,21 @@ namespace NIST.CVP.Generation.DRBG
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
         }
 
-        
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
+        {
+            if (suppliedResult.ReturnedBits == null)
+            {
+                errors.Add($"{nameof(suppliedResult.ReturnedBits)} was not present in the {nameof(TestCase)}");
+                return;
+            }
+        }
+
+        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        {
+            if (!_expectedResult.ReturnedBits.Equals(suppliedResult.ReturnedBits))
+            {
+                errors.Add("Returned Bits do not match");
+            }
+        }
     }
 }
