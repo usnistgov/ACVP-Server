@@ -102,6 +102,66 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             Assert.IsTrue(result.Reason.ToLower().Contains("key"), "Reason does not contain the expected value Key");
         }
 
+        [Test]
+        public void ShouldFailDueToMissingResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray = null;
+
+            var subject = new TestCaseValidatorMonteCarloDecrypt(expected);
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingPlainTextInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.PlainText = null);
+
+            var subject = new TestCaseValidatorMonteCarloDecrypt(expected);
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.PlainText)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingCipherTextInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.CipherText = null);
+
+            var subject = new TestCaseValidatorMonteCarloDecrypt(expected);
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingKeysInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.Keys = null);
+
+            var subject = new TestCaseValidatorMonteCarloDecrypt(expected);
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Keys)}"));
+        }
+
         private TestCase GetTestCase()
         {
             var testCase = new TestCase

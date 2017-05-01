@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_ECB
@@ -20,7 +22,44 @@ namespace NIST.CVP.Generation.TDES_ECB
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
-            for (int i = 0; i < _expectedResult.ResultsArray.Count; i++)
+            ValidateArrayResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
+            {
+                CheckResults(suppliedResult, errors);
+            }
+
+            if (errors.Count > 0)
+            {
+                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors) };
+            }
+            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
+        }
+
+        private void ValidateArrayResultPresent(TestCase suppliedResult, List<string> errors)
+        {
+            if (suppliedResult.ResultsArray == null || suppliedResult.ResultsArray.Count == 0)
+            {
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}");
+                return;
+            }
+
+            if (suppliedResult.ResultsArray.Any(a => a.Keys == null))
+            {
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Keys)}");
+            }
+            if (suppliedResult.ResultsArray.Any(a => a.PlainText == null))
+            {
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.PlainText)}");
+            }
+            if (suppliedResult.ResultsArray.Any(a => a.CipherText == null))
+            {
+                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}");
+            }
+        }
+
+        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        {
+            for (var i = 0; i < _expectedResult.ResultsArray.Count; i++)
             {
                 if (!_expectedResult.ResultsArray[i].Keys.Equals(suppliedResult.ResultsArray[i].Keys))
                 {
@@ -35,12 +74,6 @@ namespace NIST.CVP.Generation.TDES_ECB
                     errors.Add($"Plain Text does not match on iteration {i}");
                 }
             }
-
-            if (errors.Count > 0)
-            {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors) };
-            }
-            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
         }
     }
 }

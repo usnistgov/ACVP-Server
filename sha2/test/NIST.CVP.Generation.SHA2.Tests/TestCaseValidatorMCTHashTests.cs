@@ -78,6 +78,51 @@ namespace NIST.CVP.Generation.SHA2.Tests
             Assert.IsTrue(result.Reason.ToLower().Contains("message"), "Reason does not contain the expected value message");
         }
 
+        [Test]
+        public void ShouldFailDueToMissingResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray = null;
+
+            var subject = new TestCaseValidatorMCTHash(expected);
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingMessageInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.Message = null);
+
+            var subject = new TestCaseValidatorMCTHash(expected);
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Message)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingDigestInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.Digest = null);
+
+            var subject = new TestCaseValidatorMCTHash(expected);
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual("failed", result.Result);
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Digest)}"));
+        }
+
         private TestCase GetTestCase()
         {
             var testCase = new TestCase
