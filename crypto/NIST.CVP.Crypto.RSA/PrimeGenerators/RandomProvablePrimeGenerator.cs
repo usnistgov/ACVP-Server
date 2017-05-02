@@ -206,7 +206,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             var y = NumberTheory.ModularInverse(p0 * p1, p2);
             if (y == 0)
             {
-                return new PPCResult("PPC: Error finding modular inverse of p0 * p1 % p2");
+                y = p2;
             }
 
             // 15

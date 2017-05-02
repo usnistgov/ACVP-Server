@@ -451,8 +451,8 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             _hash = new SHA(new SHAFactory());
             _hashFunction = new HashFunction
             {
-                DigestSize = DigestSizes.d224,
-                Mode = ModeValues.SHA2
+                DigestSize = DigestSizes.d160,
+                Mode = ModeValues.SHA1
             };
         }
 
