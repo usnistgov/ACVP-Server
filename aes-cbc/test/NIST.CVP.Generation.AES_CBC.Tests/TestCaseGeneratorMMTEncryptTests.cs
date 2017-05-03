@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CBC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -92,11 +93,33 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
-
             Assert.IsNotEmpty(((TestCase)result.TestCase).CipherText.ToString(), "CipherText");
             Assert.IsNotEmpty(((TestCase)result.TestCase).Key.ToString(), "Key");
             Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");
             Assert.IsFalse(result.TestCase.Deferred, "Deferred");
+        }
+
+        [Test]
+        public void GeneratedCipherTextShouldDecryptBackToPlainText()
+        {
+            var ri = new RijndaelInternals();
+            var rf = new RijndaelFactory(ri);
+            var aes_cbc = new Crypto.AES_CBC.AES_CBC(rf);
+            var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), aes_cbc);
+            var testGroup = new TestGroup { KeyLength = 128 };
+
+            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            {
+                var result = subject.Generate(testGroup, false);
+                Assume.That(result.Success);
+                testGroup.Tests.Add(result.TestCase);
+            }
+
+            foreach (TestCase testCase in testGroup.Tests)
+            {
+                var decryptResult = aes_cbc.BlockEncrypt(testCase.IV, testCase.Key, testCase.PlainText);
+                Assert.AreEqual(testCase.CipherText, decryptResult.CipherText);
+            }
         }
 
         private Mock<IRandom800_90> GetRandomMock()

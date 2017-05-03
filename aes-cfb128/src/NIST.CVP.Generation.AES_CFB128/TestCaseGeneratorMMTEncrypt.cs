@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.AES_CFB128
             EncryptionResult encryptionResult = null;
             try
             {
-                encryptionResult = _algo.BlockEncrypt(testCase.IV, testCase.Key, testCase.PlainText);
+                encryptionResult = _algo.BlockEncrypt(testCase.IV.GetDeepCopy(), testCase.Key, testCase.PlainText);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);

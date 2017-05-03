@@ -12,9 +12,9 @@ namespace NIST.CVP.Generation.AES_CFB8
         private readonly IAES_CFB8 _algo;
         private readonly IRandom800_90 _random800_90;
 
-        private const int _PT_LENGTH_MULTIPLIER = 16;
+        private const int _CT_LENGTH_MULTIPLIER = 16;
 
-        private int _ptLenGenIteration = 1;
+        private int _ctLenGenIteration = 1;
 
         public int NumberOfTestCasesToGenerate { get { return 10; } }
 
@@ -28,13 +28,13 @@ namespace NIST.CVP.Generation.AES_CFB8
         {
             //known answer - need to do an encryption operation to get the tag
             var key = _random800_90.GetRandomBitString(@group.KeyLength);
-            var plainText = _random800_90.GetRandomBitString(_ptLenGenIteration++ * _PT_LENGTH_MULTIPLIER);
+            var cipherText = _random800_90.GetRandomBitString(_ctLenGenIteration++ * _CT_LENGTH_MULTIPLIER);
             var iv = _random800_90.GetRandomBitString((Cipher._MAX_IV_BYTE_LENGTH * 8));
             var testCase = new TestCase
             {
                 IV = iv,
                 Key = key,
-                PlainText = plainText,
+                CipherText = cipherText,
                 Deferred = false
             };
             return Generate(@group, testCase);
@@ -42,15 +42,15 @@ namespace NIST.CVP.Generation.AES_CFB8
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            EncryptionResult encryptionResult = null;
+            DecryptionResult decryptionResult = null;
             try
             {
-                encryptionResult = _algo.BlockEncrypt(testCase.IV, testCase.Key, testCase.PlainText);
-                if (!encryptionResult.Success)
+                decryptionResult = _algo.BlockDecrypt(testCase.IV.GetDeepCopy(), testCase.Key, testCase.CipherText);
+                if (!decryptionResult.Success)
                 {
-                    ThisLogger.Warn(encryptionResult.ErrorMessage);
+                    ThisLogger.Warn(decryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -61,10 +61,8 @@ namespace NIST.CVP.Generation.AES_CFB8
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
-            testCase.CipherText = encryptionResult.CipherText;
-           
-         
 
+            testCase.PlainText = decryptionResult.PlainText;
             return new TestCaseGenerateResponse(testCase);
         }
 

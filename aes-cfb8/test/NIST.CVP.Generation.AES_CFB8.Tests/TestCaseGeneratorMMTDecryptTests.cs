@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CFB8;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -98,7 +99,28 @@ namespace NIST.CVP.Generation.AES_CFB8.Tests
             Assert.IsFalse(result.TestCase.Deferred, "Deferred");
         }
 
-       
+        [Test]
+        public void GeneratedPlainTextShouldEncryptBackToCipherText()
+        {
+            var ri = new RijndaelInternals();
+            var rf = new RijndaelFactory(ri);
+            var aes_cfb8 = new Crypto.AES_CFB8.AES_CFB8(rf);
+            var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), aes_cfb8);
+            var testGroup = new TestGroup { KeyLength = 128 };
+
+            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            {
+                var result = subject.Generate(testGroup, false);
+                Assume.That(result.Success);
+                testGroup.Tests.Add(result.TestCase);
+            }
+
+            foreach (TestCase testCase in testGroup.Tests)
+            {
+                var encryptResult = aes_cfb8.BlockEncrypt(testCase.IV, testCase.Key, testCase.PlainText);
+                Assert.AreEqual(testCase.CipherText, encryptResult.CipherText);
+            }
+        }
 
         private Mock<IRandom800_90> GetRandomMock()
         {

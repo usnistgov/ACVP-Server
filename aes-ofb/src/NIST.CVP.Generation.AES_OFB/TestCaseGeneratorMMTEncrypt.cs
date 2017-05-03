@@ -27,10 +27,9 @@ namespace NIST.CVP.Generation.AES_OFB
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
-            
             var key = _random800_90.GetRandomBitString(group.KeyLength);
             var plainText = _random800_90.GetRandomBitString(_ptLenGenIteration++ * _PT_LENGTH_MULTIPLIER * _BITS_IN_BYTE);
-            var iv = _random800_90.GetRandomBitString(Cipher._MAX_IV_BYTE_LENGTH * 8);
+            var iv = _random800_90.GetRandomBitString(Cipher._MAX_IV_BYTE_LENGTH * _BITS_IN_BYTE);
             var testCase = new TestCase
             {
                 IV = iv,
@@ -46,7 +45,7 @@ namespace NIST.CVP.Generation.AES_OFB
             EncryptionResult encryptionResult = null;
             try
             {
-                encryptionResult = _algo.BlockEncrypt(testCase.IV, testCase.Key, testCase.PlainText);
+                encryptionResult = _algo.BlockEncrypt(testCase.IV.GetDeepCopy(), testCase.Key, testCase.PlainText);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
@@ -62,6 +61,7 @@ namespace NIST.CVP.Generation.AES_OFB
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
+
             testCase.CipherText = encryptionResult.CipherText;
             return new TestCaseGenerateResponse(testCase);
         }

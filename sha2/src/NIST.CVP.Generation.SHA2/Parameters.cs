@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.SHA2
         public string Algorithm { get; set; }
         public bool IsSample { get; set; }
 
-        [JsonProperty(PropertyName = "digestSizes")]
+        [JsonProperty(PropertyName = "digestSize")]
         public string[] DigestSizes { get; set; }
         
         [JsonProperty(PropertyName = "inBit")]

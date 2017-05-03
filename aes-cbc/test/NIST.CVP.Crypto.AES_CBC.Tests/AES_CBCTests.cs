@@ -102,5 +102,22 @@ namespace NIST.CVP.Crypto.AES_CBC.Tests
                 nameof(iRijndaelInternals.Object.EncryptSingleBlock)
             );
         }
+
+        //[Test]
+        public void SpecificTest()
+        {
+            var rijndaelInternals = new RijndaelInternals();
+            var rijndaelFactory = new RijndaelFactory(rijndaelInternals);
+            var subject = new AES_CBC(rijndaelFactory);
+
+            var key = new BitString("72D6E1A903180DF8889E4112FE2090C1");
+            var iv = new BitString("9B2B6F3AF5F4A1651797EF34676B3719");
+            var pt = new BitString("F56B38666B2EF044B70A7BDD8054FED33F2E5D5D2F061D097E2AAACA0CDB4DA8");
+            var ct = new BitString("69644FE62ED7F8023B6DDF6A4FFFC0F4C4028B96AE265A5B8F9AC5F2756281D3");
+
+            var result = subject.BlockEncrypt(iv, key, pt);
+
+            Assert.AreEqual(ct.ToHex(), result.CipherText.ToHex());
+        }
     }
 }

@@ -54,7 +54,7 @@ namespace NIST.CVP.Generation.SHA2
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("function", SHAEnumHelpers.ModeToString(group.Function));
                     ((IDictionary<string, object>)updateObject).Add("digestSize", SHAEnumHelpers.DigestToString(group.DigestSize));
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType.ToUpper());
 
                     if (group.TestType.ToLower() != "mct")
                     {
@@ -112,7 +112,7 @@ namespace NIST.CVP.Generation.SHA2
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("function", SHAEnumHelpers.ModeToString(group.Function));
                     ((IDictionary<string, object>)updateObject).Add("digestSize", SHAEnumHelpers.DigestToString(group.DigestSize));
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType.ToUpper());
 
                     if (group.TestType.ToLower() != "mct")
                     {

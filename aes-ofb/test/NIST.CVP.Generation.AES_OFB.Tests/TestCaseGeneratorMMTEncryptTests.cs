@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -97,6 +98,29 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
             Assert.IsNotEmpty(((TestCase)result.TestCase).Key.ToString(), "Key");
             Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");
             Assert.IsFalse(result.TestCase.Deferred, "Deferred");
+        }
+
+        [Test]
+        public void GeneratedCipherTextShouldDecryptBackToPlainText()
+        {
+            var ri = new RijndaelInternals();
+            var rf = new RijndaelFactory(ri);
+            var aes_ofb = new Crypto.AES_OFB.AES_OFB(rf);
+            var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), aes_ofb);
+            var testGroup = new TestGroup { KeyLength = 128 };
+
+            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            {
+                var result = subject.Generate(testGroup, false);
+                Assume.That(result.Success);
+                testGroup.Tests.Add(result.TestCase);
+            }
+
+            foreach (TestCase testCase in testGroup.Tests)
+            {
+                var decryptResult = aes_ofb.BlockEncrypt(testCase.IV, testCase.Key, testCase.PlainText);
+                Assert.AreEqual(testCase.CipherText, decryptResult.CipherText);
+            }
         }
 
         private Mock<IRandom800_90> GetRandomMock()
