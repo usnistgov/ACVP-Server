@@ -13,8 +13,8 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 Algorithm = "SHA1",
                 DigestSizes = new [] {"160"},
                 IsSample = false,
-                BitOriented = false,
-                IncludeNull = false
+                BitOriented = "no",
+                IncludeNull = "no"
             };
             Assert.IsNotNull(parameters);
         }
@@ -27,8 +27,8 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 Algorithm = "SHA2",
                 DigestSizes = new [] {"224", "256", "384", "512", "512/224", "512/256"},
                 IsSample = false,
-                BitOriented = false,
-                IncludeNull = false
+                BitOriented = "no",
+                IncludeNull = "no"
             };
             Assert.AreEqual("SHA2", parameters.Algorithm);
         }

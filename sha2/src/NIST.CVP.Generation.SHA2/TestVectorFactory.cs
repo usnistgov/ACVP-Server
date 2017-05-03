@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
@@ -27,14 +28,27 @@ namespace NIST.CVP.Generation.SHA2
                         Function = SHAEnumHelpers.StringToMode(parameters.Algorithm),
                         DigestSize = SHAEnumHelpers.StringToDigest(digestSize),
                         TestType = testType,
-                        IncludeNull = parameters.IncludeNull,
-                        BitOriented = parameters.BitOriented
+                        IncludeNull = StringToBoolean(parameters.IncludeNull),
+                        BitOriented = StringToBoolean(parameters.BitOriented)
                     };
                     testGroups.Add(testGroup);
                 }
             }
             
             return testGroups;
+        }
+
+        private bool StringToBoolean(string str)
+        {
+            if (str.ToLower() == "yes")
+            {
+                return true;
+            }else if (str.ToLower() == "no")
+            {
+                return false;
+            }
+
+            throw new Exception("Boolean string is not yes or no");
         }
     }
 }

@@ -323,8 +323,8 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             {
                 Algorithm = "SHA1",
                 DigestSizes = new[] {"160"},
-                BitOriented = true,
-                IncludeNull = true,
+                BitOriented = "yes",
+                IncludeNull = "yes",
                 IsSample = true
             };
 
@@ -339,8 +339,8 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             {
                 Algorithm = "SHA2",
                 DigestSizes = new[] {"224"},
-                BitOriented = false,
-                IncludeNull = false,
+                BitOriented = "no",
+                IncludeNull = "no",
                 IsSample = true
             };
 
@@ -353,8 +353,8 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             {
                 Algorithm = "SHA2",
                 DigestSizes = new[] { "224", "256", "384", "512", "512/224", "512/256" },
-                BitOriented = true,
-                IncludeNull = true,
+                BitOriented = "yes",
+                IncludeNull = "yes",
                 IsSample = true
             };
 

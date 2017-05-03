@@ -20,10 +20,10 @@ namespace NIST.CVP.Generation.SHA2
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; }
 
-        [JsonProperty(PropertyName = "bitOriented")]
+        [JsonProperty(PropertyName = "inBit")]
         public bool BitOriented { get; set; }
 
-        [JsonProperty(PropertyName = "includeNull")]
+        [JsonProperty(PropertyName = "inEmpty")]
         public bool IncludeNull { get; set; }
 
         public List<ITestCase> Tests { get; set; }
@@ -42,8 +42,10 @@ namespace NIST.CVP.Generation.SHA2
             Function = SHAEnumHelpers.StringToMode(source.function);
             DigestSize = SHAEnumHelpers.StringToDigest(source.digestSize);
 
-            BitOriented = SetBoolValue(source, "bitOriented");
-            IncludeNull = SetBoolValue(source, "includeNull");
+            BitOriented = SetBoolValueFromString(source, "inBit");
+            IncludeNull = SetBoolValueFromString(source, "inEmpty");
+            //BitOriented = SetBoolValue(source, "bitOriented");
+            //IncludeNull = SetBoolValue(source, "includeNull");
 
             Tests = new List<ITestCase>();
             foreach(var test in source.tests)
@@ -121,6 +123,22 @@ namespace NIST.CVP.Generation.SHA2
             }
 
             return false;
+        }
+
+        private bool SetBoolValueFromString(IDictionary<string, object> source, string label)
+        {
+            if (source.ContainsKey(label))
+            {
+                if ((string)source[label] == "yes")
+                {
+                    return true;
+                }else if ((string)source[label] == "no")
+                {
+                    return false;
+                }
+            }
+
+            return default(bool);
         }
 
         private bool SetBoolValue(IDictionary<string, object> source, string label)

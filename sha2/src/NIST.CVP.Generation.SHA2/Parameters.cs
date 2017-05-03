@@ -12,9 +12,9 @@ namespace NIST.CVP.Generation.SHA2
         public string[] DigestSizes { get; set; }
         
         [JsonProperty(PropertyName = "inBit")]
-        public bool BitOriented { get; set; } = false;
+        public string BitOriented { get; set; } = "no";
 
         [JsonProperty(PropertyName = "inEmpty")]
-        public bool IncludeNull { get; set; } = false;
+        public string IncludeNull { get; set; } = "no";
     }
 }
