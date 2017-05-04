@@ -56,5 +56,32 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
 
 
         }
+
+        [Test]
+        public void GeneratedCipherTextShouldEncryptBackToCipherText()
+        {
+            var algo = new TdesCbc();
+            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), algo);
+            var testGroup = new TestGroup()
+            {
+                Function = "encrypt",
+                NumberOfKeys = 3
+            };
+
+            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            {
+                var result = subject.Generate(testGroup, false);
+                Assume.That(result.Success);
+                testGroup.Tests.Add(result.TestCase);
+            }
+
+            Assume.That(testGroup.Tests.Count > 0);
+
+            foreach (TestCase testCase in testGroup.Tests)
+            {
+                var result = algo.BlockEncrypt(testCase.Key, testCase.PlainText, testCase.Iv);
+                Assert.AreEqual(testCase.CipherText, result.CipherText);
+            }
+        }
     }
 }

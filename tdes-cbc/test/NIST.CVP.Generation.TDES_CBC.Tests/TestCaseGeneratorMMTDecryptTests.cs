@@ -56,5 +56,34 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
 
 
         }
+
+
+        [Test]
+        public void GeneratedPlainTextShouldDecryptBackToPlainText()
+        {
+            var algo = new TdesCbc();
+            var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), algo);
+            var testGroup = new TestGroup()
+            {
+                Function = "decrypt",
+                NumberOfKeys = 3
+            };
+
+            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            {
+                var result = subject.Generate(testGroup, false);
+                Assume.That(result.Success);
+                testGroup.Tests.Add(result.TestCase);
+            }
+
+            Assume.That(testGroup.Tests.Count > 0);
+
+            foreach (TestCase testCase in testGroup.Tests)
+            {
+                var result = algo.BlockDecrypt(testCase.Key, testCase.CipherText, testCase.Iv);
+
+                Assert.AreEqual(testCase.PlainText, result.PlainText);
+            }
+        }
     }
 }
