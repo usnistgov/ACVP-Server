@@ -61,9 +61,16 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
         public void GenerateShouldInvokeEncryptionOperation()
         {
             var aes = GetAESMock();
+            aes
+                .Setup(s => s.BlockEncrypt(new BitString(0), new BitString(0), new BitString(0)))
+                .Returns(new EncryptionResult(new BitString(0)));
+            var random = GetRandomMock();
+            random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(0));
 
             TestCaseGeneratorMMTEncrypt subject =
-                new TestCaseGeneratorMMTEncrypt(GetRandomMock().Object, aes.Object);
+                new TestCaseGeneratorMMTEncrypt(random.Object, aes.Object);
 
             var result = subject.Generate(new TestGroup(), true);
 

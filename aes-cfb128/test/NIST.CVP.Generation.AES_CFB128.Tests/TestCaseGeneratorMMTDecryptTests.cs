@@ -24,12 +24,12 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests
         }
 
         [Test]
-        public void GenerateShouldReturnNullITestCaseOnFailedEncryption()
+        public void GenerateShouldReturnNullITestCaseOnFailedDecryption()
         {
             var aes = GetAESMock();
             aes
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult("Fail"));
+                .Setup(s => s.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Returns(new DecryptionResult("Fail"));
 
             TestCaseGeneratorMMTDecrypt subject =
                 new TestCaseGeneratorMMTDecrypt(GetRandomMock().Object, aes.Object);
@@ -41,11 +41,11 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests
         }
 
         [Test]
-        public void GenerateShouldReturnNullITestCaseOnExceptionEncryption()
+        public void GenerateShouldReturnNullITestCaseOnExceptionDecryption()
         {
             var aes = GetAESMock();
             aes
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Throws(new Exception());
 
             TestCaseGeneratorMMTDecrypt subject =
@@ -58,18 +58,22 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests
         }
 
         [Test]
-        public void GenerateShouldInvokeEncryptionOperation()
+        public void GenerateShouldInvokeDecryptionOperation()
         {
             var aes = GetAESMock();
+            var random = GetRandomMock();
+            random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(0));
 
             TestCaseGeneratorMMTDecrypt subject =
-                new TestCaseGeneratorMMTDecrypt(GetRandomMock().Object, aes.Object);
+                new TestCaseGeneratorMMTDecrypt(random.Object, aes.Object);
 
             var result = subject.Generate(new TestGroup(), true);
 
-            aes.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()),
+            aes.Verify(v => v.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()),
                 Times.AtLeastOnce,
-                "BlockEncrypt should have been invoked"
+                "BlockDencrypt should have been invoked"
             );
         }
 
@@ -83,8 +87,8 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests
                 .Returns(new BitString(new byte[] { 3 }));
             var aes = GetAESMock();
             aes
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult(fakeCipher));
+                .Setup(s => s.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Returns(new DecryptionResult(fakeCipher));
 
             TestCaseGeneratorMMTDecrypt subject =
                 new TestCaseGeneratorMMTDecrypt(random.Object, aes.Object);
