@@ -1,3 +1,6 @@
 {
-  "projects": [ "../src", "../../common/test", "../../common/src" ]
+  "projects": [ "../src", "../../common/test", "../../common/src" ],
+    "sdk": {
+        "version": "1.0.0-preview2-1-003177"
+    }
 }
