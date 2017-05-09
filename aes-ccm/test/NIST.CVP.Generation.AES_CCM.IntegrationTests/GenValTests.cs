@@ -334,6 +334,12 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
                         BitString bs = new BitString(testCase.plainText.ToString());
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
 
+                        // Can't get something "different" of empty bitstring of the same length
+                        if (bs == null)
+                        {
+                            bs = new BitString("01");
+                        }
+
                         testCase.plainText = bs.ToHex();
                     }
                 }
@@ -377,7 +383,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
         private string GetTestFileFewTestCases(string targetFolder)
         {
             MathDomain ptDomain = new MathDomain();
-            ptDomain.AddSegment(new ValueDomainSegment(8));
+            ptDomain.AddSegment(new ValueDomainSegment(0));
 
             MathDomain aadDomain = new MathDomain();
             aadDomain.AddSegment(new ValueDomainSegment(8));

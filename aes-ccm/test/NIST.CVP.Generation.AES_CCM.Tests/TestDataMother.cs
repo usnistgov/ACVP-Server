@@ -17,6 +17,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 {
                     tests.Add(new TestCase
                     {
+                        IV = new BitString("00FF00FF"),
                         AAD = new BitString("0AAD"),
                         PlainText = new BitString("1AAADFFF"),
                         Deferred = false,
