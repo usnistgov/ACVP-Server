@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
@@ -10,6 +11,9 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
     {
         protected readonly BigInteger _root2Mult2Pow1024Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768D2202E8742AF1F4E53059C6011BC337BCAB1BC911688458A460ABC722F7C4E33C6D5A8A38BB7E9DCCB2A634331F3C84DF52F120F836E582EEAA4A0899040CA4A").ToPositiveBigInteger();
         protected readonly BigInteger _root2Mult2Pow1536Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768D2202E8742AF1F4E53059C6011BC337BCAB1BC911688458A460ABC722F7C4E33C6D5A8A38BB7E9DCCB2A634331F3C84DF52F120F836E582EEAA4A0899040CA4A81394AB6D8FD0EFDF4D3A02CEBC93E0C4264DABCD528B651B8CF341B6F8236C70104DC01FE32352F332A5E9F7BDA1EBFF6A1BE3FCA221307DEA06241F7AA81C2").ToPositiveBigInteger();
+        protected readonly BigInteger _2Pow1024MinusFloorRoot2Mult2Pow1024Minus1 = new BitString("4AFB0CCC06219B7BA682764C8AB54160E2909F4576C457B312E8537A7CCC66EAB5037CFBC5475D3C574E0190237C24C6F08B57A1BC6384B587FB78C9C205D8972DDFD178BD50E0B1ACFA639FEE43CC84354E436EE977BA75B9F5438DD083B1CC392A575C7448162334D59CBCCE0C37B20AD0EDF07C91A7D1155B5F766FBF35B6").ToPositiveBigInteger();
+        protected readonly BigInteger _2Pow1536MinusFloorRoot2Mult2Pow1536Minus1 = new BitString("4AFB0CCC06219B7BA682764C8AB54160E2909F4576C457B312E8537A7CCC66EAB5037CFBC5475D3C574E0190237C24C6F08B57A1BC6384B587FB78C9C205D8972DDFD178BD50E0B1ACFA639FEE43CC84354E436EE977BA75B9F5438DD083B1CC392A575C7448162334D59CBCCE0C37B20AD0EDF07C91A7D1155B5F766FBF35B57EC6B5492702F1020B2C5FD31436C1F3BD9B25432AD749AE4730CBE4907DC938FEFB23FE01CDCAD0CCD5A1608425E140095E41C035DDECF8215F9DBE08557E3E").ToPositiveBigInteger();
+
         protected readonly IRandom800_90 _rand = new Random800_90();
 
         private readonly ISHA _hash;
@@ -476,7 +480,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
         protected BigInteger Hash(BigInteger message)
         {
-            var bs = new BitString(message.ToByteArray());
+            var bs = new BitString(message);
             var result = _hash.HashMessage(_hashFunction, bs);
             if (!result.Success)
             {
@@ -491,10 +495,10 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         /// <param name="length"></param>
         /// <param name="inputSeed"></param>
         /// <returns></returns>
-        protected STRandomPrimeResult ShaweTaylorRandomPrime(int length, BigInteger inputSeed)
+        public STRandomPrimeResult ShaweTaylorRandomPrime(int length, BigInteger inputSeed)
         {
             BigInteger prime, primeSeed, primeGenCounter;
-            var outLen = SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize);
+            var outLen = GetOutLen();
 
             // 1
             if (length < 2)
@@ -552,7 +556,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             // 16, 17
             var iterations = NumberTheory.CeilingDivide(length, outLen) - 1;
             var oldCounter = primeGenCounter;
-
+            
             // 18, 19
             BigInteger x = 0;
             for (var i = 0; i <= iterations; i++)

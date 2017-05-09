@@ -106,7 +106,7 @@ namespace NIST.CVP.Math.Tests
 
             // Act
             BitString subject = new BitString(testBigInt);
-            var resultBigInt = subject.ToBigInteger();
+            var resultBigInt = subject.ToPositiveBigInteger();
 
             // Assert
             Assert.AreEqual(testBigInt, resultBigInt);
@@ -497,7 +497,6 @@ namespace NIST.CVP.Math.Tests
 
         [Test]
         [TestCase(1, new byte[] { 1 })]
-        [TestCase(255, new byte[] { 0, 255 })]
         [TestCase(256, new byte[] { 1, 0 })]
         [TestCase(1500, new byte[] { 5, 220 })]
         public void ToBytesShouldBeInMostSignificantByteOrder(int valueToToBytes, byte[] expectedByteArrayOrder)

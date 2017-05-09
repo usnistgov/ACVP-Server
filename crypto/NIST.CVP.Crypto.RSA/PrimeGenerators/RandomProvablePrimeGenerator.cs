@@ -106,6 +106,12 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             return new PrimeGeneratorResult(p, q);
         }
 
+        // Testing harness
+        public BigInteger PPC(int L, int N1, int N2, BigInteger firstSeed, BigInteger e)
+        {
+            return ProvablePrimeConstruction(L, N1, N2, firstSeed, e).P;
+        }
+
         /// <summary>
         /// C.10 Provable Prime Construction
         /// </summary>
@@ -194,8 +200,9 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             // 12
             // sqrt(2) * 2^(L-1)
             var lowerBound = L == 1536 ? _root2Mult2Pow1536Minus1 : _root2Mult2Pow1024Minus1;
-            x = lowerBound + x % (NumberTheory.Pow2(L - 1) - lowerBound);
-
+            var modulo = L == 1536 ? _2Pow1536MinusFloorRoot2Mult2Pow1536Minus1 : _2Pow1024MinusFloorRoot2Mult2Pow1024Minus1;
+            x = lowerBound + x % modulo;
+            
             // 13
             if (NumberTheory.GCD(p0 * p1, p2) != 1)
             {
