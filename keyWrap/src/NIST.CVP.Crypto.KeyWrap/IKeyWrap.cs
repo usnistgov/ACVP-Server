@@ -8,9 +8,6 @@ namespace NIST.CVP.Crypto.KeyWrap
     public interface IKeyWrap
     {
         KeyWrapResult Encrypt(BitString key, BitString plainText, bool wrapWithInverseCipher);
-        KeyWrapResult Decrypt(BitString key, BitString plainText, bool wrappedWithInverseCipher);
-
-        BitString Wrap(BitString key, BitString s, bool wrapWithInverseCipher);
-        BitString WrapInverse(BitString key, BitString c, bool wrappedWithInverseCipher);
+        KeyWrapResult Decrypt(BitString key, BitString cipherText, bool wrappedWithInverseCipher);
     }
 }

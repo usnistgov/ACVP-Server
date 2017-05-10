@@ -29,13 +29,13 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             BitString key = new BitString(keySize);
             BitString plainText = new BitString(128);
             _aesEcb
-                .Setup(s => s.BlockEncrypt(key, plainText))
+                .Setup(s => s.BlockEncrypt(key, plainText, false))
                 .Returns(new EncryptionResult(new BitString(128)));
 
             var result = _subject.MCTEncrypt(key, plainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            _aesEcb.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()), Times.Exactly(100000), nameof(_aesEcb.Object.BlockEncrypt));
+            _aesEcb.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false), Times.Exactly(100000), nameof(_aesEcb.Object.BlockEncrypt));
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             BitString key = new BitString(keySize);
             BitString plainText = new BitString(128);
             _aesEcb
-                .Setup(s => s.BlockEncrypt(key, plainText))
+                .Setup(s => s.BlockEncrypt(key, plainText, false))
                 .Returns(new EncryptionResult(new BitString(128)));
 
             var result = _subject.MCTEncrypt(key, plainText);
@@ -63,7 +63,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             BitString key = new BitString(128);
             BitString plainText = new BitString(128);
             _aesEcb
-                .Setup(s => s.BlockEncrypt(key, plainText))
+                .Setup(s => s.BlockEncrypt(key, plainText, false))
                 .Throws(new Exception(error));
 
             var result = _subject.MCTEncrypt(key, plainText);
@@ -83,13 +83,13 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             BitString key = new BitString(keySize);
             BitString cipherText = new BitString(128);
             _aesEcb
-                .Setup(s => s.BlockDecrypt(key, cipherText))
+                .Setup(s => s.BlockDecrypt(key, cipherText, false))
                 .Returns(new DecryptionResult(new BitString(128)));
 
             var result = _subject.MCTDecrypt(key, cipherText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            _aesEcb.Verify(v => v.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>()), Times.Exactly(100000), nameof(_aesEcb.Object.BlockDecrypt));
+            _aesEcb.Verify(v => v.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false), Times.Exactly(100000), nameof(_aesEcb.Object.BlockDecrypt));
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             BitString key = new BitString(keySize);
             BitString cipherText = new BitString(128);
             _aesEcb
-                .Setup(s => s.BlockDecrypt(key, cipherText))
+                .Setup(s => s.BlockDecrypt(key, cipherText, false))
                 .Returns(new DecryptionResult(new BitString(128)));
 
             var result = _subject.MCTDecrypt(key, cipherText);
@@ -117,7 +117,7 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
             BitString key = new BitString(128);
             BitString cipherText = new BitString(128);
             _aesEcb
-                .Setup(s => s.BlockDecrypt(key, cipherText))
+                .Setup(s => s.BlockDecrypt(key, cipherText, false))
                 .Throws(new Exception(error));
 
             var result = _subject.MCTDecrypt(key, cipherText);

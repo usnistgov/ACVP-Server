@@ -14,14 +14,14 @@ namespace NIST.CVP.Crypto.AES_ECB
             _iRijndaelFactory = iRijndaelFactory;
         }
 
-        public DecryptionResult BlockDecrypt(BitString keyBits, BitString cipherText)
+        public DecryptionResult BlockDecrypt(BitString keyBits, BitString cipherText, bool encryptUsingInverseCipher = false)
         {
             try
             {
                 byte[] keyBytes = keyBits.ToBytes();
                 ModeValues mode = ModeValues.ECB;
                 var rijn = _iRijndaelFactory.GetRijndael(mode);
-                var key = rijn.MakeKey(keyBytes, DirectionValues.Decrypt);
+                var key = rijn.MakeKey(keyBytes, DirectionValues.Decrypt, encryptUsingInverseCipher);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode };
 
                 var decryptBits = rijn.BlockEncrypt(cipher, key, cipherText.ToBytes(), cipherText.BitLength);
@@ -36,14 +36,14 @@ namespace NIST.CVP.Crypto.AES_ECB
             }
         }
 
-        public EncryptionResult BlockEncrypt(BitString keyBits, BitString data)
+        public EncryptionResult BlockEncrypt(BitString keyBits, BitString data, bool encryptedUsingInverseCipher = false)
         {
             try
             {
                 byte[] keyBytes = keyBits.ToBytes();
                 ModeValues mode = ModeValues.ECB;
                 var rijn = _iRijndaelFactory.GetRijndael(mode);
-                var key = rijn.MakeKey(keyBytes, DirectionValues.Encrypt);
+                var key = rijn.MakeKey(keyBytes, DirectionValues.Encrypt, encryptedUsingInverseCipher);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode };
 
                 var encryptedBits = rijn.BlockEncrypt(cipher, key, data.ToBytes(), data.BitLength);

@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
         {
             var aes = GetAESMock();
             aes
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
                 .Returns(new EncryptionResult("Fail"));
 
             TestCaseGeneratorMMTEncrypt subject =
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
         {
             var aes = GetAESMock();
             aes
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
                 .Throws(new Exception());
 
             TestCaseGeneratorMMTEncrypt subject =
@@ -66,7 +66,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
 
             var result = subject.Generate(new TestGroup(), true);
 
-            aes.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()),
+            aes.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false),
                 Times.AtLeastOnce,
                 "BlockEncrypt should have been invoked"
             );
@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
                 .Returns(new BitString(new byte[] { 3 }));
             var aes = GetAESMock();
             aes
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
                 .Returns(new EncryptionResult(fakeCipher));
 
             TestCaseGeneratorMMTEncrypt subject =

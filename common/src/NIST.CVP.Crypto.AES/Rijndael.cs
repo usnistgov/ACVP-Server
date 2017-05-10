@@ -13,13 +13,14 @@ namespace NIST.CVP.Crypto.AES
 
         public const int MAXKC = 8;
         public const int MAX_IV_SIZE_BYTES = 16;
-        public Key MakeKey(byte[] keyData, DirectionValues direction)
+        public Key MakeKey(byte[] keyData, DirectionValues direction, bool useInverseCipher = false)
         {
             var key = new Key
             {
                 BlockLength = 128,
                 Bytes = keyData,
-                Direction = direction
+                Direction = direction,
+                UseInverseCipher = useInverseCipher
             };
             byte[,] k = new byte[4, MAXKC];
             int keyLen = keyData.Length * 8;

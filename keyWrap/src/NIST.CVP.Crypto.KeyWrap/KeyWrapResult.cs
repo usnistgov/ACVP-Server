@@ -16,10 +16,7 @@ namespace NIST.CVP.Crypto.KeyWrap
             ErrorMessage = errorMessage;
         }
 
-        public bool Success
-        {
-            get { return string.IsNullOrEmpty(ErrorMessage); }
-        }
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
 
         public override string ToString()
         {

@@ -1,4 +1,7 @@
-﻿using NIST.CVP.Math;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.AES
 {
@@ -6,15 +9,36 @@ namespace NIST.CVP.Crypto.AES
     {
         public virtual void EncryptSingleBlock(byte[,] block, Key key)
         {
-            switch (key.Direction)
+            List<Tuple<DirectionValues, bool, Action<byte[,], Key>>> workerMappings =
+                new List<Tuple<DirectionValues, bool, Action<byte[,], Key>>>()
+                {
+                    // Encrypt / false inverse cipher = Encrypt
+                    new Tuple<DirectionValues, bool, Action<byte[,], Key>>(
+                        DirectionValues.Encrypt, false, Encrypt
+                    ),
+                    // Encrypt / true inverse cipher = Decrypt
+                    new Tuple<DirectionValues, bool, Action<byte[,], Key>>(
+                        DirectionValues.Encrypt, true, Decrypt
+                    ),
+                    // Decrypt / false inverse cipher = Decrypt
+                    new Tuple<DirectionValues, bool, Action<byte[,], Key>>(
+                        DirectionValues.Decrypt, false, Decrypt
+                    ),
+                    // Decrypt / true inverse cipher = Encrypt
+                    new Tuple<DirectionValues, bool, Action<byte[,], Key>>(
+                        DirectionValues.Decrypt, true, Encrypt
+                    )
+                };
+
+            var action = workerMappings
+                .First(w => w.Item1 == key.Direction && w.Item2 == key.UseInverseCipher);
+
+            if (action == null)
             {
-                case DirectionValues.Encrypt:
-                    Encrypt(block, key);
-                    break;
-                case DirectionValues.Decrypt:
-                    Decrypt(block, key);
-                    break;
+                throw new ArgumentException("Invalid arguments passed into EncryptSingleBlock.");
             }
+
+            action.Item3(block, key);
         }
 
         private void Encrypt(byte[,] block, Key key)
