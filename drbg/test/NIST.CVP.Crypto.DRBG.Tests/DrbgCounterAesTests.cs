@@ -32,12 +32,12 @@ namespace NIST.CVP.Crypto.DRBG.Tests
             BitString x = new BitString(100);
 
             _mockAes
-                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
                 .Returns(new EncryptionResult(new BitString(0)));
 
             _subject.PublicBlockEncrypt(k, x);
 
-            _mockAes.Verify(v => v.BlockEncrypt(k, x), Times.Once);
+            _mockAes.Verify(v => v.BlockEncrypt(k, x, false), Times.Once);
         }
     }
 }
