@@ -217,6 +217,33 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
+        [TestCase(5, "FA", "11111")]
+        [TestCase(6, "FA", "111110")]
+        [TestCase(7, "FA", "1111101")]
+        [TestCase(8, "FA", "11111010")]
+        [TestCase(-1, "FA", "11111010")]
+        [TestCase(5, "FAFA", "11111")]
+        [TestCase(6, "FAFA", "111110")]
+        [TestCase(7, "FAFA", "1111101")]
+        [TestCase(8, "FAFA", "11111010")]
+        [TestCase(13, "FAFA", "1111101011111")]
+        [TestCase(14, "FAFA", "11111010111110")]
+        [TestCase(15, "FAFA", "111110101111101")]
+        [TestCase(16, "FAFA", "1111101011111010")]
+        [TestCase(-1, "FAFA", "1111101011111010")]
+        public void ShouldTruncateFromLeastSignificantBits(int length, string hex, string expectedBitsString)
+        {
+            var chars = expectedBitsString.ToCharArray();
+            Array.Reverse(chars);
+            var reversedString = new string(chars);
+            var bits = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(reversedString));
+
+            var result = new BitString(hex, length);
+
+            Assert.AreEqual(bits.ToHex(), result.ToHex());
+        }
+
+        [Test]
         [TestCase(1, "01", "1")]
         [TestCase(2, "02", "10")]
         [TestCase(2, "03", "11")]
