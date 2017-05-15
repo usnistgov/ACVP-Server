@@ -69,7 +69,7 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
 
             _algo.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false), Times.Exactly(expectedNumberOfInvocations), $"{expectedNumberOfInvocations} invokations of {nameof(_algo.Object.BlockEncrypt)} expected.");
         }
-
+        
         [Test]
         [TestCase("CASE 1: KW with AES, wrap 128 bits of plaintext with a 128-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F", "00112233445566778899AABBCCDDEEFF", "1fa68b0a8112b447AEF34BD8FB5A7B829D3E862371D2CFE5")]
         [TestCase("CASE 2: KW with AES, wrap 128 bits of plaintext with a 192-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F1011121314151617", "00112233445566778899AABBCCDDEEFF", "96778b25ae6ca435F92B5B97C050AED2468AB8A17AD84E5D")]

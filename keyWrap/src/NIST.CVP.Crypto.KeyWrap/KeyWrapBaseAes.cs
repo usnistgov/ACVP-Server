@@ -68,8 +68,6 @@ namespace NIST.CVP.Crypto.KeyWrap
         {
             // 0. Pre-conditions
             int n = C.BitLength / 64;
-            Debug.Assert(n >= 3);
-            Debug.Assert(C.BitLength % 64 == 0);
             if ((n < 3) || (C.BitLength % 64 != 0))
             {
                 throw new ArgumentException($"Invalid {nameof(C)} length.");
