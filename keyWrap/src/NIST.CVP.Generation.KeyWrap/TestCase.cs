@@ -89,8 +89,18 @@ namespace NIST.CVP.Generation.KeyWrap
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
-
+            
             ExpandoObject expandoSource = (ExpandoObject)source;
+
+            if (expandoSource.ContainsProperty("decryptFail"))
+            {
+                FailureTest = source.decryptFail;
+            }
+            if (expandoSource.ContainsProperty("failureTest"))
+            {
+                FailureTest = source.failureTest;
+            }
+
             Key = expandoSource.GetBitStringFromProperty("key");
             PlainText = expandoSource.GetBitStringFromProperty("plainText");
             CipherText = expandoSource.GetBitStringFromProperty("cipherText");

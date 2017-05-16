@@ -4,6 +4,7 @@ using System.Linq;
 using NIST.CVP.Crypto.KeyWrap.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
@@ -40,6 +41,7 @@ namespace NIST.CVP.Generation.KeyWrap
             // We don't want to generate test groups that have a potential infinite upper bound,
             // set to a maximum value to generate.
             parameters.PtLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
+            parameters.PtLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
 
             var minMaxPtLen = parameters.PtLen.GetDomainMinMax();
             var ptLensAvailableToTest = parameters.PtLen.GetValues(10).ToList();

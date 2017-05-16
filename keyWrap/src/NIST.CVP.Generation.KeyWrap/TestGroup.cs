@@ -78,7 +78,7 @@ namespace NIST.CVP.Generation.KeyWrap
         public override int GetHashCode()
         {
             return
-                $"{KeyWrapType}|{TestType}|{Direction}|{KwCipher}|{PtLen}"
+                $"{KeyWrapType}|{TestType}|{Direction}|{KwCipher}|{KeyLength}|{PtLen}"
                     .GetHashCode();
         }
 
@@ -114,6 +114,7 @@ namespace NIST.CVP.Generation.KeyWrap
                     KeyLength = intVal;
                     return true;
                 case "ptlen":
+                case "plaintext length":
                     PtLen = intVal;
                     return true;
             }
