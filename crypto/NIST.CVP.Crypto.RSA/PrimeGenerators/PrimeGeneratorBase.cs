@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Numerics;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
@@ -16,9 +18,10 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         protected readonly BigInteger _2Pow1024MinusFloorRoot2Mult2Pow1024Minus1 = new BitString("4AFB0CCC06219B7BA682764C8AB54160E2909F4576C457B312E8537A7CCC66EAB5037CFBC5475D3C574E0190237C24C6F08B57A1BC6384B587FB78C9C205D8972DDFD178BD50E0B1ACFA639FEE43CC84354E436EE977BA75B9F5438DD083B1CC392A575C7448162334D59CBCCE0C37B20AD0EDF07C91A7D1155B5F766FBF35B6").ToPositiveBigInteger();
         protected readonly BigInteger _2Pow1536MinusFloorRoot2Mult2Pow1536Minus1 = new BitString("4AFB0CCC06219B7BA682764C8AB54160E2909F4576C457B312E8537A7CCC66EAB5037CFBC5475D3C574E0190237C24C6F08B57A1BC6384B587FB78C9C205D8972DDFD178BD50E0B1ACFA639FEE43CC84354E436EE977BA75B9F5438DD083B1CC392A575C7448162334D59CBCCE0C37B20AD0EDF07C91A7D1155B5F766FBF35B57EC6B5492702F1020B2C5FD31436C1F3BD9B25432AD749AE4730CBE4907DC938FEFB23FE01CDCAD0CCD5A1608425E140095E41C035DDECF8215F9DBE08557E3E").ToPositiveBigInteger();
 
-        protected readonly IRandom800_90 _rand = new Random800_90();
+        protected IEntropyProvider _entropyProvider;
+        protected IEntropyProviderFactory _entropyProviderFactory = new EntropyProviderFactory();
 
-        private readonly ISHA _hash;
+        private readonly ISHA _hash = new SHA(new SHAFactory());
         private HashFunction _hashFunction;
 
         #region primes
@@ -453,22 +456,48 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         #endregion primes
 
         #region structs
+        protected struct STRandomPrimeResult
+        {
+            public BigInteger Prime { get; private set; }
+            public BigInteger PrimeSeed { get; private set; }
+            public BigInteger PrimeGenCounter { get; private set; }
+            public string ErrorMessage { get; private set; }
+
+            public STRandomPrimeResult(BigInteger prime, BigInteger primeSeed, BigInteger primeGenCounter)
+            {
+                Prime = prime;
+                PrimeSeed = primeSeed;
+                PrimeGenCounter = primeGenCounter;
+                ErrorMessage = "";
+            }
+
+            public STRandomPrimeResult(string fail)
+            {
+                ErrorMessage = fail;
+                Prime = 0;
+                PrimeSeed = 0;
+                PrimeGenCounter = 0;
+            }
+
+            public bool Success => (Prime != 0) && (PrimeSeed != 0) && (PrimeGenCounter != 0);
+        }
+
         protected struct PPCResult
         {
-            public bool Status;
+            public bool Success;
             public BigInteger P, P1, P2, PSeed;
             public string ErrorMessage;
 
             public PPCResult(string fail)
             {
                 ErrorMessage = fail;
-                Status = false;
+                Success = false;
                 P = P1 = P2 = PSeed = 0;
             }
 
             public PPCResult(BigInteger p, BigInteger p1, BigInteger p2, BigInteger pSeed)
             {
-                Status = true;
+                Success = true;
                 P = p;
                 P1 = p1;
                 P2 = p2;
@@ -479,20 +508,20 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
         protected struct PPFResult
         {
-            public bool Status;
+            public bool Success;
             public BigInteger P, XP;
             public string ErrorMessage;
 
             public PPFResult(string fail)
             {
                 ErrorMessage = fail;
-                Status = false;
+                Success = false;
                 P = XP = 0;
             }
 
             public PPFResult(BigInteger p, BigInteger xp)
             {
-                Status = true;
+                Success = true;
                 P = p;
                 XP = xp;
                 ErrorMessage = "";
@@ -500,25 +529,38 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         }
         #endregion structs
 
+        #region Constructors
         protected PrimeGeneratorBase()
         {
-            _hash = new SHA(new SHAFactory());
-            _hashFunction = new HashFunction
-            {
-                DigestSize = DigestSizes.d160,
-                Mode = ModeValues.SHA1
-            };
+            SetHashFunction(new HashFunction {Mode = ModeValues.SHA1, DigestSize = DigestSizes.d160});
+            SetEntropyProviderType(EntropyProviderTypes.Random);
+        }
+
+        protected PrimeGeneratorBase(EntropyProviderTypes entropyProviderType)
+        {
+            SetEntropyProviderType(entropyProviderType);
         }
 
         protected PrimeGeneratorBase(HashFunction hashFunction)
         {
-            _hash = new SHA(new SHAFactory());
             SetHashFunction(hashFunction);
         }
+
+        protected PrimeGeneratorBase(HashFunction hashFunction, EntropyProviderTypes entropyProviderType)
+        {
+            SetHashFunction(hashFunction);
+            SetEntropyProviderType(entropyProviderType);
+        }
+        #endregion Constructors
 
         protected void SetHashFunction(HashFunction hashFunction)
         {
             _hashFunction = hashFunction;
+        }
+
+        protected void SetEntropyProviderType(EntropyProviderTypes type)
+        {
+            _entropyProvider = _entropyProviderFactory.GetEntropyProvider(type);
         }
 
         protected int GetOutLen()
@@ -733,7 +775,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 do
                 {
                     // 3
-                    X = _rand.GetRandomBigInteger(lowerBound, upperBound);
+                    X = _entropyProvider.GetEntropy(lowerBound, upperBound);
 
                     // 4
                     // Weirdness to ensure Y is positive

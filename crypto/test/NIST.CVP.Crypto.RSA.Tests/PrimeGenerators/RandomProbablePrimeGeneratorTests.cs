@@ -2,9 +2,8 @@
 using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Math;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
-namespace NIST.CVP.Crypto.RSA.Tests
+namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
 {
     [TestFixture]
     public class RandomProbablePrimeGeneratorTests

@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
@@ -12,7 +13,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
     {
         private int _bitlen1, _bitlen2, _bitlen3, _bitlen4;
 
-        public AllProbablePrimesWithConditionsGenerator(HashFunction hashFunction) : base(hashFunction) { }
+        public AllProbablePrimesWithConditionsGenerator(HashFunction hashFunction, EntropyProviderTypes type) : base(hashFunction, type) { }
 
         public void SetBitlens(int bitlen1, int bitlen2, int bitlen3, int bitlen4)
         {
@@ -59,13 +60,13 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             // 4
-            var xp1 = _rand.GetRandomBitString(_bitlen1).ToPositiveBigInteger();
+            var xp1 = _entropyProvider.GetEntropy(_bitlen1).ToPositiveBigInteger();
             if (xp1.IsEven)
             {
                 xp1++;
             }
 
-            var xp2 = _rand.GetRandomBitString(_bitlen2).ToPositiveBigInteger();
+            var xp2 = _entropyProvider.GetEntropy(_bitlen2).ToPositiveBigInteger();
             if (xp2.IsEven)
             {
                 xp2++;
@@ -84,7 +85,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             p2 = xp2;
 
             var pResult = ProbablePrimeFactor(p1, p2, nlen, e, security_strength);
-            if (!pResult.Status)
+            if (!pResult.Success)
             {
                 return new PrimeGeneratorResult("Failed to generate p");
             }
@@ -94,13 +95,13 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             // 5
             do
             {
-                var xq1 = _rand.GetRandomBitString(_bitlen3).ToPositiveBigInteger();
+                var xq1 = _entropyProvider.GetEntropy(_bitlen3).ToPositiveBigInteger();
                 if (xq1.IsEven)
                 {
                     xq1++;
                 }
 
-                var xq2 = _rand.GetRandomBitString(_bitlen4).ToPositiveBigInteger();
+                var xq2 = _entropyProvider.GetEntropy(_bitlen4).ToPositiveBigInteger();
                 if (xq2.IsEven)
                 {
                     xq2++;
@@ -119,7 +120,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 q2 = xq2;
 
                 var qResult = ProbablePrimeFactor(q1, q2, nlen, e, security_strength);
-                if (!qResult.Status)
+                if (!qResult.Success)
                 {
                     return new PrimeGeneratorResult("Failed to generate q");
                 }

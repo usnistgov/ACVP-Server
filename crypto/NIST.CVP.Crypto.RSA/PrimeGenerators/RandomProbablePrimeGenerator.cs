@@ -56,7 +56,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     }
                     else
                     {
-                        p = _rand.GetRandomBitString(nlen / 2).ToPositiveBigInteger();
+                        p = _entropyProvider.GetEntropy(nlen / 2).ToPositiveBigInteger();
                     }
 
                     // 4.3
@@ -108,7 +108,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     }
                     else
                     {
-                        q = _rand.GetRandomBitString(nlen / 2).ToPositiveBigInteger();
+                        q = _entropyProvider.GetEntropy(nlen / 2).ToPositiveBigInteger();
                     }
 
                     // 5.3

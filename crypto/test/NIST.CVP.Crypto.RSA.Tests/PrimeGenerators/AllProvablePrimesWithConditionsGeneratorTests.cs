@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.RSA.PrimeGenerators;
+﻿using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.RSA.Tests
+namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
 {
     [TestFixture]
     public class AllProvablePrimesWithConditionsGeneratorTests

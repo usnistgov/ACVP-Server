@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Math.Entropy
+﻿using System.Numerics;
+
+namespace NIST.CVP.Math.Entropy
 {
     public class EntropyProvider : IEntropyProvider
     {
@@ -13,5 +15,12 @@
         {
             return _random.GetRandomBitString(numberOfBits);
         }
+
+        public BigInteger GetEntropy(BigInteger minInclusive, BigInteger maxInclusive)
+        {
+            return _random.GetRandomBigInteger(minInclusive, maxInclusive);
+        }
+
+        public void AddEntropy(BitString entropy) { }
     }
 }

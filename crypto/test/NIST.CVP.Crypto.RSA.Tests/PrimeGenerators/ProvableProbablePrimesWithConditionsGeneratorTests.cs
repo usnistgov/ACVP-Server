@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.RSA.PrimeGenerators;
+﻿using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.RSA.Tests
+namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
 {
     [TestFixture]
     public class ProvableProbablePrimesWithConditionsGeneratorTests
@@ -22,7 +19,7 @@ namespace NIST.CVP.Crypto.RSA.Tests
                 Mode = ModeValues.SHA1,
                 DigestSize = DigestSizes.d160
             };
-            var subject = new ProvableProbablePrimesWithConditionsGenerator(hashFunction);
+            var subject = new ProvableProbablePrimesWithConditionsGenerator(hashFunction, EntropyProviderTypes.Random);
             var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), new BitString(seed));
             Assert.IsFalse(result.Success);
         }
@@ -41,7 +38,7 @@ namespace NIST.CVP.Crypto.RSA.Tests
                 Mode = ModeValues.SHA1,
                 DigestSize = DigestSizes.d160
             };
-            var subject = new ProvableProbablePrimesWithConditionsGenerator(hashFunction);
+            var subject = new ProvableProbablePrimesWithConditionsGenerator(hashFunction, EntropyProviderTypes.Random);
             subject.SetBitlens(208, 231, 144, 244);
             var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), new BitString(seed));
             Assert.IsTrue(result.Success, result.ErrorMessage);
@@ -63,7 +60,7 @@ namespace NIST.CVP.Crypto.RSA.Tests
         public void ShouldCorrectlyGeneratePrimes(int nlen, ModeValues mode, DigestSizes dig, int bitlen1, int bitlen2,
             int bitlen3, int bitlen4, string e, string seed, string p, string q)
         {
-            var subject = new ProvableProbablePrimesWithConditionsGenerator(new HashFunction { Mode = mode, DigestSize = dig });
+            var subject = new ProvableProbablePrimesWithConditionsGenerator(new HashFunction { Mode = mode, DigestSize = dig }, EntropyProviderTypes.Random);
             subject.SetBitlens(bitlen1, bitlen2, bitlen3, bitlen4);
 
             var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), new BitString(seed));

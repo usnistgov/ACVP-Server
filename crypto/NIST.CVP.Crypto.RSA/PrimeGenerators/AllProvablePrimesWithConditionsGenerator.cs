@@ -71,7 +71,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
             // 6
             var pResult = ProvablePrimeConstruction(nlen / 2, _bitlen1, _bitlen2, workingSeed, e);
-            if (!pResult.Status)
+            if (!pResult.Success)
             {
                 return new PrimeGeneratorResult("Bad p gen");
             }
@@ -85,7 +85,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             {
                 // 7
                 var qResult = ProvablePrimeConstruction(nlen / 2, _bitlen3, _bitlen4, workingSeed, e);
-                if (!qResult.Status)
+                if (!qResult.Success)
                 {
                     return new PrimeGeneratorResult("Bad q gen");
                 }

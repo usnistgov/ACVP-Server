@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
@@ -12,7 +13,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
     {
         private int _bitlen1, _bitlen2, _bitlen3, _bitlen4;
 
-        public ProvableProbablePrimesWithConditionsGenerator(HashFunction hashFunction) : base(hashFunction) { }
+        public ProvableProbablePrimesWithConditionsGenerator(HashFunction hashFunction, EntropyProviderTypes type) : base(hashFunction, type) { }
 
         public void SetBitlens(int bitlen1, int bitlen2, int bitlen3, int bitlen4)
         {
@@ -85,7 +86,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             primeSeed = p2Result.PrimeSeed;
 
             var pResult = ProbablePrimeFactor(p1, p2, nlen, e, security_strength);
-            if (!pResult.Status)
+            if (!pResult.Success)
             {
                 return new PrimeGeneratorResult("Failed to generate p");
             }
@@ -115,7 +116,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 primeSeed = q2Result.PrimeSeed;
 
                 var qResult = ProbablePrimeFactor(q1, q2, nlen, e, security_strength);
-                if (!qResult.Status)
+                if (!qResult.Success)
                 {
                     return new PrimeGeneratorResult("Failed to generate q");
                 }

@@ -52,7 +52,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
             // 6
             var ppcResult = ProvablePrimeConstruction(nlen / 2, 1, 1, workingSeed, e);
-            if (!ppcResult.Status)
+            if (!ppcResult.Success)
             {
                 return new PrimeGeneratorResult($"Bad Provable Prime Construction for p: {ppcResult.ErrorMessage}");
             }
@@ -64,7 +64,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             {
                 // 7
                 ppcResult = ProvablePrimeConstruction(nlen / 2, 1, 1, workingSeed, e);
-                if (!ppcResult.Status)
+                if (!ppcResult.Success)
                 {
                     return new PrimeGeneratorResult($"Bad Provable Prime Construction for q: {ppcResult.ErrorMessage}");
                 }

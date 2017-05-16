@@ -1,13 +1,10 @@
 ﻿using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace NIST.CVP.Crypto.RSA.Tests
+namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
 {
     [TestFixture]
     public class AllProbablePrimesWithConditionsGeneratorTests
@@ -22,7 +19,7 @@ namespace NIST.CVP.Crypto.RSA.Tests
                 Mode = ModeValues.SHA1,
                 DigestSize = DigestSizes.d160
             };
-            var subject = new AllProbablePrimesWithConditionsGenerator(hashFunction);
+            var subject = new AllProbablePrimesWithConditionsGenerator(hashFunction, EntropyProviderTypes.Random);
             var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), new BitString(seed));
             Assert.IsFalse(result.Success);
         }
@@ -41,7 +38,7 @@ namespace NIST.CVP.Crypto.RSA.Tests
                 Mode = ModeValues.SHA1,
                 DigestSize = DigestSizes.d160
             };
-            var subject = new AllProbablePrimesWithConditionsGenerator(hashFunction);
+            var subject = new AllProbablePrimesWithConditionsGenerator(hashFunction, EntropyProviderTypes.Random);
             subject.SetBitlens(208, 231, 144, 244);
             var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), new BitString(seed));
             Assert.IsTrue(result.Success, result.ErrorMessage);
