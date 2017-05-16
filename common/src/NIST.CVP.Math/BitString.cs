@@ -245,7 +245,7 @@ namespace NIST.CVP.Math
         {
             if (BitLength == 0)
             {
-                return "00";
+                return "";
             }
 
             var bytes = new byte[] { };

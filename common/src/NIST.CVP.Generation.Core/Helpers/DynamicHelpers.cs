@@ -32,11 +32,11 @@ namespace NIST.CVP.Generation.Core.Helpers
                 // Handles "DoNotPrintProperty" as "do nothing" as well as return for PrintAsNull option
                 return;
             }
-        
-            // When 0 bit BitString, and PrintAsEmptyBitstring, print as ""
-            if (value.BitLength == 0 && emptyPrintOption == PrintOptionBitStringEmpty.PrintAsEmptyString)
+
+            // When 0 bit BitString, and PrintAsDoubleZero, print as "00"
+            if (value.BitLength == 0 && emptyPrintOption == PrintOptionBitStringEmpty.PrintAsDoubleZero)
             {
-                ((IDictionary<string, object>) dynamicObject).Add(label, string.Empty);
+                ((IDictionary<string, object>) dynamicObject).Add(label, "00");
                 return;
             }
 
@@ -46,6 +46,7 @@ namespace NIST.CVP.Generation.Core.Helpers
                 return;
             }
 
+            // Default behavior, empty bitstrings print as ""
             ((IDictionary<string, object>)dynamicObject).Add(label, value);
         }
     }

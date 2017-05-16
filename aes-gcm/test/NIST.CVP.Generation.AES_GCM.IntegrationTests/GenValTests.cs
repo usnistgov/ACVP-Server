@@ -387,7 +387,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 Algorithm = "AES-GCM",
                 Mode = new string[] { "encrypt" },
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new int[] { 128 },
+                PtLen = new int[] { 128, 0 },
                 ivLen = new int[] { 96 },
                 ivGen = ParameterValidator.VALID_IV_GEN[0],
                 ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],

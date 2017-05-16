@@ -54,7 +54,7 @@ namespace NIST.CVP.Generation.Core.Tests.Helpers
             );
 
             Assert.IsTrue(((ExpandoObject)d).ContainsProperty(PropertyLabel), "Should contain property");
-            Assert.IsTrue(d.label == string.Empty, "Should be null");
+            Assert.AreEqual(string.Empty, ((BitString)d.label).ToHex(), "Should be null");
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.Core.Tests.Helpers
             );
 
             Assert.IsTrue(((ExpandoObject)d).ContainsProperty(PropertyLabel), "Should contain property");
-            Assert.IsTrue(((BitString)d.label).ToHex() == "00", "Should be 00");
+            Assert.AreEqual("00", (d.label).ToString(), "Should be 00");
         }
 
         [Test]
