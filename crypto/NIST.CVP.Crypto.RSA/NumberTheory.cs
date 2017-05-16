@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.FileProviders.Physical;
 using NIST.CVP.Math;
 
@@ -9,44 +10,44 @@ namespace NIST.CVP.Crypto.RSA
         private static readonly Random800_90 _rand = new Random800_90();
 
         /// <summary>
-        /// Probabilistic Primality Check, Miller-Rabin Algorithm
+        /// C.3.1 Probabilistic Primality Check, Miller-Rabin Algorithm
         /// </summary>
         /// <param name="w"></param>
         /// <param name="iterations"></param>
         /// <returns>True if probably prime. False if composite.</returns>
-        public static bool MillerRabin(BigInteger w, int iterations)
+        public static bool MillerRabin2(BigInteger w, int iterations)
         {
-            var wLen = new BitString(w.ToByteArray()).BitLength;
+            BigInteger m;
+            var s = BigInteger.One;
+            var exp = 0;
             var a = 0;
-            BigInteger m = 0;
-            for (var i = 0; i < wLen; i++)
+            while (s < w)
             {
-                if (BigInteger.Pow(2, i) % (w - 1) == 0)
+                if ((w - 1) % s == 0)
                 {
-                    a = i;
-                    m = (w - 1) / BigInteger.Pow(2, i);
+                    a = exp;
                 }
+
+                exp++;
+                s *= 2;
+                //s <<= 1;
             }
 
-            for (var i = 1; i < iterations; i++)
+            m = (w - 1) / NumberTheory.Pow2(a);
+
+            for (var i = 1; i <= iterations; i++)
             {
-                var b = _rand.GetRandomBitString(wLen).ToPositiveBigInteger();
-                if (b <= 1 || b >= w - 1)
-                {
-                    i--;
-                    continue;
-                }
-
+                var b = _rand.GetRandomBigInteger(w - 2);
                 var z = BigInteger.ModPow(b, m, w);
-                if (z == 1 || z == w - 1)
+                if (z == 1 || z == (w - 1))
                 {
                     continue;
                 }
 
-                for (var j = 1; j < a - 1; j++)
+                for (var j = 1; j <= a - 1; j++)
                 {
                     z = BigInteger.ModPow(z, 2, w);
-                    if (z == w - 1)
+                    if (z == (w - 1))
                     {
                         break;
                     }
@@ -58,6 +59,39 @@ namespace NIST.CVP.Crypto.RSA
                 }
             }
 
+            return true;
+        }
+
+        public static bool MillerRabin(BigInteger n, int k)
+        {
+            if (n < 2)
+            {
+                return false;
+            }
+            if (n != 2 && n % 2 == 0)
+            {
+                return false;
+            }
+            var s = n - 1;
+            while (s % 2 == 0)
+            {
+                s >>= 1;
+            }
+            for (var i = 0; i < k; i++)
+            {
+                var a = _rand.GetRandomBigInteger(n - 1) + 1;
+                var temp = s;
+                var mod = BigInteger.ModPow(a, temp, n);
+                while (temp != n - 1 && mod != 1 && mod != n - 1)
+                {
+                    mod = (mod * mod) % n;
+                    temp = temp * 2;
+                }
+                if (mod != n - 1 && temp % 2 == 0)
+                {
+                    return false;
+                }
+            }
             return true;
         }
 

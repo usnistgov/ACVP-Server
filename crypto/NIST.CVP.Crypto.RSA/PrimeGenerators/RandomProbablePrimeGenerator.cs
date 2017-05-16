@@ -7,8 +7,12 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
     // B.3.3
     public class RandomProbablePrimeGenerator : PrimeGeneratorBase
     {
-        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        // These are strings because you can't default a BigInteger
+        public PrimeGeneratorResult GenerateTestPrimes(int nlen, BigInteger e, bool kat, string pRandom = "", string qRandom = "")
         {
+            var givenP = new BitString(pRandom).ToPositiveBigInteger();
+            var givenQ = new BitString(qRandom).ToPositiveBigInteger();
+
             // 1
             if (nlen != 2048 && nlen != 3072)
             {
@@ -36,12 +40,24 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             var i = 0;
             BigInteger p;
             var bound = nlen == 3072 ? _root2Mult2Pow1536Minus1 : _root2Mult2Pow1024Minus1;
-            while (true)
+            var millerRabinRounds = nlen == 3072 ? 64 : 56;
+            do
             {
-                while (true)
+                do
                 {
                     // 4.2
-                    p = _rand.GetRandomBitString(nlen / 2).ToPositiveBigInteger();
+                    if (kat)
+                    {
+                        if (p == givenP)
+                        {
+                            return new PrimeGeneratorResult("Given p less than sqrt(2) * 2 ^ (n/2) - 1, so get a new random number.");
+                        }
+                        p = givenP;
+                    }
+                    else
+                    {
+                        p = _rand.GetRandomBitString(nlen / 2).ToPositiveBigInteger();
+                    }
 
                     // 4.3
                     if (p.IsEven)
@@ -50,17 +66,15 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     }
 
                     // 4.4
-                    if (!(p < bound))
-                    {
-                        break;
-                    }
-                }
-                
+                } while (p < bound);
+
                 // 4.5
                 if (NumberTheory.GCD(p - 1, e) == 1)
                 {
-                    // primality test
-                    break;
+                    if (NumberTheory.MillerRabin(p, millerRabinRounds))
+                    {
+                        break;
+                    }
                 }
 
                 // 4.6, 4.7
@@ -69,17 +83,33 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 {
                     return new PrimeGeneratorResult("Too many iterations for p");
                 }
-            }
+
+                if (kat)
+                {
+                    return new PrimeGeneratorResult("Given p is not prime");
+                }
+            } while (!kat);
 
             // 5, 5.1
             i = 0;
             BigInteger q;
-            while (true)
+            do
             {
-                while (true)
+                do
                 {
                     // 5.2
-                    q = _rand.GetRandomBitString(nlen / 2).ToPositiveBigInteger();
+                    if (kat)
+                    {
+                        if (q == givenQ)
+                        {
+                            return new PrimeGeneratorResult("Given q less than sqrt(2) * 2 ^ (n/2) - 1, so get a new random number.");
+                        }
+                        q = givenQ;
+                    }
+                    else
+                    {
+                        q = _rand.GetRandomBitString(nlen / 2).ToPositiveBigInteger();
+                    }
 
                     // 5.3
                     if (q.IsEven)
@@ -88,23 +118,16 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     }
 
                     // 5.4
-                    if (!(BigInteger.Abs(p - q) <= BigInteger.Pow(2, nlen / 2 - 100)))
-                    {
-                        break;
-                    }
-
                     // 5.5
-                    if (!(q < bound))
-                    {
-                        break;
-                    }
-                }    
-                
+                } while (BigInteger.Abs(p - q) <= NumberTheory.Pow2(nlen / 2 - 100) && q < bound);
+
                 // 5.6
                 if (NumberTheory.GCD(q - 1, e) == 1)
                 {
-                    // primality test
-                    break;
+                    if (NumberTheory.MillerRabin(q, millerRabinRounds))
+                    {
+                        break;
+                    }
                 }
 
                 // 5.7, 5.8
@@ -113,9 +136,19 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 {
                     return new PrimeGeneratorResult("Too many iterations for q");
                 }
-            }
+
+                if (kat)
+                {
+                    return new PrimeGeneratorResult("Given q is not prime");
+                }
+            } while (!kat);
 
             return new PrimeGeneratorResult(p, q);
+        }
+
+        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        {
+            return GenerateTestPrimes(nlen, e, false);
         }
     }
 }

@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace NIST.CVP.Math
 {
     public interface IRandom800_90
@@ -5,5 +7,7 @@ namespace NIST.CVP.Math
         BitString GetRandomBitString(int length);
         BitString GetDifferentBitStringOfSameSize(BitString original);
         int GetRandomInt(int minInclusive, int maxExclusive);
+        BigInteger GetRandomBigInteger(BigInteger maxInclusive);
+        BigInteger GetRandomBigInteger(BigInteger minInclusive, BigInteger maxInclusive);
     }
 }

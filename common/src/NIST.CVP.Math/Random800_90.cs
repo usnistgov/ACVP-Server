@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Math
@@ -47,6 +48,26 @@ namespace NIST.CVP.Math
         public int GetRandomInt(int minInclusive, int maxExclusive)
         {
             return _randy.Next(minInclusive, maxExclusive);
+        }
+
+        public BigInteger GetRandomBigInteger(BigInteger maxInclusive)
+        {
+            byte[] bytes = maxInclusive.ToByteArray();
+            BigInteger R;
+
+            do
+            {
+                _randy.NextBytes(bytes);
+                bytes[bytes.Length - 1] &= (byte)0x7F; //force sign bit to positive
+                R = new BigInteger(bytes);
+            } while (R >= maxInclusive);
+
+            return R;
+        }
+
+        public BigInteger GetRandomBigInteger(BigInteger minInclusive, BigInteger maxInclusive)
+        {
+            return GetRandomBigInteger(maxInclusive - minInclusive) + minInclusive;
         }
     }
 }
