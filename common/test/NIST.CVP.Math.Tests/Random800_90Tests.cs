@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Collections;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Math.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class Random800_90Tests
     {
         /// <summary>

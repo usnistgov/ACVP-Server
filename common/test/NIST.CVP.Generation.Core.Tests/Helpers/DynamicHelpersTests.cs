@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Dynamic;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.Core.Tests.Helpers
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class DynamicHelpersTests
     {
         private const string PropertyLabel = "label";

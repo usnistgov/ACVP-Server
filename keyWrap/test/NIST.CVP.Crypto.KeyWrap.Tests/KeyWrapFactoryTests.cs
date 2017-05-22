@@ -1,10 +1,11 @@
 ﻿using System;
 using NIST.CVP.Crypto.KeyWrap.Enums;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KeyWrap.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class KeyWrapFactoryTests
     {
 

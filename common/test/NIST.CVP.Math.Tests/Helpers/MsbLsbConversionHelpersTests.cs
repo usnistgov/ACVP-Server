@@ -2,13 +2,12 @@
 using NUnit.Framework;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Math.Tests.Helpers
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class MsbLsbConversionHelpersTests
     {
         [Test]

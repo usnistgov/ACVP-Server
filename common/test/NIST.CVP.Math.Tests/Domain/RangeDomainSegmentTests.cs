@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Moq;
 using NIST.CVP.Math.Domain;
-using NLog.LayoutRenderers;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Math.Tests.Domain
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class RangeDomainSegmentTests
     {
         private Mock<IRandom800_90> _mockRandom;

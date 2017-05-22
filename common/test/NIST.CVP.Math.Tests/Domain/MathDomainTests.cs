@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Moq;
 using NIST.CVP.Math.Domain;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Math.Tests.Domain
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class MathDomainTests
     {
         private MathDomain _subject;

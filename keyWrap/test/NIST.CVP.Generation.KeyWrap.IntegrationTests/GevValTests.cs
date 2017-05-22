@@ -9,13 +9,14 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using AutofacConfig = KeyWrap.AutofacConfig;
 using Program = KeyWrap.Program;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class GevValTests
     {
         string _testPath;

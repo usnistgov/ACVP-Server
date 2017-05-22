@@ -2,11 +2,12 @@
 using System.IO;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.Core.Tests.Parsers
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class DynamicParserTests
     {
         private string _unitTestPath;

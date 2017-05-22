@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 using NIST.CVP.Math.Domain;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Math.Tests.Domain
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ValueDomainSegmentTests
     {
         private ValueDomainSegment _subject;

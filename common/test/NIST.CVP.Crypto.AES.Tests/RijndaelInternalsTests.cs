@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Moq;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES.Tests
@@ -8,7 +9,7 @@ namespace NIST.CVP.Crypto.AES.Tests
     /// <summary>
     /// Note unit tests can utilize <see cref="RijndaelTest"/> for hitting protected functions.
     /// </summary>
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class RijndaelInternalsTests
     {
         /// <summary>

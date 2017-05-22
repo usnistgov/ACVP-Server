@@ -5,11 +5,12 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KeyWrap.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class FireHoseTests
     {
         string _testPath;

@@ -2,11 +2,12 @@
 using NIST.CVP.Crypto.KeyWrap.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.KeyWrap.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ParameterValidatorTests
     {
         private ParameterValidator _subject;

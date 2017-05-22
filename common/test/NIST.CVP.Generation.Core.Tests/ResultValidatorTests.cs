@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.Core.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ResultValidatorTests
     {
         [Test]

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections;
-
+﻿using System.Collections;
 using NIST.CVP.Math.Helpers;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Math.Tests.Helpers
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class BitArrayExtensionsTests
     {
         [Test]

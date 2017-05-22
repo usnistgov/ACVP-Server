@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.IO;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core;
-using Microsoft.Extensions.Configuration;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.Core.Tests
 {
 
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ConfigParserTests
     {
         private string _unitTestPath;

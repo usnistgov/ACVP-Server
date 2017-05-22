@@ -7,11 +7,12 @@ using NIST.CVP.Crypto.KeyWrap;
 using NIST.CVP.Crypto.KeyWrap.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.KeyWrap.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestCaseGeneratorDecryptTests
     {
         private Mock<IKeyWrapFactory> _iKeyWrapFactory;

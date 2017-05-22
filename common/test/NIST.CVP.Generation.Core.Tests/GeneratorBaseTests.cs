@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Moq;
-using NIST.CVP.Generation.Core.Parsers;
+﻿using System.IO;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.Core.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class GeneratorBaseTests
     {
         private string _testPath;

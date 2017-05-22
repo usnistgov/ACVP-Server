@@ -4,11 +4,12 @@ using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.KeyWrap.Enums;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KeyWrap.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class KeyWrapAesTests
     {
         private Mock<IAES_ECB> _algo;

@@ -1,10 +1,11 @@
 ﻿using Moq;
 using NUnit.Framework;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Math.Tests.Entropy
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class EntropyProviderTests
     {
         [Test]

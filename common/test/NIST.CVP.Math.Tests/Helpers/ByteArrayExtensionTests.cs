@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading.Tasks;
 using NIST.CVP.Math.Helpers;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Math.Tests.Helpers
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ByteArrayExtensionTests
     {
         [Test]
