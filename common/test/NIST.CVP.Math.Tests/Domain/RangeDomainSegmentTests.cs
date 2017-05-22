@@ -231,14 +231,14 @@ namespace NIST.CVP.Math.Tests.Domain
         /// <param name="quantityToReturn">Number of values to return</param>
         /// <param name="expectation">The expected random return</param>
         [Test]
-        [TestCase(1, 5, 1, 3, 5, new int[] { 3, 4, 2, 5, 1 } )]
-        [TestCase(1, 9, 1, 5, 5, new int[] { 5, 6, 4, 7, 3 })]
-        [TestCase(0, 12, 4, 5, 1, new int[] { 4 })]
-        [TestCase(0, 12, 4, 5, 2, new int[] { 4, 8 })]
-        [TestCase(0, 10, 2, 5, 10, new int[] { 6, 4, 8, 2 })]
-        [TestCase(0, 10, 2, 5, 10, new int[] { 6, 4, 8, 2, 10, 0 })]
-        [TestCase(0, 10, 2, 4, 10, new int[] { 4, 6, 2, 8, 0, 10 })]
-        public void ShouldReturnValidNumbersWithinRangeRandomly(int min, int max, int increment, int seedRandom, int quantityToReturn, int[] expectation)
+        [TestCase("1-5 step 1, start at 3, return up to 5 values", 1, 5, 1, 3, 5, new int[] { 3, 4, 2, 5, 1 } )]
+        [TestCase("1-9 step 1, start at 5, return up to 5 values", 1, 9, 1, 5, 5, new int[] { 5, 6, 4, 7, 3 })]
+        [TestCase("0-12 step 4, start at 5, return up to 1 values", 0, 12, 4, 5, 1, new int[] { 4 })]
+        [TestCase("0-12 step 4, start at 5, return up to 2 values", 0, 12, 4, 5, 2, new int[] { 4, 8 })]
+        [TestCase("0-10 step 2, start at 5, return up to 4 values", 0, 10, 2, 5, 4, new int[] { 6, 4, 8, 2 })]
+        [TestCase("0-10 step 2, start at 5, return up to 10 values", 0, 10, 2, 5, 10, new int[] { 6, 4, 8, 2, 10, 0 })]
+        [TestCase("0-10 step 2, start at 4, return up to 10 values", 0, 10, 2, 4, 10, new int[] { 4, 6, 2, 8, 0, 10 })]
+        public void ShouldReturnValidNumbersWithinRangeRandomly(string testLabel, int min, int max, int increment, int seedRandom, int quantityToReturn, int[] expectation)
         {
             // Random should always return the "seedRandom" in order to test the +/- logic
             _mockRandom
