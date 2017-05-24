@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Numerics;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     // B.3.3
     public class RandomProbablePrimeGenerator : PrimeGeneratorBase
     {
-        // These are strings because you can't default a BigInteger
-        public PrimeGeneratorResult GenerateTestPrimes(int nlen, BigInteger e, bool kat, string pRandom = "", string qRandom = "")
+        public RandomProbablePrimeGenerator() : base(EntropyProviderTypes.Random) { }
+        public RandomProbablePrimeGenerator(EntropyProviderTypes entropyType) : base(entropyType) { }
+
+        public void AddEntropy(BitString bs)
         {
-            var givenP = new BitString(pRandom).ToPositiveBigInteger();
-            var givenQ = new BitString(qRandom).ToPositiveBigInteger();
+            _entropyProvider.AddEntropy(bs);
+        }
+
+        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        {
+            var kat = _entropyProvider.GetType() == typeof(TestableEntropyProvider);
 
             // 1
             if (nlen != 2048 && nlen != 3072)
@@ -26,19 +33,11 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             // 3
-            int security_strength;
-            if (nlen == 2048)
-            {
-                security_strength = 112;
-            }
-            else // if (nlen == 3072)
-            {
-                security_strength = 128;
-            }
+            // security_strength doesn't matter
 
             // 4, 4.1
             var i = 0;
-            BigInteger p;
+            BigInteger p = 0;
             var bound = nlen == 3072 ? _root2Mult2Pow1536Minus1 : _root2Mult2Pow1024Minus1;
             var millerRabinRounds = nlen == 3072 ? 64 : 56;
             do
@@ -46,18 +45,11 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 do
                 {
                     // 4.2
-                    if (kat)
+                    if (p != 0 && kat)
                     {
-                        if (p == givenP)
-                        {
-                            return new PrimeGeneratorResult("Given p less than sqrt(2) * 2 ^ (n/2) - 1, so get a new random number.");
-                        }
-                        p = givenP;
+                        return new PrimeGeneratorResult("Given p less than sqrt(2) * 2 ^ (n/2) - 1, so get a new random number.");
                     }
-                    else
-                    {
-                        p = _entropyProvider.GetEntropy(nlen / 2).ToPositiveBigInteger();
-                    }
+                    p = _entropyProvider.GetEntropy(nlen / 2).ToPositiveBigInteger();
 
                     // 4.3
                     if (p.IsEven)
@@ -92,24 +84,17 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
             // 5, 5.1
             i = 0;
-            BigInteger q;
+            BigInteger q = 0;
             do
             {
                 do
                 {
                     // 5.2
-                    if (kat)
+                    if (q != 0 && kat)
                     {
-                        if (q == givenQ)
-                        {
-                            return new PrimeGeneratorResult("Given q less than sqrt(2) * 2 ^ (n/2) - 1, so get a new random number.");
-                        }
-                        q = givenQ;
+                        return new PrimeGeneratorResult("Given q less than sqrt(2) * 2 ^ (n/2) - 1, so get a new random number.");
                     }
-                    else
-                    {
-                        q = _entropyProvider.GetEntropy(nlen / 2).ToPositiveBigInteger();
-                    }
+                    q = _entropyProvider.GetEntropy(nlen / 2).ToPositiveBigInteger();
 
                     // 5.3
                     if (q.IsEven)
@@ -144,11 +129,6 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             } while (!kat);
 
             return new PrimeGeneratorResult(p, q);
-        }
-
-        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
-        {
-            return GenerateTestPrimes(nlen, e, false);
         }
     }
 }

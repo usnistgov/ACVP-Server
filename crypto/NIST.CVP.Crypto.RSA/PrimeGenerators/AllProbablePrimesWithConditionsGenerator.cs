@@ -13,7 +13,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
     {
         private int _bitlen1, _bitlen2, _bitlen3, _bitlen4;
 
-        public AllProbablePrimesWithConditionsGenerator(HashFunction hashFunction, EntropyProviderTypes type) : base(hashFunction, type) { }
+        public AllProbablePrimesWithConditionsGenerator(EntropyProviderTypes type) : base(type) { }
 
         public void SetBitlens(int bitlen1, int bitlen2, int bitlen3, int bitlen4)
         {
@@ -21,6 +21,16 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             _bitlen2 = bitlen2;
             _bitlen3 = bitlen3;
             _bitlen4 = bitlen4;
+        }
+
+        public void AddEntropy(BitString bs)
+        {
+            _entropyProvider.AddEntropy(bs);
+        }
+
+        public void AddEntropy(BigInteger big)
+        {
+            _entropyProvider.AddEntropy(big);
         }
 
         public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)

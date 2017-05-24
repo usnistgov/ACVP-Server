@@ -1,6 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
@@ -62,8 +63,11 @@ namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
         {
             var eBS = new BitString(e).ToPositiveBigInteger();
 
-            var subject = new RandomProbablePrimeGenerator();
-            var result = subject.GenerateTestPrimes(nlen, eBS, true, pRand, qRand);
+            var subject = new RandomProbablePrimeGenerator(EntropyProviderTypes.Testable);
+            subject.AddEntropy(new BitString(pRand));
+            subject.AddEntropy(new BitString(qRand));
+
+            var result = subject.GeneratePrimes(nlen, eBS, null);
             Assert.AreEqual(expectedResult, result.Success, expectedMessage);
             if (!result.Success)
             {

@@ -14,6 +14,11 @@ namespace NIST.CVP.Math.Entropy
             _entropyBitStrings.Add(entropy);
         }
 
+        public void AddEntropy(BigInteger entropy)
+        {
+            _entropyBigIntegers.Add(entropy);
+        }
+
         public BitString GetEntropy(int numberOfBits)
         {
             if (_entropyBitStrings.Count == 0)

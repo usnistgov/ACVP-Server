@@ -23,6 +23,11 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             _bitlen4 = bitlen4;
         }
 
+        public void AddEntropy(BigInteger entropy)
+        {
+            _entropyProvider.AddEntropy(entropy);
+        }
+
         public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             BigInteger p, p1, p2, q, q1, q2, xp, xq;
@@ -97,7 +102,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             do
             {
                 // 6
-                var q1Result = ShaweTaylorRandomPrime(_bitlen1, primeSeed);
+                var q1Result = ShaweTaylorRandomPrime(_bitlen3, primeSeed);
                 if (!q1Result.Success)
                 {
                     return new PrimeGeneratorResult("Failed to generate q1");
@@ -106,7 +111,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 q1 = q1Result.Prime;
                 primeSeed = q1Result.PrimeSeed;
 
-                var q2Result = ShaweTaylorRandomPrime(_bitlen2, primeSeed);
+                var q2Result = ShaweTaylorRandomPrime(_bitlen4, primeSeed);
                 if (!q2Result.Success)
                 {
                     return new PrimeGeneratorResult("Failed to generate q2");

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Math.Entropy
@@ -15,5 +16,7 @@ namespace NIST.CVP.Math.Entropy
         /// </summary>
         /// <param name="entropy">The <see cref="BitString"/> to add</param>
         void AddEntropy(BitString entropy);
+
+        void AddEntropy(BigInteger entropy);
     }
 }

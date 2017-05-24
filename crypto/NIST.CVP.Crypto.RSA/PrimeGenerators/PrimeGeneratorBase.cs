@@ -558,7 +558,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             _hashFunction = hashFunction;
         }
 
-        protected void SetEntropyProviderType(EntropyProviderTypes type)
+        public void SetEntropyProviderType(EntropyProviderTypes type)
         {
             _entropyProvider = _entropyProviderFactory.GetEntropyProvider(type);
         }
@@ -768,10 +768,12 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             // 2
-            var R = ((NumberTheory.ModularInverse(r2, 2 * r1) * r2) - (NumberTheory.ModularInverse(2 * r1, r2) * 2 * r1));
+            var R = (NumberTheory.ModularInverse(r2, 2 * r1) * r2) - (NumberTheory.ModularInverse(2 * r1, r2) * 2 * r1);
 
             while (true)
             {
+                var modulo = 2 * r1 * r2;
+
                 do
                 {
                     // 3
@@ -779,7 +781,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
                     // 4
                     // Weirdness to ensure Y is positive
-                    Y = X + ((R - X) % (2 * r1 * r2) + 2 * r1 * r2) % 2 * r1 * r2;
+                    Y = X + (((R - X) % modulo) + modulo) % modulo;
 
                     // 5
                     i = 0;
@@ -808,10 +810,10 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     }
 
                     // 10
-                    Y += (2 * r1 * r2);
+                    Y += modulo;
 
                     // 6 (repeated)
-                } while (Y >= NumberTheory.Pow2(nlen / 2));
+                } while (Y < NumberTheory.Pow2(nlen / 2));
             }
         }
 

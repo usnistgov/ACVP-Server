@@ -17,5 +17,6 @@ namespace NIST.CVP.Math.Entropy
         BigInteger GetEntropy(BigInteger minInclusive, BigInteger maxInclusive);
 
         void AddEntropy(BitString entropy);
+        void AddEntropy(BigInteger entropy);
     }
 }

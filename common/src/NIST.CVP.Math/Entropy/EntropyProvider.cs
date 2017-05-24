@@ -22,5 +22,6 @@ namespace NIST.CVP.Math.Entropy
         }
 
         public void AddEntropy(BitString entropy) { }
+        public void AddEntropy(BigInteger entropy) { }
     }
 }
