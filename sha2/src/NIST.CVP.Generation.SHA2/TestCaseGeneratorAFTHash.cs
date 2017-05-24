@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -98,6 +100,67 @@ namespace NIST.CVP.Generation.SHA2
 
             testCase.Digest = hashResult.Digest;
             return new TestCaseGenerateResponse(testCase);
+        }
+
+        public List<TestCaseGenerateResponse> GenerateInParallel(TestGroup group, bool isSample, int startId)
+        {
+            var responses = new List<TestCaseGenerateResponse>();
+
+            // Determine size of each test
+            var values = GetListOfSizes(group, isSample);
+
+            // Run test generation
+            Parallel.For(0, values.Count, new ParallelOptions {MaxDegreeOfParallelism = 4},
+                i =>
+                {
+                    var response = GenerateOfSize(group, values[i], startId + i);
+                    responses.Add(response);
+                });
+
+            // Waits til completion before returning
+            return responses;
+        }
+
+        private TestCaseGenerateResponse GenerateOfSize(TestGroup group, int bitLen, int tcId)
+        {
+            var message = _random800_90.GetRandomBitString(bitLen);
+            var testCase = new TestCase
+            {
+                TestCaseId = tcId,
+                Message = message,
+                Deferred = false
+            };
+
+            return Generate(group, testCase);
+        }
+
+        private List<int> GetListOfSizes(TestGroup group, bool isSample)
+        {
+            var sizes = new List<int>();
+            var unitSize = group.BitOriented ? 1 : 8;
+            var blockSize = SHAEnumHelpers.DetermineBlockSize(group.DigestSize);
+
+            var numSmallCases = blockSize / unitSize;
+            var numLargeCases = blockSize / unitSize;
+
+            if (group.IncludeNull)
+            {
+                numSmallCases++;
+            }
+
+            _numberOfCases = numSmallCases + numLargeCases;
+
+            for (var i = 0; i < numSmallCases; i++)
+            {
+                sizes.Add(unitSize * i);
+            }
+
+            for (var i = 1; i <= numLargeCases; i++)
+            {
+                sizes.Add(blockSize + unitSize * 99 * i);
+            }
+
+            return sizes;
         }
 
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }

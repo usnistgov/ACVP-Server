@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Directory.Delete(_testPath, true);
+            // Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -166,6 +166,24 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         {
             var targetFolder = GetTestFolder();
             var fileName = GetTestFileManyTestCasesSHA2(targetFolder);
+
+            RunGenerationAndValidation(targetFolder, fileName);
+
+            var dp = new DynamicParser();
+            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+
+            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+        }
+
+        [Test]
+        public void ShouldParallelizeTestsSHA()
+        {
+            var targetFolder = Path.Combine(_testPath, "ParallelTest");
+            if (!Directory.Exists(targetFolder))
+            {
+                Directory.CreateDirectory(targetFolder);
+            }
+            var fileName = GetTestFileParallelTestCasesSHA(targetFolder);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -353,6 +371,22 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             {
                 Algorithm = "SHA2",
                 DigestSizes = new[] { "224", "256", "384", "512", "512/224", "512/256" },
+                BitOriented = "yes",
+                IncludeNull = "yes",
+                IsSample = true
+            };
+
+            return CreateRegistration(targetFolder, parameters);
+        }
+
+        private string GetTestFileParallelTestCasesSHA(string targetFolder)
+        {
+            RemoveMCTTestGroupFactories();
+
+            var parameters = new Parameters
+            {
+                Algorithm = "SHA2",
+                DigestSizes = new[] {"384", "512"},
                 BitOriented = "yes",
                 IncludeNull = "yes",
                 IsSample = true

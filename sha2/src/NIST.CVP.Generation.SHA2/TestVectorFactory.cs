@@ -8,11 +8,23 @@ namespace NIST.CVP.Generation.SHA2
 {
     public class TestVectorFactory : ITestVectorFactory<Parameters>
     {
-        private readonly string[] _testTypes = {"aft", "mct"};
+        private readonly IMonteCarloTestGroupFactory<Parameters, TestGroup> _iMCTTestGroupFactory;
+
+        public TestVectorFactory(IMonteCarloTestGroupFactory<Parameters, TestGroup> iMCTTestGroupFactory)
+        {
+            _iMCTTestGroupFactory = iMCTTestGroupFactory;
+        }
 
         public ITestVectorSet BuildTestVectorSet(Parameters parameters)
         {
             var groups = BuildTestGroups(parameters);
+
+            var mctGroups = _iMCTTestGroupFactory.BuildMCTTestGroups(parameters);
+            if (mctGroups != null && mctGroups.Count() != 0)
+            {
+                groups.AddRange(mctGroups);
+            }
+
             return new TestVectorSet {TestGroups = groups, Algorithm = parameters.Algorithm, IsSample = parameters.IsSample};
         }
 
@@ -21,18 +33,15 @@ namespace NIST.CVP.Generation.SHA2
             var testGroups = new List<ITestGroup>();
             foreach (var digestSize in parameters.DigestSizes)
             {
-                foreach (var testType in _testTypes)
+                var testGroup = new TestGroup
                 {
-                    var testGroup = new TestGroup
-                    {
-                        Function = SHAEnumHelpers.StringToMode(parameters.Algorithm),
-                        DigestSize = SHAEnumHelpers.StringToDigest(digestSize),
-                        TestType = testType,
-                        IncludeNull = StringToBoolean(parameters.IncludeNull),
-                        BitOriented = StringToBoolean(parameters.BitOriented)
-                    };
-                    testGroups.Add(testGroup);
-                }
+                    Function = SHAEnumHelpers.StringToMode(parameters.Algorithm),
+                    DigestSize = SHAEnumHelpers.StringToDigest(digestSize),
+                    TestType = "AFT",
+                    IncludeNull = StringToBoolean(parameters.IncludeNull),
+                    BitOriented = StringToBoolean(parameters.BitOriented)
+                };
+                testGroups.Add(testGroup);
             }
             
             return testGroups;
@@ -43,7 +52,8 @@ namespace NIST.CVP.Generation.SHA2
             if (str.ToLower() == "yes")
             {
                 return true;
-            }else if (str.ToLower() == "no")
+            }
+            else if (str.ToLower() == "no")
             {
                 return false;
             }

@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "dependencies": {
@@ -8,7 +8,8 @@
     "NIST.CVP.Generation.Core": "1.0.0-*",
     "NIST.CVP.Math": "1.0.0-*",
     "NETStandard.Library": "1.6.1",
-    "NLog": "5.0.0-beta05"
+    "NLog": "5.0.0-beta05",
+    "System.Threading.Tasks.Parallel": "4.3.0"
   },
 
   "frameworks": {
