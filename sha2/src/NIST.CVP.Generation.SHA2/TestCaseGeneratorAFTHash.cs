@@ -110,7 +110,7 @@ namespace NIST.CVP.Generation.SHA2
             var values = GetListOfSizes(group, isSample);
 
             // Run test generation
-            Parallel.For(0, values.Count, new ParallelOptions {MaxDegreeOfParallelism = 4},
+            Parallel.For(0, values.Count, new ParallelOptions {MaxDegreeOfParallelism = 2},
                 i =>
                 {
                     var response = GenerateOfSize(group, values[i], startId + i);
@@ -145,12 +145,12 @@ namespace NIST.CVP.Generation.SHA2
 
             if (group.IncludeNull)
             {
-                numSmallCases++;
+                sizes.Add(0);
             }
 
-            _numberOfCases = numSmallCases + numLargeCases;
+            _numberOfCases = numSmallCases + numLargeCases + (group.IncludeNull ? 1 : 0);
 
-            for (var i = 0; i < numSmallCases; i++)
+            for (var i = 1; i <= numSmallCases; i++)
             {
                 sizes.Add(unitSize * i);
             }

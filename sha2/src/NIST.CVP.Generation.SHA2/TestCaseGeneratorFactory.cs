@@ -42,14 +42,6 @@ namespace NIST.CVP.Generation.SHA2
             {
                 // Get the generator for this test type
                 var generator = GetCaseGenerator(group, testVector.IsSample);
-
-                // Generate the first test case which allows us to know exactly how many test cases we need
-                //var firstResponse = GenerateFirstCase(group, generator, testVector.IsSample, testId);
-                //if (!firstResponse.Success)
-                //{
-                //    return new GenerateResponse(firstResponse.ErrorMessage);
-                //}
-
                 var responses = ((TestCaseGeneratorAFTHash) generator).GenerateInParallel(group, testVector.IsSample, testId);
                 foreach (var response in responses)
                 {
@@ -83,39 +75,6 @@ namespace NIST.CVP.Generation.SHA2
             }
 
             return new GenerateResponse();
-        }
-
-        private GenerateResponse GenerateFirstCase(TestGroup group, ITestCaseGenerator<TestGroup, TestCase> generator, bool isSample, int testId)
-        {
-            var testCaseResponse = generator.Generate(group, isSample);
-
-            if (!testCaseResponse.Success)
-            {
-                return new GenerateResponse(testCaseResponse.ErrorMessage);
-            }
-
-            var testCase = (TestCase)testCaseResponse.TestCase;
-            testCase.TestCaseId = testId;
-            group.Tests.Add(testCase);
-
-            return new GenerateResponse();
-        }
-
-        private void GenerateCase(TestGroup group, ITestCaseGenerator<TestGroup, TestCase> generator, bool isSample, int tsId)
-        {
-            // Run generation
-            var testCaseResponse = generator.Generate(group, isSample);
-
-            if (!testCaseResponse.Success)
-            {
-                throw new Exception(testCaseResponse.ErrorMessage);
-                //return new GenerateResponse(testCaseResponse.ErrorMessage);
-            }
-
-            // Store results in group
-            var testCase = (TestCase)testCaseResponse.TestCase;
-            testCase.TestCaseId = tsId;
-            group.Tests.Add(testCase);
         }
     }
 }
