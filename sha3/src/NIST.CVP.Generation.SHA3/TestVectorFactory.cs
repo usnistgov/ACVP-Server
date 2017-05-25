@@ -8,11 +8,25 @@ namespace NIST.CVP.Generation.SHA3
 {
     public class TestVectorFactory : ITestVectorFactory<Parameters>
     {
-        private readonly string[] _testTypes = {"aft", "mct", "vot"};
-       
+        private readonly string[] _testTypes = {"aft", "vot"};
+        private readonly IMonteCarloTestGroupFactory<Parameters, TestGroup> _iMCTTestGroupFactory;
+
+        public TestVectorFactory(IMonteCarloTestGroupFactory<Parameters, TestGroup> iMCTTestGroupFactory)
+        {
+            _iMCTTestGroupFactory = iMCTTestGroupFactory;
+        }
+
         public ITestVectorSet BuildTestVectorSet(Parameters parameters)
         {
-            return new TestVectorSet {TestGroups = BuildTestGroups(parameters), Algorithm = parameters.Algorithm, IsSample = parameters.IsSample};
+            var groups = BuildTestGroups(parameters);
+
+            var mctGroups = _iMCTTestGroupFactory.BuildMCTTestGroups(parameters);
+            if (mctGroups != null && mctGroups.Count() != 0)
+            {
+                groups.AddRange(mctGroups);
+            }
+
+            return new TestVectorSet {TestGroups = groups, Algorithm = parameters.Algorithm, IsSample = parameters.IsSample};
         }
 
         private List<ITestGroup> BuildTestGroups(Parameters parameters)

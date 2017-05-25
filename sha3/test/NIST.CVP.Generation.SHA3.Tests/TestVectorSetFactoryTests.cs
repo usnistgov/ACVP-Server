@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [Test]
         public void ShouldReturnVectorSet()
         {
-            var subject = new TestVectorFactory();
+            var subject = new TestVectorFactory(new MCTTestGroupFactory());
             var result = subject.BuildTestVectorSet(
                 new Parameters
                 {
@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [Test]
         public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
-            var subject = new TestVectorFactory();
+            var subject = new TestVectorFactory(new MCTTestGroupFactory());
             var result = subject.BuildTestVectorSet(
                 new Parameters
                 {

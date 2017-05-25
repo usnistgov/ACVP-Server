@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Directory.Delete(_testPath, true);
+            //Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -134,6 +134,24 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             RunGenerationAndValidation(targetFolder, fileName);
 
             Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), "validation");
+        }
+
+        [Test]
+        public void SpeedTests()
+        {
+            var targetFolder = Path.Combine(_testPath, "ParallelTest");
+            if (!Directory.Exists(targetFolder))
+            {
+                Directory.CreateDirectory(targetFolder);
+            }
+            var fileName = GetTestFileTests(targetFolder);
+
+            RunGenerationAndValidation(targetFolder, fileName);
+
+            var dp = new DynamicParser();
+            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+
+            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
         }
 
         [Test]
@@ -335,12 +353,28 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             return failedTestCases;
         }
 
+        private string GetTestFileTests(string targetFolder)
+        {
+            //RemoveMCTTestGroupFactories();
+
+            var parameters = new Parameters
+            {
+                Algorithm = "SHA3",
+                DigestSizes = new[] {384, 512},
+                BitOrientedInput = true,
+                IncludeNull = true,
+                IsSample = false
+            };
+
+            return CreateRegistration(targetFolder, parameters);
+        }
+
         private string GetTestFileFewTestCasesSHA3(string targetFolder)
         {
             var parameters = new Parameters
             {
                 Algorithm = "SHA3",
-                DigestSizes = new [] {224},
+                DigestSizes = new [] {512},
                 BitOrientedInput = false,
                 IncludeNull = false,
                 IsSample = true
@@ -357,7 +391,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                 DigestSizes = new [] {224, 256, 384, 512},
                 BitOrientedInput = true,
                 IncludeNull = true,
-                IsSample = false
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);
@@ -391,10 +425,18 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                 IncludeNull = true,
                 MinOutputLength = 16,
                 MaxOutputLength = 65536,
-                IsSample = false
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);
+        }
+
+        private void RemoveMCTTestGroupFactories()
+        {
+            AutofacConfig.OverrideRegistrations += builder =>
+            {
+                builder.RegisterType<NullMCTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
+            };
         }
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
