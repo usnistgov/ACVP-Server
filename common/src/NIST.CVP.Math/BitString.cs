@@ -236,8 +236,10 @@ namespace NIST.CVP.Math
 
         public BigInteger ToPositiveBigInteger()
         {
-            // Add an empty byte to the beginning to get rid of two's complement
-            var paddedBitString = ConcatenateBits(Zeroes(2), this);
+            var padding = BITSINBYTE - (BitLength % BITSINBYTE) + BITSINBYTE;
+
+            // Add an empty byte (or more) to the beginning to get rid of two's complement
+            var paddedBitString = ConcatenateBits(Zeroes(padding), this);
             return new BigInteger(paddedBitString.ToBytes(true));
         }
 
