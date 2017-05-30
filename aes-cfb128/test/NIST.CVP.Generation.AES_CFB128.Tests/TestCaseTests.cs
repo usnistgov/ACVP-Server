@@ -2,11 +2,12 @@
 using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB128.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestCaseTests
     {
         private TestDataMother _tdm = new TestDataMother();

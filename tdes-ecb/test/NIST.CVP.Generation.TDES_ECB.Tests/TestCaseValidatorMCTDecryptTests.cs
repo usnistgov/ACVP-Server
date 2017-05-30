@@ -2,11 +2,12 @@
 using System.Security.Cryptography;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_ECB.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestCaseValidatorMonteCarloDecryptTests
     {
         [Test]

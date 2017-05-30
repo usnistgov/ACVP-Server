@@ -7,10 +7,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests.Parsers
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ParameterParserTests
     {
         private const string _WORKING_DIRECTORY = @"C:\temp";

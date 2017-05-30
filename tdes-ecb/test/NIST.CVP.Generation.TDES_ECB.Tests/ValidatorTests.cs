@@ -6,11 +6,12 @@ using System.Linq;
 using Moq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_ECB.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ValidatorTests
     {
         private const string _WORKING_PATH = @"C:\temp";

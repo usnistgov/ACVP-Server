@@ -1,9 +1,10 @@
 ﻿using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_ECB.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestCaseValidatorEncryptTests
     {
         [Test]

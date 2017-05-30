@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.SHA3.Parsers;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA3.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
         private string _testPath;

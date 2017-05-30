@@ -1,9 +1,10 @@
 ﻿using System.Linq;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_OFB.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ParameterValidatorTests
     {
         [Test]

@@ -2,10 +2,11 @@
 using NUnit.Framework;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class CAVS_HealthCheckTests
     {
         private Crypto.AES_GCM.AES_GCM _subject;

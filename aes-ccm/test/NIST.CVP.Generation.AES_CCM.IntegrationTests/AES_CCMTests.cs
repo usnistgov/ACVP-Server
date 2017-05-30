@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class AES_CCMTests
     {
         Crypto.AES_CCM.AES_CCM _subject = new Crypto.AES_CCM.AES_CCM(new AES_CCMInternals(), new RijndaelFactory(new RijndaelInternals()));

@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Testing.Abstractions;
+﻿using System.IO;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Generation.AES_GCM.Parsers;
-using NIST.CVP.Math;
 using NUnit.Framework;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
-using NIST.CVP.Math.Helpers;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
         string _testPath;

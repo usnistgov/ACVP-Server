@@ -6,7 +6,8 @@
     "NIST.CVP.Crypto.SHA3": "1.0.0-*",
     "Microsoft.NETCore.App": "1.1.0",
     "NLog": "5.0.0-beta05",
-    "NUnit": "3.6.0"
+    "NUnit": "3.6.0",
+    "NIST.CVP.Tests.Core": "1.0.0-*"
   },
   "testRunner": "nunit",
 

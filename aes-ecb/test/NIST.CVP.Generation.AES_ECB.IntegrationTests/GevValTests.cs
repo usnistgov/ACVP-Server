@@ -9,11 +9,12 @@ using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class GevValTests
     {
         string _testPath;

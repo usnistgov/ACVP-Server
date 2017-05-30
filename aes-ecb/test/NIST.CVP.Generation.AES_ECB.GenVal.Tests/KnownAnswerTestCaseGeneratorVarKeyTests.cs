@@ -1,9 +1,10 @@
 ﻿using System.Linq;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class KnownAnswerTestCaseGeneratorVarKeyTests
     {
         [Test]

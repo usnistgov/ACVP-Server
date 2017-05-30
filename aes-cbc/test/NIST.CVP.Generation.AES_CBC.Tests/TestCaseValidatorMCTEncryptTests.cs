@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CBC.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestCaseValidatorMCTEncryptTests
     {
         [Test]

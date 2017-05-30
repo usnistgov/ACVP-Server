@@ -1,9 +1,10 @@
 ﻿using System;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB128.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class KnownAnswerTestCaseGeneratorFactoryTests
     {
         [Test]

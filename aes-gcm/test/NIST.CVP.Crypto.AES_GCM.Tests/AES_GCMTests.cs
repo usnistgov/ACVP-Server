@@ -3,6 +3,7 @@ using System.IO;
 using Moq;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -10,7 +11,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_GCM.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class AES_GCMTests
     {
         [OneTimeSetUp]

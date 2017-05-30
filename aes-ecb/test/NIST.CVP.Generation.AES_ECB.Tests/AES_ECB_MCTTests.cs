@@ -2,11 +2,12 @@
 using Moq;
 using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_ECB.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class AES_ECB_MCTTests
     {
         private Mock<IAES_ECB> _aesEcb;

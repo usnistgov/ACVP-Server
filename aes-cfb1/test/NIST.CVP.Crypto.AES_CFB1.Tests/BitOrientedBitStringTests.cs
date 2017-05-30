@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_CFB1.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class BitOrientedBitStringTests
     {
 

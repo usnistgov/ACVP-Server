@@ -3,11 +3,12 @@ using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.SHA2.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA2.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
         private string _testPath;

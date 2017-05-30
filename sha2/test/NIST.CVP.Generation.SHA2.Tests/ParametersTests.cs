@@ -1,8 +1,9 @@
-﻿using NUnit.Framework;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA2.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ParametersTests
     {
         [Test]

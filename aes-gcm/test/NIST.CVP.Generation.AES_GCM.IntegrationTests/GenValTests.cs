@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using NIST.CVP.Generation.AES_GCM.Parsers;
 using NIST.CVP.Math;
 using NUnit.Framework;
 using System;
@@ -11,10 +10,11 @@ using Autofac;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class GenValTests
     {
         string _testPath;

@@ -5,11 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.AES_OFB.Parsers;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_OFB.Tests.Parsers
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class LegacyResponseFileParserTests
     {
 

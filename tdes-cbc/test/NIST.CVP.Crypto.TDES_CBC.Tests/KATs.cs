@@ -1,9 +1,10 @@
 ﻿using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.TDES_CBC.Tests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class KATs
     {
 

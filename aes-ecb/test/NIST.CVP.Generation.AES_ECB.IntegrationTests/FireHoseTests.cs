@@ -4,11 +4,12 @@ using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Generation.AES_ECB.Parsers;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
         string _testPath;

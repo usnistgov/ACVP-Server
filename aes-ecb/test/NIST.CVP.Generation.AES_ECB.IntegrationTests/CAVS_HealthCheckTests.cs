@@ -1,10 +1,11 @@
 ﻿using NIST.CVP.Crypto.AES;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class CAVS_HealthCheckTests
     {
 

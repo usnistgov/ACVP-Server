@@ -5,11 +5,12 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestGroupTests
     {
         private TestDataMother _tdm = new TestDataMother();

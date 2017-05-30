@@ -1,9 +1,10 @@
 ﻿using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB8.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestCaseValidatorDecryptTests
     {
         [Test]

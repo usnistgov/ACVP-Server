@@ -1,9 +1,10 @@
 ﻿using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.SHA2.Tests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class SHA2Tests
     {
         private static object[] hashTests224 = new object[]

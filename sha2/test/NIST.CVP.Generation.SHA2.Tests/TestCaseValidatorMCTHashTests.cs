@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA2.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestCaseValidatorMCTHashTests
     {
         [Test]

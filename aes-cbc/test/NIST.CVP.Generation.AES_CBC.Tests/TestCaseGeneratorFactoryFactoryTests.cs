@@ -3,12 +3,13 @@ using Castle.Components.DictionaryAdapter;
 using Moq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NuGet.Common;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CBC.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestCaseGeneratorFactoryFactoryTests
     {
         private Mock<IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase>> _staticTestCaseGeneratorFactory;

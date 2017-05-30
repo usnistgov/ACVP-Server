@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.TDES_ECB.Tests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class MonteCarloKeyMakerTests
     {
         private Random800_90 _randy = new Random800_90();

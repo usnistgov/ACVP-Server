@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using NIST.CVP.Crypto.AES;
-
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class KATs
     {
         Crypto.AES_CBC.AES_CBC _subject = new Crypto.AES_CBC.AES_CBC(

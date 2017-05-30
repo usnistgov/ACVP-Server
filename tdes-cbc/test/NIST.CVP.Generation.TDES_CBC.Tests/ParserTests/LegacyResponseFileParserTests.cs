@@ -5,11 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.TDES_CBC.Parsers;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_CBC.Tests.ParserTests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class LegacyResponseFileParserTests
     {
 

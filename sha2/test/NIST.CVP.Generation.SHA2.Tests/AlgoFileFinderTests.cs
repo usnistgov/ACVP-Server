@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA2.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class AlgoFileFinderTests
     {
         string _unitTestPath;

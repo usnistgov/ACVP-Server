@@ -9,12 +9,13 @@ using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using SHA3;
 
 namespace NIST.CVP.Generation.SHA3.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class GenValTests
     {
         private string _testPath;

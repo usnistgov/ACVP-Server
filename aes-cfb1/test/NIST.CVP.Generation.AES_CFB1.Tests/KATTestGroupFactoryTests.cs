@@ -1,9 +1,10 @@
 ﻿using System.Linq;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB1.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class KATTestGroupFactoryTests
     {
         private static object[] parameters = new object[]

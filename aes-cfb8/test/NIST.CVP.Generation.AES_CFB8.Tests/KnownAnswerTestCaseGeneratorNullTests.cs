@@ -1,8 +1,9 @@
-﻿using NUnit.Framework;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB8.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class KnownAnswerTestCaseGeneratorNullTests
     {
         [Test]

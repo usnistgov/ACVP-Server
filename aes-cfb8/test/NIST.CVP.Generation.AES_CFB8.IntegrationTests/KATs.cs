@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     [Category("Integration")]
     public class KATs
     {

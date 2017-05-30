@@ -1,11 +1,12 @@
 ﻿using System;
 using Moq;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_CBC.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class AES_CBC_MCTTests
     {
         private Mock<IAES_CBC> _aesEcb;

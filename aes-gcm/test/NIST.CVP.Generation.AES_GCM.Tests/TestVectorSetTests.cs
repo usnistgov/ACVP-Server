@@ -6,10 +6,11 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NUnit.Framework;
 using Microsoft.CSharp.RuntimeBinder;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestVectorSetTests
     {
         private TestDataMother _tdm = new TestDataMother();

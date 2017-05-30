@@ -7,7 +7,8 @@
     "Moq": "4.6.38-alpha",
     "NIST.CVP.Crypto.TDES": "1.0.0-*",
     "NLog": "5.0.0-beta05",
-    "NUnit": "3.6.0"
+    "NUnit": "3.6.0",
+    "NIST.CVP.Tests.Core": "1.0.0-*"
   },
   "testRunner": "nunit",
 

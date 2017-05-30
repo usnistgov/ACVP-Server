@@ -7,11 +7,12 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DRBG.Parsers;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
 
 namespace NIST.CVP.Generation.DRBG.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class FireHoseTests
     {
         string _testPath;

@@ -1,9 +1,10 @@
 ﻿using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.SHA3.Tests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class SHA3Tests
     {
         #region ByteOriented SHA3

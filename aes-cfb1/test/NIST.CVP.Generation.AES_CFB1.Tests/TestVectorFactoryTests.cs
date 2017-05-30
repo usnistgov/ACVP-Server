@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using Moq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB1.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestVectorFactoryTests
     {
         [Test]

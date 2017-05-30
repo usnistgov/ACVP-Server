@@ -3,11 +3,12 @@ using Moq;
 using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CCM.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestCaseGeneratorDecryptTests
     {
         [Test]

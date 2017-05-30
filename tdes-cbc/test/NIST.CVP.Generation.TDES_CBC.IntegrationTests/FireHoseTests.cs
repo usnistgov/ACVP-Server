@@ -7,12 +7,13 @@ using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CBC;
 using NIST.CVP.Generation.TDES_CBC.Parsers;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
 {
 
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
         private string _testPath;

@@ -7,11 +7,12 @@ using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CBC;
 using NIST.CVP.Generation.AES_CBC.Parsers;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
         private string _testPath;

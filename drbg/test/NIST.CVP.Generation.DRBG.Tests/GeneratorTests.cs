@@ -7,6 +7,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using FakeTestVectorSet = NIST.CVP.Tests.Core.Fakes.FakeTestVectorSet;
 
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
 {
     // @@@ TODO Consider writing fake implementations for some/all of the dependencies for valid/invalid invokes.
     // Mocking getting too complex.
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class GeneratorTests
     {
 

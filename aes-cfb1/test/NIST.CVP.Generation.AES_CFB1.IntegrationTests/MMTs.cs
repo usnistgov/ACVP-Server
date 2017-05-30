@@ -2,10 +2,11 @@
 using NIST.CVP.Crypto.AES_CFB1;
 using NUnit.Framework;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class MMTs
     {
         private Crypto.AES_CFB1.AES_CFB1 _subject =new Crypto.AES_CFB1.AES_CFB1(new RijndaelFactory(new RijndaelInternals()));

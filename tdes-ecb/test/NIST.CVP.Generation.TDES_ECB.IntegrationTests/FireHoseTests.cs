@@ -3,12 +3,13 @@ using System.Linq;
 using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Generation.TDES_ECB.Parsers;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
 {
     
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
         private string _testPath;

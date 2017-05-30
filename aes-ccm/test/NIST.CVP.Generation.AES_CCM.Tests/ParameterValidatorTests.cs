@@ -2,11 +2,12 @@
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CCM.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ParameterValidatorTests
     {
         [Test]

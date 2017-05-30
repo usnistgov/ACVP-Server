@@ -4,11 +4,12 @@ using NIST.CVP.Crypto.DRBG.Enums;
 using NIST.CVP.Crypto.DRBG.Tests.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.DRBG.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class DrbgBaseTests
     {
 

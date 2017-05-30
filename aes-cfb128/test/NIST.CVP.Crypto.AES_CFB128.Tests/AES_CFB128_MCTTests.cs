@@ -1,11 +1,12 @@
 ﻿using System;
 using Moq;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_CFB128.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class AES_CFB128_MCTTests
     {
         private Mock<IAES_CFB128> _aes;

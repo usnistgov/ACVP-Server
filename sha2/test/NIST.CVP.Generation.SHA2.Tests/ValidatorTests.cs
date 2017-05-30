@@ -7,11 +7,12 @@ using Moq;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA2.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ValidatorTests
     {
         private const string _WORKING_PATH = @"C:\temp";

@@ -2,12 +2,13 @@
 using Moq;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_CCM.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class AES_CCMTests
     {
         [Test]

@@ -15,11 +15,12 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Math.Helpers;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
 
 namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
         string _testPath;

@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class KATs
     {
         Crypto.AES_OFB.AES_OFB _subject = new Crypto.AES_OFB.AES_OFB(

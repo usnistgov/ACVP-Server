@@ -3,11 +3,12 @@ using System.Linq;
 using Microsoft.CSharp.RuntimeBinder;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA2.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestVectorSetTests
     {
         private TestDataMother _tdm = new TestDataMother();

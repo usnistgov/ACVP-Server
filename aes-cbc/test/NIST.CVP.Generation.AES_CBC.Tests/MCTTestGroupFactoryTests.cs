@@ -1,11 +1,12 @@
 ﻿using System.Linq;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CBC.Tests
 {
     public class MCTTestGroupFactoryTests
     {
-        [TestFixture]
+        [TestFixture, UnitTest]
         public class KATTestGroupFactoryTests
         {
             private static object[] parameters = new object[]

@@ -1,11 +1,12 @@
 ﻿using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CFB128;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB128.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class MCTs
     {
         AES_CFB128_MCT _subject = new AES_CFB128_MCT(

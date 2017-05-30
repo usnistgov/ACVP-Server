@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CSharp.RuntimeBinder;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_CBC.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestVectorSetTests
     {
         private TestDataMother _tdm = new TestDataMother();

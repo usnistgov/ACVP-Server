@@ -3,11 +3,12 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB128.Tests.Parsers
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ParameterParserTests
     {
         private const string _WORKING_DIRECTORY = @"C:\temp";

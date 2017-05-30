@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_OFB.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class MultipleTestCaseGenerateResponseTests
     {
         [Test]

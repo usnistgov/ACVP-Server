@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB1.Tests
 {
+    [TestFixture, UnitTest]
     public class KnownAnswerTestCaseGeneratorKeySBoxTests
     {
         [Test]

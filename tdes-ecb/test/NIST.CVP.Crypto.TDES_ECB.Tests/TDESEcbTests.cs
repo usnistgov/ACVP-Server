@@ -1,9 +1,10 @@
 ﻿using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.TDES_ECB.Tests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class TDESEcbTests
     {
 

@@ -7,12 +7,13 @@ using Moq;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA2.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class MCTTests
     {
         // Sample test, so this is the 3rd output (COUNT = 2) in the .fax file

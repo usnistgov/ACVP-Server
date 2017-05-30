@@ -3,11 +3,12 @@ using System.IO;
 using System.Linq;
 using NIST.CVP.Generation.AES_ECB.Parsers;
 using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests.Parsers
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class LegacyResponseFileParserTests
     {
 

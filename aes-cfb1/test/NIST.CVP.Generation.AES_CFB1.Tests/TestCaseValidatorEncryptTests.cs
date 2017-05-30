@@ -1,11 +1,12 @@
 ﻿using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB1.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestCaseValidatorEncryptTests
     {
         [Test]

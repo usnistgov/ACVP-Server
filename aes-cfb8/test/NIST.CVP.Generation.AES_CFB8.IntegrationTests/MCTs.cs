@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CFB8;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, LongRunningIntegrationTest]
     public class MCTs
     {
         AES_CFB8_MCT _subject = new AES_CFB8_MCT(

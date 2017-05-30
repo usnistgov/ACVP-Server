@@ -6,11 +6,12 @@ using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_CFB1.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class BitOrientedGeneratorTests
     {
         public class FakeBitOrientedGenerator : BitOrientedGenerator<FakeParameters, FakeTestVectorSet>

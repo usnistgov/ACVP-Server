@@ -3,11 +3,12 @@ using Moq;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CBC;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CBC.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestCaseGeneratorMCTEncryptTests
     {
         private Mock<IRandom800_90> _mockRandom;
