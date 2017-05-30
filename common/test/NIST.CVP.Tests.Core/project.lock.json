@@ -3058,7 +3058,7 @@
       ]
     },
     "Libuv/1.9.1": {
-      "sha512": "uqX2Frwf9PW8MaY7PRNY6HM5BpW1D8oj1EdqzrmbEFD5nH63Yat3aEjN/tws6Tw6Fk7LwmLBvtUh32tTeTaHiA==",
+      "sha512": "8L+/wa3nuntiLiQ1AnbC+Qea2uOZ78KhfSyNvNBhm/6JlW1tmjiw8xgVtlqNMZWOlV6pubGJI0J/T4VNH9ENoQ==",
       "type": "package",
       "path": "Libuv/1.9.1",
       "files": [
@@ -3381,7 +3381,7 @@
       ]
     },
     "Microsoft.NETCore.App/1.1.0": {
-      "sha512": "DFec+OUojDVocn1GxAL9uJg4qwsgkvKiQpv6BKd9ljGezvc9p6GpFv51IIakiujkVW/wBtQ0xlfjVSgS1UG/uw==",
+      "sha512": "A34adte5oqd90uFIZB20iuYE6edlU1in2RbYSRVe+/9FZnT4EFTI2SJCCrW+lSR1J/ijYGLmZS5D9NwsAs4sDg==",
       "type": "package",
       "path": "Microsoft.NETCore.App/1.1.0",
       "files": [
