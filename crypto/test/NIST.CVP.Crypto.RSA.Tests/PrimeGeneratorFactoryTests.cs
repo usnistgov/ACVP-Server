@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.RSA.PrimeGenerators;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.RSA.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class PrimeGeneratorFactoryTests
     {
         [Test]

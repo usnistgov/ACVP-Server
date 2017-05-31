@@ -1,11 +1,12 @@
 ﻿using System.Numerics;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
 namespace NIST.CVP.Crypto.RSA.Tests
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class NumberTheoryTests
     {
         #region MillerRabin

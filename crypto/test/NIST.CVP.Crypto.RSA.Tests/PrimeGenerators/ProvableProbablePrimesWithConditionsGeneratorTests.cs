@@ -2,11 +2,12 @@
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
 {
-    [TestFixture]
+    [TestFixture, FastIntegrationTest]
     public class ProvableProbablePrimesWithConditionsGeneratorTests
     {
         [Test]
