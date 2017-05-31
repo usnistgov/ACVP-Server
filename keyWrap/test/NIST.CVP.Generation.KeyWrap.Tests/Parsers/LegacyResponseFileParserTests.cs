@@ -13,8 +13,6 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.Parsers
     {
 
         private string _unitTestPath;
-        private int _groupsPerFile = 5;
-        private int _TestsPerGroup = 5;
         private const string _FILE_EXTENSION = ".fax";
         private int expectedNumberOfGroups = 10;
         private int expectedNumberOfTests = 50;

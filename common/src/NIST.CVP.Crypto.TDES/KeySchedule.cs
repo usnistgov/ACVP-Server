@@ -471,11 +471,11 @@ namespace NIST.CVP.Crypto.TDES
         {
             long output =  input[startIdx] & 0xff;
             output <<= 8;
-            output |= input[startIdx + 1] & 0xff;
+            output |= (long)input[startIdx + 1] & 0xff;
             output <<= 8;
-            output |= input[startIdx + 2] & 0xff;
+            output |= (long)input[startIdx + 2] & 0xff;
             output <<= 8;
-            output |= input[startIdx + 3] & 0xff;
+            output |= (long)input[startIdx + 3] & 0xff;
 
             return output;
         }

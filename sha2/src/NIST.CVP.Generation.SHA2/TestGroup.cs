@@ -117,7 +117,7 @@ namespace NIST.CVP.Generation.SHA2
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }

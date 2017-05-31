@@ -112,6 +112,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             {
                 return new Parameters()
                 {
+                    Algorithm = _algorithm,
                     Mode = _mode,
                     KeyingOption = _keyingOptions
                 };

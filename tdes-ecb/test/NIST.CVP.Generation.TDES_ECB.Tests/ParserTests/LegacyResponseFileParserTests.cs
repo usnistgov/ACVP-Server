@@ -15,8 +15,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests.ParserTests
     {
 
         private string _unitTestPath;
-        private int _groupsPerFile = 2;
-        private int _TestsPerGroup = 9;
+        private int _groupsTotal = 8;
         #region File
         private string _testFIleContents = @"
 # CAVS 20.2
@@ -250,7 +249,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assert.AreEqual(8, vectorSet.TestGroups.Count);
+            Assert.AreEqual(_groupsTotal, vectorSet.TestGroups.Count);
         }
 
         [Test]
@@ -302,7 +301,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assume.That(vectorSet.TestGroups.Count() == 8);
+            Assume.That(vectorSet.TestGroups.Count() == _groupsTotal);
             var decryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "decrypt");
             Assert.AreEqual(4, decryptCount, decryptCount.ToString());
         }
@@ -314,7 +313,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assume.That(vectorSet.TestGroups.Count() == 8);
+            Assume.That(vectorSet.TestGroups.Count() == _groupsTotal);
             var encryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "encrypt");
             Assert.AreEqual(4, encryptCount, encryptCount.ToString());
 

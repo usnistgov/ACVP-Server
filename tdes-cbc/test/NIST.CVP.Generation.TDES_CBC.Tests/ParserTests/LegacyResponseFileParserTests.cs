@@ -15,8 +15,6 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests.ParserTests
     {
 
         private string _unitTestPath;
-        private int _groupsPerFile = 2;
-        private int _TestsPerGroup = 9;
         #region File
         private string _testFIleContents = @"
 # CAVS 20.2

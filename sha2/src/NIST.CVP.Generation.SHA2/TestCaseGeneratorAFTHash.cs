@@ -13,7 +13,6 @@ namespace NIST.CVP.Generation.SHA2
         private int _numberOfCases = 512;
         private int _currentSmallCase = 0;
         private int _currentLargeCase = 1;
-        private int _currentCase = 0;
 
         private readonly IRandom800_90 _random800_90;
         private readonly ISHA _algo;

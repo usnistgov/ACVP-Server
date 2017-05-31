@@ -26,18 +26,6 @@ namespace NIST.CVP.Generation.DRBG.Tests
         public int KeyLength { get; private set; } = 0;
         public int SecurityStrength { get; private set; } = 0;
 
-        private long _minimumEntropy;
-        private long _maximumEntropy;
-
-        private long _minimumNonce;
-        private long _maximumNonce;
-
-        private long _minimumPersonalizationString;
-        private long _maximumPersonalizationString;
-
-        private long _minimumAdditionalInput;
-        private long _maximumAdditionalInput;
-
         /// <summary>
         /// Provides a valid (as of construction) set of parameters
         /// </summary>
@@ -180,24 +168,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
             }
 
             SeedLength = OutLength + KeyLength;
-            _minimumAdditionalInput = 0;
-            _minimumPersonalizationString = 0;
-
-            if (_derFunctionEnabled)
-            {
-                _minimumEntropy = SecurityStrength;
-                _maximumEntropy = (long)1 << 35;
-                _maximumPersonalizationString = (long)1 << 35;
-                _maximumAdditionalInput = (long)1 << 35;
-            }
-            else
-            {
-                _minimumEntropy = SeedLength;
-                _maximumEntropy = SeedLength;
-                _maximumPersonalizationString = SeedLength;
-                _maximumAdditionalInput = SeedLength;
-            }
-
+            
             _additionalInputLen = new MathDomain();
             _additionalInputLen.AddSegment(new ValueDomainSegment(SeedLength));
 

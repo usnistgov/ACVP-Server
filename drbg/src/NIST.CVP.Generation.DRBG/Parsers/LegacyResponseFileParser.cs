@@ -42,8 +42,6 @@ namespace NIST.CVP.Generation.DRBG.Parsers
                 DrbgParameters currentParameters = null;
                 TestGroup currentGroup = null;
                 TestCase currentTestCase = null;
-                int currentResultArrayPosition = 0;
-                OtherInput currentOtherInput = null;
 
                 bool nextLeftBracketIsStartOfGroup = true;
                 foreach (var line in lines)

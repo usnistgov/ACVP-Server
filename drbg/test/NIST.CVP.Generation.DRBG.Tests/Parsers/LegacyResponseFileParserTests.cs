@@ -13,8 +13,7 @@ namespace NIST.CVP.Generation.DRBG.Tests.Parsers
     {
 
         private string _unitTestPath;
-        private int _groupsPerFile = 4;
-        private int _TestsPerGroup = 2;
+        private int _expectedGroups = 8;
         private const string _FILE_EXTENSION = ".fax";
         #region File
         private string _testFIleContents = @"
@@ -186,7 +185,7 @@ ReturnedBits = 33e28f90c4a16799b18710a2467b8f56a5439a3263445ccc75885293fed1c7546
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assert.AreEqual(8, vectorSet.TestGroups.Count);
+            Assert.AreEqual(_expectedGroups, vectorSet.TestGroups.Count);
         }
 
         [Test]
@@ -229,7 +228,7 @@ ReturnedBits = 33e28f90c4a16799b18710a2467b8f56a5439a3263445ccc75885293fed1c7546
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assume.That(vectorSet.TestGroups.Count() == 8);
+            Assume.That(vectorSet.TestGroups.Count() == _expectedGroups);
             var decryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).PredResistance);
             Assert.AreEqual(4, decryptCount, decryptCount.ToString());
         }
@@ -241,7 +240,7 @@ ReturnedBits = 33e28f90c4a16799b18710a2467b8f56a5439a3263445ccc75885293fed1c7546
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assume.That(vectorSet.TestGroups.Count() == 8);
+            Assume.That(vectorSet.TestGroups.Count() == _expectedGroups);
             var encryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).DerFunc);
             Assert.AreEqual(6, encryptCount, encryptCount.ToString());
         }

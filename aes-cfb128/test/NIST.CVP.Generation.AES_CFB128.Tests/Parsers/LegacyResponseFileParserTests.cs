@@ -13,8 +13,7 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests.Parsers
     {
 
         private string _unitTestPath;
-        private int _groupsPerFile = 2;
-        private int _TestsPerGroup = 9;
+        private int _expectedGroups = 6;
         #region File
         private string _testFIleContents = @"
 # CAVS 20.2
@@ -209,7 +208,7 @@ PLAINTEXT = 4f34dba6219cc94d86a8
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assert.AreEqual(6, vectorSet.TestGroups.Count);
+            Assert.AreEqual(_expectedGroups, vectorSet.TestGroups.Count);
         }
 
         [Test]
@@ -272,7 +271,7 @@ PLAINTEXT = 4f34dba6219cc94d86a8
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assume.That(vectorSet.TestGroups.Count() == 6);
+            Assume.That(vectorSet.TestGroups.Count() == _expectedGroups);
             var decryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "decrypt");
             Assert.AreEqual(3, decryptCount, decryptCount.ToString());
         }
@@ -284,7 +283,7 @@ PLAINTEXT = 4f34dba6219cc94d86a8
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assume.That(vectorSet.TestGroups.Count() == 6);
+            Assume.That(vectorSet.TestGroups.Count() == _expectedGroups);
             var encryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "encrypt");
             Assert.AreEqual(3, encryptCount, encryptCount.ToString());
 
