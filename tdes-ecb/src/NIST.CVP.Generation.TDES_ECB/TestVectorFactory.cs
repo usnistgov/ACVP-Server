@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.TDES_ECB
         public ITestVectorSet BuildTestVectorSet(Parameters parameters)
         {
             var groups = BuildTestGroups(parameters);
-            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "TDES-ECB", IsSample = parameters.IsSample};
+            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = parameters.Algorithm, IsSample = parameters.IsSample};
 
             return testVector;
         }

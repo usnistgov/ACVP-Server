@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.AES_GCM
         public ITestVectorSet BuildTestVectorSet(Parameters parameters)
         {
             var groups = BuildTestGroups(parameters);
-            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "AES-GCM", IsSample = parameters.IsSample};
+            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = parameters.Algorithm, IsSample = parameters.IsSample};
 
             return testVector;
         }

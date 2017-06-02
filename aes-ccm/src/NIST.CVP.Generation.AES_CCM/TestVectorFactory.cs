@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.AES_CCM
                 CreateGroups(testType, groups);
             }
 
-            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = "AES-CCM", IsSample = parameters.IsSample};
+            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = parameters.Algorithm, IsSample = parameters.IsSample};
 
             return testVector;
         }
