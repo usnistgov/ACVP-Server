@@ -11,10 +11,10 @@ namespace NIST.CVP.Math.Tests.Helpers
     public class MsbLsbConversionHelpersTests
     {
         [Test]
-        [TestCase(new byte[] { 1 })]
-        [TestCase(new byte[] { 1, 2, 3 })]
-        [TestCase(new byte[] { 1, 2, 3, 4, 5 })]
-        public void ReverseByteOrderReturnsBytesInReverseOrder(byte[] bytes)
+        [TestCase("test1", new byte[] { 1 })]
+        [TestCase("test2", new byte[] { 1, 2, 3 })]
+        [TestCase("test3", new byte[] { 1, 2, 3, 4, 5 })]
+        public void ReverseByteOrderReturnsBytesInReverseOrder(string label, byte[] bytes)
         {
             var expectedResults = bytes.Reverse().ToArray();
             var subject = MsbLsbConversionHelpers.ReverseByteOrder(bytes);
@@ -26,12 +26,12 @@ namespace NIST.CVP.Math.Tests.Helpers
         }
 
         [Test]
-        [TestCase(new bool[] { })]
-        [TestCase(new bool[] { true })]
-        [TestCase(new bool[] { true, false })]
-        [TestCase(new bool[] { true, false, false })]
-        [TestCase(new bool[] { true, false, false, false, false, false, false, false, false, false })]
-        public void ReverseBitArrayBitsShouldReturnBitArrayInReverseOrder(bool[] bits)
+        [TestCase("test1", new bool[] { })]
+        [TestCase("test2", new bool[] { true })]
+        [TestCase("test3", new bool[] { true, false })]
+        [TestCase("test4", new bool[] { true, false, false })]
+        [TestCase("test5", new bool[] { true, false, false, false, false, false, false, false, false, false })]
+        public void ReverseBitArrayBitsShouldReturnBitArrayInReverseOrder(string label, bool[] bits)
         {
             var ba = new BitArray(bits);
             var subject = MsbLsbConversionHelpers.ReverseBitArrayBits(ba);
@@ -42,10 +42,10 @@ namespace NIST.CVP.Math.Tests.Helpers
         }
 
         [Test]
-        [TestCase(new byte[] { 1 }, new bool[] { true, false, false, false, false, false, false, false })]
-        [TestCase(new byte[] { 9 }, new bool[] { true, false, false, true, false, false, false, false })]
-        [TestCase(new byte[] { 5, 220 }, new bool[] { false, false, true, true, true, false, true, true, true, false, true, false, false, false, false, false })]
-        public void ShouldReturnLeastSignificantBitArrayFromMostSignificantByteArray(byte[] msBytes, bool[] expectedLeastSignificantBits)
+        [TestCase("test1", new byte[] { 1 }, new bool[] { true, false, false, false, false, false, false, false })]
+        [TestCase("test2", new byte[] { 9 }, new bool[] { true, false, false, true, false, false, false, false })]
+        [TestCase("test3", new byte[] { 5, 220 }, new bool[] { false, false, true, true, true, false, true, true, true, false, true, false, false, false, false, false })]
+        public void ShouldReturnLeastSignificantBitArrayFromMostSignificantByteArray(string label, byte[] msBytes, bool[] expectedLeastSignificantBits)
         {
             var result = MsbLsbConversionHelpers.MostSignificantByteArrayToLeastSignificantBitArray(msBytes);
 
@@ -56,10 +56,10 @@ namespace NIST.CVP.Math.Tests.Helpers
         }
 
         [Test]
-        [TestCase(new byte[] { 1 }, new bool[] { false, false, false, false, false, false, false, true })]
-        [TestCase(new byte[] { 9 }, new bool[] { false, false, false, false, true, false, false, true })]
-        [TestCase(new byte[] { 5, 220 }, new bool[] { false, false, false, false, false, true, false, true, true, true, false, true, true, true, false, false })]
-        public void ShouldReturnMostSignificantBitArrayFromMostSignificantByteArray(byte[] msBytes, bool[] expectedLeastSignificantBits)
+        [TestCase("test1", new byte[] { 1 }, new bool[] { false, false, false, false, false, false, false, true })]
+        [TestCase("test2", new byte[] { 9 }, new bool[] { false, false, false, false, true, false, false, true })]
+        [TestCase("test3", new byte[] { 5, 220 }, new bool[] { false, false, false, false, false, true, false, true, true, true, false, true, true, true, false, false })]
+        public void ShouldReturnMostSignificantBitArrayFromMostSignificantByteArray(string label, byte[] msBytes, bool[] expectedLeastSignificantBits)
         {
             var result = MsbLsbConversionHelpers.MostSignificantByteArrayToMostSignificantBitArray(msBytes);
 
@@ -70,10 +70,10 @@ namespace NIST.CVP.Math.Tests.Helpers
         }
 
         [Test]
-        [TestCase(new byte[] { 1 }, new bool[] { true, false, false, false, false, false, false, false })]
-        [TestCase(new byte[] { 9 }, new bool[] { true, false, false, true, false, false, false, false })]
-        [TestCase(new byte[] { 220, 5 }, new bool[] { false, false, true, true, true, false, true, true, true, false, true, false, false, false, false, false })]
-        public void ShouldReturnLeastSignificantBitArrayFromLeastSignificantByteArray(byte[] lsBytes, bool[] expectedLeastSignificantBits)
+        [TestCase("test1", new byte[] { 1 }, new bool[] { true, false, false, false, false, false, false, false })]
+        [TestCase("test2", new byte[] { 9 }, new bool[] { true, false, false, true, false, false, false, false })]
+        [TestCase("test3", new byte[] { 220, 5 }, new bool[] { false, false, true, true, true, false, true, true, true, false, true, false, false, false, false, false })]
+        public void ShouldReturnLeastSignificantBitArrayFromLeastSignificantByteArray(string label, byte[] lsBytes, bool[] expectedLeastSignificantBits)
         {
             var result = MsbLsbConversionHelpers.LeastSignificantByteArrayToLeastSignificantBitArray(lsBytes);
 
@@ -84,10 +84,10 @@ namespace NIST.CVP.Math.Tests.Helpers
         }
 
         [Test]
-        [TestCase(new byte[] { 1 }, new bool[] { false, false, false, false, false, false, false, true })]
-        [TestCase(new byte[] { 9 }, new bool[] { false, false, false, false, true, false, false, true })]
-        [TestCase(new byte[] { 220, 5 }, new bool[] { false, false, false, false, false, true, false, true, true, true, false, true, true, true, false, false })]
-        public void ShouldReturnMostSignificantBitArrayFromLeastSignificantByteArray(byte[] lsBytes, bool[] expectedLeastSignificantBits)
+        [TestCase("test1", new byte[] { 1 }, new bool[] { false, false, false, false, false, false, false, true })]
+        [TestCase("test2", new byte[] { 9 }, new bool[] { false, false, false, false, true, false, false, true })]
+        [TestCase("test3", new byte[] { 220, 5 }, new bool[] { false, false, false, false, false, true, false, true, true, true, false, true, true, true, false, false })]
+        public void ShouldReturnMostSignificantBitArrayFromLeastSignificantByteArray(string label, byte[] lsBytes, bool[] expectedLeastSignificantBits)
         {
             var result = MsbLsbConversionHelpers.LeastSignificantByteArrayToMostSignificantBitArray(lsBytes);
 

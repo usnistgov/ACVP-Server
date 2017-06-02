@@ -23,11 +23,11 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase(new byte[] { 1 })]
-        [TestCase(new byte[] { 1, 2, 3, 4 })]
-        [TestCase(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 })]
-        [TestCase(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 })]
-        public void ShouldCreateInstanceWithByteArray(byte[] bytes)
+        [TestCase("test1", new byte[] { 1 })]
+        [TestCase("test2", new byte[] { 1, 2, 3, 4 })]
+        [TestCase("test3", new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 })]
+        [TestCase("test4", new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 })]
+        public void ShouldCreateInstanceWithByteArray(string label, byte[] bytes)
         {
             // Act
             BitString subject = new BitString(bytes);
@@ -322,10 +322,10 @@ namespace NIST.CVP.Math.Tests
 
         #region Equals
         [Test]
-        [TestCase(new bool[] { true }, new bool[] { true })]
-        [TestCase(new bool[] { false }, new bool[] { false })]
-        [TestCase(new bool[] { false, true, true, true }, new bool[] { false, true, true, true })]
-        public void EqualsMethodReturnsTrueForLikeBoolArrays(bool[] workingArray, bool[] compareArray)
+        [TestCase("test1", new bool[] { true }, new bool[] { true })]
+        [TestCase("test2", new bool[] { false }, new bool[] { false })]
+        [TestCase("test3", new bool[] { false, true, true, true }, new bool[] { false, true, true, true })]
+        public void EqualsMethodReturnsTrueForLikeBoolArrays(string label, bool[] workingArray, bool[] compareArray)
         {
             // Arrange
             BitArray workingBitArray = new BitArray(workingArray);
@@ -356,8 +356,8 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase(new bool[] { true }, new bool[] { true, true })]
-        public void EqualsMethodReturnsFalseWhenArraysAreOfDifferentLength(bool[] workingArray, bool[] compareArray)
+        [TestCase("test1", new bool[] { true }, new bool[] { true, true })]
+        public void EqualsMethodReturnsFalseWhenArraysAreOfDifferentLength(string label, bool[] workingArray, bool[] compareArray)
         {
             // Arrange
             BitArray workingBitArray = new BitArray(workingArray);
@@ -374,9 +374,9 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase(new bool[] { true }, new bool[] { false })]
-        [TestCase(new bool[] { true, true, true }, new bool[] { true, false, true })]
-        public void EqualsMethodReturnsFalseWhenArraysAreOfSimilarLengthDifferingValues(bool[] workingArray, bool[] compareArray)
+        [TestCase("test1", new bool[] { true }, new bool[] { false })]
+        [TestCase("test2", new bool[] { true, true, true }, new bool[] { true, false, true })]
+        public void EqualsMethodReturnsFalseWhenArraysAreOfSimilarLengthDifferingValues(string label, bool[] workingArray, bool[] compareArray)
         {
             // Arrange
             BitArray workingBitArray = new BitArray(workingArray);
@@ -472,19 +472,19 @@ namespace NIST.CVP.Math.Tests
 
         [Test]
         // One Byte w/o 8 bits
-        [TestCase(new bool[] { true })]
-        [TestCase(new bool[] { false, false, true })]
-        [TestCase(new bool[] { false, false, false, true })]
-        [TestCase(new bool[] { true, false, false, false, true })]
+        [TestCase("test1", new bool[] { true })]
+        [TestCase("test2", new bool[] { false, false, true })]
+        [TestCase("test3", new bool[] { false, false, false, true })]
+        [TestCase("test4", new bool[] { true, false, false, false, true })]
         // One byte w/ 8 bits
-        [TestCase(new bool[] { false, false, false, false, false, false, false, true })]
+        [TestCase("test5", new bool[] { false, false, false, false, false, false, false, true })]
         // Two bytes w/o 16 bits
-        [TestCase(new bool[] { true, false, false, false, false, false, true, false, false, false, false, false, false, false, true })]
+        [TestCase("test6", new bool[] { true, false, false, false, false, false, true, false, false, false, false, false, false, false, true })]
         // Two bytes w/ 16 bits
-        [TestCase(new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true })]
+        [TestCase("test7", new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true })]
         // Three bytes
-        [TestCase(new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true })]
-        public void ToBytesReturnsBytesInReverseOrderWhenSpecified(bool[] bits)
+        [TestCase("test8", new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true })]
+        public void ToBytesReturnsBytesInReverseOrderWhenSpecified(string label, bool[] bits)
         {
             // Arrange
             BitArray bitArray = new BitArray(bits);
@@ -543,10 +543,10 @@ namespace NIST.CVP.Math.Tests
 
         #region ToString
         [Test]
-        [TestCase(new bool[] { true })] // 1 bit
-        [TestCase(new bool[] { true, true, true, true })] // 4 bits
-        [TestCase(new bool[] { true, true, true, true, true, true, true, true })] // 8 bits
-        public void ToStringShouldNotContainAnySpacesWhenEightBitsOrFewer(bool[] bits)
+        [TestCase("test1", new bool[] { true })] // 1 bit
+        [TestCase("test2", new bool[] { true, true, true, true })] // 4 bits
+        [TestCase("test3", new bool[] { true, true, true, true, true, true, true, true })] // 8 bits
+        public void ToStringShouldNotContainAnySpacesWhenEightBitsOrFewer(string label, bool[] bits)
         {
             // Arrange
             BitString bs = new BitString(new BitArray(bits));
@@ -559,11 +559,11 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase(new bool[] { true, true, true, true }, 0)] // 4 bits
-        [TestCase(new bool[] { true, true, true, true, true, true, true, true }, 0)] // 8 bits
-        [TestCase(new bool[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true }, 1)] // 16 bits
-        [TestCase(new bool[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true }, 2)] // 17 bits
-        public void ToStringShouldContainOneSpaceForEachByteMinusOne(bool[] bits, int numberOfSpaces)
+        [TestCase("test1", new bool[] { true, true, true, true }, 0)] // 4 bits
+        [TestCase("test2", new bool[] { true, true, true, true, true, true, true, true }, 0)] // 8 bits
+        [TestCase("test3", new bool[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true }, 1)] // 16 bits
+        [TestCase("test4", new bool[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true }, 2)] // 17 bits
+        public void ToStringShouldContainOneSpaceForEachByteMinusOne(string label, bool[] bits, int numberOfSpaces)
         {
             // Arrange
             BitString bs = new BitString(new BitArray(bits));
@@ -695,21 +695,24 @@ namespace NIST.CVP.Math.Tests
         #region ConcatenateBits
         [Test]
         [TestCase(
+            "test1",
             new bool[] { false },
             new bool[] { true },
             new bool[] { true, false }
         )]
         [TestCase(
+            "test2",
             new bool[] { false, false, false, true },
             new bool[] { false, true, true, false },
             new bool[] { false, true, true, false, false, false, false, true }
         )]
         [TestCase(
+            "test3",
             new bool[] { false, false, false, false, false, true, false, false },
             new bool[] { true, true, true, true, false, true, true },
             new bool[] { true, true, true, true, false, true, true, false, false, false, false, false, true, false, false }
         )]
-        public void ConcatenateBitsAppendsRightSideBitsToLeft(bool[] leftSide, bool[] rightSide, bool[] expectedResult)
+        public void ConcatenateBitsAppendsRightSideBitsToLeft(string label, bool[] leftSide, bool[] rightSide, bool[] expectedResult)
         {
             // Arrange
             BitString lsBs = new BitString(new BitArray(leftSide));
@@ -727,21 +730,24 @@ namespace NIST.CVP.Math.Tests
 
         [Test]
         [TestCase(
+            "test1",
             new bool[] { false },
             new bool[] { true },
             new bool[] { true, false }
         )]
         [TestCase(
+            "test2",
             new bool[] { false, false, false, true },
             new bool[] { false, true, true, false },
             new bool[] { false, true, true, false, false, false, false, true }
         )]
         [TestCase(
+            "test3",
             new bool[] { false, false, false, false, false, true, false, false },
             new bool[] { true, true, true, true, false, true, true },
             new bool[] { true, true, true, true, false, true, true, false, false, false, false, false, true, false, false }
         )]
-        public void ConcatenateBitsToExistingBits(bool[] leftSide, bool[] rightSide, bool[] expectedResult)
+        public void ConcatenateBitsToExistingBits(string label, bool[] leftSide, bool[] rightSide, bool[] expectedResult)
         {
             // Arrange
             BitString subject = new BitString(new BitArray(leftSide));
@@ -977,11 +983,12 @@ namespace NIST.CVP.Math.Tests
         #region XOR
         [Test]
         [TestCase(
+            "test1",
             new bool[] { true, true, false },
             new bool[] { true, false, false },
             new bool[] { false, true, false }
         )]
-        public void XORShouldReturnNewBitStringRepresentingXOROfTwoBitStrings(bool[] inputA, bool[] inputB, bool[] expectedResult)
+        public void XORShouldReturnNewBitStringRepresentingXOROfTwoBitStrings(string label, bool[] inputA, bool[] inputB, bool[] expectedResult)
         {
             // Arrange
             BitString bsA = new BitString(new BitArray(inputA));
@@ -1033,21 +1040,24 @@ namespace NIST.CVP.Math.Tests
             new bool[] { false, false }
         )]
         [TestCase(
+            "test1",
             new bool[] { false, true },
             new bool[] { true },
             new bool[] { true, true }
         )]
         [TestCase(
+            "test2",
             new bool[] { true },
             new bool[] { true, false },
             new bool[] { false, false }
         )]
         [TestCase(
+            "test3",
             new bool[] { true, false, true, false, true },
             new bool[] { false, true, true },
             new bool[] { true, true, false, false, true }
         )]
-        public void XORShouldPadZeroesForShorterBitStringAndReturnNewBitString(bool[] inputA, bool[] inputB, bool[] expectedResult)
+        public void XORShouldPadZeroesForShorterBitStringAndReturnNewBitString(string label, bool[] inputA, bool[] inputB, bool[] expectedResult)
         {
             // Arrange
             BitString bsA = new BitString(new BitArray(inputA));
@@ -1099,21 +1109,24 @@ namespace NIST.CVP.Math.Tests
         #region OR
         [Test]
         [TestCase(
+            "test1",
             new bool[] { true, true, true },
             new bool[] { false, false, false },
             new bool[] { true, true, true }
         )]
         [TestCase(
+            "test2",
             new bool[] { true, false, true, false },
             new bool[] { false, false, true, true },
             new bool[] { true, false, true, true }
         )]
         [TestCase(
+            "test3",
             new bool[] { false, false, true, false, false },
             new bool[] { false, false, false, true, true },
             new bool[] { false, false, true, true, true }
         )]
-        public void ORShouldReturnNewBitStringWithOrOfTwoBitStrings(bool[] inputA, bool[] inputB, bool[] expectedResult)
+        public void ORShouldReturnNewBitStringWithOrOfTwoBitStrings(string label, bool[] inputA, bool[] inputB, bool[] expectedResult)
         {
             // Arrange
             BitString bsA = new BitString(new BitArray(inputA));
@@ -1129,21 +1142,24 @@ namespace NIST.CVP.Math.Tests
 
         [Test]
         [TestCase(
+            "test1",
             new bool[] { true, true, true },
             new bool[] { false },
             new bool[] { true, true, true }
         )]
         [TestCase(
+            "test2",
             new bool[] { true, false, true, false },
             new bool[] { false, false, true },
             new bool[] { true, false, true, false }
         )]
         [TestCase(
+            "test3",
             new bool[] { false, false, true, false, false },
             new bool[] { false, false, false },
             new bool[] { false, false, true, false, false }
         )]
-        public void ORShouldPadShorterWithZeroesAndReturnNewBitString(bool[] inputA, bool[] inputB, bool[] expectedResult)
+        public void ORShouldPadShorterWithZeroesAndReturnNewBitString(string label, bool[] inputA, bool[] inputB, bool[] expectedResult)
         {
             // Arrange
             BitString bsA = new BitString(new BitArray(inputA));
@@ -1195,21 +1211,24 @@ namespace NIST.CVP.Math.Tests
         #region AND
         [Test]
         [TestCase(
+            "test1",
             new bool[] { true, true, true },
             new bool[] { false, false, false },
             new bool[] { false, false, false }
         )]
         [TestCase(
+            "test2",
             new bool[] { true, false, true, false },
             new bool[] { false, false, true, true },
             new bool[] { false, false, true, false }
         )]
         [TestCase(
+            "test3",
             new bool[] { false, false, true, true, true },
             new bool[] { false, false, false, true, true },
             new bool[] { false, false, false, true, true }
         )]
-        public void ANDShouldReturnNewBitStringWithAndOfTwoBitStrings(bool[] inputA, bool[] inputB, bool[] expectedResult)
+        public void ANDShouldReturnNewBitStringWithAndOfTwoBitStrings(string label, bool[] inputA, bool[] inputB, bool[] expectedResult)
         {
             // Arrange
             BitString bsA = new BitString(new BitArray(inputA));
@@ -1225,21 +1244,24 @@ namespace NIST.CVP.Math.Tests
 
         [Test]
         [TestCase(
+            "test1",
             new bool[] { true, true, true },
             new bool[] { false },
             new bool[] { false, false, false }
         )]
         [TestCase(
+            "test2",
             new bool[] { true, false, true, false },
             new bool[] { false, false, true },
             new bool[] { false, false, true, false }
         )]
         [TestCase(
+            "test3",
             new bool[] { true, false, true, true, false },
             new bool[] { true, false, true },
             new bool[] { true, false, true, false, false }
         )]
-        public void ANDShouldPadShorterWithZeroesAndReturnNewBitString(bool[] inputA, bool[] inputB, bool[] expectedResult)
+        public void ANDShouldPadShorterWithZeroesAndReturnNewBitString(string label, bool[] inputA, bool[] inputB, bool[] expectedResult)
         {
             // Arrange
             BitString bsA = new BitString(new BitArray(inputA));

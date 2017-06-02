@@ -14,6 +14,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [Test]
         // 0
         [TestCase(
+            "test1 - 0",
             new string[] { },
             new int[] { },
             new int[] { },
@@ -25,6 +26,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         )]
         // 0
         [TestCase(
+            "test2 - 0",
             new string[] { },
             new int[] { 1 },
             new int[] { 1, 2 },
@@ -36,6 +38,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         )]
         // 3 (3*1*1*1*1*1)
         [TestCase(
+            "test3 - 3",
             new string[] { "", "", "" },
             new int[] { 1 },
             new int[] { 1 },
@@ -47,6 +50,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         )]
         // 1620 (3*3*3*3*4*5)
         [TestCase(
+            "test4 - 1620",
             new string[] { "", "", "" },
             new int[] { 1, 2, 3 },
             new int[] { 1, 2, 3 },
@@ -57,6 +61,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             new int[] { 1, 2, 3, 4, 5 }
         )]
         public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
+            string label,
             string[] mode,
             int[] keyLen,
             int[] ptLen,

@@ -52,10 +52,10 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
 
         #region Equals
         [Test]
-        [TestCase(new bool[] { true }, new bool[] { true })]
-        [TestCase(new bool[] { false }, new bool[] { false })]
-        [TestCase(new bool[] { false, true, true, true }, new bool[] { false, true, true, true })]
-        public void EqualsMethodReturnsTrueForLikeBoolArrays(bool[] workingArray, bool[] compareArray)
+        [TestCase("test1", new bool[] { true }, new bool[] { true })]
+        [TestCase("test2", new bool[] { false }, new bool[] { false })]
+        [TestCase("test3", new bool[] { false, true, true, true }, new bool[] { false, true, true, true })]
+        public void EqualsMethodReturnsTrueForLikeBoolArrays(string label, bool[] workingArray, bool[] compareArray)
         {
             // Arrange
             BitArray workingBitArray = new BitArray(workingArray);
@@ -104,9 +104,9 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
         }
 
         [Test]
-        [TestCase(new bool[] { true }, new bool[] { false })]
-        [TestCase(new bool[] { true, true, true }, new bool[] { true, false, true })]
-        public void EqualsMethodReturnsFalseWhenArraysAreOfSimilarLengthDifferingValues(bool[] workingArray, bool[] compareArray)
+        [TestCase("test1", new bool[] { true }, new bool[] { false })]
+        [TestCase("test2", new bool[] { true, true, true }, new bool[] { true, false, true })]
+        public void EqualsMethodReturnsFalseWhenArraysAreOfSimilarLengthDifferingValues(string label, bool[] workingArray, bool[] compareArray)
         {
             // Arrange
             BitArray workingBitArray = new BitArray(workingArray);

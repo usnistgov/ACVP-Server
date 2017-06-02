@@ -17,23 +17,23 @@ namespace NIST.CVP.Math.Tests.Helpers
         }
 
         [Test]
-        [TestCase(new byte[] { 1 }, new byte[] { 1 }, new byte[] { 2 })]
-        [TestCase(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new byte[] { 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55 }, new byte[] { 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55 })]
-        [TestCase(new byte[] { 0, 0, 0, 0, 1, 0, 0, 0 }, new byte[] { 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55 }, new byte[] { 0x55, 0x55, 0x55, 0x55, 0x56, 0x55, 0x55, 0x55 })]
-        [TestCase(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 })]
-        [TestCase(new byte[] { 0xff, 0, 0, 0, 0, 0, 0, 0 }, new byte[] { 1, 0, 0, 0, 0, 0, 0, 1 }, new byte[] { 0, 1, 0, 0, 0, 0, 0, 1 })]
-        [TestCase(new byte[] {  0, 0, 0, 0xff }, new byte[] { 0, 0, 0, 1 }, new byte[] { 0, 0,0, 0 })]
-        public void ShouldAddArraysOfEqualLength(byte[]  bArrayA, byte[] bArrayB, byte[] expected)
+        [TestCase("test1", new byte[] { 1 }, new byte[] { 1 }, new byte[] { 2 })]
+        [TestCase("test2", new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new byte[] { 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55 }, new byte[] { 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55 })]
+        [TestCase("test3", new byte[] { 0, 0, 0, 0, 1, 0, 0, 0 }, new byte[] { 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55 }, new byte[] { 0x55, 0x55, 0x55, 0x55, 0x56, 0x55, 0x55, 0x55 })]
+        [TestCase("test4", new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 })]
+        [TestCase("test5", new byte[] { 0xff, 0, 0, 0, 0, 0, 0, 0 }, new byte[] { 1, 0, 0, 0, 0, 0, 0, 1 }, new byte[] { 0, 1, 0, 0, 0, 0, 0, 1 })]
+        [TestCase("test6", new byte[] {  0, 0, 0, 0xff }, new byte[] { 0, 0, 0, 1 }, new byte[] { 0, 0,0, 0 })]
+        public void ShouldAddArraysOfEqualLength(string label, byte[]  bArrayA, byte[] bArrayB, byte[] expected)
         {
             var result = bArrayA.Add(bArrayB);
             Assert.AreEqual(expected, result);
         }
 
         [Test]
-        [TestCase(new byte[] { 1, 0}, new byte[] { 1 }, new byte[] { 2,0})]
-        [TestCase(new byte[] { 1, 0, 0, 0, 0, 0, 0, 0 }, new byte[] { 0x55 }, new byte[] { 0x56, 0, 0, 0, 0, 0, 0, 0 })]
-        [TestCase(new byte[] { 0, 0, 0, 0, 0, 0, 0, 1 }, new byte[] { 0x55 }, new byte[] { 0x55, 0, 0, 0, 0, 0, 0, 1 })]
-        public void ShouldAddArraysWhenByteArrayALongerThanByteArrayB(byte[] bArrayA, byte[] bArrayB, byte[] expected)
+        [TestCase("test1", new byte[] { 1, 0}, new byte[] { 1 }, new byte[] { 2,0})]
+        [TestCase("test2", new byte[] { 1, 0, 0, 0, 0, 0, 0, 0 }, new byte[] { 0x55 }, new byte[] { 0x56, 0, 0, 0, 0, 0, 0, 0 })]
+        [TestCase("test3", new byte[] { 0, 0, 0, 0, 0, 0, 0, 1 }, new byte[] { 0x55 }, new byte[] { 0x55, 0, 0, 0, 0, 0, 0, 1 })]
+        public void ShouldAddArraysWhenByteArrayALongerThanByteArrayB(string label, byte[] bArrayA, byte[] bArrayB, byte[] expected)
         {
             var result = bArrayA.Add(bArrayB);
             Assert.AreEqual(expected, result);
@@ -58,57 +58,57 @@ namespace NIST.CVP.Math.Tests.Helpers
         }
 
         [Test]
-        [TestCase(new byte[] {1, 0}, new byte[] {1,1})]
-        [TestCase(new byte[] { 1, 0,0,0 }, new byte[] { 1, 1,1,1 })]
-        [TestCase(new byte[] { 5, 0, 0, 0 }, new byte[] { 4, 1, 1, 1 })]
-        [TestCase(new byte[] { 4, 1, 1, 1 }, new byte[] { 4, 1, 1, 1 })]
-        public void ShouldSetOddParityBit(byte[] bArray, byte[] expected)
+        [TestCase("test1", new byte[] {1, 0}, new byte[] {1,1})]
+        [TestCase("test2", new byte[] { 1, 0,0,0 }, new byte[] { 1, 1,1,1 })]
+        [TestCase("test3", new byte[] { 5, 0, 0, 0 }, new byte[] { 4, 1, 1, 1 })]
+        [TestCase("test4", new byte[] { 4, 1, 1, 1 }, new byte[] { 4, 1, 1, 1 })]
+        public void ShouldSetOddParityBit(string label, byte[] bArray, byte[] expected)
         {
             var result = bArray.SetOddParityBitInSuppliedBytes();
             Assert.AreEqual(expected, result);
         }
 
         [Test]
-        [TestCase( new byte[] { 1, 1 })]
-        [TestCase(new byte[] { 1, 1, 1, 1 })]
-        [TestCase(new byte[] { 4, 1, 1, 1 })]
-        public void ShouldHaveOddParityBitInAllBytes(byte[] bArray)
+        [TestCase("test1", new byte[] { 1, 1 })]
+        [TestCase("test2", new byte[] { 1, 1, 1, 1 })]
+        [TestCase("test3", new byte[] { 4, 1, 1, 1 })]
+        public void ShouldHaveOddParityBitInAllBytes(string label, byte[] bArray)
         {
             var result = bArray.AllBytesHaveOddParity();
             Assert.IsTrue(result);
         }
 
         [Test]
-        [TestCase(new byte[] { 1, 0 })]
-        [TestCase(new byte[] { 1, 0, 0, 0})]
-        [TestCase(new byte[] { 5, 0, 0, 0 })]
-        public void ShouldNotHaveOddParityBitInAllBytes(byte[] bArray)
+        [TestCase("test1", new byte[] { 1, 0 })]
+        [TestCase("test2", new byte[] { 1, 0, 0, 0})]
+        [TestCase("test3", new byte[] { 5, 0, 0, 0 })]
+        public void ShouldNotHaveOddParityBitInAllBytes(string label, byte[] bArray)
         {
             var result = bArray.AllBytesHaveOddParity();
             Assert.IsFalse(result);
         }
 
         [Test]
-        [TestCase(new byte[] { 0 }, 1, 0)]
-        [TestCase(new byte[] { 2 }, 0, 0)]
-        [TestCase(new byte[] { 2 }, 7, 1)]
-        [TestCase(new byte[] { 3 }, 7, 1)]
-        [TestCase(new byte[] { 4 }, 6, 1)]
-        [TestCase(new byte[] { 5 }, 6, 1)]
-        [TestCase(new byte[] { 5 }, 6, 1)]
-        [TestCase(new byte[] { 255 }, 1, 1)]
-        [TestCase(new byte[] { 255 }, 2, 1)]
-        [TestCase(new byte[] { 255 }, 3, 1)]
-        [TestCase(new byte[] { 255 }, 4, 1)]
-        [TestCase(new byte[] { 255 }, 5, 1)]
-        [TestCase(new byte[] { 255 }, 6, 1)]
-        [TestCase(new byte[] { 255 }, 7, 1)]
-        [TestCase(new byte[] { 255 }, 0, 0)]
-        [TestCase(new byte[] { 255,1 }, 8, 0)]
-        [TestCase(new byte[] { 255, 2 }, 15, 1)]
-        [TestCase(new byte[] { 0, 3 }, 15, 1)]
-        [TestCase(new byte[] { 0,0,255 }, 17, 1)]
-        public void ShouldGetProperKeyBit(byte[] subject, int bitNum, byte expected)
+        [TestCase("test1", new byte[] { 0 }, 1, 0)]
+        [TestCase("test2", new byte[] { 2 }, 0, 0)]
+        [TestCase("test3", new byte[] { 2 }, 7, 1)]
+        [TestCase("test4", new byte[] { 3 }, 7, 1)]
+        [TestCase("test5", new byte[] { 4 }, 6, 1)]
+        [TestCase("test6", new byte[] { 5 }, 6, 1)]
+        [TestCase("test7", new byte[] { 5 }, 6, 1)]
+        [TestCase("test8", new byte[] { 255 }, 1, 1)]
+        [TestCase("test9", new byte[] { 255 }, 2, 1)]
+        [TestCase("test10", new byte[] { 255 }, 3, 1)]
+        [TestCase("test11", new byte[] { 255 }, 4, 1)]
+        [TestCase("test12", new byte[] { 255 }, 5, 1)]
+        [TestCase("test13", new byte[] { 255 }, 6, 1)]
+        [TestCase("test14", new byte[] { 255 }, 7, 1)]
+        [TestCase("test15", new byte[] { 255 }, 0, 0)]
+        [TestCase("test16", new byte[] { 255,1 }, 8, 0)]
+        [TestCase("test17", new byte[] { 255, 2 }, 15, 1)]
+        [TestCase("test18", new byte[] { 0, 3 }, 15, 1)]
+        [TestCase("test19", new byte[] { 0,0,255 }, 17, 1)]
+        public void ShouldGetProperKeyBit(string label, byte[] subject, int bitNum, byte expected)
         { 
             var result = subject.GetKeyBit(bitNum);
             Assert.AreEqual(expected, result);

@@ -12,26 +12,31 @@ namespace NIST.CVP.Generation.AES_CFB8.Tests
         [Test]
         // 0
         [TestCase(
+            "test1 - 0",
             new string[] { },
             new int[] { }
         )]
         // 0
         [TestCase(
+            "test2 - 0",
             new string[] { },
             new int[] { 1 }
         )]
         // 3 (3*1)
         [TestCase(
+            "test3 - 3",
             new string[] { "", "", "" },
             new int[] { 1 }
         )]
         // 9 (3*3)
         [TestCase(
+            "test4 - 9",
             new string[] { "", "", "" },
             new int[] { 1, 2, 3 }
 
         )]
         public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
+            string label,
             string[] mode,
             int[] keyLen
         )

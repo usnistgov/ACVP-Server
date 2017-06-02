@@ -92,11 +92,11 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
-        [TestCase(new bool[] { true })]
-        [TestCase(new bool[] { true, false, true })]
-        [TestCase(new bool[] { true, true, true })]
-        [TestCase(new bool[] { false, false, true, true })]
-        public void ShouldReturnDifferentBitStringWhenInvoked(bool[] bits)
+        [TestCase("test1", new bool[] { true })]
+        [TestCase("test2", new bool[] { true, false, true })]
+        [TestCase("test3", new bool[] { true, true, true })]
+        [TestCase("test4", new bool[] { false, false, true, true })]
+        public void ShouldReturnDifferentBitStringWhenInvoked(string label, bool[] bits)
         {
             var bs = new BitString(new BitArray(bits));
             TestRandom800_90 subject = new TestRandom800_90(bs);

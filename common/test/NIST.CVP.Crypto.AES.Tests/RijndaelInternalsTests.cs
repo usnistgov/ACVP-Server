@@ -64,6 +64,7 @@ namespace NIST.CVP.Crypto.AES.Tests
         {
             new object[]
             {
+                "test1",
                 GetTestBlock(),
                 new Key()
                 {
@@ -79,6 +80,7 @@ namespace NIST.CVP.Crypto.AES.Tests
             },
             new object[]
             {
+                "test2",
                 GetTestBlock(),
                 new Key()
                 {
@@ -95,7 +97,7 @@ namespace NIST.CVP.Crypto.AES.Tests
         };
         [Test]
         [TestCaseSource(nameof(encryptSingleBlockTestCase))]
-        public void EncryptSingleBlockShouldRunInternalMethodsMultipleTimesAtLeastOnePerRound(byte[,] block, Key key)
+        public void EncryptSingleBlockShouldRunInternalMethodsMultipleTimesAtLeastOnePerRound(string label, byte[,] block, Key key)
         {
             Mock<RijndaelInternals> subject = new Mock<RijndaelInternals>();
             subject.CallBase = true;
@@ -138,12 +140,14 @@ namespace NIST.CVP.Crypto.AES.Tests
         {
             new object[]
             {
+                "test1",
                 new byte[4,1] { { 1 }, { 7 }, { 9 }, { 10 } },
                 new byte[4,1] { { 1 }, { 7 }, { 9 }, { 10 } },
                 new byte[4,1] { { 0 }, { 0 }, { 0 }, { 0 } }
             },
             new object[]
             {
+                "test2",
                 new byte[4,1] 
                 { 
                     { 1 },      // 00000001
@@ -191,7 +195,7 @@ namespace NIST.CVP.Crypto.AES.Tests
         /// </summary>
         [Test]
         [TestCaseSource(nameof(keyAdditionTestCase))]
-        public void ShouldXorBlockWithProvidedBlockForKeyAddition(byte[,] block, byte[,] schedule, byte[,] expectedBlock)
+        public void ShouldXorBlockWithProvidedBlockForKeyAddition(string label, byte[,] block, byte[,] schedule, byte[,] expectedBlock)
         {
             RijndaelInternals subject = new RijndaelInternals();
             Array2D array = new Array2D(block);
@@ -213,12 +217,14 @@ namespace NIST.CVP.Crypto.AES.Tests
         {
             new object[]
             {
+                "test1",
                 new byte[4,1] { { 1 }, { 7 }, { 9 }, { 10 } },
                 new byte[] { 100, 99, 98, 97, 96, 95, 94, 93, 92, 91, 90 },
                 new byte[4,1] { { 99 }, { 93 }, { 91 }, { 90 } }
             },
             new object[]
             {
+                "test2",
                 new byte[4,1] { { 1 }, { 2 }, { 3 }, { 10 } },
                 new byte[] { 255, 1, 55, 99, 100, 77, 66, 11, 13, 44, 59 },
                 new byte[4,1] { { 1 }, { 55 }, { 99 }, { 59 } }
@@ -237,7 +243,7 @@ namespace NIST.CVP.Crypto.AES.Tests
         /// <param name="expectedBlock"></param>
         [Test]
         [TestCaseSource(nameof(substituteTestCase))]
-        public void ShouldSubstituteFromProvidedSBox(byte[,] block, byte[] sBox, byte[,] expectedBlock)
+        public void ShouldSubstituteFromProvidedSBox(string label, byte[,] block, byte[] sBox, byte[,] expectedBlock)
         {
             RijndaelInternals subject = new RijndaelInternals();
             Array2D array = new Array2D(block);
