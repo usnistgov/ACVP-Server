@@ -1,13 +1,36 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "dependencies": {
-    "NETStandard.Library": "1.6.0"
+    "dotnet-test-nunit": "3.4.0-beta-3",
+    "Microsoft.Extensions.Configuration.Json": "1.1.0",
+    "Microsoft.NETCore.App": "1.1.0",
+    "Moq": "4.6.38-alpha",
+    "NIST.CVP.Crypto.TDES": "1.0.0-*",
+    "NIST.CVP.Crypto.TDES.Tests": "1.0.0-*",
+    "NIST.CVP.Crypto.TDES_OFB": "1.0.0-*",
+    "NIST.CVP.Generation.TDES_OFB": "1.0.0-*",
+    "NIST.CVP.Math": "1.0.0-*",
+    "NLog": "5.0.0-beta05",
+    "NUnit": "3.6.0"
   },
 
+  "testRunner": "nunit",
+
   "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50"
+    "netcoreapp1.0": {
+      "imports": [
+        "netcoreapp1.0",
+        "portable-net45+win8"
+      ],
+      "dependencies": {
+      }
+
     }
+  },
+
+  "runtimes": {
+    "win10-x64": {},
+    "win7-x64": {}
   }
 }
