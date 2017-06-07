@@ -38,8 +38,10 @@ namespace NIST.CVP.Generation.SHA2
                     Function = SHAEnumHelpers.StringToMode(parameters.Algorithm),
                     DigestSize = SHAEnumHelpers.StringToDigest(digestSize),
                     TestType = "AFT",
-                    IncludeNull = StringToBoolean(parameters.IncludeNull),
-                    BitOriented = StringToBoolean(parameters.BitOriented)
+                    IncludeNull = parameters.IncludeNull,
+                    BitOriented = parameters.BitOriented
+                    //IncludeNull = StringToBoolean(parameters.IncludeNull),
+                    //BitOriented = StringToBoolean(parameters.BitOriented)
                 };
                 testGroups.Add(testGroup);
             }

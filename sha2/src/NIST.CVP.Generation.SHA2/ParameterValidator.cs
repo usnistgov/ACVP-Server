@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.SHA2
         {
             var errorResults = new List<string>();
 
-            ValidateBooleanProperties(parameters, errorResults);
+            //ValidateBooleanProperties(parameters, errorResults);
             ValidateFunctions(parameters, errorResults);
             ValidateMatching(parameters, errorResults);
             if (errorResults.Count > 0)
@@ -28,18 +28,18 @@ namespace NIST.CVP.Generation.SHA2
         }
 
         // The input should only be "yes" or "no" 
-        private void ValidateBooleanProperties(Parameters parameters, List<string> errorResults)
-        {
-            if (parameters.BitOriented != "yes" && parameters.BitOriented != "no")
-            {
-                errorResults.Add("Bad inBit, must be yes/no");
-            }
+        //private void ValidateBooleanProperties(Parameters parameters, List<string> errorResults)
+        //{
+        //    if (parameters.BitOriented != "yes" && parameters.BitOriented != "no")
+        //    {
+        //        errorResults.Add("Bad inBit, must be yes/no");
+        //    }
 
-            if (parameters.IncludeNull != "yes" && parameters.IncludeNull != "no")
-            {
-                errorResults.Add("Bad inEmpty, must be yes/no");
-            }
-        }
+        //    if (parameters.IncludeNull != "yes" && parameters.IncludeNull != "no")
+        //    {
+        //        errorResults.Add("Bad inEmpty, must be yes/no");
+        //    }
+        //}
 
         private void ValidateFunctions(Parameters parameters, List<string> errorResults)
         {

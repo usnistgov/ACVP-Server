@@ -108,13 +108,19 @@ namespace NIST.CVP.Generation.SHA2
             // Determine size of each test
             var values = GetListOfSizes(group, isSample);
 
+            for (var i = 0; i < values.Count; i++)
+            {
+                var response = GenerateOfSize(group, values[i], startId + i);
+                responses.Add(response);
+            }
+
             // Run test generation
-            Parallel.For(0, values.Count, new ParallelOptions {MaxDegreeOfParallelism = 2},
-                i =>
-                {
-                    var response = GenerateOfSize(group, values[i], startId + i);
-                    responses.Add(response);
-                });
+            //Parallel.For(0, values.Count, new ParallelOptions {MaxDegreeOfParallelism = 2},
+            //    i =>
+            //    {
+            //        var response = GenerateOfSize(group, values[i], startId + i);
+            //        responses.Add(response);
+            //    });
 
             // Waits til completion before returning
             return responses;

@@ -42,10 +42,10 @@ namespace NIST.CVP.Generation.SHA2
             Function = SHAEnumHelpers.StringToMode(source.function);
             DigestSize = SHAEnumHelpers.StringToDigest(source.digestSize);
 
-            BitOriented = SetBoolValueFromString(source, "inBit");
-            IncludeNull = SetBoolValueFromString(source, "inEmpty");
-            //BitOriented = SetBoolValue(source, "bitOriented");
-            //IncludeNull = SetBoolValue(source, "includeNull");
+            //BitOriented = SetBoolValueFromString(source, "inBit");
+            //IncludeNull = SetBoolValueFromString(source, "inEmpty");
+            BitOriented = SetBoolValue(source, "inBit");
+            IncludeNull = SetBoolValue(source, "inEmpty");
 
             Tests = new List<ITestCase>();
             foreach(var test in source.tests)

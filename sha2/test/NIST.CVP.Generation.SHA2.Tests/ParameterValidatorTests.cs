@@ -89,7 +89,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithIncludeNull("no")
+                    .WithIncludeNull(false)
                     .Build()
             );
             
@@ -102,7 +102,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithBitOriented("no")
+                    .WithBitOriented(false)
                     .Build()
             );
 
@@ -113,15 +113,15 @@ namespace NIST.CVP.Generation.SHA2.Tests
         {
             private string _algorithm;
             private string[] _digestSizes;
-            private string _includeNull;
-            private string _bitOriented;
+            private bool _includeNull;
+            private bool _bitOriented;
 
             public ParameterBuilder()
             {
                 _algorithm = "SHA2";
                 _digestSizes = new[] {"224", "256"};
-                _includeNull = "yes";
-                _bitOriented = "yes";
+                _includeNull = true;
+                _bitOriented = true;
             }
 
             public ParameterBuilder WithAlgorithm(string value)
@@ -136,13 +136,13 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 return this;
             }
 
-            public ParameterBuilder WithIncludeNull(string value)
+            public ParameterBuilder WithIncludeNull(bool value)
             {
                 _includeNull = value;
                 return this;
             }
 
-            public ParameterBuilder WithBitOriented(string value)
+            public ParameterBuilder WithBitOriented(bool value)
             {
                 _bitOriented = value;
                 return this;
