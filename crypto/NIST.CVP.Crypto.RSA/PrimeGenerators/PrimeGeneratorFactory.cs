@@ -2,23 +2,54 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     public class PrimeGeneratorFactory
     {
+        private readonly HashFunction _hashFunction;
+        private readonly EntropyProviderTypes _entropyType;
+
+        public PrimeGeneratorFactory(HashFunction hashFunction)
+        {
+            _hashFunction = hashFunction;
+        }
+
+        public PrimeGeneratorFactory(EntropyProviderTypes entropyType)
+        {
+            _entropyType = entropyType;
+        }
+
+        public PrimeGeneratorFactory(HashFunction hashFunction, EntropyProviderTypes entropyType)
+        {
+            _hashFunction = hashFunction;
+            _entropyType = entropyType;
+        }
+
         public PrimeGeneratorBase GetPrimeGenerator(string type)
         {
-            if (type == "3.2")
+            switch (type)
             {
-                return new RandomProvablePrimeGenerator();
-            }
-            else if (type == "3.3")
-            {
-                return new RandomProbablePrimeGenerator();
-            }
+                case "3.2":
+                    return new RandomProvablePrimeGenerator(_hashFunction);
 
-            return null;
+                case "3.3":
+                    return new RandomProbablePrimeGenerator(_entropyType);
+
+                case "3.4":
+                    return new AllProvablePrimesWithConditionsGenerator(_hashFunction);
+
+                case "3.5":
+                    return new ProvableProbablePrimesWithConditionsGenerator(_hashFunction, _entropyType);
+
+                case "3.6":
+                    return new AllProbablePrimesWithConditionsGenerator(_entropyType);
+
+                default:
+                    return null;
+            }
         }
     }
 }

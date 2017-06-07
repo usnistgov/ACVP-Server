@@ -153,5 +153,80 @@ namespace NIST.CVP.Crypto.SHA2
                     throw new Exception("Invalid block size for SHA");
             }
         }
+
+        public static HashFunction StringToHashFunction(string hf)
+        {
+            switch (hf)
+            {
+                case "SHA-224":
+                    return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224 };
+
+                case "SHA-256":
+                    return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d256 };
+
+                case "SHA-384":
+                    return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d384 };
+
+                case "SHA-512":
+                    return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d512 };
+
+                case "SHA-512/224":
+                    return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d512t224 };
+
+                case "SHA-512/256":
+                    return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d512t256 };
+
+                case "SHA-1":
+                case "SHA1":
+                default:
+                    return new HashFunction { Mode = ModeValues.SHA1, DigestSize = DigestSizes.d160 };
+            }
+        }
+
+        public static string HashFunctionToString(HashFunction hf)
+        {
+            if (hf.Mode == ModeValues.SHA1)
+            {
+                if (hf.DigestSize == DigestSizes.d160)
+                {
+                    return "SHA-1";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                if (hf.DigestSize == DigestSizes.d224)
+                {
+                    return "SHA-224";
+                }
+                else if (hf.DigestSize == DigestSizes.d256)
+                {
+                    return "SHA-256";
+                }
+                else if (hf.DigestSize == DigestSizes.d384)
+                {
+                    return "SHA-384";
+                }
+                else if (hf.DigestSize == DigestSizes.d512)
+                {
+                    return "SHA-512";
+                }
+                else if (hf.DigestSize == DigestSizes.d512t224)
+                {
+                    return "SHA-512/224";
+                }
+                else if (hf.DigestSize == DigestSizes.d512t256)
+                {
+                    return "SHA-512/256";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }
