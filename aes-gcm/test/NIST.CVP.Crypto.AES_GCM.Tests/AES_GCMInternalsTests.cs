@@ -291,31 +291,31 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
         /// <param name="s"></param>
         /// <param name="onesAndZeroes"></param>
         [Test]
-        // 1.
-        // lsp = LSB("s", "X").ToBigInt + BigInt(1)
-        // lsp = LSB(1 + "1111").ToBigInt + BigInt(1)
-        // lsp = "1".ToBigInt + BigInt(1)
-        // lsp = 1 + 1
-        // lsp = 2
+        //// 1.
+        //// lsp = LSB("s", "X").ToBigInt + BigInt(1)
+        //// lsp = LSB(1 + "1111").ToBigInt + BigInt(1)
+        //// lsp = "1".ToBigInt + BigInt(1)
+        //// lsp = 1 + 1
+        //// lsp = 2
 
-        // 2.
-        // lsp = lsp % (1 << "s")
-        // lsp = 2 % (1 << 1)
-        // lsp = 2 % 2
-        // lsp = 0
+        //// 2.
+        //// lsp = lsp % (1 << "s")
+        //// lsp = 2 % (1 << 1)
+        //// lsp = 2 % 2
+        //// lsp = 0
 
-        // 3.
-        // "bitsToAppend" = BitString("lsp", "s")
-        // "bitsToAppend" = BitString(0, 1)
-        // "bitsToAppend" = 0 (00000000)
+        //// 3.
+        //// "bitsToAppend" = BitString("lsp", "s")
+        //// "bitsToAppend" = BitString(0, 1)
+        //// "bitsToAppend" = 0 (00000000)
 
-        // 4.
-        // return (MSB("X.length" - "s", "X") + "bitsToAppend")
-        // return (MSB(4 - 1, 1111) + 00000000)
-        // return (MSB(3, 1111) + 00000000)
-        // return 111 + 00000000
-        // return 00000000111
-        [TestCase(1, "1111", "00000000111")]
+        //// 4.
+        //// return (MSB("X.length" - "s", "X") + "bitsToAppend")
+        //// return (MSB(4 - 1, 1111) + 00000000)
+        //// return (MSB(3, 1111) + 00000000)
+        //// return 111 + 00000000
+        //// return 00000000111
+        //[TestCase(1, "1111", "00000000111")]
         // 1.
         // lsp = LSB("s", "X").ToBigInt + BigInt(1)
         // lsp = LSB(5 + "10101010").ToBigInt + BigInt(1)
