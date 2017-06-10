@@ -28,11 +28,11 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
             Parameters p = new Parameters()
             {
                 aadLen = new[] { 128, 136, 256, 264 },
-                Algorithm = "AES-GCM",
+                Algorithm = "AES-XPN",
                 ivGen = "internal",
                 ivGenMode = "8.2.1",
                 KeyLen = new[] { 128, 192, 256 },
-                Mode = new[] { "encrypt" },
+                Direction = new[] { "encrypt" },
                 PtLen = new[] { 0, 128, 136, 256, 264 },
                 TagLen = new[] { 96, 128 },
                 IsSample = true
@@ -91,9 +91,9 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
             Assume.That(result != null);
             Assume.That(result.ParsedObject != null);
             var parameters = result.ParsedObject;
-            Assert.IsNotNull(parameters.Mode);
-            Assert.AreEqual(1, parameters.Mode.Length);
-            Assert.IsNotNull(parameters.Mode.First(v => v == "encrypt"));
+            Assert.IsNotNull(parameters.Direction);
+            Assert.AreEqual(1, parameters.Direction.Length);
+            Assert.IsNotNull(parameters.Direction.First(v => v == "encrypt"));
 
         }
 
@@ -106,7 +106,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
             Assume.That(result != null);
             Assume.That(result.ParsedObject != null);
             var parameters = result.ParsedObject;
-            Assert.AreEqual("AES-GCM", parameters.Algorithm);
+            Assert.AreEqual("AES-XPN", parameters.Algorithm);
 
         }
 

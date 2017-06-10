@@ -173,8 +173,16 @@ namespace NIST.CVP.Generation.AES_XPN
                         {
                             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
                             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "tag", test.Tag);
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "iv", test.IV);
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "salt", test.Salt);
+
+                            if (group.IVGeneration.ToLower() == "internal")
+                            {
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "iv", test.IV);
+                            }
+
+                            if (group.SaltGen.ToLower() == "internal")
+                            {
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "salt", test.Salt);
+                            }
                         }
 
                         if (test.FailureTest)

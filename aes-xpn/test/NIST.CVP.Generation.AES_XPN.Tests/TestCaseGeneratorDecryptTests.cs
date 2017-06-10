@@ -105,6 +105,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             Assert.IsNotEmpty(((TestCase)result.TestCase).AAD.ToString(), "AAD");
             Assert.IsNotEmpty(((TestCase)result.TestCase).CipherText.ToString(), "CipherText");
             Assert.IsNotEmpty(((TestCase)result.TestCase).IV.ToString(), "IV");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).Salt.ToString(), "Salt");
             Assert.IsNotEmpty(((TestCase)result.TestCase).Key.ToString(), "Key");
             Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");
             Assert.IsNotEmpty(((TestCase)result.TestCase).Tag.ToString(), "Tag");

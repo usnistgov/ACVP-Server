@@ -81,6 +81,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             Assert.IsTrue(!string.IsNullOrEmpty(group.testType.ToString()), nameof(group.testType));
             Assert.IsTrue(!string.IsNullOrEmpty(group.ivGen.ToString()), nameof(group.ivGen));
             Assert.IsTrue(!string.IsNullOrEmpty(group.ivGenMode.ToString()), nameof(group.ivGenMode));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.saltGen.ToString()), nameof(group.saltGen));
             Assert.IsTrue(!string.IsNullOrEmpty(group.ivLen.ToString()), nameof(group.ivLen));
             Assert.IsTrue(!string.IsNullOrEmpty(group.ptLen.ToString()), nameof(group.ptLen));
             Assert.IsTrue(!string.IsNullOrEmpty(group.aadLen.ToString()), nameof(group.aadLen));
@@ -108,6 +109,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             Assert.IsTrue(!string.IsNullOrEmpty(group.testType.ToString()), nameof(group.testType));
             Assert.IsTrue(!string.IsNullOrEmpty(group.ivGen.ToString()), nameof(group.ivGen));
             Assert.IsTrue(!string.IsNullOrEmpty(group.ivGenMode.ToString()), nameof(group.ivGenMode));
+            Assert.IsTrue(!string.IsNullOrEmpty(group.saltGen.ToString()), nameof(group.saltGen));
             Assert.IsTrue(!string.IsNullOrEmpty(group.ivLen.ToString()), nameof(group.ivLen));
             Assert.IsTrue(!string.IsNullOrEmpty(group.ptLen.ToString()), nameof(group.ptLen));
             Assert.IsTrue(!string.IsNullOrEmpty(group.aadLen.ToString()), nameof(group.aadLen));
@@ -317,9 +319,83 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             }
         }
 
+        [Test]
+        public void DecryptShouldIncludeIvInAnswerProjection()
+        {
+            var subject = GetSubject(1, "decrypt", false);
+            var results = subject.AnswerProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(test.iv.ToString()));
+            }
+        }
+
+        [Test]
+        public void DecryptShouldIncludeSaltInAnswerProjection()
+        {
+            var subject = GetSubject(1, "decrypt", false);
+            var results = subject.AnswerProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(test.salt.ToString()));
+            }
+        }
+
+        [Test]
+        public void DecryptShouldIncludeIvInPromptProjection()
+        {
+            var subject = GetSubject(1, "decrypt", false);
+            var results = subject.PromptProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(test.iv.ToString()));
+            }
+        }
+
+        [Test]
+        public void DecryptShouldIncludeSaltInPromptProjection()
+        {
+            var subject = GetSubject(1, "decrypt", false);
+            var results = subject.PromptProjection;
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
+            {
+                Assert.IsTrue(!string.IsNullOrEmpty(test.salt.ToString()));
+            }
+        }
+
+        [Test]
+        public void DecryptShouldExcludeIvInResultProjection()
+        {
+            var subject = GetSubject(1, "decrypt", false);
+            var results = subject.ResultProjection;
+            foreach (var item in results)
+            {
+                Assert.Throws(typeof(RuntimeBinderException), () => item.iv.ToString());
+            }
+        }
+
+        [Test]
+        public void DecryptShouldExcludeSaltInResultProjection()
+        {
+            var subject = GetSubject(1, "decrypt", false);
+            var results = subject.ResultProjection;
+            foreach (var item in results)
+            {
+                Assert.Throws(typeof(RuntimeBinderException), () => item.salt.ToString());
+            }
+        }
+
         private TestVectorSet GetSubject(int groups = 1, string direction = "encrypt", bool failureTest = false)
         {
-            var subject = new TestVectorSet {Algorithm = "AES-GCM"};
+            var subject = new TestVectorSet {Algorithm = "AES-XPN"};
             var testGroups = _tdm.GetTestGroups(groups, direction, failureTest);
             subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return subject;

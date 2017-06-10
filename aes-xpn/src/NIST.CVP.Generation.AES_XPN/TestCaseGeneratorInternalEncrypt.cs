@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.AES_XPN
 
             if (group.SaltGen.ToLower() == "external")
             {
-                testCase.IV = _random800_90.GetRandomBitString(group.SaltLength);
+                testCase.Salt = _random800_90.GetRandomBitString(group.SaltLength);
             }
             
             return new TestCaseGenerateResponse(testCase);

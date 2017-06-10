@@ -38,9 +38,14 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             aes
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Returns(new EncryptionResult("Fail"));
+            var random = GetRandomMock();
+            random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(1));
 
             _subject =
-                new TestCaseGeneratorInternalEncrypt(GetRandomMock().Object, aes.Object);
+                new TestCaseGeneratorInternalEncrypt(random.Object, aes.Object);
+
 
             var result = _subject.Generate(new TestGroup(), true);
 
@@ -55,9 +60,13 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             aes
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Throws(new Exception());
+            var random = GetRandomMock();
+            random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(1));
 
             _subject =
-                new TestCaseGeneratorInternalEncrypt(GetRandomMock().Object, aes.Object);
+                new TestCaseGeneratorInternalEncrypt(random.Object, aes.Object);
 
             var result = _subject.Generate(new TestGroup(), true);
 
@@ -135,10 +144,48 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");
             Assert.IsNull(((TestCase)result.TestCase).CipherText, "CipherText");
             Assert.IsNull(((TestCase)result.TestCase).IV, "IV");
-            Assert.IsNull(((TestCase)result.TestCase).IV, "Salt");
+            Assert.IsNull(((TestCase)result.TestCase).Salt, "Salt");
             Assert.IsNotNull(((TestCase)result.TestCase).Key.ToString(), "Key");
             Assert.IsNull(((TestCase)result.TestCase).Tag, "Tag");
             Assert.IsTrue(result.TestCase.Deferred, "Deferred");
+        }
+
+        [Test]
+        [TestCase("internal", true)]
+        [TestCase("external", false)]
+        public void ShouldPopulateIvWhenExternal(string ivGen, bool isNull)
+        {
+            var aes = GetAESMock();
+            var random = GetRandomMock();
+            random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(new byte[] { 3 }));
+
+            _subject =
+                new TestCaseGeneratorInternalEncrypt(random.Object, aes.Object);
+
+            var result = _subject.Generate(new TestGroup() { IVGeneration = ivGen, SaltGen = "internal" }, false);
+
+            Assert.AreEqual(isNull, ((TestCase)result.TestCase).IV == null);
+        }
+
+        [Test]
+        [TestCase("internal", true)]
+        [TestCase("external", false)]
+        public void ShouldPopulateSaltWhenExternal(string saltGen, bool isNull)
+        {
+            var aes = GetAESMock();
+            var random = GetRandomMock();
+            random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(new byte[] { 3 }));
+
+            _subject =
+                new TestCaseGeneratorInternalEncrypt(random.Object, aes.Object);
+
+            var result = _subject.Generate(new TestGroup() { IVGeneration = "internal", SaltGen = saltGen }, false);
+
+            Assert.AreEqual(isNull, ((TestCase)result.TestCase).Salt == null);
         }
 
         private Mock<IRandom800_90> GetRandomMock()

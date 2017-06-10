@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         {
             var testGroup = GetTestGroup("internal", "internal");
             _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
-            var suppliedResult = GetTestCase();
+            var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
             suppliedResult.CipherText = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         {
             var testGroup = GetTestGroup("internal", "internal");
             _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
-            var suppliedResult = GetTestCase();
+            var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
             suppliedResult.Tag = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
@@ -95,7 +95,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         {
             var testGroup = GetTestGroup("internal", "internal");
             _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
-            var suppliedResult = GetTestCase();
+            var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
 
             suppliedResult.CipherText = null;
 
@@ -111,7 +111,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         {
             var testGroup = GetTestGroup("internal", "internal");
             _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
-            var suppliedResult = GetTestCase();
+            var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
 
             suppliedResult.Tag = null;
 
@@ -127,7 +127,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         {
             var testGroup = GetTestGroup("internal", "external");
             _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
-            var suppliedResult = GetTestCase();
+            var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
 
             suppliedResult.IV = null;
 
@@ -143,7 +143,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         {
             var testGroup = GetTestGroup("external", "internal");
             _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
-            var suppliedResult = GetTestCase();
+            var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
 
             suppliedResult.Salt = null;
 
@@ -154,15 +154,22 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.Salt)} was not present in the {nameof(TestCase)}"));
         }
 
-        private TestCase GetTestCase()
+        [Test]
+        public void ShouldReportFailureIfEncryptOperationFails()
         {
-            var testCase = new TestCase
-            {
-                Tag = new BitString("AADAADAADAAD"),
-                CipherText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
-                TestCaseId = 1
-            };
-            return testCase;
+            _generator
+                .Setup(s => s.Generate(It.IsAny<TestGroup>(), It.IsAny<TestCase>()))
+                .Returns(new TestCaseGenerateResponse("fail"));
+
+            var testGroup = GetTestGroup("external", "internal");
+            _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
+            var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
+
+            var result = _subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assume.That("failed" == result.Result);
+
+            Assert.IsTrue(result.Reason.Contains("Failed generating TestCase on inputs"));
         }
 
         private TestGroup GetTestGroup(string ivGen, string saltGen)

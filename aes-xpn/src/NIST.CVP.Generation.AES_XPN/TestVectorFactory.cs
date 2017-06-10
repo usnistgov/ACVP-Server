@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.AES_XPN
         private List<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<ITestGroup>();
-            foreach (var function in parameters.Mode)
+            foreach (var function in parameters.Direction)
             {
                 foreach (var keyLength in parameters.KeyLen)
                 {
@@ -34,7 +34,8 @@ namespace NIST.CVP.Generation.AES_XPN
                                     AADLength = aadLength,
                                     TagLength = tagLength,
                                     IVGeneration = parameters.ivGen,
-                                    IVGenerationMode = parameters.ivGenMode
+                                    IVGenerationMode = parameters.ivGenMode,
+                                    SaltGen = parameters.SaltGen
                                 };
                                 testGroups.Add(testGroup);
                             }

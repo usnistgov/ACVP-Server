@@ -25,6 +25,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
                         CipherText = new BitString("7EADDC"),
                         Key = new BitString("9998ADCD"),
                         IV = new BitString("ABABACCC"),
+                        Salt = new BitString("CAFECAFE"),
                         TestCaseId = testId
                     });
                 }
@@ -36,6 +37,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
                         Function = direction,
                         IVGeneration = "blah",
                         IVGenerationMode = "external",
+                        SaltGen = "external",
                         KeyLength = 256 + groupIdx * 2,
                         PTLength = 256 + groupIdx * 2,
                         TagLength = 16 + groupIdx * 2,

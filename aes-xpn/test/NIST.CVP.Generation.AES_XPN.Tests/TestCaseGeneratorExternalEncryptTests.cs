@@ -32,9 +32,13 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             aes
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Returns(new EncryptionResult("Fail"));
+            var random = GetRandomMock();
+            random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(1));
 
             _subject =
-                new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, aes.Object);
+                new TestCaseGeneratorExternalEncrypt(random.Object, aes.Object);
 
             var result = _subject.Generate(new TestGroup(), false);
 
@@ -49,9 +53,13 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             aes
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Throws(new Exception());
+            var random = GetRandomMock();
+            random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(1));
 
             _subject =
-                new TestCaseGeneratorExternalEncrypt(GetRandomMock().Object, aes.Object);
+                new TestCaseGeneratorExternalEncrypt(random.Object, aes.Object);
 
             var result = _subject.Generate(new TestGroup(), false);
 
@@ -103,6 +111,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             Assert.IsNotEmpty(((TestCase)result.TestCase).AAD.ToString(), "AAD");
             Assert.IsNotEmpty(((TestCase)result.TestCase).CipherText.ToString(), "CipherText");
             Assert.IsNotEmpty(((TestCase)result.TestCase).IV.ToString(), "IV");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).Salt.ToString(), "Salt");
             Assert.IsNotEmpty(((TestCase)result.TestCase).Key.ToString(), "Key");
             Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");
             Assert.IsNotEmpty(((TestCase)result.TestCase).Tag.ToString(), "Tag");

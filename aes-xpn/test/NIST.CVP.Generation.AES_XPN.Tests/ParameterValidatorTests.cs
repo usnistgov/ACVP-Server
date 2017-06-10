@@ -293,7 +293,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
                     ivGenMode = _ivGenMode,
                     SaltGen = _saltGen,
                     KeyLen = _keyLen,
-                    Mode = _mode,
+                    Direction = _mode,
                     PtLen = _ptLen,
                     TagLen = _tagLen
                 };
