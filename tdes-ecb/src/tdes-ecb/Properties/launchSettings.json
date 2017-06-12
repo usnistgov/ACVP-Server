@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "tdes-ecb": {
-      "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\def2\\Documents\\Visual Studio 2015\\Projects\\GenVal\\tdes-ecb\\testFiles\\capabilities.json\""
-    }
-  }
-}
