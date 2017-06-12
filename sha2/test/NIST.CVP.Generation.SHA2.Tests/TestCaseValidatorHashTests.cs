@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorHash(testCase);
+            var subject = new TestCaseValidatorAFTHash(testCase);
             var result = subject.Validate(testCase);
             Assume.That(result != null);
             Assert.AreEqual("passed", result.Result);
@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         public void ShouldFailIfDigestDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorHash(testCase);
+            var subject = new TestCaseValidatorAFTHash(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Digest = new BitString("BEEFFACE");
             var result = subject.Validate(suppliedResult);
@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         public void ShouldShowDigestAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorHash(testCase);
+            var subject = new TestCaseValidatorAFTHash(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Digest = new BitString("BEEFFACE");
             var result = subject.Validate(suppliedResult);
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         public void ShouldFailIfDigestNotPresent()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorHash(testCase);
+            var subject = new TestCaseValidatorAFTHash(testCase);
             var suppliedResult = GetTestCase();
 
             suppliedResult.Digest = null;

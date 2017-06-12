@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.SHA2
                     }
                     else
                     {
-                        list.Add(new TestCaseValidatorHash(workingTest));
+                        list.Add(new TestCaseValidatorAFTHash(workingTest));
                     }
                 }
             }

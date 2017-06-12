@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            // Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -382,7 +382,8 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
 
         private string GetTestFileParallelTestCasesSHA(string targetFolder)
         {
-            RemoveMCTTestGroupFactories();
+            RemoveAFTTestGroupFactories();
+            //RemoveMCTTestGroupFactories();
 
             var parameters = new Parameters
             {
@@ -390,7 +391,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
                 DigestSizes = new[] {"384", "512"},
                 BitOriented = true,
                 IncludeNull = true,
-                IsSample = true
+                IsSample = false
             };
 
             return CreateRegistration(targetFolder, parameters);
@@ -401,6 +402,14 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             AutofacConfig.OverrideRegistrations += builder =>
             {
                 builder.RegisterType<NullMCTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
+            };
+        }
+
+        private void RemoveAFTTestGroupFactories()
+        {
+            AutofacConfig.OverrideRegistrations += builder =>
+            {
+                builder.RegisterType<NullAFTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
             };
         }
 

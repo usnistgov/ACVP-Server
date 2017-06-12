@@ -3,11 +3,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA2
 {
-    public class TestCaseValidatorHash : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorAFTHash : ITestCaseValidator<TestCase>
     {
         private readonly TestCase _expectedResult;
 
-        public TestCaseValidatorHash(TestCase expectedResult)
+        public TestCaseValidatorAFTHash(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }
