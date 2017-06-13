@@ -6,7 +6,7 @@ using NIST.CVP.Math.Entropy;
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     // B.3.3
-    public class RandomProbablePrimeGenerator : PrimeGeneratorBase
+    public class RandomProbablePrimeGenerator : PrimeGeneratorBase, IPrimeGenerator
     {
         public RandomProbablePrimeGenerator() : base(EntropyProviderTypes.Random) { }
         public RandomProbablePrimeGenerator(EntropyProviderTypes entropyType) : base(entropyType) { }
@@ -16,7 +16,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             _entropyProvider.AddEntropy(bs);
         }
 
-        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public virtual PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             var kat = _entropyProvider.GetType() == typeof(TestableEntropyProvider);
 

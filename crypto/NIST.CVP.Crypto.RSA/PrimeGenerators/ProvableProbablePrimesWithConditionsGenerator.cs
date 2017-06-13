@@ -10,7 +10,7 @@ using NIST.CVP.Math.Entropy;
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     // B.3.5
-    public class ProvableProbablePrimesWithConditionsGenerator : PrimeGeneratorBase
+    public class ProvableProbablePrimesWithConditionsGenerator : PrimeGeneratorBase, IPrimeGenerator
     {
         private int _bitlen1, _bitlen2, _bitlen3, _bitlen4;
 
@@ -29,7 +29,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             _entropyProvider.AddEntropy(entropy);
         }
 
-        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public virtual PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             BigInteger p, p1, p2, q, q1, q2, xp, xq;
             BigInteger primeSeed;

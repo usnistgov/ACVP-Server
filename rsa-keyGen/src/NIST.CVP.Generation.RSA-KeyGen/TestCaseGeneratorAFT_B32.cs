@@ -39,9 +39,15 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 var testCase = new TestCase();
 
                 // Generate E
-                var e = 0;
+                // E must be ODD and 2^16 < e < 2^256
+                var e = _random800_90.GetRandomBigInteger(BigInteger.Pow(2, 16) + 1, BigInteger.Pow(2, 256) - 1);
+                if (e.IsEven)
+                {
+                    e++;
+                }
 
                 // Generate Seed
+                // Seed length must be 2 * security_strength
                 var security_strength = 0;
                 if (group.Modulo == 2048)
                 {
@@ -52,16 +58,17 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     security_strength = 128;
                 }
 
-                var seed = _random800_90.GetRandomBitString(security_strength);
+                var seed = _random800_90.GetRandomBitString(2 * security_strength);
 
                 // Generate TestCase
-                testCase.Key.PubKey.E = e;
+                testCase.Key = new KeyPair {PubKey = new PublicKey {E = e}};
                 testCase.Seed = seed;
                 return Generate(group, testCase);
             }
             else
             {
                 var testCase = new TestCase();
+                testCase.Deferred = true;
                 return new TestCaseGenerateResponse(testCase);
             }
         }

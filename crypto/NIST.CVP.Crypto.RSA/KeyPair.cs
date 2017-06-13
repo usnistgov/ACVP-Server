@@ -12,6 +12,12 @@ namespace NIST.CVP.Crypto.RSA
         public PublicKey PubKey { get; set; }
         public PrivateKey PrivKey { get; set; }
 
+        public KeyPair()
+        {
+            PubKey = new PublicKey();
+            PrivKey = new PrivateKey();
+        }
+
         public KeyPair(BigInteger p, BigInteger q, BigInteger e)
         {
             PubKey = new PublicKey {E = e, N = p * q};

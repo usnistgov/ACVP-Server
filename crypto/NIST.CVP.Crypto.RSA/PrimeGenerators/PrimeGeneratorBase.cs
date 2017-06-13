@@ -568,7 +568,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             return SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize);
         }
 
-        public abstract PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed);
+        // public abstract PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed);
 
         protected BigInteger Hash(BigInteger message)
         {
