@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
         public List<ITestGroup> TestGroups { get; set; }
         public List<dynamic> AnswerProjection { get; }
         public List<dynamic> PromptProjection { get; }
-        public dynamic ResultProjection { get; }
+        public List<dynamic> ResultProjection { get; }
 
         public FakeTestVectorSet()
         {

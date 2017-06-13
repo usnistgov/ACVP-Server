@@ -159,7 +159,7 @@ namespace NIST.CVP.Generation.AES_OFB
         /// Debug projection (internal), as well as potentially sample projection (sent to client)
         /// </summary>
         [JsonProperty(PropertyName = "testResults")]
-        public dynamic ResultProjection
+        public List<dynamic> ResultProjection
         {
             get
             {

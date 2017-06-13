@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.Core
         List<ITestGroup> TestGroups { get; set; }
         List<dynamic> AnswerProjection { get; }
         List<dynamic> PromptProjection { get; }
-        dynamic ResultProjection { get; }
+        List<dynamic> ResultProjection { get; }
 
     }
 }

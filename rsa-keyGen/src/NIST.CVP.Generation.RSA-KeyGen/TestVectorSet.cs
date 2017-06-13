@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
         }
 
-        public dynamic ResultProjection
+        public List<dynamic> ResultProjection
         {
             get
             {

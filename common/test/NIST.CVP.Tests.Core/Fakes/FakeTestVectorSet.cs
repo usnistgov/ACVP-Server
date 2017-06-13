@@ -14,7 +14,7 @@ namespace NIST.CVP.Tests.Core.Fakes
         public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
         public List<dynamic> AnswerProjection { get; } = null;
         public List<dynamic> PromptProjection { get; } = null;
-        public dynamic ResultProjection { get; } = null;
+        public List<dynamic> ResultProjection { get; } = null;
         public dynamic ToDynamic()
         {
             dynamic vectorSetObject = new ExpandoObject();
