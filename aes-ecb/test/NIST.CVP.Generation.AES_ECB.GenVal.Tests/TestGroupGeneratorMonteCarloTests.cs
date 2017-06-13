@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
 {
-    public class MCTTestGroupFactoryTests
+    public class TestGroupGeneratorMonteCarloTests
     {
         [TestFixture, UnitTest]
         public class KATTestGroupFactoryTests
@@ -48,9 +48,9 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
             [TestCaseSource(nameof(parameters))]
             public void ShouldCreate1TestGroupForEachCombinationOfKeyLengthAndDirection(int expectedGroupsCreated, Parameters parameters)
             {
-                MCTTestGroupFactory subject = new MCTTestGroupFactory();
+                TestGroupGeneratorMonteCarlo subject = new TestGroupGeneratorMonteCarlo();
 
-                var results = subject.BuildMCTTestGroups(parameters);
+                var results = subject.BuildTestGroups(parameters);
                 Assert.AreEqual(expectedGroupsCreated, results.Count());
             }
         }

@@ -3,28 +3,27 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_ECB
 {
-    public class MCTTestGroupFactory : IMonteCarloTestGroupFactory<Parameters, TestGroup>
+    public class TestGroupGeneratorMultiBlockMessage : ITestGroupGenerator<Parameters>
     {
-        public const string _MCT_TEST_TYPE_LABEL = "MCT";
+        public const string MMT_TYPE_LABEL = "MMT";
 
-        public IEnumerable<TestGroup> BuildMCTTestGroups(Parameters parameters)
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
-            foreach (var direction in parameters.Mode)
+            foreach (var function in parameters.Mode)
             {
                 foreach (var keyLength in parameters.KeyLen)
                 {
-                    var testGroup = new TestGroup()
+                    var testGroup = new TestGroup
                     {
-                        Function = direction,
+                        Function = function,
                         KeyLength = keyLength,
-                        TestType = _MCT_TEST_TYPE_LABEL
+                        TestType = MMT_TYPE_LABEL
                     };
                     testGroups.Add(testGroup);
                 }
             }
-
             return testGroups;
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Castle.Components.DictionaryAdapter;
 using Moq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -9,56 +11,33 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
     [TestFixture, UnitTest]
     public class TestVectorFactoryTests
     {
+
+        private TestVectorFactory<IParameters> _subject;
+        private Mock<ITestGroupGeneratorFactory<IParameters>> _testGroupGeneratorFactory;
+        private Mock<ITestGroupGenerator<IParameters>> _testGroupGenerator;
+
+        [SetUp]
+        public void Setup()
+        {
+            _testGroupGeneratorFactory = new Mock<ITestGroupGeneratorFactory<IParameters>>();
+            _testGroupGenerator = new Mock<ITestGroupGenerator<IParameters>>();
+    }
+
         [Test]
-        // 0
-        [TestCase(
-            "test1 - 0",
-            new string[] { },
-            new int[] { }
-        )]
-        // 0
-        [TestCase(
-            "test2 - 0",
-            new string[] { },
-            new int[] { 1 }
-        )]
-        // 3 (3*1)
-        [TestCase(
-            "test3 - 3",
-            new string[] { "", "", "" },
-            new int[] { 1 }
-        )]
-        // 9 (3*3)
-        [TestCase(
-            "test4 - 9",
-            new string[] { "", "", "" },
-            new int[] { 1, 2, 3 }
-        )]
-        public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamtersWithNoKatOrMctImpl(
-            string label,
-            string[] mode,
-            int[] keyLen
-        )
+        [TestCase("test")]
+        [TestCase("test-again")]
+        public void ShouldSetAlgorithmProperlyFromTheParameters(string algorithm)
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-ECB",
-                KeyLen = keyLen,
-                Mode = mode,
+                Algorithm = algorithm,
+                IsSample = true
             };
-            int expectedResultCount =  keyLen.Length * mode.Length;
-            Mock<IKnownAnswerTestGroupFactory<Parameters, TestGroup>> iKATTestGroupFactory = new Mock<IKnownAnswerTestGroupFactory<Parameters, TestGroup>>();
-            iKATTestGroupFactory
-                .Setup(s => s.BuildKATTestGroups(It.IsAny<Parameters>()))
-                .Returns(new List<TestGroup>());
-            Mock<IMonteCarloTestGroupFactory<Parameters, TestGroup>> iMCTTestGroupFactory = new Mock<IMonteCarloTestGroupFactory<Parameters, TestGroup>>();
-            iMCTTestGroupFactory
-                .Setup(s => s.BuildMCTTestGroups(It.IsAny<Parameters>()))
-                .Returns(new List<TestGroup>());
-            TestVectorFactory subject = new TestVectorFactory(iKATTestGroupFactory.Object, iMCTTestGroupFactory.Object);
-            var result = subject.BuildTestVectorSet(p);
 
-            Assert.AreEqual(expectedResultCount, result.TestGroups.Count);
+            _subject = new TestVectorFactory<IParameters>(_testGroupGeneratorFactory.Object);
+            var result = _subject.BuildTestVectorSet(p);
+
+            Assert.AreEqual(algorithm, result.Algorithm);
         }
 
         [Test]
@@ -68,25 +47,42 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "AES-ECB",
-                KeyLen = new int[] { 1 },
-                Mode = new [] {""},
+                Algorithm = "anAlgorithm",
                 IsSample = isSample
             };
 
-            Mock<IKnownAnswerTestGroupFactory<Parameters, TestGroup>> iKATTestGroupFactory = new Mock<IKnownAnswerTestGroupFactory<Parameters, TestGroup>>();
-            iKATTestGroupFactory
-                .Setup(s => s.BuildKATTestGroups(It.IsAny<Parameters>()))
-                .Returns(new List<TestGroup>());
-            Mock<IMonteCarloTestGroupFactory<Parameters, TestGroup>> iMCTTestGroupFactory = new Mock<IMonteCarloTestGroupFactory<Parameters, TestGroup>>();
-            iMCTTestGroupFactory
-                .Setup(s => s.BuildMCTTestGroups(It.IsAny<Parameters>()))
-                .Returns(new List<TestGroup>());
-            TestVectorFactory subject = new TestVectorFactory(iKATTestGroupFactory.Object, iMCTTestGroupFactory.Object);
-            var result = subject.BuildTestVectorSet(p);
+            _subject = new TestVectorFactory<IParameters>(_testGroupGeneratorFactory.Object);
+            var result = _subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(isSample, result.IsSample);
         }
 
+        [Test]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        public void ShouldInvokeITestGroupGeneratorExpectedNumberOfTimes(int numberOfInvokes)
+        {
+            List<ITestGroupGenerator<IParameters>> gennies = new List<ITestGroupGenerator<IParameters>>();
+            for (int i = 0; i < numberOfInvokes; i++)
+            {
+                gennies.Add(_testGroupGenerator.Object);
+            }
+
+            _testGroupGeneratorFactory
+                .Setup(s => s.GetTestGroupGenerators())
+                .Returns(gennies);
+            _testGroupGenerator
+                .Setup(s => s.BuildTestGroups(It.IsAny<IParameters>()))
+                .Returns(new List<ITestGroup>());
+
+            _subject = new TestVectorFactory<IParameters>(_testGroupGeneratorFactory.Object);
+
+            FakeParameters p = new FakeParameters();
+            _subject.BuildTestVectorSet(p);
+
+            _testGroupGeneratorFactory.Verify(v => v.GetTestGroupGenerators(), Times.Once, nameof(_subject.BuildTestVectorSet));
+            _testGroupGenerator.Verify(v => v.BuildTestGroups(It.IsAny<IParameters>()), Times.Exactly(numberOfInvokes), nameof(_testGroupGenerator.Object.BuildTestGroups));
+        }
     }
 }

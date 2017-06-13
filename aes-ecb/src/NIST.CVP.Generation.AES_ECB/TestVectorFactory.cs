@@ -1,57 +1,33 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.AES_ECB
 {
-    public class TestVectorFactory : ITestVectorFactory<Parameters>
+    public class TestVectorFactory<TParameters> : ITestVectorFactory<TParameters>
+        where TParameters : IParameters
     {
-        private readonly IKnownAnswerTestGroupFactory<Parameters, TestGroup> _iKATTestGroupFactory;
-        private readonly IMonteCarloTestGroupFactory<Parameters, TestGroup> _IMCTTestGroupFactory;
+        private readonly ITestGroupGeneratorFactory<TParameters> _iTestGroupGeneratorFactory;
 
-        public TestVectorFactory(
-            IKnownAnswerTestGroupFactory<Parameters, TestGroup> iKATTestGroupFactory, 
-            IMonteCarloTestGroupFactory<Parameters, TestGroup> iMCTTestGroupFactory)
+        public TestVectorFactory(ITestGroupGeneratorFactory<TParameters> iTestGroupGeneratorFactory)
         {
-            _iKATTestGroupFactory = iKATTestGroupFactory;
-            _IMCTTestGroupFactory = iMCTTestGroupFactory;
+            _iTestGroupGeneratorFactory = iTestGroupGeneratorFactory;
         }
 
-        public ITestVectorSet BuildTestVectorSet(Parameters parameters)
+        public ITestVectorSet BuildTestVectorSet(TParameters parameters)
         {
-            var groups = BuildTestGroups(parameters); // Random tests for test groups
-            var katGroups = _iKATTestGroupFactory.BuildKATTestGroups(parameters);
-            if (katGroups != null && katGroups.Count() != 0)
+            List<ITestGroup> groups = new List<ITestGroup>();
+
+            var groupGenerators = _iTestGroupGeneratorFactory.GetTestGroupGenerators().ToList();
+            foreach (var groupGenerator in groupGenerators)
             {
-                groups.AddRange(katGroups);
+                groups.AddRangeIfNotNullOrEmpty(groupGenerator.BuildTestGroups(parameters));
             }
-            var mctGroups = _IMCTTestGroupFactory.BuildMCTTestGroups(parameters);
-            if (mctGroups != null && mctGroups.Count() != 0)
-            {
-                groups.AddRange(mctGroups);
-            }
+
             var testVector = new TestVectorSet { TestGroups = groups, IsSample = parameters.IsSample, Algorithm = parameters.Algorithm };
 
             return testVector;
-        }
-
-        private List<ITestGroup> BuildTestGroups(Parameters parameters)
-        {
-            var testGroups = new List<ITestGroup>();
-            foreach (var function in parameters.Mode)
-            {
-                foreach (var keyLength in parameters.KeyLen)
-                {
-                        var testGroup = new TestGroup
-                        {
-                            Function = function,
-                            KeyLength = keyLength,
-                            TestType = "MMT"
-                        };
-                        testGroups.Add(testGroup);
-                }
-            }
-            return testGroups;
         }
     }
 }

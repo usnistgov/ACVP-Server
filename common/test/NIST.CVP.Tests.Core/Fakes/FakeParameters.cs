@@ -6,5 +6,9 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Tests.Core.Fakes
 {
-    public class FakeParameters : IParameters { }
+    public class FakeParameters : IParameters
+    {
+        public string Algorithm { get; } = "test";
+        public bool IsSample { get; } = true;
+    }
 }
