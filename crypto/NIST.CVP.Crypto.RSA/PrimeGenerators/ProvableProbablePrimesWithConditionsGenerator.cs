@@ -9,6 +9,7 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
+    // B.3.5
     public class ProvableProbablePrimesWithConditionsGenerator : PrimeGeneratorBase
     {
         private int _bitlen1, _bitlen2, _bitlen3, _bitlen4;

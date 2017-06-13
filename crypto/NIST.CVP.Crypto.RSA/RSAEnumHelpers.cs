@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Primitives;
 using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Crypto.RSA
 {
@@ -54,15 +55,19 @@ namespace NIST.CVP.Crypto.RSA
             }
         }
 
-        public static PrimeTestModes StringToPrimeTestMode(string val)
+        public static PrimeTestModes? StringToPrimeTestMode(string val)
         {
             if (val.Contains("2"))
             {
                 return PrimeTestModes.C2;
             }
-            else
+            else if (val.Contains("3"))
             {
                 return PrimeTestModes.C3;
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -76,6 +81,51 @@ namespace NIST.CVP.Crypto.RSA
             {
                 return PubExpModes.RANDOM;
             }
+        }
+
+        public static string PubExpModeToString(PubExpModes val)
+        {
+            switch (val)
+            {
+                case PubExpModes.FIXED:
+                    return "fixed";
+                case PubExpModes.RANDOM:
+                    return "random";
+            }
+
+            throw new Exception("Bad PubExpMode");
+        }
+
+        public static string KeyGenModeToString(KeyGenModes val)
+        {
+            switch (val)
+            {
+                case KeyGenModes.B32:
+                    return "B.3.2";
+                case KeyGenModes.B33:
+                    return "B.3.3";
+                case KeyGenModes.B34:
+                    return "B.3.4";
+                case KeyGenModes.B35:
+                    return "B.3.5";
+                case KeyGenModes.B36:
+                    return "B.3.6";
+            }
+
+            throw new Exception("Bad KeyGenMode");
+        }
+
+        public static string PrimeTestModeToString(PrimeTestModes val)
+        {
+            switch (val)
+            {
+                case PrimeTestModes.C2:
+                    return "tblC2";
+                case PrimeTestModes.C3:
+                    return "tblC3";
+            }
+
+            throw new Exception("Bad PrimeTestMode");
         }
     }
 }

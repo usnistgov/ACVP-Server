@@ -4,18 +4,12 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
+    // B.3.2
     public class RandomProvablePrimeGenerator : PrimeGeneratorBase
     {
         public RandomProvablePrimeGenerator(HashFunction hashFunction) : base(hashFunction) { }
         public RandomProvablePrimeGenerator() : base() { }
 
-        /// <summary>
-        /// B.3.2 Generate Random Provable Primes
-        /// </summary>
-        /// <param name="nlen"></param>
-        /// <param name="e"></param>
-        /// <param name="seed"></param>
-        /// <returns></returns>
         public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             // 1

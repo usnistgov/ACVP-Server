@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
@@ -17,8 +18,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public KeyGenModes Mode { get; set; }
         public int Modulo { get; set; }
         public HashFunction HashAlg { get; set; }
-        public PrimeTestModes PrimeTest { get; set; }
+        public PrimeTestModes? PrimeTest { get; set; }
         public PubExpModes PubExp { get; set; }
+        public BitString FixedPubExp { get; set; } = null;
         public List<ITestCase> Tests { get; set; }
         public string TestType { get; set; }
 
@@ -36,10 +38,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             TestType = source.testType;
 
             InfoGeneratedByServer = source.infoGeneratedByServer;
-            Mode = RSAEnumHelpers.StringToKeyGenMode(source.mode);
+            Mode = RSAEnumHelpers.StringToKeyGenMode(source.randPQ);
             Modulo = source.modulo;
             HashAlg = SHAEnumHelpers.StringToHashFunction(source.hashAlg);
-            PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(source.primeTest);
+            PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(SetStringValue(source, "primeTest"));
             PubExp = RSAEnumHelpers.StringToPubExpMode(source.pubExp);
 
             Tests = new List<ITestCase>();
@@ -64,6 +66,67 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 }
             }
             return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return $"{TestType}|{InfoGeneratedByServer}|{Mode}|{Modulo}|{HashAlg}|{PrimeTest}|{PubExp}".GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var otherGroup = obj as TestGroup;
+            if (otherGroup == null)
+            {
+                return false;
+            }
+            return this.GetHashCode() == otherGroup.GetHashCode();
+        }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(value))
+            {
+                return false;
+            }
+
+            try
+            {
+                switch (name.ToLower())
+                {
+                    case "testtype":
+                        TestType = value;
+                        return true;
+                    case "mode":
+                        Mode = RSAEnumHelpers.StringToKeyGenMode(value);
+                        return true;
+                    case "hashalg":
+                        HashAlg = SHAEnumHelpers.StringToHashFunction(value);
+                        return true;
+                    case "pubexp":
+                        PubExp = RSAEnumHelpers.StringToPubExpMode(value);
+                        return true;
+                    case "primetest":
+                        PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(value);
+                        return true;
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private string SetStringValue(IDictionary<string, object> source, string label)
+        {
+            if (source.ContainsKey(label))
+            {
+                return (string) source[label];
+            }
+
+            return "";
         }
     }
 }

@@ -8,6 +8,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
+    // B.3.4
     public class AllProvablePrimesWithConditionsGenerator : PrimeGeneratorBase
     {
         private int _bitlen1, _bitlen2, _bitlen3, _bitlen4;
@@ -22,13 +23,6 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             _bitlen4 = bitlen4;
         }
 
-        /// <summary>
-        /// B.3.4 Primes with Conditions, All Provable
-        /// </summary>
-        /// <param name="nlen"></param>
-        /// <param name="e"></param>
-        /// <param name="seed"></param>
-        /// <returns></returns>
         public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             BigInteger p, p1, p2, q, q1, q2;

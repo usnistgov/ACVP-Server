@@ -274,5 +274,21 @@ namespace NIST.CVP.Generation.Core
 
             return null;
         }
+
+        protected string ValidateHex(string supplied, string friendlyName)
+        {
+            if (supplied == null)
+            {
+                return $"No {friendlyName} supplied.";
+            }
+
+            // Count all the values 0-9, a-f, and compare to original length. If string is hex, they will be equal
+            if (supplied.ToLower().Count(c => (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')) != supplied.Length)
+            {
+                return $"Invalid {friendlyName} supplied. Supplied string is not hex.";
+            }
+
+            return null;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.RSA;
@@ -72,7 +73,66 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 retVal = true;
             }
 
+            if (Key.PrivKey.DMP1 == 0 && otherTypedTest.Key.PrivKey.DMP1 != 0)
+            {
+                Key.PrivKey.DMP1 = otherTypedTest.Key.PrivKey.DMP1;
+                retVal = true;
+            }
+
+            if (Key.PrivKey.DMQ1 == 0 && otherTypedTest.Key.PrivKey.DMQ1 != 0)
+            {
+                Key.PrivKey.DMQ1 = otherTypedTest.Key.PrivKey.DMQ1;
+                retVal = true;
+            }
+
+            if (Key.PrivKey.IQMP == 0 && otherTypedTest.Key.PrivKey.IQMP != 0)
+            {
+                Key.PrivKey.IQMP = otherTypedTest.Key.PrivKey.IQMP;
+                retVal = true;
+            }
+
             return retVal;
+        }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "e":
+                    Key.PubKey.E = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "n":
+                    Key.PubKey.N = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "p":
+                    Key.PrivKey.P = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "q":
+                    Key.PrivKey.Q = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "d":
+                    Key.PrivKey.D = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "dmp1":
+                    Key.PrivKey.DMP1 = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "dmq1":
+                    Key.PrivKey.DMQ1 = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "iqmp":
+                    Key.PrivKey.IQMP = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "seed":
+                    Seed = new BitString(value);
+                    return true;
+            }
+
+            return false;
         }
 
         private void MapToProperties(dynamic source)
@@ -96,6 +156,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             var d = BitStringFromObject("d", source);
 
             return new KeyPair(p, q, n, e, d);
+        }
+
+        private BigInteger BigIntegerFromObject(string sourcePropertyName, ExpandoObject source)
+        {
+            return 0;
         }
 
         private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)

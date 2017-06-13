@@ -553,7 +553,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         }
         #endregion Constructors
 
-        protected void SetHashFunction(HashFunction hashFunction)
+        public void SetHashFunction(HashFunction hashFunction)
         {
             _hashFunction = hashFunction;
         }
