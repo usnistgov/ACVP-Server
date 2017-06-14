@@ -6,6 +6,7 @@ using Autofac;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CBC;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.TDES_CBC;
 using NIST.CVP.Math;
 
@@ -34,7 +35,8 @@ namespace tdes_cbc
             builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
 
-            builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();

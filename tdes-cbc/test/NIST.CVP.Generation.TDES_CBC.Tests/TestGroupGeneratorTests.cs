@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_CBC.Tests
 {
     [TestFixture, UnitTest]
-    public class TestVectorFactoryTests
+    public class TestGroupGeneratorTests
     {
-        [Test]
-        public void ShouldReturnVectorSet()
+        private TestGroupGenerator _subject;
+
+        [SetUp]
+        public void Setup()
         {
-            var subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(
-                new Parameters
-                {
-                    Mode = new[] { "encrypt" },
-                    KeyingOption = new[] { 1, 2 }
-                });
-            Assert.IsNotNull(result);
+            _subject = new TestGroupGenerator();
         }
 
         [Test]
@@ -33,16 +25,15 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [TestCase("MCT", 3)]
         public void ShouldReturnVectorSetWithProperEncryptionTestGroups(string testType, int keyCount)
         {
-            var subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(
+            var result = _subject.BuildTestGroups(
                 new Parameters
                 {
                     Mode = new[] { "encrypt" },
                     KeyingOption = new[] { 1, 2 }
-                });
+                }).ToList();
             Assume.That(result != null);
-            Assert.AreEqual(7, result.TestGroups.Count);
-            Assert.IsNotNull(result.TestGroups.First(tg => tg.TestType == testType && ((TestGroup)tg).NumberOfKeys == keyCount && ((TestGroup)tg).Function == "encrypt"));
+            Assert.AreEqual(7, result.Count);
+            Assert.IsNotNull(result.First(tg => tg.TestType == testType && ((TestGroup)tg).NumberOfKeys == keyCount && ((TestGroup)tg).Function == "encrypt"));
         }
 
         [Test]
@@ -57,32 +48,29 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         [TestCase("MCT", 3)]
         public void ShouldReturnVectorSetWithProperDecryptionTestGroups(string testType, int keyCount)
         {
-            var subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(
+            var result = _subject.BuildTestGroups(
                 new Parameters
                 {
                     Mode = new[] { "decrypt" },
                     KeyingOption = new[] { 1, 2 }
-                });
+                }).ToList();
             Assume.That(result != null);
-            Assert.AreEqual(14, result.TestGroups.Count);
-            Assert.IsNotNull(result.TestGroups.First(tg => tg.TestType == testType && ((TestGroup)tg).NumberOfKeys == keyCount && ((TestGroup)tg).Function == "decrypt"));
+            Assert.AreEqual(14, result.Count);
+            Assert.IsNotNull(result.First(tg => tg.TestType == testType && ((TestGroup)tg).NumberOfKeys == keyCount && ((TestGroup)tg).Function == "decrypt"));
         }
 
         [Test]
         public void ShouldReturnVectorSetWithProperTestGroupsForBothDirections()
         {
-            var subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(
+            var result = _subject.BuildTestGroups(
                 new Parameters
                 {
                     Mode = new[] { "encrypt", "decrypt" },
                     KeyingOption = new[] { 1, 2 }
-                });
+                }).ToList();
             Assume.That(result != null);
-            Assert.AreEqual(21, result.TestGroups.Count);
+            Assert.AreEqual(21, result.Count);
 
         }
-
     }
 }

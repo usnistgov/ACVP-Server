@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CBC
 {
-    public class TestVectorFactory : ITestVectorFactory<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
     {
-        public readonly List<Tuple<string, int>> TestTypesAndNumberOfKeys = new List<Tuple<string, int>>
+        private readonly List<Tuple<string, int>> TestTypesAndNumberOfKeys = new List<Tuple<string, int>>
         {
             new Tuple<string, int>("Permutation", 1),
             new Tuple<string, int>("InversePermutation", 1),
@@ -18,19 +19,10 @@ namespace NIST.CVP.Generation.TDES_CBC
             new Tuple<string, int>("MultiBlockMessage", 3),
             new Tuple<string, int>("MCT", 2),
             new Tuple<string, int>("MCT", 3)
-
         };
-        public ITestVectorSet BuildTestVectorSet(Parameters parameters)
+
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
-            var groups = BuildTestGroups(parameters);
-            var testVector = new TestVectorSet { TestGroups = groups, Algorithm = parameters.Algorithm, IsSample = parameters.IsSample };
-
-            return testVector;
-        }
-
-        private List<ITestGroup> BuildTestGroups(Parameters parameters)
-        {
-
             var testGroups = new List<ITestGroup>();
             foreach (var function in parameters.Mode)
             {
@@ -42,7 +34,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                         continue;
                     }
 
-                    var translatedKeyingOptionToNumberOfKeys = GetNumberOfKeysFromKeyingOption(keyingOption);
+                    var translatedKeyingOptionToNumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption);
 
                     // Create groups for the 1 key (KATs) as well as the number of keys for the keying option
                     var testTypesToRun = TestTypesAndNumberOfKeys
@@ -52,19 +44,6 @@ namespace NIST.CVP.Generation.TDES_CBC
                 }
             }
             return testGroups;
-        }
-
-        private int GetNumberOfKeysFromKeyingOption(int keyingOption)
-        {
-            switch (keyingOption)
-            {
-                case 1:
-                    return 3;
-                case 2:
-                    return 2;
-                default:
-                    throw new ArgumentException(nameof(keyingOption));
-            }
         }
 
         private void AddTestGroups(IEnumerable<Tuple<string, int>> testTypesToRun, string function, List<ITestGroup> testGroups)
