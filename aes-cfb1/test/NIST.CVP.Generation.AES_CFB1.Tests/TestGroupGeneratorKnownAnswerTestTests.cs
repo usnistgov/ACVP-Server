@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.AES_CFB1.Tests
 {
     [TestFixture, UnitTest]
-    public class KATTestGroupFactoryTests
+    public class TestGroupGeneratorKnownAnswerTestTests
     {
         private static object[] parameters = new object[]
         {
@@ -46,9 +46,9 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
         [TestCaseSource(nameof(parameters))]
         public void ShouldCreate4TestGroupsForEachCombinationOfKeyLengthAndDirection(int expectedGroupsCreated, Parameters parameters)
         {
-            KATTestGroupFactory subject = new KATTestGroupFactory();
+            TestGroupGeneratorKnownAnswerTests subject = new TestGroupGeneratorKnownAnswerTests();
 
-            var results = subject.BuildKATTestGroups(parameters);
+            var results = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
         }
     }
