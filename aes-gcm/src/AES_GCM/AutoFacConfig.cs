@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Generation.AES_GCM;
 using NIST.CVP.Generation.AES_GCM.Parsers;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Generation.Core.Parsers;
 
@@ -29,7 +30,8 @@ namespace AES_GCM
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();

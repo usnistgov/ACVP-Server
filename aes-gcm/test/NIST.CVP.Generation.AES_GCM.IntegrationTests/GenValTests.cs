@@ -340,6 +340,12 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                         BitString bs = new BitString(testCase.cipherText.ToString());
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
 
+                        // Can't get something "different" of empty bitstring of the same length
+                        if (bs == null)
+                        {
+                            bs = new BitString("01");
+                        }
+
                         testCase.cipherText = bs.ToHex();
                     }
 
@@ -348,6 +354,12 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                     {
                         BitString bs = new BitString(testCase.plainText.ToString());
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                        // Can't get something "different" of empty bitstring of the same length
+                        if (bs == null)
+                        {
+                            bs = new BitString("01");
+                        }
 
                         testCase.plainText = bs.ToHex();
                     }

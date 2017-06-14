@@ -1,16 +1,25 @@
-﻿using NIST.CVP.Generation.AES_GCM;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Moq;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
 {
     [TestFixture, UnitTest]
-    public class TestVectorFactoryTests
+    public class TestGroupGeneratorTests
     {
+        private TestGroupGenerator _subject;
+
+        [SetUp]
+        public void Setup()
+        {
+            _subject = new TestGroupGenerator();
+        }
+
         [Test]
         // 0
         [TestCase(
@@ -86,37 +95,9 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             };
             int expectedResultCount = aadLen.Length * ivLen.Length * keyLen.Length * mode.Length * ptLen.Length * tagLen.Length;
 
-            TestVectorFactory subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(p);
+            var result = _subject.BuildTestGroups(p);
 
-            Assert.AreEqual(expectedResultCount, result.TestGroups.Count);
+            Assert.AreEqual(expectedResultCount, result.Count());
         }
-
-        [Test]
-        [TestCase(true)]
-        [TestCase(false)]
-        public void ShouldSetIsSampleProperlyFromTheParameters(bool isSample)
-        {
-            Parameters p = new Parameters()
-            {
-                aadLen = new int[] { 1 },
-                Algorithm = "AES GCM",
-                ivGen = "",
-                ivGenMode = "",
-                ivLen = new int[] { 1 },
-                KeyLen = new int[] { 1 },
-                Mode = new [] {""},
-                PtLen = new int[] { 1 },
-                TagLen = new int[] { 1 },
-                IsSample = isSample
-            };
-         
-
-            TestVectorFactory subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(p);
-
-            Assert.AreEqual(isSample, result.IsSample);
-        }
-
     }
 }
