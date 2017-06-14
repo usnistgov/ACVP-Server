@@ -3,7 +3,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CFB128
 {
-    public class KATTestGroupFactory : IKnownAnswerTestGroupFactory<Parameters, TestGroup>
+    public class TestGroupGeneratorKnownAnswerTests : ITestGroupGenerator<Parameters>
     {
         private readonly string[] _katTests = new string[]
         {
@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.AES_CFB128
             "VarKey"
         };
 
-        public IEnumerable<TestGroup> BuildKATTestGroups(Parameters parameters)
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

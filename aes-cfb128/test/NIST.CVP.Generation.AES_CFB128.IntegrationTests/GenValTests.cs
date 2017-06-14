@@ -379,12 +379,25 @@ namespace NIST.CVP.Generation.AES_CFB128.IntegrationTests
             return CreateRegistration(targetFolder, p);
         }
 
+        /// <summary>
+        /// Can be used to only generate MMT groups for the genval tests
+        /// </summary>
+        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+        {
+            public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+            {
+                return new List<ITestGroupGenerator<Parameters>>()
+                {
+                    new TestGroupGeneratorMultiBlockMessage()
+                };
+            }
+        }
+
         private void RemoveMCTAndKATTestGroupFactories()
         {
             AutofacConfig.OverrideRegistrations += builder =>
             {
-                builder.RegisterType<NullKATTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
-                builder.RegisterType<NullMCTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
+                builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
             };
         }
 

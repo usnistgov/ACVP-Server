@@ -4,16 +4,14 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CFB128.Tests
 {
-    public class MCTTestGroupFactoryTests
+    [TestFixture, UnitTest]
+    public class TestGroupGeneratorKnownAnswerTestTests
     {
-        [TestFixture, UnitTest]
-        public class KATTestGroupFactoryTests
+        private static object[] parameters = new object[]
         {
-            private static object[] parameters = new object[]
-            {
             new object[]
             {
-                0, // 1 * 0 * 1
+                0, // 4 * 0 * 1
                 new ParameterBuilder()
                     .WithKeyLen(new int[] { }) // 0
                     .WithMode(new[] {"encrypt"})  // 1
@@ -21,7 +19,7 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests
             },
             new object[]
             {
-                1, // 1 * 1 * 1
+                4, // 4 * 1 * 1
                 new ParameterBuilder()
                     .WithKeyLen(new[] {128}) // 1
                     .WithMode(new[] {"encrypt"})  // 1
@@ -29,7 +27,7 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests
             },
             new object[]
             {
-                4, // 1 * 2 * 2
+                16, // 4 * 2 * 2
                 new ParameterBuilder()
                     .WithKeyLen(new[] {128, 192}) // 2
                     .WithMode(new[] {"encrypt", "decrypt"}) // 2
@@ -37,22 +35,21 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests
             },
             new object[]
             {
-                6, // 1 * 3 * 2
+                24, // 4 * 3 * 2
                 new ParameterBuilder()
                     .WithKeyLen(new[] {128, 192, 256}) // 3
                     .WithMode(new[] {"encrypt", "decrypt"}) // 2
                     .Build()
             }
-            };
-            [Test]
-            [TestCaseSource(nameof(parameters))]
-            public void ShouldCreate1TestGroupForEachCombinationOfKeyLengthAndDirection(int expectedGroupsCreated, Parameters parameters)
-            {
-                MCTTestGroupFactory subject = new MCTTestGroupFactory();
+        };
+        [Test]
+        [TestCaseSource(nameof(parameters))]
+        public void ShouldCreate4TestGroupsForEachCombinationOfKeyLengthAndDirection(int expectedGroupsCreated, Parameters parameters)
+        {
+            TestGroupGeneratorKnownAnswerTests subject = new TestGroupGeneratorKnownAnswerTests();
 
-                var results = subject.BuildMCTTestGroups(parameters);
-                Assert.AreEqual(expectedGroupsCreated, results.Count());
-            }
+            var results = subject.BuildTestGroups(parameters);
+            Assert.AreEqual(expectedGroupsCreated, results.Count());
         }
     }
 }
