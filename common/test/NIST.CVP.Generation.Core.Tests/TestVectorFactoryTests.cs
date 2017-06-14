@@ -1,18 +1,16 @@
 ﻿using System.Collections.Generic;
-using Castle.Components.DictionaryAdapter;
 using Moq;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
+namespace NIST.CVP.Generation.Core.Tests
 {
     [TestFixture, UnitTest]
     public class TestVectorFactoryTests
     {
 
-        private TestVectorFactory<IParameters> _subject;
+        private TestVectorFactory<IParameters, FakeTestVectorSet> _subject;
         private Mock<ITestGroupGeneratorFactory<IParameters>> _testGroupGeneratorFactory;
         private Mock<ITestGroupGenerator<IParameters>> _testGroupGenerator;
 
@@ -28,13 +26,13 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
         [TestCase("test-again")]
         public void ShouldSetAlgorithmProperlyFromTheParameters(string algorithm)
         {
-            Parameters p = new Parameters()
+            FakeParameters p = new FakeParameters()
             {
                 Algorithm = algorithm,
                 IsSample = true
             };
 
-            _subject = new TestVectorFactory<IParameters>(_testGroupGeneratorFactory.Object);
+            _subject = new TestVectorFactory<IParameters, FakeTestVectorSet>(_testGroupGeneratorFactory.Object);
             var result = _subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(algorithm, result.Algorithm);
@@ -45,13 +43,13 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
         [TestCase(false)]
         public void ShouldSetIsSampleProperlyFromTheParameters(bool isSample)
         {
-            Parameters p = new Parameters()
+            FakeParameters p = new FakeParameters()
             {
                 Algorithm = "anAlgorithm",
                 IsSample = isSample
             };
 
-            _subject = new TestVectorFactory<IParameters>(_testGroupGeneratorFactory.Object);
+            _subject = new TestVectorFactory<IParameters, FakeTestVectorSet>(_testGroupGeneratorFactory.Object);
             var result = _subject.BuildTestVectorSet(p);
 
             Assert.AreEqual(isSample, result.IsSample);
@@ -76,7 +74,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
                 .Setup(s => s.BuildTestGroups(It.IsAny<IParameters>()))
                 .Returns(new List<ITestGroup>());
 
-            _subject = new TestVectorFactory<IParameters>(_testGroupGeneratorFactory.Object);
+            _subject = new TestVectorFactory<IParameters, FakeTestVectorSet>(_testGroupGeneratorFactory.Object);
 
             FakeParameters p = new FakeParameters();
             _subject.BuildTestVectorSet(p);

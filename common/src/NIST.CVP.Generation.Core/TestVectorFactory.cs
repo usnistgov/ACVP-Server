@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
-namespace NIST.CVP.Generation.AES_ECB
+namespace NIST.CVP.Generation.Core
 {
-    public class TestVectorFactory<TParameters> : ITestVectorFactory<TParameters>
+    public class TestVectorFactory<TParameters, TTestVectorSet> : ITestVectorFactory<TParameters>
         where TParameters : IParameters
+        where TTestVectorSet : ITestVectorSet, new()
     {
         private readonly ITestGroupGeneratorFactory<TParameters> _iTestGroupGeneratorFactory;
 
@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.AES_ECB
                 groups.AddRangeIfNotNullOrEmpty(groupGenerator.BuildTestGroups(parameters));
             }
 
-            var testVector = new TestVectorSet { TestGroups = groups, IsSample = parameters.IsSample, Algorithm = parameters.Algorithm };
+            var testVector = new TTestVectorSet { TestGroups = groups, IsSample = parameters.IsSample, Algorithm = parameters.Algorithm };
 
             return testVector;
         }

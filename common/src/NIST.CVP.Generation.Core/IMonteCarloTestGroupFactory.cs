@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.Core
 {
+    [Obsolete("To be replaced by more generic ITestGroupGenerator")]
     public interface IMonteCarloTestGroupFactory<in TParameters, out TTestGroup>
         where TParameters : IParameters
         where TTestGroup : ITestGroup
