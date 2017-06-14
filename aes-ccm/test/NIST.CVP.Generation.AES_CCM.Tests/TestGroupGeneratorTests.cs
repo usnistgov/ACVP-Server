@@ -1,18 +1,24 @@
 ﻿using System;
-using System.Linq;
-using NUnit.Framework;
 using System.Collections.Generic;
-using Castle.Components.DictionaryAdapter;
+using System.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CCM.Tests
 {
     [TestFixture, UnitTest]
-    public class TestVectorFactoryTests
+    public class TestGroupGeneratorTests
     {
+        private TestGroupGenerator _subject;
+
+        [SetUp]
+        public void Setup()
+        {
+            _subject = new TestGroupGenerator();
+        }
 
         #region Parameter test scenarios
         private static object[] GetTestParameterData()
@@ -79,13 +85,12 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         public void ShouldContainGroupsForEachTestType()
         {
             Parameters p = new ParameterBuilder().Build();
-            
-            TestVectorFactory subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(p);
+
+            var result = _subject.BuildTestGroups(p);
 
             foreach (TestTypes testType in Enum.GetValues(typeof(TestTypes)))
             {
-                Assert.IsTrue(result.TestGroups.Any(a => a.TestType == testType.ToString()));
+                Assert.IsTrue(result.Any(a => a.TestType == testType.ToString()));
             }
         }
 
@@ -121,16 +126,15 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            TestVectorFactory subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(p);
+            var result = _subject.BuildTestGroups(p);
 
             // Only the min/max aadLen and ptLens go into the creation of the group
-            int aadLenMultiplier = (subject.AadLens.Min() == subject.AadLens.Max()) ? 1 : 2;
-            int ptLenMultiplier = (subject.PtLens.Min() == subject.PtLens.Max()) ? 1 : 2;
+            int aadLenMultiplier = (_subject.AadLens.Min() == _subject.AadLens.Max()) ? 1 : 2;
+            int ptLenMultiplier = (_subject.PtLens.Min() == _subject.PtLens.Max()) ? 1 : 2;
 
-            int expectedResultCount = subject.KeyLens.Length * aadLenMultiplier * ptLenMultiplier * subject.NonceLens.Count() * subject.TagLens.Count();
+            int expectedResultCount = _subject.KeyLens.Length * aadLenMultiplier * ptLenMultiplier * _subject.NonceLens.Count() * _subject.TagLens.Count();
 
-            Assert.AreEqual(expectedResultCount, result.TestGroups.Count(c => c.TestType == testType.ToString()));
+            Assert.AreEqual(expectedResultCount, result.Count(c => c.TestType == testType.ToString()));
         }
 
         /// <summary>
@@ -165,17 +169,16 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            TestVectorFactory subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(p);
+            var result = _subject.BuildTestGroups(p);
 
             // AAD is a range of values, add an additional group if SupportsAad2Pow16
-            int aadLenRange = (subject.AadLens.Max() - subject.AadLens.Min()) / 8 + 1 +
-                              (subject.Supports2pow16bytes ? 1 : 0);
+            int aadLenRange = (_subject.AadLens.Max() - _subject.AadLens.Min()) / 8 + 1 +
+                              (_subject.Supports2pow16bytes ? 1 : 0);
 
             // pt, tag, and nonce use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * aadLenRange * 1 * 1 * 1;
 
-            Assert.AreEqual(expectedResultCount, result.TestGroups.Count(c => c.TestType == testType.ToString()));
+            Assert.AreEqual(expectedResultCount, result.Count(c => c.TestType == testType.ToString()));
         }
 
         /// <summary>
@@ -211,13 +214,12 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            TestVectorFactory subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(p);
+            var result = _subject.BuildTestGroups(p);
 
             // aad, pt, and tag use the max value, will always be a multiplier of 1
-            int expectedResultCount = keyLen.Length * 1 * subject.NonceLens.Count() * 1 * 1;
+            int expectedResultCount = keyLen.Length * 1 * _subject.NonceLens.Count() * 1 * 1;
 
-            Assert.AreEqual(expectedResultCount, result.TestGroups.Count(c => c.TestType == testType.ToString()));
+            Assert.AreEqual(expectedResultCount, result.Count(c => c.TestType == testType.ToString()));
         }
 
         /// <summary>
@@ -253,16 +255,15 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            TestVectorFactory subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(p);
+            var result = _subject.BuildTestGroups(p);
 
             // Payload is a range of values, add an additional group if SupportsAad2Pow16
-            var payloadCount = (subject.PtLens.Max() - subject.PtLens.Min()) / 8 + 1;
+            var payloadCount = (_subject.PtLens.Max() - _subject.PtLens.Min()) / 8 + 1;
 
             // aad, nonce, and tag use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * 1 * payloadCount * 1 * 1;
 
-            Assert.AreEqual(expectedResultCount, result.TestGroups.Count(c => c.TestType == testType.ToString()));
+            Assert.AreEqual(expectedResultCount, result.Count(c => c.TestType == testType.ToString()));
         }
 
         /// <summary>
@@ -298,13 +299,12 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            TestVectorFactory subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(p);
+            var result = _subject.BuildTestGroups(p);
 
             // aad, pt, and nonce use the max value, will always be a multiplier of 1
-            int expectedResultCount = keyLen.Length * 1 * 1 * 1 * subject.TagLens.Length;
+            int expectedResultCount = keyLen.Length * 1 * 1 * 1 * _subject.TagLens.Length;
 
-            Assert.AreEqual(expectedResultCount, result.TestGroups.Count(c => c.TestType == testType.ToString()));
+            Assert.AreEqual(expectedResultCount, result.Count(c => c.TestType == testType.ToString()));
         }
 
         [Test]
@@ -317,10 +317,9 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         {
             Parameters p = new ParameterBuilder().Build();
 
-            TestVectorFactory subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(p);
+            var result = _subject.BuildTestGroups(p);
 
-            var typeTests = result.TestGroups.Where(w => w.TestType == testType.ToString()).Select(s => (TestGroup)s);
+            var typeTests = result.Where(w => w.TestType == testType.ToString()).Select(s => (TestGroup)s);
             var correctShares =
                 typeTests.All(
                     a =>
@@ -329,20 +328,5 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
 
             Assert.IsTrue(correctShares);
         }
-
-        [Test]
-        [TestCase(true)]
-        [TestCase(false)]
-        public void ShouldSetIsSampleProperlyFromTheParameters(bool isSample)
-        {
-            Parameters p = new ParameterBuilder().Build();
-            p.IsSample = isSample;
-
-            TestVectorFactory subject = new TestVectorFactory();
-            var result = subject.BuildTestVectorSet(p);
-
-            Assert.AreEqual(isSample, result.IsSample);
-        }
-
     }
 }

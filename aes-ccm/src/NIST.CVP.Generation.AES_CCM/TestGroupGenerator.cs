@@ -5,9 +5,8 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CCM
 {
-    public class TestVectorFactory : ITestVectorFactory<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
     {
-
         public int[] KeyLens { get; private set; }
         public int[] PtLens { get; private set; }
         public int[] NonceLens { get; private set; }
@@ -15,7 +14,7 @@ namespace NIST.CVP.Generation.AES_CCM
         public int[] TagLens { get; private set; }
         public bool Supports2pow16bytes { get; private set; }
 
-        public ITestVectorSet BuildTestVectorSet(Parameters parameters)
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var groups = new List<ITestGroup>();
 
@@ -26,9 +25,7 @@ namespace NIST.CVP.Generation.AES_CCM
                 CreateGroups(testType, groups);
             }
 
-            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = parameters.Algorithm, IsSample = parameters.IsSample};
-
-            return testVector;
+            return groups;
         }
 
         private void PopulateLengths(Parameters parameters)
@@ -39,10 +36,10 @@ namespace NIST.CVP.Generation.AES_CCM
             PtLens = parameters.PtLen.GetValues(ParameterValidator.VALID_MAX_PT / 8 + 1).ToArray();
 
             NonceLens = parameters.IvLen.GetValues(ParameterValidator.VALID_NONCE_LENGTHS.Length).ToArray();
-            
+
             // For AAD, we only want up to a maximum of 32 bytes, so limit the range to 32*8 for bits.
             // Take in a maximum of 33 values (0-32)
-            parameters.AadLen.SetMaximumAllowedValue(32*8);
+            parameters.AadLen.SetMaximumAllowedValue(32 * 8);
             AadLens = parameters.AadLen.GetValues(33).ToArray();
 
             TagLens = parameters.TagLen.GetValues(ParameterValidator.VALID_TAG_LENGTHS.Length).ToArray();
@@ -293,7 +290,7 @@ namespace NIST.CVP.Generation.AES_CCM
             var aadLen = AadLens.Max();
             var ptLen = PtLens.Max();
             var nonceLen = NonceLens.Max();
-            
+
             foreach (var keyLen in KeyLens)
             {
                 foreach (var tagLen in TagLens)
@@ -315,6 +312,5 @@ namespace NIST.CVP.Generation.AES_CCM
                 }
             }
         }
-
     }
 }
