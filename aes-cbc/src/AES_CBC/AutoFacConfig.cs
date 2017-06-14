@@ -3,6 +3,7 @@ using Autofac;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CBC;
 using NIST.CVP.Generation.AES_CBC;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 
@@ -30,9 +31,8 @@ namespace AES_CBC
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<KnownAnswerTestCaseGeneratorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<KATTestGroupFactory>().AsImplementedInterfaces();
-            builder.RegisterType<MCTTestGroupFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();

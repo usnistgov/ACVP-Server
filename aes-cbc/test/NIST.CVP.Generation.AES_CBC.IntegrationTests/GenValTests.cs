@@ -5,6 +5,7 @@ using System.Linq;
 using AES_CBC;
 using Autofac;
 using Newtonsoft.Json;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
@@ -377,12 +378,25 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
             return CreateRegistration(targetFolder, p);
         }
 
+        /// <summary>
+        /// Can be used to only generate MMT groups for the genval tests
+        /// </summary>
+        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+        {
+            public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+            {
+                return new List<ITestGroupGenerator<Parameters>>()
+                {
+                    new TestGroupGeneratorMultiBlockMessage()
+                };
+            }
+        }
+
         private void RemoveMCTAndKATTestGroupFactories()
         {
             AutofacConfig.OverrideRegistrations += builder =>
             {
-                builder.RegisterType<NullKATTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
-                builder.RegisterType<NullMCTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
+                builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
             };
         }
 

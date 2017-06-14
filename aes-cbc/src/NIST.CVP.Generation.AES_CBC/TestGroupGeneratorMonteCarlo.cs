@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CBC
 {
-    public class MCTTestGroupFactory : IMonteCarloTestGroupFactory<Parameters, TestGroup>
+    public class TestGroupGeneratorMonteCarlo : ITestGroupGenerator<Parameters>
     {
         public const string _MCT_TEST_TYPE_LABEL = "MCT";
 
-        public IEnumerable<TestGroup> BuildMCTTestGroups(Parameters parameters)
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
