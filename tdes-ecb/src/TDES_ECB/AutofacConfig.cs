@@ -6,6 +6,7 @@ using Autofac;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_ECB;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.TDES_ECB;
 using NIST.CVP.Math;
 
@@ -32,9 +33,9 @@ namespace tdes_ecb
             builder.RegisterType<TDES_ECB_MCT>().AsImplementedInterfaces();
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
             builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
-          
-            builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
