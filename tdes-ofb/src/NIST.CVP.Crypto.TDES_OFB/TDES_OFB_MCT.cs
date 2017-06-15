@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.TDES;
@@ -26,92 +27,105 @@ namespace NIST.CVP.Crypto.TDES_OFB
 
         public MCTResult<AlgoArrayResponse> MCTEncrypt(BitString keyBits, BitString data, BitString iv)
         {
+            var responses = new List<AlgoArrayResponse>{
+                new AlgoArrayResponse {
+                    IV = iv,
+                    Keys = keyBits,
+                    PlainText = data
+                }
+            };
 
-
-            /*
-            TMOVS:
-            Initialize KEY1.0, KEY2.0, KEY3.0, IV, TEXT-0
-            Send KEY1.0, KEY2.0, KEY3.0, IV, TEXT.0
-
-
-            IUT:
-            FOR i = 0 TO 399
+            var indexAtWhichToStartSaving = NUMBER_OF_ITERATIONS - NUMBER_OF_OUTPUTS_TO_SAVE;
+            for (var i = 0; i <= NumberOfCases; i++)
             {
-                (Part of Triple DES processing):
-                    If (i==0) 
+
+                var tempText = responses.Last().PlainText.GetDeepCopy();
+                var tempIv = responses.Last().IV.GetDeepCopy();
+                BitString prevTempIv = null;
+                EncryptionResult encryptionResult = null;
+
+                var lastCipherTexts = new List<BitString>();
+                BitString output = null;
+                for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
+                {
+                    prevTempIv = tempIv;
+                    encryptionResult = _algo.BlockEncrypt(responses[i].Keys, tempText, tempIv);
+                    //the result is OUTPUT xored with TEXT. 
+                    //Output is needed for the next step, so let's recompute it
+                    output = encryptionResult.CipherText.XOR(tempText);
+
+                    tempText = tempIv.GetDeepCopy();
+                    tempIv = output.GetDeepCopy();
+                    if (j >= indexAtWhichToStartSaving)
                     {
-                        I.0 = IV
+                        lastCipherTexts.Insert(0, encryptionResult.CipherText.GetDeepCopy());
                     }
 
-                Record i, KEY1.i, KEY2.i, KEY3.i, TEXT.0
-                INITTEXT = TEXT.0
-                FOR j = 0 TO 9999
-                {
-                    Perform Triple DES:
-                        I.j is read into TDEA and is encrypted by DEA.1 using KEY1.i, 
-                        resulting in TEMP1
-
-                        TEMP1 is decrypted by DEA.2 using KEY2.i, 
-                        resulting in TEMP2
-
-                        TEMP2 is encrypted by DEA.3 using KEY3.i, 
-                        resulting in O.j
-
-                        RESULT.j = O.j XOR TEXT.j
-
-                    TEXT.j+1 = I.j
-
-                    (Part of Triple DES processing):
-                        I.j+1 = O.j
                 }
-                Record I-0, RESULT.j
+                responses.Last().CipherText = encryptionResult.CipherText.GetDeepCopy();
 
-                Send i, KEY1.i, KEY2.i, KEY3.i, I-0, TEXT-0, RESULT.j
+                responses.Add(new AlgoArrayResponse()
+                    {
+                        Keys = _keyMaker.MixKeys(new TDESKeys(responses.Last().Keys.GetDeepCopy()), lastCipherTexts).ToOddParityBitString(),
+                        PlainText = responses.Last().PlainText.GetDeepCopy().XOR(prevTempIv),
+                        IV = output.GetDeepCopy()
+                });
 
-
-                KEY1.i+1 = KEY1.i XOR RESULT.j
-
-                IF (KEY1.i and KEY2.i are independent and KEY3.i= KEY1.i) 
-                or 
-                (KEY1.i, KEY2.i, and KEY3.i are independent)
-                {
-                    KEY2.i+1 = KEY2.i XOR RESULT.j-1
-                }
-                ELSE
-                {
-                    KEY2.i+1 = KEY2.i XOR RESULT.j
-                }
-
-                IF (KEY1.i = KEY2.i = KEY3.i) 
-                or 
-                (KEY1.i and KEY2.i are independent and KEY3.i = KEY1.i)
-                {
-                    KEY3.i+1 = KEY3.i XOR RESULT.j
-                }
-                ELSE
-                {
-                    KEY3.i+1 = KEY3.i XOR RESULT.j - 2
-                }
-
-                TEXT.0 = INITTEXT XOR I.j
-                I.0 = O.j
             }
-
-            TMOVS:
-            Check IUT's output for correctness.
-             */
-
-
-
-            throw new NotImplementedException();
-
-
+            responses.RemoveAt(responses.Count() - 1);
+            return new MCTResult<AlgoArrayResponse>(responses);
 
         }
 
         public MCTResult<AlgoArrayResponse> MCTDecrypt(BitString keyBits, BitString data, BitString iv)
         {
-            throw new NotImplementedException();
+            var responses = new List<AlgoArrayResponse>{
+                new AlgoArrayResponse {
+                    IV = iv,
+                    Keys = keyBits,
+                    CipherText = data
+                }
+            };
+
+            var indexAtWhichToStartSaving = NUMBER_OF_ITERATIONS - NUMBER_OF_OUTPUTS_TO_SAVE;
+            for (var i = 0; i <= NumberOfCases; i++)
+            {
+
+                var tempCipherText = responses.Last().CipherText.GetDeepCopy();
+                var tempIv = responses.Last().IV.GetDeepCopy();
+                BitString prevTempIv = null;
+                DecryptionResult decryptionResult = null; 
+
+                var lastPlainTexts = new List<BitString>();
+                BitString output = null;
+                for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
+                {
+                    prevTempIv = tempIv;
+                    decryptionResult = _algo.BlockDecrypt(responses[i].Keys, tempCipherText, tempIv);
+                    //the result is OUTPUT xored with TEXT. 
+                    //Output is needed for the next step, so let's recompute it
+                    output = decryptionResult.PlainText.XOR(tempCipherText);
+
+                    tempCipherText = tempIv.GetDeepCopy();
+                    tempIv = output.GetDeepCopy();
+                    if (j >= indexAtWhichToStartSaving)
+                    {
+                        lastPlainTexts.Insert(0, decryptionResult.PlainText.GetDeepCopy());
+                    }
+
+                }
+                responses.Last().PlainText = decryptionResult.PlainText.GetDeepCopy();
+
+                responses.Add(new AlgoArrayResponse()
+                {
+                    Keys = _keyMaker.MixKeys(new TDESKeys(responses.Last().Keys.GetDeepCopy()), lastPlainTexts).ToOddParityBitString(),
+                    CipherText = responses.Last().CipherText.GetDeepCopy().XOR(prevTempIv),
+                    IV = output.GetDeepCopy()
+                });
+
+            }
+            responses.RemoveAt(responses.Count() - 1);
+            return new MCTResult<AlgoArrayResponse>(responses);
         }
     }
 }
