@@ -3,19 +3,12 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
-    public class TestVectorFactory : ITestVectorFactory<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
     {
-        public ITestVectorSet BuildTestVectorSet(Parameters parameters)
-        {
-            var groups = BuildTestGroups(parameters);
-            var testVector = new TestVectorSet {TestGroups = groups, Algorithm = parameters.Algorithm, IsSample = parameters.IsSample};
-
-            return testVector;
-        }
-
-        private List<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<ITestGroup>();
+
             foreach (var function in parameters.Direction)
             {
                 foreach (var keyLength in parameters.KeyLen)
