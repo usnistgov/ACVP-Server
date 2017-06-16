@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
     [TestFixture, UnitTest]
-    public class AFTTestGroupFactoryTests
+    public class TestGroupFactoryAlgorithmFUnctionalTestTests
     {
         private static object[] parameters =
         {
@@ -65,8 +65,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [TestCaseSource(nameof(parameters))]
         public void ShouldCreate1TestGroupForEachCombinationOfParams(int expectedGroups, Parameters parameters)
         {
-            var subject = new AFTTestGroupFactory();
-            var result = subject.BuildAFTTestGroups(parameters);
+            var subject = new TestGroupGeneratorAlgorithmFunctionalTest();
+            var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }
     }

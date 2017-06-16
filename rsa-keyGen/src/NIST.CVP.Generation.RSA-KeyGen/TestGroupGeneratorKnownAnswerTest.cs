@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class KATTestGroupFactory : IKnownAnswerTestGroupFactory<Parameters, TestGroup>
+    public class TestGroupGeneratorKnownAnswerTests : ITestGroupGenerator<Parameters>
     {
-        public IEnumerable<TestGroup> BuildKATTestGroups(Parameters parameters)
+        private const string TEST_TYPE = "KAT";
+
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         Modulo = modulo,
                         PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest),
                         PubExp = PubExpModes.RANDOM,
-                        TestType = "KAT"
+                        TestType = TEST_TYPE
                     };
 
                     testGroups.Add(testGroup);

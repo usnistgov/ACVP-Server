@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
@@ -9,9 +6,11 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class AFTTestGroupFactory : IAlgorithmFunctionalTestGroupFactory<Parameters, TestGroup>
+    public class TestGroupGeneratorAlgorithmFunctionalTest : ITestGroupGenerator<Parameters>
     {
-        public IEnumerable<TestGroup> BuildAFTTestGroups(Parameters parameters)
+        public const string TEST_TYPE = "AFT";
+
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -38,7 +37,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                                 PubExp = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode),
                                 FixedPubExp = (parameters.FixedPubExp != "" ? new BitString(parameters.FixedPubExp) : null),
                                 InfoGeneratedByServer = parameters.InfoGeneratedByServer,
-                                TestType = "AFT"
+                                TestType = TEST_TYPE
                             };
 
                             testGroups.Add(testGroup);
@@ -61,7 +60,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                                     PubExp = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode),
                                     FixedPubExp = (parameters.FixedPubExp != "" ? new BitString(parameters.FixedPubExp) : null),
                                     InfoGeneratedByServer = parameters.InfoGeneratedByServer,
-                                    TestType = "AFT"
+                                    TestType = TEST_TYPE
                                 };
 
                                 testGroups.Add(testGroup);
@@ -82,7 +81,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                                 PubExp = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode),
                                 FixedPubExp = (parameters.FixedPubExp != "" ? new BitString(parameters.FixedPubExp) : null),
                                 InfoGeneratedByServer = parameters.InfoGeneratedByServer,
-                                TestType = "AFT"
+                                TestType = TEST_TYPE
                             };
 
                             testGroups.Add(testGroup);

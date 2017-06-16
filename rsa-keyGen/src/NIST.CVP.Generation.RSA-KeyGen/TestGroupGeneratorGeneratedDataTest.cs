@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class GDTTestGroupFactory : IGeneratedDataTestGroupFactory<Parameters, TestGroup>
+    public class TestGroupGeneratorGeneratedDataTest : ITestGroupGenerator<Parameters>
     {
-        public IEnumerable<TestGroup> BuildGDTTestGroups(Parameters parameters)
+        public const string TEST_TYPE = "GDT";
+
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -30,7 +31,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest),
                         PubExp = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode),
                         FixedPubExp = new BitString(parameters.FixedPubExp),
-                        TestType = "GDT"
+                        TestType = TEST_TYPE
                     };
 
                     testGroups.Add(testGroup);
