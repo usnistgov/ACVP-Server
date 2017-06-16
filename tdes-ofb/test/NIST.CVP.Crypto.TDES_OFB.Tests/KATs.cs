@@ -610,7 +610,6 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
         [Test]
         [TestCase("2fd5fb2aea3462a120e6cd5b20f2bc8ff48a9e58f1cb89d5", "1018c71607c83787", "bb68f8f6a0a2c749", "95a87d4e54522958")]
         [TestCase("b9e0e032375ebae04cda7cab1c3d2f5119d346f208ea83f7", "b8eab3ef61c7d1b4", "b78e05dc12ecdfb59291c3cd3bff7dd2", "070dbff0d1333afe81f84ca3510f0ce2")]
-        [TestCase("7fa43d86dfec700489b97f1ca167ce5dc201e6b961086d9b", "e153aebca560b74a", "c8ebfd86215e693194e95fca97b8acfdf4fc07afcde33d91", "fb9bd53e78405ec0d9b7836d8d16cd73bd4a6001425d6ee3")]
         public void ShouldPassMultiBlockEncryptTests(string key, string iv, string plaintext, string cipherText)
         {
             var subject = new TdesOfb();
@@ -635,7 +634,6 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
 
         [Test]
         [TestCase("3e37e6fd7f15a7eff7f2ce83759bae97296e4fbfabe91025", "136aa27207e95411", "54a3be1f0886d8e1", "4b3581305873de1b")]
-        [TestCase("c2e6a7972680c4add50d6ea1b65de05b80f41fc264fd2c68", "8645c113fa1aefc5", "9202c631c38fce2acab73386ad842b92", "804844c78c41434db1f119572ee9259a")]
         [TestCase("4c9229576b04ad837fa1513804c215ae9efd9e38e3a8765b", "47302567b055db1d", "e513b748ea166b1328533e2879838002e060f7fc0bfc18e2", "548f67b8e6ea5ef313085d30f1f2546f0e515a38618d44de")]
         public void ShouldPassMultiBlockDecryptTests(string key, string iv, string plaintext, string cipherText)
         {
