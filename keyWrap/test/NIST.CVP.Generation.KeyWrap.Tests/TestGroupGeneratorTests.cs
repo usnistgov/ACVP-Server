@@ -1,36 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Moq;
-using NIST.CVP.Crypto.KeyWrap.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
-using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using NIST.CVP.Math.Domain;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KeyWrap.Tests
 {
     [TestFixture, UnitTest]
-    public class TestVectorFactoryTests
+    public class TestGroupGeneratorTests
     {
-
-        private TestVectorFactory _subject;
+        private TestGroupGenerator _subject;
 
         [SetUp]
         public void Setup()
         {
-            _subject = new TestVectorFactory();
-        }
-
-        [Test]
-        [TestCase("")]
-        [TestCase("AES")]
-        [TestCase("KW-AES")]
-        public void ShouldThrowExceptionOnInvalidAlgorithm(string algorithm)
-        {
-            var p = new Parameters {Algorithm = algorithm};
-
-            Assert.Throws(typeof(ArgumentException), () => _subject.BuildTestVectorSet(p));
+            _subject = new TestGroupGenerator();
         }
 
         #region GetParametersAndExpectedGroups
@@ -128,7 +117,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests
         [Test]
         [TestCaseSource(nameof(GetParametersAndExpectedGroups))]
         public void ShouldCreateCorrectNumberOfGroups(
-            string testLabel, 
+            string testLabel,
             string algorithm,
             int[] keyLen,
             string[] direction,
@@ -145,9 +134,9 @@ namespace NIST.CVP.Generation.KeyWrap.Tests
                 Algorithm = algorithm
             };
 
-            var result = _subject.BuildTestVectorSet(parameters);
+            var result = _subject.BuildTestGroups(parameters);
 
-            Assert.AreEqual(expectedNumberOfGroups, result.TestGroups.Count);
+            Assert.AreEqual(expectedNumberOfGroups, result.Count());
         }
     }
 }

@@ -7,7 +7,7 @@ using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.KeyWrap;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
-
+using NIST.CVP.Generation.Core;
 
 namespace KeyWrap
 {
@@ -32,7 +32,8 @@ namespace KeyWrap
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();

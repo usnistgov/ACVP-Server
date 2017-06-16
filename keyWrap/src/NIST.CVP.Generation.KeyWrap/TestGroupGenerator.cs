@@ -1,31 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Crypto.KeyWrap.Enums;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math.Domain;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestVectorFactory : ITestVectorFactory<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
     {
         public const int _MAX_BIT_SIZE = 4096;
 
-        public ITestVectorSet BuildTestVectorSet(Parameters parameters)
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var groups = new List<ITestGroup>();
 
             CreateGroups(groups, parameters);
 
-            var testVector = new TestVectorSet
-            {
-                TestGroups = groups,
-                Algorithm = parameters.Algorithm,
-                IsSample = parameters.IsSample
-            };
-
-            return testVector;
+            return groups;
         }
 
         private void CreateGroups(List<ITestGroup> groups, Parameters parameters)
@@ -50,8 +42,8 @@ namespace NIST.CVP.Generation.KeyWrap
             // Get 64 mod values
             testPtLens.AddRangeIfNotNullOrEmpty(ptLensAvailableToTest
                 .Where(
-                    w => w % 64 == 0 
-                    && w % 128 != 0 
+                    w => w % 64 == 0
+                    && w % 128 != 0
                     && w != minMaxPtLen.Maximum
                  )
                 .Take(2)
