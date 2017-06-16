@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Autofac;
 using Newtonsoft.Json;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
@@ -176,23 +177,23 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
         }
 
-        [Test]
-        public void ShouldParallelizeTestsSHA()
-        {
-            var targetFolder = Path.Combine(_testPath, "ParallelTest");
-            if (!Directory.Exists(targetFolder))
-            {
-                Directory.CreateDirectory(targetFolder);
-            }
-            var fileName = GetTestFileParallelTestCasesSHA(targetFolder);
+        //[Test]
+        //public void ShouldParallelizeTestsSHA()
+        //{
+        //    var targetFolder = Path.Combine(_testPath, "ParallelTest");
+        //    if (!Directory.Exists(targetFolder))
+        //    {
+        //        Directory.CreateDirectory(targetFolder);
+        //    }
+        //    var fileName = GetTestFileParallelTestCasesSHA(targetFolder);
 
-            RunGenerationAndValidation(targetFolder, fileName);
+        //    RunGenerationAndValidation(targetFolder, fileName);
 
-            var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+        //    var dp = new DynamicParser();
+        //    var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
 
-            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
-        }
+        //    Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+        //}
 
         [Test]
         public void ShouldReportFailedDispositionOnErrorTests()
@@ -380,38 +381,52 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             return CreateRegistration(targetFolder, parameters);
         }
 
-        private string GetTestFileParallelTestCasesSHA(string targetFolder)
+        //private string GetTestFileParallelTestCasesSHA(string targetFolder)
+        //{
+        //    RemoveAFTTestGroupFactories();
+        //    //RemoveMCTTestGroupFactories();
+
+        //    var parameters = new Parameters
+        //    {
+        //        Algorithm = "SHA2",
+        //        DigestSizes = new[] {"384", "512"},
+        //        BitOriented = true,
+        //        IncludeNull = true,
+        //        IsSample = false
+        //    };
+
+        //    return CreateRegistration(targetFolder, parameters);
+        //}
+
+        /// <summary>
+        /// Can be used to exclude MCT tests
+        /// </summary>
+        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
         {
-            RemoveAFTTestGroupFactories();
-            //RemoveMCTTestGroupFactories();
-
-            var parameters = new Parameters
+            public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
             {
-                Algorithm = "SHA2",
-                DigestSizes = new[] {"384", "512"},
-                BitOriented = true,
-                IncludeNull = true,
-                IsSample = false
-            };
-
-            return CreateRegistration(targetFolder, parameters);
+                return new List<ITestGroupGenerator<Parameters>>()
+                {
+                    new TestGroupGeneratorAlgorithmFunctionalTest()
+                };
+            }
         }
 
         private void RemoveMCTTestGroupFactories()
         {
             AutofacConfig.OverrideRegistrations += builder =>
             {
-                builder.RegisterType<NullMCTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
+                builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
             };
         }
 
-        private void RemoveAFTTestGroupFactories()
-        {
-            AutofacConfig.OverrideRegistrations += builder =>
-            {
-                builder.RegisterType<NullAFTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
-            };
-        }
+        //private void RemoveAFTTestGroupFactories()
+        //{
+        //    AutofacConfig.OverrideRegistrations += builder =>
+        //    {
+        //        builder.RegisterType<NullAFTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
+        //    };
+        //}
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
         {

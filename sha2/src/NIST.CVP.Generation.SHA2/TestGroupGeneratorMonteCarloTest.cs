@@ -7,25 +7,28 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA2
 {
-    public class AFTTestGroupFactory : IAlgorithmFunctionalTestGroupFactory<Parameters, TestGroup>
+    public class TestGroupGeneratorMonteCarloTest : ITestGroupGenerator<Parameters>
     {
-        public IEnumerable<TestGroup> BuildAFTTestGroups(Parameters parameters)
+        public const string TEST_TYPE = "MCT";
+
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
-            foreach (var digestSize in parameters.DigestSizes)
+
+            foreach (var digSize in parameters.DigestSizes)
             {
                 var testGroup = new TestGroup
                 {
                     Function = SHAEnumHelpers.StringToMode(parameters.Algorithm),
-                    DigestSize = SHAEnumHelpers.StringToDigest(digestSize),
-                    TestType = "AFT",
-                    IncludeNull = parameters.IncludeNull,
-                    BitOriented = parameters.BitOriented
+                    DigestSize = SHAEnumHelpers.StringToDigest(digSize),
+                    TestType = TEST_TYPE
                 };
+
                 testGroups.Add(testGroup);
             }
-
+            
             return testGroups;
         }
     }
 }
+

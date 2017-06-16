@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.SHA2.Tests
 {
     [TestFixture, UnitTest]
-    public class MCTTestGroupFactoryTests
+    public class TestGroupGeneratorMonteCarloTestTests
     {
         private static object[] parameters = 
         {
@@ -49,8 +49,8 @@ namespace NIST.CVP.Generation.SHA2.Tests
         [TestCaseSource(nameof(parameters))]
         public void ShouldCreate1TestGroupForEachCombinationOfModeAndDigestSize(int expectedGroupsCreated, Parameters parameters)
         {
-            var subject = new MCTTestGroupFactory();
-            var results = subject.BuildMCTTestGroups(parameters);
+            var subject = new TestGroupGeneratorMonteCarloTest();
+            var results = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
         }
     }
