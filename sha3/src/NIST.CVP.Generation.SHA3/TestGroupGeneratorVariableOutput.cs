@@ -1,28 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA3
 {
-    public class MCTTestGroupFactory : IMonteCarloTestGroupFactory<Parameters, TestGroup>
+    public class TestGroupGeneratorVariableOutput : ITestGroupGenerator<Parameters>
     {
-        public IEnumerable<TestGroup> BuildMCTTestGroups(Parameters parameters)
+        private const string TEST_TYPE = "vot";
+
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
-            foreach (var digSize in parameters.DigestSizes)
+            // VOT tests are only valid for shake
+            if (parameters.Algorithm.ToLower() != "shake")
+            {
+                return testGroups;
+            }
+
+            foreach (var digestSize in parameters.DigestSizes)
             {
                 var testGroup = new TestGroup
                 {
                     Function = parameters.Algorithm,
-                    DigestSize = digSize,
+                    DigestSize = digestSize,
+                    IncludeNull = parameters.IncludeNull,
                     BitOrientedInput = parameters.BitOrientedInput,
                     BitOrientedOutput = parameters.BitOrientedOutput,
                     MinOutputLength = parameters.MinOutputLength,
                     MaxOutputLength = parameters.MaxOutputLength,
-                    TestType = "MCT"
+                    TestType = TEST_TYPE
                 };
 
                 testGroups.Add(testGroup);

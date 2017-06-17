@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA3.Tests
 {
     [TestFixture, UnitTest]
-    public class MCTTestGroupFactoryTests
+    public class TestGroupGeneratorMonteCarloTests
     {
         private static object[] parameters =
         {
@@ -49,9 +46,10 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [TestCaseSource(nameof(parameters))]
         public void ShouldCreate1TestGroupForEachCombinationOfModeAndDigestSize(int expectedGroupsCreated, Parameters parameters)
         {
-            var subject = new MCTTestGroupFactory();
-            var results = subject.BuildMCTTestGroups(parameters);
+            var subject = new TestGroupGeneratorMonteCarlo();
+            var results = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
         }
+        
     }
 }

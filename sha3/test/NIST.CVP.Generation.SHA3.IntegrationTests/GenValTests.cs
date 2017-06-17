@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Newtonsoft.Json;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
@@ -38,7 +39,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            //Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -137,23 +138,23 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), "validation");
         }
 
-        [Test]
-        public void SpeedTests()
-        {
-            var targetFolder = Path.Combine(_testPath, "ParallelTest");
-            if (!Directory.Exists(targetFolder))
-            {
-                Directory.CreateDirectory(targetFolder);
-            }
-            var fileName = GetTestFileTests(targetFolder);
+        //[Test]
+        //public void SpeedTests()
+        //{
+        //    var targetFolder = Path.Combine(_testPath, "ParallelTest");
+        //    if (!Directory.Exists(targetFolder))
+        //    {
+        //        Directory.CreateDirectory(targetFolder);
+        //    }
+        //    var fileName = GetTestFileTests(targetFolder);
 
-            RunGenerationAndValidation(targetFolder, fileName);
+        //    RunGenerationAndValidation(targetFolder, fileName);
 
-            var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+        //    var dp = new DynamicParser();
+        //    var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
 
-            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
-        }
+        //    Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+        //}
 
         [Test]
         public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCasesSHA3()
@@ -354,24 +355,26 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             return failedTestCases;
         }
 
-        private string GetTestFileTests(string targetFolder)
-        {
-            //RemoveMCTTestGroupFactories();
+        //private string GetTestFileTests(string targetFolder)
+        //{
+        //    //RemoveMCTTestGroupFactories();
 
-            var parameters = new Parameters
-            {
-                Algorithm = "SHA3",
-                DigestSizes = new[] {384, 512},
-                BitOrientedInput = true,
-                IncludeNull = true,
-                IsSample = false
-            };
+        //    var parameters = new Parameters
+        //    {
+        //        Algorithm = "SHA3",
+        //        DigestSizes = new[] {384, 512},
+        //        BitOrientedInput = true,
+        //        IncludeNull = true,
+        //        IsSample = false
+        //    };
 
-            return CreateRegistration(targetFolder, parameters);
-        }
+        //    return CreateRegistration(targetFolder, parameters);
+        //}
 
         private string GetTestFileFewTestCasesSHA3(string targetFolder)
         {
+            RemoveMctAndVotTestGroupFactories();
+
             var parameters = new Parameters
             {
                 Algorithm = "SHA3",
@@ -400,6 +403,8 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 
         private string GetTestFileFewTestCasesSHAKE(string targetFolder)
         {
+            RemoveMctAndVotTestGroupFactories();
+
             var parameters = new Parameters
             {
                 Algorithm = "SHAKE",
@@ -432,11 +437,25 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             return CreateRegistration(targetFolder, parameters);
         }
 
-        private void RemoveMCTTestGroupFactories()
+        /// <summary>
+        /// Can be used to only generate AFT groups for the genval tests
+        /// </summary>
+        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+        {
+            public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+            {
+                return new List<ITestGroupGenerator<Parameters>>()
+                {
+                    new TestGroupGeneratorAlgorithmFunctional()
+                };
+            }
+        }
+        
+        private void RemoveMctAndVotTestGroupFactories()
         {
             AutofacConfig.OverrideRegistrations += builder =>
             {
-                builder.RegisterType<NullMCTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
+                builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
             };
         }
 
