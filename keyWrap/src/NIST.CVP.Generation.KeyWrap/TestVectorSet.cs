@@ -46,6 +46,7 @@ namespace NIST.CVP.Generation.KeyWrap
         }
 
         public string Algorithm { get; set; }
+        [JsonIgnore]
         public string Mode { get; set; }
         public bool IsSample { get; set; }
 
