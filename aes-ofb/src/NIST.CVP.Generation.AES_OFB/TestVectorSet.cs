@@ -37,6 +37,8 @@ namespace NIST.CVP.Generation.AES_OFB
         }
 
         public string Algorithm { get; set; } = "AES-OFB";
+        [JsonIgnore]
+        public string Mode { get; set; } = string.Empty;
         public bool IsSample { get; set; }
 
         [JsonIgnore]

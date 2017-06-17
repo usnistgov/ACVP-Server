@@ -10,6 +10,7 @@ namespace NIST.CVP.Generation.SHA3
     public class Parameters : IParameters
     {
         public string Algorithm { get; set; }
+        public string Mode { get; set; }
         public bool IsSample { get; set; }
         
         [JsonProperty(PropertyName = "digestSizes")]

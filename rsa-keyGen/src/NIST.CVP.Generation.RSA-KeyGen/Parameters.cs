@@ -9,6 +9,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
     public class Parameters : IParameters
     {
         public string Algorithm { get; set; }
+        public string Mode { get; set; }
         public bool IsSample { get; set; }
 
         public bool InfoGeneratedByServer { get; set; } = true;

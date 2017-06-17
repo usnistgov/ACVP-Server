@@ -25,7 +25,13 @@ namespace NIST.CVP.Generation.Core
                 groups.AddRangeIfNotNullOrEmpty(groupGenerator.BuildTestGroups(parameters));
             }
 
-            var testVector = new TTestVectorSet { TestGroups = groups, IsSample = parameters.IsSample, Algorithm = parameters.Algorithm };
+            var testVector = new TTestVectorSet
+            {
+                TestGroups = groups,
+                IsSample = parameters.IsSample,
+                Algorithm = parameters.Algorithm,
+                Mode = parameters.Mode
+            };
 
             return testVector;
         }

@@ -9,6 +9,7 @@ namespace NIST.CVP.Generation.Core
     public interface ITestVectorSet
     {
         string Algorithm { get; set; }
+        string Mode { get; set; }
         bool IsSample { get; set; }
         List<ITestGroup> TestGroups { get; set; }
         List<dynamic> AnswerProjection { get; }

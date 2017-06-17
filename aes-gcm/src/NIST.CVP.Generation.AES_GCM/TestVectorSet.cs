@@ -41,6 +41,8 @@ namespace NIST.CVP.Generation.AES_GCM
         }
 
         public string Algorithm { get; set; }
+        [JsonIgnore]
+        public string Mode { get; set; } = string.Empty;
         public bool IsSample { get; set; }
 
         [JsonIgnore]

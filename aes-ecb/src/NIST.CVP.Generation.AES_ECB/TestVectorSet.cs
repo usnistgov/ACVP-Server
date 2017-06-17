@@ -37,6 +37,8 @@ namespace NIST.CVP.Generation.AES_ECB
         }
 
         public string Algorithm { get; set; } = "AES-ECB";
+        [JsonIgnore]
+        public string Mode { get; set; } = string.Empty;
         public bool IsSample { get; set; }
 
         [JsonIgnore]

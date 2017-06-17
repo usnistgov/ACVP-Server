@@ -39,6 +39,8 @@ namespace NIST.CVP.Generation.TDES_OFB
         }
 
         public string Algorithm { get; set; }
+        [JsonIgnore]
+        public string Mode { get; set; } = string.Empty;
         public bool IsSample { get; set; }
 
         [JsonIgnore]

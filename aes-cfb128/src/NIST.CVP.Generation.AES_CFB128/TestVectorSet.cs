@@ -37,6 +37,8 @@ namespace NIST.CVP.Generation.AES_CFB128
         }
 
         public string Algorithm { get; set; } = "AES-CFB128";
+        [JsonIgnore]
+        public string Mode { get; set; } = string.Empty;
         public bool IsSample { get; set; }
 
         [JsonIgnore]

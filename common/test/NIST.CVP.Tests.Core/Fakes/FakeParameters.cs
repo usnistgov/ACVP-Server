@@ -9,6 +9,7 @@ namespace NIST.CVP.Tests.Core.Fakes
     public class FakeParameters : IParameters
     {
         public string Algorithm { get; set; } = "test";
+        public string Mode { get; set; } = "test2";
         public bool IsSample { get; set; } = true;
     }
 }

@@ -14,6 +14,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen
     public class TestVectorSet : ITestVectorSet
     {
         public string Algorithm { get; set; }
+        [JsonIgnore]
+        public string Mode { get; set; } = string.Empty;
         public bool IsSample { get; set; }
 
         [JsonIgnore]

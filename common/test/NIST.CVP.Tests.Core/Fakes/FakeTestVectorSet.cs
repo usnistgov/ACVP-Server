@@ -10,6 +10,7 @@ namespace NIST.CVP.Tests.Core.Fakes
     public class FakeTestVectorSet : ITestVectorSet
     {
         public string Algorithm { get; set; } = string.Empty;
+        public string Mode { get; set; } = string.Empty;
         public bool IsSample { get; set; } = false;
         public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
         public List<dynamic> AnswerProjection { get; } = null;
