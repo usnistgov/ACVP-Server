@@ -301,7 +301,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                     ivGenMode = _ivGenMode,
                     ivLen = _ivLen,
                     KeyLen = _keyLen,
-                    Mode = _mode,
+                    Direction = _mode,
                     PtLen = _ptLen,
                     TagLen = _tagLen
                 };

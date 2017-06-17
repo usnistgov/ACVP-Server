@@ -111,7 +111,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             {
                 return new Parameters()
                 {
-                    Mode = _mode,
+                    Direction = _mode,
                     KeyingOption = _keyingOptions
                 };
             }

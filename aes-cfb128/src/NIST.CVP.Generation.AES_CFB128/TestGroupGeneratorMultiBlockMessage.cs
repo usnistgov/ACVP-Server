@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.AES_CFB128
         {
             var testGroups = new List<TestGroup>();
 
-            foreach (var function in parameters.Mode)
+            foreach (var function in parameters.Direction)
             {
                 foreach (var keyLength in parameters.KeyLen)
                 {

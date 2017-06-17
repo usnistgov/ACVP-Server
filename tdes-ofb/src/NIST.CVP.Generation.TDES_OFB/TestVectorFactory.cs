@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.TDES_OFB
         {
 
             var testGroups = new List<ITestGroup>();
-            foreach (var function in parameters.Mode)
+            foreach (var function in parameters.Direction)
             {
                 foreach (var keyingOption in parameters.KeyingOption)
                 {

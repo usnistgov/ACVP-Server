@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
                 Algorithm = _algorithm,
 
                 KeyLen = _keyLen,
-                Mode = _mode
+                Direction = _mode
             };
         }
     }

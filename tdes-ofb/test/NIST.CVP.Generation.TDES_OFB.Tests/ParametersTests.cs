@@ -12,14 +12,14 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         [Test]
         public void ShouldCoverParametersSet()
         {
-            var parameters = new Parameters { Algorithm = "TDES-CBC", Mode = new[] { "Encrypt" }, IsSample = false };
+            var parameters = new Parameters { Algorithm = "TDES-CBC", Direction = new[] { "Encrypt" }, IsSample = false };
             Assert.IsNotNull(parameters);
         }
 
         [Test]
         public void ShouldCoverParametersGet()
         {
-            var parameters = new Parameters { Algorithm = "TDES-CBC", Mode = new[] { "Encrypt" }, IsSample = false };
+            var parameters = new Parameters { Algorithm = "TDES-CBC", Direction = new[] { "Encrypt" }, IsSample = false };
             Assume.That(parameters != null);
             Assert.AreEqual("TDES-CBC", parameters.Algorithm);
         }

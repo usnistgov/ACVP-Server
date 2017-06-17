@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.AES_CFB8
         {
             var testGroups = new List<TestGroup>();
 
-            foreach (var direction in parameters.Mode)
+            foreach (var direction in parameters.Direction)
             {
                 foreach (var keyLength in parameters.KeyLen)
                 {

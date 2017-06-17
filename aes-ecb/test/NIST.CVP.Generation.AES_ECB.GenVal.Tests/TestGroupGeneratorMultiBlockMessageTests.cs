@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
             {
                 Algorithm = "AES-ECB",
                 KeyLen = keyLen,
-                Mode = mode,
+                Direction = mode,
             };
             int expectedResultCount = keyLen.Length * mode.Length;
 

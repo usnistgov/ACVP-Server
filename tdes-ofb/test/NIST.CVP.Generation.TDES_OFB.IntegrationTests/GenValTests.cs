@@ -366,7 +366,7 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "TDES-OFB",
-                Mode = new string[] { "encrypt" },
+                Direction = new string[] { "encrypt" },
                 IsSample = true,
                 KeyingOption = new[] { 1 }
             };
@@ -379,7 +379,7 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "TDES-OFB",
-                Mode = ParameterValidator.VALID_DIRECTIONS,
+                Direction = ParameterValidator.VALID_DIRECTIONS,
                 IsSample = false,
                 KeyingOption = new[] { 1 }
             };

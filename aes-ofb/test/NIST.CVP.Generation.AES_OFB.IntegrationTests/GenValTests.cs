@@ -357,7 +357,7 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-OFB",
-                Mode = new string[] { "encrypt" },
+                Direction = new string[] { "encrypt" },
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 IsSample = true
             };
@@ -370,7 +370,7 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-OFB",
-                Mode = ParameterValidator.VALID_DIRECTIONS,
+                Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 IsSample = false
             };

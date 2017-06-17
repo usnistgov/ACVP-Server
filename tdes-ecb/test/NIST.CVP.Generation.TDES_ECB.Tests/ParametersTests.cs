@@ -13,14 +13,14 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         public void ShouldCoverParametersSet()
         {
-            var parameters = new Parameters {Algorithm = "TDES-ECB", Mode = new[] {"Encrypt"}, IsSample = false};
+            var parameters = new Parameters {Algorithm = "TDES-ECB", Direction = new[] {"Encrypt"}, IsSample = false};
             Assert.IsNotNull(parameters);
         }
 
         [Test]
         public void ShouldCoverParametersGet()
         {
-            var parameters = new Parameters { Algorithm = "TDES-ECB", Mode = new[] { "Encrypt" }, IsSample = false };
+            var parameters = new Parameters { Algorithm = "TDES-ECB", Direction = new[] { "Encrypt" }, IsSample = false };
             Assume.That(parameters != null);
             Assert.AreEqual("TDES-ECB", parameters.Algorithm);
         }

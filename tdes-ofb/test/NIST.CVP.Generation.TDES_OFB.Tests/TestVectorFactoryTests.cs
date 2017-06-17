@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             var result = subject.BuildTestVectorSet(
                 new Parameters
                 {
-                    Mode = new[] { "encrypt" },
+                    Direction = new[] { "encrypt" },
                     KeyingOption = new[] { 1, 2 }
                 });
             Assert.IsNotNull(result);
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             var result = subject.BuildTestVectorSet(
                 new Parameters
                 {
-                    Mode = new[] { "encrypt" },
+                    Direction = new[] { "encrypt" },
                     KeyingOption = new[] { 1, 2 }
                 });
             Assume.That(result != null);
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             var result = subject.BuildTestVectorSet(
                 new Parameters
                 {
-                    Mode = new[] { "decrypt" },
+                    Direction = new[] { "decrypt" },
                     KeyingOption = new[] { 1, 2 }
                 });
             Assume.That(result != null);
@@ -75,7 +75,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             var result = subject.BuildTestVectorSet(
                 new Parameters
                 {
-                    Mode = new[] { "encrypt", "decrypt" },
+                    Direction = new[] { "encrypt", "decrypt" },
                     KeyingOption = new[] { 1, 2 }
                 });
             Assume.That(result != null);

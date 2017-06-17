@@ -11,8 +11,7 @@ namespace NIST.CVP.Generation.AES_GCM
     {
         public string Algorithm { get; set; }
         public bool IsSample { get; set; }
-        [JsonProperty(PropertyName = "direction")]
-        public string[] Mode { get; set; }
+        public string[] Direction { get; set; }
         public int[] KeyLen { get; set; }
         public int[] PtLen { get; set; }
         public int[] ivLen { get; set; }

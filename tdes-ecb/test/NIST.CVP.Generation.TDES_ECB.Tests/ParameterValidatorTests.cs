@@ -113,7 +113,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                 return new Parameters()
                 {
                     Algorithm = _algorithm,
-                    Mode = _mode,
+                    Direction = _mode,
                     KeyingOption = _keyingOptions
                 };
             }

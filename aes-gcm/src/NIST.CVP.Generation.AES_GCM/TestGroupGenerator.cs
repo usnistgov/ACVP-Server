@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.AES_GCM
         {
             var testGroups = new List<ITestGroup>();
 
-            foreach (var function in parameters.Mode)
+            foreach (var function in parameters.Direction)
             {
                 foreach (var keyLength in parameters.KeyLen)
                 {

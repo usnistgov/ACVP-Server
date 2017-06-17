@@ -378,7 +378,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-GCM",
-                Mode = ParameterValidator.VALID_DIRECTIONS,
+                Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PtLen = new int[] { 0 },
                 ivLen = new int[] { 96 },
@@ -397,7 +397,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-GCM",
-                Mode = new string[] { "encrypt" },
+                Direction = new string[] { "encrypt" },
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PtLen = new int[] { 128, 0 },
                 ivLen = new int[] { 96 },
@@ -416,7 +416,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-GCM",
-                Mode = new string[] { "encrypt" },
+                Direction = new string[] { "encrypt" },
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PtLen = new int[] { 128 },
                 ivLen = new int[] { 96 },
@@ -435,7 +435,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-GCM",
-                Mode = new string[] { "encrypt", "decrypt" },
+                Direction = new string[] { "encrypt", "decrypt" },
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PtLen = new int[] { 128 },
                 ivLen = new int[] { 96 },
@@ -454,7 +454,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-GCM",
-                Mode = ParameterValidator.VALID_DIRECTIONS,
+                Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 PtLen = new int[] { 128, 120, 256 },
                 ivLen = new int[] { 96, 128 },

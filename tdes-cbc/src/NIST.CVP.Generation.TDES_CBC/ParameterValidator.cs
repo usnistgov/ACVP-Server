@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.TDES_CBC
         
         private void ValidateDirection(Parameters parameters, List<string> errorResults)
         {
-            string result = ValidateArray(parameters.Mode, VALID_DIRECTIONS, "Direction");
+            string result = ValidateArray(parameters.Direction, VALID_DIRECTIONS, "Direction");
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);

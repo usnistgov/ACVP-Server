@@ -39,7 +39,7 @@
                 Algorithm = _algorithm,
 
                 KeyLen = _keyLen,
-                Mode = _mode
+                Direction = _mode
             };
         }
     }

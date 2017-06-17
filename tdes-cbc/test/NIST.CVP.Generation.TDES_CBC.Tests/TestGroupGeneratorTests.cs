@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             var result = _subject.BuildTestGroups(
                 new Parameters
                 {
-                    Mode = new[] { "encrypt" },
+                    Direction = new[] { "encrypt" },
                     KeyingOption = new[] { 1, 2 }
                 }).ToList();
             Assume.That(result != null);
@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             var result = _subject.BuildTestGroups(
                 new Parameters
                 {
-                    Mode = new[] { "decrypt" },
+                    Direction = new[] { "decrypt" },
                     KeyingOption = new[] { 1, 2 }
                 }).ToList();
             Assume.That(result != null);
@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             var result = _subject.BuildTestGroups(
                 new Parameters
                 {
-                    Mode = new[] { "encrypt", "decrypt" },
+                    Direction = new[] { "encrypt", "decrypt" },
                     KeyingOption = new[] { 1, 2 }
                 }).ToList();
             Assume.That(result != null);

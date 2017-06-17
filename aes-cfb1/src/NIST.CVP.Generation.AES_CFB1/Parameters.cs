@@ -7,8 +7,7 @@ namespace NIST.CVP.Generation.AES_CFB1
     {
         public string Algorithm { get; set; }
         public bool IsSample { get; set; }
-        [JsonProperty(PropertyName = "direction")]
-        public string[] Mode { get; set; }
+        public string[] Direction { get; set; }
         public int[] KeyLen { get; set; }
     }
 }

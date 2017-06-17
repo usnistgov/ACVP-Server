@@ -362,7 +362,7 @@ namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "TDES-ECB",
-                Mode = new string[] { "encrypt" },
+                Direction = new string[] { "encrypt" },
                 IsSample = true,
                 KeyingOption = new[] { 1 }
             };
@@ -375,7 +375,7 @@ namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "TDES-ECB",
-                Mode = ParameterValidator.VALID_DIRECTIONS,
+                Direction = ParameterValidator.VALID_DIRECTIONS,
                 IsSample = false,
                 KeyingOption = new[] { 1 }
             };

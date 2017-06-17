@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests.Parsers
             {
                 Algorithm = "AES-CFB128",
                 KeyLen = new[] { 128, 192, 256 },
-                Mode = new[] { "encrypt" },
+                Direction = new[] { "encrypt" },
                 IsSample = true
             };
 
@@ -86,9 +86,9 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests.Parsers
             Assume.That(result != null);
             Assume.That(result.ParsedObject != null);
             var parameters = result.ParsedObject;
-            Assert.IsNotNull(parameters.Mode);
-            Assert.AreEqual(1, parameters.Mode.Length);
-            Assert.IsNotNull(parameters.Mode.First(v => v == "encrypt"));
+            Assert.IsNotNull(parameters.Direction);
+            Assert.AreEqual(1, parameters.Direction.Length);
+            Assert.IsNotNull(parameters.Direction.First(v => v == "encrypt"));
 
         }
 

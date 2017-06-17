@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.TDES_ECB
         public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<ITestGroup>();
-            foreach (var function in parameters.Mode)
+            foreach (var function in parameters.Direction)
             {
                 foreach (var keyingOption in parameters.KeyingOption)
                 {

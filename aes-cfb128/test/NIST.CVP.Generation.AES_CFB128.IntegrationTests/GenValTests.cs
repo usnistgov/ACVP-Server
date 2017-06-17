@@ -358,7 +358,7 @@ namespace NIST.CVP.Generation.AES_CFB128.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-CFB128",
-                Mode = new string[] { "encrypt" },
+                Direction = new string[] { "encrypt" },
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 IsSample = true
             };
@@ -371,7 +371,7 @@ namespace NIST.CVP.Generation.AES_CFB128.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "AES-CFB128",
-                Mode = ParameterValidator.VALID_DIRECTIONS,
+                Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 IsSample = false
             };
