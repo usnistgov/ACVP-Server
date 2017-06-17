@@ -9,6 +9,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using Parameters = NIST.CVP.Generation.DRBG.Parameters;
 using TestVectorSet = NIST.CVP.Generation.DRBG.TestVectorSet;
+using NIST.CVP.Generation.Core;
 
 namespace DRBG
 {
@@ -33,7 +34,8 @@ namespace DRBG
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();

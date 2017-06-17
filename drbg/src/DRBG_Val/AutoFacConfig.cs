@@ -31,7 +31,6 @@ namespace DRBG_Val
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();

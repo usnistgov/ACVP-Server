@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Moq;
-using NIST.CVP.Crypto.DRBG.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
-using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using NIST.CVP.Math.Domain;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DRBG.Tests
 {
     [TestFixture, UnitTest]
-    public class TestVectorFactoryTests
+    public class TestGroupGeneratorTests
     {
-
         private readonly ValueDomainSegment _valueDomainSegment = new ValueDomainSegment(42);
         private readonly RangeDomainSegment _rangeDomainSegment = new RangeDomainSegment(new Random800_90(), 0, 42, 2);
-        private TestVectorFactory _subject;
+        private TestGroupGenerator _subject;
 
         [SetUp]
         public void Setup()
         {
-            _subject = new TestVectorFactory();
+            _subject = new TestGroupGenerator();
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
             p.Algorithm = mechanism;
             p.Mode = mode;
 
-            Assert.Throws(typeof(ArgumentException), () => _subject.BuildTestVectorSet(p));
+            Assert.Throws(typeof(ArgumentException), () => _subject.BuildTestGroups(p));
         }
 
         [Test]
@@ -42,9 +42,9 @@ namespace NIST.CVP.Generation.DRBG.Tests
         {
             var p = GetParametersDomainsAsRange();
 
-            var result = _subject.BuildTestVectorSet(p);
+            var result = _subject.BuildTestGroups(p).ToList();
 
-            Assert.AreEqual(16, result.TestGroups.Count);
+            Assert.AreEqual(16, result.Count);
         }
 
         [Test]
@@ -52,9 +52,9 @@ namespace NIST.CVP.Generation.DRBG.Tests
         {
             var p = GetParametersDomainsAsValue();
 
-            var result = _subject.BuildTestVectorSet(p);
+            var result = _subject.BuildTestGroups(p).ToList();
 
-            Assert.AreEqual(1, result.TestGroups.Count);
+            Assert.AreEqual(1, result.Count);
         }
 
         private Parameters GetParametersDomainsAsValue()

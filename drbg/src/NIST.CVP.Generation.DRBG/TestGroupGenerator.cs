@@ -1,30 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Crypto.DRBG;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Crypto.DRBG;
+using System;
+using System.Linq;
 
 namespace NIST.CVP.Generation.DRBG
 {
-    public class TestVectorFactory : ITestVectorFactory<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
     {
         public const int _MAX_BIT_SIZE = 1024;
 
-        public ITestVectorSet BuildTestVectorSet(Parameters parameters)
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var groups = new List<ITestGroup>();
 
             CreateGroups(groups, parameters);
 
-            var testVector = new TestVectorSet
-            {
-                TestGroups = groups,
-                Algorithm = parameters.Algorithm,
-                Mode = parameters.Mode,
-                IsSample = parameters.IsSample
-            };
-
-            return testVector;
+            return groups;
         }
 
         private void CreateGroups(List<ITestGroup> groups, Parameters parameters)
