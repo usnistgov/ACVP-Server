@@ -12,6 +12,7 @@ using NIST.CVP.Tests.Core.Fakes;
 using NUnit.Framework;
 using tdes_ofb;
 using tdes_ofb;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
 {
@@ -387,12 +388,25 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
             return CreateRegistration(targetFolder, p);
         }
 
+        /// <summary>
+        /// Can be used to only generate MMT groups for the genval tests
+        /// </summary>
+        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+        {
+            public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+            {
+                return new List<ITestGroupGenerator<Parameters>>()
+                {
+                    new TestGroupGenerator()
+                };
+            }
+        }
+
         private void RemoveMCTAndKATTestGroupFactories()
         {
             AutofacConfig.OverrideRegistrations += builder =>
             {
-                builder.RegisterType<NullKATTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
-                builder.RegisterType<NullMCTTestGroupFactory<Parameters, TestGroup>>().AsImplementedInterfaces();
+                builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
             };
         }
 

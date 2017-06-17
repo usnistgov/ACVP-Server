@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_OFB;
 using NIST.CVP.Generation.TDES_OFB;
 using NIST.CVP.Math;
+using NIST.CVP.Generation.Core;
 
 namespace tdes_ofb
 {
@@ -34,7 +35,8 @@ namespace tdes_ofb
             builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
 
-            builder.RegisterType<TestVectorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
