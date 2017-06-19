@@ -17,7 +17,7 @@ using Program = KeyWrap.Program;
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public class GevValTests
+    public class GenValTests
     {
         string _testPath;
         string[] _testVectorFileNames = new string[]
