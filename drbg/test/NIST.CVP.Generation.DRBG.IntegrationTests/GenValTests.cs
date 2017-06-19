@@ -16,7 +16,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.DRBG.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public class GevValTests
+    public class GenValTests
     {
         string _testPath;
         string[] _testVectorFileNames = new string[]
