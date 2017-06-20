@@ -111,7 +111,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithModuli(new [] {4096})
+                    .WithModuli(new [] {3072})
                     .Build()
             );
 
@@ -169,7 +169,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             {
                 _algorithm = "RSA-KeyGen";
                 _keyGenModes = new[] {"B.3.4", "B.3.6"};
-                _moduli = new[] {2048, 3072};
+                _moduli = new[] {2048};
                 _hashAlgs = new[] {"SHA-1", "SHA-256"};
                 _primeTests = new[] {"tblC2", "tblC3"};
                 _pubExpMode = "random";

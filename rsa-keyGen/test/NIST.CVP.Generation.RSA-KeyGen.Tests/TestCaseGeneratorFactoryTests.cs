@@ -12,13 +12,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
     public class TestCaseGeneratorFactoryTests
     {
         [Test]
-        [TestCase(KeyGenModes.B32, "aft", typeof(TestCaseGeneratorAFT_B32))]
-        public void ShouldReturnProperGenerator(KeyGenModes mode, string testType, Type expectedType)
+        [TestCase(KeyGenModes.B32, typeof(TestCaseGeneratorAFT_B32))]
+        [TestCase(KeyGenModes.B33, typeof(TestCaseGeneratorGDT_B33))]
+        [TestCase(KeyGenModes.B34, typeof(TestCaseGeneratorAFT_B34))]
+        public void ShouldReturnProperGenerator(KeyGenModes mode, Type expectedType)
         {
             var testGroup = new TestGroup
             {
                 Mode = mode,
-                TestType = testType
             };
 
             var subject = new TestCaseGeneratorFactory(null);

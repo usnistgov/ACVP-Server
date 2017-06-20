@@ -14,11 +14,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen
     public class TestCase : ITestCase
     {
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }   // Not used
+        public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
 
         public KeyPair Key { get; set; }
         public BitString Seed { get; set; }
+        public int[] Bitlens { get; set; }
 
         public TestCase() { }
 

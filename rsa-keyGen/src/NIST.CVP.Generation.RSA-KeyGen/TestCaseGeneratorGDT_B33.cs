@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Numerics;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.RSA;
@@ -12,58 +13,42 @@ using NLog;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseGeneratorAFT_B32 : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorGDT_B33 : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private int _numberOfCases = 25;
-
         private readonly IRandom800_90 _random800_90;
-        private readonly RandomProvablePrimeGenerator _primeGen;
+        private readonly RandomProbablePrimeGenerator _primeGen;
 
-        public TestCaseGeneratorAFT_B32(IRandom800_90 random800_90, RandomProvablePrimeGenerator primeGen)
+        public int NumberOfTestCasesToGenerate { get { return 10; } }
+
+        public TestCaseGeneratorGDT_B33(IRandom800_90 random800_90, RandomProbablePrimeGenerator primeGen)
         {
             _random800_90 = random800_90;
             _primeGen = primeGen;
         }
 
-        public int NumberOfTestCasesToGenerate { get { return _numberOfCases; } }
-
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {
+            var testCase = TestCaseGeneratorHelper.GetEmptyTestCase(group);
+
             if (isSample)
             {
-                _numberOfCases = 3;
-            }
-
-            if (group.InfoGeneratedByServer)
-            {
                 var e = TestCaseGeneratorHelper.GetEValue(group, _random800_90, BigInteger.Pow(2, 16) + 1, BigInteger.Pow(2, 256));
-                var seed = TestCaseGeneratorHelper.GetSeed(group, _random800_90);
-
-                // Generate TestCase
-                var testCase = new TestCase
-                {
-                    Key = new KeyPair {PubKey = new PublicKey {E = e}},
-                    Seed = seed
-                };
+                testCase.Key = new KeyPair {PubKey = new PublicKey {E = e}};
                 return Generate(group, testCase);
             }
-            else
-            {
-                var testCase = TestCaseGeneratorHelper.GetEmptyTestCase(group);
-                return new TestCaseGenerateResponse(testCase);
-            }
+
+            return new TestCaseGenerateResponse(testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
         {
             PrimeGeneratorResult primeResult = null;
             try
             {
                 // Configure Prime Generator
-                _primeGen.SetHashFunction(group.HashAlg);
                 _primeGen.SetEntropyProviderType(EntropyProviderTypes.Random);
 
-                primeResult = _primeGen.GeneratePrimes(group.Modulo, testCase.Key.PubKey.E, testCase.Seed.GetDeepCopy());
+                primeResult = _primeGen.GeneratePrimes(group.Modulo, testCase.Key.PubKey.E, null);
                 if (!primeResult.Success)
                 {
                     ThisLogger.Warn(primeResult.ErrorMessage);

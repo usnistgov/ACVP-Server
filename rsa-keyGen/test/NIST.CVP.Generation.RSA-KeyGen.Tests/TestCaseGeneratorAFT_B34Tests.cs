@@ -15,14 +15,14 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseGeneratorAFT_B32Tests
+    public class TestCaseGeneratorAFT_B34Tests
     {
         [Test]
         [TestCase(true)]
         [TestCase(false)]
         public void GenerateShouldReturnTestCaseGenerateResponse(bool infoGeneratedByServer)
         {
-            var subject = new TestCaseGeneratorAFT_B32(GetRandomMock().Object, GetPrimeGenMock().Object);
+            var subject = new TestCaseGeneratorAFT_B34(GetRandomMock().Object, GetPrimeGenMock().Object);
 
             var result = subject.Generate(GetTestGroup(infoGeneratedByServer), false);
 
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
                 .Returns(new PrimeGeneratorResult("Fail"));
 
-            var subject = new TestCaseGeneratorAFT_B32(GetRandomMock().Object, keyGen.Object);
+            var subject = new TestCaseGeneratorAFT_B34(GetRandomMock().Object, keyGen.Object);
 
             var result = subject.Generate(GetTestGroup(), false);
 
@@ -54,7 +54,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
                 .Throws(new Exception());
 
-            var subject = new TestCaseGeneratorAFT_B32(GetRandomMock().Object, keyGen.Object);
+            var subject = new TestCaseGeneratorAFT_B34(GetRandomMock().Object, keyGen.Object);
 
             var result = subject.Generate(GetTestGroup(), false);
 
@@ -79,7 +79,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 .Setup(s => s.GetRandomBigInteger(It.IsAny<BigInteger>(), It.IsAny<BigInteger>()))
                 .Returns(BigInteger.One);
 
-            var subject = new TestCaseGeneratorAFT_B32(rand.Object, keyGen.Object);
+            var subject = new TestCaseGeneratorAFT_B34(rand.Object, keyGen.Object);
 
             var result = subject.Generate(GetTestGroup(), false);
 
@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 .Setup(s => s.GetRandomBigInteger(It.IsAny<BigInteger>(), It.IsAny<BigInteger>()))
                 .Returns(BigInteger.One);
 
-            var subject = new TestCaseGeneratorAFT_B32(rand.Object, keyGen.Object);
+            var subject = new TestCaseGeneratorAFT_B34(rand.Object, keyGen.Object);
 
             var result = subject.Generate(GetTestGroup(false), false);
 
@@ -116,7 +116,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         public void ResultShouldNotHaveContentWhenServerGeneratesInfo()
         {
-            var subject = new TestCaseGeneratorAFT_B32(new Random800_90(), new RandomProvablePrimeGenerator());
+            var subject = new TestCaseGeneratorAFT_B34(new Random800_90(), new AllProvablePrimesWithConditionsGenerator());
 
             var group = GetTestGroup(false);
             group.PubExp = PubExpModes.FIXED;
@@ -126,7 +126,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 
             Assume.That(result.Success);
 
-            var testCase = (TestCase)result.TestCase;
+            var testCase = (TestCase) result.TestCase;
             Assert.AreEqual(testCase.Key.PubKey.N, BigInteger.Zero);
             Assert.AreEqual(testCase.Key.PrivKey.P, BigInteger.Zero);
             Assert.AreEqual(testCase.Key.PrivKey.Q, BigInteger.Zero);
@@ -136,10 +136,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Ignore("Longer test to make sure things work quickly")]
         public void GenerateShouldActuallyGenerateATestCaseWithValidData()
         {
-            var subject = new TestCaseGeneratorAFT_B32(new Random800_90(), new RandomProvablePrimeGenerator());
+            var subject = new TestCaseGeneratorAFT_B34(new Random800_90(), new AllProvablePrimesWithConditionsGenerator());
             var result = subject.Generate(GetTestGroup(), true);
 
-            var testCase = (TestCase) result.TestCase;
+            var testCase = (TestCase)result.TestCase;
 
             Assert.IsTrue(result.Success, result.ErrorMessage);
             Assert.AreNotEqual(testCase.Seed, 0);
@@ -158,9 +158,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             return new Mock<IRandom800_90>();
         }
 
-        private Mock<RandomProvablePrimeGenerator> GetPrimeGenMock()
+        private Mock<AllProvablePrimesWithConditionsGenerator> GetPrimeGenMock()
         {
-            return new Mock<RandomProvablePrimeGenerator>();
+            return new Mock<AllProvablePrimesWithConditionsGenerator>();
         }
 
         private TestGroup GetTestGroup(bool info = true)
@@ -170,7 +170,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 InfoGeneratedByServer = info,
                 Modulo = 2048,
                 PubExp = PubExpModes.RANDOM,
-                HashAlg = new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224 }
+                HashAlg = new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224}
             };
         }
     }

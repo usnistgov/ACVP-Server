@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
     [TestFixture, UnitTest]
-    public class TestGroupFactoryAlgorithmFUnctionalTestTests
+    public class TestGroupFactoryAlgorithmFunctionalTestTests
     {
         private static object[] parameters =
         {

@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             InfoGeneratedByServer = source.infoGeneratedByServer;
             Mode = RSAEnumHelpers.StringToKeyGenMode(source.randPQ);
             Modulo = source.modulo;
-            HashAlg = SHAEnumHelpers.StringToHashFunction(source.hashAlg);
+            HashAlg = SHAEnumHelpers.StringToHashFunction(SetStringValue(source, "hashAlg"));
             PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(SetStringValue(source, "primeTest"));
             PubExp = RSAEnumHelpers.StringToPubExpMode(source.pubExp);
 

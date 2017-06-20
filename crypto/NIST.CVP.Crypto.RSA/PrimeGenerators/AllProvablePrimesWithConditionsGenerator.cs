@@ -14,6 +14,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         private int _bitlen1, _bitlen2, _bitlen3, _bitlen4;
 
         public AllProvablePrimesWithConditionsGenerator(HashFunction hashFunction) : base(hashFunction) { }
+        public AllProvablePrimesWithConditionsGenerator() { }
 
         public void SetBitlens(int bitlen1, int bitlen2, int bitlen3, int bitlen4)
         {
@@ -21,6 +22,14 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             _bitlen2 = bitlen2;
             _bitlen3 = bitlen3;
             _bitlen4 = bitlen4;
+        }
+
+        public void SetBitlens(int[] bitlens)
+        {
+            _bitlen1 = bitlens[0];
+            _bitlen2 = bitlens[1];
+            _bitlen3 = bitlens[2];
+            _bitlen4 = bitlens[3];
         }
 
         public virtual PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)

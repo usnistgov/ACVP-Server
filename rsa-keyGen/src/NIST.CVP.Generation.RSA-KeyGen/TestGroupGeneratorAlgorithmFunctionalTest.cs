@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                                 Modulo = modulo,
                                 HashAlg = SHAEnumHelpers.StringToHashFunction(hashAlg),
                                 PubExp = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode),
-                                FixedPubExp = (parameters.FixedPubExp != "" ? new BitString(parameters.FixedPubExp) : null),
+                                FixedPubExp = new BitString(parameters.FixedPubExp),
                                 InfoGeneratedByServer = parameters.InfoGeneratedByServer,
                                 TestType = TEST_TYPE
                             };
@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                                     PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest),
                                     HashAlg = SHAEnumHelpers.StringToHashFunction(hashAlg),
                                     PubExp = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode),
-                                    FixedPubExp = (parameters.FixedPubExp != "" ? new BitString(parameters.FixedPubExp) : null),
+                                    FixedPubExp = new BitString(parameters.FixedPubExp),
                                     InfoGeneratedByServer = parameters.InfoGeneratedByServer,
                                     TestType = TEST_TYPE
                                 };
@@ -79,7 +79,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                                 Modulo = modulo,
                                 PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest),
                                 PubExp = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode),
-                                FixedPubExp = (parameters.FixedPubExp != "" ? new BitString(parameters.FixedPubExp) : null),
+                                FixedPubExp = new BitString(parameters.FixedPubExp),
                                 InfoGeneratedByServer = parameters.InfoGeneratedByServer,
                                 TestType = TEST_TYPE
                             };

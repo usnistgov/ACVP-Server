@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestCaseGeneratorNull : ITestCaseGenerator<TestGroup, TestCase>
     {
-        public int NumberOfTestCasesToGenerate { get { return 0; } }
+        public int NumberOfTestCasesToGenerate { get { return 1; } }
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {

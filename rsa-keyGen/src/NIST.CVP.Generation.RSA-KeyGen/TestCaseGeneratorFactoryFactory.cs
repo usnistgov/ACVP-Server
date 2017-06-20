@@ -8,17 +8,22 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestCaseGeneratorFactoryFactory : ITestCaseGeneratorFactoryFactory<TestVectorSet>
     {
-        private readonly ITestCaseGeneratorFactory<TestGroup, TestCase> _testCaseGeneratorFactory;
+        private const string KAT_TAG = "kat";
 
-        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactory<TestGroup, TestCase> iTestCaseGeneratorFactory)
+        private readonly ITestCaseGeneratorFactory<TestGroup, TestCase> _testCaseGeneratorFactory;
+        private readonly IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase> _staticTestCaseGeneratorFactory;
+
+        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactory<TestGroup, TestCase> iTestCaseGeneratorFactory,
+            IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase> iStaticTestCaseGeneratorFactory)
         {
             _testCaseGeneratorFactory = iTestCaseGeneratorFactory;
+            _staticTestCaseGeneratorFactory = iStaticTestCaseGeneratorFactory;
         }
 
         public GenerateResponse BuildTestCases(TestVectorSet testVector)
         {
             int testId = 1;
-            foreach (var group in testVector.TestGroups.Select(g => (TestGroup) g))
+            foreach (var group in testVector.TestGroups.Select(g => (TestGroup) g).Where(w => w.TestType.ToLower() != KAT_TAG))
             {
                 var generator = _testCaseGeneratorFactory.GetCaseGenerator(group);
                 for (var caseNo = 0; caseNo < generator.NumberOfTestCasesToGenerate; ++caseNo)
@@ -30,6 +35,23 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     }
 
                     var testCase = (TestCase) testCaseResponse.TestCase;
+                    testCase.TestCaseId = testId;
+                    group.Tests.Add(testCase);
+                    testId++;
+                }
+            }
+
+            foreach (var group in testVector.TestGroups.Select(g => (TestGroup) g).Where(w => w.TestType.ToLower() == KAT_TAG))
+            {
+                var generator = _staticTestCaseGeneratorFactory.GetStaticCaseGenerator(group);
+                var tests = generator.Generate(group);
+                if (!tests.Success)
+                {
+                    return new GenerateResponse(tests.ErrorMessage);
+                }
+
+                foreach (var testCase in tests.TestCases)
+                {
                     testCase.TestCaseId = testId;
                     group.Tests.Add(testCase);
                     testId++;

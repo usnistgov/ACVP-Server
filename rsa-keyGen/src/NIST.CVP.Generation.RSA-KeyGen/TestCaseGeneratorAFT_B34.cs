@@ -12,20 +12,20 @@ using NLog;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseGeneratorAFT_B32 : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAFT_B34 : ITestCaseGenerator<TestGroup, TestCase>
     {
         private int _numberOfCases = 25;
 
         private readonly IRandom800_90 _random800_90;
-        private readonly RandomProvablePrimeGenerator _primeGen;
+        private readonly AllProvablePrimesWithConditionsGenerator _primeGen;
 
-        public TestCaseGeneratorAFT_B32(IRandom800_90 random800_90, RandomProvablePrimeGenerator primeGen)
+        public int NumberOfTestCasesToGenerate { get { return _numberOfCases; } }
+
+        public TestCaseGeneratorAFT_B34(IRandom800_90 random800_90, AllProvablePrimesWithConditionsGenerator primeGen)
         {
             _random800_90 = random800_90;
             _primeGen = primeGen;
         }
-
-        public int NumberOfTestCasesToGenerate { get { return _numberOfCases; } }
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {
@@ -38,12 +38,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             {
                 var e = TestCaseGeneratorHelper.GetEValue(group, _random800_90, BigInteger.Pow(2, 16) + 1, BigInteger.Pow(2, 256));
                 var seed = TestCaseGeneratorHelper.GetSeed(group, _random800_90);
-
+                var bitlens = TestCaseGeneratorHelper.GetBitlens(group, _random800_90);
+                
                 // Generate TestCase
                 var testCase = new TestCase
                 {
                     Key = new KeyPair {PubKey = new PublicKey {E = e}},
-                    Seed = seed
+                    Seed = seed,
+                    Bitlens = bitlens
                 };
                 return Generate(group, testCase);
             }
@@ -61,6 +63,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             {
                 // Configure Prime Generator
                 _primeGen.SetHashFunction(group.HashAlg);
+                _primeGen.SetBitlens(testCase.Bitlens);
                 _primeGen.SetEntropyProviderType(EntropyProviderTypes.Random);
 
                 primeResult = _primeGen.GeneratePrimes(group.Modulo, testCase.Key.PubKey.E, testCase.Seed.GetDeepCopy());
