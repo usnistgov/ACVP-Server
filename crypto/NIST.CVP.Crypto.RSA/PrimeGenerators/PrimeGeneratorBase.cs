@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     public abstract class PrimeGeneratorBase
     {
-        protected readonly BigInteger _root2Mult2Pow512Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768").ToPositiveBigInteger();
+        protected readonly BigInteger _root2Mult2Pow512Minus1  = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768").ToPositiveBigInteger();
         protected readonly BigInteger _root2Mult2Pow1024Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768D2202E8742AF1F4E53059C6011BC337BCAB1BC911688458A460ABC722F7C4E33C6D5A8A38BB7E9DCCB2A634331F3C84DF52F120F836E582EEAA4A0899040CA4A").ToPositiveBigInteger();
         protected readonly BigInteger _root2Mult2Pow1536Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768D2202E8742AF1F4E53059C6011BC337BCAB1BC911688458A460ABC722F7C4E33C6D5A8A38BB7E9DCCB2A634331F3C84DF52F120F836E582EEAA4A0899040CA4A81394AB6D8FD0EFDF4D3A02CEBC93E0C4264DABCD528B651B8CF341B6F8236C70104DC01FE32352F332A5E9F7BDA1EBFF6A1BE3FCA221307DEA06241F7AA81C2").ToPositiveBigInteger();
         protected readonly BigInteger _2Pow1024MinusFloorRoot2Mult2Pow1024Minus1 = new BitString("4AFB0CCC06219B7BA682764C8AB54160E2909F4576C457B312E8537A7CCC66EAB5037CFBC5475D3C574E0190237C24C6F08B57A1BC6384B587FB78C9C205D8972DDFD178BD50E0B1ACFA639FEE43CC84354E436EE977BA75B9F5438DD083B1CC392A575C7448162334D59CBCCE0C37B20AD0EDF07C91A7D1155B5F766FBF35B6").ToPositiveBigInteger();
@@ -23,6 +23,8 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
         private readonly ISHA _hash = new SHA(new SHAFactory());
         private HashFunction _hashFunction;
+        private PrimeTestModes _primeTestMode;
+        protected int[] _bitlens = new int[4];
 
         #region primes
         private readonly int[] _primes = 
@@ -558,6 +560,24 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             _hashFunction = hashFunction;
         }
 
+        public void SetPrimeTestMode(PrimeTestModes ptMode)
+        {
+            _primeTestMode = ptMode;
+        }
+
+        public void SetBitlens(int[] bitlens)
+        {
+            _bitlens = bitlens;
+        }
+
+        public void SetBitlens(int b1, int b2, int b3, int b4)
+        {
+            _bitlens[0] = b1;
+            _bitlens[1] = b2;
+            _bitlens[2] = b3;
+            _bitlens[3] = b4;
+        }
+
         public void SetEntropyProviderType(EntropyProviderTypes type)
         {
             _entropyProvider = _entropyProviderFactory.GetEntropyProvider(type);
@@ -568,8 +588,6 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             return SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize);
         }
 
-        // public abstract PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed);
-
         protected BigInteger Hash(BigInteger message)
         {
             var bs = new BitString(message);
@@ -579,6 +597,60 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 throw new Exception("Bad Hash in RSA");
             }
             return result.Digest.ToPositiveBigInteger();
+        }
+
+        protected bool MillerRabin(int nlen, BigInteger val, bool factor)
+        {
+            if (nlen == 2048)
+            {
+                if (_primeTestMode == PrimeTestModes.C2)
+                {
+                    if (factor)
+                    {
+                        return NumberTheory.MillerRabin(val, 38);
+                    }
+                    else
+                    {
+                        return NumberTheory.MillerRabin(val, 5);
+                    }
+                }
+                else // if (_primeTestMode == PrimeTestModes.C3)
+                {
+                    if (factor)
+                    {
+                        return NumberTheory.MillerRabin(val, 41);
+                    }
+                    else
+                    {
+                        return NumberTheory.MillerRabin(val, 4);
+                    }
+                }
+            }
+            else // if(nlen == 3072)
+            {
+                if (_primeTestMode == PrimeTestModes.C2)
+                {
+                    if (factor)
+                    {
+                        return NumberTheory.MillerRabin(val, 32);
+                    }
+                    else
+                    {
+                        return NumberTheory.MillerRabin(val, 4);
+                    }
+                }
+                else // if (_primeTestMode == PrimeTestModes.C3)
+                {
+                    if (factor)
+                    {
+                        return NumberTheory.MillerRabin(val, 27);
+                    }
+                    else
+                    {
+                        return NumberTheory.MillerRabin(val, 3);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -794,7 +866,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     // 7
                     if (NumberTheory.GCD(Y - 1, e) == 1)
                     {
-                        if (NumberTheory.MillerRabin(Y, 50))
+                        if (MillerRabin(nlen, Y, true))
                         {
                             return new PPFResult(Y, X);
                         }

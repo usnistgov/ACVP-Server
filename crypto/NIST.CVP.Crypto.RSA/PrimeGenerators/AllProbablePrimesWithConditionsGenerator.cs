@@ -12,17 +12,9 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
     // B.3.6
     public class AllProbablePrimesWithConditionsGenerator : PrimeGeneratorBase, IPrimeGenerator
     {
-        private int _bitlen1, _bitlen2, _bitlen3, _bitlen4;
-
         public AllProbablePrimesWithConditionsGenerator(EntropyProviderTypes type) : base(type) { }
 
-        public void SetBitlens(int bitlen1, int bitlen2, int bitlen3, int bitlen4)
-        {
-            _bitlen1 = bitlen1;
-            _bitlen2 = bitlen2;
-            _bitlen3 = bitlen3;
-            _bitlen4 = bitlen4;
-        }
+        public AllProbablePrimesWithConditionsGenerator() { }
 
         public void AddEntropy(BitString bs)
         {
@@ -38,7 +30,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         {
             BigInteger p, p1, p2, q, q1, q2, xp, xq;
 
-            if (_bitlen1 == 0 || _bitlen2 == 0 || _bitlen3 == 0 || _bitlen4 == 0)
+            if (_bitlens[0] == 0 || _bitlens[1] == 0 || _bitlens[2] == 0 || _bitlens[3] == 0)
             {
                 return new PrimeGeneratorResult("Empty bitlens, must be assigned outside of GeneratePrimes()");
             }
@@ -71,13 +63,13 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             // 4
-            var xp1 = _entropyProvider.GetEntropy(_bitlen1).ToPositiveBigInteger();
+            var xp1 = _entropyProvider.GetEntropy(_bitlens[0]).ToPositiveBigInteger();
             if (xp1.IsEven)
             {
                 xp1++;
             }
 
-            var xp2 = _entropyProvider.GetEntropy(_bitlen2).ToPositiveBigInteger();
+            var xp2 = _entropyProvider.GetEntropy(_bitlens[1]).ToPositiveBigInteger();
             if (xp2.IsEven)
             {
                 xp2++;
@@ -106,13 +98,13 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             // 5
             do
             {
-                var xq1 = _entropyProvider.GetEntropy(_bitlen3).ToPositiveBigInteger();
+                var xq1 = _entropyProvider.GetEntropy(_bitlens[2]).ToPositiveBigInteger();
                 if (xq1.IsEven)
                 {
                     xq1++;
                 }
 
-                var xq2 = _entropyProvider.GetEntropy(_bitlen4).ToPositiveBigInteger();
+                var xq2 = _entropyProvider.GetEntropy(_bitlens[3]).ToPositiveBigInteger();
                 if (xq2.IsEven)
                 {
                     xq2++;

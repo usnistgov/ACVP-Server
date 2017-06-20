@@ -32,10 +32,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     return new TestCaseGeneratorAFT_B34(_random800_90, new AllProvablePrimesWithConditionsGenerator());
 
                 case KeyGenModes.B35:
-                    return new TestCaseGeneratorNull();
+                    return new TestCaseGeneratorAFT_B35(_random800_90, new ProvableProbablePrimesWithConditionsGenerator());
 
                 case KeyGenModes.B36:
-                    return new TestCaseGeneratorNull();
+                    return new TestCaseGeneratorAFT_B36(_random800_90, new AllProbablePrimesWithConditionsGenerator());
 
                 default:
                     return new TestCaseGeneratorNull();

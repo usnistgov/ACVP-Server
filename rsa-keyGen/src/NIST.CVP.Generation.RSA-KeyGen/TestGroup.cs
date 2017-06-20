@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public KeyGenModes Mode { get; set; }
         public int Modulo { get; set; }
         public HashFunction HashAlg { get; set; }
-        public PrimeTestModes? PrimeTest { get; set; }
+        public PrimeTestModes PrimeTest { get; set; }
         public PubExpModes PubExp { get; set; }
         public BitString FixedPubExp { get; set; } = null;
         public List<ITestCase> Tests { get; set; }

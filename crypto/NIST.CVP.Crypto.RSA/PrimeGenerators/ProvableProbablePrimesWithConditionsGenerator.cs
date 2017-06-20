@@ -12,17 +12,9 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
     // B.3.5
     public class ProvableProbablePrimesWithConditionsGenerator : PrimeGeneratorBase, IPrimeGenerator
     {
-        private int _bitlen1, _bitlen2, _bitlen3, _bitlen4;
-
         public ProvableProbablePrimesWithConditionsGenerator(HashFunction hashFunction, EntropyProviderTypes type) : base(hashFunction, type) { }
 
-        public void SetBitlens(int bitlen1, int bitlen2, int bitlen3, int bitlen4)
-        {
-            _bitlen1 = bitlen1;
-            _bitlen2 = bitlen2;
-            _bitlen3 = bitlen3;
-            _bitlen4 = bitlen4;
-        }
+        public ProvableProbablePrimesWithConditionsGenerator() { }
 
         public void AddEntropy(BigInteger entropy)
         {
@@ -34,7 +26,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             BigInteger p, p1, p2, q, q1, q2, xp, xq;
             BigInteger primeSeed;
 
-            if (_bitlen1 == 0 || _bitlen2 == 0 || _bitlen3 == 0 || _bitlen4 == 0)
+            if (_bitlens[0] == 0 || _bitlens[1] == 0 || _bitlens[2] == 0 || _bitlens[3] == 0)
             {
                 return new PrimeGeneratorResult("Empty bitlens, must be assigned outside of GeneratePrimes()");
             }
@@ -73,7 +65,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             // 5
-            var p1Result = ShaweTaylorRandomPrime(_bitlen1, seed.ToPositiveBigInteger());
+            var p1Result = ShaweTaylorRandomPrime(_bitlens[0], seed.ToPositiveBigInteger());
             if (!p1Result.Success)
             {
                 return new PrimeGeneratorResult("Failed to generate p1");
@@ -82,7 +74,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             p1 = p1Result.Prime;
             primeSeed = p1Result.PrimeSeed;
 
-            var p2Result = ShaweTaylorRandomPrime(_bitlen2, primeSeed);
+            var p2Result = ShaweTaylorRandomPrime(_bitlens[1], primeSeed);
             if (!p2Result.Success)
             {
                 return new PrimeGeneratorResult("Failed to generate p2");
@@ -103,7 +95,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             do
             {
                 // 6
-                var q1Result = ShaweTaylorRandomPrime(_bitlen3, primeSeed);
+                var q1Result = ShaweTaylorRandomPrime(_bitlens[2], primeSeed);
                 if (!q1Result.Success)
                 {
                     return new PrimeGeneratorResult("Failed to generate q1");
@@ -112,7 +104,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 q1 = q1Result.Prime;
                 primeSeed = q1Result.PrimeSeed;
 
-                var q2Result = ShaweTaylorRandomPrime(_bitlen4, primeSeed);
+                var q2Result = ShaweTaylorRandomPrime(_bitlens[3], primeSeed);
                 if (!q2Result.Success)
                 {
                     return new PrimeGeneratorResult("Failed to generate q2");

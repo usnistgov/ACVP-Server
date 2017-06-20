@@ -9,7 +9,7 @@ namespace NIST.CVP.Crypto.RSA
     public static class KATData
     {
         #region B33
-        public static List<AlgoArrayResponse> GetKATsForProperties(int modulo, PrimeTestModes? ptMode)
+        public static List<AlgoArrayResponse> GetKATsForProperties(int modulo, PrimeTestModes ptMode)
         {
             if (modulo == 2048)
             {

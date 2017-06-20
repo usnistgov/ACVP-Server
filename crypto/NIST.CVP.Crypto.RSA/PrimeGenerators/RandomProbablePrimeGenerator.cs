@@ -39,7 +39,6 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             var i = 0;
             BigInteger p = 0;
             var bound = nlen == 3072 ? _root2Mult2Pow1536Minus1 : _root2Mult2Pow1024Minus1;
-            var millerRabinRounds = nlen == 3072 ? 64 : 56;
             do
             {
                 do
@@ -63,7 +62,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 // 4.5
                 if (NumberTheory.GCD(p - 1, e) == 1)
                 {
-                    if (NumberTheory.MillerRabin(p, millerRabinRounds))
+                    if (MillerRabin(nlen, p, false))
                     {
                         break;
                     }
@@ -109,7 +108,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 // 5.6
                 if (NumberTheory.GCD(q - 1, e) == 1)
                 {
-                    if (NumberTheory.MillerRabin(q, millerRabinRounds))
+                    if (MillerRabin(nlen, q, false))
                     {
                         break;
                     }

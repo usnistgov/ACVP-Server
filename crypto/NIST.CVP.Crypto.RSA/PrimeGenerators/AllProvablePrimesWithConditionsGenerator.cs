@@ -11,26 +11,8 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
     // B.3.4
     public class AllProvablePrimesWithConditionsGenerator : PrimeGeneratorBase, IPrimeGenerator
     {
-        private int _bitlen1, _bitlen2, _bitlen3, _bitlen4;
-
         public AllProvablePrimesWithConditionsGenerator(HashFunction hashFunction) : base(hashFunction) { }
         public AllProvablePrimesWithConditionsGenerator() { }
-
-        public void SetBitlens(int bitlen1, int bitlen2, int bitlen3, int bitlen4)
-        {
-            _bitlen1 = bitlen1;
-            _bitlen2 = bitlen2;
-            _bitlen3 = bitlen3;
-            _bitlen4 = bitlen4;
-        }
-
-        public void SetBitlens(int[] bitlens)
-        {
-            _bitlen1 = bitlens[0];
-            _bitlen2 = bitlens[1];
-            _bitlen3 = bitlens[2];
-            _bitlen4 = bitlens[3];
-        }
 
         public virtual PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
@@ -73,7 +55,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             var workingSeed = seed.ToPositiveBigInteger();
 
             // 6
-            var pResult = ProvablePrimeConstruction(nlen / 2, _bitlen1, _bitlen2, workingSeed, e);
+            var pResult = ProvablePrimeConstruction(nlen / 2, _bitlens[0], _bitlens[1], workingSeed, e);
             if (!pResult.Success)
             {
                 return new PrimeGeneratorResult("Bad p gen");
@@ -87,7 +69,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             do
             {
                 // 7
-                var qResult = ProvablePrimeConstruction(nlen / 2, _bitlen3, _bitlen4, workingSeed, e);
+                var qResult = ProvablePrimeConstruction(nlen / 2, _bitlens[2], _bitlens[3], workingSeed, e);
                 if (!qResult.Success)
                 {
                     return new PrimeGeneratorResult("Bad q gen");

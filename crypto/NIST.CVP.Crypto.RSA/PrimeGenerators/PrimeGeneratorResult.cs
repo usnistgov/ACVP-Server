@@ -46,7 +46,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 return ErrorMessage;
             }
 
-            return $"P : {P}, Q: {Q}";
+            return $"P: {P}, Q: {Q}";
         }
     }
 }

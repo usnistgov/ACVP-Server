@@ -55,19 +55,15 @@ namespace NIST.CVP.Crypto.RSA
             }
         }
 
-        public static PrimeTestModes? StringToPrimeTestMode(string val)
+        public static PrimeTestModes StringToPrimeTestMode(string val)
         {
             if (val.Contains("2"))
             {
                 return PrimeTestModes.C2;
             }
-            else if (val.Contains("3"))
+            else // if (val.Contains("3"))
             {
                 return PrimeTestModes.C3;
-            }
-            else
-            {
-                return null;
             }
         }
 

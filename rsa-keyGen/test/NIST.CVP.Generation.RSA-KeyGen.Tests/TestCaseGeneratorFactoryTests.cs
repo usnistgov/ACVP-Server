@@ -15,6 +15,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [TestCase(KeyGenModes.B32, typeof(TestCaseGeneratorAFT_B32))]
         [TestCase(KeyGenModes.B33, typeof(TestCaseGeneratorGDT_B33))]
         [TestCase(KeyGenModes.B34, typeof(TestCaseGeneratorAFT_B34))]
+        [TestCase(KeyGenModes.B35, typeof(TestCaseGeneratorAFT_B35))]
+        [TestCase(KeyGenModes.B36, typeof(TestCaseGeneratorAFT_B36))]
         public void ShouldReturnProperGenerator(KeyGenModes mode, Type expectedType)
         {
             var testGroup = new TestGroup
