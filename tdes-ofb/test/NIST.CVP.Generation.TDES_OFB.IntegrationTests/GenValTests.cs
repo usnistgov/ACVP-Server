@@ -5,14 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Newtonsoft.Json;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using tdes_ofb;
-using tdes_ofb;
-using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
 {
@@ -31,17 +31,17 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
-
+            
             AutofacConfig.OverrideRegistrations = null;
             TDES_OFB_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
 
-        [OneTimeTearDown]
-        public void Teardown()
-        {
-            Directory.Delete(_testPath, true);
-        }
+        //[OneTimeTearDown]
+        //public void Teardown()
+        //{
+        //    Directory.Delete(_testPath, true);
+        //}
 
         [Test]
         public void GenShouldReturn1OnNoArgumentsSupplied()

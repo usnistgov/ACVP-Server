@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
@@ -16,7 +19,13 @@ namespace NIST.CVP.Generation.TDES_OFB
             direction = direction.ToLower();
             testType = string.Concat(testType, direction);
 
-            return _kats.ContainsKey(testType) ? _kats[testType] : new List<TestCase>();
+            if (_kats.ContainsKey(testType))
+            {
+                return _kats[testType];
+            }
+
+            return new List<TestCase>();
+
         }
 
         private readonly Dictionary<string, List<TestCase>> _kats =
@@ -31,6 +40,11 @@ namespace NIST.CVP.Generation.TDES_OFB
                 { "variabletextdecrypt", VariablePlainTextTests()},
                 { "variabletextencrypt", VariablePlainTextTests()}
             };
+
+        //using    http://regexr.com/
+        //FIND     COUNT = \d*\n)(KEYs = (.*)\n)(IV = (.*)\n)(CIPHERTEXT = (.*)\n)(PLAINTEXT = (.*)\n?)
+        //REPLACE  new TestCase("$3", "$9", "$7", "$5"),
+
 
         private static List<TestCase> PermutationTests()
         {

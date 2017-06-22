@@ -86,11 +86,11 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
         [TestCase("0101010101010101", "d2fd8867d50d2dfe", "0000000000000004")]
         [TestCase("0101010101010101", "06e7ea22ce92708f", "0000000000000002")]
         [TestCase("0101010101010101", "166b40b44aba4bd6", "0000000000000001")]
-        public void ShouldPassInversePermuatationEncryptKnownAnswerTest(string key, string plaintext, string cipherText)
+        public void ShouldPassInversePermuatationEncryptKnownAnswerTest(string key, string iv, string cipherText)
         {
             var subject = new TdesOfb();
-            var iv = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-            var result = subject.BlockEncrypt(new BitString(key), new BitString(iv), new BitString(plaintext));
+            var plaintext = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(cipherText).ToHex(), result.CipherText.ToHex());
@@ -129,11 +129,11 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
         [TestCase("1002911598190104", "0000000000000000", "61c79c71921a2ef8")]
         [TestCase("1002911598100201", "0000000000000000", "e2f5728f0995013c")]
         [TestCase("1002911698100101", "0000000000000000", "1aeac39a61f0a464")]
-        public void ShouldPassPermuatationEncryptKnownAnswerTest(string key, string plaintext, string cipherText)
+        public void ShouldPassPermuatationEncryptKnownAnswerTest(string key, string iv, string cipherText)
         {
             var subject = new TdesOfb();
-            var iv = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-            var result = subject.BlockEncrypt(new BitString(key), new BitString(iv), new BitString(plaintext));
+            var plaintext = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(cipherText).ToHex(), result.CipherText.ToHex());
@@ -159,11 +159,11 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
         [TestCase("49e95d6d4ca229bf", "02fe55778117f12a", "5a6b612cc26cce4a")]
         [TestCase("018310dc409b26d6", "1d9d5c5018f728c2", "5f4c038ed12b2e41")]
         [TestCase("1c587f1c13924fef", "305532286d6f295a", "63fac0d034d9f793")]
-        public void ShouldPassSubstitutionTableEncryptKnownAnswerTest(string key, string plaintext, string cipherText)
+        public void ShouldPassSubstitutionTableEncryptKnownAnswerTest(string key, string iv, string cipherText)
         {
             var subject = new TdesOfb();
-            var iv = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-            var result = subject.BlockEncrypt(new BitString(key), new BitString(iv), new BitString(plaintext));
+            var plaintext = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(cipherText).ToHex(), result.CipherText.ToHex());
@@ -231,7 +231,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             string plaintext = "0000000000000000";
             var subject = new TdesOfb();
             var iv = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-            var result = subject.BlockEncrypt(new BitString(key), new BitString(iv), new BitString(plaintext));
+            var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual((new BitString(cipherText)).ToHex(), result.CipherText.ToHex());
@@ -302,12 +302,12 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
         [TestCase("0000000000000004", "d2fd8867d50d2dfe")]
         [TestCase("0000000000000002", "06e7ea22ce92708f")]
         [TestCase("0000000000000001", "166b40b44aba4bd6")]
-        public void ShouldPassVariablePlainTextEncryptKnownAnswerTest(string plaintext, string cipherText)
+        public void ShouldPassVariablePlainTextEncryptKnownAnswerTest(string iv, string cipherText)
         {
             string key = "0101010101010101";
-            var iv = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            var plaintext = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             var subject = new TdesOfb();
-            var result = subject.BlockEncrypt(new BitString(key), new BitString(iv), new BitString(plaintext));
+            var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(cipherText).ToHex(), result.CipherText.ToHex());
@@ -350,7 +350,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
         {
             var subject = new TdesOfb();
             var iv = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-            var result = subject.BlockDecrypt(new BitString(key), new BitString(iv), new BitString(cipherText));
+            var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(plaintext).ToHex(), result.PlainText.ToHex());
@@ -425,7 +425,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
         {
             var subject = new TdesOfb();
             var cipherText = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-            var result = subject.BlockDecrypt(new BitString(key), new BitString(iv), new BitString(cipherText));
+            var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(plaintext).ToHex(), result.PlainText.ToHex());
@@ -455,7 +455,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
         {
             var subject = new TdesOfb();
             var plaintext = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-            var result = subject.BlockDecrypt(new BitString(key), new BitString(iv), new BitString(cipherText));
+            var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
 
@@ -525,7 +525,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             string plaintext = "0000000000000000";
             var iv = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             var subject = new TdesOfb();
-            var result = subject.BlockDecrypt(new BitString(key), new BitString(iv), new BitString(cipherText));
+            var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(plaintext).ToHex(), result.PlainText.ToHex());
@@ -601,7 +601,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             string key = "0101010101010101";
             var cipherText = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             var subject = new TdesOfb();
-            var result = subject.BlockDecrypt(new BitString(key), new BitString(iv), new BitString(cipherText));
+            var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(plaintext).ToHex(), result.PlainText.ToHex());
@@ -638,7 +638,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
         public void ShouldPassMultiBlockDecryptTests(string key, string iv, string plaintext, string cipherText)
         {
             var subject = new TdesOfb();
-            var result = subject.BlockDecrypt(new BitString(key), new BitString(iv), new BitString(cipherText));
+            var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
             Assert.AreEqual(new BitString(plaintext).ToHex(), result.PlainText.ToHex());

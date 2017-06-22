@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.TDES_OFB
         private readonly List<Tuple<string, int>> TestTypesAndNumberOfKeys = new List<Tuple<string, int>>
         {
             new Tuple<string, int>("Permutation", 1),
-            new Tuple<string, int>("InversePermutation", 1),
+            //new Tuple<string, int>("InversePermutation", 1),
             new Tuple<string, int>("SubstitutionTable", 1),
             new Tuple<string, int>("VariableKey", 1),
             new Tuple<string, int>("VariableText", 1),

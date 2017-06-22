@@ -8,13 +8,11 @@
     "Moq": "4.6.38-alpha",
     "NIST.CVP.Crypto.TDES": "1.0.0-*",
     "NIST.CVP.Crypto.TDES.Tests": "1.0.0-*",
-    "NIST.CVP.Crypto.TDES_OFB": "1.0.0-*",
     "NIST.CVP.Generation.TDES_OFB": "1.0.0-*",
     "NIST.CVP.Math": "1.0.0-*",
     "NLog": "5.0.0-beta05",
     "NUnit": "3.6.0"
   },
-
   "testRunner": "nunit",
 
   "frameworks": {

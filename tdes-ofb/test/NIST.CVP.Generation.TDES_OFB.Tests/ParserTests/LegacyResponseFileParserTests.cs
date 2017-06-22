@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests.ParserTests
         private string _testFIleContents = @"
 # CAVS 20.2
 # Config Info for : Certicom FIPS 810
-# TDES Multi block Message Test for CBC
+# TDES Multi block Message Test for OFB
 # State : Encrypt and Decrypt
 
 [ENCRYPT]
@@ -205,11 +205,11 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             // Total groups = 6, total tests = 54
         }
 
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            Directory.Delete(_unitTestPath, true);
-        }
+        //[OneTimeTearDown]
+        //public void TearDown()
+        //{
+        //    Directory.Delete(_unitTestPath, true);
+        //}
 
         [Test]
         public void ShouldReturnErrorForNonExistentPath()

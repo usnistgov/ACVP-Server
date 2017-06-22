@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
 
         [Test]
         [TestCase("Permutation", 1)]
-        [TestCase("InversePermutation", 1)]
+        //[TestCase("InversePermutation", 1)]
         [TestCase("SubstitutionTable", 1)]
         [TestCase("VariableKey", 1)]
         [TestCase("VariableText", 1)]
@@ -32,13 +32,13 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
                     KeyingOption = new[] { 1, 2 }
                 }).ToList();
             Assume.That(result != null);
-            Assert.AreEqual(7, result.Count);
+            Assert.AreEqual(6, result.Count);
             Assert.IsNotNull(result.First(tg => tg.TestType == testType && ((TestGroup)tg).NumberOfKeys == keyCount && ((TestGroup)tg).Function == "encrypt"));
         }
 
         [Test]
         [TestCase("Permutation", 1)]
-        [TestCase("InversePermutation", 1)]
+        //[TestCase("InversePermutation", 1)]
         [TestCase("SubstitutionTable", 1)]
         [TestCase("VariableKey", 1)]
         [TestCase("VariableText", 1)]
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
                     KeyingOption = new[] { 1, 2 }
                 }).ToList();
             Assume.That(result != null);
-            Assert.AreEqual(14, result.Count);
+            Assert.AreEqual(12, result.Count);
             Assert.IsNotNull(result.First(tg => tg.TestType == testType && ((TestGroup)tg).NumberOfKeys == keyCount && ((TestGroup)tg).Function == "decrypt"));
         }
 
@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
                     KeyingOption = new[] { 1, 2 }
                 }).ToList();
             Assume.That(result != null);
-            Assert.AreEqual(21, result.Count);
+            Assert.AreEqual(18, result.Count);
 
         }
     }

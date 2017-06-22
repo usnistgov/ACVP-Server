@@ -114,7 +114,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
 
         private TestVectorSet GetTestTestVectorSet(int groups = 2)
         {
-            var vectorSet = new TestVectorSet { Algorithm = "TDES-CBC" };
+            var vectorSet = new TestVectorSet { Algorithm = "TDES-OFB" };
             var testGroups = _tdm.GetTestGroups(groups);
             vectorSet.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return vectorSet;

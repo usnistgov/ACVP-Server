@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            Utilities.ConfigureLogging("TDES_CBC", true);
+            Utilities.ConfigureLogging("TDES_OFB", true);
         }
 
         [SetUp]

@@ -50,7 +50,7 @@ namespace NIST.CVP.Crypto.TDES_OFB
             return output;
         }
 
-        public DecryptionResult BlockDecrypt(BitString keyBits, BitString iv, BitString cipherText)
+        public DecryptionResult BlockDecrypt(BitString keyBits, BitString cipherText, BitString iv)
         {
             if (cipherText.BitLength % EXPECTED_BLOCK_SIZE != 0)
             {
