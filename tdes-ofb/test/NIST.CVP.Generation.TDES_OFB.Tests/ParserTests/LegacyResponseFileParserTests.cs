@@ -205,11 +205,11 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             // Total groups = 6, total tests = 54
         }
 
-        //[OneTimeTearDown]
-        //public void TearDown()
-        //{
-        //    Directory.Delete(_unitTestPath, true);
-        //}
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            Directory.Delete(_unitTestPath, true);
+        }
 
         [Test]
         public void ShouldReturnErrorForNonExistentPath()

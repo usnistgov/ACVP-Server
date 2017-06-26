@@ -37,11 +37,11 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
         }
 
 
-        //[OneTimeTearDown]
-        //public void Teardown()
-        //{
-        //    Directory.Delete(_testPath, true);
-        //}
+        [OneTimeTearDown]
+        public void Teardown()
+        {
+            Directory.Delete(_testPath, true);
+        }
 
         [Test]
         public void GenShouldReturn1OnNoArgumentsSupplied()
