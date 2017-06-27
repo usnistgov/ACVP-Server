@@ -12,7 +12,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseGeneratorAFT_B32 : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAFT_B32 : IDeferredTestCaseGenerator<TestGroup, TestCase>
     {
         private int _numberOfCases = 25;
 
@@ -79,6 +79,61 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             // Set p, q, d (and CRT d values), n, e in the testCase
             testCase.Key = new KeyPair(primeResult.P, primeResult.Q, testCase.Key.PubKey.E);
             return new TestCaseGenerateResponse(testCase);
+        }
+
+        public TestCaseGenerateResponse CompleteDeferredTestCase(TestGroup group, TestCase testCase)
+        {
+            PrimeGeneratorResult primeResult = null;
+            try
+            {
+                // Configure Prime Generator
+                _primeGen.SetHashFunction(group.HashAlg);
+                _primeGen.SetEntropyProviderType(EntropyProviderTypes.Testable);
+
+                // No entropy values to enter as there is no RNG used
+
+                primeResult = _primeGen.GeneratePrimes(group.Modulo, testCase.Key.PubKey.E, testCase.Seed.GetDeepCopy());
+                if (!primeResult.Success)
+                {
+                    ThisLogger.Warn($"Deferred error: {primeResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse($"Deferred error: {primeResult.ErrorMessage}");
+                }
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error($"Deferred exception: {ex.Message}");
+                return new TestCaseGenerateResponse($"Deferred exception: {ex.Message}");
+            }
+
+            // Set p, q, d, n, e values
+            testCase.Key = new KeyPair(primeResult.P, primeResult.Q, testCase.Key.PubKey.E);
+            return new TestCaseGenerateResponse(testCase);
+        }
+
+        public TestCaseGenerateResponse RecombineTestCases(TestGroup group, TestCase suppliedResult,
+            TestCase originalTestCase)
+        {
+            if (suppliedResult.TestCaseId != originalTestCase.TestCaseId)
+            {
+                return new TestCaseGenerateResponse($"Mismatch TestCaseIds for TestCase: {suppliedResult.TestCaseId}");
+            }
+
+            if (group.PubExp == PubExpModes.FIXED)
+            {
+                if (suppliedResult.Key.PubKey.E != originalTestCase.Key.PubKey.E)
+                {
+                    return new TestCaseGenerateResponse($"Mismatch E value for TestCase: {suppliedResult.TestCaseId}");
+                }
+            }
+
+            var combinedTestCase = new TestCase
+            {
+                TestCaseId = suppliedResult.TestCaseId,
+                Key = new KeyPair {PubKey = new PublicKey {E = suppliedResult.Key.PubKey.E} },
+                Seed = suppliedResult.Seed
+            };
+
+            return new TestCaseGenerateResponse(combinedTestCase);
         }
 
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }

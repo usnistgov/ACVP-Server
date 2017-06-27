@@ -28,7 +28,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
         public virtual PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
-            BigInteger p, p1, p2, q, q1, q2, xp, xq;
+            BigInteger p, p1, p2, q, q1, q2, xp, xq, xp1, xp2, xq1, xq2;
 
             if (_bitlens[0] == 0 || _bitlens[1] == 0 || _bitlens[2] == 0 || _bitlens[3] == 0)
             {
@@ -63,29 +63,29 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             // 4
-            var xp1 = _entropyProvider.GetEntropy(_bitlens[0]).ToPositiveBigInteger();
+            xp1 = _entropyProvider.GetEntropy(_bitlens[0]).ToPositiveBigInteger();
             if (xp1.IsEven)
             {
                 xp1++;
             }
 
-            var xp2 = _entropyProvider.GetEntropy(_bitlens[1]).ToPositiveBigInteger();
+            xp2 = _entropyProvider.GetEntropy(_bitlens[1]).ToPositiveBigInteger();
             if (xp2.IsEven)
             {
                 xp2++;
             }
 
-            while (!NumberTheory.MillerRabin(xp1, 50))
-            {
-                xp1 += 2;
-            }
             p1 = xp1;
-
-            while (!NumberTheory.MillerRabin(xp2, 50))
+            while (!MillerRabin(nlen, p1, true))
             {
-                xp2 += 2;
+                p1 += 2;
             }
+
             p2 = xp2;
+            while (!MillerRabin(nlen, p2, true))
+            {
+                p2 += 2;
+            }
 
             var pResult = ProbablePrimeFactor(p1, p2, nlen, e, security_strength);
             if (!pResult.Success)
@@ -98,29 +98,29 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             // 5
             do
             {
-                var xq1 = _entropyProvider.GetEntropy(_bitlens[2]).ToPositiveBigInteger();
+                xq1 = _entropyProvider.GetEntropy(_bitlens[2]).ToPositiveBigInteger();
                 if (xq1.IsEven)
                 {
                     xq1++;
                 }
 
-                var xq2 = _entropyProvider.GetEntropy(_bitlens[3]).ToPositiveBigInteger();
+                xq2 = _entropyProvider.GetEntropy(_bitlens[3]).ToPositiveBigInteger();
                 if (xq2.IsEven)
                 {
                     xq2++;
                 }
 
-                while (!NumberTheory.MillerRabin(xq1, 50))
-                {
-                    xq1 += 2;
-                }
                 q1 = xq1;
-
-                while (!NumberTheory.MillerRabin(xq2, 50))
+                while (!MillerRabin(nlen, q1, true))
                 {
-                    xq2 += 2;
+                    q1 += 2;
                 }
+
                 q2 = xq2;
+                while (!MillerRabin(nlen, q2, true))
+                {
+                    q2 += 2;
+                }
 
                 var qResult = ProbablePrimeFactor(q1, q2, nlen, e, security_strength);
                 if (!qResult.Success)
@@ -134,7 +134,8 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             } while (BigInteger.Abs(xp - xq) <= NumberTheory.Pow2(nlen / 2 - 100) ||
                      BigInteger.Abs(p - q)   <= NumberTheory.Pow2(nlen / 2 - 100));
 
-            return new PrimeGeneratorResult(p, q);
+            var auxValues = new AuxiliaryPrimeGeneratorResult(xp1, xp2, xp, xq1, xq2, xq);
+            return new PrimeGeneratorResult(p, q, auxValues);
         }
     }
 }

@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var keyGen = GetPrimeGenMock();
             keyGen
                 .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
-                .Returns(new PrimeGeneratorResult(0, 0));
+                .Returns(new PrimeGeneratorResult(0, 0, new AuxiliaryPrimeGeneratorResult(0, 0)));
 
             var rand = GetRandomMock();
             rand
@@ -133,6 +133,106 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         }
 
         [Test]
+        public void DeferredTestCaseShouldBeCompleted()
+        {
+            var keyGen = GetPrimeGenMock();
+            keyGen
+                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
+                .Returns(new PrimeGeneratorResult(31, 43, new AuxiliaryPrimeGeneratorResult(1, 2)));
+
+            var rand = GetRandomMock();
+
+            var testCase = GetTestCase();
+            var subject = new TestCaseGeneratorAFT_B35(rand.Object, keyGen.Object);
+            var result = subject.CompleteDeferredTestCase(GetTestGroup(), testCase);
+
+            Assume.That(result.Success);
+            rand.Verify(v => v.GetRandomBigInteger(It.IsAny<BigInteger>(), It.IsAny<BigInteger>()), Times.Never, "RNG should never be called");
+
+            var resultTestCase = (TestCase)result.TestCase;
+            Assert.AreEqual(testCase.Key.PubKey.E, resultTestCase.Key.PubKey.E);
+            Assert.AreEqual(testCase.Seed, resultTestCase.Seed);
+
+            Assert.AreNotEqual(testCase.Key.PubKey.N, 0);
+            Assert.AreNotEqual(testCase.Key.PrivKey.P, 0);
+            Assert.AreNotEqual(testCase.Key.PrivKey.Q, 0);
+            Assert.AreNotEqual(testCase.Key.PrivKey.D, 0);
+            Assert.AreNotEqual(testCase.Key.PrivKey.DMP1, 0);
+            Assert.AreNotEqual(testCase.Key.PrivKey.DMQ1, 0);
+            Assert.AreNotEqual(testCase.Key.PrivKey.IQMP, 0);
+
+            Assert.AreNotEqual(testCase.XP, 0);
+            Assert.AreNotEqual(testCase.XQ, 0);
+        }
+
+        [Test]
+        public void DeferredTestCaseShouldBeRecombinedWithFixedE()
+        {
+            var subject = new TestCaseGeneratorAFT_B35(GetRandomMock().Object, GetPrimeGenMock().Object);
+
+            var suppliedTestCase = GetTestCase();
+
+            var result = subject.RecombineTestCases(GetFixedEGroup(), suppliedTestCase, GetTestCase());
+
+            Assert.IsTrue(result.Success, result.ErrorMessage);
+        }
+
+        [Test]
+        public void DeferredTestCaseShouldBeRecombinedWithRandomE()
+        {
+            var subject = new TestCaseGeneratorAFT_B35(GetRandomMock().Object, GetPrimeGenMock().Object);
+
+            var suppliedTestCase = GetTestCase();
+            suppliedTestCase.Key = null;
+
+            var result = subject.RecombineTestCases(GetTestGroup(), suppliedTestCase, GetTestCase());
+
+            Assert.IsTrue(result.Success, result.ErrorMessage);
+        }
+
+        [Test]
+        public void ShouldNotRecombineTestCasesWithMismatchedIds()
+        {
+            var subject = new TestCaseGeneratorAFT_B35(GetRandomMock().Object, GetPrimeGenMock().Object);
+
+            var suppliedTestCase = GetTestCase();
+            suppliedTestCase.TestCaseId = 9001;
+
+            var result = subject.RecombineTestCases(GetTestGroup(), suppliedTestCase, GetTestCase());
+
+            Assert.IsFalse(result.Success, result.ErrorMessage);
+            Assert.IsTrue(result.ErrorMessage.Contains("TestCaseIds"));
+        }
+
+        [Test]
+        public void ShouldNotRecombineTestCasesWithMismatchedE()
+        {
+            var subject = new TestCaseGeneratorAFT_B35(GetRandomMock().Object, GetPrimeGenMock().Object);
+
+            var suppliedTestCase = GetTestCase();
+            suppliedTestCase.Key = new KeyPair { PubKey = new PublicKey { E = 10069 } };
+
+            var result = subject.RecombineTestCases(GetFixedEGroup(), suppliedTestCase, GetTestCase());
+
+            Assert.IsFalse(result.Success, result.ErrorMessage);
+            Assert.IsTrue(result.ErrorMessage.Contains("E value"));
+        }
+
+        [Test]
+        public void ShouldNotRecombineTestCaseWithBadBitlens()
+        {
+            var subject = new TestCaseGeneratorAFT_B35(GetRandomMock().Object, GetPrimeGenMock().Object);
+
+            var suppliedTestCase = GetTestCase();
+            suppliedTestCase.Bitlens = new[] { 1, 2, 3, 4 };
+
+            var result = subject.RecombineTestCases(GetFixedEGroup(), suppliedTestCase, GetTestCase());
+
+            Assert.IsFalse(result.Success, result.ErrorMessage);
+            Assert.IsTrue(result.ErrorMessage.Contains("bitlen"));
+        }
+
+        [Test]
         [Ignore("Longer test to make sure things work quickly")]
         public void GenerateShouldActuallyGenerateATestCaseWithValidData()
         {
@@ -151,6 +251,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             Assert.AreNotEqual(testCase.Key.PrivKey.DMP1, 0);
             Assert.AreNotEqual(testCase.Key.PrivKey.DMQ1, 0);
             Assert.AreNotEqual(testCase.Key.PrivKey.IQMP, 0);
+
+            Assert.AreNotEqual(testCase.XP, 0);
+            Assert.AreNotEqual(testCase.XQ, 0);
         }
 
         private Mock<IRandom800_90> GetRandomMock()
@@ -171,6 +274,29 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 Modulo = 2048,
                 PubExp = PubExpModes.RANDOM,
                 HashAlg = new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224 }
+            };
+        }
+
+        private TestGroup GetFixedEGroup()
+        {
+            return new TestGroup
+            {
+                Modulo = 2048,
+                PubExp = PubExpModes.FIXED,
+                FixedPubExp = new BitString("ACED"),
+                HashAlg = new HashFunction { Mode = ModeValues.SHA1, DigestSize = DigestSizes.d160 }
+            };
+        }
+
+        private TestCase GetTestCase()
+        {
+            return new TestCase
+            {
+                TestCaseId = 1,
+                Deferred = true,
+                Key = new KeyPair { PubKey = new PublicKey { E = 5 } },
+                Seed = new BitString("BEEFFACE"),
+                Bitlens = new[] { 144, 180, 200, 204 }
             };
         }
     }

@@ -71,17 +71,15 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 return new PrimeGeneratorResult("Failed to generate p1");
             }
 
-            p1 = p1Result.Prime;
-            primeSeed = p1Result.PrimeSeed;
 
-            var p2Result = ShaweTaylorRandomPrime(_bitlens[1], primeSeed);
+            var p2Result = ShaweTaylorRandomPrime(_bitlens[1], p1Result.PrimeSeed);
             if (!p2Result.Success)
             {
                 return new PrimeGeneratorResult("Failed to generate p2");
             }
 
+            p1 = p1Result.Prime;
             p2 = p2Result.Prime;
-            primeSeed = p2Result.PrimeSeed;
 
             var pResult = ProbablePrimeFactor(p1, p2, nlen, e, security_strength);
             if (!pResult.Success)
@@ -92,26 +90,24 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             p = pResult.P;
             xp = pResult.XP;
 
+            STRandomPrimeResult q1Result;
             do
             {
                 // 6
-                var q1Result = ShaweTaylorRandomPrime(_bitlens[2], primeSeed);
+                q1Result = ShaweTaylorRandomPrime(_bitlens[2], p2Result.PrimeSeed);
                 if (!q1Result.Success)
                 {
                     return new PrimeGeneratorResult("Failed to generate q1");
                 }
 
-                q1 = q1Result.Prime;
-                primeSeed = q1Result.PrimeSeed;
-
-                var q2Result = ShaweTaylorRandomPrime(_bitlens[3], primeSeed);
+                var q2Result = ShaweTaylorRandomPrime(_bitlens[3], q1Result.PrimeSeed);
                 if (!q2Result.Success)
                 {
                     return new PrimeGeneratorResult("Failed to generate q2");
                 }
 
+                q1 = q1Result.Prime;
                 q2 = q2Result.Prime;
-                primeSeed = q2Result.PrimeSeed;
 
                 var qResult = ProbablePrimeFactor(q1, q2, nlen, e, security_strength);
                 if (!qResult.Success)
@@ -125,8 +121,9 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             // 7
             } while (BigInteger.Abs(p - q) <= NumberTheory.Pow2(nlen / 2 - 100) ||
                      BigInteger.Abs(xp - xq) <= NumberTheory.Pow2(nlen / 2 - 100));
-            
-            return new PrimeGeneratorResult(p, q);
+
+            var auxValues = new AuxiliaryPrimeGeneratorResult(xp, xq);
+            return new PrimeGeneratorResult(p, q, auxValues);
         }
     }
 }

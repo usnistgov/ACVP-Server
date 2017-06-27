@@ -78,12 +78,28 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             if (group.Modulo == 2048)
             {
                 min_single = 140 + 1;
-                max_both = 494;
+
+                if (group.Mode == KeyGenModes.B32 || group.Mode == KeyGenModes.B34)
+                {
+                    max_both = 494;
+                }
+                else
+                {
+                    max_both = 750;
+                }
             }
             else if (group.Modulo == 3072)
             {
                 min_single = 170 + 1;
-                max_both = 750;
+
+                if (group.Mode == KeyGenModes.B32 || group.Mode == KeyGenModes.B34)
+                {
+                    max_both = 1007;
+                }
+                else
+                {
+                    max_both = 1518;
+                }
             }
 
             bitlens[0] = rand.GetRandomInt(min_single, max_both - min_single);
@@ -109,6 +125,51 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             testCase.Deferred = true;
             return testCase;
+        }
+
+        public static bool ValidateBitlens(TestGroup group, int[] bitlens)
+        {
+            var min = 0;
+            var max = 0;
+
+            if (group.Modulo == 2048)
+            {
+                min = 140;
+
+                if (group.Mode == KeyGenModes.B32 || group.Mode == KeyGenModes.B34)
+                {
+                    max = 494;
+                }
+                else
+                {
+                    max = 750;
+                }
+            }
+            else
+            {
+                min = 170;
+
+                if (group.Mode == KeyGenModes.B32 || group.Mode == KeyGenModes.B34)
+                {
+                    max = 1007;
+                }
+                else
+                {
+                    max = 1518;
+                }
+            }
+
+            if (bitlens[0] < min || bitlens[1] < min || bitlens[2] < min || bitlens[3] < min)
+            {
+                return false;
+            }
+
+            if (bitlens[0] + bitlens[1] >= max || bitlens[2] + bitlens[3] >= max)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

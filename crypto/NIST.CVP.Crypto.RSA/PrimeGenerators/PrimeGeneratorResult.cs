@@ -5,28 +5,23 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
     public class PrimeGeneratorResult
     {
         public BigInteger P { get; private set; }
-        public BigInteger P1 { get; private set; } = 0;
-        public BigInteger P2 { get; private set; } = 0;
         public BigInteger Q { get; private set; }
-        public BigInteger Q1 { get; private set; } = 0;
-        public BigInteger Q2 { get; private set; } = 0;
-
+        public AuxiliaryPrimeGeneratorResult AuxValues { get; private set; } = null;
         public string ErrorMessage { get; private set; }
 
+        // B32, B33, B34
         public PrimeGeneratorResult(BigInteger p, BigInteger q)
         {
             P = p;
             Q = q;
         }
 
-        public PrimeGeneratorResult(BigInteger p, BigInteger q, BigInteger p1, BigInteger q1, BigInteger p2, BigInteger q2)
+        // B35, B36
+        public PrimeGeneratorResult(BigInteger p, BigInteger q, AuxiliaryPrimeGeneratorResult aux)
         {
             P = p;
             Q = q;
-            P1 = p1;
-            Q1 = q1;
-            P2 = p2;
-            Q2 = q2;
+            AuxValues = aux;
         }
 
         public PrimeGeneratorResult(string errorMessage)

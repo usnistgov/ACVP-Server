@@ -83,7 +83,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             // 8
             } while (BigInteger.Abs(p - q) <= NumberTheory.Pow2(nlen / 2 - 100));
             
-            return new PrimeGeneratorResult(p, q, p1, q1, p2, q2);
+            return new PrimeGeneratorResult(p, q);
         }
     }
 }

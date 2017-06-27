@@ -12,7 +12,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseGeneratorAFT_B36 : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAFT_B36 : IDeferredTestCaseGenerator<TestGroup, TestCase>
     {
         private int _numberOfCases = 25;
 
@@ -80,7 +80,89 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             // Set p, q, d (and CRT d values), n, e in the testCase
             testCase.Key = new KeyPair(primeResult.P, primeResult.Q, testCase.Key.PubKey.E);
+
+            // Set auxiliary values
+            testCase.XP = primeResult.AuxValues.XP;
+            testCase.XQ = primeResult.AuxValues.XQ;
+            testCase.XP1 = primeResult.AuxValues.XP1;
+            testCase.XP2 = primeResult.AuxValues.XP2;
+            testCase.XQ1 = primeResult.AuxValues.XQ1;
+            testCase.XQ2 = primeResult.AuxValues.XQ2;
+
             return new TestCaseGenerateResponse(testCase);
+        }
+
+        public TestCaseGenerateResponse CompleteDeferredTestCase(TestGroup group, TestCase testCase)
+        {
+            PrimeGeneratorResult primeResult = null;
+            try
+            {
+                // Configure Prime Generator
+                _primeGen.SetBitlens(testCase.Bitlens);
+                _primeGen.SetEntropyProviderType(EntropyProviderTypes.Testable);
+
+                // Add entropy
+                _primeGen.AddEntropy(new BitString(testCase.XP1));
+                _primeGen.AddEntropy(new BitString(testCase.XP2));
+                _primeGen.AddEntropy(testCase.XP);
+                _primeGen.AddEntropy(new BitString(testCase.XQ1));
+                _primeGen.AddEntropy(new BitString(testCase.XQ2));
+                _primeGen.AddEntropy(testCase.XQ);
+
+                primeResult = _primeGen.GeneratePrimes(group.Modulo, testCase.Key.PubKey.E, null);
+                if (!primeResult.Success)
+                {
+                    ThisLogger.Warn(primeResult.ErrorMessage);
+                    return new TestCaseGenerateResponse(primeResult.ErrorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex);
+                return new TestCaseGenerateResponse(ex.Message);
+            }
+
+            // Set p, q, d (and CRT d values), n, e in the testCase
+            testCase.Key = new KeyPair(primeResult.P, primeResult.Q, testCase.Key.PubKey.E);
+
+            return new TestCaseGenerateResponse(testCase);
+        }
+
+        public TestCaseGenerateResponse RecombineTestCases(TestGroup group, TestCase suppliedResult,
+            TestCase originalTestCase)
+        {
+            if (suppliedResult.TestCaseId != originalTestCase.TestCaseId)
+            {
+                return new TestCaseGenerateResponse($"Mismatch TestCaseIds for TestCase: {suppliedResult.TestCaseId}");
+            }
+
+            if (group.PubExp == PubExpModes.FIXED)
+            {
+                if (suppliedResult.Key.PubKey.E != originalTestCase.Key.PubKey.E)
+                {
+                    return new TestCaseGenerateResponse($"Mismatch E value for TestCase: {suppliedResult.TestCaseId}");
+                }
+            }
+
+            if (!TestCaseGeneratorHelper.ValidateBitlens(group, suppliedResult.Bitlens))
+            {
+                return new TestCaseGenerateResponse($"Improper bitlen values for TestCase: {suppliedResult.TestCaseId}");
+            }
+
+            var combinedTestCase = new TestCase
+            {
+                TestCaseId = suppliedResult.TestCaseId,
+                Key = new KeyPair { PubKey = new PublicKey { E = originalTestCase.Key.PubKey.E } },
+                Bitlens = suppliedResult.Bitlens,
+                XP = suppliedResult.XP,
+                XQ = suppliedResult.XQ,
+                XP1 = suppliedResult.XP1,
+                XP2 = suppliedResult.XP2,
+                XQ1 = suppliedResult.XQ1,
+                XQ2 = suppliedResult.XQ2,
+            };
+
+            return new TestCaseGenerateResponse(combinedTestCase);
         }
 
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
