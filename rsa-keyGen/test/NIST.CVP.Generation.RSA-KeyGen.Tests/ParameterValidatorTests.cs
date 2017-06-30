@@ -131,6 +131,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 HashAlgs = new [] {"SHA-1"},
                 KeyGenModes = new [] {"B.3.2"},
                 PubExpMode = "fixed",
+                PrimeTests = new[] { "tblC2" },
                 FixedPubExp = hex
             });
 
@@ -149,6 +150,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 Moduli = new[] { 2048 },
                 HashAlgs = new[] { "SHA-1" },
                 KeyGenModes = new[] { "B.3.2" },
+                PrimeTests = new[] { "tblC2" },
                 PubExpMode = "fixed",
                 FixedPubExp = hex
             });

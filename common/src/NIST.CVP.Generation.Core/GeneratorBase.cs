@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Resolvers;
 using NLog;
 
@@ -16,6 +17,7 @@ namespace NIST.CVP.Generation.Core
         public GeneratorBase()
         {
             _jsonConverters.Add(new BitstringConverter());
+            _jsonConverters.Add(new BigIntegerConverter());
         }
 
         public readonly List<JsonOutputDetail> JsonOutputs = new List<JsonOutputDetail>

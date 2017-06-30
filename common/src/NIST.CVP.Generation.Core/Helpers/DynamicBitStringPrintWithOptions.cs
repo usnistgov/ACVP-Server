@@ -8,7 +8,7 @@ using NIST.CVP.Math;
 namespace NIST.CVP.Generation.Core.Helpers
 {
     /// <summary>
-    /// Instances can be used to print many <see cref="BItString"/>s with similar print pptions
+    /// Instances can be used to print many <see cref="BitString"/>s with similar print options
     /// </summary>
     public class DynamicBitStringPrintWithOptions
     {

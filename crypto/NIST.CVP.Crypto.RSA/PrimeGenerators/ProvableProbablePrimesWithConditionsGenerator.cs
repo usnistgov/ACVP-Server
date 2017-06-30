@@ -68,14 +68,14 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             var p1Result = ShaweTaylorRandomPrime(_bitlens[0], seed.ToPositiveBigInteger());
             if (!p1Result.Success)
             {
-                return new PrimeGeneratorResult("Failed to generate p1");
+                return new PrimeGeneratorResult($"Failed to generate p1: {p1Result.ErrorMessage}");
             }
 
 
             var p2Result = ShaweTaylorRandomPrime(_bitlens[1], p1Result.PrimeSeed);
             if (!p2Result.Success)
             {
-                return new PrimeGeneratorResult("Failed to generate p2");
+                return new PrimeGeneratorResult($"Failed to generate p2: {p2Result.ErrorMessage}");
             }
 
             p1 = p1Result.Prime;
@@ -84,7 +84,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             var pResult = ProbablePrimeFactor(p1, p2, nlen, e, security_strength);
             if (!pResult.Success)
             {
-                return new PrimeGeneratorResult("Failed to generate p");
+                return new PrimeGeneratorResult($"Failed to generate p: {pResult.ErrorMessage}");
             }
 
             p = pResult.P;
@@ -97,13 +97,13 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 q1Result = ShaweTaylorRandomPrime(_bitlens[2], p2Result.PrimeSeed);
                 if (!q1Result.Success)
                 {
-                    return new PrimeGeneratorResult("Failed to generate q1");
+                    return new PrimeGeneratorResult($"Failed to generate q1: {q1Result.ErrorMessage}");
                 }
 
                 var q2Result = ShaweTaylorRandomPrime(_bitlens[3], q1Result.PrimeSeed);
                 if (!q2Result.Success)
                 {
-                    return new PrimeGeneratorResult("Failed to generate q2");
+                    return new PrimeGeneratorResult($"Failed to generate q2: {q2Result.ErrorMessage}");
                 }
 
                 q1 = q1Result.Prime;
@@ -112,7 +112,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 var qResult = ProbablePrimeFactor(q1, q2, nlen, e, security_strength);
                 if (!qResult.Success)
                 {
-                    return new PrimeGeneratorResult("Failed to generate q");
+                    return new PrimeGeneratorResult($"Failed to generate q: {qResult.ErrorMessage}");
                 }
 
                 q = qResult.P;

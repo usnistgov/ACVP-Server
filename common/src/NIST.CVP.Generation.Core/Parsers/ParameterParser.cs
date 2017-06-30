@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using NLog;
+using NIST.CVP.Generation.Core.JsonConverters;
 
 namespace NIST.CVP.Generation.Core.Parsers
 {
@@ -10,10 +11,11 @@ namespace NIST.CVP.Generation.Core.Parsers
         where TParameters : IParameters
     {
 
-        protected readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>()
+        protected readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>
         {
             new BitstringConverter(),
-            new DomainConverter()
+            new DomainConverter(),
+            new BigIntegerConverter()
         };
 
         public ParseResponse<TParameters> Parse(string path)

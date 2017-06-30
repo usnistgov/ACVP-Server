@@ -34,16 +34,17 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 _numberOfCases = 3;
             }
 
-            if (group.InfoGeneratedByServer)
+            if (group.InfoGeneratedByServer || isSample)
             {
-                var e = TestCaseGeneratorHelper.GetEValue(group, _random800_90, BigInteger.Pow(2, 16) + 1, BigInteger.Pow(2, 256));
+                var e = TestCaseGeneratorHelper.GetEValue(group, _random800_90, BigInteger.Pow(2, 16) + 1, BigInteger.Pow(2, 64));
                 var seed = TestCaseGeneratorHelper.GetSeed(group, _random800_90);
 
                 // Generate TestCase
                 var testCase = new TestCase
                 {
                     Key = new KeyPair {PubKey = new PublicKey {E = e}},
-                    Seed = seed
+                    Seed = seed,
+                    Deferred = !group.InfoGeneratedByServer
                 };
                 return Generate(group, testCase);
             }

@@ -7,13 +7,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen
     {
         public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
         {
-            HashSet<ITestGroupGenerator<Parameters>> list =
-                new HashSet<ITestGroupGenerator<Parameters>>()
-                {
-                    new TestGroupGeneratorKnownAnswerTests(),
-                    new TestGroupGeneratorGeneratedDataTest(),
-                    new TestGroupGeneratorAlgorithmFunctionalTest()
-                };
+            var list = new HashSet<ITestGroupGenerator<Parameters>>
+            {
+                new TestGroupGeneratorAlgorithmFunctionalTest(),
+                new TestGroupGeneratorKnownAnswerTests(),
+                new TestGroupGeneratorGeneratedDataTest()
+            };
 
             return list;
         }

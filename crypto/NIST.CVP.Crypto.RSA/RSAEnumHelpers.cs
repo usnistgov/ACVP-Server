@@ -20,7 +20,8 @@ namespace NIST.CVP.Crypto.RSA
     public enum PrimeTestModes
     {
         C2,
-        C3
+        C3,
+        NONE
     }
 
     public enum PubExpModes
@@ -61,9 +62,13 @@ namespace NIST.CVP.Crypto.RSA
             {
                 return PrimeTestModes.C2;
             }
-            else // if (val.Contains("3"))
+            else if (val.Contains("3"))
             {
                 return PrimeTestModes.C3;
+            }
+            else
+            {
+                return PrimeTestModes.NONE;
             }
         }
 
@@ -119,6 +124,8 @@ namespace NIST.CVP.Crypto.RSA
                     return "tblC2";
                 case PrimeTestModes.C3:
                     return "tblC3";
+                case PrimeTestModes.NONE:
+                    return "";
             }
 
             throw new Exception("Bad PrimeTestMode");

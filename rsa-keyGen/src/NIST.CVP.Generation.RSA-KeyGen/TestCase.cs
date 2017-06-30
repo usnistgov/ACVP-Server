@@ -49,8 +49,30 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 return false;
             }
 
+            // Nothing to merge here
+            if (Key == null || otherTest.Deferred)
+            {
+                return true;
+            }
+            
             var otherTypedTest = (TestCase) otherTest;
             var retVal = false;
+
+            if (XP == 0 && otherTypedTest.XP != 0)
+            {
+                XP = otherTypedTest.XP;
+                XQ = otherTypedTest.XQ;
+                retVal = true;
+            }
+
+            if (XP1 == 0 && otherTypedTest.XP1 != 0)
+            {
+                XP1 = otherTypedTest.XP1;
+                XP2 = otherTypedTest.XP2;
+                XQ1 = otherTypedTest.XQ1;
+                XQ2 = otherTypedTest.XQ2;
+                retVal = true;
+            }
 
             if (Key.PubKey.E == 0 && otherTypedTest.Key.PubKey.E != 0)
             {
@@ -58,45 +80,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 retVal = true;
             }
 
-            if (Key.PubKey.N == 0 && otherTypedTest.Key.PubKey.N != 0)
+            if (Seed == null && otherTypedTest.Seed != null)
             {
-                Key.PubKey.N = otherTypedTest.Key.PubKey.N;
-                retVal = true;
-            }
-
-            if (Key.PrivKey.P == 0 && otherTypedTest.Key.PrivKey.P != 0)
-            {
-                Key.PrivKey.P = otherTypedTest.Key.PrivKey.P;
-                retVal = true;
-            }
-
-            if (Key.PrivKey.Q == 0 && otherTypedTest.Key.PrivKey.Q != 0)
-            {
-                Key.PrivKey.Q = otherTypedTest.Key.PrivKey.Q;
-                retVal = true;
-            }
-
-            if (Key.PrivKey.D == 0 && otherTypedTest.Key.PrivKey.D != 0)
-            {
-                Key.PrivKey.D = otherTypedTest.Key.PrivKey.D;
-                retVal = true;
-            }
-
-            if (Key.PrivKey.DMP1 == 0 && otherTypedTest.Key.PrivKey.DMP1 != 0)
-            {
-                Key.PrivKey.DMP1 = otherTypedTest.Key.PrivKey.DMP1;
-                retVal = true;
-            }
-
-            if (Key.PrivKey.DMQ1 == 0 && otherTypedTest.Key.PrivKey.DMQ1 != 0)
-            {
-                Key.PrivKey.DMQ1 = otherTypedTest.Key.PrivKey.DMQ1;
-                retVal = true;
-            }
-
-            if (Key.PrivKey.IQMP == 0 && otherTypedTest.Key.PrivKey.IQMP != 0)
-            {
-                Key.PrivKey.IQMP = otherTypedTest.Key.PrivKey.IQMP;
+                Seed = otherTypedTest.Seed;
                 retVal = true;
             }
 
@@ -152,8 +138,44 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 Deferred = source.deferred;
             }
 
-            Key = KeyPairFromObject((ExpandoObject) source);
-            Seed = BitStringFromObject("seed", (ExpandoObject) source);
+            if (((ExpandoObject) source).ContainsProperty("seed"))
+            {
+                Seed = BitStringFromObject("seed", (ExpandoObject)source);
+            }
+
+            if (((ExpandoObject) source).ContainsProperty("bitlens"))
+            {
+                Bitlens = IntArrayFromObject("bitlens", source);
+            }
+
+            if (((ExpandoObject) source).ContainsProperty("e"))
+            {
+                Key = new KeyPair {PubKey = new PublicKey {E = new BitString(source.e).ToPositiveBigInteger()}};
+            }
+
+            if (((ExpandoObject) source).ContainsProperty("p"))
+            {
+                Key = KeyPairFromObject((ExpandoObject)source);
+            }
+
+            if (((ExpandoObject) source).ContainsProperty("result"))
+            {
+                FailureTest = source.result == "failed";
+            }
+
+            if (((ExpandoObject) source).ContainsProperty("xp"))
+            {
+                XP = BigIntegerFromObject("xp", source);
+                XQ = BigIntegerFromObject("xq", source);
+            }
+
+            if (((ExpandoObject) source).ContainsProperty("xp1"))
+            {
+                XP1 = BigIntegerFromObject("xp1", source);
+                XP2 = BigIntegerFromObject("xp2", source);
+                XQ1 = BigIntegerFromObject("xq1", source);
+                XQ2 = BigIntegerFromObject("xq2", source);
+            }
         }
 
         private KeyPair KeyPairFromObject(ExpandoObject source)
@@ -162,14 +184,54 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             var p = BitStringFromObject("p", source);
             var q = BitStringFromObject("q", source);
             var n = BitStringFromObject("n", source);
-            var d = BitStringFromObject("d", source);
 
-            return new KeyPair(p, q, n, e, d);
+            var d = BitStringFromObject("d", source);
+            var dmp1 = BitStringFromObject("dmp1", source);
+            var dmq1 = BitStringFromObject("dmq1", source);
+            var iqmp = BitStringFromObject("iqmp", source);
+
+            if (d == null)
+            {
+                return new KeyPair(p, q, n, e, dmp1, dmq1, iqmp);
+            }
+            else
+            {
+                return new KeyPair(p, q, n, e, d);
+            }
+        }
+
+        private int[] IntArrayFromObject(string sourcePropertyName, ExpandoObject source)
+        {
+            if (!source.ContainsProperty(sourcePropertyName))
+            {
+                return null;
+            }
+
+            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
+
+            var valueAsList = sourcePropertyValue as List<int>;
+            if (valueAsList?.Count != 4)
+            {
+                return null;
+            }
+
+            return valueAsList.ToArray();
         }
 
         private BigInteger BigIntegerFromObject(string sourcePropertyName, ExpandoObject source)
         {
-            return 0;
+            if (!source.ContainsProperty(sourcePropertyName))
+            {
+                return 0;
+            }
+
+            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
+            if (sourcePropertyValue == null)
+            {
+                return 0;
+            }
+
+            return new BitString(sourcePropertyValue.ToString()).ToPositiveBigInteger();
         }
 
         private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)

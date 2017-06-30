@@ -836,7 +836,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             // 1
             if (NumberTheory.GCD(2 * r1, r2) != 1)
             {
-                return new PPFResult("fail");
+                return new PPFResult("PPF: GCD requirement not met");
             }
 
             // 2
@@ -878,7 +878,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     // 9
                     if (i >= 5 * (nlen / 2))
                     {
-                        return new PPFResult("fail");
+                        return new PPFResult("PPF: Too many iterations");
                     }
 
                     // 10

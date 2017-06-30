@@ -5,7 +5,8 @@ namespace NIST.CVP.Crypto.SHA2
     public enum ModeValues
     {
         SHA1,
-        SHA2
+        SHA2,
+        NONE
     }
 
     public enum DigestSizes
@@ -16,7 +17,8 @@ namespace NIST.CVP.Crypto.SHA2
         d384,
         d512,
         d512t224,
-        d512t256
+        d512t256,
+        NONE
     }
 
     public static class SHAEnumHelpers
@@ -156,30 +158,32 @@ namespace NIST.CVP.Crypto.SHA2
 
         public static HashFunction StringToHashFunction(string hf)
         {
-            switch (hf)
+            switch (hf.ToLower())
             {
-                case "SHA-224":
+                case "sha-224":
                     return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224 };
 
-                case "SHA-256":
+                case "sha-256":
                     return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d256 };
 
-                case "SHA-384":
+                case "sha-384":
                     return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d384 };
 
-                case "SHA-512":
+                case "sha-512":
                     return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d512 };
 
-                case "SHA-512/224":
+                case "sha-512/224":
                     return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d512t224 };
 
-                case "SHA-512/256":
+                case "sha-512/256":
                     return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d512t256 };
 
-                case "SHA-1":
-                case "SHA1":
-                default:
+                case "sha-1":
+                case "sha1":
                     return new HashFunction { Mode = ModeValues.SHA1, DigestSize = DigestSizes.d160 };
+
+                default:
+                    return new HashFunction { Mode = ModeValues.NONE, DigestSize = DigestSizes.NONE };
             }
         }
 
@@ -193,7 +197,7 @@ namespace NIST.CVP.Crypto.SHA2
                 }
                 else
                 {
-                    return null;
+                    return "";
                 }
             }
             else
@@ -224,7 +228,7 @@ namespace NIST.CVP.Crypto.SHA2
                 }
                 else
                 {
-                    return null;
+                    return "";
                 }
             }
         }

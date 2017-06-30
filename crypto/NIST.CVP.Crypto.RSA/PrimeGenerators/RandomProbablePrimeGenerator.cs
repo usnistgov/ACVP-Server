@@ -46,7 +46,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     // 4.2
                     if (p != 0 && kat)
                     {
-                        return new PrimeGeneratorResult("Given p less than sqrt(2) * 2 ^ (n/2) - 1, so get a new random number.");
+                        return new PrimeGeneratorResult("Given p less than sqrt(2) * 2 ^ (n/2) - 1, need to get a new random number.");
                     }
                     p = _entropyProvider.GetEntropy(nlen / 2).ToPositiveBigInteger();
 
@@ -91,7 +91,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     // 5.2
                     if (q != 0 && kat)
                     {
-                        return new PrimeGeneratorResult("Given q less than sqrt(2) * 2 ^ (n/2) - 1, so get a new random number.");
+                        return new PrimeGeneratorResult("Given q less than sqrt(2) * 2 ^ (n/2) - 1, need to get a new random number.");
                     }
                     q = _entropyProvider.GetEntropy(nlen / 2).ToPositiveBigInteger();
 

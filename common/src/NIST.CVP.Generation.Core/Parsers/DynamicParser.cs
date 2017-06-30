@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using NIST.CVP.Generation.Core.JsonConverters;
 using NLog;
 
 namespace NIST.CVP.Generation.Core.Parsers
@@ -14,6 +15,7 @@ namespace NIST.CVP.Generation.Core.Parsers
         public DynamicParser()
         {
             _jsonConverters.Add(new BitstringConverter());
+            _jsonConverters.Add(new BigIntegerConverter());
         }
 
         public ParseResponse<dynamic> Parse(string path)
@@ -38,8 +40,6 @@ namespace NIST.CVP.Generation.Core.Parsers
                 ThisLogger.Error(ex);
                 return new ParseResponse<dynamic>($"Could not parse file: {path}");
             }
-
-
         }
         private Logger ThisLogger
         {

@@ -15,10 +15,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestCaseGeneratorGDT_B33 : ITestCaseGenerator<TestGroup, TestCase>
     {
+        private int _numCases = 10;
         private readonly IRandom800_90 _random800_90;
         private readonly RandomProbablePrimeGenerator _primeGen;
 
-        public int NumberOfTestCasesToGenerate { get { return 10; } }
+        public int NumberOfTestCasesToGenerate { get { return _numCases; } }
 
         public TestCaseGeneratorGDT_B33(IRandom800_90 random800_90, RandomProbablePrimeGenerator primeGen)
         {
@@ -32,7 +33,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (isSample)
             {
-                var e = TestCaseGeneratorHelper.GetEValue(group, _random800_90, BigInteger.Pow(2, 16) + 1, BigInteger.Pow(2, 256));
+                _numCases = 3;
+                var e = TestCaseGeneratorHelper.GetEValue(group, _random800_90, BigInteger.Pow(2, 16) + 1, BigInteger.Pow(2, 64));
                 testCase.Key = new KeyPair {PubKey = new PublicKey {E = e}};
                 return Generate(group, testCase);
             }

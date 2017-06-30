@@ -34,8 +34,28 @@ namespace NIST.CVP.Crypto.RSA
         public KeyPair(BitString p, BitString q, BitString n, BitString e, BitString d)
         {
             PubKey = new PublicKey {E = e.ToPositiveBigInteger(), N = n.ToPositiveBigInteger()};
-            PrivKey = new PrivateKey {P = p.ToPositiveBigInteger(), Q = q.ToPositiveBigInteger(), D = d.ToPositiveBigInteger()};
+            PrivKey = new PrivateKey
+            {
+                P = p.ToPositiveBigInteger(),
+                Q = q.ToPositiveBigInteger(),
+                D = d.ToPositiveBigInteger()
+            };
             PrivKey.ComputeCRT();
+        }
+
+        public KeyPair(BitString p, BitString q, BitString n, BitString e, BitString dmp1, BitString dmq1, BitString iqmp)
+        {
+            PubKey = new PublicKey { E = e.ToPositiveBigInteger(), N = n.ToPositiveBigInteger() };
+            PrivKey = new PrivateKey
+            {
+                P = p.ToPositiveBigInteger(),
+                Q = q.ToPositiveBigInteger(),
+                DMP1 = dmp1.ToPositiveBigInteger(),
+                DMQ1 = dmq1.ToPositiveBigInteger(),
+                IQMP = iqmp.ToPositiveBigInteger()
+            };
+
+            // Leave D blank here
         }
     }
 

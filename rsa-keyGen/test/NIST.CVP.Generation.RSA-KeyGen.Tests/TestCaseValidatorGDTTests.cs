@@ -21,28 +21,77 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         public void ShouldValidateIfSuppliedResultIsPrime(int mod, PrimeTestModes pt, string hexP, string hexQ)
         {
             var testCase = GetTestCase(hexP, hexQ);
-            var subject = new TestCaseValidatorGDT(testCase, GetTestGroup(mod, pt));
+            var subject = new TestCaseValidatorGDT(GetEmptyTestCase(), GetTestGroup(mod, pt));
 
             var result = subject.Validate(testCase);
 
             Assume.That(result != null);
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual("passed", result.Result, result.Reason);
         }
 
         [Test]
-        [TestCase(2048, PrimeTestModes.C2, "03", "c1e2aa6c64e3e05bde7ca7824833f1ee211d3903d6415a1425da47765d6766eccb348c59acc1ac6ce098b3dcf7e931254f300525872140346d927a438363b0dc0a42babba5e34882fae0cbf8b6d219b904d963073fd636f117fd2ef96c5cd9aa97c741e865b1db18b4c0ed5d64f944c75763d2138005dae5d3df6040c15a08d9")]
-        [TestCase(2048, PrimeTestModes.C3, "e534f4a4eb86ff9ace08a0b446faf3e20c22a0166057507e4f5f07332d5c0878a50798857d5e9946e3f8ef8a1021481bb0c94631f9ad8427df620ec9ca585cab3082222279f41bc40e2ccdc160dbc410c52662699ae16b27b2c9d2bf14e99083920a448ba4e5d3d11e1ab7777613959c07fb213be26f2cb7ea8a759af082f6c5", "03")]
-        [TestCase(3072, PrimeTestModes.C2, "03", "bf55709785a97ada46eeb22edcdd442a2fc891326763278ae99726b096022d939c751bdfacdbf9361b5d9753f00859c494c846db21fdfd01bdf1fa846380cbc4c5a0bb8bbe328841e24d54aebc27b0694c95c5d64465966d5716e049e3e152acc7c4a5b1f08595112a51fe57f93e32f76fac031e8e1e4e6954e59907dd9c3bf7b158ca7cd603c3e24febd9b02b60646e22f43bd4838b7d4529f59f4104703fa360f3bb6dd4a6a61ef4066739b2fa2f12f601cbed87f30cf6b77b36557f303027")]
-        [TestCase(3072, PrimeTestModes.C3, "eff94ea2ed134318a36e4b103fc0db5ddab00dfd4b6c741d44d2630951da75524f0b2d5510ee125ed3b88d6a67841faa8bd36d6149aa7a43bcabd106960bd29b26e6bc963f6513929491ab0ae286642020a1f96fd490370fd2de28f971c1c40b6cfacd7a1c0e27d17bd943870d973774d4a4e2aa8c92b97c313c47365f8e819e9f619ba08932ca8ffd580d402eeec25c76b3ddb704835536d4c984e7e0086a9163d8742c72e8a219f5381cfc23dac1dd9e917b7f666fc9c68616ee063ca0c4ba", "03")]
+        [TestCase(2048, PrimeTestModes.C2, "e021757c777288dacfe67cb2e59dc02c70a8cebf56262336592c18dcf466e0a4ed405318ac406bd79eca29183901a557db556dd06f7c6bea175dcb8460b6b1bc05832b01eedf86463238b7cb6643deef66bc4f57bf8ff7ec7c4b8a8af14f478980aabedd42afa530ca47849f0151b7736aa4cd2ff37f322a9034de791ebe3f51", "c1e2aa6c64e3e05bde7ca7824833f1ee211d3903d6415a1425da47765d6766eccb348c59acc1ac6ce098b3dcf7e931254f300525872140346d927a438363b0dc0a42babba5e34882fae0cbf8b6d219b904d963073fd636f117fd2ef96c5cd9aa97c741e865b1db18b4c0ed5d64f944c75763d2138005dae5d3df6040c15a08d9")]
+        [TestCase(2048, PrimeTestModes.C3, "e534f4a4eb86ff9ace08a0b446faf3e20c22a0166057507e4f5f07332d5c0878a50798857d5e9946e3f8ef8a1021481bb0c94631f9ad8427df620ec9ca585cab3082222279f41bc40e2ccdc160dbc410c52662699ae16b27b2c9d2bf14e99083920a448ba4e5d3d11e1ab7777613959c07fb213be26f2cb7ea8a759af082f6c5", "e021757c777288dacfe67cb2e59dc02c70a8cebf56262336592c18dcf466e0a4ed405318ac406bd79eca29183901a557db556dd06f7c6bea175dcb8460b6b1bc05832b01eedf86463238b7cb6643deef66bc4f57bf8ff7ec7c4b8a8af14f478980aabedd42afa530ca47849f0151b7736aa4cd2ff37f322a9034de791ebe3f51")]
+        [TestCase(3072, PrimeTestModes.C2, "b9c53dd71792a98fd35eaa569079dfc1f0f6dad9a4a50ca589cccdd80b7810c00c4c0b0a74d3c6ead42c2fa3478c5bfde09ffcad4cb793564fc83977ef1de96a11b16e5eb58590720715c10ac620b862cee5081934c5ddd3e3765fb848781af882558cc4f79663d7fff0263401adc832bc29d396a0c9916ed96005b79bf0dbead4158a3139c855f8d9ae83433410ef5fbdbbe9082ccb3b266c374a08ecca3a2d51bca0495766109ef471c9e07e098a809c9fdbdcada5aaeb11dfa36ca59991b5", "bf55709785a97ada46eeb22edcdd442a2fc891326763278ae99726b096022d939c751bdfacdbf9361b5d9753f00859c494c846db21fdfd01bdf1fa846380cbc4c5a0bb8bbe328841e24d54aebc27b0694c95c5d64465966d5716e049e3e152acc7c4a5b1f08595112a51fe57f93e32f76fac031e8e1e4e6954e59907dd9c3bf7b158ca7cd603c3e24febd9b02b60646e22f43bd4838b7d4529f59f4104703fa360f3bb6dd4a6a61ef4066739b2fa2f12f601cbed87f30cf6b77b36557f303027")]
+        [TestCase(3072, PrimeTestModes.C3, "eff94ea2ed134318a36e4b103fc0db5ddab00dfd4b6c741d44d2630951da75524f0b2d5510ee125ed3b88d6a67841faa8bd36d6149aa7a43bcabd106960bd29b26e6bc963f6513929491ab0ae286642020a1f96fd490370fd2de28f971c1c40b6cfacd7a1c0e27d17bd943870d973774d4a4e2aa8c92b97c313c47365f8e819e9f619ba08932ca8ffd580d402eeec25c76b3ddb704835536d4c984e7e0086a9163d8742c72e8a219f5381cfc23dac1dd9e917b7f666fc9c68616ee063ca0c4ba", "b9c53dd71792a98fd35eaa569079dfc1f0f6dad9a4a50ca589cccdd80b7810c00c4c0b0a74d3c6ead42c2fa3478c5bfde09ffcad4cb793564fc83977ef1de96a11b16e5eb58590720715c10ac620b862cee5081934c5ddd3e3765fb848781af882558cc4f79663d7fff0263401adc832bc29d396a0c9916ed96005b79bf0dbead4158a3139c855f8d9ae83433410ef5fbdbbe9082ccb3b266c374a08ecca3a2d51bca0495766109ef471c9e07e098a809c9fdbdcada5aaeb11dfa36ca59991b5")]
         public void ShouldNotValidateIfSuppliedResultIsComposite(int mod, PrimeTestModes pt, string hexP, string hexQ)
         {
             var testCase = GetTestCase(hexP, hexQ);
-            var subject = new TestCaseValidatorGDT(testCase, GetTestGroup(mod, pt));
+            var subject = new TestCaseValidatorGDT(GetEmptyTestCase(), GetTestGroup(mod, pt));
 
             var result = subject.Validate(testCase);
 
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual("failed", result.Result, result.Reason);
+        }
+
+        [Test]
+        [TestCase(2048, PrimeTestModes.C2, "e021757c777288dacfe67cb2e59dc02c70a8cebf56262336592c18dcf466e0a4ed405318ac406bd79eca29183901a557db556dd06f7c6bea175dcb8460b6b1bc05832b01eedf86463238b7cb6643deef66bc4f57bf8ff7ec7c4b8a8af14f478980aabedd42afa530ca47849f0151b7736aa4cd2ff37f322a9034de791ebe3f51", "ed1571a9e0cd4a42541284a9f98b54a6af67d399d55ef888b9fe9ef76a61e892c0bfbb87544e7b24a60535a65de422830252b45d2033819ca32b1a9c4413fa721f4a24ebb5510ddc9fd6f4c09dfc29cb9594650620ff551a62d53edc2f8ebf10beb86f483d463774e5801f3bb01c4d452acb86ecfade1c7df601cab68b065275")]
+        [TestCase(3072, PrimeTestModes.C3, "b9c53dd71792a98fd35eaa569079dfc1f0f6dad9a4a50ca589cccdd80b7810c00c4c0b0a74d3c6ead42c2fa3478c5bfde09ffcad4cb793564fc83977ef1de96a11b16e5eb58590720715c10ac620b862cee5081934c5ddd3e3765fb848781af882558cc4f79663d7fff0263401adc832bc29d396a0c9916ed96005b79bf0dbead4158a3139c855f8d9ae83433410ef5fbdbbe9082ccb3b266c374a08ecca3a2d51bca0495766109ef471c9e07e098a809c9fdbdcada5aaeb11dfa36ca59991b5", "ed98c73529938fb891869c7ecc7de069af00abc5896e4ec1b32528feac69f29bfc93c707aec4921ac8191e7dde69272b97eebcd568641edf7dde60632ed075b93712870e4eccbeceefa06bade9d4fe2dc7c8ce6277371f3471f42d201831e9f95c8a6ac3d63dd47058e13b7d8e420d9790a17bc58470b5c130f84fdc39a7cfac3453f3706cc4118900710bed26deca871bfee3aa6c59263d314b969ef228b7d08ecec99acaba3466d25b99ecfa48388cc53b19ca74deefc6dfd3d1a80804f4c5")]
+        public void ShouldNotValidateIfCRTValuesDoNotMatch(int mod, PrimeTestModes pt, string hexP, string hexQ)
+        {
+            var testCase = GetTestCase(hexP, hexQ);
+            var subject = new TestCaseValidatorGDT(GetEmptyTestCase(), GetTestGroup(mod, pt));
+
+            testCase.Key.PrivKey.D = 0;
+            testCase.Key.PrivKey.DMP1 = 1;
+            var result = subject.Validate(testCase);
+
+            Assume.That(result != null);
+            Assert.AreEqual("failed", result.Result, result.Reason);
+            Assert.IsTrue(result.Reason.Contains("DMP1 value"));
+        }
+
+        [Test]
+        [TestCase(2048, PrimeTestModes.C2, "e021757c777288dacfe67cb2e59dc02c70a8cebf56262336592c18dcf466e0a4ed405318ac406bd79eca29183901a557db556dd06f7c6bea175dcb8460b6b1bc05832b01eedf86463238b7cb6643deef66bc4f57bf8ff7ec7c4b8a8af14f478980aabedd42afa530ca47849f0151b7736aa4cd2ff37f322a9034de791ebe3f51", "ed1571a9e0cd4a42541284a9f98b54a6af67d399d55ef888b9fe9ef76a61e892c0bfbb87544e7b24a60535a65de422830252b45d2033819ca32b1a9c4413fa721f4a24ebb5510ddc9fd6f4c09dfc29cb9594650620ff551a62d53edc2f8ebf10beb86f483d463774e5801f3bb01c4d452acb86ecfade1c7df601cab68b065275")]
+        [TestCase(3072, PrimeTestModes.C3, "b9c53dd71792a98fd35eaa569079dfc1f0f6dad9a4a50ca589cccdd80b7810c00c4c0b0a74d3c6ead42c2fa3478c5bfde09ffcad4cb793564fc83977ef1de96a11b16e5eb58590720715c10ac620b862cee5081934c5ddd3e3765fb848781af882558cc4f79663d7fff0263401adc832bc29d396a0c9916ed96005b79bf0dbead4158a3139c855f8d9ae83433410ef5fbdbbe9082ccb3b266c374a08ecca3a2d51bca0495766109ef471c9e07e098a809c9fdbdcada5aaeb11dfa36ca59991b5", "ed98c73529938fb891869c7ecc7de069af00abc5896e4ec1b32528feac69f29bfc93c707aec4921ac8191e7dde69272b97eebcd568641edf7dde60632ed075b93712870e4eccbeceefa06bade9d4fe2dc7c8ce6277371f3471f42d201831e9f95c8a6ac3d63dd47058e13b7d8e420d9790a17bc58470b5c130f84fdc39a7cfac3453f3706cc4118900710bed26deca871bfee3aa6c59263d314b969ef228b7d08ecec99acaba3466d25b99ecfa48388cc53b19ca74deefc6dfd3d1a80804f4c5")]
+        public void ShouldNotValidateIfDValuesDoNotMatch(int mod, PrimeTestModes pt, string hexP, string hexQ)
+        {
+            var testCase = GetTestCase(hexP, hexQ);
+            var subject = new TestCaseValidatorGDT(GetEmptyTestCase(), GetTestGroup(mod, pt));
+
+            testCase.Key.PrivKey.D = 1;
+            var result = subject.Validate(testCase);
+
+            Assume.That(result != null);
+            Assert.AreEqual("failed", result.Result, result.Reason);
+            Assert.IsTrue(result.Reason.Contains("D value"));
+        }
+
+        [Test]
+        [TestCase(2048, PrimeTestModes.C2, "e021757c777288dacfe67cb2e59dc02c70a8cebf56262336592c18dcf466e0a4ed405318ac406bd79eca29183901a557db556dd06f7c6bea175dcb8460b6b1bc05832b01eedf86463238b7cb6643deef66bc4f57bf8ff7ec7c4b8a8af14f478980aabedd42afa530ca47849f0151b7736aa4cd2ff37f322a9034de791ebe3f51", "ed1571a9e0cd4a42541284a9f98b54a6af67d399d55ef888b9fe9ef76a61e892c0bfbb87544e7b24a60535a65de422830252b45d2033819ca32b1a9c4413fa721f4a24ebb5510ddc9fd6f4c09dfc29cb9594650620ff551a62d53edc2f8ebf10beb86f483d463774e5801f3bb01c4d452acb86ecfade1c7df601cab68b065275")]
+        [TestCase(3072, PrimeTestModes.C3, "b9c53dd71792a98fd35eaa569079dfc1f0f6dad9a4a50ca589cccdd80b7810c00c4c0b0a74d3c6ead42c2fa3478c5bfde09ffcad4cb793564fc83977ef1de96a11b16e5eb58590720715c10ac620b862cee5081934c5ddd3e3765fb848781af882558cc4f79663d7fff0263401adc832bc29d396a0c9916ed96005b79bf0dbead4158a3139c855f8d9ae83433410ef5fbdbbe9082ccb3b266c374a08ecca3a2d51bca0495766109ef471c9e07e098a809c9fdbdcada5aaeb11dfa36ca59991b5", "ed98c73529938fb891869c7ecc7de069af00abc5896e4ec1b32528feac69f29bfc93c707aec4921ac8191e7dde69272b97eebcd568641edf7dde60632ed075b93712870e4eccbeceefa06bade9d4fe2dc7c8ce6277371f3471f42d201831e9f95c8a6ac3d63dd47058e13b7d8e420d9790a17bc58470b5c130f84fdc39a7cfac3453f3706cc4118900710bed26deca871bfee3aa6c59263d314b969ef228b7d08ecec99acaba3466d25b99ecfa48388cc53b19ca74deefc6dfd3d1a80804f4c5")]
+        public void ShouldNotValidateIfNValuesDoNotMatch(int mod, PrimeTestModes pt, string hexP, string hexQ)
+        {
+            var testCase = GetTestCase(hexP, hexQ);
+            var subject = new TestCaseValidatorGDT(GetEmptyTestCase(), GetTestGroup(mod, pt));
+
+            testCase.Key.PubKey.N = 1;
+            var result = subject.Validate(testCase);
+
+            Assume.That(result != null);
+            Assert.AreEqual("failed", result.Result, result.Reason);
+            Assert.IsTrue(result.Reason.Contains("N value"));
         }
 
         private TestCase GetTestCase(string hexP, string hexQ)
@@ -50,14 +99,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                Key = new KeyPair
-                {
-                    PrivKey = new PrivateKey
-                    {
-                        P = new BitString(hexP).ToPositiveBigInteger(),
-                        Q = new BitString(hexQ).ToPositiveBigInteger()
-                    }
-                }
+                Key = new KeyPair(new BitString(hexP).ToPositiveBigInteger(),
+                    new BitString(hexQ).ToPositiveBigInteger(), new BitString("010001").ToPositiveBigInteger())
+            };
+        }
+
+        private TestCase GetEmptyTestCase()
+        {
+            return new TestCase
+            {
+                TestCaseId = 1
             };
         }
 

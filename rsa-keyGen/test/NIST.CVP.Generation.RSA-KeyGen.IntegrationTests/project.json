@@ -3,7 +3,7 @@
 
   "dependencies": {
     "RSA-KeyGen": "1.0.0-*",
-    //"RSA-KeyGen_Val": "1.0.0-*",
+    "RSA-KeyGen_Val": "1.0.0-*",
     "NIST.CVP.Generation.RSA-KeyGen": "1.0.0-*",
     "NIST.CVP.Crypto.RSA": "1.0.0-*",
     "NIST.CVP.Crypto.SHA2": "1.0.0-*", 

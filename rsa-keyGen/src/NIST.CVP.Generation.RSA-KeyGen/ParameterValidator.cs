@@ -10,9 +10,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
     {
         //public static int[] VALID_MODULI = {2048, 3072, 4096};
         public static int[] VALID_MODULI = {2048, 3072};
-        public static string[] VALID_HASH_ALGS = {"sha-1", "sha1", "sha-224", "sha-256", "sha-384", "sha-512", "sha-512/224", "sha-512/256"};
+        //public static string[] VALID_HASH_ALGS = { "sha-1", "sha1", "sha-224", "sha-256", "sha-384", "sha-512", "sha-512/224", "sha-512/256" };
+        public static string[] VALID_HASH_ALGS = { "sha-1", "sha-224", "sha-256", "sha-384", "sha-512", "sha-512/224", "sha-512/256" };
         public static string[] VALID_KEY_GEN_MODES = {"b.3.2", "b.3.3", "b.3.4", "b.3.5", "b.3.6"};
         public static string[] VALID_PUB_EXP_MODES = {"fixed", "random"};
+        public static string[] VALID_PRIME_TESTS = {"tblc2", "tblc3"};
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
@@ -36,6 +38,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 errorResults.Add(result);
             }
 
+            result = ValidateArray(parameters.PrimeTests, VALID_PRIME_TESTS, "PrimeTests");
+            if (!string.IsNullOrEmpty(result))
+            {
+                errorResults.Add(result);
+            }
+            
             result = ValidateValue(parameters.PubExpMode, VALID_PUB_EXP_MODES, "PubExp Modes");
             if (!string.IsNullOrEmpty(result))
             {

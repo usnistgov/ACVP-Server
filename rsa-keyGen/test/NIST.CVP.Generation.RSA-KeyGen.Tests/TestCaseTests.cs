@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         private TestDataMother _tdm = new TestDataMother();
 
         [Test]
-        public void ShouldReconstituteTestCaseFromDyanmicAnswerTest()
+        public void ShouldReconstituteTestCaseFromDynamicAnswerTest()
         {
             var sourceTest = GetSourceAnswerTest();
             var subject = new TestCase(sourceTest);
@@ -35,6 +35,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             sourceTest.Add("q", new JValue("00AA"));
             sourceTest.Add("d", new JValue("00AA"));
             sourceTest.Add("seed", new JValue("00AA"));
+            sourceTest.Add("bitlens", new JValue(new [] {1, 2, 3, 4}));
             var subject = new TestCase(sourceTest);
             Assert.IsNotNull(subject);
         }

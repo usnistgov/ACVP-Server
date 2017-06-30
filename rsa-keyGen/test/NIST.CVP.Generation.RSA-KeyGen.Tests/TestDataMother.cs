@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 {
                     tests.Add(new TestCase
                     {
-                        Key = new KeyPair(new BitString("BE"), new BitString("CE"), new BitString("CE"), new BitString("BE"), new BitString("BE")),
+                        Key = new KeyPair(31, 39, 7),
                         Seed = new BitString("BEEFFACE"),
                         TestCaseId = testId
                     });
@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                     Mode = KeyGenModes.B32,
                     Modulo = 1 + groupIdx,
                     TestType = "aft",
-                    PubExp = PubExpModes.FIXED,
+                    PubExp = PubExpModes.RANDOM,
                     Tests = tests
                 });
             }

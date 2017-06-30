@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public HashFunction HashAlg { get; set; }
         public PrimeTestModes PrimeTest { get; set; }
         public PubExpModes PubExp { get; set; }
-        public BitString FixedPubExp { get; set; } = null;
+        public BitString FixedPubExp { get; set; }
         public List<ITestCase> Tests { get; set; }
         public string TestType { get; set; }
 
@@ -37,12 +37,17 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         {
             TestType = source.testType;
 
-            InfoGeneratedByServer = source.infoGeneratedByServer;
+            Modulo = SetIntValue(source, "modulo");
+            InfoGeneratedByServer = SetBoolValue(source, "infoGeneratedByServer");
             Mode = RSAEnumHelpers.StringToKeyGenMode(source.randPQ);
-            Modulo = source.modulo;
             HashAlg = SHAEnumHelpers.StringToHashFunction(SetStringValue(source, "hashAlg"));
             PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(SetStringValue(source, "primeTest"));
             PubExp = RSAEnumHelpers.StringToPubExpMode(source.pubExp);
+
+            if (PubExp == PubExpModes.FIXED)
+            {
+                FixedPubExp = new BitString(source.fixedPubExp);
+            }
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
@@ -119,6 +124,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
         }
 
+        private int SetIntValue(IDictionary<string, object> source, string label)
+        {
+            if (source.ContainsKey(label))
+            {
+                return (int) source[label];
+            }
+
+            return 0;
+        }
+
         private string SetStringValue(IDictionary<string, object> source, string label)
         {
             if (source.ContainsKey(label))
@@ -127,6 +142,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
 
             return "";
+        }
+
+        private bool SetBoolValue(IDictionary<string, object> source, string label)
+        {
+            if (source.ContainsKey(label))
+            {
+                return (bool) source[label];
+            }
+
+            return default(bool);
         }
     }
 }
