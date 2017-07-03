@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Crypto.AES_OFB\NIST.CVP.Crypto.AES_OFB.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Generation.AES_OFB\NIST.CVP.Generation.AES_OFB.csproj" />
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
+    <ProjectReference Include="..\..\src\AES_OFB\AES_OFB.csproj" />
+    <ProjectReference Include="..\..\src\AES_OFB_Val\AES_OFB_Val.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0-preview-20170628-02" />
+    <PackageReference Include="dotnet-test-nunit" Version="3.4.0-beta-3" />
+    <PackageReference Include="Moq" Version="4.7.63" />
+    <PackageReference Include="NLog" Version="5.0.0-beta09" />
+    <PackageReference Include="NUnit" Version="3.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+</Project>

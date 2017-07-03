@@ -60,16 +60,16 @@ namespace NIST.CVP.Generation.DRBG
         private void ValidateAndGetOptions(Parameters parameters, List<string> errorResults,
             ref DrbgMechanism drbgMechanism, ref DrbgMode drbgMode, ref int securityStrength, ref int blockSize)
         {
-            var found = DrbgSpecToDomainMapping.Map
-                .FirstOrDefault(w => w.Item1.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) &&
-                                     w.Item3.Equals(parameters.Mode, StringComparison.OrdinalIgnoreCase));
-
-            if (found != null)
+            if (DrbgSpecToDomainMapping.Map
+                .TryFirst(
+                    w => w.mechanism.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) && 
+                         w.mode.Equals(parameters.Mode, StringComparison.OrdinalIgnoreCase), 
+                    out var result))
             {
-                drbgMechanism = found.Item2;
-                drbgMode = found.Item4;
-                securityStrength = found.Item5;
-                blockSize = found.Item6;
+                drbgMechanism = result.drbgMechanism;
+                drbgMode = result.drbgMode;
+                securityStrength = result.maxSecurityStrength;
+                blockSize = result.blockSize;
             }
             else
             {

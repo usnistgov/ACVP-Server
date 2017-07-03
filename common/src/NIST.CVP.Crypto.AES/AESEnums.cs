@@ -15,6 +15,7 @@
         CFB8,
         CFB128,
         Counter,
-        CBCMac
+        CBCMac,
+        CMAC
     }
 }

@@ -1,39 +1,39 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{01965C47-8206-4F49-8CBC-54DF0DD343F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C10BD2B3-F1C5-4455-9E94-73FDD5298BE1}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.xproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.Core.Tests", "..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.xproj", "{ACD3221B-E9F1-40D2-90C7-65BAC0A1B265}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core.Tests", "..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj", "{ACD3221B-E9F1-40D2-90C7-65BAC0A1B265}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.xproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.xproj", "{5C3D7A24-3267-4BF6-9413-0B7E8291B6A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj", "{5C3D7A24-3267-4BF6-9413-0B7E8291B6A1}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Math.Tests", "..\..\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.xproj", "{A3BDD4CF-B9E9-4E8A-856A-C757549F8817}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math.Tests", "..\..\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.csproj", "{A3BDD4CF-B9E9-4E8A-856A-C757549F8817}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AES_CFB128", "..\..\aes-cfb128\src\AES_CFB128\AES_CFB128.xproj", "{B7836709-0B19-4DD1-95A2-03EF1FC58700}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AES_CFB128", "..\..\aes-cfb128\src\AES_CFB128\AES_CFB128.csproj", "{B7836709-0B19-4DD1-95A2-03EF1FC58700}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AES_CFB128_Val", "..\..\aes-cfb128\src\AES_CFB128_Val\AES_CFB128_Val.xproj", "{6167608F-461D-4339-A20C-8B78BCC5129C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AES_CFB128_Val", "..\..\aes-cfb128\src\AES_CFB128_Val\AES_CFB128_Val.csproj", "{6167608F-461D-4339-A20C-8B78BCC5129C}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES_CFB128", "..\..\aes-cfb128\src\NIST.CVP.Generation.AES_CFB128\NIST.CVP.Generation.AES_CFB128.xproj", "{57AB928A-F5FE-41E4-B118-3F2F6E982EDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.AES_CFB128", "..\..\aes-cfb128\src\NIST.CVP.Generation.AES_CFB128\NIST.CVP.Generation.AES_CFB128.csproj", "{57AB928A-F5FE-41E4-B118-3F2F6E982EDA}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES_CFB128.IntegrationTests", "..\..\aes-cfb128\test\NIST.CVP.Generation.AES_CFB128.IntegrationTests\NIST.CVP.Generation.AES_CFB128.IntegrationTests.xproj", "{0070397B-0D83-4878-BEB9-D634F7B94F9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.AES_CFB128.IntegrationTests", "..\..\aes-cfb128\test\NIST.CVP.Generation.AES_CFB128.IntegrationTests\NIST.CVP.Generation.AES_CFB128.IntegrationTests.csproj", "{0070397B-0D83-4878-BEB9-D634F7B94F9C}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.AES_CFB128.Tests", "..\..\aes-cfb128\test\NIST.CVP.Generation.AES_CFB128.Tests\NIST.CVP.Generation.AES_CFB128.Tests.xproj", "{49C61B60-B936-4954-9542-D60B31F99598}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.AES_CFB128.Tests", "..\..\aes-cfb128\test\NIST.CVP.Generation.AES_CFB128.Tests\NIST.CVP.Generation.AES_CFB128.Tests.csproj", "{49C61B60-B936-4954-9542-D60B31F99598}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.AES.Tests", "..\..\common\test\NIST.CVP.Crypto.AES.Tests\NIST.CVP.Crypto.AES.Tests.xproj", "{D3557F4D-F499-48DF-9781-ED578AB06984}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES.Tests", "..\..\common\test\NIST.CVP.Crypto.AES.Tests\NIST.CVP.Crypto.AES.Tests.csproj", "{D3557F4D-F499-48DF-9781-ED578AB06984}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.AES", "..\..\common\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.xproj", "{713110FA-7520-4D30-BCE1-281C07FB99A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES", "..\..\common\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.csproj", "{713110FA-7520-4D30-BCE1-281C07FB99A8}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.AES_CFB128", "..\..\aes-cfb128\src\NIST.CVP.Crypto.AES_CFB128\NIST.CVP.Crypto.AES_CFB128.xproj", "{4AC2CDF3-B5AA-40B3-8E55-9E35FB2D1284}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_CFB128", "..\..\aes-cfb128\src\NIST.CVP.Crypto.AES_CFB128\NIST.CVP.Crypto.AES_CFB128.csproj", "{4AC2CDF3-B5AA-40B3-8E55-9E35FB2D1284}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.AES_CFB128.Tests", "..\..\aes-cfb128\test\NIST.CVP.Crypto.AES_CFB128.Tests\NIST.CVP.Crypto.AES_CFB128.Tests.xproj", "{BD6DF266-D221-4E3F-AFF4-0D5DF666B67B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_CFB128.Tests", "..\..\aes-cfb128\test\NIST.CVP.Crypto.AES_CFB128.Tests\NIST.CVP.Crypto.AES_CFB128.Tests.csproj", "{BD6DF266-D221-4E3F-AFF4-0D5DF666B67B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

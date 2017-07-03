@@ -180,15 +180,15 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
         private KeyPair KeyPairFromObject(ExpandoObject source)
         {
-            var e = BitStringFromObject("e", source);
-            var p = BitStringFromObject("p", source);
-            var q = BitStringFromObject("q", source);
-            var n = BitStringFromObject("n", source);
+            var e = BigIntegerFromObject("e", source);
+            var p = BigIntegerFromObject("p", source);
+            var q = BigIntegerFromObject("q", source);
+            var n = BigIntegerFromObject("n", source);
 
-            var d = BitStringFromObject("d", source);
-            var dmp1 = BitStringFromObject("dmp1", source);
-            var dmq1 = BitStringFromObject("dmq1", source);
-            var iqmp = BitStringFromObject("iqmp", source);
+            var d = BigIntegerFromObject("d", source);
+            var dmp1 = BigIntegerFromObject("dmp1", source);
+            var dmq1 = BigIntegerFromObject("dmq1", source);
+            var iqmp = BigIntegerFromObject("iqmp", source);
 
             if (d == null)
             {
@@ -209,13 +209,19 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
 
-            var valueAsList = sourcePropertyValue as List<int>;
-            if (valueAsList?.Count != 4)
+            var valueAsArr = ((List<object>)sourcePropertyValue).ToArray();
+            if (valueAsArr.Count() != 4)
             {
                 return null;
             }
 
-            return valueAsList.ToArray();
+            var intArr = new int[4];
+            for(var i = 0; i < valueAsArr.Count(); i++)
+            {
+                intArr[i] = (int) (long) valueAsArr[i];
+            }
+
+            return intArr;
         }
 
         private BigInteger BigIntegerFromObject(string sourcePropertyName, ExpandoObject source)
@@ -231,7 +237,18 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 return 0;
             }
 
-            return new BitString(sourcePropertyValue.ToString()).ToPositiveBigInteger();
+            if(sourcePropertyValue.GetType() == typeof(string))
+            {
+                return new BitString(sourcePropertyValue.ToString()).ToPositiveBigInteger();
+            }
+
+            var valueAsBigInteger = (BigInteger)sourcePropertyValue;
+            if(valueAsBigInteger != 0)
+            {
+                return valueAsBigInteger;
+            }
+
+            return 0;
         }
 
         private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)

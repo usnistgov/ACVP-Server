@@ -158,6 +158,11 @@ namespace NIST.CVP.Math
         /// <returns><see cref="byte[]"/> of <see cref="Bits"/></returns>
         public byte[] ToBytes(bool reverseBytes = false)
         {
+            if (Bits.Length == 0)
+            {
+                return new byte[0];
+            }
+            
             byte[] bytes = new byte[(Bits.Length - 1) / BITSINBYTE + 1];
             //_bits.CopyTo(bytes, 0); This would be nice, but it is not supported in .Net Core 1.0.1
 

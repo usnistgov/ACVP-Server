@@ -11,18 +11,14 @@ namespace NIST.CVP.Generation.DRBG
     public class DrbgSpecToDomainMapping
     {
         /// <summary>
-        /// algorithm, DrbgMechanism, mode, DrbgMode, maxSecurityStrength, blockSize
-        /// TODO Update this with strongly typed tuple implementation from C# 7
+        /// Maps parameters to their strongly typed enum along with security strength and block size.
         /// </summary>
-        public static readonly List<Tuple<string, DrbgMechanism, string, DrbgMode, int, int>> Map =
-            new List<Tuple<string, DrbgMechanism, string, DrbgMode, int, int>>()
-            {
-                new Tuple<string, DrbgMechanism, string, DrbgMode, int, int>("ctrDRBG", DrbgMechanism.Counter, "AES-128",
-                    DrbgMode.AES128, 128, 128),
-                new Tuple<string, DrbgMechanism, string, DrbgMode, int, int>("ctrDRBG", DrbgMechanism.Counter, "AES-192",
-                    DrbgMode.AES192, 192, 128),
-                new Tuple<string, DrbgMechanism, string, DrbgMode, int, int>("ctrDRBG", DrbgMechanism.Counter, "AES-256",
-                    DrbgMode.AES256, 256, 128)
-            };
+        public static readonly List<(string mechanism, DrbgMechanism drbgMechanism, string mode, DrbgMode drbgMode, int maxSecurityStrength, int blockSize)> Map = 
+            new List<(string mechanism, DrbgMechanism drbgMechanism, string mode, DrbgMode drbgMode, int maxSecurityStrength, int blockSize)>()
+        {
+                ("ctrDRBG", DrbgMechanism.Counter, "AES-128", DrbgMode.AES128, 128, 128),
+                ("ctrDRBG", DrbgMechanism.Counter, "AES-192", DrbgMode.AES192, 192, 128),
+                ("ctrDRBG", DrbgMechanism.Counter, "AES-256", DrbgMode.AES256, 256, 128)
+        };
     }
 }

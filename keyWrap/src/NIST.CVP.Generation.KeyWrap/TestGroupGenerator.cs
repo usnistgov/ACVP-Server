@@ -4,6 +4,7 @@ using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math.Domain;
 using System;
 using System.Linq;
+using NIST.CVP.Crypto.KeyWrap.Enums;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
@@ -22,10 +23,14 @@ namespace NIST.CVP.Generation.KeyWrap
 
         private void CreateGroups(List<ITestGroup> groups, Parameters parameters)
         {
-            var keyWrapType = SpecificationToDomainMapping.Map
-                .FirstOrDefault(w => w.Item1 == parameters.Algorithm);
+            KeyWrapType keyWrapType;
 
-            if (keyWrapType == null)
+            if (SpecificationToDomainMapping.Map
+                .TryFirst(w => w.algorithm == parameters.Algorithm, out var result))
+            {
+                keyWrapType = result.keyWrapType;
+            }
+            else
             {
                 throw new ArgumentException($"Invalid {nameof(parameters.Algorithm)} passed into {nameof(GetType)}");
             }
@@ -64,7 +69,7 @@ namespace NIST.CVP.Generation.KeyWrap
                         {
                             TestGroup testGroup = new TestGroup()
                             {
-                                KeyWrapType = keyWrapType.Item2,
+                                KeyWrapType = keyWrapType,
                                 Direction = direction,
                                 PtLen = ptLen,
                                 KwCipher = kwCipher,

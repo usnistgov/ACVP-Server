@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "AES_GCM_Val": {
-      "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\def2\\Documents\\UnitTests\\ACAVP\\testresults.json\" \"C:\\Users\\def2\\Documents\\UnitTests\\ACAVP\\prompt.json\" \"C:\\Users\\def2\\Documents\\UnitTests\\ACAVP\\answer.json\""
-    }
-  }
-}

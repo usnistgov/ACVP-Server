@@ -90,7 +90,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             public ParameterBuilder()
             {
                 // Provides a valid (as of construction) set of parameters
-                _algorithm = "TDES_ECB";
+                _algorithm = "TDES_OFB";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
                 _keyingOptions = ParameterValidator.VALID_KEYING_OPTIONS;
             }
@@ -111,6 +111,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             {
                 return new Parameters()
                 {
+                    Algorithm = _algorithm,
                     Direction = _mode,
                     KeyingOption = _keyingOptions
                 };

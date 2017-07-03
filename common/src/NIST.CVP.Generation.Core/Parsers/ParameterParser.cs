@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using NLog;
-using NIST.CVP.Generation.Core.JsonConverters;
 
 namespace NIST.CVP.Generation.Core.Parsers
 {

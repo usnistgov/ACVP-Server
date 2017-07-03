@@ -539,6 +539,19 @@ namespace NIST.CVP.Math.Tests
                 Assert.AreEqual(expectedByteArrayOrder[i], subject[i]);
             }
         }
+
+        [Test]
+        public void ShouldReturnEmptyByteArrayWithEmptyBitString()
+        {
+            // Arrange
+            BitString bs = new BitString(0);
+            
+            // Act
+            var subject = bs.ToBytes();
+
+            // Assert
+            Assert.AreEqual(0, subject.Length);
+        }
         #endregion ToBytes
 
         #region ToString
@@ -1030,29 +1043,31 @@ namespace NIST.CVP.Math.Tests
         //)]
         [Test]
         [TestCase(
+            "test1",
             new bool[] { true, true },
             new bool[] { true },
             new bool[] { false, true }
         )]
         [TestCase(
+            "test2",
             new bool[] { true, false },
             new bool[] { true },
             new bool[] { false, false }
         )]
         [TestCase(
-            "test1",
+            "test3",
             new bool[] { false, true },
             new bool[] { true },
             new bool[] { true, true }
         )]
         [TestCase(
-            "test2",
+            "test4",
             new bool[] { true },
             new bool[] { true, false },
             new bool[] { false, false }
         )]
         [TestCase(
-            "test3",
+            "test5",
             new bool[] { true, false, true, false, true },
             new bool[] { false, true, true },
             new bool[] { true, true, false, false, true }

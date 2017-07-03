@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72EE30C8-1788-41BC-BC51-D6C9F92A9D01}"
 	ProjectSection(SolutionItems) = preProject
@@ -12,33 +12,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6FBD67E5-0222-4BB6-B0D2-67636943A362}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.xproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.xproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2900417F-03FA-4EF9-9640-9F1C67DEE621}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.xproj", "{5C3D7A24-3267-4BF6-9413-0B7E8291B6A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Math.Tests", "..\..\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.xproj", "{A3BDD4CF-B9E9-4E8A-856A-C757549F8817}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES_CBC", "..\..\tdes-cbc\src\NIST.CVP.Generation.TDES_CBC\NIST.CVP.Generation.TDES_CBC.xproj", "{74A8BF70-7F7B-4FA0-A61F-61AFC4283964}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj", "{5C3D7A24-3267-4BF6-9413-0B7E8291B6A1}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TDES_CBC", "..\..\tdes-cbc\src\TDES_CBC\TDES_CBC.xproj", "{E08DFB5B-F599-454D-B8FB-F1DC5F902970}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math.Tests", "..\..\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.csproj", "{A3BDD4CF-B9E9-4E8A-856A-C757549F8817}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES_CBC.Tests", "..\..\tdes-cbc\test\NIST.CVP.Generation.TDES_CBC.Tests\NIST.CVP.Generation.TDES_CBC.Tests.xproj", "{929B2F03-6900-48ED-B940-22CA3A0FD6E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TDES_CBC", "..\..\tdes-cbc\src\NIST.CVP.Generation.TDES_CBC\NIST.CVP.Generation.TDES_CBC.csproj", "{74A8BF70-7F7B-4FA0-A61F-61AFC4283964}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES_CBC.IntegrationTests", "..\..\tdes-cbc\test\NIST.CVP.Generation.TDES_CBC.IntegrationTests\NIST.CVP.Generation.TDES_CBC.IntegrationTests.xproj", "{2D14D888-8998-4505-870F-1B0E3CAB983D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDES_CBC", "..\..\tdes-cbc\src\TDES_CBC\TDES_CBC.csproj", "{E08DFB5B-F599-454D-B8FB-F1DC5F902970}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TDES_CBC_Val", "..\..\tdes-cbc\src\TDES_CBC_Val\TDES_CBC_Val.xproj", "{8AE9E700-2AC3-4673-A2A0-9C6AA7DD5C49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TDES_CBC.Tests", "..\..\tdes-cbc\test\NIST.CVP.Generation.TDES_CBC.Tests\NIST.CVP.Generation.TDES_CBC.Tests.csproj", "{929B2F03-6900-48ED-B940-22CA3A0FD6E2}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.TDES", "..\..\common\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.xproj", "{3FF86A19-FA89-48DA-A4A9-FE6063AAE51F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TDES_CBC.IntegrationTests", "..\..\tdes-cbc\test\NIST.CVP.Generation.TDES_CBC.IntegrationTests\NIST.CVP.Generation.TDES_CBC.IntegrationTests.csproj", "{2D14D888-8998-4505-870F-1B0E3CAB983D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.TDES.Tests", "..\..\common\test\NIST.CVP.Crypto.TDES.Tests\NIST.CVP.Crypto.TDES.Tests.xproj", "{D83DC8B8-C9C6-4946-A919-109C6229EEB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDES_CBC_Val", "..\..\tdes-cbc\src\TDES_CBC_Val\TDES_CBC_Val.csproj", "{8AE9E700-2AC3-4673-A2A0-9C6AA7DD5C49}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.TDES_CBC", "..\..\tdes-cbc\src\NIST.CVP.Crypto.TDES_CBC\NIST.CVP.Crypto.TDES_CBC.xproj", "{1BF2966A-080D-4B40-8EF8-5E93A922FACE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES", "..\..\common\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj", "{3FF86A19-FA89-48DA-A4A9-FE6063AAE51F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.TDES_CBC.Tests", "..\..\tdes-cbc\test\NIST.CVP.Crypto.TDES_CBC.Tests\NIST.CVP.Crypto.TDES_CBC.Tests.xproj", "{FBB70B17-2BFB-435B-9F56-A68378D84827}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES.Tests", "..\..\common\test\NIST.CVP.Crypto.TDES.Tests\NIST.CVP.Crypto.TDES.Tests.csproj", "{D83DC8B8-C9C6-4946-A919-109C6229EEB0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_CBC", "..\..\tdes-cbc\src\NIST.CVP.Crypto.TDES_CBC\NIST.CVP.Crypto.TDES_CBC.csproj", "{1BF2966A-080D-4B40-8EF8-5E93A922FACE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_CBC.Tests", "..\..\tdes-cbc\test\NIST.CVP.Crypto.TDES_CBC.Tests\NIST.CVP.Crypto.TDES_CBC.Tests.csproj", "{FBB70B17-2BFB-435B-9F56-A68378D84827}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

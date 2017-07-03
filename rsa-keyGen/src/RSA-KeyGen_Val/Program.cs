@@ -43,7 +43,7 @@ namespace RSA_KeyGen_Val
             }
             catch (Exception ex)
             {
-                Logger.Error($"ERROR! Validating Test Vectors for {resultFile}: {ex.Message}");
+                Logger.Error($"ERROR! Validating Test Vectors for {resultFile}: {ex.Message}\n{ex.StackTrace}");
                 return 1;
             }
 

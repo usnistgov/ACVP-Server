@@ -31,6 +31,8 @@ namespace NIST.CVP.Crypto.AES
                     return new RijndaelCounter(_iRijndaelInternals);
                 case ModeValues.CBCMac:
                     return new RijndaelCBCMac(_iRijndaelInternals);
+                case ModeValues.CMAC:
+                    return new RijndaelCMAC(_iRijndaelInternals);
                 default:
                     throw new ArgumentException($"invalid value for {nameof(mode)}");
             }

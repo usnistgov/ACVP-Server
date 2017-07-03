@@ -8,17 +8,17 @@ namespace NIST.CVP.Generation.TDES_CBC
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters>
     {
-        private readonly List<Tuple<string, int>> TestTypesAndNumberOfKeys = new List<Tuple<string, int>>
+        private readonly List<(string testType, int numberOfKeys)> TestTypesAndNumberOfKeys = new List<(string testType, int numberOfKeys)>
         {
-            new Tuple<string, int>("Permutation", 1),
-            new Tuple<string, int>("InversePermutation", 1),
-            new Tuple<string, int>("SubstitutionTable", 1),
-            new Tuple<string, int>("VariableKey", 1),
-            new Tuple<string, int>("VariableText", 1),
-            new Tuple<string, int>("MultiBlockMessage", 2),
-            new Tuple<string, int>("MultiBlockMessage", 3),
-            new Tuple<string, int>("MCT", 2),
-            new Tuple<string, int>("MCT", 3)
+            ("Permutation", 1),
+            ("InversePermutation", 1),
+            ("SubstitutionTable", 1),
+            ("VariableKey", 1),
+            ("VariableText", 1),
+            ("MultiBlockMessage", 2),
+            ("MultiBlockMessage", 3),
+            ("MCT", 2),
+            ("MCT", 3)
         };
 
         public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.TDES_CBC
 
                     // Create groups for the 1 key (KATs) as well as the number of keys for the keying option
                     var testTypesToRun = TestTypesAndNumberOfKeys
-                        .Where(w => w.Item2 == translatedKeyingOptionToNumberOfKeys || w.Item2 == 1);
+                        .Where(w => w.numberOfKeys == translatedKeyingOptionToNumberOfKeys || w.numberOfKeys == 1);
 
                     AddTestGroups(testTypesToRun, function, testGroups);
                 }
@@ -46,11 +46,11 @@ namespace NIST.CVP.Generation.TDES_CBC
             return testGroups;
         }
 
-        private void AddTestGroups(IEnumerable<Tuple<string, int>> testTypesToRun, string function, List<ITestGroup> testGroups)
+        private void AddTestGroups(IEnumerable<(string testType, int numberOfKeys)> testTypesToRun, string direction, List<ITestGroup> testGroups)
         {
             foreach (var tup in testTypesToRun)
             {
-                var testGroup = new TestGroup { Function = function, NumberOfKeys = tup.Item2, TestType = tup.Item1 };
+                var testGroup = new TestGroup { Function = direction, NumberOfKeys = tup.numberOfKeys, TestType = tup.testType };
                 testGroups.Add(testGroup);
             }
         }

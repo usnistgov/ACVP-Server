@@ -9,36 +9,28 @@ namespace NIST.CVP.Crypto.AES
     {
         public virtual void EncryptSingleBlock(byte[,] block, Key key)
         {
-            List<Tuple<DirectionValues, bool, Action<byte[,], Key>>> workerMappings =
-                new List<Tuple<DirectionValues, bool, Action<byte[,], Key>>>()
-                {
-                    // Encrypt / false inverse cipher = Encrypt
-                    new Tuple<DirectionValues, bool, Action<byte[,], Key>>(
-                        DirectionValues.Encrypt, false, Encrypt
-                    ),
-                    // Encrypt / true inverse cipher = Decrypt
-                    new Tuple<DirectionValues, bool, Action<byte[,], Key>>(
-                        DirectionValues.Encrypt, true, Decrypt
-                    ),
-                    // Decrypt / false inverse cipher = Decrypt
-                    new Tuple<DirectionValues, bool, Action<byte[,], Key>>(
-                        DirectionValues.Decrypt, false, Decrypt
-                    ),
-                    // Decrypt / true inverse cipher = Encrypt
-                    new Tuple<DirectionValues, bool, Action<byte[,], Key>>(
-                        DirectionValues.Decrypt, true, Encrypt
-                    )
-                };
-
+            List<(DirectionValues direction, bool useInverseCipher, Action<byte[,], Key> action)> workerMappings =
+                new List<(DirectionValues direction, bool useInverseCipher, Action<byte[,], Key> action)>()
+            {
+                (DirectionValues.Encrypt, false, Encrypt),
+                (DirectionValues.Encrypt, true, Decrypt),
+                (DirectionValues.Decrypt, false, Decrypt),
+                (DirectionValues.Decrypt, true, Encrypt)
+            };
+            
             var action = workerMappings
-                .First(w => w.Item1 == key.Direction && w.Item2 == key.UseInverseCipher);
+                .FirstOrDefault(
+                    w => w.direction == key.Direction && 
+                        w.useInverseCipher == key.UseInverseCipher
+                )
+                .action;
 
             if (action == null)
             {
                 throw new ArgumentException("Invalid arguments passed into EncryptSingleBlock.");
             }
 
-            action.Item3(block, key);
+            action(block, key);
         }
 
         private void Encrypt(byte[,] block, Key key)

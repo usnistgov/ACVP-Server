@@ -13,13 +13,12 @@ namespace NIST.CVP.Generation.KeyWrap
     public class SpecificationToDomainMapping
     {
         /// <summary>
-        /// algorithm, KeyWrapType
-        /// TODO Update this with strongly typed tuple implementation from C# 7
+        /// Maps algorithms to a KeyWrapType
         /// </summary>
-        public static readonly List<Tuple<string, KeyWrapType>> Map =
-            new List<Tuple<string, KeyWrapType>>()
+        public static readonly List<(string algorithm, KeyWrapType keyWrapType)> Map =
+            new List<(string algorithm, KeyWrapType keyWrapType)>()
             {
-                new Tuple<string, KeyWrapType>("AES-KW", KeyWrapType.AES_KW)
+                ("AES-KW", KeyWrapType.AES_KW)
             };
     }
 }

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Newtonsoft.Json;
-using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
@@ -13,6 +12,7 @@ using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using RSA_KeyGen;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 {
@@ -42,7 +42,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        [Ignore("")]
         public void GenShouldReturn1OnNoArgumentsSupplied()
         {
             var result = Program.Main(new string[] {});
@@ -50,7 +49,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        [Ignore("")]
         public void GenShouldReturn1OnInvalidFileName()
         {
             var result = Program.Main(new [] { $"{Guid.NewGuid()}.json" });
@@ -59,7 +57,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        [Ignore("")]
         public void GenShouldReturn1OnFailedRun()
         {
             AutofacConfig.OverrideRegistrations = builder =>
@@ -75,7 +72,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        [Ignore("")]
         public void GenShouldCreateTestVectors()
         {
             var targetFolder = GetTestFolder("Gen");
@@ -89,7 +85,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        [Ignore("")]
         public void ValShouldReturn1OnFailedRun()
         {
             RSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = builder =>
@@ -110,7 +105,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        [Ignore("")]
         public void ValShouldReturn1OnException()
         {
             RSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = builder =>
@@ -131,7 +125,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        [Ignore("")]
         public void ShouldCreateValidationFile()
         {
             var targetFolder = GetTestFolder("Val");
@@ -143,13 +136,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        //[Ignore("")]
         public void ShouldReportAllSuccessfulTestsWithinValidationClientGeneratedValues()
         {
-            var targetFolder = GetTestFolder("Client");
-            var fileName = GetTestFileClientGeneratedTests(targetFolder);
+            //var targetFolder = GetTestFolder("Client");
+            //var fileName = GetTestFileClientGeneratedTests(targetFolder);
 
-            RunGenerationAndValidation(targetFolder, fileName);
+            //RunGenerationAndValidation(targetFolder, fileName);
+
+            // Quick startup mode (skip generation)
+            var targetFolder = Path.Combine(_testPath, "client-test");
+            RunValidation(targetFolder);
 
             // Get object for the validation.json
             var dp = new DynamicParser();
@@ -298,7 +294,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             var result = RSA_KeyGen_Val.Program.Main(
                 GetFileNamesWithPath(targetFolder, _testVectorFileNames)
             );
-            Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder}validation");
+            Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder} validation");
             Assert.IsTrue(result == 0);
         }
 

@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 testGroups.Add(new TestGroup
                 {
                     HashAlg = new HashFunction { DigestSize = DigestSizes.d224, Mode = ModeValues.SHA2},
-                    InfoGeneratedByServer = true,
+                    InfoGeneratedByServer = false,
                     Mode = KeyGenModes.B32,
                     Modulo = 1 + groupIdx,
                     TestType = "aft",

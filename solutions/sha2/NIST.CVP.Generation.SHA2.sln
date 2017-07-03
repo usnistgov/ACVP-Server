@@ -1,35 +1,35 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EF8BDEE9-117A-4D27-A4B1-2E89092ECD24}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C984665F-2545-46E9-9ED9-7F2D0AEEBFBC}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.xproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.xproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.Core.Tests", "..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.xproj", "{ACD3221B-E9F1-40D2-90C7-65BAC0A1B265}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core.Tests", "..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj", "{ACD3221B-E9F1-40D2-90C7-65BAC0A1B265}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.xproj", "{5C3D7A24-3267-4BF6-9413-0B7E8291B6A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj", "{5C3D7A24-3267-4BF6-9413-0B7E8291B6A1}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Math.Tests", "..\..\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.xproj", "{A3BDD4CF-B9E9-4E8A-856A-C757549F8817}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math.Tests", "..\..\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.csproj", "{A3BDD4CF-B9E9-4E8A-856A-C757549F8817}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.SHA2.Tests", "..\..\sha2\test\NIST.CVP.Generation.SHA2.Tests\NIST.CVP.Generation.SHA2.Tests.xproj", "{3E9C3E56-2D89-469D-A4D3-11A9E5F673DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.SHA2.Tests", "..\..\sha2\test\NIST.CVP.Generation.SHA2.Tests\NIST.CVP.Generation.SHA2.Tests.csproj", "{3E9C3E56-2D89-469D-A4D3-11A9E5F673DF}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.SHA2", "..\..\sha2\src\NIST.CVP.Generation.SHA2\NIST.CVP.Generation.SHA2.xproj", "{1CA18A78-50D2-4A8D-8ED6-FEDCF058A583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.SHA2", "..\..\sha2\src\NIST.CVP.Generation.SHA2\NIST.CVP.Generation.SHA2.csproj", "{1CA18A78-50D2-4A8D-8ED6-FEDCF058A583}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SHA2", "..\..\sha2\src\SHA2\SHA2.xproj", "{CB0772FF-A52D-4028-B2FD-9FAB85AA9B2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SHA2", "..\..\sha2\src\SHA2\SHA2.csproj", "{CB0772FF-A52D-4028-B2FD-9FAB85AA9B2E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SHA2_Val", "..\..\sha2\src\SHA2_Val\SHA2_Val.xproj", "{D730FE64-64F5-462C-8399-4CEC87751DFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SHA2_Val", "..\..\sha2\src\SHA2_Val\SHA2_Val.csproj", "{D730FE64-64F5-462C-8399-4CEC87751DFF}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.SHA2.IntegrationTests", "..\..\sha2\test\NIST.CVP.Generation.SHA2.IntegrationTests\NIST.CVP.Generation.SHA2.IntegrationTests.xproj", "{7AD6EE99-F447-41F5-9B4C-E9C7AC367E1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.SHA2.IntegrationTests", "..\..\sha2\test\NIST.CVP.Generation.SHA2.IntegrationTests\NIST.CVP.Generation.SHA2.IntegrationTests.csproj", "{7AD6EE99-F447-41F5-9B4C-E9C7AC367E1F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.SHA2", "..\..\crypto\NIST.CVP.Crypto.SHA2\NIST.CVP.Crypto.SHA2.xproj", "{B9C5A5BE-2399-4346-80B0-91F635EC0382}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SHA2", "..\..\crypto\NIST.CVP.Crypto.SHA2\NIST.CVP.Crypto.SHA2.csproj", "{B9C5A5BE-2399-4346-80B0-91F635EC0382}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.SHA2.Tests", "..\..\crypto\NIST.CVP.Crypto.SHA2.Tests\NIST.CVP.Crypto.SHA2.Tests.xproj", "{0D2B0FC7-9969-4D08-B34F-62C931FC1583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SHA2.Tests", "..\..\crypto\NIST.CVP.Crypto.SHA2.Tests\NIST.CVP.Crypto.SHA2.Tests.csproj", "{0D2B0FC7-9969-4D08-B34F-62C931FC1583}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

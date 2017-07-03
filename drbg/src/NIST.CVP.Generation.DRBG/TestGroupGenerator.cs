@@ -3,6 +3,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Crypto.DRBG;
 using System;
 using System.Linq;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.DRBG
 {
@@ -36,40 +37,41 @@ namespace NIST.CVP.Generation.DRBG
                     {
                         foreach (var additionalInputLen in parameters.AdditionalInputLen.GetDomainMinMaxAsEnumerable())
                         {
-                            var mapped = DrbgSpecToDomainMapping.Map
-                                .FirstOrDefault(
-                                    w => w.Item1.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) &&
-                                         w.Item3.Equals(parameters.Mode, StringComparison.OrdinalIgnoreCase));
+                            if (DrbgSpecToDomainMapping.Map
+                                .TryFirst(
+                                    w => w.mechanism.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) &&
+                                         w.mode.Equals(parameters.Mode, StringComparison.OrdinalIgnoreCase),
+                                    out var result))
+                            {
+                                DrbgParameters dp = new DrbgParameters()
+                                {
+                                    Mechanism = result.drbgMechanism,
+                                    Mode = result.drbgMode,
+                                    SecurityStrength = result.maxSecurityStrength,
 
-                            if (mapped == null)
+                                    DerFuncEnabled = parameters.DerFuncEnabled,
+                                    PredResistanceEnabled = parameters.PredResistanceEnabled,
+                                    ReseedImplemented = parameters.ReseedImplemented,
+
+                                    EntropyInputLen = entropyLen,
+                                    NonceLen = nonceLen,
+                                    PersoStringLen = persoStringLen,
+                                    AdditionalInputLen = additionalInputLen,
+
+                                    ReturnedBitsLen = parameters.ReturnedBitsLen
+                                };
+
+                                TestGroup tg = new TestGroup
+                                {
+                                    DrbgParameters = dp
+                                };
+
+                                groups.Add(tg);
+                            }
+                            else
                             {
                                 throw new ArgumentException("Invalid Algorithm/Mode provided.");
                             }
-
-                            DrbgParameters dp = new DrbgParameters()
-                            {
-                                Mechanism = mapped.Item2,
-                                Mode = mapped.Item4,
-                                SecurityStrength = mapped.Item5,
-
-                                DerFuncEnabled = parameters.DerFuncEnabled,
-                                PredResistanceEnabled = parameters.PredResistanceEnabled,
-                                ReseedImplemented = parameters.ReseedImplemented,
-
-                                EntropyInputLen = entropyLen,
-                                NonceLen = nonceLen,
-                                PersoStringLen = persoStringLen,
-                                AdditionalInputLen = additionalInputLen,
-
-                                ReturnedBitsLen = parameters.ReturnedBitsLen
-                            };
-
-                            TestGroup tg = new TestGroup
-                            {
-                                DrbgParameters = dp
-                            };
-
-                            groups.Add(tg);
                         }
                     }
                 }

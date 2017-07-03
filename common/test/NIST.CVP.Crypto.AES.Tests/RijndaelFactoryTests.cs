@@ -84,6 +84,14 @@ namespace NIST.CVP.Crypto.AES.Tests
         }
 
         [Test]
+        public void ShouldReturnRijndaelCMAC()
+        {
+            var result = _subject.GetRijndael(ModeValues.CMAC);
+
+            Assert.IsInstanceOf(typeof(RijndaelCMAC), result);
+        }
+        
+        [Test]
         [TestCase(100)]
         [TestCase(-1)]
         public void ShouldReturnArgumentExceptionWithInvalidMode(int mode)

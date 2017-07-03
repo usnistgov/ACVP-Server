@@ -75,7 +75,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
         public override int GetHashCode()
         {
-            return $"{TestType}|{InfoGeneratedByServer}|{Mode}|{Modulo}|{HashAlg}|{PrimeTest}|{PubExp}".GetHashCode();
+            return ($"{TestType}|{InfoGeneratedByServer}|{RSAEnumHelpers.KeyGenModeToString(Mode)}|" +
+                    $"{Modulo}|{SHAEnumHelpers.HashFunctionToString(HashAlg)}|{RSAEnumHelpers.PrimeTestModeToString(PrimeTest)}|" +
+                    $"{RSAEnumHelpers.PubExpModeToString(PubExp)}").GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -128,7 +130,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         {
             if (source.ContainsKey(label))
             {
-                return (int) source[label];
+                return (int) (long) source[label];
             }
 
             return 0;

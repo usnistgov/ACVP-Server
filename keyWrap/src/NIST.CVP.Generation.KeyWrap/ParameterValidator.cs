@@ -46,12 +46,10 @@ namespace NIST.CVP.Generation.KeyWrap
 
         private void ValidateAndGetOptions(Parameters parameters, List<string> errorResults, ref KeyWrapType keyWrapType)
         {
-            var found = SpecificationToDomainMapping.Map
-                .FirstOrDefault(w => w.Item1.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase));
-
-            if (found != null)
+            if (SpecificationToDomainMapping.Map
+                .TryFirst(w => w.algorithm == parameters.Algorithm, out var result))
             {
-                keyWrapType = found.Item2;
+                keyWrapType = result.keyWrapType;
             }
             else
             {

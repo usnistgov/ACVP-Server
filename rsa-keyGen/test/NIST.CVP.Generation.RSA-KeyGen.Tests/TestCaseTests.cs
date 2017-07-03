@@ -8,6 +8,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
@@ -29,13 +30,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             var sourceTest = new JObject();
             sourceTest.Add("tcId", new JValue(1));
-            sourceTest.Add("e", new JValue("00AA"));
-            sourceTest.Add("n", new JValue("00AA"));
-            sourceTest.Add("p", new JValue("00AA"));
-            sourceTest.Add("q", new JValue("00AA"));
-            sourceTest.Add("d", new JValue("00AA"));
+            sourceTest.Add("e", new JValue((BigInteger)1));
+            sourceTest.Add("n", new JValue((BigInteger)2));
+            sourceTest.Add("p", new JValue((BigInteger)3));
+            sourceTest.Add("q", new JValue((BigInteger)4));
+            sourceTest.Add("d", new JValue((BigInteger)5));
             sourceTest.Add("seed", new JValue("00AA"));
-            sourceTest.Add("bitlens", new JValue(new [] {1, 2, 3, 4}));
             var subject = new TestCase(sourceTest);
             Assert.IsNotNull(subject);
         }
@@ -63,7 +63,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var sourceTest = GetSourceAnswerTest();
             var subject = new TestCase(sourceTest);
             Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.d, new BitString(subject.Key.PrivKey.D));
+            Assert.AreEqual(sourceTest.d, subject.Key.PrivKey.D);
         }
 
         [Test]

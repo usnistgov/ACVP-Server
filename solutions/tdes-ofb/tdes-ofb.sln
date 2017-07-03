@@ -1,43 +1,43 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{51CE63DD-7073-4E48-98D9-0EB913518D81}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8E6EB033-8EE6-4DCE-BE4D-5075675C2573}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.TDES", "..\..\common\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.xproj", "{3FF86A19-FA89-48DA-A4A9-FE6063AAE51F}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.xproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.xproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.TDES.Tests", "..\..\common\test\NIST.CVP.Crypto.TDES.Tests\NIST.CVP.Crypto.TDES.Tests.xproj", "{D83DC8B8-C9C6-4946-A919-109C6229EEB0}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Math.Tests", "..\..\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.xproj", "{A3BDD4CF-B9E9-4E8A-856A-C757549F8817}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.xproj", "{5C3D7A24-3267-4BF6-9413-0B7E8291B6A1}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.TDES_OFB", "..\..\tdes-ofb\src\NIST.CVP.Crypto.TDES_OFB\NIST.CVP.Crypto.TDES_OFB.xproj", "{BD12DC42-F149-44A7-8034-6629751A9A2A}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES_OFB", "..\..\tdes-ofb\src\NIST.CVP.Generation.TDES_OFB\NIST.CVP.Generation.TDES_OFB.xproj", "{1E803006-17C6-467F-A3C8-5CB37521B556}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TDES_OFB", "..\..\tdes-ofb\src\TDES_OFB\TDES_OFB.xproj", "{D65DB5A8-FF33-4554-A262-B6E45596BBDA}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TDES_OFB_Val", "..\..\tdes-ofb\src\TDES_OFB_Val\TDES_OFB_Val.xproj", "{B7706C73-CCF3-464F-A60B-18722AE10B65}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Crypto.TDES_OFB.Tests", "..\..\tdes-ofb\test\NIST.CVP.Crypto.TDES_OFB.Tests\NIST.CVP.Crypto.TDES_OFB.Tests.xproj", "{5A97FC9D-5332-4AF2-8D03-2D5EB2B15082}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES_OFB.IntegrationTests", "..\..\tdes-ofb\test\NIST.CVP.Generation.TDES_OFB.IntegrationTests\NIST.CVP.Generation.TDES_OFB.IntegrationTests.xproj", "{745226B9-D017-46F7-B2F7-38E65A78C0AC}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NIST.CVP.Generation.TDES_OFB.Tests", "..\..\tdes-ofb\test\NIST.CVP.Generation.TDES_OFB.Tests\NIST.CVP.Generation.TDES_OFB.Tests.xproj", "{440B271E-3753-4694-886A-53FA6407EEC6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8DD9C214-D743-431F-A1ED-0F4E890C9E2B}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\tdes-ofb\src\global.json = ..\..\tdes-ofb\src\global.json
 		..\..\tdes-ofb\test\global.json = ..\..\tdes-ofb\test\global.json
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES", "..\..\common\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj", "{3FF86A19-FA89-48DA-A4A9-FE6063AAE51F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES.Tests", "..\..\common\test\NIST.CVP.Crypto.TDES.Tests\NIST.CVP.Crypto.TDES.Tests.csproj", "{D83DC8B8-C9C6-4946-A919-109C6229EEB0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math.Tests", "..\..\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.csproj", "{A3BDD4CF-B9E9-4E8A-856A-C757549F8817}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj", "{5C3D7A24-3267-4BF6-9413-0B7E8291B6A1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_OFB", "..\..\tdes-ofb\src\NIST.CVP.Crypto.TDES_OFB\NIST.CVP.Crypto.TDES_OFB.csproj", "{BD12DC42-F149-44A7-8034-6629751A9A2A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TDES_OFB", "..\..\tdes-ofb\src\NIST.CVP.Generation.TDES_OFB\NIST.CVP.Generation.TDES_OFB.csproj", "{1E803006-17C6-467F-A3C8-5CB37521B556}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDES_OFB", "..\..\tdes-ofb\src\TDES_OFB\TDES_OFB.csproj", "{D65DB5A8-FF33-4554-A262-B6E45596BBDA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDES_OFB_Val", "..\..\tdes-ofb\src\TDES_OFB_Val\TDES_OFB_Val.csproj", "{B7706C73-CCF3-464F-A60B-18722AE10B65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_OFB.Tests", "..\..\tdes-ofb\test\NIST.CVP.Crypto.TDES_OFB.Tests\NIST.CVP.Crypto.TDES_OFB.Tests.csproj", "{5A97FC9D-5332-4AF2-8D03-2D5EB2B15082}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TDES_OFB.IntegrationTests", "..\..\tdes-ofb\test\NIST.CVP.Generation.TDES_OFB.IntegrationTests\NIST.CVP.Generation.TDES_OFB.IntegrationTests.csproj", "{745226B9-D017-46F7-B2F7-38E65A78C0AC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TDES_OFB.Tests", "..\..\tdes-ofb\test\NIST.CVP.Generation.TDES_OFB.Tests\NIST.CVP.Generation.TDES_OFB.Tests.csproj", "{440B271E-3753-4694-886A-53FA6407EEC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
