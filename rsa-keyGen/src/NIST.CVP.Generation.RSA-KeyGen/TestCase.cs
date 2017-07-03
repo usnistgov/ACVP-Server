@@ -22,12 +22,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public int[] Bitlens { get; set; }
 
         // Potential auxiliary values
-        public BigInteger XP1 { get; set; }
-        public BigInteger XP2 { get; set; }
-        public BigInteger XP { get; set; }
-        public BigInteger XQ1 { get; set; }
-        public BigInteger XQ2 { get; set; }
-        public BigInteger XQ { get; set; }
+        public BitString XP1 { get; set; }
+        public BitString XP2 { get; set; }
+        public BitString XP { get; set; }
+        public BitString XQ1 { get; set; }
+        public BitString XQ2 { get; set; }
+        public BitString XQ { get; set; }
 
         public TestCase() { }
 
@@ -58,19 +58,19 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             var otherTypedTest = (TestCase) otherTest;
             var retVal = false;
 
-            if (XP == 0 && otherTypedTest.XP != 0)
+            if (XP == null && otherTypedTest.XP != null)
             {
-                XP = otherTypedTest.XP;
-                XQ = otherTypedTest.XQ;
+                XP = otherTypedTest.XP.GetDeepCopy();
+                XQ = otherTypedTest.XQ.GetDeepCopy();
                 retVal = true;
             }
 
-            if (XP1 == 0 && otherTypedTest.XP1 != 0)
+            if (XP1 == null && otherTypedTest.XP1 != null)
             {
-                XP1 = otherTypedTest.XP1;
-                XP2 = otherTypedTest.XP2;
-                XQ1 = otherTypedTest.XQ1;
-                XQ2 = otherTypedTest.XQ2;
+                XP1 = otherTypedTest.XP1.GetDeepCopy();
+                XP2 = otherTypedTest.XP2.GetDeepCopy();
+                XQ1 = otherTypedTest.XQ1.GetDeepCopy();
+                XQ2 = otherTypedTest.XQ2.GetDeepCopy();
                 retVal = true;
             }
 
@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (Seed == null && otherTypedTest.Seed != null)
             {
-                Seed = otherTypedTest.Seed;
+                Seed = otherTypedTest.Seed.GetDeepCopy();
                 retVal = true;
             }
 
@@ -165,16 +165,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (((ExpandoObject) source).ContainsProperty("xp"))
             {
-                XP = BigIntegerFromObject("xp", source);
-                XQ = BigIntegerFromObject("xq", source);
+                XP = BitStringFromObject("xp", source);
+                XQ = BitStringFromObject("xq", source);
             }
 
             if (((ExpandoObject) source).ContainsProperty("xp1"))
             {
-                XP1 = BigIntegerFromObject("xp1", source);
-                XP2 = BigIntegerFromObject("xp2", source);
-                XQ1 = BigIntegerFromObject("xq1", source);
-                XQ2 = BigIntegerFromObject("xq2", source);
+                XP1 = BitStringFromObject("xp1", source, Bitlens[0]);
+                XP2 = BitStringFromObject("xp2", source, Bitlens[1]);
+                XQ1 = BitStringFromObject("xq1", source, Bitlens[2]);
+                XQ2 = BitStringFromObject("xq2", source, Bitlens[3]);
             }
         }
 
@@ -251,7 +251,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             return 0;
         }
 
-        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
+        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source, int length = -1)
         {
             if (!source.ContainsProperty(sourcePropertyName))
             {
@@ -270,7 +270,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 return valueAsBitString;
             }
 
-            return new BitString(sourcePropertyValue.ToString());
+            return new BitString(sourcePropertyValue.ToString(), length);
         }
     }
 }

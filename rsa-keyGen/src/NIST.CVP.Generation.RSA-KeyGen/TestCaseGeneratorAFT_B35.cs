@@ -85,8 +85,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             testCase.Key = new KeyPair(primeResult.P, primeResult.Q, testCase.Key.PubKey.E);
 
             // Set auxiliary values
-            testCase.XP = primeResult.AuxValues.XP;
-            testCase.XQ = primeResult.AuxValues.XQ;
+            testCase.XP = new BitString(primeResult.AuxValues.XP);
+            testCase.XQ = new BitString(primeResult.AuxValues.XQ);
 
             return new TestCaseGenerateResponse(testCase);
         }
@@ -103,8 +103,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 _primeGen.SetEntropyProviderType(EntropyProviderTypes.Testable);
 
                 // Set 'random' values with the values the client provided
-                _primeGen.AddEntropy(testCase.XP);
-                _primeGen.AddEntropy(testCase.XQ);
+                _primeGen.AddEntropy(testCase.XP.ToPositiveBigInteger());
+                _primeGen.AddEntropy(testCase.XQ.ToPositiveBigInteger());
 
                 primeResult = _primeGen.GeneratePrimes(group.Modulo, testCase.Key.PubKey.E, testCase.Seed.GetDeepCopy());
                 if (!primeResult.Success)

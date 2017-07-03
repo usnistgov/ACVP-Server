@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
     public class GenValTests
     {
         private string _testPath;
-        private string[] _testVectorFileNames =
+        private readonly string[] _testVectorFileNames =
         {
             @"\testResults.json",
             @"\prompt.json",
@@ -144,8 +144,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             //RunGenerationAndValidation(targetFolder, fileName);
 
             // Quick startup mode (skip generation)
-            var targetFolder = Path.Combine(_testPath, "client-test");
-            RunValidation(targetFolder);
+            var targetFolder = ShortCutValidation("client-test");
 
             // Get object for the validation.json
             var dp = new DynamicParser();
@@ -240,6 +239,13 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
             // Validate result as pass
             Assert.AreEqual("failed", parsedValidation.ParsedObject.disposition.ToString());
+        }
+
+        private string ShortCutValidation(string folderName)
+        {
+            var targetFolder = Path.Combine(_testPath, folderName);
+            RunValidation(targetFolder);
+            return targetFolder;
         }
 
         private string[] GetFileNamesWithPath(string directory, string[] fileNames)
@@ -450,7 +456,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 HashAlgs = new [] {"SHA-256", "SHA-384"},
                 InfoGeneratedByServer = false,
                 IsSample = true,
-                KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
+                //KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
+                KeyGenModes = new[] {"B.3.6"},
                 Moduli = new [] {2048},
                 PrimeTests = new [] {"tblC2"},
                 PubExpMode = "random"

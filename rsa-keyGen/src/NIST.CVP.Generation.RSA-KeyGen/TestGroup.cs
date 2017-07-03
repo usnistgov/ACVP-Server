@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         {
             TestType = source.testType;
 
-            Modulo = SetIntValue(source, "modulo");
+            Modulo = IntFromObject("modulo", source);
             InfoGeneratedByServer = SetBoolValue(source, "infoGeneratedByServer");
             Mode = RSAEnumHelpers.StringToKeyGenMode(source.randPQ);
             HashAlg = SHAEnumHelpers.StringToHashFunction(SetStringValue(source, "hashAlg"));
@@ -130,7 +130,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         {
             if (source.ContainsKey(label))
             {
-                return (int) (long) source[label];
+                return (int) source[label];
             }
 
             return 0;
@@ -154,6 +154,28 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
 
             return default(bool);
+        }
+
+        private int IntFromObject(string sourcePropertyName, ExpandoObject source)
+        {
+            if (!source.ContainsProperty(sourcePropertyName))
+            {
+                return 0;
+            }
+
+            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
+            if (sourcePropertyValue == null)
+            {
+                return 0;
+            }
+
+            var valueAsBitString = sourcePropertyValue as long?;
+            if (valueAsBitString != null)
+            {
+                return (int)valueAsBitString;
+            }
+
+            return (int)sourcePropertyValue;
         }
     }
 }

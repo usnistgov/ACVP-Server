@@ -126,7 +126,7 @@ namespace NIST.CVP.Math.Tests
 
             // Assert
             Assert.AreEqual(setBitLengthTo, subject.Bits.Length, $"Resulting bits length should be {setBitLengthTo}");
-
+            Assert.AreEqual(bi, subject.ToBigInteger());
         }
 
         [Test]

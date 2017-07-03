@@ -83,12 +83,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             testCase.Key = new KeyPair(primeResult.P, primeResult.Q, testCase.Key.PubKey.E);
 
             // Set auxiliary values
-            testCase.XP = primeResult.AuxValues.XP;
-            testCase.XQ = primeResult.AuxValues.XQ;
-            testCase.XP1 = primeResult.AuxValues.XP1;
-            testCase.XP2 = primeResult.AuxValues.XP2;
-            testCase.XQ1 = primeResult.AuxValues.XQ1;
-            testCase.XQ2 = primeResult.AuxValues.XQ2;
+            testCase.XP = new BitString(primeResult.AuxValues.XP);
+            testCase.XQ = new BitString(primeResult.AuxValues.XQ);
+            testCase.XP1 = new BitString(primeResult.AuxValues.XP1, testCase.Bitlens[0]);
+            testCase.XP2 = new BitString(primeResult.AuxValues.XP2, testCase.Bitlens[1]);
+            testCase.XQ1 = new BitString(primeResult.AuxValues.XQ1, testCase.Bitlens[2]);
+            testCase.XQ2 = new BitString(primeResult.AuxValues.XQ2, testCase.Bitlens[3]);
 
             return new TestCaseGenerateResponse(testCase);
         }
@@ -103,12 +103,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 _primeGen.SetEntropyProviderType(EntropyProviderTypes.Testable);
 
                 // Add entropy
-                _primeGen.AddEntropy(new BitString(testCase.XP1));
-                _primeGen.AddEntropy(new BitString(testCase.XP2));
-                _primeGen.AddEntropy(testCase.XP);
-                _primeGen.AddEntropy(new BitString(testCase.XQ1));
-                _primeGen.AddEntropy(new BitString(testCase.XQ2));
-                _primeGen.AddEntropy(testCase.XQ);
+                _primeGen.AddEntropy(testCase.XP1);
+                _primeGen.AddEntropy(testCase.XP2);
+                _primeGen.AddEntropy(testCase.XP.ToPositiveBigInteger());
+                _primeGen.AddEntropy(testCase.XQ1);
+                _primeGen.AddEntropy(testCase.XQ2);
+                _primeGen.AddEntropy(testCase.XQ.ToPositiveBigInteger());
 
                 primeResult = _primeGen.GeneratePrimes(group.Modulo, testCase.Key.PubKey.E, null);
                 if (!primeResult.Success)

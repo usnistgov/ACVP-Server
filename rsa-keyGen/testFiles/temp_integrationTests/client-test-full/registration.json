@@ -1,0 +1,25 @@
+{
+  "Algorithm": "RSA",
+  "Mode": "KeyGen",
+  "IsSample": true,
+  "InfoGeneratedByServer": false,
+  "PubExpMode": "random",
+  "FixedPubExp": "",
+  "KeyGenModes": [
+    "b.3.2",
+    "b.3.3",
+    "b.3.4",
+    "b.3.5",
+    "b.3.6"
+  ],
+  "Moduli": [
+    2048
+  ],
+  "HashAlgs": [
+    "SHA-256",
+    "SHA-384"
+  ],
+  "PrimeTests": [
+    "tblC2"
+  ]
+}
