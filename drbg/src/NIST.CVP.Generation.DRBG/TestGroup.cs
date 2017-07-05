@@ -36,11 +36,6 @@ namespace NIST.CVP.Generation.DRBG
             }
         }
 
-        /// <summary>
-        /// TODO This is not used for anything but symmetric ciphers, should it be pulled out of the interface?
-        /// </summary>
-        public int KeyLength => 0;
-
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; } = "AFT";
         [JsonProperty(PropertyName = "derFunc")]

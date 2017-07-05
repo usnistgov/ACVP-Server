@@ -24,8 +24,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public List<ITestCase> Tests { get; set; }
         public string TestType { get; set; }
 
-        public int KeyLength { get { return 0; } } 
-
         public TestGroup()
         {
             Tests = new List<ITestCase>();

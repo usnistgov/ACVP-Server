@@ -10,6 +10,5 @@ namespace NIST.CVP.Generation.Core
         string TestType { get; }
         List<ITestCase> Tests { get; }
         bool MergeTests(List<ITestCase> testsToMerge);
-        int KeyLength { get; }
     }
 }

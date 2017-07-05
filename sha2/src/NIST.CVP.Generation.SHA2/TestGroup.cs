@@ -27,7 +27,6 @@ namespace NIST.CVP.Generation.SHA2
         public bool IncludeNull { get; set; }
 
         public List<ITestCase> Tests { get; set; }
-        public int KeyLength { get { return 0; } }              // Not relevant
 
         public TestGroup()
         {

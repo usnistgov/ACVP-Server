@@ -13,7 +13,6 @@ namespace NIST.CVP.Generation.SHA3
 {
     public class TestGroup : ITestGroup
     {
-        public int KeyLength { get { return 0; } }              // Not relevant
         public List<ITestCase> Tests { get; set; }
 
         [JsonProperty(PropertyName = "testType")]
