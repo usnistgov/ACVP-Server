@@ -68,34 +68,6 @@ namespace NIST.CVP.Generation.Core
             return null;
         }
 
-        protected string ValidateRange(Range supplied, int minInclusive, int maxInclusive, string friendlyName)
-        {
-
-            List<string> errors = new List<string>();
-
-            if (supplied.Min < minInclusive)
-            {
-                errors.Add($"Min");
-            }
-
-            if (supplied.Max > maxInclusive)
-            {
-                errors.Add($"Max");
-            }
-
-            if (supplied.Min > supplied.Max)
-            {
-                errors.Add($"{nameof(supplied.Min)} may not exceed {nameof(supplied.Max)}");
-            }
-
-            if (errors.Count() != 0)
-            {
-                return $"Invalid {friendlyName} supplied: {string.Join(",", errors)}.  Values were not between {minInclusive} and {maxInclusive}";
-            }
-
-            return null;
-        }
-
         protected string ValidateRange(int[] supplied, int minInclusive, int maxInclusive, string friendlyName)
         {
             if (supplied == null || supplied.Length == 0)
