@@ -63,12 +63,20 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             // 4
+            //var xp1Rand = _entropyProvider.GetEntropy(_bitlens[0]);
+            //xp1Rand.Set(xp1Rand.BitLength - 1, true);       // Set MSb to true
+            //xp1Rand.Set(0, true);                           // Set LSb to true
+            //xp1 = xp1Rand.ToPositiveBigInteger();
             xp1 = _entropyProvider.GetEntropy(_bitlens[0]).ToPositiveBigInteger();
             if (xp1.IsEven)
             {
                 xp1++;
             }
 
+            //var xp2Rand = _entropyProvider.GetEntropy(_bitlens[1]);
+            //xp2Rand.Set(xp2Rand.BitLength - 1, true);       // Set MSb to true
+            //xp2Rand.Set(0, true);                           // Set LSb to true
+            //xp2 = xp2Rand.ToPositiveBigInteger();
             xp2 = _entropyProvider.GetEntropy(_bitlens[1]).ToPositiveBigInteger();
             if (xp2.IsEven)
             {
@@ -98,12 +106,20 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             // 5
             do
             {
+                //var xq1Rand = _entropyProvider.GetEntropy(_bitlens[2]);
+                //xq1Rand.Set(xq1Rand.BitLength - 1, true);       // Set MSb to true
+                //xq1Rand.Set(0, true);                           // Set LSb to true
+                //xq1 = xq1Rand.ToPositiveBigInteger();
                 xq1 = _entropyProvider.GetEntropy(_bitlens[2]).ToPositiveBigInteger();
                 if (xq1.IsEven)
                 {
                     xq1++;
                 }
 
+                //var xq2Rand = _entropyProvider.GetEntropy(_bitlens[3]);
+                //xq2Rand.Set(xq2Rand.BitLength - 1, true);       // Set MSb to true
+                //xq2Rand.Set(0, true);                           // Set LSb to true
+                //xq2 = xq2Rand.ToPositiveBigInteger();
                 xq2 = _entropyProvider.GetEntropy(_bitlens[3]).ToPositiveBigInteger();
                 if (xq2.IsEven)
                 {

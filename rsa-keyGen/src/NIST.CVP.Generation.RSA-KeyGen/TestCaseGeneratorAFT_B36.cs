@@ -85,10 +85,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             // Set auxiliary values
             testCase.XP = new BitString(primeResult.AuxValues.XP);
             testCase.XQ = new BitString(primeResult.AuxValues.XQ);
-            testCase.XP1 = new BitString(primeResult.AuxValues.XP1, testCase.Bitlens[0]);
-            testCase.XP2 = new BitString(primeResult.AuxValues.XP2, testCase.Bitlens[1]);
-            testCase.XQ1 = new BitString(primeResult.AuxValues.XQ1, testCase.Bitlens[2]);
-            testCase.XQ2 = new BitString(primeResult.AuxValues.XQ2, testCase.Bitlens[3]);
+            testCase.XP1 = new BitString(primeResult.AuxValues.XP1, testCase.Bitlens[0] % 8 == 0 ? testCase.Bitlens[0] : testCase.Bitlens[0] + 8 - testCase.Bitlens[0] % 8, false);
+            testCase.XP2 = new BitString(primeResult.AuxValues.XP2, testCase.Bitlens[1] % 8 == 0 ? testCase.Bitlens[1] : testCase.Bitlens[1] + 8 - testCase.Bitlens[1] % 8, false);
+            testCase.XQ1 = new BitString(primeResult.AuxValues.XQ1, testCase.Bitlens[2] % 8 == 0 ? testCase.Bitlens[2] : testCase.Bitlens[2] + 8 - testCase.Bitlens[2] % 8, false);
+            testCase.XQ2 = new BitString(primeResult.AuxValues.XQ2, testCase.Bitlens[3] % 8 == 0 ? testCase.Bitlens[3] : testCase.Bitlens[3] + 8 - testCase.Bitlens[3] % 8, false);
 
             return new TestCaseGenerateResponse(testCase);
         }

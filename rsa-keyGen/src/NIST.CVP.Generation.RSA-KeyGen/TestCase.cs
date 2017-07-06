@@ -171,10 +171,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (((ExpandoObject) source).ContainsProperty("xp1"))
             {
-                XP1 = BitStringFromObject("xp1", source, Bitlens[0]);
-                XP2 = BitStringFromObject("xp2", source, Bitlens[1]);
-                XQ1 = BitStringFromObject("xq1", source, Bitlens[2]);
-                XQ2 = BitStringFromObject("xq2", source, Bitlens[3]);
+                XP1 = ((BitString)BitStringFromObject("xp1", source)).Substring(0, Bitlens[0]);
+                XP2 = ((BitString)BitStringFromObject("xp2", source)).Substring(0, Bitlens[1]);
+                XQ1 = ((BitString)BitStringFromObject("xq1", source)).Substring(0, Bitlens[2]);
+                XQ2 = ((BitString)BitStringFromObject("xq2", source)).Substring(0, Bitlens[3]);
             }
         }
 

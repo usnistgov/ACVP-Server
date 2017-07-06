@@ -150,6 +150,24 @@ namespace NIST.CVP.Math.Tests
         }
 
         [Test]
+        [TestCase("527545222104387855173243238699327730047054175268400693537830017395674818449082107960567566340098847877132585460096692096553839137055417",
+            451, "00B9CE8A63964C06E12E311DAFEF08BF936D0805487D700612A0C5C2A4462AFAFA75EAFFE68F51EA2C29E909DA802E321A79C8D62EEDC6E2B9")]
+        [TestCase("741109383330151771707690665109313374760543",
+            147, "000881ECBB5799BFF3A99A34391CE9C2E9AE5F")]
+        public void ShouldProduceSameHexIfMSByteIs0AndBooleanFlagged(string bigIntDec, int bitLength, string hex)
+        {
+            // Arrange
+            var bigint = BigInteger.Parse(bigIntDec);
+
+            // Act
+            var bs = new BitString(bigint, bitLength % 8 == 0 ? bitLength :  bitLength + 8 - bitLength % 8, false);
+
+            // Assert
+            Assert.AreEqual(bigint, bs.ToPositiveBigInteger());
+            Assert.AreEqual(hex, bs.ToHex());
+        }
+
+        [Test]
         [TestCase("")]
         [TestCase(null)]
         public void ShouldCreateEmptyBitStringIfEmptyOrNullHexSupplied(string hexValue)

@@ -53,18 +53,21 @@ namespace NIST.CVP.Math
         /// </summary>
         /// <param name="bigInt"></param>
         /// <param name="bitLength"></param>
-        public BitString(BigInteger bigInt, int bitLength = 0)
+        public BitString(BigInteger bigInt, int bitLength = 0, bool allowRemoval = true)
         {
             byte[] bytesInLSB = bigInt.ToByteArray();
 
             // Sometimes, BigInteger -> byte[] adds an empty byte on the end to help
             // distinguish between two's complement for positive and negative.
             // Whenever it appears, we can just remove it safely.
-            if (bytesInLSB[bytesInLSB.Length - 1] == 0)
+            if (allowRemoval)
             {
-                var list = bytesInLSB.ToList();
-                list.RemoveAt(list.Count - 1);
-                bytesInLSB = list.ToArray();
+                if (bytesInLSB[bytesInLSB.Length - 1] == 0)
+                {
+                    var list = bytesInLSB.ToList();
+                    list.RemoveAt(list.Count - 1);
+                    bytesInLSB = list.ToArray();
+                }
             }
 
             if (bytesInLSB.Length * BITSINBYTE < bitLength)

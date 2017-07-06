@@ -138,13 +138,13 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         [Test]
         public void ShouldReportAllSuccessfulTestsWithinValidationClientGeneratedValues()
         {
-            //var targetFolder = GetTestFolder("Client");
-            //var fileName = GetTestFileClientGeneratedTests(targetFolder);
+            var targetFolder = GetTestFolder("Client");
+            var fileName = GetTestFileClientGeneratedTests(targetFolder);
 
-            //RunGenerationAndValidation(targetFolder, fileName);
+            RunGenerationAndValidation(targetFolder, fileName);
 
             // Quick startup mode (skip generation)
-            var targetFolder = ShortCutValidation("client-test");
+            //var targetFolder = ShortCutValidation("client-test");
 
             // Get object for the validation.json
             var dp = new DynamicParser();
@@ -155,7 +155,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        [Ignore("")]
         public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCases()
         {
             var targetFolder = GetTestFolder("Few");
@@ -456,8 +455,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 HashAlgs = new [] {"SHA-256", "SHA-384"},
                 InfoGeneratedByServer = false,
                 IsSample = true,
-                //KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
-                KeyGenModes = new[] {"B.3.6"},
+                KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
                 Moduli = new [] {2048},
                 PrimeTests = new [] {"tblC2"},
                 PubExpMode = "random"
