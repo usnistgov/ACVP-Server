@@ -26,13 +26,14 @@ namespace TDES_OFB_Val
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Generator>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
             builder.RegisterType<Validator>();
             builder.RegisterType<TdesOfb>().AsImplementedInterfaces();
             builder.RegisterType<TDES_OFB_MCT>().AsImplementedInterfaces();
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
             builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();

@@ -8,7 +8,7 @@ using NIST.CVP.Crypto.TDES_OFB;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
         private readonly ITDES_OFB _algo;
@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.TDES_OFB
             _mctAlgo = mctAlgo;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group, bool isSample)
+        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group)
         {
 
             if (@group.TestType.ToLower() == "multiblockmessage")
