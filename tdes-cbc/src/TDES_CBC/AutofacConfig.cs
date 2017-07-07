@@ -27,13 +27,14 @@ namespace tdes_cbc
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Generator>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
 
             builder.RegisterType<TdesCbc>().AsImplementedInterfaces();
             builder.RegisterType<TDES_CBC_MCT>().AsImplementedInterfaces();
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
             builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
