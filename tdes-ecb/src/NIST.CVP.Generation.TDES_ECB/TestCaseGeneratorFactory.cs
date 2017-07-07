@@ -5,7 +5,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory
+    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
         private readonly ITDES_ECB _algo;
@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             _mctAlgo = mctAlgo;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group, bool isSample)
+        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group)
         {
 
             if (@group.TestType.ToLower() == "multiblockmessage")

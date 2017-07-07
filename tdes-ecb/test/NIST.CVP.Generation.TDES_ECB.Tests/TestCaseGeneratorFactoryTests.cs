@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             };
 
             var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(testGroup, false);
+            var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
         }
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         public void ShouldReturnAGenerator()
         {
             var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(new TestGroup {Function = "", TestType = ""}, false);
+            var generator = subject.GetCaseGenerator(new TestGroup {Function = "", TestType = ""});
             Assert.IsNotNull(generator);
         }
 
