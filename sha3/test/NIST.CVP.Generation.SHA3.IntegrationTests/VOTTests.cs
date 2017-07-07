@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Generation.SHA3.IntegrationTests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, LongRunningIntegrationTest]
     public class VOTTests
     {
         [Test]

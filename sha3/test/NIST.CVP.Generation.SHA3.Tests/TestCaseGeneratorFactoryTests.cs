@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             };
 
             var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(testGroup, false);
+            var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
         }
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             };
 
             var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(testGroup, false);
+            var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
         }
@@ -65,11 +65,14 @@ namespace NIST.CVP.Generation.SHA3.Tests
             };
 
             var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(testGroup, isSample);
+            var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
 
             var typedGen = generator as TestCaseGeneratorSHA3MCTHash;
             Assume.That(typedGen != null);
+
+            var result = typedGen.Generate(testGroup, isSample);
+
             Assert.AreEqual(isSample, typedGen.IsSample);
         }
 
@@ -86,11 +89,14 @@ namespace NIST.CVP.Generation.SHA3.Tests
             };
 
             var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(testGroup, isSample);
+            var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
 
             var typedGen = generator as TestCaseGeneratorSHAKEMCTHash;
             Assume.That(typedGen != null);
+
+            var result = typedGen.Generate(testGroup, isSample);
+
             Assert.AreEqual(isSample, typedGen.IsSample);
         }
 
@@ -98,8 +104,13 @@ namespace NIST.CVP.Generation.SHA3.Tests
         public void ShouldReturnAGenerator()
         {
             var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(new TestGroup {Function = "SHA3", DigestSize = 0, TestType = ""},
-                false);
+            var generator = subject.GetCaseGenerator(
+                new TestGroup
+                {
+                    Function = "SHA3",
+                    DigestSize = 0,
+                    TestType = ""}
+                );
             Assert.IsNotNull(generator);
         }
 

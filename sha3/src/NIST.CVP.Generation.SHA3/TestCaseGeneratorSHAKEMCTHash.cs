@@ -19,11 +19,10 @@ namespace NIST.CVP.Generation.SHA3
 
         public int NumberOfTestCasesToGenerate { get { return 1; } }
 
-        public TestCaseGeneratorSHAKEMCTHash(IRandom800_90 random800_90, ISHA3_MCT algo, bool isSample)
+        public TestCaseGeneratorSHAKEMCTHash(IRandom800_90 random800_90, ISHA3_MCT algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
-            IsSample = isSample;
         }
 
         public TestCaseGeneratorSHAKEMCTHash(IRandom800_90 random800_90, ISHA3_MCT algo, TestCase seedCase)

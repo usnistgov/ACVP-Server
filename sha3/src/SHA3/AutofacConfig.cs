@@ -20,10 +20,11 @@ namespace SHA3
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<Generator>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
 
             builder.RegisterType<NIST.CVP.Crypto.SHA3.SHA3>().AsImplementedInterfaces();
             builder.RegisterType<SHA3_MCT>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
