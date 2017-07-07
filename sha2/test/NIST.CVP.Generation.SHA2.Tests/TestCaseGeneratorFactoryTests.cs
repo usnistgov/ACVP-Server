@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             };
 
             var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(testGroup, false);
+            var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
             Assert.IsInstanceOf(expectedType, generator);
         }
@@ -44,11 +44,14 @@ namespace NIST.CVP.Generation.SHA2.Tests
             };
 
             var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(testGroup, isSample);
+            var generator = subject.GetCaseGenerator(testGroup);
             Assume.That(generator != null);
 
             var typedGen = generator as TestCaseGeneratorMCTHash;
             Assume.That(generator != null);
+
+            typedGen.Generate(testGroup, isSample);
+            
             Assert.AreEqual(isSample, typedGen.IsSample);
         }
 
@@ -56,7 +59,14 @@ namespace NIST.CVP.Generation.SHA2.Tests
         public void ShouldReturnAGenerator()
         {
             var subject = GetSubject();
-            var generator = subject.GetCaseGenerator(new TestGroup { Function = 0, DigestSize = 0, TestType = "" }, false);
+            var generator = subject.GetCaseGenerator(
+                new TestGroup
+                {
+                    Function = 0,
+                    DigestSize = 0,
+                    TestType = ""
+                }
+            );
             Assert.IsNotNull(generator);
         }
 

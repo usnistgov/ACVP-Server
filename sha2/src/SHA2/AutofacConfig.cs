@@ -22,11 +22,12 @@ namespace SHA2
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<Generator>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
 
             builder.RegisterType<SHA>().AsImplementedInterfaces();
             builder.RegisterType<SHA_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();

@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         {
             _mockRandom = new Mock<IRandom800_90>();
             _mockMCT = new Mock<ISHA_MCT>();
-            _subject = new TestCaseGeneratorMCTHash(_mockRandom.Object, _mockMCT.Object, true);
+            _subject = new TestCaseGeneratorMCTHash(_mockRandom.Object, _mockMCT.Object);
         }
 
         [Test]

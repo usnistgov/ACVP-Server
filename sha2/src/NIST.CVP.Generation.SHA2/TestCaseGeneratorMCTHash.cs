@@ -16,11 +16,10 @@ namespace NIST.CVP.Generation.SHA2
 
         public int NumberOfTestCasesToGenerate { get { return 1; } }
 
-        public TestCaseGeneratorMCTHash(IRandom800_90 random800_90, ISHA_MCT algo, bool isSample)
+        public TestCaseGeneratorMCTHash(IRandom800_90 random800_90, ISHA_MCT algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
-            IsSample = isSample;
         }
         
         public TestCaseGeneratorMCTHash(IRandom800_90 random800_90, ISHA_MCT algo, TestCase seedCase)
