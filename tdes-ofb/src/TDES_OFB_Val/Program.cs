@@ -6,6 +6,7 @@ using Autofac;
 using Microsoft.Extensions.PlatformAbstractions;
 using NIST.CVP.Generation.Core;
 using NLog;
+using NIST.CVP.Generation.TDES_OFB;
 
 namespace TDES_OFB_Val
 {
@@ -30,7 +31,7 @@ namespace TDES_OFB_Val
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    var validator = scope.Resolve<NIST.CVP.Generation.TDES_OFB.Validator>();
+                    var validator = scope.Resolve<Validator<TestVectorSet, TestCase>>();
                     var result = validator.Validate(resultFile, answerFile, promptFile);
                     if (!result.Success)
                     {

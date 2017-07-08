@@ -1,20 +1,16 @@
 ﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace NIST.CVP.Generation.TDES_CBC
+namespace NIST.CVP.Generation.Core
 {
     public class Generator<TParameters, TTestVectorSet> : GeneratorBase
         where TParameters : IParameters
         where TTestVectorSet : ITestVectorSet
     {
-        private readonly ITestVectorFactory<TParameters> _testVectorFactory;
-        private readonly IParameterParser<TParameters> _parameterParser;
-        private readonly IParameterValidator<TParameters> _parameterValidator;
-        private readonly ITestCaseGeneratorFactoryFactory<TTestVectorSet> _testCaseGeneratorFactoryFactory;
+        protected readonly ITestVectorFactory<TParameters> _testVectorFactory;
+        protected readonly IParameterParser<TParameters> _parameterParser;
+        protected readonly IParameterValidator<TParameters> _parameterValidator;
+        protected readonly ITestCaseGeneratorFactoryFactory<TTestVectorSet> _testCaseGeneratorFactoryFactory;
 
         public Generator(ITestVectorFactory<TParameters> testVectorFactory, IParameterParser<TParameters> parameterParser, IParameterValidator<TParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<TTestVectorSet> iTestCaseGeneratorFactoryFactory)
         {

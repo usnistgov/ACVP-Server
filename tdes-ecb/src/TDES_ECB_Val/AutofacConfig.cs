@@ -28,7 +28,7 @@ namespace TDES_ECB_Val
 
 
             builder.RegisterType<Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<Validator>();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
             builder.RegisterType<TDES_ECB>().AsImplementedInterfaces();
             builder.RegisterType<TDES_ECB_MCT>().AsImplementedInterfaces();
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
@@ -43,6 +43,8 @@ namespace TDES_ECB_Val
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
+
             OverrideRegistrations?.Invoke(builder);
 
             _container = builder.Build();

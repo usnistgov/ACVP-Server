@@ -23,8 +23,8 @@ namespace KeyWrap_Val
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-            builder.RegisterType<NIST.CVP.Generation.KeyWrap.Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<NIST.CVP.Generation.KeyWrap.Validator<TestVectorSet, TestCase>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();

@@ -26,8 +26,8 @@ namespace DRBG_Val
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-            builder.RegisterType<NIST.CVP.Generation.DRBG.Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<NIST.CVP.Generation.DRBG.Validator<TestVectorSet, TestCase>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();

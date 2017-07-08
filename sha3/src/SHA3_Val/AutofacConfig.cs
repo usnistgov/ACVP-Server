@@ -26,7 +26,7 @@ namespace SHA3_Val
             var builder = new ContainerBuilder();
 
             builder.RegisterType<Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<Validator>();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
             builder.RegisterType<SHA3>().AsImplementedInterfaces();
             builder.RegisterType<SHA3_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
@@ -38,6 +38,7 @@ namespace SHA3_Val
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
 
             OverrideRegistrations?.Invoke(builder);
 

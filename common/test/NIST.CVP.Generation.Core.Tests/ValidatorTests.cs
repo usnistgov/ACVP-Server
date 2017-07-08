@@ -3,20 +3,47 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Moq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using FakeTestCase = NIST.CVP.Tests.Core.Fakes.FakeTestCase;
+using FakeTestVectorSet = NIST.CVP.Tests.Core.Fakes.FakeTestVectorSet;
 
-namespace NIST.CVP.Generation.TDES_OFB.Tests
+namespace NIST.CVP.Generation.Core.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class ValidatorTests
     {
         private const string _WORKING_PATH = @"C:\temp";
         private TestDataMother _tdm = new TestDataMother();
 
+        private class TestDataMother
+        {
+            public List<FakeTestGroup> GetTestGroups(int groups = 1, string direction = "encrypt", bool failureTest = false)
+            {
+                var testGroups = new List<FakeTestGroup>();
+                for (int groupIdx = 0; groupIdx < groups; groupIdx++)
+                {
+
+                    var tests = new List<ITestCase>();
+                    for (int testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
+                    {
+                        tests.Add(new FakeTestCase());
+                    }
+
+                    testGroups.Add(
+                        new FakeTestGroup()
+                    );
+                }
+                return testGroups;
+            }
+        }
+        
         [OneTimeSetUp]
         public void Setup()
         {
@@ -68,40 +95,40 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             Assert.IsTrue(result.Success);
         }
 
-        private Validator GetSubject(bool parserFail, bool validationFail)
+        private Validator<FakeTestVectorSet, FakeTestCase> GetSubject(bool parserFail, bool validationFail)
         {
             var mocks = new MockedSystemDependencies();
             if (parserFail)
             {
                 mocks.MockIDynamicParser
-                    .Setup(s => s.Parse(It.IsAny<string>()))
-                    .Returns(new ParseResponse<dynamic>("Parser failed."));
+                .Setup(s => s.Parse(It.IsAny<string>()))
+                .Returns(new ParseResponse<dynamic>("Parser failed."));
             }
             else
             {
-                var vectorSet = GetTestTestVectorSet();
-                mocks.MockIDynamicParser
-                    .Setup(s => s.Parse(It.Is<string>(p => p.Contains("answer.json") || p.Contains("prompt.json"))))
-                    .Returns(new ParseResponse<dynamic>(vectorSet.ToDynamic()));
-                mocks.MockIDynamicParser
-                    .Setup(s => s.Parse(It.Is<string>(p => p.Contains("result.json"))))
-                    .Returns(new ParseResponse<dynamic>(GetTestResults()));
+              var vectorSet = GetTestTestVectorSet();
+              mocks.MockIDynamicParser
+                .Setup(s => s.Parse(It.Is<string>( p=> p.Contains("answer.json") ||  p.Contains("prompt.json"))))
+                .Returns(new ParseResponse<dynamic>((dynamic)vectorSet.ToDynamic()));
+              mocks.MockIDynamicParser
+                .Setup(s => s.Parse(It.Is<string>(p => p.Contains("result.json"))))
+                .Returns(new ParseResponse<dynamic>(GetTestResults()));
             }
 
             if (validationFail)
             {
                 mocks.MockIResultValidator
-                    .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<TestCase>>>(), It.IsAny<List<TestCase>>()))
-                    .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = "failed" } } });
+                    .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<FakeTestCase>>>(), It.IsAny<List<FakeTestCase>>()))
+                    .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> {new TestCaseValidation { Result = "failed"} } });
             }
             else
             {
                 mocks.MockIResultValidator
-                    .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<TestCase>>>(), It.IsAny<List<TestCase>>()))
-                    .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = "passed" } } });
+                   .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<FakeTestCase>>>(), It.IsAny<List<FakeTestCase>>()))
+                   .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = "passed" } } });
             }
 
-            return new Validator(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object, mocks.MockITestCaseValidatorFactory.Object);
+            return new Validator<FakeTestVectorSet, FakeTestCase>(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object, mocks.MockITestCaseValidatorFactory.Object, mocks.MockITestReconstitutor.Object);
         }
 
         private dynamic GetTestResults(int groups = 2)
@@ -112,9 +139,9 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             return updateObject;
         }
 
-        private TestVectorSet GetTestTestVectorSet(int groups = 2)
+        private FakeTestVectorSet GetTestTestVectorSet(int groups = 2)
         {
-            var vectorSet = new TestVectorSet { Algorithm = "TDES-OFB" };
+            var vectorSet = new FakeTestVectorSet { Algorithm = "AES" };
             var testGroups = _tdm.GetTestGroups(groups);
             vectorSet.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return vectorSet;
@@ -123,7 +150,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         private string GetTestPath()
         {
             var guid = Guid.NewGuid();
-
+           
             var testDir = Path.Combine(_WORKING_PATH, guid.ToString());
             Directory.CreateDirectory(testDir);
             return testDir;
@@ -131,9 +158,11 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
 
         private class MockedSystemDependencies
         {
-            public Mock<IResultValidator<TestCase>> MockIResultValidator { get; set; } = new Mock<IResultValidator<TestCase>>();
+            public Mock<IResultValidator<FakeTestCase>> MockIResultValidator { get; set; } = new Mock<IResultValidator<FakeTestCase>>();
             public Mock<IDynamicParser> MockIDynamicParser { get; set; } = new Mock<IDynamicParser>();
-            public Mock<ITestCaseValidatorFactory<TestVectorSet, TestCase>> MockITestCaseValidatorFactory { get; set; } = new Mock<ITestCaseValidatorFactory<TestVectorSet, TestCase>>();
+            public Mock<ITestCaseValidatorFactory<FakeTestVectorSet, FakeTestCase>> MockITestCaseValidatorFactory { get; set; } = new Mock<ITestCaseValidatorFactory<FakeTestVectorSet, FakeTestCase>>();
+            public Mock<ITestReconstitutor<FakeTestVectorSet, FakeTestCase>> MockITestReconstitutor { get; set; } = new Mock<ITestReconstitutor<FakeTestVectorSet, FakeTestCase>>();
+
         }
     }
 }

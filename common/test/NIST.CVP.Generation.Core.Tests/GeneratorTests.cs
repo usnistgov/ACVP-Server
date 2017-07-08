@@ -11,14 +11,11 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using FakeTestVectorSet = NIST.CVP.Tests.Core.Fakes.FakeTestVectorSet;
 
-namespace NIST.CVP.Generation.KeyWrap.Tests
+namespace NIST.CVP.Generation.Core.Tests
 {
-    // @@@ TODO Consider writing fake implementations for some/all of the dependencies for valid/invalid invokes.
-    // Mocking getting too complex.
     [TestFixture, UnitTest]
     public class GeneratorTests
     {
-
         private const string _WORKING_PATH = @"C:\temp";
 
         [OneTimeSetUp]
@@ -105,7 +102,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests
                 .Setup(s => s.BuildTestVectorSet(It.IsAny<FakeParameters>()))
                 .Returns(new FakeTestVectorSet()
                 {
-                    Algorithm = "DRBG",
+                    Algorithm = "AES",
                     TestGroups = new List<ITestGroup>()
                     {
                         new FakeTestGroup()
@@ -141,12 +138,12 @@ namespace NIST.CVP.Generation.KeyWrap.Tests
             Assert.IsTrue(result.Success);
         }
 
-        private Crypto.AES.Generator<FakeParameters,FakeTestVectorSet> GetSystem(ITestVectorFactory<FakeParameters> testVectorFactory, IParameterParser<FakeParameters> parameterParser, IParameterValidator<FakeParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<FakeTestVectorSet> testCaseGeneratorFactoryFactory)
+        private Generator<FakeParameters,FakeTestVectorSet> GetSystem(ITestVectorFactory<FakeParameters> testVectorFactory, IParameterParser<FakeParameters> parameterParser, IParameterValidator<FakeParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<FakeTestVectorSet> testCaseGeneratorFactoryFactory)
         {
-            return new Crypto.AES.Generator<FakeParameters, FakeTestVectorSet>(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactoryFactory);
+            return new Generator<FakeParameters, FakeTestVectorSet>(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactoryFactory);
         }
 
-        private Crypto.AES.Generator<FakeParameters, FakeTestVectorSet> GetSystem(MockedSystemDependencies mocks)
+        private Generator<FakeParameters, FakeTestVectorSet> GetSystem(MockedSystemDependencies mocks)
         {
             return GetSystem(
                 mocks.MockITestVectorFactory.Object,

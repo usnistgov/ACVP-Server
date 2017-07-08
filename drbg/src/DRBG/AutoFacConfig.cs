@@ -27,7 +27,7 @@ namespace DRBG
         {
             ContainerBuilder builder = new ContainerBuilder();
             
-            builder.RegisterType<NIST.CVP.Crypto.AES.Generator<Parameters, TestVectorSet>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
             builder.RegisterType<AES_ECB>().AsImplementedInterfaces();
             builder.RegisterType<DrbgFactory>().AsImplementedInterfaces();

@@ -9,6 +9,7 @@ using NLog.Targets;
 using Autofac;
 using Microsoft.Extensions.PlatformAbstractions;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.TDES_ECB;
 
 namespace TDES_ECB_Val
 {
@@ -35,7 +36,7 @@ namespace TDES_ECB_Val
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    var validator = scope.Resolve<NIST.CVP.Generation.TDES_ECB.Validator>();
+                    var validator = scope.Resolve<Validator<TestVectorSet, TestCase>>();
                     var result = validator.Validate(resultFile, answerFile, promptFile);
                     if (!result.Success)
                     {

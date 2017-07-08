@@ -22,7 +22,7 @@ namespace SHA2_Val
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<Validator>();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
             builder.RegisterType<SHA2>().AsImplementedInterfaces();
             builder.RegisterType<SHA_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
@@ -34,6 +34,7 @@ namespace SHA2_Val
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
 
             OverrideRegistrations?.Invoke(builder);
 

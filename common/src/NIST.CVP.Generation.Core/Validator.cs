@@ -1,7 +1,7 @@
 ﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
-namespace NIST.CVP.Crypto.AES
+namespace NIST.CVP.Generation.Core
 {
     public class Validator<TTestVectorSet, TTestCase> : ValidatorBase
         where TTestVectorSet : ITestVectorSet
