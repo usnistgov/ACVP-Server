@@ -89,7 +89,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         }
                         else
                         {
-                            if (!group.InfoGeneratedByServer)
+                            if (!group.InfoGeneratedByServer && IsSample)
                             {
                                 if (group.TestType.ToLower() == "aft")
                                 {
@@ -267,7 +267,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         // Always include tcId
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if(!group.InfoGeneratedByServer)
+                        if(group.InfoGeneratedByServer || IsSample)
                         {
                             if (group.Mode == KeyGenModes.B33)
                             {

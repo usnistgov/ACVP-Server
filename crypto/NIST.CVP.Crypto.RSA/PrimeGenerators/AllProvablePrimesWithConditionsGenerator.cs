@@ -9,12 +9,12 @@ using NIST.CVP.Math;
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     // B.3.4
-    public class AllProvablePrimesWithConditionsGenerator : PrimeGeneratorBase, IPrimeGenerator
+    public class AllProvablePrimesWithConditionsGenerator : PrimeGeneratorBase
     {
         public AllProvablePrimesWithConditionsGenerator(HashFunction hashFunction) : base(hashFunction) { }
         public AllProvablePrimesWithConditionsGenerator() { }
 
-        public virtual PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             BigInteger p, p1, p2, q, q1, q2;
 

@@ -10,7 +10,7 @@ using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
-    public abstract class PrimeGeneratorBase
+    public abstract class PrimeGeneratorBase : IPrimeGenerator
     {
         protected readonly BigInteger _root2Mult2Pow512Minus1  = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768").ToPositiveBigInteger();
         protected readonly BigInteger _root2Mult2Pow1024Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768D2202E8742AF1F4E53059C6011BC337BCAB1BC911688458A460ABC722F7C4E33C6D5A8A38BB7E9DCCB2A634331F3C84DF52F120F836E582EEAA4A0899040CA4A").ToPositiveBigInteger();
@@ -458,7 +458,8 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         #endregion primes
 
         #region structs
-        protected struct STRandomPrimeResult
+        //protected struct STRandomPrimeResult
+        public struct STRandomPrimeResult
         {
             public BigInteger Prime { get; private set; }
             public BigInteger PrimeSeed { get; private set; }
@@ -555,6 +556,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         }
         #endregion Constructors
 
+        #region Sets/Adds
         public void SetHashFunction(HashFunction hashFunction)
         {
             _hashFunction = hashFunction;
@@ -583,14 +585,25 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             _entropyProvider = _entropyProviderFactory.GetEntropyProvider(type);
         }
 
+        public void AddEntropy(BigInteger entropy)
+        {
+            _entropyProvider.AddEntropy(entropy);
+        }
+
+        public void AddEntropy(BitString entropy)
+        {
+            _entropyProvider.AddEntropy(entropy);
+        }
+        #endregion Sets/Adds
+
         protected int GetOutLen()
         {
             return SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize);
         }
 
-        protected BigInteger Hash(BigInteger message)
+        protected BigInteger Hash(BigInteger message, bool removeEmptyBytes = true)
         {
-            var bs = new BitString(message);
+            var bs = new BitString(message, 0, removeEmptyBytes);
             var result = _hash.HashMessage(_hashFunction, bs);
             if (!result.Success)
             {
@@ -651,6 +664,11 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     }
                 }
             }
+        }
+
+        public STRandomPrimeResult STTest(int length, BigInteger inputSeed)
+        {
+            return ShaweTaylorRandomPrime(length, inputSeed);
         }
 
         /// <summary>
@@ -839,8 +857,19 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 return new PPFResult("PPF: GCD requirement not met");
             }
 
-            // 2
-            var R = (NumberTheory.ModularInverse(r2, 2 * r1) * r2) - (NumberTheory.ModularInverse(2 * r1, r2) * 2 * r1);
+            // 2 and ensure R is positive
+            var Rfirst = NumberTheory.ModularInverse(r2, 2 * r1) * r2;
+            var Rsecond = NumberTheory.ModularInverse(2 * r1, r2) * 2 * r1;
+
+            BigInteger R;
+            do
+            {
+                if (Rfirst < Rsecond)
+                {
+                    Rfirst += (2 * r1 * r2);
+                }
+                R = Rfirst - Rsecond;
+            } while (Rfirst < Rsecond);
 
             while (true)
             {
@@ -1039,5 +1068,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 // 22 (loop)
             }
         }
+
+        public abstract PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed);
     }
 }

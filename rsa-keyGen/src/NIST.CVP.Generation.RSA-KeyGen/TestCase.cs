@@ -99,6 +99,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             switch (name.ToLower())
             {
                 case "e":
+                    if (Key == null) { Key = new KeyPair(); }
                     Key.PubKey.E = new BitString(value).ToPositiveBigInteger();
                     return true;
                 case "n":
@@ -113,17 +114,39 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 case "d":
                     Key.PrivKey.D = new BitString(value).ToPositiveBigInteger();
                     return true;
-                case "dmp1":
-                    Key.PrivKey.DMP1 = new BitString(value).ToPositiveBigInteger();
-                    return true;
-                case "dmq1":
-                    Key.PrivKey.DMQ1 = new BitString(value).ToPositiveBigInteger();
-                    return true;
-                case "iqmp":
-                    Key.PrivKey.IQMP = new BitString(value).ToPositiveBigInteger();
-                    return true;
                 case "seed":
                     Seed = new BitString(value);
+                    return true;
+                case "bitlen1":
+                    Bitlens = new int[4];
+                    Bitlens[0] = int.Parse(value);
+                    return true;
+                case "bitlen2":
+                    Bitlens[1] = int.Parse(value);
+                    return true;
+                case "bitlen3":
+                    Bitlens[2] = int.Parse(value);
+                    return true;
+                case "bitlen4":
+                    Bitlens[3] = int.Parse(value);
+                    return true;
+                case "xp":
+                    XP = new BitString(value);
+                    return true;
+                case "xp1":
+                    XP1 = new BitString(value, Bitlens[0]);
+                    return true;
+                case "xp2":
+                    XP2 = new BitString(value, Bitlens[1]);
+                    return true;
+                case "xq":
+                    XQ = new BitString(value);
+                    return true;
+                case "xq1":
+                    XQ1 = new BitString(value, Bitlens[2]);
+                    return true;
+                case "xq2":
+                    XQ2 = new BitString(value, Bitlens[3]);
                     return true;
             }
 

@@ -114,6 +114,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public TestCaseGenerateResponse RecombineTestCases(TestGroup group, TestCase suppliedResult,
             TestCase originalTestCase)
         {
+            if(suppliedResult.Key == null)
+            {
+                return new TestCaseGenerateResponse($"No key found for TestCase: {suppliedResult.TestCaseId}");
+            }
+
             if (suppliedResult.TestCaseId != originalTestCase.TestCaseId)
             {
                 return new TestCaseGenerateResponse($"Mismatch TestCaseIds for TestCase: {suppliedResult.TestCaseId}");

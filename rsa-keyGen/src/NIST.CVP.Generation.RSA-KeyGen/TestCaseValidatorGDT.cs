@@ -27,52 +27,60 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         {
             var errors = new List<string>();
 
-            _primeGen = new RandomProbablePrimeGenerator(EntropyProviderTypes.Testable);
-            _primeGen.AddEntropy(new BitString(suppliedResult.Key.PrivKey.P, _group.Modulo / 2));
-            _primeGen.AddEntropy(new BitString(suppliedResult.Key.PrivKey.Q, _group.Modulo / 2));
-
-            var genResult = _primeGen.GeneratePrimes(_group.Modulo, suppliedResult.Key.PubKey.E, null);
-
-            // Check p, q for compsiteness (if the generator failed then at least one is composite)
-            if (!genResult.Success)
+            if(suppliedResult.Key != null)
             {
-                errors.Add(genResult.ErrorMessage);
-            }
+                _primeGen = new RandomProbablePrimeGenerator(EntropyProviderTypes.Testable);
+                _primeGen.AddEntropy(new BitString(suppliedResult.Key.PrivKey.P, _group.Modulo / 2));
+                _primeGen.AddEntropy(new BitString(suppliedResult.Key.PrivKey.Q, _group.Modulo / 2));
 
-            // Check n, d for equality with expected values
-            var expectedKeyPair = new KeyPair(genResult.P, genResult.Q, suppliedResult.Key.PubKey.E);
+                var genResult = _primeGen.GeneratePrimes(_group.Modulo, suppliedResult.Key.PubKey.E, null);
 
-            if (suppliedResult.Key.PubKey.N != expectedKeyPair.PubKey.N)
-            {
-                errors.Add("N value is incorrect");
-            }
-
-            // Be aware of CRT
-            if (suppliedResult.Key.PrivKey.D == 0)
-            {
-                if (suppliedResult.Key.PrivKey.DMP1 != expectedKeyPair.PrivKey.DMP1)
+                // Check p, q for compsiteness (if the generator failed then at least one is composite)
+                if (!genResult.Success)
                 {
-                    errors.Add("DMP1 value is incorrect");
+                    errors.Add(genResult.ErrorMessage);
                 }
 
-                if (suppliedResult.Key.PrivKey.DMQ1 != expectedKeyPair.PrivKey.DMQ1)
+                // Check n, d for equality with expected values
+                var expectedKeyPair = new KeyPair(genResult.P, genResult.Q, suppliedResult.Key.PubKey.E);
+
+                if (suppliedResult.Key.PubKey.N != expectedKeyPair.PubKey.N)
                 {
-                    errors.Add("DMQ1 value is incorrect");
+                    errors.Add("N value is incorrect");
                 }
 
-                if (suppliedResult.Key.PrivKey.IQMP != expectedKeyPair.PrivKey.IQMP)
+                // Be aware of CRT
+                if (suppliedResult.Key.PrivKey.D == 0)
                 {
-                    errors.Add("IQMP value is incorrect");
+                    if (suppliedResult.Key.PrivKey.DMP1 != expectedKeyPair.PrivKey.DMP1)
+                    {
+                        errors.Add("DMP1 value is incorrect");
+                    }
+
+                    if (suppliedResult.Key.PrivKey.DMQ1 != expectedKeyPair.PrivKey.DMQ1)
+                    {
+                        errors.Add("DMQ1 value is incorrect");
+                    }
+
+                    if (suppliedResult.Key.PrivKey.IQMP != expectedKeyPair.PrivKey.IQMP)
+                    {
+                        errors.Add("IQMP value is incorrect");
+                    }
+                }
+                else
+                {
+                    if (suppliedResult.Key.PrivKey.D != expectedKeyPair.PrivKey.D)
+                    {
+                        errors.Add("D value is incorrect");
+                    }
                 }
             }
             else
             {
-                if (suppliedResult.Key.PrivKey.D != expectedKeyPair.PrivKey.D)
-                {
-                    errors.Add("D value is incorrect");
-                }
+                errors.Add("No key found");
             }
-            
+
+           
             if (errors.Count > 0)
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join(";", errors)};

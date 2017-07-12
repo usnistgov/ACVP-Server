@@ -28,7 +28,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 var generator = _testCaseGeneratorFactory.GetCaseGenerator(group);
                 for (var caseNo = 0; caseNo < generator.NumberOfTestCasesToGenerate; ++caseNo)
                 {
-                    var testCaseResponse = generator.Generate(group, testVector.IsSample);
+                    var testCaseResponse = new TestCaseGenerateResponse("First");
+                    do
+                    {
+                        testCaseResponse = generator.Generate(group, testVector.IsSample);
+
+                    // Loop til success for AFTs
+                    } while (!testCaseResponse.Success);
+
                     if (!testCaseResponse.Success)
                     {
                         return new GenerateResponse(testCaseResponse.ErrorMessage);

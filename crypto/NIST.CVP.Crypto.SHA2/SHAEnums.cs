@@ -45,7 +45,7 @@ namespace NIST.CVP.Crypto.SHA2
                 case "sha2":
                     return ModeValues.SHA2;
                 default:
-                    throw new Exception("Bad mode for SHA.");
+                    return ModeValues.NONE;
             }
         }
 
@@ -111,7 +111,7 @@ namespace NIST.CVP.Crypto.SHA2
                 case "512/256":
                     return DigestSizes.d512t256;
                 default:
-                    throw new Exception("Bad digest size for SHA");
+                    return DigestSizes.NONE;
             }
         }
 
@@ -161,21 +161,27 @@ namespace NIST.CVP.Crypto.SHA2
             switch (hf.ToLower())
             {
                 case "sha-224":
+                case "sha224":
                     return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224 };
 
                 case "sha-256":
+                case "sha256":
                     return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d256 };
 
                 case "sha-384":
+                case "sha384":
                     return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d384 };
 
                 case "sha-512":
+                case "sha512":
                     return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d512 };
 
                 case "sha-512/224":
+                case "sha512224":
                     return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d512t224 };
 
                 case "sha-512/256":
+                case "sha512256":
                     return new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d512t256 };
 
                 case "sha-1":

@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
             };
 
-            var targetFolder = GetTestFolder("Failed-Gen");
+            var targetFolder = GetTestFolder("GenFailed");
             var fileName = GetTestFileFewTestCases(targetFolder);
 
             var result = Program.Main(new string[] {fileName});
@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
 
-            var targetFolder = GetTestFolder();
+            var targetFolder = GetTestFolder("ValFailed");
             var fileName = GetTestFileFewTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
@@ -112,7 +112,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
 
-            var targetFolder = GetTestFolder();
+            var targetFolder = GetTestFolder("ValException");
             var fileName = GetTestFileFewTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
@@ -171,30 +171,25 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        [Ignore("")]
         public void ShouldReportAllSuccessfulTestsWithinValidationLotsOfTests()
         {
             var targetFolder = GetTestFolder("Lots");
             var fileName = GetTestFileLotsOfTestCases(targetFolder);
 
-            //RunGenerationAndValidation(targetFolder, fileName);
-            RunGeneration(targetFolder, fileName);
+            RunGenerationAndValidation(targetFolder, fileName);
 
             // Get object for the validation.json
-            //var dp = new DynamicParser();
-            //var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+            var dp = new DynamicParser();
+            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
 
             // Validate result as pass
-            //Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
-
-            Assert.IsTrue(true);
+            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
         }
 
         [Test]
-        [Ignore("")]
         public void ShouldReportFailedDispositionOnErrorTests()
         {
-            var targetFolder = GetTestFolder();
+            var targetFolder = GetTestFolder("FailedTests");
             var fileName = GetTestFileFewTestCases(targetFolder);
 
             var expectedFailTestCases = new List<int>();
@@ -224,11 +219,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        [Ignore("")]
         public void ShouldReportFailedValidationWithMissingPropertiesFromJson()
         {
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileClientGeneratedTests(targetFolder);
+            var targetFolder = GetTestFolder("MissingProps");
+            var fileName = GetTestFileClientGeneratedTestsNotSample(targetFolder);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -329,16 +323,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 {
                     failedTestCases.Add((int)testCase.tcId);
 
-                    // If TC is intended to be a failure test, change it
-                    if (testCase.decryptFail != null)
-                    {
-                        testCase.decryptFail = false;
-                    }
-
                     // If TC has a cipherText, change it
-                    if (testCase.cipherText != null)
+                    if (testCase.p != null)
                     {
-                        BitString bs = new BitString(testCase.cipherText.ToString());
+                        BitString bs = new BitString(testCase.p.ToString());
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
 
                         // Can't get something "different" of empty bitstring of the same length
@@ -347,13 +335,13 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                             bs = new BitString("01");
                         }
 
-                        testCase.cipherText = bs.ToHex();
+                        testCase.p = bs.ToHex();
                     }
 
                     // If TC has a plainText, change it
-                    if (testCase.plainText != null)
+                    if (testCase.q != null)
                     {
-                        BitString bs = new BitString(testCase.plainText.ToString());
+                        BitString bs = new BitString(testCase.q.ToString());
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
 
                         // Can't get something "different" of empty bitstring of the same length
@@ -362,7 +350,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                             bs = new BitString("01");
                         }
 
-                        testCase.plainText = bs.ToHex();
+                        testCase.q = bs.ToHex();
                     }
                 }
             }
@@ -401,6 +389,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 InfoGeneratedByServer = true,
                 IsSample = true,
                 KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
+                //KeyGenModes = new[] { "B.3.3" },
                 Moduli = new[] { 2048 },
                 PrimeTests = new[] { "tblC2" },
                 PubExpMode = "random"
@@ -452,12 +441,30 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             {
                 Algorithm = "RSA",
                 Mode = "KeyGen",
-                HashAlgs = new [] {"SHA-256", "SHA-384"},
+                HashAlgs = new[] { "SHA-256", "SHA-384" },
                 InfoGeneratedByServer = false,
                 IsSample = true,
                 KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
                 Moduli = new [] {2048},
                 PrimeTests = new [] {"tblC2"},
+                PubExpMode = "random"
+            };
+
+            return CreateRegistration(targetFolder, p);
+        }
+
+        private string GetTestFileClientGeneratedTestsNotSample(string targetFolder)
+        {
+            var p = new Parameters
+            {
+                Algorithm = "RSA",
+                Mode = "KeyGen",
+                HashAlgs = new[] { "SHA-256", "SHA-384" },
+                InfoGeneratedByServer = false,
+                IsSample = false,
+                KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
+                Moduli = new[] { 2048 },
+                PrimeTests = new[] { "tblC2" },
                 PubExpMode = "random"
             };
 

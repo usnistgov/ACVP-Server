@@ -28,7 +28,7 @@ namespace NIST.CVP.Math.Entropy
 
             if (numberOfBits != _entropyBitStrings[0].BitLength)
             {
-                throw new ArgumentException($"expected {nameof(numberOfBits)} does not match the number of bits in {nameof(_entropyBitStrings)}");
+                throw new ArgumentException($"expected {nameof(numberOfBits)} ({numberOfBits}) does not match the number of bits in {nameof(_entropyBitStrings)} ({_entropyBitStrings[0].BitLength})");
             }
 
             var entropy = _entropyBitStrings[0];

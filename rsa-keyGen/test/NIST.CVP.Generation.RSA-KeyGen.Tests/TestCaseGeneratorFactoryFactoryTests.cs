@@ -15,6 +15,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
     {
         private Mock<IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase>> _staticTestCaseGeneratorFactory;
         private Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>> _testCaseGeneratorFactory;
+        private Mock<ITestCaseGenerator<TestGroup, TestCase>> _testCaseGenerator;
         private TestCaseGeneratorFactoryFactory _subject;
         private TestVectorSet _testVectorSet;
 
@@ -23,6 +24,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             _staticTestCaseGeneratorFactory = new Mock<IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase>>();
             _testCaseGeneratorFactory = new Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>>();
+            _testCaseGenerator = new Mock<ITestCaseGenerator<TestGroup, TestCase>>();
             _subject = new TestCaseGeneratorFactoryFactory(_testCaseGeneratorFactory.Object,
                 _staticTestCaseGeneratorFactory.Object);
 
@@ -70,19 +72,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         }
 
         [Test]
-        public void ShouldReturnErrorMessageWithinGenerateResponseWhenFails()
-        {
-            _testCaseGeneratorFactory
-                .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
-                .Returns(new TestCaseGeneratorNull());
-
-            var result = _subject.BuildTestCases(_testVectorSet);
-
-            Assert.IsFalse(result.Success, nameof(result.Success));
-            Assert.IsTrue(!string.IsNullOrEmpty(result.ErrorMessage), nameof(result.ErrorMessage));
-        }
-
-        [Test]
         public void ShouldReturnGenerateResponseWhenGenerateSuccess()
         {
             var results = _subject.BuildTestCases(_testVectorSet);
@@ -100,6 +89,39 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                     Times.AtLeastOnce(),
                     nameof(_testCaseGeneratorFactory.Object.GetCaseGenerator)
                 );
+        }
+
+        [Test]
+        public void ShouldRetryAFTAfterFailedTest()
+        {
+            _testCaseGenerator
+                .Setup(s => s.Generate(It.IsAny<TestGroup>(), It.IsAny<bool>()))
+                .Returns(new Queue<TestCaseGenerateResponse>(
+                    new[] 
+                    {
+                        new TestCaseGenerateResponse("Repeat"),
+                        new TestCaseGenerateResponse(new TestCase()),
+                        new TestCaseGenerateResponse("Repeat"),
+                        new TestCaseGenerateResponse(new TestCase())
+                    }).Dequeue);
+
+            _testCaseGenerator
+                .Setup(s => s.NumberOfTestCasesToGenerate)
+                .Returns(1);
+
+            _testCaseGeneratorFactory = new Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>>();
+            _testCaseGeneratorFactory
+                .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
+                .Returns(_testCaseGenerator.Object);
+
+            _subject = new TestCaseGeneratorFactoryFactory(_testCaseGeneratorFactory.Object,
+                _staticTestCaseGeneratorFactory.Object);
+
+            var results = _subject.BuildTestCases(_testVectorSet);
+
+            Assert.IsTrue(results.Success);
+            _testCaseGenerator
+                .Verify(v => v.Generate(It.IsAny<TestGroup>(), It.IsAny<bool>()), Times.AtLeast(2));
         }
     }
 }

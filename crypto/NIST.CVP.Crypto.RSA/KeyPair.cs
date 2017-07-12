@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.RSA
         public KeyPair(BigInteger p, BigInteger q, BigInteger e)
         {
             PubKey = new PublicKey {E = e, N = p * q};
-            PrivKey = new PrivateKey {P = p, Q = q, D = NumberTheory.ModularInverse(PubKey.E, (p - 1) * (q - 1))};
+            PrivKey = new PrivateKey {P = p, Q = q, D = NumberTheory.ModularInverse(PubKey.E, NumberTheory.LCM(p - 1, q - 1))}; // Carmichael totient function
             PrivKey.ComputeCRT();
         }
 

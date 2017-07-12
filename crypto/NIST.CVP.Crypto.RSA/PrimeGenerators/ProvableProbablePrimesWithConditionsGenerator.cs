@@ -10,21 +10,15 @@ using NIST.CVP.Math.Entropy;
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     // B.3.5
-    public class ProvableProbablePrimesWithConditionsGenerator : PrimeGeneratorBase, IPrimeGenerator
+    public class ProvableProbablePrimesWithConditionsGenerator : PrimeGeneratorBase
     {
         public ProvableProbablePrimesWithConditionsGenerator(HashFunction hashFunction, EntropyProviderTypes type) : base(hashFunction, type) { }
 
         public ProvableProbablePrimesWithConditionsGenerator() { }
 
-        public void AddEntropy(BigInteger entropy)
-        {
-            _entropyProvider.AddEntropy(entropy);
-        }
-
-        public virtual PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             BigInteger p, p1, p2, q, q1, q2, xp, xq;
-            BigInteger primeSeed;
 
             if (_bitlens[0] == 0 || _bitlens[1] == 0 || _bitlens[2] == 0 || _bitlens[3] == 0)
             {
@@ -71,7 +65,6 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 return new PrimeGeneratorResult($"Failed to generate p1: {p1Result.ErrorMessage}");
             }
 
-
             var p2Result = ShaweTaylorRandomPrime(_bitlens[1], p1Result.PrimeSeed);
             if (!p2Result.Success)
             {
@@ -79,6 +72,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             p1 = p1Result.Prime;
+            var tmp = new BitString(p1).ToHex();
             p2 = p2Result.Prime;
 
             var pResult = ProbablePrimeFactor(p1, p2, nlen, e, security_strength);

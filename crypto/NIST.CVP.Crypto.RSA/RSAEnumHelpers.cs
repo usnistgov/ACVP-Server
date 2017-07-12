@@ -34,23 +34,23 @@ namespace NIST.CVP.Crypto.RSA
     {
         public static KeyGenModes StringToKeyGenMode(string val)
         {
-            if (val.Contains("3.2"))
+            if (val.Contains("3.2") || val.Contains("ProvRP"))
             {
                 return KeyGenModes.B32;
             }
-            else if (val.Contains("3.3"))
+            else if (val.Contains("3.3") || val.Contains("Probable Random Primes"))
             {
                 return KeyGenModes.B33;
             }
-            else if (val.Contains("3.4"))
+            else if (val.Contains("3.4") || val.Contains("ProvPC"))
             {
                 return KeyGenModes.B34;
             }
-            else if (val.Contains("3.5"))
+            else if (val.Contains("3.5") || val.Contains("BothPC"))
             {
                 return KeyGenModes.B35;
             }
-            else
+            else // ( || val.Contains("ProbPC"))
             {
                 return KeyGenModes.B36;
             }

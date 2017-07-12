@@ -5,12 +5,12 @@ using NIST.CVP.Math;
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     // B.3.2
-    public class RandomProvablePrimeGenerator : PrimeGeneratorBase, IPrimeGenerator
+    public class RandomProvablePrimeGenerator : PrimeGeneratorBase
     {
         public RandomProvablePrimeGenerator(HashFunction hashFunction) : base(hashFunction) { }
         public RandomProvablePrimeGenerator() : base() { }
 
-        public virtual PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             // 1
             if (nlen != 2048 && nlen != 3072)

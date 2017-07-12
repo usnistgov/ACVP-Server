@@ -6,17 +6,12 @@ using NIST.CVP.Math.Entropy;
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     // B.3.3
-    public class RandomProbablePrimeGenerator : PrimeGeneratorBase, IPrimeGenerator
+    public class RandomProbablePrimeGenerator : PrimeGeneratorBase
     {
         public RandomProbablePrimeGenerator() : base(EntropyProviderTypes.Random) { }
         public RandomProbablePrimeGenerator(EntropyProviderTypes entropyType) : base(entropyType) { }
 
-        public void AddEntropy(BitString bs)
-        {
-            _entropyProvider.AddEntropy(bs);
-        }
-
-        public virtual PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             var kat = _entropyProvider.GetType() == typeof(TestableEntropyProvider);
 
@@ -103,7 +98,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
                     // 5.4
                     // 5.5
-                } while (BigInteger.Abs(p - q) <= NumberTheory.Pow2(nlen / 2 - 100) && q < bound);
+                } while (BigInteger.Abs(p - q) <= NumberTheory.Pow2(nlen / 2 - 100) || q < bound);
 
                 // 5.6
                 if (NumberTheory.GCD(q - 1, e) == 1)

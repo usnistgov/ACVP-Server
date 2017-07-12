@@ -68,15 +68,18 @@ namespace NIST.CVP.Crypto.RSA
             {
                 return false;
             }
-            if (n != 2 && n % 2 == 0)
+
+            if (n.IsEven)
             {
                 return false;
             }
+
             var s = n - 1;
-            while (s % 2 == 0)
+            while (s.IsEven)
             {
                 s >>= 1;
             }
+
             for (var i = 0; i < k; i++)
             {
                 var a = _rand.GetRandomBigInteger(n - 1) + 1;
@@ -87,7 +90,7 @@ namespace NIST.CVP.Crypto.RSA
                     mod = (mod * mod) % n;
                     temp = temp * 2;
                 }
-                if (mod != n - 1 && temp % 2 == 0)
+                if (mod != n - 1 && temp.IsEven)
                 {
                     return false;
                 }

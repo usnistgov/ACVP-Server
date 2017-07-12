@@ -99,19 +99,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             {
                 switch (name.ToLower())
                 {
-                    case "testtype":
-                        TestType = value;
-                        return true;
-                    case "mode":
+                    case "primemethod":
                         Mode = RSAEnumHelpers.StringToKeyGenMode(value);
                         return true;
-                    case "hashalg":
+                    case "mod":
+                        Modulo = int.Parse(value);
+                        return true;
+                    case "hash":
                         HashAlg = SHAEnumHelpers.StringToHashFunction(value);
                         return true;
-                    case "pubexp":
-                        PubExp = RSAEnumHelpers.StringToPubExpMode(value);
-                        return true;
-                    case "primetest":
+                    case "table for m-t test":
                         PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(value);
                         return true;
                 }

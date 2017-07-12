@@ -129,6 +129,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
         public static bool ValidateBitlens(TestGroup group, int[] bitlens)
         {
+            if(bitlens == null)
+            {
+                return false;
+            }
+
+            if(bitlens.Length != 4)
+            {
+                return false;
+            }
+
             var min = 0;
             var max = 0;
 

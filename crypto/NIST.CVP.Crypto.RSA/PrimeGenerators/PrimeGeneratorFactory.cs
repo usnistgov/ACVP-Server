@@ -12,6 +12,12 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         private readonly HashFunction _hashFunction;
         private readonly EntropyProviderTypes _entropyType;
 
+        public PrimeGeneratorFactory()
+        {
+            _hashFunction = new HashFunction { Mode = ModeValues.NONE, DigestSize = DigestSizes.NONE };
+            _entropyType = EntropyProviderTypes.Random;
+        }
+
         public PrimeGeneratorFactory(HashFunction hashFunction)
         {
             _hashFunction = hashFunction;
