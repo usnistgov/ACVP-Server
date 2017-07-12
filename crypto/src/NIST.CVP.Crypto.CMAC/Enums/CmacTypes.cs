@@ -2,6 +2,8 @@
 {
     public enum CmacTypes
     {
-        AES
+        AES128,
+        AES192,
+        AES256
     }
 }

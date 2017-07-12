@@ -10,7 +10,9 @@ namespace NIST.CVP.Crypto.CMAC
         {
             switch (cmacType)
             {
-                case CmacTypes.AES:
+                case CmacTypes.AES128:
+                case CmacTypes.AES192:
+                case CmacTypes.AES256:
                     return new CmacAes(new RijndaelFactory(new RijndaelInternals()));
             }
             
