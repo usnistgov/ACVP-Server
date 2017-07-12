@@ -22,6 +22,15 @@ namespace NIST.CVP.Generation.DRBG
 
         private void CreateGroups(List<ITestGroup> groups, Parameters parameters)
         {
+            if (!DrbgSpecToDomainMapping.Map
+                .TryFirst(
+                    w => w.mechanism.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) &&
+                         w.mode.Equals(parameters.Mode, StringComparison.OrdinalIgnoreCase),
+                    out var result))
+            {
+                throw new ArgumentException("Invalid Algorithm/Mode provided.");
+            }
+
             // We don't want to generate test groups that have 1 << 35 sized lengths (as that is the cap in some cases)
             // Set to a maximum value to generate.
             parameters.EntropyInputLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
@@ -37,41 +46,30 @@ namespace NIST.CVP.Generation.DRBG
                     {
                         foreach (var additionalInputLen in parameters.AdditionalInputLen.GetDomainMinMaxAsEnumerable())
                         {
-                            if (DrbgSpecToDomainMapping.Map
-                                .TryFirst(
-                                    w => w.mechanism.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) &&
-                                         w.mode.Equals(parameters.Mode, StringComparison.OrdinalIgnoreCase),
-                                    out var result))
+                            DrbgParameters dp = new DrbgParameters()
                             {
-                                DrbgParameters dp = new DrbgParameters()
-                                {
-                                    Mechanism = result.drbgMechanism,
-                                    Mode = result.drbgMode,
-                                    SecurityStrength = result.maxSecurityStrength,
+                                Mechanism = result.drbgMechanism,
+                                Mode = result.drbgMode,
+                                SecurityStrength = result.maxSecurityStrength,
 
-                                    DerFuncEnabled = parameters.DerFuncEnabled,
-                                    PredResistanceEnabled = parameters.PredResistanceEnabled,
-                                    ReseedImplemented = parameters.ReseedImplemented,
+                                DerFuncEnabled = parameters.DerFuncEnabled,
+                                PredResistanceEnabled = parameters.PredResistanceEnabled,
+                                ReseedImplemented = parameters.ReseedImplemented,
 
-                                    EntropyInputLen = entropyLen,
-                                    NonceLen = nonceLen,
-                                    PersoStringLen = persoStringLen,
-                                    AdditionalInputLen = additionalInputLen,
+                                EntropyInputLen = entropyLen,
+                                NonceLen = nonceLen,
+                                PersoStringLen = persoStringLen,
+                                AdditionalInputLen = additionalInputLen,
 
-                                    ReturnedBitsLen = parameters.ReturnedBitsLen
-                                };
+                                ReturnedBitsLen = parameters.ReturnedBitsLen
+                            };
 
-                                TestGroup tg = new TestGroup
-                                {
-                                    DrbgParameters = dp
-                                };
-
-                                groups.Add(tg);
-                            }
-                            else
+                            TestGroup tg = new TestGroup
                             {
-                                throw new ArgumentException("Invalid Algorithm/Mode provided.");
-                            }
+                                DrbgParameters = dp
+                            };
+
+                            groups.Add(tg);
                         }
                     }
                 }
