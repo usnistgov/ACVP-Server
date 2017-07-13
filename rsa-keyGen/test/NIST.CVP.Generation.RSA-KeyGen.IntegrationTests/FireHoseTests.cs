@@ -67,8 +67,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
                     // Let's not run all of them because that'll take too long
                     // Pick 2 from each group and run those 
-                    //var shuffledTests = testGroup.Tests.OrderBy(a => Guid.NewGuid()).ToList().GetRange(0, 2);
-                    var shuffledTests = testGroup.Tests;
+                    var shuffledTests = testGroup.Tests.OrderBy(a => Guid.NewGuid()).ToList().GetRange(0, 2);
+                    //var shuffledTests = testGroup.Tests;
                     foreach (var iTestCase in shuffledTests)
                     {
                         var testCase = (TestCase)iTestCase;

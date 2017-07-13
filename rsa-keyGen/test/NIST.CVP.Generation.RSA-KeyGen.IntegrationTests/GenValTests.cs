@@ -425,7 +425,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 Mode = "KeyGen",
                 HashAlgs = ParameterValidator.VALID_HASH_ALGS,
                 InfoGeneratedByServer = true,
-                IsSample = true,
+                IsSample = false,
                 KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
                 Moduli = ParameterValidator.VALID_MODULI,
                 PrimeTests = ParameterValidator.VALID_PRIME_TESTS,

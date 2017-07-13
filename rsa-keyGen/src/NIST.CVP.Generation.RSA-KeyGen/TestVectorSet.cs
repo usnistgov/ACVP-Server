@@ -87,11 +87,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         {
                             ((IDictionary<string, object>) testObject).Add("result", !test.FailureTest ? "passed" : "failed");
                         }
-                        else
+                        else if(group.TestType.ToLower() == "aft")
                         {
-                            if (!group.InfoGeneratedByServer && IsSample)
+                            if (IsSample)
                             {
-                                if (group.TestType.ToLower() == "aft")
+                                if (!group.InfoGeneratedByServer)
                                 {
                                     // For B.3.4, B.3.5, and B.3.6
                                     if (group.Mode > KeyGenModes.B33)
@@ -120,9 +120,20 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                                         ((IDictionary<string, object>)testObject).Add("xq2", test.XQ2);
                                     }
                                 }
-                            }
 
-                            if (IsSample || group.TestType.ToLower() != "gdt")
+                                ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
+                                ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
+                                ((IDictionary<string, object>)testObject).Add("p", test.Key.PrivKey.P);
+                                ((IDictionary<string, object>)testObject).Add("q", test.Key.PrivKey.Q);
+                                ((IDictionary<string, object>)testObject).Add("d", test.Key.PrivKey.D);
+                                ((IDictionary<string, object>)testObject).Add("dmp1", test.Key.PrivKey.DMP1);
+                                ((IDictionary<string, object>)testObject).Add("dmq1", test.Key.PrivKey.DMQ1);
+                                ((IDictionary<string, object>)testObject).Add("iqmp", test.Key.PrivKey.IQMP);
+                            }
+                        }
+                        else if(group.TestType.ToLower() == "gdt")
+                        {
+                            if (IsSample)
                             {
                                 ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
                                 ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
@@ -314,15 +325,25 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         {
                             ((IDictionary<string, object>)testObject).Add("result", !test.FailureTest ? "passed" : "failed");
                         }
-                        else
+                        else if(group.TestType.ToLower() == "aft")
                         {
-                            if (IsSample || group.TestType.ToLower() != "gdt")
+                            if (group.InfoGeneratedByServer)
                             {
-                                if (!((IDictionary<string, object>) testObject).ContainsKey("e"))
-                                {
-                                    ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
-                                }
-
+                                ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
+                                ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
+                                ((IDictionary<string, object>)testObject).Add("p", test.Key.PrivKey.P);
+                                ((IDictionary<string, object>)testObject).Add("q", test.Key.PrivKey.Q);
+                                ((IDictionary<string, object>)testObject).Add("d", test.Key.PrivKey.D);
+                                ((IDictionary<string, object>)testObject).Add("dmp1", test.Key.PrivKey.DMP1);
+                                ((IDictionary<string, object>)testObject).Add("dmq1", test.Key.PrivKey.DMQ1);
+                                ((IDictionary<string, object>)testObject).Add("iqmp", test.Key.PrivKey.IQMP);
+                            }
+                        }
+                        else if(group.TestType.ToLower() == "gdt")
+                        {
+                            if (IsSample)
+                            {
+                                ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
                                 ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
                                 ((IDictionary<string, object>)testObject).Add("p", test.Key.PrivKey.P);
                                 ((IDictionary<string, object>)testObject).Add("q", test.Key.PrivKey.Q);
