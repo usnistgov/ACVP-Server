@@ -603,7 +603,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
         protected BigInteger Hash(BigInteger message, bool removeEmptyBytes = true)
         {
-            //var bs = new BitString(message, 0, false);
+            //var bs = new BitString(message, 0, false);        // this causes the original B35 to pass but fails others
             var bs = new BitString(message, 0, removeEmptyBytes);
             var result = _hash.HashMessage(_hashFunction, bs);
             if (!result.Success)
