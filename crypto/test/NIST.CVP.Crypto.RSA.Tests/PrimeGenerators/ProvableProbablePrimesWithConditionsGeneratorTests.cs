@@ -90,32 +90,5 @@ namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
             Assert.AreEqual(new BitString(p).ToPositiveBigInteger(), result.P, "p");
             Assert.AreEqual(new BitString(q).ToPositiveBigInteger(), result.Q, "q");
         }
-
-        [Test]
-        [TestCase("00c43e35054d734394b4448eeaeb8724173aa0955357af8545ce24411f62cf7e", 392,
-            "de6453afdc2a7bad4c4199d20b928b4898db10716480fedf1e994425949fa3d7ca0fcee5064597b119c8faf50858cf33fb",
-            "c43e35054d734394b4448eeaeb8724173aa0955357af8545ce24411f62d0b5",
-            ModeValues.SHA2, DigestSizes.d256)]
-        [TestCase("00c43e35054d734394b4448eeaeb8724173aa0955357af8545ce24411f62cf7e", 27,
-            "06a77c79",
-            "00c43e35054d734394b4448eeaeb8724173aa0955357af8545ce24411f62cfb8",
-            ModeValues.SHA2, DigestSizes.d256)]
-        [TestCase("cad20639f564334910aed056da3b56f4253c5150632627f8d4f5b8803e941f4d", 440,
-            "00b6fe6c2a9cc304ee8fed70909b7d999b8b5d9966997d9b6db637fb0cdf876454d773264e455af3de97b9d058e718876d87808d6b7057dd",
-            "cad20639f564334910aed056da3b56f4253c5150632627f8d4f5b8803e941fd0",
-            ModeValues.SHA2, DigestSizes.d512)]
-        public void ShouldSTCorrectly(string seedHex, int len, string primeHex, string primeSeedHex, ModeValues mode, DigestSizes dig)
-        {
-            var subject = new ProvableProbablePrimesWithConditionsGenerator(new HashFunction { Mode = mode, DigestSize = dig }, EntropyProviderTypes.Testable);
-
-            var seed = new BitString(seedHex).ToPositiveBigInteger();
-            var result = subject.STTest(len, seed);
-
-            var prime = new BitString(primeHex).ToPositiveBigInteger();
-            var primeseed = new BitString(primeSeedHex).ToPositiveBigInteger();
-
-            Assert.AreEqual(prime, result.Prime, "prime");
-            Assert.AreEqual(primeseed, result.PrimeSeed, "primeseed");
-        }
     }
 }

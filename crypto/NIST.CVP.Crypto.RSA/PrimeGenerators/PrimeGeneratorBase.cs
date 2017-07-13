@@ -485,7 +485,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             public bool Success => (Prime != 0) && (PrimeSeed != 0) && (PrimeGenCounter != 0);
         }
 
-        protected struct PPCResult
+        public struct PPCResult
         {
             public bool Success;
             public BigInteger P, P1, P2, PSeed;
@@ -667,10 +667,17 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
         }
 
+        #region Test
         public STRandomPrimeResult STTest(int length, BigInteger inputSeed)
         {
             return ShaweTaylorRandomPrime(length, inputSeed);
         }
+
+        public PPCResult PPCTest(int L, int N1, int N2, BigInteger seed, BigInteger e)
+        {
+            return ProvablePrimeConstruction(L, N1, N2, seed, e);
+        }
+        #endregion Test
 
         /// <summary>
         /// C.6 Makes small 32-bit prime numbers
