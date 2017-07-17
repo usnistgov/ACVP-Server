@@ -20,13 +20,25 @@ namespace NIST.CVP.Generation.CMAC_AES
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
-            CheckResults(suppliedResult, errors);
+            ValidateResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
+            {
+                CheckResults(suppliedResult, errors);
+            }
 
             if (errors.Count > 0)
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors) };
             }
             return  new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed"};
+        }
+
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
+        {
+            if (suppliedResult.Result == null)
+            {
+                errors.Add($"{nameof(suppliedResult.Result)} was not present in the {nameof(TestCase)}");
+            }
         }
 
         private void CheckResults(TestCase suppliedResult, List<string> errors)

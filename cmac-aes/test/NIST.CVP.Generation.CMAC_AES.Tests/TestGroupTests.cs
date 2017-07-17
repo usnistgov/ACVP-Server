@@ -115,6 +115,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         [Test]
         [TestCase("KeyLen")]
         [TestCase("KEYLEN")]
+        [TestCase("KLeN")]
         public void ShouldSetKeyLength(string name)
         {
             var subject = new TestGroup();
@@ -126,6 +127,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         [Test]
         [TestCase("msgLen")]
         [TestCase("MSGLEN")]
+        [TestCase("MLeN")]
         public void ShouldSetIVLength(string name)
         {
             var subject = new TestGroup();
@@ -137,6 +139,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         [Test]
         [TestCase("macLen")]
         [TestCase("MAcLeN")]
+        [TestCase("TLeN")]
         public void ShouldSetTagLength(string name)
         {
             var subject = new TestGroup();

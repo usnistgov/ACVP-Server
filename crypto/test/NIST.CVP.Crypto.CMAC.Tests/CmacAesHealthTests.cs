@@ -29,12 +29,13 @@ namespace NIST.CVP.Crypto.CMAC.Tests
         [TestCase("603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4", "6bc1bee22e409f96e93d7e117393172a", "28a7023f452e8f82bd4bf28d8c37c35c")]
         [TestCase("603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4", "6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411", "aaf3d8f1de5640c232f5b169b9c911e6")]
         [TestCase("603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4", "6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411e5fbc1191a0a52eff69f2445df4f9b17ad2b417be66c3710", "e1992190549f6ed5696a2c056c315410")]
+        [TestCase("292d770baaaa431c583fe4559027ba6b", "", "eb43ea2ecfa0e601")]
         public void ShouldGenerateAndVerifySuccessfully(string keyString, string messageString, string expectedMacString)
         {
             BitString key = new BitString(keyString);
             BitString message = new BitString(messageString);
             BitString expectedMac = new BitString(expectedMacString);
-            int macLength = 128;
+            int macLength = expectedMac.BitLength;
 
             Random800_90 rand = new Random800_90();
             var badMac = rand.GetDifferentBitStringOfSameSize(expectedMac);

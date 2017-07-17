@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core.Tests", "..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj", "{BAC2804B-BFE0-4BB6-A732-C9544BB76C47}"
 EndProject
@@ -29,11 +29,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.CMAC", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.CMAC_AES.Tests", "..\..\cmac-aes\test\NIST.CVP.Generation.CMAC_AES.Tests\NIST.CVP.Generation.CMAC_AES.Tests.csproj", "{2D20086C-728D-4D9C-81EA-DDB04C94AD76}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.CMAC_AES.IntegrationTests", "..\..\cmac-aes\test\NIST.CVP.Generation.CMAC_AES.IntegrationTests\NIST.CVP.Generation.CMAC_AES.IntegrationTests.csproj", "{3D4FB07D-F99C-4F8F-88A7-A482A35F2A3A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.CMAC.Tests", "..\..\crypto\test\NIST.CVP.Crypto.CMAC.Tests\NIST.CVP.Crypto.CMAC.Tests.csproj", "{1D26E1A3-925F-4948-A861-A722918E86D7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES.Tests", "..\..\common\test\NIST.CVP.Crypto.AES.Tests\NIST.CVP.Crypto.AES.Tests.csproj", "{7B024C82-66E4-4975-8323-A6FA352EA630}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.CMAC_AES.IntegrationTests", "..\..\cmac-aes\test\NIST.CVP.Generation.CMAC_AES.IntegrationTests\NIST.CVP.Generation.CMAC_AES.IntegrationTests.csproj", "{4F8E20A5-DDD4-4354-A5A4-1FC2DCE91D67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,10 +85,6 @@ Global
 		{2D20086C-728D-4D9C-81EA-DDB04C94AD76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D20086C-728D-4D9C-81EA-DDB04C94AD76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D20086C-728D-4D9C-81EA-DDB04C94AD76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D4FB07D-F99C-4F8F-88A7-A482A35F2A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D4FB07D-F99C-4F8F-88A7-A482A35F2A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D4FB07D-F99C-4F8F-88A7-A482A35F2A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D4FB07D-F99C-4F8F-88A7-A482A35F2A3A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1D26E1A3-925F-4948-A861-A722918E86D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1D26E1A3-925F-4948-A861-A722918E86D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D26E1A3-925F-4948-A861-A722918E86D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -97,6 +93,10 @@ Global
 		{7B024C82-66E4-4975-8323-A6FA352EA630}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B024C82-66E4-4975-8323-A6FA352EA630}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B024C82-66E4-4975-8323-A6FA352EA630}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F8E20A5-DDD4-4354-A5A4-1FC2DCE91D67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F8E20A5-DDD4-4354-A5A4-1FC2DCE91D67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F8E20A5-DDD4-4354-A5A4-1FC2DCE91D67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F8E20A5-DDD4-4354-A5A4-1FC2DCE91D67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,8 +113,8 @@ Global
 		{96FEA006-61C8-4960-98CE-187CD9B4B620} = {8D85FF9B-DC06-4B58-B4E6-3567FD1D42A8}
 		{72E5A2FD-47F1-464C-856C-5C07D00F620D} = {8D85FF9B-DC06-4B58-B4E6-3567FD1D42A8}
 		{2D20086C-728D-4D9C-81EA-DDB04C94AD76} = {F7103193-7584-4266-AB9C-BA6980C7685D}
-		{3D4FB07D-F99C-4F8F-88A7-A482A35F2A3A} = {F7103193-7584-4266-AB9C-BA6980C7685D}
 		{1D26E1A3-925F-4948-A861-A722918E86D7} = {F7103193-7584-4266-AB9C-BA6980C7685D}
 		{7B024C82-66E4-4975-8323-A6FA352EA630} = {F7103193-7584-4266-AB9C-BA6980C7685D}
+		{4F8E20A5-DDD4-4354-A5A4-1FC2DCE91D67} = {F7103193-7584-4266-AB9C-BA6980C7685D}
 	EndGlobalSection
 EndGlobal

@@ -125,11 +125,13 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
                 {
                     originalFakeMacHit = true;
                     Assert.IsFalse(tc.FailureTest, "Should not be a failure test");
+                    Assert.IsTrue(tc.Result.ToLower() == "pass");
                 }
                 if (tc.Mac.Equals(mangledMac))
                 {
                     mangledMacHit = true;
                     Assert.IsTrue(tc.FailureTest, "Should be a failure test");
+                    Assert.IsTrue(tc.Result.ToLower() == "fail");
                 }
             }
 

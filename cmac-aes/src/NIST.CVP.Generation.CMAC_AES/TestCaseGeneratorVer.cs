@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.CMAC_AES
         private readonly ICmac _algo;
         private readonly IRandom800_90 _random800_90;
 
-        public int NumberOfTestCasesToGenerate { get { return 15; } }
+        public int NumberOfTestCasesToGenerate => 20;
 
         public TestCaseGeneratorVer(IRandom800_90 random800_90, ICmac algo)
         {
@@ -53,7 +53,8 @@ namespace NIST.CVP.Generation.CMAC_AES
                 }
             }
             testCase.Mac = genResult.ResultingMac;
-
+            testCase.Result = "pass";
+            
             SometimesMangleTestCaseMac(testCase);
 
             return new TestCaseGenerateResponse(testCase);
@@ -67,6 +68,7 @@ namespace NIST.CVP.Generation.CMAC_AES
             {
                 testCase.Mac = _random800_90.GetDifferentBitStringOfSameSize(testCase.Mac);
                 testCase.FailureTest = true;
+                testCase.Result = "fail";
             }
         }
 

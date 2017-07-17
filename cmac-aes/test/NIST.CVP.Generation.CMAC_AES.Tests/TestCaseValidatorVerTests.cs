@@ -33,7 +33,21 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         }
 
         [Test]
-        public void ShouldShowPlainTextAsReasonIfItDoesNotMatch()
+        public void ShouldThrowErrorWhenReasonNotPresent()
+        {
+            var testCase = GetTestCase();
+            testCase.Result = "pass";
+            _subject = new TestCaseValidatorVer(testCase);
+            var suppliedResult = GetTestCase();
+            suppliedResult.Result = null;
+            var result = _subject.Validate(suppliedResult);
+            Assume.That(result != null);
+            Assume.That("failed" == result.Result);
+            Assert.IsTrue(result.Reason.Contains("Result"));
+        }
+        
+        [Test]
+        public void ShouldShowResultAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
             testCase.Result = "pass";

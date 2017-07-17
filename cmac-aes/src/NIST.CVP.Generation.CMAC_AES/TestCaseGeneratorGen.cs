@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.CMAC_AES
         private readonly ICmac _algo;
         private readonly IRandom800_90 _random800_90;
 
-        public int NumberOfTestCasesToGenerate { get { return 15; } }
+        public int NumberOfTestCasesToGenerate => 8;
 
         public TestCaseGeneratorGen(IRandom800_90 random800_90, ICmac algo)
         {

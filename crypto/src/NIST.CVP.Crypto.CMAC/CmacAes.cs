@@ -28,7 +28,7 @@ namespace NIST.CVP.Crypto.CMAC
                 var iv = new BitString(Cipher._MAX_IV_BYTE_LENGTH * 8);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode, IV = iv };
                 
-                var encryptedBits = rijn.BlockEncrypt(cipher, key, message.ToBytes(), macLength);
+                var encryptedBits = rijn.BlockEncrypt(cipher, key, message.ToBytes(), cipher.BlockLength);
 
                 var mac = encryptedBits.GetMostSignificantBits(macLength);
                 

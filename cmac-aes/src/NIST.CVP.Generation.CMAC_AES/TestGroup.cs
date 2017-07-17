@@ -95,12 +95,15 @@ namespace NIST.CVP.Generation.CMAC_AES
             switch (name.ToLower())
             {
                 case "keylen":
+                case "klen":
                     KeyLength = intVal;
                     return true;
                 case "msglen":
+                case "mlen":
                     MessageLength = intVal;
                     return true;
                 case "maclen":
+                case "tlen":
                     MacLength = intVal;
                     return true;
             }
