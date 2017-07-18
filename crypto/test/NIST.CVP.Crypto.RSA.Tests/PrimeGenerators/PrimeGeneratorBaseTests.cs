@@ -91,23 +91,5 @@ namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
             var expectedResult = new BitString(expectedHex).ToPositiveBigInteger();
             Assert.AreEqual(expectedResult, result);
         }
-
-        [Test]
-        public void ShouldSOmething()
-        {
-            var input_seedWithZero = new BitString("00c43e35054d734394b4448eeaeb8724173aa0955357af8545ce24411f62cf7e").ToPositiveBigInteger();
-            var a = input_seedWithZero.ToByteArray();
-
-            var input_seedWithoutZero = new BitString("cad20639f564334910aed056da3b56f4253c5150632627f8d4f5b8803e941f4d").ToPositiveBigInteger();
-            var b = input_seedWithoutZero.ToByteArray();
-
-            var inputTesting = new BitString("7e").ToPositiveBigInteger();
-            var c = inputTesting.ToByteArray();
-
-            var inputTesting1MostSignificant = new BitString("8e").ToPositiveBigInteger();
-            var d = inputTesting1MostSignificant.ToByteArray();
-
-            int i = 5;
-        }
     }
 }

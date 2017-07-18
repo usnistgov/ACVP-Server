@@ -7,8 +7,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
-    <ProjectReference Include="..\..\..\crypto\NIST.CVP.Crypto.RSA\NIST.CVP.Crypto.RSA.csproj" />
-    <ProjectReference Include="..\..\..\crypto\NIST.CVP.Crypto.SHA2\NIST.CVP.Crypto.SHA2.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.RSA\NIST.CVP.Crypto.RSA.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.SHA2\NIST.CVP.Crypto.SHA2.csproj" />
   </ItemGroup>
 
   <ItemGroup>

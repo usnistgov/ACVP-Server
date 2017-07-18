@@ -20,8 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\RSA-KeyGen\RSA-KeyGen.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.RSA-KeyGen\NIST.CVP.Generation.RSA-KeyGen.csproj" />
-    <ProjectReference Include="..\..\..\crypto\NIST.CVP.Crypto.RSA\NIST.CVP.Crypto.RSA.csproj" />
-    <ProjectReference Include="..\..\..\crypto\NIST.CVP.Crypto.SHA2\NIST.CVP.Crypto.SHA2.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\src\RSA-KeyGen_Val\RSA-KeyGen_Val.csproj" />
   </ItemGroup>
