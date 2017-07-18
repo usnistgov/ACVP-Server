@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.AES_CBC\NIST.CVP.Crypto.AES_CBC.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.AES_CBC\NIST.CVP.Generation.AES_CBC.csproj" />
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />

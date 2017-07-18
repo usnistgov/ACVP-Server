@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\comm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj", "{BCB0733E-2779-4E87-83CF-CB23E863AF54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES", "..\..\common\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.csproj", "{88F8F477-0C36-44F5-9A3C-6EFE03C01974}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES", "..\..\crypto\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.csproj", "{88F8F477-0C36-44F5-9A3C-6EFE03C01974}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMAC_AES", "..\..\cmac-aes\src\CMAC_AES\CMAC_AES.csproj", "{74E9FA88-EDFB-40DA-BEFC-CAE628A9F1BC}"
 EndProject
@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.CMAC_AE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.CMAC.Tests", "..\..\crypto\test\NIST.CVP.Crypto.CMAC.Tests\NIST.CVP.Crypto.CMAC.Tests.csproj", "{1D26E1A3-925F-4948-A861-A722918E86D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES.Tests", "..\..\common\test\NIST.CVP.Crypto.AES.Tests\NIST.CVP.Crypto.AES.Tests.csproj", "{7B024C82-66E4-4975-8323-A6FA352EA630}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES.Tests", "..\..\crypto\test\NIST.CVP.Crypto.AES.Tests\NIST.CVP.Crypto.AES.Tests.csproj", "{7B024C82-66E4-4975-8323-A6FA352EA630}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.CMAC_AES.IntegrationTests", "..\..\cmac-aes\test\NIST.CVP.Generation.CMAC_AES.IntegrationTests\NIST.CVP.Generation.CMAC_AES.IntegrationTests.csproj", "{4F8E20A5-DDD4-4354-A5A4-1FC2DCE91D67}"
 EndProject
