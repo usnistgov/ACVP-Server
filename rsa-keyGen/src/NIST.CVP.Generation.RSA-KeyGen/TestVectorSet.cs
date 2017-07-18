@@ -327,7 +327,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         }
                         else if(group.TestType.ToLower() == "aft")
                         {
-                            if (group.InfoGeneratedByServer)
+                            if (group.InfoGeneratedByServer || IsSample)
                             {
                                 ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
                                 ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);

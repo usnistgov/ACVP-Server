@@ -133,20 +133,29 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 case "xp":
                     XP = new BitString(value);
                     return true;
-                case "xp1":
-                    XP1 = new BitString(value, Bitlens[0]);
-                    return true;
-                case "xp2":
-                    XP2 = new BitString(value, Bitlens[1]);
-                    return true;
                 case "xq":
                     XQ = new BitString(value);
                     return true;
+                
+                // Some hard assumptions made here. These values are used only for B.3.6 now.
+                // These values need the bitlen values, but as hex are represented as integers
+                // So we need the least significant bits from the full hex string, not truncating off
+                // the back like the constructor would with the int value.
+                case "xp1":
+                    XP1 = new BitString(value);
+                    XP1 = XP1.GetLeastSignificantBits(Bitlens[0]);
+                    return true;
+                case "xp2":
+                    XP2 = new BitString(value);
+                    XP2 = XP2.GetLeastSignificantBits(Bitlens[1]);
+                    return true;
                 case "xq1":
-                    XQ1 = new BitString(value, Bitlens[2]);
+                    XQ1 = new BitString(value);
+                    XQ1 = XQ1.GetLeastSignificantBits(Bitlens[2]);
                     return true;
                 case "xq2":
-                    XQ2 = new BitString(value, Bitlens[3]);
+                    XQ2 = new BitString(value);
+                    XQ2 = XQ2.GetLeastSignificantBits(Bitlens[3]);
                     return true;
             }
 

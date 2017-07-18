@@ -58,15 +58,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         }
 
         [Test]
-        public void ShouldSetProperDFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.d, subject.Key.PrivKey.D);
-        }
-
-        [Test]
         [TestCase("Fredo")]
         [TestCase("")]
         [TestCase("NULL")]

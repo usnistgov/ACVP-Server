@@ -601,10 +601,22 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             return SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize);
         }
 
-        protected BigInteger Hash(BigInteger message, bool removeEmptyBytes = true)
+        // protected
+        public BigInteger Hash(BigInteger message)
         {
-            //var bs = new BitString(message, 0, false);        // this causes the original B35 to pass but fails others
-            var bs = new BitString(message, 0, removeEmptyBytes);
+            var bs = new BitString(message);
+
+            // Pad the BitString to be a multiple of 32 bits
+            // Likely a relic of old MultiPrecision libraries
+            // Spec says to just hash the integer which is normally 4 bytes but 
+            //      with larger integer values, libraries keep them at multiples
+            //      of 4 bytes, so we have to make sure our structure is a multiple
+            //      of 4 bytes as well.
+            if (bs.BitLength % 32 != 0)
+            {
+                bs = BitString.ConcatenateBits(BitString.Zeroes(32 - bs.BitLength % 32), bs);
+            }
+
             var result = _hash.HashMessage(_hashFunction, bs);
             if (!result.Success)
             {
