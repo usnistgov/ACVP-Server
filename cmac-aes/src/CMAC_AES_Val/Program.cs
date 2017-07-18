@@ -18,7 +18,7 @@ namespace CMAC_AES_Val
             var resultFile = args[0];
             var promptFile = args[1];
             var answerFile = args[2];
-            LoggingHelper.ConfigureLogging(resultFile, "aes-xpn-val");
+            LoggingHelper.ConfigureLogging(resultFile, "cmac-aes-val");
             Logger.Info($"Validating test results for {resultFile}");
             try
             {

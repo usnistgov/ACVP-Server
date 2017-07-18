@@ -16,7 +16,7 @@ namespace CMAC_AES
                 return 1;
             }
             var requestFile = args[0];
-            LoggingHelper.ConfigureLogging(requestFile, "aes-xpn");
+            LoggingHelper.ConfigureLogging(requestFile, "cmac-aes");
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
             //get generator and call it
