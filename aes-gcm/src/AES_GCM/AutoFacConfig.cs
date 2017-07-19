@@ -24,7 +24,7 @@ namespace AES_GCM
         {
             ContainerBuilder builder = new ContainerBuilder();
             
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<AES_GCMInternals>().AsImplementedInterfaces();
             builder.RegisterType<NIST.CVP.Crypto.AES_GCM.AES_GCM>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

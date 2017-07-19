@@ -23,9 +23,7 @@ namespace AES_CBC_Val
         {
             var builder = new ContainerBuilder();
 
-
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<AES_CBC>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();

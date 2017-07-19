@@ -24,7 +24,7 @@ namespace AES_CFB1_Val
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<AES_CFB1>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();

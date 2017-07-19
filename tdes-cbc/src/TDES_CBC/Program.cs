@@ -33,7 +33,7 @@ namespace tdes_cbc
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    var gen = scope.Resolve<Generator<Parameters, TestVectorSet>>();
+                    var gen = scope.Resolve<IGenerator>();
                     var result = gen.Generate(requestFile);
                     if (!result.Success)
                     {

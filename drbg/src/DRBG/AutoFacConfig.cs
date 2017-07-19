@@ -27,7 +27,7 @@ namespace DRBG
         {
             ContainerBuilder builder = new ContainerBuilder();
             
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
             builder.RegisterType<AES_ECB>().AsImplementedInterfaces();
             builder.RegisterType<DrbgFactory>().AsImplementedInterfaces();

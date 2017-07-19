@@ -26,8 +26,8 @@ namespace TDES_CBC_Val
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TdesCbc>().AsImplementedInterfaces();
             builder.RegisterType<TDES_CBC_MCT>().AsImplementedInterfaces();
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();

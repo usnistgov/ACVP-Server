@@ -26,7 +26,7 @@ namespace AES_CFB1_Val
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    var validator = scope.Resolve<Validator<TestVectorSet, TestCase>>();
+                    var validator = scope.Resolve<IValidator>();
                     var result = validator.Validate(resultFile, answerFile, promptFile);
                     if (!result.Success)
                     {

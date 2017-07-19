@@ -27,8 +27,8 @@ namespace TDES_ECB_Val
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TDES_ECB>().AsImplementedInterfaces();
             builder.RegisterType<TDES_ECB_MCT>().AsImplementedInterfaces();
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();

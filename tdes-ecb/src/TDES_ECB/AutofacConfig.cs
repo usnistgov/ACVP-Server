@@ -27,7 +27,7 @@ namespace tdes_ecb
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
            
             builder.RegisterType<TDES_ECB>().AsImplementedInterfaces();
             builder.RegisterType<TDES_ECB_MCT>().AsImplementedInterfaces();

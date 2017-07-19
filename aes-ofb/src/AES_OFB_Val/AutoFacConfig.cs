@@ -24,8 +24,8 @@ namespace AES_OFB_Val
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<AES_OFB>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();

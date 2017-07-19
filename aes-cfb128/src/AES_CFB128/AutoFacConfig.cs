@@ -24,7 +24,7 @@ namespace AES_CFB128
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<NIST.CVP.Crypto.AES_CFB128.AES_CFB128>().AsImplementedInterfaces();
             builder.RegisterType<AES_CFB128_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();

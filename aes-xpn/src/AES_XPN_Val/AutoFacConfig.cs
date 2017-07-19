@@ -23,8 +23,8 @@ namespace AES_XPN_Val
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
-            builder.RegisterType<Validator<TestVectorSet, TestCase>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<AES_GCMInternals>().AsImplementedInterfaces();
             builder.RegisterType<NIST.CVP.Crypto.AES_GCM.AES_GCM>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

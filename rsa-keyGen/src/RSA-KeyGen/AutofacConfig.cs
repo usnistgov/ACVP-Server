@@ -20,7 +20,7 @@ namespace RSA_KeyGen
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<KnownAnswerTestCaseGeneratorFactory>().AsImplementedInterfaces();

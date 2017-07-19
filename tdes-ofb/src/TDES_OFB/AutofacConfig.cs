@@ -27,7 +27,7 @@ namespace tdes_ofb
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
 
             builder.RegisterType<TdesOfb>().AsImplementedInterfaces();
             builder.RegisterType<TDES_OFB_MCT>().AsImplementedInterfaces();

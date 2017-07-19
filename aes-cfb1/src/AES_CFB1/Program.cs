@@ -28,7 +28,7 @@ namespace AES_CFB1
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    var gen = scope.Resolve<BitOrientedGenerator<Parameters,TestVectorSet>>();
+                    var gen = scope.Resolve<IGenerator>();
                     var result = gen.Generate(requestFile);
                     if (!result.Success)
                     {

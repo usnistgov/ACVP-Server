@@ -27,7 +27,7 @@ namespace tdes_cbc
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>();
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
 
             builder.RegisterType<TdesCbc>().AsImplementedInterfaces();
             builder.RegisterType<TDES_CBC_MCT>().AsImplementedInterfaces();
