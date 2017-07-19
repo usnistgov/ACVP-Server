@@ -3,7 +3,7 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.Core
 {
-    public class Generator<TParameters, TTestVectorSet> : GeneratorBase
+    public class Generator<TParameters, TTestVectorSet> : GeneratorBase, IGenerator
         where TParameters : IParameters
         where TTestVectorSet : ITestVectorSet
     {

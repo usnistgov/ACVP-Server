@@ -2,6 +2,7 @@
 using Autofac;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KeyWrap;
 using NLog;
 using Parameters = NIST.CVP.Generation.KeyWrap.Parameters;
 using TestVectorSet = NIST.CVP.Generation.KeyWrap.TestVectorSet;
@@ -29,7 +30,7 @@ namespace KeyWrap
                 AutofacConfig.IoCConfiguration();
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
-                    var gen = scope.Resolve<Generator<Parameters, TestVectorSet>>();
+                    var gen = scope.Resolve<IGenerator>();
                     var result = gen.Generate(requestFile);
                     if (!result.Success)
                     {

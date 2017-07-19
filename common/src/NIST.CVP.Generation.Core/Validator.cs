@@ -3,7 +3,7 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.Core
 {
-    public class Validator<TTestVectorSet, TTestCase> : ValidatorBase
+    public class Validator<TTestVectorSet, TTestCase> : ValidatorBase, IValidator
         where TTestVectorSet : ITestVectorSet
         where TTestCase : ITestCase
     {
