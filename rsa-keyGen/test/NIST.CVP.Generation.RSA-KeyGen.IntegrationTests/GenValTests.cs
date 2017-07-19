@@ -187,6 +187,22 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
+        public void ShouldReportAllSuccessfulTestsWithinValidationNotSample()
+        {
+            var targetFolder = GetTestFolder("NotSample");
+            var fileName = GetTestFileSingleTestCaseNoSample(targetFolder);
+
+            RunGenerationAndValidation(targetFolder, fileName);
+
+            // Get object for the validation.json
+            var dp = new DynamicParser();
+            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+
+            // Validate result as pass
+            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+        }
+
+        [Test]
         public void ShouldReportFailedDispositionOnErrorTests()
         {
             var targetFolder = GetTestFolder("FailedTests");
@@ -390,6 +406,24 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 IsSample = true,
                 KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
                 //KeyGenModes = new[] { "B.3.3" },
+                Moduli = new[] { 2048 },
+                PrimeTests = new[] { "tblC2" },
+                PubExpMode = "random"
+            };
+
+            return CreateRegistration(targetFolder, p);
+        }
+
+        private string GetTestFileSingleTestCaseNoSample(string targetFolder)
+        {
+            var p = new Parameters
+            {
+                Algorithm = "RSA",
+                Mode = "KeyGen",
+                HashAlgs = new[] { "SHA-224" },
+                InfoGeneratedByServer = true,
+                IsSample = false,
+                KeyGenModes = new[] { "B.3.5" },
                 Moduli = new[] { 2048 },
                 PrimeTests = new[] { "tblC2" },
                 PubExpMode = "random"

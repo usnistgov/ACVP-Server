@@ -120,7 +120,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                                         ((IDictionary<string, object>)testObject).Add("xq2", test.XQ2);
                                     }
                                 }
+                            }
 
+                            if(IsSample || group.InfoGeneratedByServer)
+                            {
                                 ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
                                 ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
                                 ((IDictionary<string, object>)testObject).Add("p", test.Key.PrivKey.P);
