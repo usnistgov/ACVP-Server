@@ -34,9 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.AES_CBC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.AES_CBC.IntegrationTests", "..\..\aes-cbc\test\NIST.CVP.Generation.AES_CBC.IntegrationTests\NIST.CVP.Generation.AES_CBC.IntegrationTests.csproj", "{DE47290C-5152-490C-8C69-4AC79A5DE62B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_CBC", "..\..\aes-cbc\src\NIST.CVP.Crypto.AES_CBC\NIST.CVP.Crypto.AES_CBC.csproj", "{C27F95BB-C553-47AE-95AF-D95C1BD3A14B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_CBC", "..\..\crypto\src\NIST.CVP.Crypto.AES_CBC\NIST.CVP.Crypto.AES_CBC.csproj", "{C27F95BB-C553-47AE-95AF-D95C1BD3A14B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_CBC.Tests", "..\..\aes-cbc\test\NIST.CVP.Crypto.AES_CBC.Tests\NIST.CVP.Crypto.AES_CBC.Tests.csproj", "{6167900B-C754-4044-8D40-773D271F8BE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_CBC.Tests", "..\..\crypto\test\NIST.CVP.Crypto.AES_CBC.Tests\NIST.CVP.Crypto.AES_CBC.Tests.csproj", "{6167900B-C754-4044-8D40-773D271F8BE0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES", "..\..\crypto\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.csproj", "{1023C9FD-2577-4770-B59A-7BBC62FE138C}"
 EndProject
