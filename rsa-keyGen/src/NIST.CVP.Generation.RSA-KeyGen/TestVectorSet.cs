@@ -89,9 +89,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         }
                         else if(group.TestType.ToLower() == "aft")
                         {
-                            if (IsSample)
+                            if (!group.InfoGeneratedByServer)
                             {
-                                if (!group.InfoGeneratedByServer)
+                                if (IsSample)
                                 {
                                     // For B.3.4, B.3.5, and B.3.6
                                     if (group.Mode > KeyGenModes.B33)
@@ -119,10 +119,18 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                                         ((IDictionary<string, object>)testObject).Add("xq1", test.XQ1);
                                         ((IDictionary<string, object>)testObject).Add("xq2", test.XQ2);
                                     }
+
+                                    ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
+                                    ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
+                                    ((IDictionary<string, object>)testObject).Add("p", test.Key.PrivKey.P);
+                                    ((IDictionary<string, object>)testObject).Add("q", test.Key.PrivKey.Q);
+                                    ((IDictionary<string, object>)testObject).Add("d", test.Key.PrivKey.D);
+                                    ((IDictionary<string, object>)testObject).Add("dmp1", test.Key.PrivKey.DMP1);
+                                    ((IDictionary<string, object>)testObject).Add("dmq1", test.Key.PrivKey.DMQ1);
+                                    ((IDictionary<string, object>)testObject).Add("iqmp", test.Key.PrivKey.IQMP);
                                 }
                             }
-
-                            if(IsSample || group.InfoGeneratedByServer)
+                            else
                             {
                                 ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
                                 ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
