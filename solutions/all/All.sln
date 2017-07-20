@@ -335,11 +335,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDES_OFB", "..\..\tdes-ofb\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDES_OFB_Val", "..\..\tdes-ofb\src\TDES_OFB_Val\TDES_OFB_Val.csproj", "{B7706C73-CCF3-464F-A60B-18722AE10B65}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_OFB", "..\..\tdes-ofb\src\NIST.CVP.Crypto.TDES_OFB\NIST.CVP.Crypto.TDES_OFB.csproj", "{BD12DC42-F149-44A7-8034-6629751A9A2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_OFB", "..\..\crypto\src\NIST.CVP.Crypto.TDES_OFB\NIST.CVP.Crypto.TDES_OFB.csproj", "{BD12DC42-F149-44A7-8034-6629751A9A2A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TDES_OFB", "..\..\tdes-ofb\src\NIST.CVP.Generation.TDES_OFB\NIST.CVP.Generation.TDES_OFB.csproj", "{1E803006-17C6-467F-A3C8-5CB37521B556}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_OFB.Tests", "..\..\tdes-ofb\test\NIST.CVP.Crypto.TDES_OFB.Tests\NIST.CVP.Crypto.TDES_OFB.Tests.csproj", "{5A97FC9D-5332-4AF2-8D03-2D5EB2B15082}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_OFB.Tests", "..\..\crypto\test\NIST.CVP.Crypto.TDES_OFB.Tests\NIST.CVP.Crypto.TDES_OFB.Tests.csproj", "{5A97FC9D-5332-4AF2-8D03-2D5EB2B15082}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TDES_OFB.IntegrationTests", "..\..\tdes-ofb\test\NIST.CVP.Generation.TDES_OFB.IntegrationTests\NIST.CVP.Generation.TDES_OFB.IntegrationTests.csproj", "{745226B9-D017-46F7-B2F7-38E65A78C0AC}"
 EndProject

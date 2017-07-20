@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
-    <ProjectReference Include="..\NIST.CVP.Crypto.TDES_OFB\NIST.CVP.Crypto.TDES_OFB.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.TDES_OFB\NIST.CVP.Generation.TDES_OFB.csproj" />
   </ItemGroup>
 
