@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj" />
-    <ProjectReference Include="..\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

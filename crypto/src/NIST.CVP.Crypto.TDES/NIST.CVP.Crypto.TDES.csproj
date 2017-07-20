@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NIST.CVP.Math\NIST.CVP.Math.csproj" />
+    <PackageReference Include="NLog" Version="5.0.0-beta09" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.0.0-beta09" />
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
   </ItemGroup>
 
 </Project>

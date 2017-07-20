@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj" />
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.TDES_OFB\NIST.CVP.Crypto.TDES_OFB.csproj" />
   </ItemGroup>
 

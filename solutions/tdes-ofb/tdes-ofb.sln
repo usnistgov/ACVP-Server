@@ -13,13 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\..\tdes-ofb\test\global.json = ..\..\tdes-ofb\test\global.json
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES", "..\..\common\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj", "{3FF86A19-FA89-48DA-A4A9-FE6063AAE51F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES", "..\..\crypto\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj", "{3FF86A19-FA89-48DA-A4A9-FE6063AAE51F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES.Tests", "..\..\common\test\NIST.CVP.Crypto.TDES.Tests\NIST.CVP.Crypto.TDES.Tests.csproj", "{D83DC8B8-C9C6-4946-A919-109C6229EEB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES.Tests", "..\..\crypto\test\NIST.CVP.Crypto.TDES.Tests\NIST.CVP.Crypto.TDES.Tests.csproj", "{D83DC8B8-C9C6-4946-A919-109C6229EEB0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math.Tests", "..\..\common\test\NIST.CVP.Math.Tests\NIST.CVP.Math.Tests.csproj", "{A3BDD4CF-B9E9-4E8A-856A-C757549F8817}"
 EndProject
