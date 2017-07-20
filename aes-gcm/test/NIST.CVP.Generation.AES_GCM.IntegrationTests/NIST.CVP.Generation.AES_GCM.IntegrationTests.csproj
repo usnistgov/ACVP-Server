@@ -17,10 +17,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.AES_GCM\NIST.CVP.Crypto.AES_GCM.csproj" />
     <ProjectReference Include="..\..\src\AES_GCM\AES_GCM.csproj" />
     <ProjectReference Include="..\..\src\AES_GCM_Val\AES_GCM_Val.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.AES_GCM\NIST.CVP.Generation.AES_GCM.csproj" />
-    <ProjectReference Include="..\..\src\NIST.CVP.Crypto.AES_GCM\NIST.CVP.Crypto.AES_GCM.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
   </ItemGroup>
 
