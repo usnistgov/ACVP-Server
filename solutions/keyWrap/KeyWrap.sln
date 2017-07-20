@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyWrap", "..\..\keyWrap\sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyWrap_Val", "..\..\keyWrap\src\KeyWrap_Val\KeyWrap_Val.csproj", "{2F6E8EB7-92E9-42FA-827E-075E8A3EB601}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.KeyWrap", "..\..\keyWrap\src\NIST.CVP.Crypto.KeyWrap\NIST.CVP.Crypto.KeyWrap.csproj", "{71CFCF67-0C18-4BF5-A0B9-6349CD68906F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.KeyWrap", "..\..\crypto\src\NIST.CVP.Crypto.KeyWrap\NIST.CVP.Crypto.KeyWrap.csproj", "{71CFCF67-0C18-4BF5-A0B9-6349CD68906F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.KeyWrap", "..\..\keyWrap\src\NIST.CVP.Generation.KeyWrap\NIST.CVP.Generation.KeyWrap.csproj", "{DFA30792-50FC-453D-A042-FB086178A2FD}"
 EndProject
@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_ECB", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES", "..\..\crypto\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.csproj", "{713110FA-7520-4D30-BCE1-281C07FB99A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.KeyWrap.Tests", "..\..\keyWrap\test\NIST.CVP.Crypto.KeyWrap.Tests\NIST.CVP.Crypto.KeyWrap.Tests.csproj", "{B63338C0-33FB-483F-BFB4-C3B73654DC18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.KeyWrap.Tests", "..\..\crypto\test\NIST.CVP.Crypto.KeyWrap.Tests\NIST.CVP.Crypto.KeyWrap.Tests.csproj", "{B63338C0-33FB-483F-BFB4-C3B73654DC18}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.KeyWrap.IntegrationTests", "..\..\keyWrap\test\NIST.CVP.Generation.KeyWrap.IntegrationTests\NIST.CVP.Generation.KeyWrap.IntegrationTests.csproj", "{4FC32561-9B76-47DA-9663-A918126DBE9B}"
 EndProject

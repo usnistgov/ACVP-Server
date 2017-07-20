@@ -13,7 +13,7 @@
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.AES_ECB\NIST.CVP.Crypto.AES_ECB.csproj" />
-    <ProjectReference Include="..\NIST.CVP.Crypto.KeyWrap\NIST.CVP.Crypto.KeyWrap.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.KeyWrap\NIST.CVP.Crypto.KeyWrap.csproj" />
   </ItemGroup>
 
 </Project>
