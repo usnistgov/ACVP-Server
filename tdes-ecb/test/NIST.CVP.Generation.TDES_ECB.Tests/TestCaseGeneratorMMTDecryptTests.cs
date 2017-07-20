@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         public void ShouldReturnAnErrorIfAnDecryptionFails()
         { 
             var algo = new Mock<ITDES_ECB>();
-            algo.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
+            algo.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
                .Returns(new EncryptionResult("I Failed to decrypt"));
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), algo.Object);
             var result = subject.Generate(new TestGroup { Function = "decrypt", NumberOfKeys = 3 }, false);
