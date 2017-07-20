@@ -1,22 +1,23 @@
-﻿using System;
+﻿using NIST.CVP.Math;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
-namespace NIST.CVP.Crypto.RSA
+namespace NIST.CVP.Crypto.RSA.Signatures
 {
-    public class EncryptResult
+    public class SignatureResult
     {
-        public BigInteger Ciphertext { get; private set; }
+        public BitString Signature { get; private set; }
         public string ErrorMessage { get; private set; }
 
-        public EncryptResult(BigInteger ciphertext)
+        public SignatureResult(BitString signature)
         {
-            Ciphertext = ciphertext;
+            Signature = signature;
         }
 
-        public EncryptResult(string errorMessage)
+        public SignatureResult(string errorMessage)
         {
             ErrorMessage = errorMessage;
         }
@@ -33,7 +34,7 @@ namespace NIST.CVP.Crypto.RSA
                 return ErrorMessage;
             }
 
-            return $"Ciphertext: {Ciphertext}";
+            return $"Signature: {Signature}";
         }
     }
 }

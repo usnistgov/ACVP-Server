@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.SHA2
 {
@@ -236,6 +237,29 @@ namespace NIST.CVP.Crypto.SHA2
                 {
                     return "";
                 }
+            }
+        }
+
+        public static BitString HashFunctionToBits(HashFunction hf)
+        {
+            switch (hf.DigestSize)
+            {
+                case DigestSizes.d160:
+                    return new BitString("33");
+                case DigestSizes.d224:
+                    return new BitString("38");
+                case DigestSizes.d256:
+                    return new BitString("34");
+                case DigestSizes.d384:
+                    return new BitString("36");
+                case DigestSizes.d512:
+                    return new BitString("35");
+                case DigestSizes.d512t224:
+                    return new BitString("39");
+                case DigestSizes.d512t256:
+                    return new BitString("40");
+                default:
+                    throw new Exception("Bad digest size");
             }
         }
     }

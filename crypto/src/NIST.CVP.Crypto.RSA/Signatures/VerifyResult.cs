@@ -4,7 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
-namespace NIST.CVP.Crypto.RSA
+namespace NIST.CVP.Crypto.RSA.Signatures
 {
     public class VerifyResult
     {
