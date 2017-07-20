@@ -107,7 +107,17 @@ namespace NIST.CVP.Generation.KeyWrap.Tests
                         .AddSegment(new RangeDomainSegment(randy, 128, 128*200, 64)), // lots of possible values
                     // 5 values total from range
                     60 // 1 * 3 * 2 * 2 * 5
-                }
+                },
+                new object[]
+                {
+                    "Minimal TDES-KW Inputs",
+                    "TDES-KW", // 1
+                    new int[] { 128 }, // 1
+                    new string[] { "encrypt" }, // 1
+                    new string[] { "cipher" }, // 1
+                    new MathDomain().AddSegment(new ValueDomainSegment(128)), // 1
+                    1 // ! * 1 * 1 * 1 * 1
+                },
             };
 
             return list;

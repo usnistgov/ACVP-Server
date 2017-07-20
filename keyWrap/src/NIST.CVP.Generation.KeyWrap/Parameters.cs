@@ -12,5 +12,6 @@ namespace NIST.CVP.Generation.KeyWrap
         public string[] Direction { get; set; }
         public string[] KwCipher { get; set; }
         public MathDomain PtLen { get; set; }
+        public int[] KeyingOption { get; set; } 
     }
 }

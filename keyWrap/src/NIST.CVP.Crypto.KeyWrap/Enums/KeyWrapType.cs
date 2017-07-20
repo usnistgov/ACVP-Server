@@ -2,6 +2,7 @@
 {
     public enum KeyWrapType
     {
-        AES_KW
+        AES_KW,
+        TDES_KW
     }
 }

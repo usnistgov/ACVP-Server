@@ -19,6 +19,7 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
 
         [Test]
         [TestCase(KeyWrapType.AES_KW, typeof(KeyWrapAes))]
+        [TestCase(KeyWrapType.TDES_KW, typeof(KeyWrapTdes))]
         public void ShouldReturnCorrectImplementation(KeyWrapType keyWrapType, Type expectedType)
         {
             var result = _subject.GetKeyWrapInstance(keyWrapType);
