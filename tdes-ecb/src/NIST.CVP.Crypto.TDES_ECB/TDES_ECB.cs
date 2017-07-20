@@ -9,8 +9,12 @@ namespace NIST.CVP.Crypto.TDES_ECB
         public const int EXPECTED_BLOCK_SIZE = 64;
 
 
-        public EncryptionResult BlockEncrypt(BitString keyBits, BitString data)
+        public EncryptionResult BlockEncrypt(BitString keyBits, BitString data, bool encryptUsingInverseCipher = false)
         {
+            if (encryptUsingInverseCipher)
+            {
+                throw new NotImplementedException();
+            }
             if (data.BitLength % EXPECTED_BLOCK_SIZE != 0)
             {
                 return new EncryptionResult($"Supplied data size {data.BitLength} is not in the proper block size {EXPECTED_BLOCK_SIZE}");
@@ -39,8 +43,12 @@ namespace NIST.CVP.Crypto.TDES_ECB
             return output;
         }
 
-        public DecryptionResult BlockDecrypt(BitString keyBits, BitString cipherText)
+        public DecryptionResult BlockDecrypt(BitString keyBits, BitString cipherText, bool encryptUsingInverseCipher = false)
         {
+            if (encryptUsingInverseCipher)
+            {
+                throw new NotImplementedException();
+            }
             if (cipherText.BitLength % EXPECTED_BLOCK_SIZE != 0)
             {
                 return new DecryptionResult($"Supplied data size {cipherText.BitLength} is not in the proper block size {EXPECTED_BLOCK_SIZE}");
