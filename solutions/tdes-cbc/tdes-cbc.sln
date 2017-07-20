@@ -36,9 +36,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES.Tests", "..\..\crypto\test\NIST.CVP.Crypto.TDES.Tests\NIST.CVP.Crypto.TDES.Tests.csproj", "{D83DC8B8-C9C6-4946-A919-109C6229EEB0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_CBC", "..\..\tdes-cbc\src\NIST.CVP.Crypto.TDES_CBC\NIST.CVP.Crypto.TDES_CBC.csproj", "{1BF2966A-080D-4B40-8EF8-5E93A922FACE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_CBC", "..\..\crypto\src\NIST.CVP.Crypto.TDES_CBC\NIST.CVP.Crypto.TDES_CBC.csproj", "{1BF2966A-080D-4B40-8EF8-5E93A922FACE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_CBC.Tests", "..\..\tdes-cbc\test\NIST.CVP.Crypto.TDES_CBC.Tests\NIST.CVP.Crypto.TDES_CBC.Tests.csproj", "{FBB70B17-2BFB-435B-9F56-A68378D84827}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_CBC.Tests", "..\..\crypto\test\NIST.CVP.Crypto.TDES_CBC.Tests\NIST.CVP.Crypto.TDES_CBC.Tests.csproj", "{FBB70B17-2BFB-435B-9F56-A68378D84827}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
