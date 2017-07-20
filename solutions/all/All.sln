@@ -279,11 +279,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DRBG", "..\..\drbg\src\DRBG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DRBG_Val", "..\..\drbg\src\DRBG_Val\DRBG_Val.csproj", "{8CCA160F-28A6-4145-8F48-254378799097}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.DRBG", "..\..\drbg\src\NIST.CVP.Crypto.DRBG\NIST.CVP.Crypto.DRBG.csproj", "{A094E20E-55BB-40E0-9562-5DE2B23C13A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.DRBG", "..\..\crypto\src\NIST.CVP.Crypto.DRBG\NIST.CVP.Crypto.DRBG.csproj", "{A094E20E-55BB-40E0-9562-5DE2B23C13A9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DRBG", "..\..\drbg\src\NIST.CVP.Generation.DRBG\NIST.CVP.Generation.DRBG.csproj", "{D72DBC82-78AB-44DA-894D-E10D59FBBF17}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.DRBG.Tests", "..\..\drbg\test\NIST.CVP.Crypto.DRBG.Tests\NIST.CVP.Crypto.DRBG.Tests.csproj", "{27E05AF2-E407-4956-90DE-18914ED88623}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.DRBG.Tests", "..\..\crypto\test\NIST.CVP.Crypto.DRBG.Tests\NIST.CVP.Crypto.DRBG.Tests.csproj", "{27E05AF2-E407-4956-90DE-18914ED88623}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DRBG.Tests", "..\..\drbg\test\NIST.CVP.Generation.DRBG.Tests\NIST.CVP.Generation.DRBG.Tests.csproj", "{1FB91A46-236F-4DD0-A5D8-76C0CC35C6B0}"
 EndProject
