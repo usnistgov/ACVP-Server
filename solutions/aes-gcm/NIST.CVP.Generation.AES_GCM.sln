@@ -5,14 +5,6 @@ VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C4CF630A-135D-473D-A957-C22A7D019723}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{406519E2-A1E3-4F17-BDFF-E6BF6B989903}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-		..\..\aes-gcm\src\global.json = ..\..\aes-gcm\src\global.json
-		..\..\aes-gcm\test\global.json = ..\..\aes-gcm\test\global.json
-		..\..\common\test\global.json = ..\..\common\test\global.json
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5AF6D6AA-1986-49F0-AE30-7CDC09D8F015}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.AES_GCM", "..\..\aes-gcm\src\NIST.CVP.Generation.AES_GCM\NIST.CVP.Generation.AES_GCM.csproj", "{B4F92259-AB1C-4E73-B834-87744C9F70D7}"

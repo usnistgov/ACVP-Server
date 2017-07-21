@@ -5,13 +5,6 @@ VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AED8EEB2-0897-4EA5-8A8B-FF13FD612242}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6165D310-2F97-4FB7-B20E-ABFB148558F8}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-		..\..\tdes-ecb\src\global.json = ..\..\tdes-ecb\src\global.json
-		..\..\tdes-ecb\test\global.json = ..\..\tdes-ecb\test\global.json
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{314F52DA-DDC8-4120-947C-672C05813575}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"

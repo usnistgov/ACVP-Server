@@ -7,12 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{54DA0B69-B92
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1FB75079-7E5F-4642-B794-2D815E5E9193}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2BCCC241-C144-474E-B192-5C16DBF6C2DE}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\aes-ofb\src\global.json = ..\..\aes-ofb\src\global.json
-		..\..\aes-ofb\test\global.json = ..\..\aes-ofb\test\global.json
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"

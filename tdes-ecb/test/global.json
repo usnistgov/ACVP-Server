@@ -1,6 +1,0 @@
-{
-  "projects": [ "../src", "../../common/src", "../../common/test" ],
-    "sdk": {
-        "version": "1.0.4"
-    }
-}

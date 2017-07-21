@@ -3,13 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72EE30C8-1788-41BC-BC51-D6C9F92A9D01}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-		..\..\tdes-cbc\src\global.json = ..\..\tdes-cbc\src\global.json
-		..\..\tdes-cbc\test\global.json = ..\..\tdes-cbc\test\global.json
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6FBD67E5-0222-4BB6-B0D2-67636943A362}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2900417F-03FA-4EF9-9640-9F1C67DEE621}"

@@ -1,9 +1,0 @@
-{
-  "projects": [ 
-    "../../common/src",
-    "../../crypto"
-  ],
-    "sdk": {
-        "version": "1.0.4"
-    }
-}

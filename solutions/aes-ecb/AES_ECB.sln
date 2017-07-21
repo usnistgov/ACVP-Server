@@ -5,13 +5,6 @@ VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0B113BDD-3E60-45BE-940B-0C346168DCF1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{53B323FA-B2B1-4A63-A3F1-9E9AAAF66F47}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-		..\..\aes-ecb\src\global.json = ..\..\aes-ecb\src\global.json
-		..\..\aes-ecb\test\global.json = ..\..\aes-ecb\test\global.json
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AES_ECB", "..\..\aes-ecb\src\AES_ECB\AES_ECB.csproj", "{D1B40228-02C9-4182-86C8-B7B0404B06A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"

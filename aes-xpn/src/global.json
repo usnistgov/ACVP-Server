@@ -1,6 +1,0 @@
-{
-  "projects": [ "../../common/src", "../../aes-gcm/src" ],
-    "sdk": {
-        "version": "1.0.4"
-    }
-}

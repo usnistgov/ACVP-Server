@@ -7,12 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{51CE63DD-707
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8E6EB033-8EE6-4DCE-BE4D-5075675C2573}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8DD9C214-D743-431F-A1ED-0F4E890C9E2B}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\tdes-ofb\src\global.json = ..\..\tdes-ofb\src\global.json
-		..\..\tdes-ofb\test\global.json = ..\..\tdes-ofb\test\global.json
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES", "..\..\crypto\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj", "{3FF86A19-FA89-48DA-A4A9-FE6063AAE51F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{FD959DB3-9E65-4504-A54B-940868CF3899}"
