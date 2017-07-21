@@ -10,12 +10,18 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
     {
         private TestGroupGeneratorFactory _subject;
 
-        [Test]
-        [TestCase(typeof(TestGroupGenerator))]
-        public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
+        [SetUp]
+        public void Setup()
         {
             _subject = new TestGroupGeneratorFactory();
-
+        }
+        
+        [Test]
+        [TestCase(typeof(TestGroupGeneratorMultiblockMessage))]
+        [TestCase(typeof(TestGroupGeneratorKnownAnswer))]
+        [TestCase(typeof(TestGroupGeneratorMonteCarlo))]
+        public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
+        {
             var result = _subject.GetTestGroupGenerators();
 
             Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
@@ -24,11 +30,9 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         public void ReturnedResultShouldContainThreeGenerators()
         {
-            _subject = new TestGroupGeneratorFactory();
-
             var result = _subject.GetTestGroupGenerators();
 
-            Assert.IsTrue(result.Count() == 1);
+            Assert.IsTrue(result.Count() == 3);
         }
     }
 }

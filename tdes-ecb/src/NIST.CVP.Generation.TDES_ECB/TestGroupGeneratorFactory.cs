@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_ECB
@@ -13,7 +10,9 @@ namespace NIST.CVP.Generation.TDES_ECB
             HashSet<ITestGroupGenerator<Parameters>> list =
                 new HashSet<ITestGroupGenerator<Parameters>>()
                 {
-                    new TestGroupGenerator()
+                    new TestGroupGeneratorKnownAnswer(),
+                    new TestGroupGeneratorMultiblockMessage(),
+                    new TestGroupGeneratorMonteCarlo()
                 };
 
             return list;
