@@ -397,7 +397,7 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
             {
                 return new List<ITestGroupGenerator<Parameters>>()
                 {
-                    new TestGroupGenerator()
+                    new TestGroupGeneratorMultiblockMessage()
                 };
             }
         }

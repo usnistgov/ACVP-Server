@@ -10,7 +10,9 @@ namespace NIST.CVP.Generation.TDES_OFB
             HashSet<ITestGroupGenerator<Parameters>> list =
                 new HashSet<ITestGroupGenerator<Parameters>>()
                 {
-                    new TestGroupGenerator()
+                    new TestGroupGeneratorKnownAnswer(),
+                    new TestGroupGeneratorMultiblockMessage(),
+                    new TestGroupGeneratorMonteCarlo()
                 };
 
             return list;
