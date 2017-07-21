@@ -396,7 +396,7 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
             {
                 return new List<ITestGroupGenerator<Parameters>>()
                 {
-                    new TestGroupGenerator()
+                    new TestGroupGeneratorMultiblockMessage()
                 };
             }
         }
