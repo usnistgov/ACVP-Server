@@ -7,9 +7,9 @@ using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.DRBG.IntegrationTests
+namespace NIST.CVP.Crypto.DRBG.Tests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastIntegrationTest, UnitTest]
     public class DRBGTests
     {
 
