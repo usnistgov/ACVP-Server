@@ -4,6 +4,7 @@ using System.Text;
 using NIST.CVP.Math;
 using NIST.CVP.Crypto.SHA2;
 using System.Numerics;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA.Signatures
 {
@@ -12,17 +13,21 @@ namespace NIST.CVP.Crypto.RSA.Signatures
         protected readonly int _saltLen;
         protected readonly HashFunction _hashFunction;
         private readonly ISHA _sha = new SHA();
-        protected readonly IRandom800_90 _rand = new Random800_90();
 
-        public SignerBase(HashFunction hashFunction)
+        protected IEntropyProvider _entropy;
+        protected IEntropyProviderFactory _entropyProviderFactory = new EntropyProviderFactory();
+
+        public SignerBase(HashFunction hashFunction, EntropyProviderTypes entropyType = EntropyProviderTypes.Random, int saltLen = 0)
         {
             _hashFunction = hashFunction;
+            _entropy = _entropyProviderFactory.GetEntropyProvider(entropyType);
+            _saltLen = saltLen;
         }
 
-        public SignerBase(HashFunction hashFunction, int saltLen)
+        // Used for salt
+        public void AddEntropy(BitString entropy)
         {
-            _hashFunction = hashFunction;
-            _saltLen = saltLen;
+            _entropy.AddEntropy(entropy);
         }
             
         protected BitString Hash(BitString message)
