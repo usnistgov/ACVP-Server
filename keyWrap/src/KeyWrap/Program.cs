@@ -13,12 +13,13 @@ namespace KeyWrap
     {
         public static int Main(string[] args)
         {
-            if (args.Length < 1)
+            if (args.Length < 2)
             {
-                Console.Error.WriteLine("No arguments supplied");
+                Console.Error.WriteLine("Invalid arguments supplied");
                 return 1;
             }
             var requestFile = args[0];
+            var algo = args[1];
             LoggingHelper.ConfigureLogging(requestFile, "keyWrap");
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
@@ -27,7 +28,7 @@ namespace KeyWrap
 
             try
             {
-                AutofacConfig.IoCConfiguration();
+                AutofacConfig.IoCConfiguration(algo);
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
                     var gen = scope.Resolve<IGenerator>();

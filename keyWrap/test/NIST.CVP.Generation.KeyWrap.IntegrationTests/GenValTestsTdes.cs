@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
+using System.Linq;
 using Autofac;
+using KeyWrap;
+using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -11,20 +13,17 @@ using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using AutofacConfig = KeyWrap.AutofacConfig;
-using Program = KeyWrap.Program;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public class GenValTests
+    public class GenValTestsTdes
     {
         string _testPath;
-        string[] _testVectorFileNames = new string[]
-        {
-                "\\testResults.json",
-                "\\prompt.json",
-                "\\answer.json"
+        string[] _testVectorFileNames = {
+            "\\testResults.json",
+            "\\prompt.json",
+            "\\answer.json"
         };
 
         [SetUp]
@@ -53,7 +52,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         [Test]
         public void GenShouldReturn1OnInvalidFileName()
         {
-            var result = Program.Main(new string[] { $"{Guid.NewGuid()}.json" });
+            var result = Program.Main(new[] { $"{Guid.NewGuid()}.json" });
 
             Assert.AreEqual(1, result);
         }
@@ -69,7 +68,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             var targetFolder = GetTestFolder();
             var fileName = GetTestFileFewTestCases(targetFolder);
 
-            var result = Program.Main(new string[] { fileName });
+            var result = Program.Main(new[] { fileName });
 
             Assert.AreEqual(1, result);
         }
@@ -85,7 +84,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             var targetFolder = GetTestFolder();
             var fileName = GetTestFileFewTestCases(targetFolder);
 
-            var result = Program.Main(new string[] { fileName });
+            var result = Program.Main(new[] { fileName });
 
             Assert.AreEqual(1, result);
         }
@@ -186,7 +185,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             // Validate result as pass
             Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
         }
-        
+
         [Test]
         public void ShouldReportFailedDispositionOnErrorTests()
         {
@@ -256,7 +255,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         private void RunGeneration(string targetFolder, string fileName)
         {
             // Run test vector generation
-            var result = Program.Main(new string[] { fileName, "AES-KW" });
+            var result = Program.Main(new[] { fileName, "TDES-KW" });
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), $"{targetFolder}{_testVectorFileNames[0]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), $"{targetFolder}{_testVectorFileNames[1]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), $"{targetFolder}{_testVectorFileNames[2]}");
@@ -267,7 +266,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         {
             // Run test vector validation
             var result = KeyWrap_Val.Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames)
+                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Append("TDES-KW").ToArray()
             );
             Assert.IsTrue(File.Exists($"{targetFolder}\\validation.json"), $"{targetFolder}validation");
             Assert.IsTrue(result == 0);
@@ -331,17 +330,20 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 
             return failedTestCases;
         }
-        
+
         private string GetTestFileFewTestCases(string targetFolder)
         {
-            Parameters p = new Parameters()
+
+            var p = new ParametersTdes
             {
-                Algorithm = "AES-KW",
-                Direction = new string[] {"encrypt", "decrypt"},
-                KwCipher = new string[] { "cipher" },
-                KeyLen = new int[] { 128 },
+                Algorithm = "TDES-KW",
+                Direction = ParameterValidator.VALID_DIRECTIONS,
+                
+                KwCipher = new[] { "cipher", "inverse" },
+                KeyLen = new[] { 192 },
+                KeyingOption = new[] { 1, 2 },
                 PtLen = new MathDomain()
-                    .AddSegment(new ValueDomainSegment(128))
+                    .AddSegment(new ValueDomainSegment(64))
             };
 
             return CreateRegistration(targetFolder, p);
@@ -349,24 +351,25 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 
         private string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            Parameters p = new Parameters()
+            var p = new ParametersTdes
             {
-                Algorithm = "AES-KW",
-                Direction = new string[] { "encrypt", "decrypt" },
-                KwCipher = new string[] { "cipher", "inverse" },
-                KeyLen = new int[] { 128, 192, 256 },
+                Algorithm = "TDES-KW",
+                Direction = ParameterValidator.VALID_DIRECTIONS,
+                KwCipher = new[] { "cipher", "inverse" },
+                KeyLen = new[] { 192 },
+                KeyingOption = new[] { 1, 2 },
                 PtLen = new MathDomain()
-                    .AddSegment(new RangeDomainSegment(new Random800_90(), 128, 128*10, 64))
+                    .AddSegment(new RangeDomainSegment(new Random800_90(), 128, 128 * 10, 64))
             };
 
             return CreateRegistration(targetFolder, p);
         }
-        
-        private static string CreateRegistration(string targetFolder, Parameters parameters)
+
+        private static string CreateRegistration(string targetFolder, ParametersTdes parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings()
+            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings
             {
-                Converters = new List<JsonConverter>()
+                Converters = new List<JsonConverter>
                 {
                     new BitstringConverter(),
                     new DomainConverter()

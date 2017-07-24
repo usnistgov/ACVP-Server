@@ -10,19 +10,20 @@ namespace KeyWrap_Val
     {
         public static int Main(string[] args)
         {
-            if (args.Length < 3)
+            if (args.Length < 4)
             {
-                Console.Error.WriteLine("Not enough arguments supplied, must supply paths for result, prompt and and answer files");
+                Console.Error.WriteLine("Not enough arguments supplied, must supply paths for result, prompt and and answer files, and algo (TDES-KW or AES-KW)");
                 return 1;
             }
             var resultFile = args[0];
             var promptFile = args[1];
             var answerFile = args[2];
+            var algo = args[3];
             LoggingHelper.ConfigureLogging(resultFile, "keyWrap-val");
             Logger.Info($"Validating test results for {resultFile}");
             try
             {
-                AutofacConfig.IoCConfiguration();
+                AutofacConfig.IoCConfiguration(algo);
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
                     var validator = scope.Resolve<IValidator>();
