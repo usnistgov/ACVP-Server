@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
+using System.Numerics;
 
 namespace NIST.CVP.Crypto.RSA.Signatures
 {
@@ -41,12 +42,12 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             }
         }
 
-        private BitString EMSA_PKCS_Encoding(BitString message)
+        private BitString EMSA_PKCS_Encoding(BitString message, int nlen)
         {
             var H = Hash(message);
             var T = BitString.ConcatenateBits(GetHashAlgId(), H);
 
-            var psLen = message.BitLength - (GetHashAlgId().BitLength + SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize)) - 24;
+            var psLen = nlen - (GetHashAlgId().BitLength + SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize)) - 24;
             var PS = BitString.Ones(psLen);
 
             var EM = new BitString("00");
@@ -61,7 +62,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
         public override SignatureResult Sign(int nlen, BitString message, KeyPair key)
         {
             // 1. Apply EMSA-PKCS1-v1.5 Encoding
-            var EM = EMSA_PKCS_Encoding(message);
+            var EM = EMSA_PKCS_Encoding(message, nlen);
             if (message.BitLength < GetHashAlgId().BitLength + 11 * 8)
             {
                 return new SignatureResult("Message length too short");
@@ -91,9 +92,10 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             var EM = Encrypt(key.PubKey.N, key.PubKey.E, signature.ToPositiveBigInteger());
 
             // 3. Encoded Message Check
-            var EMPrime = EMSA_PKCS_Encoding(message);
+            var EMPrime = EMSA_PKCS_Encoding(message, nlen).ToPositiveBigInteger();
 
-            if (EMPrime.Equals(EM))
+            // Check BigIntegers instead of BitStrings because EM comes out with slightly less bits (0 bits from the front)
+            if (EM == EMPrime)
             {
                 return new VerifyResult();
             }

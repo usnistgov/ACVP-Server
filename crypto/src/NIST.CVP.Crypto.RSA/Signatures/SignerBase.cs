@@ -9,14 +9,22 @@ namespace NIST.CVP.Crypto.RSA.Signatures
 {
     public abstract class SignerBase : ISigner
     {
+        protected readonly int _saltLen;
         protected readonly HashFunction _hashFunction;
         private readonly ISHA _sha = new SHA();
+        protected readonly IRandom800_90 _rand = new Random800_90();
 
         public SignerBase(HashFunction hashFunction)
         {
             _hashFunction = hashFunction;
         }
 
+        public SignerBase(HashFunction hashFunction, int saltLen)
+        {
+            _hashFunction = hashFunction;
+            _saltLen = saltLen;
+        }
+            
         protected BitString Hash(BitString message)
         {
             var hashResult = _sha.HashMessage(_hashFunction, message);
