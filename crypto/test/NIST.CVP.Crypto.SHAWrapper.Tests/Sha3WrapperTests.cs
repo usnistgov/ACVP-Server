@@ -14,7 +14,7 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
     {
         private Mock<ISHA3Factory> _shaFactory;
         private Mock<SHA3Wrapper> _shaWrapper;
-        private SHA3.HashFunction _hashFunction;
+        private HashFunction _hashFunction;
         private Sha3Wrapper _subject;
 
         [SetUp]
@@ -22,7 +22,7 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
         {
             _shaFactory = new Mock<ISHA3Factory>();
             _shaWrapper = new Mock<SHA3Wrapper>();
-            _hashFunction = new SHA3.HashFunction();
+            _hashFunction = new HashFunction(ModeValues.SHA3, DigestSizes.d224);
 
             _shaFactory
                 .Setup(s => s.GetSHA(It.IsAny<SHA3.HashFunction>()))
@@ -54,6 +54,39 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
                 Times.Once, 
                 nameof(_shaWrapper.Object.HashMessage)
             );
+        }
+
+        [Test]
+        [TestCase(ModeValues.SHA3, DigestSizes.d224)]
+        [TestCase(ModeValues.SHA3, DigestSizes.d256)]
+        [TestCase(ModeValues.SHA3, DigestSizes.d384)]
+        [TestCase(ModeValues.SHA3, DigestSizes.d512)]
+        public void ShouldReturnCorrectModeAndSize(ModeValues mode, DigestSizes digestSize)
+        {
+            HashFunction hashFunction = new HashFunction(mode, digestSize);
+
+            _subject = new Sha3Wrapper(_shaFactory.Object, hashFunction);
+
+            Assert.AreEqual(mode, _subject.HashFunction.Mode, nameof(mode));
+            Assert.AreEqual(digestSize, _subject.HashFunction.DigestSize, nameof(digestSize));
+        }
+
+        [Test]
+        [TestCase(ModeValues.SHA1, DigestSizes.d224)]
+        [TestCase(ModeValues.SHA1, DigestSizes.d256)]
+        [TestCase(ModeValues.SHA1, DigestSizes.d384)]
+        [TestCase(ModeValues.SHA1, DigestSizes.d512)]
+        [TestCase(ModeValues.SHA1, DigestSizes.d512t224)]
+        [TestCase(ModeValues.SHA1, DigestSizes.d512t256)]
+        [TestCase(ModeValues.SHA2, DigestSizes.d160)]
+        [TestCase(ModeValues.SHA3, DigestSizes.d160)]
+        [TestCase(ModeValues.SHA3, DigestSizes.d512t224)]
+        [TestCase(ModeValues.SHA3, DigestSizes.d512t256)]
+        public void ShouldThrowWithInvalidModeDigestCombination(ModeValues mode, DigestSizes digestSize)
+        {
+            HashFunction hashFunction = new HashFunction(mode, digestSize);
+
+            Assert.Throws(typeof(ArgumentException), () => _subject = new Sha3Wrapper(_shaFactory.Object, hashFunction));
         }
     }
 }

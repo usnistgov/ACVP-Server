@@ -2,8 +2,14 @@
 {
     public class HashFunction
     {
-        public ModeValues Mode { get; set; }
-        public DigestSizes DigestSize { get; set; }
+        public ModeValues Mode { get; }
+        public DigestSizes DigestSize { get; }
+
+        public HashFunction(ModeValues mode, DigestSizes digestSize)
+        {
+            Mode = mode;
+            DigestSize = digestSize;
+        }
     }
 
     public enum ModeValues
