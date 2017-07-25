@@ -12,6 +12,6 @@ namespace NIST.CVP.Crypto.SHAWrapper
         /// </summary>
         /// <param name="message">The message to hash</param>
         /// <returns></returns>
-        BitString HashMessage(BitString message);
+        HashResult HashMessage(BitString message);
     }
 }

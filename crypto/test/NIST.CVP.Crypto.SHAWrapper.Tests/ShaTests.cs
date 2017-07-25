@@ -37,7 +37,7 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
 
             var result = sha.HashMessage(new BitString(messageHex));
             
-            Assert.AreEqual(expectedDigest, result);
+            Assert.AreEqual(expectedDigest.ToHex(), result.Digest.ToHex());
         }
 
         #region sha2 test data
@@ -247,7 +247,7 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
 
             var result = sha.HashMessage(new BitString(messageHex));
 
-            Assert.AreEqual(expectedDigest, result);
+            Assert.AreEqual(expectedDigest.ToHex(), result.Digest.ToHex());
         }
 
         [Test]
@@ -281,7 +281,7 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
 
             var result = sha.HashMessage(new BitString(messageHex));
 
-            Assert.AreEqual(expectedDigest, result);
+            Assert.AreEqual(expectedDigest.ToHex(), result.Digest.ToHex());
         }
     }
 }

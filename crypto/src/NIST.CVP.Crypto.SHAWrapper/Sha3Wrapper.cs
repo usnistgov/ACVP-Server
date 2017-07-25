@@ -17,15 +17,24 @@ namespace NIST.CVP.Crypto.SHAWrapper
             _sha3HashFunction = sha3HashFunction;
         }
         
-        public BitString HashMessage(BitString message)
+        public HashResult HashMessage(BitString message)
         {
-            var sha = _iSha3Factory.GetSHA(_sha3HashFunction);
-            return sha.HashMessage(
-                message, 
-                _sha3HashFunction.DigestSize, 
-                _sha3HashFunction.Capacity,
-                _sha3HashFunction.XOF
-            );
+            try
+            {
+                var sha = _iSha3Factory.GetSHA(_sha3HashFunction);
+                return new HashResult(
+                    sha.HashMessage(
+                        message,
+                        _sha3HashFunction.DigestSize,
+                        _sha3HashFunction.Capacity,
+                        _sha3HashFunction.XOF
+                    )
+                );
+            }
+            catch (Exception ex)
+            {
+                return new HashResult(ex.Message);
+            }
         }
     }
 }
