@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.SHA2\NIST.CVP.Crypto.SHA2.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.SHA3\NIST.CVP.Crypto.SHA3.csproj" />
+  </ItemGroup>
+
+</Project>

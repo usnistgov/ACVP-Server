@@ -6,7 +6,7 @@ namespace NIST.CVP.Crypto.SHA3
     {
         private BitString _message;
 
-        public BitString HashMessage(BitString message, int digestSize, int capacity, bool XOF)
+        public virtual BitString HashMessage(BitString message, int digestSize, int capacity, bool XOF)
         {
             Init();
             Update(message);
