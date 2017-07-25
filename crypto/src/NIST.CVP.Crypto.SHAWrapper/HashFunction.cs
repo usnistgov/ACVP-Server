@@ -1,14 +1,23 @@
-﻿namespace NIST.CVP.Crypto.SHAWrapper
+﻿using NIST.CVP.Crypto.SHAWrapper.Helpers;
+
+namespace NIST.CVP.Crypto.SHAWrapper
 {
     public class HashFunction
     {
         public ModeValues Mode { get; }
         public DigestSizes DigestSize { get; }
-
+        public int OutputLen { get; }
+        public int BlockSize { get; }
+        
+        
         public HashFunction(ModeValues mode, DigestSizes digestSize)
         {
             Mode = mode;
             DigestSize = digestSize;
+
+            var attributes = ShaAttributes.GetShaAttributes(mode, digestSize);
+            OutputLen = attributes.outputLen;
+            BlockSize = attributes.blockSize;
         }
     }
 

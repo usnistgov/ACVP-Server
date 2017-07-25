@@ -73,23 +73,5 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
             Assert.AreEqual(mode, _subject.HashFunction.Mode, nameof(mode));
             Assert.AreEqual(digestSize, _subject.HashFunction.DigestSize, nameof(digestSize));
         }
-
-        [Test]
-        [TestCase(ModeValues.SHA1, DigestSizes.d224)]
-        [TestCase(ModeValues.SHA1, DigestSizes.d256)]
-        [TestCase(ModeValues.SHA1, DigestSizes.d384)]
-        [TestCase(ModeValues.SHA1, DigestSizes.d512)]
-        [TestCase(ModeValues.SHA1, DigestSizes.d512t224)]
-        [TestCase(ModeValues.SHA1, DigestSizes.d512t256)]
-        [TestCase(ModeValues.SHA2, DigestSizes.d160)]
-        [TestCase(ModeValues.SHA3, DigestSizes.d160)]
-        [TestCase(ModeValues.SHA3, DigestSizes.d512t224)]
-        [TestCase(ModeValues.SHA3, DigestSizes.d512t256)]
-        public void ShouldThrowWithInvalidModeDigestCombination(ModeValues mode, DigestSizes digestSize)
-        {
-            HashFunction hashFunction = new HashFunction(mode, digestSize);
-
-            Assert.Throws(typeof(ArgumentException), () => _subject = new Sha2Wrapper(_shaFactory.Object, hashFunction));
-        }
     }
 }

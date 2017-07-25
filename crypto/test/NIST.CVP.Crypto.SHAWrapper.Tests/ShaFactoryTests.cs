@@ -38,23 +38,5 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
 
             Assert.IsInstanceOf(expectedType, result);
         }
-
-        [Test, FastIntegrationTest]
-        [TestCase(ModeValues.SHA1, DigestSizes.d224)]
-        [TestCase(ModeValues.SHA1, DigestSizes.d256)]
-        [TestCase(ModeValues.SHA1, DigestSizes.d384)]
-        [TestCase(ModeValues.SHA1, DigestSizes.d512)]
-        [TestCase(ModeValues.SHA1, DigestSizes.d512t224)]
-        [TestCase(ModeValues.SHA1, DigestSizes.d512t256)]
-        [TestCase(ModeValues.SHA2, DigestSizes.d160)]
-        [TestCase(ModeValues.SHA3, DigestSizes.d160)]
-        [TestCase(ModeValues.SHA3, DigestSizes.d512t224)]
-        [TestCase(ModeValues.SHA3, DigestSizes.d512t256)]
-        public void ShouldThrowWithInvalidModeDigestCombination(ModeValues mode, DigestSizes digestSize)
-        {
-            HashFunction hashFunction = new HashFunction(mode, digestSize);
-
-            Assert.Throws(typeof(ArgumentException), () => _subject.GetShaInstance(hashFunction));
-        }
     }
 }
