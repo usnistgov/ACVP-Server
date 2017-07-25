@@ -30,6 +30,19 @@ namespace NIST.CVP.Crypto.RSA
         RANDOM
     }
 
+    public enum SigGenModes
+    {
+        ANS_931,
+        PKCS_v15,
+        PSS
+    }
+
+    public enum SaltModes
+    {
+        FIXED,
+        RANDOM
+    }
+
     public static class RSAEnumHelpers
     {
         public static KeyGenModes StringToKeyGenMode(string val)
@@ -129,6 +142,26 @@ namespace NIST.CVP.Crypto.RSA
             }
 
             throw new Exception("Bad PrimeTestMode");
+        }
+
+        public static SigGenModes StringToSigGenMode(string val)
+        {
+            if(val.ToLower().Contains("ans"))
+            {
+                return SigGenModes.ANS_931;
+            }
+
+            if (val.ToLower().Contains("pkcs"))
+            {
+                return SigGenModes.PKCS_v15;
+            }
+
+            if (val.ToLower().Contains("pss"))
+            {
+                return SigGenModes.PSS;
+            }
+
+            throw new Exception("Bad SigGenMode");
         }
     }
 }

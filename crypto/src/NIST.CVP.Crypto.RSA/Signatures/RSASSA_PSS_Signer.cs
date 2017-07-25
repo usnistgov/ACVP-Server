@@ -11,6 +11,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
     public class RSASSA_PSS_Signer : SignerBase
     {
         public RSASSA_PSS_Signer(HashFunction hashFunction, EntropyProviderTypes entType, int saltLen) : base(hashFunction, entType, saltLen) { }
+        public RSASSA_PSS_Signer(HashFunction hashFunction) : base(hashFunction) { }
 
         private readonly BitString _bc = new BitString("BC");
         private readonly BitString _01 = new BitString("01");

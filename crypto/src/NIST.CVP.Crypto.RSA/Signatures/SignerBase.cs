@@ -11,7 +11,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
     public abstract class SignerBase : ISigner
     {
         protected readonly int _saltLen;
-        protected readonly HashFunction _hashFunction;
+        protected HashFunction _hashFunction;
         private readonly ISHA _sha = new SHA();
 
         protected IEntropyProvider _entropy;
@@ -22,6 +22,11 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             _hashFunction = hashFunction;
             _entropy = _entropyProviderFactory.GetEntropyProvider(entropyType);
             _saltLen = saltLen;
+        }
+
+        public void SetHashFunction(HashFunction hf)
+        {
+            _hashFunction = hf;
         }
 
         // Used for salt

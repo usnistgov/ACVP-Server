@@ -1,0 +1,49 @@
+﻿using NIST.CVP.Generation.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+
+namespace NIST.CVP.Generation.RSA_SigGen
+{
+    public class TestVectorSet : ITestVectorSet
+    {
+        public string Algorithm { get; set; }
+        public string Mode { get; set; }
+        public bool IsSample { get; set; }
+
+        [JsonIgnore]
+        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
+        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
+
+        public TestVectorSet() { }
+
+        public TestVectorSet(dynamic answers, dynamic prompts)
+        {
+            foreach(var answer in answers.answerProjection)
+            {
+                var group = new TestGroup(answer);
+                TestGroups.Add(group);
+            }
+
+            foreach(var prompt in prompts.testGroups)
+            {
+                var promptGroup = new TestGroup(prompt);
+                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
+                if(matchingAnswerGroup != null)
+                {
+                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
+                    {
+                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
+                    }
+                }
+            }
+        }
+
+        public List<dynamic> AnswerProjection => throw new NotImplementedException();
+        public List<dynamic> PromptProjection => throw new NotImplementedException();
+        public List<dynamic> ResultProjection => throw new NotImplementedException();
+    }
+}
