@@ -32,6 +32,7 @@ namespace KeyWrap
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
+
             switch (algo)
             {
                 case "AES-KW":

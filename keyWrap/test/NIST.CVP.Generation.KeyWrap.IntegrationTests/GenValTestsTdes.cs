@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         [OneTimeTearDown]
         public void Teardown()
         {
-            //Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -190,7 +190,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         public void ShouldReportFailedDispositionOnErrorTests()
         {
             var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileLotsOfTestCases(targetFolder);
 
             List<int> expectedFailTestCases = new List<int>();
             RunGenerationAndValidationWithExpectedFailures(targetFolder, fileName, ref expectedFailTestCases);
@@ -338,7 +338,6 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             {
                 Algorithm = "TDES-KW",
                 Direction = ParameterValidator.VALID_DIRECTIONS,
-                
                 KwCipher = new[] { "cipher", "inverse" },
                 KeyLen = new[] { 192 },
                 KeyingOption = new[] { 1, 2 },

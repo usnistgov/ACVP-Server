@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using Autofac;
 using NIST.CVP.Generation.Core;
@@ -39,7 +40,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         [OneTimeTearDown]
         public void Teardown()
         {
-            //Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -118,7 +119,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             RunGeneration(targetFolder, fileName);
 
             var result = Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames)
+                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Append("AES-KW").ToArray()
             );
 
             Assert.AreEqual(1, result);
@@ -138,7 +139,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             RunGeneration(targetFolder, fileName);
 
             var result = Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames)
+                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Append("AES-KW").ToArray()
             );
 
             Assert.AreEqual(1, result);
@@ -267,7 +268,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         {
             // Run test vector validation
             var result = KeyWrap_Val.Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames)
+                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Append("AES-KW").ToArray()
             );
             Assert.IsTrue(File.Exists($"{targetFolder}\\validation.json"), $"{targetFolder}validation");
             Assert.IsTrue(result == 0);
