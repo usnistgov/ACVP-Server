@@ -7,9 +7,9 @@ namespace NIST.CVP.Generation.Core
         where TTestVectorSet : ITestVectorSet
         where TTestCase : ITestCase
     {
-        private readonly IResultValidator<TTestCase> _resultValidator;
-        private readonly ITestCaseValidatorFactory<TTestVectorSet, TTestCase> _testCaseValidatorFactory;
-        private readonly ITestReconstitutor<TTestVectorSet, TTestCase> _testReconstitutor;
+        protected readonly IResultValidator<TTestCase> _resultValidator;
+        protected readonly ITestCaseValidatorFactory<TTestVectorSet, TTestCase> _testCaseValidatorFactory;
+        protected readonly ITestReconstitutor<TTestVectorSet, TTestCase> _testReconstitutor;
 
         public Validator(IDynamicParser dynamicParser, IResultValidator<TTestCase> resultValidator, ITestCaseValidatorFactory<TTestVectorSet, TTestCase> testCaseValidatorFactory, ITestReconstitutor<TTestVectorSet, TTestCase> testReconstitutor)
         {

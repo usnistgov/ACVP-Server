@@ -9,7 +9,7 @@ namespace NIST.CVP.Crypto.AES_CFB1
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             BitOrientedBitString bs = (BitOrientedBitString)value;
-            var printedValue = new string(bs.ToString().Replace(" ", string.Empty).Reverse().ToArray());
+            var printedValue = new string(bs.ToString().Replace(" ", string.Empty).ToArray());
 
             writer.WriteValue(printedValue);
         }

@@ -6,6 +6,7 @@ using System.Text;
 using AES_CFB1;
 using Autofac;
 using Newtonsoft.Json;
+using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
@@ -218,6 +219,132 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
                 }
             }
         }
+
+        #region MMT issue test
+        #region test classes
+        /// <summary>
+        /// An issue was found with MMT where client/server disagreed on answer.  
+        /// Issue only applied to MMT over a single segment size.
+        /// The issue came down to <see cref="BitOrientedBitString"/> was written in the reverse order to the json files.
+        /// This test class is used to mock up some of the things the generator does in order to test the failing/passing behavior.
+        /// </summary>
+        private class TestGenerator : BitOrientedGenerator<Parameters, TestVectorSet>
+        {
+            private readonly TestVectorSet _injectedTestVectorSet;
+            
+            public TestGenerator(
+                TestVectorSet injectedTestVectorSet,
+                ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactoryFactory<TestVectorSet> iTestCaseGeneratorFactoryFactory) : base(testVectorFactory, parameterParser, parameterValidator, iTestCaseGeneratorFactoryFactory)
+            {
+                _injectedTestVectorSet = injectedTestVectorSet;
+            }
+
+            public override GenerateResponse Generate(string requestFilePath)
+            {
+                return SaveOutputs(requestFilePath, _injectedTestVectorSet);
+            }
+        }
+
+        /// <summary>
+        /// An issue was found with MMT where client/server disagreed on answer.  
+        /// Issue only applied to MMT over a single segment size.
+        /// The issue came down to <see cref="BitOrientedBitString"/> was written in the reverse order to the json files.
+        /// This test class is used to publicly expose the parsed <see cref="TestVectorSet"/> to compare to expactations.
+        /// </summary>
+        private class TestValidator : Validator<TestVectorSet, TestCase>
+        {
+            
+            public TestVectorSet ParsedTestVectorSet { get; private set; }
+            
+            public TestValidator(IDynamicParser dynamicParser, IResultValidator<TestCase> resultValidator, ITestCaseValidatorFactory<TestVectorSet, TestCase> testCaseValidatorFactory, ITestReconstitutor<TestVectorSet, TestCase> testReconstitutor) : base(dynamicParser, resultValidator, testCaseValidatorFactory, testReconstitutor)
+            {
+            }
+
+            public override TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse, ParseResponse<dynamic> promptParseResponse,
+                ParseResponse<dynamic> testResultParseResponse)
+            {
+                var testVectorSet = _testReconstitutor
+                    .GetTestVectorSetExpectationFromResponse(answerParseResponse.ParsedObject, promptParseResponse.ParsedObject);
+
+                ParsedTestVectorSet = testVectorSet;
+
+                var results = testResultParseResponse.ParsedObject;
+                var suppliedResults = _testReconstitutor.GetTestCasesFromResultResponse(results.testResults);
+                var testCases = _testCaseValidatorFactory.GetValidators(testVectorSet, suppliedResults);
+                var response = _resultValidator.ValidateResults(testCases, suppliedResults);
+                return response;
+            }
+        }
+        #endregion test classes
+
+        [Test]
+        [TestCase("5D48014888D0D2817EB6DE6C9A531350", "DC003497D79D92E1CB780DDCE437EEAD", "1010101101", "0110000101")]
+        public void ShouldEnsureBitOrientBitStringsWrittenInCorrectOrderToJsonFile(string keyString, string ivString, string plaintextString, string expectedCiphertextString)
+        {
+            var targetFolder = GetTestFolder();
+
+            BitString key = new BitString(keyString);
+            BitString iv = new BitString(ivString);
+            var plainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(plaintextString);
+            var expectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(expectedCiphertextString);
+
+            Crypto.AES_CFB1.AES_CFB1 algo = new Crypto.AES_CFB1.AES_CFB1(new RijndaelFactory(new RijndaelInternals()));
+            var actualCipherText = algo.BlockEncrypt(iv, key, plainText);
+
+            Assert.AreEqual(expectedCipherText, actualCipherText.CipherText, "Algo check pre serialization");
+
+            var tv = SetupVectorSet(key, iv, plainText, actualCipherText);
+            
+            TestGenerator testGenerator = new TestGenerator(tv, null, null, null, null);
+            testGenerator.Generate($"{targetFolder}\\test.test");
+
+            var result = $"{targetFolder}{_testVectorFileNames[0]}";
+            var prompt = $"{targetFolder}{_testVectorFileNames[1]}";
+            var answer = $"{targetFolder}{_testVectorFileNames[2]}";
+
+            TestValidator testValidator = new TestValidator(new DynamicParser(), new ResultValidator<TestCase>(), new TestCaseValidatorFactory(), new TestReconstitutor());
+            testValidator.Validate(result, answer, prompt);
+
+            var parsedTestVectorSet = testValidator.ParsedTestVectorSet;
+            
+            Assert.AreEqual(((TestCase)tv.TestGroups[0].Tests[0]).Key, ((TestCase)parsedTestVectorSet.TestGroups[0].Tests[0]).Key, "Key");
+            Assert.AreEqual(((TestCase)tv.TestGroups[0].Tests[0]).IV, ((TestCase)parsedTestVectorSet.TestGroups[0].Tests[0]).IV, "IV");
+            Assert.AreEqual(((TestCase)tv.TestGroups[0].Tests[0]).PlainText, ((TestCase)parsedTestVectorSet.TestGroups[0].Tests[0]).PlainText, "Plaintext");
+            Assert.AreEqual(((TestCase)tv.TestGroups[0].Tests[0]).CipherText, ((TestCase)parsedTestVectorSet.TestGroups[0].Tests[0]).CipherText, "Ciphertext");
+        }
+
+        private TestVectorSet SetupVectorSet(BitString key, BitString iv, BitOrientedBitString plainText, EncryptionResult actualCipherText)
+        {
+            TestCase tc = new TestCase()
+            {
+                Key = key,
+                IV = iv.GetDeepCopy(),
+                PlainText = plainText,
+                CipherText = actualCipherText.CipherText
+            };
+
+            TestGroup tg = new TestGroup()
+            {
+                Function = "encrypt",
+                KeyLength = 128,
+                StaticGroupOfTests = false,
+                TestType = "MMT",
+                Tests = new List<ITestCase>()
+            };
+
+            tg.Tests.Add(tc);
+
+            TestVectorSet tv = new TestVectorSet()
+            {
+                Algorithm = "AES-CFB1",
+                TestGroups = new List<ITestGroup>()
+            };
+
+            tv.TestGroups.Add(tg);
+
+            return tv;
+        }
+        #endregion
 
         private string[] GetFileNamesWithPath(string directory, string[] fileNames)
         {

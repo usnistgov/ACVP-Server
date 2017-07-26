@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.Core
             _testCaseGeneratorFactoryFactory = iTestCaseGeneratorFactoryFactory;
         }
 
-        public GenerateResponse Generate(string requestFilePath)
+        public virtual GenerateResponse Generate(string requestFilePath)
         {
             var parameterResponse = _parameterParser.Parse(requestFilePath);
             if (!parameterResponse.Success)
