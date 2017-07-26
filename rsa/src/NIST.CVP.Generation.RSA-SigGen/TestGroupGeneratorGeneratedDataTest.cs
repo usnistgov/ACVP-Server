@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
 {
     public class TestGroupGeneratorGeneratedDataTest : ITestGroupGenerator<Parameters>
     {
-        public const string TEST_TYPE = "AFT";
+        public const string TEST_TYPE = "GDT";
 
         public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
@@ -31,6 +31,8 @@ namespace NIST.CVP.Generation.RSA_SigGen
 
                             TestType = TEST_TYPE
                         };
+
+                        testGroups.Add(testGroup);
                     }
                 }
             }

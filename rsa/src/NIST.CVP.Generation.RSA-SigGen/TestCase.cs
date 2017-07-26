@@ -56,7 +56,24 @@ namespace NIST.CVP.Generation.RSA_SigGen
 
         public bool Merge(ITestCase otherTest)
         {
-            throw new NotImplementedException();
+            if (TestCaseId != otherTest.TestCaseId)
+            {
+                return false;
+            }
+
+            var otherTypedTest = (TestCase)otherTest;
+            if (Salt == null || otherTypedTest.Salt != null)
+            {
+                Salt = otherTypedTest.Salt.GetDeepCopy();
+            }
+
+            if (Message == null || otherTypedTest.Message != null)
+            {
+                Message = otherTypedTest.Message.GetDeepCopy();
+                return true;
+            }
+
+            return false;
         }
 
         private BitString BitStringFromObject(string propName, ExpandoObject source)

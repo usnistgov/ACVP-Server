@@ -24,6 +24,12 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             _saltLen = saltLen;
         }
 
+        // For Moq
+        public SignerBase()
+        {
+            _entropy = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Testable);
+        }
+
         public void SetHashFunction(HashFunction hf)
         {
             _hashFunction = hf;

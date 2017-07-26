@@ -144,6 +144,21 @@ namespace NIST.CVP.Crypto.RSA
             throw new Exception("Bad PrimeTestMode");
         }
 
+        public static string SigGenModeToString(SigGenModes val)
+        {
+            switch (val)
+            {
+                case SigGenModes.ANS_931:
+                    return "ansx9_31";
+                case SigGenModes.PKCS_v15:
+                    return "pkcs1v15";
+                case SigGenModes.PSS:
+                    return "pss";
+            }
+
+            throw new Exception("Bad SigGenMode");
+        }
+
         public static SigGenModes StringToSigGenMode(string val)
         {
             if(val.ToLower().Contains("ans"))
