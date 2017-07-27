@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             var sourceAnswer = GetSourceAnswer();
             var subject = new TestGroup(sourceAnswer);
             Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.mode, RSAEnumHelpers.SigGenModeToString(subject.Mode));
+            Assert.AreEqual(sourceAnswer.sigType, RSAEnumHelpers.SigGenModeToString(subject.Mode));
         }
 
         [Test]

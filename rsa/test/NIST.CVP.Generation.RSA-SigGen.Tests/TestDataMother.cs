@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                     HashAlg = new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224 },
                     Key = new KeyPair(31, 29, 7),
                     Mode = SigGenModes.ANS_931,
-                    Modulo = 1 + groupIdx,
+                    Modulo = 2048 + groupIdx,
                     TestType = "gdt",
                     Salt = new BitString("ABCD"),
                     SaltLen = 16,

@@ -129,6 +129,31 @@ namespace NIST.CVP.Crypto.RSA
             throw new Exception("Bad KeyGenMode");
         }
 
+        public static string SaltModeToString(SaltModes saltMode)
+        {
+            switch (saltMode)
+            {
+                case SaltModes.FIXED:
+                    return "fixed";
+                case SaltModes.RANDOM:
+                    return "random";
+            }
+
+            throw new Exception("Bad SaltMode");
+        }
+
+        public static SaltModes StringToSaltMode(string val)
+        {
+            if (val.ToLower().Contains("fix"))
+            {
+                return SaltModes.FIXED;
+            }
+            else
+            {
+                return SaltModes.RANDOM;
+            }
+        }
+
         public static string PrimeTestModeToString(PrimeTestModes val)
         {
             switch (val)
