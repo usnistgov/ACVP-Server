@@ -8,11 +8,11 @@ namespace NIST.CVP.Math.Domain
     public interface IDomainSegment
     {
         /// <summary>
-        /// Get the min/max of the segment
+        /// Get the min/max of the <see cref="IDomainSegment"/>
         /// </summary>
         RangeMinMax RangeMinMax { get; }
         /// <summary>
-        /// Sets options for obtaining values from the segment.
+        /// Sets options for obtaining values from the <see cref="IDomainSegment"/>.
         /// </summary>
         RangeDomainSegmentOptions SegmentValueOptions { set; }
         /// <summary>
@@ -22,16 +22,25 @@ namespace NIST.CVP.Math.Domain
         /// <param name="value"></param>
         void SetMaximumAllowedValue(int value);
         /// <summary>
-        /// Does the provided value occur within the domain segment?
+        /// Does the provided value occur within the <see cref="IDomainSegment"/>?
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">The value to look for within the <see cref="IDomainSegment"/></param>
         /// <returns></returns>
         bool IsWithinDomain(int value);
         /// <summary>
-        /// Get values from the segment, up to the quantity
+        /// Get values from the <see cref="IDomainSegment"/>, up to the quantity
         /// </summary>
-        /// <param name="quantity"></param>
+        /// <param name="quantity">The maximum number of values to return from the <see cref="IDomainSegment"/></param>
         /// <returns></returns>
         IEnumerable<int> GetValues(int quantity);
+        /// <summary>
+        /// Get values from the <see cref="IDomainSegment"/>, with a minimum of <see cref="min"/>
+        /// and a maximum <see cref="max"/>, up to the quantity
+        /// </summary>
+        /// <param name="min">The minimum value</param>
+        /// <param name="max">The maximum value</param>
+        /// <param name="quantity">The maximum number of values to return from the <see cref="IDomainSegment"/></param>
+        /// <returns></returns>
+        IEnumerable<int> GetValues(int min, int max, int quantity);
     }
 }

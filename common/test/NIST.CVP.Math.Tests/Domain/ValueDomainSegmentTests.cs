@@ -68,5 +68,31 @@ namespace NIST.CVP.Math.Tests.Domain
 
             Assert.AreEqual(value, result[0]);
         }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(5)]
+        [TestCase(10)]
+        public void ShouldReturnSingleValueFromSegmentWhenAskingForMultiple(int value)
+        {
+            _subject = new ValueDomainSegment(value);
+            
+            var result = _subject.GetValues(5).ToList();
+
+            Assert.AreEqual(value, result[0], nameof(value));
+            Assert.AreEqual(1, result.Count, nameof(result.Count));
+        }
+
+        [Test]
+        [TestCase(5, 5, true)]
+        [TestCase(4, 5, false)]
+        public void ShouldReturnValueWhenMinSpecifiedIsValue(int value, int minimum, bool expectItemReturned)
+        {
+            _subject = new ValueDomainSegment(value);
+
+            var result = _subject.GetValues(minimum, minimum + 1, 1).ToList();
+            
+            Assert.AreEqual(expectItemReturned, result.Count == 1);
+        }
     }
 }

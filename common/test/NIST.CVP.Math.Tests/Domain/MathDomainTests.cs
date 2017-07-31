@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Moq;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -149,6 +151,28 @@ namespace NIST.CVP.Math.Tests.Domain
             _subject.GetValues(It.IsAny<int>());
 
             _mockDomainSegment.Verify(v => v.GetValues(It.IsAny<int>()), Times.Exactly(numberOfSegments));
+        }
+
+        [Test]
+        [TestCase(1)]
+        [TestCase(5)]
+        public void ShouldCallGetValuesForEachSegmentWithRange(int numberOfSegments)
+        {
+            while (_subject.DomainSegments.Count() < numberOfSegments)
+            {
+                _subject.AddSegment(_mockDomainSegment.Object);
+            }
+
+            _subject.GetValues(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>());
+
+            _mockDomainSegment.Verify(v => v.GetValues(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(numberOfSegments));
+        }
+
+        [Test]
+        [TestCase(2, 1)]
+        public void ShouldArgumentExceptionWhenMinGtThanMaxGetValues(int min, int max)
+        {
+            Assert.Throws(typeof(ArgumentException), () => _subject.GetValues(min, max, 0));
         }
     }
 }

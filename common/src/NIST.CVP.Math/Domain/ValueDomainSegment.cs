@@ -62,5 +62,25 @@ namespace NIST.CVP.Math.Domain
         {
             return new List<int>() { _value };
         }
+
+        /// <summary>
+        /// Get values from the <see cref="IDomainSegment" />, with a minimum of <see cref="min" />
+        /// and a maximum <see cref="max" />, up to the quantity
+        /// </summary>
+        /// <param name="min">The minimum value</param>
+        /// <param name="max">The maximum value</param>
+        /// <param name="quantity">The maximum number of values to return from the <see cref="T:NIST.CVP.Math.Domain.IDomainSegment" /></param>
+        /// <returns></returns>
+        public IEnumerable<int> GetValues(int min, int max, int quantity)
+        {
+            List<int> values = new List<int>();
+
+            if (min == _value || max == _value)
+            {
+                values.Add(_value);
+            }
+
+            return values;
+        }
     }
 }

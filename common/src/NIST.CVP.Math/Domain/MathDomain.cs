@@ -13,7 +13,7 @@ namespace NIST.CVP.Math.Domain
         public IEnumerable<IDomainSegment> DomainSegments => _domainSegments.AsReadOnly();
 
         /// <summary>
-        /// Adds a domain segment to the Domain
+        /// Adds a domain segment to the <see cref="MathDomain"/>
         /// </summary>
         /// <param name="domainSegment">The domain segment to add</param>
         /// <returns>Returns itself for fluent API</returns>
@@ -25,7 +25,7 @@ namespace NIST.CVP.Math.Domain
         }
 
         /// <summary>
-        /// Sets get value option for the domain segments
+        /// Sets get value option for all <see cref="IDomainSegment"/>s
         /// </summary>
         /// <param name="option">The option to set</param>
         /// <returns>Returns itself for fluent API</returns>
@@ -43,7 +43,7 @@ namespace NIST.CVP.Math.Domain
         /// Allows for the setting of a new maximum allowed value, 
         /// as to create a pseudo "subset" from a full range.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">The value to set as the maximum value.</param>
         /// <returns>Returns itself for fluent API</returns>
         public MathDomain SetMaximumAllowedValue(int value)
         {
@@ -55,6 +55,10 @@ namespace NIST.CVP.Math.Domain
             return this;
         }
 
+        /// <summary>
+        /// Gets the minimum and maximum for the entire <see cref="MathDomain"/> as an <see cref="IEnumerable{T}"/> of <see cref="int"/>
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<int> GetDomainMinMaxAsEnumerable()
         {
             var rangeMinMax = GetDomainMinMax();
@@ -72,7 +76,7 @@ namespace NIST.CVP.Math.Domain
         }
         
         /// <summary>
-        /// Gets the minimum and maximum for the entire domain
+        /// Gets the minimum and maximum for the entire <see cref="MathDomain"/> as <see cref="RangeMinMax"/>
         /// </summary>
         /// <returns></returns>
         public RangeMinMax GetDomainMinMax()
@@ -108,6 +112,11 @@ namespace NIST.CVP.Math.Domain
             return minMax;
         }
 
+        /// <summary>
+        /// Get the <see cref="IEnumerable{T}"/> of <see cref="RangeMinMax"/> 
+        /// from each <see cref="IDomainSegment"/>
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<RangeMinMax> GetMinMaxRanges()
         {
             List<RangeMinMax> list = new List<RangeMinMax>();
@@ -121,7 +130,7 @@ namespace NIST.CVP.Math.Domain
         }
 
         /// <summary>
-        /// Checks that a value exists within a domain segment
+        /// Checks that a value exists within any <see cref="IDomainSegment"/>.
         /// </summary>
         /// <param name="value">The value to check for</param>
         /// <returns>true/false</returns>
@@ -141,7 +150,7 @@ namespace NIST.CVP.Math.Domain
         /// <summary>
         /// Gets the number of values specified from each segment (or up to the upper limit of the segment)
         /// </summary>
-        /// <param name="numberOfValuesPerSegment"></param>
+        /// <param name="numberOfValuesPerSegment">Max number of values to get per <see cref="IDomainSegment"/></param>
         /// <returns></returns>
         public IEnumerable<int> GetValues(int numberOfValuesPerSegment)
         {
@@ -150,6 +159,35 @@ namespace NIST.CVP.Math.Domain
             foreach (var domainSegment in _domainSegments)
             {
                 values.AddRange(domainSegment.GetValues(numberOfValuesPerSegment));
+            }
+
+            return values
+                .Distinct()
+                .OrderBy(ob => ob);
+        }
+
+        /// <summary>
+        /// Gets the number of values specified from each <see cref="IDomainSegment"/> - 
+        /// or up to the upper limit of the segment.
+        ///
+        /// Values are restricted to the <see cref="min"/> and <see cref="maxExclusive"/>
+        /// </summary>
+        /// <param name="min">The minimum value to return</param>
+        /// <param name="max">The maximum value to return</param>
+        /// <param name="numberOfValuesPerSegment">Max number of values to get per <see cref="IDomainSegment"/></param>
+        /// <returns></returns>        
+        public IEnumerable<int> GetValues(int min, int max, int numberOfValuesPerSegment)
+        {
+            if (min > max)
+            {
+                throw new ArgumentException($"{nameof(min)} must be less than or equal to {nameof(max)}");
+            }
+            
+            List<int> values = new List<int>();
+
+            foreach (var domainSegment in _domainSegments)
+            {
+                values.AddRange(domainSegment.GetValues(min, max, numberOfValuesPerSegment));
             }
 
             return values

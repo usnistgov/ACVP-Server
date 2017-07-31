@@ -193,11 +193,26 @@ namespace NIST.CVP.Math.Tests.Domain
         #endregion MaxNumberOfValuesInSegment
 
         #region GetValues
+        private static object[] _sequenceTestData = new object[]
+        {
+            new object[] {1, 5, 1, new int[] {1, 2, 3, 4, 5}},
+            new object[] {1, 5, 2, new int[] {1, 3, 5}},
+            new object[] {2, 6, 2, new int[] {2, 4, 6}},
+            new object[] {0, 10, 2, new int[] {0, 2, 4, 6, 8, 10}}
+        };
+        private static object[] _randomTestData = new object[]
+        {
+            new object[] { "1-5 step 1, start at 3, return up to 5 values", 1, 5, 1, 3, 5, new int[] { 3, 4, 2, 5, 1 } },
+            new object[] { "1-9 step 1, start at 5, return up to 5 values", 1, 9, 1, 5, 5, new int[] { 5, 6, 4, 7, 3 } },
+            new object[] { "0-12 step 4, start at 5, return up to 1 values", 0, 12, 4, 5, 1, new int[] { 4 } },
+            new object[] { "0-12 step 4, start at 5, return up to 2 values", 0, 12, 4, 5, 2, new int[] { 4, 8 } },
+            new object[] { "0-10 step 2, start at 5, return up to 4 values", 0, 10, 2, 5, 4, new int[] { 6, 4, 8, 2 } },
+            new object[] { "0-10 step 2, start at 5, return up to 10 values", 0, 10, 2, 5, 10, new int[] { 6, 4, 8, 2, 10, 0 } },
+            new object[] { "0-10 step 2, start at 4, return up to 10 values", 0, 10, 2, 4, 10, new int[] { 4, 6, 2, 8, 0, 10 } }
+        };
+
         [Test]
-        [TestCase(1, 5, 1, new int[] { 1, 2, 3, 4, 5 } )]
-        [TestCase(1, 5, 2, new int[] { 1, 3, 5 })]
-        [TestCase(2, 6, 2, new int[] { 2, 4, 6 })]
-        [TestCase(0, 10, 2, new int[] { 0, 2, 4, 6, 8, 10 })]
+        [TestCaseSource(nameof(_sequenceTestData))]
         public void ShouldReturnNumbersInSequence(int min, int max, int increment, int[] expectation)
         {
             _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment)
@@ -231,13 +246,7 @@ namespace NIST.CVP.Math.Tests.Domain
         /// <param name="quantityToReturn">Number of values to return</param>
         /// <param name="expectation">The expected random return</param>
         [Test]
-        [TestCase("1-5 step 1, start at 3, return up to 5 values", 1, 5, 1, 3, 5, new int[] { 3, 4, 2, 5, 1 } )]
-        [TestCase("1-9 step 1, start at 5, return up to 5 values", 1, 9, 1, 5, 5, new int[] { 5, 6, 4, 7, 3 })]
-        [TestCase("0-12 step 4, start at 5, return up to 1 values", 0, 12, 4, 5, 1, new int[] { 4 })]
-        [TestCase("0-12 step 4, start at 5, return up to 2 values", 0, 12, 4, 5, 2, new int[] { 4, 8 })]
-        [TestCase("0-10 step 2, start at 5, return up to 4 values", 0, 10, 2, 5, 4, new int[] { 6, 4, 8, 2 })]
-        [TestCase("0-10 step 2, start at 5, return up to 10 values", 0, 10, 2, 5, 10, new int[] { 6, 4, 8, 2, 10, 0 })]
-        [TestCase("0-10 step 2, start at 4, return up to 10 values", 0, 10, 2, 4, 10, new int[] { 4, 6, 2, 8, 0, 10 })]
+        [TestCaseSource(nameof(_randomTestData))]
         public void ShouldReturnValidNumbersWithinRangeRandomly(string testLabel, int min, int max, int increment, int seedRandom, int quantityToReturn, int[] expectation)
         {
             // Random should always return the "seedRandom" in order to test the +/- logic
@@ -253,6 +262,102 @@ namespace NIST.CVP.Math.Tests.Domain
             var result = _subject.GetValues(quantityToReturn);
 
             Assert.AreEqual(expectation.ToList(), result.ToList());
+        }
+
+        [Test]
+        [TestCaseSource(nameof(_sequenceTestData))]
+        public void ShouldReturnNumbersInSequenceSubsetRangeSanityCheck(int min, int max, int increment, int[] expectation)
+        {
+            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment)
+            {
+                SegmentValueOptions = RangeDomainSegmentOptions.Sequential
+            };
+
+            var maxQuantityAvailable = _subject.MaxNumberOfValuesInSegment;
+
+            var result = _subject.GetValues(min, max, maxQuantityAvailable).ToList();
+
+            for (int i = 0; i < expectation.Length; i++)
+            {
+                Assert.AreEqual(expectation[i], result[i]);
+            }
+        }
+
+        /// <summary>
+        /// Using the first case as an example ([TestCase(1, 5, 1, 3, new int[] { 2, 3, 1 } )])
+        /// If we cause our random generator to always return 3, given a range of 1-5, increment of one.
+        /// The first value returned should be 3, 
+        /// the second should be 4 (initial value + 1), 
+        /// the third value returned should be 2 (initial value - 1)
+        /// the Fourth is 5 (no values +/- 1 are valid, as they've already been returned in the set, move on to +/- 2
+        /// the final is 1 (initial value - 2)
+        /// </summary>
+        /// <param name="min">Minimum of range</param>
+        /// <param name="max">Maximum of range</param>
+        /// <param name="increment">The increment to use</param>
+        /// <param name="seedRandom">The value random should return with each call</param>
+        /// <param name="quantityToReturn">Number of values to return</param>
+        /// <param name="expectation">The expected random return</param>
+        [Test]
+        [TestCaseSource(nameof(_randomTestData))]
+        public void ShouldReturnValidNumbersWithinRangeRandomlySanityCheck(string testLabel, int min, int max, int increment, int seedRandom, int quantityToReturn, int[] expectation)
+        {
+            // Random should always return the "seedRandom" in order to test the +/- logic
+            _mockRandom
+                .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(seedRandom);
+
+            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment)
+            {
+                SegmentValueOptions = RangeDomainSegmentOptions.Random
+            };
+
+            var result = _subject.GetValues(min, max, quantityToReturn);
+
+            Assert.AreEqual(expectation.ToList(), result.ToList());
+        }
+
+        [Test]
+        public void ShouldReturnSequentialValuesOnlyWithinSubsets()
+        {
+            _subject = new RangeDomainSegment(_mockRandom.Object, 0, 10, 1)
+            {
+                SegmentValueOptions = RangeDomainSegmentOptions.Sequential
+            };
+
+            int minSubset = 0;
+            int maxSubset = 4;
+            int[] expectedValues = new[] {0, 1, 2, 3, 4};
+                
+            var maxQuantityAvailable = _subject.MaxNumberOfValuesInSegment;
+
+            var result = _subject.GetValues(minSubset, maxSubset, maxQuantityAvailable).ToList();
+
+            Assert.IsTrue(expectedValues.OrderBy(t => t).SequenceEqual(result.OrderBy(t => t)));
+        }
+
+        [Test]
+        public void ShouldReturnRandomValuesOnlyWithinSubsets()
+        {
+            // Random should always return the "seedRandom" in order to test the +/- logic
+            _mockRandom
+                .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(0);
+
+            _subject = new RangeDomainSegment(_mockRandom.Object, 0, 10, 1)
+            {
+                SegmentValueOptions = RangeDomainSegmentOptions.Random
+            };
+
+            int minSubset = 0;
+            int maxSubset = 4;
+            int[] expectedValues = new[] { 0, 1, 2, 3, 4 };
+
+            var maxQuantityAvailable = _subject.MaxNumberOfValuesInSegment;
+
+            var result = _subject.GetValues(minSubset, maxSubset, maxQuantityAvailable);
+
+            Assert.AreEqual(expectedValues.ToList(), result.ToList());
         }
         #endregion GetValues
     }
