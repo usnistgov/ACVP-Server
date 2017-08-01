@@ -17,7 +17,8 @@ namespace NIST.CVP.Math.Domain
         private readonly List<int> _returnedValues = new List<int>();
         private bool _valuesHaveBeenGenerated;
         private RangeDomainSegmentOptions _segmentValueOptions = RangeDomainSegmentOptions.Sequential;
-        
+        private RangeMinMax _originalMinMax;
+
         public const int _MAXIMUM_ALLOWED_RETURNS = 1000;
         public const int _MAXIMUM_ALLOWED_NUMBER_TO_RANDOMLY_GENERATE = (1 << 16) * 8;
         public const string _NOT_SUPPORTED_OPERATION =
@@ -102,9 +103,16 @@ namespace NIST.CVP.Math.Domain
             // We don't want to generate extremely large values for testing.
             _min = min > _MAXIMUM_ALLOWED_NUMBER_TO_RANDOMLY_GENERATE ? _MAXIMUM_ALLOWED_NUMBER_TO_RANDOMLY_GENERATE : (int)min;
             _max = max > _MAXIMUM_ALLOWED_NUMBER_TO_RANDOMLY_GENERATE ? _MAXIMUM_ALLOWED_NUMBER_TO_RANDOMLY_GENERATE : (int)max;
-
+            
             _increment = increment;
             _random = random;
+
+            _originalMinMax = new RangeMinMax()
+            {
+                Minimum = _min,
+                Increment = _increment,
+                Maximum = _max
+            };
         }
 
         /// <summary>
@@ -141,7 +149,7 @@ namespace NIST.CVP.Math.Domain
             }
 
             // Check if within the range and a valid value according to increment.
-            long valueOffset = value - _min;
+            long valueOffset = value - _originalMinMax.Minimum;
 
             if (valueOffset % _increment == 0)
             {
@@ -194,8 +202,8 @@ namespace NIST.CVP.Math.Domain
             var holdMinMax = RangeMinMax;
 
             // Set new min max (subset the domain)
-            _min = min;
-            _max = max;
+            _min = holdMinMax.Minimum < min ? min : _min;
+            _max = holdMinMax.Maximum > max ? max : _max;
 
             // Get the values based on the temporary min/max
             var result = GetValues(quantity);

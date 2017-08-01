@@ -75,7 +75,7 @@ namespace NIST.CVP.Math.Domain
         {
             List<int> values = new List<int>();
 
-            if (min == _value || max == _value)
+            if (_value >= min && _value <= max)
             {
                 values.Add(_value);
             }

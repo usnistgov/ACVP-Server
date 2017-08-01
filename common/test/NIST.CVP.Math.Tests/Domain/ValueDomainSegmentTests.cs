@@ -84,13 +84,16 @@ namespace NIST.CVP.Math.Tests.Domain
         }
 
         [Test]
-        [TestCase(5, 5, true)]
-        [TestCase(4, 5, false)]
-        public void ShouldReturnValueWhenMinSpecifiedIsValue(int value, int minimum, bool expectItemReturned)
+        [TestCase(5, 5, 10, true)]
+        [TestCase(7, 5, 10, true)]
+        [TestCase(10, 5, 10, true)]
+        [TestCase(4, 5, 10, false)]
+        [TestCase(11, 5, 10, false)]
+        public void ShouldReturnValueWhenMinSpecifiedIsValue(int value, int minimum, int maximum, bool expectItemReturned)
         {
             _subject = new ValueDomainSegment(value);
 
-            var result = _subject.GetValues(minimum, minimum + 1, 1).ToList();
+            var result = _subject.GetValues(minimum, maximum, 1).ToList();
             
             Assert.AreEqual(expectItemReturned, result.Count == 1);
         }
