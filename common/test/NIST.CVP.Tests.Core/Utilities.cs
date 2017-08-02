@@ -51,7 +51,30 @@ namespace NIST.CVP.Tests.Core
             return directory;
         }
 
+        /// <summary>
+        /// Creates/Returns a unique path name in the form "[rootDirectory]\[prependDirectoryName][GUID]"
+        /// </summary>
+        /// <example>
+        /// Sample input/output
+        /// 
+        /// <code>
+        /// Console.WriteLine(Utilities.GetTestFolder(@"C:\workspace\ACVP\gen-val\trunk\temp_integrationTests\", "prePend"));
+        /// </code>
+        /// 
+        /// > C:\workspace\ACVP\gen-val\trunk\temp_integrationTests\prePend_fa17e6e2-e77d-44f7-a6ae-95cc5883a4a2
+        /// 
+        /// </example>
+        /// <param name="rootDirectory">The root directory in which to create the test folder</param>
+        /// <param name="prependDirectoryName">Prepends the GUID with this test</param>
+        /// <returns></returns>
+        public static string GetTestFolder(string rootDirectory, string prependDirectoryName)
+        {
+            var targetFolder = Path.Combine(rootDirectory, $"{prependDirectoryName}_{Guid.NewGuid().ToString()}");
+            Directory.CreateDirectory(targetFolder);
 
+            return targetFolder;
+        }
+        
         public static void ConfigureLogging(string testTag, bool includeFile = true)
         {
             var config = new LoggingConfiguration();

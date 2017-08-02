@@ -121,31 +121,31 @@ namespace NIST.CVP.Generation.HMAC.Tests
             var subject = new TestGroup();
             var result = subject.SetString(name,"13");
             Assert.IsTrue(result);
-            Assert.AreEqual(13, subject.KeyLength);
+            Assert.AreEqual(13*8, subject.KeyLength);
         }
 
         [Test]
         [TestCase("msgLen")]
         [TestCase("MSGLEN")]
         [TestCase("MLeN")]
-        public void ShouldSetIVLength(string name)
+        public void ShouldSetMsgLength(string name)
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "13");
             Assert.IsTrue(result);
-            Assert.AreEqual(13, subject.MessageLength);
+            Assert.AreEqual(13*8, subject.MessageLength);
         }
 
         [Test]
         [TestCase("macLen")]
         [TestCase("MAcLeN")]
         [TestCase("TLeN")]
-        public void ShouldSetTagLength(string name)
+        public void ShouldSetMacLength(string name)
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "13");
             Assert.IsTrue(result);
-            Assert.AreEqual(13, subject.MacLength);
+            Assert.AreEqual(13*8, subject.MacLength);
         }
 
         private dynamic GetSourceAnswer()

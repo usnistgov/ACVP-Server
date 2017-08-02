@@ -91,19 +91,20 @@ namespace NIST.CVP.Generation.HMAC
                 return false;
             }
 
+            // CAVS files in bytes, groups in bits
             switch (name.ToLower())
             {
                 case "keylen":
                 case "klen":
-                    KeyLength = intVal;
+                    KeyLength = intVal * 8;
                     return true;
                 case "msglen":
                 case "mlen":
-                    MessageLength = intVal;
+                    MessageLength = intVal * 8;
                     return true;
                 case "maclen":
                 case "tlen":
-                    MacLength = intVal;
+                    MacLength = intVal * 8;
                     return true;
             }
             return false;
