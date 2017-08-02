@@ -14,6 +14,7 @@ namespace NIST.CVP.Generation.HMAC
     {
         private const int _MESSAGE_LENGTH = 128;
         private const string _TEST_TYPE = "AFT";
+        private const int _MAX_MAC_LENGTHS_TO_TEST = 4;
 
         public int[] KeyLens { get; private set; }
         public int[] MacLens { get; private set; }
@@ -29,7 +30,7 @@ namespace NIST.CVP.Generation.HMAC
         {
             var result = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(parameters.Algorithm);
             
-            DetermineLengths(parameters, result.shaMode, result.shaDigestSize, result.validMacLengths);
+            DetermineLengths(parameters, result.shaMode, result.shaDigestSize);
 
             foreach (var keyLen in KeyLens)
             {
@@ -52,19 +53,14 @@ namespace NIST.CVP.Generation.HMAC
             return testGroups;
         }
 
-        private void DetermineLengths(Parameters parameters, ModeValues shaMode, DigestSizes shaDigestSize, int[] validMacLengths)
+        private void DetermineLengths(Parameters parameters, ModeValues shaMode, DigestSizes shaDigestSize)
         {
-            // TODO re-evaluate based on Larry's answer
-            List<int> foundMacLengths = new List<int>();
-            foreach (var macLength in validMacLengths)
-            {
-                if (parameters.MacLen.IsWithinDomain(macLength))
-                {
-                    foundMacLengths.Add(macLength);
-                }
-            }
-            MacLens = foundMacLengths.ToArray();
+            GetKeyLengths(parameters, shaMode, shaDigestSize);
+            GetMacLengths(parameters);
+        }
 
+        private void GetKeyLengths(Parameters parameters, ModeValues shaMode, DigestSizes shaDigestSize)
+        {
             // Differing algo logic depending on keyLen < blockSize, keyLen = blockSize, keyLen > blockSize
             // Ensure we grab values from each section of logic (where applicable)
             List<int> keyLengths = new List<int>();
@@ -79,9 +75,14 @@ namespace NIST.CVP.Generation.HMAC
             keyLengths.AddRangeIfNotNullOrEmpty(parameters.KeyLen.GetValues(blockSize, blockSize, 1));
 
             // key > block
-            keyLengths.AddRangeIfNotNullOrEmpty(parameters.KeyLen.GetValues(blockSize + 1, blockSize+1024, 2));
+            keyLengths.AddRangeIfNotNullOrEmpty(parameters.KeyLen.GetValues(blockSize + 1, blockSize + 1024, 2));
 
             KeyLens = keyLengths.ToArray();
+        }
+
+        private void GetMacLengths(Parameters parameters)
+        {
+            MacLens = parameters.MacLen.GetValues(_MAX_MAC_LENGTHS_TO_TEST).Take(_MAX_MAC_LENGTHS_TO_TEST).ToArray();
         }
     }
 }

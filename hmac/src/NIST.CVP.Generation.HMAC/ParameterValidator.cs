@@ -13,7 +13,8 @@ namespace NIST.CVP.Generation.HMAC
         public const int _MIN_KEY_LENGTH = 8;
         public const int _MAX_KEY_LENGTH = 524288;
 
-        private int[] _validMacLens = null;
+        private int _minMacLength = 0;
+        private int _maxMacLength = 0;
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
@@ -23,7 +24,7 @@ namespace NIST.CVP.Generation.HMAC
 
             ModeValues shaMode = ModeValues.SHA1;
             DigestSizes shaDigestSize = DigestSizes.d160;
-            SetAlgorithmShaOptions(parameters, errorResults, ref shaMode, ref shaDigestSize, ref _validMacLens);
+            SetAlgorithmShaOptions(parameters, errorResults, ref shaMode, ref shaDigestSize, ref _minMacLength, ref _maxMacLength);
 
             // Cannot validate the rest of the parameters as they are dependant on the successful validation of the mechanism and mode.
             if (errorResults.Count > 0)
@@ -52,7 +53,7 @@ namespace NIST.CVP.Generation.HMAC
             errorResults.AddIfNotNullOrEmpty(algoCheck);
         }
 
-        private void SetAlgorithmShaOptions(Parameters parameters, List<string> errorResults, ref ModeValues shaMode, ref DigestSizes shaDigestSize, ref int[] validMacLens)
+        private void SetAlgorithmShaOptions(Parameters parameters, List<string> errorResults, ref ModeValues shaMode, ref DigestSizes shaDigestSize, ref int minMacLength, ref int maxMacLength)
         {
             try
             {
@@ -60,7 +61,8 @@ namespace NIST.CVP.Generation.HMAC
 
                 shaMode = result.shaMode;
                 shaDigestSize = result.shaDigestSize;
-                validMacLens = result.validMacLengths;
+                minMacLength = result.minMacLength;
+                maxMacLength = result.maxMacLength;
             }
             catch (ArgumentException ex)
             {
@@ -102,33 +104,11 @@ namespace NIST.CVP.Generation.HMAC
             var fullDomain = parameters.MacLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
-                _validMacLens.Min(),
-                _validMacLens.Max(),
+                _minMacLength,
+                _maxMacLength,
                 "MacLen Range"
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
-
-            var modCheck = ValidateMultipleOf(parameters.KeyLen, 8, "MacLen Modulus");
-            errorResults.AddIfNotNullOrEmpty(modCheck);
-
-            // TODO question to Larry regarding valid HMAC lens, 
-            // perhaps take this out depending on answer
-            // Validate at least one valid HMAC length (as per the validation specification) exists.
-            // http://csrc.nist.gov/groups/STM/cavp/documents/mac/HMACVS.pdf
-            bool found = false;
-            foreach (var macLen in _validMacLens)
-            {
-                if (parameters.MacLen.IsWithinDomain(macLen))
-                {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found)
-            {
-                errorResults.AddIfNotNullOrEmpty("Valid MacLen value not found.");
-            }
         }
     }
 }

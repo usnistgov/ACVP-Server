@@ -23,10 +23,10 @@ namespace NIST.CVP.Generation.HMAC.Tests
             // 0
             new object[]
             {
-                "test1 - 0",
+                "test1 - 1",
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                0
+                new MathDomain().AddSegment(new ValueDomainSegment(8)), // note this is an invalid MAC length, but validated as such in the parameters validator
+                1
             },
             // 1 (1*1)
             new object[]

@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.HMAC
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
                     var workingTest = test;
-                    list.Add(new TestCaseValidator(workingTest));
+                    list.Add(new TestCaseValidator(workingTest, group));
                 }
             }
 
