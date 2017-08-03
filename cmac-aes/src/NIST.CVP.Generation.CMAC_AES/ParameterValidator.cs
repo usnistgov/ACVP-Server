@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.CMAC_AES
         public static string[] VALID_DIRECTIONS = new string[] { "gen", "ver" };
         public static int VALID_MESSAGE_LENGTH_MIN = 0;
         public static int VALID_MESSAGE_LENGTH_MAX = 1 << 19;
-        public static int VALID_MAC_LENGTH_MIN = 8;
+        public static int VALID_MAC_LENGTH_MIN = 64;
         public static int VALID_MAC_LENGTH_MAX = 128;
 
         public ParameterValidateResponse Validate(Parameters parameters)
@@ -85,9 +85,6 @@ namespace NIST.CVP.Generation.CMAC_AES
                 "MacLen Range"
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
-
-            var modCheck = ValidateMultipleOf(parameters.MacLen, 8, "MacLen Modulus");
-            errorResults.AddIfNotNullOrEmpty(modCheck);
         }
     }
 }

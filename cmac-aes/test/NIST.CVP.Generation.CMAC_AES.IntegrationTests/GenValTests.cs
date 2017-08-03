@@ -341,7 +341,9 @@ namespace NIST.CVP.Generation.CMAC_AES.IntegrationTests
                 Algorithm = "CMAC-AES-128",
                 Direction = new string[] { "gen", "ver" },
                 MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                MacLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                MacLen = new MathDomain()
+                    .AddSegment(new ValueDomainSegment(128))
+                    .AddSegment(new ValueDomainSegment(127)),
                 IsSample = false
             };
 
@@ -357,7 +359,7 @@ namespace NIST.CVP.Generation.CMAC_AES.IntegrationTests
                 Algorithm = "CMAC-AES-128",
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
-                MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 8, 128, 8)),
+                MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 64, 128, 8)),
                 IsSample = false
             };
 

@@ -130,7 +130,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             new object[]
             {
                 "Success mod 8",
-                new MathDomain().AddSegment(new ValueDomainSegment(8)),
+                new MathDomain().AddSegment(new ValueDomainSegment(64)),
                 true
             },
             new object[]
@@ -148,31 +148,23 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
                             new Random800_90(),
                             ParameterValidator.VALID_MAC_LENGTH_MIN,
                             ParameterValidator.VALID_MAC_LENGTH_MAX,
-                            8
+                            1
                         )
                     ),
                 true
             },
             new object[]
             {
-                "Success full range mod 16",
-                new MathDomain()
-                    .AddSegment(
-                        new RangeDomainSegment(
-                            new Random800_90(),
-                            ParameterValidator.VALID_MAC_LENGTH_MIN,
-                            ParameterValidator.VALID_MAC_LENGTH_MAX,
-                            8
-                        )
-                    ),
-                true
-            },
-            new object[]
-            {
-                "Failure not mod 8",
-                new MathDomain().AddSegment(new ValueDomainSegment(7)),
+                "Failure below minimum",
+                new MathDomain().AddSegment(new ValueDomainSegment(63)),
                 false
-            }
+            },
+            new object[]
+            {
+                "Failure above maximum",
+                new MathDomain().AddSegment(new ValueDomainSegment(129)),
+                false
+            },
         };
 
         [Test]

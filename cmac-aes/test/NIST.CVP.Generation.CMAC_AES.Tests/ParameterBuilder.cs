@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             _algorithm = "CMAC-AES-128";
             _direction = new[] {"gen", "ver"};
             _msgLen = new MathDomain().AddSegment(new ValueDomainSegment(8));
-            _macLen = new MathDomain().AddSegment(new ValueDomainSegment(8));
+            _macLen = new MathDomain().AddSegment(new ValueDomainSegment(64));
         }
 
         public ParameterBuilder WithAlgorithm(string value)
