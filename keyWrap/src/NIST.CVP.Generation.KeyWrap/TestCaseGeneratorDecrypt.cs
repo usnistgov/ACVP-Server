@@ -6,10 +6,12 @@ using NLog;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseGeneratorDecrypt : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorDecrypt<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestCase>
+        where TTestCase : TestCaseBase, new()
     {
-        private readonly IKeyWrapFactory _iKeyWrapFactory;
-        private readonly IRandom800_90 _iRandom800_90;
+        protected readonly IKeyWrapFactory _iKeyWrapFactory;
+        protected readonly IRandom800_90 _iRandom800_90;
 
         public TestCaseGeneratorDecrypt(IKeyWrapFactory iKeyWrapFactory, IRandom800_90 iRandom800_90)
         {
@@ -19,11 +21,11 @@ namespace NIST.CVP.Generation.KeyWrap
 
         public int NumberOfTestCasesToGenerate => 100;
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse Generate(TTestGroup @group, bool isSample)
         {
             var key = _iRandom800_90.GetRandomBitString(group.KeyLength);
             var plainText = _iRandom800_90.GetRandomBitString(group.PtLen);
-            var testCase = new TestCase
+            var testCase = new TTestCase
             {
                 Key = key,
                 PlainText = plainText
@@ -31,7 +33,7 @@ namespace NIST.CVP.Generation.KeyWrap
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse Generate(TTestGroup @group, TTestCase testCase)
         {
             KeyWrapResult wrapResult = null;
             try
@@ -60,8 +62,7 @@ namespace NIST.CVP.Generation.KeyWrap
 
             return new TestCaseGenerateResponse(testCase);
         }
-
-        private void SometimesMangleTestCaseForFailureTest(TestCase testCase)
+        private void SometimesMangleTestCaseForFailureTest(TTestCase testCase)
         {
             // Alter the tag 20% of the time for a "failure" test
             int option = _iRandom800_90.GetRandomInt(0, 5);
@@ -72,7 +73,7 @@ namespace NIST.CVP.Generation.KeyWrap
             }
         }
 
-        private Logger ThisLogger
+        protected Logger ThisLogger
         {
             get { return LogManager.GetCurrentClassLogger(); }
         }

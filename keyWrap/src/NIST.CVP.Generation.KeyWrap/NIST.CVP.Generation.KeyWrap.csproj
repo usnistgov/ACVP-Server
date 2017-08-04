@@ -14,6 +14,7 @@
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.AES_ECB\NIST.CVP.Crypto.AES_ECB.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.KeyWrap\NIST.CVP.Crypto.KeyWrap.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj" />
   </ItemGroup>
 
 </Project>

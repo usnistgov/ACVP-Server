@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseValidatorDecrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorDecrypt<TTestCase> : ITestCaseValidator<TTestCase>
+        where TTestCase : TestCaseBase
     {
-        private readonly TestCase _expectedResult;
+        private readonly TTestCase _expectedResult;
 
-        public TestCaseValidatorDecrypt(TestCase expectedResult)
+        public TestCaseValidatorDecrypt(TTestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TTestCase suppliedResult)
         {
             var errors = new List<string>();
             if (_expectedResult.FailureTest)
@@ -43,16 +41,16 @@ namespace NIST.CVP.Generation.KeyWrap
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
         }
 
-        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
+        private void ValidateResultPresent(TTestCase suppliedResult, List<string> errors)
         {
             if (suppliedResult.PlainText == null)
             {
-                errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}");
+                errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TTestCase)}");
                 return;
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        private void CheckResults(TTestCase suppliedResult, List<string> errors)
         {
             if (!_expectedResult.PlainText.Equals(suppliedResult.PlainText))
             {

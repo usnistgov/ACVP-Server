@@ -6,7 +6,9 @@ using NLog;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseGeneratorEncrypt : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorEncrypt<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestCase>
+        where TTestCase :TestCaseBase, new()
     {
         private readonly IKeyWrapFactory _iKeyWrapFactory;
         private readonly IRandom800_90 _iRandom800_90;
@@ -19,11 +21,11 @@ namespace NIST.CVP.Generation.KeyWrap
 
         public int NumberOfTestCasesToGenerate => 100;
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse Generate(TTestGroup @group, bool isSample)
         {
             var key = _iRandom800_90.GetRandomBitString(group.KeyLength);
             var plainText = _iRandom800_90.GetRandomBitString(group.PtLen);
-            var testCase = new TestCase
+            var testCase = new TTestCase
             {
                 Key = key,
                 PlainText = plainText
@@ -31,7 +33,7 @@ namespace NIST.CVP.Generation.KeyWrap
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse Generate(TTestGroup @group, TTestCase testCase)
         {
             KeyWrapResult wrapResult = null;
             try

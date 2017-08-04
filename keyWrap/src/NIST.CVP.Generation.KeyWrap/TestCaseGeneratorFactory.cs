@@ -1,11 +1,13 @@
 ﻿using NIST.CVP.Crypto.KeyWrap;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
+    public class TestCaseGeneratorFactory<TTestGroup, TTestCase> : ITestCaseGeneratorFactory<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestCase>
+        where TTestCase : TestCaseBase, new()
+
     {
         private readonly IKeyWrapFactory _iKeyWrapFactory;
         private readonly IRandom800_90 _iRandom800_90;
@@ -16,16 +18,16 @@ namespace NIST.CVP.Generation.KeyWrap
             _iRandom800_90 = iRandom800_90;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
+        public ITestCaseGenerator<TTestGroup, TTestCase> GetCaseGenerator(TTestGroup testGroup)
         {
             switch (testGroup.Direction.ToLower())
             {
                 case "encrypt":
-                    return new TestCaseGeneratorEncrypt(_iKeyWrapFactory, _iRandom800_90);
+                    return new TestCaseGeneratorEncrypt<TTestGroup, TTestCase>(_iKeyWrapFactory, _iRandom800_90);
                 case "decrypt":
-                    return new TestCaseGeneratorDecrypt(_iKeyWrapFactory, _iRandom800_90);
+                    return new TestCaseGeneratorDecrypt<TTestGroup, TTestCase>(_iKeyWrapFactory, _iRandom800_90);
                 default:
-                    return new TestCaseGeneratorNull();
+                    return new TestCaseGeneratorNull<TTestGroup, TTestCase>();
             }
         }
     }

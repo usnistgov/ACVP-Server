@@ -1,9 +1,7 @@
 ﻿using System;
 using Autofac;
 using NIST.CVP.Crypto.AES;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Generation.KeyWrap;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -15,10 +13,7 @@ namespace KeyWrap_Val
 
         public static Action<ContainerBuilder> OverrideRegistrations;
 
-        public static IContainer Container
-        {
-            get { return _container; }
-        }
+        public static IContainer Container => _container;
 
         public static void IoCConfiguration(string algo)
         {
@@ -35,20 +30,11 @@ namespace KeyWrap_Val
             switch (algo)
             {
                 case "AES-KW":
-                    builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
-                    builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
-                    builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
-                    builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
-                    builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
-                    builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
+
+                    NIST.CVP.Generation.KeyWrap.AES.AutofacConfig.RegisterTypes(builder);
                     break;
                 case "TDES-KW":
-                    builder.RegisterType<Validator<TestVectorSetTdes, TestCaseTdes>>().AsImplementedInterfaces();
-                    builder.RegisterType<TestReconstitutorTdes>().AsImplementedInterfaces();
-                    builder.RegisterType<TestCaseValidatorFactoryTdes>().AsImplementedInterfaces();
-                    builder.RegisterType<ParameterValidatorTdes>().AsImplementedInterfaces();
-                    builder.RegisterType<ResultValidator<TestCaseTdes>>().AsImplementedInterfaces();
-                    builder.RegisterType<ParameterParser<ParametersTdes>>().AsImplementedInterfaces();
+                    NIST.CVP.Generation.KeyWrap.TDES.AutofacConfig.RegisterTypes(builder);
 
                     break;
                 default:

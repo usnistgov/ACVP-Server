@@ -4,8 +4,8 @@ using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KeyWrap;
 using NLog;
-using Parameters = NIST.CVP.Generation.KeyWrap.Parameters;
-using TestVectorSet = NIST.CVP.Generation.KeyWrap.TestVectorSet;
+//using Parameters = NIST.CVP.Generation.KeyWrap.Parameters;
+//using TestVectorSet = NIST.CVP.Generation.KeyWrap.TestVectorSet;
 
 namespace KeyWrap
 {

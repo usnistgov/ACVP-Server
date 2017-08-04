@@ -1,0 +1,131 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
+using System.Text;
+
+namespace NIST.CVP.Generation.KeyWrap.AES
+{
+    public class TestVectorSet : TestVectorSetBase<TestGroup, TestCase>
+    {
+        public TestVectorSet(dynamic answers, dynamic prompts)
+        {
+            SetAnswerAndPrompts(answers, prompts);
+        }
+
+        public TestVectorSet()
+        {
+            
+        }
+
+        public override List<dynamic> AnswerProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    dynamic updateObject = BuildGroupInformation(group);
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        _bitStringPrinter.AddToDynamic(testObject, "key", test.Key);
+
+                        if (group.Direction.ToLower() == "encrypt")
+                        {
+                            _bitStringPrinter.AddToDynamic(testObject, "cipherText", test.CipherText);
+                        }
+                        if (group.Direction.ToLower() == "decrypt")
+                        {
+                            _bitStringPrinter.AddToDynamic(testObject, "plainText", test.PlainText);
+                        }
+
+                        ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
+
+        public override List<dynamic> PromptProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    dynamic updateObject = BuildGroupInformation(group);
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        _bitStringPrinter.AddToDynamic(testObject, "key", test.Key);
+
+                        if (group.Direction.ToLower() == "encrypt")
+                        {
+                            _bitStringPrinter.AddToDynamic(testObject, "plainText", test.PlainText);
+                        }
+                        if (group.Direction.ToLower() == "decrypt")
+                        {
+                            _bitStringPrinter.AddToDynamic(testObject, "cipherText", test.CipherText);
+                        }
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
+
+        public override List<dynamic> ResultProjection
+        {
+            get
+            {
+                var tests = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+
+                        if (group.Direction.ToLower() == "encrypt")
+                        {
+                            _bitStringPrinter.AddToDynamic(testObject, "cipherText", test.CipherText);
+                        }
+
+                        if (test.FailureTest)
+                        {
+                            ((IDictionary<string, object>)testObject).Add("decryptFail", true);
+                        }
+                        else
+                        {
+                            if (group.Direction.ToLower() == "decrypt")
+                            {
+                                _bitStringPrinter.AddToDynamic(testObject, "plainText", test.PlainText);
+                            }
+                        }
+
+                        tests.Add(testObject);
+                    }
+                }
+                return tests;
+            }
+        }
+    }
+}

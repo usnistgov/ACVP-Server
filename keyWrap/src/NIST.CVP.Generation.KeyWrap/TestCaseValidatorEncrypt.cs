@@ -3,18 +3,19 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseValidatorEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorEncrypt<TTestCase> : ITestCaseValidator<TTestCase>
+        where TTestCase : TestCaseBase
     {
-        private readonly TestCase _expectedResult;
+        private readonly TTestCase _expectedResult;
 
-        public TestCaseValidatorEncrypt(TestCase expectedResult)
+        public TestCaseValidatorEncrypt(TTestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }
 
         public int TestCaseId => _expectedResult.TestCaseId;
-        
-        public TestCaseValidation Validate(TestCase suppliedResult)
+
+        public TestCaseValidation Validate(TTestCase suppliedResult)
         {
             var errors = new List<string>();
 
@@ -31,16 +32,16 @@ namespace NIST.CVP.Generation.KeyWrap
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
         }
 
-        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
+        private void ValidateResultPresent(TTestCase suppliedResult, List<string> errors)
         {
             if (suppliedResult.CipherText == null)
             {
-                errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}");
+                errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TTestCase)}");
                 return;
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        private void CheckResults(TTestCase suppliedResult, List<string> errors)
         {
             if (!_expectedResult.CipherText.Equals(suppliedResult.CipherText))
             {

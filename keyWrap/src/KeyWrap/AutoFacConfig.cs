@@ -33,30 +33,19 @@ namespace KeyWrap
             builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
 
+
+
             switch (algo)
             {
                 case "AES-KW":
-                    builder.RegisterType<AES_ECB>().AsImplementedInterfaces();
-                    builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
-                    builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
-                    builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
-                    builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
-                    builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
-                    builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
-                    builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
-                    builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
+                    NIST.CVP.Generation.KeyWrap.AES.AutofacConfig.RegisterTypes(builder);
                     break;
+
                 case "TDES-KW":
-                    builder.RegisterType<TDES_ECB>().AsImplementedInterfaces();
-                    builder.RegisterType<ParameterValidatorTdes>().AsImplementedInterfaces();
-                    builder.RegisterType<Generator<ParametersTdes, TestVectorSetTdes>>().AsImplementedInterfaces();
-                    builder.RegisterType<TestVectorFactory<ParametersTdes, TestVectorSetTdes>>().AsImplementedInterfaces();
-                    builder.RegisterType<ParameterParser<ParametersTdes>>().AsImplementedInterfaces();
-                    builder.RegisterType<TestCaseGeneratorFactoryTdes>().AsImplementedInterfaces();
-                    builder.RegisterType<TestCaseGeneratorFactoryFactoryTdes>().AsImplementedInterfaces();
-                    builder.RegisterType<TestCaseValidatorFactoryTdes>().AsImplementedInterfaces();
-                    builder.RegisterType<TestGroupGeneratorFactoryTdes>().AsImplementedInterfaces();
+                    NIST.CVP.Generation.KeyWrap.TDES.AutofacConfig.RegisterTypes(builder);
+
                     break;
+
                 default:
                     throw new NotImplementedException("Needs to be using enums to avoid this");
                     break;

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0B113BDD-3E60-45BE-940B-0C346168DCF1}"
 EndProject
@@ -476,6 +476,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-KeyGen.Tests", "..\..\rsa\test\NIST.CVP.Generation.RSA-KeyGen.Tests\NIST.CVP.Generation.RSA-KeyGen.Tests.csproj", "{2F0C32EE-A0FE-4DB5-B2C5-D648F68A348E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-SigGen.Tests", "..\..\rsa\test\NIST.CVP.Generation.RSA-SigGen.Tests\NIST.CVP.Generation.RSA-SigGen.Tests.csproj", "{0FD2B5EE-97AA-419B-8148-DEEBD896A00B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.KeyWrap.AES", "..\..\keyWrap\src\NIST.CVP.Generation.KeyWrap.AES\NIST.CVP.Generation.KeyWrap.AES.csproj", "{36B01577-4E8D-46CE-8B5B-A5F86AE0CDFA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.KeyWrap.TDES", "..\..\keyWrap\src\NIST.CVP.Generation.KeyWrap.TDES\NIST.CVP.Generation.KeyWrap.TDES.csproj", "{B29D68ED-CE2E-4916-92A1-2F005484436C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1063,6 +1067,14 @@ Global
 		{0FD2B5EE-97AA-419B-8148-DEEBD896A00B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FD2B5EE-97AA-419B-8148-DEEBD896A00B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FD2B5EE-97AA-419B-8148-DEEBD896A00B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36B01577-4E8D-46CE-8B5B-A5F86AE0CDFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36B01577-4E8D-46CE-8B5B-A5F86AE0CDFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36B01577-4E8D-46CE-8B5B-A5F86AE0CDFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36B01577-4E8D-46CE-8B5B-A5F86AE0CDFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B29D68ED-CE2E-4916-92A1-2F005484436C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B29D68ED-CE2E-4916-92A1-2F005484436C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B29D68ED-CE2E-4916-92A1-2F005484436C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B29D68ED-CE2E-4916-92A1-2F005484436C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1304,5 +1316,7 @@ Global
 		{81AF9632-6563-484A-9BAB-1702712745A0} = {5F47EDC1-DB2B-433B-9C99-141660B620A8}
 		{2F0C32EE-A0FE-4DB5-B2C5-D648F68A348E} = {5F47EDC1-DB2B-433B-9C99-141660B620A8}
 		{0FD2B5EE-97AA-419B-8148-DEEBD896A00B} = {5F47EDC1-DB2B-433B-9C99-141660B620A8}
+		{36B01577-4E8D-46CE-8B5B-A5F86AE0CDFA} = {9A20B6B7-3398-4817-BB9D-B86916163FF5}
+		{B29D68ED-CE2E-4916-92A1-2F005484436C} = {9A20B6B7-3398-4817-BB9D-B86916163FF5}
 	EndGlobalSection
 EndGlobal

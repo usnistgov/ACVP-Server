@@ -2,15 +2,17 @@
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseGeneratorNull : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorNull<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestCase>
+        where TTestCase : TestCaseBase, new()
     {
         public int NumberOfTestCasesToGenerate => 1;
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse Generate(TTestGroup @group, bool isSample)
         {
             return new TestCaseGenerateResponse("Null generator");
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse Generate(TTestGroup @group, TTestCase testCase)
         {
             return new TestCaseGenerateResponse("Null generator");
         }

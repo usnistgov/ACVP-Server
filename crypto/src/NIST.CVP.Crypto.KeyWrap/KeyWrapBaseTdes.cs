@@ -112,7 +112,7 @@ namespace NIST.CVP.Crypto.KeyWrap
             BitString A = C.GetMostSignificantBits(32);
             // 1.d) For i=2,...,n: let Ri0 = Ci
             BitString R2n = C.GetLeastSignificantBits(C.BitLength - 32);
-            BitString R2;
+
 
             // 2. Calculate the intermediate values.  For t = s, s-1, ..., 1,
             //    update the variables as follows:

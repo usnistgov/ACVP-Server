@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Autofac;
+﻿using Autofac;
 using KeyWrap;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Generation.KeyWrap.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using AutofacConfig = KeyWrap.AutofacConfig;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
@@ -334,7 +336,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         private string GetTestFileFewTestCases(string targetFolder)
         {
 
-            var p = new ParametersTdes
+            var p = new Parameters
             {
                 Algorithm = "TDES-KW",
                 Direction = ParameterValidator.VALID_DIRECTIONS,
@@ -350,7 +352,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 
         private string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            var p = new ParametersTdes
+            var p = new Parameters
             {
                 Algorithm = "TDES-KW",
                 Direction = ParameterValidator.VALID_DIRECTIONS,
@@ -364,7 +366,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             return CreateRegistration(targetFolder, p);
         }
 
-        private static string CreateRegistration(string targetFolder, ParametersTdes parameters)
+        private static string CreateRegistration(string targetFolder, Parameters parameters)
         {
             var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings
             {
