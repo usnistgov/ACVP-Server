@@ -80,12 +80,14 @@ namespace NIST.CVP.Generation.HMAC.IntegrationTests
                         result.Mac.ToHex(),
                         $"Failed on count {count} expected CT {testCase.Mac.ToHex()}, got {result.Mac.ToHex()}"
                     );
+
+                    passes++;
                 }
 
-                if (fails > 0)
-                    Assert.Fail("Unexpected failures were encountered.");
             }
-            //Assert.Fail($"Passes {passes}, fails {fails}, count {count}.  Failure tests {failureTests}");
+
+            Assert.IsTrue(passes > 0, nameof(passes));
+            Assert.IsTrue(fails == 0, "fails");
         }
        
     }
