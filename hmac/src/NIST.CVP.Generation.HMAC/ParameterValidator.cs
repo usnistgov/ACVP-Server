@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.HMAC
         public const int _MIN_KEY_LENGTH = 8;
         public const int _MAX_KEY_LENGTH = 524288;
 
-        private int _minMacLength = 0;
+        private int _minMacLength = 32;
         private int _maxMacLength = 0;
 
         public ParameterValidateResponse Validate(Parameters parameters)
@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.HMAC
 
                 shaMode = result.shaMode;
                 shaDigestSize = result.shaDigestSize;
-                minMacLength = result.minMacLength;
+                //minMacLength = result.minMacLength;
                 maxMacLength = result.maxMacLength;
             }
             catch (ArgumentException ex)

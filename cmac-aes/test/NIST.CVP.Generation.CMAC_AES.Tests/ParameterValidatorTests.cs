@@ -156,7 +156,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             new object[]
             {
                 "Failure below minimum",
-                new MathDomain().AddSegment(new ValueDomainSegment(63)),
+                new MathDomain().AddSegment(new ValueDomainSegment(0)),
                 false
             },
             new object[]

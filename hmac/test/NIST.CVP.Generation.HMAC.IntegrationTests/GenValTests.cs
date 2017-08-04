@@ -4,6 +4,7 @@ using System.IO;
 using Autofac;
 using HMAC;
 using Newtonsoft.Json;
+using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -154,10 +155,22 @@ namespace NIST.CVP.Generation.HMAC.IntegrationTests
         }
 
         [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCases()
+        [TestCase("HMAC-SHA-1")]
+        [TestCase("HMAC-SHA-1")]
+        [TestCase("HMAC-SHA2-224")]
+        [TestCase("HMAC-SHA2-256")]
+        [TestCase("HMAC-SHA2-384")]
+        [TestCase("HMAC-SHA2-512")]
+        [TestCase("HMAC-SHA2-512/224")]
+        [TestCase("HMAC-SHA2-512/256")]
+        [TestCase("HMAC-SHA3-224")]
+        [TestCase("HMAC-SHA3-256")]
+        [TestCase("HMAC-SHA3-384")]
+        [TestCase("HMAC-SHA3-512")]
+        public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCases(string algoName)
         {
-            var targetFolder = Utilities.GetTestFolder(_testPath, "valSuccessFewCases");
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var targetFolder = Utilities.GetTestFolder(_testPath, $"valSuccess{algoName}");
+            var fileName = GetTestFileFewTestCases(targetFolder, algoName);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -313,13 +326,13 @@ namespace NIST.CVP.Generation.HMAC.IntegrationTests
             return failedTestCases;
         }
 
-        private string GetTestFileFewTestCases(string targetFolder)
+        private string GetTestFileFewTestCases(string targetFolder, string algoName = "HMAC-SHA-1")
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "HMAC-SHA-1",
+                Algorithm = algoName,
                 KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                MacLen = new MathDomain().AddSegment(new ValueDomainSegment(80)),
+                MacLen = new MathDomain().AddSegment(new ValueDomainSegment(32)),
                 IsSample = false
             };
 

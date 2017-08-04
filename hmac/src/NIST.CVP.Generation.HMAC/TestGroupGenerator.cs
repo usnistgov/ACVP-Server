@@ -55,16 +55,18 @@ namespace NIST.CVP.Generation.HMAC
 
         private void DetermineLengths(Parameters parameters, ModeValues shaMode, DigestSizes shaDigestSize)
         {
-            GetKeyLengths(parameters, shaMode, shaDigestSize);
+            var blockSize = ShaAttributes.GetShaAttributes(shaMode, shaDigestSize).blockSize;
+
+            GetKeyLengths(parameters, blockSize);
             GetMacLengths(parameters);
         }
 
-        private void GetKeyLengths(Parameters parameters, ModeValues shaMode, DigestSizes shaDigestSize)
+        private void GetKeyLengths(Parameters parameters, int blockSize)
         {
             // Differing algo logic depending on keyLen < blockSize, keyLen = blockSize, keyLen > blockSize
             // Ensure we grab values from each section of logic (where applicable)
             List<int> keyLengths = new List<int>();
-            var blockSize = ShaAttributes.GetShaAttributes(shaMode, shaDigestSize).blockSize;
+            
             var keyLengthMinMax = parameters.KeyLen.GetDomainMinMax();
             parameters.KeyLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
 
@@ -82,7 +84,17 @@ namespace NIST.CVP.Generation.HMAC
 
         private void GetMacLengths(Parameters parameters)
         {
-            MacLens = parameters.MacLen.GetValues(_MAX_MAC_LENGTHS_TO_TEST).Take(_MAX_MAC_LENGTHS_TO_TEST).ToArray();
+            parameters.MacLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
+
+            var macMinMax = parameters.MacLen.GetDomainMinMaxAsEnumerable();
+
+            var randomMacLengths = parameters.MacLen.GetValues(4).Where(w => !macMinMax.Contains(w)).Take(2);
+
+            List<int> macLens = new List<int>();
+            macLens.AddRangeIfNotNullOrEmpty(macMinMax);
+            macLens.AddRangeIfNotNullOrEmpty(randomMacLengths);
+
+            MacLens = macLens.OrderBy(ob => ob).ToArray();
         }
     }
 }
