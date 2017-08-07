@@ -5,25 +5,28 @@ using System.Linq;
 using NIST.CVP.Crypto.KeyWrap.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KeyWrap.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser<TTestVectorSet, TTestGroup, TTestCase> : ILegacyResponseFileParser<TTestVectorSet>
+        where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>, new()
+        where TTestGroup : TestGroupBase<TTestCase>, new()
+        where TTestCase : TestCaseBase, new()
+
     {
-        public ParseResponse<TestVectorSet> Parse(string path)
+        public ParseResponse<TTestVectorSet> Parse(string path)
         {
             if (string.IsNullOrEmpty(path))
             {
-                return new ParseResponse<TestVectorSet>("There was no path supplied.");
+                return new ParseResponse<TTestVectorSet>("There was no path supplied.");
             }
 
             if (!Directory.Exists(path))
             {
-                return new ParseResponse<TestVectorSet>($"Could not find path {path}");
+                return new ParseResponse<TTestVectorSet>($"Could not find path {path}");
             }
 
-            var groups = new List<TestGroup>();
+            var groups = new List<TTestGroup>();
 
             var files = Directory.GetFiles(path, "*.fax");
             foreach (var file in files)
@@ -35,7 +38,7 @@ namespace NIST.CVP.Generation.KeyWrap.Parsers
                 }
                 catch (Exception ex)
                 {
-                    return new ParseResponse<TestVectorSet>(ex.Message);
+                    return new ParseResponse<TTestVectorSet>(ex.Message);
                 }
 
                 KeyWrapType keyWrapType = 0;
@@ -45,8 +48,8 @@ namespace NIST.CVP.Generation.KeyWrap.Parsers
 
                 GetFileInformation(file, ref keyWrapType, ref direction, ref kwCipher, ref keySize);
 
-                TestGroup currentGroup = null;
-                TestCase currentTestCase = null;
+                TTestGroup currentGroup = null;
+                TTestCase currentTestCase = null;
 
                 foreach (var line in lines)
                 {
@@ -63,7 +66,7 @@ namespace NIST.CVP.Generation.KeyWrap.Parsers
                     // New group when "[" encountered
                     if (workingLine.StartsWith("["))
                     {
-                        currentGroup = new TestGroup()
+                        currentGroup = new TTestGroup()
                         {
                             Direction = direction,
                             KeyLength = keySize,
@@ -88,7 +91,7 @@ namespace NIST.CVP.Generation.KeyWrap.Parsers
                     {
                         int caseId = -1;
                         int.TryParse(parts[1].Trim(), out caseId);
-                        currentTestCase = new TestCase {TestCaseId = caseId};
+                        currentTestCase = new TTestCase { TestCaseId = caseId };
                         currentGroup.Tests.Add(currentTestCase);
                         continue;
                     }
@@ -103,12 +106,13 @@ namespace NIST.CVP.Generation.KeyWrap.Parsers
                 }
             }
 
-            var testVectorSet = new TestVectorSet
+
+            var testVectorSet = new TTestVectorSet
             {
                 Algorithm = "KeyWrap",
-                TestGroups = groups.Select(g => (ITestGroup) g).ToList()
+                TestGroups = groups.Select(g => (ITestGroup)g).ToList()
             };
-            return new ParseResponse<TestVectorSet>(testVectorSet);
+            return new ParseResponse<TTestVectorSet>(testVectorSet);
         }
 
         private void GetFileInformation(string file, ref KeyWrapType keyWrapType, ref string direction, ref string kwCipher, ref int keySize)
@@ -117,11 +121,14 @@ namespace NIST.CVP.Generation.KeyWrap.Parsers
 
             string fileName = fileInfo.Name.ToLower();
 
-            if (fileName.Contains("kw_"))
+            if (fileName.StartsWith("kw_"))
             {
                 keyWrapType = KeyWrapType.AES_KW;
             }
-
+            else if (fileName.StartsWith("tkw_"))
+            {
+                keyWrapType = KeyWrapType.TDES_KW;
+            }
             direction = fileName.Contains("_ae_") ? "encrypt" : "decrypt";
             kwCipher = fileName.Contains("_inv") ? "inverse" : "cipher";
 
