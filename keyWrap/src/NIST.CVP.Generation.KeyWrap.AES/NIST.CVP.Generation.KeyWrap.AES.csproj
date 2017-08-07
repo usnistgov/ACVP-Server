@@ -16,11 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="TestReconstitutor.cs.OLD" />
-    <None Remove="TestVectorSet.cs.OLD" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="TestGroup.cs" />
   </ItemGroup>
 

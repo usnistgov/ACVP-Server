@@ -38,8 +38,7 @@ namespace KeyWrap_Val
 
                     break;
                 default:
-                    throw new NotImplementedException("Needs to be using enums to avoid this");
-                    break;
+                    throw new NotImplementedException("Type not supported");
             }
 
             OverrideRegistrations?.Invoke(builder);
