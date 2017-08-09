@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\KAS\KAS.csproj" />
+    <ProjectReference Include="..\..\src\KAS_Val\KAS_Val.csproj" />
+  </ItemGroup>
+
+</Project>

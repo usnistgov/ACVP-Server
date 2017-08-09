@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NIST.CVP.Crypto.KAS\NIST.CVP.Crypto.KAS.csproj" />
+  </ItemGroup>
+
+</Project>
