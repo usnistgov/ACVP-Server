@@ -10,7 +10,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
 {
     public abstract class SignerBase : ISigner
     {
-        protected readonly int _saltLen;
+        protected int _saltLen;
         protected HashFunction _hashFunction;
         private readonly ISHA _sha = new SHA();
 
@@ -33,6 +33,11 @@ namespace NIST.CVP.Crypto.RSA.Signatures
         public void SetHashFunction(HashFunction hf)
         {
             _hashFunction = hf;
+        }
+
+        public void SetSaltLen(int saltLen)
+        {
+            _saltLen = saltLen;
         }
 
         // Used for salt

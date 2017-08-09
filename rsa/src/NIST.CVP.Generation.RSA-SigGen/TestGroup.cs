@@ -74,6 +74,48 @@ namespace NIST.CVP.Generation.RSA_SigGen
             return true;
         }
 
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "mod":
+                    Modulo = int.Parse(value);
+                    return true;
+
+                case "n":
+                    if (Key == null) { Key = new KeyPair(); }
+                    Key.PubKey.N = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "e":
+                    Key.PubKey.E = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "d":
+                    Key.PrivKey.D = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "hash":
+                    HashAlg = SHAEnumHelpers.StringToHashFunction(value);
+                    return true;
+
+                case "saltlen":
+                    SaltLen = int.Parse(value);
+                    return true;
+
+                case "saltval":
+                    Salt = new BitString(value, SaltLen * 8);
+                    return true;
+            }
+
+            return false;
+        }
+
         public override int GetHashCode()
         {
             return ($"{TestType}|{RSAEnumHelpers.SigGenModeToString(Mode)}|" +
