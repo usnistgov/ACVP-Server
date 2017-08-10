@@ -13,5 +13,11 @@
         /// <param name="pqgRequest"></param>
         /// <returns></returns>
         PqgGenerateResult GeneratePqg(PqgGenerateRequest pqgRequest);
+        /// <summary>
+        /// Generates a <see cref="DsaKeyPair"/> based on <see cref="PqgDomainParameters"/>
+        /// </summary>
+        /// <param name="pqg">The Domain parameters used to generate the key pair</param>
+        /// <returns></returns>
+        DsaKeyPair GenerateKeyPair(PqgDomainParameters pqg);
     }
 }
