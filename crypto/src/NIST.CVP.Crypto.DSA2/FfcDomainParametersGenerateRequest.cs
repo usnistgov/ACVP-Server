@@ -1,9 +1,9 @@
 ﻿namespace NIST.CVP.Crypto.DSA2
 {
     /// <summary>
-    /// Parameter for <see cref="IDsa.GeneratePqg"/>
+    /// Parameters for FFC <see cref="IDsa.GenerateDomainParameters"/>
     /// </summary>
-    public class PqgGenerateRequest
+    public class FfcDomainParametersGenerateRequest : IDomainParametersGenerateRequest
     {
         /// <summary>
         /// The bit length of the seed
@@ -22,7 +22,7 @@
         /// </summary>
         public int HashLength { get; }
 
-        public PqgGenerateRequest(int seedLength, int pLength, int qLength, int hashLength)
+        public FfcDomainParametersGenerateRequest(int seedLength, int pLength, int qLength, int hashLength)
         {
             SeedLength = seedLength;
             PLength = pLength;

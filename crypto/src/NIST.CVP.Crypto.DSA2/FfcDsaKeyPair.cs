@@ -3,20 +3,20 @@
 namespace NIST.CVP.Crypto.DSA2
 {
     /// <summary>
-    /// A DSA private/public key pair
+    /// A FFC DSA private/public key pair
     /// </summary>
-    public class DsaKeyPair
+    public class FfcDsaKeyPair : IDsaKeyPair
     {
         /// <summary>
-        /// Private Key X. Range [1, <see cref="PqgDomainParameters.Q"/> – 1]
+        /// Private Key X. Range [1, <see cref="FfcDomainParameters.Q"/> – 1]
         /// </summary>
         public BigInteger PrivateKeyX { get; }
         /// <summary>
-        /// Public Key Y.  Range [1, <see cref="PqgDomainParameters.P"/> - 1]
+        /// Public Key Y.  Range [1, <see cref="FfcDomainParameters.P"/> - 1]
         /// </summary>
         public BigInteger PublicKeyY { get; }
 
-        public DsaKeyPair(BigInteger privateKeyX, BigInteger publicKeyY)
+        public FfcDsaKeyPair(BigInteger privateKeyX, BigInteger publicKeyY)
         {
             PrivateKeyX = privateKeyX;
             PublicKeyY = publicKeyY;

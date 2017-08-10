@@ -4,14 +4,14 @@ using NIST.CVP.Math;
 namespace NIST.CVP.Crypto.DSA2
 {
     /// <summary>
-    /// The resulting information returned via a <see cref="IDsa.GeneratePqg"/> request.
+    /// The resulting information returned via a FFC <see cref="IDsa.GenerateDomainParameters"/> request.
     /// </summary>
-    public class PqgGenerateResult
+    public class FfcDomainParametersGenerateResult : IDomainParametersGenerateResult
     {
         /// <summary>
         /// PQG
         /// </summary>
-        public PqgDomainParameters PqgDomainParameters { get; }
+        public FfcDomainParameters PqgDomainParameters { get; }
         /// <summary>
         /// The seed used in the construction of <see cref="PqgDomainParameters"/>
         /// </summary>
@@ -34,7 +34,7 @@ namespace NIST.CVP.Crypto.DSA2
         /// </summary>
         public string Message { get; } = "Success";
 
-        public PqgGenerateResult(PqgDomainParameters pqgDomainParameters, BigInteger seed, BigInteger h, int counter)
+        public FfcDomainParametersGenerateResult(FfcDomainParameters pqgDomainParameters, BigInteger seed, BigInteger h, int counter)
         {
             PqgDomainParameters = pqgDomainParameters;
             Seed = seed;
@@ -43,7 +43,7 @@ namespace NIST.CVP.Crypto.DSA2
             Success = true;
         }
 
-        public PqgGenerateResult(string message)
+        public FfcDomainParametersGenerateResult(string message)
         {
             Message = message;
             Success = false;

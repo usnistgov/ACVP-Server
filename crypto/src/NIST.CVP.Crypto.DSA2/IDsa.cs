@@ -8,16 +8,16 @@
     public interface IDsa
     {
         /// <summary>
-        /// Generates a set of PQG Domain Parameters with state values included in response.
+        /// Generates a set of DSA Domain Parameters with state values included in response.
         /// </summary>
-        /// <param name="pqgRequest"></param>
+        /// <param name="generateRequest">The parameters used creation of the <see cref="IDsaDomainParameters"/></param>
         /// <returns></returns>
-        PqgGenerateResult GeneratePqg(PqgGenerateRequest pqgRequest);
+        IDomainParametersGenerateResult GenerateDomainParameters(IDomainParametersGenerateRequest generateRequest);
         /// <summary>
-        /// Generates a <see cref="DsaKeyPair"/> based on <see cref="PqgDomainParameters"/>
+        /// Generates a <see cref="IDsaKeyPair"/> based on a set of <see cref="IDsaDomainParameters"/>
         /// </summary>
-        /// <param name="pqg">The Domain parameters used to generate the key pair</param>
+        /// <param name="domainParameters">The Domain parameters used to generate the key pair</param>
         /// <returns></returns>
-        DsaKeyPair GenerateKeyPair(PqgDomainParameters pqg);
+        IDsaKeyPair GenerateKeyPair(IDsaDomainParameters domainParameters);
     }
 }

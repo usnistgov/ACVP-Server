@@ -4,9 +4,9 @@ using NIST.CVP.Math;
 namespace NIST.CVP.Crypto.DSA2
 {
     /// <summary>
-    /// The PQG Domain Parameters, constructed as a part of <see cref="IDsa.GeneratePqg"/>
+    /// The FFC PQG Domain Parameters, constructed as a part of <see cref="IDsa.GenerateDomainParameters"/>
     /// </summary>
-    public class PqgDomainParameters
+    public class FfcDomainParameters : IDsaDomainParameters
     {
         /// <summary>
         /// P / L bit length prime
@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.DSA2
         /// </summary>
         public BigInteger G { get; }
 
-        public PqgDomainParameters(BigInteger p, BigInteger q, BigInteger g)
+        public FfcDomainParameters(BigInteger p, BigInteger q, BigInteger g)
         {
             P = p;
             Q = q;
