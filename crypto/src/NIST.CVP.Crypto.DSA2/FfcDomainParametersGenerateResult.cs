@@ -17,7 +17,8 @@ namespace NIST.CVP.Crypto.DSA2
         /// </summary>
         public BigInteger Seed { get; }
         /// <summary>
-        /// Domain Parameter H TODO 
+        /// Domain Parameter H 
+        /// TODO better definition?
         /// </summary>
         public BigInteger H { get; }
         /// <summary>
@@ -28,11 +29,12 @@ namespace NIST.CVP.Crypto.DSA2
         /// <summary>
         /// Was the generation successful?
         /// </summary>
-        public bool Success { get; }
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
+
         /// <summary>
         /// Message associated to generation attempt
         /// </summary>
-        public string Message { get; } = "Success";
+        public string ErrorMessage { get; }
 
         public FfcDomainParametersGenerateResult(FfcDomainParameters pqgDomainParameters, BigInteger seed, BigInteger h, int counter)
         {
@@ -40,13 +42,11 @@ namespace NIST.CVP.Crypto.DSA2
             Seed = seed;
             H = h;
             Counter = counter;
-            Success = true;
         }
 
-        public FfcDomainParametersGenerateResult(string message)
+        public FfcDomainParametersGenerateResult(string errorMessage)
         {
-            Message = message;
-            Success = false;
+            ErrorMessage = errorMessage;
         }
     }
 }
