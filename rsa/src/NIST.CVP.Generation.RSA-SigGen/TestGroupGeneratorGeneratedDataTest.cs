@@ -21,14 +21,15 @@ namespace NIST.CVP.Generation.RSA_SigGen
             {
                 foreach(var modulo in parameters.Moduli)
                 {
-                    foreach (var hashAlg in parameters.HashAlgs)
+                    foreach(var capability in parameters.Capabilities)
                     {
                         var testGroup = new TestGroup
                         {
                             Mode = RSAEnumHelpers.StringToSigGenMode(mode),
                             Modulo = modulo,
-                            HashAlg = SHAEnumHelpers.StringToHashFunction(hashAlg),
-
+                            HashAlg = SHAEnumHelpers.StringToHashFunction(capability.HashAlg),
+                            SaltLen = capability.SaltLen,
+                            
                             TestType = TEST_TYPE
                         };
 

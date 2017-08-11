@@ -1,11 +1,13 @@
 ﻿using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.RSA.Signatures;
+using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Numerics;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
@@ -13,34 +15,53 @@ namespace NIST.CVP.Generation.RSA_SigGen
     {
         private readonly IRandom800_90 _random800_90;
         private readonly SignerBase _signer;
+        private readonly PrimeGeneratorBase _primeGen;
 
-        public int NumberOfTestCasesToGenerate { get { return 10; } }
+        private int _numCases = 10;
 
-        public TestCaseGeneratorGDT(IRandom800_90 random800_90, SignerBase signer)
+        public int NumberOfTestCasesToGenerate { get { return _numCases; } }
+
+        public TestCaseGeneratorGDT(IRandom800_90 random800_90, SignerBase signer, PrimeGeneratorBase primeGen = null)
         {
             _random800_90 = random800_90;
             _signer = signer;
+            _primeGen = primeGen;
+
+            if(_primeGen == null)
+            {
+                _primeGen = new RandomProbablePrimeGenerator(Math.Entropy.EntropyProviderTypes.Random);
+                //_primeGen = new RandomProvablePrimeGenerator(new Crypto.SHA2.HashFunction { Mode = Crypto.SHA2.ModeValues.SHA2, DigestSize = Crypto.SHA2.DigestSizes.d256 });
+            }
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {
+            if (isSample)
+            {
+                _numCases = 3;
+            }
+
+            // Only make one key per group
+            if(group.Key == null && isSample)
+            {
+                BigInteger E = 3;
+                PrimeGeneratorResult primeResult = null;
+
+                do
+                {
+                    //ThisLogger.Debug($"Computing key for {group.Modulo}");
+                    E = GetEValue(group);
+                    primeResult = _primeGen.GeneratePrimes(group.Modulo, E, GetSeed(group));
+                } while (!primeResult.Success);
+
+                group.Key = new KeyPair(primeResult.P, primeResult.Q, E);
+            }
+
             var testCase = new TestCase
             {
                 Message = _random800_90.GetRandomBitString(group.Modulo / 2),
                 IsSample = isSample
             };
-
-            if (group.Mode == SigGenModes.PSS)
-            {
-                if (group.SaltMode == SaltModes.RANDOM)
-                {
-                    testCase.Salt = _random800_90.GetRandomBitString(group.SaltLen * 8);
-                }
-                else if (group.SaltMode == SaltModes.FIXED)
-                {
-                    testCase.Salt = group.Salt;
-                }
-            }
 
             return Generate(group, testCase);
         }
@@ -56,6 +77,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
 
                     if (group.Mode == SigGenModes.PSS)
                     {
+                        testCase.Salt = _random800_90.GetRandomBitString(group.SaltLen * 8);
                         _signer.AddEntropy(testCase.Salt);
                     }
 
@@ -79,5 +101,37 @@ namespace NIST.CVP.Generation.RSA_SigGen
         }
 
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+
+        private BigInteger GetEValue(TestGroup group)
+        {
+            BigInteger e;
+            var min = BigInteger.Pow(2, 32) + 1;
+            var max = BigInteger.Pow(2, 64);
+            do
+            {
+                e = _random800_90.GetRandomBigInteger(min, max);
+                if (e.IsEven)
+                {
+                    e++;
+                }
+            } while (e >= max);      // sanity check
+
+            return e;
+        }
+
+        private BitString GetSeed(TestGroup group)
+        {
+            var security_strength = 0;
+            if (group.Modulo == 2048)
+            {
+                security_strength = 112;
+            }
+            else if (group.Modulo == 3072)
+            {
+                security_strength = 128;
+            }
+
+            return _random800_90.GetRandomBitString(2 * security_strength);
+        }
     }
 }

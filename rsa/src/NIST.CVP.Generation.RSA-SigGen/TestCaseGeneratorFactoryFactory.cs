@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NLog;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
@@ -35,6 +36,8 @@ namespace NIST.CVP.Generation.RSA_SigGen
                     group.Tests.Add(testCase);
                     testId++;
                 }
+
+                //LogManager.GetCurrentClassLogger().Log(LogLevel.Debug, $"Group completed {Crypto.RSA.RSAEnumHelpers.SigGenModeToString(group.Mode)}, {group.Modulo}, {Crypto.SHA2.SHAEnumHelpers.HashFunctionToString(group.HashAlg)}.");
             }
 
             return new GenerateResponse();

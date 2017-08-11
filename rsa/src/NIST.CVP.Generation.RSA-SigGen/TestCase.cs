@@ -62,12 +62,12 @@ namespace NIST.CVP.Generation.RSA_SigGen
             }
 
             var otherTypedTest = (TestCase)otherTest;
-            if (Salt == null || otherTypedTest.Salt != null)
+            if (Salt == null && otherTypedTest.Salt != null)
             {
                 Salt = otherTypedTest.Salt.GetDeepCopy();
             }
 
-            if (Message == null || otherTypedTest.Message != null)
+            if (Message == null && otherTypedTest.Message != null)
             {
                 Message = otherTypedTest.Message.GetDeepCopy();
                 return true;

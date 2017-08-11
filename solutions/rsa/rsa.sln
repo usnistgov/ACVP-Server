@@ -39,7 +39,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-Sig
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-SigGen.Tests", "..\..\rsa\test\NIST.CVP.Generation.RSA-SigGen.Tests\NIST.CVP.Generation.RSA-SigGen.Tests.csproj", "{45A13A7E-DC55-4C86-8916-6C7EA3DDCACF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.RSA-SigGen.IntegrationTests", "..\..\rsa\test\NIST.CVP.Generation.RSA-SigGen.IntegrationTests\NIST.CVP.Generation.RSA-SigGen.IntegrationTests.csproj", "{E63088F1-1E28-4BDF-8388-9DB8405E1101}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-SigGen.IntegrationTests", "..\..\rsa\test\NIST.CVP.Generation.RSA-SigGen.IntegrationTests\NIST.CVP.Generation.RSA-SigGen.IntegrationTests.csproj", "{E63088F1-1E28-4BDF-8388-9DB8405E1101}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSA-SigGen", "..\..\rsa\src\RSA-SigGen\RSA-SigGen.csproj", "{04C6E2DD-15D7-40BF-969B-3B3AA8CD3173}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSA-SigGen_Val", "..\..\rsa\src\RSA-SigGen_Val\RSA-SigGen_Val.csproj", "{76B56B80-E239-4660-81B7-327458B16964}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +119,14 @@ Global
 		{E63088F1-1E28-4BDF-8388-9DB8405E1101}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E63088F1-1E28-4BDF-8388-9DB8405E1101}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E63088F1-1E28-4BDF-8388-9DB8405E1101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04C6E2DD-15D7-40BF-969B-3B3AA8CD3173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04C6E2DD-15D7-40BF-969B-3B3AA8CD3173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04C6E2DD-15D7-40BF-969B-3B3AA8CD3173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04C6E2DD-15D7-40BF-969B-3B3AA8CD3173}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76B56B80-E239-4660-81B7-327458B16964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76B56B80-E239-4660-81B7-327458B16964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76B56B80-E239-4660-81B7-327458B16964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76B56B80-E239-4660-81B7-327458B16964}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,5 +149,7 @@ Global
 		{0EE91C5F-79EF-4A4D-BC17-0468575C664A} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
 		{45A13A7E-DC55-4C86-8916-6C7EA3DDCACF} = {05A83241-08C3-48EC-81E0-20D7F7812078}
 		{E63088F1-1E28-4BDF-8388-9DB8405E1101} = {05A83241-08C3-48EC-81E0-20D7F7812078}
+		{04C6E2DD-15D7-40BF-969B-3B3AA8CD3173} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
+		{76B56B80-E239-4660-81B7-327458B16964} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
 	EndGlobalSection
 EndGlobal

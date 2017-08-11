@@ -19,6 +19,8 @@
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.RSA\NIST.CVP.Crypto.RSA.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.SHA2\NIST.CVP.Crypto.SHA2.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.RSA-SigGen\NIST.CVP.Generation.RSA-SigGen.csproj" />
+    <ProjectReference Include="..\..\src\RSA-SigGen\RSA-SigGen.csproj" />
+    <ProjectReference Include="..\..\src\RSA-SigGen_Val\RSA-SigGen_Val.csproj" />
   </ItemGroup>
 
   <ItemGroup>

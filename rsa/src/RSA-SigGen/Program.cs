@@ -40,7 +40,7 @@ namespace RSA_SigGen
             }
             catch (Exception ex)
             {
-                Logger.Error($"ERROR! Generating Test Vectors for {requestFile}: {ex.Message}");
+                Logger.Error($"ERROR! Generating Test Vectors for {requestFile}: {ex.Message}, {ex.StackTrace}");
                 return 1;
             }
 

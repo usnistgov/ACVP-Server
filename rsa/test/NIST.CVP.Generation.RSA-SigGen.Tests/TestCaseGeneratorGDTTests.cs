@@ -1,5 +1,6 @@
 ﻿using Moq;
 using NIST.CVP.Crypto.RSA;
+using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.RSA.Signatures;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
@@ -8,6 +9,7 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace NIST.CVP.Generation.RSA_SigGen.Tests
@@ -38,31 +40,18 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
                 .Returns(new BitString("BEEFFACE"));
 
-            var subject = new TestCaseGeneratorGDT(rand.Object, signer.Object);
+            var primeGen = GetPrimeGenMock();
+            primeGen
+                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
+                .Returns(new PrimeGeneratorResult(3, 5));
+
+            var subject = new TestCaseGeneratorGDT(rand.Object, signer.Object, primeGen.Object);
 
             var result = subject.Generate(GetTestGroup(), true);
 
             Assert.IsTrue(result.Success);
 
             signer.Verify(v => v.Sign(It.IsAny<int>(), It.IsAny<BitString>(), It.IsAny<KeyPair>()), Times.Once, "Call Sign once");
-        }
-
-        [Test]
-        public void GeneratedTestCaseShouldContainSaltValue()
-        {
-            var subject = new TestCaseGeneratorGDT(GetRandomMock().Object, GetSignerMock().Object);
-            var group = GetTestGroup();
-            group.SaltMode = SaltModes.FIXED;
-            group.Salt = new BitString("ABCD");
-
-            var result = subject.Generate(group, false);
-
-            Assume.That(result.Success);
-
-            var testCase = (TestCase)result.TestCase;
-
-            Assert.IsNotNull(testCase, $"{nameof(testCase)} should not be null");
-            Assert.AreEqual(new BitString("ABCD"), testCase.Salt);
         }
 
         private Mock<IRandom800_90> GetRandomMock()
@@ -75,6 +64,11 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             return new Mock<SignerBase>();
         }
 
+        private Mock<PrimeGeneratorBase> GetPrimeGenMock()
+        {
+            return new Mock<PrimeGeneratorBase>();
+        }
+
         private TestGroup GetTestGroup()
         {
             return new TestGroup
@@ -82,7 +76,6 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 Modulo = 2048,
                 Mode = SigGenModes.PSS,
                 HashAlg = new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224},
-                SaltMode = SaltModes.RANDOM,
                 SaltLen = 40
             };
         }

@@ -15,12 +15,12 @@ namespace NIST.CVP.Generation.RSA_SigGen
 
         public string[] SigGenModes { get; set; }
         public int[] Moduli { get; set; }
-        public string[] HashAlgs { get; set; }
-        public string SaltMode { get; set; }
-        public string Salt { get; set; } = "";
-        public int[] SaltLen { get; set; }
-        public string N { get; set; }
-        public string PubExp { get; set; }              // E
-        public string PrivExp { get; set; }             // D
+        public CapabilityObject[] Capabilities { get; set; }
+    }
+
+    public class CapabilityObject
+    {
+        public string HashAlg { get; set; }
+        public int SaltLen { get; set; } = 0;
     }
 }

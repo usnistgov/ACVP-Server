@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
                         algo.SetSaltLen(testGroup.SaltLen);
 
                         // Add entropy
-                        algo.AddEntropy(testGroup.Salt);
+                        algo.AddEntropy(testCase.Salt);
 
                         var result = algo.Sign(testGroup.Modulo, testCase.Message, testGroup.Key);
                         if (!result.Success)

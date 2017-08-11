@@ -98,11 +98,11 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithHashAlgs(new[] { "SHA-384", "SHA-512" })
+                    .WithHashAlgs(new[] { "sha-384", "sha-512" })
                     .Build()
             );
 
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue(result.Success, result.ErrorMessage);
         }
 
         [Test]
@@ -169,14 +169,22 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
 
             public Parameters Build()
             {
+                var caps = new CapabilityObject[_hashAlgs.Length];
+                for(var i = 0; i < caps.Length; i++)
+                {
+                    caps[i] = new CapabilityObject
+                    {
+                        HashAlg = _hashAlgs[i]
+                    };
+                }
+
                 return new Parameters
                 {
                     Algorithm = _algorithm,
                     Mode = _mode,
                     SigGenModes = _sigGenModes,
-                    HashAlgs = _hashAlgs,
+                    Capabilities = caps,
                     Moduli = _moduli,
-                    SaltMode = _saltMode,
                 };
             }
         }

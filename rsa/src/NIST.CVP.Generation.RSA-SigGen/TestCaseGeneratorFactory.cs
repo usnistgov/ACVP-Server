@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
                         return new TestCaseGeneratorGDT(_random800_90, new RSASSA_PKCSv15_Signer(testGroup.HashAlg));
 
                     case SigGenModes.PSS:
-                        return new TestCaseGeneratorGDT(_random800_90, new RSASSA_PSS_Signer(testGroup.HashAlg));
+                        return new TestCaseGeneratorGDT(_random800_90, new RSASSA_PSS_Signer(testGroup.HashAlg, Math.Entropy.EntropyProviderTypes.Testable, testGroup.SaltLen));
                 }
             }
 

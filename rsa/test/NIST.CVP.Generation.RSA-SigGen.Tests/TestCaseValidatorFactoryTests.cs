@@ -52,8 +52,6 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                         TestType = testType,
                         Modulo = 2048,
                         Mode = SigGenModes.PSS,
-                        Salt = new BitString("ABCD"),
-                        SaltLen = 16,
                         HashAlg = new HashFunction{ Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224 },
                         Tests = new List<ITestCase>
                         {

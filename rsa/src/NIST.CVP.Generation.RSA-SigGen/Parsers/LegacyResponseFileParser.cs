@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,6 +38,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Parsers
             TestCase curTestCase = null;
             var inCases = false;
             var caseId = 1;
+            var saltVal = "";
 
             foreach(var line in lines)
             {
@@ -62,13 +64,19 @@ namespace NIST.CVP.Generation.RSA_SigGen.Parsers
 
                     workingLine = workingLine.Replace("[", "").Replace("]", "");
                     var propParts = workingLine.Split("=".ToCharArray());
-                    curGroup.SetString(propParts[0].Trim(), propParts[1].Trim());
+                    if(!curGroup.SetString(propParts[0].Trim(), propParts[1].Trim()))
+                    {
+                        // Salt
+                        saltVal = propParts[1].Trim();
+                    }
+                    
                     continue;
                 }
 
                 if(workingLine.StartsWith("msg = "))
                 {
                     curTestCase = new TestCase { TestCaseId = caseId };
+                    curTestCase.Salt = new BitString(saltVal, curGroup.SaltLen * 8);
                     inCases = true;
 
                     curGroup.Tests.Add(curTestCase);

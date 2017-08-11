@@ -12,20 +12,24 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [Test]
         public void ShouldCoverParametersSet()
         {
+            var caps = new CapabilityObject[ParameterValidator.VALID_HASH_ALGS.Length];
+            for (var i = 0; i < caps.Length; i++)
+            {
+                caps[i] = new CapabilityObject
+                {
+                    HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
+                    SaltLen = (i + 1) * 8
+                };
+            }
+
             var parameters = new Parameters
             {
                 Algorithm = "RSA",
                 Mode = "SigGen",
                 IsSample = false,
                 Moduli = new[] { 2048, 3072, 4096 },
-                HashAlgs = new[] { "SHA-1", "SHA-256" },
+                Capabilities = caps,
                 SigGenModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" },
-                SaltMode = "fixed",
-                Salt = "ABCD",
-                SaltLen = new[] { 20, 20, 20 },
-                N = "ABCD",
-                PrivExp = "ABCD",
-                PubExp = "ABCD"
             };
 
             Assert.IsNotNull(parameters);
@@ -34,20 +38,24 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [Test]
         public void ShouldCoverParametersGet()
         {
+            var caps = new CapabilityObject[ParameterValidator.VALID_HASH_ALGS.Length];
+            for (var i = 0; i < caps.Length; i++)
+            {
+                caps[i] = new CapabilityObject
+                {
+                    HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
+                    SaltLen = (i + 1) * 8
+                };
+            }
+
             var parameters = new Parameters
             {
                 Algorithm = "RSA",
                 Mode = "SigGen",
                 IsSample = false,
                 Moduli = new[] { 2048, 3072, 4096 },
-                HashAlgs = new[] { "SHA-1", "SHA-256" },
+                Capabilities = caps,
                 SigGenModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" },
-                SaltMode = "fixed",
-                Salt = "ABCD",
-                SaltLen = new[] { 20, 20, 20 },
-                N = "ABCD",
-                PrivExp = "ABCD",
-                PubExp = "ABCD"
             };
 
             Assert.AreEqual("RSA", parameters.Algorithm);

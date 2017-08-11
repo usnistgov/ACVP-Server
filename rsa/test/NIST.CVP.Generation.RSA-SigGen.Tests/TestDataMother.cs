@@ -34,9 +34,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                     Mode = SigGenModes.ANS_931,
                     Modulo = 2048 + groupIdx,
                     TestType = "gdt",
-                    Salt = new BitString("ABCD"),
                     SaltLen = 16,
-                    SaltMode = SaltModes.FIXED,
                     Tests = tests
                 });
             }

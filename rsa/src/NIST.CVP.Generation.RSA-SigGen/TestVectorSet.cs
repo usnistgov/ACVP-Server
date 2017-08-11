@@ -57,13 +57,17 @@ namespace NIST.CVP.Generation.RSA_SigGen
                     ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
                     ((IDictionary<string, object>)updateObject).Add("hashAlg", SHAEnumHelpers.HashFunctionToString(group.HashAlg));
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("n", group.Key.PubKey.N);
-                    ((IDictionary<string, object>)updateObject).Add("e", group.Key.PubKey.E);
 
                     if (group.Mode == SigGenModes.PSS)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("saltMode", RSAEnumHelpers.SaltModeToString(group.SaltMode));
                         ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
+                    }
+
+                    if (IsSample)
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("n", group.Key.PubKey.N);
+                        ((IDictionary<string, object>)updateObject).Add("e", group.Key.PubKey.E);
+                        ((IDictionary<string, object>)updateObject).Add("d", group.Key.PrivKey.D);
                     }
 
                     var tests = new List<dynamic>();
@@ -75,11 +79,6 @@ namespace NIST.CVP.Generation.RSA_SigGen
 
                         if (IsSample)
                         {
-                            if(group.Mode == SigGenModes.PSS)
-                            {
-                                ((IDictionary<string, object>)testObject).Add("salt", test.Salt);
-                            }
-
                             ((IDictionary<string, object>)testObject).Add("signature", test.Signature);
                         }
 
@@ -106,12 +105,9 @@ namespace NIST.CVP.Generation.RSA_SigGen
                     ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
                     ((IDictionary<string, object>)updateObject).Add("hashAlg", SHAEnumHelpers.HashFunctionToString(group.HashAlg));
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("n", group.Key.PubKey.N);
-                    ((IDictionary<string, object>)updateObject).Add("d", group.Key.PrivKey.D);
 
                     if (group.Mode == SigGenModes.PSS)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("saltMode", RSAEnumHelpers.SaltModeToString(group.SaltMode));
                         ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
                     }
 
@@ -122,11 +118,6 @@ namespace NIST.CVP.Generation.RSA_SigGen
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("message", test.Message);
-
-                        if(group.Mode == SigGenModes.PSS)
-                        {
-                            ((IDictionary<string, object>)testObject).Add("salt", test.Salt);
-                        }
 
                         tests.Add(testObject);
                     }
@@ -154,6 +145,11 @@ namespace NIST.CVP.Generation.RSA_SigGen
                         if (IsSample)
                         {
                             ((IDictionary<string, object>)testObject).Add("signature", test.Signature);
+
+                            if (group.Mode == SigGenModes.PSS)
+                            {
+                                ((IDictionary<string, object>)testObject).Add("salt", test.Salt);
+                            }
                         }
 
                         tests.Add(testObject);

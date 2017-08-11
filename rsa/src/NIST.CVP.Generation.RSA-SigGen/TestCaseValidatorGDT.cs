@@ -11,13 +11,14 @@ namespace NIST.CVP.Generation.RSA_SigGen
     {
         private readonly TestGroup _group;
         private readonly SignerBase _signer;
-        public int TestCaseId { get; }
+        private readonly TestCase _expectedResult;
+        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
 
         public TestCaseValidatorGDT(TestCase expectedResult, TestGroup group, SignerBase signer)
         {
             _group = group;
             _signer = signer;
-            TestCaseId = expectedResult.TestCaseId;
+            _expectedResult = expectedResult;
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
@@ -29,10 +30,17 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 _signer.AddEntropy(suppliedResult.Salt);
             }
 
-            var result = _signer.Verify(_group.Modulo, suppliedResult.Signature, _group.Key, suppliedResult.Message);
-            if (!result.Success)
+            if(_expectedResult.Message == null || suppliedResult.Signature == null)
             {
-                errors.Add($"Could not verify signature for {TestCaseId}");
+                errors.Add($"Could not find message or signature");
+            }
+            else
+            {
+                var result = _signer.Verify(_group.Modulo, suppliedResult.Signature, _group.Key, _expectedResult.Message);
+                if (!result.Success)
+                {
+                    errors.Add($"Could not verify signature: {result.ErrorMessage}");
+                }
             }
 
             if (errors.Count > 0)
