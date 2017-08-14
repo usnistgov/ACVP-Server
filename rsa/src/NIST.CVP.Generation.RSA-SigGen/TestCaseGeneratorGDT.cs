@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 do
                 {
                     //ThisLogger.Debug($"Computing key for {group.Modulo}");
-                    E = GetEValue(group);
+                    E = GetEValue();
                     primeResult = _primeGen.GeneratePrimes(group.Modulo, E, GetSeed(group));
                 } while (!primeResult.Success);
 
@@ -102,7 +102,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
 
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
 
-        private BigInteger GetEValue(TestGroup group)
+        private BigInteger GetEValue()
         {
             BigInteger e;
             var min = BigInteger.Pow(2, 32) + 1;

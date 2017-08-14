@@ -66,7 +66,43 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             return BigInteger.ModPow(plaintext, e, n);
         }
 
+        public SignatureResult SignWithErrors(int nlen, BitString message, KeyPair key, FailureReasons reason)
+        {
+            switch (reason)
+            {
+                case FailureReasons.NONE:
+                    return Sign(nlen, message, key);
+
+                case FailureReasons.E:
+                    var newKey = new KeyPair(key.PrivKey.P, key.PrivKey.Q, key.PubKey.E + 2);
+                    return Sign(nlen, message, key);
+
+                case FailureReasons.MESSAGE:
+                    var newMessage = message.ToPositiveBigInteger() + 2;
+                    return Sign(nlen, new BitString(newMessage), key);
+
+                case FailureReasons.SIGNATURE:
+                    var sigResult = Sign(nlen, message, key);
+                    if (sigResult.Success)
+                    {
+                        sigResult = new SignatureResult(new BitString(sigResult.Signature.ToPositiveBigInteger() + 2));
+                    }
+                    return sigResult;
+
+                case FailureReasons.IR_MOVED:
+                    return MoveIRSign(nlen, message, key);
+
+                case FailureReasons.IR_TRAILER:
+                    return ModifyIRTrailerSign(nlen, message, key);
+
+                default:
+                    return new SignatureResult("Could not find error type (including NONE)");
+            }
+        }
+
         public abstract SignatureResult Sign(int nlen, BitString message, KeyPair key);
         public abstract VerifyResult Verify(int nlen, BitString signature, KeyPair key, BitString message);
+        public abstract SignatureResult MoveIRSign(int nlen, BitString message, KeyPair key);
+        public abstract SignatureResult ModifyIRTrailerSign(int nlen, BitString message, KeyPair key);
     }
 }

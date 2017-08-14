@@ -160,5 +160,99 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             // 3. EMSA_PSS_Verify
             return EMSA_PSS_Verify(message, EM, nlen - 1);
         }
+
+        public override SignatureResult ModifyIRTrailerSign(int nlen, BitString message, KeyPair key)
+        {
+            var emBits = nlen - 1;
+            var mHash = Hash(message);
+
+            var emLen = (int)NumberTheory.CeilingDivide(emBits, 8);
+
+            // All byte values
+            if (emLen < mHash.BitLength / 8 + _saltLen + 2)
+            {
+                throw new Exception("Encoding error, RSA-SigGen-PSS");
+            }
+
+            var salt = _entropy.GetEntropy(_saltLen * 8);
+            var mPrime = BitString.Zeroes(64);
+            mPrime = BitString.ConcatenateBits(mPrime, mHash);
+            mPrime = BitString.ConcatenateBits(mPrime, salt);
+
+            var H = Hash(mPrime);
+
+            // All bit values
+            var PS = BitString.Zeroes(emLen * 8 - _saltLen * 8 - H.BitLength - 2 * 8);
+
+            var DB = PS.GetDeepCopy();
+            DB = BitString.ConcatenateBits(DB, _01);
+            DB = BitString.ConcatenateBits(DB, salt);
+
+            // All bit values
+            var dbMask = MGF(H, emLen * 8 - H.BitLength - 1 * 8);
+            var maskedDB = BitString.XOR(DB, dbMask);
+
+            // Set leftmost bits to 0
+            for (var i = 0; i < 8 * emLen - emBits; i++)
+            {
+                maskedDB.Set(maskedDB.BitLength - i - 1, false);
+            }
+
+            var EM = maskedDB.GetDeepCopy();
+            EM = BitString.ConcatenateBits(EM, H);
+            EM = BitString.ConcatenateBits(EM, new BitString("4C"));    // ERROR: should be BC
+
+            // 2. RSA Decryption
+            var signature = Decrypt(key.PubKey.N, key.PrivKey.D, EM.ToPositiveBigInteger());
+            return new SignatureResult(new BitString(signature));
+        }
+
+        public override SignatureResult MoveIRSign(int nlen, BitString message, KeyPair key)
+        {
+            var _rand = new Random800_90();
+            var emBits = nlen - 1;
+            var mHash = Hash(message);
+
+            var emLen = (int)NumberTheory.CeilingDivide(emBits, 8);
+
+            // All byte values
+            if (emLen < mHash.BitLength / 8 + _saltLen + 2)
+            {
+                throw new Exception("Encoding error, RSA-SigGen-PSS");
+            }
+
+            var salt = _entropy.GetEntropy(_saltLen * 8);
+            var mPrime = BitString.Zeroes(64);
+            mPrime = BitString.ConcatenateBits(mPrime, mHash);
+            mPrime = BitString.ConcatenateBits(mPrime, salt);
+
+            var H = Hash(mPrime);
+
+            // All bit values
+            var PS = BitString.Zeroes(emLen * 8 - _saltLen * 8 - H.BitLength - 2 * 8);
+
+            var DB = PS.GetDeepCopy();
+            DB = BitString.ConcatenateBits(DB, _01);
+            DB = BitString.ConcatenateBits(DB, salt);
+
+            // All bit values
+            var dbMask = MGF(H, emLen * 8 - H.BitLength - 1 * 8);
+            var maskedDB = BitString.XOR(DB, dbMask);
+
+            // Set leftmost bits to 0
+            for (var i = 0; i < 8 * emLen - emBits; i++)
+            {
+                maskedDB.Set(maskedDB.BitLength - i - 1, false);
+            }
+
+            var EM = maskedDB.Substring(0, maskedDB.BitLength - 8);     // ERROR: not all the maskedDB bits
+            EM = BitString.ConcatenateBits(EM, H);
+            EM = BitString.ConcatenateBits(EM, _rand.GetRandomBitString(8));    // ERROR: putting bits back to match length
+            EM = BitString.ConcatenateBits(EM, _bc);
+
+            // 2. RSA Decryption
+            var signature = Decrypt(key.PubKey.N, key.PrivKey.D, EM.ToPositiveBigInteger());
+            return new SignatureResult(new BitString(signature));
+        }
     }
 }

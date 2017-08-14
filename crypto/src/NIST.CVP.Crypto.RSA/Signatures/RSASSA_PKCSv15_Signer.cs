@@ -4,6 +4,7 @@ using System.Text;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using System.Numerics;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA.Signatures
 {
@@ -103,6 +104,63 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             {
                 return new VerifyResult("Encoded messages do not match");
             }
+        }
+
+        public override SignatureResult ModifyIRTrailerSign(int nlen, BitString message, KeyPair key)
+        {
+            // 1. Encode Message
+            var H = Hash(message);
+            var T = BitString.ConcatenateBits(GetHashAlgId(), H);
+
+            var psLen = nlen - (GetHashAlgId().BitLength + SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize)) - 24;
+            var PS = BitString.Ones(psLen);
+
+            var EM = new BitString("00");
+            EM = BitString.ConcatenateBits(EM, new BitString("01"));
+            EM = BitString.ConcatenateBits(EM, PS);
+            EM = BitString.ConcatenateBits(EM, new BitString("44"));        // ERROR: Should be 00
+            EM = BitString.ConcatenateBits(EM, T);
+
+            if (message.BitLength < GetHashAlgId().BitLength + 11 * 8)
+            {
+                return new SignatureResult("Message length too short");
+            }
+
+            // 2. RSA Signature
+            var signature = Decrypt(key.PubKey.N, key.PrivKey.D, EM.ToPositiveBigInteger());
+
+            // 3. Output Signature
+            return new SignatureResult(new BitString(signature));
+        }
+
+        public override SignatureResult MoveIRSign(int nlen, BitString message, KeyPair key)
+        {
+            var _rand = new Random800_90();
+
+            // 1. Encode Message
+            var H = Hash(message);
+            var T = BitString.ConcatenateBits(GetHashAlgId(), H);
+
+            var psLen = nlen - (GetHashAlgId().BitLength + SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize)) - 24;
+            var PS = BitString.Ones(psLen);
+
+            var EM = new BitString("00");
+            EM = BitString.ConcatenateBits(EM, new BitString("01"));
+            EM = BitString.ConcatenateBits(EM, PS);
+            EM = BitString.ConcatenateBits(EM, BitString.Ones(_rand.GetRandomInt(1, PS.BitLength)));    // ERROR: Add random amount of 1s to PS
+            EM = BitString.ConcatenateBits(EM, new BitString("00"));
+            EM = BitString.ConcatenateBits(EM, T);
+
+            if (message.BitLength < GetHashAlgId().BitLength + 11 * 8)
+            {
+                return new SignatureResult("Message length too short");
+            }
+
+            // 2. RSA Signature
+            var signature = Decrypt(key.PubKey.N, key.PrivKey.D, EM.ToPositiveBigInteger());
+
+            // 3. Output Signature
+            return new SignatureResult(new BitString(signature));
         }
     }
 }

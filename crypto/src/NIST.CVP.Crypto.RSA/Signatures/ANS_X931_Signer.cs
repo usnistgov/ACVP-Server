@@ -4,6 +4,7 @@ using System.Text;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using System.Numerics;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA.Signatures
 {
@@ -162,6 +163,79 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             {
                 return new VerifyResult("Hashes do not match, bad signature");
             }
+        }
+
+        public override SignatureResult ModifyIRTrailerSign(int nlen, BitString message, KeyPair key)
+        {
+            _entropy = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
+
+            // 1. Message Hashing
+            var hashedMessage = Hash(message);
+
+            // 2. Hash Encapsulation
+            var trailer = GetTrailer();
+            // Header is always 4, trailer is always 16, but this value is 1 byte less than it should be
+            int paddingLen = nlen - _header.BitLength - SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize) - trailer.BitLength;
+            var padding = GetPadding(paddingLen);
+
+            var IR = _header.GetDeepCopy();
+            IR = BitString.ConcatenateBits(IR, padding);
+            IR = BitString.ConcatenateBits(IR, hashedMessage);
+            IR = BitString.ConcatenateBits(IR, new BitString("6666"));      // ERROR: Change the trailer to something else
+
+            if (IR.BitLength != nlen)
+            {
+                return new SignatureResult("Improper length for IR");
+            }
+
+            // 3. Signature Production
+            var signature = Decrypt(key.PubKey.N, key.PrivKey.D, IR.ToPositiveBigInteger());
+            signature = BigInteger.Min(signature, key.PubKey.N - signature);
+
+            var bsSignature = new BitString(signature);
+            if (bsSignature.BitLength == nlen && bsSignature.GetMostSignificantBits(1) == BitString.Zero())
+            {
+                return new SignatureResult("Signature bitlength must be nlen - 1");
+            }
+
+            return new SignatureResult(bsSignature);
+        }
+
+        public override SignatureResult MoveIRSign(int nlen, BitString message, KeyPair key)
+        {
+            _entropy = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
+
+            // 1. Message Hashing
+            var hashedMessage = Hash(message);
+
+            // 2. Hash Encapsulation
+            var trailer = GetTrailer();
+            // Header is always 4, trailer is always 16, but this value is 1 byte less than it should be, (ERROR is the - 8)
+            int paddingLen = nlen - _header.BitLength - SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize) - trailer.BitLength - 8;
+            var padding = GetPadding(paddingLen);
+
+            var IR = _header.GetDeepCopy();
+            IR = BitString.ConcatenateBits(IR, padding);
+            IR = BitString.ConcatenateBits(IR, hashedMessage);
+            IR = BitString.ConcatenateBits(IR, _entropy.GetEntropy(8));    // ERROR: Adds back in random bits from the padding that was removed
+            IR = BitString.ConcatenateBits(IR, trailer);
+
+            if (IR.BitLength != nlen)
+            {
+                return new SignatureResult("Improper length for IR");
+            }
+
+            // 3. Signature Production
+            var signature = Decrypt(key.PubKey.N, key.PrivKey.D, IR.ToPositiveBigInteger());
+            signature = BigInteger.Min(signature, key.PubKey.N - signature);
+
+            var bsSignature = new BitString(signature);
+            if (bsSignature.BitLength == nlen && bsSignature.GetMostSignificantBits(1) == BitString.Zero())
+            {
+                return new SignatureResult("Signature bitlength must be nlen - 1");
+            }
+
+            return new SignatureResult(bsSignature);
         }
     }
 }

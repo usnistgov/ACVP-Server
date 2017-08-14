@@ -43,6 +43,16 @@ namespace NIST.CVP.Crypto.RSA
         RANDOM
     }
 
+    public enum FailureReasons
+    {
+        NONE,
+        MESSAGE,
+        E,
+        SIGNATURE,
+        IR_MOVED,
+        IR_TRAILER
+    }
+
     public static class RSAEnumHelpers
     {
         public static KeyGenModes StringToKeyGenMode(string val)
