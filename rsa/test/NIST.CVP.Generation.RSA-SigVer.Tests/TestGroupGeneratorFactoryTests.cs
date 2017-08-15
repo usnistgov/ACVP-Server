@@ -1,13 +1,17 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using Moq;
+using NIST.CVP.Crypto.RSA.PrimeGenerators;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
-namespace NIST.CVP.Generation.RSA_SigGen.Tests
+namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {
     [TestFixture, UnitTest]
     public class TestGroupGeneratorFactoryTests
@@ -17,7 +21,12 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [SetUp]
         public void SetUp()
         {
-            _subject = new TestGroupGeneratorFactory();
+            var primeMock = new Mock<RandomProbablePrimeGenerator>();
+            primeMock
+                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
+                .Returns(new PrimeGeneratorResult(3, 5));
+
+            _subject = new TestGroupGeneratorFactory(primeMock.Object);
         }
 
         [Test]
@@ -61,7 +70,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
 
             var groups = new List<ITestGroup>();
 
-            foreach(var genny in result)
+            foreach (var genny in result)
             {
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }

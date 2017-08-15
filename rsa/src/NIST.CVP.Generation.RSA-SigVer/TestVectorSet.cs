@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using NIST.CVP.Crypto.RSA;
+using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 using System;
 using System.Collections.Generic;
@@ -42,11 +44,115 @@ namespace NIST.CVP.Generation.RSA_SigVer
             }
         }
 
-        public List<dynamic> AnswerProjection => throw new NotImplementedException();
+        public List<dynamic> AnswerProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach(var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("sigType", RSAEnumHelpers.SigGenModeToString(group.Mode));
+                    ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", SHAEnumHelpers.HashFunctionToString(group.HashAlg));
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
 
-        public List<dynamic> PromptProjection => throw new NotImplementedException();
+                    if (group.Mode == SigGenModes.PSS)
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
+                    }
 
-        public List<dynamic> ResultProjection => throw new NotImplementedException();
+                    ((IDictionary<string, object>)updateObject).Add("n", group.Key.PubKey.N);
+                    ((IDictionary<string, object>)updateObject).Add("e", group.Key.PubKey.E);
+                    ((IDictionary<string, object>)updateObject).Add("d", group.Key.PrivKey.D);
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach(var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("result", !test.FailureTest);
+                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason);
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
+
+        public List<dynamic> PromptProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("sigType", RSAEnumHelpers.SigGenModeToString(group.Mode));
+                    ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", SHAEnumHelpers.HashFunctionToString(group.HashAlg));
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+
+                    if (group.Mode == SigGenModes.PSS)
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
+                    }
+
+                    ((IDictionary<string, object>)updateObject).Add("n", group.Key.PubKey.N);
+                    ((IDictionary<string, object>)updateObject).Add("e", group.Key.PubKey.E);
+                    ((IDictionary<string, object>)updateObject).Add("d", group.Key.PrivKey.D);
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("message", test.Message);
+                        ((IDictionary<string, object>)testObject).Add("signature", test.Signature);
+
+                        if (group.Mode == SigGenModes.PSS)
+                        {
+                            ((IDictionary<string, object>)testObject).Add("salt", test.Salt);
+                        }
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
+
+        [JsonProperty(PropertyName = "testResults")]
+        public List<dynamic> ResultProjection
+        {
+            get
+            {
+                var tests = new List<dynamic>();
+                foreach(var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    foreach(var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("result", !test.FailureTest);
+                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason);
+
+                        tests.Add(testObject);
+                    }
+                }
+
+                return tests;
+            }
+        }
 
         public dynamic ToDynamic()
         {

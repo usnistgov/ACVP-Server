@@ -1,0 +1,78 @@
+﻿using NIST.CVP.Crypto.RSA;
+using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace NIST.CVP.Generation.RSA_SigVer.Tests
+{
+    [TestFixture, UnitTest]
+    public class TestCaseValidatorFactoryTests
+    {
+        private TestCaseValidatorFactory _subject;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _subject = new TestCaseValidatorFactory();
+        }
+
+        [Test]
+        [TestCase("gdt", typeof(TestCaseValidatorGDT))]
+        [TestCase("junk", typeof(TestCaseValidatorNull))]
+        public void ShouldReturnCorrectValidatorTypeDependentOnFunction(string testType, Type expectedType)
+        {
+            TestVectorSet testVectorSet = null;
+            List<TestCase> suppliedResults = null;
+
+            GetData(ref testVectorSet, ref suppliedResults, testType);
+
+            var results = _subject.GetValidators(testVectorSet, suppliedResults);
+
+            Assert.AreEqual(1, results.Count(), "Expected 1 validator");
+            Assert.IsInstanceOf(expectedType, results.First());
+        }
+
+        private void GetData(ref TestVectorSet testVectorSet, ref List<TestCase> suppliedResults, string testType)
+        {
+            testVectorSet = new TestVectorSet
+            {
+                Algorithm = "",
+                Mode = "",
+                TestGroups = new List<ITestGroup>
+                {
+                    new TestGroup
+                    {
+                        TestType = testType,
+                        Modulo = 2048,
+                        Mode = SigGenModes.PSS,
+                        HashAlg = new HashFunction{ Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224 },
+                        Tests = new List<ITestCase>
+                        {
+                            new TestCase
+                            {
+                                TestCaseId = 1,
+                                Message = new BitString("ABCD")
+                            }
+                        }
+                    }
+                }
+            };
+
+            suppliedResults = new List<TestCase>
+            {
+                new TestCase
+                {
+                    TestCaseId = 1,
+                    Signature = new BitString("ABCD"),
+                    Salt = new BitString("ABCD")
+                }
+            };
+        }
+    }
+}

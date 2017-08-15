@@ -61,7 +61,25 @@ namespace NIST.CVP.Generation.RSA_SigVer
 
         public bool Merge(ITestCase otherTest)
         {
-            throw new NotImplementedException();
+            if(TestCaseId != otherTest.TestCaseId)
+            {
+                return false;
+            }
+
+            var otherTypedTest = (TestCase)otherTest;
+            if(Salt == null & otherTypedTest.Salt != null)
+            {
+                Salt = otherTypedTest.Salt.GetDeepCopy();
+            }
+
+            if(Message == null && otherTypedTest.Message != null)
+            {
+                Message = otherTypedTest.Message.GetDeepCopy();
+                Signature = otherTypedTest.Signature.GetDeepCopy();
+                return true;
+            }
+
+            return false;
         }
 
         public bool SetString(string name, string value)
