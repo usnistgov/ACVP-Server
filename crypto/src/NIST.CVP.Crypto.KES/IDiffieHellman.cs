@@ -5,8 +5,13 @@ namespace NIST.CVP.Crypto.KES
 {
     /// <summary>
     /// Describes the methods for Diffie Hellman key establishment scheme
+    /// 
+    /// http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar2.pdf
+    /// Section 5.7.1.1 (FFC)
+    /// Section 5.7.1.2 (ECC)
     /// </summary>
-    public interface IDiffieHellman<TDsaDomainParameters>
+    /// <typeparam name="TDsaDomainParameters">The <see cref="IDsa"/> domain parameters</typeparam>
+    public interface IDiffieHellman<in TDsaDomainParameters>
         where TDsaDomainParameters : IDsaDomainParameters
     {
         /// <summary>

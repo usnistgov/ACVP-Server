@@ -138,9 +138,9 @@ namespace NIST.CVP.Crypto.KES.Tests
             {
                 "from CAVS test7",
                 // Private key party A
-                new BitString("").ToPositiveBigInteger(),
+                new BitString("1e6546d311b72deeb192557f2fad86c759cedbb3b3fb72b116cd326f304c4572").ToPositiveBigInteger(),
                 // Public key party B
-                new BitString("").ToPositiveBigInteger(),
+                new BitString("0cfad9040049f53e34b3b7cebe43327dcdc4e13207e18ace4703ed20b84b6a4035d385ba378298c7d40fcd30bdeb230f2c6ca5e2dca7f24bb363a76c6f55551e7c8bbc572343b54ce846ef7c97ba6dea14b998a7e06f38aaaf9e348655188cfce52dfc827bffca94cf8491db94cae5955ba12566875b19bd254c3b8619cc078472ff70872e095a5372e136b8a2a3d7e6fe408311fd5f58d0e8bd5c6978fb9f2e61a38b75c56f780075bfe796285f5a91b517450cfae8f8b184075d070c80a24a7bdc1294d6021b39e12d5da84227ee95b3626fff2969f09e9bb0ca9c607396d6c53b21fb36e93962d4ec67ac7e351ae70f3b0896a5c32d15f5a9c1a692fe91cb").ToPositiveBigInteger(),
                 // P
                 new BitString("d2b4ca595c5e4ab4b20e102e2d68b41b46a52dbefe43b7f4ff3b0754bcfe4668e2ffe1c4404c6db337be35cb62f9fc0c2329220b0a4d14be8306dee81b6a1f890bf90a5a94fb3aeb6c72e394f6ffc1d2fdccfc405cb7990edd58086df5f871ea7976c1cc797eb89bf0f0a522c2e23df1d8a08586b40b7d5fb8b7bbfe12fc770793cacc76293a2d24433aca652854fe206e5447783eddf5343c194d32cb568bcdfb65c5677a14413d5e2d7e2842cfd8f1d7de28072365ace49938e2663b800103f6f29121b1be92d64b58ec4007676c90dec348210cd646f6aceea41a796f6207b3a7a3f61dc57af7586fcf0cc4ec8a604828920fade4544816f1c9e9fbbb1cab").ToPositiveBigInteger(),
                 // G
