@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.SHAWrapper.Helpers;
+﻿using System.Numerics;
+using NIST.CVP.Crypto.SHAWrapper.Helpers;
 
 namespace NIST.CVP.Crypto.SHAWrapper
 {
@@ -8,6 +9,7 @@ namespace NIST.CVP.Crypto.SHAWrapper
         public DigestSizes DigestSize { get; }
         public int OutputLen { get; }
         public int BlockSize { get; }
+        public BigInteger MaxMessageLen { get; }
         
         
         public HashFunction(ModeValues mode, DigestSizes digestSize)
@@ -18,6 +20,7 @@ namespace NIST.CVP.Crypto.SHAWrapper
             var attributes = ShaAttributes.GetShaAttributes(mode, digestSize);
             OutputLen = attributes.outputLen;
             BlockSize = attributes.blockSize;
+            MaxMessageLen = attributes.maxMessageSize;
         }
     }
 
