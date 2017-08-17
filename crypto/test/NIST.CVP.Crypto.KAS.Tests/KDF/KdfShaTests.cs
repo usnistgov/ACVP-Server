@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Moq;
+using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

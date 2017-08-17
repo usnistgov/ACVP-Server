@@ -2,7 +2,7 @@
 using System.Numerics;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.KAS
+namespace NIST.CVP.Crypto.KAS.KDF
 {
     public abstract class KdfBase : IKdf
     {

@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.KAS.KDF;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS
 {

@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.KAS
+namespace NIST.CVP.Crypto.KAS.KDF
 {
     public class KdfResult
     {
