@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         [OneTimeTearDown]
         public void Teardown()
         {
-            //Directory.Delete(_testPath, true);
+           Directory.Delete(_testPath, true);
         }
 
         [Test]
