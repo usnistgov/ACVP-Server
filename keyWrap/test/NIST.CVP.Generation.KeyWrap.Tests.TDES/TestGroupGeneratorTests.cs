@@ -81,12 +81,12 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
         {
             Parameters parameters = new Parameters()
             {
+                Algorithm = algorithm,
+                KeyingOption = new[] { 1, 2 },
+                KwCipher = kwCipher,
                 Direction = direction,
                 PtLen = ptLen,
-                KwCipher = kwCipher,
-                KeyLen = keyLen,
-                Algorithm = algorithm, 
-                KeyingOption = new[] { 1, 2 }
+                //KeyLen = keyLen,
             };
 
             var result = _subject.BuildTestGroups(parameters);

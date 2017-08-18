@@ -258,7 +258,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         private void RunGeneration(string targetFolder, string fileName)
         {
             // Run test vector generation
-            var result = Program.Main(new string[] { fileName, "AES-KW" });
+            var result = Program.Main(new string[] { "AES-KW", fileName });
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), $"{targetFolder}{_testVectorFileNames[0]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), $"{targetFolder}{_testVectorFileNames[1]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), $"{targetFolder}{_testVectorFileNames[2]}");
@@ -269,7 +269,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         {
             // Run test vector validation
             var result = KeyWrap_Val.Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Append("AES-KW").ToArray()
+                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Prepend("AES-KW").ToArray()
             );
             Assert.IsTrue(File.Exists($"{targetFolder}\\validation.json"), $"{targetFolder}validation");
             Assert.IsTrue(result == 0);

@@ -8,7 +8,6 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         // @@@ better way to do this without having to redefine valid values in tests?
-        public static int[] VALID_KEY_SIZES = { 192 };
         public static string[] VALID_DIRECTIONS = { "encrypt", "decrypt" };
         public static string[] VALID_KWCIPHER = { "cipher", "inverse" };
         public static int[] VALID_KEYING_OPTIONS = { 1, 2 };
@@ -31,7 +30,6 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
             }
             ValidateDirection(parameters, errorResults);
             ValidateKwCipher(parameters, errorResults);
-            ValidateKeySize(parameters, errorResults);
             ValidatePtLen(parameters, errorResults);
             ValidateKeyingOption(parameters, errorResults);
 
@@ -77,12 +75,6 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
         private void ValidateKwCipher(Parameters parameters, List<string> errorResults)
         {
             string result = ValidateArray(parameters.KwCipher, VALID_KWCIPHER, "KwCipher");
-            errorResults.AddIfNotNullOrEmpty(result);
-        }
-
-        private void ValidateKeySize(Parameters parameters, List<string> errorResults)
-        {
-            var result = ValidateArray(parameters.KeyLen, VALID_KEY_SIZES, "Key Sizes");
             errorResults.AddIfNotNullOrEmpty(result);
         }
 

@@ -18,8 +18,8 @@ namespace KeyWrap
                 Console.Error.WriteLine("Invalid arguments supplied");
                 return 1;
             }
-            var requestFile = args[0];
-            var algo = args[1];
+            var algo = args[0];
+            var requestFile = args[1];
             LoggingHelper.ConfigureLogging(requestFile, "keyWrap");
             Logger.Info($"Generating Test Vectors for {requestFile}");
 

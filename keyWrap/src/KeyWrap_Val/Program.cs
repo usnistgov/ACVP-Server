@@ -15,10 +15,11 @@ namespace KeyWrap_Val
                 Console.Error.WriteLine("Not enough arguments supplied, must supply paths for result, prompt and and answer files, and algo (TDES-KW or AES-KW)");
                 return 1;
             }
-            var resultFile = args[0];
-            var promptFile = args[1];
-            var answerFile = args[2];
-            var algo = args[3];
+            var algo = args[0];
+            var resultFile = args[1];
+            var promptFile = args[2];
+            var answerFile = args[3];
+
             LoggingHelper.ConfigureLogging(resultFile, "keyWrap-val");
             Logger.Info($"Validating test results for {resultFile}");
             try

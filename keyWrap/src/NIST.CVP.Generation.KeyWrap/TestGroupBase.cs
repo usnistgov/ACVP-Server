@@ -54,20 +54,8 @@ namespace NIST.CVP.Generation.KeyWrap
             LoadSource(source);
         }
 
-        protected void LoadSource(dynamic source)
-        {
-            TestType = source.testType;
-            Direction = source.direction;
-            KwCipher = source.kwCipher;
-            KeyLength = source.keyLen;
-            PtLen = source.ptLen;
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                //not pretty, but "Tests.Add(new TTestCase(test));" isn't allowed
-                Tests.Add((TTestCase)Activator.CreateInstance(typeof(TTestCase), test));
-            }
-        }
+        protected abstract void LoadSource(dynamic source);
+
         public bool MergeTests(List<ITestCase> testsToMerge)
         {
             foreach (var test in Tests)

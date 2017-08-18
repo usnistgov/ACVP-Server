@@ -377,7 +377,7 @@ namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
                 Algorithm = "TDES-ECB",
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 IsSample = false,
-                KeyingOption = new[] { 1 }
+                KeyingOption = new[] { 1, 2 }
             };
 
             return CreateRegistration(targetFolder, p);

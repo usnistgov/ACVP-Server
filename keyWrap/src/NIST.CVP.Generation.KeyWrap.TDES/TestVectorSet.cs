@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 
 namespace NIST.CVP.Generation.KeyWrap.TDES
 {
@@ -131,6 +129,16 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
                 }
                 return tests;
             }
+        }
+        protected override dynamic BuildGroupInformation(TestGroup group)
+        {
+            dynamic updateObject = new ExpandoObject();
+            ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+            ((IDictionary<string, object>)updateObject).Add("direction", group.Direction);
+            ((IDictionary<string, object>)updateObject).Add("kwCipher", group.KwCipher);
+            ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
+            ((IDictionary<string, object>)updateObject).Add("ptLen", group.PtLen);
+            return updateObject;
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.KeyWrap.Enums;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KeyWrap.TDES
 {
@@ -30,10 +32,12 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
         [JsonProperty(PropertyName = "numberOfKeys")]
         public int NumberOfKeys { get; set; }
 
+        public int KeyingOption { get; set; }
+
         public override int GetHashCode()
         {
             return
-                $"{KeyWrapType}|{TestType}|{Direction}|{KwCipher}|{KeyLength}|{PtLen}"
+                $"{KeyWrapType}|{TestType}|{Direction}|{KwCipher}|{KeyingOption}|{PtLen}"
                     .GetHashCode();
         }
 
@@ -83,6 +87,19 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
             return false;
         }
 
-
+        protected override void LoadSource(dynamic source)
+        {
+            TestType = source.testType;
+            Direction = source.direction;
+            KwCipher = source.kwCipher;
+            KeyingOption = source.keyingOption;
+            //KeyLength = source.keyLen;
+            PtLen = source.ptLen;
+            Tests = new List<ITestCase>();
+            foreach (var test in source.tests)
+            {
+                Tests.Add(new TestCase(test));
+            }
+        }
     }
 }

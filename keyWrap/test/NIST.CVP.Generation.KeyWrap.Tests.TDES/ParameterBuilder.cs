@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
         private KeyWrapType _keyWrapType;
 
         private string _algorithm;
-        private int[] _keyLen;
+        //private int[] _keyLen;
         private string[] _direction;
         private string[] _kwCipher;
         private MathDomain _ptLen;
@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
         {
             SetType(keyWrapType);
 
-            _keyLen = ParameterValidator.VALID_KEY_SIZES;
+            //_keyLen = ParameterValidator.VALID_KEY_SIZES;
             _direction = ParameterValidator.VALID_DIRECTIONS;
             _kwCipher = ParameterValidator.VALID_KWCIPHER;
             _keyingOption = ParameterValidator.VALID_KEYING_OPTIONS;
@@ -41,11 +41,11 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
             return this;
         }
 
-        public ParameterBuilder WithKeyLen(int[] value)
-        {
-            _keyLen = value;
-            return this;
-        }
+        //public ParameterBuilder WithKeyLen(int[] value)
+        //{
+        //    _keyLen = value;
+        //    return this;
+        //}
 
         public ParameterBuilder WithDirection(string[] value)
         {
@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                 KeyingOption = _keyingOption,
                 Direction = _direction,
                 KwCipher = _kwCipher,
-                KeyLen = _keyLen,
+                //KeyLen = _keyLen,
                 PtLen = _ptLen
             };
         }

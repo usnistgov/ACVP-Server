@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 
 namespace NIST.CVP.Generation.KeyWrap.AES
 {
     public class TestVectorSet : TestVectorSetBase<TestGroup, TestCase>
     {
+        public TestVectorSet()
+        {
+        }
+
         public TestVectorSet(dynamic answers, dynamic prompts)
         {
             SetAnswerAndPrompts(answers, prompts);
         }
-
-        public TestVectorSet()
-        {
-            
-        }
-
         public override List<dynamic> AnswerProjection
         {
             get
@@ -126,6 +122,17 @@ namespace NIST.CVP.Generation.KeyWrap.AES
                 }
                 return tests;
             }
+        }
+
+        protected override dynamic BuildGroupInformation(TestGroup group)
+        {
+            dynamic updateObject = new ExpandoObject();
+            ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+            ((IDictionary<string, object>)updateObject).Add("direction", group.Direction);
+            ((IDictionary<string, object>)updateObject).Add("kwCipher", group.KwCipher);
+            ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
+            ((IDictionary<string, object>)updateObject).Add("ptLen", group.PtLen);
+            return updateObject;
         }
     }
 }

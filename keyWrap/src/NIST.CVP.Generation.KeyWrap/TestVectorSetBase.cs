@@ -43,14 +43,24 @@ namespace NIST.CVP.Generation.KeyWrap
             {
                 var promptGroup = (TTestGroup) Activator.CreateInstance(typeof(TTestGroup), prompt);
                 //var promptGroup = new TTestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
+                ITestGroup matchingAnswerGroup = null;
+                try
                 {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
+                    matchingAnswerGroup = TestGroups.Single(g => g.Equals(promptGroup));
+                    matchingAnswerGroup.MergeTests(promptGroup.Tests);
                 }
+                catch (Exception e)
+                {
+                    throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts", e);
+                }
+                //var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
+                //if (matchingAnswerGroup != null)
+                //{
+                //    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
+                //    {
+                //        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
+                //    }
+                //}
             }
         }
 
@@ -89,15 +99,6 @@ namespace NIST.CVP.Generation.KeyWrap
             return vectorSetObject;
         }
 
-        protected dynamic BuildGroupInformation(TTestGroup group)
-        {
-            dynamic updateObject = new ExpandoObject();
-            ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-            ((IDictionary<string, object>)updateObject).Add("direction", group.Direction);
-            ((IDictionary<string, object>)updateObject).Add("kwCipher", group.KwCipher);
-            ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
-            ((IDictionary<string, object>)updateObject).Add("ptLen", group.PtLen);
-            return updateObject;
-        }
+        protected abstract dynamic BuildGroupInformation(TTestGroup group);
     }
 }

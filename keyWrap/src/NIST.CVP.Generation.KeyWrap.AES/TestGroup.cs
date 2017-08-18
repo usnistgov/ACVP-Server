@@ -1,5 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.KeyWrap.Enums;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KeyWrap.AES
 {
@@ -69,6 +72,20 @@ namespace NIST.CVP.Generation.KeyWrap.AES
                     return true;
             }
             return false;
+        }
+
+        protected override void LoadSource(dynamic source)
+        {
+            TestType = source.testType;
+            Direction = source.direction;
+            KwCipher = source.kwCipher;
+            KeyLength = source.keyLen;
+            PtLen = source.ptLen;
+            Tests = new List<ITestCase>();
+            foreach (var test in source.tests)
+            {
+                Tests.Add(new TestCase(test));
+            }
         }
 
     }
