@@ -33,27 +33,31 @@ namespace NIST.CVP.Generation.RSA_SigVer
                 {
                     foreach (var capability in parameters.Capabilities)
                     {
-                        // Get a key for the group
-                        PrimeGeneratorResult primeGenResult = null;
-                        BigInteger E = 3;
-                        do
+                        // Make 3 identical groups with different keys
+                        for(var i = 0; i < 3; i++)
                         {
-                            E = GetEValue();
-                            primeGenResult = _primeGen.GeneratePrimes(modulo, E, GetSeed(modulo));
-                        } while (!primeGenResult.Success);
+                            // Get a key for the group
+                            PrimeGeneratorResult primeGenResult = null;
+                            BigInteger E = 3;
+                            do
+                            {
+                                E = GetEValue();
+                                primeGenResult = _primeGen.GeneratePrimes(modulo, E, GetSeed(modulo));
+                            } while (!primeGenResult.Success);
 
-                        var testGroup = new TestGroup
-                        {
-                            Mode = RSAEnumHelpers.StringToSigGenMode(mode),
-                            Modulo = modulo,
-                            HashAlg = SHAEnumHelpers.StringToHashFunction(capability.HashAlg),
-                            SaltLen = capability.SaltLen,
-                            Key = new KeyPair(primeGenResult.P, primeGenResult.Q, E),
+                            var testGroup = new TestGroup
+                            {
+                                Mode = RSAEnumHelpers.StringToSigGenMode(mode),
+                                Modulo = modulo,
+                                HashAlg = SHAEnumHelpers.StringToHashFunction(capability.HashAlg),
+                                SaltLen = capability.SaltLen,
+                                Key = new KeyPair(primeGenResult.P, primeGenResult.Q, E),
 
-                            TestType = TEST_TYPE
-                        };
+                                TestType = TEST_TYPE
+                            };
 
-                        testGroups.Add(testGroup);
+                            testGroups.Add(testGroup);
+                        }
                     }
                 }
             }

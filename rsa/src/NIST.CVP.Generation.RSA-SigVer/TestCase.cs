@@ -84,7 +84,31 @@ namespace NIST.CVP.Generation.RSA_SigVer
 
         public bool SetString(string name, string value)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "msg":
+                    Message = new BitString(value);
+                    return true;
+
+                case "s":
+                    Signature = new BitString(value);
+                    return true;
+
+                case "result":
+                    Result = (value[0] == 'p');
+                    return true;
+
+                case "saltval":
+                    Salt = new BitString(value);
+                    return true;
+            }
+
+            return false;
         }
 
         private BitString BitStringFromObject(string propName, ExpandoObject source)

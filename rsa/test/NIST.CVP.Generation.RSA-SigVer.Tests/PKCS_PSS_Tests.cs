@@ -57,5 +57,31 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
 
             Assert.Fail("Good");
         }
+
+        [Test]
+        public void ANSX()
+        {
+            var nHex = "db42b6b2b0c8fd7948d7fa5c4d46d35e30ee0b9a37ddaba1a5221abad2c1b957e85e9592cea0c8405b07e1ba2b7d8f66a3f265c6bcc0fab629ab3842539a45c4394d09ae8ca14681344fcb61d7f9465a1b7b1546659188033c2e8d4af0287a021fd54d44d02f803cb0280d25a7adf50da0b0834d10c2855e74cb09b52264ef5f457cfe2ded5c9f387e9c05b1d9c8466576604dd43a328eaaad6fda32b49c34f589a4e9675c1a93c22ba5ac3a80678284741a61850f8757b7452f3bae386149d895d5392994940d67b28fe080e9e1ca9a8ba6703ef21b9044fe239ad438cbdb8bf622f220d05839f4f806519cb86baa4073bca6815af7de67ea1957e0a711def1";
+            var dHex = "0dc038f1e6baeb8022a3cd2719f553eeff581b848a3aa9e673f3bf01004af288df013815c5516b35d5c960115dc84e69359bcfc315a7287df9b1b918c5c12dd768adb9e76972af788f312a536efa74f467d800b3be1bb1960dad7b0ee76b2208e22d8e3b63d15c5239d4fcc51bc1849f2bd6521d7db203d7906e9e26489f45752b579c9b7a9cacc7503c96d2af7cf2f3e0c519f4d0df40142ada5fcd109811c02d09086fc22eeba0b7a416c89c9f0aab8a7e2ac5d0be10a8396d9bd4795c2c050a0f305e020f554fb09b0691ee377a6e79dd0c237d2bc10b465098a58928a72f6e098949295581659d9ba794a26456e4cf2063a8789e197b60c5d843ca8841ed";
+            var eHex = "0f5f13";
+            var msgHex = "6414cf69a77a510c89b62ff580fb2701c723f408a7e9b9b3f458a38dda83ca5dda7759b40f6eefc2b645456ded3010a5bbad29f151b6eb4e8f3bdc3acacf900ccda2cb861dafe6ad823674d8c26d2508b073ea7765855974ce74546d6756e54e457c6d0a5aa5fe76f571055e88192cd3ae5c7ec26cbdcccbb7eb504f378191cb";
+            var sigHex = "0fac537d91442ba97fd2c3cfa55568fc731d9f5eb9b55b9bce0d65a9c431cc40b4cd4c699362f092f56f0e56a7e3d3825bd26531e284e976faf3e8264875f2e99f7037d37491e8b256743fcefc771341bcedc71fad3b1720b50c92a23e3781e8013209e3b0b76b89c9480684b55f9ff0814e8fa85b766efc800ce5078147deb2f7653be317a99f0052cb47b48728a9115b07b5e1a4818841622f623dc4065531b283f33308089fb0e48cafcf1b460793beeaa7e22baf028cc17f03b2edf06b2c69cfe495f326f16d4b4e2f3ea1050293914970ed4aba2cb1d03e1d637b55da06c44dc40f58b3cc5630ffb0a4cafb590594352afd4d6eb241c392d12b421d57a9";
+
+            var n = new BitString(nHex).ToPositiveBigInteger();
+            var d = new BitString(dHex).ToPositiveBigInteger();
+            var e = new BitString(eHex).ToPositiveBigInteger();
+            var key = new KeyPair { PubKey = new PublicKey { N = n, E = e }, PrivKey = new PrivateKey { D = d } };
+            var msg = new BitString(msgHex);
+            var sig = new BitString(sigHex);
+
+            var ansSigner = new ANS_X931_Signer(new HashFunction { Mode = ModeValues.SHA1, DigestSize = DigestSizes.d160 });
+            var result = ansSigner.Verify(2048, sig, key, msg);
+
+            var result2 = ansSigner.Sign(2048, msg, key);
+            Assert.AreEqual(sig.ToHex(), result2.Signature.ToHex());
+
+
+            Assert.IsTrue(result.Success, result.ErrorMessage);
+        }
     }
 }

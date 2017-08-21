@@ -1,5 +1,5 @@
 ﻿using NIST.CVP.Crypto.RSA.Signatures;
-using NIST.CVP.Generation.RSA_SigGen.Parsers;
+using NIST.CVP.Generation.RSA_SigVer.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
+namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
@@ -18,21 +18,23 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\siggen\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\sigver\");
         }
 
         [Test]
         [TestCase("ansx9.31")]
         [TestCase("pkcs1v15")]
         [TestCase("pss")]
-        public void ShouldRunThroughAllTestFilesAndValidate(string sigGenMode)
+        public void ShouldRunThroughAllTestFilesAndValidate(string sigVerMode)
         {
+            var vals = new List<int>();
+
             if (!Directory.Exists(_testPath))
             {
                 Assert.Fail("Test File Directory does not exist");
             }
 
-            var folderPath = new DirectoryInfo(Path.Combine(_testPath, sigGenMode));
+            var folderPath = new DirectoryInfo(Path.Combine(_testPath, sigVerMode));
             var parser = new LegacyResponseFileParser();
             var signerFactory = new SignerFactory();
 
@@ -62,27 +64,22 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
                     foreach(var iTestCase in testGroup.Tests)
                     {
                         var testCase = (TestCase)iTestCase;
-                        var algo = signerFactory.GetSigner(sigGenMode);
+                        var algo = signerFactory.GetSigner(sigVerMode);
 
                         algo.SetHashFunction(testGroup.HashAlg);
                         algo.SetSaltLen(testGroup.SaltLen);
 
-                        // Add entropy
-                        algo.AddEntropy(testCase.Salt);
-
-                        var result = algo.Sign(testGroup.Modulo, testCase.Message, testGroup.Key);
-                        if (!result.Success)
+                        var result = algo.Verify(testGroup.Modulo, testCase.Signature, testGroup.Key, testCase.Message);
+                        if (result.Success != testCase.Result)
                         {
+                            //vals.Add(testCase.TestCaseId);
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
-                        }
-
-                        if (!testCase.Signature.ToPositiveBigInteger().Equals(result.Signature.ToPositiveBigInteger()))
-                        {
-                            Assert.Fail($"Failed SigGen comparison on TestCase: {testCase.TestCaseId}");
                         }
                     }
                 }
             }
+
+            // Assert.Fail(string.Join(", ", vals));
         }
     }
 }
