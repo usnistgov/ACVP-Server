@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8A98FD09-7052-43B6-9BC0-E66DC0A7335D}"
 EndProject
@@ -55,9 +55,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.DSA2", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.KAS.IntegrationTests", "..\..\kas\test\NIST.CVP.Generation.KAS.IntegrationTests\NIST.CVP.Generation.KAS.IntegrationTests.csproj", "{7721E5D6-883F-4870-B7C4-8DDD65DC3F86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.KES", "..\..\crypto\src\NIST.CVP.Crypto.KES\NIST.CVP.Crypto.KES.csproj", "{3B4F110A-2F7D-4186-88B2-53A557C59CF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.KES", "..\..\crypto\src\NIST.CVP.Crypto.KES\NIST.CVP.Crypto.KES.csproj", "{3B4F110A-2F7D-4186-88B2-53A557C59CF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.KES.Tests", "..\..\crypto\test\NIST.CVP.Crypto.KES.Tests\NIST.CVP.Crypto.KES.Tests.csproj", "{517091E9-9877-4E52-94C4-E4001035DE5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.KES.Tests", "..\..\crypto\test\NIST.CVP.Crypto.KES.Tests\NIST.CVP.Crypto.KES.Tests.csproj", "{517091E9-9877-4E52-94C4-E4001035DE5F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_CCM", "..\..\crypto\src\NIST.CVP.Crypto.AES_CCM\NIST.CVP.Crypto.AES_CCM.csproj", "{D96BC4F3-ADCB-4EE9-AF47-545DDE8E1038}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_CCM.Tests", "..\..\crypto\test\NIST.CVP.Crypto.AES_CCM.Tests\NIST.CVP.Crypto.AES_CCM.Tests.csproj", "{24ED431A-F570-42DC-A8C9-512889A15725}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -169,6 +173,14 @@ Global
 		{517091E9-9877-4E52-94C4-E4001035DE5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{517091E9-9877-4E52-94C4-E4001035DE5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{517091E9-9877-4E52-94C4-E4001035DE5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D96BC4F3-ADCB-4EE9-AF47-545DDE8E1038}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D96BC4F3-ADCB-4EE9-AF47-545DDE8E1038}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D96BC4F3-ADCB-4EE9-AF47-545DDE8E1038}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D96BC4F3-ADCB-4EE9-AF47-545DDE8E1038}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24ED431A-F570-42DC-A8C9-512889A15725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24ED431A-F570-42DC-A8C9-512889A15725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24ED431A-F570-42DC-A8C9-512889A15725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24ED431A-F570-42DC-A8C9-512889A15725}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -200,5 +212,10 @@ Global
 		{7721E5D6-883F-4870-B7C4-8DDD65DC3F86} = {51A2C4ED-3ADB-4008-B43F-368F7F2485AA}
 		{3B4F110A-2F7D-4186-88B2-53A557C59CF8} = {8A98FD09-7052-43B6-9BC0-E66DC0A7335D}
 		{517091E9-9877-4E52-94C4-E4001035DE5F} = {51A2C4ED-3ADB-4008-B43F-368F7F2485AA}
+		{D96BC4F3-ADCB-4EE9-AF47-545DDE8E1038} = {8A98FD09-7052-43B6-9BC0-E66DC0A7335D}
+		{24ED431A-F570-42DC-A8C9-512889A15725} = {51A2C4ED-3ADB-4008-B43F-368F7F2485AA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E70B5BF8-2241-4F8E-97BE-7921EC5A2349}
 	EndGlobalSection
 EndGlobal
