@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
 
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate1TestGroupForEachCombinationOfModeModuliAndHashAlg(int expectedGroups, Parameters parameters)
+        public void ShouldCreate3TestGroupsForEachCombinationOfModeModuliAndHashAlg(int expectedGroups, Parameters parameters)
         {
             var primeMock = new Mock<RandomProbablePrimeGenerator>();
             primeMock
@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
 
             var subject = new TestGroupGeneratorGeneratedDataTest(primeMock.Object);
             var result = subject.BuildTestGroups(parameters);
-            Assert.AreEqual(expectedGroups, result.Count());
+            Assert.AreEqual(expectedGroups * 3, result.Count());
         }
     }
 }

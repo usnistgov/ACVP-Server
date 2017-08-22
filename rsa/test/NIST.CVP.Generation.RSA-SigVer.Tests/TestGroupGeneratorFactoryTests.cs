@@ -109,7 +109,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(42, groups.Count);
+            Assert.AreEqual(42 * 3, groups.Count);
         }
     }
 }

@@ -85,6 +85,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
             }
         }
 
+        [JsonProperty(PropertyName = "testGroups")]
         public List<dynamic> PromptProjection
         {
             get

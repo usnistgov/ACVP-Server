@@ -213,5 +213,30 @@ namespace NIST.CVP.Crypto.RSA
 
             throw new Exception("Bad SigGenMode");
         }
+
+        public static string FailureReasonToString(FailureReasons reason)
+        {
+            switch (reason)
+            {
+                case FailureReasons.MESSAGE:
+                    return "Message modified before signing";
+
+                case FailureReasons.E:
+                    return "E modified before signing";
+
+                case FailureReasons.SIGNATURE:
+                    return "Signature modified after signing";
+
+                case FailureReasons.IR_MOVED:
+                    return "IR moved from expected location";
+
+                case FailureReasons.IR_TRAILER:
+                    return "IR trailer modified from expected value";
+
+                default:
+                case FailureReasons.NONE:
+                    return "No reason to fail";
+            }
+        }
     }
 }
