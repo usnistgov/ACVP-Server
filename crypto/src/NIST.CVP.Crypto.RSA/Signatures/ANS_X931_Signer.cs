@@ -137,8 +137,9 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             // check nibbles for Bs and A
             var expectedPaddingLen = nlen - _header.BitLength - SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize) - GetTrailer().BitLength;
             var expectedPadding = GetPadding(expectedPaddingLen);
+            var padding = bsIRPrime.MSBSubstring(4, expectedPaddingLen);
 
-            if(!bsIRPrime.MSBSubstring(4, expectedPaddingLen).Equals(expectedPadding))
+            if(!padding.Equals(expectedPadding))
             {
                 return new VerifyResult("Improper padding, must be 'B's followed by 'A'");
             }
