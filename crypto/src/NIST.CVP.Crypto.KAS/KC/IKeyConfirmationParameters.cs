@@ -19,7 +19,7 @@ namespace NIST.CVP.Crypto.KAS.KC
         /// <summary>
         /// The type of key confirmation being performed.
         /// </summary>
-        KeyConfirmationType KeyConfirmationType { get; }
+        KeyConfirmationDirection KeyConfirmationType { get; }
         /// <summary>
         /// The <see cref="KeyConfirmationMacType"/> used in the MAC construction for the Key
         /// </summary>

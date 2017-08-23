@@ -9,27 +9,37 @@ using NLog.LayoutRenderers;
 
 namespace NIST.CVP.Crypto.KAS.KC
 {
-    public abstract class KeyConfirmationBase : IKeyConfirmation
+    public abstract class KeyConfirmationBase<TKeyConfirmationParameters> : IKeyConfirmation<TKeyConfirmationParameters>
+        where TKeyConfirmationParameters : IKeyConfirmationParameters
     {
         private static
             List<(string message, bool thisPartyInfoFirst, KeyAgreementRole thisPartyKeyAgreementRole, KeyConfirmationRole
-                thisPartyKeyConfirmationRole, KeyConfirmationType keyConfirmationType)> _messageMapping =
+                thisPartyKeyConfirmationRole, KeyConfirmationDirection keyConfirmationType)> _messageMapping =
                 new List<(string message, bool thisPartyInfoFirst, KeyAgreementRole thisPartyKeyAgreementRole, KeyConfirmationRole
-                    thisPartyKeyConfirmationRole, KeyConfirmationType keyConfirmationType)>()
+                    thisPartyKeyConfirmationRole, KeyConfirmationDirection keyConfirmationType)>()
                 {
-                    ("KC_1_U", true, KeyAgreementRole.UPartyInitiator, KeyConfirmationRole.Provider, KeyConfirmationType.Unilateral),
-                    ("KC_1_V", false, KeyAgreementRole.UPartyInitiator, KeyConfirmationRole.Recipient, KeyConfirmationType.Unilateral),
-                    ("KC_1_V", true, KeyAgreementRole.VPartyResponder, KeyConfirmationRole.Provider, KeyConfirmationType.Unilateral),
-                    ("KC_1_U", false, KeyAgreementRole.VPartyResponder, KeyConfirmationRole.Recipient, KeyConfirmationType.Unilateral),
-                    ("KC_2_U", true, KeyAgreementRole.UPartyInitiator, KeyConfirmationRole.Provider, KeyConfirmationType.Bilateral),
-                    ("KC_2_V", false, KeyAgreementRole.UPartyInitiator, KeyConfirmationRole.Recipient, KeyConfirmationType.Bilateral),
-                    ("KC_2_V", true, KeyAgreementRole.VPartyResponder, KeyConfirmationRole.Provider, KeyConfirmationType.Bilateral),
-                    ("KC_2_U", false, KeyAgreementRole.VPartyResponder, KeyConfirmationRole.Recipient, KeyConfirmationType.Bilateral),
+                    ("KC_1_U", true, KeyAgreementRole.UPartyInitiator, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral),
+                    ("KC_1_V", false, KeyAgreementRole.UPartyInitiator, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral),
+                    ("KC_1_V", true, KeyAgreementRole.VPartyResponder, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral),
+                    ("KC_1_U", false, KeyAgreementRole.VPartyResponder, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral),
+                    ("KC_2_U", true, KeyAgreementRole.UPartyInitiator, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral),
+                    ("KC_2_V", false, KeyAgreementRole.UPartyInitiator, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral),
+                    ("KC_2_V", true, KeyAgreementRole.VPartyResponder, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral),
+                    ("KC_2_U", false, KeyAgreementRole.VPartyResponder, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral),
                 };
-        
-        public abstract ComputeKeyResult ComputeKeyMac(IKeyConfirmationParameters keyConfirmationParameters);
 
-        protected BitString GenerateMacData(IKeyConfirmationParameters keyConfirmationParameters)
+        public ComputeKeyResult ComputeKeyMac(TKeyConfirmationParameters keyConfirmationParameters)
+        {
+            var macData = this.GenerateMacData(keyConfirmationParameters);
+
+            var result = Mac(keyConfirmationParameters, macData);
+
+            return new ComputeKeyResult(macData, result);
+        }
+
+        protected abstract BitString Mac(TKeyConfirmationParameters keyConfirmationParameters, BitString macData);
+
+        protected BitString GenerateMacData(TKeyConfirmationParameters keyConfirmationParameters)
         {
             // Depending on options, macData made up of:
             // MAC Data = message||idU||idV||ephemU||ephemV{||Text}
@@ -66,7 +76,7 @@ namespace NIST.CVP.Crypto.KAS.KC
         private BitString SetMessageStringFromOptions(
             KeyAgreementRole thisPartyKeyAgreementRole,
             KeyConfirmationRole thisPartyKeyConfirmationRole, 
-            KeyConfirmationType keyConfirmationType,
+            KeyConfirmationDirection keyConfirmationType,
             ref bool thisPartyInfoFirst
         )
         {

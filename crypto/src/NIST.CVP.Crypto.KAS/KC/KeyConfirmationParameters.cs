@@ -15,7 +15,7 @@ namespace NIST.CVP.Crypto.KAS.KC
         public KeyConfirmationParameters(
             KeyAgreementRole thisPartyKeyAgreementRole,
             KeyConfirmationRole thisPartyKeyConfirmationRole,
-            KeyConfirmationType keyConfirmationType,
+            KeyConfirmationDirection keyConfirmationType,
             KeyConfirmationMacType macType, 
             int keyLength, 
             int macLength, 
@@ -44,7 +44,7 @@ namespace NIST.CVP.Crypto.KAS.KC
         /// <inheritdoc />
         public KeyConfirmationRole ThisPartyKeyConfirmationRole { get; }
         /// <inheritdoc />
-        public KeyConfirmationType KeyConfirmationType { get; }
+        public KeyConfirmationDirection KeyConfirmationType { get; }
         /// <inheritdoc />
         public KeyConfirmationMacType MacType { get; }
         /// <inheritdoc />

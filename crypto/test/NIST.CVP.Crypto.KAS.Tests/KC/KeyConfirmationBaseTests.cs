@@ -12,16 +12,16 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
     [TestFixture, UnitTest, FastIntegrationTest]
     public class KeyConfirmationBaseTests
     {
-        private class FakeKeyConfirmationBase : KeyConfirmationBase
+        private class FakeKeyConfirmationBase : KeyConfirmationBase<IKeyConfirmationParameters>
         {
-            public override ComputeKeyResult ComputeKeyMac(IKeyConfirmationParameters keyConfirmationParameters)
-            {
-                throw new NotImplementedException();
-            }
-
             public BitString GetMacData(IKeyConfirmationParameters keyConfirmationParameters)
             {
                 return GenerateMacData(keyConfirmationParameters);
+            }
+
+            protected override BitString Mac(IKeyConfirmationParameters keyConfirmationParameters, BitString macData)
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -43,7 +43,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
-                KeyConfirmationType.Unilateral,
+                KeyConfirmationDirection.Unilateral,
                 // thisId
                 new BitString("a1b2c3d4e5"), 
                 // otherId
@@ -63,7 +63,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
-                KeyConfirmationType.Unilateral,
+                KeyConfirmationDirection.Unilateral,
                 // thisId
                 new BitString("434156536964"),
                 // otherId
@@ -83,7 +83,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
-                KeyConfirmationType.Unilateral,
+                KeyConfirmationDirection.Unilateral,
                 // thisId
                 new BitString("a1b2c3d4e5"),
                 // otherId
@@ -103,7 +103,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
-                KeyConfirmationType.Unilateral,
+                KeyConfirmationDirection.Unilateral,
                 // thisId
                 new BitString("434156536964"),
                 // otherId
@@ -123,7 +123,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
-                KeyConfirmationType.Unilateral,
+                KeyConfirmationDirection.Unilateral,
                 // thisId
                 new BitString("a1b2c3d4e5"),
                 // otherId
@@ -143,7 +143,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
-                KeyConfirmationType.Unilateral,
+                KeyConfirmationDirection.Unilateral,
                 // thisId
                 new BitString("434156536964"),
                 // otherId
@@ -163,7 +163,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
-                KeyConfirmationType.Unilateral,
+                KeyConfirmationDirection.Unilateral,
                 // thisId
                 new BitString("a1b2c3d4e5"),
                 // otherId
@@ -183,7 +183,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
-                KeyConfirmationType.Unilateral,
+                KeyConfirmationDirection.Unilateral,
                 // thisId
                 new BitString("434156536964"),
                 // otherId
@@ -203,7 +203,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
-                KeyConfirmationType.Bilateral,
+                KeyConfirmationDirection.Bilateral,
                 // thisId
                 new BitString("a1b2c3d4e5"),
                 // otherId
@@ -223,7 +223,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
-                KeyConfirmationType.Bilateral,
+                KeyConfirmationDirection.Bilateral,
                 // thisId
                 new BitString("434156536964"),
                 // otherId
@@ -243,7 +243,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
-                KeyConfirmationType.Bilateral,
+                KeyConfirmationDirection.Bilateral,
                 // thisId
                 new BitString("a1b2c3d4e5"),
                 // otherId
@@ -263,7 +263,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
-                KeyConfirmationType.Bilateral,
+                KeyConfirmationDirection.Bilateral,
                 // thisId
                 new BitString("434156536964"),
                 // otherId
@@ -283,7 +283,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
-                KeyConfirmationType.Bilateral,
+                KeyConfirmationDirection.Bilateral,
                 // thisId
                 new BitString("a1b2c3d4e5"),
                 // otherId
@@ -303,7 +303,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
-                KeyConfirmationType.Bilateral,
+                KeyConfirmationDirection.Bilateral,
                 // thisId
                 new BitString("434156536964"),
                 // otherId
@@ -323,7 +323,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
-                KeyConfirmationType.Bilateral,
+                KeyConfirmationDirection.Bilateral,
                 // thisId
                 new BitString("a1b2c3d4e5"),
                 // otherId
@@ -343,7 +343,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
-                KeyConfirmationType.Bilateral,
+                KeyConfirmationDirection.Bilateral,
                 // thisId
                 new BitString("434156536964"),
                 // otherId
@@ -363,7 +363,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
-                KeyConfirmationType.Unilateral,
+                KeyConfirmationDirection.Unilateral,
                 // thisId
                 new BitString("a1b2c3d4e5"),
                 // otherId
@@ -383,7 +383,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             string label,
             KeyAgreementRole thisKaRole, 
             KeyConfirmationRole thisKcRole,
-            KeyConfirmationType thisKcType, 
+            KeyConfirmationDirection thisKcType, 
             BitString thisId,
             BitString otherId,
             BitString thisPublicKey, 

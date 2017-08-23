@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.KAS.KC
         public KeyConfirmationParametersAesCcm(
             KeyAgreementRole thisPartyKeyAgreementRole,
             KeyConfirmationRole thisPartyKeyConfirmationRole, 
-            KeyConfirmationType keyConfirmationType, 
+            KeyConfirmationDirection keyConfirmationType, 
             KeyConfirmationMacType macType, 
             int keyLength, 
             int macLength, 
@@ -24,12 +24,12 @@ namespace NIST.CVP.Crypto.KAS.KC
             BitString ccmNonce) : 
             base(thisPartyKeyAgreementRole, thisPartyKeyConfirmationRole, keyConfirmationType, macType, keyLength, macLength, thisPartyIdentifier, otherPartyIdentifier, thisPartyPublicKey, otherPartyPublicKey, derivedKeyingMaterial)
         {
-            CcmNone = ccmNonce;
+            CcmNonce = ccmNonce;
         }
 
         /// <summary>
         /// The nonce used for <see cref="IAES_CCM"/>
         /// </summary>
-        public BitString CcmNone { get; }
+        public BitString CcmNonce { get; }
     }
 }
