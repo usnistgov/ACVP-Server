@@ -135,25 +135,30 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             }
 
             // check nibbles for Bs and A
-            var index = 4;
-            do
-            {
-                index += 4;
+            var expectedPaddingLen = nlen - _header.BitLength - SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize) - GetTrailer().BitLength;
+            var expectedPadding = GetPadding(expectedPaddingLen);
 
-            } while (bsIRPrime.MSBSubstring(index, 4).Equals(_b));
-
-            if(!bsIRPrime.MSBSubstring(index, 4).Equals(_a))
+            if(!bsIRPrime.MSBSubstring(4, expectedPaddingLen).Equals(expectedPadding))
             {
                 return new VerifyResult("Improper padding, must be 'B's followed by 'A'");
             }
 
-            var beginOfHashIndex = index + 4;
+            var beginOfHashIndex = expectedPaddingLen + 4;
 
             // 3. Hash Recovery
             var hashDigest = bsIRPrime.MSBSubstring(beginOfHashIndex, SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize));
 
             // 4. Message Hashing and Comparison
             var expectedHash = Hash(message);
+
+            // check trailer for accuracy
+            var expectedTrailer = GetTrailer();
+            var trailer = bsIRPrime.GetLeastSignificantBits(expectedTrailer.BitLength);
+
+            if (!expectedTrailer.Equals(trailer))
+            {
+                return new VerifyResult("Trailer hash functions do not match, bad signature");
+            }
 
             if(expectedHash.Equals(hashDigest))
             {
@@ -181,7 +186,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             var IR = _header.GetDeepCopy();
             IR = BitString.ConcatenateBits(IR, padding);
             IR = BitString.ConcatenateBits(IR, hashedMessage);
-            IR = BitString.ConcatenateBits(IR, new BitString("6666"));      // ERROR: Change the trailer to something else
+            IR = BitString.ConcatenateBits(IR, new BitString("66CC"));      // ERROR: Change the trailer to something else
 
             if (IR.BitLength != nlen)
             {

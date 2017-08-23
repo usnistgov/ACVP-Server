@@ -27,14 +27,14 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
             //var saltHex = "abcd";
 
             // From updated CAVS (with the fix)
-            var pHex = "e728bacdf67527b8d00ecaffba65dda8b16ade5269209ed89a7838934cb800dd93cae1b100aa73f08c47636095168d31cfd41d26e95df2b0f872d51a16adff145a6cf8aa0fc48369ced8f7e5a87136985f73eb2c88c1c13a1c94efacbc5583872fb11cd22695d69644ce899ee61bb1e2aad20fe82be4e33dcc8a843984b26b81";
-            var qHex = "f74e707a474bc7555199462cff90b713ce5c76ae4877f074f574bcd80bfcdab57a2771226ae6531c29d79da14b140e7ac12acf4aa2b04a939b60e6338c055b8b94f996085be7d981048ab9b595e8cde52ce972e13805b463ca671c9f3e45d40492266791488519d30e2915f459f4eefc77f02e4dcec2e08ddb3856f839d7b8eb";
-            var eHex = "3c3761";
+            var pHex = "b514ddeaabf5674eca7ffd946be506c1726b1adaedacd6c5872fe34f11f2a617be16bc9f3fb3002b3989177a62fb308e07fabb2de01598e34b563a4adee5aee7";
+            var qHex = "cd7c4b4e9144b439c99c01962bf575c952e48bc767b3183e41a27d5da4910a0735df106ec0b284a6962dbdb5cde34b13e9f3eb03ccccb251bba2a1241bfd23fd";
+            var eHex = "b413fb";
             //var msgHex = "4f0749b588bb4d87b68148edc0f57603dbc9d2aafc672b4093d87aae76e573a81b7c5a300b55185c93d48e5abd3229b17fd8b7c9310b79ae44ce791132041d90b1d6fd372c54f246735f6f34b2c615f5a0af8179f83969752d5fe7655a2014d277dcd9d0d30202ccbee8948486fa6157a617d9bf3938231cb5536db3d57f80f6";
             //var sigHex = "5d4788003aaa5d03d5297981a87491d763c0edd545875c2131f8c62e164ed5a93c75669dfe31ff6d21ba19d0f6c97ba405dadaec4c6f3210789e77c3a03881a3c65e2d608717c4785a6dc00e047728e12482d7c9d072b99343d263f31d28f2cd527d692b6eb7c5e8758ef79aa6a5d0bc033d0da05c69cd4eb88ec1a06a7240271e9c3483d1a4e03fc3a6f179abe767d15186bde7d6af7a8d8f2c1f21b30a8b8e5c337671691c60112aa9def426e17854635a0103e570dec71a062178de29e4639f89257c6a32376d617ea970785bfc2a074a8127062454ce8a5fbb3cdfb8cd240393232b321c6d50a1340b5275b82c09895e9cbde75768cb878df457c55c203f";
-            var msgHex = "fa14959a20407be680955be6e18f519463a2949e107ba8c4b488d582eebad7f0888ad7e6043a9a63775df9309b9991c01facbb5b41adbf7c9f9444774afd0b5e1d29dd264d46c20640f07420a3f71363b7631ab0ebb5923bb070863589d8b6a861fa8fa222ec5b958356b6fe22314145d2cf9ae4361c8bcc8f238104d2d44094";
-            var sigHex = "502df83148dc7dc59a1f9ca0e9b8c31b4c399a146cb89cbcc67178b503f0926570644c4d3107c6cabe684083c95ffbc1cee4d37fc7e600325e14e5afcba34f80788e54cb047f27b02b6ce0792cbf4159e10cb3a37e7efea758a8c04833c3ee9e74ecd61335970ab5e45919f5f81b2a99af01baf8be0ac63cc863243cac2d484044e60c6a7fe32afd77fda1b9dfafad02ec4841a95e08acb486584946fc23d6c105b1032f464f1f1ec8cb9b46c536b1c7ab30262ecdcfced11a291e4c6dceef3add80f12eb5356ab9d4ca845a3aff8c35b49570d68d6196e369ab3f464914a7533935a266d5a557de019ba1e98453f286ec5236168509f13eb71fcbac258e9764";
-            var saltHex = "abcd";
+            var msgHex = "63af203d44066da08353a7d482c2570d38bd50a5270f40618e4986f6df6443cc73a9b4017dcebfb13d62cb75766bd529214dc0f363eded80bd170c91831d32b78fc12b5a365511007b211dcc8305be454960e85a9330afa2257a14e834ec1fe61dc12e5157e58c16a65945e492da39ea18bd70e29f1ead4e2e394601db1832e2";
+            var sigHex = "04aca5e5b0e72ce30df1ac4480120bead7630ff8c9eb3b0e9b4186ce82705d3d3e0aeaa5653e2b493449d0cdcaad6b987d733982ad20bc0985f643805b8be41b4b7addd7bd3e549bb4e8f701d76a63af23c275e547010b93f2cfe717e2dfa75db7e609d1691c6853825a094296be620dfc76331bbdb53c1ef6542d8e5ded1373";
+            var saltHex = "f360c1d564071c0e190602f4e0844d060b1d76ed";
 
             var p = new BitString(pHex).ToPositiveBigInteger();
             var q = new BitString(qHex).ToPositiveBigInteger();
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
             var salt = new BitString(saltHex);
 
             var pssSigner = new RSASSA_PSS_Signer(new HashFunction { Mode = ModeValues.SHA1, DigestSize = DigestSizes.d160 }, EntropyProviderTypes.Testable, salt.BitLength / 8);
-            var result = pssSigner.Verify(2048, sig, key, msg);
+            var result = pssSigner.Verify(1024, sig, key, msg);
 
             Assert.IsTrue(result.Success, result.ErrorMessage);
             Assert.Fail("Good");

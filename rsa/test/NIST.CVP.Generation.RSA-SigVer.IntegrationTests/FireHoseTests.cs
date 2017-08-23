@@ -27,8 +27,6 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
         [TestCase("pss")]
         public void ShouldRunThroughAllTestFilesAndValidate(string sigVerMode)
         {
-            var vals = new List<int>();
-
             if (!Directory.Exists(_testPath))
             {
                 Assert.Fail("Test File Directory does not exist");
@@ -72,14 +70,11 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                         var result = algo.Verify(testGroup.Modulo, testCase.Signature, testGroup.Key, testCase.Message);
                         if (result.Success != testCase.Result)
                         {
-                            //vals.Add(testCase.TestCaseId);
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
                         }
                     }
                 }
             }
-
-            // Assert.Fail(string.Join(", ", vals));
         }
     }
 }
