@@ -64,7 +64,6 @@ namespace NIST.CVP.Generation.RSA_SigVer
 
                     ((IDictionary<string, object>)updateObject).Add("n", group.Key.PubKey.N);
                     ((IDictionary<string, object>)updateObject).Add("e", group.Key.PubKey.E);
-                    ((IDictionary<string, object>)updateObject).Add("d", group.Key.PrivKey.D);
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
@@ -106,7 +105,6 @@ namespace NIST.CVP.Generation.RSA_SigVer
 
                     ((IDictionary<string, object>)updateObject).Add("n", group.Key.PubKey.N);
                     ((IDictionary<string, object>)updateObject).Add("e", group.Key.PubKey.E);
-                    ((IDictionary<string, object>)updateObject).Add("d", group.Key.PrivKey.D);
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);

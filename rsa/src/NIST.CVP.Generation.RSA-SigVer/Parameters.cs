@@ -14,6 +14,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
         public string[] SigGenModes { get; set; }
         public int[] Moduli { get; set; }
         public CapabilityObject[] Capabilities { get; set; }
+        public bool CRT_Form { get; set; } = false;
     }
 
     public class CapabilityObject

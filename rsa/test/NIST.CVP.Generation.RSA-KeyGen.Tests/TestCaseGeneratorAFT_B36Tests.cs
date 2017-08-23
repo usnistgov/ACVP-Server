@@ -133,7 +133,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         }
 
         [Test]
-        public void DeferredTestCaseShouldBeCompleted()
+        public void DeferredTestCaseShouldBeCompletedAFTB36()
         {
             var keyGen = GetPrimeGenMock();
             keyGen

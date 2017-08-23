@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            // Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]

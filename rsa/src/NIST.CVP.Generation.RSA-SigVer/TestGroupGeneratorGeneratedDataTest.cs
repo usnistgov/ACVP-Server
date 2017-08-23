@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
                         {
                             // Get a key for the group
                             PrimeGeneratorResult primeGenResult = null;
-                            BigInteger E = 3;
+                            BigInteger E;
                             do
                             {
                                 E = GetEValue();

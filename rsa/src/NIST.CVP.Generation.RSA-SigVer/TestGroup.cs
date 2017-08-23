@@ -94,10 +94,6 @@ namespace NIST.CVP.Generation.RSA_SigVer
                     Key.PubKey.E = new BitString(value).ToPositiveBigInteger();
                     return true;
 
-                case "d":
-                    Key.PrivKey.D = new BitString(value).ToPositiveBigInteger();
-                    return true;
-
                 case "hash":
                     HashAlg = SHAEnumHelpers.StringToHashFunction(value);
                     return true;

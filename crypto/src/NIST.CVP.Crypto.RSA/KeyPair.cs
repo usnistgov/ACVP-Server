@@ -22,7 +22,6 @@ namespace NIST.CVP.Crypto.RSA
         {
             PubKey = new PublicKey {E = e, N = p * q};
             PrivKey = new PrivateKey {P = p, Q = q, D = NumberTheory.ModularInverse(PubKey.E, NumberTheory.LCM(p - 1, q - 1))}; // Carmichael totient function
-            PrivKey.ComputeCRT();
         }
 
         public KeyPair(BigInteger p, BigInteger q, BigInteger e, BigInteger dmp1, BigInteger dmq1, BigInteger iqmp)
@@ -52,7 +51,6 @@ namespace NIST.CVP.Crypto.RSA
                 Q = q.ToPositiveBigInteger(),
                 D = d.ToPositiveBigInteger()
             };
-            PrivKey.ComputeCRT();
         }
 
         public KeyPair(BitString p, BitString q, BitString n, BitString e, BitString dmp1, BitString dmq1, BitString iqmp)
@@ -66,8 +64,6 @@ namespace NIST.CVP.Crypto.RSA
                 DMQ1 = dmq1.ToPositiveBigInteger(),
                 IQMP = iqmp.ToPositiveBigInteger()
             };
-
-            // Leave D blank here
         }
     }
 

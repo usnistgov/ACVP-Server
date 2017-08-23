@@ -72,7 +72,6 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             p1 = p1Result.Prime;
-            var tmp = new BitString(p1).ToHex();
             p2 = p2Result.Prime;
 
             var pResult = ProbablePrimeFactor(p1, p2, nlen, e, security_strength);
