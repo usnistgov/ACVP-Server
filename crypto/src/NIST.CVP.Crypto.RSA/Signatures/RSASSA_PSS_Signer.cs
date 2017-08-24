@@ -112,10 +112,17 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             var leftmostOctets = EM.BitLength - mHash.BitLength - _saltLen * 8 - 16;
             var leftmostPosition = EM.BitLength - mHash.BitLength - _saltLen * 8 - 8;
 
-            if (!DB.MSBSubstring(0, leftmostOctets).Equals(BitString.Zeroes(leftmostOctets))
-                || !DB.MSBSubstring(leftmostOctets, 8).Equals(_01))
+            if(leftmostOctets != 0)
             {
-                return new VerifyResult("RSA PSS Verify: DB incorrect");
+                if (!DB.MSBSubstring(0, leftmostOctets).Equals(BitString.Zeroes(leftmostOctets)))
+                {
+                    return new VerifyResult("RSA PSS Verify: DB incorrect, improper number of leading 0s");
+                }
+            }
+
+            if (!DB.MSBSubstring(leftmostOctets, 8).Equals(_01))
+            {
+                return new VerifyResult("RSA PSS Verify: DB incorrect, '01' byte not found");
             }
 
             var salt = DB.Substring(0, _saltLen * 8);

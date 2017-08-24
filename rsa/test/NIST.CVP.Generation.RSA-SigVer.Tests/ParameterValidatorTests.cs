@@ -27,14 +27,14 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         [TestCase("Invalid", new object[] { "notValid" })]
         [TestCase("Partially valid", new object[] { "pss", "notValid" })]
         [TestCase("Partially valid with null", new object[] { "pkcs1v13", null })]
-        public void ShouldReturnErrorWithInvalidSigGenMode(string label, object[] mode)
+        public void ShouldReturnErrorWithInvalidSigVerMode(string label, object[] mode)
         {
             var strAlgs = mode.Select(v => (string)v).ToArray();
 
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithSigGenModes(strAlgs)
+                    .WithSigVerModes(strAlgs)
                     .Build()
             );
 
@@ -80,12 +80,12 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         }
 
         [Test]
-        public void ShouldReturnSuccessWithNewSigGenModes()
+        public void ShouldReturnSuccessWithNewSigVerModes()
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithSigGenModes(new[] { "ansx9.31", "pss" })
+                    .WithSigVerModes(new[] { "ansx9.31", "pss" })
                     .Build()
             );
 
@@ -111,7 +111,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithModuli(new[] { 3072 })
+                    .WithModuli(new[] { 1024, 3072 })
                     .Build()
             );
 
@@ -122,19 +122,17 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         {
             private string _algorithm;
             private string _mode;
-            private string[] _sigGenModes;
+            private string[] _sigVerModes;
             private string[] _hashAlgs;
             private int[] _moduli;
-            private string _saltMode;
 
             public ParameterBuilder()
             {
                 _algorithm = "RSA";
                 _mode = "SigVer";
-                _sigGenModes = new[] { "ansx9.31", "pss" };
+                _sigVerModes = new[] { "ansx9.31", "pss" };
                 _hashAlgs = new[] { "sha-1", "sha-256" };
                 _moduli = new[] { 2048 };
-                _saltMode = "fixed";
             }
 
             public ParameterBuilder WithAlgorithm(string value)
@@ -143,9 +141,9 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 return this;
             }
 
-            public ParameterBuilder WithSigGenModes(string[] value)
+            public ParameterBuilder WithSigVerModes(string[] value)
             {
-                _sigGenModes = value;
+                _sigVerModes = value;
                 return this;
             }
 
@@ -161,30 +159,34 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 return this;
             }
 
-            public ParameterBuilder WithSaltMode(string value)
-            {
-                _saltMode = value;
-                return this;
-            }
-
             public Parameters Build()
             {
-                var caps = new CapabilityObject[_hashAlgs.Length];
-                for (var i = 0; i < caps.Length; i++)
+                var hashPairs = new HashPair[_hashAlgs.Length];
+                for (var i = 0; i < hashPairs.Length; i++)
                 {
-                    caps[i] = new CapabilityObject
+                    hashPairs[i] = new HashPair
                     {
-                        HashAlg = _hashAlgs[i]
+                        HashAlg = _hashAlgs[i],
+                        SaltLen = (i + 1)
                     };
                 }
 
+                var capabilities = new SigCapability[_moduli.Length];
+                for (var i = 0; i < capabilities.Length; i++)
+                {
+                    capabilities[i] = new SigCapability
+                    {
+                        Modulo = _moduli[i],
+                        HashPairs = hashPairs
+                    };
+                }
+                
                 return new Parameters
                 {
                     Algorithm = _algorithm,
                     Mode = _mode,
-                    SigGenModes = _sigGenModes,
-                    Capabilities = caps,
-                    Moduli = _moduli,
+                    SigVerModes = _sigVerModes,
+                    Capabilities = capabilities,
                 };
             }
         }

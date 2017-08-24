@@ -11,13 +11,18 @@ namespace NIST.CVP.Generation.RSA_SigVer
         public string Mode { get; set; }
         public bool IsSample { get; set; }
 
-        public string[] SigGenModes { get; set; }
-        public int[] Moduli { get; set; }
-        public CapabilityObject[] Capabilities { get; set; }
+        public string[] SigVerModes { get; set; }
+        public SigCapability[] Capabilities { get; set; }
         public bool CRT_Form { get; set; } = false;
     }
 
-    public class CapabilityObject
+    public class SigCapability
+    {
+        public int Modulo { get; set; }
+        public HashPair[] HashPairs { get; set; }
+    }
+
+    public class HashPair
     {
         public string HashAlg { get; set; }
         public int SaltLen { get; set; } = 0;

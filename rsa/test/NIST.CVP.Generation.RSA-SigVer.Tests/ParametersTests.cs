@@ -13,24 +13,13 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         [Test]
         public void ShouldCoverParametersSet()
         {
-            var caps = new CapabilityObject[ParameterValidator.VALID_HASH_ALGS.Length];
-            for (var i = 0; i < caps.Length; i++)
-            {
-                caps[i] = new CapabilityObject
-                {
-                    HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
-                    SaltLen = (i + 1) * 8
-                };
-            }
-
             var parameters = new Parameters
             {
                 Algorithm = "RSA",
                 Mode = "SigGen",
                 IsSample = false,
-                Moduli = new[] { 2048, 3072 },
-                Capabilities = caps,
-                SigGenModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" },
+                Capabilities = BuildCapabilities(),
+                SigVerModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" },
             };
 
             Assert.IsNotNull(parameters);
@@ -39,27 +28,41 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         [Test]
         public void ShouldCoverParametersGet()
         {
-            var caps = new CapabilityObject[ParameterValidator.VALID_HASH_ALGS.Length];
-            for (var i = 0; i < caps.Length; i++)
+            var parameters = new Parameters
             {
-                caps[i] = new CapabilityObject
+                Algorithm = "RSA",
+                Mode = "SigGen",
+                IsSample = false,
+                Capabilities = BuildCapabilities(),
+                SigVerModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" },
+            };
+
+            Assert.AreEqual("RSA", parameters.Algorithm);
+        }
+
+        private SigCapability[] BuildCapabilities()
+        {
+            var hashPairs = new HashPair[ParameterValidator.VALID_HASH_ALGS.Length];
+            for (var i = 0; i < hashPairs.Length; i++)
+            {
+                hashPairs[i] = new HashPair
                 {
                     HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
                     SaltLen = (i + 1) * 8
                 };
             }
 
-            var parameters = new Parameters
+            var capabilities = new SigCapability[ParameterValidator.VALID_MODULI.Length];
+            for (var i = 0; i < capabilities.Length; i++)
             {
-                Algorithm = "RSA",
-                Mode = "SigGen",
-                IsSample = false,
-                Moduli = new[] { 2048, 3072 },
-                Capabilities = caps,
-                SigGenModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" },
-            };
+                capabilities[i] = new SigCapability
+                {
+                    Modulo = ParameterValidator.VALID_MODULI[i],
+                    HashPairs = hashPairs
+                };
+            }
 
-            Assert.AreEqual("RSA", parameters.Algorithm);
+            return capabilities;
         }
     }
 }

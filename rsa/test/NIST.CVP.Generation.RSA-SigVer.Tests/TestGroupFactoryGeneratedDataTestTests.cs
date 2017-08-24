@@ -21,47 +21,43 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
             {
                 1,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithSigGenModes(new [] {"pss"})
+                    .WithSigVerModes(new [] {"pss"})
                     .WithModuli(new [] {2048})
                     .WithHashAlgs(new [] {"SHA-1"})
-                    .WithSaltMode("fixed")
                     .Build()
             },
             new object[]
             {
                 8,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithSigGenModes(new [] {"pss", "ansx9.31"})
+                    .WithSigVerModes(new [] {"pss", "ansx9.31"})
                     .WithModuli(new [] {2048, 3072})
                     .WithHashAlgs(new [] {"SHA-1", "SHA-224"})
-                    .WithSaltMode("fixed")
                     .Build()
             },
             new object[]
             {
                 8,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithSigGenModes(new [] {"pkcs1v15"})
+                    .WithSigVerModes(new [] {"pkcs1v15"})
                     .WithModuli(new [] {2048, 3072})
                     .WithHashAlgs(new [] {"SHA-1", "SHA-256", "SHA-512/224", "SHA-512/256"})
-                    .WithSaltMode("random")
                     .Build()
             },
             new object[]
             {
-                42,
+                63,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithSigGenModes(new [] {"pss", "pkcs1v15", "ansx9.31"})
-                    .WithModuli(new [] {2048, 3072})
+                    .WithSigVerModes(new [] {"pss", "pkcs1v15", "ansx9.31"})
+                    .WithModuli(new [] {1024, 2048, 3072})
                     .WithHashAlgs(new [] {"SHA-1", "SHA-224", "SHA-256", "SHA-384", "SHA-512", "SHA-512/224", "SHA-512/256"})
-                    .WithSaltMode("random")
                     .Build()
             },
         };
 
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate3TestGroupsForEachCombinationOfModeModuliAndHashAlg(int expectedGroups, Parameters parameters)
+        public void ShouldCreate3TestGroupsForEachCombinationOfModeModuloAndHashAlg(int expectedGroups, Parameters parameters)
         {
             var primeMock = new Mock<RandomProbablePrimeGenerator>();
             primeMock

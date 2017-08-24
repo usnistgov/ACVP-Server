@@ -48,13 +48,23 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         public void ShouldReturnTestGroups()
         {
             var result = _subject.GetTestGroupGenerators();
-            var caps = new CapabilityObject[ParameterValidator.VALID_HASH_ALGS.Length];
-            for (var i = 0; i < caps.Length; i++)
+            var hashPairs = new HashPair[ParameterValidator.VALID_HASH_ALGS.Length];
+            for (var i = 0; i < hashPairs.Length; i++)
             {
-                caps[i] = new CapabilityObject
+                hashPairs[i] = new HashPair
                 {
                     HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
                     SaltLen = (i + 1) * 8
+                };
+            }
+
+            var capabilities = new SigCapability[ParameterValidator.VALID_MODULI.Length];
+            for (var i = 0; i < capabilities.Length; i++)
+            {
+                capabilities[i] = new SigCapability
+                {
+                    Modulo = ParameterValidator.VALID_MODULI[i],
+                    HashPairs = hashPairs
                 };
             }
 
@@ -63,9 +73,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 Algorithm = "RSA",
                 Mode = "SigGen",
                 IsSample = false,
-                Moduli = new[] { 2048, 3072 },
-                Capabilities = caps,
-                SigGenModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" }
+                Capabilities = capabilities,
+                SigVerModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" }
             };
 
             var groups = new List<ITestGroup>();
@@ -82,13 +91,23 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
             var result = _subject.GetTestGroupGenerators();
-            var caps = new CapabilityObject[ParameterValidator.VALID_HASH_ALGS.Length];
-            for (var i = 0; i < caps.Length; i++)
+            var hashPairs = new HashPair[ParameterValidator.VALID_HASH_ALGS.Length];
+            for (var i = 0; i < hashPairs.Length; i++)
             {
-                caps[i] = new CapabilityObject
+                hashPairs[i] = new HashPair
                 {
                     HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
                     SaltLen = (i + 1) * 8
+                };
+            }
+
+            var capabilities = new SigCapability[ParameterValidator.VALID_MODULI.Length];
+            for (var i = 0; i < capabilities.Length; i++)
+            {
+                capabilities[i] = new SigCapability
+                {
+                    Modulo = ParameterValidator.VALID_MODULI[i],
+                    HashPairs = hashPairs
                 };
             }
 
@@ -97,9 +116,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 Algorithm = "RSA",
                 Mode = "SigGen",
                 IsSample = false,
-                Moduli = ParameterValidator.VALID_MODULI,
-                Capabilities = caps,
-                SigGenModes = ParameterValidator.VALID_SIG_GEN_MODES,
+                Capabilities = capabilities,
+                SigVerModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" }
             };
 
             List<ITestGroup> groups = new List<ITestGroup>();
@@ -109,7 +127,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(42 * 3, groups.Count);
+            Assert.AreEqual(63 * 3, groups.Count);
         }
     }
 }
