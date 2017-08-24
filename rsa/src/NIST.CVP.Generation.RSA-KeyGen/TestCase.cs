@@ -304,5 +304,17 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             return new BitString(sourcePropertyValue.ToString(), length);
         }
+
+        public static TestCase GetEmptyTestCase(TestGroup group)
+        {
+            var testCase = new TestCase();
+            if (group.PubExp == PubExpModes.FIXED)
+            {
+                testCase.Key = new KeyPair { PubKey = new PublicKey { E = group.FixedPubExp.ToPositiveBigInteger() } };
+            }
+
+            testCase.Deferred = true;
+            return testCase;
+        }
     }
 }

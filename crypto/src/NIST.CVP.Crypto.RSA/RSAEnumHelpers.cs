@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Primitives;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math.Domain;
+using System.Numerics;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.RSA
 {
@@ -237,6 +239,151 @@ namespace NIST.CVP.Crypto.RSA
                 case FailureReasons.NONE:
                     return "No reason to fail";
             }
+        }
+
+        public static BigInteger GetEValue()
+        {
+            var rand = new Random800_90();
+            BigInteger e;
+            var min = BigInteger.Pow(2, 32) + 1;
+            var max = BigInteger.Pow(2, 64);
+            return GetEValue(min, max);
+        }
+
+        public static BigInteger GetEValue(BigInteger min, BigInteger max)
+        {
+            var rand = new Random800_90();
+            BigInteger e;
+            do
+            {
+                e = rand.GetRandomBigInteger(min, max);
+                if (e.IsEven)
+                {
+                    e++;
+                }
+            } while (e >= max);      // sanity check
+
+            return e;
+        }
+
+        public static BitString GetSeed(int modulo)
+        {
+            var rand = new Random800_90();
+            var security_strength = 0;
+            if (modulo == 2048)
+            {
+                security_strength = 112;
+            }
+            else if (modulo == 3072)
+            {
+                security_strength = 128;
+            }
+
+            return rand.GetRandomBitString(2 * security_strength);
+        }
+
+        /// <summary>
+        /// Gets bitlen values for the TestCaseGenerator
+        /// </summary>
+        /// <param name="group"></param>
+        /// <param name="rand"></param>
+        /// <returns></returns>
+        public static int[] GetBitlens(int modulo, KeyGenModes mode)
+        {
+            var rand = new Random800_90();
+            var bitlens = new int[4];
+            var min_single = 0;
+            var max_both = 0;
+
+            // Min_single values were given as exclusive, we add 1 to make them inclusive
+            if (modulo == 2048)
+            {
+                min_single = 140 + 1;
+
+                if (mode == KeyGenModes.B32 || mode == KeyGenModes.B34)
+                {
+                    max_both = 494;
+                }
+                else
+                {
+                    max_both = 750;
+                }
+            }
+            else if (modulo == 3072)
+            {
+                min_single = 170 + 1;
+
+                if (mode == KeyGenModes.B32 || mode == KeyGenModes.B34)
+                {
+                    max_both = 1007;
+                }
+                else
+                {
+                    max_both = 1518;
+                }
+            }
+
+            bitlens[0] = rand.GetRandomInt(min_single, max_both - min_single);
+            bitlens[1] = rand.GetRandomInt(min_single, max_both - bitlens[0]);
+            bitlens[2] = rand.GetRandomInt(min_single, max_both - min_single);
+            bitlens[3] = rand.GetRandomInt(min_single, max_both - bitlens[2]);
+
+            return bitlens;
+        }
+
+        public static bool ValidateBitlens(int modulo, KeyGenModes mode, int[] bitlens)
+        {
+            if (bitlens == null)
+            {
+                return false;
+            }
+
+            if (bitlens.Length != 4)
+            {
+                return false;
+            }
+
+            var min = 0;
+            var max = 0;
+
+            if (modulo == 2048)
+            {
+                min = 140;
+
+                if (mode == KeyGenModes.B32 || mode == KeyGenModes.B34)
+                {
+                    max = 494;
+                }
+                else
+                {
+                    max = 750;
+                }
+            }
+            else
+            {
+                min = 170;
+
+                if (mode == KeyGenModes.B32 || mode == KeyGenModes.B34)
+                {
+                    max = 1007;
+                }
+                else
+                {
+                    max = 1518;
+                }
+            }
+
+            if (bitlens[0] < min || bitlens[1] < min || bitlens[2] < min || bitlens[3] < min)
+            {
+                return false;
+            }
+
+            if (bitlens[0] + bitlens[1] >= max || bitlens[2] + bitlens[3] >= max)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -29,12 +29,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {
-            var testCase = TestCaseGeneratorHelper.GetEmptyTestCase(group);
+            var testCase = TestCase.GetEmptyTestCase(group);
 
             if (isSample)
             {
                 _numCases = 3;
-                var e = TestCaseGeneratorHelper.GetEValue(group, _random800_90, BigInteger.Pow(2, 16) + 1, BigInteger.Pow(2, 64));
+                var e = RSAEnumHelpers.GetEValue();
                 testCase.Key = new KeyPair {PubKey = new PublicKey {E = e}};
                 return Generate(group, testCase);
             }

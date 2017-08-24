@@ -30,7 +30,6 @@ namespace NIST.CVP.Generation.RSA_SigGen
             if(_primeGen == null)
             {
                 _primeGen = new RandomProbablePrimeGenerator(Math.Entropy.EntropyProviderTypes.Random);
-                //_primeGen = new RandomProvablePrimeGenerator(new Crypto.SHA2.HashFunction { Mode = Crypto.SHA2.ModeValues.SHA2, DigestSize = Crypto.SHA2.DigestSizes.d256 });
             }
         }
 
@@ -50,8 +49,8 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 do
                 {
                     //ThisLogger.Debug($"Computing key for {group.Modulo}");
-                    E = GetEValue();
-                    primeResult = _primeGen.GeneratePrimes(group.Modulo, E, GetSeed(group));
+                    E = RSAEnumHelpers.GetEValue();
+                    primeResult = _primeGen.GeneratePrimes(group.Modulo, E, RSAEnumHelpers.GetSeed(group.Modulo));
                 } while (!primeResult.Success);
 
                 group.Key = new KeyPair(primeResult.P, primeResult.Q, E);
@@ -101,37 +100,5 @@ namespace NIST.CVP.Generation.RSA_SigGen
         }
 
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
-
-        private BigInteger GetEValue()
-        {
-            BigInteger e;
-            var min = BigInteger.Pow(2, 32) + 1;
-            var max = BigInteger.Pow(2, 64);
-            do
-            {
-                e = _random800_90.GetRandomBigInteger(min, max);
-                if (e.IsEven)
-                {
-                    e++;
-                }
-            } while (e >= max);      // sanity check
-
-            return e;
-        }
-
-        private BitString GetSeed(TestGroup group)
-        {
-            var security_strength = 0;
-            if (group.Modulo == 2048)
-            {
-                security_strength = 112;
-            }
-            else if (group.Modulo == 3072)
-            {
-                security_strength = 128;
-            }
-
-            return _random800_90.GetRandomBitString(2 * security_strength);
-        }
     }
 }

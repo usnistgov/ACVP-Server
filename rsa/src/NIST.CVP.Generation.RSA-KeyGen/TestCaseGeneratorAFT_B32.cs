@@ -36,8 +36,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (group.InfoGeneratedByServer || isSample)
             {
-                var e = TestCaseGeneratorHelper.GetEValue(group, _random800_90, BigInteger.Pow(2, 16) + 1, BigInteger.Pow(2, 64));
-                var seed = TestCaseGeneratorHelper.GetSeed(group, _random800_90);
+                var e = RSAEnumHelpers.GetEValue();
+                var seed = RSAEnumHelpers.GetSeed(group.Modulo);
 
                 // Generate TestCase
                 var testCase = new TestCase
@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
             else
             {
-                var testCase = TestCaseGeneratorHelper.GetEmptyTestCase(group);
+                var testCase = TestCase.GetEmptyTestCase(group);
                 return new TestCaseGenerateResponse(testCase);
             }
         }

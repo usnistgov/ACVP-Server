@@ -27,30 +27,30 @@ namespace NIST.CVP.Generation.RSA_SigVer
         {
             var testGroups = new List<TestGroup>();
 
-            foreach (var mode in parameters.SigGenModes)
+            foreach (var mode in parameters.SigVerModes)
             {
-                foreach (var modulo in parameters.Moduli)
+                foreach(var sigCapability in parameters.Capabilities)
                 {
-                    foreach (var capability in parameters.Capabilities)
+                    foreach(var hashPair in sigCapability.HashPairs)
                     {
                         // Make 3 identical groups with different keys
-                        for(var i = 0; i < 3; i++)
+                        for (var i = 0; i < 3; i++)
                         {
                             // Get a key for the group
                             PrimeGeneratorResult primeGenResult = null;
                             BigInteger E;
                             do
                             {
-                                E = GetEValue();
-                                primeGenResult = _primeGen.GeneratePrimes(modulo, E, GetSeed(modulo));
+                                E = RSAEnumHelpers.GetEValue();
+                                primeGenResult = _primeGen.GeneratePrimes(sigCapability.Modulo, E, RSAEnumHelpers.GetSeed(sigCapability.Modulo));
                             } while (!primeGenResult.Success);
 
                             var testGroup = new TestGroup
                             {
                                 Mode = RSAEnumHelpers.StringToSigGenMode(mode),
-                                Modulo = modulo,
-                                HashAlg = SHAEnumHelpers.StringToHashFunction(capability.HashAlg),
-                                SaltLen = capability.SaltLen,
+                                Modulo = sigCapability.Modulo,
+                                HashAlg = SHAEnumHelpers.StringToHashFunction(hashPair.HashAlg),
+                                SaltLen = hashPair.SaltLen,
                                 Key = new KeyPair(primeGenResult.P, primeGenResult.Q, E),
 
                                 TestType = TEST_TYPE
@@ -63,38 +63,6 @@ namespace NIST.CVP.Generation.RSA_SigVer
             }
 
             return testGroups;
-        }
-
-        private BigInteger GetEValue()
-        {
-            BigInteger e;
-            var min = BigInteger.Pow(2, 32) + 1;
-            var max = BigInteger.Pow(2, 64);
-            do
-            {
-                e = _rand.GetRandomBigInteger(min, max);
-                if (e.IsEven)
-                {
-                    e++;
-                }
-            } while (e >= max);      // sanity check
-
-            return e;
-        }
-
-        private BitString GetSeed(int modulo)
-        {
-            var security_strength = 0;
-            if (modulo == 2048)
-            {
-                security_strength = 112;
-            }
-            else if (modulo == 3072)
-            {
-                security_strength = 128;
-            }
-
-            return _rand.GetRandomBitString(2 * security_strength);
         }
     }
 }
