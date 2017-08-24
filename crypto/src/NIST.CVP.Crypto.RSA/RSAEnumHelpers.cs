@@ -243,11 +243,7 @@ namespace NIST.CVP.Crypto.RSA
 
         public static BigInteger GetEValue()
         {
-            var rand = new Random800_90();
-            BigInteger e;
-            var min = BigInteger.Pow(2, 32) + 1;
-            var max = BigInteger.Pow(2, 64);
-            return GetEValue(min, max);
+            return GetEValue(BigInteger.Pow(2, 32) + 1, BigInteger.Pow(2, 64));
         }
 
         public static BigInteger GetEValue(BigInteger min, BigInteger max)
