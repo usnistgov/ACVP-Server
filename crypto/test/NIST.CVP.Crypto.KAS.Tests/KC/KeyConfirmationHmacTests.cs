@@ -148,7 +148,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
 
             _subject = new KeyConfirmationHmac(hmac, p);
 
-            var result = _subject.ComputeKeyMac(p);
+            var result = _subject.ComputeKeyMac();
 
             Assume.That(result.Success);
             Assert.AreEqual(expectedMacData.ToHex(), result.MacData.ToHex(), nameof(expectedMacData));

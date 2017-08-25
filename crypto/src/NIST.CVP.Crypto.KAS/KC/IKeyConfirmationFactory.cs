@@ -4,7 +4,7 @@ using NLog.Targets;
 namespace NIST.CVP.Crypto.KAS.KC
 {
     /// <summary>
-    /// Interface for retrieving an <see cref="IKeyConfirmation{TKeyConfirmationParameters}"/> instance
+    /// Interface for retrieving an <see cref="IKeyConfirmation"/> instance
     /// </summary>
     public interface IKeyConfirmationFactory
     {

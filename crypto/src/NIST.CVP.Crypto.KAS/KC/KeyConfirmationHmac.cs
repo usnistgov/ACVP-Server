@@ -6,10 +6,9 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.KC
 {
-    public class KeyConfirmationHmac : KeyConfirmationBase
+    public class KeyConfirmationHmac : KeyConfirmationBase<KeyConfirmationParameters>
     {
         private readonly IHmac _iHmac;
-        private readonly KeyConfirmationParameters _keyConfirmationParameters;
 
         public KeyConfirmationHmac(IHmac iHmac, KeyConfirmationParameters keyConfirmationParameters)
         {

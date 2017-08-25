@@ -12,7 +12,7 @@
         /// Computes a MAC for KAS
         /// </summary>
         /// <returns></returns>
-        ComputeKeyResult ComputeKeyMac(IKeyConfirmationParameters keyConfirmationParameters);
+        ComputeKeyResult ComputeKeyMac();
     }
 
 }

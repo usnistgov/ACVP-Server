@@ -6,10 +6,9 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.KC
 {
-    public class KeyConfirmationAesCcm : KeyConfirmationBase
+    public class KeyConfirmationAesCcm : KeyConfirmationBase<KeyConfirmationParametersAesCcm>
     {
         private const string _STANDARD_MESSAGE = "Standard Test Message";
-        private readonly KeyConfirmationParametersAesCcm _keyConfirmationParameters;
         private readonly IAES_CCM _iAesCcm;
 
         public KeyConfirmationAesCcm(IAES_CCM iAesCcm, KeyConfirmationParametersAesCcm keyConfirmationParameters)

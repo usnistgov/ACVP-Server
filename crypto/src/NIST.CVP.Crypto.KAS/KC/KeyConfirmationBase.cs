@@ -9,7 +9,8 @@ using NLog.LayoutRenderers;
 
 namespace NIST.CVP.Crypto.KAS.KC
 {
-    public abstract class KeyConfirmationBase : IKeyConfirmation
+    public abstract class KeyConfirmationBase<TKeyConfirmationParameters> : IKeyConfirmation
+        where TKeyConfirmationParameters : IKeyConfirmationParameters
     {
         private static
             List<(string message, bool thisPartyInfoFirst, KeyAgreementRole thisPartyKeyAgreementRole, KeyConfirmationRole
@@ -27,9 +28,11 @@ namespace NIST.CVP.Crypto.KAS.KC
                     ("KC_2_U", false, KeyAgreementRole.VPartyResponder, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral),
                 };
 
-        public ComputeKeyResult ComputeKeyMac(IKeyConfirmationParameters keyConfirmationParameters)
+        protected TKeyConfirmationParameters _keyConfirmationParameters;
+
+        public ComputeKeyResult ComputeKeyMac()
         {
-            var macData = this.GenerateMacData(keyConfirmationParameters);
+            var macData = this.GenerateMacData(_keyConfirmationParameters);
 
             var result = Mac(macData);
 
