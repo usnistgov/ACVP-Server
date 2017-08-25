@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Generation.Core;
+using NIST.CVP.Crypto.RSA;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,8 @@ namespace NIST.CVP.Generation.RSA_SigVer
 
         public string[] SigVerModes { get; set; }
         public SigCapability[] Capabilities { get; set; }
-        public bool CRT_Form { get; set; } = false;
+        public string PubExpMode { get; set; }
+        public string FixedPubExpValue { get; set; } = "";
     }
 
     public class SigCapability

@@ -111,8 +111,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
             return ($"{TestType}|{RSAEnumHelpers.SigGenModeToString(Mode)}|" +
                     $"{Modulo}|{SHAEnumHelpers.HashFunctionToString(HashAlg)}" +
                     $"{Key.PubKey.E.ToString()}" +
-                    $"{Key.PrivKey.P.ToString()}" +
-                    $"{Key.PrivKey.Q.ToString()}").GetHashCode();
+                    $"{Key.PubKey.N.ToString()}").GetHashCode();
         }
 
         public override bool Equals(object obj)

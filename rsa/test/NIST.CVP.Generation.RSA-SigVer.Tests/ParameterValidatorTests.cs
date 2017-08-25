@@ -80,6 +80,23 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         }
 
         [Test]
+        [TestCase("empty", "")]
+        [TestCase("small", "03")]
+        [TestCase("even", "ABCDEF02")]
+        [TestCase("not hex", "BEEFFACEX")]
+        public void ShouldReturnErrorWithInvalidEValue(string label, string value)
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithEValue(value)
+                    .Build()
+            );
+
+            Assert.IsFalse(result.Success, label);
+        }
+
+        [Test]
         public void ShouldReturnSuccessWithNewSigVerModes()
         {
             var subject = new ParameterValidator();
@@ -125,6 +142,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
             private string[] _sigVerModes;
             private string[] _hashAlgs;
             private int[] _moduli;
+            private string _eValue;
 
             public ParameterBuilder()
             {
@@ -133,6 +151,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 _sigVerModes = new[] { "ansx9.31", "pss" };
                 _hashAlgs = new[] { "sha-1", "sha-256" };
                 _moduli = new[] { 2048 };
+                _eValue = "010001";
             }
 
             public ParameterBuilder WithAlgorithm(string value)
@@ -159,6 +178,12 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 return this;
             }
 
+            public ParameterBuilder WithEValue(string value)
+            {
+                _eValue = value;
+                return this;
+            }
+
             public Parameters Build()
             {
                 var hashPairs = new HashPair[_hashAlgs.Length];
@@ -180,13 +205,15 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                         HashPairs = hashPairs
                     };
                 }
-                
+
                 return new Parameters
                 {
                     Algorithm = _algorithm,
                     Mode = _mode,
                     SigVerModes = _sigVerModes,
                     Capabilities = capabilities,
+                    PubExpMode = "fixed",
+                    FixedPubExpValue = _eValue
                 };
             }
         }

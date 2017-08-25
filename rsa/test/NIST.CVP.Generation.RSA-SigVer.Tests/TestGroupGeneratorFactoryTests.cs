@@ -74,7 +74,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 Mode = "SigGen",
                 IsSample = false,
                 Capabilities = capabilities,
-                SigVerModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" }
+                SigVerModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" },
+                PubExpMode = "random"
             };
 
             var groups = new List<ITestGroup>();
@@ -117,7 +118,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 Mode = "SigGen",
                 IsSample = false,
                 Capabilities = capabilities,
-                SigVerModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" }
+                SigVerModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" },
+                PubExpMode = "random"
             };
 
             List<ITestGroup> groups = new List<ITestGroup>();

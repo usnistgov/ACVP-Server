@@ -26,6 +26,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
         public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
+            var pubExpMode = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode);
 
             foreach (var mode in parameters.SigVerModes)
             {
@@ -41,7 +42,15 @@ namespace NIST.CVP.Generation.RSA_SigVer
                             BigInteger E;
                             do
                             {
-                                E = RSAEnumHelpers.GetEValue();
+                                if(pubExpMode == PubExpModes.RANDOM)
+                                {
+                                    E = RSAEnumHelpers.GetEValue();
+                                }
+                                else
+                                {
+                                    E = new BitString(parameters.FixedPubExpValue).ToPositiveBigInteger();
+                                }
+
                                 primeGenResult = _primeGen.GeneratePrimes(sigCapability.Modulo, E, RSAEnumHelpers.GetSeed(sigCapability.Modulo));
                             } while (!primeGenResult.Success);
 

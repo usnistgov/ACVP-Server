@@ -1,5 +1,7 @@
-﻿using NIST.CVP.Crypto.SHA2;
+﻿using NIST.CVP.Crypto.RSA;
+using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +13,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
         public static int[] VALID_MODULI = { 1024, 2048, 3072 };
         public static string[] VALID_HASH_ALGS = { "sha-1", "sha-224", "sha-256", "sha-384", "sha-512", "sha-512/224", "sha-512/256" };
         public static string[] VALID_SIG_GEN_MODES = { "ansx9.31", "pkcs1v1.5", "pss" };
+        public static string[] VALID_PUB_EXP_MODES = { "fixed", "random" };
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
@@ -20,6 +23,32 @@ namespace NIST.CVP.Generation.RSA_SigVer
             if (!string.IsNullOrEmpty(result))
             {
                 errorResults.Add(result);
+            }
+
+            result = ValidateValue(parameters.PubExpMode, VALID_PUB_EXP_MODES, "Public Exponent Modes");
+            if (!string.IsNullOrEmpty(result))
+            {
+                errorResults.Add(result);
+            }
+            else
+            {
+                if (parameters.PubExpMode == "fixed")
+                {
+                    result = ValidateHex(parameters.FixedPubExpValue, "Fixed Public Exponent Value");
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        errorResults.Add(result);
+                    }
+                    else
+                    {
+                        // Check range for E value
+                        var eValue = new BitString(parameters.FixedPubExpValue).ToPositiveBigInteger();
+                        if (eValue < NumberTheory.Pow2(16) || eValue > NumberTheory.Pow2(256) || eValue.IsEven)
+                        {
+                            errorResults.Add("Improper E value provided");
+                        }
+                    }
+                }
             }
 
             if(parameters.Capabilities.Length == 0)

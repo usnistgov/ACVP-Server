@@ -340,7 +340,9 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 Mode = "SigVer",
                 IsSample = false,
                 Capabilities = capabilities,
-                SigVerModes = new[] { "ANSX9.31", "PKCS1v1.5", "PSS" }
+                SigVerModes = new[] { "ANSX9.31", "PKCS1v1.5", "PSS" },
+                PubExpMode = "fixed",
+                FixedPubExpValue = "010001"
             };
 
             return CreateRegistration(targetFolder, p);
@@ -374,7 +376,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 Mode = "SigVer",
                 IsSample = false,
                 Capabilities = capabilities,
-                SigVerModes = new[] { "ANSX9.31", "PKCS1v1.5", "PSS" }
+                SigVerModes = new[] { "ANSX9.31", "PKCS1v1.5", "PSS" },
+                PubExpMode = "random"
             };
 
             return CreateRegistration(targetFolder, p);
