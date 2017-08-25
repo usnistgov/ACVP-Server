@@ -15,12 +15,14 @@ namespace NIST.CVP.Generation.RSA_SigVer
     {
         public const string TEST_TYPE = "GDT";
         private RandomProbablePrimeGenerator _primeGen = new RandomProbablePrimeGenerator(EntropyProviderTypes.Random);
+        private AllProvablePrimesWithConditionsGenerator _smallPrimeGen = new AllProvablePrimesWithConditionsGenerator(new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d256 });
         private IRandom800_90 _rand = new Random800_90();
 
         // For Moq
-        public TestGroupGeneratorGeneratedDataTest(RandomProbablePrimeGenerator gen)
+        public TestGroupGeneratorGeneratedDataTest(RandomProbablePrimeGenerator gen, AllProvablePrimesWithConditionsGenerator gen2)
         {
             _primeGen = gen;
+            _smallPrimeGen = gen2;
         }
 
         public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
@@ -51,7 +53,17 @@ namespace NIST.CVP.Generation.RSA_SigVer
                                     E = new BitString(parameters.FixedPubExpValue).ToPositiveBigInteger();
                                 }
 
-                                primeGenResult = _primeGen.GeneratePrimes(sigCapability.Modulo, E, RSAEnumHelpers.GetSeed(sigCapability.Modulo));
+                                // Use a tested PrimeGen for 1024-bit RSA
+                                if(sigCapability.Modulo == 1024)
+                                {
+                                    _smallPrimeGen.SetBitlens(RSAEnumHelpers.GetBitlens(1024, KeyGenModes.B34));
+                                    primeGenResult = _smallPrimeGen.GeneratePrimes(sigCapability.Modulo, E, RSAEnumHelpers.GetSeed(sigCapability.Modulo));
+                                }
+                                // Use a fast PrimeGen for other RSA
+                                else
+                                {
+                                    primeGenResult = _primeGen.GeneratePrimes(sigCapability.Modulo, E, RSAEnumHelpers.GetSeed(sigCapability.Modulo));
+                                }
                             } while (!primeGenResult.Success);
 
                             var testGroup = new TestGroup

@@ -26,7 +26,12 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
                 .Returns(new PrimeGeneratorResult(3, 5));
 
-            _subject = new TestGroupGeneratorFactory(primeMock.Object);
+            var smallPrimeMock = new Mock<AllProvablePrimesWithConditionsGenerator>();
+            smallPrimeMock
+                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
+                .Returns(new PrimeGeneratorResult(3, 5));
+
+            _subject = new TestGroupGeneratorFactory(primeMock.Object, smallPrimeMock.Object);
         }
 
         [Test]
@@ -71,7 +76,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
             var p = new Parameters
             {
                 Algorithm = "RSA",
-                Mode = "SigGen",
+                Mode = "SigVer",
                 IsSample = false,
                 Capabilities = capabilities,
                 SigVerModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" },
@@ -115,7 +120,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
             var p = new Parameters
             {
                 Algorithm = "RSA",
-                Mode = "SigGen",
+                Mode = "SigVer",
                 IsSample = false,
                 Capabilities = capabilities,
                 SigVerModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" },

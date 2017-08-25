@@ -64,7 +64,12 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
                 .Returns(new PrimeGeneratorResult(3, 5));
 
-            var subject = new TestGroupGeneratorGeneratedDataTest(primeMock.Object);
+            var smallPrimeMock = new Mock<AllProvablePrimesWithConditionsGenerator>();
+            smallPrimeMock
+                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
+                .Returns(new PrimeGeneratorResult(3, 5));
+
+            var subject = new TestGroupGeneratorGeneratedDataTest(primeMock.Object, smallPrimeMock.Object);
             var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups * 3, result.Count());
         }
@@ -85,7 +90,12 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
                 .Returns(new PrimeGeneratorResult(3, 5));
 
-            var subject = new TestGroupGeneratorGeneratedDataTest(primeMock.Object);
+            var smallPrimeMock = new Mock<AllProvablePrimesWithConditionsGenerator>();
+            smallPrimeMock
+                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
+                .Returns(new PrimeGeneratorResult(3, 5));
+
+            var subject = new TestGroupGeneratorGeneratedDataTest(primeMock.Object, smallPrimeMock.Object);
             var result = subject.BuildTestGroups(parameters);
 
             foreach(var group in result.Select(s => (TestGroup)s).ToList())

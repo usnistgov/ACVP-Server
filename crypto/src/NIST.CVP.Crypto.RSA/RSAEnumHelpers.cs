@@ -266,7 +266,11 @@ namespace NIST.CVP.Crypto.RSA
         {
             var rand = new Random800_90();
             var security_strength = 0;
-            if (modulo == 2048)
+            if(modulo == 1024)
+            {
+                security_strength = 80;
+            }
+            else if (modulo == 2048)
             {
                 security_strength = 112;
             }
@@ -292,7 +296,13 @@ namespace NIST.CVP.Crypto.RSA
             var max_both = 0;
 
             // Min_single values were given as exclusive, we add 1 to make them inclusive
-            if (modulo == 2048)
+            if(modulo == 1024)
+            {
+                // Rough estimate based on existing test vectors
+                min_single = 101;
+                max_both = 236;
+            }
+            else if (modulo == 2048)
             {
                 min_single = 140 + 1;
 

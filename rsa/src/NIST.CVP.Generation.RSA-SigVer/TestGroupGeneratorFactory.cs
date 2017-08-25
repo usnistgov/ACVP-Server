@@ -12,10 +12,13 @@ namespace NIST.CVP.Generation.RSA_SigVer
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
     {
         RandomProbablePrimeGenerator _primeGen;
+        AllProvablePrimesWithConditionsGenerator _smallPrimeGen;
 
-        public TestGroupGeneratorFactory(RandomProbablePrimeGenerator primeGen)
+        // For Moq
+        public TestGroupGeneratorFactory(RandomProbablePrimeGenerator primeGen, AllProvablePrimesWithConditionsGenerator smallPrimeGen)
         {
             _primeGen = primeGen;
+            _smallPrimeGen = smallPrimeGen;
         }
 
         public TestGroupGeneratorFactory()
@@ -27,7 +30,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
         {
             var list = new HashSet<ITestGroupGenerator<Parameters>>
             {
-                new TestGroupGeneratorGeneratedDataTest(_primeGen)
+                new TestGroupGeneratorGeneratedDataTest(_primeGen, _smallPrimeGen)
             };
 
             return list;
