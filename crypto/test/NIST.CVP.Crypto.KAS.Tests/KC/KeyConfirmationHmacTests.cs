@@ -132,12 +132,10 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
         {
             var hmac = _hmacFactory.GetHmacInstance(new HashFunction(modeValue, digestSize));
 
-            _subject = new KeyConfirmationHmac(hmac);
-
             var p = new KeyConfirmationParameters(
-                KeyAgreementRole.UPartyInitiator, 
-                KeyConfirmationRole.Provider, 
-                KeyConfirmationDirection.Bilateral, 
+                KeyAgreementRole.UPartyInitiator,
+                KeyConfirmationRole.Provider,
+                KeyConfirmationDirection.Bilateral,
                 KeyConfirmationMacType.AesCcm, // note this doesn't matter for the scope of this test
                 keySize,
                 tagLength,
@@ -147,6 +145,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 serverPublicKey,
                 derivedKeyingMaterial
             );
+
+            _subject = new KeyConfirmationHmac(hmac, p);
 
             var result = _subject.ComputeKeyMac(p);
 

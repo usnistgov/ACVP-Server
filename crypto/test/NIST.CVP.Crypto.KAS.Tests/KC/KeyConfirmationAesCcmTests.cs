@@ -102,8 +102,6 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
         {
             var ccm = new AES_CCM.AES_CCM(new AES_CCMInternals(), new RijndaelFactory(new RijndaelInternals()));
 
-            _subject = new KeyConfirmationAesCcm(ccm);
-
             var p = new KeyConfirmationParametersAesCcm(
                 KeyAgreementRole.UPartyInitiator,
                 KeyConfirmationRole.Provider,
@@ -118,6 +116,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 derivedKeyingMaterial,
                 nonce
             );
+
+            _subject = new KeyConfirmationAesCcm(ccm, p);
 
             var result = _subject.ComputeKeyMac(p);
 

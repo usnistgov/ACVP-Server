@@ -12,14 +12,14 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
     [TestFixture, UnitTest, FastIntegrationTest]
     public class KeyConfirmationBaseTests
     {
-        private class FakeKeyConfirmationBase : KeyConfirmationBase<IKeyConfirmationParameters>
+        private class FakeKeyConfirmationBase : KeyConfirmationBase
         {
             public BitString GetMacData(IKeyConfirmationParameters keyConfirmationParameters)
             {
                 return GenerateMacData(keyConfirmationParameters);
             }
 
-            protected override BitString Mac(IKeyConfirmationParameters keyConfirmationParameters, BitString macData)
+            protected override BitString Mac(BitString macData)
             {
                 throw new NotImplementedException();
             }

@@ -8,7 +8,7 @@ namespace NIST.CVP.Crypto.KAS.KC
     /// </summary>
     public interface IKeyConfirmationFactory
     {
-        object GetInstance<TKeyConfirmationParameters>(TKeyConfirmationParameters parameters)
-            where TKeyConfirmationParameters : IKeyConfirmationParameters;
+        IKeyConfirmation GetInstance(KeyConfirmationParameters parameters);
+        IKeyConfirmation GetInstance(KeyConfirmationParametersAesCcm parameters);
     }
 }

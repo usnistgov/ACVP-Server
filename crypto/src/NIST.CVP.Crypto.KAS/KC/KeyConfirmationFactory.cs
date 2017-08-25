@@ -15,13 +15,39 @@ namespace NIST.CVP.Crypto.KAS.KC
 {
     public class KeyConfirmationFactory : IKeyConfirmationFactory
     {
-        public object GetInstance<TKeyConfirmationParameters>(TKeyConfirmationParameters parameters) 
-            where TKeyConfirmationParameters : IKeyConfirmationParameters
+        public IKeyConfirmation GetInstance(KeyConfirmationParameters parameters) 
         {
             switch (parameters.MacType)
             {
                 case KeyConfirmationMacType.AesCcm:
-                    ConfirmParametersType(parameters, typeof(KeyConfirmationParametersAesCcm));
+                    throw new ArgumentException($"invalid {nameof(parameters)} type for given {parameters.MacType}");
+                case KeyConfirmationMacType.CmacAes:
+                    var cmacEnum = MapCmacEnum(parameters.KeyLength);
+                    CmacFactory cmacFactory = new CmacFactory();
+
+                    return new KeyConfirmationCmac(
+                        cmacFactory.GetCmacInstance(cmacEnum), parameters
+                    );
+                case KeyConfirmationMacType.HmacSha2D224:
+                case KeyConfirmationMacType.HmacSha2D256:
+                case KeyConfirmationMacType.HmacSha2D384:
+                case KeyConfirmationMacType.HmacSha2D512:
+                    var hashFunction = GetHashFunction(parameters.MacType);
+
+                    HmacFactory hmacFactory = new HmacFactory(new ShaFactory());
+                    
+                    return new KeyConfirmationHmac(
+                        hmacFactory.GetHmacInstance(hashFunction), parameters);
+                default:
+                    throw new ArgumentException(nameof(parameters.MacType));
+            }
+        }
+
+        public IKeyConfirmation GetInstance(KeyConfirmationParametersAesCcm parameters)
+        {
+            switch (parameters.MacType)
+            {
+                case KeyConfirmationMacType.AesCcm:
                     ConfirmKeyLengthAesCcm(parameters.KeyLength);
 
                     return new KeyConfirmationAesCcm(
@@ -30,27 +56,15 @@ namespace NIST.CVP.Crypto.KAS.KC
                             new RijndaelFactory(
                                 new RijndaelInternals()
                             )
-                        )
+                        ),
+                        parameters
                     );
                 case KeyConfirmationMacType.CmacAes:
-                    ConfirmParametersType(parameters, typeof(KeyConfirmationParameters));
-                    var cmacEnum = MapCmacEnum(parameters.KeyLength);
-                    CmacFactory cmacFactory = new CmacFactory();
-
-                    return new KeyConfirmationCmac(
-                        cmacFactory.GetCmacInstance(cmacEnum)
-                    );
                 case KeyConfirmationMacType.HmacSha2D224:
                 case KeyConfirmationMacType.HmacSha2D256:
                 case KeyConfirmationMacType.HmacSha2D384:
                 case KeyConfirmationMacType.HmacSha2D512:
-                    ConfirmParametersType(parameters, typeof(KeyConfirmationParameters));
-                    var hashFunction = GetHashFunction(parameters.MacType);
-
-                    HmacFactory hmacFactory = new HmacFactory(new ShaFactory());
-                    
-                    return new KeyConfirmationHmac(
-                        hmacFactory.GetHmacInstance(hashFunction));
+                    throw new ArgumentException($"invalid {nameof(parameters)} type for given {parameters.MacType}");
                 default:
                     throw new ArgumentException(nameof(parameters.MacType));
             }
@@ -95,14 +109,6 @@ namespace NIST.CVP.Crypto.KAS.KC
                     return new HashFunction(ModeValues.SHA2, DigestSizes.d512);
                 default:
                     throw new ArgumentException($"invalid {nameof(parametersMacType)}");
-            }
-        }
-        
-        private void ConfirmParametersType(IKeyConfirmationParameters parameters, Type type)
-        {
-            if (parameters.GetType() != type)
-            {
-                throw new ArgumentException($"{parameters} was expected to be of type {type}");
             }
         }
     }

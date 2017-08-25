@@ -6,15 +6,13 @@
     /// U = key agreement initiator
     /// V = key agreement responder
     /// </summary>
-    /// <typeparam name="TKeyConfirmationParameters"></typeparam>
-    public interface IKeyConfirmation<in TKeyConfirmationParameters>
-        where TKeyConfirmationParameters : IKeyConfirmationParameters
+    public interface IKeyConfirmation
     {
         /// <summary>
-        /// Computes a MAC based on the <see cref="keyConfirmationParameters"/>
+        /// Computes a MAC for KAS
         /// </summary>
-        /// <param name="keyConfirmationParameters"></param>
         /// <returns></returns>
-        ComputeKeyResult ComputeKeyMac(TKeyConfirmationParameters keyConfirmationParameters);
+        ComputeKeyResult ComputeKeyMac(IKeyConfirmationParameters keyConfirmationParameters);
     }
+
 }

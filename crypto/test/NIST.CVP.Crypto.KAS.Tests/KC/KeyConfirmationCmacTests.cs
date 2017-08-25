@@ -93,8 +93,6 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
         {
             var cmac = _cmacFactory.GetCmacInstance(CmacTypes.AES128); // doesn't matter for scope of testing this, as long as AES
 
-            _subject = new KeyConfirmationCmac(cmac);
-
             var p = new KeyConfirmationParameters(
                 KeyAgreementRole.UPartyInitiator,
                 KeyConfirmationRole.Provider,
@@ -108,6 +106,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 serverPublicKey,
                 derivedKeyingMaterial
             );
+
+            _subject = new KeyConfirmationCmac(cmac, p);
 
             var result = _subject.ComputeKeyMac(p);
 

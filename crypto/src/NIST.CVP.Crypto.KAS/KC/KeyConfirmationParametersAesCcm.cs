@@ -7,7 +7,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.KC
 {
-    public class KeyConfirmationParametersAesCcm : KeyConfirmationParameters
+    public class KeyConfirmationParametersAesCcm : KeyConfirmationParameters, IKeyConfirmationParametersAesCcm
     {
         public KeyConfirmationParametersAesCcm(
             KeyAgreementRole thisPartyKeyAgreementRole,
@@ -24,12 +24,10 @@ namespace NIST.CVP.Crypto.KAS.KC
             BitString ccmNonce) : 
             base(thisPartyKeyAgreementRole, thisPartyKeyConfirmationRole, keyConfirmationType, macType, keyLength, macLength, thisPartyIdentifier, otherPartyIdentifier, thisPartyPublicKey, otherPartyPublicKey, derivedKeyingMaterial)
         {
-            CcmNonce = ccmNonce;
+            Nonce = ccmNonce;
         }
 
-        /// <summary>
-        /// The nonce used for <see cref="IAES_CCM"/>
-        /// </summary>
-        public BitString CcmNonce { get; }
+        /// <inheritdoc />
+        public BitString Nonce { get; }
     }
 }

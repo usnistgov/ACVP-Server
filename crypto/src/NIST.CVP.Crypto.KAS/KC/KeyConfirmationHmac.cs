@@ -6,21 +6,23 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.KC
 {
-    public class KeyConfirmationHmac : KeyConfirmationBase<KeyConfirmationParameters>
+    public class KeyConfirmationHmac : KeyConfirmationBase
     {
         private readonly IHmac _iHmac;
+        private readonly KeyConfirmationParameters _keyConfirmationParameters;
 
-        public KeyConfirmationHmac(IHmac iHmac)
+        public KeyConfirmationHmac(IHmac iHmac, KeyConfirmationParameters keyConfirmationParameters)
         {
             _iHmac = iHmac;
+            _keyConfirmationParameters = keyConfirmationParameters;
         }
 
-        protected override BitString Mac(KeyConfirmationParameters keyConfirmationParameters, BitString macData)
+        protected override BitString Mac(BitString macData)
         {
             var result = _iHmac.Generate(
-                keyConfirmationParameters.DerivedKeyingMaterial,
+                _keyConfirmationParameters.DerivedKeyingMaterial,
                 macData,
-                keyConfirmationParameters.MacLength
+                _keyConfirmationParameters.MacLength
             );
 
             if (!result.Success)

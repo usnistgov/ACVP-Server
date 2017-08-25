@@ -22,52 +22,26 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
         [TestCase(KeyConfirmationMacType.HmacSha2D512, 0, typeof(KeyConfirmationHmac))]
         public void ShouldReturnCorrectInstance(KeyConfirmationMacType macType, int keyLength, Type expectedType)
         {
-            IKeyConfirmationParameters p = null;
+            IKeyConfirmation result = null;
 
             if (macType == KeyConfirmationMacType.AesCcm)
             {
-                p = new KeyConfirmationParametersAesCcm(0, 0, 0, macType, keyLength,
+                KeyConfirmationParametersAesCcm p = new KeyConfirmationParametersAesCcm(0, 0, 0, macType, keyLength,
                     0, null, null, null, null, null, null);
+
+                result = _subject.GetInstance(p);
             }
             else
             {
-                p = new KeyConfirmationParameters(0, 0, 0, macType, keyLength,
+                KeyConfirmationParameters p = new KeyConfirmationParameters(0, 0, 0, macType, keyLength,
                     0, null, null, null, null, null);
-            }
 
-            var result = _subject.GetInstance(p);
+                result = _subject.GetInstance(p);
+            }
 
             Assert.IsInstanceOf(expectedType, result);
         }
-
-        [Test]
-        [TestCase(KeyConfirmationMacType.AesCcm, 128)]
-        [TestCase(KeyConfirmationMacType.AesCcm, 192)]
-        [TestCase(KeyConfirmationMacType.AesCcm, 256)]
-        [TestCase(KeyConfirmationMacType.CmacAes, 128)]
-        [TestCase(KeyConfirmationMacType.HmacSha2D224, 0)]
-        [TestCase(KeyConfirmationMacType.HmacSha2D256, 0)]
-        [TestCase(KeyConfirmationMacType.HmacSha2D384, 0)]
-        [TestCase(KeyConfirmationMacType.HmacSha2D512, 0)]
-        public void ShouldThrowWithIncorrectParameterType(KeyConfirmationMacType macType, int keyLength)
-        {
-            IKeyConfirmationParameters p = null;
-
-            // note creating wrong parameter type for intended mac type
-            if (macType != KeyConfirmationMacType.AesCcm)
-            {
-                p = new KeyConfirmationParametersAesCcm(0, 0, 0, macType, keyLength,
-                    0, null, null, null, null, null, null);
-            }
-            else
-            {
-                p = new KeyConfirmationParameters(0, 0, 0, macType, keyLength,
-                    0, null, null, null, null, null);
-            }
-
-            Assert.Throws(typeof(ArgumentException), () => _subject.GetInstance(p));
-        }
-
+        
         [Test]
         [TestCase(KeyConfirmationMacType.AesCcm, 0)]
         [TestCase(KeyConfirmationMacType.AesCcm, 1)]
