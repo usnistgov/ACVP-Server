@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Crypto.KAS.KC
+﻿using NIST.CVP.Math;
+
+namespace NIST.CVP.Crypto.KAS.KC
 {
     /// <summary>
     /// Interface for describing Key Confirmation
@@ -13,6 +15,8 @@
         /// </summary>
         /// <returns></returns>
         ComputeKeyResult ComputeKeyMac();
+
+        ComputeKeyResult ConfirmOtherPartyMac(BitString otherPartyMac);
     }
 
 }

@@ -9,11 +9,9 @@ using NLog.LayoutRenderers;
 
 namespace NIST.CVP.Crypto.KAS.KC
 {
-    public abstract class KeyConfirmationBase<TKeyConfirmationParameters> : IKeyConfirmation
-        where TKeyConfirmationParameters : IKeyConfirmationParameters
+    public abstract class KeyConfirmationBase : IKeyConfirmation
     {
-        private static
-            List<(string message, bool thisPartyInfoFirst, KeyAgreementRole thisPartyKeyAgreementRole, KeyConfirmationRole
+        private static readonly List<(string message, bool thisPartyInfoFirst, KeyAgreementRole thisPartyKeyAgreementRole, KeyConfirmationRole
                 thisPartyKeyConfirmationRole, KeyConfirmationDirection keyConfirmationType)> _messageMapping =
                 new List<(string message, bool thisPartyInfoFirst, KeyAgreementRole thisPartyKeyAgreementRole, KeyConfirmationRole
                     thisPartyKeyConfirmationRole, KeyConfirmationDirection keyConfirmationType)>()
@@ -28,7 +26,7 @@ namespace NIST.CVP.Crypto.KAS.KC
                     ("KC_2_U", false, KeyAgreementRole.VPartyResponder, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral),
                 };
 
-        protected TKeyConfirmationParameters _keyConfirmationParameters;
+        protected IKeyConfirmationParameters _keyConfirmationParameters;
 
         public ComputeKeyResult ComputeKeyMac()
         {
@@ -37,6 +35,18 @@ namespace NIST.CVP.Crypto.KAS.KC
             var result = Mac(macData);
 
             return new ComputeKeyResult(macData, result);
+        }
+
+        public ComputeKeyResult ConfirmOtherPartyMac(BitString otherPartyMac)
+        {
+            var thisPartyMac = ComputeKeyMac();
+
+            if (thisPartyMac.Mac.Equals(otherPartyMac))
+            {
+                return new ComputeKeyResult(thisPartyMac.Mac, thisPartyMac.Mac);
+            }
+
+            return new ComputeKeyResult("MACs did not match");
         }
 
         protected abstract BitString Mac(BitString macData);

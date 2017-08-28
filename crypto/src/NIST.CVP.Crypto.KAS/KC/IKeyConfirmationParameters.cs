@@ -55,5 +55,9 @@ namespace NIST.CVP.Crypto.KAS.KC
         /// The Derived Keying Matierial - the key input of the MAC function
         /// </summary>
         BitString DerivedKeyingMaterial { get; }
+        /// <summary>
+        /// The Nonce used for Aes-Ccm
+        /// </summary>
+        BitString Nonce { get; }
     }
 }

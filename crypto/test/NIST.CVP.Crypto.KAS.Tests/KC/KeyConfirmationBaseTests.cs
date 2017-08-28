@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
     [TestFixture, UnitTest, FastIntegrationTest]
     public class KeyConfirmationBaseTests
     {
-        private class FakeKeyConfirmationBase : KeyConfirmationBase<IKeyConfirmationParameters>
+        private class FakeKeyConfirmationBase : KeyConfirmationBase
         {
             public BitString GetMacData(IKeyConfirmationParameters keyConfirmationParameters)
             {
@@ -401,7 +401,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 otherId,
                 thisPublicKey,
                 otherPublicKey,
-                new BitString(0)
+                new BitString(0),
+                null
             );
 
             var result = _subject.GetMacData(p);

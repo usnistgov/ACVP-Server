@@ -23,7 +23,8 @@ namespace NIST.CVP.Crypto.KAS.KC
             BitString otherPartyIdentifier, 
             BitString thisPartyPublicKey, 
             BitString otherPartyPublicKey, 
-            BitString derivedKeyingMaterial)
+            BitString derivedKeyingMaterial,
+            BitString nonce)
         {
             ThisPartyKeyAgreementRole = thisPartyKeyAgreementRole;
             ThisPartyKeyConfirmationRole = thisPartyKeyConfirmationRole;
@@ -37,6 +38,7 @@ namespace NIST.CVP.Crypto.KAS.KC
             OtherPartyPublicKey = otherPartyPublicKey;
             DerivedKeyingMaterial = derivedKeyingMaterial;
             KeyConfirmationType = keyConfirmationType;
+            Nonce = nonce;
         }
 
         /// <inheritdoc />
@@ -61,5 +63,7 @@ namespace NIST.CVP.Crypto.KAS.KC
         public BitString OtherPartyPublicKey { get; }
         /// <inheritdoc />
         public BitString DerivedKeyingMaterial { get; }
+        /// <inheritdoc />
+        public BitString Nonce { get; }
     }
 }

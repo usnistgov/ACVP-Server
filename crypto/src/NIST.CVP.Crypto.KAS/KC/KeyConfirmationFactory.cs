@@ -21,7 +21,6 @@ namespace NIST.CVP.Crypto.KAS.KC
             {
                 case KeyConfirmationMacType.AesCcm:
                     ConfirmKeyLengthAesCcm(parameters.KeyLength);
-                    ConfirmParameterType(parameters, typeof(KeyConfirmationParametersAesCcm));
                     return new KeyConfirmationAesCcm(
                         new AES_CCM.AES_CCM(
                             new AES_CCMInternals(),
@@ -29,26 +28,24 @@ namespace NIST.CVP.Crypto.KAS.KC
                                 new RijndaelInternals()
                             )
                         ),
-                        (KeyConfirmationParametersAesCcm) parameters
+                        parameters
                     );
                 case KeyConfirmationMacType.CmacAes:
                     var cmacEnum = MapCmacEnum(parameters.KeyLength);
-                    ConfirmParameterType(parameters, typeof(KeyConfirmationParameters));
                     CmacFactory cmacFactory = new CmacFactory();
 
                     return new KeyConfirmationCmac(
-                        cmacFactory.GetCmacInstance(cmacEnum), (KeyConfirmationParameters) parameters
+                        cmacFactory.GetCmacInstance(cmacEnum), parameters
                     );
                 case KeyConfirmationMacType.HmacSha2D224:
                 case KeyConfirmationMacType.HmacSha2D256:
                 case KeyConfirmationMacType.HmacSha2D384:
                 case KeyConfirmationMacType.HmacSha2D512:
                     var hashFunction = GetHashFunction(parameters.MacType);
-                    ConfirmParameterType(parameters, typeof(KeyConfirmationParameters));
                     HmacFactory hmacFactory = new HmacFactory(new ShaFactory());
 
                     return new KeyConfirmationHmac(
-                        hmacFactory.GetHmacInstance(hashFunction), (KeyConfirmationParameters) parameters
+                        hmacFactory.GetHmacInstance(hashFunction), parameters
                     );
                 default:
                     throw new ArgumentException(nameof(parameters.MacType));

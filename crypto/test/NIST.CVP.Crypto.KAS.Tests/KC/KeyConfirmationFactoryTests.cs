@@ -26,7 +26,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
 
             if (macType == KeyConfirmationMacType.AesCcm)
             {
-                KeyConfirmationParametersAesCcm p = new KeyConfirmationParametersAesCcm(0, 0, 0, macType, keyLength,
+                KeyConfirmationParameters p = new KeyConfirmationParameters(0, 0, 0, macType, keyLength,
                     0, null, null, null, null, null, null);
 
                 result = _subject.GetInstance(p);
@@ -34,7 +34,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             else
             {
                 KeyConfirmationParameters p = new KeyConfirmationParameters(0, 0, 0, macType, keyLength,
-                    0, null, null, null, null, null);
+                    0, null, null, null, null, null, null);
 
                 result = _subject.GetInstance(p);
             }
@@ -48,7 +48,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
         [TestCase(KeyConfirmationMacType.AesCcm, 2)]
         public void ShouldThrowWithInvalidKeyLengthCcm(KeyConfirmationMacType macType, int keyLength)
         {
-            var p = new KeyConfirmationParametersAesCcm(0, 0, 0, macType, keyLength,
+            var p = new KeyConfirmationParameters(0, 0, 0, macType, keyLength,
                     0, null, null, null, null, null, null);
             
             Assert.Throws(typeof(ArgumentException), () => _subject.GetInstance(p));
@@ -61,7 +61,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
         public void ShouldThrowWithInvalidKeyLengthCmac(KeyConfirmationMacType macType, int keyLength)
         {
             var p = new KeyConfirmationParameters(0, 0, 0, macType, keyLength,
-                0, null, null, null, null, null);
+                0, null, null, null, null, null, null);
 
             Assert.Throws(typeof(ArgumentException), () => _subject.GetInstance(p));
         }

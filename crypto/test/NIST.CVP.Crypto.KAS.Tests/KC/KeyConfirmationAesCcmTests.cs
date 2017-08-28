@@ -102,7 +102,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
         {
             var ccm = new AES_CCM.AES_CCM(new AES_CCMInternals(), new RijndaelFactory(new RijndaelInternals()));
 
-            var p = new KeyConfirmationParametersAesCcm(
+            var p = new KeyConfirmationParameters(
                 KeyAgreementRole.UPartyInitiator,
                 KeyConfirmationRole.Provider,
                 KeyConfirmationDirection.Bilateral,

@@ -143,7 +143,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 serverId,
                 iutPublicKey,
                 serverPublicKey,
-                derivedKeyingMaterial
+                derivedKeyingMaterial,
+                null
             );
 
             _subject = new KeyConfirmationHmac(hmac, p);
