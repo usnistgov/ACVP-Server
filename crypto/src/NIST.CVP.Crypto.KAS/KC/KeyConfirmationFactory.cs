@@ -15,41 +15,13 @@ namespace NIST.CVP.Crypto.KAS.KC
 {
     public class KeyConfirmationFactory : IKeyConfirmationFactory
     {
-        public IKeyConfirmation GetInstance(KeyConfirmationParameters parameters) 
-        {
-            switch (parameters.MacType)
-            {
-                case KeyConfirmationMacType.AesCcm:
-                    throw new ArgumentException($"invalid {nameof(parameters)} type for given {parameters.MacType}");
-                case KeyConfirmationMacType.CmacAes:
-                    var cmacEnum = MapCmacEnum(parameters.KeyLength);
-                    CmacFactory cmacFactory = new CmacFactory();
-
-                    return new KeyConfirmationCmac(
-                        cmacFactory.GetCmacInstance(cmacEnum), parameters
-                    );
-                case KeyConfirmationMacType.HmacSha2D224:
-                case KeyConfirmationMacType.HmacSha2D256:
-                case KeyConfirmationMacType.HmacSha2D384:
-                case KeyConfirmationMacType.HmacSha2D512:
-                    var hashFunction = GetHashFunction(parameters.MacType);
-
-                    HmacFactory hmacFactory = new HmacFactory(new ShaFactory());
-                    
-                    return new KeyConfirmationHmac(
-                        hmacFactory.GetHmacInstance(hashFunction), parameters);
-                default:
-                    throw new ArgumentException(nameof(parameters.MacType));
-            }
-        }
-
-        public IKeyConfirmation GetInstance(KeyConfirmationParametersAesCcm parameters)
+        public IKeyConfirmation GetInstance(IKeyConfirmationParameters parameters)
         {
             switch (parameters.MacType)
             {
                 case KeyConfirmationMacType.AesCcm:
                     ConfirmKeyLengthAesCcm(parameters.KeyLength);
-
+                    ConfirmParameterType(parameters, typeof(KeyConfirmationParametersAesCcm));
                     return new KeyConfirmationAesCcm(
                         new AES_CCM.AES_CCM(
                             new AES_CCMInternals(),
@@ -57,16 +29,37 @@ namespace NIST.CVP.Crypto.KAS.KC
                                 new RijndaelInternals()
                             )
                         ),
-                        parameters
+                        (KeyConfirmationParametersAesCcm) parameters
                     );
                 case KeyConfirmationMacType.CmacAes:
+                    var cmacEnum = MapCmacEnum(parameters.KeyLength);
+                    ConfirmParameterType(parameters, typeof(KeyConfirmationParameters));
+                    CmacFactory cmacFactory = new CmacFactory();
+
+                    return new KeyConfirmationCmac(
+                        cmacFactory.GetCmacInstance(cmacEnum), (KeyConfirmationParameters) parameters
+                    );
                 case KeyConfirmationMacType.HmacSha2D224:
                 case KeyConfirmationMacType.HmacSha2D256:
                 case KeyConfirmationMacType.HmacSha2D384:
                 case KeyConfirmationMacType.HmacSha2D512:
-                    throw new ArgumentException($"invalid {nameof(parameters)} type for given {parameters.MacType}");
+                    var hashFunction = GetHashFunction(parameters.MacType);
+                    ConfirmParameterType(parameters, typeof(KeyConfirmationParameters));
+                    HmacFactory hmacFactory = new HmacFactory(new ShaFactory());
+
+                    return new KeyConfirmationHmac(
+                        hmacFactory.GetHmacInstance(hashFunction), (KeyConfirmationParameters) parameters
+                    );
                 default:
                     throw new ArgumentException(nameof(parameters.MacType));
+            }
+        }
+
+        private void ConfirmParameterType(IKeyConfirmationParameters parameters, Type type)
+        {
+            if (parameters.GetType() != type)
+            {
+                throw new ArgumentException($"incorrect {nameof(parameters)} type for option {nameof(parameters.MacType)}");
             }
         }
 
