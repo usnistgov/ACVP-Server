@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.SHAWrapper;
+﻿using NIST.CVP.Crypto.DSA2.Enums;
+using NIST.CVP.Crypto.SHAWrapper;
 
 namespace NIST.CVP.Crypto.DSA2
 {
@@ -10,10 +11,9 @@ namespace NIST.CVP.Crypto.DSA2
         /// <summary>
         /// Returns a <see cref="IDsa"/> as a concrete type.
         /// </summary>
-        /// <typeparam name="TDsa">The type to construct.</typeparam>
+        /// <param name="dsaAlgorithm">The Algorithm used for the DSA isntance</param>
         /// <param name="hashFunction">The hash information to be used.</param>
         /// <returns></returns>
-        TDsa GetDsaInstance<TDsa>(HashFunction hashFunction) 
-            where TDsa : class, IDsa;
+        IDsa GetDsaInstance(DsaAlgorithm dsaAlgorithm, HashFunction hashFunction);
     }
 }
