@@ -100,7 +100,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(21 * 3, groups.Count);
+            Assert.AreEqual(21 * ParameterValidator.VALID_MODULI.Length, groups.Count);
         }
     }
 }
