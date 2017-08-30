@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -64,6 +65,12 @@ namespace NIST.CVP.Generation.RSA_SigVer
                                 {
                                     primeGenResult = _primeGen.GeneratePrimes(sigCapability.Modulo, E, RSAEnumHelpers.GetSeed(sigCapability.Modulo));
                                 }
+
+                                if (!primeGenResult.Success)
+                                {
+                                    ThisLogger.Warn($"Error generating key for {sigCapability.Modulo}, {primeGenResult.ErrorMessage}");
+                                }
+
                             } while (!primeGenResult.Success);
 
                             var testGroup = new TestGroup
@@ -85,5 +92,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
 
             return testGroups;
         }
+
+        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
     }
 }

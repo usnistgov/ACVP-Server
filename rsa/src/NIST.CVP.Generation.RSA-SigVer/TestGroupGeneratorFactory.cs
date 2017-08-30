@@ -24,6 +24,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
         public TestGroupGeneratorFactory()
         {
             _primeGen = new RandomProbablePrimeGenerator(EntropyProviderTypes.Random);
+            _smallPrimeGen = new AllProvablePrimesWithConditionsGenerator(new Crypto.SHA2.HashFunction { Mode = Crypto.SHA2.ModeValues.SHA2, DigestSize = Crypto.SHA2.DigestSizes.d256 });
         }
 
         public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()

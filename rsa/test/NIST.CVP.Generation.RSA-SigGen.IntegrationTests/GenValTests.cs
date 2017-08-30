@@ -396,7 +396,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
                 caps[i] = new CapabilityObject
                 {
                     HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
-                    SaltLen = i+1
+                    SaltLen = i + 1
                 };
             }
 

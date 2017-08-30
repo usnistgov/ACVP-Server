@@ -356,7 +356,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 hashPairs[i] = new HashPair
                 {
                     HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
-                    SaltLen = (i + 1) * 8
+                    SaltLen = (i + 8)
                 };
             }
 
