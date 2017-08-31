@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Crypto.DSA2
+﻿namespace NIST.CVP.Crypto.DSA
 {
     /// <summary>
     /// The response to a <see cref="IDsa.GenerateDomainParameters"/> request

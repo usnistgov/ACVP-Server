@@ -1,7 +1,7 @@
-﻿using NIST.CVP.Crypto.DSA2.Enums;
+﻿using NIST.CVP.Crypto.DSA.Enums;
 using NIST.CVP.Crypto.SHAWrapper;
 
-namespace NIST.CVP.Crypto.DSA2
+namespace NIST.CVP.Crypto.DSA
 {
     /// <summary>
     /// Interface for obtaining a <see cref="IDsa"/> with all dependencies.

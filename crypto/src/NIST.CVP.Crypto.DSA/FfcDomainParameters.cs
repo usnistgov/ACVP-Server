@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
-using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.DSA2
+namespace NIST.CVP.Crypto.DSA
 {
     /// <summary>
     /// The FFC PQG Domain Parameters, constructed as a part of <see cref="IDsa.GenerateDomainParameters"/>

@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Crypto.SHAWrapper;
 
-namespace NIST.CVP.Crypto.DSA2
+namespace NIST.CVP.Crypto.DSA
 {
     /// <summary>
     /// Describes functionality for the DSA algorithm.

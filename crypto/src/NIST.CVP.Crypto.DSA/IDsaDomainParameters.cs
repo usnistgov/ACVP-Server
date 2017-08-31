@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Crypto.DSA2
+﻿namespace NIST.CVP.Crypto.DSA
 {
     /// <summary>
     /// Interface for DSA domain parameters
