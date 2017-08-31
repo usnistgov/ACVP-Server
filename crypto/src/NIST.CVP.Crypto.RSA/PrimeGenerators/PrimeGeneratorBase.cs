@@ -8,13 +8,67 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
     public abstract class PrimeGeneratorBase : IPrimeGenerator
     {
+        protected readonly BigInteger _root2Mult2Pow512Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768").ToPositiveBigInteger();
+        protected readonly BigInteger _root2Mult2Pow1024Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768D2202E8742AF1F4E53059C6011BC337BCAB1BC911688458A460ABC722F7C4E33C6D5A8A38BB7E9DCCB2A634331F3C84DF52F120F836E582EEAA4A0899040CA4A").ToPositiveBigInteger();
+        protected readonly BigInteger _root2Mult2Pow1536Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768D2202E8742AF1F4E53059C6011BC337BCAB1BC911688458A460ABC722F7C4E33C6D5A8A38BB7E9DCCB2A634331F3C84DF52F120F836E582EEAA4A0899040CA4A81394AB6D8FD0EFDF4D3A02CEBC93E0C4264DABCD528B651B8CF341B6F8236C70104DC01FE32352F332A5E9F7BDA1EBFF6A1BE3FCA221307DEA06241F7AA81C2").ToPositiveBigInteger();
+        protected readonly BigInteger _2Pow512MinusFloorRoot2Mult2Pow1024Minus1 = new BitString("4AFB0CCC06219B7BA682764C8AB54160E2909F4576C457B312E8537A7CCC66EAB5037CFBC5475D3C574E0190237C24C6F08B57A1BC6384B587FB78C9C205D898").ToPositiveBigInteger();
+        protected readonly BigInteger _2Pow1024MinusFloorRoot2Mult2Pow1024Minus1 = new BitString("4AFB0CCC06219B7BA682764C8AB54160E2909F4576C457B312E8537A7CCC66EAB5037CFBC5475D3C574E0190237C24C6F08B57A1BC6384B587FB78C9C205D8972DDFD178BD50E0B1ACFA639FEE43CC84354E436EE977BA75B9F5438DD083B1CC392A575C7448162334D59CBCCE0C37B20AD0EDF07C91A7D1155B5F766FBF35B6").ToPositiveBigInteger();
+        protected readonly BigInteger _2Pow1536MinusFloorRoot2Mult2Pow1536Minus1 = new BitString("4AFB0CCC06219B7BA682764C8AB54160E2909F4576C457B312E8537A7CCC66EAB5037CFBC5475D3C574E0190237C24C6F08B57A1BC6384B587FB78C9C205D8972DDFD178BD50E0B1ACFA639FEE43CC84354E436EE977BA75B9F5438DD083B1CC392A575C7448162334D59CBCCE0C37B20AD0EDF07C91A7D1155B5F766FBF35B57EC6B5492702F1020B2C5FD31436C1F3BD9B25432AD749AE4730CBE4907DC938FEFB23FE01CDCAD0CCD5A1608425E140095E41C035DDECF8215F9DBE08557E3E").ToPositiveBigInteger();
+
         protected IEntropyProvider _entropyProvider;
         protected IEntropyProviderFactory _entropyProviderFactory = new EntropyProviderFactory();
 
-        protected PrimeGen186_4 _primeGen = new PrimeGen186_4();
-        private HashFunction _hashFunction;
+        protected HashFunction _hashFunction;
         private PrimeTestModes _primeTestMode;
         protected int[] _bitlens = new int[4];
+
+        #region Structs
+        public struct PPCResult
+        {
+            public bool Success;
+            public BigInteger P, P1, P2, PSeed;
+            public string ErrorMessage;
+
+            public PPCResult(string fail)
+            {
+                ErrorMessage = fail;
+                Success = false;
+                P = P1 = P2 = PSeed = 0;
+            }
+
+            public PPCResult(BigInteger p, BigInteger p1, BigInteger p2, BigInteger pSeed)
+            {
+                Success = true;
+                P = p;
+                P1 = p1;
+                P2 = p2;
+                PSeed = pSeed;
+                ErrorMessage = "";
+            }
+        }
+
+        public struct PPFResult
+        {
+            public bool Success;
+            public BigInteger P, XP;
+            public string ErrorMessage;
+
+            public PPFResult(string fail)
+            {
+                ErrorMessage = fail;
+                Success = false;
+                P = XP = 0;
+            }
+
+            public PPFResult(BigInteger p, BigInteger xp)
+            {
+                Success = true;
+                P = p;
+                XP = xp;
+                ErrorMessage = "";
+            }
+        }
+        #endregion Structs
 
         #region Constructors
         protected PrimeGeneratorBase()
@@ -79,6 +133,269 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             _entropyProvider.AddEntropy(entropy);
         }
         #endregion Sets/Adds
+
+        /// <summary>
+        /// C.9 Compute a Probable Prime Factor Based on Auxiliary Primes
+        /// </summary>
+        /// <param name="r1"></param>
+        /// <param name="r2"></param>
+        /// <param name="nlen"></param>
+        /// <param name="e"></param>
+        /// <param name="security_strength"></param>
+        /// <returns></returns>
+        public PPFResult ProbablePrimeFactor(BigInteger r1, BigInteger r2, int nlen, BigInteger e, int security_strength)
+        {
+            var i = 0;
+            BigInteger X, Y;
+            BigInteger lowerBound, upperBound;
+            upperBound = NumberTheory.Pow2(nlen / 2) - 1;
+            if (nlen == 1024)
+            {
+                lowerBound = _root2Mult2Pow512Minus1;
+            }
+            else if (nlen == 2048)
+            {
+                lowerBound = _root2Mult2Pow1024Minus1;
+            }
+            else if (nlen == 3072)
+            {
+                lowerBound = _root2Mult2Pow1536Minus1;
+            }
+
+            // 1
+            if (NumberTheory.GCD(2 * r1, r2) != 1)
+            {
+                return new PPFResult("PPF: GCD requirement not met");
+            }
+
+            // 2 and ensure R is positive
+            var Rfirst = NumberTheory.ModularInverse(r2, 2 * r1) * r2;
+            var Rsecond = NumberTheory.ModularInverse(2 * r1, r2) * 2 * r1;
+
+            BigInteger R;
+            do
+            {
+                if (Rfirst < Rsecond)
+                {
+                    Rfirst += (2 * r1 * r2);
+                }
+                R = Rfirst - Rsecond;
+            } while (Rfirst < Rsecond);
+
+            while (true)
+            {
+                var modulo = 2 * r1 * r2;
+
+                do
+                {
+                    // 3
+                    X = _entropyProvider.GetEntropy(lowerBound, upperBound);
+
+                    // 4
+                    // Weirdness to ensure Y is positive
+                    Y = X + (((R - X) % modulo) + modulo) % modulo;
+
+                    // 5
+                    i = 0;
+
+                    // 6
+                } while (Y >= NumberTheory.Pow2(nlen / 2));
+
+                do
+                {
+                    // 7
+                    if (NumberTheory.GCD(Y - 1, e) == 1)
+                    {
+                        if (MillerRabin(nlen, Y, true))
+                        {
+                            return new PPFResult(Y, X);
+                        }
+                    }
+
+                    // 8
+                    i++;
+
+                    // 9
+                    if (i >= 5 * (nlen / 2))
+                    {
+                        return new PPFResult("PPF: Too many iterations");
+                    }
+
+                    // 10
+                    Y += modulo;
+
+                    // 6 (repeated)
+                } while (Y < NumberTheory.Pow2(nlen / 2));
+            }
+        }
+
+        /// <summary>
+        /// C.10 Provable Prime Construction
+        /// </summary>
+        /// <param name="L"></param>
+        /// <param name="N1"></param>
+        /// <param name="N2"></param>
+        /// <param name="firstSeed"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public PPCResult ProvablePrimeConstruction(int L, int N1, int N2, BigInteger firstSeed, BigInteger e)
+        {
+            // 1
+            if (N1 + N2 > L - System.Math.Ceiling(L / 2.0) - 4)
+            {
+                return new PPCResult("PPC: fail N1 + N2 check");
+            }
+
+            BigInteger p, p0, p1, p2;
+            BigInteger pSeed, p0Seed, p2Seed;
+
+            // 2
+            if (N1 == 1)
+            {
+                p1 = 1;
+                p2Seed = firstSeed;
+            }
+
+            // 3
+            if (N1 >= 2)
+            {
+                var stResult = PrimeGen186_4.ShaweTaylorRandomPrime(N1, firstSeed, _hashFunction);
+                if (!stResult.Success)
+                {
+                    return new PPCResult("PPC: fail ST p1 gen");
+                }
+
+                p1 = stResult.Prime;
+                p2Seed = stResult.PrimeSeed;
+            }
+
+            // 4
+            if (N2 == 1)
+            {
+                p2 = 1;
+                p0Seed = p2Seed;
+            }
+
+            // 5
+            if (N2 >= 2)
+            {
+                var stResult = PrimeGen186_4.ShaweTaylorRandomPrime(N2, p2Seed, _hashFunction);
+                if (!stResult.Success)
+                {
+                    return new PPCResult("PPC: fail ST p2 gen");
+                }
+
+                p2 = stResult.Prime;
+                p0Seed = stResult.PrimeSeed;
+            }
+
+            // 6
+            var result = PrimeGen186_4.ShaweTaylorRandomPrime((int)System.Math.Ceiling(L / 2.0) + 1, p0Seed, _hashFunction);
+            if (!result.Success)
+            {
+                return new PPCResult("PPC: fail ST p0 gen");
+            }
+
+            p0 = result.Prime;
+            pSeed = result.PrimeSeed;
+
+            // 7, 8, 9
+            var outLen = SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize);
+            var iterations = NumberTheory.CeilingDivide(L, outLen) - 1;
+            var pGenCounter = 0;
+            BigInteger x = 0;
+
+            // 10
+            for (var i = 0; i <= iterations; i++)
+            {
+                x += PrimeGen186_4.Hash(_hashFunction, pSeed + i) * NumberTheory.Pow2(i * outLen);
+            }
+
+            // 11
+            pSeed += iterations + 1;
+
+            // 12
+            // sqrt(2) * 2^(L-1)
+            BigInteger lowerBound;
+            BigInteger modulo;
+
+            if (L == 1024 / 2)
+            {
+                lowerBound = _root2Mult2Pow512Minus1;
+                modulo = _2Pow512MinusFloorRoot2Mult2Pow1024Minus1;
+            }
+            else if (L == 2048 / 2)
+            {
+                lowerBound = _root2Mult2Pow1024Minus1;
+                modulo = _2Pow1024MinusFloorRoot2Mult2Pow1024Minus1;
+            }
+            else if (L == 3072 / 2)
+            {
+                lowerBound = _root2Mult2Pow1536Minus1;
+                modulo = _2Pow1536MinusFloorRoot2Mult2Pow1536Minus1;
+            }
+
+            x = lowerBound + x % modulo;
+
+            // 13
+            if (NumberTheory.GCD(p0 * p1, p2) != 1)
+            {
+                return new PPCResult("PPC: GCD fail for p0 * p1 and p2");
+            }
+
+            // 14
+            var y = NumberTheory.ModularInverse(p0 * p1, p2);
+            if (y == 0)
+            {
+                y = p2;
+            }
+
+            // 15
+            var t = NumberTheory.CeilingDivide((2 * y * p0 * p1) + x, 2 * p0 * p1 * p2);
+
+            while (true)
+            {
+                // 16
+                if (2 * (t * p2 - y) * p0 * p1 + 1 > NumberTheory.Pow2(L))
+                {
+                    t = NumberTheory.CeilingDivide(2 * y * p0 * p1 + lowerBound, 2 * p0 * p1 * p2);
+                }
+
+                // 17, 18
+                p = 2 * (t * p2 - y) * p0 * p1 + 1;
+                pGenCounter++;
+
+                // 19
+                if (NumberTheory.GCD(p - 1, e) == 1)
+                {
+                    BigInteger a = 0;
+                    for (var i = 0; i <= iterations; i++)
+                    {
+                        a += PrimeGen186_4.Hash(_hashFunction, pSeed + i) * NumberTheory.Pow2(i * outLen);
+                    }
+
+                    pSeed += iterations + 1;
+                    a = 2 + (a % (p - 3));
+                    var z = BigInteger.ModPow(a, 2 * (t * p2 - y) * p1, p);
+
+                    if (NumberTheory.GCD(z - 1, p) == 1 && 1 == BigInteger.ModPow(z, p0, p))
+                    {
+                        return new PPCResult(p, p1, p2, pSeed);
+                    }
+                }
+
+                // 20
+                if (pGenCounter >= 5 * L)
+                {
+                    return new PPCResult("PPC: too many iterations");
+                }
+
+                // 21
+                t++;
+
+                // 22 (loop)
+            }
+        }
 
         protected bool MillerRabin(int nlen, BigInteger val, bool factor)
         {

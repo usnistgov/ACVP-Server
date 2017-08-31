@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Math.Entropy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,8 @@ namespace NIST.CVP.Crypto.RSA.Signatures
 {
     public class SignerFactory
     {
-        private readonly HashFunction _hashFunction;
-        private readonly int _saltLen;
+        private HashFunction _hashFunction = new HashFunction { Mode = ModeValues.NONE, DigestSize = DigestSizes.NONE };
+        private int _saltLen = 0;
 
         public SignerBase GetSigner(string type)
         {
@@ -21,7 +22,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
                     return new RSASSA_PKCSv15_Signer(_hashFunction);
 
                 case "pss":
-                    return new RSASSA_PSS_Signer(_hashFunction, Math.Entropy.EntropyProviderTypes.Testable, _saltLen);
+                    return new RSASSA_PSS_Signer(_hashFunction, EntropyProviderTypes.Testable, _saltLen);
 
                 default:
                     return null;

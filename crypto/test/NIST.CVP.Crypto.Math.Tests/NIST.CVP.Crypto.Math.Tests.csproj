@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dotnet-test-nunit" Version="3.4.0-beta-3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20170810-02" />
+    <PackageReference Include="NUnit" Version="3.8.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Crypto.Math\NIST.CVP.Crypto.Math.csproj" />
+  </ItemGroup>
+
+</Project>

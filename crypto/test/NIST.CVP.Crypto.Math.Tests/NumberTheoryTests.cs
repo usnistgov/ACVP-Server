@@ -2,9 +2,8 @@
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
-namespace NIST.CVP.Crypto.RSA.Tests
+namespace NIST.CVP.Crypto.Math.Tests
 {
     [TestFixture, FastIntegrationTest]
     public class NumberTheoryTests

@@ -2,6 +2,7 @@
 using System.Numerics;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Crypto.Math;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {

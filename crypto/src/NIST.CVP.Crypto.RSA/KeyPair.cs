@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using NIST.CVP.Math;
+using NIST.CVP.Crypto.Math;
 
 namespace NIST.CVP.Crypto.RSA
 {

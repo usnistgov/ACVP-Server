@@ -5,6 +5,7 @@ using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Math;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {

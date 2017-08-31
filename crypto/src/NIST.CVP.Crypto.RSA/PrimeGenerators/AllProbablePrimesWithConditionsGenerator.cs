@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
+using NIST.CVP.Crypto.Math;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
@@ -85,7 +86,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 p2 += 2;
             }
 
-            var pResult = _primeGen.ProbablePrimeFactor(p1, p2, nlen, e, security_strength);
+            var pResult = ProbablePrimeFactor(p1, p2, nlen, e, security_strength);
             if (!pResult.Success)
             {
                 return new PrimeGeneratorResult($"Failed to generate p: {pResult.ErrorMessage}");
@@ -128,7 +129,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     q2 += 2;
                 }
 
-                var qResult = _primeGen.ProbablePrimeFactor(q1, q2, nlen, e, security_strength);
+                var qResult = ProbablePrimeFactor(q1, q2, nlen, e, security_strength);
                 if (!qResult.Success)
                 {
                     return new PrimeGeneratorResult($"Failed to generate q: {qResult.ErrorMessage}");

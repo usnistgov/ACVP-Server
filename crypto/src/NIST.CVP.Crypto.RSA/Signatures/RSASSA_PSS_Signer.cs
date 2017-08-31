@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using System.Numerics;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Crypto.Math;
 
 namespace NIST.CVP.Crypto.RSA.Signatures
 {

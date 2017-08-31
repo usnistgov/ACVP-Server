@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Crypto.Math;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
@@ -59,13 +60,13 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             // 5
-            var p1Result = ShaweTaylorRandomPrime(_bitlens[0], seed.ToPositiveBigInteger());
+            var p1Result = PrimeGen186_4.ShaweTaylorRandomPrime(_bitlens[0], seed.ToPositiveBigInteger(), _hashFunction);
             if (!p1Result.Success)
             {
                 return new PrimeGeneratorResult($"Failed to generate p1: {p1Result.ErrorMessage}");
             }
 
-            var p2Result = ShaweTaylorRandomPrime(_bitlens[1], p1Result.PrimeSeed);
+            var p2Result = PrimeGen186_4.ShaweTaylorRandomPrime(_bitlens[1], p1Result.PrimeSeed, _hashFunction);
             if (!p2Result.Success)
             {
                 return new PrimeGeneratorResult($"Failed to generate p2: {p2Result.ErrorMessage}");
@@ -83,17 +84,17 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             p = pResult.P;
             xp = pResult.XP;
 
-            STRandomPrimeResult q1Result;
+            PrimeGen186_4.STRandomPrimeResult q1Result;
             do
             {
                 // 6
-                q1Result = ShaweTaylorRandomPrime(_bitlens[2], p2Result.PrimeSeed);
+                q1Result = PrimeGen186_4.ShaweTaylorRandomPrime(_bitlens[2], p2Result.PrimeSeed, _hashFunction);
                 if (!q1Result.Success)
                 {
                     return new PrimeGeneratorResult($"Failed to generate q1: {q1Result.ErrorMessage}");
                 }
 
-                var q2Result = ShaweTaylorRandomPrime(_bitlens[3], q1Result.PrimeSeed);
+                var q2Result = PrimeGen186_4.ShaweTaylorRandomPrime(_bitlens[3], q1Result.PrimeSeed, _hashFunction);
                 if (!q2Result.Success)
                 {
                     return new PrimeGeneratorResult($"Failed to generate q2: {q2Result.ErrorMessage}");

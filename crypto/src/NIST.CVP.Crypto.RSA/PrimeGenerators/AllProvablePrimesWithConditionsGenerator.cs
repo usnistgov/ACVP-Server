@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
+using NIST.CVP.Crypto.Math;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
