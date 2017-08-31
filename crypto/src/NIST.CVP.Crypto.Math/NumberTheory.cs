@@ -1,9 +1,7 @@
 ﻿using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.Extensions.FileProviders.Physical;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.RSA
+namespace NIST.CVP.Crypto.Math
 {
     public static class NumberTheory
     {
@@ -15,53 +13,6 @@ namespace NIST.CVP.Crypto.RSA
         /// <param name="w"></param>
         /// <param name="iterations"></param>
         /// <returns>True if probably prime. False if composite.</returns>
-        public static bool MillerRabin2(BigInteger w, int iterations)
-        {
-            BigInteger m;
-            var s = BigInteger.One;
-            var exp = 0;
-            var a = 0;
-            while (s < w)
-            {
-                if ((w - 1) % s == 0)
-                {
-                    a = exp;
-                }
-
-                exp++;
-                s *= 2;
-                //s <<= 1;
-            }
-
-            m = (w - 1) / NumberTheory.Pow2(a);
-
-            for (var i = 1; i <= iterations; i++)
-            {
-                var b = _rand.GetRandomBigInteger(w - 2);
-                var z = BigInteger.ModPow(b, m, w);
-                if (z == 1 || z == (w - 1))
-                {
-                    continue;
-                }
-
-                for (var j = 1; j <= a - 1; j++)
-                {
-                    z = BigInteger.ModPow(z, 2, w);
-                    if (z == (w - 1))
-                    {
-                        break;
-                    }
-
-                    if (z == 1)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
         public static bool MillerRabin(BigInteger n, int k)
         {
             if (n < 2)

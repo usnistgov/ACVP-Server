@@ -85,7 +85,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                 p2 += 2;
             }
 
-            var pResult = ProbablePrimeFactor(p1, p2, nlen, e, security_strength);
+            var pResult = _primeGen.ProbablePrimeFactor(p1, p2, nlen, e, security_strength);
             if (!pResult.Success)
             {
                 return new PrimeGeneratorResult($"Failed to generate p: {pResult.ErrorMessage}");
@@ -128,7 +128,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     q2 += 2;
                 }
 
-                var qResult = ProbablePrimeFactor(q1, q2, nlen, e, security_strength);
+                var qResult = _primeGen.ProbablePrimeFactor(q1, q2, nlen, e, security_strength);
                 if (!qResult.Success)
                 {
                     return new PrimeGeneratorResult($"Failed to generate q: {qResult.ErrorMessage}");

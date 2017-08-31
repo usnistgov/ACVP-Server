@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.8
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-KeyGen", "..\..\rsa\src\NIST.CVP.Generation.RSA-KeyGen\NIST.CVP.Generation.RSA-KeyGen.csproj", "{20933D7A-B864-408D-95D5-871C6E75BE32}"
 EndProject
@@ -53,7 +53,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSA-SigVer", "..\..\rsa\src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSA-SigVer_Val", "..\..\rsa\src\RSA-SigVer_Val\RSA-SigVer_Val.csproj", "{1428CF85-FD93-4708-844C-8C9A6DD3B2DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.RSA-SigVer.IntegrationTests", "..\..\rsa\test\NIST.CVP.Generation.RSA-SigVer.IntegrationTests\NIST.CVP.Generation.RSA-SigVer.IntegrationTests.csproj", "{C1439945-9852-47AA-8020-45B5F4AF69B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-SigVer.IntegrationTests", "..\..\rsa\test\NIST.CVP.Generation.RSA-SigVer.IntegrationTests\NIST.CVP.Generation.RSA-SigVer.IntegrationTests.csproj", "{C1439945-9852-47AA-8020-45B5F4AF69B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.Math", "..\..\crypto\src\NIST.CVP.Crypto.Math\NIST.CVP.Crypto.Math.csproj", "{D52EE7E7-F0E8-414A-B863-4473954AD9EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,6 +159,10 @@ Global
 		{C1439945-9852-47AA-8020-45B5F4AF69B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1439945-9852-47AA-8020-45B5F4AF69B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1439945-9852-47AA-8020-45B5F4AF69B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D52EE7E7-F0E8-414A-B863-4473954AD9EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D52EE7E7-F0E8-414A-B863-4473954AD9EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D52EE7E7-F0E8-414A-B863-4473954AD9EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D52EE7E7-F0E8-414A-B863-4473954AD9EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +192,7 @@ Global
 		{6278ADF7-2921-4695-9D4F-A671913203EC} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
 		{1428CF85-FD93-4708-844C-8C9A6DD3B2DA} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
 		{C1439945-9852-47AA-8020-45B5F4AF69B4} = {05A83241-08C3-48EC-81E0-20D7F7812078}
+		{D52EE7E7-F0E8-414A-B863-4473954AD9EF} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81006EE6-52E0-4C5A-8A4B-94A560EAC8D6}
