@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Crypto.DSA2
+﻿using NIST.CVP.Crypto.SHAWrapper;
+
+namespace NIST.CVP.Crypto.DSA2
 {
     /// <summary>
     /// Describes functionality for the DSA algorithm.
@@ -8,11 +10,20 @@
     public interface IDsa
     {
         /// <summary>
+        /// The Sha instance utilized for Dsa
+        /// </summary>
+        ISha Sha { get; }
+        /// <summary>
         /// Generates a set of DSA Domain Parameters with state values included in response.
         /// </summary>
         /// <param name="generateRequest">The parameters used creation of the <see cref="IDsaDomainParameters"/></param>
         /// <returns></returns>
         IDomainParametersGenerateResult GenerateDomainParameters(IDomainParametersGenerateRequest generateRequest);
+        /// <summary>
+        /// Sets the domain parameters of the DSA instance
+        /// </summary>
+        /// <param name="domainParameters">The domain parameters to set</param>
+        void SetDomainParameters(IDsaDomainParameters domainParameters);
         /// <summary>
         /// Generates a <see cref="IDsaKeyPair"/> based on a set of <see cref="IDsaDomainParameters"/>
         /// </summary>
