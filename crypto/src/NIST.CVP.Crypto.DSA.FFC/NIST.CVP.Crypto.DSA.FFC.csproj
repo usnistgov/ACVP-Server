@@ -7,4 +7,8 @@
     <StartupObject />
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NIST.CVP.Crypto.DSA\NIST.CVP.Crypto.DSA.csproj" />
+  </ItemGroup>
+
 </Project>

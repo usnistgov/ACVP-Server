@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
-using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.DSA
+namespace NIST.CVP.Crypto.DSA.FCC
 {
     /// <summary>
     /// The resulting information returned via a FFC <see cref="IDsa.GenerateDomainParameters"/> request.

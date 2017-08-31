@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace NIST.CVP.Crypto.DSA
+namespace NIST.CVP.Crypto.DSA.FCC
 {
     /// <summary>
     /// A FFC DSA private/public key pair

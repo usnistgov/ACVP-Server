@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NIST.CVP.Crypto.DSA.FFC\NIST.CVP.Crypto.DSA.FFC.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Crypto.DSA\NIST.CVP.Crypto.DSA.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Crypto.Math\NIST.CVP.Crypto.Math.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Crypto.DSA
+﻿namespace NIST.CVP.Crypto.DSA.FCC
 {
     /// <summary>
     /// Parameters for FFC <see cref="IDsa.GenerateDomainParameters"/>
