@@ -10,10 +10,8 @@ namespace NIST.CVP.Crypto.KAS.KDF
         protected abstract BigInteger MaxInputLength { get; }
         protected abstract BitString H(BitString message);
 
-        public KdfResult DeriveKey(BitString z, int keyDataLength, IOtherInfoStrategy otherInfoStrategy)
+        public KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo)
         {
-            var otherInfo = otherInfoStrategy.GetOtherInfo();
-            
             // 1. reps =  keydatalen / hashlen.
             var reps = keyDataLength / OutputLength;
 

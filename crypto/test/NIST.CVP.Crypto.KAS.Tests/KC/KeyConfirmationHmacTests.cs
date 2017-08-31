@@ -136,15 +136,14 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 KeyAgreementRole.UPartyInitiator,
                 KeyConfirmationRole.Provider,
                 KeyConfirmationDirection.Bilateral,
-                KeyConfirmationMacType.AesCcm, // note this doesn't matter for the scope of this test
+                KeyAgreementMacType.CmacAes, // note this doesn't matter for the scope of this test
                 keySize,
                 tagLength,
                 iutId,
                 serverId,
                 iutPublicKey,
                 serverPublicKey,
-                derivedKeyingMaterial,
-                null
+                derivedKeyingMaterial
             );
 
             _subject = new KeyConfirmationHmac(hmac, p);

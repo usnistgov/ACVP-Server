@@ -14,9 +14,9 @@ namespace NIST.CVP.Crypto.KAS.KC
         /// Computes a MAC for KAS
         /// </summary>
         /// <returns></returns>
-        ComputeKeyResult ComputeKeyMac();
+        ComputeKeyMacResult ComputeKeyMac();
 
-        ComputeKeyResult ConfirmOtherPartyMac(BitString otherPartyMac);
+        ComputeKeyMacResult ConfirmOtherPartyMac(BitString otherPartyMac);
     }
 
 }

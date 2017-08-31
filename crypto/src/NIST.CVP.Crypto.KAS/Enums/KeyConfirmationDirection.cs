@@ -6,6 +6,10 @@
     public enum KeyConfirmationDirection
     {
         /// <summary>
+        /// No key confirmation is performed
+        /// </summary>
+        None,
+        /// <summary>
         /// Key Confirmation occurs only in one direction
         /// </summary>
         Unilateral,

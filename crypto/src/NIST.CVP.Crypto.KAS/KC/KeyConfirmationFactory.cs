@@ -19,7 +19,7 @@ namespace NIST.CVP.Crypto.KAS.KC
         {
             switch (parameters.MacType)
             {
-                case KeyConfirmationMacType.AesCcm:
+                case KeyAgreementMacType.AesCcm:
                     ConfirmKeyLengthAesCcm(parameters.KeyLength);
                     return new KeyConfirmationAesCcm(
                         new AES_CCM.AES_CCM(
@@ -30,17 +30,17 @@ namespace NIST.CVP.Crypto.KAS.KC
                         ),
                         parameters
                     );
-                case KeyConfirmationMacType.CmacAes:
+                case KeyAgreementMacType.CmacAes:
                     var cmacEnum = MapCmacEnum(parameters.KeyLength);
                     CmacFactory cmacFactory = new CmacFactory();
 
                     return new KeyConfirmationCmac(
                         cmacFactory.GetCmacInstance(cmacEnum), parameters
                     );
-                case KeyConfirmationMacType.HmacSha2D224:
-                case KeyConfirmationMacType.HmacSha2D256:
-                case KeyConfirmationMacType.HmacSha2D384:
-                case KeyConfirmationMacType.HmacSha2D512:
+                case KeyAgreementMacType.HmacSha2D224:
+                case KeyAgreementMacType.HmacSha2D256:
+                case KeyAgreementMacType.HmacSha2D384:
+                case KeyAgreementMacType.HmacSha2D512:
                     var hashFunction = GetHashFunction(parameters.MacType);
                     HmacFactory hmacFactory = new HmacFactory(new ShaFactory());
 
@@ -85,17 +85,17 @@ namespace NIST.CVP.Crypto.KAS.KC
             }
         }
 
-        private HashFunction GetHashFunction(KeyConfirmationMacType parametersMacType)
+        private HashFunction GetHashFunction(KeyAgreementMacType parametersMacType)
         {
             switch (parametersMacType)
             {
-                case KeyConfirmationMacType.HmacSha2D224:
+                case KeyAgreementMacType.HmacSha2D224:
                     return new HashFunction(ModeValues.SHA2, DigestSizes.d224);
-                case KeyConfirmationMacType.HmacSha2D256:
+                case KeyAgreementMacType.HmacSha2D256:
                     return new HashFunction(ModeValues.SHA2, DigestSizes.d256);
-                case KeyConfirmationMacType.HmacSha2D384:
+                case KeyAgreementMacType.HmacSha2D384:
                     return new HashFunction(ModeValues.SHA2, DigestSizes.d384);
-                case KeyConfirmationMacType.HmacSha2D512:
+                case KeyAgreementMacType.HmacSha2D512:
                     return new HashFunction(ModeValues.SHA2, DigestSizes.d512);
                 default:
                     throw new ArgumentException($"invalid {nameof(parametersMacType)}");

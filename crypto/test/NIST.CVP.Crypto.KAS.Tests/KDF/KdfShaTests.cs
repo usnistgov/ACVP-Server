@@ -6,20 +6,18 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.KAS.Tests
+namespace NIST.CVP.Crypto.KAS.Tests.KDF
 {
     [TestFixture, UnitTest, FastIntegrationTest]
     public class KdfShaTests
     {
         private KdfSha _subject;
         private ShaFactory _shaFactory;
-        private Mock<IOtherInfoStrategy> _otherInfoStrategy;
 
         [SetUp]
         public void Setup()
         {
             _shaFactory = new ShaFactory();
-            _otherInfoStrategy = new Mock<IOtherInfoStrategy>();
         }
 
         private static object[] _kdfTestCases = new object[]
@@ -77,16 +75,13 @@ namespace NIST.CVP.Crypto.KAS.Tests
             BitString expectedDerivedKeyingMaterial
         )
         {
-            _otherInfoStrategy
-                .Setup(s => s.GetOtherInfo())
-                .Returns(otherInfo);
             var sha = _shaFactory.GetShaInstance(new HashFunction(modeValue, digestSize));
             _subject = new KdfSha(sha);
 
             var result = _subject.DeriveKey(
                 new BitString(z), 
                 kdfSize,
-                _otherInfoStrategy.Object
+                otherInfo
             );
 
             Assume.That(result.Success);

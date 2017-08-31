@@ -21,9 +21,9 @@ namespace NIST.CVP.Crypto.KAS.KC
         /// </summary>
         KeyConfirmationDirection KeyConfirmationType { get; }
         /// <summary>
-        /// The <see cref="KeyConfirmationMacType"/> used in the MAC construction for the Key
+        /// The <see cref="KeyAgreementMacType"/> used in the MAC construction for the Key
         /// </summary>
-        KeyConfirmationMacType MacType { get; }
+        KeyAgreementMacType MacType { get; }
         /// <summary>
         /// The keylength used in the MAC function
         /// </summary>

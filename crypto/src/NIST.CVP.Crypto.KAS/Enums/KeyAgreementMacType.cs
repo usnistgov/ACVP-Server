@@ -1,6 +1,6 @@
 ﻿namespace NIST.CVP.Crypto.KAS.Enums
 {
-    public enum KeyConfirmationMacType
+    public enum KeyAgreementMacType
     {
         /// <summary>
         /// HMAC - SHA2-224

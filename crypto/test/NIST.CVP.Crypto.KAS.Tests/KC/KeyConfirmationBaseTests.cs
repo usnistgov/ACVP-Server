@@ -394,15 +394,14 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
                 thisKaRole,
                 thisKcRole,
                 thisKcType,
-                KeyConfirmationMacType.AesCcm,
+                KeyAgreementMacType.CmacAes,
                 0,
                 0,
                 thisId,
                 otherId,
                 thisPublicKey,
                 otherPublicKey,
-                new BitString(0),
-                null
+                new BitString(0)
             );
 
             var result = _subject.GetMacData(p);

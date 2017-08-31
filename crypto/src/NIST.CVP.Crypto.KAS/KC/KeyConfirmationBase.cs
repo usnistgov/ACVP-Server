@@ -28,25 +28,25 @@ namespace NIST.CVP.Crypto.KAS.KC
 
         protected IKeyConfirmationParameters _keyConfirmationParameters;
 
-        public ComputeKeyResult ComputeKeyMac()
+        public ComputeKeyMacResult ComputeKeyMac()
         {
             var macData = this.GenerateMacData(_keyConfirmationParameters);
 
             var result = Mac(macData);
 
-            return new ComputeKeyResult(macData, result);
+            return new ComputeKeyMacResult(macData, result);
         }
 
-        public ComputeKeyResult ConfirmOtherPartyMac(BitString otherPartyMac)
+        public ComputeKeyMacResult ConfirmOtherPartyMac(BitString otherPartyMac)
         {
             var thisPartyMac = ComputeKeyMac();
 
             if (thisPartyMac.Mac.Equals(otherPartyMac))
             {
-                return new ComputeKeyResult(thisPartyMac.Mac, thisPartyMac.Mac);
+                return new ComputeKeyMacResult(thisPartyMac.Mac, thisPartyMac.Mac);
             }
 
-            return new ComputeKeyResult("MACs did not match");
+            return new ComputeKeyMacResult("MACs did not match");
         }
 
         protected abstract BitString Mac(BitString macData);

@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Crypto.KAS.KDF
 {
-    public interface IOtherInfoStrategy
+    public interface IOtherInfo
     {
         BitString GetOtherInfo();
     }

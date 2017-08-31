@@ -7,7 +7,7 @@
     /// http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar2.pdf
     /// Table 12: Key-agreement schemes
     /// </summary>
-    public enum KeyConfirmationKeyAttribute
+    public enum KeyAgreementKeyAttribute
     {
         /// <summary>
         /// 2 (E)phemeral keys, 2 (S)tatic keys

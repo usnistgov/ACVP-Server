@@ -2,15 +2,15 @@
 
 namespace NIST.CVP.Crypto.KAS.KC
 {
-    public class ComputeKeyResult
+    public class ComputeKeyMacResult
     {
-        public ComputeKeyResult(BitString macData, BitString mac)
+        public ComputeKeyMacResult(BitString macData, BitString mac)
         {
             MacData = macData;
             Mac = mac;
         }
 
-        public ComputeKeyResult(string errorMessage)
+        public ComputeKeyMacResult(string errorMessage)
         {
             ErrorMessage = errorMessage;
         }
