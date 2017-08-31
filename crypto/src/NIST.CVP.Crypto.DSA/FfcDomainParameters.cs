@@ -12,10 +12,12 @@ namespace NIST.CVP.Crypto.DSA2
         /// P / L bit length prime
         /// </summary>
         public BigInteger P { get; }
+        
         /// <summary>
         /// Q / N bit length prime, such that <see cref="P"/> - 1 % q
         /// </summary>
         public BigInteger Q { get; }
+        
         /// <summary>
         /// A number whose multiplicative order mod <see cref="P"/> is <see cref="Q"/>
         /// </summary>

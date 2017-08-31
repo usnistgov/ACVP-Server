@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Crypto.DSA2.Enums
+﻿namespace NIST.CVP.Crypto.DSA.Enums
 {
     public enum DsaAlgorithm
     {

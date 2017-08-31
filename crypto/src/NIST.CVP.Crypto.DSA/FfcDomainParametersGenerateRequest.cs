@@ -9,14 +9,17 @@
         /// The bit length of the seed
         /// </summary>
         public int SeedLength { get; }
+        
         /// <summary>
         /// The P bit length, equiv to L
         /// </summary>
         public int PLength { get; }
+        
         /// <summary>
         /// The Q bit length, equiv to N
         /// </summary>
         public int QLength { get; }
+        
         /// <summary>
         /// The Hash output bit length
         /// </summary>

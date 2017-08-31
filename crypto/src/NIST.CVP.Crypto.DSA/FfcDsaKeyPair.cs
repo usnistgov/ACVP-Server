@@ -11,6 +11,7 @@ namespace NIST.CVP.Crypto.DSA2
         /// Private Key X. Range [1, <see cref="FfcDomainParameters.Q"/> – 1]
         /// </summary>
         public BigInteger PrivateKeyX { get; }
+        
         /// <summary>
         /// Public Key Y.  Range [1, <see cref="FfcDomainParameters.P"/> - 1]
         /// </summary>

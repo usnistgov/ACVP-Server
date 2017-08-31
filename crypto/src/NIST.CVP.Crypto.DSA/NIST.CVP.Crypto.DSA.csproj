@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <AssemblyName>NIST.CVP.Crypto.DSA</AssemblyName>
+    <RootNamespace>NIST.CVP.Crypto.DSA</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

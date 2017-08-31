@@ -12,15 +12,18 @@ namespace NIST.CVP.Crypto.DSA2
         /// PQG
         /// </summary>
         public FfcDomainParameters PqgDomainParameters { get; }
+        
         /// <summary>
         /// The seed used in the construction of <see cref="PqgDomainParameters"/>
         /// </summary>
         public BigInteger Seed { get; }
+        
         /// <summary>
         /// Domain Parameter H 
         /// TODO better definition?
         /// </summary>
         public BigInteger H { get; }
+        
         /// <summary>
         /// Number of Candidate <see cref="P"/> values generated.
         /// </summary>
