@@ -1,11 +1,11 @@
 ﻿using System.Numerics;
 
-namespace NIST.CVP.Crypto.DSA.FCC
+namespace NIST.CVP.Crypto.DSA.FFC
 {
     /// <summary>
     /// A FFC DSA private/public key pair
     /// </summary>
-    public class FfcDsaKeyPair : IDsaKeyPair
+    public class FfcKeyPair : IDsaKeyPair
     {
         /// <summary>
         /// Private Key X. Range [1, <see cref="FfcDomainParameters.Q"/> – 1]
@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.DSA.FCC
         /// </summary>
         public BigInteger PublicKeyY { get; }
 
-        public FfcDsaKeyPair(BigInteger privateKeyX, BigInteger publicKeyY)
+        public FfcKeyPair(BigInteger privateKeyX, BigInteger publicKeyY)
         {
             PrivateKeyX = privateKeyX;
             PublicKeyY = publicKeyY;

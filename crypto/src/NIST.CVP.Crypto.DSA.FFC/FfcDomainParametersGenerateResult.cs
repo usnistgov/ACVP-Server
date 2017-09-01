@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace NIST.CVP.Crypto.DSA.FCC
+namespace NIST.CVP.Crypto.DSA.FFC
 {
     /// <summary>
     /// The resulting information returned via a FFC <see cref="IDsa.GenerateDomainParameters"/> request.
@@ -18,12 +18,6 @@ namespace NIST.CVP.Crypto.DSA.FCC
         public BigInteger Seed { get; }
         
         /// <summary>
-        /// Domain Parameter H 
-        /// TODO better definition?
-        /// </summary>
-        public BigInteger H { get; }
-        
-        /// <summary>
         /// Number of Candidate <see cref="P"/> values generated.
         /// </summary>
         public int Counter { get; }
@@ -38,11 +32,10 @@ namespace NIST.CVP.Crypto.DSA.FCC
         /// </summary>
         public string ErrorMessage { get; }
 
-        public FfcDomainParametersGenerateResult(FfcDomainParameters pqgDomainParameters, BigInteger seed, BigInteger h, int counter)
+        public FfcDomainParametersGenerateResult(FfcDomainParameters pqgDomainParameters, BigInteger seed, int counter)
         {
             PqgDomainParameters = pqgDomainParameters;
             Seed = seed;
-            H = h;
             Counter = counter;
         }
 

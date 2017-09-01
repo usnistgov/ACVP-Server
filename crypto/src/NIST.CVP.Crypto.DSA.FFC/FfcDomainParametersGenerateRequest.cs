@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Crypto.DSA.FCC
+﻿using NIST.CVP.Crypto.DSA.FFC.Enums;
+
+namespace NIST.CVP.Crypto.DSA.FFC
 {
     /// <summary>
     /// Parameters for FFC <see cref="IDsa.GenerateDomainParameters"/>
@@ -25,12 +27,24 @@
         /// </summary>
         public int HashLength { get; }
 
-        public FfcDomainParametersGenerateRequest(int seedLength, int pLength, int qLength, int hashLength)
+        /// <summary>
+        /// Prime Generator method
+        /// </summary>
+        public PrimeGenMode PrimeGen { get; }
+
+        /// <summary>
+        /// Generator Generator method
+        /// </summary>
+        public GeneratorGenMode GeneratorGen { get; }
+
+        public FfcDomainParametersGenerateRequest(int seedLength, int pLength, int qLength, int hashLength, PrimeGenMode primeGen, GeneratorGenMode genGen)
         {
             SeedLength = seedLength;
             PLength = pLength;
             QLength = qLength;
             HashLength = hashLength;
+            PrimeGen = primeGen;
+            GeneratorGen = genGen;
         }
     }
 }
