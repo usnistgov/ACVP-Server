@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-using NIST.CVP.Crypto.DSA2;
+using NIST.CVP.Crypto.DSA;
 
 namespace NIST.CVP.Crypto.KES
 {

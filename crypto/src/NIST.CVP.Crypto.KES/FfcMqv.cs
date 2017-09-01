@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
-using NIST.CVP.Crypto.DSA2;
+using NIST.CVP.Crypto.DSA;
+using NIST.CVP.Crypto.DSA.FCC;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KES

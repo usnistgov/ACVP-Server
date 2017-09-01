@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NIST.CVP.Crypto.DSA2\NIST.CVP.Crypto.DSA2.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.DSA.FFC\NIST.CVP.Crypto.DSA.FFC.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.DSA\NIST.CVP.Crypto.DSA.csproj" />
   </ItemGroup>
 
 </Project>

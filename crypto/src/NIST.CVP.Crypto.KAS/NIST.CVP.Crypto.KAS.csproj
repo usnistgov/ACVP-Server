@@ -9,7 +9,8 @@
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.AES_CCM\NIST.CVP.Crypto.AES_CCM.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.CMAC\NIST.CVP.Crypto.CMAC.csproj" />
-    <ProjectReference Include="..\NIST.CVP.Crypto.DSA2\NIST.CVP.Crypto.DSA2.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.DSA.FFC\NIST.CVP.Crypto.DSA.FFC.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.DSA\NIST.CVP.Crypto.DSA.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.HMAC\NIST.CVP.Crypto.HMAC.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.SHAWrapper\NIST.CVP.Crypto.SHAWrapper.csproj" />
   </ItemGroup>

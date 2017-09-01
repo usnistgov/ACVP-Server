@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA2;
+﻿using NIST.CVP.Crypto.DSA;
+using NIST.CVP.Crypto.DSA.FCC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
