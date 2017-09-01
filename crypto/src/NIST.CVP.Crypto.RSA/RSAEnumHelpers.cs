@@ -243,23 +243,58 @@ namespace NIST.CVP.Crypto.RSA
 
         public static BigInteger GetEValue()
         {
-            return GetEValue(BigInteger.Pow(2, 32) + 1, BigInteger.Pow(2, 64));
+            return GetEValue(32, 64);
         }
 
-        public static BigInteger GetEValue(BigInteger min, BigInteger max)
+        //public static BigInteger GetEValue(BigInteger min, BigInteger max)
+        //{
+        //    var rand = new Random800_90();
+        //    BigInteger e;
+        //    do
+        //    {
+        //        e = rand.GetRandomBigInteger(min, max);
+        //        if (e.IsEven)
+        //        {
+        //            e++;
+        //        }
+        //    } while (e >= max);      // sanity check
+
+        //    return e;
+        //}
+
+        /// <summary>
+        /// Both parameters must be a multiple of 2. 
+        /// </summary>
+        /// <param name="minLen">Must be multiple of 2</param>
+        /// <param name="maxLen">Must be multiple of 2</param>
+        /// <returns></returns>
+        public static BigInteger GetEValue(int minLen, int maxLen)
         {
             var rand = new Random800_90();
             BigInteger e;
+            BitString e_bs;
             do
             {
-                e = rand.GetRandomBigInteger(min, max);
+                var min = minLen / 2;
+                var max = maxLen / 2;
+
+                e = GetRandomBigIntegerOfBitLength(rand.GetRandomInt(min, max) * 2);
                 if (e.IsEven)
                 {
                     e++;
                 }
-            } while (e >= max);      // sanity check
+
+                e_bs = new BitString(e);
+            } while (e_bs.BitLength >= maxLen || e_bs.BitLength < minLen);
 
             return e;
+        }
+
+        public static BigInteger GetRandomBigIntegerOfBitLength(int len)
+        {
+            var rand = new Random800_90();
+            var bs = rand.GetRandomBitString(len);
+            return bs.ToPositiveBigInteger();
         }
 
         public static BitString GetSeed(int modulo)
