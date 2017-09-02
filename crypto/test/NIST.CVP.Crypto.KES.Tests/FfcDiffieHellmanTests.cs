@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using NIST.CVP.Crypto.DSA.FCC;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

@@ -12,6 +12,7 @@
     <ProjectReference Include="..\NIST.CVP.Crypto.DSA.FFC\NIST.CVP.Crypto.DSA.FFC.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.DSA\NIST.CVP.Crypto.DSA.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.HMAC\NIST.CVP.Crypto.HMAC.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.KES\NIST.CVP.Crypto.KES.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.SHAWrapper\NIST.CVP.Crypto.SHAWrapper.csproj" />
   </ItemGroup>
 

@@ -5,7 +5,7 @@ using NIST.CVP.Crypto.SHAWrapper;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {
-    public class FfcDsa : IDsa<FfcDomainParametersGenerateRequest, FfcDomainParametersGenerateResult, FfcDomainParameters, FfcKeyPair, FfcKeyPairValidationResult>
+    public class FfcDsa : IDsaFfc
     {
         public ISha Sha { get; }
 

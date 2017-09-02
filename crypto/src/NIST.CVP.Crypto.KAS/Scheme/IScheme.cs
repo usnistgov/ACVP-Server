@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA.FCC;
+﻿using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
@@ -6,13 +7,21 @@ namespace NIST.CVP.Crypto.KAS.Scheme
     public interface IScheme
     {
         /// <summary>
+        /// The Scheme utilized in the KAS negotiation
+        /// </summary>
+        FfcScheme Scheme { get; }
+        /// <summary>
+        /// The domain parameters associated with key generation
+        /// </summary>
+        FfcDomainParameters DomainParameters { get; }
+        /// <summary>
         /// The static key pair used in the scheme (can be null)
         /// </summary>
-        FfcDsaKeyPair StaticKeyPair { get; }
+        FfcKeyPair StaticKeyPair { get; }
         /// <summary>
         /// The ephemeral key pair used in the scheme (can be null)
         /// </summary>
-        FfcDsaKeyPair EphemeralKeyPair { get; }
+        FfcKeyPair EphemeralKeyPair { get; }
         /// <summary>
         /// The Ephemeral public key nonce used in the scheme (can be null)
         /// </summary>

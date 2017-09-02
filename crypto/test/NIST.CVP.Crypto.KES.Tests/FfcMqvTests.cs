@@ -1,7 +1,7 @@
 ﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Numerics;
-using NIST.CVP.Crypto.DSA.FCC;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KES.Tests
