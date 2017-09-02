@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Moq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
