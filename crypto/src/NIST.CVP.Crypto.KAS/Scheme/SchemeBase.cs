@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -37,14 +38,12 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             KasParameters = kasParameters;
             KdfParameters = kdfParameters;
             MacParameters = macParameters;
-
-            
         }
 
         public abstract FfcScheme FfcScheme { get; }
 
         public FfcScheme Scheme { get; }
-        public FfcDomainParameters DomainParameters { get; }
+        public FfcDomainParameters DomainParameters { get; protected set; }
         public FfcKeyPair StaticKeyPair { get; protected set; }
         public FfcKeyPair EphemeralKeyPair { get; protected set; }
         public BitString EphemeralNonce { get; protected set; }
@@ -56,6 +55,11 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             DkmNonce != null
         );
 
+        public void SetDomainParameters(FfcDomainParameters domainParameters)
+        {
+            DomainParameters = domainParameters;
+        }
+
         public FfcSharedInformation ReturnPublicInfoForOtherParty()
         {
             if (!ThisPartyKeysGenerated)
@@ -64,6 +68,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             }
 
             return new FfcSharedInformation(
+                DomainParameters,
                 StaticKeyPair.PublicKeyY,
                 EphemeralKeyPair.PublicKeyY,
                 EphemeralNonce,
@@ -101,6 +106,21 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             var computedKeyMac = ComputeKeyMac(otherPartyInformation);
 
             return new KasResult(z, oi, dkm.DerivedKey, computedKeyMac.MacData, computedKeyMac.Mac);
+        }
+
+        protected void GenerateDomainParameters()
+        {
+            var paramDetails = FfcParameterSetDetails.GetDetailsForParameterSet(KasParameters.FfcParameterSet);
+
+            // TODO validate generation mode
+            SetDomainParameters(Dsa.GenerateDomainParameters(new FfcDomainParametersGenerateRequest(
+                paramDetails.qLength,
+                paramDetails.pLength,
+                paramDetails.qLength,
+                Dsa.Sha.HashFunction.OutputLen,
+                PrimeGenMode.Provable,
+                GeneratorGenMode.Canonical
+            )).PqgDomainParameters);
         }
 
         protected abstract void GenerateKasKeyNonceInformation();

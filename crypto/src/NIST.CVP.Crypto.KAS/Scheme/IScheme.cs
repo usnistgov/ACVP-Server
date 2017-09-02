@@ -32,6 +32,12 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         BitString DkmNonce { get; }
 
         /// <summary>
+        /// Sets the domain parameters for use in <see cref="IDsaFfc"/>
+        /// </summary>
+        /// <param name="domainParameters">The domain parameters to set</param>
+        void SetDomainParameters(FfcDomainParameters domainParameters);
+
+        /// <summary>
         /// Returns the shared information (public key/nonce information) 
         /// needed by the other party for KAS
         /// </summary>
