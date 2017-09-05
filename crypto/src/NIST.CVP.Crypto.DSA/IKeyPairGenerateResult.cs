@@ -4,5 +4,5 @@ using System.Text;
 
 namespace NIST.CVP.Crypto.DSA
 {
-    public interface IDsaKeyPairValidationResult { }
+    public interface IKeyPairGenerateResult { }
 }

@@ -39,12 +39,12 @@ namespace NIST.CVP.Crypto.DSA.FFC
             return new FfcDomainParametersGenerateResult(domainParameters, pqResult.Seed, pqResult.Counter);
         }
 
-        public FfcKeyPair GenerateKeyPair(FfcDomainParameters domainParameters)
+        public FfcKeyPairGenerateResult GenerateKeyPair(FfcDomainParameters domainParameters)
         {
             throw new NotImplementedException();
         }
 
-        public FfcKeyPairValidationResult ValidateKeyPair(FfcDomainParameters domainParameters, FfcKeyPair keyPair)
+        public FfcKeyPairValidateResult ValidateKeyPair(FfcDomainParameters domainParameters, FfcKeyPair keyPair)
         {
             throw new NotImplementedException();
         }

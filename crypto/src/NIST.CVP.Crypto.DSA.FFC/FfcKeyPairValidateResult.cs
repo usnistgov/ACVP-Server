@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {
-    public class FfcKeyPairValidationResult : IDsaKeyPairValidationResult
+    public class FfcKeyPairValidateResult : IKeyPairValidateResult
     {
         /// <summary>
         /// Was the generation successful?
@@ -19,13 +19,13 @@ namespace NIST.CVP.Crypto.DSA.FFC
         /// <summary>
         /// No errors
         /// </summary>
-        public FfcKeyPairValidationResult() { }
+        public FfcKeyPairValidateResult() { }
 
         /// <summary>
         /// Include error message
         /// </summary>
         /// <param name="errorMessage"></param>
-        public FfcKeyPairValidationResult(string errorMessage)
+        public FfcKeyPairValidateResult(string errorMessage)
         {
             ErrorMessage = errorMessage;
         }

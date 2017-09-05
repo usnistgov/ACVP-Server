@@ -5,8 +5,9 @@
             FfcDomainParametersGenerateRequest, 
             FfcDomainParametersGenerateResult, 
             FfcDomainParameters, 
+            FfcKeyPairGenerateResult,
             FfcKeyPair, 
-            FfcKeyPairValidationResult
+            FfcKeyPairValidateResult
         >
     {
     }

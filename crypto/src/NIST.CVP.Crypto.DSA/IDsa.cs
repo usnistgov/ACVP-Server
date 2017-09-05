@@ -7,12 +7,14 @@ namespace NIST.CVP.Crypto.DSA
     /// 
     /// http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf
     /// </summary>
-    public interface IDsa<TDomainParametersGenerateRequest, TDomainParametersGenerateResult, TDsaDomainParameters, TDsaKeyPair, TDsaKeyPairValidationResult>
+    public interface IDsa<TDomainParametersGenerateRequest, TDomainParametersGenerateResult, TDsaDomainParameters, 
+                          TKeyPairGenerateResult, TDsaKeyPair, TDsaKeyPairValidationResult>
         where TDomainParametersGenerateRequest : IDomainParametersGenerateRequest
         where TDomainParametersGenerateResult : IDomainParametersGenerateResult
         where TDsaDomainParameters : IDsaDomainParameters
+        where TKeyPairGenerateResult : IKeyPairGenerateResult
         where TDsaKeyPair : IDsaKeyPair
-        where TDsaKeyPairValidationResult : IDsaKeyPairValidationResult
+        where TDsaKeyPairValidationResult : IKeyPairValidateResult
     {
         /// <summary>
         /// The Sha instance utilized for Dsa
@@ -25,13 +27,13 @@ namespace NIST.CVP.Crypto.DSA
         /// <param name="generateRequest">The parameters used creation of the <see cref="TDsaDomainParameters"/></param>
         /// <returns></returns>
         TDomainParametersGenerateResult GenerateDomainParameters(TDomainParametersGenerateRequest generateRequest);
-        
+
         /// <summary>
         /// Generates a <see cref="IDsaKeyPair"/> based on a set of <see cref="TDsaDomainParameters"/>
         /// </summary>
         /// <param name="domainParameters">The Domain parameters used to generate the key pair</param>
         /// <returns></returns>
-        TDsaKeyPair GenerateKeyPair(TDsaDomainParameters domainParameters);
+        TKeyPairGenerateResult GenerateKeyPair(TDsaDomainParameters domainParameters);
 
         /// <summary>
         /// Validates a <see cref="TDsaKeyPair"/> based on a set of <see cref="TDsaDomainParameters"/>

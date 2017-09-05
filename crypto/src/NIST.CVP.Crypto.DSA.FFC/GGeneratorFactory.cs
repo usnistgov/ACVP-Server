@@ -12,10 +12,10 @@ namespace NIST.CVP.Crypto.DSA.FFC
             switch (genMode)
             {
                 case GeneratorGenMode.Canonical:
-                    throw new NotImplementedException();
+                    return new CanonicalGeneratorGenerator();
 
                 case GeneratorGenMode.Unverifiable:
-                    throw new NotImplementedException();
+                    return new UnverifiableGeneratorGenerator();
 
                 default:
                     throw new ArgumentOutOfRangeException("Bad Generator Gen Mode");

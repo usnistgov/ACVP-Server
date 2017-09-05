@@ -14,7 +14,7 @@ namespace NIST.CVP.Crypto.DSA
         /// <param name="dsaAlgorithm">The Algorithm used for the DSA isntance</param>
         /// <param name="hashFunction">The hash information to be used.</param>
         /// <returns></returns>
-        IDsa<IDomainParametersGenerateRequest, IDomainParametersGenerateResult, IDsaDomainParameters, IDsaKeyPair, IDsaKeyPairValidationResult>
+        IDsa<IDomainParametersGenerateRequest, IDomainParametersGenerateResult, IDsaDomainParameters, IKeyPairGenerateResult, IDsaKeyPair, IKeyPairValidateResult>
             GetDsaInstance(DsaAlgorithm dsaAlgorithm, HashFunction hashFunction);
     }
 }

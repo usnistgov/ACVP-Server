@@ -12,13 +12,13 @@ namespace NIST.CVP.Crypto.DSA.FFC
             switch (primeGenMode)
             {
                 case PrimeGenMode.ProbableLegacy:
-                    throw new NotImplementedException();
+                    return new LegacyProbablePQGenerator();
 
                 case PrimeGenMode.Probable:
-                    throw new NotImplementedException();
+                    return new ProbablePQGenerator();
 
                 case PrimeGenMode.Provable:
-                    throw new NotImplementedException();
+                    return new ProvablePQGenerator();
 
                 default:
                     throw new ArgumentOutOfRangeException("Invalid PrimeGenMode provided");
