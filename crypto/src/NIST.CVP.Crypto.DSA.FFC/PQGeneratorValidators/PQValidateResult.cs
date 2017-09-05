@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NIST.CVP.Crypto.DSA.FFC
+namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
 {
-    public class GValidateResult
+    public class PQValidateResult
     {
         public string ErrorMessage { get; }
 
-        public GValidateResult() { }
+        public PQValidateResult() { }
 
-        public GValidateResult(string errorMessage)
+        public PQValidateResult(string errorMessage)
         {
             ErrorMessage = errorMessage;
         }

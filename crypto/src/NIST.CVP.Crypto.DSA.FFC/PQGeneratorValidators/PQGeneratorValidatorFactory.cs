@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
+using NIST.CVP.Crypto.SHAWrapper;
 
-namespace NIST.CVP.Crypto.DSA.FFC
+namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
 {
     public class PQGeneratorValidatorFactory
     {
-        public IPQGeneratorValidator GetGenerator(PrimeGenMode primeGenMode)
+        public IPQGeneratorValidator GetGeneratorValidator(PrimeGenMode primeGenMode, ISha sha)
         {
             switch (primeGenMode)
             {
                 case PrimeGenMode.ProbableLegacy:
-                    return new LegacyProbablePQGenerator();
+                    return new LegacyProbablePQGeneratorValidator(sha);
 
                 case PrimeGenMode.Probable:
-                    return new ProbablePQGenerator();
+                    return new ProbablePQGeneratorValidator(sha);
 
                 case PrimeGenMode.Provable:
-                    return new ProvablePQGenerator();
+                    return new ProvablePQGeneratorValidator(sha);
 
                 default:
                     throw new ArgumentOutOfRangeException("Invalid PrimeGenMode provided");

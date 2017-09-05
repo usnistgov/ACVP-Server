@@ -3,6 +3,8 @@
     public interface IDsaEcc : IDsa<
         EccDomainParametersGenerateRequest,
         EccDomainParametersGenerateResult,
+        EccDomainParametersValidateRequest,
+        EccDomainParametersValidateResult,
         EccDomainParameters,
         EccKeyPairGenerateResult,
         EccKeyPair,

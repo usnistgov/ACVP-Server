@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
+using NIST.CVP.Crypto.SHAWrapper;
 
-namespace NIST.CVP.Crypto.DSA.FFC
+namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
 {
     public class GGeneratorValidatorFactory
     {
-        public IGGeneratorValidator GetGenerator(GeneratorGenMode genMode)
+        public IGGeneratorValidator GetGeneratorValidator(GeneratorGenMode genMode, ISha sha)
         {
             switch (genMode)
             {

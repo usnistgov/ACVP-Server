@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
+using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
+using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 
@@ -23,7 +22,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
         public FfcDomainParametersGenerateResult GenerateDomainParameters(FfcDomainParametersGenerateRequest generateRequest)
         {
             // Generate p and q
-            var pqGenerator = _pqGeneratorFactory.GetGenerator(generateRequest.PrimeGen);
+            var pqGenerator = _pqGeneratorFactory.GetGeneratorValidator(generateRequest.PrimeGen, Sha);
             var pqResult = pqGenerator.Generate(generateRequest.PLength, generateRequest.QLength, generateRequest.SeedLength);
             if (!pqResult.Success)
             {
@@ -31,7 +30,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
             }
 
             // Generate g
-            var gGenerator = _gGeneratorFactory.GetGenerator(generateRequest.GeneratorGen);
+            var gGenerator = _gGeneratorFactory.GetGeneratorValidator(generateRequest.GeneratorGen, Sha);
             var gResult = gGenerator.Generate(pqResult.P, pqResult.Q);
             if (!gResult.Success)
             {
@@ -45,7 +44,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
         public FfcDomainParametersValidateResult ValidateDomainParameters(FfcDomainParametersValidateRequest validateRequest)
         {
             // Validate p and q
-            var pqGenerator = _pqGeneratorFactory.GetGenerator(validateRequest.PrimeGen);
+            var pqGenerator = _pqGeneratorFactory.GetGeneratorValidator(validateRequest.PrimeGen, Sha);
             var pqResult = pqGenerator.Validate();
             if (!pqResult.Success)
             {
@@ -53,7 +52,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
             }
 
             // Validate g
-            var gGenerator = _gGeneratorFactory.GetGenerator(validateRequest.GeneratorGen);
+            var gGenerator = _gGeneratorFactory.GetGeneratorValidator(validateRequest.GeneratorGen, Sha);
             var gResult = gGenerator.Validate();
             if (!gResult.Success)
             {

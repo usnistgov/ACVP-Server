@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Text;
 
-namespace NIST.CVP.Crypto.DSA.FFC
+namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
 {
-    public class GGenerateResult
+    public class GValidateResult
     {
-        public BigInteger G { get; }
         public string ErrorMessage { get; }
 
-        public GGenerateResult(BigInteger g)
-        {
-            G = g;
-        }
+        public GValidateResult() { }
 
-        public GGenerateResult(string errorMessage)
+        public GValidateResult(string errorMessage)
         {
             ErrorMessage = errorMessage;
         }
