@@ -23,14 +23,19 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// The DKM Nonce
         /// </summary>
         public BitString DkmNonce { get; }
+        /// <summary>
+        /// A nonce utilized within MACData for no key confirmation KAS
+        /// </summary>
+        public BitString NoKeyConfirmationNonce { get; }
 
-        public FfcSharedInformation(FfcDomainParameters domainParameters, BigInteger staticPublicKey, BigInteger ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce)
+        public FfcSharedInformation(FfcDomainParameters domainParameters, BigInteger staticPublicKey, BigInteger ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce, BitString noKeyConfirmationNonce)
         {
             DomainParameters = domainParameters;
             StaticPublicKey = staticPublicKey;
             EphemeralPublicKey = ephemeralPublicKey;
             EphemeralNonce = ephemeralNonce;
             DkmNonce = dkmNonce;
+            NoKeyConfirmationNonce = noKeyConfirmationNonce;
         }
     }
 }

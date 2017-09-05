@@ -7,6 +7,10 @@ namespace NIST.CVP.Crypto.KAS.Scheme
     public interface IScheme
     {
         /// <summary>
+        /// The length of the OtherInfo that is plugged into the KDF key.
+        /// </summary>
+        int OtherInputLength { get; }
+        /// <summary>
         /// The Scheme utilized in the KAS negotiation
         /// </summary>
         FfcScheme Scheme { get; }
@@ -30,6 +34,10 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// The DKM nonce used in the scheme (can be null)
         /// </summary>
         BitString DkmNonce { get; }
+        /// <summary>
+        /// The nonce used in a no key confirmation scenario
+        /// </summary>
+        BitString NoKeyConfirmationNonce { get; }
 
         /// <summary>
         /// Sets the domain parameters for use in <see cref="IDsaFfc"/>

@@ -6,17 +6,17 @@ using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
     public abstract class SchemeBase : IScheme
     {
-        private const int OTHER_INFO_LENGTH = 240;
-
         protected IDsaFfc Dsa;
         protected IKdfFactory KdfFactory;
         protected IKeyConfirmationFactory KeyConfirmationFactory;
         protected IOtherInfoFactory OtherInfoFactory;
+        protected IEntropyProvider EntropyProvider;
         protected KasParameters KasParameters;
         protected KdfParameters KdfParameters;
         protected MacParameters MacParameters;
@@ -26,6 +26,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             IOtherInfoFactory otherInfoFactory,
+            IEntropyProvider entropyProvider,
             KasParameters kasParameters,
             KdfParameters kdfParameters,
             MacParameters macParameters
@@ -35,31 +36,47 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             KdfFactory = kdfFactory;
             KeyConfirmationFactory = keyConfirmationFactory;
             OtherInfoFactory = otherInfoFactory;
+            EntropyProvider = entropyProvider;
             KasParameters = kasParameters;
             KdfParameters = kdfParameters;
             MacParameters = macParameters;
         }
 
-        public abstract FfcScheme FfcScheme { get; }
-
-        public FfcScheme Scheme { get; }
+        /// <inheritdoc />
+        public int OtherInputLength => 240;
+        /// <inheritdoc />
+        public abstract FfcScheme Scheme { get; }
+        /// <inheritdoc />
         public FfcDomainParameters DomainParameters { get; protected set; }
+        /// <inheritdoc />
         public FfcKeyPair StaticKeyPair { get; protected set; }
+        /// <inheritdoc />
         public FfcKeyPair EphemeralKeyPair { get; protected set; }
+        /// <inheritdoc />
         public BitString EphemeralNonce { get; protected set; }
+        /// <inheritdoc />
         public BitString DkmNonce { get; protected set; }
+        /// <inheritdoc />
+        public BitString NoKeyConfirmationNonce { get; protected set; }
+
+        /// <summary>
+        /// flag is used to determine if this party's private/public key/nonce information has already been generated.
+        /// </summary>
         protected bool ThisPartyKeysGenerated => (
             StaticKeyPair != null || 
             EphemeralKeyPair != null || 
             EphemeralNonce != null ||
-            DkmNonce != null
+            DkmNonce != null ||
+            NoKeyConfirmationNonce != null
         );
 
+        /// <inheritdoc />
         public void SetDomainParameters(FfcDomainParameters domainParameters)
         {
             DomainParameters = domainParameters;
         }
 
+        /// <inheritdoc />
         public FfcSharedInformation ReturnPublicInfoForOtherParty()
         {
             if (!ThisPartyKeysGenerated)
@@ -72,12 +89,21 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                 StaticKeyPair.PublicKeyY,
                 EphemeralKeyPair.PublicKeyY,
                 EphemeralNonce,
-                DkmNonce
+                DkmNonce,
+                NoKeyConfirmationNonce
             );
         }
 
+        /// <inheritdoc />
         public KasResult ComputeResult(FfcSharedInformation otherPartyInformation)
         {
+            // Set this instance's domain parameters equal to the other party's assuming they were passed in
+            if (otherPartyInformation.DomainParameters != null)
+            {
+                DomainParameters = otherPartyInformation.DomainParameters;
+            }
+
+            // this party's key/nonce information has not yet been generated, generate it.
             if (!ThisPartyKeysGenerated)
             {
                 GenerateKasKeyNonceInformation();
@@ -108,11 +134,14 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             return new KasResult(z, oi, dkm.DerivedKey, computedKeyMac.MacData, computedKeyMac.Mac);
         }
 
+        /// <summary>
+        /// Generate a set of domain parameters
+        /// </summary>
         protected void GenerateDomainParameters()
         {
             var paramDetails = FfcParameterSetDetails.GetDetailsForParameterSet(KasParameters.FfcParameterSet);
 
-            // TODO validate generation mode
+            // TODO validate generation mode correct
             SetDomainParameters(Dsa.GenerateDomainParameters(new FfcDomainParametersGenerateRequest(
                 paramDetails.qLength,
                 paramDetails.pLength,
@@ -123,12 +152,30 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             )).PqgDomainParameters);
         }
 
+        /// <summary>
+        /// Generates key pairs and nonce information specific to the scheme selected
+        /// </summary>
         protected abstract void GenerateKasKeyNonceInformation();
 
-        protected abstract IOtherInfo GenerateOtherInformation(FfcSharedInformation otherPartyInformation);
-
+        /// <summary>
+        /// Computes a shared secret based off of party U and party V inputs based on the scheme
+        /// </summary>
+        /// <param name="otherPartyInformation">The other party's public information</param>
+        /// <returns></returns>
         protected abstract BitString ComputeSharedSecret(FfcSharedInformation otherPartyInformation);
 
+        /// <summary>
+        /// Generate the OtherInformation that is to be plugged into a KDF function.
+        /// </summary>
+        /// <param name="otherPartyInformation">The other party's public information</param>
+        /// <returns></returns>
+        protected abstract IOtherInfo GenerateOtherInformation(FfcSharedInformation otherPartyInformation);
+
+        /// <summary>
+        /// Compute's the MAC of a key for both key confirmation and no key confirmation
+        /// </summary>
+        /// <param name="otherPartyInformation">The other party's public information</param>
+        /// <returns></returns>
         protected abstract ComputeKeyMacResult ComputeKeyMac(FfcSharedInformation otherPartyInformation);
     }
 }
