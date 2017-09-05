@@ -4,8 +4,9 @@ using System.Text;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {
-    public interface IPQGenerator
+    public interface IPQGeneratorValidator
     {
         PQGenerateResult Generate(int L, int N, int seedLen);
+        PQValidateResult Validate();
     }
 }

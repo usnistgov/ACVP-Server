@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {
-    public class ProbablePQGenerator : IPQGenerator
+    public class ProbablePQGenerator : IPQGeneratorValidator
     {
         public PQGenerateResult Generate(int L, int N, int seedLen)
         {

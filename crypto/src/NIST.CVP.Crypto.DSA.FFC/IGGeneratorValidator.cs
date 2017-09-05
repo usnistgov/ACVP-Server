@@ -5,8 +5,9 @@ using System.Text;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {
-    public interface IGGenerator
+    public interface IGGeneratorValidator
     {
         GGenerateResult Generate(BigInteger p, BigInteger q);
+        GValidateResult Validate();
     }
 }

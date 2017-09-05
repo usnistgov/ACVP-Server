@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
+using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {
@@ -9,8 +12,8 @@ namespace NIST.CVP.Crypto.DSA.FFC
     {
         public ISha Sha { get; }
 
-        private PQGeneratorFactory _pqGeneratorFactory = new PQGeneratorFactory();
-        private GGeneratorFactory _gGeneratorFactory = new GGeneratorFactory();
+        private PQGeneratorValidatorFactory _pqGeneratorFactory = new PQGeneratorValidatorFactory();
+        private GGeneratorValidatorFactory _gGeneratorFactory = new GGeneratorValidatorFactory();
 
         public FfcDsa(ISha sha)
         {
@@ -39,14 +42,62 @@ namespace NIST.CVP.Crypto.DSA.FFC
             return new FfcDomainParametersGenerateResult(domainParameters, pqResult.Seed, pqResult.Counter);
         }
 
+        public FfcDomainParametersValidateResult ValidateDomainParameters(FfcDomainParametersValidateRequest validateRequest)
+        {
+            // Validate p and q
+            var pqGenerator = _pqGeneratorFactory.GetGenerator(validateRequest.PrimeGen);
+            var pqResult = pqGenerator.Validate();
+            if (!pqResult.Success)
+            {
+                return new FfcDomainParametersValidateResult($"Failed to generate p and q with error: {pqResult.ErrorMessage}");
+            }
+
+            // Validate g
+            var gGenerator = _gGeneratorFactory.GetGenerator(validateRequest.GeneratorGen);
+            var gResult = gGenerator.Validate();
+            if (!gResult.Success)
+            {
+                return new FfcDomainParametersValidateResult($"Failed to generate g with error: {gResult.ErrorMessage}");
+            }
+
+            return new FfcDomainParametersValidateResult();
+        }
+
+        /// <summary>
+        /// B.1.1 from FIPS 186-4. This is equivalent to B.1.2, the other KeyGeneration method.
+        /// </summary>
+        /// <param name="domainParameters"></param>
+        /// <returns></returns>
         public FfcKeyPairGenerateResult GenerateKeyPair(FfcDomainParameters domainParameters)
         {
-            throw new NotImplementedException();
+            var L = new BitString(domainParameters.P).BitLength;
+            var N = new BitString(domainParameters.Q).BitLength;
+
+            // Shouldn't really be necessary but just in case
+            if (!DSAHelper.VerifyLenPair(L, N))
+            {
+                return new FfcKeyPairGenerateResult("Invalid L, N pair");
+            }
+
+            var rand = new Random800_90();
+            var c = rand.GetRandomBitString(N + 64).ToPositiveBigInteger();
+
+            var x = (c % (domainParameters.Q - 1)) + 1;
+            var y = BigInteger.ModPow(domainParameters.G, x, domainParameters.P);
+
+            return new FfcKeyPairGenerateResult(new FfcKeyPair(x, y));
         }
 
         public FfcKeyPairValidateResult ValidateKeyPair(FfcDomainParameters domainParameters, FfcKeyPair keyPair)
         {
-            throw new NotImplementedException();
+            if (keyPair.PublicKeyY == BigInteger.ModPow(domainParameters.G, keyPair.PrivateKeyX, domainParameters.P))
+            {
+                return new FfcKeyPairValidateResult();
+            }
+            else
+            {
+                return new FfcKeyPairValidateResult("Invalid key pair, y != g^x mod p");
+            }
         }
     }
 }

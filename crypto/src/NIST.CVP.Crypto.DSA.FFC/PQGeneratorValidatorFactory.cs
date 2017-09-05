@@ -5,9 +5,9 @@ using NIST.CVP.Crypto.DSA.FFC.Enums;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {
-    public class PQGeneratorFactory
+    public class PQGeneratorValidatorFactory
     {
-        public IPQGenerator GetGenerator(PrimeGenMode primeGenMode)
+        public IPQGeneratorValidator GetGenerator(PrimeGenMode primeGenMode)
         {
             switch (primeGenMode)
             {

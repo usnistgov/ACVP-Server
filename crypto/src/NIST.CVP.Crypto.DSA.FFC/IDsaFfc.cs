@@ -4,6 +4,8 @@
         IDsa<
             FfcDomainParametersGenerateRequest, 
             FfcDomainParametersGenerateResult, 
+            FfcDomainParametersValidateRequest,
+            FfcDomainParametersValidateResult,
             FfcDomainParameters, 
             FfcKeyPairGenerateResult,
             FfcKeyPair, 

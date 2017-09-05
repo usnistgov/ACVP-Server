@@ -5,17 +5,17 @@ using NIST.CVP.Crypto.DSA.FFC.Enums;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {
-    public class GGeneratorFactory
+    public class GGeneratorValidatorFactory
     {
-        public IGGenerator GetGenerator(GeneratorGenMode genMode)
+        public IGGeneratorValidator GetGenerator(GeneratorGenMode genMode)
         {
             switch (genMode)
             {
                 case GeneratorGenMode.Canonical:
-                    return new CanonicalGeneratorGenerator();
+                    return new CanonicalGeneratorGeneratorValidator();
 
                 case GeneratorGenMode.Unverifiable:
-                    return new UnverifiableGeneratorGenerator();
+                    return new UnverifiableGeneratorGeneratorValidator();
 
                 default:
                     throw new ArgumentOutOfRangeException("Bad Generator Gen Mode");
