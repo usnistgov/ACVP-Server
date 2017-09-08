@@ -42,5 +42,10 @@ namespace NIST.CVP.Math.Domain
         /// <param name="quantity">The maximum number of values to return from the <see cref="IDomainSegment"/></param>
         /// <returns></returns>
         IEnumerable<int> GetValues(int min, int max, int quantity);
+        /// <summary>
+        /// Returns a deep copy of the <see cref="IDomainSegment"/>
+        /// </summary>
+        /// <returns></returns>
+        IDomainSegment GetDeepCopy();
     }
 }

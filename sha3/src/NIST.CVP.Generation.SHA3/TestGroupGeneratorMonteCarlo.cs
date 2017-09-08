@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.SHA3
 {
@@ -13,14 +14,20 @@ namespace NIST.CVP.Generation.SHA3
 
             foreach (var digSize in parameters.DigestSizes)
             {
+                // Must make sure we actually have a domain. SHAKE will, SHA3 will not.
+                MathDomain domain = null;
+                if(parameters.OutputLength != null)
+                {
+                    domain = parameters.OutputLength.GetDeepCopy();
+                }
+
                 var testGroup = new TestGroup
                 {
                     Function = parameters.Algorithm,
                     DigestSize = digSize,
                     BitOrientedInput = parameters.BitOrientedInput,
                     BitOrientedOutput = parameters.BitOrientedOutput,
-                    MinOutputLength = parameters.MinOutputLength,
-                    MaxOutputLength = parameters.MaxOutputLength,
+                    OutputLength = domain,
                     TestType = TEST_TYPE
                 };
 

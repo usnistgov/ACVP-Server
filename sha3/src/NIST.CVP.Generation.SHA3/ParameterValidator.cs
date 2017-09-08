@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.SHA3
 {
@@ -23,7 +24,11 @@ namespace NIST.CVP.Generation.SHA3
 
             ValidateFunctions(parameters, errorResults);
             ValidateMatching(parameters, errorResults);
-            ValidateSHAKEValues(parameters, errorResults);
+
+            if (parameters.Algorithm.ToLower() == "shake")
+            {
+                ValidateOutputLength(parameters, errorResults);
+            }
 
             if (errorResults.Count > 0)
             {
@@ -68,29 +73,32 @@ namespace NIST.CVP.Generation.SHA3
             }
         }
 
-        private void ValidateSHAKEValues(Parameters parameters, List<string> errorResults)
+        private void ValidateOutputLength(Parameters parameters, List<string> errorResults)
         {
-            if (parameters.Algorithm.ToLower() == "shake")
+            string segmentCheck = "";
+            if (parameters.OutputLength.DomainSegments.Count() != 1)
             {
-                var result = ValidateRange(new[] { parameters.MinOutputLength }, VALID_MIN_OUTPUT_SIZE, VALID_MAX_OUTPUT_SIZE,
-                "Minimum output length");
-                if (!string.IsNullOrEmpty(result))
-                {
-                    errorResults.Add(result);
-                }
-
-                result = ValidateRange(new[] { parameters.MaxOutputLength }, VALID_MIN_OUTPUT_SIZE, VALID_MAX_OUTPUT_SIZE,
-                    "Maximum output length");
-                if (!string.IsNullOrEmpty(result))
-                {
-                    errorResults.Add(result);
-                }
-
-                if (parameters.MinOutputLength > parameters.MaxOutputLength)
-                {
-                    errorResults.Add("Min output length is greater than the max output length");
-                }
+                segmentCheck = "Must have exactly one segment in the domain";
             }
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+
+            var fullDomain = parameters.OutputLength.GetDomainMinMax();
+            var rangeCheck = ValidateRange(
+                new long[] { fullDomain.Minimum, fullDomain.Maximum },
+                VALID_MIN_OUTPUT_SIZE,
+                VALID_MAX_OUTPUT_SIZE,
+                "OutputLength Range"
+            );
+            errorResults.AddIfNotNullOrEmpty(rangeCheck);
+
+            // Links BitOriented and Domain
+            var bitOriented = parameters.BitOrientedOutput ? 1 : 8;
+            var modCheck = ValidateMultipleOf(parameters.OutputLength, bitOriented, "OutputLength Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
         }
     }
 }

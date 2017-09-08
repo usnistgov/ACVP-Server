@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -137,24 +138,6 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 
             Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), "validation");
         }
-
-        //[Test]
-        //public void SpeedTests()
-        //{
-        //    var targetFolder = Path.Combine(_testPath, "ParallelTest");
-        //    if (!Directory.Exists(targetFolder))
-        //    {
-        //        Directory.CreateDirectory(targetFolder);
-        //    }
-        //    var fileName = GetTestFileTests(targetFolder);
-
-        //    RunGenerationAndValidation(targetFolder, fileName);
-
-        //    var dp = new DynamicParser();
-        //    var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
-
-        //    Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
-        //}
 
         [Test]
         public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCasesSHA3()
@@ -355,22 +338,6 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             return failedTestCases;
         }
 
-        //private string GetTestFileTests(string targetFolder)
-        //{
-        //    //RemoveMCTTestGroupFactories();
-
-        //    var parameters = new Parameters
-        //    {
-        //        Algorithm = "SHA3",
-        //        DigestSizes = new[] {384, 512},
-        //        BitOrientedInput = true,
-        //        IncludeNull = true,
-        //        IsSample = false
-        //    };
-
-        //    return CreateRegistration(targetFolder, parameters);
-        //}
-
         private string GetTestFileFewTestCasesSHA3(string targetFolder)
         {
             RemoveMctAndVotTestGroupFactories();
@@ -404,6 +371,8 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         private string GetTestFileFewTestCasesSHAKE(string targetFolder)
         {
             RemoveMctAndVotTestGroupFactories();
+            var minMax = new MathDomain();
+            minMax.AddSegment(new RangeDomainSegment(null, 256, 512, 8));
 
             var parameters = new Parameters
             {
@@ -412,8 +381,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                 BitOrientedInput = false,
                 BitOrientedOutput = false,
                 IncludeNull = false,
-                MinOutputLength = 256,
-                MaxOutputLength = 512,
+                OutputLength = minMax,
                 IsSample = true
             };
 
@@ -422,6 +390,9 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 
         private string GetTestFileManyTestCasesSHAKE(string targetFolder)
         {
+            var minMax = new MathDomain();
+            minMax.AddSegment(new RangeDomainSegment(null, 256, 512, 1));
+
             var parameters = new Parameters
             {
                 Algorithm = "SHAKE",
@@ -429,8 +400,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                 BitOrientedInput = true,
                 BitOrientedOutput = true,
                 IncludeNull = true,
-                MinOutputLength = 16,
-                MaxOutputLength = 65536,
+                OutputLength = minMax,
                 IsSample = true
             };
 
@@ -461,9 +431,18 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 
         private static string CreateRegistration(string targetFolder, Parameters parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings()
+            {
+                Converters = new List<JsonConverter>()
+                {
+                    new BitstringConverter(),
+                    new DomainConverter()
+                },
+                Formatting = Formatting.Indented
+            });
             string fileName = $@"{targetFolder}\registration.json";
             File.WriteAllText(fileName, json);
+
             return fileName;
         }
     }

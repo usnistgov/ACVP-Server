@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.SHA3.Parsers;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -120,8 +121,9 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             foreach (var iTestGroup in parsedTestVectorSet.ParsedObject.TestGroups)
             {
                 var testGroup = (TestGroup)iTestGroup;
+                var shuffledTests = testGroup.Tests.OrderBy(a => Guid.NewGuid()).ToList().GetRange(0, 20);
 
-                foreach (var iTestCase in testGroup.Tests)
+                foreach (var iTestCase in shuffledTests)
                 {
                     count++;
                     var testCase = (TestCase)iTestCase;
@@ -135,7 +137,9 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                             XOF = true
                         };
 
-                        var result = _shakeMCT.MCTHash(hashFunction, testCase.Message);
+                        var domain = new MathDomain();
+                        domain.AddSegment(new RangeDomainSegment(null, 16, 65536));
+                        var result = _shakeMCT.MCTHash(hashFunction, testCase.Message, domain);
 
                         Assert.IsTrue(result.Success, "result.Success must be successful");
                         Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT hash count should be greater than 0");

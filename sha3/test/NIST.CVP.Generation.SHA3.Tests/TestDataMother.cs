@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.SHA3.Tests
 {
@@ -28,6 +29,9 @@ namespace NIST.CVP.Generation.SHA3.Tests
                     });
                 }
 
+                var domain = new MathDomain();
+                domain.AddSegment(new RangeDomainSegment(null, 16 + groupIdx, 4000 + groupIdx));
+
                 testGroups.Add(new TestGroup
                 {
                     Function = hashFunction.XOF ? "SHAKE" : "SHA3",
@@ -36,8 +40,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
                     BitOrientedInput = false,
                     BitOrientedOutput = false,
                     IncludeNull = false,
-                    MaxOutputLength = 4000 + groupIdx,
-                    MinOutputLength = 16 + groupIdx,
+                    OutputLength = domain,
                     Tests = tests
                 });
             }
@@ -56,19 +59,6 @@ namespace NIST.CVP.Generation.SHA3.Tests
                     tests.Add(new TestCase
                     {
                         Deferred = false,
-                        //ResultsArray = new List<AlgoArrayResponse>
-                        //{
-                        //    new AlgoArrayResponse
-                        //    {
-                        //        Message = new BitString("DEADBEEF"),
-                        //        Digest = new BitString("ADD4FACE")
-                        //    },
-                        //    new AlgoArrayResponse
-                        //    {
-                        //        Message = new BitString("DEADBEEF02"),
-                        //        Digest = new BitString("ADD4FACE02")
-                        //    }
-                        //},
                         TestCaseId = testId,
                         Message = new BitString("5EED")
                     });

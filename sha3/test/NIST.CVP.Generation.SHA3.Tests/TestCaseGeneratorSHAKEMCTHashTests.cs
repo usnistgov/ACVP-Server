@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -30,7 +31,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         {
             var testGroup = GetTestGroup();
             _subject.Generate(testGroup, false);
-            _mockMCT.Verify(v => v.MCTHash(It.IsAny<HashFunction>(), It.IsAny<BitString>(), It.IsAny<bool>(), It.IsAny<int>(), It.IsAny<int>()));
+            _mockMCT.Verify(v => v.MCTHash(It.IsAny<HashFunction>(), It.IsAny<BitString>(), It.IsAny<MathDomain>(), It.IsAny<bool>()));
         }
 
         [Test]
@@ -41,14 +42,14 @@ namespace NIST.CVP.Generation.SHA3.Tests
 
             _subject.Generate(testGroup, testCase);
 
-            _mockMCT.Verify(v => v.MCTHash(It.IsAny<HashFunction>(), It.IsAny<BitString>(), It.IsAny<bool>(), It.IsAny<int>(), It.IsAny<int>()));
+            _mockMCT.Verify(v => v.MCTHash(It.IsAny<HashFunction>(), It.IsAny<BitString>(), It.IsAny<MathDomain>(), It.IsAny<bool>()));
         }
 
         [Test]
         public void ShouldReturnErrorMessageIfAlgoNotSuccessful()
         {
             var errorMessage = "something bad happened!";
-            _mockMCT.Setup(v => v.MCTHash(It.IsAny<HashFunction>(), It.IsAny<BitString>(), It.IsAny<bool>(), It.IsAny<int>(), It.IsAny<int>()))
+            _mockMCT.Setup(v => v.MCTHash(It.IsAny<HashFunction>(), It.IsAny<BitString>(), It.IsAny<MathDomain>(), It.IsAny<bool>()))
                 .Returns(new MCTResult<AlgoArrayResponse>(errorMessage));
 
             var testGroup = GetTestGroup();
@@ -64,7 +65,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         public void ShouldReturnErrorMessageIfAlgoFailsWithException()
         {
             var errorMessage = "something bad happened! oh noes!";
-            _mockMCT.Setup(v => v.MCTHash(It.IsAny<HashFunction>(), It.IsAny<BitString>(), It.IsAny<bool>(), It.IsAny<int>(), It.IsAny<int>()))
+            _mockMCT.Setup(v => v.MCTHash(It.IsAny<HashFunction>(), It.IsAny<BitString>(), It.IsAny<MathDomain>(), It.IsAny<bool>()))
                 .Throws(new Exception(errorMessage));
 
             var testGroup = GetTestGroup();
@@ -77,12 +78,14 @@ namespace NIST.CVP.Generation.SHA3.Tests
 
         private TestGroup GetTestGroup()
         {
+            var domain = new MathDomain();
+            domain.AddSegment(new RangeDomainSegment(null, 16, 65536));
+
             return new TestGroup
             {
                 Function = "shake",
                 DigestSize = 128,
-                MinOutputLength = 16,
-                MaxOutputLength = 65536
+                OutputLength = domain
             };
         }
     }

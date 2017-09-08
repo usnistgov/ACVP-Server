@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NLog;
 
 namespace NIST.CVP.Generation.SHA3
@@ -14,10 +15,8 @@ namespace NIST.CVP.Generation.SHA3
     {
         private int _capacity = 0;
         private int _currentCase = 0;
-
-        private List<int> _testCaseSizes = new List<int>();
-
         private int _digestSize = 0;
+        private List<int> _testCaseSizes = new List<int>();
 
         private readonly IRandom800_90 _random800_90;
         private readonly ISHA3 _algo;
@@ -38,7 +37,7 @@ namespace NIST.CVP.Generation.SHA3
             if (_capacity == 0)
             {
                 _testCaseSizes.Clear();
-                DetermineLengths(group.MinOutputLength, group.MaxOutputLength, group.BitOrientedOutput);
+                DetermineLengths(group.OutputLength);
                 _capacity = 2 * group.DigestSize;
             }
 
@@ -85,66 +84,40 @@ namespace NIST.CVP.Generation.SHA3
             return new TestCaseGenerateResponse(testCase);
         }
 
-        private void DetermineLengths(int min, int max, bool bitOriented)
+        private void DetermineLengths(MathDomain domain)
         {
-            var validValues = (max - min) / (bitOriented ? 1 : 8);
-            int step, repetitions;
+            domain.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            var minMax = domain.GetDomainMinMax();
 
-            if (validValues == 0)
+            var values = domain.GetValues(1000).OrderBy(o => Guid.NewGuid()).Take(1000);
+            int repetitions;
+
+            if (values.Count() == 0)
             {
                 repetitions = 999;
-                step = 0;
             }
-            else if (validValues > 999)
+            else if(values.Count() > 999)
             {
                 repetitions = 1;
-                step = (int) System.Math.Ceiling(validValues / 999.0) * (bitOriented ? 1 : 8);
             }
             else
             {
-                if (validValues == 0)
-                {
-                    validValues = 1;
-                }
-                repetitions = 1000 / validValues;
-                step = bitOriented ? 1 : 8;
+                repetitions = 1000 / values.Count() + (1000 % values.Count() > 0 ? 1 : 0);
             }
 
-            // Shift step a bit to make sure it has the desired properties
-            if (bitOriented)
+            foreach(var value in values)
             {
-                if (step % 2 == 0)
+                for(var i = 0; i < repetitions; i++)
                 {
-                    step++;
-                }
-            }
-            else
-            {
-                if (step % 8 != 0)
-                {
-                    step += 8 - step % 8;
+                    _testCaseSizes.Add(value);
                 }
             }
 
-            if (validValues == 0)
-            {
-                for (var i = 0; i < 1000; i++)
-                {
-                    _testCaseSizes.Add(max);
-                }
-            }
-            else
-            {
-                for (var i = min; i < max; i += step)
-                {
-                    for (var j = 0; j < repetitions; j++)
-                    {
-                        _testCaseSizes.Add(i);
-                    }
-                }
+            // Make sure min and max appear in the list
+            _testCaseSizes.Add(minMax.Minimum);
+            _testCaseSizes.Add(minMax.Maximum);
 
-                _testCaseSizes.Add(max);
-            }
+            _testCaseSizes.Sort();
         }
 
         private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }

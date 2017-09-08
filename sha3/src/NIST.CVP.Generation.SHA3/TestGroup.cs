@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.SHA3
 {
@@ -33,11 +34,8 @@ namespace NIST.CVP.Generation.SHA3
         [JsonProperty(PropertyName = "inEmpty")]
         public bool IncludeNull { get; set; } = false;
 
-        [JsonProperty(PropertyName = "outLengthMin")]
-        public int MinOutputLength { get; set; } = 0;
-
-        [JsonProperty(PropertyName = "outLengthMax")]
-        public int MaxOutputLength { get; set; } = 0;
+        [JsonProperty(PropertyName = "outputLength")]
+        public MathDomain OutputLength { get; set; }
 
         public TestGroup()
         {
@@ -55,8 +53,6 @@ namespace NIST.CVP.Generation.SHA3
             BitOrientedInput = SetBoolValue(source, "inBit");
             BitOrientedOutput = SetBoolValue(source, "outBit");
             IncludeNull = SetBoolValue(source, "inEmpty");
-            MinOutputLength = SetIntValue(source, "outLengthMin");
-            MaxOutputLength = SetIntValue(source, "outLengthMax");
             
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
@@ -84,10 +80,6 @@ namespace NIST.CVP.Generation.SHA3
 
         public override int GetHashCode()
         {
-            //return
-            //    $"{Function}|{DigestSize}|{TestType}|{BitOrientedInput}|{IncludeNull}|{BitOrientedOutput}|{MinOutputLength}|{MaxOutputLength}"
-            //        .GetHashCode();
-
             return $"{Function}|{DigestSize}|{TestType}".GetHashCode();
         }
 
@@ -131,16 +123,6 @@ namespace NIST.CVP.Generation.SHA3
             }
 
             return default(bool);
-        }
-
-        private int SetIntValue(IDictionary<string, object> source, string label)
-        {
-            if (source.ContainsKey(label))
-            {
-                return Convert.ToInt32(source[label]);
-            }
-
-            return 0;
         }
     }
 }

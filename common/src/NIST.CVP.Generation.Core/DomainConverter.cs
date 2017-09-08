@@ -11,7 +11,6 @@ namespace NIST.CVP.Generation.Core
     /// </summary>
     public class DomainConverter : JsonConverter
     {
-
         private readonly IRandom800_90 _random = new Random800_90();
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -48,8 +47,15 @@ namespace NIST.CVP.Generation.Core
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            // Load JObject from stream
-            JArray jArray = JArray.Load(reader);
+            JArray jArray;
+            try
+            {
+                jArray = JArray.Load(reader);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
 
             // Create target object based on JObject
             MathDomain target = Create(jArray);

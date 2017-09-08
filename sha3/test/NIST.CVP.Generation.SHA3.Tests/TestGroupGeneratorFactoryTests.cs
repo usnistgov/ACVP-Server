@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -44,7 +45,10 @@ namespace NIST.CVP.Generation.SHA3.Tests
         public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
             var result = _subject.GetTestGroupGenerators();
-            
+
+            var minMax = new MathDomain();
+            minMax.AddSegment(new RangeDomainSegment(null, 16, 65536));
+
             Parameters p = new Parameters
             {
                 Algorithm = "SHAKE",
@@ -53,8 +57,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
                 BitOrientedOutput = true,
                 IncludeNull = true,
                 IsSample = false,
-                MaxOutputLength = 65536,
-                MinOutputLength = 16
+                OutputLength = minMax
             };
 
             List<ITestGroup> groups = new List<ITestGroup>();

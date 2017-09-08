@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -29,7 +30,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                 XOF = false
             };
 
-            var result = subject.MCTHash(hashFunction, messageBitString, true);
+            var result = subject.MCTHash(hashFunction, messageBitString, null, true);
 
             Assume.That(result != null);
             Assume.That(result.Success);
@@ -56,7 +57,9 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                 XOF = true
             };
 
-            var result = subject.MCTHash(hashFunction, messageBitString, true);
+            var domain = new MathDomain();
+            domain.AddSegment(new RangeDomainSegment(null, 16, 65536));
+            var result = subject.MCTHash(hashFunction, messageBitString, domain, true);
 
             Assert.IsNotNull(result, "null check");
             Assert.IsTrue(result.Success, result.ErrorMessage);
@@ -81,7 +84,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                 XOF = false
             };
 
-            var result = subject.MCTHash(hashFunction, messageBitString, false);
+            var result = subject.MCTHash(hashFunction, messageBitString, null, false);
 
             Assume.That(result != null);
             Assume.That(result.Success);

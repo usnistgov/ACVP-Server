@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -27,6 +28,9 @@ namespace NIST.CVP.Generation.SHA3.Tests
         [Test]
         public void ShouldCoverParametersGet()
         {
+            var minMax = new MathDomain();
+            minMax.AddSegment(new RangeDomainSegment(null, 16, 65536));
+
             var parameters = new Parameters
             {
                 Algorithm = "SHAKE",
@@ -34,8 +38,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
                 BitOrientedInput = true,
                 BitOrientedOutput = false,
                 IncludeNull = true,
-                MinOutputLength = 16,
-                MaxOutputLength = 65336,
+                OutputLength = minMax,
                 IsSample = false
             };
 

@@ -194,5 +194,17 @@ namespace NIST.CVP.Math.Domain
                 .Distinct()
                 .OrderBy(ob => ob);
         }
+
+        public MathDomain GetDeepCopy()
+        {
+            var domain = new MathDomain();
+
+            foreach(var segment in DomainSegments)
+            {
+                domain.AddSegment(segment.GetDeepCopy());
+            }
+
+            return domain;
+        }
     }
 }

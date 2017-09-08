@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.SHA3
             MCTResult<AlgoArrayResponse> hashResult = null;
             try
             {
-                hashResult = _algo.MCTHash(hashFunction, testCase.Message, IsSample, 0, 0);
+                hashResult = _algo.MCTHash(hashFunction, testCase.Message, null, IsSample);
                 if (!hashResult.Success)
                 {
                     ThisLogger.Warn(hashResult.ErrorMessage);

@@ -35,6 +35,15 @@ namespace NIST.CVP.Math.Domain
             _value = value > _MAXIMUM_ALLOWED_NUMBER ? _MAXIMUM_ALLOWED_NUMBER : (int)value;
         }
         
+        /// <summary>
+        /// Returns a deep copy of the segment
+        /// </summary>
+        /// <returns></returns>
+        public IDomainSegment GetDeepCopy()
+        {
+            return new ValueDomainSegment(_value);
+        }
+
         public void SetMaximumAllowedValue(int value)
         {
             if (value < _value)

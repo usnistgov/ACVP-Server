@@ -116,6 +116,15 @@ namespace NIST.CVP.Math.Domain
         }
 
         /// <summary>
+        /// Returns a deep copy of the segment
+        /// </summary>
+        /// <returns></returns>
+        public IDomainSegment GetDeepCopy()
+        {
+            return new RangeDomainSegment(_random, _min, _max, _increment);
+        }
+
+        /// <summary>
         /// Changes the max allowed value - can only be done prior to number generation.
         /// </summary>
         /// <param name="value"></param>

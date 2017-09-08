@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NLog;
 
 namespace NIST.CVP.Crypto.SHA3
@@ -30,7 +31,7 @@ namespace NIST.CVP.Crypto.SHA3
         //}
         #endregion
 
-        public MCTResult<AlgoArrayResponse> MCTHash(HashFunction function, BitString message, bool isSample = false, int min = 0, int max = 0)
+        public MCTResult<AlgoArrayResponse> MCTHash(HashFunction function, BitString message, MathDomain domain = null, bool isSample = false)
         {
             if (isSample)
             {

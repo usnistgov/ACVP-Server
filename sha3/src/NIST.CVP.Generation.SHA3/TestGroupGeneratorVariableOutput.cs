@@ -26,8 +26,7 @@ namespace NIST.CVP.Generation.SHA3
                     IncludeNull = parameters.IncludeNull,
                     BitOrientedInput = parameters.BitOrientedInput,
                     BitOrientedOutput = parameters.BitOrientedOutput,
-                    MinOutputLength = parameters.MinOutputLength,
-                    MaxOutputLength = parameters.MaxOutputLength,
+                    OutputLength = parameters.OutputLength.GetDeepCopy(),
                     TestType = TEST_TYPE
                 };
 

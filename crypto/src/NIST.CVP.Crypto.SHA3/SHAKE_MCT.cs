@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NLog;
 
 namespace NIST.CVP.Crypto.SHA3
@@ -43,7 +44,7 @@ namespace NIST.CVP.Crypto.SHA3
          */
         #endregion MonteCarloAlgorithm Pseudocode
 
-        public MCTResult<AlgoArrayResponse> MCTHash(HashFunction function, BitString message, bool isSample = false, int minOutputLength = 16, int maxOutputLength = 65536)
+        public MCTResult<AlgoArrayResponse> MCTHash(HashFunction function, BitString message, MathDomain domain, bool isSample = false)
         {
             if (isSample)
             {
@@ -53,11 +54,13 @@ namespace NIST.CVP.Crypto.SHA3
             var responses = new List<AlgoArrayResponse>();
             var i = 0;
             var j = 0;
-            var maxBytes = maxOutputLength / 8;
-            var minBytes = minOutputLength / 8;
+            var min = domain.GetDomainMinMax().Minimum;
+            var max = domain.GetDomainMinMax().Maximum;
+            var minBytes = min / 8;
+            var maxBytes = max / 8;
 
-            var outputLen = (int)System.Math.Floor((double)maxOutputLength / 8) * 8;
-            var range = (maxOutputLength - minOutputLength) + 8;
+            var outputLen = (int)System.Math.Floor((double)max / 8) * 8;
+            var range = (max - min) + 8;
             var innerMessage = message.GetDeepCopy();
 
             try
@@ -81,7 +84,7 @@ namespace NIST.CVP.Crypto.SHA3
                         // Will always have 16 bits to pull from
                         var rightmostBits = BitString.Substring(innerDigest, 0, 16).Bits;
 
-                        outputLen = minOutputLength + (8 * GetIntFromBits(rightmostBits)) % range;
+                        outputLen = min + (8 * GetIntFromBits(rightmostBits)) % range;
 
                         innerMessage = innerDigest.GetDeepCopy();
                     }

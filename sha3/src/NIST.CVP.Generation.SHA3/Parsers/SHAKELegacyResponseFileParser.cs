@@ -84,8 +84,6 @@ namespace NIST.CVP.Generation.SHA3.Parsers
                                 IncludeNull = includeNull,                  // doesnt matter
                                 BitOrientedInput = bitOrientedInput,        // doesnt matter
                                 BitOrientedOutput = bitOrientedOutput,      // doesnt matter
-                                MinOutputLength = 16,                       // defaulted
-                                MaxOutputLength = 65536,                    // defaulted
                                 TestType = testType
                             };
                             groups.Add(currentGroup);
