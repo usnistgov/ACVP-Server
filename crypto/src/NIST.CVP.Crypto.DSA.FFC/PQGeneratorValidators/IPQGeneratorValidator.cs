@@ -8,6 +8,6 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
     public interface IPQGeneratorValidator
     {
         PQGenerateResult Generate(int L, int N, int seedLen);
-        PQValidateResult Validate();
+        PQValidateResult Validate(BigInteger p, BigInteger q, DomainSeed seed, Counter count);
     }
 }

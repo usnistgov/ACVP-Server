@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using System.Numerics;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.SHAWrapper
 {
@@ -18,5 +19,12 @@ namespace NIST.CVP.Crypto.SHAWrapper
         /// <param name="message">The message to hash</param>
         /// <returns></returns>
         HashResult HashMessage(BitString message);
+
+        /// <summary>
+        /// Given a <see cref="BigInteger"/>, return a digest
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        HashResult HashNumber(BigInteger number);
     }
 }

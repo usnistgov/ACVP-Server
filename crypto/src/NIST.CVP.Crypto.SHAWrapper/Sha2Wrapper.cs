@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -44,6 +45,24 @@ namespace NIST.CVP.Crypto.SHAWrapper
             {
                 return new HashResult(ex.Message);
             }
+        }
+
+        public HashResult HashNumber(BigInteger number)
+        {
+            var bs = new BitString(number);
+            
+            // Pad the BitString to be a multiple of 32 bits
+            // Likely a relic of old MultiPrecision libraries
+            // Spec says to just hash the integer which is normally 4 bytes but 
+            //      with larger integer values, libraries keep them at multiples
+            //      of 4 bytes, so we have to make sure our structure is a multiple
+            //      of 4 bytes as well.
+            if (bs.BitLength % 32 != 0)
+            {
+                bs = BitString.ConcatenateBits(BitString.Zeroes(32 - bs.BitLength % 32), bs);
+            }
+
+            return HashMessage(bs);
         }
 
         private SHA2.HashFunction ToSha2HashFunction(HashFunction wrapperHashFunction)

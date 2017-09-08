@@ -31,21 +31,22 @@ namespace NIST.CVP.Crypto.DSA.FFC
 
             // Generate g
             var gGenerator = _gGeneratorFactory.GetGeneratorValidator(generateRequest.GeneratorGen, Sha);
-            var gResult = gGenerator.Generate(pqResult.P, pqResult.Q);
+            var gResult = gGenerator.Generate(pqResult.P, pqResult.Q, pqResult.Seed, generateRequest.Index);
             if (!gResult.Success)
             {
                 return new FfcDomainParametersGenerateResult($"Failed to generate g with error: {gResult.ErrorMessage}");
             }
 
             var domainParameters = new FfcDomainParameters(pqResult.P, pqResult.Q, gResult.G);
-            return new FfcDomainParametersGenerateResult(domainParameters, pqResult.Seed, pqResult.Counter);
+            return new FfcDomainParametersGenerateResult(domainParameters, pqResult.Seed, pqResult.Count);
         }
 
         public FfcDomainParametersValidateResult ValidateDomainParameters(FfcDomainParametersValidateRequest validateRequest)
         {
             // Validate p and q
+            var domainParams = validateRequest.PqgDomainParameters;
             var pqGenerator = _pqGeneratorFactory.GetGeneratorValidator(validateRequest.PrimeGen, Sha);
-            var pqResult = pqGenerator.Validate();
+            var pqResult = pqGenerator.Validate(domainParams.P, domainParams.Q, validateRequest.Seed, validateRequest.Count);
             if (!pqResult.Success)
             {
                 return new FfcDomainParametersValidateResult($"Failed to generate p and q with error: {pqResult.ErrorMessage}");
@@ -53,7 +54,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
 
             // Validate g
             var gGenerator = _gGeneratorFactory.GetGeneratorValidator(validateRequest.GeneratorGen, Sha);
-            var gResult = gGenerator.Validate();
+            var gResult = gGenerator.Validate(domainParams.P, domainParams.Q, domainParams.G, validateRequest.Seed, validateRequest.Index);
             if (!gResult.Success)
             {
                 return new FfcDomainParametersValidateResult($"Failed to generate g with error: {gResult.ErrorMessage}");

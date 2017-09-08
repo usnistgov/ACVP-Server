@@ -9,16 +9,16 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
     {
         public BigInteger P { get; }
         public BigInteger Q { get; }
-        public BigInteger Seed { get; }
-        public int Counter { get; }
+        public DomainSeed Seed { get; }
+        public Counter Count { get; }
         public string ErrorMessage { get; }
 
-        public PQGenerateResult(BigInteger p, BigInteger q, BigInteger seed, int counter)
+        public PQGenerateResult(BigInteger p, BigInteger q, DomainSeed seed, Counter count)
         {
             P = p;
             Q = q;
             Seed = seed;
-            Counter = counter;
+            Count = count;
         }
 
         public PQGenerateResult(string errorMessage)

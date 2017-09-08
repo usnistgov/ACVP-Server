@@ -12,9 +12,6 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
         {
             switch (primeGenMode)
             {
-                case PrimeGenMode.ProbableLegacy:
-                    return new LegacyProbablePQGeneratorValidator(sha);
-
                 case PrimeGenMode.Probable:
                     return new ProbablePQGeneratorValidator(sha);
 

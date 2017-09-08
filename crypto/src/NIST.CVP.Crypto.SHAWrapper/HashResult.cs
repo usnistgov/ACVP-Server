@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using System.Numerics;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.SHAWrapper
 {
@@ -20,6 +21,16 @@ namespace NIST.CVP.Crypto.SHAWrapper
         public bool Success
         {
             get { return string.IsNullOrEmpty(ErrorMessage); }
+        }
+
+        public BigInteger ToBigInteger()
+        {
+            if (!Success)
+            {
+                return 0;
+            }
+
+            return Digest.ToPositiveBigInteger();
         }
 
         public override string ToString()

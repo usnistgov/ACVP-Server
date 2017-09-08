@@ -13,12 +13,17 @@ namespace NIST.CVP.Crypto.DSA.FFC
         /// <summary>
         /// The seed used in the construction of <see cref="PqgDomainParameters"/>
         /// </summary>
-        public BigInteger Seed { get; }
+        public DomainSeed Seed { get; }
 
         /// <summary>
         /// Number of Candidate <see cref="P"/> values generated.
         /// </summary>
-        public int Counter { get; }
+        public Counter Count { get; }
+
+        /// <summary>
+        /// Index used to create the Generator
+        /// </summary>
+        public int Index { get; }
 
         /// <summary>
         /// Prime Generator method
@@ -30,11 +35,12 @@ namespace NIST.CVP.Crypto.DSA.FFC
         /// </summary>
         public GeneratorGenMode GeneratorGen { get; }
 
-        public FfcDomainParametersValidateRequest(FfcDomainParameters pqgDomainParameters, BigInteger seed, int counter, PrimeGenMode primeGen, GeneratorGenMode genGen)
+        public FfcDomainParametersValidateRequest(FfcDomainParameters pqgDomainParameters, DomainSeed seed, Counter count, int index, PrimeGenMode primeGen, GeneratorGenMode genGen)
         {
             PqgDomainParameters = pqgDomainParameters;
             Seed = seed;
-            Counter = counter;
+            Count = count;
+            Index = index;
             PrimeGen = primeGen;
             GeneratorGen = genGen;
         }

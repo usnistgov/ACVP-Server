@@ -15,12 +15,12 @@ namespace NIST.CVP.Crypto.DSA.FFC
         /// <summary>
         /// The seed used in the construction of <see cref="PqgDomainParameters"/>
         /// </summary>
-        public BigInteger Seed { get; }
+        public DomainSeed Seed { get; }
         
         /// <summary>
         /// Number of Candidate <see cref="P"/> values generated.
         /// </summary>
-        public int Counter { get; }
+        public Counter Count { get; }
 
         /// <summary>
         /// Was the generation successful?
@@ -32,11 +32,11 @@ namespace NIST.CVP.Crypto.DSA.FFC
         /// </summary>
         public string ErrorMessage { get; }
 
-        public FfcDomainParametersGenerateResult(FfcDomainParameters pqgDomainParameters, BigInteger seed, int counter)
+        public FfcDomainParametersGenerateResult(FfcDomainParameters pqgDomainParameters, DomainSeed seed, Counter count)
         {
             PqgDomainParameters = pqgDomainParameters;
             Seed = seed;
-            Counter = counter;
+            Count = count;
         }
 
         public FfcDomainParametersGenerateResult(string errorMessage)

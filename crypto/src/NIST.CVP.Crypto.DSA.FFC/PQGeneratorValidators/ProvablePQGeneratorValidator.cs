@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 using NIST.CVP.Crypto.SHAWrapper;
 
@@ -17,7 +18,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             throw new NotImplementedException();
         }
 
-        public PQValidateResult Validate()
+        public PQValidateResult Validate(BigInteger p, BigInteger q, DomainSeed seed, Counter count)
         {
             throw new NotImplementedException();
         }

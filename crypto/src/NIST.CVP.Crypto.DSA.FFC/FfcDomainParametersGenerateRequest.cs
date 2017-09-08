@@ -28,6 +28,11 @@ namespace NIST.CVP.Crypto.DSA.FFC
         public int HashLength { get; }
 
         /// <summary>
+        /// Index used in the Generator Generator
+        /// </summary>
+        public int Index { get; }
+
+        /// <summary>
         /// Prime Generator method
         /// </summary>
         public PrimeGenMode PrimeGen { get; }
@@ -37,12 +42,13 @@ namespace NIST.CVP.Crypto.DSA.FFC
         /// </summary>
         public GeneratorGenMode GeneratorGen { get; }
 
-        public FfcDomainParametersGenerateRequest(int seedLength, int pLength, int qLength, int hashLength, PrimeGenMode primeGen, GeneratorGenMode genGen)
+        public FfcDomainParametersGenerateRequest(int seedLength, int pLength, int qLength, int hashLength, int index, PrimeGenMode primeGen, GeneratorGenMode genGen)
         {
             SeedLength = seedLength;
             PLength = pLength;
             QLength = qLength;
             HashLength = hashLength;
+            Index = index;
             PrimeGen = primeGen;
             GeneratorGen = genGen;
         }

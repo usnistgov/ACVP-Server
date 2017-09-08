@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NIST.CVP.Crypto.DSA\NIST.CVP.Crypto.DSA.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.Math\NIST.CVP.Crypto.Math.csproj" />
   </ItemGroup>
 
 </Project>

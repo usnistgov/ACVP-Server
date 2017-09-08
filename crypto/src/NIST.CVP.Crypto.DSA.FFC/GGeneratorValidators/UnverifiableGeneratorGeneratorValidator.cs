@@ -7,12 +7,12 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
 {
     public class UnverifiableGeneratorGeneratorValidator : IGGeneratorValidator
     {
-        public GGenerateResult Generate(BigInteger p, BigInteger q)
+        public GGenerateResult Generate(BigInteger p, BigInteger q, DomainSeed seed = null, int index = 0)
         {
             throw new NotImplementedException();
         }
 
-        public GValidateResult Validate()
+        public GValidateResult Validate(BigInteger p, BigInteger q, BigInteger g, DomainSeed seed = null, int index = 0)
         {
             throw new NotImplementedException();
         }
