@@ -50,7 +50,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// needed by the other party for KAS
         /// </summary>
         /// <returns></returns>
-        FfcSharedInformation ReturnPublicInfoForOtherParty();
+        FfcSharedInformation ReturnPublicInfoThisParty();
         /// <summary>
         /// Computes the KAS result based on the provided other party's shared information
         /// </summary>

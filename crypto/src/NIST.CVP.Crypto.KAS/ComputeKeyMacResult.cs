@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.KAS.KC
+namespace NIST.CVP.Crypto.KAS
 {
     public class ComputeKeyMacResult
     {

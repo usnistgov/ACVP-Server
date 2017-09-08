@@ -73,7 +73,7 @@ namespace NIST.CVP.Crypto.KAS.KC
         /// <param name="thisPartyPublicKey"></param>
         /// <param name="otherPartyPublicKey"></param>
         /// <param name="derivedKeyingMaterial"></param>
-        /// <param name="nonce"></param>
+        /// <param name="ccmNonce"></param>
         public KeyConfirmationParameters(
             KeyAgreementRole thisPartyKeyAgreementRole,
             KeyConfirmationRole thisPartyKeyConfirmationRole,
@@ -86,15 +86,15 @@ namespace NIST.CVP.Crypto.KAS.KC
             BitString thisPartyPublicKey, 
             BitString otherPartyPublicKey, 
             BitString derivedKeyingMaterial,
-            BitString nonce)
+            BitString ccmNonce)
         {
             if (macType != KeyAgreementMacType.AesCcm)
             {
                 throw new ArgumentException(nameof(macType));
             }
-            if (nonce == null || nonce.BitLength == 0)
+            if (BitString.IsZeroLengthOrNull(ccmNonce))
             {
-                throw new ArgumentException(nameof(nonce));
+                throw new ArgumentException(nameof(ccmNonce));
             }
 
             ThisPartyKeyAgreementRole = thisPartyKeyAgreementRole;
@@ -109,7 +109,7 @@ namespace NIST.CVP.Crypto.KAS.KC
             OtherPartyPublicKey = otherPartyPublicKey;
             DerivedKeyingMaterial = derivedKeyingMaterial;
             KeyConfirmationType = keyConfirmationType;
-            Nonce = nonce;
+            CcmNonce = ccmNonce;
         }
 
         /// <inheritdoc />
@@ -135,6 +135,6 @@ namespace NIST.CVP.Crypto.KAS.KC
         /// <inheritdoc />
         public BitString DerivedKeyingMaterial { get; }
         /// <inheritdoc />
-        public BitString Nonce { get; }
+        public BitString CcmNonce { get; }
     }
 }

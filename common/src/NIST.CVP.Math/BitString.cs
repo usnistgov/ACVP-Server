@@ -825,8 +825,30 @@ namespace NIST.CVP.Math
             return new BitString(MsbLsbConversionHelpers.ReverseByteOrder(input.ToBytes()));
         }
 
-    #region Private methods
-    private static void PadShorterBitStringWithZeroes(ref BitString inputA, ref BitString inputB)
+        /// <summary>
+        /// Returns a zero length bitstring when passed a null, otherwise returns the bitstring
+        /// </summary>
+        /// <param name="bitString"></param>
+        /// <returns></returns>
+        public static BitString GetAtLeastZeroLengthBitString(BitString bitString)
+        {
+            if (bitString == null)
+                return new BitString(0);
+
+            return bitString;
+        }
+
+        public static bool IsZeroLengthOrNull(BitString bitString)
+        {
+            if (bitString == null)
+            {
+                return true;
+            }
+
+            return bitString.BitLength == 0;
+        }
+        #region Private methods
+        private static void PadShorterBitStringWithZeroes(ref BitString inputA, ref BitString inputB)
         {
             if (inputA.BitLength == inputB.BitLength)
             {

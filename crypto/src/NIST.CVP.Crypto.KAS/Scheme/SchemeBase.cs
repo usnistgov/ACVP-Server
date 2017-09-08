@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
+using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -15,6 +16,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         protected IDsaFfc Dsa;
         protected IKdfFactory KdfFactory;
         protected IKeyConfirmationFactory KeyConfirmationFactory;
+        protected INoKeyConfirmationFactory NoKeyConfirmationFactory;
         protected IOtherInfoFactory OtherInfoFactory;
         protected IEntropyProvider EntropyProvider;
         protected KasParameters KasParameters;
@@ -24,7 +26,8 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         protected SchemeBase(
             IDsaFfc dsa, 
             IKdfFactory kdfFactory, 
-            IKeyConfirmationFactory keyConfirmationFactory, 
+            IKeyConfirmationFactory keyConfirmationFactory,
+            INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
             IEntropyProvider entropyProvider,
             KasParameters kasParameters,
@@ -35,6 +38,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             Dsa = dsa;
             KdfFactory = kdfFactory;
             KeyConfirmationFactory = keyConfirmationFactory;
+            NoKeyConfirmationFactory = noKeyConfirmationFactory;
             OtherInfoFactory = otherInfoFactory;
             EntropyProvider = entropyProvider;
             KasParameters = kasParameters;
@@ -77,7 +81,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         }
 
         /// <inheritdoc />
-        public FfcSharedInformation ReturnPublicInfoForOtherParty()
+        public FfcSharedInformation ReturnPublicInfoThisParty()
         {
             if (!ThisPartyKeysGenerated)
             {
@@ -86,6 +90,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 
             return new FfcSharedInformation(
                 DomainParameters,
+                KasParameters.ThisPartyId,
                 StaticKeyPair.PublicKeyY,
                 EphemeralKeyPair.PublicKeyY,
                 EphemeralNonce,
@@ -129,7 +134,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             var dkm = kdf.DeriveKey(z, KdfParameters.KeyLength, oi);
 
             // Perform key confirmation, differs depending on scheme
-            var computedKeyMac = ComputeKeyMac(otherPartyInformation);
+            var computedKeyMac = ComputeKeyMac(otherPartyInformation, dkm.DerivedKey);
 
             return new KasResult(z, oi, dkm.DerivedKey, computedKeyMac.MacData, computedKeyMac.Mac);
         }
@@ -150,6 +155,27 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                 PrimeGenMode.Provable,
                 GeneratorGenMode.Canonical
             )).PqgDomainParameters);
+        }
+
+        protected INoKeyConfirmationParameters GetNoKeyConfirmationParameters(BitString derivedKeyingMaterial)
+        {
+            if (MacParameters.MacType == KeyAgreementMacType.AesCcm)
+            {
+                return new NoKeyConfirmationParameters(
+                    MacParameters.MacType,
+                    MacParameters.MacLength,
+                    derivedKeyingMaterial,
+                    NoKeyConfirmationNonce,
+                    MacParameters.CcmNonce
+                );
+            }
+
+            return new NoKeyConfirmationParameters(
+                MacParameters.MacType,
+                MacParameters.MacLength,
+                derivedKeyingMaterial,
+                NoKeyConfirmationNonce
+            );
         }
 
         /// <summary>
@@ -175,7 +201,8 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// Compute's the MAC of a key for both key confirmation and no key confirmation
         /// </summary>
         /// <param name="otherPartyInformation">The other party's public information</param>
+        /// <param name="derivedKeyingMaterial">The derived keying material generated via KDF</param>
         /// <returns></returns>
-        protected abstract ComputeKeyMacResult ComputeKeyMac(FfcSharedInformation otherPartyInformation);
+        protected abstract ComputeKeyMacResult ComputeKeyMac(FfcSharedInformation otherPartyInformation, BitString derivedKeyingMaterial);
     }
 }

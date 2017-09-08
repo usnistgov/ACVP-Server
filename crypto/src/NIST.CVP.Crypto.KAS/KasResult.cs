@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.KAS.Scheme
+namespace NIST.CVP.Crypto.KAS
 {
     public class KasResult
     {

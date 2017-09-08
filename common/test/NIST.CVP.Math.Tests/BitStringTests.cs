@@ -1961,5 +1961,72 @@ namespace NIST.CVP.Math.Tests
             }
         }
         #endregion ZERO and ONE
+
+        #region GetAtLeastZeroLengthBitString
+
+        private static object[] _test_GetAtLeastZeroLengthBitString = new object[]
+        {
+            new object[]
+            {
+                null,
+                new BitString(0)
+            },
+            new object[]
+            {
+                new BitString("CAFE"),
+                new BitString("CAFE"),
+            },
+            new object[]
+            {
+                new BitString("CAFECAFE"),
+                new BitString("CAFECAFE"), 
+            },
+        };
+
+        [Test]
+        [TestCaseSource(nameof(_test_GetAtLeastZeroLengthBitString))]
+        public void ShouldGetAtLeastZeroLengthBitString(BitString testValue, BitString expectedValue)
+        {
+            var result = BitString.GetAtLeastZeroLengthBitString(testValue);
+
+            Assert.AreEqual(expectedValue.ToHex(), result.ToHex());
+        }
+        #endregion GetAtLeastZeroLengthBitString
+
+        #region IsZeroLengthOrNull
+
+        private static object[] _test_IsZeroLengthOrNull = new object[]
+        {
+            new object[]
+            {
+                null,
+                true
+            },
+            new object[]
+            {
+                new BitString(0),
+                true
+            },
+            new object[]
+            {
+                new BitString(1),
+                false
+            },
+            new object[]
+            {
+                new BitString(42),
+                false
+            }
+        };
+
+        [Test]
+        [TestCaseSource(nameof(_test_IsZeroLengthOrNull))]
+        public void ShouldIsZeroLengthOrNullCorrectly(BitString testValue, bool expectedResult)
+        {
+            var result = BitString.IsZeroLengthOrNull(testValue);
+
+            Assert.AreEqual(expectedResult, result);
+        }
+        #endregion IsZeroLengthOrNull
     }
 }

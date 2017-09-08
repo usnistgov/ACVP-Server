@@ -8,11 +8,20 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 {
     public class MacParameters
     {
+        /// <summary>
+        /// The type of MAC utilized in the (No)Key Confirmation
+        /// </summary>
         public KeyAgreementMacType MacType { get; }
-        public HashFunction HashFunction { get; }
-        public BitString Nonce { get; }
+        /// <summary>
+        /// The length of the output mac
+        /// </summary>
+        public int MacLength { get; }
+        /// <summary>
+        /// The nonce utilized by a AES-CCM MAC
+        /// </summary>
+        public BitString CcmNonce { get; }
 
-        public MacParameters(KeyAgreementMacType macType, HashFunction hashFunction)
+        public MacParameters(KeyAgreementMacType macType, int macLength)
         {
             if (macType == KeyAgreementMacType.AesCcm)
             {
@@ -20,23 +29,24 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             }
 
             MacType = macType;
-            HashFunction = hashFunction;
+            MacLength = macLength;
         }
 
-        public MacParameters(KeyAgreementMacType macType, HashFunction hashFunction, BitString nonce)
+        public MacParameters(KeyAgreementMacType macType, int macLength, BitString ccmNonce)
         {
             if (macType != KeyAgreementMacType.AesCcm)
             {
                 throw new ArgumentException(nameof(macType));
             }
-            if (nonce == null || nonce.BitLength == 0)
+            
+            if (BitString.IsZeroLengthOrNull(ccmNonce))
             {
-                throw new ArgumentException(nameof(nonce));
+                throw new ArgumentException(nameof(ccmNonce));
             }
 
             MacType = macType;
-            HashFunction = hashFunction;
-            Nonce = nonce;
+            MacLength = macLength;
+            CcmNonce = ccmNonce;
         }
     }
 }

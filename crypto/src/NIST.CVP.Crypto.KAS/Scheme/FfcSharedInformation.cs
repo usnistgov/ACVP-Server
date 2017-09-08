@@ -6,7 +6,14 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 {
     public class FfcSharedInformation
     {
+        /// <summary>
+        /// The domain parameters involved in keypair generation
+        /// </summary>
         public FfcDomainParameters DomainParameters { get; }
+        /// <summary>
+        /// The identifier of this party.
+        /// </summary>
+        public BitString PartyId { get; }
         /// <summary>
         /// This Party's static public key
         /// </summary>
@@ -28,9 +35,10 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// </summary>
         public BitString NoKeyConfirmationNonce { get; }
 
-        public FfcSharedInformation(FfcDomainParameters domainParameters, BigInteger staticPublicKey, BigInteger ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce, BitString noKeyConfirmationNonce)
+        public FfcSharedInformation(FfcDomainParameters domainParameters, BitString partyId, BigInteger staticPublicKey, BigInteger ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce, BitString noKeyConfirmationNonce)
         {
             DomainParameters = domainParameters;
+            PartyId = partyId;
             StaticPublicKey = staticPublicKey;
             EphemeralPublicKey = ephemeralPublicKey;
             EphemeralNonce = ephemeralNonce;

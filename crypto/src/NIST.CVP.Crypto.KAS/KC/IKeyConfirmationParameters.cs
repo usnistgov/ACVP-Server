@@ -58,6 +58,6 @@ namespace NIST.CVP.Crypto.KAS.KC
         /// <summary>
         /// The Nonce used for Aes-Ccm
         /// </summary>
-        BitString Nonce { get; }
+        BitString CcmNonce { get; }
     }
 }

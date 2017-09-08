@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-using NIST.CVP.Crypto.DSA;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC.Enums;
+﻿using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
+using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -21,7 +16,8 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         public SchemeDiffieHellmanEphemeral(
             IDsaFfc dsa, 
             IKdfFactory kdfFactory, 
-            IKeyConfirmationFactory keyConfirmationFactory, 
+            IKeyConfirmationFactory keyConfirmationFactory,
+            INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
             IEntropyProvider entropyProvider,
             KasParameters kasParameters, 
@@ -29,7 +25,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             MacParameters macParameters,
             IDiffieHellman<FfcDomainParameters> dh
         ) 
-            : base(dsa, kdfFactory, keyConfirmationFactory, otherInfoFactory, entropyProvider, kasParameters, kdfParameters, macParameters)
+            : base(dsa, kdfFactory, keyConfirmationFactory, noKeyConfirmationFactory, otherInfoFactory, entropyProvider, kasParameters, kdfParameters, macParameters)
         {
             Dh = dh;
         }
@@ -55,7 +51,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             // Initiator should generate (doesn't actually matter who generates, just that someone does)
             if (KasParameters.KeyAgreementRole == KeyAgreementRole.UPartyInitiator)
             {
-                NoKeyConfirmationNonce = EntropyProvider.GetEntropy(128);
+                // TODO don't remove zeros?
+                BitString q = new BitString(DomainParameters.Q, 0, true);
+                NoKeyConfirmationNonce = EntropyProvider.GetEntropy(q.BitLength / 2);
             }
         }
 
@@ -75,16 +73,23 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 
         protected override IOtherInfo GenerateOtherInformation(FfcSharedInformation otherPartyInformation)
         {
-            var oi = OtherInfoFactory.GetInstance(KdfParameters.OtherInfoPattern, OtherInputLength);
-
-
-
-            throw new NotImplementedException();
+            return OtherInfoFactory.GetInstance(
+                KdfParameters.OtherInfoPattern, 
+                OtherInputLength,
+                KasParameters.KeyAgreementRole, 
+                ReturnPublicInfoThisParty(), 
+                otherPartyInformation
+            );
         }
 
-        protected override ComputeKeyMacResult ComputeKeyMac(FfcSharedInformation otherPartyInformation)
+        protected override ComputeKeyMacResult ComputeKeyMac(FfcSharedInformation otherPartyInformation, BitString derivedKeyingMaterial)
         {
-            throw new NotImplementedException();
+            // key confirmation not possible with this scheme, proceed with no key confirmation
+            var noKeyConfirmationParameters = GetNoKeyConfirmationParameters(derivedKeyingMaterial);
+
+            var noKeyConfirmationInstance = NoKeyConfirmationFactory.GetInstance(noKeyConfirmationParameters);
+            
+            return noKeyConfirmationInstance.ComputeMac();
         }
     }
 }

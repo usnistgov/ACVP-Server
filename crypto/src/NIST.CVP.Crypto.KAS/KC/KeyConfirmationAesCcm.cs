@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.KAS.KC
         {
             var result = _iAesCcm.Encrypt(
                 _keyConfirmationParameters.DerivedKeyingMaterial,
-                _keyConfirmationParameters.Nonce,
+                _keyConfirmationParameters.CcmNonce,
                 new BitString(0), 
                 macData,
                 _keyConfirmationParameters.MacLength
