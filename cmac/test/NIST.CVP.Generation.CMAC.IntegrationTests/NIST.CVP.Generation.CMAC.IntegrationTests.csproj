@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
