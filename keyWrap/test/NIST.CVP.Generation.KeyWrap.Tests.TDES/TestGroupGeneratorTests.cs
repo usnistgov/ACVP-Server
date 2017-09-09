@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                     new string[] { "encrypt" }, // 1
                     new string[] { "cipher" }, // 1
                     new MathDomain().AddSegment(new ValueDomainSegment(128)), // 1
-                    1 // ! * 1 * 1 * 1 * 1
+                    2 // ! * 1 * 1 * 1 * 1
                 },
 
                 new object[]
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                     new MathDomain()
                         .AddSegment(new RangeDomainSegment(randy, 128, 128*200, 64)), // lots of possible values
                     // 2 values total from range
-                    2 // 1 * 1 * 1 * 1 * 5
+                    4 // 1 * 1 * 1 * 1 * 5
                 },
                 new object[]
                 {
@@ -59,7 +59,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                     new MathDomain()
                         .AddSegment(new RangeDomainSegment(randy, 128, 128*200, 64)), // lots of possible values
                     // 2 values total from range
-                    8 // 1 * 1 * 2 * 2 * 2
+                    16 // 1 * 1 * 2 * 2 * 2
                 }
 
             };

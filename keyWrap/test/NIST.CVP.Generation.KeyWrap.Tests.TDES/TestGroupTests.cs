@@ -30,14 +30,6 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
             Assert.AreEqual(sourceAnswer.testType, subject.TestType);
         }
 
-        [Test]
-        public void ShouldSetProperKeyLengthFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.keyLen, subject.KeyLength);
-        }
 
         [Test]
         [TestCase("Fredo")]

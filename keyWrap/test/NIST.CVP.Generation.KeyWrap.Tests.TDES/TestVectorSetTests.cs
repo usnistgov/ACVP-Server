@@ -79,7 +79,6 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
             var results = subject.AnswerProjection;
             var group = results[0];
             Assert.IsTrue(!string.IsNullOrEmpty(group.direction.ToString()), nameof(group.direction));
-            Assert.IsTrue(!string.IsNullOrEmpty(group.keyLen.ToString()), nameof(group.keyLen));
             var tests = group.tests;
             foreach (var test in tests)
             {
@@ -98,7 +97,6 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
             var results = subject.PromptProjection;
             var group = results[0];
             Assert.IsTrue(!string.IsNullOrEmpty(group.direction.ToString()), nameof(group.direction));
-            Assert.IsTrue(!string.IsNullOrEmpty(group.keyLen.ToString()), nameof(group.keyLen));
             var tests = group.tests;
             foreach (var test in tests)
             {
