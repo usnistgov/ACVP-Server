@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
+using System;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {
@@ -98,6 +99,16 @@ namespace NIST.CVP.Crypto.DSA.FFC
             {
                 return new FfcKeyPairValidateResult("Invalid key pair, y != g^x mod p");
             }
+        }
+
+        public FfcSignatureResult Sign(FfcDomainParameters domainParameters, FfcKeyPair keyPair, BitString message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public FfcVerificationResult Verify(FfcDomainParameters domainParameters, FfcKeyPair keyPair, BitString message, FfcSignature signature)
+        {
+            throw new NotImplementedException();
         }
     }
 }

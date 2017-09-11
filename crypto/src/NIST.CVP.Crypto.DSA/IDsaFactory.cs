@@ -17,7 +17,8 @@ namespace NIST.CVP.Crypto.DSA
         IDsa<
                 IDomainParametersGenerateRequest, IDomainParametersGenerateResult, 
                 IDomainParametersValidateRequest, IDomainParametersValidateResult, 
-                IDsaDomainParameters, IKeyPairGenerateResult, IDsaKeyPair, IKeyPairValidateResult
+                IDsaDomainParameters, IKeyPairGenerateResult, IDsaKeyPair, IKeyPairValidateResult,
+                IDsaSignature, IDsaSignatureResult, IDsaVerificationResult
             >
             GetDsaInstance(DsaAlgorithm dsaAlgorithm, HashFunction hashFunction);
     }

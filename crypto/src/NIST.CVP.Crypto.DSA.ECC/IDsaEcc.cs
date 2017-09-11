@@ -8,7 +8,10 @@
         EccDomainParameters,
         EccKeyPairGenerateResult,
         EccKeyPair,
-        EccKeyPairValidationResult
+        EccKeyPairValidationResult,
+        EccSignature,
+        EccSignatureResult,
+        EccVerificationResult
         >
     {
     }

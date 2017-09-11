@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {
@@ -23,7 +24,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
         /// <summary>
         /// Index used to create the Generator
         /// </summary>
-        public int Index { get; }
+        public BitString Index { get; }
 
         /// <summary>
         /// Prime Generator method
@@ -35,7 +36,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
         /// </summary>
         public GeneratorGenMode GeneratorGen { get; }
 
-        public FfcDomainParametersValidateRequest(FfcDomainParameters pqgDomainParameters, DomainSeed seed, Counter count, int index, PrimeGenMode primeGen, GeneratorGenMode genGen)
+        public FfcDomainParametersValidateRequest(FfcDomainParameters pqgDomainParameters, DomainSeed seed, Counter count, BitString index, PrimeGenMode primeGen, GeneratorGenMode genGen)
         {
             PqgDomainParameters = pqgDomainParameters;
             Seed = seed;

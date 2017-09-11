@@ -28,7 +28,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
             Mode = PrimeGenMode.Provable;
         }
 
-        public BigInteger GetSeed()
+        public BigInteger GetFullSeed()
         {
             var seedBS = new BitString(Seed);
             var pSeedBS = new BitString(PSeed);

@@ -9,7 +9,10 @@
             FfcDomainParameters, 
             FfcKeyPairGenerateResult,
             FfcKeyPair, 
-            FfcKeyPairValidateResult
+            FfcKeyPairValidateResult,
+            FfcSignature,
+            FfcSignatureResult,
+            FfcVerificationResult
         >
     {
     }

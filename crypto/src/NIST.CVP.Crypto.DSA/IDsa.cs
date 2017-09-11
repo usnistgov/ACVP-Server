@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.DSA
 {
@@ -11,7 +12,8 @@ namespace NIST.CVP.Crypto.DSA
                             TDomainParametersGenerateRequest, TDomainParametersGenerateResult,
                             TDomainParametersValidateRequest, TDomainParametersValidateResult,
                             TDsaDomainParameters, 
-                            TKeyPairGenerateResult, TDsaKeyPair, TDsaKeyPairValidationResult
+                            TKeyPairGenerateResult, TDsaKeyPair, TDsaKeyPairValidationResult,
+                            TDsaSignature, TDsaSignatureResult, TDsaVerificationResult
                          >
         where TDomainParametersGenerateRequest : IDomainParametersGenerateRequest
         where TDomainParametersGenerateResult : IDomainParametersGenerateResult
@@ -21,6 +23,9 @@ namespace NIST.CVP.Crypto.DSA
         where TKeyPairGenerateResult : IKeyPairGenerateResult
         where TDsaKeyPair : IDsaKeyPair
         where TDsaKeyPairValidationResult : IKeyPairValidateResult
+        where TDsaSignature : IDsaSignature
+        where TDsaSignatureResult : IDsaSignatureResult
+        where TDsaVerificationResult : IDsaVerificationResult
     {
         /// <summary>
         /// The Sha instance utilized for Dsa
@@ -55,5 +60,24 @@ namespace NIST.CVP.Crypto.DSA
         /// <param name="keyPair">The DSA key pair</param>
         /// <returns></returns>
         TDsaKeyPairValidationResult ValidateKeyPair(TDsaDomainParameters domainParameters, TDsaKeyPair keyPair);
+
+        /// <summary>
+        /// Signs a message
+        /// </summary>
+        /// <param name="domainParameters"></param>
+        /// <param name="keyPair"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        TDsaSignatureResult Sign(TDsaDomainParameters domainParameters, TDsaKeyPair keyPair, BitString message);
+
+        /// <summary>
+        /// Verifies a signature
+        /// </summary>
+        /// <param name="domainParameters"></param>
+        /// <param name="keyPair"></param>
+        /// <param name="message"></param>
+        /// <param name="signature"></param>
+        /// <returns></returns>
+        TDsaVerificationResult Verify(TDsaDomainParameters domainParameters, TDsaKeyPair keyPair, BitString message, TDsaSignature signature);
     }
 }

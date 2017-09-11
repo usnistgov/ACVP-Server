@@ -142,14 +142,14 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             }
 
             // 5, 6
-            var seedLen = new BitString(seed.GetSeed()).BitLength;
+            var seedLen = new BitString(seed.Seed).BitLength;
             if (seedLen < N)
             {
                 return new PQValidateResult("Invalid seed");
             }
 
             // 7
-            var U = _sha.HashNumber(seed.GetSeed()).ToBigInteger() % NumberTheory.Pow2(N - 1);
+            var U = _sha.HashNumber(seed.Seed).ToBigInteger() % NumberTheory.Pow2(N - 1);
 
             // 8
             var computed_q = NumberTheory.Pow2(N - 1) + U + 1 - (U % 2);
@@ -175,7 +175,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
                 var V = new List<BigInteger>();
                 for (var j = 0; j <= n; j++)
                 {
-                    V.Add(_sha.HashNumber(seed.GetSeed() + offset + j).ToBigInteger() % NumberTheory.Pow2(seedLen));
+                    V.Add(_sha.HashNumber(seed.Seed + offset + j).ToBigInteger() % NumberTheory.Pow2(seedLen));
                 }
 
                 // 13.2

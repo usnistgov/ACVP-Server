@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Crypto.DSA.FFC.Enums;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {
@@ -30,7 +31,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
         /// <summary>
         /// Index used in the Generator Generator
         /// </summary>
-        public int Index { get; }
+        public BitString Index { get; }
 
         /// <summary>
         /// Prime Generator method
@@ -42,7 +43,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
         /// </summary>
         public GeneratorGenMode GeneratorGen { get; }
 
-        public FfcDomainParametersGenerateRequest(int seedLength, int pLength, int qLength, int hashLength, int index, PrimeGenMode primeGen, GeneratorGenMode genGen)
+        public FfcDomainParametersGenerateRequest(int seedLength, int pLength, int qLength, int hashLength, BitString index, PrimeGenMode primeGen, GeneratorGenMode genGen)
         {
             SeedLength = seedLength;
             PLength = pLength;

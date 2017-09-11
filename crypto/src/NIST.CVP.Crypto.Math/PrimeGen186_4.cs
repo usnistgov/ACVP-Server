@@ -503,7 +503,8 @@ namespace NIST.CVP.Crypto.Math
         /// <returns></returns>
         public static STRandomPrimeResult ShaweTaylorRandomPrime(int length, BigInteger inputSeed, SHA2.HashFunction hashFunction)
         {
-            BigInteger prime, primeSeed, primeGenCounter;
+            BigInteger prime, primeSeed;
+            int primeGenCounter;
             var outLen = SHAEnumHelpers.DigestSizeToInt(hashFunction.DigestSize);
 
             // 1
@@ -630,7 +631,8 @@ namespace NIST.CVP.Crypto.Math
         /// <returns></returns>
         public static STRandomPrimeResult ShaweTaylorRandomPrime(int length, BigInteger inputSeed, ISha sha)
         {
-            BigInteger prime, primeSeed, primeGenCounter;
+            BigInteger prime, primeSeed;
+            int primeGenCounter;
             var outLen = sha.HashFunction.OutputLen;
 
             // 1

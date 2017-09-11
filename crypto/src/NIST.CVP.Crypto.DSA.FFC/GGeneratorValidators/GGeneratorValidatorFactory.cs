@@ -13,7 +13,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
             switch (genMode)
             {
                 case GeneratorGenMode.Canonical:
-                    return new CanonicalGeneratorGeneratorValidator();
+                    return new CanonicalGeneratorGeneratorValidator(sha);
 
                 case GeneratorGenMode.Unverifiable:
                     return new UnverifiableGeneratorGeneratorValidator();
