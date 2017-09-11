@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
 using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Math
@@ -447,10 +448,10 @@ namespace NIST.CVP.Crypto.Math
         {
             public BigInteger Prime;
             public BigInteger PrimeSeed;
-            public BigInteger PrimeGenCounter;
+            public int PrimeGenCounter;
             public string ErrorMessage;
 
-            public STRandomPrimeResult(BigInteger prime, BigInteger primeSeed, BigInteger primeGenCounter)
+            public STRandomPrimeResult(BigInteger prime, BigInteger primeSeed, int primeGenCounter)
             {
                 Prime = prime;
                 PrimeSeed = primeSeed;
@@ -470,7 +471,7 @@ namespace NIST.CVP.Crypto.Math
         }
         #endregion structs
 
-        public static BigInteger Hash(HashFunction hashFunction, BigInteger message)
+        public static BigInteger Hash(SHA2.HashFunction hashFunction, BigInteger message)
         {
             var bs = new BitString(message);
 
@@ -498,8 +499,9 @@ namespace NIST.CVP.Crypto.Math
         /// </summary>
         /// <param name="length"></param>
         /// <param name="inputSeed"></param>
+        /// <param name="hashFunction"></param>
         /// <returns></returns>
-        public static STRandomPrimeResult ShaweTaylorRandomPrime(int length, BigInteger inputSeed, HashFunction hashFunction)
+        public static STRandomPrimeResult ShaweTaylorRandomPrime(int length, BigInteger inputSeed, SHA2.HashFunction hashFunction)
         {
             BigInteger prime, primeSeed, primeGenCounter;
             var outLen = SHAEnumHelpers.DigestSizeToInt(hashFunction.DigestSize);
@@ -590,6 +592,133 @@ namespace NIST.CVP.Crypto.Math
                 for (var i = 0; i <= iterations; i++)
                 {
                     a += Hash(hashFunction, primeSeed + i) * NumberTheory.Pow2(i * outLen);
+                }
+
+                // 28, 29
+                primeSeed += iterations + 1;
+                a = 2 + a % (prime - 3);
+
+                // 30
+                var z = BigInteger.ModPow(a, 2 * t, prime);
+
+                // 31
+                if (NumberTheory.GCD(z - 1, prime) == 1 && BigInteger.ModPow(z, prime0, prime) == 1)
+                {
+                    // 31.1, 31.2
+                    return new STRandomPrimeResult(prime, primeSeed, primeGenCounter);
+                }
+
+                // 32
+                if (primeGenCounter >= 4 * length + oldCounter)
+                {
+                    return new STRandomPrimeResult("fail");
+                }
+
+                // 33
+                t++;
+
+                // 34 (loop)
+            }
+        }
+
+        /// <summary>
+        /// C.6 Makes small 32-bit prime numbers
+        /// </summary>
+        /// <param name="length"></param>
+        /// <param name="inputSeed"></param>
+        /// <param name="sha"></param>
+        /// <returns></returns>
+        public static STRandomPrimeResult ShaweTaylorRandomPrime(int length, BigInteger inputSeed, ISha sha)
+        {
+            BigInteger prime, primeSeed, primeGenCounter;
+            var outLen = sha.HashFunction.OutputLen;
+
+            // 1
+            if (length < 2)
+            {
+                return new STRandomPrimeResult("fail");
+            }
+
+            // 2
+            if (length < 33)
+            {
+                // 3, 4
+                primeSeed = inputSeed;
+                primeGenCounter = 0;
+
+                while (true)
+                {
+                    // 5, 6, 7
+                    prime = sha.HashNumber(primeSeed).ToBigInteger() ^ sha.HashNumber(primeSeed + 1).ToBigInteger();
+                    prime = NumberTheory.Pow2(length - 1) + prime % NumberTheory.Pow2(length - 1);
+                    prime = 2 * (prime / 2) + 1;
+
+                    // 8, 9
+                    primeGenCounter++;
+                    primeSeed += 2;
+
+                    // 10, 11
+                    if (TrialDivision(prime))
+                    {
+                        // 11.1, 11.2
+                        return new STRandomPrimeResult(prime, primeSeed, primeGenCounter);
+                    }
+
+                    // 12
+                    if (primeGenCounter > 4 * length)
+                    {
+                        return new STRandomPrimeResult("fail");
+                    }
+
+                    // 13 (loop)
+                }
+            }
+
+            // 14
+            var result = ShaweTaylorRandomPrime((int)System.Math.Ceiling(length / 2.0) + 1, inputSeed, sha);
+            var prime0 = result.Prime;
+            primeSeed = result.PrimeSeed;
+            primeGenCounter = result.PrimeGenCounter;
+
+            // 15
+            if (!result.Success)
+            {
+                return new STRandomPrimeResult("fail");
+            }
+
+            // 16, 17
+            var iterations = NumberTheory.CeilingDivide(length, outLen) - 1;
+            var oldCounter = primeGenCounter;
+
+            // 18, 19
+            BigInteger x = 0;
+            for (var i = 0; i <= iterations; i++)
+            {
+                x += sha.HashNumber(primeSeed + i).ToBigInteger() * NumberTheory.Pow2(i * outLen);
+            }
+
+            // 20, 21, 22
+            primeSeed += iterations + 1;
+            x = NumberTheory.Pow2(length - 1) + x % NumberTheory.Pow2(length - 1);
+            var t = NumberTheory.CeilingDivide(x, 2 * prime0);
+
+            while (true)
+            {
+                // 23
+                if (2 * t * prime0 + 1 > NumberTheory.Pow2(length))
+                {
+                    t = NumberTheory.CeilingDivide(NumberTheory.Pow2(length - 1), 2 * prime0);
+                }
+
+                // 24, 25
+                prime = 2 * t * prime0 + 1;
+                primeGenCounter++;
+
+                // 26, 27
+                BigInteger a = 0;
+                for (var i = 0; i <= iterations; i++)
+                {
+                    a += sha.HashNumber(primeSeed + i).ToBigInteger() * NumberTheory.Pow2(i * outLen);
                 }
 
                 // 28, 29
