@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using System;
+using NIST.CVP.Crypto.Math;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {
@@ -12,6 +13,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
     {
         public ISha Sha { get; }
 
+        private IRandom800_90 _rand = new Random800_90();
         private PQGeneratorValidatorFactory _pqGeneratorFactory = new PQGeneratorValidatorFactory();
         private GGeneratorValidatorFactory _gGeneratorFactory = new GGeneratorValidatorFactory();
 
@@ -103,7 +105,19 @@ namespace NIST.CVP.Crypto.DSA.FFC
 
         public FfcSignatureResult Sign(FfcDomainParameters domainParameters, FfcKeyPair keyPair, BitString message)
         {
-            throw new NotImplementedException();
+            BigInteger r, s;
+            do
+            {
+                var k = _rand.GetRandomBigInteger(domainParameters.Q - 1);
+                var kInv = NumberTheory.ModularInverse(k, domainParameters.Q);
+
+                r = BigInteger.ModPow(domainParameters.G, k, domainParameters.P) % domainParameters.Q;
+                var z = BitString.MSBSubstring(Sha.HashMessage(message).Digest, 0, System.Math.Min(Sha.HashFunction.OutputLen, new BitString(domainParameters.Q).BitLength)).ToPositiveBigInteger();
+                s = (kInv * (z + keyPair.PrivateKeyX * r)) % domainParameters.Q;
+
+            } while (r == 0 || s == 0);
+
+            return new FfcSignatureResult(new FfcSignature(r, s));
         }
 
         public FfcVerificationResult Verify(FfcDomainParameters domainParameters, FfcKeyPair keyPair, BitString message, FfcSignature signature)
