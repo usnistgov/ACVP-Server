@@ -22,13 +22,5 @@ namespace NIST.CVP.Crypto.SHAWrapper
                     throw new ArgumentException($"{nameof(hashFunction)}");
             }
         }
-
-        
-
-        
-
-        
-
-        
     }
 }

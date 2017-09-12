@@ -91,14 +91,56 @@ namespace NIST.CVP.Crypto.Math
         }
 
         /// <summary>
-        /// Find greatest common denominator of a and b
+        /// Find greatest common denominator of a and b, from page 606, Handbook of Applied Cryptography
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
         public static BigInteger GCD(BigInteger a, BigInteger b)
         {
-            return b == 0 ? a : GCD(b, a % b);
+            BigInteger min, max;
+            if(a <= b)
+            {
+                min = a;
+                max = b;
+            }
+            else
+            {
+                min = b;
+                max = a;
+            }
+
+            BigInteger g = 1;
+            while(min.IsEven && max.IsEven)
+            {
+                min /= 2;
+                max /= 2;
+                g *= 2;
+            }
+
+            while(min != 0)
+            {
+                while (min.IsEven)
+                {
+                    min /= 2;
+                }
+
+                while (max.IsEven)
+                {
+                    max /= 2;
+                }
+
+                if (min >= max)
+                {
+                    min = (min - max) / 2;
+                }
+                else
+                {
+                    max = (max - min) / 2;
+                }
+            }
+
+            return max * g;
         }
     
         /// <summary>

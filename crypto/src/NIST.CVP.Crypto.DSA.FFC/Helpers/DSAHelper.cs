@@ -23,5 +23,23 @@ namespace NIST.CVP.Crypto.DSA.FFC.Helpers
 
             return false;
         }
+
+        public static int GetMillerRabinIterations(int L, int N)
+        {
+            if (L == 1024)
+            {
+                return 40;
+            }
+            else if(L == 2048)
+            {
+                return 56;
+            }
+            else if(L == 3072)
+            {
+                return 64;
+            }
+
+            return 1;
+        }
     }
 }

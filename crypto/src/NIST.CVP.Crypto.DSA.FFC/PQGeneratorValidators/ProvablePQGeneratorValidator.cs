@@ -7,17 +7,25 @@ using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
 {
     public class ProvablePQGeneratorValidator : IPQGeneratorValidator
     {
         private readonly ISha _sha;
-        private readonly IRandom800_90 _rand = new Random800_90();
+        private IEntropyProvider _entropy;
+        private IEntropyProviderFactory _entropyFactory = new EntropyProviderFactory();
 
-        public ProvablePQGeneratorValidator(ISha sha)
+        public ProvablePQGeneratorValidator(ISha sha, EntropyProviderTypes entropyType = EntropyProviderTypes.Random)
         {
             _sha = sha;
+            _entropy = _entropyFactory.GetEntropyProvider(entropyType);
+        }
+
+        public void AddEntropy(BitString entropy)
+        {
+            _entropy.AddEntropy(entropy);
         }
 
         /// <summary>
@@ -26,9 +34,9 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
         /// <param name="N"></param>
         /// <param name="seedLen"></param>
         /// <returns></returns>
-        private BigInteger GetFirstSeed(int N, int seedLen)
+        private BigInteger GetFirstSeed(int L, int N, int seedLen)
         {
-            if (N != 1024 && N != 2048 && N != 3072)
+            if (!DSAHelper.VerifyLenPair(L, N))
             {
                 return 0;
             }
@@ -41,7 +49,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             BitString firstSeed;
             do
             {
-                firstSeed = _rand.GetRandomBitString(seedLen);
+                firstSeed = _entropy.GetEntropy(seedLen);
             } while (firstSeed.ToPositiveBigInteger() < NumberTheory.Pow2(N - 1));
 
             return firstSeed.ToPositiveBigInteger();
@@ -56,7 +64,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
         /// <returns></returns>
         public PQGenerateResult Generate(int L, int N, int seedLen)
         {
-            return Generate(L, N, GetFirstSeed(N, seedLen));
+            return Generate(L, N, GetFirstSeed(L, N, seedLen));
         }
 
         /// <summary>
@@ -86,7 +94,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
 
             // 3
             var pLen = (int)NumberTheory.CeilingDivide(L, 2) + 1;
-            var pResult = PrimeGen186_4.ShaweTaylorRandomPrime(pLen, qResult.PrimeSeed, _sha);
+            var pResult = PrimeGen186_4.ShaweTaylorRandomPrime(pLen, qSeed, _sha);
             if (!pResult.Success)
             {
                 return new PQGenerateResult("Failed to generate p0 from ShaweTaylor");
@@ -163,6 +171,14 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             } while (true);
         }
 
+        /// <summary>
+        /// A.1.2.2
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="q"></param>
+        /// <param name="seed"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public PQValidateResult Validate(BigInteger p, BigInteger q, DomainSeed seed, Counter count)
         {
             // 0, domain type check

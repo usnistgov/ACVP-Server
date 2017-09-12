@@ -7,17 +7,26 @@ using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
 {
     public class ProbablePQGeneratorValidator : IPQGeneratorValidator
     {
         private readonly ISha _sha;
+        private IEntropyProvider _entropy;
+        private IEntropyProviderFactory _entropyFactory = new EntropyProviderFactory();
         private readonly IRandom800_90 _rand = new Random800_90();
 
-        public ProbablePQGeneratorValidator(ISha sha)
+        public ProbablePQGeneratorValidator(ISha sha, EntropyProviderTypes entropyType = EntropyProviderTypes.Random)
         {
             _sha = sha;
+            _entropy = _entropyFactory.GetEntropyProvider(entropyType);
+        }
+
+        public void AddEntropy(BitString entropy)
+        {
+            _entropy.AddEntropy(entropy);
         }
 
         /// <summary>
@@ -53,35 +62,29 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
                 do
                 {
                     // 5. Get random seed
-                    seed = _rand.GetRandomBitString(seedLen).ToPositiveBigInteger();
+                    seed = _entropy.GetEntropy(seedLen).ToPositiveBigInteger();
 
                     // 6. Hash seed
                     var U = _sha.HashNumber(seed).ToBigInteger() % NumberTheory.Pow2(N - 1);
 
                     // 7. Compute q
-                    q = NumberTheory.Pow2(N - 1) + U - 1 - (U % 2);
+                    q = NumberTheory.Pow2(N - 1) + U + 1 - (U % 2);
 
                 // Check if q is prime, if not go back to 5, assume highest security strength
-                } while (!NumberTheory.MillerRabin(q, 64));
+                } while (!NumberTheory.MillerRabin(q, DSAHelper.GetMillerRabinIterations(L, N)));
 
                 // 10, 11 Compute p
                 var offset = 1;
-                for (var ctr = 0; ctr <= (4 * L - 1); ctr++)
+                var upperBound = (4 * L - 1);
+                for (var ctr = 0; ctr <= upperBound; ctr++)
                 {
-                    // 11.1
-                    var V = new List<BigInteger>();
-                    for (var j = 0; j <= n; j++)
-                    {
-                        V.Add(_sha.HashNumber(seed + offset + j).ToBigInteger());
-                    }
-
-                    // 11.2
-                    var W = V[0];
+                    // 11.1, 11.2
+                    var W = _sha.HashNumber(seed + offset).ToBigInteger();
                     for (var j = 1; j < n; j++)
                     {
-                        W += V[1] * NumberTheory.Pow2(outLen);
+                        W += _sha.HashNumber(seed + offset + j).ToBigInteger() * NumberTheory.Pow2(j * outLen);
                     }
-                    W += V[n] % NumberTheory.Pow2(b) * NumberTheory.Pow2(n * outLen);
+                    W += (_sha.HashNumber(seed + offset + n).ToBigInteger() % NumberTheory.Pow2(b)) * NumberTheory.Pow2(n * outLen);
 
                     // 11.3
                     var X = W + NumberTheory.Pow2(L - 1);
@@ -96,7 +99,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
                     if (p >= NumberTheory.Pow2(L - 1))
                     {
                         // Check if p is prime, if so return
-                        if (NumberTheory.MillerRabin(p, 64))
+                        if (NumberTheory.MillerRabin(p, DSAHelper.GetMillerRabinIterations(L, N)))
                         {
                             return new PQGenerateResult(p, q, new DomainSeed(seed), new Counter(ctr));
                         }
@@ -155,7 +158,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             var computed_q = NumberTheory.Pow2(N - 1) + U + 1 - (U % 2);
 
             // 9
-            if (!NumberTheory.MillerRabin(computed_q, 64) || computed_q != q)
+            if (!NumberTheory.MillerRabin(computed_q, DSAHelper.GetMillerRabinIterations(L, N)) || computed_q != q)
             {
                 return new PQValidateResult("Q not prime, or doesn't match expected value");
             }
@@ -199,7 +202,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
                 if (computed_p >= NumberTheory.Pow2(L - 1))
                 {
                     // Check if p is prime, if so return
-                    if (NumberTheory.MillerRabin(computed_p, 64))
+                    if (NumberTheory.MillerRabin(computed_p, DSAHelper.GetMillerRabinIterations(L, N)))
                     {
                         break;
                     }
@@ -210,7 +213,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             }
 
             // 14
-            if (i != count.GetCounter() || computed_p != p || NumberTheory.MillerRabin(computed_p, 64))
+            if (i != count.GetCounter() || computed_p != p || NumberTheory.MillerRabin(computed_p, DSAHelper.GetMillerRabinIterations(L, N)))
             {
                 return new PQValidateResult("Invalid p value or counter");
             }
