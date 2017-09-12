@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA.FFC;
+﻿using System;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -20,17 +21,25 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
             IEntropyProvider entropyProvider,
-            KasParameters kasParameters, 
+            SchemeParameters schemeParameters, 
             KdfParameters kdfParameters, 
             MacParameters macParameters,
             IDiffieHellman<FfcDomainParameters> dh
         ) 
-            : base(dsa, kdfFactory, keyConfirmationFactory, noKeyConfirmationFactory, otherInfoFactory, entropyProvider, kasParameters, kdfParameters, macParameters)
+            : base(dsa, kdfFactory, keyConfirmationFactory, noKeyConfirmationFactory, otherInfoFactory, entropyProvider, schemeParameters, kdfParameters, macParameters)
         {
             Dh = dh;
-        }
 
-        public override FfcScheme Scheme => FfcScheme.DhEphem;
+            if (SchemeParameters.Scheme != FfcScheme.DhEphem)
+            {
+                throw new ArgumentException(nameof(SchemeParameters.Scheme));
+            }
+
+            if (SchemeParameters.KasMode == KasMode.KeyConfirmation)
+            {
+                throw new ArgumentException($"{SchemeParameters.KasMode} not possible with {SchemeParameters.Scheme}");
+            }
+        }
 
         /// <inheritdoc />
         /// <summary>
@@ -49,11 +58,10 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 
             // Key confirmation not possible for dhEphem scheme, MACData requires the use of a nonce
             // Initiator should generate (doesn't actually matter who generates, just that someone does)
-            if (KasParameters.KeyAgreementRole == KeyAgreementRole.UPartyInitiator)
+            if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.UPartyInitiator 
+                && SchemeParameters.KasMode == KasMode.NoKeyConfirmation)
             {
-                // TODO don't remove zeros?
-                BitString q = new BitString(DomainParameters.Q, 0, true);
-                NoKeyConfirmationNonce = EntropyProvider.GetEntropy(q.BitLength / 2);
+                NoKeyConfirmationNonce = EntropyProvider.GetEntropy(128);
             }
         }
 
@@ -71,21 +79,28 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                 otherPartyInformation.EphemeralPublicKey).SharedSecretZ;
         }
 
+        /// <inheritdoc />
         protected override IOtherInfo GenerateOtherInformation(FfcSharedInformation otherPartyInformation)
         {
             return OtherInfoFactory.GetInstance(
                 KdfParameters.OtherInfoPattern, 
                 OtherInputLength,
-                KasParameters.KeyAgreementRole, 
+                SchemeParameters.KeyAgreementRole, 
                 ReturnPublicInfoThisParty(), 
                 otherPartyInformation
             );
         }
 
+        /// <inheritdoc />
         protected override ComputeKeyMacResult ComputeKeyMac(FfcSharedInformation otherPartyInformation, BitString derivedKeyingMaterial)
         {
             // key confirmation not possible with this scheme, proceed with no key confirmation
-            var noKeyConfirmationParameters = GetNoKeyConfirmationParameters(derivedKeyingMaterial);
+            // No key confirmation nonce provided by party u.
+            var noKeyConfirmationNonce = SchemeParameters.KeyAgreementRole == KeyAgreementRole.UPartyInitiator
+                ? NoKeyConfirmationNonce
+                : otherPartyInformation.NoKeyConfirmationNonce;
+
+            var noKeyConfirmationParameters = GetNoKeyConfirmationParameters(derivedKeyingMaterial, noKeyConfirmationNonce);
 
             var noKeyConfirmationInstance = NoKeyConfirmationFactory.GetInstance(noKeyConfirmationParameters);
             

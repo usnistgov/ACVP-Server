@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.Core
             {
                 jArray = JArray.Load(reader);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

@@ -11,9 +11,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// </summary>
         int OtherInputLength { get; }
         /// <summary>
-        /// The Scheme utilized in the KAS negotiation
+        /// The Scheme parameters for this party
         /// </summary>
-        FfcScheme Scheme { get; }
+        SchemeParameters SchemeParameters { get; }
         /// <summary>
         /// The domain parameters associated with key generation
         /// </summary>

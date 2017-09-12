@@ -193,7 +193,7 @@ namespace NIST.CVP.Crypto.KES.Tests
             var result = _subject.GenerateSharedSecretZ(dp, xPrivateKeyPartyA, yPublicKeyPartyB);
 
             Assume.That(result.Success, $"{nameof(result)} should have been successful");
-            Assert.AreEqual(expectedSharedZ, result.SharedSecretZ.ToBigInteger(), nameof(expectedSharedZ));
+            Assert.AreEqual(expectedSharedZ, result.SharedSecretZ.ToPositiveBigInteger(), nameof(expectedSharedZ));
         }
     }
 }

@@ -19,7 +19,6 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         protected INoKeyConfirmationFactory NoKeyConfirmationFactory;
         protected IOtherInfoFactory OtherInfoFactory;
         protected IEntropyProvider EntropyProvider;
-        protected KasParameters KasParameters;
         protected KdfParameters KdfParameters;
         protected MacParameters MacParameters;
 
@@ -30,7 +29,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
             IEntropyProvider entropyProvider,
-            KasParameters kasParameters,
+            SchemeParameters schemeParameters,
             KdfParameters kdfParameters,
             MacParameters macParameters
         )
@@ -41,15 +40,16 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             NoKeyConfirmationFactory = noKeyConfirmationFactory;
             OtherInfoFactory = otherInfoFactory;
             EntropyProvider = entropyProvider;
-            KasParameters = kasParameters;
+            SchemeParameters = schemeParameters;
             KdfParameters = kdfParameters;
             MacParameters = macParameters;
         }
 
         /// <inheritdoc />
         public int OtherInputLength => 240;
+
         /// <inheritdoc />
-        public abstract FfcScheme Scheme { get; }
+        public SchemeParameters SchemeParameters { get; protected set; }
         /// <inheritdoc />
         public FfcDomainParameters DomainParameters { get; protected set; }
         /// <inheritdoc />
@@ -90,9 +90,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 
             return new FfcSharedInformation(
                 DomainParameters,
-                KasParameters.ThisPartyId,
-                StaticKeyPair.PublicKeyY,
-                EphemeralKeyPair.PublicKeyY,
+                SchemeParameters.ThisPartyId,
+                StaticKeyPair?.PublicKeyY ?? 0,
+                EphemeralKeyPair?.PublicKeyY ?? 0,
                 EphemeralNonce,
                 DkmNonce,
                 NoKeyConfirmationNonce
@@ -118,7 +118,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             var z = ComputeSharedSecret(otherPartyInformation);
 
             // Component only test
-            if (MacParameters == null)
+            if (SchemeParameters.KasMode == KasMode.ComponentOnly)
             {
                 // The SHA used is the same used in the DSA instance
                 var tag = Dsa.Sha.HashMessage(z);
@@ -144,20 +144,30 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// </summary>
         protected void GenerateDomainParameters()
         {
-            var paramDetails = FfcParameterSetDetails.GetDetailsForParameterSet(KasParameters.FfcParameterSet);
+            var paramDetails = FfcParameterSetDetails.GetDetailsForParameterSet(SchemeParameters.FfcParameterSet);
 
             // TODO validate generation mode correct
-            SetDomainParameters(Dsa.GenerateDomainParameters(new FfcDomainParametersGenerateRequest(
-                paramDetails.qLength,
-                paramDetails.pLength,
-                paramDetails.qLength,
-                Dsa.Sha.HashFunction.OutputLen,
-                PrimeGenMode.Provable,
-                GeneratorGenMode.Canonical
-            )).PqgDomainParameters);
+            SetDomainParameters(
+                Dsa.GenerateDomainParameters(
+                    new FfcDomainParametersGenerateRequest(
+                        paramDetails.qLength,
+                        paramDetails.pLength,
+                        paramDetails.qLength,
+                        Dsa.Sha.HashFunction.OutputLen,
+                        BitString.One(), 
+                        PrimeGenMode.Provable,
+                        GeneratorGenMode.Canonical
+                    )
+                ).PqgDomainParameters);
         }
 
-        protected INoKeyConfirmationParameters GetNoKeyConfirmationParameters(BitString derivedKeyingMaterial)
+        /// <summary>
+        /// Gets the <see cref="NoKeyConfirmationParameters"/> for use in <see cref="INoKeyConfirmationFactory"/>
+        /// </summary>
+        /// <param name="derivedKeyingMaterial">The derived keying material (dkm) plugged into a MAC function H(dkm, macData)</param>
+        /// <param name="noKeyConfirmationNonce">The nonce used as a party of macData in H(dkm, macData)</param>
+        /// <returns></returns>
+        protected INoKeyConfirmationParameters GetNoKeyConfirmationParameters(BitString derivedKeyingMaterial, BitString noKeyConfirmationNonce)
         {
             if (MacParameters.MacType == KeyAgreementMacType.AesCcm)
             {
@@ -165,7 +175,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                     MacParameters.MacType,
                     MacParameters.MacLength,
                     derivedKeyingMaterial,
-                    NoKeyConfirmationNonce,
+                    noKeyConfirmationNonce,
                     MacParameters.CcmNonce
                 );
             }
@@ -174,7 +184,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                 MacParameters.MacType,
                 MacParameters.MacLength,
                 derivedKeyingMaterial,
-                NoKeyConfirmationNonce
+                noKeyConfirmationNonce
             );
         }
 

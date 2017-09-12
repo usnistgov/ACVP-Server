@@ -52,14 +52,6 @@ namespace NIST.CVP.Crypto.KAS.KC
             }
         }
 
-        private void ConfirmParameterType(IKeyConfirmationParameters parameters, Type type)
-        {
-            if (parameters.GetType() != type)
-            {
-                throw new ArgumentException($"incorrect {nameof(parameters)} type for option {nameof(parameters.MacType)}");
-            }
-        }
-
         private void ConfirmKeyLengthAesCcm(int parametersKeyLength)
         {
             var validKeys = new int[] { 128, 192, 256 };

@@ -24,7 +24,7 @@ namespace NIST.CVP.Crypto.KAS.NoKC
                 throw new ArgumentException(nameof(keyAgreementMacType));
             }
 
-            if (ccmNonce == null || ccmNonce.BitLength == 0)
+            if (BitString.IsZeroLengthOrNull(ccmNonce))
             {
                 throw new ArgumentException(nameof(ccmNonce));
             }

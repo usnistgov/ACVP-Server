@@ -9,6 +9,10 @@ namespace NIST.CVP.Crypto.KAS.Enums
     public enum KasAssurance
     {
         /// <summary>
+        /// No Assurances associated with the KAS implementation
+        /// </summary>
+        None,
+        /// <summary>
         /// Domain Parameter Generation
         /// </summary>
         DpGen,

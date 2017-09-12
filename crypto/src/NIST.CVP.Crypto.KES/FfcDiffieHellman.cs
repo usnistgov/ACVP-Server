@@ -4,9 +4,9 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KES
 {
+    /// <inheritdoc />
     /// <summary>
     /// The FFC implementation of DiffieHellman
-    /// 
     /// http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar2.pdf
     /// Section 5.7.1.1
     /// </summary>
@@ -25,7 +25,7 @@ namespace NIST.CVP.Crypto.KES
                 return new DiffieHellmanResponse($"{nameof(z)} was 1, error.");
             }
 
-            return new DiffieHellmanResponse(new BitString(z, 0, false));
+            return new DiffieHellmanResponse(new BitString(z));
         }
     }
 }
