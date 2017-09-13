@@ -113,30 +113,30 @@ namespace NIST.CVP.Crypto.Math
             BigInteger g = 1;
             while(min.IsEven && max.IsEven)
             {
-                min /= 2;
-                max /= 2;
-                g *= 2;
+                min >>= 1;
+                max >>= 1;
+                g <<= 1;
             }
 
             while(min != 0)
             {
                 while (min.IsEven)
                 {
-                    min /= 2;
+                    min >>= 1;
                 }
 
                 while (max.IsEven)
                 {
-                    max /= 2;
+                    max >>= 1;
                 }
 
                 if (min >= max)
                 {
-                    min = (min - max) / 2;
+                    min = (min - max) >> 1;
                 }
                 else
                 {
-                    max = (max - min) / 2;
+                    max = (max - min) >> 1;
                 }
             }
 

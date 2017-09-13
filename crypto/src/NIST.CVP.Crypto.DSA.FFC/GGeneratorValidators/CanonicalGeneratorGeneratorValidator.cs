@@ -25,9 +25,6 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
                 return new GGenerateResult("Invalid index");
             }
 
-            // 2
-            var N = new BitString(q).BitLength;
-
             // 3
             var e = (p - 1) / q;
 
@@ -46,9 +43,10 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
                 }
 
                 // 7
+                var countBS = new BitString(count, 16, false);      // value must be 16 bits long
                 var U = BitString.ConcatenateBits(new BitString(seed.GetFullSeed()), _ggen);
                 U = BitString.ConcatenateBits(U, index);
-                U = BitString.ConcatenateBits(U, new BitString((BigInteger)count));
+                U = BitString.ConcatenateBits(U, countBS);
 
                 // 8, 9
                 var W = _sha.HashMessage(U).ToBigInteger();
@@ -70,7 +68,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
             }
 
             // 2
-            if (2 <= g && g <= p - 1)
+            if (2 > g || g > p - 1)
             {
                 return new GValidateResult("Invalid generator value, out of range");
             }
@@ -80,9 +78,6 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
             {
                 return new GValidateResult("Invalid generator value, g^q % p != 1");
             }
-
-            // 4
-            var N = new BitString(q).BitLength;
 
             // 5
             var e = (p - 1) / q;
@@ -103,9 +98,10 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
                 }
 
                 // 9
+                var countBS = new BitString(count, 16, false);      // value must be 16 bits long
                 var U = BitString.ConcatenateBits(new BitString(seed.GetFullSeed()), _ggen);
                 U = BitString.ConcatenateBits(U, index);
-                U = BitString.ConcatenateBits(U, new BitString((BigInteger)count));
+                U = BitString.ConcatenateBits(U, countBS);
                 
                 // 10
                 var W = _sha.HashMessage(U).ToBigInteger();

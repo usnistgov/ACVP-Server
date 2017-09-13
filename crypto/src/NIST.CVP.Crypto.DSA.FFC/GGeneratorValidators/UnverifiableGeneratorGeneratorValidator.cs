@@ -51,7 +51,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
         public GValidateResult Validate(BigInteger p, BigInteger q, BigInteger g, DomainSeed seed = null, BitString index = null)
         {
             // 1
-            if (2 <= g && g <= p - 1)
+            if (2 > g || g > p - 1)
             {
                 return new GValidateResult("g not in required range");
             }

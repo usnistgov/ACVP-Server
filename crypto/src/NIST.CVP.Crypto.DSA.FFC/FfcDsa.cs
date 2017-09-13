@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using System;
 using NIST.CVP.Crypto.Math;
 
@@ -13,13 +14,21 @@ namespace NIST.CVP.Crypto.DSA.FFC
     {
         public ISha Sha { get; }
 
-        private IRandom800_90 _rand = new Random800_90();
+        private IEntropyProviderFactory _entropyFactory = new EntropyProviderFactory();
+        private IEntropyProvider _entropyProvider;
+
         private PQGeneratorValidatorFactory _pqGeneratorFactory = new PQGeneratorValidatorFactory();
         private GGeneratorValidatorFactory _gGeneratorFactory = new GGeneratorValidatorFactory();
 
-        public FfcDsa(ISha sha)
+        public FfcDsa(ISha sha, EntropyProviderTypes entropyType = EntropyProviderTypes.Random)
         {
             Sha = sha;
+            _entropyProvider = _entropyFactory.GetEntropyProvider(entropyType);
+        }
+
+        public void AddEntropy(BigInteger entropy)
+        {
+            _entropyProvider.AddEntropy(entropy);
         }
 
         public FfcDomainParametersGenerateResult GenerateDomainParameters(FfcDomainParametersGenerateRequest generateRequest)
@@ -108,11 +117,14 @@ namespace NIST.CVP.Crypto.DSA.FFC
             BigInteger r, s;
             do
             {
-                var k = _rand.GetRandomBigInteger(domainParameters.Q - 1);
+                var k = _entropyProvider.GetEntropy(1, domainParameters.Q - 1);
                 var kInv = NumberTheory.ModularInverse(k, domainParameters.Q);
 
                 r = BigInteger.ModPow(domainParameters.G, k, domainParameters.P) % domainParameters.Q;
-                var z = BitString.MSBSubstring(Sha.HashMessage(message).Digest, 0, System.Math.Min(Sha.HashFunction.OutputLen, new BitString(domainParameters.Q).BitLength)).ToPositiveBigInteger();
+
+                var zLen = System.Math.Min(Sha.HashFunction.OutputLen, new BitString(domainParameters.Q).BitLength);
+                var z = BitString.MSBSubstring(Sha.HashMessage(message).Digest, 0, zLen).ToPositiveBigInteger();
+
                 s = (kInv * (z + keyPair.PrivateKeyX * r)) % domainParameters.Q;
 
             } while (r == 0 || s == 0);
