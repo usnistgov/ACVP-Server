@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Crypto.KES
 {
-    public class DiffieHellmanResponse
+    public class SharedSecretResponse
     {
         /// <summary>
         /// The computed shared secret Z
@@ -19,12 +19,12 @@ namespace NIST.CVP.Crypto.KES
         /// </summary>
         public string ErrorMessage { get; }
 
-        public DiffieHellmanResponse(BitString sharedSecretZ)
+        public SharedSecretResponse(BitString sharedSecretZ)
         {
             SharedSecretZ = sharedSecretZ;
         }
 
-        public DiffieHellmanResponse(string errorMessage)
+        public SharedSecretResponse(string errorMessage)
         {
             ErrorMessage = errorMessage;
         }

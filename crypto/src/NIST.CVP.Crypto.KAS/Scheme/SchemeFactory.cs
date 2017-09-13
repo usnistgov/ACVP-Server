@@ -42,7 +42,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             switch (schemeParameters.Scheme)
             {
                 case FfcScheme.DhEphem:
-                    return new SchemeDiffieHellmanEphemeral(_dsa, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, _otherInfoFactory, _entropyProvider, schemeParameters, kdfParameters, macParameters, new FfcDiffieHellman());
+                    return new SchemeDiffieHellmanEphemeral(_dsa, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, _otherInfoFactory, _entropyProvider, schemeParameters, kdfParameters, macParameters, new DiffieHellman());
                 case FfcScheme.DhHybrid1:
                 case FfcScheme.DhHybridOneFlow:
                 case FfcScheme.DhOneFlow:

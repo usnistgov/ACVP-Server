@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.KAS
             var scheme = _schemeFactory.GetInstance(
                 new SchemeParameters(
                     kasParameters.KeyAgreementRole,
-                    KasMode.ComponentOnly,
+                    KasMode.NoKdf,
                     kasParameters.Scheme,
                     KeyConfirmationRole.None, // Key confirmation not performed
                     KeyConfirmationDirection.None, // Key confirmation not performed

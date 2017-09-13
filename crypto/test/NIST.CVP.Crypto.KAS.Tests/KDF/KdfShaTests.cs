@@ -63,7 +63,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             }
         };
 
-        [TestCase]
+        [Test]
         [TestCaseSource(nameof(_kdfTestCases))]
         public void ShouldKdfCorrectly(
             string label,

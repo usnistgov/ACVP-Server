@@ -9,6 +9,7 @@ using NLog.LayoutRenderers;
 
 namespace NIST.CVP.Crypto.KAS.KC
 {
+    /// <inheritdoc />
     public abstract class KeyConfirmationBase : IKeyConfirmation
     {
         private static readonly List<(string message, bool thisPartyInfoFirst, KeyAgreementRole thisPartyKeyAgreementRole, KeyConfirmationRole

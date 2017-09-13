@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 {
     public class SchemeDiffieHellmanEphemeral : SchemeBase
     {
-        private readonly IDiffieHellman<FfcDomainParameters> Dh;
+        private readonly IDiffieHellman Dh;
 
         public SchemeDiffieHellmanEphemeral(
             IDsaFfc dsa, 
@@ -24,7 +24,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             SchemeParameters schemeParameters, 
             KdfParameters kdfParameters, 
             MacParameters macParameters,
-            IDiffieHellman<FfcDomainParameters> dh
+            IDiffieHellman dh
         ) 
             : base(dsa, kdfFactory, keyConfirmationFactory, noKeyConfirmationFactory, otherInfoFactory, entropyProvider, schemeParameters, kdfParameters, macParameters)
         {
@@ -56,6 +56,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 
             EphemeralKeyPair = Dsa.GenerateKeyPair(DomainParameters).KeyPair;
 
+            // TODO confirm party u always generates in specification
             // Key confirmation not possible for dhEphem scheme, MACData requires the use of a nonce
             // Initiator should generate (doesn't actually matter who generates, just that someone does)
             if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.UPartyInitiator 
@@ -75,7 +76,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <returns></returns>
         protected override BitString ComputeSharedSecret(FfcSharedInformation otherPartyInformation)
         {
-            return Dh.GenerateSharedSecretZ(DomainParameters, EphemeralKeyPair.PrivateKeyX,
+            return Dh.GenerateSharedSecretZ(DomainParameters.P, EphemeralKeyPair.PrivateKeyX,
                 otherPartyInformation.EphemeralPublicKey).SharedSecretZ;
         }
 

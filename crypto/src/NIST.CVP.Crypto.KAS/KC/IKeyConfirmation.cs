@@ -7,6 +7,9 @@ namespace NIST.CVP.Crypto.KAS.KC
     /// 
     /// U = key agreement initiator
     /// V = key agreement responder
+    /// 
+    /// http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar2.pdf
+    /// Section 5.9
     /// </summary>
     public interface IKeyConfirmation
     {

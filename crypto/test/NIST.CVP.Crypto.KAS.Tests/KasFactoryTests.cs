@@ -64,7 +64,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 )
             );
 
-            Assert.AreEqual(KasMode.ComponentOnly, result.SchemeParameters.KasMode);
+            Assert.AreEqual(KasMode.NoKdf, result.SchemeParameters.KasMode);
         }
 
         [Test]

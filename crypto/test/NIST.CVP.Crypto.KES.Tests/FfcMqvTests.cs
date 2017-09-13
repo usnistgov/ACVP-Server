@@ -9,12 +9,12 @@ namespace NIST.CVP.Crypto.KES.Tests
     [TestFixture, UnitTest, FastIntegrationTest]
     public class FfcMqvTests
     {
-        private FfcMqv _subject;
+        private Mqv _subject;
 
         [SetUp]
         public void Setup()
         {
-            _subject = new FfcMqv();
+            _subject = new Mqv();
         }
 
         private static object[] SuccessSharedSecretZTests = new object[]
@@ -36,8 +36,6 @@ namespace NIST.CVP.Crypto.KES.Tests
                 new BitString("e95b3b9be6520afad80ee8fcd12538da31d16162f894bb46c4a4443fcc714eee031047afc5a3d9722fcbc0d879cadfd3c6754d16444418a7c0e83acd9372a34a0aba811b8a3316dd5af0cf58beef6b3a4358e840583608cdbdc2bb236ec10a16b4464bf6f6557e550cb0e694d7ada01aa0f0d60468de08cab41068304b1d62f83ee343a7338d15a829fc28b65ef516f92f4db5626a2f099f6041e32a5daccb8fdddd272a654aec32654ece0322cdf6d74a841f3c2934c73ae455be3dc39a85245afc9595594f651d9cdf3511b6631aeb9ccdbf914617c71d47b16d3dec13d90d0d9f9d06f0b683ed59d25fccff3a324bd860d11c3f513118259f75433bcf61a1").ToPositiveBigInteger(),
                 // Q
                 new BitString("f350ea98cf1f0049178f8ee9061746c92f1182da3f620b368260a0b1").ToPositiveBigInteger(),
-                // G
-                new BitString("33bdc9ef5b76ae0040792e6cbdb9666ce12942b2f2e362e9e3205451cb8f37e0ee4d914a46f05747c44be70904399e9e6af8ecd096989996e19a27008976070c1fcc57988148e026a24030997072f7ab25f9d2d196a9857db3d1deb7f9574e7a8abbf15bfb391bf0ef607cb3a68c365b332e8ffcef3268badcce9953cefd0b9db088faf09e694c13bbcbe02404c070eba7c36352e1982e82e2b0c16c5ce09677105a09ca7ea6140a75b6245fcd50896d0b994162467e84fcf6721402288e1c4601703b9a9dcc4dfa06b916b9ad09f45eec4252db0afeb9d7e9d5a86e0fee3fd980223c702f00cc586f9e668283a076717c53d9b8e5f45b6be9ea904cb144f398").ToPositiveBigInteger(),
                 // Expected Z
                 new BitString("2cb5fe670720d52154f1b8ebf9887daf9da02a0ac242395db549b6b774d6f003ea5c490a49a1097ecbb334b9a0005551e6f2cbe8b2512b0ca1f62ef5b8825c7a23bb14c95f3658b7c0058f6f05510958d7e0d37a84609b023274c524ec3d8bad4d08692321f6abc910c46ada0f1a034a30e5d00b9ae4151d804e33df4f370b1315c16d657ac1f44f0dfee86437509eb24efa94e97c089409edceb0267ee7cc93acd4a830ddae34c9f32efd4a5e2946115f2db5edafafed814d275c07228b4094ecdd80ba936f36277a9f76663e89b9e815aaf320ae7d01955c28061c679644d9f27314287b62e7de4197c1c4c2b136dcaa486962587b434e49942a84f9131f06").ToPositiveBigInteger(),
             },
@@ -58,8 +56,6 @@ namespace NIST.CVP.Crypto.KES.Tests
                 new BitString("e06646f6e96b21701956766eb93c9fe98212372c4c0932f51a1219de49d504b131ea1f65b7d4af964bc86fa86bf3454e1fbb65b2a9824d078ca93dca1a6b0a21d3688229cda2fa2c8b33789a9fb63107eb6d354848b43c61d723a3c4a51d56ae7a341f402a07355aeaec400a03fb0bce010d9c266530f84548760e04048b8669e5d8633aa12ab17eeb01fb3a85e682f566ba91fadcf9bbb9a3a65cef51d47e084ecbc639ef1536a706ab29900bb1594ee639d6adbb4295c6c2dce05c69630be5bd9ce7d110678ef9fe10166f6d85e230eff6850dd8313b856ad18ff556f82724e22c2e09dddc7c1d17c55548dfa72cb52e7ad375b53df3c4a738030a900e1f39").ToPositiveBigInteger(),
                 // Q
                 new BitString("b7a1971219418d90e12bc41a912fe36e7cc316397e66b4f1fbe44969").ToPositiveBigInteger(),
-                // G
-                new BitString("7e34793d738688d4137359d0ab8ce1e31621ac59867e3a5ea3702bf02056a645d4c4328261ff353812eb8d1fee139af2f6626d213b45bf6caa2c2c41108ac7fd3d293ab9282fa3ec31c8f9865c9f0f3223b9b519a35c950c4f8bc1e923f0098fe28e20cd0f2ab17549611527033717a748ca9356d636d2161ac61695192cd188986864bf7974e129ff38b6b90a8a3036a90a1966e50832638f1c208c4203bc8e1b1ba06a7bdb0e5e928e7a908315123aabdaaebc28b5a802bfcd06f427e277c8b0edf439337bcbe0751b0761736876a784ab1ce568b0a3eb8e9f14a0f7ff420a28390e1f40195eb87987d653813d13008451d869c9640b444979639885c194ee").ToPositiveBigInteger(),
                 // Expected Z
                 new BitString("04024d8ad97f497c6b11a9b0f2a8d72adebee7f59a1d21877b1ebb7e16c5387b24c0b7d3861fe49ff7a9c0247ae24e6e8a38fa8741cb2153898c1b54ab538f42972a52feaafa34a2470e7b3926253522ff586c9e14f353f247834443f5e0bf4176d8ad08ab55409b424dd48c1a4beec19dce52f6569d6e72cc3e14fd4fdffe80424a53e0095d1004aae7e221055bf44cc9cf439b859a2e36f34dd17f0eb7d541d9944dad8c9430c95f2731ee78a33951bd8bc67f8a3d1a67d3951ae87d7d11e71d59c75b1e74b9b652e4a0bc373f6fef5b68ddd0cc7c276dc4855a7f4c7bc56ca5a074009744e5ff4bac4f1430a56ae4c75d731ec917a7d9682618d60afcd256").ToPositiveBigInteger(),
             },
@@ -80,8 +76,6 @@ namespace NIST.CVP.Crypto.KES.Tests
                 new BitString("b7bdd8de705bdd9286c8ec2e16ecfdb607cf72561911a7dfbb3f159fbb7b255cfcff4fe07c9ba70b1d159440cc765370ec64ad2927d5732512f8e61c43b3fcc101fdcd2cc040a108986e9c7fe74a6e105c4f4173d7932aabe19779e007166263317764ee4331fc7d74257e1f961a7e95808c1a188dba1eb84d4e545144f04da646d3c23c6c74b52560c057e0d414321cd8a5cdcec78c18869436199f1919b60146083166195725b8bc41144848038061e951b0ef5a6674ef3af189b12424a759393dcc142f8198177d257aa565d534320a2da4bb348f12bf48473ea824a2f0554c947b684b56e87723575ee0194cbea2a18c2a06f454965863d29e1a7b034795").ToPositiveBigInteger(),
                 // Q
                 new BitString("8b0961c1a8c1c3cd6ac715c20ebe036325f57c94f40c308fdb87890f").ToPositiveBigInteger(),
-                // G
-                new BitString("2ffb3c0fe6617bc6819cda98feabb13acb269eec8a223d37b9fc9ae4a39e718fefa6bd5e720504b7ea142aa503f06e58d83a0c03b179d4a6e8ab939ec8328315100a3fca0464432c66452238db01f748eb6d8cc72be3fe91ebc4a1ca69337ed130e406e2cd45f44a1670710463b90236b9ed158c330638ecb8bfc10804443039287579a34d81827a0cf57aa3db1d2b94efed10db272c6bd5fb73cdda662c05b60de7c4e12a2b4a50e1dc6c819494deff9106cc500ed4d4e2484d36c3ff43d350f2d49311b11a55ed41414b931c5ed4a4f2368280bc45418b42c123ab3c78666d7bedaa09e8fd8916cb3c75f7bfcd64b4627c6d455e139f8ed93c160e7cfe28e9").ToPositiveBigInteger(),
                 // Expected Z
                 new BitString("50e33c18ecde0db72e14feb5dd923eef1f4c55a765bb754eb4624c5af0eba4e813f967474c34dd9a819d9869c7426de979db485977355cd75e12ef80832f72117c9bde4cf5d7721a98df2a02ce0779933420e6c1d79c57a71888e08229ac0817e06f8481ebd3ba1252e6d76c7fedd4e946e662bc585b98c28bad7d886dc52d1f0840701a25eee41372fdcdbfde262da275d429e492b36ef61bf23d847e797be9b1180cf0eb2bf23a5033397f17031e8a4ca52d65ef3d69ed4ff38fb8717633e15bac47775a13e0adf5914884e9c7b3042349bfd0dff8213b3bfb0ff1908ad708de84903fcdf538e10f6b54b719eafccd1c7b1e22f3614e3850bb0a090530f754").ToPositiveBigInteger(),
             },
@@ -102,8 +96,6 @@ namespace NIST.CVP.Crypto.KES.Tests
                 new BitString("b7bdd8de705bdd9286c8ec2e16ecfdb607cf72561911a7dfbb3f159fbb7b255cfcff4fe07c9ba70b1d159440cc765370ec64ad2927d5732512f8e61c43b3fcc101fdcd2cc040a108986e9c7fe74a6e105c4f4173d7932aabe19779e007166263317764ee4331fc7d74257e1f961a7e95808c1a188dba1eb84d4e545144f04da646d3c23c6c74b52560c057e0d414321cd8a5cdcec78c18869436199f1919b60146083166195725b8bc41144848038061e951b0ef5a6674ef3af189b12424a759393dcc142f8198177d257aa565d534320a2da4bb348f12bf48473ea824a2f0554c947b684b56e87723575ee0194cbea2a18c2a06f454965863d29e1a7b034795").ToPositiveBigInteger(),
                 // Q
                 new BitString("8b0961c1a8c1c3cd6ac715c20ebe036325f57c94f40c308fdb87890f").ToPositiveBigInteger(),
-                // G
-                new BitString("2ffb3c0fe6617bc6819cda98feabb13acb269eec8a223d37b9fc9ae4a39e718fefa6bd5e720504b7ea142aa503f06e58d83a0c03b179d4a6e8ab939ec8328315100a3fca0464432c66452238db01f748eb6d8cc72be3fe91ebc4a1ca69337ed130e406e2cd45f44a1670710463b90236b9ed158c330638ecb8bfc10804443039287579a34d81827a0cf57aa3db1d2b94efed10db272c6bd5fb73cdda662c05b60de7c4e12a2b4a50e1dc6c819494deff9106cc500ed4d4e2484d36c3ff43d350f2d49311b11a55ed41414b931c5ed4a4f2368280bc45418b42c123ab3c78666d7bedaa09e8fd8916cb3c75f7bfcd64b4627c6d455e139f8ed93c160e7cfe28e9").ToPositiveBigInteger(),
                 // Expected Z
                 new BitString("50e33c18ecde0db72e14feb5dd923eef1f4c55a765bb754eb4624c5af0eba4e813f967474c34dd9a819d9869c7426de979db485977355cd75e12ef80832f72117c9bde4cf5d7721a98df2a02ce0779933420e6c1d79c57a71888e08229ac0817e06f8481ebd3ba1252e6d76c7fedd4e946e662bc585b98c28bad7d886dc52d1f0840701a25eee41372fdcdbfde262da275d429e492b36ef61bf23d847e797be9b1180cf0eb2bf23a5033397f17031e8a4ca52d65ef3d69ed4ff38fb8717633e15bac47775a13e0adf5914884e9c7b3042349bfd0dff8213b3bfb0ff1908ad708de84903fcdf538e10f6b54b719eafccd1c7b1e22f3614e3850bb0a090530f754").ToPositiveBigInteger(),
             }
@@ -124,8 +116,6 @@ namespace NIST.CVP.Crypto.KES.Tests
             //    new BitString("").ToPositiveBigInteger(),
             //    // Q
             //    new BitString("").ToPositiveBigInteger(),
-            //    // G
-            //    new BitString("").ToPositiveBigInteger(),
             //    // Expected Z
             //    new BitString("").ToPositiveBigInteger(),
             //}
@@ -142,14 +132,12 @@ namespace NIST.CVP.Crypto.KES.Tests
             BigInteger tPublicKeyPartyB,
             BigInteger p,
             BigInteger q,
-            BigInteger g,
             BigInteger expectedSharedZ
         )
         {
-            FfcDomainParameters dp = new FfcDomainParameters(p, q, g);
-
             var result = _subject.GenerateSharedSecretZ(
-                dp, 
+                p, 
+                q,
                 xPrivateKeyPartyA, 
                 yPublicKeyPartyB, 
                 rPrivateKeyPartyA,

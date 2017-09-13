@@ -6,10 +6,9 @@
     public enum KasMode
     {
         /// <summary>
-        /// Component only test - uses a hash function on the generated secret.
-        /// No KDF, No Key Confirmation
+        /// No Kdf, No Key confirmation (component only test)
         /// </summary>
-        ComponentOnly,
+        NoKdf,
         /// <summary>
         /// No Key Confirmation test - uses a MAC function and KDF on the generated secret
         /// Kdf, No Key Confirmation

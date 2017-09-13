@@ -10,22 +10,22 @@ namespace NIST.CVP.Crypto.KES
     /// http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar2.pdf
     /// Section 5.7.1.1
     /// </summary>
-    public class FfcDiffieHellman : IDiffieHellman<FfcDomainParameters>
+    public class DiffieHellman : IDiffieHellman
     {
-        public DiffieHellmanResponse GenerateSharedSecretZ(
-            FfcDomainParameters domainParameters, 
+        public SharedSecretResponse GenerateSharedSecretZ(
+            BigInteger p, 
             BigInteger xPrivateKeyPartyA,
             BigInteger yPublicKeyPartyB)
         {
 
-            var z = BigInteger.ModPow(yPublicKeyPartyB, xPrivateKeyPartyA, domainParameters.P);
+            var z = BigInteger.ModPow(yPublicKeyPartyB, xPrivateKeyPartyA, p);
 
             if (z == BigInteger.One)
             {
-                return new DiffieHellmanResponse($"{nameof(z)} was 1, error.");
+                return new SharedSecretResponse($"{nameof(z)} was 1, error.");
             }
 
-            return new DiffieHellmanResponse(new BitString(z));
+            return new SharedSecretResponse(new BitString(z));
         }
     }
 }
