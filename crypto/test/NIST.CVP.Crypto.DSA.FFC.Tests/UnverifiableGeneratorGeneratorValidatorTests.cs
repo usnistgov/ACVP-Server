@@ -13,6 +13,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.Tests
     public class UnverifiableGeneratorGeneratorValidatorTests
     {
         [Test]
+        #region Generate Tests
         [TestCase(
             "b62aeacb3acaba9180f3793e9b85e5faa8522fb97bc419563fe1078f35aaddd386d79ff2364b25dab3d530842d37573db48df014f87f6485806741cdb9315a45669b524a71ea1be213410c8efd12b89db99ca65d90d75ef74b5eefc084238f5b9df579557a6299980ae5c4aee90354be460e17a897ae1471ecc13c1a05efbe29",
             "bd8bf4af219dc5829ecf3fabc6160a1e6d16a3fb",
@@ -33,6 +34,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.Tests
             "96f24095b34e77acdf0353305dd79d860bf2ded6ec7d3c8c47b5ef58e67f94230fd8f199aa9b504783be47d5c84667fff8a9d462b8298d5d7b5bc8e4c12d19682130ce02f990fb9eeaf11881222659737c9164a0be17fe38911a263404d58df10d409b6e0762f2f412a4f66fe09c39398542d6e372ba843f08a602f1b4aa1353fbc72b9a750d04ad9b76d62665f06edcee9442bd570a2860eb6bf34da0bcee0b2fd1d0d03aa9703c1d69e0dd2115d31f7cd2cf17812c6fbb2c401afb9217ba251cf4af12712c8f68f38caba4938e138990f71a937cc5a0f9e22d5c54a6fe001c39b23ea5cdd9ce6164ad383923e063e6cd4a761cd69a49bab28deb30a01dafe23f823269536707e6a7b3f44f021e67fea85105fb1c5b7a1dceb0205741cd672c6b55053e8ced2c59857c8365015abedb24381bcfe05cab204a65251a4869c98e01fbf4f87b3fc13abc1920ec66e6a3660b4ecaeafc65eb620e6a294ced8e0ad0c6a2b9a966659e38d480f4271ea1adead8f7d658e6be9476b789090f4e6ba9b9",
             "92093c2cb9469b433dd1864d477e2cc9fc8b0185038bdc6f76058ae99284bddd",
             TestName = "UnverifiableG Generate - 3072 - 256 - #1")]
+        #endregion GenerateTests
         public void ShouldGenerateUnverifiableGeneratorsProperly(string pHex, string qHex)
         {
             var p = new BitString(pHex).ToPositiveBigInteger();
@@ -48,6 +50,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.Tests
         }
 
         [Test]
+        #region Verify Tests
         [TestCase(
             "c361dcae9d03870c63dc5720d4a945c94917833fb097f5c1731db311ddb55880962b62a248a356c128b5fd9a2934446d288d9cc713d1c9b9a6d9e2773b0105e376228fbbba10ddf5fa794f445b4812f6a7d0d83a36dfc8442c8a6381027e3b78a8132c5a5b752ae470f7c87dc957a308577970d4848e183325bb169844881415",
             "80217553ef20b2638292361089f97d5f25c6e2dd",
@@ -102,6 +105,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.Tests
             "0aa485725e02bccc55c564cca889c49d37132db102d112052ddb5698bc6b7f56e68c26157116bf9c320693b23132d872e88a293c6092bd319a6cd6d8084216a7cabb2347ac7cc1b4ce085bfa4b969c13d7f2057fc0667f23eb14530d283d5cb55b555d92a4396f74950392611c371e16152fbfb3616a6e4cf9a6a0f9ab360da9448127b9535873f123addc5c1f7b81e3deeb1a9ce09903fd3db621ebda6cf539b936522af83d22e079458217c6e2abea612a106c5dc0862ef65fd7ac3f699350b20c7dc86f97acacc99fefc812cf92f9b073bb038b47923c826cad8d0a6fb5591a703ee15c1c395f36f4e81d2dda4bfa57d747476df15d6769d85327401f7dee885c955a835f7abd31cc3a480ec2fca63d6a0e22adf4d76bbd51ef25a854dd6f3ecb77a379679140f9fbd8dec6b67019104aba78c6218b6c35ced18f7f0afb8edf74f3f92922d4189c6617398ca9eb7e4376a5f2b035c433213a013b5712d3f32d59ee3ec89a75e8312adce96d3cb21ba34c8849715ac0329f792e66490fb250",
             true,
             TestName = "UnverifiableG Verify - 3072 - 256 - #3")]
+        #endregion Verify Tests
         public void ShouldVerifyUnverifiableGeneratorsProperly(string pHex, string qHex, string gHex, bool success)
         {
             var p = new BitString(pHex).ToPositiveBigInteger();

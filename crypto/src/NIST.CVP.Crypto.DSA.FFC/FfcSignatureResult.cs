@@ -19,6 +19,6 @@ namespace NIST.CVP.Crypto.DSA.FFC
             ErrorMessage = errorMessage;
         }
 
-        public bool Success => !string.IsNullOrEmpty(ErrorMessage);
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
     }
 }
