@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
+using NIST.CVP.Crypto.DSA.FFC.Tests.Fakes;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -147,7 +148,9 @@ namespace NIST.CVP.Crypto.DSA.FFC.Tests
             var pSeed = new BitString(pSeedHex).ToPositiveBigInteger();
             var qSeed = new BitString(qSeedHex).ToPositiveBigInteger();
 
-            var subject = new ProvablePQGeneratorValidator(sha, EntropyProviderTypes.Testable);
+            var fakeSha = new FakeSha(sha);
+
+            var subject = new ProvablePQGeneratorValidator(fakeSha, EntropyProviderTypes.Testable);
             subject.AddEntropy(seed);
 
             var result = subject.Generate(L, N, seedLen);
@@ -160,6 +163,8 @@ namespace NIST.CVP.Crypto.DSA.FFC.Tests
             Assert.AreEqual(pSeed, result.Seed.PSeed, "p seed");
             Assert.AreEqual(qCounter, result.Count.QCount, "q count");
             Assert.AreEqual(pCounter, result.Count.PCount, "p count");
+
+            Console.Write($"Hashes used: {fakeSha.Count}");
         }
 
         [Test]

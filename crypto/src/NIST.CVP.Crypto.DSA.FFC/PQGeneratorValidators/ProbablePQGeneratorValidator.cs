@@ -139,7 +139,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             }
 
             // 4
-            if (count.GetCounter() > (4 * L - 1))
+            if (count.Count > (4 * L - 1))
             {
                 return new PQValidateResult("Invalid counter");
             }
@@ -172,22 +172,15 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             // 13
             BigInteger computed_p;
             int i;
-            for (i = 0; i <= count.GetCounter(); i++)
+            for (i = 0; i <= count.Count; i++)
             {
-                // 13.1
-                var V = new List<BigInteger>();
-                for (var j = 0; j <= n; j++)
-                {
-                    V.Add(_sha.HashNumber(seed.Seed + offset + j).ToBigInteger() % NumberTheory.Pow2(seedLen));
-                }
-
-                // 13.2
-                var W = V[0];
+                // 13.1, 13.2
+                var W = _sha.HashNumber(seed.Seed + offset).ToBigInteger();
                 for (var j = 1; j < n; j++)
                 {
-                    W += V[1] * NumberTheory.Pow2(outLen);
+                    W += (_sha.HashNumber(seed.Seed + offset + j).ToBigInteger()) * NumberTheory.Pow2(j * outLen);
                 }
-                W += V[n] % NumberTheory.Pow2(b) * NumberTheory.Pow2(n * outLen);
+                W += ((_sha.HashNumber(seed.Seed + offset + n).ToBigInteger()) % NumberTheory.Pow2(b)) * NumberTheory.Pow2(n * outLen);
 
                 // 13.3
                 var X = W + NumberTheory.Pow2(L - 1);
@@ -213,7 +206,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             }
 
             // 14
-            if (i != count.GetCounter() || computed_p != p || NumberTheory.MillerRabin(computed_p, DSAHelper.GetMillerRabinIterations(L, N)))
+            if (i != count.Count || computed_p != p || !NumberTheory.MillerRabin(computed_p, DSAHelper.GetMillerRabinIterations(L, N)))
             {
                 return new PQValidateResult("Invalid p value or counter");
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
+using NIST.CVP.Crypto.DSA.FFC.Tests.Fakes;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -62,7 +63,9 @@ namespace NIST.CVP.Crypto.DSA.FFC.Tests
             var p = new BitString(pHex).ToPositiveBigInteger();
             var q = new BitString(qHex).ToPositiveBigInteger();
 
-            var subject = new ProbablePQGeneratorValidator(sha, EntropyProviderTypes.Testable);
+            var fakeSha = new FakeSha(sha);
+
+            var subject = new ProbablePQGeneratorValidator(fakeSha, EntropyProviderTypes.Testable);
             subject.AddEntropy(seed);
 
             var result = subject.Generate(L, N, seedLen);
@@ -71,12 +74,67 @@ namespace NIST.CVP.Crypto.DSA.FFC.Tests
             Assert.AreEqual(p, result.P, "p");
             Assert.AreEqual(q, result.Q, "q");
             Assert.AreEqual(counter, result.Count.Count, "count");
+
+            Console.Write($"Hash functions run: {fakeSha.Count}");
         }
 
         [Test]
-        public void ShouldVerifyPQProperly()
+        #region Verify Tests
+        [TestCase("SHA-1", 372,
+            "f1276cbd3a5fc31bd60b98f6258b9f9134dfa2c67bf982d7a33949384dc088d77ff11787f92c8d7f1ee505434ad2f1c44a7abda95b197e3d42a00de62959e093eab6ef0bc7ae9443fb3dfb40943da4c6d9f1cca1da8aa7fbba72d5ee436f56bb1dea6d445a066a6b346f0ccb767368535327091f6a2df03474af298d00a73767",
+            "a821e6e9808f3062c9970abc492bf3b34a69bc55",
+            "e735ffec143c6a19c44c0418ecd7a3654d746bd4",
+            true, TestName = "ProbablePQ Verify - 1024 - 160 - SHA-1 - #1")]
+        [TestCase("SHA-1", 258,
+            "9e59345586f6e88daa441ab8b9530df750808e1914d2ab2472587b4e1645043f21d12c4dbfdeadf62215215cec57b2e6f1078e1c5ff7e6fd08d145b4a27eb1d7bf38318d861e4d7283240e36653bff471351024d32a7e41e0c2b526a7e7e835fb22a438f160fc775ada1c5826f1e60c0856a6390621f71f9d51119ee42dfa53b",
+            "9ec8478cd1f0bbf802bf4abe60996ad6fdb0c6ab",
+            "e0f38d2593f2baf0c40ddd66b89040c46b26865e",
+            false, TestName = "ProbablePQ Verify - 1024 - 160 - SHA-1 - #2")]
+        [TestCase("SHA2-224", 938,
+            "bbc096469897ce93ee0b62d46abe37767cd0bcff14eeca3a7d3d4192476dca662c471f0f5cbcc1e58b2b595de9c7eab23ce500a220feaf5ecde0302910607ff44b70022566473de9eae9e9e3adfd1808b91229eaf23817cd763bf5c43473e9b6388f38d0e93e917ac72f80a7e31ce1ea93c94bc395c67c53d9888533a0d91173afd1479d910ecc8be525137291909ee093e568a51c7b9f041c7ef6d3cc6d50e44e7015da5b1ff952d25583c48eb03993193a3f94f9d8648ddf2137cd85b161809a29f2d005d73b0b413e7258b3803417343ccae5d986dd01d9dc751b7bf9ee6047d3d9813c1dfb0e42d6576ef0af4f65ae9eda020c9268227ffdc16e59faaa25",
+            "dbbc089715ebf28cf41f4537068555bee4efa78d0de42984abe75d47",
+            "34f6d24222109dcb3ab59c2c4c8cd2b54f8a65566259d575c0824284",
+            false, TestName = "ProbablePQ Verify - 2048 - 224 - SHA2-224 - #1")]
+        [TestCase("SHA2-224", 1209,
+            "f75857d42213aa471c47c5bec4137d32903d5436fe66fe5bf92ace3db6b0d706ea8a8dbea67ee8da4843486e6a3ae0290210b0c3745fa366ea21d6a0497efe4ebc679045ff27cd70f75b09d92561ced827b185503ee1b4215d0014833916b02ac16bc55c1f82477cb41a2d6b07d8b2c163646760f4c2f678e6cf9ee944526a16e4bc5d4afa8997d2d89c0610a6eab33593dc8dbdb4fe9ce4d5effcbd94b5da6f7ea1b3e89279ea4a93ffc32cdaf29081b134134f894b701363cf44ff28092071d53d2a762a5e289c4be29d08e2c96cede3babbcce986738a740cb7a1b1b263faa5f24f9035f01326f7c34bdc10c2463df446e3fb3c734faf4000e300a8744ce3",
+            "b552cb84a63945f33809aad2db217b96325bb81e127b910ae81920e7",
+            "78cb902177b7adfdf5bfb6f2c74b6d8fa7ffa5f32299538007d19c7c",
+            true, TestName = "ProbablePQ Verify - 2048 - 224 - SHA2-224 - #2")]
+        [TestCase("SHA2-384", 437,
+            "cbcddddd571d7b6de59dc19f1bb8a7f1deb87744aa8b5ebf4dfae497746941be77034b52ac40f6af76c732eafcff69040ed10771af89a91fd8e2a3298a273c1e3ad2fbceece5986885be6e8f31636bea21521788b44183c213aee627166101405a7509e68418a8bd48157f5020efd9d0c8a866cdb48bf6587bd201f8b57a256d5a605cd176658cd42a5ac86f5b0d07966c69e82f615a9beadf030a58075ea9bf71ef91f88e558193af84c8663b19cc7d0e8461e4f9b86111deb135c8216fcb060250c350ea1e96d05c8e8b257dd9811ab6d24fbe246c6faa7dd6162a455dbfc7c002a5307c7cf8cd8d11bfc5f91a41dcf30be37f37a230a2b38de7699fbfb25d8dd09c469ec953f19b40f14ff6038cd5411f367d7469066ccbd1efec8a6d80303fcf0d609ab4bcf14d3763aaf973004e20bc26af642181ef3045b40f01868699f46e4860899d71e1f8c94888314dbadb1e12b9ce7d658b945a14c9fbff1466b447b1dc14ad94c614c1a95e1cfee84359bcf115542adaa9037c555b4bfd189529",
+            "94a3ec97ccb053d408e4fed79cb352180364da9e721068204b1d7aba1be73097",
+            "dbff028600c384626c970e30e040654cb0165f69d61c0bf2712c2133eb08e283",
+            false, TestName = "ProbablePQ Verify - 2048 - 256 - SHA2-384 - #1")]
+        [TestCase("SHA2-384", 1301,
+            "85a3bcf1dfcc0f8ed00bfa64164c9a1fef360cd5f9792da7aa4bbce4c4d0f6059640196283aae17ef73d5cc05fd13b37c94cb127e8611886d1ef6471df356ae2584437c0010ec07a3ab79fd67c4c587703fb52205342304f69fc5e81ca468ba0cdb8d100859da20e46151b500e319c28e6e1b8fe260f9b17aae967de1de71663e1daff01d7d72f65d395c4db84b4581168d015cc6c2bf60cdce00ca3323604c5d76216720fae9c5460260348af3e2e472e68a2283bccd0a9ccf275083551b8030bab6446d12974ab927bcf47e0bf1298c35e0e72ca23791af75e959b8e9419a9ced4ce88056e1a80de99a6c3fadbbfb61189eecc627505c72b1358d7a80fac7456304815386f56c6f033de37b784f149e3d65c463b5eb94e7982a00fedd2669a1300198809127c4d8b704e4249d0c73f5bce2c995c1893111a03816b2e2002b1250e6c0b396c6c1bc46aa1bc3423dcdcb4d3641830ec61a6fffe8d42b7bdea7deb88d2ffc2885e48f8120e8a65c30d583751cf822d50d3029b7ae24e1c3faa7f",
+            "d4cfed6fcec9d783a7c7701b7a1496ac0d0ad763f3f068c746d2f9686e57771b",
+            "b36e1ca2c8636a54e898982d6e824f9e615d1ea61eb671e94292b3b2d5e6349e",
+            true, TestName = "ProbablePQ Verify - 2048 - 256 - SHA2-384 - #2")]
+        [TestCase("SHA2-512", 3124,
+            "d533861ae0e404521a53a8b473eb8f2a68c019f45a8b39bada2fb162e383a99999892a135e5fce4d125a5e9ba0d93bebfbedf5cf9fcb2611f1d5d1957052dd1288a7631c932d3081a77a72f2532ca8dac8294051ca23c1da480f0a7cbf4336d7af77a876b8525f8ba9b8e971a6f24a01b47149485fe0c33960507e33bcd610d25d82039c30f0d1d09772be3261ca1959cbb7ebf1c0a25bd6523f6cc8ec2608426558d22b4b010b2e5768eb6c7060f8f254db3712d4ab3c0049b4436ce9b688926a09479b70d56b1665eee1271b0a413a965c0faa6ee8079353a007d3d35c70260521c37051c8b28391ef5aa78e174613b6398ddfb947ad2efa35dc5f6b591a067194f3df6430697dce42521126113a98f2a32e5cdc0305d590f01e133c0876ea18e1293b40cc47b3f91c197f6463555291bd6f84aa4b7cd803e1a4f0f63e55413bce008f2760535b71a71ca3315d373ab91381dc288dca9421558a986d36223b619e0b6dbba8ceb529d29afb263e26ca739a0f806b6f010f9ef6d9f5095b4b47",
+            "9ab6ff88f70f35ed6cac11b7d8d544923f0f2d829e285aaa74ddf8ba27b32d25",
+            "29533d87ddc604f8a565820696d1a1a708166829c9139f3a41d4e3be7c954632",
+            false, TestName = "ProbablePQ Verify - 3072 - 256 - SHA2-512 - #1")]
+        [TestCase("SHA2-512", 98,
+            "875e37dfb357f5a0f9f6bbaeb3e25f407c08f9ace9eab575077defe7effc88110b514ad3fa41b78891b963f580df10a24e744e27504ce2153013d92efc8249470d669386e828990572a38a541be2505a0813b049a6ae2edf8332a07443b3118acb97cf1ad9486c1b536e5ad9aa5a164062cc012044d74c164fb2ccc3f327a1956df5b8f6e231d25d39d0cfa4ca3d96abba8e581c76b6a14da562a89ce70e65ca885633bb2b2c28519629c5ebd580d6c91ea51f16213730aafc3057f22e6b5b5adf2910e86cedf686c1b4ca26cd3cd692f149cd0876a8ada6e26bf9ae7c58974b56e7c55dab7c4b90eecc935d9a7e8f214f474d4d3e5a5a92b16df28729db29a05f56fee6f3f7d5b894afedd5f1cb9de9b6a962fcae05e101c7dd256d804e33de1783f80452ffc575d9d4c8c011087327663446d7c11a0fb6e4df793622b599166e96ad753d13809b982c0984de7cc72162282c19a097bd364100152f5ea208d67c23feaf3709b2ff46de520891a42650ea0a34694b58c978fd64386eb23254cf",
+            "f42e1a1395854018741a8c4387c21453fa70cd82c01c14e172af00d1a22b85af",
+            "6d3d16fca80b15b654d3a3ca0e1b6a38225d5a04dd1328f48bd62e3c1631261a",
+            true, TestName = "ProbablePQ Verify - 3072 - 256 - SHA2-512 - #2")]
+        #endregion Verify Tests
+        public void ShouldVerifyPQProperly(string hash, int counter, string pHex, string qHex, string seedHex, bool success)
         {
+            var sha = GetSha(hash);
+            var firstSeed = new BitString(seedHex).ToPositiveBigInteger();
+            var p = new BitString(pHex).ToPositiveBigInteger();
+            var q = new BitString(qHex).ToPositiveBigInteger();
 
+            var seed = new DomainSeed(firstSeed);
+            var count = new Counter(counter);
+
+            var subject = new ProbablePQGeneratorValidator(sha);
+
+            var result = subject.Validate(p, q, seed, count);
+            Assert.AreEqual(success, result.Success, result.ErrorMessage);
         }
 
         private ISha GetSha(string hash)

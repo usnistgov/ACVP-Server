@@ -134,7 +134,34 @@ namespace NIST.CVP.Crypto.DSA.FFC
 
         public FfcVerificationResult Verify(FfcDomainParameters domainParameters, FfcKeyPair keyPair, BitString message, FfcSignature signature)
         {
-            throw new NotImplementedException();
+            // 1
+            if(signature.R < 0 || signature.R > domainParameters.Q)
+            {
+                return new FfcVerificationResult("Invalid r provided");
+            }
+
+            if(signature.S < 0 || signature.S > domainParameters.Q)
+            {
+                return new FfcVerificationResult("Invalid s provided");
+            }
+
+            // 2
+            var w = NumberTheory.ModularInverse(signature.S, domainParameters.Q);
+            var zLen = System.Math.Min(Sha.HashFunction.OutputLen, new BitString(domainParameters.Q).BitLength);
+            var z = BitString.MSBSubstring(Sha.HashMessage(message).Digest, 0, zLen).ToPositiveBigInteger();
+            var u1 = (z * w) % domainParameters.Q;
+            var u2 = (signature.R * w) % domainParameters.Q;
+
+            // (g^u1 * y^u2) mod p == [(g^u1 mod p) * (y^u2 mod p)] mod p
+            var v = ((BigInteger.ModPow(domainParameters.G, u1, domainParameters.P) * BigInteger.ModPow(keyPair.PublicKeyY, u2, domainParameters.P)) % domainParameters.P) % domainParameters.Q;
+
+            // 3
+            if(v != signature.R)
+            {
+                return new FfcVerificationResult("Invalid v, does not match provided r");
+            }
+
+            return new FfcVerificationResult();
         }
     }
 }
