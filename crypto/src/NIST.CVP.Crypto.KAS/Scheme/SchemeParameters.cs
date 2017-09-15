@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.KAS.Enums;
+﻿using System;
+using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
@@ -27,6 +28,21 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             BitString thisPartyId
         )
         {
+            if (BitString.IsZeroLengthOrNull(thisPartyId))
+            {
+                throw new ArgumentException(nameof(thisPartyId));
+            }
+
+            if (kasMode == KasMode.KeyConfirmation)
+            {
+                if (keyConfirmationRole == KeyConfirmationRole.None ||
+                    keyConfirmationDirection == KeyConfirmationDirection.None)
+                {
+                    throw new ArgumentException(
+                        $"{nameof(KasMode.KeyConfirmation)} requires a valid (not None) value for both {nameof(keyConfirmationRole)} and {nameof(keyConfirmationDirection)}");
+                }
+            }
+
             KeyAgreementRole = keyAgreementRole;
             KasMode = kasMode;
             Scheme = scheme;

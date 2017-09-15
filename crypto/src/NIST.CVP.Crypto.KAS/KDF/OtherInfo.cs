@@ -10,6 +10,8 @@ namespace NIST.CVP.Crypto.KAS.KDF
 {
     public class OtherInfo : IOtherInfo
     {
+        public const string _CAVS_OTHER_INFO_PATTERN = "uPartyInfo||vPartyInfo";
+
         private readonly BitString _otherInfo = new BitString(0);
 
         private readonly KeyAgreementRole _thisPartyKeyAgreementRole;

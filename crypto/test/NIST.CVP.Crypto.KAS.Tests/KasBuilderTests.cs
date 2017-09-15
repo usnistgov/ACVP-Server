@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
+using System.Threading;
 using Moq;
 using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -19,9 +21,10 @@ using NUnit.Framework;
 namespace NIST.CVP.Crypto.KAS.Tests
 {
     [TestFixture, UnitTest]
-    public class KasFactoryTests
+    public class KasBuilderTests
     {
-        private KasFactory _subject;
+        private KasBuilder _subject;
+        private MacParametersBuilder _macParamsBuilder;
         private Mock<IDsaFfc> _dsa;
         private IEntropyProvider _entropyProviderScheme;
         private IEntropyProvider _entropyProviderOtherInfo;
@@ -32,37 +35,37 @@ namespace NIST.CVP.Crypto.KAS.Tests
             _dsa = new Mock<IDsaFfc>();
             _entropyProviderScheme = new TestableEntropyProvider();
             _entropyProviderOtherInfo = new TestableEntropyProvider();
-
-            _subject = new KasFactory(
+            
+            _subject = new KasBuilder(
                 new SchemeFactory(
-                    _dsa.Object, 
+                    _dsa.Object,
                     new KdfFactory(
                         new ShaFactory()
-                    ), 
-                    new KeyConfirmationFactory(), 
-                    new NoKeyConfirmationFactory(), 
+                    ),
+                    new KeyConfirmationFactory(),
+                    new NoKeyConfirmationFactory(),
                     new OtherInfoFactory(
                         _entropyProviderOtherInfo
-                    ), 
+                    ),
                     _entropyProviderScheme
-                )
-            );
+                ));
+
+            _macParamsBuilder = new MacParametersBuilder();
         }
 
         #region Unit Tests
         [Test]
         public void ShouldReturnComponentOnlyKas()
         {
-            var result = _subject.GetInstance(
-                new KasParametersComponentOnly(
-                    KeyAgreementRole.UPartyInitiator,
-                    FfcScheme.DhEphem, 
-                    FfcParameterSet.FB, 
-                    KasAssurance.None, 
-                    _dsa.Object, 
-                    new BitString(1)
-                )
-            );
+            var result = _subject
+                .WithKeyAgreementRole(KeyAgreementRole.UPartyInitiator)
+                .WithScheme(FfcScheme.DhEphem)
+                .WithParameterSet(FfcParameterSet.FB)
+                .WithAssurances(KasAssurance.None)
+                .WithPartyId(new BitString(1))
+                .BuildNoKdfNoKc()
+                .Build();
+
 
             Assert.AreEqual(KasMode.NoKdf, result.SchemeParameters.KasMode);
         }
@@ -70,18 +73,23 @@ namespace NIST.CVP.Crypto.KAS.Tests
         [Test]
         public void ShouldReturnNoKeyConfirmationKas()
         {
-            var result = _subject.GetInstance(
-                new KasParametersNoKeyConfirmation(
-                    KeyAgreementRole.UPartyInitiator,
-                    FfcScheme.DhEphem,
-                    FfcParameterSet.FB,
-                    KasAssurance.None,
-                    _dsa.Object,
-                    new BitString(1),
-                    new KdfParameters(0, string.Empty),
-                    new MacParameters(KeyAgreementMacType.AesCcm, 0, new BitString(1))
-                )
-            );
+            var macParams = _macParamsBuilder
+                .WithKeyAgreementMacType(KeyAgreementMacType.AesCcm)
+                .WithMacLength(0)
+                .WithNonce(new BitString(1))
+                .Build();
+
+            var result = _subject
+                .WithKeyAgreementRole(KeyAgreementRole.UPartyInitiator)
+                .WithScheme(FfcScheme.DhEphem)
+                .WithParameterSet(FfcParameterSet.FB)
+                .WithAssurances(KasAssurance.None)
+                .WithPartyId(new BitString(1))
+                .BuildKdfNoKc()
+                .WithKeyLength(0)
+                .WithOtherInfoPattern(string.Empty)
+                .WithMacParameters(macParams)
+                .Build();
 
             Assert.AreEqual(KasMode.NoKeyConfirmation, result.SchemeParameters.KasMode);
         }
@@ -199,17 +207,14 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 .Setup(s => s.GenerateKeyPair(domainParameters))
                 .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(thisPartyPrivateEphemKey, thisPartyPublicEphemKey)));
 
-            KasParametersComponentOnly kasParameters = 
-                new KasParametersComponentOnly(
-                    keyAgreementRole, 
-                    FfcScheme.DhEphem, 
-                    FfcParameterSet.FB, 
-                    KasAssurance.None, 
-                    _dsa.Object, 
-                    thisPartyId
-                );
-
-            var kas = _subject.GetInstance(kasParameters);
+            var kas = _subject
+                .WithKeyAgreementRole(keyAgreementRole)
+                .WithScheme(FfcScheme.DhEphem)
+                .WithParameterSet(FfcParameterSet.FB)
+                .WithAssurances(KasAssurance.None)
+                .WithPartyId(thisPartyId)
+                .BuildNoKdfNoKc()
+                .Build();
 
             kas.SetDomainParameters(domainParameters);
             var result = kas.ComputeResult(vPartySharedInformation);
@@ -693,31 +698,106 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 .Setup(s => s.GenerateKeyPair(domainParameters))
                 .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(thisPartyPrivateEphemKey, thisPartyPublicEphemKey)));
 
-            KdfParameters kdfParams = new KdfParameters(keyLength);
-            MacParameters macParams = null;
+            var macParams = _macParamsBuilder
+                .WithKeyAgreementMacType(macType)
+                .WithMacLength(tagLength)
+                .WithNonce(aesCcmNonce)
+                .Build();
+            
+            var kas = _subject
+                .WithKeyAgreementRole(keyAgreementRole)
+                .WithScheme(FfcScheme.DhEphem)
+                .WithParameterSet(FfcParameterSet.FB)
+                .WithAssurances(KasAssurance.None)
+                .WithPartyId(thisPartyId)
+                .BuildKdfNoKc()
+                .WithKeyLength(keyLength)
+                .WithMacParameters(macParams)
+                .Build();
 
-            if (macType == KeyAgreementMacType.AesCcm)
-            {
-                macParams = new MacParameters(macType, tagLength, aesCcmNonce);
-            }
-            else
-            {
-                macParams = new MacParameters(macType, tagLength);
-            }
+            kas.SetDomainParameters(domainParameters);
+            var result = kas.ComputeResult(otherPartySharedInformation);
 
-            KasParametersNoKeyConfirmation kasParameters =
-                new KasParametersNoKeyConfirmation(
-                    keyAgreementRole,
-                    FfcScheme.DhEphem,
-                    FfcParameterSet.FB,
-                    KasAssurance.None,
-                    _dsa.Object,
-                    thisPartyId,
-                    kdfParams,
-                    macParams
+            Assume.That(result.Success, nameof(result.Success));
+            Assert.AreEqual(expectedZ, result.Z, nameof(result.Z));
+            Assert.AreEqual(expectedOi, result.Oi, nameof(result.Oi));
+            Assert.AreEqual(expectedDkm, result.Dkm, nameof(result.Dkm));
+            Assert.AreEqual(expectedMacData, result.MacData, nameof(result.MacData));
+            Assert.AreEqual(expectedTag, result.Tag, nameof(result.Tag));
+        }
+
+        [Test, FastIntegrationTest]
+        [TestCaseSource(nameof(_test_dhEphemNoKeyConfirmation))]
+        public void ShouldDhEphemNoKeyConfirmationCorrectly_UsesBuilder(
+                    FfcDomainParameters domainParameters,
+                    KeyAgreementRole keyAgreementRole,
+                    ModeValues dsaKdfHashMode,
+                    DigestSizes dsaKdfDigestSize,
+                    KeyAgreementMacType macType,
+                    int keyLength,
+                    int tagLength,
+                    BitString noKeyConfirmationNonce,
+                    BitString aesCcmNonce,
+                    BitString thisPartyId,
+                    BigInteger thisPartyPrivateEphemKey,
+                    BigInteger thisPartyPublicEphemKey,
+                    BitString otherPartyId,
+                    BigInteger otherPartyPrivateEphemKey,
+                    BigInteger otherPartyPublicEphemKey,
+                    BitString expectedZ,
+                    BitString expectedOi,
+                    BitString expectedDkm,
+                    BitString expectedMacData,
+                    BitString expectedTag
+                )
+        {
+            var otherPartySharedInformation =
+                new FfcSharedInformation(
+                    domainParameters,
+                    otherPartyId,
+                    otherPartyPrivateEphemKey,
+                    otherPartyPublicEphemKey,
+                    null,
+                    null,
+                    // when "party v" noKeyConfirmationNonce is provided as a part of party U's shared information
+                    keyAgreementRole == KeyAgreementRole.VPartyResponder ? noKeyConfirmationNonce : null
                 );
 
-            var kas = _subject.GetInstance(kasParameters);
+            // u/v party info comprised of ID, and dkmNonce (when available), find the bitlength of both parties contributed information 
+            // to determine which bits are the "random" bits to inject into the TestableEntropyProvider.
+            var composedBitLength = thisPartyId.BitLength +
+                                    new BitString(0).BitLength + // DKM nonce when applicable
+                                    otherPartyId.BitLength;
+
+            var entropyBits = expectedOi.GetLeastSignificantBits(expectedOi.BitLength - composedBitLength);
+
+            _entropyProviderOtherInfo.AddEntropy(entropyBits);
+
+            // MAC no key confirmation data makes use of a nonce
+            _entropyProviderScheme.AddEntropy(noKeyConfirmationNonce);
+
+            // The DSA sha mode determines which hash function to use in a component only test
+            _dsa
+                .SetupGet(s => s.Sha)
+                .Returns(new ShaFactory().GetShaInstance(new HashFunction(dsaKdfHashMode, dsaKdfDigestSize)));
+            _dsa
+                .Setup(s => s.GenerateKeyPair(domainParameters))
+                .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(thisPartyPrivateEphemKey, thisPartyPublicEphemKey)));
+
+            var macParams = _macParamsBuilder
+                .WithKeyAgreementMacType(macType)
+                .WithMacLength(tagLength)
+                .WithNonce(aesCcmNonce)
+                .Build();
+
+            var kas = _subject
+                .WithKeyAgreementRole(keyAgreementRole)
+                .WithScheme(FfcScheme.DhEphem)
+                .WithPartyId(thisPartyId)
+                .BuildKdfNoKc()
+                .WithKeyLength(keyLength)
+                .WithMacParameters(macParams)
+                .Build();
 
             kas.SetDomainParameters(domainParameters);
             var result = kas.ComputeResult(otherPartySharedInformation);

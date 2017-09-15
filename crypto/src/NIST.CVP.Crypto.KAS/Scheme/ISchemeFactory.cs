@@ -5,6 +5,6 @@
     /// </summary>
     public interface ISchemeFactory
     {
-        IScheme GetInstance(SchemeParameters kasParameters, KdfParameters kdfParameters, MacParameters macParameters);
+        IScheme GetInstance(SchemeParameters schemeParameters, KdfParameters kdfParameters, MacParameters macParameters);
     }
 }
