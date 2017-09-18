@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
             }
             catch (Exception ex)
             {
-                ThisLogger.Warn($"Exception generating signature with intentional errors: {sigResult.ErrorMessage}");
+                ThisLogger.Warn($"Exception generating signature with intentional errors: {sigResult.ErrorMessage}, {ex.Source}");
                 return new TestCaseGenerateResponse($"Exception generating signature with intentional errors: {sigResult.ErrorMessage}");
             }
 

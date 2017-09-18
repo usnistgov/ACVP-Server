@@ -12,13 +12,18 @@ namespace NIST.CVP.Generation.RSA_SigVer
         public string Mode { get; set; }
         public bool IsSample { get; set; }
 
-        public string[] SigVerModes { get; set; }
-        public SigCapability[] Capabilities { get; set; }
+        public AlgSpecs[] Capabilities { get; set; }
         public string PubExpMode { get; set; }
         public string FixedPubExpValue { get; set; } = "";
     }
 
-    public class SigCapability
+    public class AlgSpecs
+    {
+        public string SigType { get; set; }
+        public CapSigType[] ModuloCapabilities { get; set; }
+    }
+
+    public class CapSigType
     {
         public int Modulo { get; set; }
         public HashPair[] HashPairs { get; set; }

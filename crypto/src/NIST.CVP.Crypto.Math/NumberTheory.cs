@@ -98,6 +98,12 @@ namespace NIST.CVP.Crypto.Math
         /// <returns></returns>
         public static BigInteger GCD(BigInteger a, BigInteger b)
         {
+            return BigInteger.GreatestCommonDivisor(a, b);
+        } 
+
+        // Has some problems with infinite looping under rare situations...
+        public static BigInteger GCD2(BigInteger a, BigInteger b)
+        {
             BigInteger min, max;
             if(a <= b)
             {
@@ -163,9 +169,8 @@ namespace NIST.CVP.Crypto.Math
         public static BigInteger CeilingDivide(BigInteger a, BigInteger b)
         {
             var result = a / b;
-            var remainder = a % b;
 
-            if (remainder != 0)
+            if (result * b != a)
             {
                 result++;
             }

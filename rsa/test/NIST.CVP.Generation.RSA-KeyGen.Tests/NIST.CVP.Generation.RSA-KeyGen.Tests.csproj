@@ -17,10 +17,6 @@
     <PackageReference Include="dotnet-test-nunit" Version="3.4.0-beta-3" />
     
     <PackageReference Include="Moq" Version="4.7.63" />
-    <PackageReference Include="NIST.CVP.Crypto.SHA2" Version="1.0.0-*" />
-    <PackageReference Include="NIST.CVP.Crypto.RSA" Version="1.0.0-*" />
-    <PackageReference Include="NIST.CVP.Generation.RSA-KeyGen" Version="1.0.0-*" />
-    <PackageReference Include="NIST.CVP.Tests.Core" Version="1.0.0-*" />
     <PackageReference Include="NLog" Version="5.0.0-beta09" />
     <PackageReference Include="NUnit" Version="3.7.1" />
   </ItemGroup>

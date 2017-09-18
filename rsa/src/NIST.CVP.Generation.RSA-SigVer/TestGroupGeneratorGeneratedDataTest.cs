@@ -31,13 +31,16 @@ namespace NIST.CVP.Generation.RSA_SigVer
             var testGroups = new List<TestGroup>();
             var pubExpMode = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode);
 
-            foreach (var mode in parameters.SigVerModes)
+            foreach (var capability in parameters.Capabilities)
             {
-                foreach(var sigCapability in parameters.Capabilities)
+                var sigType = capability.SigType;
+
+                foreach (var moduloCap in capability.ModuloCapabilities)
                 {
-                    foreach(var hashPair in sigCapability.HashPairs)
+                    var modulo = moduloCap.Modulo;
+
+                    foreach (var hashPair in moduloCap.HashPairs)
                     {
-                        // Make 3 identical groups with different keys
                         for (var i = 0; i < 3; i++)
                         {
                             // Get a key for the group
@@ -45,7 +48,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
                             BigInteger E;
                             do
                             {
-                                if(pubExpMode == PubExpModes.RANDOM)
+                                if (pubExpMode == PubExpModes.RANDOM)
                                 {
                                     E = RSAEnumHelpers.GetEValue();
                                 }
@@ -55,28 +58,28 @@ namespace NIST.CVP.Generation.RSA_SigVer
                                 }
 
                                 // Use a tested PrimeGen for 1024-bit RSA
-                                if(sigCapability.Modulo == 1024)
+                                if (modulo == 1024)
                                 {
                                     _smallPrimeGen.SetBitlens(RSAEnumHelpers.GetBitlens(1024, KeyGenModes.B34));
-                                    primeGenResult = _smallPrimeGen.GeneratePrimes(sigCapability.Modulo, E, RSAEnumHelpers.GetSeed(sigCapability.Modulo));
+                                    primeGenResult = _smallPrimeGen.GeneratePrimes(modulo, E, RSAEnumHelpers.GetSeed(modulo));
                                 }
                                 // Use a fast PrimeGen for other RSA
                                 else
                                 {
-                                    primeGenResult = _primeGen.GeneratePrimes(sigCapability.Modulo, E, RSAEnumHelpers.GetSeed(sigCapability.Modulo));
+                                    primeGenResult = _primeGen.GeneratePrimes(modulo, E, RSAEnumHelpers.GetSeed(modulo));
                                 }
 
                                 if (!primeGenResult.Success)
                                 {
-                                    ThisLogger.Warn($"Error generating key for {sigCapability.Modulo}, {primeGenResult.ErrorMessage}");
+                                    ThisLogger.Warn($"Error generating key for {modulo}, {primeGenResult.ErrorMessage}");
                                 }
 
                             } while (!primeGenResult.Success);
 
                             var testGroup = new TestGroup
                             {
-                                Mode = RSAEnumHelpers.StringToSigGenMode(mode),
-                                Modulo = sigCapability.Modulo,
+                                Mode = RSAEnumHelpers.StringToSigGenMode(sigType),
+                                Modulo = modulo,
                                 HashAlg = SHAEnumHelpers.StringToHashFunction(hashPair.HashAlg),
                                 SaltLen = hashPair.SaltLen,
                                 Key = new KeyPair(primeGenResult.P, primeGenResult.Q, E),

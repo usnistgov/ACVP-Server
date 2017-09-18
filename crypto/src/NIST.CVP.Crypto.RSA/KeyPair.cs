@@ -19,10 +19,11 @@ namespace NIST.CVP.Crypto.RSA
             PrivKey = new PrivateKey();
         }
 
+        // TODO ...  For some reason the fast GCD (called from LCM) method doesn't like non-prime p, q and infinitely loops
         public KeyPair(BigInteger p, BigInteger q, BigInteger e)
         {
             PubKey = new PublicKey {E = e, N = p * q};
-            PrivKey = new PrivateKey {P = p, Q = q, D = NumberTheory.ModularInverse(PubKey.E, NumberTheory.LCM(p - 1, q - 1))}; // Carmichael totient function
+            PrivKey = new PrivateKey { P = p, Q = q, D = NumberTheory.ModularInverse(PubKey.E, NumberTheory.LCM(p - 1, q - 1)) }; // Carmichael totient function
         }
 
         public KeyPair(BigInteger p, BigInteger q, BigInteger e, BigInteger dmp1, BigInteger dmq1, BigInteger iqmp)
