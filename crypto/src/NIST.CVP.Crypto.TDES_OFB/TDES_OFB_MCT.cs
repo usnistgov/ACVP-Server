@@ -36,7 +36,7 @@ namespace NIST.CVP.Crypto.TDES_OFB
             };
 
             var indexAtWhichToStartSaving = NUMBER_OF_ITERATIONS - NUMBER_OF_OUTPUTS_TO_SAVE;
-            for (var i = 0; i <= NumberOfCases; i++)
+            for (var i = 0; i < NumberOfCases; i++)
             {
 
                 var tempText = responses.Last().PlainText.GetDeepCopy();
@@ -88,7 +88,7 @@ namespace NIST.CVP.Crypto.TDES_OFB
             };
 
             var indexAtWhichToStartSaving = NUMBER_OF_ITERATIONS - NUMBER_OF_OUTPUTS_TO_SAVE;
-            for (var i = 0; i <= NumberOfCases; i++)
+            for (var i = 0; i < NumberOfCases; i++)
             {
 
                 var tempCipherText = responses.Last().CipherText.GetDeepCopy();

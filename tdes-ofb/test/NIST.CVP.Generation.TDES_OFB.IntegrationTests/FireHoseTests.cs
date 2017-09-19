@@ -90,7 +90,7 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
                             );
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
-                            for (int i = 0; i < testCase.ResultsArray.Count; i++)
+                            for (int i = 0; i < result.Response.Count; i++)
                             {
                                 Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
                             }
