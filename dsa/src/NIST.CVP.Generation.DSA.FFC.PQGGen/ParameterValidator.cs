@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
     {
         public static int[] VALID_L = { 2048, 3072 };
         public static int[] VALID_N = { 224, 256 };
-        public static string[] VALID_HASH_ALGS = { "sha-224", "sha-256", "sha-384", "sha-512", "sha-512/224", "sha-512/256" };
+        public static string[] VALID_HASH_ALGS = { "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" };
         public static string[] VALID_PQ_MODES = { "probable", "provable" };
         public static string[] VALID_G_MODES = { "canonical", "unverifiable" };
 
@@ -38,6 +38,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                     errors.Add("Invalid L, N pair");
                 }
 
+                if (capability.PQGen.Length == 0 || capability.GGen.Length == 0)
+                {
+                    errors.Add("No PQ Mode or G Mode found");
+                    continue;
+                }
+
                 result = ValidateArray(capability.PQGen, VALID_PQ_MODES, "PQ Modes");
                 if (!string.IsNullOrEmpty(result))
                 {
@@ -50,6 +56,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                     errors.Add(result);
                 }
 
+                if (capability.HashAlgs.Length == 0)
+                {
+                    errors.Add("No hash algorithm found");
+                    continue;
+                }
+
                 result = ValidateArray(capability.HashAlgs, VALID_HASH_ALGS, "Hash Algs");
                 if (!string.IsNullOrEmpty(result))
                 {
@@ -60,7 +72,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 {
                     if (!VerifyHash(capability.N, hashAlg))
                     {
-                        errors.Add("Invalid hash function for this L, N pair");
+                        errors.Add($"Invalid hash function for this L, N pair: {capability.N}, {hashAlg}");
                     }
                 }
             }
