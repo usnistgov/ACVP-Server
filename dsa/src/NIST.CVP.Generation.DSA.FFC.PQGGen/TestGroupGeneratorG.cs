@@ -1,0 +1,48 @@
+﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.DSA.FFC.Helpers;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Generation.Core;
+
+namespace NIST.CVP.Generation.DSA.FFC.PQGGen
+{
+    public class TestGroupGeneratorG : ITestGroupGenerator<Parameters>
+    {
+        public const string TEST_MODE = "G";
+        public const string TEST_TYPE = "GDT";
+        private IShaFactory _shaFactory = new ShaFactory();
+
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        {
+            var testGroups = new List<TestGroup>();
+
+            foreach (var capability in parameters.Capabilities)
+            {
+                foreach (var gGen in capability.GGen)
+                {
+                    foreach (var hashAlg in capability.HashAlgs)
+                    {
+                        // Gather hash alg
+                        var mapping = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(hashAlg);
+                        var hashFunction = _shaFactory.GetShaInstance(new HashFunction(mapping.shaMode, mapping.shaDigestSize)).HashFunction;
+
+                        var testGroup = new TestGroup
+                        {
+                            GGenMode = EnumHelper.StringToGGenMode(gGen),
+                            L = capability.L,
+                            N = capability.N,
+                            HashAlg = hashFunction,
+
+                            TestType = TEST_TYPE,
+                            TestMode = TEST_MODE
+                        };
+
+                        testGroups.Add(testGroup);
+                    }
+                }
+
+            }
+
+            return testGroups;
+        }
+    }
+}
