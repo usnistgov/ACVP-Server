@@ -32,5 +32,31 @@ namespace NIST.CVP.Crypto.DSA.FFC.Helpers
 
             throw new ArgumentOutOfRangeException($"Not a valid GeneratorGenMode: {value}");
         }
+
+        public static string GGenModeToString(GeneratorGenMode gGenMode)
+        {
+            switch (gGenMode)
+            {
+                case GeneratorGenMode.Canonical:
+                    return "canonical";
+                case GeneratorGenMode.Unverifiable:
+                    return "unverifiable";
+            }
+
+            throw new ArgumentOutOfRangeException("Not a valid GeneratorGenMode");
+        }
+
+        public static string PQGenModeToString(PrimeGenMode pQGenMode)
+        {
+            switch (pQGenMode)
+            {
+                case PrimeGenMode.Probable:
+                    return "probable";
+                case PrimeGenMode.Provable:
+                    return "provable";
+            }
+
+            throw new ArgumentOutOfRangeException("Not a valid PrimeGenMode");
+        }
     }
 }

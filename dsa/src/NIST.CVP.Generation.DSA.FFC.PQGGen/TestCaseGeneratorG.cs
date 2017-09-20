@@ -42,6 +42,13 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 return new TestCaseGenerateResponse(pqResult.ErrorMessage);
             }
 
+            // Make sure index is not "0000 0000"
+            var index = BitString.Zeroes(8);
+            do
+            {
+                index = _rand.GetRandomBitString(8);
+            } while (index == BitString.Zeroes(8));
+
             // Assign values of the TestCase
             var testCase = new TestCase
             {
@@ -49,10 +56,17 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 Q = pqResult.Q,
                 Seed = pqResult.Seed,
                 Counter = pqResult.Count,
-                Index = _rand.GetRandomBitString(8)
+                Index = index
             };
-
-            return Generate(group, testCase);
+            
+            if (isSample)
+            {
+                return Generate(group, testCase);
+            }
+            else
+            {
+                return new TestCaseGenerateResponse(testCase);
+            }
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)

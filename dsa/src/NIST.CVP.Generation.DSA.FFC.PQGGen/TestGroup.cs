@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
+using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
@@ -30,17 +33,44 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
         public TestGroup(dynamic source)
         {
+            TestType = source.testType;
+            L = (int)source.l;
+            N = (int)source.n;
 
+            var attributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm((string)source.hashAlg);
+            HashAlg = new HashFunction(attributes.shaMode, attributes.shaDigestSize);
+
+            if (((ExpandoObject)source).ContainsProperty("pqMode"))
+            {
+                PQGenMode = EnumHelper.StringToPQGenMode(source.pqMode);
+            }
+
+            if (((ExpandoObject)source).ContainsProperty("gMode"))
+            {
+                GGenMode = EnumHelper.StringToGGenMode(source.gMode);
+            }
         }
 
         public bool MergeTests(List<ITestCase> testsToMerge)
         {
-            throw new NotImplementedException();
+            foreach (var test in Tests)
+            {
+                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
+                if (matchingTest == null)
+                {
+                    return false;
+                }
+                if (!test.Merge(matchingTest))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return ($"{L}{N}{HashAlg.Name}{TestMode}").GetHashCode();
         }
 
         public override bool Equals(object obj)

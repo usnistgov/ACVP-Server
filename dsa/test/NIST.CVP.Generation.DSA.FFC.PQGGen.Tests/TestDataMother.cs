@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
 {
     public class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public List<TestGroup> GetTestGroups(string mode = "pq", int groups = 1)
         {
             var testGroups = new List<TestGroup>();
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
@@ -39,6 +39,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
                     L = 2048,
                     N = 256,
                     TestType = "gdt",
+                    TestMode = mode,
                     Tests = tests
                 });
             }

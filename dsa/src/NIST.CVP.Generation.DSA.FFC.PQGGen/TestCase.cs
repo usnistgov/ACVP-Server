@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
         private void MapToProperties(dynamic source)
         {
-            TestCaseId = (int)source.tdId;
+            TestCaseId = (int)source.tcId;
 
             if (((ExpandoObject)source).ContainsProperty("p"))
             {

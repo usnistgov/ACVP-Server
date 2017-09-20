@@ -10,7 +10,7 @@ namespace NIST.CVP.Crypto.SHAWrapper
         public int OutputLen { get; }
         public int BlockSize { get; }
         public BigInteger MaxMessageLen { get; }
-        
+        public string Name { get; }
         
         public HashFunction(ModeValues mode, DigestSizes digestSize)
         {
@@ -21,6 +21,7 @@ namespace NIST.CVP.Crypto.SHAWrapper
             OutputLen = attributes.outputLen;
             BlockSize = attributes.blockSize;
             MaxMessageLen = attributes.maxMessageSize;
+            Name = attributes.name;
         }
     }
 

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NIST.CVP.Crypto.DSA.FFC.Helpers;
+using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -21,45 +23,63 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
             Assert.IsNotNull(subject);
         }
 
-        //[Test]
-        //public void ShouldSetProperTestTypeFromDynamicAnswer()
-        //{
-        //    var sourceAnswer = GetSourceAnswer();
-        //    var subject = new TestGroup(sourceAnswer);
-        //    Assume.That(subject != null);
-        //    Assert.AreEqual(sourceAnswer.testType, subject.TestType);
-        //}
-
-        //[Test]
-        //public void ShouldSetProperSigGenModeFromDynamicAnswer()
-        //{
-        //    var sourceAnswer = GetSourceAnswer();
-        //    var subject = new TestGroup(sourceAnswer);
-        //    Assume.That(subject != null);
-        //    Assert.AreEqual(sourceAnswer.sigType, RSAEnumHelpers.SigGenModeToString(subject.Mode));
-        //}
-
-        //[Test]
-        //public void ShouldSetProperHashAlgFromDynamicAnswer()
-        //{
-        //    var sourceAnswer = GetSourceAnswer();
-        //    var subject = new TestGroup(sourceAnswer);
-        //    Assume.That(subject != null);
-        //    Assert.AreEqual(sourceAnswer.hashAlg, SHAEnumHelpers.HashFunctionToString(subject.HashAlg));
-        //}
-
-        //[Test]
-        //public void ShouldSetProperModuloFromDynamicAnswer()
-        //{
-        //    var sourceAnswer = GetSourceAnswer();
-        //    var subject = new TestGroup(sourceAnswer);
-        //    Assume.That(subject != null);
-        //    Assert.AreEqual(sourceAnswer.modulo, subject.Modulo);
-        //}
-
-        private dynamic GetSourceAnswer()
+        [Test]
+        public void ShouldSetProperTestTypeFromDynamicAnswer()
         {
-            var sourceVector = new TestVectorSet { TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup)g).ToList() };
+            var sourceAnswer = GetSourceAnswer();
+            var subject = new TestGroup(sourceAnswer);
+            Assume.That(subject != null);
+            Assert.AreEqual(sourceAnswer.testType, subject.TestType);
+        }
+
+        [Test]
+        public void ShouldSetProperLFromDynamicAnswer()
+        {
+            var sourceAnswer = GetSourceAnswer();
+            var subject = new TestGroup(sourceAnswer);
+            Assume.That(subject != null);
+            Assert.AreEqual(sourceAnswer.l, subject.L);
+        }
+
+        [Test]
+        public void ShouldSetProperNFromDynamicAnswer()
+        {
+            var sourceAnswer = GetSourceAnswer();
+            var subject = new TestGroup(sourceAnswer);
+            Assume.That(subject != null);
+            Assert.AreEqual(sourceAnswer.n, subject.N);
+        }
+
+        [Test]
+        public void ShouldSetProperHashAlgFromDynamicAnswer()
+        {
+            var sourceAnswer = GetSourceAnswer();
+            var subject = new TestGroup(sourceAnswer);
+            Assume.That(subject != null);
+            Assert.AreEqual(sourceAnswer.hashAlg,  subject.HashAlg.Name);
+        }
+
+        [Test]
+        public void ShouldSetProperGGenModeFromDynamicAnswer()
+        {
+            var sourceAnswer = GetSourceAnswer("g");
+            var subject = new TestGroup(sourceAnswer);
+            Assume.That(subject != null);
+            Assert.AreEqual(EnumHelper.StringToGGenMode(sourceAnswer.gMode), subject.GGenMode);
+        }
+
+        [Test]
+        public void ShouldSetProperPQGenModeFromDynamicAnswer()
+        {
+            var sourceAnswer = GetSourceAnswer();
+            var subject = new TestGroup(sourceAnswer);
+            Assume.That(subject != null);
+            Assert.AreEqual(EnumHelper.StringToPQGenMode(sourceAnswer.pqMode), subject.PQGenMode);
+        }
+
+        private dynamic GetSourceAnswer(string mode = "pq")
+        {
+            var sourceVector = new TestVectorSet { TestGroups = _tdm.GetTestGroups(mode).Select(g => (ITestGroup)g).ToList() };
             var sourceAnswer = sourceVector.AnswerProjection[0];
             return sourceAnswer;
         }
