@@ -61,6 +61,11 @@ namespace NIST.CVP.Generation.TDES_OFB
 
         private void CheckResults(TestCase suppliedResult, List<string> errors)
         {
+            if (_expectedResult.ResultsArray.Count != suppliedResult.ResultsArray.Count)
+            {
+                errors.Add("Expected results and supplied results arrays sizes do not match");
+                return;
+            }
             for (var i = 0; i < _expectedResult.ResultsArray.Count; i++)
             {
                 if (!_expectedResult.ResultsArray[i].Keys.Equals(suppliedResult.ResultsArray[i].Keys))

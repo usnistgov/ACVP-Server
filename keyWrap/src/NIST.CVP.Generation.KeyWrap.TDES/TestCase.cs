@@ -13,18 +13,24 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
         public BitString Key1
         {
             get => Key?.MSBSubstring(0, 64);
-            set => Key = Key != null ? value.ConcatenateBits(Key.Substring(64, 128)) : null;
+            set => Key = Key != null ? 
+                value.ConcatenateBits(Key.Substring(64, 128)) :
+                value.ConcatenateBits(new BitString(128));
         }
 
         public BitString Key2
         {
             get => Key?.MSBSubstring(64, 64);
-            set => Key = Key != null ? Key.Substring(0, 64).ConcatenateBits(value).ConcatenateBits(Key.Substring(128, 64)) : null;
+            set => Key = Key != null ? 
+                Key.Substring(0, 64).ConcatenateBits(value).ConcatenateBits(Key.Substring(128, 64)) :
+                new BitString(64).ConcatenateBits(value).ConcatenateBits(new BitString(64));
         }
         public BitString Key3
         {
             get => Key?.MSBSubstring(128, 64);
-            set => Key = Key != null ? Key.Substring(0, 128).ConcatenateBits(value) : null;
+            set => Key = Key != null ? 
+                Key.Substring(0, 128).ConcatenateBits(value) :
+                new BitString(64).ConcatenateBits(value);
         }
         public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
 
