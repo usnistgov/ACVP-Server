@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Directory.Delete(_testPath, true);
+            // Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -329,8 +329,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
             {
                 PQGen = new[] { "probable" },
                 GGen = new[] { "unverifiable" },
-                L = 1024,
-                N = 160,
+                L = 2048,
+                N = 256,
                 HashAlgs = new[] { "sha2-256" }
             };
 
@@ -362,8 +362,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
             {
                 PQGen = new[] { "probable", "provable" },
                 GGen = new[] { "unverifiable", "canonical" },
-                L = 1024,
-                N = 160,
+                L = 2048,
+                N = 224,
                 HashAlgs = new[] { "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" }
             };
 
@@ -372,7 +372,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
                 PQGen = new[] { "probable", "provable" },
                 GGen = new[] { "unverifiable", "canonical" },
                 L = 2048,
-                N = 224,
+                N = 256,
                 HashAlgs = new[] { "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" }
             };
 
@@ -380,7 +380,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
             {
                 PQGen = new[] { "probable", "provable" },
                 GGen = new[] { "unverifiable", "canonical" },
-                L = 2048,
+                L = 3072,
                 N = 256,
                 HashAlgs = new[] { "sha2-256", "sha2-384", "sha2-512", "sha2-512/256" }
             };

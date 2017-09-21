@@ -142,6 +142,9 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                         }
                         else if (group.TestMode.ToLower() == "g")
                         {
+                            ((IDictionary<string, object>)testObject).Add("p", test.P);
+                            ((IDictionary<string, object>)testObject).Add("q", test.Q);
+
                             if (group.GGenMode == GeneratorGenMode.Canonical)
                             {
                                 ((IDictionary<string, object>)testObject).Add("domainSeed", test.Seed.GetFullSeed());
