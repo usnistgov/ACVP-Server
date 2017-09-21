@@ -1,7 +1,7 @@
 ﻿namespace NIST.CVP.Crypto.KAS.Enums
 {
     /// <summary>
-    /// The "modes" that an <see cref="IKas"/> can run in, depending on the <see cref="IKasParameters"/> used to retrieve an instance.
+    /// The "modes" that an <see cref="IKas"/> can run in.
     /// </summary>
     public enum KasMode
     {
