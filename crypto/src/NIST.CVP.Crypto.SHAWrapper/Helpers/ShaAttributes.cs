@@ -43,5 +43,16 @@ namespace NIST.CVP.Crypto.SHAWrapper.Helpers
 
             return result;
         }
+
+        public static (ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, string name) GetShaAttributes(string name)
+        {
+            if (!GetShaAttributes()
+                .TryFirst(w => w.name.Equals(name, StringComparison.OrdinalIgnoreCase), out var result))
+            {
+                throw new ArgumentException($"Invalid sha {nameof(name)}");
+            }
+
+            return result;
+        }
     }
 }
