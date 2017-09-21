@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
 {

@@ -24,13 +24,13 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
             // 1 (always an integer)
             var e = (p - 1) / q;
 
-            // 2
-            var h = _rand.GetRandomBigInteger(2, p - 2);
-
-            // 3
             BigInteger g;
             do
             {
+                // 2
+                var h = _rand.GetRandomBigInteger(2, p - 2);
+
+                // 3
                 g = BigInteger.ModPow(h, e, p);
 
             // 4

@@ -82,5 +82,39 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             }
             return this.GetHashCode() == otherGroup.GetHashCode();
         }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "pqmode":
+                    PQGenMode = EnumHelper.StringToPQGenMode(value);
+                    return true;
+
+                case "gmode":
+                    GGenMode = EnumHelper.StringToGGenMode(value);
+                    return true;
+                
+                case "l":
+                    L = int.Parse(value);
+                    return true;
+
+                case "n":
+                    N = int.Parse(value);
+                    return true;
+
+                case "hashalg":
+                    var attributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(value);
+                    HashAlg = new HashFunction(attributes.shaMode, attributes.shaDigestSize);
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

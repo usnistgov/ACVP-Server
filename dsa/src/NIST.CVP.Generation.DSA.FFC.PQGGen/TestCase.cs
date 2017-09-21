@@ -23,6 +23,13 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
         public Counter Counter { get; set; }
         public BitString Index { get; set; }
 
+        // Used for SetString only
+        private BigInteger firstSeed;
+        private BigInteger pSeed;
+        private BigInteger qSeed;
+        private int pCounter;
+        private int qCounter;
+
         public TestCase() { }
 
         public TestCase(JObject source)
@@ -55,9 +62,20 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 G = BigIntegerFromObject("g", (ExpandoObject)source);
             }
 
-            if (((ExpandoObject)source).ContainsProperty("seed"))
+            if (((ExpandoObject)source).ContainsProperty("domainSeed"))
             {
-                Seed = new DomainSeed(BigIntegerFromObject("seed", (ExpandoObject)source));
+                if (((ExpandoObject)source).ContainsProperty("pSeed") && ((ExpandoObject)source).ContainsProperty("qSeed"))
+                {
+                    var firstSeed = BigIntegerFromObject("domainSeed", (ExpandoObject)source);
+                    var pSeed = BigIntegerFromObject("pSeed", (ExpandoObject)source);
+                    var qSeed = BigIntegerFromObject("qSeed", (ExpandoObject)source);
+
+                    Seed = new DomainSeed(firstSeed, pSeed, qSeed);
+                }
+                else
+                {
+                    Seed = new DomainSeed(BigIntegerFromObject("domainSeed", (ExpandoObject)source));
+                }
             }
 
             if (((ExpandoObject)source).ContainsProperty("counter"))
@@ -101,6 +119,65 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 Index = otherTypedTest.Index.GetDeepCopy();
 
                 return true;
+            }
+
+            return false;
+        }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "p":
+                    P = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "q":
+                    Q = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "g":
+                    G = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "index":
+                    Index = new BitString(value);
+                    return true;
+
+                case "domain_parameter_seed":
+                    Seed = new DomainSeed(new BitString(value).ToPositiveBigInteger());
+                    return true;
+
+                case "counter":
+                    Counter = new Counter(int.Parse(value));
+                    return true;
+
+                case "firstseed":
+                    firstSeed = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "pseed":
+                    pSeed = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "qseed":
+                    qSeed = new BitString(value).ToPositiveBigInteger();
+                    Seed = new DomainSeed(firstSeed, pSeed, qSeed);
+                    return true;
+
+                case "pgen_counter":
+                    pCounter = int.Parse(value);
+                    return true;
+
+                case "qgen_counter":
+                    qCounter = int.Parse(value);
+                    Counter = new Counter(pCounter, qCounter);
+                    return true;
             }
 
             return false;

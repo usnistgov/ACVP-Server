@@ -77,7 +77,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                         {
                             ((IDictionary<string, object>)testObject).Add("p", test.P);
                             ((IDictionary<string, object>)testObject).Add("q", test.Q);
-                            ((IDictionary<string, object>)testObject).Add("domainSeed", test.Seed.GetFullSeed());
+                            ((IDictionary<string, object>)testObject).Add("domainSeed", test.Seed.Seed);
 
                             if (group.PQGenMode == PrimeGenMode.Probable)
                             {
@@ -85,6 +85,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                             }
                             else if (group.PQGenMode == PrimeGenMode.Provable)
                             {
+                                ((IDictionary<string, object>)testObject).Add("pSeed", test.Seed.PSeed);
+                                ((IDictionary<string, object>)testObject).Add("qSeed", test.Seed.QSeed);
                                 ((IDictionary<string, object>)testObject).Add("pCounter", test.Counter.PCount);
                                 ((IDictionary<string, object>)testObject).Add("qCounter", test.Counter.QCount);
                             }
@@ -92,12 +94,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                         else if (group.TestMode.ToLower() == "g")
                         {
                             ((IDictionary<string, object>)testObject).Add("g", test.G);
-                            
-                            if (group.GGenMode == GeneratorGenMode.Canonical)
-                            {
-                                ((IDictionary<string, object>)testObject).Add("domainSeed", test.Seed.GetFullSeed());
-                                ((IDictionary<string, object>)testObject).Add("index", test.Index);
-                            }
                         }
 
                         tests.Add(testObject);
@@ -115,7 +111,51 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
         {
             get
             {
-                throw new NotImplementedException();
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("l", group.L);
+                    ((IDictionary<string, object>)updateObject).Add("n", group.N);
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+
+                    if (group.TestMode.ToLower() == "pq")
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("pqMode", EnumHelper.PQGenModeToString(group.PQGenMode));
+                    }
+                    else if (group.TestMode.ToLower() == "g")
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("gMode", EnumHelper.GGenModeToString(group.GGenMode));
+                    }
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+
+                        if (group.TestMode.ToLower() == "pq")
+                        {
+                            // Nothing
+                        }
+                        else if (group.TestMode.ToLower() == "g")
+                        {
+                            if (group.GGenMode == GeneratorGenMode.Canonical)
+                            {
+                                ((IDictionary<string, object>)testObject).Add("domainSeed", test.Seed.GetFullSeed());
+                                ((IDictionary<string, object>)testObject).Add("index", test.Index);
+                            }
+                        }
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
             }
         }
 
@@ -124,7 +164,41 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
         {
             get
             {
-                throw new NotImplementedException();
+                var tests = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+
+                        if (group.TestMode == "pq")
+                        {
+                            ((IDictionary<string, object>)testObject).Add("p", test.P);
+                            ((IDictionary<string, object>)testObject).Add("q", test.Q);
+
+                            if (group.PQGenMode == PrimeGenMode.Provable)
+                            {
+                                ((IDictionary<string, object>)testObject).Add("pSeed", test.Seed.PSeed);
+                                ((IDictionary<string, object>)testObject).Add("qSeed", test.Seed.QSeed);
+                                ((IDictionary<string, object>)testObject).Add("pCounter", test.Counter.PCount);
+                                ((IDictionary<string, object>)testObject).Add("qCounter", test.Counter.QCount);
+                            }
+                            else if (group.PQGenMode == PrimeGenMode.Probable)
+                            {
+                                ((IDictionary<string, object>)testObject).Add("counter", test.Counter.Count);
+                            }
+                        }
+                        else if (group.TestMode == "g")
+                        {
+                            ((IDictionary<string, object>)testObject).Add("g", test.G);
+                        }
+
+                        tests.Add(testObject);
+                    }
+                }
+
+                return tests;
             }
         }
 
