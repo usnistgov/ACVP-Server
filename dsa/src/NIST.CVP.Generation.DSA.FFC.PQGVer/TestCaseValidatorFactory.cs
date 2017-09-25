@@ -12,10 +12,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
     {
-        private readonly IShaFactory _shaFactory = new ShaFactory();
-        private IPQGeneratorValidator _pqGen;
-        private IGGeneratorValidator _gGen;
-
         public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
         {
             var list = new List<ITestCaseValidator<TestCase>>();
@@ -24,13 +20,13 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             {
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
-                    if (test.Result != null)
+                    if (group.TestType.ToLower() == "gdt")
                     {
                         list.Add(new TestCaseValidator(test));
                     }
                     else
                     {
-                        list.Add(new TestCaseValidatorNull("Could not find TestMode for group", test.TestCaseId));
+                        list.Add(new TestCaseValidatorNull("Could not find TestType for group", test.TestCaseId));
                     }
                 }
             }

@@ -36,5 +36,10 @@ namespace NIST.CVP.Crypto.DSA.FFC
 
             return BitString.ConcatenateBits(seedBS, BitString.ConcatenateBits(pSeedBS, qSeedBS)).ToPositiveBigInteger();
         }
+
+        public void ModifySeed(BigInteger newSeed)
+        {
+            Seed = newSeed;
+        }
     }
 }

@@ -20,7 +20,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
         public int N { get; set; }
         public HashFunction HashAlg { get; set; }
 
-        public string TestMode { get; set; }
         public string TestType { get; set; }
         public List<ITestCase> Tests { get; set; }
 

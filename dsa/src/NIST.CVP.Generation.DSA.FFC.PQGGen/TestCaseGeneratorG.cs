@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
             if (pqGen == null)
             {
-                var hashFunction = new HashFunction(ModeValues.SHA2, DigestSizes.d512);
+                var hashFunction = new HashFunction(ModeValues.SHA2, DigestSizes.d256);
                 _pqGen = new ProbablePQGeneratorValidator(_shaFactory.GetShaInstance(hashFunction));
             }
             else

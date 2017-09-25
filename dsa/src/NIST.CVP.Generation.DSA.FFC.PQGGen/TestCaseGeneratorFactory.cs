@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            if (testGroup.TestMode.ToLower() == "pq")
+            if (testGroup.PQGenMode != PrimeGenMode.None)
             {
                 var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
 
@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 return new TestCaseGeneratorPQ(_random800_90, _pqGen);
             }
 
-            if (testGroup.TestMode.ToLower() == "g")
+            if (testGroup.GGenMode != GeneratorGenMode.None)
             {
                 switch (testGroup.GGenMode)
                 {

@@ -7,7 +7,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
     public class TestGroupGeneratorG : ITestGroupGenerator<Parameters>
     {
-        public const string TEST_MODE = "G";
         public const string TEST_TYPE = "GDT";
         private IShaFactory _shaFactory = new ShaFactory();
 
@@ -33,7 +32,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                             HashAlg = hashFunction,
 
                             TestType = TEST_TYPE,
-                            TestMode = TEST_MODE
                         };
 
                         testGroups.Add(testGroup);

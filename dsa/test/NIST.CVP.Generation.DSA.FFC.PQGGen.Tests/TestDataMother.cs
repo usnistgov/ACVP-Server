@@ -31,17 +31,33 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
                     });
                 }
 
-                testGroups.Add(new TestGroup
+                if (mode == "pq")
                 {
-                    GGenMode = GeneratorGenMode.Canonical,
-                    PQGenMode = PrimeGenMode.Probable,
-                    HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                    L = 2048,
-                    N = 256,
-                    TestType = "gdt",
-                    TestMode = mode,
-                    Tests = tests
-                });
+                    testGroups.Add(new TestGroup
+                    {
+                        GGenMode = GeneratorGenMode.None,
+                        PQGenMode = PrimeGenMode.Probable,
+                        HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
+                        L = 2048,
+                        N = 256,
+                        TestType = "gdt",
+                        Tests = tests
+                    });
+                }
+                else if(mode == "g")
+                {
+                    testGroups.Add(new TestGroup
+                    {
+                        GGenMode = GeneratorGenMode.Canonical,
+                        PQGenMode = PrimeGenMode.None,
+                        HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
+                        L = 2048,
+                        N = 256,
+                        TestType = "gdt",
+                        Tests = tests
+                    });
+                }
+                
             }
 
             return testGroups;

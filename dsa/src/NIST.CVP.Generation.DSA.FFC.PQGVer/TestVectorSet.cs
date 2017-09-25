@@ -1,21 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
+using System.Dynamic;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
     public class TestVectorSet : ITestVectorSet
     {
-        public string Algorithm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Mode { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsSample { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public List<ITestGroup> TestGroups { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Algorithm { get; set; }
+        public string Mode { get; set; }
+        public bool IsSample { get; set; }
+
+        [JsonIgnore]
+        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
+        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
+
+        public TestVectorSet() { }
+
+        public TestVectorSet(dynamic answers, dynamic prompts)
+        {
+            foreach (var answer in answers.answerProjection)
+            {
+                var group = new TestGroup(answer);
+                TestGroups.Add(group);
+            }
+
+            foreach (var prompt in prompts.testGroups)
+            {
+                var promptGroup = new TestGroup(prompt);
+                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
+                if (matchingAnswerGroup != null)
+                {
+                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
+                    {
+                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
+                    }
+                }
+            }
+        }
 
         public List<dynamic> AnswerProjection => throw new NotImplementedException();
 
+        [JsonProperty(PropertyName = "testGroups")]
         public List<dynamic> PromptProjection => throw new NotImplementedException();
 
+        [JsonProperty(PropertyName = "testResults")]
         public List<dynamic> ResultProjection => throw new NotImplementedException();
+
+        public dynamic ToDynamic()
+        {
+            dynamic vectorSetObject = new ExpandoObject();
+            ((IDictionary<string, object>)vectorSetObject).Add("answerProjection", AnswerProjection);
+            ((IDictionary<string, object>)vectorSetObject).Add("testGroups", PromptProjection);
+            ((IDictionary<string, object>)vectorSetObject).Add("resultProjection", ResultProjection);
+            return vectorSetObject;
+        }
     }
 }

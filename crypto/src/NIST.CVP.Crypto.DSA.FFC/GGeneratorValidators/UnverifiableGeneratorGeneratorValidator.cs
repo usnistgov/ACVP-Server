@@ -24,11 +24,17 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
             // 1 (always an integer)
             var e = (p - 1) / q;
 
+            BigInteger h = 1;
             BigInteger g;
             do
             {
                 // 2
-                var h = _rand.GetRandomBigInteger(2, p - 2);
+                h++;
+                if (h >= p - 1)
+                {
+                    // You couldn't feasibly reach this anyways... 
+                    return new GGenerateResult("Too many h iterations");
+                }
 
                 // 3
                 g = BigInteger.ModPow(h, e, p);
@@ -36,7 +42,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
             // 4
             } while (g == 1);
 
-            return new GGenerateResult(g);
+            return new GGenerateResult(g, h);
         }
 
         /// <summary>

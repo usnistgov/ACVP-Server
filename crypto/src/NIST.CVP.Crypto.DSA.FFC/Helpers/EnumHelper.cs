@@ -46,6 +46,64 @@ namespace NIST.CVP.Crypto.DSA.FFC.Helpers
             throw new ArgumentOutOfRangeException("Not a valid GeneratorGenMode");
         }
 
+        public static string ReasonToString(PQFailureReasons reason)
+        {
+            switch (reason)
+            {
+                case PQFailureReasons.ModifyP:
+                    return "modify p";
+
+                case PQFailureReasons.ModifyQ:
+                    return "modify q";
+
+                case PQFailureReasons.ModifySeed:
+                    return "modify seed";
+
+                case PQFailureReasons.None1:
+                case PQFailureReasons.None2:
+                    return "none";
+            }
+
+            throw new ArgumentOutOfRangeException("Not a valid FailureReason");
+        }
+
+        public static string ReasonToString(GFailureReasons reason)
+        {
+            switch (reason)
+            {
+                case GFailureReasons.ModifyG1:
+                case GFailureReasons.ModifyG2:
+                case GFailureReasons.ModifyG3:
+                    return "modify g";
+
+                case GFailureReasons.None1:
+                case GFailureReasons.None2:
+                    return "none";
+            }
+
+            throw new ArgumentOutOfRangeException("Not a valid FailureReason");
+        }
+
+        public static PQFailureReasons StringToPQReason(string reason)
+        {
+            switch (reason)
+            {
+                case "none":
+                    return PQFailureReasons.None1;
+
+                case "modify p":
+                    return PQFailureReasons.ModifyP;
+
+                case "modify q":
+                    return PQFailureReasons.ModifyQ;
+
+                case "modify seed":
+                    return PQFailureReasons.ModifySeed;
+            }
+
+            throw new ArgumentOutOfRangeException("Not a valid FailureReason");
+        }
+
         public static string PQGenModeToString(PrimeGenMode pQGenMode)
         {
             switch (pQGenMode)

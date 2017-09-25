@@ -57,11 +57,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                     ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
 
-                    if (group.TestMode.ToLower() == "pq")
+                    if (group.PQGenMode != PrimeGenMode.None)
                     {
                         ((IDictionary<string, object>)updateObject).Add("pqMode", EnumHelper.PQGenModeToString(group.PQGenMode));
                     }
-                    else if(group.TestMode.ToLower() == "g")
+                    else if(group.GGenMode != GeneratorGenMode.None)
                     {
                         ((IDictionary<string, object>)updateObject).Add("gMode", EnumHelper.GGenModeToString(group.GGenMode));
                     }
@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (group.TestMode.ToLower() == "pq")
+                        if (group.PQGenMode != PrimeGenMode.None)
                         {
                             ((IDictionary<string, object>)testObject).Add("p", test.P);
                             ((IDictionary<string, object>)testObject).Add("q", test.Q);
@@ -91,7 +91,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                                 ((IDictionary<string, object>)testObject).Add("qCounter", test.Counter.QCount);
                             }
                         }
-                        else if (group.TestMode.ToLower() == "g")
+                        else if (group.GGenMode != GeneratorGenMode.None)
                         {
                             ((IDictionary<string, object>)testObject).Add("g", test.G);
                         }
@@ -120,11 +120,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                     ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
 
-                    if (group.TestMode.ToLower() == "pq")
+                    if (group.PQGenMode != PrimeGenMode.None)
                     {
                         ((IDictionary<string, object>)updateObject).Add("pqMode", EnumHelper.PQGenModeToString(group.PQGenMode));
                     }
-                    else if (group.TestMode.ToLower() == "g")
+                    else if (group.GGenMode != GeneratorGenMode.None)
                     {
                         ((IDictionary<string, object>)updateObject).Add("gMode", EnumHelper.GGenModeToString(group.GGenMode));
                     }
@@ -136,11 +136,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (group.TestMode.ToLower() == "pq")
+                        if (group.PQGenMode != PrimeGenMode.None)
                         {
                             // Nothing
                         }
-                        else if (group.TestMode.ToLower() == "g")
+                        else if (group.GGenMode != GeneratorGenMode.None)
                         {
                             ((IDictionary<string, object>)testObject).Add("p", test.P);
                             ((IDictionary<string, object>)testObject).Add("q", test.Q);
