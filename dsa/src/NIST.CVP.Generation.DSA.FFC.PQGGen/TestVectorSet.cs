@@ -175,7 +175,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (group.TestMode == "pq")
+                        if (group.PQGenMode != PrimeGenMode.None)
                         {
                             ((IDictionary<string, object>)testObject).Add("p", test.P);
                             ((IDictionary<string, object>)testObject).Add("q", test.Q);
@@ -192,7 +192,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                                 ((IDictionary<string, object>)testObject).Add("counter", test.Counter.Count);
                             }
                         }
-                        else if (group.TestMode == "g")
+                        else if (group.GGenMode != GeneratorGenMode.None)
                         {
                             ((IDictionary<string, object>)testObject).Add("g", test.G);
                         }

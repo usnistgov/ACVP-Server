@@ -49,6 +49,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             {
                 GGenMode = EnumHelper.StringToGGenMode(source.gMode);
             }
+
+            Tests = new List<ITestCase>();
+            foreach (var test in source.tests)
+            {
+                Tests.Add(new TestCase(test));
+            }
         }
 
         public bool MergeTests(List<ITestCase> testsToMerge)
@@ -70,7 +76,19 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
         public override int GetHashCode()
         {
-            return ($"{L}{N}{HashAlg.Name}{TestMode}").GetHashCode();
+            var gMode = "";
+            if (GGenMode != GeneratorGenMode.None)
+            {
+                gMode = EnumHelper.GGenModeToString(GGenMode);
+            }
+
+            var pqMode = "";
+            if (PQGenMode != PrimeGenMode.None)
+            {
+                pqMode = EnumHelper.PQGenModeToString(PQGenMode);
+            }
+
+            return ($"{L}{N}{HashAlg.Name}{pqMode}{gMode}").GetHashCode();
         }
 
         public override bool Equals(object obj)

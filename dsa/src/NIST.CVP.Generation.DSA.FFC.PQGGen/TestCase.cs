@@ -83,9 +83,9 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 Counter = new Counter((int)source.counter);
             }
 
-            if (((ExpandoObject)source).ContainsProperty("pcounter") && ((ExpandoObject)source).ContainsProperty("qcounter"))
+            if (((ExpandoObject)source).ContainsProperty("pCounter") && ((ExpandoObject)source).ContainsProperty("qCounter"))
             {
-                Counter = new Counter((int)source.pcounter, (int)source.qcounter);
+                Counter = new Counter((int)source.pCounter, (int)source.qCounter);
             }
 
             if (((ExpandoObject)source).ContainsProperty("index"))
@@ -103,20 +103,25 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
             var otherTypedTest = (TestCase)otherTest;
 
-            if (P == null && otherTypedTest.P != null)
+            if (P != 0 && otherTypedTest.P == 0)
+            {
+                // Nothing to merge
+                //P = otherTypedTest.P;
+                //Q = otherTypedTest.Q;
+                //Seed = otherTypedTest.Seed;
+                //Counter = otherTypedTest.Counter;
+
+                return true;
+            }
+
+            if (G != 0 && otherTypedTest.G == 0)
             {
                 P = otherTypedTest.P;
                 Q = otherTypedTest.Q;
                 Seed = otherTypedTest.Seed;
                 Counter = otherTypedTest.Counter;
-
-                return true;
-            }
-
-            if (G == null && otherTypedTest.G != null)
-            {
-                G = otherTypedTest.G;
-                Index = otherTypedTest.Index.GetDeepCopy();
+                Index = otherTypedTest.Index;
+                //G = otherTypedTest.G;
 
                 return true;
             }

@@ -6,6 +6,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.Enums
 {
     public enum GeneratorGenMode
     {
+        None,
         Unverifiable,
         Canonical
     }

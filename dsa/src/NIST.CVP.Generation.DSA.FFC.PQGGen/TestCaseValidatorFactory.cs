@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             {
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
-                    if (group.TestMode.ToLower() == "pq")
+                    if (group.PQGenMode != PrimeGenMode.None)
                     {
                         var sha = _shaFactory.GetShaInstance(group.HashAlg);
 
@@ -40,8 +40,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
                         list.Add(new TestCaseValidatorPQ(test, _pqGen));
                     }
-
-                    if (group.TestMode.ToLower() == "g")
+                    else if (group.GGenMode != GeneratorGenMode.None)
                     {
                         switch (group.GGenMode)
                         {
@@ -56,8 +55,10 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
                         list.Add(new TestCaseValidatorG(test, _gGen));
                     }
-
-                    list.Add(new TestCaseValidatorNull("Could not find TestMode for group", test.TestCaseId));
+                    else
+                    {
+                        list.Add(new TestCaseValidatorNull("Could not find validator for group", test.TestCaseId));
+                    }
                 }
             }
 

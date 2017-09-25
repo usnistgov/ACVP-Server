@@ -75,7 +75,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
         public void GenShouldCreateTestVectors()
         {
             var targetFolder = GetTestFolder("Gen");
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileMinimalTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -128,7 +128,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
         public void ShouldCreateValidationFile()
         {
             var targetFolder = GetTestFolder("Val");
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileMinimalTestCases(targetFolder);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -284,15 +284,15 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
                     // If TC has a result, change it
                     if (testCase.g != null)
                     {
-                        var gLen = new BitString((BigInteger)testCase.g).BitLength;
-                        testCase.g = rand.GetRandomBitString(gLen).ToPositiveBigInteger();
+                        var gLen = ((string)testCase.g).Length * 4;
+                        testCase.g = rand.GetRandomBitString(gLen).ToHex();
                         continue;
                     }
 
                     if (testCase.p != null)
                     {
-                        var pLen = new BitString((BigInteger)testCase.p).BitLength;
-                        testCase.p = rand.GetRandomBitString(pLen).ToPositiveBigInteger();
+                        var pLen = ((string)testCase.p).Length * 4;
+                        testCase.p = rand.GetRandomBitString(pLen).ToHex();
                     }
                 }
             }
@@ -321,26 +321,50 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
             return fileName;
         }
 
+        private string GetTestFileMinimalTestCases(string targetFolder)
+        {
+            var caps = new Capability[1];
+
+            caps[0] = new Capability
+            {
+                PQGen = new[] { "probable" },
+                GGen = new[] { "canonical" },
+                L = 2048,
+                N = 224,
+                HashAlgs = new[] { "sha2-256" }
+            };
+
+            var p = new Parameters
+            {
+                Algorithm = "DSA",
+                Mode = "PQGGen",
+                IsSample = true,
+                Capabilities = caps,
+            };
+
+            return CreateRegistration(targetFolder, p);
+        }
+
         private string GetTestFileFewTestCases(string targetFolder)
         {
             var caps = new Capability[2];
 
             caps[0] = new Capability
             {
-                PQGen = new[] { "probable" },
-                GGen = new[] { "unverifiable" },
-                L = 2048,
-                N = 256,
-                HashAlgs = new[] { "sha2-256" }
-            };
-
-            caps[1] = new Capability
-            {
                 PQGen = new[] { "provable" },
                 GGen = new[] { "canonical" },
                 L = 2048,
                 N = 224,
                 HashAlgs = new[] { "sha2-224", "sha2-512/224" }
+            };
+
+            caps[1] = new Capability
+            {
+                PQGen = new[] { "probable" },
+                GGen = new[] { "unverifiable" },
+                L = 2048,
+                N = 256,
+                HashAlgs = new[] { "sha2-256" }
             };
 
             var p = new Parameters
@@ -373,7 +397,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
                 GGen = new[] { "unverifiable", "canonical" },
                 L = 2048,
                 N = 256,
-                HashAlgs = new[] { "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" }
+                HashAlgs = new[] { "sha2-256", "sha2-384", "sha2-512", "sha2-512/256" }
             };
 
             caps[2] = new Capability

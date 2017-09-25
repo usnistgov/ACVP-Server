@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
         private readonly IPQGeneratorValidator _pqGen;
         private readonly IShaFactory _shaFactory = new ShaFactory();
 
-        public int NumberOfTestCasesToGenerate { get { return 5; } }
+        public int NumberOfTestCasesToGenerate { get; private set; } = 5;
 
         public TestCaseGeneratorG(IRandom800_90 rand, IGGeneratorValidator gGen, IPQGeneratorValidator pqGen = null)
         {
@@ -61,6 +61,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             
             if (isSample)
             {
+                NumberOfTestCasesToGenerate = 2;
                 return Generate(group, testCase);
             }
             else

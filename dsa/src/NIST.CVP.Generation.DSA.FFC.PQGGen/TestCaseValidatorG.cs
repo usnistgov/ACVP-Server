@@ -23,13 +23,13 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
         {
             var errors = new List<string>();
 
-            if (suppliedResult.G == null)
+            if (suppliedResult.G == 0)
             {
                 errors.Add("Could not find g");
             }
             else
             {
-                var validateResult = _gGen.Validate(suppliedResult.P, suppliedResult.Q, suppliedResult.G, suppliedResult.Seed, suppliedResult.Index);
+                var validateResult = _gGen.Validate(_expectedResult.P, _expectedResult.Q, suppliedResult.G, _expectedResult.Seed, _expectedResult.Index);
                 if (!validateResult.Success)
                 {
                     errors.Add($"Validation failed: {validateResult.ErrorMessage}");
