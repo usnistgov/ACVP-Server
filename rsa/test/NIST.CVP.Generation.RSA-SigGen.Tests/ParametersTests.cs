@@ -12,24 +12,12 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [Test]
         public void ShouldCoverParametersSet()
         {
-            var caps = new CapabilityObject[ParameterValidator.VALID_HASH_ALGS.Length];
-            for (var i = 0; i < caps.Length; i++)
-            {
-                caps[i] = new CapabilityObject
-                {
-                    HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
-                    SaltLen = (i + 1) * 8
-                };
-            }
-
             var parameters = new Parameters
             {
                 Algorithm = "RSA",
                 Mode = "SigGen",
                 IsSample = false,
-                Moduli = new[] { 2048, 3072, 4096 },
-                Capabilities = caps,
-                SigGenModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" },
+                Capabilities = BuildCapabilities(),
             };
 
             Assert.IsNotNull(parameters);
@@ -38,27 +26,50 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [Test]
         public void ShouldCoverParametersGet()
         {
-            var caps = new CapabilityObject[ParameterValidator.VALID_HASH_ALGS.Length];
-            for (var i = 0; i < caps.Length; i++)
-            {
-                caps[i] = new CapabilityObject
-                {
-                    HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
-                    SaltLen = (i + 1) * 8
-                };
-            }
-
             var parameters = new Parameters
             {
                 Algorithm = "RSA",
                 Mode = "SigGen",
                 IsSample = false,
-                Moduli = new[] { 2048, 3072, 4096 },
-                Capabilities = caps,
-                SigGenModes = new[] { "ANSX9.31", "PKCS1v15", "PSS" },
+                Capabilities = BuildCapabilities(),
             };
 
             Assert.AreEqual("RSA", parameters.Algorithm);
+        }
+
+        private AlgSpecs[] BuildCapabilities()
+        {
+            var hashPairs = new HashPair[ParameterValidator.VALID_HASH_ALGS.Length];
+            for (var i = 0; i < hashPairs.Length; i++)
+            {
+                hashPairs[i] = new HashPair
+                {
+                    HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
+                    SaltLen = i + 8
+                };
+            }
+
+            var modCap = new CapSigType[ParameterValidator.VALID_MODULI.Length];
+            for (var i = 0; i < modCap.Length; i++)
+            {
+                modCap[i] = new CapSigType
+                {
+                    Modulo = ParameterValidator.VALID_MODULI[i],
+                    HashPairs = hashPairs
+                };
+            }
+
+            var algSpecs = new AlgSpecs[ParameterValidator.VALID_SIG_GEN_MODES.Length];
+            for (var i = 0; i < algSpecs.Length; i++)
+            {
+                algSpecs[i] = new AlgSpecs
+                {
+                    SigType = ParameterValidator.VALID_SIG_GEN_MODES[i],
+                    ModuloCapabilities = modCap
+                };
+            }
+
+            return algSpecs;
         }
     }
 }

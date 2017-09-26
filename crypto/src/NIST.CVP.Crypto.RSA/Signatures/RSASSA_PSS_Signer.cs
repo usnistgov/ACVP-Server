@@ -150,7 +150,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
 
             // 2. RSA Decryption
             var signature = Decrypt(key.PubKey.N, key.PrivKey.D, EM.ToPositiveBigInteger());
-            return new SignatureResult(new BitString(signature));
+            return new SignatureResult(new BitString(signature, nlen));
         }
 
         public override VerifyResult Verify(int nlen, BitString signature, KeyPair key, BitString message)
@@ -163,7 +163,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
 
             // 2. RSA Verification
             var EM_int = Encrypt(key.PubKey.N, key.PubKey.E, signature.ToPositiveBigInteger());
-            var EM = new BitString(EM_int);
+            var EM = new BitString(EM_int, nlen);
 
             // 3. EMSA_PSS_Verify
             return EMSA_PSS_Verify(message, EM, nlen - 1);
@@ -260,7 +260,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
 
             // 2. RSA Decryption
             var signature = Decrypt(key.PubKey.N, key.PrivKey.D, EM.ToPositiveBigInteger());
-            return new SignatureResult(new BitString(signature));
+            return new SignatureResult(new BitString(signature, nlen));
         }
     }
 }

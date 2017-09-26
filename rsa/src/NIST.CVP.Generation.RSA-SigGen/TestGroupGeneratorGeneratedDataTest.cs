@@ -17,19 +17,23 @@ namespace NIST.CVP.Generation.RSA_SigGen
         {
             var testGroups = new List<TestGroup>();
 
-            foreach(var mode in parameters.SigGenModes)
+            foreach (var capability in parameters.Capabilities)
             {
-                foreach(var modulo in parameters.Moduli)
+                var sigType = capability.SigType;
+
+                foreach (var moduloCap in capability.ModuloCapabilities)
                 {
-                    foreach(var capability in parameters.Capabilities)
+                    var modulo = moduloCap.Modulo;
+
+                    foreach (var hashPair in moduloCap.HashPairs)
                     {
                         var testGroup = new TestGroup
                         {
-                            Mode = RSAEnumHelpers.StringToSigGenMode(mode),
+                            Mode = RSAEnumHelpers.StringToSigGenMode(sigType),
                             Modulo = modulo,
-                            HashAlg = SHAEnumHelpers.StringToHashFunction(capability.HashAlg),
-                            SaltLen = capability.SaltLen,
-                            
+                            HashAlg = SHAEnumHelpers.StringToHashFunction(hashPair.HashAlg),
+                            SaltLen = hashPair.SaltLen,
+
                             TestType = TEST_TYPE
                         };
 

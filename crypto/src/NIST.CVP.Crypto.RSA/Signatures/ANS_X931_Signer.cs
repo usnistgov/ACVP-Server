@@ -75,7 +75,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             var signature = Decrypt(key.PubKey.N, key.PrivKey.D, IR.ToPositiveBigInteger());
             signature =  BigInteger.Min(signature, key.PubKey.N - signature);
 
-            var bsSignature = new BitString(signature);
+            var bsSignature = new BitString(signature, nlen);
             if(bsSignature.BitLength == nlen && bsSignature.GetMostSignificantBits(1) == BitString.Zero())
             {
                 return new SignatureResult("Signature bitlength must be nlen - 1");
@@ -119,7 +119,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             }
 
             // 2. Encapsulated Hash Verification
-            var bsIRPrime = new BitString(irPrime);
+            var bsIRPrime = new BitString(irPrime, nlen);
             if(bsIRPrime.BitLength != nlen)
             {
                 return new VerifyResult("Bad bitlength for irPrime");
@@ -199,7 +199,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             var signature = Decrypt(key.PubKey.N, key.PrivKey.D, IR.ToPositiveBigInteger());
             signature = BigInteger.Min(signature, key.PubKey.N - signature);
 
-            var bsSignature = new BitString(signature);
+            var bsSignature = new BitString(signature, nlen);
             if (bsSignature.BitLength == nlen && bsSignature.GetMostSignificantBits(1) == BitString.Zero())
             {
                 return new SignatureResult("Signature bitlength must be nlen - 1");
@@ -236,7 +236,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             var signature = Decrypt(key.PubKey.N, key.PrivKey.D, IR.ToPositiveBigInteger());
             signature = BigInteger.Min(signature, key.PubKey.N - signature);
 
-            var bsSignature = new BitString(signature);
+            var bsSignature = new BitString(signature, nlen);
             if (bsSignature.BitLength == nlen && bsSignature.GetMostSignificantBits(1) == BitString.Zero())
             {
                 return new SignatureResult("Signature bitlength must be nlen - 1");

@@ -73,7 +73,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             var signature = Decrypt(key.PubKey.N, key.PrivKey.D, EM.ToPositiveBigInteger());
 
             // 3. Output Signature
-            return new SignatureResult(new BitString(signature));
+            return new SignatureResult(new BitString(signature, nlen));
         }
 
         public override VerifyResult Verify(int nlen, BitString signature, KeyPair key, BitString message)
@@ -160,7 +160,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             var signature = Decrypt(key.PubKey.N, key.PrivKey.D, EM.ToPositiveBigInteger());
 
             // 3. Output Signature
-            return new SignatureResult(new BitString(signature));
+            return new SignatureResult(new BitString(signature, nlen));
         }
     }
 }

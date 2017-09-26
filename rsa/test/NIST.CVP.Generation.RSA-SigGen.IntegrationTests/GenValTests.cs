@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            // Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -340,13 +340,30 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
 
         private string GetTestFileFewTestCases(string targetFolder)
         {
-            var caps = new CapabilityObject[2];
-            for (var i = 0; i < caps.Length; i++)
+            var hashPairs = new HashPair[2];
+            for (var i = 0; i < hashPairs.Length; i++)
             {
-                caps[i] = new CapabilityObject
+                hashPairs[i] = new HashPair
                 {
-                    HashAlg = ParameterValidator.VALID_HASH_ALGS[i+2],
-                    SaltLen = i
+                    HashAlg = ParameterValidator.VALID_HASH_ALGS[i + 2],
+                    SaltLen = i + 1
+                };
+            }
+
+            var modCap = new CapSigType[1];
+            modCap[0] = new CapSigType
+            {
+                Modulo = 2048,
+                HashPairs = hashPairs
+            };
+
+            var algSpecs = new AlgSpecs[ParameterValidator.VALID_SIG_GEN_MODES.Length];
+            for (var i = 0; i < algSpecs.Length; i++)
+            {
+                algSpecs[i] = new AlgSpecs
+                {
+                    SigType = ParameterValidator.VALID_SIG_GEN_MODES[i],
+                    ModuloCapabilities = modCap
                 };
             }
 
@@ -354,10 +371,8 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
             {
                 Algorithm = "RSA",
                 Mode = "SigGen",
-                Capabilities = caps,
+                Capabilities = algSpecs,
                 IsSample = true,
-                SigGenModes = new[] { "ansx9.31", "pss" },
-                Moduli = new[] { 2048 }
             };
 
             return CreateRegistration(targetFolder, p);
@@ -365,13 +380,30 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
 
         private string GetTestNoSampleTestCases(string targetFolder)
         {
-            var caps = new CapabilityObject[2];
-            for (var i = 0; i < caps.Length; i++)
+            var hashPairs = new HashPair[2];
+            for (var i = 0; i < hashPairs.Length; i++)
             {
-                caps[i] = new CapabilityObject
+                hashPairs[i] = new HashPair
                 {
                     HashAlg = ParameterValidator.VALID_HASH_ALGS[i + 2],
-                    SaltLen = i
+                    SaltLen = i + 1
+                };
+            }
+
+            var modCap = new CapSigType[1];
+            modCap[0] = new CapSigType
+            {
+                Modulo = 2048,
+                HashPairs = hashPairs
+            };
+
+            var algSpecs = new AlgSpecs[ParameterValidator.VALID_SIG_GEN_MODES.Length];
+            for (var i = 0; i < algSpecs.Length; i++)
+            {
+                algSpecs[i] = new AlgSpecs
+                {
+                    SigType = ParameterValidator.VALID_SIG_GEN_MODES[i],
+                    ModuloCapabilities = modCap
                 };
             }
 
@@ -379,10 +411,8 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
             {
                 Algorithm = "RSA",
                 Mode = "SigGen",
-                Capabilities = caps,
+                Capabilities = algSpecs,
                 IsSample = false,
-                SigGenModes = new[] { "ansx9.31", "pss" },
-                Moduli = new[] { 2048 }
             };
 
             return CreateRegistration(targetFolder, p);
@@ -390,13 +420,33 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
 
         private string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            var caps = new CapabilityObject[ParameterValidator.VALID_HASH_ALGS.Length];
-            for (var i = 0; i < caps.Length; i++)
+            var hashPairs = new HashPair[ParameterValidator.VALID_HASH_ALGS.Length];
+            for (var i = 0; i < hashPairs.Length; i++)
             {
-                caps[i] = new CapabilityObject
+                hashPairs[i] = new HashPair
                 {
                     HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
-                    SaltLen = i + 1
+                    SaltLen = i + 8
+                };
+            }
+
+            var modCap = new CapSigType[ParameterValidator.VALID_MODULI.Length];
+            for (var i = 0; i < modCap.Length; i++)
+            {
+                modCap[i] = new CapSigType
+                {
+                    Modulo = ParameterValidator.VALID_MODULI[i],
+                    HashPairs = hashPairs
+                };
+            }
+
+            var algSpecs = new AlgSpecs[ParameterValidator.VALID_SIG_GEN_MODES.Length];
+            for (var i = 0; i < algSpecs.Length; i++)
+            {
+                algSpecs[i] = new AlgSpecs
+                {
+                    SigType = ParameterValidator.VALID_SIG_GEN_MODES[i],
+                    ModuloCapabilities = modCap
                 };
             }
 
@@ -404,10 +454,8 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
             {
                 Algorithm = "RSA",
                 Mode = "SigGen",
-                Capabilities = caps,
+                Capabilities = algSpecs,
                 IsSample = true,
-                SigGenModes = ParameterValidator.VALID_SIG_GEN_MODES,
-                Moduli = ParameterValidator.VALID_MODULI
             };
 
             return CreateRegistration(targetFolder, p);
