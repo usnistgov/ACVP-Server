@@ -26,6 +26,13 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
         public Counter Counter { get; set; }
         public BitString Index { get; set; }
 
+        // Used for SetString only
+        private BigInteger firstSeed;
+        private BigInteger pSeed;
+        private BigInteger qSeed;
+        private int pCounter;
+        private int qCounter;
+
         public TestCase() { }
 
         public TestCase(JObject source)
@@ -77,6 +84,74 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 FailureTest = otherTypedTest.FailureTest;
 
                 return true;
+            }
+
+            return false;
+        }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "p":
+                    P = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "q":
+                    Q = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "g":
+                    G = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "h":
+                    H = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "index":
+                    Index = new BitString(value);
+                    return true;
+
+                case "seed":
+                case "domain_parameter_seed":
+                    Seed = new DomainSeed(new BitString(value).ToPositiveBigInteger());
+                    return true;
+
+                case "c":
+                    Counter = new Counter(int.Parse(value));
+                    return true;
+
+                case "firstseed":
+                    firstSeed = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "pseed":
+                    pSeed = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "qseed":
+                    qSeed = new BitString(value).ToPositiveBigInteger();
+                    Seed = new DomainSeed(firstSeed, pSeed, qSeed);
+                    return true;
+
+                case "pgen_counter":
+                    pCounter = int.Parse(value);
+                    return true;
+
+                case "qgen_counter":
+                    qCounter = int.Parse(value);
+                    Counter = new Counter(pCounter, qCounter);
+                    return true;
+
+                case "result":
+                    Result = (value.StartsWith("p"));
+                    return true;
             }
 
             return false;

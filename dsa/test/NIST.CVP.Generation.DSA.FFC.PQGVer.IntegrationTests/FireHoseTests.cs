@@ -5,14 +5,13 @@ using System.Text;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.DSA.FFC.PQGGen.Parsers;
+using NIST.CVP.Generation.DSA.FFC.PQGVer.Parsers;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
+namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
@@ -23,14 +22,14 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\pqggen\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\pqgver\");
             _shaFactory = new ShaFactory();
         }
 
         [Test]
-        //[TestCase("unverifiable")]            Impossible to actually test this 
+        [TestCase("unverifiable")]
         [TestCase("canonical")]
-        public void ShouldRunThroughAllTestFilesAndValidateGGen(string mode)
+        public void ShouldRunThroughAllTestFilesAndValidateGVer(string mode)
         {
             if (!Directory.Exists(_testPath))
             {
@@ -71,8 +70,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
                         var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
                         var algo = gFactory.GetGeneratorValidator(testGroup.GGenMode, sha);
 
-                        var result = algo.Generate(testCase.P, testCase.Q, testCase.Seed, testCase.Index);
-                        if (result.G != testCase.G)
+                        var result = algo.Validate(testCase.P, testCase.Q, testCase.G, testCase.Seed, testCase.Index);
+                        if (result.Success != testCase.Result)
                         {
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
                         }
@@ -84,7 +83,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
         [Test]
         [TestCase("probable")]
         [TestCase("provable")]
-        public void ShouldRunThroughAllTestFilesAndValidatePQGen(string mode)
+        public void ShouldRunThroughAllTestFilesAndValidatePQVer(string mode)
         {
             if (!Directory.Exists(_testPath))
             {
@@ -124,12 +123,10 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
                         var testCase = (TestCase)iTestCase;
                         var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
 
-                        var algo = pqFactory.GetGeneratorValidator(testGroup.PQGenMode, sha, EntropyProviderTypes.Testable);
-                        var seed = new BitString(testCase.Seed.Seed);
-                        algo.AddEntropy(seed);
-                        
-                        var result = algo.Generate(testGroup.L, testGroup.N, seed.BitLength);
-                        if (result.P != testCase.P || result.Q != testCase.Q || result.Seed.GetFullSeed() != testCase.Seed.GetFullSeed())
+                        var algo = pqFactory.GetGeneratorValidator(testGroup.PQGenMode, sha);
+
+                        var result = algo.Validate(testCase.P, testCase.Q, testCase.Seed, testCase.Counter);
+                        if (result.Success != testCase.Result)
                         {
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
                         }
