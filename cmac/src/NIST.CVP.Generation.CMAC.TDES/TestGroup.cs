@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using Newtonsoft.Json;
-using NIST.CVP.Crypto.CMAC.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.CMAC.AES
+namespace NIST.CVP.Generation.CMAC.TDES
 {
     public class TestGroup : TestGroupBase<TestCase>
     {
+        public int KeyingOption { get; set; }
 
         public TestGroup()
         {
@@ -22,13 +21,27 @@ namespace NIST.CVP.Generation.CMAC.AES
             LoadSource(source);
         }
 
-        [JsonProperty(PropertyName = "keyLen")]
-        public override int KeyLength { get; set; }
+        //public bool MergeTests(List<ITestCase> testsToMerge)
+        //{
+        //    foreach (var test in Tests)
+        //    {
+        //        var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
+        //        if (matchingTest == null)
+        //        {
+        //            return false;
+        //        }
+        //        if (!test.Merge(matchingTest))
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    return true;
+        //}
 
         public override int GetHashCode()
         {
             return
-                $"{Function}|{TestType}|{KeyLength}|{MessageLength}|{MacLength}"
+                $"{Function}|{TestType}|{KeyingOption}|{MessageLength}|{MacLength}"
                     .GetHashCode();
         }
 
@@ -58,7 +71,9 @@ namespace NIST.CVP.Generation.CMAC.AES
             {
                 case "keylen":
                 case "klen":
-                    KeyLength = intVal;
+                    if (intVal == 3) KeyingOption = 1;
+                    else if (intVal == 2) KeyingOption = 2;
+                    else throw new ArgumentException($"Cannon parse klen {intVal} to KeyingOption");
                     return true;
                 case "msglen":
                 case "mlen":
@@ -72,11 +87,19 @@ namespace NIST.CVP.Generation.CMAC.AES
             return false;
         }
 
+        [JsonProperty(PropertyName = "keyLen")]
+        public override int KeyLength
+        {
+            get => 192;
+            set {} //there must be a better way to do this
+        }
+
+
         protected override void LoadSource(dynamic source)
         {
             TestType = source.testType;
             Function = source.direction;
-            KeyLength = source.keyLen;
+            KeyingOption = source.keyingOption;
             MessageLength = source.msgLen;
             MacLength = source.macLen;
             Tests = new List<ITestCase>();

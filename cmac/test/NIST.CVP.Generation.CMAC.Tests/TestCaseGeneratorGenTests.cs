@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
     [TestFixture, UnitTest]
     public class TestCaseGeneratorGenTests
     {
-        private TestCaseGeneratorGen<TestGroup, TestCase> _subject;
+        private TestCaseGeneratorGen _subject;
         private Mock<IRandom800_90> _random;
         private Mock<ICmac> _cmac;
         
@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         {
             _random = new Mock<IRandom800_90>();
             _cmac = new Mock<ICmac>();
-            _subject = new TestCaseGeneratorGen<TestGroup, TestCase>(_random.Object, _cmac.Object);
+            _subject = new TestCaseGeneratorGen(_random.Object, _cmac.Object);
         }
         
         [Test]

@@ -1,10 +1,12 @@
-﻿using NIST.CVP.Crypto.CMAC;
+﻿using System;
+using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.CMAC
 {
-    public class TestCaseGeneratorFactory<TTestGroup, TTestCase> : ITestCaseGeneratorFactory<TTestGroup, TTestCase>
+    public class TestCaseGeneratorFactory<TTestCaseGeneratorGen, TTestGroup, TTestCase> : ITestCaseGeneratorFactory<TTestGroup, TTestCase>
+        where TTestCaseGeneratorGen : TestCaseGeneratorGenBase<TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestCase>
         where TTestCase : TestCaseBase, new()
     {
@@ -21,10 +23,10 @@ namespace NIST.CVP.Generation.CMAC
         {
             var direction = testGroup.Function.ToLower();
             ICmac cmac = _algoFactory.GetCmacInstance(testGroup.CmacType);
-            
+
             if (direction == "gen")
             {
-                return new TestCaseGeneratorGen<TTestGroup, TTestCase>(_random800_90, cmac);
+                return (TTestCaseGeneratorGen)Activator.CreateInstance(typeof(TTestCaseGeneratorGen), _random800_90, cmac);
             }
 
             if (direction == "ver")
@@ -33,6 +35,11 @@ namespace NIST.CVP.Generation.CMAC
             }
 
             return new TestCaseGeneratorNull<TTestGroup, TTestCase>();
+        }
+
+        public ICmac GetCmac(TTestGroup testGroup)
+        {
+            return _algoFactory.GetCmacInstance(testGroup.CmacType);
         }
     }
 }

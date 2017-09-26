@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.CMAC.AES
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<TestCaseGeneratorFactory<TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactory<TestCaseGeneratorGen, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();

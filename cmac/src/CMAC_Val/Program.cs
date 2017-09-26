@@ -4,7 +4,7 @@ using NIST.CVP.Generation.CMAC;
 using NIST.CVP.Generation.Core;
 using NLog;
 
-namespace CMAC_AES_Val
+namespace CMAC_Val
 {
     public class Program
     {

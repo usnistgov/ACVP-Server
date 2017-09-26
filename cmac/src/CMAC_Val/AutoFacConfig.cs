@@ -7,7 +7,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 
-namespace CMAC_AES_Val
+namespace CMAC_Val
 {
     public class AutofacConfig
     {

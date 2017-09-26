@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Autofac;
 using CMAC;
 using Newtonsoft.Json;
@@ -9,24 +8,21 @@ using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using AutofacConfig = CMAC.AutofacConfig;
 
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
-    [TestFixture, FastIntegrationTest]
-    public class AesGenValTests
+    public abstract class GenValTestBase
     {
-        string _testPath;
-        string[] _testVectorFileNames = new string[]
+        protected string _testPath;
+        protected string[] _testVectorFileNames = new string[]
         {
-                "\\testResults.json",
-                "\\prompt.json",
-                "\\answer.json"
+            "\\testResults.json",
+            "\\prompt.json",
+            "\\answer.json"
         };
 
         [SetUp]
@@ -35,23 +31,21 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
 
             AutofacConfig.OverrideRegistrations = null;
-            CMAC_AES_Val.AutofacConfig.OverrideRegistrations = null;
+            CMAC_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         [OneTimeTearDown]
         public void Teardown()
         {
-            //Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
         public void GenShouldReturn1OnNoArgumentsSupplied()
         {
             var result = Program.Main(new string[] { });
-
             Assert.AreEqual(1, result);
         }
-
         [Test]
         public void GenShouldReturn1OnInvalidFileName()
         {
@@ -108,7 +102,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         [Test]
         public void ValShouldReturn1OnFailedRun()
         {
-            CMAC_AES_Val.AutofacConfig.OverrideRegistrations = builder =>
+            CMAC_Val.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -118,7 +112,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
             RunGeneration(targetFolder, fileName);
 
-            var result = CMAC_AES_Val.Program.Main(
+            var result = CMAC_Val.Program.Main(
                 GetFileNamesWithPath(targetFolder, _testVectorFileNames)
             );
 
@@ -128,7 +122,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         [Test]
         public void ValShouldReturn1OnException()
         {
-            CMAC_AES_Val.AutofacConfig.OverrideRegistrations = builder =>
+            CMAC_Val.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
@@ -138,12 +132,13 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
             RunGeneration(targetFolder, fileName);
 
-            var result = CMAC_AES_Val.Program.Main(
+            var result = CMAC_Val.Program.Main(
                 GetFileNamesWithPath(targetFolder, _testVectorFileNames)
             );
 
             Assert.AreEqual(1, result);
         }
+
 
         [Test]
         public void ShouldCreateValidationFile()
@@ -172,6 +167,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
         }
 
+
         [Test]
         public void ShouldReportAllSuccessfulTestsWithinValidationLotsOfTests()
         {
@@ -187,7 +183,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             // Validate result as pass
             Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
         }
-        
+
         [Test]
         public void ShouldReportFailedDispositionOnErrorTests()
         {
@@ -219,8 +215,8 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
                 }
             }
         }
-        
-        private string[] GetFileNamesWithPath(string directory, string[] fileNames)
+
+        protected  string[] GetFileNamesWithPath(string directory, string[] fileNames)
         {
             int numOfFiles = fileNames.Length;
             string[] fileNamesWithPaths = new string[numOfFiles];
@@ -233,12 +229,30 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             return fileNamesWithPaths;
         }
 
-        private string GetTestFolder()
+        protected static string CreateRegistration(string targetFolder, IParameters parameters)
         {
-            var targetFolder = Path.Combine(_testPath, Guid.NewGuid().ToString());
-            Directory.CreateDirectory(targetFolder);
+            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings()
+            {
+                Converters = new List<JsonConverter>()
+                {
+                    new BitstringConverter(),
+                    new DomainConverter()
+                },
+                Formatting = Formatting.Indented
+            });
+            string fileName = $"{targetFolder}\\registration.json";
+            File.WriteAllText(fileName, json);
 
-            return targetFolder;
+            return fileName;
+        }
+        private void RunGeneration(string targetFolder, string fileName)
+        {
+            // Run test vector generation
+            var result = ExecuteMainGenerator(fileName);
+            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), $"{targetFolder}{_testVectorFileNames[0]}");
+            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), $"{targetFolder}{_testVectorFileNames[1]}");
+            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), $"{targetFolder}{_testVectorFileNames[2]}");
+            Assert.IsTrue(result == 0);
         }
 
         private void RunGenerationAndValidation(string targetFolder, string fileName)
@@ -254,26 +268,6 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             RunValidation(targetFolder);
         }
 
-        private void RunGeneration(string targetFolder, string fileName)
-        {
-            // Run test vector generation
-            var result = Program.Main(new string[] { "CMAC-AES", fileName });
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), $"{targetFolder}{_testVectorFileNames[0]}");
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), $"{targetFolder}{_testVectorFileNames[1]}");
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), $"{targetFolder}{_testVectorFileNames[2]}");
-            Assert.IsTrue(result == 0);
-        }
-
-        private void RunValidation(string targetFolder)
-        {
-            // Run test vector validation
-            var result = CMAC_AES_Val.Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Prepend("CMAC-AES").ToArray()
-            );
-            Assert.IsTrue(File.Exists($"{targetFolder}\\validation.json"), $"{targetFolder}validation");
-            Assert.IsTrue(result == 0);
-        }
-
         private void GetFailureTestCases(string targetFolder, ref List<int> failureTcIds)
         {
             var files = GetFileNamesWithPath(targetFolder, _testVectorFileNames);
@@ -283,6 +277,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             Assume.That(expectedFailTestCases.Count > 0);
             failureTcIds.AddRange(expectedFailTestCases);
         }
+
 
         private List<int> DoBadThingsToResultsFile(string resultsFile)
         {
@@ -337,54 +332,25 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             return failedTestCases;
         }
 
-        private string GetTestFileFewTestCases(string targetFolder)
+        private string GetTestFolder()
         {
-            Parameters p = new Parameters()
-            {
-                Algorithm = "CMAC-AES-128",
-                Direction = new string[] { "gen", "ver" },
-                MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                MacLen = new MathDomain()
-                    .AddSegment(new ValueDomainSegment(128))
-                    .AddSegment(new ValueDomainSegment(127)),
-                IsSample = false
-            };
+            var targetFolder = Path.Combine(_testPath, Guid.NewGuid().ToString());
+            Directory.CreateDirectory(targetFolder);
 
-            return CreateRegistration(targetFolder, p);
-        }
-        
-        private string GetTestFileLotsOfTestCases(string targetFolder)
-        {
-            Random800_90 random = new Random800_90();
-            
-            Parameters p = new Parameters()
-            {
-                Algorithm = "CMAC-AES-128",
-                Direction = ParameterValidator.VALID_DIRECTIONS,
-                MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
-                MacLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 64, 128, 8)),
-                IsSample = false
-            };
-
-            return CreateRegistration(targetFolder, p);
+            return targetFolder;
         }
 
-        private static string CreateRegistration(string targetFolder, Parameters parameters)
+        private void RunValidation(string targetFolder)
         {
-            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings()
-            {
-                Converters = new List<JsonConverter>()
-                {
-                    new BitstringConverter(),
-                    new DomainConverter()
-                },
-                Formatting = Formatting.Indented
-            });
-            string fileName = $"{targetFolder}\\registration.json";
-            File.WriteAllText(fileName, json);
-
-            return fileName;
+            // Run test vector validation
+            var result = ExecuteMainValidator(targetFolder);
+            Assert.IsTrue(File.Exists($"{targetFolder}\\validation.json"), $"{targetFolder}validation");
+            Assert.IsTrue(result == 0);
         }
 
+        protected abstract int ExecuteMainGenerator(string fileName);
+        protected abstract int ExecuteMainValidator(string fileName);
+        protected abstract string GetTestFileFewTestCases(string targetFolder);
+        protected abstract string GetTestFileLotsOfTestCases(string targetFolder);
     }
 }

@@ -1,7 +1,6 @@
-﻿using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.CMAC;
-using NIST.CVP.Generation.CMAC.AES;
+﻿using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Generation.CMAC.Parsers;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -9,20 +8,29 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public class AesFireHoseTests
+    public abstract class FireHoseTestsBase<TLegacyResponseFileParser, TTestCaseGeneratorGen, TTestVectorSet, TTestGroup, TTestCase>
+        where TLegacyResponseFileParser : LegacyResponseFileParserBase<TTestVectorSet, TTestGroup, TTestCase>, new()
+        where TTestCaseGeneratorGen : TestCaseGeneratorGenBase<TTestGroup, TTestCase>
+        where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>, new()
+        where TTestGroup : TestGroupBase<TTestCase>, new()
+        where TTestCase : TestCaseBase, new()
     {
         string _testPath;
+        protected abstract string FolderName { get; }
 
+        private readonly TestCaseGeneratorFactory<TTestCaseGeneratorGen, TTestGroup, TTestCase> _subject = 
+            new TestCaseGeneratorFactory<TTestCaseGeneratorGen, TTestGroup, TTestCase>(
+                new Random800_90(), new CmacFactory());
         [SetUp]
         public void Setup()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $@"..\..\TestFiles\LegacyParserFiles\{FolderName}");
         }
  
-        [Test]
+        //[Test]
         public void ShouldRunThroughAllTestFilesAndValidate()
         {
-            var parser = new LegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>();
+            var parser = new TLegacyResponseFileParser();
             var parsedFiles = parser.Parse(_testPath);
             
             if (!parsedFiles.Success)
@@ -35,7 +43,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
             var testVector = parsedFiles.ParsedObject;
-            var algo = new CmacAes(new RijndaelFactory(new RijndaelInternals()));
+            
 
             int count = 0;
             int passes = 0;
@@ -50,15 +58,17 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             foreach (var iTestGroup in testVector.TestGroups)
             {
 
-                var testGroup = (TestGroup) iTestGroup;
+                var testGroup = (TTestGroup) iTestGroup;
+                var algo = _subject.GetCmac(testGroup);
                 foreach (var iTestCase in testGroup.Tests)
                 {
                     count++;
 
-                    var testCase = (TestCase) iTestCase;
+                    var testCase = (TTestCase) iTestCase;
 
                     if (testGroup.Function.ToLower() == "gen")
                     {
+                        
                         var result = algo.Generate(
                             testCase.Key,
                             testCase.Message,

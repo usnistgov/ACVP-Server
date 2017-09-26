@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.CMAC.AES
+namespace NIST.CVP.Generation.CMAC.TDES
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
     {

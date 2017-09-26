@@ -22,6 +22,7 @@ namespace NIST.CVP.Crypto.CMAC.Tests
         [TestCase(CmacTypes.AES128, typeof(CmacAes))]
         [TestCase(CmacTypes.AES192, typeof(CmacAes))]
         [TestCase(CmacTypes.AES256, typeof(CmacAes))]
+        [TestCase(CmacTypes.TDES, typeof(CmacTdes))]
         public void ShouldReturnProperCmacInstance(CmacTypes cmacType, Type expectedType)
         {
             var result = _subject.GetCmacInstance(cmacType);

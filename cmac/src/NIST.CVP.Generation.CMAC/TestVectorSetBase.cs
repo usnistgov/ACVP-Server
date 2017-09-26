@@ -66,7 +66,7 @@ namespace NIST.CVP.Generation.CMAC
             {
                 var promptGroup = (TTestGroup)Activator.CreateInstance(typeof(TTestGroup), prompt);
                 //var promptGroup = new TTestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
+                var matchingAnswerGroup = TestGroups.Single(g => g.Equals(promptGroup));
                 if (matchingAnswerGroup != null)
                 {
                     if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))

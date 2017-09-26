@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Text;
 using Newtonsoft.Json;
 
-namespace NIST.CVP.Generation.CMAC.AES
+namespace NIST.CVP.Generation.CMAC.TDES
 {
-    public class TestVectorSet :  TestVectorSetBase<TestGroup, TestCase>
+    public class TestVectorSet : TestVectorSetBase<TestGroup, TestCase>
     {
 
         public TestVectorSet()
@@ -90,7 +91,7 @@ namespace NIST.CVP.Generation.CMAC.AES
                         {
                             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "mac", test.Mac);
                         }
-                        
+
                         tests.Add(testObject);
                     }
                     list.Add(updateObject);
@@ -120,7 +121,7 @@ namespace NIST.CVP.Generation.CMAC.AES
                         {
                             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "mac", test.Mac);
                         }
-                        
+
                         if (group.Function.Equals("ver", StringComparison.OrdinalIgnoreCase))
                         {
                             ((IDictionary<string, object>)testObject).Add("result", test.Result);
@@ -146,14 +147,17 @@ namespace NIST.CVP.Generation.CMAC.AES
         {
             ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
             ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-            ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
+            ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
             ((IDictionary<string, object>)updateObject).Add("msgLen", group.MessageLength);
             ((IDictionary<string, object>)updateObject).Add("macLen", group.MacLength);
         }
 
         private void SharedProjectionTestCaseInfo(TestCase test, dynamic testObject)
         {
-            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key", test.Key);
+            //_dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key", test.Key);
+            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key1", test.Key1);
+            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key2", test.Key2);
+            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key3", test.Key3);
         }
     }
 }

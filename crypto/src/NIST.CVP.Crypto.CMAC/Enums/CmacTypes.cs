@@ -4,6 +4,7 @@
     {
         AES128,
         AES192,
-        AES256
+        AES256,
+        TDES
     }
 }

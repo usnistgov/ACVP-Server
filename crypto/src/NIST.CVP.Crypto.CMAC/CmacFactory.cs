@@ -14,6 +14,11 @@ namespace NIST.CVP.Crypto.CMAC
                 case CmacTypes.AES192:
                 case CmacTypes.AES256:
                     return new CmacAes(new RijndaelFactory(new RijndaelInternals()));
+                    break;
+
+                case CmacTypes.TDES:
+                    return new CmacTdes(new TDES_ECB.TdesEcb());
+                    break;
             }
             
             throw new ArgumentException($"Invalid {cmacType}");

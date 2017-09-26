@@ -12,7 +12,8 @@ namespace NIST.CVP.Generation.CMAC
             {
                 ("CMAC-AES-128", CmacTypes.AES128, 128),
                 ("CMAC-AES-192", CmacTypes.AES192, 192),
-                ("CMAC-AES-256", CmacTypes.AES256, 256)
+                ("CMAC-AES-256", CmacTypes.AES256, 256),
+                ("CMAC-TDES", CmacTypes.TDES, 192),
             };
     }
 }

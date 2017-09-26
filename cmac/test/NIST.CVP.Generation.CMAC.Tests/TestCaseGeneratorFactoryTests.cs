@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         private Mock<IRandom800_90> _random;
         private Mock<ICmac> _cmac;
         private Mock<ICmacFactory> _cmacFactory;
-        private TestCaseGeneratorFactory<TestGroup, TestCase> _subject;
+        private TestCaseGeneratorFactory<TestCaseGeneratorGen, TestGroup, TestCase> _subject;
 
         [SetUp]
         public void Setup()
@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             _random = new Mock<IRandom800_90>();
             _cmac = new Mock<ICmac>();
             _cmacFactory = new Mock<ICmacFactory>();
-            _subject = new TestCaseGeneratorFactory<TestGroup, TestCase>(_random.Object, _cmacFactory.Object);
+            _subject = new TestCaseGeneratorFactory<TestCaseGeneratorGen, TestGroup, TestCase>(_random.Object, _cmacFactory.Object);
 
             _cmacFactory
                 .Setup(s => s.GetCmacInstance(It.IsAny<CmacTypes>()))
@@ -32,8 +32,8 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         }
 
         [Test]
-        [TestCase("gen", typeof(TestCaseGeneratorGen<TestGroup, TestCase>))]
-        [TestCase("GeN", typeof(TestCaseGeneratorGen<TestGroup, TestCase>))]
+        [TestCase("gen", typeof(TestCaseGeneratorGen))]
+        [TestCase("GeN", typeof(TestCaseGeneratorGen))]
         [TestCase("Ver", typeof(TestCaseGeneratorVer<TestGroup, TestCase>))]
         [TestCase("veR", typeof(TestCaseGeneratorVer<TestGroup, TestCase>))]
         [TestCase("Junk", typeof(TestCaseGeneratorNull<TestGroup, TestCase>))]
