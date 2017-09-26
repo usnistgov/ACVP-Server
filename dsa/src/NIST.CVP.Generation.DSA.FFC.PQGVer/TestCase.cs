@@ -43,55 +43,14 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
         {
             TestCaseId = (int)source.tcId;
 
-            if (((ExpandoObject)source).ContainsProperty("p"))
-            {
-                P = BigIntegerFromObject("p", (ExpandoObject)source);
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("q"))
-            {
-                Q = BigIntegerFromObject("q", (ExpandoObject)source);
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("g"))
-            {
-                G = BigIntegerFromObject("g", (ExpandoObject)source);
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("domainSeed"))
-            {
-                if (((ExpandoObject)source).ContainsProperty("pSeed") && ((ExpandoObject)source).ContainsProperty("qSeed"))
-                {
-                    var firstSeed = BigIntegerFromObject("domainSeed", (ExpandoObject)source);
-                    var pSeed = BigIntegerFromObject("pSeed", (ExpandoObject)source);
-                    var qSeed = BigIntegerFromObject("qSeed", (ExpandoObject)source);
-
-                    Seed = new DomainSeed(firstSeed, pSeed, qSeed);
-                }
-                else
-                {
-                    Seed = new DomainSeed(BigIntegerFromObject("domainSeed", (ExpandoObject)source));
-                }
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("counter"))
-            {
-                Counter = new Counter((int)source.counter);
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("pCounter") && ((ExpandoObject)source).ContainsProperty("qCounter"))
-            {
-                Counter = new Counter((int)source.pCounter, (int)source.qCounter);
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("index"))
-            {
-                Index = BitStringFromObject("index", (ExpandoObject)source);
-            }
-
             if (((ExpandoObject)source).ContainsProperty("result"))
             {
                 Result = (bool)source.result;
+            }
+
+            if (((ExpandoObject)source).ContainsProperty("failureTest"))
+            {
+                FailureTest = (bool)source.failureTest;
             }
         }
 
@@ -106,22 +65,16 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 
             if (P == null && otherTypedTest.P != null)
             {
-                P = otherTypedTest.P;
-                Q = otherTypedTest.Q;
-                Seed = otherTypedTest.Seed;
-                Counter = otherTypedTest.Counter;
                 Reason = otherTypedTest.Reason;
-                Result = otherTypedTest.Result;
+                FailureTest = otherTypedTest.FailureTest;
 
                 return true;
             }
 
             if (G == null && otherTypedTest.G != null)
             {
-                G = otherTypedTest.G;
-                Index = otherTypedTest.Index.GetDeepCopy();
                 Reason = otherTypedTest.Reason;
-                Result = otherTypedTest.Result;
+                FailureTest = otherTypedTest.FailureTest;
 
                 return true;
             }

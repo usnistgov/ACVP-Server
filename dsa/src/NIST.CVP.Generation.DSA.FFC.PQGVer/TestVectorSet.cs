@@ -5,6 +5,8 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Dynamic;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Crypto.DSA.FFC.Enums;
+using NIST.CVP.Crypto.DSA.FFC.Helpers;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
@@ -42,13 +44,143 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             }
         }
 
-        public List<dynamic> AnswerProjection => throw new NotImplementedException();
+        public List<dynamic> AnswerProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("l", group.L);
+                    ((IDictionary<string, object>)updateObject).Add("n", group.N);
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+
+                    if (group.PQGenMode != PrimeGenMode.None)
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("pqMode", EnumHelper.PQGenModeToString(group.PQGenMode));
+                    }
+                    else if(group.GGenMode != GeneratorGenMode.None)
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("gMode", EnumHelper.GGenModeToString(group.GGenMode));
+                    }
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
+                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason);
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
 
         [JsonProperty(PropertyName = "testGroups")]
-        public List<dynamic> PromptProjection => throw new NotImplementedException();
+        public List<dynamic> PromptProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("l", group.L);
+                    ((IDictionary<string, object>)updateObject).Add("n", group.N);
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+
+                    if (group.PQGenMode != PrimeGenMode.None)
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("pqMode", EnumHelper.PQGenModeToString(group.PQGenMode));
+                    }
+                    else if (group.GGenMode != GeneratorGenMode.None)
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("gMode", EnumHelper.GGenModeToString(group.GGenMode));
+                    }
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("p", test.P);
+                        ((IDictionary<string, object>)testObject).Add("q", test.Q);
+
+                        if (group.PQGenMode != PrimeGenMode.None)
+                        {
+                            // Counter
+                            if (group.PQGenMode == PrimeGenMode.Probable)
+                            {
+                                ((IDictionary<string, object>)testObject).Add("domainSeed", test.Seed.Seed);
+                                ((IDictionary<string, object>)testObject).Add("counter", test.Counter.Count);
+                            }
+                            else if (group.PQGenMode == PrimeGenMode.Provable)
+                            {
+                                ((IDictionary<string, object>)testObject).Add("pCounter", test.Counter.PCount);
+                                ((IDictionary<string, object>)testObject).Add("qCounter", test.Counter.QCount);
+                                ((IDictionary<string, object>)testObject).Add("pSeed", test.Seed.PSeed);
+                                ((IDictionary<string, object>)testObject).Add("qSeed", test.Seed.QSeed);
+                            }
+                        }
+                        else if (group.GGenMode != GeneratorGenMode.None)
+                        {
+                            if (group.GGenMode == GeneratorGenMode.Canonical)
+                            {
+                                // Index
+                                ((IDictionary<string, object>)testObject).Add("index", test.Index);
+                            }
+                            else
+                            {
+                                // H and Seed
+                                ((IDictionary<string, object>)testObject).Add("h", test.H);
+                                ((IDictionary<string, object>)testObject).Add("domainSeed", test.Seed.GetFullSeed());
+                            }
+
+                        }
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
 
         [JsonProperty(PropertyName = "testResults")]
-        public List<dynamic> ResultProjection => throw new NotImplementedException();
+        public List<dynamic> ResultProjection
+        {
+            get
+            {
+                var tests = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("result", test.FailureTest);
+                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason);
+
+                        tests.Add(testObject);
+                    }
+                }
+
+                return tests;
+            }
+        }
 
         public dynamic ToDynamic()
         {

@@ -15,7 +15,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
+namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
 {
     [TestFixture, UnitTest]
     public class TestCaseGeneratorGTests
@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
         }
 
         [Test]
-        public void GenerateShouldGenerateGIfIsSample()
+        public void GenerateShouldReturnTestCaseGenerateResponse()
         {
             var rand = GetRandomMock();
             rand
@@ -62,7 +62,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
 
             var result = subject.Generate(GetTestGroup(), true);
 
-            gMock.Verify(v => v.Generate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<BitString>()), Times.Once, "Call Generate once");
+            // This is called in a different function
+            // gMock.Verify(v => v.Generate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<BitString>()), Times.Once, "Call Generate once");
 
             Assert.IsTrue(result.Success);
             var testCase = (TestCase)result.TestCase;
@@ -70,7 +71,59 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
             Assert.AreEqual(BigInteger.One * 2, testCase.Q);
             Assert.AreEqual(BigInteger.One * 3, testCase.Seed.GetFullSeed());
             Assert.AreEqual(4, testCase.Counter.Count);
-            Assert.AreEqual(BigInteger.One, testCase.G);
+            
+            // This value could be modified
+            // Assert.AreEqual(BigInteger.One, testCase.G);
+        }
+
+        [Test]
+        public void GenerateShouldGenerateOneOfEachFailureReason()
+        {
+            var group = GetTestGroup();
+
+            var randMock = GetRandomMock();
+            randMock
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString("ABCD"));
+
+            var pqMock = GetPQMock();
+            pqMock
+                .Setup(s => s.Generate(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(new PQGenerateResult(1, 2, new DomainSeed(3), new Counter(4)));
+
+            var gMock = GetGMock();
+            gMock
+                .Setup(s => s.Generate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<BitString>()))
+                .Returns(new GGenerateResult(123));
+
+            var subject = new TestCaseGeneratorG(randMock.Object, gMock.Object, pqMock.Object);
+
+            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            {
+                var result = subject.Generate(group, false);
+
+                Assert.IsTrue(result.Success);
+                group.Tests.Add(result.TestCase);
+            }
+
+            Assert.AreEqual(0, group.GCovered.Count);
+
+            var failCases = 0;
+            var passCases = 0;
+            foreach (var testCase in group.Tests.Select(s => (TestCase)s))
+            {
+                if (testCase.FailureTest)
+                {
+                    failCases++;
+                }
+                else
+                {
+                    passCases++;
+                }
+            }
+
+            Assert.AreEqual(3, failCases);
+            Assert.AreEqual(2, passCases);
         }
 
         private Mock<IRandom800_90> GetRandomMock()

@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            // Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
