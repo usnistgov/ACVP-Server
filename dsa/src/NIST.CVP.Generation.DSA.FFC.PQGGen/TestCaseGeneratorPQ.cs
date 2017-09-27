@@ -48,8 +48,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             }
             catch (Exception ex)
             {
-                ThisLogger.Error($"Exception generating sample: {sampleResult.ErrorMessage}");
-                return new TestCaseGenerateResponse($"Exception generating sample: {sampleResult.ErrorMessage}");
+                ThisLogger.Error($"Exception generating sample: {ex.StackTrace}");
+                return new TestCaseGenerateResponse($"Exception generating sample: {ex.Message}");
             }
 
             // We don't actually need anything from the old test case

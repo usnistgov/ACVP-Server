@@ -56,14 +56,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             do
             {
                 index = _rand.GetRandomBitString(8);
-            } while (index == BitString.Zeroes(8));
+            } while (index.ToHex() == "00");
 
             // Determine failure reason
-            var shuffledReasons = group.GCovered.OrderBy(a => Guid.NewGuid()).ToList();
-            var reason = shuffledReasons[0];
-            group.GCovered.Remove(reason);
-
-            var friendlyReason = EnumHelper.ReasonToString(reason);
+            var reason = group.FailureHandler.GetNextFailureReason();
+            var friendlyReason = reason.GetName();
 
             // Assign values of the TestCase
             var testCase = new TestCase
@@ -77,7 +74,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 FailureTest = (friendlyReason != "none")
             };
 
-            return new TestCaseGenerateResponse(testCase);
+            return Generate(group, testCase);
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
@@ -96,8 +93,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             }
             catch (Exception ex)
             {
-                ThisLogger.Error($"Exception generating g: {gResult.ErrorMessage}, {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating g: {gResult.ErrorMessage}, {ex.StackTrace}");
+                ThisLogger.Error($"Exception generating g: {ex.StackTrace}");
+                return new TestCaseGenerateResponse($"Exception generating g: {ex.StackTrace}");
             }
 
             testCase.G = gResult.G;

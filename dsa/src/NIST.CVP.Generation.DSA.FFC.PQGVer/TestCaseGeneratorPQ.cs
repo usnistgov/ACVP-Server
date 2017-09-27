@@ -33,11 +33,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 NumberOfTestCasesToGenerate = 2;
             }
 
-            var shuffledReasons = group.PQCovered.OrderBy(a => Guid.NewGuid()).ToList();
-            var reason = shuffledReasons[0];
-            group.PQCovered.Remove(reason);
-
-            var friendlyReason = EnumHelper.ReasonToString(reason);
+            var reason = group.FailureHandler.GetNextFailureReason();
+            var friendlyReason = reason.GetName();
 
             var testCase = new TestCase
             {

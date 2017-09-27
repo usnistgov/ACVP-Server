@@ -50,5 +50,21 @@ namespace NIST.CVP.Generation.Core.ExtensionMethods
                 list.AddRange(itemsToAdd);
             }
         }
+
+        /// <summary>
+        /// Adds an item to <see cref="List{T}"/> <paramref name="numberOfTimesToAdd"/> times.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="itemToAdd"></param>
+        /// <param name="numberOfTimesToAdd"></param>
+        public static void Add<T>(this List<T> list, T itemToAdd, int numberOfTimesToAdd)
+            where T : class
+        {
+            for (var i = 0; i < numberOfTimesToAdd; i++)
+            {
+                list.Add(itemToAdd);
+            }
+        }
     }
 }

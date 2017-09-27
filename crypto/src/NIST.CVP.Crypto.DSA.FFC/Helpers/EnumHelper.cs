@@ -59,8 +59,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.Helpers
                 case PQFailureReasons.ModifySeed:
                     return "modify seed";
 
-                case PQFailureReasons.None1:
-                case PQFailureReasons.None2:
+                case PQFailureReasons.None:
                     return "none";
             }
 
@@ -71,13 +70,10 @@ namespace NIST.CVP.Crypto.DSA.FFC.Helpers
         {
             switch (reason)
             {
-                case GFailureReasons.ModifyG1:
-                case GFailureReasons.ModifyG2:
-                case GFailureReasons.ModifyG3:
+                case GFailureReasons.ModifyG:
                     return "modify g";
 
-                case GFailureReasons.None1:
-                case GFailureReasons.None2:
+                case GFailureReasons.None:
                     return "none";
             }
 
@@ -89,7 +85,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.Helpers
             switch (reason)
             {
                 case "none":
-                    return PQFailureReasons.None1;
+                    return PQFailureReasons.None;
 
                 case "modify p":
                     return PQFailureReasons.ModifyP;

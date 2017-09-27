@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.DSA.FFC.PQGVer.FailureHandlers;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
@@ -19,11 +20,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
         public int N { get; set; }
         public HashFunction HashAlg { get; set; }
 
-        // This needs 2 copies of 'None'
-        public List<PQFailureReasons> PQCovered = new List<PQFailureReasons>((PQFailureReasons[])Enum.GetValues(typeof(PQFailureReasons)));
-
-        // This needs 3 copies of 'None' and 2 of 'ModifyG'
-        public List<GFailureReasons> GCovered = new List<GFailureReasons>((GFailureReasons[])Enum.GetValues(typeof(GFailureReasons)));
+        // Used internally to build test cases for the group
+        public IFailureHandler FailureHandler { get; set; }
 
         public string TestType { get; set; }
         public List<ITestCase> Tests { get; set; }
@@ -80,7 +78,19 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 
         public override int GetHashCode()
         {
-            return ($"{L}{N}{HashAlg.Name}{EnumHelper.GGenModeToString(GGenMode)}{EnumHelper.PQGenModeToString(PQGenMode)}").GetHashCode();
+            var gMode = "";
+            if (GGenMode != GeneratorGenMode.None)
+            {
+                gMode = EnumHelper.GGenModeToString(GGenMode);
+            }
+
+            var pqMode = "";
+            if (PQGenMode != PrimeGenMode.None)
+            {
+                pqMode = EnumHelper.PQGenModeToString(PQGenMode);
+            }
+
+            return ($"{L}{N}{HashAlg.Name}{pqMode}{gMode}").GetHashCode();
         }
 
         public override bool Equals(object obj)

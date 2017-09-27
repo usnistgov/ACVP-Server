@@ -265,8 +265,8 @@ namespace NIST.CVP.Crypto.RSA
         /// <summary>
         /// Both parameters must be a multiple of 2. 
         /// </summary>
-        /// <param name="minLen">Must be multiple of 2</param>
-        /// <param name="maxLen">Must be multiple of 2</param>
+        /// <param name="minLen">Must be multiple of 2. Minimum bitlength supported.</param>
+        /// <param name="maxLen">Must be multiple of 2. Maximum bitlength supported.</param>
         /// <returns></returns>
         public static BigInteger GetEValue(int minLen, int maxLen)
         {

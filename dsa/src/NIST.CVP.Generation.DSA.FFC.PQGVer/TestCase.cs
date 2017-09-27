@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
         public int TestCaseId { get; set; }
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
-        public string Reason { get; set; }
+        public string Reason { get; set; }      // Needs to be a string because of PQFailureReasons type and GFailureReasons type
         public bool Result { get; set; }
 
         public BigInteger P { get; set; }
@@ -52,41 +52,19 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 
             if (((ExpandoObject)source).ContainsProperty("result"))
             {
-                Result = (bool)source.result;
+                Result = (((string)source.result).ToLower() == "passed");
             }
 
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
+            if (((ExpandoObject)source).ContainsProperty("reason"))
             {
-                FailureTest = (bool)source.failureTest;
+                Reason = (string)source.reason;
             }
         }
 
         public bool Merge(ITestCase otherTest)
         {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            var otherTypedTest = (TestCase)otherTest;
-
-            if (P == null && otherTypedTest.P != null)
-            {
-                Reason = otherTypedTest.Reason;
-                FailureTest = otherTypedTest.FailureTest;
-
-                return true;
-            }
-
-            if (G == null && otherTypedTest.G != null)
-            {
-                Reason = otherTypedTest.Reason;
-                FailureTest = otherTypedTest.FailureTest;
-
-                return true;
-            }
-
-            return false;
+            // We don't need any properties from the prompt...
+            return (TestCaseId == otherTest.TestCaseId);
         }
 
         public bool SetString(string name, string value)

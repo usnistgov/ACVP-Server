@@ -11,6 +11,7 @@ using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.DSA.FFC.PQGVer.FailureHandlers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -62,8 +63,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
 
             var result = subject.Generate(GetTestGroup(), true);
 
-            // This is called in a different function
-            // gMock.Verify(v => v.Generate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<BitString>()), Times.Once, "Call Generate once");
+            gMock.Verify(v => v.Generate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<BitString>()), Times.Once, "Call Generate once");
 
             Assert.IsTrue(result.Success);
             var testCase = (TestCase)result.TestCase;
@@ -106,8 +106,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
                 group.Tests.Add(result.TestCase);
             }
 
-            Assert.AreEqual(0, group.GCovered.Count);
-
             var failCases = 0;
             var passCases = 0;
             foreach (var testCase in group.Tests.Select(s => (TestCase)s))
@@ -148,6 +146,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             return new TestGroup
             {
                 GGenMode = GeneratorGenMode.Canonical,
+                FailureHandler = new GFailureHandler(),
                 L = 2048,
                 N = 224,
                 HashAlg = new HashFunction(attributes.shaMode, attributes.shaDigestSize)

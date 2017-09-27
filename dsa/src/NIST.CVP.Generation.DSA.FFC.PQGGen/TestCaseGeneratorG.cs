@@ -85,8 +85,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             }
             catch (Exception ex)
             {
-                ThisLogger.Error($"Exception generating g: {gResult.ErrorMessage}");
-                return new TestCaseGenerateResponse($"Exception generating g: {gResult.ErrorMessage}");
+                ThisLogger.Error($"Exception generating g: {ex.StackTrace}");
+                return new TestCaseGenerateResponse($"Exception generating g: {ex.Message}");
             }
 
             testCase.G = gResult.G;

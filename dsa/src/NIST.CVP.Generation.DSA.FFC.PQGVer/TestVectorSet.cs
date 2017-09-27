@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
+                        ((IDictionary<string, object>)testObject).Add("result", (test.FailureTest ? "failed" : "passed"));
                         ((IDictionary<string, object>)testObject).Add("reason", test.Reason);
 
                         tests.Add(testObject);
@@ -135,18 +135,19 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                         }
                         else if (group.GGenMode != GeneratorGenMode.None)
                         {
+                            ((IDictionary<string, object>)testObject).Add("g", test.G);
+
                             if (group.GGenMode == GeneratorGenMode.Canonical)
                             {
                                 // Index
                                 ((IDictionary<string, object>)testObject).Add("index", test.Index);
                             }
-                            else
+                            else if (group.GGenMode == GeneratorGenMode.Unverifiable)
                             {
                                 // H and Seed
                                 ((IDictionary<string, object>)testObject).Add("h", test.H);
                                 ((IDictionary<string, object>)testObject).Add("domainSeed", test.Seed.GetFullSeed());
                             }
-
                         }
 
                         tests.Add(testObject);
@@ -171,7 +172,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("result", test.FailureTest);
+                        ((IDictionary<string, object>)testObject).Add("result", (test.FailureTest ? "failed" : "passed"));
                         ((IDictionary<string, object>)testObject).Add("reason", test.Reason);
 
                         tests.Add(testObject);

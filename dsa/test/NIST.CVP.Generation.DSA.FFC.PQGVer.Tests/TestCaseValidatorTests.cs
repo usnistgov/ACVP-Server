@@ -10,30 +10,25 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
     public class TestCaseValidatorTests
     {
         [Test]
-        public void ShouldRunVerifyMethodAndSucceedWithGoodTest()
+        [TestCase(true, true)]
+        [TestCase(false, false)]
+        public void ShouldRunVerifyMethodAndSucceedWithGoodTest(bool expected, bool supplied)
         {
-            var subject = new TestCaseValidator(GetTestCase());
-            var result = subject.Validate(GetResultTestCase(true));
+            var subject = new TestCaseValidator(GetResultTestCase(expected));
+            var result = subject.Validate(GetResultTestCase(supplied));
 
             Assert.AreEqual("passed", result.Result);
         }
 
         [Test]
-        public void ShouldRunVerifyMethodAndFailWithBadTest()
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        public void ShouldRunVerifyMethodAndFailWithBadTest(bool expected, bool supplied)
         {
-            var subject = new TestCaseValidator(GetTestCase());
-            var result = subject.Validate(GetResultTestCase(false));
+            var subject = new TestCaseValidator(GetResultTestCase(expected));
+            var result = subject.Validate(GetResultTestCase(supplied));
 
             Assert.AreEqual("failed", result.Result);
-        }
-
-        private TestCase GetTestCase()
-        {
-            return new TestCase
-            {
-                TestCaseId = 1,
-                FailureTest = true  // Says the expected result is "failed"
-            };
         }
 
         private TestCase GetResultTestCase(bool shouldPass)

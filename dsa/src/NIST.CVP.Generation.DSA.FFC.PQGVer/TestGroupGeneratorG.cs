@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.DSA.FFC.PQGVer.FailureHandlers;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
@@ -30,6 +31,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                             L = capability.L,
                             N = capability.N,
                             HashAlg = hashFunction,
+                            FailureHandler = new GFailureHandler(parameters.IsSample),
 
                             TestType = TEST_TYPE,
                         };

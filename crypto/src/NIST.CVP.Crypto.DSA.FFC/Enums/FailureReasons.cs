@@ -6,19 +6,15 @@ namespace NIST.CVP.Crypto.DSA.FFC.Enums
 {
     public enum PQFailureReasons
     {
-        None1,
-        None2,
+        None,
         ModifyP,
         ModifyQ,
-        ModifySeed,
+        ModifySeed
     }
 
     public enum GFailureReasons
     {
-        None1,
-        None2,
-        ModifyG1,
-        ModifyG2,
-        ModifyG3
+        None,
+        ModifyG
     }
 }

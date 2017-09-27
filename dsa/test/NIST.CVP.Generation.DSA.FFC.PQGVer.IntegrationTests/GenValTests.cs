@@ -283,7 +283,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
                     // If TC has a result, change it
                     if (testCase.result != null)
                     {
-                        testCase.result = !(bool)testCase.result;
+                        testCase.result = ((string)testCase.result).ToLower() == "passed" ? "failed" : "passed";
                     }
                 }
             }
@@ -371,7 +371,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
 
         private string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            var caps = new Capability[3];
+            var caps = new Capability[4];
 
             caps[0] = new Capability
             {

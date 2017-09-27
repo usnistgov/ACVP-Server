@@ -128,5 +128,21 @@ namespace NIST.CVP.Generation.Core.Tests.ExtensionMethods
             Assert.AreEqual(1, list.Count);
         }
         #endregion AddRangeIfNotNullOrEmpty
+
+        #region AddMultiple
+        [Test]
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(60)]
+        [TestCase(100)]
+        public void ShouldOnlyAddNTimes(int n)
+        {
+            List<object> list = new List<object>();
+
+            list.Add(new object(), n);
+
+            Assert.AreEqual(n, list.Count);
+        }
+        #endregion AddMultiple
     }
 }

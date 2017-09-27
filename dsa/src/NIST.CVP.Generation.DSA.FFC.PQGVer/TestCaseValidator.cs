@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
-            if (_expectedResult.FailureTest != suppliedResult.Result)
+            if (_expectedResult.Result != suppliedResult.Result)
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = _expectedResult.Reason };
             }
