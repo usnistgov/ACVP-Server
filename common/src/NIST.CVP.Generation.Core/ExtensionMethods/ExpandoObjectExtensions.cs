@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 using NIST.CVP.Math;
-
+using System.Numerics;
 
 namespace NIST.CVP.Generation.Core.ExtensionMethods
 {
@@ -22,17 +22,52 @@ namespace NIST.CVP.Generation.Core.ExtensionMethods
             {
                 return null;
             }
+
             var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
             if (sourcePropertyValue == null)
             {
                 return null;
             }
-            var valueAsBitString = sourcePropertyValue as BitString;
-            if (valueAsBitString != null)
+
+            if (sourcePropertyValue is BitString valueAsBitString)
             {
                 return valueAsBitString;
             }
+
             return new BitString(sourcePropertyValue.ToString());
+        }
+
+        /// <summary>
+        /// Gets a <see cref="BigInteger"/> from <see cref="source"/>, if not successfully parsed, returns 0.
+        /// </summary>
+        /// <param name="source">The <see cref="ExpandoObject"/> to parse for <see cref="sourcePropertyName"/></param>
+        /// <param name="sourcePropertyName">The name of the property that should be parsed as a <see cref="BigInteger"/></param>
+        /// <returns></returns>
+        public static BigInteger GetBigIntegerFromProperty(this ExpandoObject source, string sourcePropertyName)
+        {
+            if (!source.ContainsProperty(sourcePropertyName))
+            {
+                return 0;
+            }
+
+            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
+            if (sourcePropertyValue == null)
+            {
+                return 0;
+            }
+
+            if (sourcePropertyValue is string)
+            {
+                return new BitString(sourcePropertyValue.ToString()).ToPositiveBigInteger();
+            }
+
+            var valueAsBigInteger = (BigInteger)sourcePropertyValue;
+            if (valueAsBigInteger != 0)
+            {
+                return valueAsBigInteger;
+            }
+
+            return 0;
         }
     }
 }

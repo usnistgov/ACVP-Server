@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -37,6 +38,49 @@ namespace NIST.CVP.Generation.Core.Tests.ExtensionMethods
             Assert.AreEqual(1, list.Count);
         }
         #endregion AddIfNotNullOrEmpty
+
+        #region AddIfNotNull
+
+        public class TestObject
+        {
+            public string Foo { get; set; }
+        }
+
+        private static object[] _testListAddIfNotNull = new object[]
+        {
+            new object[]
+            {
+                null,
+                false
+            },
+            new object[]
+            {
+                new TestObject()
+                {
+                    Foo = "Bar"
+                }, 
+                true
+            },
+            new object[]
+            {
+                new TestObject(),
+                true
+            }
+        };
+
+        [Test]
+        [TestCaseSource(nameof(_testListAddIfNotNull))]
+        public void ShouldAddWhenNotNull(TestObject testObject, bool shouldAdd)
+        {
+            List<TestObject> list = new List<TestObject>();
+
+            list.AddIfNotNull(testObject);
+
+            int expectedCount = shouldAdd ? 1 : 0;
+
+            Assert.AreEqual(expectedCount, list.Count);
+        }
+        #endregion AddIfNotNull
 
         #region AddRangeIfNotNullOrEmpty
         [Test]

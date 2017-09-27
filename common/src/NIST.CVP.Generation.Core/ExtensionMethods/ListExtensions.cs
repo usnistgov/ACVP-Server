@@ -22,6 +22,23 @@ namespace NIST.CVP.Generation.Core.ExtensionMethods
         }
 
         /// <summary>
+        /// Add an item to <see cref="List{T}"/> if it is not null
+        /// </summary>
+        /// <typeparam name="T">The type contained within the list</typeparam>
+        /// <param name="list">The list</param>
+        /// <param name="itemToAdd">The item to (potentially) add to the list</param>
+        public static void AddIfNotNull<T>(this List<T> list, T itemToAdd)
+            where T : class 
+        {
+            if (itemToAdd == null)
+            {
+                return;
+            }
+
+            list.Add(itemToAdd);
+        }
+
+        /// <summary>
         /// Adds an <see cref="IEnumerable{T}"/> to a <see cref="List{T}"/> when the <see cref="itemsToAdd"/> has more than 0 elements.
         /// </summary>
         /// <param name="list">The list to (potentially) add the <see cref="itemsToAdd"/> too</param>
