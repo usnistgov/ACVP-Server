@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
             };
 
             var targetFolder = GetTestFolder("ValFailed");
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileMinimalTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -112,7 +112,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
             };
 
             var targetFolder = GetTestFolder("ValException");
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileMinimalTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
