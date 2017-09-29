@@ -257,7 +257,7 @@ namespace NIST.CVP.Crypto.SHA2
                 case DigestSizes.d512t224:
                     return new BitString("39");
                 case DigestSizes.d512t256:
-                    return new BitString("40");
+                    return new BitString("40");     // Value taken from CAVS, should it be 3A?
                 default:
                     throw new Exception("Bad digest size");
             }
