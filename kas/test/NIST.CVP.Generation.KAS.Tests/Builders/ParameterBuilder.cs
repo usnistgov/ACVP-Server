@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
         {
             _algorithm = "KAS-FFC";
             _functions = ParameterValidator.ValidFunctions;
-            _schemes = new SchemesBuilder().Build();
+            _schemes = new SchemesBuilder().BuildSchemes();
         }
 
         public ParameterBuilder WithAlgorithm(string value)
@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
             return this;
         }
 
-        public Parameters Build()
+        public Parameters BuildParameters()
         {
             return new Parameters()
             {

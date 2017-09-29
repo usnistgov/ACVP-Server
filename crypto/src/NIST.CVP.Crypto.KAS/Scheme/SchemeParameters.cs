@@ -33,13 +33,13 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                 throw new ArgumentException(nameof(thisPartyId));
             }
 
-            if (kasMode == KasMode.KeyConfirmation)
+            if (kasMode == KasMode.KdfKc)
             {
                 if (keyConfirmationRole == KeyConfirmationRole.None ||
                     keyConfirmationDirection == KeyConfirmationDirection.None)
                 {
                     throw new ArgumentException(
-                        $"{nameof(KasMode.KeyConfirmation)} requires a valid (not None) value for both {nameof(keyConfirmationRole)} and {nameof(keyConfirmationDirection)}");
+                        $"{nameof(KasMode.KdfKc)} requires a valid (not None) value for both {nameof(keyConfirmationRole)} and {nameof(keyConfirmationDirection)}");
                 }
             }
 

@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.KAS.Tests
         [Test]
         public void ShouldSucceedWithBaseBuilder()
         {
-            var result = _subject.Validate(_builder.Build());
+            var result = _subject.Validate(_builder.BuildParameters());
 
             Assert.IsTrue(result.Success);
         }
@@ -33,31 +33,31 @@ namespace NIST.CVP.Generation.KAS.Tests
             new object[]
             {
                 "null algorithm",
-                new ParameterBuilder().WithAlgorithm(null).Build(),
+                new ParameterBuilder().WithAlgorithm(null).BuildParameters(),
                 "algorithm"
             },
             new object[]
             {
                 "invalid algorithm",
-                new ParameterBuilder().WithAlgorithm("invalid").Build(),
+                new ParameterBuilder().WithAlgorithm("invalid").BuildParameters(),
                 "algorithm"
             },
             new object[]
             {
                 "null function",
-                new ParameterBuilder().WithFunctions(null).Build(),
+                new ParameterBuilder().WithFunctions(null).BuildParameters(),
                 "function"
             },
             new object[]
             {
                 "invalid function",
-                new ParameterBuilder().WithFunctions(new string[] { "invalid" }).Build(),
+                new ParameterBuilder().WithFunctions(new string[] { "invalid" }).BuildParameters(),
                 "function"
             },
             new object[]
             {
                 "null schemes",
-                new ParameterBuilder().WithSchemes(null).Build(),
+                new ParameterBuilder().WithSchemes(null).BuildParameters(),
                 "scheme"
             },
             new object[]
@@ -66,8 +66,8 @@ namespace NIST.CVP.Generation.KAS.Tests
                 "No valid schemes",
                 new ParameterBuilder()
                 .WithSchemes(
-                    new SchemesBuilder().WithDhEphem(null).Build()
-                ).Build(),
+                    new SchemesBuilder().WithDhEphem(null).BuildSchemes()
+                ).BuildParameters(),
                 "scheme"
             },
             new object[]
@@ -77,8 +77,8 @@ namespace NIST.CVP.Generation.KAS.Tests
                     .WithSchemes(
                         new SchemesBuilder().WithDhEphem(
                             new SchemeBuilder().WithRole(null).BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "role"
             },
             new object[]
@@ -88,8 +88,8 @@ namespace NIST.CVP.Generation.KAS.Tests
                     .WithSchemes(
                         new SchemesBuilder().WithDhEphem(
                             new SchemeBuilder().WithRole(new string[] { "invalid" }).BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "role"
             },
             new object[]
@@ -103,8 +103,8 @@ namespace NIST.CVP.Generation.KAS.Tests
                                 .WithKdfNoKc(null)
                                 .WithKdfKc(null)
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "kas mode"
             },
             new object[]
@@ -118,8 +118,8 @@ namespace NIST.CVP.Generation.KAS.Tests
                                     new KdfKcBuilder().Build()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "key confirmation"
             },
             new object[]
@@ -130,11 +130,11 @@ namespace NIST.CVP.Generation.KAS.Tests
                         new SchemesBuilder().WithDhEphem(
                             new SchemeBuilder()
                                 .WithNoKdfNoKc(
-                                    new NoKdfNoKcBuilder().WithParameterSets(null).Build()
+                                    new NoKdfNoKcBuilder().WithParameterSets(null).BuildNoKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "parameterset"
             },
             new object[]
@@ -145,11 +145,11 @@ namespace NIST.CVP.Generation.KAS.Tests
                         new SchemesBuilder().WithDhEphem(
                             new SchemeBuilder()
                                 .WithKdfNoKc(
-                                    new KdfNoKcBuilder().WithParameterSets(null).Build()
+                                    new KdfNoKcBuilder().WithParameterSets(null).BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "parameterset"
             },
             new object[]
@@ -160,11 +160,11 @@ namespace NIST.CVP.Generation.KAS.Tests
                         new SchemesBuilder().WithDhEphem(
                             new SchemeBuilder()
                                 .WithKdfNoKc(
-                                    new KdfNoKcBuilder().WithKdfOptions(null).Build()
+                                    new KdfNoKcBuilder().WithKdfOptions(null).BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "kdfOption"
             },
             new object[]
@@ -177,13 +177,13 @@ namespace NIST.CVP.Generation.KAS.Tests
                                 .WithKdfNoKc(
                                     new KdfNoKcBuilder()
                                         .WithKdfOptions(
-                                            new KdfOptionsBuilder().WithAsn1("invalid||uPartyInfo").Build()
+                                            new KdfOptionsBuilder().WithAsn1("invalid||uPartyInfo").BuildKdfOptions()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "oiPattern"
             },
             new object[]
@@ -196,13 +196,13 @@ namespace NIST.CVP.Generation.KAS.Tests
                                 .WithKdfNoKc(
                                     new KdfNoKcBuilder()
                                         .WithKdfOptions(
-                                            new KdfOptionsBuilder().WithAsn1("literal[nonHex]||uPartyInfo").Build()
+                                            new KdfOptionsBuilder().WithAsn1("literal[nonHex]||uPartyInfo").BuildKdfOptions()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "oiPattern"
             },
             new object[]
@@ -219,15 +219,15 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                 .WithFc(
                                                     new ParameterSetBaseBuilder(false)
                                                         .WithHashAlg(new string[] { "invalid" })
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildNoKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "hashAlgs"
             },
             new object[]
@@ -244,15 +244,15 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         .WithFc(
                                             new ParameterSetBaseBuilder(false)
                                                 .WithHashAlg(new string[] { "sha2-224"})
-                                                .BuildFc()
+                                                .BuildParameterSetBaseFc()
                                         )
-                                        .Build()
+                                        .BuildParameterSets()
                                     )
-                                    .Build()
+                                    .BuildNoKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "hash length"
             },
             new object[]
@@ -265,13 +265,13 @@ namespace NIST.CVP.Generation.KAS.Tests
                                 .WithNoKdfNoKc(
                                     new NoKdfNoKcBuilder()
                                         .WithParameterSets(
-                                            new ParameterSetBuilder(true).Build()
+                                            new ParameterSetBuilder(true).BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildNoKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "macOption"
             },
             new object[]
@@ -284,13 +284,13 @@ namespace NIST.CVP.Generation.KAS.Tests
                                 .WithKdfNoKc(
                                     new KdfNoKcBuilder()
                                         .WithParameterSets(
-                                            new ParameterSetBuilder(false).Build()
+                                            new ParameterSetBuilder(false).BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "macOption"
             },
             new object[]
@@ -314,17 +314,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithHmac2_256(null)
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "macOption is required"
             },
             new object[]
@@ -352,17 +352,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithHmac2_256(null)
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "AES-CCM Nonce Length"
             },
             new object[]
@@ -390,17 +390,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithHmac2_256(null)
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "AES-CCM Nonce Length"
             },
             new object[]
@@ -428,17 +428,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithHmac2_256(null)
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "unexpected for macOptions"
             },
             new object[]
@@ -466,17 +466,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithHmac2_256(null)
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "unexpected for macOptions"
             },
             new object[]
@@ -504,17 +504,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 )
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "unexpected for macOptions"
             },
             new object[]
@@ -542,17 +542,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                         .BuildHmac2_384()
                                                                 )
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "unexpected for macOptions"
             },
             new object[]
@@ -580,17 +580,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                         .WithNonceLen(42)
                                                                         .BuildHmac2_512()
                                                                 )
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "unexpected for macOptions"
             },
             new object[]
@@ -618,17 +618,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithHmac2_256(null)
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "AES Key Lengths"
             },
             new object[]
@@ -656,17 +656,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithHmac2_256(null)
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "AES Key Lengths"
             },
             new object[]
@@ -694,17 +694,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithHmac2_256(null)
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "KeyLength Modulus"
             },
             new object[]
@@ -732,17 +732,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithHmac2_256(null)
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "KeyLength"
             },
             new object[]
@@ -770,17 +770,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithHmac2_256(null)
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "MacLength Range"
             },
             new object[]
@@ -808,17 +808,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithHmac2_256(null)
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "MacLength Modulus"
             },
             new object[]
@@ -846,17 +846,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                 .WithHmac2_256(null)
                                                                 .WithHmac2_384(null)
                                                                 .WithHmac2_512(null)
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "MacLength Range"
             },
             new object[]
@@ -884,17 +884,17 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                                         .WithMacLen(127)
                                                                         .BuildHmac2_512()
                                                                 )
-                                                                .Build()
+                                                                .BuildMacOptions()
                                                         )
-                                                        .BuildFc()
+                                                        .BuildParameterSetBaseFc()
                                                 )
-                                                .Build()
+                                                .BuildParameterSets()
                                         )
-                                        .Build()
+                                        .BuildKdfNoKc()
                                 )
                                 .BuildDhEphem()
-                        ).Build()
-                    ).Build(),
+                        ).BuildSchemes()
+                    ).BuildParameters(),
                 "MacLength Modulus"
             },
         };

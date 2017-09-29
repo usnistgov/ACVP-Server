@@ -11,26 +11,26 @@ namespace NIST.CVP.Crypto.KAS.Enums
         /// <summary>
         /// No Assurances associated with the KAS implementation
         /// </summary>
-        None,
+        None = 0,
         /// <summary>
         /// Domain Parameter Generation
         /// </summary>
-        DpGen,
+        DpGen = 1 << 1,
         /// <summary>
         /// Domain Parameter Validation
         /// </summary>
-        DpVal,
+        DpVal = 1 << 2,
         /// <summary>
         /// Key Pair Generation
         /// </summary>
-        KeyPairGen,
+        KeyPairGen = 1 << 3,
         /// <summary>
         /// Full Validation
         /// </summary>
-        FullVal,
+        FullVal = 1 << 4,
         /// <summary>
         /// Key Regeneration
         /// </summary>
-        KeyRegen
+        KeyRegen = 1 << 5
     }
 }

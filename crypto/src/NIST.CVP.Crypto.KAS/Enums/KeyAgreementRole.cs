@@ -8,10 +8,10 @@
         /// <summary>
         /// The initiator, aka party U
         /// </summary>
-        UPartyInitiator,
+        Initiator,
         /// <summary>
         /// The responder, aka party V
         /// </summary>
-        VPartyResponder
+        Responder
     }
 }

@@ -19,8 +19,8 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
             // TODO
             return new SchemeBuilder()
             {
-                _noKdfNoKc = new NoKdfNoKcBuilder().Build(),
-                _kdfNoKc = new KdfNoKcBuilder().Build()
+                _noKdfNoKc = new NoKdfNoKcBuilder().BuildNoKdfNoKc(),
+                _kdfNoKc = new KdfNoKcBuilder().BuildKdfNoKc()
             };
         }
 

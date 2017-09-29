@@ -118,7 +118,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             var z = ComputeSharedSecret(otherPartyInformation);
 
             // Component only test
-            if (SchemeParameters.KasMode == KasMode.NoKdf)
+            if (SchemeParameters.KasMode == KasMode.NoKdfNoKc)
             {
                 // The SHA used is the same used in the DSA instance
                 var tag = Dsa.Sha.HashMessage(z);

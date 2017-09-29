@@ -344,7 +344,7 @@ namespace NIST.CVP.Generation.KAS
                 return;
             }
 
-            string oiRegex = @"^((?!(uPartyInfo|vPartyInfo|counter|literal\[[0-9a-fA-F]+\])).)+$";
+            const string oiRegex = @"^((?!(uPartyInfo|vPartyInfo|counter|literal\[[0-9a-fA-F]+\])).)+$";
 
             var oiPieces = oiPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             foreach (var oiPiece in oiPieces)

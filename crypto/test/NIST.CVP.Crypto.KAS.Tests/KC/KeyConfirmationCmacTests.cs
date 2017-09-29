@@ -94,7 +94,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             var cmac = _cmacFactory.GetCmacInstance(CmacTypes.AES128); // doesn't matter for scope of testing this, as long as AES
 
             var p = new KeyConfirmationParameters(
-                KeyAgreementRole.UPartyInitiator,
+                KeyAgreementRole.Initiator,
                 KeyConfirmationRole.Provider,
                 KeyConfirmationDirection.Bilateral,
                 KeyAgreementMacType.CmacAes, // note this doesn't matter for the scope of this test

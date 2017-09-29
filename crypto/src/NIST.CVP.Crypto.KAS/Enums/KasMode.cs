@@ -8,16 +8,16 @@
         /// <summary>
         /// No Kdf, No Key confirmation (component only test)
         /// </summary>
-        NoKdf,
+        NoKdfNoKc,
         /// <summary>
         /// No Key Confirmation test - uses a MAC function and KDF on the generated secret
         /// Kdf, No Key Confirmation
         /// </summary>
-        NoKeyConfirmation,
+        KdfNoKc,
         /// <summary>
         /// Key Confirmation test - uses a MAC function, KDF, and Key Confirmation
         /// Kdf, Key Confirmation
         /// </summary>
-        KeyConfirmation
+        KdfKc
     }
 }

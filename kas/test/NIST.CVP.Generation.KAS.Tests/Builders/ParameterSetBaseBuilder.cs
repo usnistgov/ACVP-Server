@@ -11,7 +11,7 @@
 
             if (includeMacInParameterSet)
             {
-                _macOptions = new MacOptionsBuilder().Build();
+                _macOptions = new MacOptionsBuilder().BuildMacOptions();
             }
         }
 
@@ -27,7 +27,7 @@
             return this;
         }
 
-        public Fb BuildFb()
+        public Fb BuildParameterSetBaseFb()
         {
             return new Fb()
             {
@@ -36,7 +36,7 @@
             };
         }
 
-        public Fc BuildFc()
+        public Fc BuildParameterSetBaseFc()
         {
             return new Fc()
             {

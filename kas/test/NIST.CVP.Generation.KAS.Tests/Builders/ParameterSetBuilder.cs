@@ -7,8 +7,8 @@
 
         public ParameterSetBuilder(bool includeMacInParameterSet)
         {
-            _fb = new ParameterSetBaseBuilder(includeMacInParameterSet).BuildFb();
-            _fc = new ParameterSetBaseBuilder(includeMacInParameterSet).BuildFc();
+            _fb = new ParameterSetBaseBuilder(includeMacInParameterSet).BuildParameterSetBaseFb();
+            _fc = new ParameterSetBaseBuilder(includeMacInParameterSet).BuildParameterSetBaseFc();
         }
 
         public ParameterSetBuilder WithFb(Fb value)
@@ -23,7 +23,7 @@
             return this;
         }
 
-        public ParameterSets Build()
+        public ParameterSets BuildParameterSets()
         {
             return new ParameterSets()
             {

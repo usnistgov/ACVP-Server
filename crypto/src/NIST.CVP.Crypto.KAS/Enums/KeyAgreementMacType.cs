@@ -3,6 +3,10 @@
     public enum KeyAgreementMacType
     {
         /// <summary>
+        /// MAC not used
+        /// </summary>
+        None,
+        /// <summary>
         /// HMAC - SHA2-224
         /// </summary>
         HmacSha2D224,

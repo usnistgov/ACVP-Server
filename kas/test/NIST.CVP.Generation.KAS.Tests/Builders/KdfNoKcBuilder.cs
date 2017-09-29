@@ -7,8 +7,8 @@
         
         public KdfNoKcBuilder()
         {
-            _parameterSets = new ParameterSetBuilder(true).Build();
-            _kdfOptions = new KdfOptionsBuilder().Build();
+            _parameterSets = new ParameterSetBuilder(true).BuildParameterSets();
+            _kdfOptions = new KdfOptionsBuilder().BuildKdfOptions();
         }
 
         public KdfNoKcBuilder WithParameterSets(ParameterSets value)
@@ -23,7 +23,7 @@
             return this;
         }
 
-        public KdfNoKc Build()
+        public KdfNoKc BuildKdfNoKc()
         {
             return new KdfNoKc()
             {

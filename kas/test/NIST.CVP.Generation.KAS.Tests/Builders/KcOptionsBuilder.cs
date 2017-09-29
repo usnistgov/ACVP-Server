@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
             return this;
         }
 
-        public KcOptions Build()
+        public KcOptions BuildKcOptions()
         {
             return new KcOptions()
             {

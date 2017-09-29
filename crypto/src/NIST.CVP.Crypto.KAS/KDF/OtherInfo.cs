@@ -50,7 +50,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
 
             if (workingPiece.Equals("uPartyInfo", StringComparison.OrdinalIgnoreCase))
             {
-                if (_thisPartyKeyAgreementRole == KeyAgreementRole.UPartyInitiator)
+                if (_thisPartyKeyAgreementRole == KeyAgreementRole.Initiator)
                 {
                     oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_thisPartySharedInformation.PartyId));
                     oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_thisPartySharedInformation.DkmNonce));
@@ -66,7 +66,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
 
             if (workingPiece.Equals("vPartyInfo", StringComparison.OrdinalIgnoreCase))
             {
-                if (_thisPartyKeyAgreementRole == KeyAgreementRole.VPartyResponder)
+                if (_thisPartyKeyAgreementRole == KeyAgreementRole.Responder)
                 {
                     oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_thisPartySharedInformation.PartyId));
                     oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_thisPartySharedInformation.DkmNonce));

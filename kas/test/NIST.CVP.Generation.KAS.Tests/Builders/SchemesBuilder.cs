@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
             return this;
         }
 
-        public Schemes Build()
+        public Schemes BuildSchemes()
         {
             return new Schemes()
             {

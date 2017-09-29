@@ -55,7 +55,7 @@
             return this;
         }
 
-        public MacOptions Build()
+        public MacOptions BuildMacOptions()
         {
             return new MacOptions()
             {

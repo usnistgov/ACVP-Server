@@ -60,19 +60,19 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// <inheritdoc />
         public KasBuilderNoKdfNoKc BuildNoKdfNoKc()
         {
-            return new KasBuilderNoKdfNoKc(_schemeFactory, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId, KasMode.NoKdf);
+            return new KasBuilderNoKdfNoKc(_schemeFactory, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId, KasMode.NoKdfNoKc);
         }
 
         /// <inheritdoc />
         public KasBuilderKdfNoKc BuildKdfNoKc()
         {
-            return new KasBuilderKdfNoKc(_schemeFactory, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId, KasMode.NoKeyConfirmation);
+            return new KasBuilderKdfNoKc(_schemeFactory, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId, KasMode.KdfNoKc);
         }
 
         /// <inheritdoc />
         public KasBuilderKdfKc BuildKdfKc()
         {
-            return new KasBuilderKdfKc(_schemeFactory, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId, KasMode.KeyConfirmation);
+            return new KasBuilderKdfKc(_schemeFactory, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId, KasMode.KdfKc);
         }
     }
 }

@@ -56,7 +56,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
                 new BitString(0)
             );
 
-            _subject = new OtherInfo(new EntropyProvider(new Random800_90()), otherInfoPattern, otherInfoLength, KeyAgreementRole.UPartyInitiator, uPartySharedInformation, vPartySharedInformation);
+            _subject = new OtherInfo(new EntropyProvider(new Random800_90()), otherInfoPattern, otherInfoLength, KeyAgreementRole.Initiator, uPartySharedInformation, vPartySharedInformation);
             
             var result = _subject.GetOtherInfo();
 
@@ -68,7 +68,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             new object[]
             {
                 // iutRole
-                KeyAgreementRole.UPartyInitiator,
+                KeyAgreementRole.Initiator,
                 // uParty
                 new FfcSharedInformation(null, new BitString("a1b2c3d4e5"), 0, 0, new BitString(0), new BitString(0), new BitString(0)), 
                 // vParty
@@ -81,7 +81,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             new object[]
             {
                 // iutRole
-                KeyAgreementRole.UPartyInitiator,
+                KeyAgreementRole.Initiator,
                 // uParty
                 new FfcSharedInformation(null, new BitString("a1b2c3d4e5"), 0, 0, new BitString(0), new BitString(0), new BitString(0)), 
                 // vParty
@@ -94,7 +94,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             new object[]
             {
                 // iutRole
-                KeyAgreementRole.VPartyResponder,
+                KeyAgreementRole.Responder,
                 // uParty
                 new FfcSharedInformation(null, new BitString("434156536964"), 0, 0, new BitString(0), new BitString(0), new BitString(0)), 
                 // vParty
@@ -107,7 +107,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             new object[]
             {
                 // iutRole
-                KeyAgreementRole.VPartyResponder,
+                KeyAgreementRole.Responder,
                 // uParty
                 new FfcSharedInformation(null, new BitString("434156536964"), 0, 0, new BitString(0), new BitString(0), new BitString(0)), 
                 // vParty
@@ -120,7 +120,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             new object[]
             {
                 // iutRole
-                KeyAgreementRole.UPartyInitiator,
+                KeyAgreementRole.Initiator,
                 // uParty
                 new FfcSharedInformation(null, new BitString("a1b2c3d4e5"), 0, 0, new BitString(0), new BitString("7e4710fc503b32d44b01f973d281"), new BitString(0)), 
                 // vParty
@@ -133,7 +133,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             new object[]
             {
                 // iutRole
-                KeyAgreementRole.VPartyResponder,
+                KeyAgreementRole.Responder,
                 // uParty
                 new FfcSharedInformation(null, new BitString("434156536964"), 0, 0, new BitString(0), new BitString("be58b39ab2f8ab722acac7a635f2"), new BitString(0)),
                 // vParty
@@ -163,7 +163,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
 
             entropyProvider.AddEntropy(entropyBits);
 
-            _subject = new OtherInfo(entropyProvider, otherInfoPattern, otherInfoLength, KeyAgreementRole.UPartyInitiator, uPartySharedInformation, vPartySharedInformation);
+            _subject = new OtherInfo(entropyProvider, otherInfoPattern, otherInfoLength, KeyAgreementRole.Initiator, uPartySharedInformation, vPartySharedInformation);
 
             var result = _subject.GetOtherInfo();
 

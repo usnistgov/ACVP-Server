@@ -25,7 +25,7 @@
             return this;
         }
 
-        public KdfOptions Build()
+        public KdfOptions BuildKdfOptions()
         {
             return new KdfOptions()
             {

@@ -133,7 +133,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             var hmac = _hmacFactory.GetHmacInstance(new HashFunction(modeValue, digestSize));
 
             var p = new KeyConfirmationParameters(
-                KeyAgreementRole.UPartyInitiator,
+                KeyAgreementRole.Initiator,
                 KeyConfirmationRole.Provider,
                 KeyConfirmationDirection.Bilateral,
                 KeyAgreementMacType.CmacAes, // note this doesn't matter for the scope of this test

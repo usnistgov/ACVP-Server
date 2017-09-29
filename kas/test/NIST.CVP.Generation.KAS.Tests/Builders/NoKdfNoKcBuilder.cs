@@ -6,7 +6,7 @@
 
         public NoKdfNoKcBuilder()
         {
-            ParameterSets = new ParameterSetBuilder(false).Build();
+            ParameterSets = new ParameterSetBuilder(false).BuildParameterSets();
         }
 
         public NoKdfNoKcBuilder WithParameterSets(ParameterSets value)
@@ -15,7 +15,7 @@
             return this;
         }
 
-        public NoKdfNoKc Build()
+        public NoKdfNoKc BuildNoKdfNoKc()
         {
             return new NoKdfNoKc()
             {
