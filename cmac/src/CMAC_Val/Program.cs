@@ -19,7 +19,7 @@ namespace CMAC_Val
             var resultFile = args[1];
             var promptFile = args[2];
             var answerFile = args[3];
-            LoggingHelper.ConfigureLogging(resultFile, "cmac-aes-val");
+            LoggingHelper.ConfigureLogging(resultFile, $"{algo}-val");
             Logger.Info($"Validating test results for {resultFile}");
             try
             {

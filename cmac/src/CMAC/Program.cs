@@ -17,7 +17,7 @@ namespace CMAC
             var algo = args[0];
             var requestFile = args[1];
 
-            LoggingHelper.ConfigureLogging(requestFile, "cmac");
+            LoggingHelper.ConfigureLogging(requestFile, algo);
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
             //get generator and call it

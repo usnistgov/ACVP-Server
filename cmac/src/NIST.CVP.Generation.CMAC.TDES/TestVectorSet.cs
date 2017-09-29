@@ -46,8 +46,10 @@ namespace NIST.CVP.Generation.CMAC.TDES
 
                         _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "msg", test.Message);
                         _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "mac", test.Mac);
-                        ((IDictionary<string, object>)testObject).Add("result", test.Result);
-
+                        if (test.Result != null)
+                        {
+                            ((IDictionary<string, object>) testObject).Add("result", test.Result);
+                        }
                         ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
                         ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
 
