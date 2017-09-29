@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using NIST.CVP.Math;
 using System.Numerics;
@@ -68,6 +69,46 @@ namespace NIST.CVP.Generation.Core.ExtensionMethods
             }
 
             return 0;
+        }
+        
+        /// <summary>
+        /// Gets the property from the specified type (or default value)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="sourcePropertyName"></param>
+        /// <returns></returns>
+        public static T GetTypeFromProperty<T>(this ExpandoObject source, string sourcePropertyName)
+            
+        {
+            if (!source.ContainsProperty(sourcePropertyName))
+            {
+                return default(T);
+            }
+
+            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
+            if (sourcePropertyValue == null)
+            {
+                return default(T);
+            }
+
+            try
+            {
+                if (typeof(T).IsEnum)
+                {
+                    T result = (T)Enum.Parse(typeof(T), sourcePropertyValue.ToString());
+                    if (!Enum.IsDefined(typeof(T), result)) return default(T);
+                    return result;
+                }
+                else
+                {
+                    return (T)Convert.ChangeType(sourcePropertyValue, typeof(T));
+                }
+            }
+            catch (Exception)
+            {
+                return default(T);
+            }
         }
     }
 }

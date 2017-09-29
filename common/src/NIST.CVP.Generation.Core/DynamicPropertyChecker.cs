@@ -12,7 +12,6 @@ namespace NIST.CVP.Generation.Core
         {
             var dict = (IDictionary<string, object>)source;
             return dict.ContainsKey(propertyName);
-          
         }
     }
 }
