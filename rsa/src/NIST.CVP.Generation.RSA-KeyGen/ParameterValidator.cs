@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
@@ -17,41 +18,41 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errorResults = new List<string>();
+            string result = "";
 
-            string result = ValidateArray(parameters.Moduli, VALID_MODULI, "Modulo");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
-
-            result = ValidateArray(parameters.HashAlgs, VALID_HASH_ALGS, "Hash Algorithms");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
-
-            result = ValidateArray(parameters.KeyGenModes, VALID_KEY_GEN_MODES, "KeyGen Modes");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
-
-            result = ValidateArray(parameters.PrimeTests, VALID_PRIME_TESTS, "PrimeTests");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
-            
             result = ValidateValue(parameters.PubExpMode, VALID_PUB_EXP_MODES, "PubExp Modes");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
+            errorResults.AddIfNotNullOrEmpty(result);
 
             result = ValidateHex(parameters.FixedPubExp, "FixedPubExp hex");
-            if (!string.IsNullOrEmpty(result))
+            errorResults.AddIfNotNullOrEmpty(result);
+
+            if (parameters.AlgSpecs.Length == 0)
             {
-                errorResults.Add(result);
+                errorResults.Add("Nothing registered");
+            }
+
+            foreach (var algSpec in parameters.AlgSpecs)
+            {
+                result = ValidateValue(algSpec.RandPQ, VALID_KEY_GEN_MODES, "KeyGen Modes");
+                errorResults.AddIfNotNullOrEmpty(result);
+
+                if (algSpec.Capabilities.Length == 0)
+                {
+                    errorResults.Add("No capabilities listed for a KeyGen mode");
+                    continue;
+                }
+
+                foreach (var capability in algSpec.Capabilities)
+                {
+                    result = ValidateValue(capability.Modulo, VALID_MODULI, "Modulo");
+                    errorResults.AddIfNotNullOrEmpty(result);
+
+                    result = ValidateArray(capability.HashAlgs, VALID_HASH_ALGS, "Hash Alg");
+                    errorResults.AddIfNotNullOrEmpty(result);
+
+                    result = ValidateArray(capability.PrimeTests, VALID_PRIME_TESTS, "Prime Tests");
+                    errorResults.AddIfNotNullOrEmpty(result);
+                }
             }
 
             if (errorResults.Count > 0)

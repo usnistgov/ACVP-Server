@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Directory.Delete(_testPath, true);
+            // Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -397,18 +397,32 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
         private string GetCoverageExample(string targetFolder)
         {
+            var caps = new Capability[1];
+            caps[0] = new Capability
+            {
+                Modulo = 2048,
+                HashAlgs = new[] { "sha-224" },
+                PrimeTests = new[] { "tblc2" }
+            };
+
+            var algSpecs = new AlgSpec[ParameterValidator.VALID_KEY_GEN_MODES.Length];
+            for (var i = 0; i < algSpecs.Length; i++)
+            {
+                algSpecs[i] = new AlgSpec
+                {
+                    RandPQ = ParameterValidator.VALID_KEY_GEN_MODES[i],
+                    Capabilities = caps
+                };
+            }
+
             var p = new Parameters
             {
                 Algorithm = "RSA",
                 Mode = "KeyGen",
-                HashAlgs = new[] { "SHA-224" },
                 InfoGeneratedByServer = true,
                 IsSample = true,
-                KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
-                //KeyGenModes = new[] { "B.3.3" },
-                Moduli = new[] { 2048 },
-                PrimeTests = new[] { "tblC2" },
-                PubExpMode = "random"
+                PubExpMode = "random",
+                AlgSpecs = algSpecs
             };
 
             return CreateRegistration(targetFolder, p);
@@ -416,17 +430,29 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
         private string GetTestFileSingleTestCaseNoSample(string targetFolder)
         {
+            var caps = new Capability[1];
+            caps[0] = new Capability
+            {
+                Modulo = 2048,
+                HashAlgs = new[] { "sha-224" },
+                PrimeTests = new[] { "tblc2" }
+            };
+
+            var algSpecs = new AlgSpec[1];
+            algSpecs[0] = new AlgSpec
+            {
+                RandPQ = "b.3.5",
+                Capabilities = caps
+            };
+
             var p = new Parameters
             {
                 Algorithm = "RSA",
                 Mode = "KeyGen",
-                HashAlgs = new[] { "SHA-224" },
                 InfoGeneratedByServer = true,
                 IsSample = false,
-                KeyGenModes = new[] { "B.3.5" },
-                Moduli = new[] { 2048 },
-                PrimeTests = new[] { "tblC2" },
-                PubExpMode = "random"
+                PubExpMode = "random",
+                AlgSpecs = algSpecs
             };
 
             return CreateRegistration(targetFolder, p);
@@ -434,18 +460,48 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
         private string GetTestFileFewTestCases(string targetFolder)
         {
+            var caps = new Capability[1];
+            caps[0] = new Capability
+            {
+                Modulo = 2048,
+                HashAlgs = new[] { "sha-224" },
+                PrimeTests = new[] { "tblc2" }
+            };
+
+            var algSpecs = new AlgSpec[4];
+            algSpecs[0] = new AlgSpec
+            {
+                RandPQ = "b.3.2",
+                Capabilities = caps
+            };
+
+            algSpecs[1] = new AlgSpec
+            {
+                RandPQ = "b.3.4",
+                Capabilities = caps
+            };
+
+            algSpecs[2] = new AlgSpec
+            {
+                RandPQ = "b.3.5",
+                Capabilities = caps
+            };
+
+            algSpecs[3] = new AlgSpec
+            {
+                RandPQ = "b.3.6",
+                Capabilities = caps
+            };
+
             var p = new Parameters
             {
                 Algorithm = "RSA",
                 Mode = "KeyGen",
-                HashAlgs = new[] {"SHA-224"},
                 InfoGeneratedByServer = true,
                 IsSample = true,
-                KeyGenModes = new[] {"B.3.2", "B.3.4", "B.3.5", "B.3.6"},
-                Moduli = new[] {2048},
-                PrimeTests = new[] {"tblC2"},
                 PubExpMode = "fixed",
-                FixedPubExp = "010001"
+                FixedPubExp = "010001",
+                AlgSpecs = algSpecs
             };
 
             return CreateRegistration(targetFolder, p);
@@ -453,17 +509,35 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
         private string GetTestFileLotsOfTestCases(string targetFolder)
         {
+            var caps = new Capability[ParameterValidator.VALID_MODULI.Length];
+            for (var i = 0; i < caps.Length; i++)
+            {
+                caps[i] = new Capability
+                {
+                    Modulo = ParameterValidator.VALID_MODULI[i],
+                    HashAlgs = ParameterValidator.VALID_HASH_ALGS,
+                    PrimeTests = ParameterValidator.VALID_PRIME_TESTS
+                };
+            }
+
+            var algSpecs = new AlgSpec[ParameterValidator.VALID_KEY_GEN_MODES.Length];
+            for (var i = 0; i < algSpecs.Length; i++)
+            {
+                algSpecs[i] = new AlgSpec
+                {
+                    RandPQ = ParameterValidator.VALID_KEY_GEN_MODES[i],
+                    Capabilities = caps
+                };
+            }
+
             var p = new Parameters
             {
                 Algorithm = "RSA",
                 Mode = "KeyGen",
-                HashAlgs = ParameterValidator.VALID_HASH_ALGS,
                 InfoGeneratedByServer = true,
                 IsSample = true,
-                KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
-                Moduli = ParameterValidator.VALID_MODULI,
-                PrimeTests = ParameterValidator.VALID_PRIME_TESTS,
-                PubExpMode = "random"
+                PubExpMode = "random",
+                AlgSpecs = algSpecs
             };
 
             return CreateRegistration(targetFolder, p);
@@ -471,17 +545,32 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
         private string GetTestFileClientGeneratedTests(string targetFolder)
         {
+            var caps = new Capability[1];
+            caps[0] = new Capability
+            {
+                Modulo = 2048,
+                HashAlgs = new[] { "sha-224", "sha-384" },
+                PrimeTests = new[] { "tblc2" }
+            };
+
+            var algSpecs = new AlgSpec[ParameterValidator.VALID_KEY_GEN_MODES.Length];
+            for (var i = 0; i < algSpecs.Length; i++)
+            {
+                algSpecs[i] = new AlgSpec
+                {
+                    RandPQ = ParameterValidator.VALID_KEY_GEN_MODES[i],
+                    Capabilities = caps
+                };
+            }
+
             var p = new Parameters
             {
                 Algorithm = "RSA",
                 Mode = "KeyGen",
-                HashAlgs = new[] { "SHA-256", "SHA-384" },
                 InfoGeneratedByServer = false,
                 IsSample = true,
-                KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
-                Moduli = new [] {2048},
-                PrimeTests = new [] {"tblC2"},
-                PubExpMode = "random"
+                PubExpMode = "random",
+                AlgSpecs = algSpecs
             };
 
             return CreateRegistration(targetFolder, p);
@@ -489,17 +578,32 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
         private string GetTestFileClientGeneratedTestsNotSample(string targetFolder)
         {
+            var caps = new Capability[1];
+            caps[0] = new Capability
+            {
+                Modulo = 2048,
+                HashAlgs = new[] { "sha-224", "sha-384" },
+                PrimeTests = new[] { "tblc2" }
+            };
+
+            var algSpecs = new AlgSpec[ParameterValidator.VALID_KEY_GEN_MODES.Length];
+            for (var i = 0; i < algSpecs.Length; i++)
+            {
+                algSpecs[i] = new AlgSpec
+                {
+                    RandPQ = ParameterValidator.VALID_KEY_GEN_MODES[i],
+                    Capabilities = caps
+                };
+            }
+
             var p = new Parameters
             {
                 Algorithm = "RSA",
                 Mode = "KeyGen",
-                HashAlgs = new[] { "SHA-256", "SHA-384" },
                 InfoGeneratedByServer = false,
                 IsSample = false,
-                KeyGenModes = ParameterValidator.VALID_KEY_GEN_MODES,
-                Moduli = new[] { 2048 },
-                PrimeTests = new[] { "tblC2" },
-                PubExpMode = "random"
+                PubExpMode = "random",
+                AlgSpecs = algSpecs
             };
 
             return CreateRegistration(targetFolder, p);

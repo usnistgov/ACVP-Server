@@ -14,30 +14,35 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         {
             var testGroups = new List<TestGroup>();
 
-            if (!parameters.KeyGenModes.Contains("B.3.3", StringComparer.OrdinalIgnoreCase))
+            var pubExpMode = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode);
+            if (pubExpMode == PubExpModes.FIXED)
             {
                 return testGroups;
             }
 
-            if (parameters.PubExpMode.ToLower() != "random")
+            foreach (var algSpec in parameters.AlgSpecs)
             {
-                return testGroups;
-            }
-
-            foreach (var modulo in parameters.Moduli)
-            {
-                foreach (var primeTest in parameters.PrimeTests)
+                var mode = RSAEnumHelpers.StringToKeyGenMode(algSpec.RandPQ);
+                if (mode != KeyGenModes.B33)
                 {
-                    var testGroup = new TestGroup
-                    {
-                        Mode = KeyGenModes.B33,
-                        Modulo = modulo,
-                        PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest),
-                        PubExp = PubExpModes.RANDOM,
-                        TestType = TEST_TYPE
-                    };
+                    continue;
+                }
 
-                    testGroups.Add(testGroup);
+                foreach (var capability in algSpec.Capabilities)
+                {
+                    foreach (var primeTest in capability.PrimeTests)
+                    {
+                        var testGroup = new TestGroup
+                        {
+                            Mode = mode,
+                            Modulo = capability.Modulo,
+                            PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest),
+                            PubExp = pubExpMode,
+                            TestType = TEST_TYPE
+                        };
+
+                        testGroups.Add(testGroup);
+                    }
                 }
             }
 

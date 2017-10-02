@@ -46,15 +46,13 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var result = _subject.GetTestGroupGenerators();
             Parameters p = new Parameters
                 {
-                    Algorithm = "RSA-KeyGen",
-                    HashAlgs = new[] { "SHA-1", "SHA-224" },
+                    Algorithm = "RSA",
+                    Mode = "KeyGen",
                     FixedPubExp = "010001",
                     InfoGeneratedByServer = true,
                     IsSample = false,
-                    KeyGenModes = new[] { "B.3.2", "B.3.3" },
-                    Moduli = new[] { 2048, 3072 },
-                    PrimeTests = new[] { "tblC2" },
-                    PubExpMode = "fixed"
+                    PubExpMode = "fixed",
+                    AlgSpecs = BuildCapabilities()
                 };
 
             List<ITestGroup> groups = new List<ITestGroup>();
@@ -74,14 +72,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var result = _subject.GetTestGroupGenerators();
             Parameters p = new Parameters
             {
-                Algorithm = "RSA-KeyGen",
-                HashAlgs = new[] { "SHA-1", "SHA-224", "SHA-256", "SHA-384", "SHA-512", "SHA-512/224", "SHA-512/256" },
+                Algorithm = "RSA",
+                Mode = "KeyGen",
                 InfoGeneratedByServer = true,
                 IsSample = false,
-                KeyGenModes = new[] { "B.3.2", "B.3.3", "B.3.4", "B.3.5", "B.3.6" },
-                Moduli = new[] { 2048, 3072, 4096 },
-                PrimeTests = new[] { "tblC2", "tblC3" },
-                PubExpMode = "random"
+                PubExpMode = "random",
+                AlgSpecs = BuildCapabilities()
             };
 
             List<ITestGroup> groups = new List<ITestGroup>();
@@ -91,7 +87,33 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
             }
 
-            Assert.AreEqual(102, groups.Count);
+            Assert.AreEqual(68, groups.Count);
+        }
+
+        private AlgSpec[] BuildCapabilities()
+        {
+            var caps = new Capability[ParameterValidator.VALID_MODULI.Length];
+            for (var i = 0; i < caps.Length; i++)
+            {
+                caps[i] = new Capability
+                {
+                    Modulo = ParameterValidator.VALID_MODULI[i],
+                    HashAlgs = ParameterValidator.VALID_HASH_ALGS,
+                    PrimeTests = ParameterValidator.VALID_PRIME_TESTS
+                };
+            }
+
+            var algSpecs = new AlgSpec[ParameterValidator.VALID_KEY_GEN_MODES.Length];
+            for (var i = 0; i < algSpecs.Length; i++)
+            {
+                algSpecs[i] = new AlgSpec
+                {
+                    RandPQ = ParameterValidator.VALID_KEY_GEN_MODES[i],
+                    Capabilities = caps
+                };
+            }
+
+            return algSpecs;
         }
     }
 }

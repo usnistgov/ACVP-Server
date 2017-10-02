@@ -25,8 +25,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [TestCase("null", new object[] { null })]
         [TestCase("empty", new object[] { })]
         [TestCase("Invalid", new object[] { "notValid" })]
-        [TestCase("Partially valid", new object[] { "B.3.2", "notValid" })]
-        [TestCase("Partially valid with null", new object[] { "B.3.", null })]
+        [TestCase("Partially valid", new object[] { "b.3.2", "notValid" })]
+        [TestCase("Partially valid with null", new object[] { "b.3.", null })]
         public void ShouldReturnErrorWithInvalidKeyGenMode(string label, object[] mode)
         {
             var strAlgs = mode.Select(v => (string)v).ToArray();
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [TestCase("null", new object[] { null })]
         [TestCase("empty", new object[] { })]
         [TestCase("Invalid", new object[] { "notValid" })]
-        [TestCase("Partially valid", new object[] { "SHA-224", "notValid" })]
+        [TestCase("Partially valid", new object[] { "sha-224", "notValid" })]
         [TestCase("Partially valid with null", new object[] { "HA-512/256", null })]
         public void ShouldReturnErrorWithInvalidHashAlgorithm(string label, object[] hashAlg)
         {
@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithKeyGenModes(new[] {"B.3.2", "B.3.3"})
+                    .WithKeyGenModes(new[] {"b.3.2", "b.3.3"})
                     .Build()
             );
 
@@ -98,7 +98,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithHashAlgs(new [] {"SHA-384", "SHA-512"})
+                    .WithHashAlgs(new [] {"sha-384", "sha-512"})
                     .Build()
             );
 
@@ -125,15 +125,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         public void ShouldValidateHex(string hex)
         {
             var subject = new ParameterValidator();
-            var result = subject.Validate(new Parameters
-            {
-                Moduli = new [] {2048},
-                HashAlgs = new [] {"SHA-1"},
-                KeyGenModes = new [] {"B.3.2"},
-                PubExpMode = "fixed",
-                PrimeTests = new[] { "tblC2" },
-                FixedPubExp = hex
-            });
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithPubExpMode("fixed")
+                    .WithFixedPubExp(hex)
+                    .Build()
+            );
 
             Assert.IsTrue(result.Success, result.ErrorMessage);
         }
@@ -145,15 +142,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         public void ShouldNotValidateInvalidHex(string hex)
         {
             var subject = new ParameterValidator();
-            var result = subject.Validate(new Parameters
-            {
-                Moduli = new[] { 2048 },
-                HashAlgs = new[] { "SHA-1" },
-                KeyGenModes = new[] { "B.3.2" },
-                PrimeTests = new[] { "tblC2" },
-                PubExpMode = "fixed",
-                FixedPubExp = hex
-            });
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithPubExpMode("fixed")
+                    .WithFixedPubExp(hex)
+                    .Build()
+            );
 
             Assert.IsFalse(result.Success);
         }
@@ -161,26 +155,24 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         public class ParameterBuilder
         {
             private string _algorithm;
+            private string _mode;
             private string[] _keyGenModes;
             private string[] _hashAlgs;
             private int[] _moduli;
             private string[] _primeTests;
             private string _pubExpMode;
+            private string _fixedPubExp;
 
             public ParameterBuilder()
             {
-                _algorithm = "RSA-KeyGen";
-                _keyGenModes = new[] {"B.3.4", "B.3.6"};
+                _algorithm = "RSA";
+                _mode = "KeyGen";
+                _keyGenModes = new[] {"b.3.4", "b.3.6"};
                 _moduli = new[] {2048};
-                _hashAlgs = new[] {"SHA-1", "SHA-256"};
-                _primeTests = new[] {"tblC2", "tblC3"};
+                _hashAlgs = new[] {"sha-1", "sha-256"};
+                _primeTests = new[] {"tblc2", "tblc3"};
                 _pubExpMode = "random";
-            }
-
-            public ParameterBuilder WithAlgorithm(string value)
-            {
-                _algorithm = value;
-                return this;
+                _fixedPubExp = "";
             }
 
             public ParameterBuilder WithKeyGenModes(string[] value)
@@ -213,16 +205,42 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 return this;
             }
 
+            public ParameterBuilder WithFixedPubExp(string value)
+            {
+                _fixedPubExp = value;
+                return this;
+            }
+
             public Parameters Build()
             {
+                var caps = new Capability[_moduli.Length];
+                for (var i = 0; i < caps.Length; i++)
+                {
+                    caps[i] = new Capability
+                    {
+                        Modulo = _moduli[i],
+                        HashAlgs = _hashAlgs,
+                        PrimeTests = _primeTests
+                    };
+                }
+
+                var algSpecs = new AlgSpec[_keyGenModes.Length];
+                for (var i = 0; i < algSpecs.Length; i++)
+                {
+                    algSpecs[i] = new AlgSpec
+                    {
+                        RandPQ = _keyGenModes[i],
+                        Capabilities = caps
+                    };
+                }
+
                 return new Parameters
                 {
                     Algorithm = _algorithm,
-                    KeyGenModes = _keyGenModes,
-                    HashAlgs = _hashAlgs,
-                    Moduli = _moduli,
+                    Mode = _mode,
                     PubExpMode = _pubExpMode,
-                    PrimeTests = _primeTests
+                    FixedPubExp = _fixedPubExp,
+                    AlgSpecs = algSpecs
                 };
             }
         }

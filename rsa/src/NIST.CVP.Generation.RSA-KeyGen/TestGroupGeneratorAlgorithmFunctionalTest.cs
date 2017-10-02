@@ -14,28 +14,36 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         {
             var testGroups = new List<TestGroup>();
 
-            foreach (var mode in parameters.KeyGenModes)
+            foreach (var algSpec in parameters.AlgSpecs)
             {
-                // No AFTs for this mode
-                if (mode.ToLower() == "b.3.3")
+                var mode = RSAEnumHelpers.StringToKeyGenMode(algSpec.RandPQ);
+                var pubExpMode = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode);
+
+                BitString pubExpVal = new BitString(0);
+                if (pubExpMode == PubExpModes.FIXED)
+                {
+                    pubExpVal = new BitString(parameters.FixedPubExp);
+                }
+
+                if (mode == KeyGenModes.B33)
                 {
                     continue;
                 }
 
-                foreach (var modulo in parameters.Moduli)
+                foreach (var capability in algSpec.Capabilities)
                 {
                     // All provable
-                    if (mode.ToLower() == "b.3.2" || mode.ToLower() == "b.3.4")
+                    if (mode == KeyGenModes.B32 || mode == KeyGenModes.B34)
                     {
-                        foreach (var hashAlg in parameters.HashAlgs)
+                        foreach (var hashAlg in capability.HashAlgs)
                         {
                             var testGroup = new TestGroup
                             {
-                                Mode = RSAEnumHelpers.StringToKeyGenMode(mode),
-                                Modulo = modulo,
+                                Mode = mode,
+                                Modulo = capability.Modulo,
                                 HashAlg = SHAEnumHelpers.StringToHashFunction(hashAlg),
-                                PubExp = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode),
-                                FixedPubExp = new BitString(parameters.FixedPubExp),
+                                PubExp = pubExpMode,
+                                FixedPubExp = pubExpVal,
                                 InfoGeneratedByServer = parameters.InfoGeneratedByServer,
                                 TestType = TEST_TYPE
                             };
@@ -45,20 +53,20 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     }
 
                     // Both probable and provable
-                    if (mode.ToLower() == "b.3.5")
+                    if (mode == KeyGenModes.B35)
                     {
-                        foreach (var hashAlg in parameters.HashAlgs)
+                        foreach (var hashAlg in capability.HashAlgs)
                         {
-                            foreach (var primeTest in parameters.PrimeTests)
+                            foreach (var primeTest in capability.PrimeTests)
                             {
                                 var testGroup = new TestGroup
                                 {
-                                    Mode = RSAEnumHelpers.StringToKeyGenMode(mode),
-                                    Modulo = modulo,
+                                    Mode = mode,
+                                    Modulo = capability.Modulo,
                                     PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest),
                                     HashAlg = SHAEnumHelpers.StringToHashFunction(hashAlg),
-                                    PubExp = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode),
-                                    FixedPubExp = new BitString(parameters.FixedPubExp),
+                                    PubExp = pubExpMode,
+                                    FixedPubExp = pubExpVal,
                                     InfoGeneratedByServer = parameters.InfoGeneratedByServer,
                                     TestType = TEST_TYPE
                                 };
@@ -69,17 +77,17 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     }
 
                     // All probable
-                    if (mode.ToLower() == "b.3.6")
+                    if (mode == KeyGenModes.B36)
                     {
-                        foreach (var primeTest in parameters.PrimeTests)
+                        foreach (var primeTest in capability.PrimeTests)
                         {
                             var testGroup = new TestGroup
                             {
-                                Mode = RSAEnumHelpers.StringToKeyGenMode(mode),
-                                Modulo = modulo,
+                                Mode = mode,
+                                Modulo = capability.Modulo,
                                 PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest),
-                                PubExp = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode),
-                                FixedPubExp = new BitString(parameters.FixedPubExp),
+                                PubExp = pubExpMode,
+                                FixedPubExp = pubExpVal,
                                 InfoGeneratedByServer = parameters.InfoGeneratedByServer,
                                 TestType = TEST_TYPE
                             };

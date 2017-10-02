@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
@@ -15,9 +16,34 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public bool InfoGeneratedByServer { get; set; } = true;
         public string PubExpMode { get; set; }
         public string FixedPubExp { get; set; } = "";
-        public string[] KeyGenModes { get; set; }
-        public int[] Moduli { get; set; }
-        public string[] HashAlgs { get; set; }
-        public string[] PrimeTests { get; set; }
+
+        [JsonProperty(PropertyName = "algSpecs")]
+        public AlgSpec[] AlgSpecs;
+
+        //public string[] KeyGenModes { get; set; }
+        //public int[] Moduli { get; set; }
+        //public string[] HashAlgs { get; set; }
+        //public string[] PrimeTests { get; set; }
+    }
+
+    public class AlgSpec
+    {
+        [JsonProperty(PropertyName = "randPQ")]
+        public string RandPQ;
+
+        [JsonProperty(PropertyName = "caps")]
+        public Capability[] Capabilities;
+    }
+
+    public class Capability
+    {
+        [JsonProperty(PropertyName = "modulo")]
+        public int Modulo;
+
+        [JsonProperty(PropertyName = "hashAlg")]
+        public string[] HashAlgs;
+
+        [JsonProperty(PropertyName = "primeTest")]
+        public string[] PrimeTests;
     }
 }

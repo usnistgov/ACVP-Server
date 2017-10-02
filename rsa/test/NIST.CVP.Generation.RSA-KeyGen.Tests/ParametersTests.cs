@@ -15,12 +15,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             var parameters = new Parameters
             {
-                Algorithm = "RSA-KeyGen",
-                KeyGenModes = new[] { "B.3.2", "B.3.5" },
+                Algorithm = "RSA",
+                Mode = "KeyGen",
+                PubExpMode = "random",
                 IsSample = false,
-                Moduli = new [] {2048, 3072, 4096},
-                HashAlgs = new [] {"SHA-1", "SHA-256"},
-                PubExpMode = "random"
+                InfoGeneratedByServer = false,
+                AlgSpecs = BuildCapabilities()
             };
 
             Assert.IsNotNull(parameters);
@@ -31,16 +31,42 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             var parameters = new Parameters
             {
-                Algorithm = "RSA-KeyGen",
-                KeyGenModes = new[] { "B.3.2", "B.3.5" },
+                Algorithm = "RSA",
+                Mode = "KeyGen",
+                InfoGeneratedByServer = true,
                 IsSample = false,
-                Moduli = new[] { 2048, 3072, 4096 },
-                HashAlgs = new[] { "SHA-1", "SHA-256" },
                 PubExpMode = "fixed",
-                FixedPubExp = "010001"
+                FixedPubExp = "010001",
+                AlgSpecs = BuildCapabilities()
             };
 
-            Assert.AreEqual("RSA-KeyGen", parameters.Algorithm);
+            Assert.AreEqual("RSA", parameters.Algorithm);
+        }
+
+        private AlgSpec[] BuildCapabilities()
+        {
+            var caps = new Capability[ParameterValidator.VALID_MODULI.Length];
+            for (var i = 0; i < caps.Length; i++)
+            {
+                caps[i] = new Capability
+                {
+                    Modulo = ParameterValidator.VALID_MODULI[i],
+                    HashAlgs = ParameterValidator.VALID_HASH_ALGS,
+                    PrimeTests = ParameterValidator.VALID_PRIME_TESTS
+                };
+            }
+
+            var algSpecs = new AlgSpec[ParameterValidator.VALID_KEY_GEN_MODES.Length];
+            for (var i = 0; i < algSpecs.Length; i++)
+            {
+                algSpecs[i] = new AlgSpec
+                {
+                    RandPQ = ParameterValidator.VALID_KEY_GEN_MODES[i],
+                    Capabilities = caps
+                };
+            }
+
+            return algSpecs;
         }
     }
 }
