@@ -17,14 +17,14 @@ namespace NIST.CVP.Crypto.KAS.KC
                 new List<(string message, bool thisPartyInfoFirst, KeyAgreementRole thisPartyKeyAgreementRole, KeyConfirmationRole
                     thisPartyKeyConfirmationRole, KeyConfirmationDirection keyConfirmationType)>()
                 {
-                    ("KC_1_U", true, KeyAgreementRole.Initiator, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral),
-                    ("KC_1_V", false, KeyAgreementRole.Initiator, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral),
-                    ("KC_1_V", true, KeyAgreementRole.Responder, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral),
-                    ("KC_1_U", false, KeyAgreementRole.Responder, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral),
-                    ("KC_2_U", true, KeyAgreementRole.Initiator, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral),
-                    ("KC_2_V", false, KeyAgreementRole.Initiator, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral),
-                    ("KC_2_V", true, KeyAgreementRole.Responder, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral),
-                    ("KC_2_U", false, KeyAgreementRole.Responder, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral),
+                    ("KC_1_U", true, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral),
+                    ("KC_1_V", false, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral),
+                    ("KC_1_V", true, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral),
+                    ("KC_1_U", false, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral),
+                    ("KC_2_U", true, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral),
+                    ("KC_2_V", false, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral),
+                    ("KC_2_V", true, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral),
+                    ("KC_2_U", false, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral),
                 };
 
         protected IKeyConfirmationParameters _keyConfirmationParameters;

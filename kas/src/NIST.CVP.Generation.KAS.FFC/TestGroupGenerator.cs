@@ -9,6 +9,7 @@ using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KAS.FFC
@@ -95,13 +96,13 @@ namespace NIST.CVP.Generation.KAS.FFC
                 new Dictionary<FfcParameterSet, List<HashFunction>>
                 {
                     {
-                        FfcParameterSet.FB,
+                        FfcParameterSet.Fb,
                         GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Fb)
                             .OrderBy(ob => Guid.NewGuid())
                             .ToList()
                     },
                     {
-                        FfcParameterSet.FC,
+                        FfcParameterSet.Fc,
                         GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Fc)
                             .OrderBy(ob => Guid.NewGuid())
                             .ToList()
@@ -123,7 +124,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                                 TestType = testType,
                                 Function = flagFunctions,
                                 HashAlg = parameterSet.Value.First(),
-                                KasRole = Enum.Parse<KeyAgreementRole>(role, true),
+                                KasRole = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementRole>(role),
                                 ParmSet = parameterSet.Key
                             });
                         }
@@ -143,7 +144,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 new Dictionary<FfcParameterSet, (List<HashFunction> hashFunc, List<MacOptionsBase> mac)>
                 {
                     {
-                        FfcParameterSet.FB,
+                        FfcParameterSet.Fb,
                         (GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Fb)
                             .OrderBy(ob => Guid.NewGuid())
                             .ToList(),
@@ -152,7 +153,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                             .ToList())
                     },
                     {
-                        FfcParameterSet.FC,
+                        FfcParameterSet.Fc,
                         (GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Fc).OrderBy(ob => Guid.NewGuid())
                             .ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Fc)
@@ -182,7 +183,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                                     TestType = testType,
                                     Function = flagFunctions,
                                     HashAlg = parameterSet.Value.hashFunc.First(),
-                                    KasRole = Enum.Parse<KeyAgreementRole>(role, true),
+                                    KasRole = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementRole>(role),
                                     ParmSet = parameterSet.Key,
                                     KdfType = kdf.Key,
                                     OiPattern = kdf.Value,

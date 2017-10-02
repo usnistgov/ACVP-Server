@@ -14,8 +14,8 @@ namespace NIST.CVP.Crypto.KAS
                 new Dictionary<FfcParameterSet, (int pLength, int qLength, int minHashLength, int minMacKeyLength, int
                     minMacLength)>()
                 {
-                    {FfcParameterSet.FB, ( 2048, 224, 224, 112, 112 )},
-                    {FfcParameterSet.FC, ( 2048, 256, 256, 128, 128 )}
+                    {FfcParameterSet.Fb, ( 2048, 224, 224, 112, 112 )},
+                    {FfcParameterSet.Fc, ( 2048, 256, 256, 128, 128 )}
                 };
 
         public static (int pLength, int qLength, int minHashLength, int minMacKeyLength, int minMacLength) GetDetailsForParameterSet(FfcParameterSet parameterSet)

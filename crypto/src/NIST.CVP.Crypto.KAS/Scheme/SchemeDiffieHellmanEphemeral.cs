@@ -59,7 +59,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             // TODO confirm party u always generates in specification
             // Key confirmation not possible for dhEphem scheme, MACData requires the use of a nonce
             // Initiator should generate (doesn't actually matter who generates, just that someone does)
-            if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.Initiator 
+            if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU 
                 && SchemeParameters.KasMode == KasMode.KdfNoKc)
             {
                 NoKeyConfirmationNonce = EntropyProvider.GetEntropy(128);
@@ -97,7 +97,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         {
             // key confirmation not possible with this scheme, proceed with no key confirmation
             // No key confirmation nonce provided by party u.
-            var noKeyConfirmationNonce = SchemeParameters.KeyAgreementRole == KeyAgreementRole.Initiator
+            var noKeyConfirmationNonce = SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
                 ? NoKeyConfirmationNonce
                 : otherPartyInformation.NoKeyConfirmationNonce;
 

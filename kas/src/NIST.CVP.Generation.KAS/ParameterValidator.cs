@@ -158,8 +158,8 @@ namespace NIST.CVP.Generation.KAS
                 return;
             }
 
-            ValidateParameterSet(kasMode.ParameterSet.Fb, false, FfcParameterSet.FB, errorResults);
-            ValidateParameterSet(kasMode.ParameterSet.Fc, false, FfcParameterSet.FC, errorResults);
+            ValidateParameterSet(kasMode.ParameterSet.Fb, false, FfcParameterSet.Fb, errorResults);
+            ValidateParameterSet(kasMode.ParameterSet.Fc, false, FfcParameterSet.Fc, errorResults);
         }
 
         private void ValidateKdfNoKc(KdfNoKc kasMode, List<string> errorResults)
@@ -180,8 +180,8 @@ namespace NIST.CVP.Generation.KAS
                 return;
             }
 
-            ValidateParameterSet(kasMode.ParameterSet.Fb, true, FfcParameterSet.FB, errorResults);
-            ValidateParameterSet(kasMode.ParameterSet.Fc, true, FfcParameterSet.FC, errorResults);
+            ValidateParameterSet(kasMode.ParameterSet.Fb, true, FfcParameterSet.Fb, errorResults);
+            ValidateParameterSet(kasMode.ParameterSet.Fc, true, FfcParameterSet.Fc, errorResults);
             ValidateKdfOption(kasMode.KdfOption, errorResults);
         }
         #endregion kasModes

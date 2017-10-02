@@ -58,9 +58,9 @@ namespace NIST.CVP.Crypto.KAS.Tests
         public void ShouldReturnComponentOnlyKas()
         {
             var result = _subject
-                .WithKeyAgreementRole(KeyAgreementRole.Initiator)
+                .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
                 .WithScheme(FfcScheme.DhEphem)
-                .WithParameterSet(FfcParameterSet.FB)
+                .WithParameterSet(FfcParameterSet.Fb)
                 .WithAssurances(KasAssurance.None)
                 .WithPartyId(new BitString(1))
                 .BuildNoKdfNoKc()
@@ -80,9 +80,9 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 .Build();
 
             var result = _subject
-                .WithKeyAgreementRole(KeyAgreementRole.Initiator)
+                .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
                 .WithScheme(FfcScheme.DhEphem)
-                .WithParameterSet(FfcParameterSet.FB)
+                .WithParameterSet(FfcParameterSet.Fb)
                 .WithAssurances(KasAssurance.None)
                 .WithPartyId(new BitString(1))
                 .BuildKdfNoKc()
@@ -134,7 +134,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("45308211a07f231181276b44b873eb67726ca6aa5ecd39b4274f780409e15bfc98ac4680be5220a23b963e3b494602a80ce6cb6eb3f056e2a911ff7529f07fc53fa8840174698aac6a9dd540e86171cf2896a7337c0a839bfd9f24779c83f75b376da3c3c4d25d6b454e09dadbe230ee42115ae7ea79ace00b3c73bfd0c9913b0251177de4aae0ed54c041ff071346b2603360e5175faa9bbbc8fc50c5c657bba28da146674fa8a4f936da9d86511959785cd8e34c4b1f390b2cc68f574fd85e96e894d1b225ad43b3489af729c560b513a671e7fde2bd138fbd20605c74347e76ac50e230c57fec6dda275df29f770d47b91631e135778a51f3032bb1ef292f").ToPositiveBigInteger()
                 ), 
                 // this party role
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // this party Id
                 new BitString("a1b2c3d4e5"),
                 // private ephem this party
@@ -164,7 +164,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("45308211a07f231181276b44b873eb67726ca6aa5ecd39b4274f780409e15bfc98ac4680be5220a23b963e3b494602a80ce6cb6eb3f056e2a911ff7529f07fc53fa8840174698aac6a9dd540e86171cf2896a7337c0a839bfd9f24779c83f75b376da3c3c4d25d6b454e09dadbe230ee42115ae7ea79ace00b3c73bfd0c9913b0251177de4aae0ed54c041ff071346b2603360e5175faa9bbbc8fc50c5c657bba28da146674fa8a4f936da9d86511959785cd8e34c4b1f390b2cc68f574fd85e96e894d1b225ad43b3489af729c560b513a671e7fde2bd138fbd20605c74347e76ac50e230c57fec6dda275df29f770d47b91631e135778a51f3032bb1ef292f").ToPositiveBigInteger()
                 ), 
                 // this party role
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // this party Id
                 new BitString("a1b2c3d4e5"),
                 // private ephem this party
@@ -210,7 +210,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
             var kas = _subject
                 .WithKeyAgreementRole(keyAgreementRole)
                 .WithScheme(FfcScheme.DhEphem)
-                .WithParameterSet(FfcParameterSet.FB)
+                .WithParameterSet(FfcParameterSet.Fb)
                 .WithAssurances(KasAssurance.None)
                 .WithPartyId(thisPartyId)
                 .BuildNoKdfNoKc()
@@ -241,7 +241,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("61c9f88be5d914fe0d513bb1fdc319c9420702d1c3b9caa01bfb277b764ddd3312f2067a1251817217e6ff02642dd4d289616f6812a9371b5e4916a714b4ddce38c7a268e6014041af1b4604830c1d9da7f8f16067935f09c5918a1fefed54268489d46f95ae482d76a2d2166a95a28e8d9fa25539238f13c785db59b97c7fc1f9208f30ff594c397a8f5e8532c114b91cbdad95547c78b4a7470cf29acf062f066d5b6160accbdc2ff5fa2b74a3d12acda578ecc8f8898054c5b8f3099f85023c4c4b32cea181e5792614e799693569e6cff8b6ca2753f5b94111ed86b21f8e98b11b37cef7da999223899fff20abd3aa9062d8c03655fbb7d726111641efae").ToPositiveBigInteger()
                 ), 
                 // this party role
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // DSA/KDF hash mode
                 ModeValues.SHA2,
                 // DSA/KDF digest size
@@ -292,7 +292,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("61c9f88be5d914fe0d513bb1fdc319c9420702d1c3b9caa01bfb277b764ddd3312f2067a1251817217e6ff02642dd4d289616f6812a9371b5e4916a714b4ddce38c7a268e6014041af1b4604830c1d9da7f8f16067935f09c5918a1fefed54268489d46f95ae482d76a2d2166a95a28e8d9fa25539238f13c785db59b97c7fc1f9208f30ff594c397a8f5e8532c114b91cbdad95547c78b4a7470cf29acf062f066d5b6160accbdc2ff5fa2b74a3d12acda578ecc8f8898054c5b8f3099f85023c4c4b32cea181e5792614e799693569e6cff8b6ca2753f5b94111ed86b21f8e98b11b37cef7da999223899fff20abd3aa9062d8c03655fbb7d726111641efae").ToPositiveBigInteger()
                 ), 
                 // this party role
-                KeyAgreementRole.Responder,
+                KeyAgreementRole.ResponderPartyV,
                 // DSA/KDF hash mode
                 ModeValues.SHA2,
                 // DSA/KDF digest size
@@ -342,7 +342,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("a6003a64e8274e64d3f64352d5983af4a9082f85b74461762d1d001f5624ee556d9fae2277a64614f64ff424089fda44ad2ed2d3d6f9c7f1fa45db2128ffd179a6be2485b16fd3facea0e396ce2650631c387d8abe4e8e2ebc90a355543301bf2ca3ddcf9b2d563d28663c1ed2a3411013e91d633f797877f8974d2648dd37197aec63aaaf674210c7849f0fd9b7d8331cd8b3b7d0f76895d7d65951f2c5d414a5d3289b444560c7a5ba1d94e6e011ec2da9341a86252d6ebad9514c0b24aab71e25084ea9ed33f8b66e622c198aa9fde243c636fce29004dc5c5b0bf3d1bdeb9510d374307aaf7f7e63583a9788bc9dd0df9045235ceed562e105bbb0cff992").ToPositiveBigInteger()
                 ), 
                 // this party role
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // DSA/KDF hash mode
                 ModeValues.SHA2,
                 // DSA/KDF digest size
@@ -393,7 +393,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("a6003a64e8274e64d3f64352d5983af4a9082f85b74461762d1d001f5624ee556d9fae2277a64614f64ff424089fda44ad2ed2d3d6f9c7f1fa45db2128ffd179a6be2485b16fd3facea0e396ce2650631c387d8abe4e8e2ebc90a355543301bf2ca3ddcf9b2d563d28663c1ed2a3411013e91d633f797877f8974d2648dd37197aec63aaaf674210c7849f0fd9b7d8331cd8b3b7d0f76895d7d65951f2c5d414a5d3289b444560c7a5ba1d94e6e011ec2da9341a86252d6ebad9514c0b24aab71e25084ea9ed33f8b66e622c198aa9fde243c636fce29004dc5c5b0bf3d1bdeb9510d374307aaf7f7e63583a9788bc9dd0df9045235ceed562e105bbb0cff992").ToPositiveBigInteger()
                 ), 
                 // this party role
-                KeyAgreementRole.Responder,
+                KeyAgreementRole.ResponderPartyV,
                 // DSA/KDF hash mode
                 ModeValues.SHA2,
                 // DSA/KDF digest size
@@ -445,7 +445,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("005b768d45d72e17a87e8b1b34d748066159bd0b6abc802364978fa50a269fba4aead7a2b648b710441b4f99241b1454e10146c217607ef4f19d4a2eed35d3fe29e80b434e43d0c6c016b4c700f780a1b4da0ec03db827ca1b1d583624188a1e21817bf56aef84d0ee1fae7b694a97db9bfbf32027326c7a0add10636090810831920520dd7cfa9f91362c80d34c0e900dcd7d6e234ba45d7af1bcab581d7b9946e4ed7008e7404d01262a9ce8a47d339b42fff35a32bd232a431d1fbae6c27b146e6039fbff5890cd4372e81d2dfed40223e82c90aca36bb4f513574d53c3b3eafe566cccbc77c1255985ca73e91afd0498401f22157a6ea88322ad293512c4").ToPositiveBigInteger()
                 ), 
                 // this party role
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // DSA/KDF hash mode
                 ModeValues.SHA2,
                 // DSA/KDF digest size
@@ -496,7 +496,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("005b768d45d72e17a87e8b1b34d748066159bd0b6abc802364978fa50a269fba4aead7a2b648b710441b4f99241b1454e10146c217607ef4f19d4a2eed35d3fe29e80b434e43d0c6c016b4c700f780a1b4da0ec03db827ca1b1d583624188a1e21817bf56aef84d0ee1fae7b694a97db9bfbf32027326c7a0add10636090810831920520dd7cfa9f91362c80d34c0e900dcd7d6e234ba45d7af1bcab581d7b9946e4ed7008e7404d01262a9ce8a47d339b42fff35a32bd232a431d1fbae6c27b146e6039fbff5890cd4372e81d2dfed40223e82c90aca36bb4f513574d53c3b3eafe566cccbc77c1255985ca73e91afd0498401f22157a6ea88322ad293512c4").ToPositiveBigInteger()
                 ), 
                 // this party role
-                KeyAgreementRole.Responder,
+                KeyAgreementRole.ResponderPartyV,
                 // DSA/KDF hash mode
                 ModeValues.SHA2,
                 // DSA/KDF digest size
@@ -548,7 +548,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("37a7b2a094ed6253784d51c71a4a7407f0727df15e480a02b0ff2f9befdb0e92c0d63e482c6909e5337373abe347ceaec25a9f2a23f1770c2447bfb5c35dbda80d3f00d8b6569a0165a3d52f1cff03e02b67be47b2f26ebd0fc13299fd0317719c3bcbbcbba0a982915b5d68fb4c5c483c3df12052b56ceacd16176c783d56422b1366cd5ce65922b734a1780acf35b4a658cfe8166469ace04b87a33e1e8d4603ae3f9607d1e708137d581aaf2cd86608ca06e52cddbe475f8bdb4597cd5b55f47380276c86d08d8ddbbef4ee3ca76cefe6ff9c74d4d5d1be3407e30720be34cf41f482be8bc6ed6e89ea7cc2d164da1dc1c9d0e2762eef983dc9e96f3bfd50").ToPositiveBigInteger()
                 ), 
                 // this party role
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // DSA/KDF hash mode
                 ModeValues.SHA2,
                 // DSA/KDF digest size
@@ -599,7 +599,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("37a7b2a094ed6253784d51c71a4a7407f0727df15e480a02b0ff2f9befdb0e92c0d63e482c6909e5337373abe347ceaec25a9f2a23f1770c2447bfb5c35dbda80d3f00d8b6569a0165a3d52f1cff03e02b67be47b2f26ebd0fc13299fd0317719c3bcbbcbba0a982915b5d68fb4c5c483c3df12052b56ceacd16176c783d56422b1366cd5ce65922b734a1780acf35b4a658cfe8166469ace04b87a33e1e8d4603ae3f9607d1e708137d581aaf2cd86608ca06e52cddbe475f8bdb4597cd5b55f47380276c86d08d8ddbbef4ee3ca76cefe6ff9c74d4d5d1be3407e30720be34cf41f482be8bc6ed6e89ea7cc2d164da1dc1c9d0e2762eef983dc9e96f3bfd50").ToPositiveBigInteger()
                 ), 
                 // this party role
-                KeyAgreementRole.Responder,
+                KeyAgreementRole.ResponderPartyV,
                 // DSA/KDF hash mode
                 ModeValues.SHA2,
                 // DSA/KDF digest size
@@ -674,7 +674,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     null,
                     null,
                     // when "party v" noKeyConfirmationNonce is provided as a part of party U's shared information
-                    keyAgreementRole == KeyAgreementRole.Responder ? noKeyConfirmationNonce : null
+                    keyAgreementRole == KeyAgreementRole.ResponderPartyV ? noKeyConfirmationNonce : null
                 );
 
             // u/v party info comprised of ID, and dkmNonce (when available), find the bitlength of both parties contributed information 
@@ -707,7 +707,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
             var kas = _subject
                 .WithKeyAgreementRole(keyAgreementRole)
                 .WithScheme(FfcScheme.DhEphem)
-                .WithParameterSet(FfcParameterSet.FB)
+                .WithParameterSet(FfcParameterSet.Fb)
                 .WithAssurances(KasAssurance.None)
                 .WithPartyId(thisPartyId)
                 .BuildKdfNoKc()
@@ -760,7 +760,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     null,
                     null,
                     // when "party v" noKeyConfirmationNonce is provided as a part of party U's shared information
-                    keyAgreementRole == KeyAgreementRole.Responder ? noKeyConfirmationNonce : null
+                    keyAgreementRole == KeyAgreementRole.ResponderPartyV ? noKeyConfirmationNonce : null
                 );
 
             // u/v party info comprised of ID, and dkmNonce (when available), find the bitlength of both parties contributed information 

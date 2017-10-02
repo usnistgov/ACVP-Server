@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Crypto.KAS.Enums
+﻿using System.ComponentModel;
+
+namespace NIST.CVP.Crypto.KAS.Enums
 {
     /// <summary>
     /// The role of the entity involved in the Key Agreement
@@ -8,10 +10,12 @@
         /// <summary>
         /// The initiator, aka party U
         /// </summary>
-        Initiator,
+        [Description("initiator")]
+        InitiatorPartyU,
         /// <summary>
         /// The responder, aka party V
         /// </summary>
-        Responder
+        [Description("responder")]
+        ResponderPartyV
     }
 }

@@ -39,7 +39,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 1 - Initiator, provider, unilateral",
                 // thisKaRole
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
@@ -59,7 +59,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 2 - test 1 inverse",
                 // thisKaRole
-                KeyAgreementRole.Responder,
+                KeyAgreementRole.ResponderPartyV,
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
@@ -79,7 +79,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 3 - Initiator, recipient, unilateral",
                 // thisKaRole
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
@@ -99,7 +99,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 4 - test 3 inverse",
                 // thisKaRole
-                KeyAgreementRole.Responder,
+                KeyAgreementRole.ResponderPartyV,
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
@@ -119,7 +119,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 5 - responder, provider, unilateral",
                 // thisKaRole
-                KeyAgreementRole.Responder,
+                KeyAgreementRole.ResponderPartyV,
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
@@ -139,7 +139,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 6 - test 5 inverse",
                 // thisKaRole
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
@@ -159,7 +159,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 7 - responser, recipient, unilateral",
                 // thisKaRole
-                KeyAgreementRole.Responder,
+                KeyAgreementRole.ResponderPartyV,
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
@@ -179,7 +179,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 8 - test 7 inverse",
                 // thisKaRole
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
@@ -199,7 +199,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 8 - initiator, provider, bilateral",
                 // thisKaRole
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
@@ -219,7 +219,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 9 - test 8 inverse",
                 // thisKaRole
-                KeyAgreementRole.Responder,
+                KeyAgreementRole.ResponderPartyV,
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
@@ -239,7 +239,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 10 - initiator, recipient, bilateral",
                 // thisKaRole
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
@@ -259,7 +259,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 11 - test 10 inverse",
                 // thisKaRole
-                KeyAgreementRole.Responder,
+                KeyAgreementRole.ResponderPartyV,
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
@@ -279,7 +279,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 12 - responder, provider, bilateral",
                 // thisKaRole
-                KeyAgreementRole.Responder,
+                KeyAgreementRole.ResponderPartyV,
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
@@ -299,7 +299,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 13 - test 12 inverse",
                 // thisKaRole
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
@@ -319,7 +319,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 14 - responder, recipient, bilateral",
                 // thisKaRole
-                KeyAgreementRole.Responder,
+                KeyAgreementRole.ResponderPartyV,
                 // thisKcRole
                 KeyConfirmationRole.Recipient,
                 // thisKcType
@@ -339,7 +339,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 15 - test 14 inverse",
                 // thisKaRole
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
@@ -359,7 +359,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
             {
                 "test 16 - initiator, provider, unilateral, nonce instead of public key",
                 // thisKaRole
-                KeyAgreementRole.Initiator,
+                KeyAgreementRole.InitiatorPartyU,
                 // thisKcRole
                 KeyConfirmationRole.Provider,
                 // thisKcType
