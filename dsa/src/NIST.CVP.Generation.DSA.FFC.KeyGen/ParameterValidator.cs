@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
-    public class ParameterValidator : ParameterValidatorBase
+    public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         public static int[] VALID_L = { 2048, 3072 };
         public static int[] VALID_N = { 224, 256 };
