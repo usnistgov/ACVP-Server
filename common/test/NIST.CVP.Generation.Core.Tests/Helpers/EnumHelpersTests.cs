@@ -26,5 +26,12 @@ namespace NIST.CVP.Generation.Core.Tests.Helpers
         {
             Assert.AreEqual(expectedValue, EnumHelpers.GetEnumDescriptionFromEnum(value));
         }
+
+        [Test]
+        [TestCase(TestDescription, FakeEnum.Third)]
+        public void ShouldReturnCorrectEnumFromDescription(string description, FakeEnum expectedEnum)
+        {
+            Assert.AreEqual(expectedEnum, EnumHelpers.GetEnumFromEnumDescription<FakeEnum>(description));
+        }
     }
 }

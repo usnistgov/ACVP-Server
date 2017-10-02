@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -24,6 +25,23 @@ namespace NIST.CVP.Generation.Core.Helpers
             }
 
             return enumToGetDescriptionFrom.ToString();
+        }
+
+        public static T GetEnumFromEnumDescription<T>(string enumDescription)
+            where T : struct
+        {
+            if (!typeof(T).IsEnum)
+            {
+                throw new InvalidOperationException("Type is not an enum");
+            }
+
+            return (T)typeof(T)
+                .GetFields()
+                .First(
+                    f => f.GetCustomAttributes<DescriptionAttribute>()
+                    .Any(a => a.Description.Equals(enumDescription, StringComparison.OrdinalIgnoreCase))
+                )
+                .GetValue(null);
         }
     }
 }
