@@ -102,6 +102,11 @@ namespace NIST.CVP.Crypto.DSA.FFC
 
         public FfcKeyPairValidateResult ValidateKeyPair(FfcDomainParameters domainParameters, FfcKeyPair keyPair)
         {
+            if (keyPair.PrivateKeyX <= 0 || keyPair.PrivateKeyX >= domainParameters.Q)
+            {
+                return new FfcKeyPairValidateResult("Invalid key pair, x must satisfy 0 < x < q");
+            }
+
             if (keyPair.PublicKeyY == BigInteger.ModPow(domainParameters.G, keyPair.PrivateKeyX, domainParameters.P))
             {
                 return new FfcKeyPairValidateResult();

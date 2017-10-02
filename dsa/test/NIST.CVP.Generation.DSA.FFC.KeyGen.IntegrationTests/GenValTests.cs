@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            // Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
             };
 
             var targetFolder = GetTestFolder("GenFailed");
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileMinimalTestCases(targetFolder);
 
             var result = Program.Main(new string[] { fileName });
             Assert.AreEqual(1, result);
@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
             };
 
             var targetFolder = GetTestFolder("ValFailed");
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileMinimalTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
@@ -112,7 +112,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
             };
 
             var targetFolder = GetTestFolder("ValException");
-            var fileName = GetTestFileFewTestCases(targetFolder);
+            var fileName = GetTestFileMinimalTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
 
