@@ -213,14 +213,14 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                     .BuildKdfOptions()
                                             )
                                             .WithParameterSets(
-                                                new ParameterSetBuilder(false)
+                                                new ParameterSetBuilder(true)
                                                     .WithFb(
-                                                        new ParameterSetBaseBuilder(false)
+                                                        new ParameterSetBaseBuilder(true)
                                                             .WithHashAlg(new string[] {"SHA2-256"}) // 5, 6, 9, 10
                                                             .WithMacOptions(
                                                                 new MacOptionsBuilder()
                                                                     .WithHmac2_224(
-                                                                        new MacOptionsBaseBuilder(false)
+                                                                        new MacOptionsBaseBuilder(true)
                                                                             .BuildHmac2_224() // 5, 6, 9, 10
                                                                     )
                                                                     .WithAesCcm(null)
@@ -232,12 +232,12 @@ namespace NIST.CVP.Generation.KAS.Tests
                                                             )
                                                             .BuildParameterSetBaseFb()
                                                     )
-                                                    .WithFc(new ParameterSetBaseBuilder(false)
+                                                    .WithFc(new ParameterSetBaseBuilder(true)
                                                         .WithHashAlg(new string[] {"SHA2-256"}) // 7, 8, 11, 12
                                                         .WithMacOptions(
                                                             new MacOptionsBuilder()
                                                                 .WithHmac2_224(
-                                                                    new MacOptionsBaseBuilder(false)
+                                                                    new MacOptionsBaseBuilder(true)
                                                                         .BuildHmac2_224() // 7, 8, 11, 12
                                                                 )
                                                                 .WithAesCcm(null)

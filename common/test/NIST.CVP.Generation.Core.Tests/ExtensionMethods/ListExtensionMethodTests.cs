@@ -50,11 +50,13 @@ namespace NIST.CVP.Generation.Core.Tests.ExtensionMethods
         {
             new object[]
             {
+                "Null, don't add",
                 null,
                 false
             },
             new object[]
             {
+                "Object w/ values in object",
                 new TestObject()
                 {
                     Foo = "Bar"
@@ -63,6 +65,7 @@ namespace NIST.CVP.Generation.Core.Tests.ExtensionMethods
             },
             new object[]
             {
+                "Empty object",
                 new TestObject(),
                 true
             }
@@ -70,7 +73,7 @@ namespace NIST.CVP.Generation.Core.Tests.ExtensionMethods
 
         [Test]
         [TestCaseSource(nameof(_testListAddIfNotNull))]
-        public void ShouldAddWhenNotNull(TestObject testObject, bool shouldAdd)
+        public void ShouldAddWhenNotNull(string label, TestObject testObject, bool shouldAdd)
         {
             List<TestObject> list = new List<TestObject>();
 
