@@ -17,15 +17,16 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
 
+        public FfcDomainParameters DomainParams { get; set; }
         public FfcKeyPair Key { get; set; }
         public BitString Message { get; set; }
         public FfcSignature Signature { get; set; }
 
         // Needed for SetString, FireHoseTests
-        private BigInteger x;
-        private BigInteger y;
-        private BigInteger r;
-        private BigInteger s;
+        private BigInteger _xSetString;
+        private BigInteger _ySetString;
+        private BigInteger _rSetString;
+        private BigInteger _sSetString;
 
         public TestCase() { }
 
@@ -43,25 +44,32 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
+            ParseKey((ExpandoObject)source);
+            ParseDomainParams((ExpandoObject)source);
+            ParseSignature((ExpandoObject)source);
 
-            BigInteger x, y;
-
-            if (((ExpandoObject)source).ContainsProperty("x"))
+            if (((ExpandoObject)source).ContainsProperty("message"))
             {
-                x = ((ExpandoObject)source).GetBigIntegerFromProperty("x");
+                Message = ((ExpandoObject)source).GetBitStringFromProperty("message");
             }
-
-            if (((ExpandoObject)source).ContainsProperty("y"))
-            {
-                y = ((ExpandoObject)source).GetBigIntegerFromProperty("y");
-            }
-
-            Key = new FfcKeyPair(x, y);
         }
 
         public bool Merge(ITestCase otherTest)
         {
-            throw new NotImplementedException();
+            if (TestCaseId != otherTest.TestCaseId)
+            {
+                return false;
+            }
+
+            var otherTypedTest = (TestCase)otherTest;
+
+            if (Message == null && otherTypedTest.Message != null)
+            {
+                Message = otherTypedTest.Message.GetDeepCopy();
+                return true;
+            }
+
+            return false;
         }
 
         public bool SetString(string name, string value)
@@ -74,16 +82,72 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             switch (name.ToLower())
             {
                 case "x":
-                    x = new BitString(value).ToPositiveBigInteger();
+                    //x = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "y":
-                    y = new BitString(value).ToPositiveBigInteger();
-                    Key = new FfcKeyPair(x, y);
+                    //y = new BitString(value).ToPositiveBigInteger();
+                    //Key = new FfcKeyPair(x, y);
                     return true;
             }
 
             return false;
+        }
+
+        private void ParseKey(ExpandoObject source)
+        {
+            BigInteger x, y;
+
+            if (source.ContainsProperty("x"))
+            {
+                x = source.GetBigIntegerFromProperty("x");
+            }
+
+            if (source.ContainsProperty("y"))
+            {
+                y = source.GetBigIntegerFromProperty("y");
+            }
+
+            Key = new FfcKeyPair(x, y);
+        }
+
+        private void ParseSignature(ExpandoObject source)
+        {
+            BigInteger r, s;
+
+            if (source.ContainsProperty("r"))
+            {
+                r = source.GetBigIntegerFromProperty("r");
+            }
+
+            if (source.ContainsProperty("s"))
+            {
+                s = source.GetBigIntegerFromProperty("s");
+            }
+
+            Signature = new FfcSignature(r, s);
+        }
+
+        private void ParseDomainParams(ExpandoObject source)
+        {
+            BigInteger p, q, g;
+
+            if (source.ContainsProperty("p"))
+            {
+                p = source.GetBigIntegerFromProperty("p");
+            }
+
+            if (source.ContainsProperty("q"))
+            {
+                q = source.GetBigIntegerFromProperty("q");
+            }
+
+            if (source.ContainsProperty("g"))
+            {
+                g = source.GetBigIntegerFromProperty("g");
+            }
+
+            DomainParams = new FfcDomainParameters(p, q, g);
         }
     }
 }

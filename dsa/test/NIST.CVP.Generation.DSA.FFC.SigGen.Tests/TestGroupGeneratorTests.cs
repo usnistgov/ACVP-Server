@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
             },
             new object[]
             {
-                3,
+                3 * 7,
                 new ParameterBuilder()
                     .WithCapabilities(new []
                         {

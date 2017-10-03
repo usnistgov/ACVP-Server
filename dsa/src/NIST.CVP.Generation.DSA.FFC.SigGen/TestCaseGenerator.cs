@@ -77,6 +77,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                 return new TestCaseGenerateResponse($"Exception generating signature: {sigResult.ErrorMessage}");
             }
 
+            testCase.DomainParams = group.DomainParams;
             testCase.Signature = sigResult.Signature;
             return new TestCaseGenerateResponse(testCase);
         }

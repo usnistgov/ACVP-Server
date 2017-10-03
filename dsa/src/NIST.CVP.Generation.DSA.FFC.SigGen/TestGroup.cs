@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -17,7 +18,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
     {
         public int L { get; set; }
         public int N { get; set; }
-        public FfcDomainParameters DomainParams { get; set; }
+        public FfcDomainParameters DomainParams { get; set; }       // Mainly for private use to make sure all test cases have same value
         public HashFunction HashAlg { get; set; }
 
         public string TestType { get; set; }
@@ -40,24 +41,11 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             L = (int)source.l;
             N = (int)source.n;
 
-            BigInteger p, q, g;
-
-            if (((ExpandoObject)source).ContainsProperty("p"))
+            if (((ExpandoObject)source).ContainsProperty("hashAlg"))
             {
-                p = ((ExpandoObject)source).GetBigIntegerFromProperty("p");
+                var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm((string)source.hashAlg);
+                HashAlg = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
             }
-
-            if (((ExpandoObject)source).ContainsProperty("q"))
-            {
-                q = ((ExpandoObject)source).GetBigIntegerFromProperty("q");
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("g"))
-            {
-                g = ((ExpandoObject)source).GetBigIntegerFromProperty("g");
-            }
-
-            DomainParams = new FfcDomainParameters(p, q, g);
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)

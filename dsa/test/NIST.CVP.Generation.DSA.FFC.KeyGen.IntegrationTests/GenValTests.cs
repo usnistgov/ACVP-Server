@@ -393,7 +393,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
             {
                 Algorithm = "DSA",
                 Mode = "KeyGen",
-                IsSample = true,
+                IsSample = false,
                 Capabilities = caps,
             };
 

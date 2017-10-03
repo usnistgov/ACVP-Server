@@ -29,9 +29,13 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             {
                 errors.Add("Could not find r or s");
             }
+            else if (suppliedResult.DomainParams == null)
+            {
+                errors.Add("Could not find p, q or g");
+            }
             else
             {
-                var verifyResult = _ffcDsa.Verify(_group.DomainParams, suppliedResult.Key, _expectedResult.Message, suppliedResult.Signature);
+                var verifyResult = _ffcDsa.Verify(suppliedResult.DomainParams, suppliedResult.Key, _expectedResult.Message, suppliedResult.Signature);
                 if (!verifyResult.Success)
                 {
                     errors.Add($"Validation failed: {verifyResult.ErrorMessage}");

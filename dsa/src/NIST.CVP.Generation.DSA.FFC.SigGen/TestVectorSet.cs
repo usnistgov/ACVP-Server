@@ -42,9 +42,106 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             }
         }
 
-        public List<dynamic> AnswerProjection => throw new NotImplementedException();
-        public List<dynamic> PromptProjection => throw new NotImplementedException();
-        public List<dynamic> ResultProjection => throw new NotImplementedException();
+        public List<dynamic> AnswerProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("l", group.L);
+                    ((IDictionary<string, object>)updateObject).Add("n", group.N);
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("message", test.Message);
+
+                        if (IsSample)
+                        {
+                            ((IDictionary<string, object>)testObject).Add("y", test.Key.PublicKeyY);
+                            ((IDictionary<string, object>)testObject).Add("r", test.Signature.R);
+                            ((IDictionary<string, object>)testObject).Add("s", test.Signature.S);
+                        }
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
+
+        [JsonProperty(PropertyName = "testGroups")]
+        public List<dynamic> PromptProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("l", group.L);
+                    ((IDictionary<string, object>)updateObject).Add("n", group.N);
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("message", test.Message);
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
+
+        [JsonProperty(PropertyName = "testResults")]
+        public List<dynamic> ResultProjection
+        {
+            get
+            {
+                var tests = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+
+                        // These are group properties inside each test case
+                        if (IsSample)
+                        {
+                            ((IDictionary<string, object>)testObject).Add("p", test.DomainParams.P);
+                            ((IDictionary<string, object>)testObject).Add("q", test.DomainParams.Q);
+                            ((IDictionary<string, object>)testObject).Add("g", test.DomainParams.G);
+                        }
+
+                        ((IDictionary<string, object>)testObject).Add("y", test.Key.PublicKeyY);
+                        ((IDictionary<string, object>)testObject).Add("r", test.Signature.R);
+                        ((IDictionary<string, object>)testObject).Add("s", test.Signature.S);
+
+                        tests.Add(testObject);
+                    }
+                }
+
+                return tests;
+            }
+        }
 
         public dynamic ToDynamic()
         {
