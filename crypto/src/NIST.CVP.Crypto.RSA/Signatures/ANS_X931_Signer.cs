@@ -153,7 +153,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             // 4. Message Hashing and Comparison
             var expectedHash = Hash(message);
 
-            // check trailer for accuracy
+            // check trailer for accuracy, including hash function
             var expectedTrailer = GetTrailer();
             var trailer = bsIRPrime.GetLeastSignificantBits(expectedTrailer.BitLength);
 
