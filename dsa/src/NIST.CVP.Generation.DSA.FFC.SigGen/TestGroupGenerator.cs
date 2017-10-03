@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
+using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NLog;
@@ -35,23 +36,30 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                 var n = capability.N;
                 var l = capability.L;
 
-                var domainParamsRequest = new FfcDomainParametersGenerateRequest(n, l, n, 256, null, PrimeGenMode.Provable, GeneratorGenMode.Unverifiable);
-                var domainParams = _ffcDsa.GenerateDomainParameters(domainParamsRequest);
-
-                if (!domainParams.Success)
+                foreach (var hashAlg in capability.HashAlg)
                 {
-                    ThisLogger.Error($"Failure generating domain parameters for L = {l}, N = {n}: {domainParams.ErrorMessage}");
-                    continue;
+                    var domainParamsRequest = new FfcDomainParametersGenerateRequest(n, l, n, 256, null, PrimeGenMode.Provable, GeneratorGenMode.Unverifiable);
+                    var domainParams = _ffcDsa.GenerateDomainParameters(domainParamsRequest);
+
+                    if (!domainParams.Success)
+                    {
+                        ThisLogger.Error($"Failure generating domain parameters for L = {l}, N = {n}: {domainParams.ErrorMessage}");
+                        continue;
+                    }
+
+                    var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(hashAlg);
+                    var sha = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
+
+                    var testGroup = new TestGroup
+                    {
+                        L = l,
+                        N = n,
+                        HashAlg = sha,
+                        DomainParams = domainParams.PqgDomainParameters
+                    };
+
+                    testGroups.Add(testGroup);
                 }
-
-                var testGroup = new TestGroup
-                {
-                    L = l,
-                    N = n,
-                    DomainParams = domainParams.PqgDomainParameters
-                };
-
-                testGroups.Add(testGroup);
             }
 
             return testGroups;

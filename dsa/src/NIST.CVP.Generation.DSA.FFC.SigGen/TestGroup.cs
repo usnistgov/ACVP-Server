@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -17,6 +18,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
         public int L { get; set; }
         public int N { get; set; }
         public FfcDomainParameters DomainParams { get; set; }
+        public HashFunction HashAlg { get; set; }
 
         public string TestType { get; set; }
         public List<ITestCase> Tests { get; set; }
