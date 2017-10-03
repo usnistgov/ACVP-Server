@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using NIST.CVP.Math;
 using System.Numerics;
+using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.Core.ExtensionMethods
 {
@@ -109,6 +110,28 @@ namespace NIST.CVP.Generation.Core.ExtensionMethods
             {
                 return default(T);
             }
+        }
+
+        /// <summary>
+        /// Adds a <see cref="BigInteger"/> to the <see cref="source"/> when it is not zero.
+        /// </summary>
+        /// <param name="source">The expando object to add the BigInteger to</param>
+        /// <param name="label">The key to add to the expando object</param>
+        /// <param name="value">The value to add</param>
+        public static void AddBigIntegerWhenNotZero(this ExpandoObject source, string label, BigInteger value)
+        {
+            DynamicHelpers.AddBigIntegerToDynamicWhenNotZero(source, label, value);
+        }
+
+        /// <summary>
+        /// Adds a <see cref="int"/> to the <see cref="source"/> when it is not zero.
+        /// </summary>
+        /// <param name="source">The expando object to add the int to</param>
+        /// <param name="label">The key to add to the expando object</param>
+        /// <param name="value">The value to add</param>
+        public static void AddIntegerWhenNotZero(this ExpandoObject source, string label, int value)
+        {
+            DynamicHelpers.AddIntegerToDynamicWhenNotZero(source, label, value);
         }
     }
 }

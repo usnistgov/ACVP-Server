@@ -201,6 +201,39 @@ namespace NIST.CVP.Generation.Core.Tests.ExtensionMethods
         }
         #endregion GetTypeFromProperty
 
+        #region AddBigIntegerWhenNotZero
+        [Test]
+        [TestCase(0, false)]
+        [TestCase(1, true)]
+        [TestCase(42, true)]
+        public void ShouldAddBigIntegerWhenNotZero(int value, bool expectedToAdd)
+        {
+            const string label = "testLabel";
+            BigInteger bi = new BigInteger(value);
+
+            ExpandoObject dyn = new ExpandoObject();
+            dyn.AddBigIntegerWhenNotZero(label, bi);
+
+            Assert.AreEqual(expectedToAdd, dyn.ContainsProperty(label));
+        }
+        #endregion AddBigIntegerWhenNotZero
+
+        #region AddIntegerWhenNotZero
+        [Test]
+        [TestCase(0, false)]
+        [TestCase(1, true)]
+        [TestCase(42, true)]
+        public void ShouldAddIntegerWhenNotZero(int value, bool expectedToAdd)
+        {
+            const string label = "testLabel";
+
+            ExpandoObject dyn = new ExpandoObject();
+            dyn.AddIntegerWhenNotZero(label, value);
+
+            Assert.AreEqual(expectedToAdd, dyn.ContainsProperty(label));
+        }
+        #endregion AddIntegerWhenNotZero
+
         private string ObjectToJson(object obj)
         {
             var json = JsonConvert.SerializeObject(

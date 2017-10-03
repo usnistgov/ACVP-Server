@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
@@ -47,6 +48,38 @@ namespace NIST.CVP.Generation.Core.Helpers
             }
 
             // Default behavior, empty bitstrings print as ""
+            ((IDictionary<string, object>)dynamicObject).Add(label, value);
+        }
+
+        /// <summary>
+        /// Adds a biginteger to the dynamic when it is not 0
+        /// </summary>
+        /// <param name="dynamicObject">The object to add the biginteger to</param>
+        /// <param name="label">The label to add to the dynamic object</param>
+        /// <param name="value">The value to add</param>
+        public static void AddBigIntegerToDynamicWhenNotZero(dynamic dynamicObject, string label, BigInteger value)
+        {
+            if (value == BigInteger.Zero)
+            {
+                return;
+            }
+
+            ((IDictionary<string, object>)dynamicObject).Add(label, value);
+        }
+
+        /// <summary>
+        /// Adds an int to the dynamic when it is not 0
+        /// </summary>
+        /// <param name="dynamicObject">The object to add the int to</param>
+        /// <param name="label">The label to add to the dynamic object</param>
+        /// <param name="value">The value to add</param>
+        public static void AddIntegerToDynamicWhenNotZero(dynamic dynamicObject, string label, int value)
+        {
+            if (value == 0)
+            {
+                return;
+            }
+
             ((IDictionary<string, object>)dynamicObject).Add(label, value);
         }
     }
