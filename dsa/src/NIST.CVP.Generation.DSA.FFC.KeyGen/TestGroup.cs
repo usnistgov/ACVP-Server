@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
     {
         public int L { get; set; }
         public int N { get; set; }
-        public FfcDomainParameters DomainParams { get; set; }
+        public FfcDomainParameters DomainParams { get; set; }       // Used to make sure all test cases share a PQG
 
         public string TestType { get; set; }
         public List<ITestCase> Tests { get; set; }
@@ -38,24 +38,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             L = (int)source.l;
             N = (int)source.n;
 
-            BigInteger p, q, g;
-
-            if (((ExpandoObject)source).ContainsProperty("p"))
-            {
-                p = ((ExpandoObject)source).GetBigIntegerFromProperty("p");
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("q"))
-            {
-                q = ((ExpandoObject)source).GetBigIntegerFromProperty("q");
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("g"))
-            {
-                g = ((ExpandoObject)source).GetBigIntegerFromProperty("g");
-            }
-
-            DomainParams = new FfcDomainParameters(p, q, g);
+            // ParseDomainParams((ExpandoObject)source);
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
@@ -128,6 +111,28 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             }
 
             return false;
+        }
+
+        private void ParseDomainParams(ExpandoObject source)
+        {
+            BigInteger p, q, g;
+
+            if (source.ContainsProperty("p"))
+            {
+                p = source.GetBigIntegerFromProperty("p");
+            }
+
+            if (source.ContainsProperty("q"))
+            {
+                q = source.GetBigIntegerFromProperty("q");
+            }
+
+            if (source.ContainsProperty("g"))
+            {
+                g = source.GetBigIntegerFromProperty("g");
+            }
+
+            DomainParams = new FfcDomainParameters(p, q, g);
         }
     }
 }

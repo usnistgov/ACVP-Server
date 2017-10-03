@@ -53,13 +53,6 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                     ((IDictionary<string, object>)updateObject).Add("l", group.L);
                     ((IDictionary<string, object>)updateObject).Add("n", group.N);
 
-                    if (IsSample)
-                    {
-                        ((IDictionary<string, object>)updateObject).Add("p", group.DomainParams.P);
-                        ((IDictionary<string, object>)updateObject).Add("q", group.DomainParams.Q);
-                        ((IDictionary<string, object>)updateObject).Add("g", group.DomainParams.G);
-                    }
-
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
@@ -124,6 +117,13 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+
+                        if (IsSample)
+                        {
+                            ((IDictionary<string, object>)testObject).Add("p", test.DomainParams.P);
+                            ((IDictionary<string, object>)testObject).Add("q", test.DomainParams.Q);
+                            ((IDictionary<string, object>)testObject).Add("g", test.DomainParams.G);
+                        }
 
                         ((IDictionary<string, object>)testObject).Add("x", test.Key.PrivateKeyX);
                         ((IDictionary<string, object>)testObject).Add("y", test.Key.PublicKeyY);

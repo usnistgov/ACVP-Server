@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
                 .Setup(s => s.ValidateKeyPair(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>()))
                 .Returns(new FfcKeyPairValidateResult());
 
-            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), dsaMock.Object);
+            var subject = new TestCaseValidator(GetTestCase(), dsaMock.Object);
             var result = subject.Validate(GetResultTestCase());
 
             dsaMock.Verify(v => v.ValidateKeyPair(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>()), Times.Once);
@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
                 .Setup(s => s.ValidateKeyPair(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>()))
                 .Returns(new FfcKeyPairValidateResult("Fail"));
 
-            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), dsaMock.Object);
+            var subject = new TestCaseValidator(GetTestCase(), dsaMock.Object);
             var result = subject.Validate(GetResultTestCase());
 
             dsaMock.Verify(v => v.ValidateKeyPair(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>()), Times.Once);
@@ -56,7 +56,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                Key = new FfcKeyPair(1, 2)
+                Key = new FfcKeyPair(1, 2),
+                DomainParams = new FfcDomainParameters(1, 2, 3)
             };
         }
 
@@ -66,7 +67,6 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
             {
                 L = 2048,
                 N = 224,
-                DomainParams = new FfcDomainParameters(1, 2, 3)
             };
         }
 

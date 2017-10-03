@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Directory.Delete(_testPath, true);
+            // Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -393,7 +393,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
             {
                 Algorithm = "DSA",
                 Mode = "KeyGen",
-                IsSample = false,
+                IsSample = true,
                 Capabilities = caps,
             };
 

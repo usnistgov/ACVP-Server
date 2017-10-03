@@ -17,6 +17,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
 
+        public FfcDomainParameters DomainParams { get; set; }
         public FfcKeyPair Key { get; set; }
 
         // Needed for SetString, FireHoseTests
@@ -40,19 +41,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
         {
             TestCaseId = (int)source.tcId;
 
-            BigInteger x, y;
-
-            if (((ExpandoObject)source).ContainsProperty("x"))
-            {
-                x = ((ExpandoObject)source).GetBigIntegerFromProperty("x");
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("y"))
-            {
-                y = ((ExpandoObject)source).GetBigIntegerFromProperty("y");
-            }
-
-            Key = new FfcKeyPair(x, y);
+            ParseKey((ExpandoObject)source);
+            ParseDomainParams((ExpandoObject)source);
         }
 
         public bool Merge(ITestCase otherTest)
@@ -86,6 +76,45 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             }
 
             return false;
+        }
+
+        private void ParseDomainParams(ExpandoObject source)
+        {
+            BigInteger p, q, g;
+
+            if (source.ContainsProperty("p"))
+            {
+                p = source.GetBigIntegerFromProperty("p");
+            }
+
+            if (source.ContainsProperty("q"))
+            {
+                q = source.GetBigIntegerFromProperty("q");
+            }
+
+            if (source.ContainsProperty("g"))
+            {
+                g = source.GetBigIntegerFromProperty("g");
+            }
+
+            DomainParams = new FfcDomainParameters(p, q, g);
+        }
+
+        private void ParseKey(ExpandoObject source)
+        {
+            BigInteger x, y;
+
+            if (source.ContainsProperty("x"))
+            {
+                x = source.GetBigIntegerFromProperty("x");
+            }
+
+            if (source.ContainsProperty("y"))
+            {
+                y = source.GetBigIntegerFromProperty("y");
+            }
+
+            Key = new FfcKeyPair(x, y);
         }
     }
 }

@@ -39,16 +39,17 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
             Assert.AreEqual(sourceAnswer.n, subject.N);
         }
 
-        [Test]
-        public void ShouldSetProperDomainParamsFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.p, subject.DomainParams.P);
-            Assert.AreEqual(sourceAnswer.q, subject.DomainParams.Q);
-            Assert.AreEqual(sourceAnswer.g, subject.DomainParams.G);
-        }
+        // Domain Params are not a part of the dynamic answer
+        //[Test]
+        //public void ShouldSetProperDomainParamsFromDynamicAnswer()
+        //{
+        //    var sourceAnswer = GetSourceAnswer();
+        //    var subject = new TestGroup(sourceAnswer);
+        //    Assume.That(subject != null);
+        //    Assert.AreEqual(sourceAnswer.p, subject.DomainParams.P);
+        //    Assert.AreEqual(sourceAnswer.q, subject.DomainParams.Q);
+        //    Assert.AreEqual(sourceAnswer.g, subject.DomainParams.G);
+        //}
 
         private dynamic GetSourceAnswer()
         {

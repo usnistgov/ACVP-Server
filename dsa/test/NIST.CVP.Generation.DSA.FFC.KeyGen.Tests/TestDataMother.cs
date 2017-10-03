@@ -19,6 +19,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
                     tests.Add(new TestCase
                     {
                         Key = new FfcKeyPair(1, 2),
+                        DomainParams = new FfcDomainParameters(3, 4, 5),
                         TestCaseId = testId
                     });
                 }
@@ -27,7 +28,6 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
                 {
                     L = 2048 + groupIdx,
                     N = 224,
-                    DomainParams = new FfcDomainParameters(3, 4, 5),
                     Tests = tests
                 });
             }

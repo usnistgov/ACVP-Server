@@ -9,15 +9,13 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
     public class TestCaseValidator : ITestCaseValidator<TestCase>
     {
         private readonly TestCase _expectedResult;
-        private readonly TestGroup _group;
         private readonly IDsaFfc _ffcDsa;
 
         public int TestCaseId { get { return _expectedResult.TestCaseId; } }
 
-        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDsaFfc dsaFfc)
+        public TestCaseValidator(TestCase expectedResult, IDsaFfc dsaFfc)
         {
             _expectedResult = expectedResult;
-            _group = group;
             _ffcDsa = dsaFfc;
         }
 
@@ -29,9 +27,13 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             {
                 errors.Add("Could not find x or y");
             }
+            else if (suppliedResult.DomainParams.P == 0 || suppliedResult.DomainParams.Q == 0 || suppliedResult.DomainParams.G == 0)
+            {
+                errors.Add("Could not find p, q, or g");
+            }
             else
             {
-                var validateResult = _ffcDsa.ValidateKeyPair(_group.DomainParams, suppliedResult.Key);
+                var validateResult = _ffcDsa.ValidateKeyPair(suppliedResult.DomainParams, suppliedResult.Key);
                 if (!validateResult.Success)
                 {
                     errors.Add($"Validation failed: {validateResult.ErrorMessage}");

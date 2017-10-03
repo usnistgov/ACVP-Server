@@ -51,6 +51,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                 return new TestCaseGenerateResponse($"Exception generating key: {ex.Message}");
             }
 
+            testCase.DomainParams = group.DomainParams;
             testCase.Key = keyResult.KeyPair;
             return new TestCaseGenerateResponse(testCase);
         }

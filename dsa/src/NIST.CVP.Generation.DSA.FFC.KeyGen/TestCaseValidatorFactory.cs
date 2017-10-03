@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             {
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
-                    list.Add(new TestCaseValidator(test, group, new FfcDsa(null)));
+                    list.Add(new TestCaseValidator(test, new FfcDsa(null)));
                 }
             }
 

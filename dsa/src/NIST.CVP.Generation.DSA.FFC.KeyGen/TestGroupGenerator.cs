@@ -35,20 +35,27 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                 var n = capability.N;
                 var l = capability.L;
 
-                var domainParamsRequest = new FfcDomainParametersGenerateRequest(n, l, n, 256, null, PrimeGenMode.Provable, GeneratorGenMode.Unverifiable);
-                var domainParams = _ffcDsa.GenerateDomainParameters(domainParamsRequest);
-
-                if (!domainParams.Success)
+                FfcDomainParameters domainParams = null;
+                if (parameters.IsSample)
                 {
-                    ThisLogger.Error($"Failure generating domain parameters for L = {l}, N = {n}: {domainParams.ErrorMessage}");
-                    continue;
+                    var domainParamsRequest = new FfcDomainParametersGenerateRequest(n, l, n, 256, null, PrimeGenMode.Provable, GeneratorGenMode.Unverifiable);
+                    var domainParamsResult = _ffcDsa.GenerateDomainParameters(domainParamsRequest);
+
+                    if (!domainParamsResult.Success)
+                    {
+                        ThisLogger.Error($"Failure generating domain parameters for L = {l}, N = {n}: {domainParamsResult.ErrorMessage}");
+                        continue;
+                    }
+
+                    domainParams = domainParamsResult.PqgDomainParameters;
                 }
+                
 
                 var testGroup = new TestGroup
                 {
                     L = l,
                     N = n,
-                    DomainParams = domainParams.PqgDomainParameters
+                    DomainParams = domainParams
                 };
 
                 testGroups.Add(testGroup);
