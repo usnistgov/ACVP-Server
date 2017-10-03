@@ -73,6 +73,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSA-KeyGen_Val", "..\..\dsa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.FFC.SigGen", "..\..\dsa\src\NIST.CVP.Generation.DSA.FFC.SigGen\NIST.CVP.Generation.DSA.FFC.SigGen.csproj", "{E421D6FE-5ACD-49C7-89EC-28B7807ACED8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.FFC.SigGen.Tests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.SigGen.Tests\NIST.CVP.Generation.DSA.FFC.SigGen.Tests.csproj", "{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -211,6 +213,10 @@ Global
 		{E421D6FE-5ACD-49C7-89EC-28B7807ACED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E421D6FE-5ACD-49C7-89EC-28B7807ACED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E421D6FE-5ACD-49C7-89EC-28B7807ACED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -249,6 +255,7 @@ Global
 		{8D2F3B55-17D1-4A8F-8CA6-0339543499DA} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
 		{62853FF7-6FB6-4F7C-B8E4-BF2CE4B59FE9} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
 		{E421D6FE-5ACD-49C7-89EC-28B7807ACED8} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
+		{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9} = {3A1064A5-ACA1-4488-AEEC-8B5A127AC7D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1FB7617-33CC-4073-8F8F-057BADD417C4}
