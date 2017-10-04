@@ -60,12 +60,6 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (IsSample)
-                        {
-                            ((IDictionary<string, object>)testObject).Add("x", test.Key.PrivateKeyX);
-                            ((IDictionary<string, object>)testObject).Add("y", test.Key.PublicKeyY);
-                        }
-
                         tests.Add(testObject);
                     }
 
