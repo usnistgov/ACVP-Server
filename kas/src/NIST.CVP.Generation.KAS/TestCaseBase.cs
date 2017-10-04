@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.KAS
         public BitString IdIut { get; set; }
 
         public int OiLen { get; set; }
-        public BitString Oi { get; set; }
+        public BitString OtherInfo { get; set; }
         
         public BitString NonceNoKc { get; set; }
 
@@ -56,8 +56,8 @@ namespace NIST.CVP.Generation.KAS
         public BitString Dkm { get; set; }
         public BitString MacData { get; set; }
 
-        public BitString HashZIut { get; set; }
-        public BitString TagIut { get; set; }
+        public BitString HashZ { get; set; }
+        public BitString Tag { get; set; }
         public string Result { get; set; }
 
         public bool Merge(ITestCase promptTestCase)
@@ -94,15 +94,15 @@ namespace NIST.CVP.Generation.KAS
 
             
             OiLen = expandoSource.GetTypeFromProperty<int>("oiLen");
-            Oi = expandoSource.GetBitStringFromProperty("oi");
+            OtherInfo = expandoSource.GetBitStringFromProperty("oi");
 
             NonceNoKc = expandoSource.GetBitStringFromProperty("nonceNoKc");
 
             NonceAesCcm = expandoSource.GetBitStringFromProperty("nonceAesCcm");
 
             Z = expandoSource.GetBitStringFromProperty("z");
-            HashZIut = expandoSource.GetBitStringFromProperty("hashZIut");
-            TagIut = expandoSource.GetBitStringFromProperty("tagIut");
+            HashZ = expandoSource.GetBitStringFromProperty("hashZIut");
+            Tag = expandoSource.GetBitStringFromProperty("tagIut");
         }
     }
 }

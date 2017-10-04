@@ -190,7 +190,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                                     MacType = keyAgreementMacType,
                                     KeyLen = keyLen,
                                     MacLen = mac.MacLen,
-                                    NonceAesCcmLen = mac.NonceLen
+                                    AesCcmNonceLen = mac.NonceLen
                                 });
                             }
                         }

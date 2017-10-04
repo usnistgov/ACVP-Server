@@ -20,8 +20,8 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests
 {
-    [TestFixture, UnitTest]
-    public class KasBuilderTests
+    [TestFixture, FastIntegrationTest]
+    public class KasFunctionalTests
     {
         private KasBuilder _subject;
         private MacParametersBuilder _macParamsBuilder;
@@ -36,8 +36,9 @@ namespace NIST.CVP.Crypto.KAS.Tests
             _entropyProviderScheme = new TestableEntropyProvider();
             _entropyProviderOtherInfo = new TestableEntropyProvider();
             
-            _subject = new KasBuilder(
-                new SchemeFactory(
+            _subject = new KasBuilder();
+            _subject.WithSchemeBuilder(
+                new SchemeBuilder(
                     _dsa.Object,
                     new KdfFactory(
                         new ShaFactory()
@@ -48,76 +49,12 @@ namespace NIST.CVP.Crypto.KAS.Tests
                         _entropyProviderOtherInfo
                     ),
                     _entropyProviderScheme
-                ));
+                )
+            );
 
             _macParamsBuilder = new MacParametersBuilder();
         }
 
-        #region Unit Tests
-        [Test]
-        public void ShouldReturnComponentOnlyKas()
-        {
-            var result = _subject
-                .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
-                .WithScheme(FfcScheme.DhEphem)
-                .WithParameterSet(FfcParameterSet.Fb)
-                .WithAssurances(KasAssurance.None)
-                .WithPartyId(new BitString(1))
-                .BuildNoKdfNoKc()
-                .Build();
-
-
-            Assert.AreEqual(KasMode.NoKdfNoKc, result.SchemeParameters.KasMode);
-        }
-
-        [Test]
-        public void ShouldReturnNoKeyConfirmationKas()
-        {
-            var macParams = _macParamsBuilder
-                .WithKeyAgreementMacType(KeyAgreementMacType.AesCcm)
-                .WithMacLength(0)
-                .WithNonce(new BitString(1))
-                .Build();
-
-            var result = _subject
-                .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
-                .WithScheme(FfcScheme.DhEphem)
-                .WithParameterSet(FfcParameterSet.Fb)
-                .WithAssurances(KasAssurance.None)
-                .WithPartyId(new BitString(1))
-                .BuildKdfNoKc()
-                .WithKeyLength(0)
-                .WithOtherInfoPattern(string.Empty)
-                .WithMacParameters(macParams)
-                .Build();
-
-            Assert.AreEqual(KasMode.KdfNoKc, result.SchemeParameters.KasMode);
-        }
-
-        // TODO test valid once a key confirmation scheme exists (change FfcScheme.DhEphem)
-        //[Test]
-        //public void ShouldReturnKeyConfirmationKas()
-        //{
-        //    var result = _subject.GetInstance(
-        //        new KasParametersKeyConfirmation(
-        //            KeyAgreementRole.UPartyInitiator,
-        //            FfcScheme.DhEphem,
-        //            FfcParameterSet.FB,
-        //            KasAssurance.None,
-        //            _dsa.Object,
-        //            new BitString(1),
-        //            new KdfParameters(0, string.Empty),
-        //            new MacParameters(KeyAgreementMacType.AesCcm, 0, new BitString(1)),
-        //            KeyConfirmationRole.Provider,
-        //            KeyConfirmationDirection.Unilateral
-        //        )
-        //    );
-
-        //    Assert.AreEqual(KasMode.KeyConfirmation, result.KasParameters.KasMode);
-        //}
-        #endregion Unit Tests
-
-        #region Integration Testes
         #region initiator, dhEphem, component only, sha512
 
         private static object[] _test_dhEphemComponentOnlySha512 = new object[]
@@ -184,7 +121,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
             }
         };
 
-        [Test, FastIntegrationTest]
+        [Test]
         [TestCaseSource(nameof(_test_dhEphemComponentOnlySha512))]
         public void ShouldDhEphemComponentOnlySha512Correctly(FfcDomainParameters domainParameters, KeyAgreementRole keyAgreementRole, BitString thisPartyId, BigInteger thisPartyPrivateEphemKey, BigInteger thisPartyPublicEphemKey, BitString otherPartyId, BigInteger otherPartyPrivateEphemKey, BigInteger otherPartyPublicEphemKey, BitString expectedZ, BitString expectedHashZ)
         {
@@ -640,7 +577,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
             #endregion aes-ccm
         };
 
-        [Test, FastIntegrationTest]
+        [Test]
         [TestCaseSource(nameof(_test_dhEphemNoKeyConfirmation))]
         public void ShouldDhEphemNoKeyConfirmationCorrectly(
             FfcDomainParameters domainParameters, 
@@ -726,7 +663,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
             Assert.AreEqual(expectedTag, result.Tag, nameof(result.Tag));
         }
 
-        [Test, FastIntegrationTest]
+        [Test]
         [TestCaseSource(nameof(_test_dhEphemNoKeyConfirmation))]
         public void ShouldDhEphemNoKeyConfirmationCorrectly_UsesBuilder(
                     FfcDomainParameters domainParameters,
@@ -810,6 +747,5 @@ namespace NIST.CVP.Crypto.KAS.Tests
             Assert.AreEqual(expectedTag, result.Tag, nameof(result.Tag));
         }
         #endregion dhEphem, no key confirmation
-        #endregion Integration Tests
     }
 }

@@ -15,7 +15,7 @@ namespace NIST.CVP.Crypto.KAS
             _scheme = scheme;
         }
 
-        public SchemeParameters SchemeParameters => _scheme.SchemeParameters;
+        public IScheme Scheme => _scheme;
 
         public void SetDomainParameters(FfcDomainParameters domainParameters)
         {

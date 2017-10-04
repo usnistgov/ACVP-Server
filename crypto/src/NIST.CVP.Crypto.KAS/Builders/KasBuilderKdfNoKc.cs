@@ -8,26 +8,24 @@ namespace NIST.CVP.Crypto.KAS.Builders
 {
     public class KasBuilderKdfNoKc
     {
-        private readonly ISchemeFactory _schemeFactory;
+        private readonly ISchemeBuilder _schemeBuilder;
         private readonly KeyAgreementRole _keyAgreementRole;
         private readonly FfcScheme _scheme;
         private readonly FfcParameterSet _parameterSet;
         private readonly KasAssurance _assurances;
         private readonly BitString _partyId;
-        private readonly KasMode _kasMode;
         private int _keyLength;
         private string _otherInfoPattern = OtherInfo._CAVS_OTHER_INFO_PATTERN;
         private MacParameters _macParameters;
         
-        public KasBuilderKdfNoKc(ISchemeFactory schemeFactory, KeyAgreementRole keyAgreementRole, FfcScheme scheme, FfcParameterSet parameterSet, KasAssurance assurances, BitString partyId, KasMode kasMode)
+        public KasBuilderKdfNoKc(ISchemeBuilder schemeBuilder, KeyAgreementRole keyAgreementRole, FfcScheme scheme, FfcParameterSet parameterSet, KasAssurance assurances, BitString partyId)
         {
-            _schemeFactory = schemeFactory;
+            _schemeBuilder = schemeBuilder;
             _keyAgreementRole = keyAgreementRole;
             _scheme = scheme;
             _parameterSet = parameterSet;
             _assurances = assurances;
             _partyId = partyId;
-            _kasMode = kasMode;
         }
 
         /// <summary>
@@ -71,7 +69,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         {
             var schemeParameters = new SchemeParameters(
                 _keyAgreementRole,
-                _kasMode,
+                KasMode.KdfNoKc,
                 _scheme,
                 KeyConfirmationRole.None,
                 KeyConfirmationDirection.None,
@@ -81,7 +79,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             );
 
             var kdfParameters = new KdfParameters(_keyLength, _otherInfoPattern);
-            var scheme = _schemeFactory.GetInstance(schemeParameters, kdfParameters, _macParameters);
+            var scheme = _schemeBuilder.BuildScheme(schemeParameters, kdfParameters, _macParameters);
 
             return new Kas(scheme);
         }

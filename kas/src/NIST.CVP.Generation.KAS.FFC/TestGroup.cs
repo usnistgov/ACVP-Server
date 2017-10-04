@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         public override int GetHashCode()
         {
             return (
-                $"{Scheme}|{TestType}|{KasRole}|{KasMode}|{ParmSet}|{HashAlg}|{MacType}|{KeyLen}|{NonceAesCcmLen}|{MacLen}|{KdfType}|{IdServerLen}|{IdServer}|{IdIutLen}|{IdIut}|{OiPattern}|{KcRole}|{KcType}"
+                $"{Scheme}|{TestType}|{KasRole}|{KasMode}|{ParmSet}|{HashAlg}|{MacType}|{KeyLen}|{AesCcmNonceLen}|{MacLen}|{KdfType}|{IdServerLen}|{IdServer}|{IdIutLen}|{IdIut}|{OiPattern}|{KcRole}|{KcType}"
             ).GetHashCode();
         }
 
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             MacType = expandoSource.GetTypeFromProperty<KeyAgreementMacType>("macType");
             KeyLen = expandoSource.GetTypeFromProperty<int>("keyLen");
-            NonceAesCcmLen = expandoSource.GetTypeFromProperty<int>("nonceAesCcmLen");
+            AesCcmNonceLen = expandoSource.GetTypeFromProperty<int>("nonceAesCcmLen");
             MacLen = expandoSource.GetTypeFromProperty<int>("macLen");
             KdfType = expandoSource.GetTypeFromProperty<string>("kdfType");
             IdServerLen = expandoSource.GetTypeFromProperty<int>("idServerLen");

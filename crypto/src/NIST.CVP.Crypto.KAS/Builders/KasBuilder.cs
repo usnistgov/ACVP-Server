@@ -10,48 +10,50 @@ namespace NIST.CVP.Crypto.KAS.Builders
 {
     public class KasBuilder : IKasBuilder
     {
-        private readonly ISchemeFactory _schemeFactory;
         private KeyAgreementRole _keyAgreementRole;
         private FfcParameterSet _parameterSet;
         private FfcScheme _scheme;
         private KasAssurance _assurances;
         private BitString _partyId;
-
-        public KasBuilder(ISchemeFactory schemeFactory)
-        {
-            _schemeFactory = schemeFactory;
-        }
+        private ISchemeBuilder _schemeBuilder;
 
         /// <inheritdoc />
-        public KasBuilder WithKeyAgreementRole(KeyAgreementRole value)
+        public IKasBuilder WithKeyAgreementRole(KeyAgreementRole value)
         {
             _keyAgreementRole = value;
             return this;
         }
 
         /// <inheritdoc />
-        public KasBuilder WithScheme(FfcScheme value)
+        public IKasBuilder WithScheme(FfcScheme value)
         {
             _scheme = value;
             return this;
         }
 
         /// <inheritdoc />
-        public KasBuilder WithParameterSet(FfcParameterSet value)
+        public IKasBuilder WithParameterSet(FfcParameterSet value)
         {
             _parameterSet = value;
             return this;
         }
 
         /// <inheritdoc />
-        public KasBuilder WithAssurances(KasAssurance value)
+        public IKasBuilder WithSchemeBuilder(ISchemeBuilder schemeBuilder)
+        {
+            _schemeBuilder = schemeBuilder;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public IKasBuilder WithAssurances(KasAssurance value)
         {
             _assurances = value;
             return this;
         }
 
         /// <inheritdoc />
-        public KasBuilder WithPartyId(BitString value)
+        public IKasBuilder WithPartyId(BitString value)
         {
             _partyId = value;
             return this;
@@ -60,19 +62,19 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// <inheritdoc />
         public KasBuilderNoKdfNoKc BuildNoKdfNoKc()
         {
-            return new KasBuilderNoKdfNoKc(_schemeFactory, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId, KasMode.NoKdfNoKc);
+            return new KasBuilderNoKdfNoKc(_schemeBuilder, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId);
         }
 
         /// <inheritdoc />
         public KasBuilderKdfNoKc BuildKdfNoKc()
         {
-            return new KasBuilderKdfNoKc(_schemeFactory, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId, KasMode.KdfNoKc);
+            return new KasBuilderKdfNoKc(_schemeBuilder, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId);
         }
 
         /// <inheritdoc />
         public KasBuilderKdfKc BuildKdfKc()
         {
-            return new KasBuilderKdfKc(_schemeFactory, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId, KasMode.KdfKc);
+            return new KasBuilderKdfKc(_schemeBuilder, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId);
         }
     }
 }

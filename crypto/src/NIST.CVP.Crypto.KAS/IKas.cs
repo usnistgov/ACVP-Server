@@ -9,7 +9,7 @@ namespace NIST.CVP.Crypto.KAS
     /// </summary>
     public interface IKas
     {
-        SchemeParameters SchemeParameters { get; }
+        IScheme Scheme { get; }
 
         void SetDomainParameters(FfcDomainParameters domainParameters);
         /// <summary>

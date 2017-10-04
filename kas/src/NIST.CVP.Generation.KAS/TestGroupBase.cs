@@ -19,11 +19,11 @@ namespace NIST.CVP.Generation.KAS
         public HashFunction HashAlg { get; set; }
         public KeyAgreementMacType MacType { get; set; }
         public int KeyLen { get; set; }
-        public int NonceAesCcmLen { get; set; }
+        public int AesCcmNonceLen { get; set; }
         public int MacLen { get; set; }
         public string KdfType { get; set; }
-        public int IdServerLen { get; set; }
-        public BitString IdServer { get; set; }
+        public int IdServerLen { get; set; } = 48;
+        public BitString IdServer { get; set; } = new BitString("434156536964");
         public int IdIutLen { get; set; }
         public BitString IdIut { get; set; }
         public string OiPattern { get; set; }
