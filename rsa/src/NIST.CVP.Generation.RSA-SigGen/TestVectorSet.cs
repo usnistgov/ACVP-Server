@@ -63,23 +63,12 @@ namespace NIST.CVP.Generation.RSA_SigGen
                         ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
                     }
 
-                    if (IsSample)
-                    {
-                        ((IDictionary<string, object>)updateObject).Add("n", group.Key.PubKey.N);
-                        ((IDictionary<string, object>)updateObject).Add("e", group.Key.PubKey.E);
-                    }
-
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-
-                        if (IsSample)
-                        {
-                            ((IDictionary<string, object>)testObject).Add("signature", test.Signature);
-                        }
 
                         tests.Add(testObject);
                     }
@@ -143,6 +132,8 @@ namespace NIST.CVP.Generation.RSA_SigGen
 
                         if (IsSample)
                         {
+                            ((IDictionary<string, object>)testObject).Add("n", group.Key.PubKey.N);
+                            ((IDictionary<string, object>)testObject).Add("e", group.Key.PubKey.E);
                             ((IDictionary<string, object>)testObject).Add("signature", test.Signature);
 
                             if (group.Mode == SigGenModes.PSS)

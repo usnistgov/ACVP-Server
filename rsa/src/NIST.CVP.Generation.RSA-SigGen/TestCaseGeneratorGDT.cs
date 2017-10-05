@@ -89,7 +89,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 }
                 catch (Exception ex)
                 {
-                    ThisLogger.Error($"Exception generating sample signature: {sigResult.ErrorMessage}");
+                    ThisLogger.Error($"Exception generating sample signature: {sigResult.ErrorMessage}; {ex.StackTrace}");
                     return new TestCaseGenerateResponse($"Exception generating sample signature: {sigResult.ErrorMessage}");
                 }
 

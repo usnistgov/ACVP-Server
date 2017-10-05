@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Directory.Delete(_testPath, true);
+            // Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -231,7 +231,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
         private string GetTestFolder(string name = "")
         {
             var prefix = name == "" ? "" : name + "--";
-            var folderName = prefix + Guid.NewGuid().ToString().Substring(0, 8);
+            var folderName = "SigGen--" + prefix + Guid.NewGuid().ToString().Substring(0, 8);
             var targetFolder = Path.Combine(_testPath, folderName);
             Directory.CreateDirectory(targetFolder);
 

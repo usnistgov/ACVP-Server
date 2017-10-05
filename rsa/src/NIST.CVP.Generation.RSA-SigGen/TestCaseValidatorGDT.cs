@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
             }
             else
             {
-                var result = _signer.Verify(_group.Modulo, suppliedResult.Signature, _group.Key, _expectedResult.Message);
+                var result = _signer.Verify(_group.Modulo, suppliedResult.Signature, suppliedResult.Key, _expectedResult.Message);
                 if (!result.Success)
                 {
                     errors.Add($"Could not verify signature: {result.ErrorMessage}");

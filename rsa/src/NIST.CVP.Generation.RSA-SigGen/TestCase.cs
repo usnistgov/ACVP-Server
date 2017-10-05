@@ -7,6 +7,8 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.RSA;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
@@ -17,6 +19,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
         public bool Deferred { get; set; }
         public bool IsSample { get; set; }      // Internal only
 
+        public KeyPair Key { get; set; }        // Only needed for Validation
         public BitString Message { get; set; }
         public BitString Signature { get; set; }
         public BitString Salt { get; set; }
@@ -51,6 +54,17 @@ namespace NIST.CVP.Generation.RSA_SigGen
             if (((ExpandoObject)source).ContainsProperty("salt"))
             {
                 Salt = BitStringFromObject("salt", (ExpandoObject)source);
+            }
+
+            Key = new KeyPair { PubKey = new PublicKey() };
+            if (((ExpandoObject)source).ContainsProperty("e"))
+            {
+                Key.PubKey.E = ((ExpandoObject)source).GetBigIntegerFromProperty("e");
+            }
+
+            if (((ExpandoObject)source).ContainsProperty("n"))
+            {
+                Key.PubKey.N = ((ExpandoObject)source).GetBigIntegerFromProperty("n");
             }
         }
 
