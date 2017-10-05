@@ -59,7 +59,6 @@ namespace NIST.CVP.Generation.Core.ExtensionMethods
         /// <param name="itemToAdd"></param>
         /// <param name="numberOfTimesToAdd"></param>
         public static void Add<T>(this List<T> list, T itemToAdd, int numberOfTimesToAdd)
-            where T : class
         {
             for (var i = 0; i < numberOfTimesToAdd; i++)
             {

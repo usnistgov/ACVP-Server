@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -133,6 +134,26 @@ namespace NIST.CVP.Generation.Core.Tests.ExtensionMethods
         #endregion AddRangeIfNotNullOrEmpty
 
         #region AddMultiple
+
+        private enum TestEnum
+        {
+            One,
+            Two
+        }
+
+        [Test]
+        [TestCase(1)]
+        [TestCase(2)]
+        public void ShouldOnlyAddNTimesWithEnum(int n)
+        {
+            List<TestEnum> list = new List<TestEnum>();
+
+            list.Add(TestEnum.One);
+            list.Add(TestEnum.Two, n);
+
+            Assert.AreEqual(n, list.Count(w => w == TestEnum.Two));
+        }
+
         [Test]
         [TestCase(0)]
         [TestCase(1)]
