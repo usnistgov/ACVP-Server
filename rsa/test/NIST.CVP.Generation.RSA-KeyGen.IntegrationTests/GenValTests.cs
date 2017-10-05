@@ -171,10 +171,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationLotsOfTests()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void ShouldReportAllSuccessfulTestsWithinValidationLotsOfTests(bool infoGeneratedByServer)
         {
             var targetFolder = GetTestFolder("Lots");
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
+            var fileName = GetTestFileLotsOfTestCases(targetFolder, infoGeneratedByServer);
 
             RunGenerationAndValidation(targetFolder, fileName);
 
@@ -507,7 +509,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             return CreateRegistration(targetFolder, p);
         }
 
-        private string GetTestFileLotsOfTestCases(string targetFolder)
+        private string GetTestFileLotsOfTestCases(string targetFolder, bool infoGeneratedByServer)
         {
             var caps = new Capability[ParameterValidator.VALID_MODULI.Length];
             for (var i = 0; i < caps.Length; i++)
@@ -534,7 +536,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             {
                 Algorithm = "RSA",
                 Mode = "KeyGen",
-                InfoGeneratedByServer = true,
+                InfoGeneratedByServer = infoGeneratedByServer,
                 IsSample = true,
                 PubExpMode = "random",
                 AlgSpecs = algSpecs

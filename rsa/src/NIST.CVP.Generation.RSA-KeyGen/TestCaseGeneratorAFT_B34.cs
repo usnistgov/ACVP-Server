@@ -36,7 +36,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (group.InfoGeneratedByServer || isSample)
             {
-                var e = RSAEnumHelpers.GetEValue();
+                BigInteger e;
+                if (group.PubExp == PubExpModes.FIXED)
+                {
+                    e = group.FixedPubExp.ToPositiveBigInteger();
+                }
+                else if (group.PubExp == PubExpModes.RANDOM)
+                {
+                    e = RSAEnumHelpers.GetEValue();
+                }
+
                 var seed = RSAEnumHelpers.GetSeed(group.Modulo);
                 var bitlens = RSAEnumHelpers.GetBitlens(group.Modulo, group.Mode);
 
@@ -139,7 +148,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             var combinedTestCase = new TestCase
             {
                 TestCaseId = suppliedResult.TestCaseId,
-                Key = new KeyPair { PubKey = new PublicKey { E = originalTestCase.Key.PubKey.E } },
+                Key = new KeyPair { PubKey = new PublicKey { E = suppliedResult.Key.PubKey.E } },
                 Seed = suppliedResult.Seed,
                 Bitlens = suppliedResult.Bitlens
             };

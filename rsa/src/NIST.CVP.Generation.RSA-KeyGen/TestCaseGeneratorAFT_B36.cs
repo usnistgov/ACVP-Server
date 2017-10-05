@@ -36,7 +36,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (group.InfoGeneratedByServer || isSample)
             {
-                var e = RSAEnumHelpers.GetEValue();
+                BigInteger e;
+                if (group.PubExp == PubExpModes.FIXED)
+                {
+                    e = group.FixedPubExp.ToPositiveBigInteger();
+                }
+                else if (group.PubExp == PubExpModes.RANDOM)
+                {
+                    e = RSAEnumHelpers.GetEValue();
+                }
+
                 var seed = RSAEnumHelpers.GetSeed(group.Modulo);
                 var bitlens = RSAEnumHelpers.GetBitlens(group.Modulo, group.Mode);
 
@@ -153,14 +162,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             var combinedTestCase = new TestCase
             {
                 TestCaseId = suppliedResult.TestCaseId,
-                Key = new KeyPair { PubKey = new PublicKey { E = originalTestCase.Key.PubKey.E } },
+                Key = new KeyPair { PubKey = new PublicKey { E = suppliedResult.Key.PubKey.E } },
                 Bitlens = suppliedResult.Bitlens,
                 XP = suppliedResult.XP,
                 XQ = suppliedResult.XQ,
-                XP1 = suppliedResult.XP1,
-                XP2 = suppliedResult.XP2,
-                XQ1 = suppliedResult.XQ1,
-                XQ2 = suppliedResult.XQ2,
+                XP1 = suppliedResult.XP1.Substring(0, suppliedResult.Bitlens[0]),       // Need this trim here because these BitStrings are integers that must have specific bitlength
+                XP2 = suppliedResult.XP2.Substring(0, suppliedResult.Bitlens[1]),
+                XQ1 = suppliedResult.XQ1.Substring(0, suppliedResult.Bitlens[2]),
+                XQ2 = suppliedResult.XQ2.Substring(0, suppliedResult.Bitlens[3]),
             };
 
             return new TestCaseGenerateResponse(combinedTestCase);

@@ -74,11 +74,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 retVal = true;
             }
 
-            if (Key.PubKey.E == 0 && otherTypedTest.Key.PubKey.E != 0)
-            {
-                Key.PubKey.E = otherTypedTest.Key.PubKey.E;
-                retVal = true;
-            }
+            //if (Key.PubKey.E == 0 && otherTypedTest.Key.PubKey.E != 0)
+            //{
+            //    Key.PubKey.E = otherTypedTest.Key.PubKey.E;
+            //    retVal = true;
+            //}
 
             if (Seed == null && otherTypedTest.Seed != null)
             {
@@ -175,20 +175,21 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 Seed = BitStringFromObject("seed", (ExpandoObject)source);
             }
 
-            if (((ExpandoObject) source).ContainsProperty("bitlens"))
+            if (((ExpandoObject)source).ContainsProperty("bitlens"))
             {
                 Bitlens = IntArrayFromObject("bitlens", source);
             }
 
-            if (((ExpandoObject) source).ContainsProperty("e"))
-            {
-                Key = new KeyPair {PubKey = new PublicKey {E = new BitString(source.e).ToPositiveBigInteger()}};
-            }
-
             if (((ExpandoObject) source).ContainsProperty("p"))
             {
-                Key = KeyPairFromObject((ExpandoObject)source);
+                Key = new KeyPair { PubKey = new PublicKey(), PrivKey = new PrivateKey() };
+                Key = KeyPairFromObject(source);
             }
+
+            //if (((ExpandoObject) source).ContainsProperty("p"))
+            //{
+            //    Key = KeyPairFromObject((ExpandoObject)source);
+            //}
 
             if (((ExpandoObject) source).ContainsProperty("result"))
             {
@@ -203,10 +204,15 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (((ExpandoObject) source).ContainsProperty("xp1"))
             {
-                XP1 = ((BitString)BitStringFromObject("xp1", source)).Substring(0, Bitlens[0]);
-                XP2 = ((BitString)BitStringFromObject("xp2", source)).Substring(0, Bitlens[1]);
-                XQ1 = ((BitString)BitStringFromObject("xq1", source)).Substring(0, Bitlens[2]);
-                XQ2 = ((BitString)BitStringFromObject("xq2", source)).Substring(0, Bitlens[3]);
+                // Don't always have bitlens here... 
+                //XP1 = ((BitString)BitStringFromObject("xp1", source)).Substring(0, Bitlens[0]);
+                //XP2 = ((BitString)BitStringFromObject("xp2", source)).Substring(0, Bitlens[1]);
+                //XQ1 = ((BitString)BitStringFromObject("xq1", source)).Substring(0, Bitlens[2]);
+                //XQ2 = ((BitString)BitStringFromObject("xq2", source)).Substring(0, Bitlens[3]);
+                XP1 = ((BitString)BitStringFromObject("xp1", source));
+                XP2 = ((BitString)BitStringFromObject("xp2", source));
+                XQ1 = ((BitString)BitStringFromObject("xq1", source));
+                XQ2 = ((BitString)BitStringFromObject("xq2", source));
             }
         }
 
@@ -222,7 +228,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             var dmq1 = BigIntegerFromObject("dmq1", source);
             var iqmp = BigIntegerFromObject("iqmp", source);
 
-            if (d == null)
+            if (d == 0)
             {
                 return new KeyPair(p, q, n, e, dmp1, dmq1, iqmp);
             }

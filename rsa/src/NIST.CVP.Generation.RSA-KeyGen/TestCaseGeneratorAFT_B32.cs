@@ -36,7 +36,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (group.InfoGeneratedByServer || isSample)
             {
-                var e = RSAEnumHelpers.GetEValue();
+                BigInteger e;
+                if (group.PubExp == PubExpModes.FIXED)
+                {
+                    e = group.FixedPubExp.ToPositiveBigInteger();
+                }
+                else if (group.PubExp == PubExpModes.RANDOM)
+                {
+                    e = RSAEnumHelpers.GetEValue();
+                }
+
                 var seed = RSAEnumHelpers.GetSeed(group.Modulo);
 
                 // Generate TestCase
@@ -102,7 +111,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
             catch (Exception ex)
             {
-                ThisLogger.Error($"Deferred exception: {ex.Message}");
+                ThisLogger.Error($"Deferred exception: {ex.Message}; {ex.StackTrace}");
                 return new TestCaseGenerateResponse($"Deferred exception: {ex.Message}");
             }
 

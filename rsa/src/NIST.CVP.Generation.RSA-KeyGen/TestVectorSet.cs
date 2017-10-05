@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
@@ -89,72 +90,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         }
                         else if(group.TestType.ToLower() == "aft")
                         {
-                            if (!group.InfoGeneratedByServer)
-                            {
-                                if (IsSample)
-                                {
-                                    // For B.3.4, B.3.5, and B.3.6
-                                    if (group.Mode > KeyGenModes.B33)
-                                    {
-                                        ((IDictionary<string, object>)testObject).Add("bitlens", test.Bitlens);
-                                    }
-
-                                    if (group.Mode == KeyGenModes.B32 || group.Mode == KeyGenModes.B34 ||
-                                        group.Mode == KeyGenModes.B35)
-                                    {
-                                        ((IDictionary<string, object>)testObject).Add("seed", test.Seed);
-                                    }
-
-                                    if (group.Mode == KeyGenModes.B35)
-                                    {
-                                        ((IDictionary<string, object>)testObject).Add("xp", test.XP);
-                                        ((IDictionary<string, object>)testObject).Add("xq", test.XQ);
-                                    }
-                                    else if (group.Mode == KeyGenModes.B36)
-                                    {
-                                        ((IDictionary<string, object>)testObject).Add("xp", test.XP);
-                                        ((IDictionary<string, object>)testObject).Add("xp1", test.XP1);
-                                        ((IDictionary<string, object>)testObject).Add("xp2", test.XP2);
-                                        ((IDictionary<string, object>)testObject).Add("xq", test.XQ);
-                                        ((IDictionary<string, object>)testObject).Add("xq1", test.XQ1);
-                                        ((IDictionary<string, object>)testObject).Add("xq2", test.XQ2);
-                                    }
-
-                                    ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
-                                    ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
-                                    ((IDictionary<string, object>)testObject).Add("p", test.Key.PrivKey.P);
-                                    ((IDictionary<string, object>)testObject).Add("q", test.Key.PrivKey.Q);
-                                    ((IDictionary<string, object>)testObject).Add("d", test.Key.PrivKey.D);
-                                    ((IDictionary<string, object>)testObject).Add("dmp1", test.Key.PrivKey.DMP1);
-                                    ((IDictionary<string, object>)testObject).Add("dmq1", test.Key.PrivKey.DMQ1);
-                                    ((IDictionary<string, object>)testObject).Add("iqmp", test.Key.PrivKey.IQMP);
-                                }
-                            }
-                            else
-                            {
-                                ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
-                                ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
-                                ((IDictionary<string, object>)testObject).Add("p", test.Key.PrivKey.P);
-                                ((IDictionary<string, object>)testObject).Add("q", test.Key.PrivKey.Q);
-                                ((IDictionary<string, object>)testObject).Add("d", test.Key.PrivKey.D);
-                                ((IDictionary<string, object>)testObject).Add("dmp1", test.Key.PrivKey.DMP1);
-                                ((IDictionary<string, object>)testObject).Add("dmq1", test.Key.PrivKey.DMQ1);
-                                ((IDictionary<string, object>)testObject).Add("iqmp", test.Key.PrivKey.IQMP);
-                            }
-                        }
-                        else if(group.TestType.ToLower() == "gdt")
-                        {
-                            if (IsSample)
-                            {
-                                ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
-                                ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
-                                ((IDictionary<string, object>)testObject).Add("p", test.Key.PrivKey.P);
-                                ((IDictionary<string, object>)testObject).Add("q", test.Key.PrivKey.Q);
-                                ((IDictionary<string, object>)testObject).Add("d", test.Key.PrivKey.D);
-                                ((IDictionary<string, object>)testObject).Add("dmp1", test.Key.PrivKey.DMP1);
-                                ((IDictionary<string, object>)testObject).Add("dmq1", test.Key.PrivKey.DMQ1);
-                                ((IDictionary<string, object>)testObject).Add("iqmp", test.Key.PrivKey.IQMP);
-                            }
+                            AddKeyToDynamic(testObject, group.PubExp, test.Key);
                         }
 
                         if (test.Deferred)
@@ -215,48 +151,46 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         // Always include tcId
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (group.InfoGeneratedByServer)
+                        if (group.TestType.ToLower() == "aft")
                         {
-                            ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
-
-                            // For B.3.4, B.3.5, and B.3.6
-                            if (group.Mode > KeyGenModes.B33)
+                            if (group.InfoGeneratedByServer)
                             {
-                                ((IDictionary<string, object>) testObject).Add("bitlens", test.Bitlens);
-                            }
-
-                            if (group.Mode == KeyGenModes.B32 || group.Mode == KeyGenModes.B34 ||
-                                group.Mode == KeyGenModes.B35)
-                            {
-                                ((IDictionary<string, object>) testObject).Add("seed", test.Seed);
-                            }
-
-                            if (group.Mode == KeyGenModes.B35)
-                            {
-                                ((IDictionary<string, object>)testObject).Add("xp", test.XP);
-                                ((IDictionary<string, object>)testObject).Add("xq", test.XQ);
-                            }
-                            else if (group.Mode == KeyGenModes.B36)
-                            {
-                                ((IDictionary<string, object>)testObject).Add("xp", test.XP);
-                                ((IDictionary<string, object>)testObject).Add("xp1", test.XP1);
-                                ((IDictionary<string, object>)testObject).Add("xp2", test.XP2);
-                                ((IDictionary<string, object>)testObject).Add("xq", test.XQ);
-                                ((IDictionary<string, object>)testObject).Add("xq1", test.XQ1);
-                                ((IDictionary<string, object>)testObject).Add("xq2", test.XQ2);
-                            }
-                        }
-                        else
-                        {
-                            if (group.Mode == KeyGenModes.B33)
-                            {
-                                if (group.TestType.ToLower() == "kat")
+                                if (group.PubExp == PubExpModes.RANDOM)
                                 {
                                     ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
-                                    ((IDictionary<string, object>)testObject).Add("pRand", test.Key.PrivKey.P);
-                                    ((IDictionary<string, object>)testObject).Add("qRand", test.Key.PrivKey.Q);
+                                }
+
+                                if (group.Mode == KeyGenModes.B34 || group.Mode == KeyGenModes.B35 || group.Mode == KeyGenModes.B36)
+                                {
+                                    ((IDictionary<string, object>)testObject).Add("bitlens", test.Bitlens);
+                                }
+
+                                if (group.Mode == KeyGenModes.B32 || group.Mode == KeyGenModes.B34 || group.Mode == KeyGenModes.B35)
+                                {
+                                    ((IDictionary<string, object>)testObject).Add("seed", test.Seed);
+                                }
+
+                                if (group.Mode == KeyGenModes.B35)
+                                {
+                                    ((IDictionary<string, object>)testObject).Add("xp", test.XP);
+                                    ((IDictionary<string, object>)testObject).Add("xq", test.XQ);
+                                }
+                                else if (group.Mode == KeyGenModes.B36)
+                                {
+                                    ((IDictionary<string, object>)testObject).Add("xp", test.XP);
+                                    ((IDictionary<string, object>)testObject).Add("xp1", test.XP1);
+                                    ((IDictionary<string, object>)testObject).Add("xp2", test.XP2);
+                                    ((IDictionary<string, object>)testObject).Add("xq", test.XQ);
+                                    ((IDictionary<string, object>)testObject).Add("xq1", test.XQ1);
+                                    ((IDictionary<string, object>)testObject).Add("xq2", test.XQ2);
                                 }
                             }
+                        }
+                        else if (group.TestType.ToLower() == "kat")
+                        {
+                            ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
+                            ((IDictionary<string, object>)testObject).Add("pRand", test.Key.PrivKey.P);
+                            ((IDictionary<string, object>)testObject).Add("qRand", test.Key.PrivKey.Q);
                         }
 
                         if (test.Deferred)
@@ -289,28 +223,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         // Always include tcId
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if(group.InfoGeneratedByServer || IsSample)
+                        if (group.TestType.ToLower() == "aft")
                         {
-                            if (group.Mode == KeyGenModes.B33)
+                            if (group.InfoGeneratedByServer || IsSample)
                             {
-                                if (group.TestType.ToLower() == "kat")
-                                {
-                                    ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
-                                    ((IDictionary<string, object>)testObject).Add("pRand", test.Key.PrivKey.P);
-                                    ((IDictionary<string, object>)testObject).Add("qRand", test.Key.PrivKey.Q);
-                                }
-                            }
-
-                            if (group.TestType.ToLower() == "aft")
-                            {
-                                // For B.3.4, B.3.5, and B.3.6
-                                if (group.Mode > KeyGenModes.B33)
+                                if (group.Mode == KeyGenModes.B34 || group.Mode == KeyGenModes.B35 || group.Mode == KeyGenModes.B36)
                                 {
                                     ((IDictionary<string, object>)testObject).Add("bitlens", test.Bitlens);
                                 }
 
-                                if (group.Mode == KeyGenModes.B32 || group.Mode == KeyGenModes.B34 ||
-                                    group.Mode == KeyGenModes.B35)
+                                if (group.Mode == KeyGenModes.B32 || group.Mode == KeyGenModes.B34 || group.Mode == KeyGenModes.B35)
                                 {
                                     ((IDictionary<string, object>)testObject).Add("seed", test.Seed);
                                 }
@@ -322,52 +244,27 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                                 }
                                 else if (group.Mode == KeyGenModes.B36)
                                 {
-                                    ((IDictionary<string, object>)testObject).Add("xp", test.XP);
+                                    ((IDictionary<string, object>)testObject).Add("xp",  test.XP);
                                     ((IDictionary<string, object>)testObject).Add("xp1", test.XP1);
                                     ((IDictionary<string, object>)testObject).Add("xp2", test.XP2);
-                                    ((IDictionary<string, object>)testObject).Add("xq", test.XQ);
+                                    ((IDictionary<string, object>)testObject).Add("xq",  test.XQ);
                                     ((IDictionary<string, object>)testObject).Add("xq1", test.XQ1);
                                     ((IDictionary<string, object>)testObject).Add("xq2", test.XQ2);
                                 }
+
+                                AddKeyToDynamic(testObject, group.PubExp, test.Key);
                             }
                         }
-
-                        if (group.TestType.ToLower() == "kat")
+                        else if (group.TestType.ToLower() == "kat")
                         {
                             ((IDictionary<string, object>)testObject).Add("result", !test.FailureTest ? "passed" : "failed");
                         }
-                        else if(group.TestType.ToLower() == "aft")
-                        {
-                            if (group.InfoGeneratedByServer || IsSample)
-                            {
-                                ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
-                                ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
-                                ((IDictionary<string, object>)testObject).Add("p", test.Key.PrivKey.P);
-                                ((IDictionary<string, object>)testObject).Add("q", test.Key.PrivKey.Q);
-                                ((IDictionary<string, object>)testObject).Add("d", test.Key.PrivKey.D);
-                                ((IDictionary<string, object>)testObject).Add("dmp1", test.Key.PrivKey.DMP1);
-                                ((IDictionary<string, object>)testObject).Add("dmq1", test.Key.PrivKey.DMQ1);
-                                ((IDictionary<string, object>)testObject).Add("iqmp", test.Key.PrivKey.IQMP);
-                            }
-                        }
-                        else if(group.TestType.ToLower() == "gdt")
+                        else if (group.TestType.ToLower() == "gdt")
                         {
                             if (IsSample)
                             {
-                                ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
-                                ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
-                                ((IDictionary<string, object>)testObject).Add("p", test.Key.PrivKey.P);
-                                ((IDictionary<string, object>)testObject).Add("q", test.Key.PrivKey.Q);
-                                ((IDictionary<string, object>)testObject).Add("d", test.Key.PrivKey.D);
-                                ((IDictionary<string, object>)testObject).Add("dmp1", test.Key.PrivKey.DMP1);
-                                ((IDictionary<string, object>)testObject).Add("dmq1", test.Key.PrivKey.DMQ1);
-                                ((IDictionary<string, object>)testObject).Add("iqmp", test.Key.PrivKey.IQMP);
+                                AddKeyToDynamic(testObject, group.PubExp, test.Key);
                             }
-                        }
-
-                        if (test.Deferred)
-                        {
-                            ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
                         }
 
                         tests.Add(testObject);
@@ -385,6 +282,29 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             ((IDictionary<string, object>)vectorSetObject).Add("testGroups", PromptProjection);
             ((IDictionary<string, object>)vectorSetObject).Add("resultProjection", ResultProjection);
             return vectorSetObject;
+        }
+
+        private void AddKeyToDynamic(ExpandoObject jsonObject, PubExpModes expMode, KeyPair key)
+        {
+            if (expMode == PubExpModes.RANDOM)
+            {
+                ((IDictionary<string, object>)jsonObject).Add("e", key.PubKey.E);
+            }
+
+            ((IDictionary<string, object>)jsonObject).Add("n", key.PubKey.N);
+            ((IDictionary<string, object>)jsonObject).Add("p", key.PrivKey.P);
+            ((IDictionary<string, object>)jsonObject).Add("q", key.PrivKey.Q);
+
+            if (key.PrivKey.D != 0)
+            {
+                ((IDictionary<string, object>)jsonObject).Add("d", key.PrivKey.D);
+            }
+            else
+            {
+                ((IDictionary<string, object>)jsonObject).Add("dmp1", key.PrivKey.DMP1);
+                ((IDictionary<string, object>)jsonObject).Add("dmq1", key.PrivKey.DMQ1);
+                ((IDictionary<string, object>)jsonObject).Add("iqmp", key.PrivKey.IQMP);
+            }
         }
     }
 }
