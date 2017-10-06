@@ -7,7 +7,9 @@ using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Math;
 using ModeValues = NIST.CVP.Crypto.SHAWrapper.ModeValues;
 
 namespace NIST.CVP.Crypto.KAS.NoKC

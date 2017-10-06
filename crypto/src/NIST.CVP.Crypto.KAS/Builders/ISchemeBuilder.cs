@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme;
+using NIST.CVP.Crypto.KES;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Builders
@@ -18,7 +19,30 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// <param name="dsa">The dsa implementation to use</param>
         /// <returns></returns>
         ISchemeBuilder WithDsa(IDsaFfc dsa);
-        
+
+        /// <summary>
+        /// Sets the <see cref="IKdfFactory"/> used in the scheme.
+        /// </summary>
+        /// <param name="kdfFactory">The kdf factory to use</param>
+        /// <returns></returns>
+        ISchemeBuilder WithKdfFactory(IKdfFactory kdfFactory);
+
+
+        /// <summary>
+        /// Sets the <see cref="IKeyConfirmationFactory"/> used in the scheme.
+        /// </summary>
+        /// <param name="keyConfirmationFactory">The key confirmation factory implementation to use</param>
+        /// <returns></returns>
+        ISchemeBuilder WithKeyConfirmationFactory(IKeyConfirmationFactory keyConfirmationFactory);
+
+        /// <summary>
+        /// Sets the <see cref="IKeyConfirmationFactory"/> used in the scheme.
+        /// </summary>
+        /// <param name="noKeyConfirmationFactory">The kdf factory implementation to use</param>
+        /// <returns></returns>
+        ISchemeBuilder WithNoKeyConfirmationFactory(INoKeyConfirmationFactory noKeyConfirmationFactory);
+
+
         /// <summary>
         /// Sets the <see cref="IOtherInfoFactory"/> used in the scheme
         /// </summary>
@@ -31,7 +55,21 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="entropyProvider">The entropy provider used in the scheme.</param>
         /// <returns></returns>
-        ISchemeBuilder WIthEntropyProvider(IEntropyProvider entropyProvider);
+        ISchemeBuilder WithEntropyProvider(IEntropyProvider entropyProvider);
+
+        /// <summary>
+        /// Sets the <see cref="IDiffieHellman"/> used in the scheme.
+        /// </summary>
+        /// <param name="diffieHellman">The diffie hellman instance.</param>
+        /// <returns></returns>
+        ISchemeBuilder WithDiffieHellman(IDiffieHellman diffieHellman);
+
+        /// <summary>
+        /// Sets the <see cref="IMqv"/> used in the scheme.
+        /// </summary>
+        /// <param name="mqv">The mqv instance.</param>
+        /// <returns></returns>
+        ISchemeBuilder WithMqv(IMqv mqv);
 
         /// <summary>
         /// Builds the scheme using the provided parameters, and default (or overriden dependencies for testing)

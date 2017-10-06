@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -42,7 +43,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                     new OtherInfoFactory(
                         _entropyProviderOtherInfo
                     ),
-                    _entropyProviderScheme
+                    _entropyProviderScheme,
+                    new DiffieHellman(),
+                    new Mqv()
                 )
             );
 

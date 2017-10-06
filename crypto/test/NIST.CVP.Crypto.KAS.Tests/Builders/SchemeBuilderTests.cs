@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme;
+using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -29,6 +30,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
         private Mock<INoKeyConfirmationFactory> _noKeyConfirmationFactory;
         private Mock<IOtherInfoFactory> _otherInfoFactory;
         private Mock<IEntropyProvider> _entropyProvider;
+        private Mock<IDiffieHellman> _diffieHellman;
+        private Mock<IMqv> _mqv;
 
         private FfcDomainParameters _mockDomainParameters;
 
@@ -42,6 +45,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _noKeyConfirmationFactory = new Mock<INoKeyConfirmationFactory>();
             _otherInfoFactory = new Mock<IOtherInfoFactory>();
             _entropyProvider = new Mock<IEntropyProvider>();
+            _diffieHellman = new Mock<IDiffieHellman>();
+            _mqv = new Mock<IMqv>();
 
             _subject = new SchemeBuilder(
                 _dsa.Object, 
@@ -49,7 +54,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                 _keyConfirmationFactory.Object, 
                 _noKeyConfirmationFactory.Object, 
                 _otherInfoFactory.Object, 
-                _entropyProvider.Object
+                _entropyProvider.Object,
+                _diffieHellman.Object,
+                _mqv.Object
             );
 
             _mockDomainParameters = new FfcDomainParameters(1, 2, 3);

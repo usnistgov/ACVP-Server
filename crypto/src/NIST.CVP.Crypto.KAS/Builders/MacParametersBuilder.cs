@@ -7,25 +7,25 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public class MacParametersBuilder
+    public class MacParametersBuilder : IMacParametersBuilder
     {
         private KeyAgreementMacType _keyAgreementMacType;
         private int _macLength;
         private BitString _aesCcmNonce;
 
-        public MacParametersBuilder WithKeyAgreementMacType(KeyAgreementMacType value)
+        public IMacParametersBuilder WithKeyAgreementMacType(KeyAgreementMacType value)
         {
             _keyAgreementMacType = value;
             return this;
         }
 
-        public MacParametersBuilder WithMacLength(int value)
+        public IMacParametersBuilder WithMacLength(int value)
         {
             _macLength = value;
             return this;
         }
 
-        public MacParametersBuilder WithNonce(BitString value)
+        public IMacParametersBuilder WithNonce(BitString value)
         {
             _aesCcmNonce = value;
             return this;

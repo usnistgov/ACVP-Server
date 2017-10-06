@@ -18,10 +18,18 @@ namespace NIST.CVP.Crypto.KAS.Builders
         private readonly INoKeyConfirmationFactory _originalNoKeyConfirmationFactory;
         private readonly IOtherInfoFactory _originalOtherInfoFactory;
         private readonly IEntropyProvider _originalEntropyProvider;
+        private readonly IDiffieHellman _originalDiffieHellman;
+        private readonly IMqv _originalMqv;
 
         private IDsaFfc _withDsa;
+        private IKdfFactory _withKdfFactory;
+        private IKeyConfirmationFactory _withKeyConfirmationFactory;
+        private INoKeyConfirmationFactory _withNoKeyConfirmationFactory;
         private IOtherInfoFactory _withOtherInfoFactory;
         private IEntropyProvider _withEntropyProvider;
+        private IDiffieHellman _withDiffieHellman;
+        private IMqv _withMqv;
+
 
         public SchemeBuilder(
             IDsaFfc dsa,
@@ -29,7 +37,9 @@ namespace NIST.CVP.Crypto.KAS.Builders
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
-            IEntropyProvider entropyProvider
+            IEntropyProvider entropyProvider,
+            IDiffieHellman diffieHellman,
+            IMqv mqv
         )
         {
             _originalDsa = dsa;
@@ -38,6 +48,8 @@ namespace NIST.CVP.Crypto.KAS.Builders
             _originalNoKeyConfirmationFactory = noKeyConfirmationFactory;
             _originalOtherInfoFactory = otherInfoFactory;
             _originalEntropyProvider = entropyProvider;
+            _originalDiffieHellman = diffieHellman;
+            _originalMqv = mqv;
 
             SetWithInjectablesToConstructionState();
         }
@@ -45,13 +57,36 @@ namespace NIST.CVP.Crypto.KAS.Builders
         private void SetWithInjectablesToConstructionState()
         {
             _withDsa = _originalDsa;
+            _withKdfFactory = _originalKdfFactory;
+            _withKeyConfirmationFactory = _originalKeyConfirmationFactory;
+            _withNoKeyConfirmationFactory = _originalNoKeyConfirmationFactory;
             _withOtherInfoFactory = _originalOtherInfoFactory;
             _withEntropyProvider = _originalEntropyProvider;
+            _withDiffieHellman = _originalDiffieHellman;
+            _withMqv = _originalMqv;
         }
 
         public ISchemeBuilder WithDsa(IDsaFfc dsa)
         {
             _withDsa = dsa;
+            return this;
+        }
+
+        public ISchemeBuilder WithKdfFactory(IKdfFactory kdfFactory)
+        {
+            _withKdfFactory = kdfFactory;
+            return this;
+        }
+
+        public ISchemeBuilder WithKeyConfirmationFactory(IKeyConfirmationFactory keyConfirmationFactory)
+        {
+            _withKeyConfirmationFactory = keyConfirmationFactory;
+            return this;
+        }
+
+        public ISchemeBuilder WithNoKeyConfirmationFactory(INoKeyConfirmationFactory noKeyConfirmationFactory)
+        {
+            _withNoKeyConfirmationFactory = noKeyConfirmationFactory;
             return this;
         }
 
@@ -61,9 +96,21 @@ namespace NIST.CVP.Crypto.KAS.Builders
             return this;
         }
 
-        public ISchemeBuilder WIthEntropyProvider(IEntropyProvider entropyProvider)
+        public ISchemeBuilder WithEntropyProvider(IEntropyProvider entropyProvider)
         {
             _withEntropyProvider = entropyProvider;
+            return this;
+        }
+
+        public ISchemeBuilder WithDiffieHellman(IDiffieHellman diffieHellman)
+        {
+            _withDiffieHellman = diffieHellman;
+            return this;
+        }
+
+        public ISchemeBuilder WithMqv(IMqv mqv)
+        {
+            _withMqv = mqv;
             return this;
         }
 
@@ -75,9 +122,9 @@ namespace NIST.CVP.Crypto.KAS.Builders
             switch (schemeParameters.Scheme)
             {
                 case FfcScheme.DhEphem:
-                    scheme = new SchemeDiffieHellmanEphemeral(_withDsa, _originalKdfFactory,
-                        _originalKeyConfirmationFactory, _originalNoKeyConfirmationFactory, _withOtherInfoFactory,
-                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, new DiffieHellman());
+                    scheme = new SchemeDiffieHellmanEphemeral(_withDsa, _withKdfFactory,
+                        _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
                 case FfcScheme.DhHybrid1:
                 case FfcScheme.DhHybridOneFlow:

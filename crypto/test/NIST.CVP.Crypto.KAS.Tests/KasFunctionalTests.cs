@@ -11,6 +11,7 @@ using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme;
+using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -48,7 +49,9 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new OtherInfoFactory(
                         _entropyProviderOtherInfo
                     ),
-                    _entropyProviderScheme
+                    _entropyProviderScheme,
+                    new DiffieHellman(), 
+                    new Mqv()
                 )
             );
 
@@ -659,7 +662,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
             Assert.AreEqual(expectedZ, result.Z, nameof(result.Z));
             Assert.AreEqual(expectedOi, result.Oi, nameof(result.Oi));
             Assert.AreEqual(expectedDkm, result.Dkm, nameof(result.Dkm));
-            Assert.AreEqual(expectedMacData, result.MacData, nameof(result.MacData));
+            Assert.AreEqual(expectedMacData.ToHex(), result.MacData.ToHex(), nameof(result.MacData));
             Assert.AreEqual(expectedTag, result.Tag, nameof(result.Tag));
         }
 

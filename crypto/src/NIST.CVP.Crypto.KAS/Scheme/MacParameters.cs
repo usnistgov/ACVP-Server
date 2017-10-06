@@ -38,11 +38,6 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             {
                 throw new ArgumentException(nameof(macType));
             }
-            
-            if (BitString.IsZeroLengthOrNull(ccmNonce))
-            {
-                throw new ArgumentException(nameof(ccmNonce));
-            }
 
             MacType = macType;
             MacLength = macLength;

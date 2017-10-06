@@ -5,11 +5,15 @@ using System.Text;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS
 {
     public static class SpecificationMapping
     {
+        public static readonly BitString ServerId = new BitString("434156536964");
+        public static readonly BitString IutId = new BitString("a1b2c3d4e5");
+
         #region hmac
         public static List<(string specificationHmac, Type macType, HashFunction hashFunction)> HmacMapping =
             new List<(string specificationHmac, Type macType, HashFunction hashFunction)>()
@@ -69,6 +73,27 @@ namespace NIST.CVP.Generation.KAS
             }
 
             return result.schemeEnum;
+        }
+
+        public static
+            List<(FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair)> 
+                FfcSchemeKeyGenerationRequirements =
+                    new List<(FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair)>()
+                    {
+                        (FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, false, true),
+                        (FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, false, true)
+                    };
+
+
+        public static (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair) 
+            GetKeyGenerationOptionsForSchemeAndRole(FfcScheme scheme, KeyAgreementRole thisPartyRole)
+        {
+            if (!FfcSchemeKeyGenerationRequirements.TryFirst(w => w.scheme == scheme && w.thisPartyKasRole == thisPartyRole, out var result))
+            {
+                throw new ArgumentException("Invalid scheme/key agreement role combination");
+            }
+
+            return result;
         }
         #endregion scheme
 

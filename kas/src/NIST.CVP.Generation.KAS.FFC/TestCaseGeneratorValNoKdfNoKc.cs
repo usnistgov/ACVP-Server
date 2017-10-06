@@ -1,0 +1,147 @@
+﻿using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.KAS;
+using NIST.CVP.Crypto.KAS.Builders;
+using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KAS.FFC.Enums;
+using NIST.CVP.Generation.KAS.FFC.Helpers;
+
+namespace NIST.CVP.Generation.KAS.FFC
+{
+    public class TestCaseGeneratorValNoKdfNoKc : ITestCaseGenerator<TestGroup, TestCase>
+    {
+        private readonly IKasBuilder _kasBuilder;
+        private readonly ISchemeBuilder _schemeBuilder;
+        private readonly IDsaFfcFactory _dsaFactory;
+        private readonly IShaFactory _shaFactory;
+        private readonly TestCaseDispositionOption _intendedDisposition;
+
+        public TestCaseGeneratorValNoKdfNoKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IDsaFfcFactory dsaFactory, IShaFactory shaFactory, TestCaseDispositionOption intendedDisposition)
+        {
+            _kasBuilder = kasBuilder;
+            _schemeBuilder = schemeBuilder;
+            _dsaFactory = dsaFactory;
+            _shaFactory = shaFactory;
+            _intendedDisposition = intendedDisposition;
+
+            // This shouldn't happen, but just in case, NoKdfNoKc doesn't use DKM, MacData, or OI
+            if (_intendedDisposition == TestCaseDispositionOption.FailChangedDkm
+                || _intendedDisposition == TestCaseDispositionOption.FailChangedMacData
+                || _intendedDisposition == TestCaseDispositionOption.FailChangedOi)
+            {
+                _intendedDisposition = TestCaseDispositionOption.Success;
+            }
+        }
+
+        public int NumberOfTestCasesToGenerate => 25;
+        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        {
+            TestCase tc = new TestCase();
+
+            return Generate(group, tc);
+        }
+
+        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        {
+            var dsa = _dsaFactory.GetInstance(_shaFactory.GetShaInstance(group.HashAlg));
+
+            var uParty = _kasBuilder
+                .WithPartyId(
+                    group.KasRole == KeyAgreementRole.InitiatorPartyU
+                        ? SpecificationMapping.IutId
+                        : SpecificationMapping.ServerId
+                )
+                .WithAssurances(group.Function)
+                .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
+                .WithParameterSet(group.ParmSet)
+                .WithScheme(group.Scheme)
+                .WithSchemeBuilder(
+                    _schemeBuilder
+                        .WithDsa(dsa)
+                )
+                .BuildNoKdfNoKc()
+
+                .Build();
+
+            var vParty = _kasBuilder
+                .WithPartyId(
+                    group.KasRole == KeyAgreementRole.ResponderPartyV
+                        ? SpecificationMapping.IutId
+                        : SpecificationMapping.ServerId
+                )
+                .WithAssurances(group.Function)
+                .WithKeyAgreementRole(KeyAgreementRole.ResponderPartyV)
+                .WithParameterSet(group.ParmSet)
+                .WithScheme(group.Scheme)
+                .WithSchemeBuilder(
+                    _schemeBuilder
+                        .WithDsa(dsa)
+                )
+                .BuildNoKdfNoKc()
+                .Build();
+
+            FfcDomainParameters dp = new FfcDomainParameters(
+                group.P,
+                group.Q,
+                group.G
+            );
+
+            uParty.SetDomainParameters(dp);
+            vParty.SetDomainParameters(dp);
+
+            var uPartyPublic = uParty.ReturnPublicInfoThisParty();
+            //var vPartyPublic = uParty.ReturnPublicInfoThisParty();
+
+            var serverKas = group.KasRole == KeyAgreementRole.InitiatorPartyU ? vParty : uParty;
+            var iutKas = group.KasRole == KeyAgreementRole.InitiatorPartyU ? vParty : uParty;
+
+            // Mangle the keys prior to running compute result, to create a "successful" result on bad keys.
+            // IUT should pick up on bad private/public key information.
+            TestCaseDispositionHelper.MangleKeys(
+                testCase,
+                dsa,
+                _intendedDisposition,
+                serverKas,
+                iutKas
+            );
+
+            //var serverResult = serverKas.ComputeResult(vPartyPublic);
+            var iutResult = iutKas.ComputeResult(uPartyPublic);
+
+            // Set the test case up w/ the information from the kas instances
+            TestCaseDispositionHelper.SetTestCaseInformationFromKasResults(group, testCase, serverKas, iutKas, iutResult);
+
+            // introduce errors into other data
+            if (_intendedDisposition == TestCaseDispositionOption.FailChangedZ)
+            {
+                testCase.FailureTest = true;
+
+                // Change the Z
+                testCase.Z[0] += 2;
+
+                // Rehash Z
+                testCase.Tag = dsa.Sha.HashMessage(testCase.Z).Digest;
+            }
+
+            if (_intendedDisposition == TestCaseDispositionOption.FailChangedTag)
+            {
+                testCase.FailureTest = true;
+                testCase.Tag[0] += 2;
+            }
+
+            // check for successful conditions w/ constraints.
+            if (_intendedDisposition == TestCaseDispositionOption.SuccessLeadingZeroNibbleZ)
+            {
+                // No zero nibble in MSB
+                if (testCase.Z[0] >= 0x10)
+                {
+                    // call generate again, until getting to a zero nibble MSB for Z
+                    Generate(group, testCase);
+                }
+            }
+
+            return new TestCaseGenerateResponse(testCase);
+        }
+    }
+}
