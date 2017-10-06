@@ -6,7 +6,7 @@ using System.Text;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.DSA.FFC.SigGen
+namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
     public class TestVectorSet : ITestVectorSet
     {
@@ -60,6 +60,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("result", test.FailureTest ? "failed" : "passed");
+                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason.GetName());
 
                         tests.Add(testObject);
                     }
@@ -91,6 +93,9 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("message", test.Message);
+                        ((IDictionary<string, object>)testObject).Add("y", test.Key.PublicKeyY);
+                        ((IDictionary<string, object>)testObject).Add("r", test.Signature.R);
+                        ((IDictionary<string, object>)testObject).Add("s", test.Signature.S);
 
                         tests.Add(testObject);
                     }
@@ -114,19 +119,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-
-                        if (IsSample)
-                        {
-                            // These are group properties inside each test case
-                            ((IDictionary<string, object>)testObject).Add("p", test.DomainParams.P);
-                            ((IDictionary<string, object>)testObject).Add("q", test.DomainParams.Q);
-                            ((IDictionary<string, object>)testObject).Add("g", test.DomainParams.G);
-
-                            // Normal answers per test case
-                            ((IDictionary<string, object>)testObject).Add("y", test.Key.PublicKeyY);
-                            ((IDictionary<string, object>)testObject).Add("r", test.Signature.R);
-                            ((IDictionary<string, object>)testObject).Add("s", test.Signature.S);
-                        }
+                        ((IDictionary<string, object>)testObject).Add("result", test.FailureTest ? "failed" : "passed");
+                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason.GetName());
 
                         tests.Add(testObject);
                     }

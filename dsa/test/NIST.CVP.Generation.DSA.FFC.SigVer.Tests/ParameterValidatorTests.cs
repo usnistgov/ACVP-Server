@@ -5,7 +5,7 @@ using System.Text;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
+namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
 {
     [TestFixture, UnitTest]
     public class ParameterValidatorTests
@@ -47,7 +47,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         [TestCase(2048, 160)]
         [TestCase(2049, 224)]
         [TestCase(3072, 257)]
-        [TestCase(1024, 160)]
         [TestCase(1, 2)]
         public void ShouldReturnErrorWithInvalidLNPair(int L, int N)
         {
@@ -64,6 +63,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         }
 
         [Test]
+        [TestCase(1024, 160)]
         [TestCase(2048, 224)]
         [TestCase(2048, 256)]
         [TestCase(3072, 256)]
@@ -91,9 +91,10 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         public ParameterBuilder()
         {
             _algorithm = "DSA";
-            _mode = "SigGen";
-            _capabilities = new[] 
+            _mode = "SigVer";
+            _capabilities = new[]
             {
+                GetCapabilityWith(1024, 160, ParameterValidator.VALID_HASH_ALGS),
                 GetCapabilityWith(2048, 224, ParameterValidator.VALID_HASH_ALGS),
                 GetCapabilityWith(2048, 256, ParameterValidator.VALID_HASH_ALGS),
                 GetCapabilityWith(3072, 256, ParameterValidator.VALID_HASH_ALGS)

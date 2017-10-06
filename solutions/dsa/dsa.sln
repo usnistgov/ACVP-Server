@@ -75,11 +75,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.FFC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.FFC.SigGen.Tests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.SigGen.Tests\NIST.CVP.Generation.DSA.FFC.SigGen.Tests.csproj", "{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests\NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests.csproj", "{18F2D7FC-D3DA-46BA-BCEE-A0DFD023A4CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests\NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests.csproj", "{18F2D7FC-D3DA-46BA-BCEE-A0DFD023A4CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSA-SigGen", "..\..\dsa\src\DSA-SigGen\DSA-SigGen.csproj", "{9CBC00F7-44C9-4A15-8113-93E26B6CAC46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA-SigGen", "..\..\dsa\src\DSA-SigGen\DSA-SigGen.csproj", "{9CBC00F7-44C9-4A15-8113-93E26B6CAC46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSA-SigGen_Val", "..\..\dsa\src\DSA-SigGen_Val\DSA-SigGen_Val.csproj", "{1307F75A-0C52-4365-AFD7-EEBB658A4666}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA-SigGen_Val", "..\..\dsa\src\DSA-SigGen_Val\DSA-SigGen_Val.csproj", "{1307F75A-0C52-4365-AFD7-EEBB658A4666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.FFC.SigVer", "..\..\dsa\src\NIST.CVP.Generation.DSA.FFC.SigVer\NIST.CVP.Generation.DSA.FFC.SigVer.csproj", "{9C3460CB-7945-40BD-9D44-146A80D944A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.FFC.SigVer.Tests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.SigVer.Tests\NIST.CVP.Generation.DSA.FFC.SigVer.Tests.csproj", "{C50FF3C7-AAF3-478A-AB71-8A4B9832131B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -235,6 +239,14 @@ Global
 		{1307F75A-0C52-4365-AFD7-EEBB658A4666}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1307F75A-0C52-4365-AFD7-EEBB658A4666}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1307F75A-0C52-4365-AFD7-EEBB658A4666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C3460CB-7945-40BD-9D44-146A80D944A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C3460CB-7945-40BD-9D44-146A80D944A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C3460CB-7945-40BD-9D44-146A80D944A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C3460CB-7945-40BD-9D44-146A80D944A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C50FF3C7-AAF3-478A-AB71-8A4B9832131B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C50FF3C7-AAF3-478A-AB71-8A4B9832131B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C50FF3C7-AAF3-478A-AB71-8A4B9832131B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C50FF3C7-AAF3-478A-AB71-8A4B9832131B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -277,6 +289,8 @@ Global
 		{18F2D7FC-D3DA-46BA-BCEE-A0DFD023A4CC} = {3A1064A5-ACA1-4488-AEEC-8B5A127AC7D0}
 		{9CBC00F7-44C9-4A15-8113-93E26B6CAC46} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
 		{1307F75A-0C52-4365-AFD7-EEBB658A4666} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
+		{9C3460CB-7945-40BD-9D44-146A80D944A2} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
+		{C50FF3C7-AAF3-478A-AB71-8A4B9832131B} = {3A1064A5-ACA1-4488-AEEC-8B5A127AC7D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1FB7617-33CC-4073-8F8F-057BADD417C4}
