@@ -180,7 +180,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var subject = new TestCaseGeneratorAFT_B34(GetRandomMock().Object, GetPrimeGenMock().Object);
 
             var suppliedTestCase = GetTestCase();
-            suppliedTestCase.Key = null;
+            suppliedTestCase.Key = new KeyPair { PubKey = new PublicKey { E = 1 } };
 
             var result = subject.RecombineTestCases(GetTestGroup(), suppliedTestCase, GetTestCase());
 

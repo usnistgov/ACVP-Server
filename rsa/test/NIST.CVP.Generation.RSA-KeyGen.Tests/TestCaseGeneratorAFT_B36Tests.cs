@@ -187,7 +187,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var subject = new TestCaseGeneratorAFT_B36(GetRandomMock().Object, GetPrimeGenMock().Object);
 
             var suppliedTestCase = GetTestCase();
-            suppliedTestCase.Key = null;
+            suppliedTestCase.Key = new KeyPair { PubKey = new PublicKey { E = 1 } };
 
             var result = subject.RecombineTestCases(GetTestGroup(), suppliedTestCase, GetTestCase());
 
@@ -299,13 +299,22 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 
         private TestCase GetTestCase()
         {
+            var rand = new Random800_90();
+            var bitlens = new[] { 144, 180, 200, 204 };
+
             return new TestCase
             {
                 TestCaseId = 1,
                 Deferred = true,
                 Key = new KeyPair { PubKey = new PublicKey { E = 5 } },
                 Seed = new BitString("BEEFFACE"),
-                Bitlens = new[] { 144, 180, 200, 204 }
+                Bitlens = bitlens,
+                XP = rand.GetRandomBitString(bitlens[0]),
+                XQ = rand.GetRandomBitString(bitlens[0]),
+                XP1 = rand.GetRandomBitString(bitlens[0]),
+                XP2 = rand.GetRandomBitString(bitlens[1]),
+                XQ1 = rand.GetRandomBitString(bitlens[2]),
+                XQ2 = rand.GetRandomBitString(bitlens[3]),
             };
         }
     }

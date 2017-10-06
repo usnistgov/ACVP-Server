@@ -90,7 +90,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         }
                         else if(group.TestType.ToLower() == "aft")
                         {
-                            AddKeyToDynamic(testObject, group.PubExp, test.Key);
+                            if (group.InfoGeneratedByServer)
+                            {
+                                AddKeyToDynamic(testObject, group.PubExp, test.Key);
+                            }
                         }
 
                         if (test.Deferred)
