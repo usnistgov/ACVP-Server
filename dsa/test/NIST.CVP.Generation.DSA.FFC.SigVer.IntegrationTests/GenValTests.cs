@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Autofac;
-using DSA_SigGen;
+using DSA_SigVer;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
@@ -13,7 +13,7 @@ using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
+namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests
@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
             AutofacConfig.OverrideRegistrations = null;
-            DSA_SigGen_Val.AutofacConfig.OverrideRegistrations = null;
+            DSA_SigVer_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         [OneTimeTearDown]
@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
         [Test]
         public void ValShouldReturn1OnFailedRun()
         {
-            DSA_SigGen_Val.AutofacConfig.OverrideRegistrations = builder =>
+            DSA_SigVer_Val.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -95,7 +95,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
 
             RunGeneration(targetFolder, fileName);
 
-            var result = DSA_SigGen_Val.Program.Main(
+            var result = DSA_SigVer_Val.Program.Main(
                 GetFileNamesWithPath(targetFolder, _testVectorFileNames)
             );
 
@@ -105,7 +105,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
         [Test]
         public void ValShouldReturn1OnException()
         {
-            DSA_SigGen_Val.AutofacConfig.OverrideRegistrations = builder =>
+            DSA_SigVer_Val.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
@@ -115,7 +115,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
 
             RunGeneration(targetFolder, fileName);
 
-            var result = DSA_SigGen_Val.Program.Main(
+            var result = DSA_SigVer_Val.Program.Main(
                 GetFileNamesWithPath(targetFolder, _testVectorFileNames)
             );
 
@@ -213,7 +213,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
         private string GetTestFolder(string name = "")
         {
             var prefix = name == "" ? "" : name + "--";
-            var folderName = "SigGen--" + prefix + Guid.NewGuid().ToString().Substring(0, 8);
+            var folderName = "SigVer--" + prefix + Guid.NewGuid().ToString().Substring(0, 8);
             var targetFolder = Path.Combine(_testPath, folderName);
             Directory.CreateDirectory(targetFolder);
 
@@ -246,7 +246,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
         private void RunValidation(string targetFolder)
         {
             // Run test vector validation
-            var result = DSA_SigGen_Val.Program.Main(
+            var result = DSA_SigVer_Val.Program.Main(
                 GetFileNamesWithPath(targetFolder, _testVectorFileNames)
             );
             Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder} validation");
@@ -280,15 +280,9 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
                     failedTestCases.Add((int)testCase.tcId);
 
                     // If TC has a result, change it
-                    if (testCase.r != null)
+                    if (testCase.result != null)
                     {
-                        testCase.r = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.r)).ToHex();
-                        continue;
-                    }
-
-                    if (testCase.s != null)
-                    {
-                        testCase.s = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.s)).ToHex();
+                        testCase.result = (testCase.result == "passed") ? "failed" : "passed";
                         continue;
                     }
                 }
@@ -332,7 +326,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
             var p = new Parameters
             {
                 Algorithm = "DSA",
-                Mode = "SigGen",
+                Mode = "SigVer",
                 IsSample = true,
                 Capabilities = caps,
             };
@@ -361,7 +355,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
             var p = new Parameters
             {
                 Algorithm = "DSA",
-                Mode = "SigGen",
+                Mode = "SigVer",
                 IsSample = true,
                 Capabilities = caps,
             };
@@ -371,23 +365,30 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
 
         private string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            var caps = new Capability[3];
+            var caps = new Capability[4];
 
             caps[0] = new Capability
             {
-                L = 2048,
-                N = 224,
+                L = 1024,
+                N = 160,
                 HashAlg = ParameterValidator.VALID_HASH_ALGS
             };
 
             caps[1] = new Capability
             {
                 L = 2048,
-                N = 256,
+                N = 224,
                 HashAlg = ParameterValidator.VALID_HASH_ALGS
             };
 
             caps[2] = new Capability
+            {
+                L = 2048,
+                N = 256,
+                HashAlg = ParameterValidator.VALID_HASH_ALGS
+            };
+
+            caps[3] = new Capability
             {
                 L = 3072,
                 N = 256,
@@ -397,8 +398,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
             var p = new Parameters
             {
                 Algorithm = "DSA",
-                Mode = "SigGen",
-                IsSample = true,
+                Mode = "SigVer",
+                IsSample = false,
                 Capabilities = caps,
             };
 

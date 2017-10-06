@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Numerics;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.DSA.FFC;
@@ -24,6 +25,9 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         public FfcKeyPair Key { get; set; }
         public BitString Message { get; set; }
         public FfcSignature Signature { get; set; }
+
+        private BigInteger _rSetString;
+        private BigInteger _sSetString;
 
         public TestCase() { }
 
@@ -58,6 +62,40 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         {
             // We don't need any properties from the prompt...
             return (TestCaseId == otherTest.TestCaseId);
+        }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "y":
+                    Key = new FfcKeyPair(new BitString(value).ToPositiveBigInteger());
+                    return true;
+
+                case "msg":
+                    Message = new BitString(value);
+                    return true;
+
+                case "r":
+                    _rSetString = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "s":
+                    _sSetString = new BitString(value).ToPositiveBigInteger();
+                    Signature = new FfcSignature(_rSetString, _sSetString);
+                    return true;
+
+                case "result":
+                    FailureTest = value.ToLower()[0] == 'f';
+                    return true;
+            }
+
+            return false;
         }
     }
 }
