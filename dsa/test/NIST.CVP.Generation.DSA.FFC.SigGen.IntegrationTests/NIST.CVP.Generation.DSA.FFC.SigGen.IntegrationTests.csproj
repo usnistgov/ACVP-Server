@@ -5,19 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="NLog" Version="5.0.0-beta11" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20170923-02" />
+    <PackageReference Include="NUnit" Version="3.8.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.DSA.FFC\NIST.CVP.Crypto.DSA.FFC.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.DSA\NIST.CVP.Crypto.DSA.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.Math\NIST.CVP.Crypto.Math.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.SHA2\NIST.CVP.Crypto.SHA2.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.SHA3\NIST.CVP.Crypto.SHA3.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.SHAWrapper\NIST.CVP.Crypto.SHAWrapper.csproj" />
+    <ProjectReference Include="..\..\src\DSA-SigGen\DSA-SigGen.csproj" />
+    <ProjectReference Include="..\..\src\DSA-SigGen_Val\DSA-SigGen_Val.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Generation.DSA.FFC.SigGen\NIST.CVP.Generation.DSA.FFC.SigGen.csproj" />
   </ItemGroup>
 
 </Project>

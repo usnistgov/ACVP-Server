@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Tests.Core;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NUnit.Framework;
-using DSA_KeyGen;
 using System.IO;
+using System.Text;
 using Autofac;
-using NIST.CVP.Tests.Core.Fakes;
-using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Math;
+using DSA_SigGen;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Math;
+using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 
-namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
+namespace NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests
@@ -31,13 +31,13 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
             AutofacConfig.OverrideRegistrations = null;
-            DSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = null;
+            DSA_SigGen_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Directory.Delete(_testPath, true);
+            // Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -51,7 +51,6 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
         public void GenShouldReturn1OnInvalidFileName()
         {
             var result = Program.Main(new[] { $"{Guid.NewGuid()}.json" });
-
             Assert.AreEqual(1, result);
         }
 
@@ -86,7 +85,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
         [Test]
         public void ValShouldReturn1OnFailedRun()
         {
-            DSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = builder =>
+            DSA_SigGen_Val.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -96,7 +95,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
 
             RunGeneration(targetFolder, fileName);
 
-            var result = DSA_KeyGen_Val.Program.Main(
+            var result = DSA_SigGen_Val.Program.Main(
                 GetFileNamesWithPath(targetFolder, _testVectorFileNames)
             );
 
@@ -106,7 +105,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
         [Test]
         public void ValShouldReturn1OnException()
         {
-            DSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = builder =>
+            DSA_SigGen_Val.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
@@ -116,7 +115,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
 
             RunGeneration(targetFolder, fileName);
 
-            var result = DSA_KeyGen_Val.Program.Main(
+            var result = DSA_SigGen_Val.Program.Main(
                 GetFileNamesWithPath(targetFolder, _testVectorFileNames)
             );
 
@@ -214,7 +213,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
         private string GetTestFolder(string name = "")
         {
             var prefix = name == "" ? "" : name + "--";
-            var folderName = "KeyGen--" + prefix + Guid.NewGuid().ToString().Substring(0, 8);
+            var folderName = "SigGen--" + prefix + Guid.NewGuid().ToString().Substring(0, 8);
             var targetFolder = Path.Combine(_testPath, folderName);
             Directory.CreateDirectory(targetFolder);
 
@@ -247,7 +246,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
         private void RunValidation(string targetFolder)
         {
             // Run test vector validation
-            var result = DSA_KeyGen_Val.Program.Main(
+            var result = DSA_SigGen_Val.Program.Main(
                 GetFileNamesWithPath(targetFolder, _testVectorFileNames)
             );
             Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder} validation");
@@ -281,15 +280,15 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
                     failedTestCases.Add((int)testCase.tcId);
 
                     // If TC has a result, change it
-                    if (testCase.x != null)
+                    if (testCase.r != null)
                     {
-                        testCase.x = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.x)).ToHex();
+                        testCase.r = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.r)).ToHex();
                         continue;
                     }
 
-                    if (testCase.y != null)
+                    if (testCase.s != null)
                     {
-                        testCase.y = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.y)).ToHex();
+                        testCase.s = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.s)).ToHex();
                         continue;
                     }
                 }
@@ -326,13 +325,14 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
             caps[0] = new Capability
             {
                 L = 2048,
-                N = 224
+                N = 224,
+                HashAlg = new[] { "sha2-256" }
             };
 
             var p = new Parameters
             {
                 Algorithm = "DSA",
-                Mode = "KeyGen",
+                Mode = "SigGen",
                 IsSample = true,
                 Capabilities = caps,
             };
@@ -347,19 +347,21 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
             caps[0] = new Capability
             {
                 L = 2048,
-                N = 224
+                N = 224,
+                HashAlg = new[] { "sha2-256" }
             };
 
             caps[1] = new Capability
             {
                 L = 2048,
-                N = 256
+                N = 256,
+                HashAlg = new[] { "sha2-224", "sha2-512" }
             };
 
             var p = new Parameters
             {
                 Algorithm = "DSA",
-                Mode = "KeyGen",
+                Mode = "SigGen",
                 IsSample = true,
                 Capabilities = caps,
             };
@@ -374,25 +376,28 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
             caps[0] = new Capability
             {
                 L = 2048,
-                N = 224
+                N = 224,
+                HashAlg = ParameterValidator.VALID_HASH_ALGS
             };
 
             caps[1] = new Capability
             {
                 L = 2048,
-                N = 256
+                N = 256,
+                HashAlg = ParameterValidator.VALID_HASH_ALGS
             };
 
             caps[2] = new Capability
             {
                 L = 3072,
-                N = 256
+                N = 256,
+                HashAlg = ParameterValidator.VALID_HASH_ALGS
             };
 
             var p = new Parameters
             {
                 Algorithm = "DSA",
-                Mode = "KeyGen",
+                Mode = "SigGen",
                 IsSample = true,
                 Capabilities = caps,
             };

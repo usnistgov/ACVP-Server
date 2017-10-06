@@ -61,19 +61,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA-PQGVer", "..\..\dsa\src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA-PQGVer_Val", "..\..\dsa\src\DSA-PQGVer_Val\DSA-PQGVer_Val.csproj", "{6A112C85-B4ED-45BC-A865-2974B85F3FCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.FFC.KeyGen", "..\..\dsa\src\NIST.CVP.Generation.DSA.FFC.KeyGen\NIST.CVP.Generation.DSA.FFC.KeyGen.csproj", "{F12F6EC2-EB57-4C55-B54E-07EFAB927B3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.FFC.KeyGen", "..\..\dsa\src\NIST.CVP.Generation.DSA.FFC.KeyGen\NIST.CVP.Generation.DSA.FFC.KeyGen.csproj", "{F12F6EC2-EB57-4C55-B54E-07EFAB927B3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.FFC.KeyGen.Tests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.KeyGen.Tests\NIST.CVP.Generation.DSA.FFC.KeyGen.Tests.csproj", "{52B55F25-273A-48BD-9A1C-68771B4C3227}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.FFC.KeyGen.Tests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.KeyGen.Tests\NIST.CVP.Generation.DSA.FFC.KeyGen.Tests.csproj", "{52B55F25-273A-48BD-9A1C-68771B4C3227}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests\NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests.csproj", "{92C26D98-81D9-4F94-AB26-B15925859EC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests\NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests.csproj", "{92C26D98-81D9-4F94-AB26-B15925859EC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSA-KeyGen", "..\..\dsa\src\DSA-KeyGen\DSA-KeyGen.csproj", "{8D2F3B55-17D1-4A8F-8CA6-0339543499DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA-KeyGen", "..\..\dsa\src\DSA-KeyGen\DSA-KeyGen.csproj", "{8D2F3B55-17D1-4A8F-8CA6-0339543499DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSA-KeyGen_Val", "..\..\dsa\src\DSA-KeyGen_Val\DSA-KeyGen_Val.csproj", "{62853FF7-6FB6-4F7C-B8E4-BF2CE4B59FE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA-KeyGen_Val", "..\..\dsa\src\DSA-KeyGen_Val\DSA-KeyGen_Val.csproj", "{62853FF7-6FB6-4F7C-B8E4-BF2CE4B59FE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.FFC.SigGen", "..\..\dsa\src\NIST.CVP.Generation.DSA.FFC.SigGen\NIST.CVP.Generation.DSA.FFC.SigGen.csproj", "{E421D6FE-5ACD-49C7-89EC-28B7807ACED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.FFC.SigGen", "..\..\dsa\src\NIST.CVP.Generation.DSA.FFC.SigGen\NIST.CVP.Generation.DSA.FFC.SigGen.csproj", "{E421D6FE-5ACD-49C7-89EC-28B7807ACED8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.FFC.SigGen.Tests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.SigGen.Tests\NIST.CVP.Generation.DSA.FFC.SigGen.Tests.csproj", "{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.FFC.SigGen.Tests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.SigGen.Tests\NIST.CVP.Generation.DSA.FFC.SigGen.Tests.csproj", "{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests\NIST.CVP.Generation.DSA.FFC.SigGen.IntegrationTests.csproj", "{18F2D7FC-D3DA-46BA-BCEE-A0DFD023A4CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSA-SigGen", "..\..\dsa\src\DSA-SigGen\DSA-SigGen.csproj", "{9CBC00F7-44C9-4A15-8113-93E26B6CAC46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSA-SigGen_Val", "..\..\dsa\src\DSA-SigGen_Val\DSA-SigGen_Val.csproj", "{1307F75A-0C52-4365-AFD7-EEBB658A4666}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -217,6 +223,18 @@ Global
 		{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18F2D7FC-D3DA-46BA-BCEE-A0DFD023A4CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18F2D7FC-D3DA-46BA-BCEE-A0DFD023A4CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18F2D7FC-D3DA-46BA-BCEE-A0DFD023A4CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18F2D7FC-D3DA-46BA-BCEE-A0DFD023A4CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CBC00F7-44C9-4A15-8113-93E26B6CAC46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CBC00F7-44C9-4A15-8113-93E26B6CAC46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CBC00F7-44C9-4A15-8113-93E26B6CAC46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CBC00F7-44C9-4A15-8113-93E26B6CAC46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1307F75A-0C52-4365-AFD7-EEBB658A4666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1307F75A-0C52-4365-AFD7-EEBB658A4666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1307F75A-0C52-4365-AFD7-EEBB658A4666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1307F75A-0C52-4365-AFD7-EEBB658A4666}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -256,6 +274,9 @@ Global
 		{62853FF7-6FB6-4F7C-B8E4-BF2CE4B59FE9} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
 		{E421D6FE-5ACD-49C7-89EC-28B7807ACED8} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
 		{A16C69D5-DCC8-445B-8A6C-AAD18B6CD3F9} = {3A1064A5-ACA1-4488-AEEC-8B5A127AC7D0}
+		{18F2D7FC-D3DA-46BA-BCEE-A0DFD023A4CC} = {3A1064A5-ACA1-4488-AEEC-8B5A127AC7D0}
+		{9CBC00F7-44C9-4A15-8113-93E26B6CAC46} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
+		{1307F75A-0C52-4365-AFD7-EEBB658A4666} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1FB7617-33CC-4073-8F8F-057BADD417C4}

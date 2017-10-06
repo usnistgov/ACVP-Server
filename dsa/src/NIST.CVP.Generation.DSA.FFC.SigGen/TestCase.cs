@@ -22,6 +22,9 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
         public BitString Message { get; set; }
         public FfcSignature Signature { get; set; }
 
+        // Needed for FireHoseTests
+        public BigInteger K;
+
         // Needed for SetString, FireHoseTests
         private BigInteger _xSetString;
         private BigInteger _ySetString;
@@ -82,12 +85,29 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             switch (name.ToLower())
             {
                 case "x":
-                    //x = new BitString(value).ToPositiveBigInteger();
+                    _xSetString = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "y":
-                    //y = new BitString(value).ToPositiveBigInteger();
-                    //Key = new FfcKeyPair(x, y);
+                    _ySetString = new BitString(value).ToPositiveBigInteger();
+                    Key = new FfcKeyPair(_xSetString, _ySetString);
+                    return true;
+
+                case "msg":
+                    Message = new BitString(value);
+                    return true;
+
+                case "r":
+                    _rSetString = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "s":
+                    _sSetString = new BitString(value).ToPositiveBigInteger();
+                    Signature = new FfcSignature(_rSetString, _sSetString);
+                    return true;
+
+                case "k":
+                    K = new BitString(value).ToPositiveBigInteger();
                     return true;
             }
 

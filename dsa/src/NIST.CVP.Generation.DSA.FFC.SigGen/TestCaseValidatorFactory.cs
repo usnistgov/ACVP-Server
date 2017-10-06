@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
     {
+        private IShaFactory _shaFactory = new ShaFactory();
+
         public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
         {
             var list = new List<ITestCaseValidator<TestCase>>();
@@ -17,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             {
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
-                    list.Add(new TestCaseValidator(test, group, new FfcDsa(null)));
+                    list.Add(new TestCaseValidator(test, group, new FfcDsa(_shaFactory.GetShaInstance(group.HashAlg))));
                 }
             }
 

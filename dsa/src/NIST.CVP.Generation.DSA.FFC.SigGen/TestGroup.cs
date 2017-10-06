@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
 
         public override int GetHashCode()
         {
-            return ($"{L}{N}").GetHashCode();
+            return ($"{L}{N}{HashAlg.Name}").GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -114,6 +114,11 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
 
                 case "n":
                     N = int.Parse(value);
+                    return true;
+
+                case "hashalg":
+                    var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(value);
+                    HashAlg = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
                     return true;
             }
 
