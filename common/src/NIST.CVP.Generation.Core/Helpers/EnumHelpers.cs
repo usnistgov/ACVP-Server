@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.Core.Helpers
             return enumToGetDescriptionFrom.ToString();
         }
 
-        public static T GetEnumFromEnumDescription<T>(string enumDescription)
+        public static T GetEnumFromEnumDescription<T>(string enumDescription, bool shouldThrow = true)
             where T : struct
         {
             if (!typeof(T).IsEnum)
@@ -35,13 +35,25 @@ namespace NIST.CVP.Generation.Core.Helpers
                 throw new InvalidOperationException("Type is not an enum");
             }
 
-            return (T)typeof(T)
-                .GetFields()
-                .First(
-                    f => f.GetCustomAttributes<DescriptionAttribute>()
-                    .Any(a => a.Description.Equals(enumDescription, StringComparison.OrdinalIgnoreCase))
-                )
-                .GetValue(null);
+            try
+            {
+                return (T) typeof(T)
+                    .GetFields()
+                    .First(
+                        f => f.GetCustomAttributes<DescriptionAttribute>()
+                            .Any(a => a.Description.Equals(enumDescription, StringComparison.OrdinalIgnoreCase))
+                    )
+                    .GetValue(null);
+            }
+            catch (Exception)
+            {
+                if (shouldThrow)
+                {
+                    throw;
+                }
+
+                return default(T);
+            }
         }
     }
 }

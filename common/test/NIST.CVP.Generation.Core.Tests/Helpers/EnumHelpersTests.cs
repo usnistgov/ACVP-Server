@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.ComponentModel;
 using NIST.CVP.Generation.Core.Helpers;
+using System;
 
 namespace NIST.CVP.Generation.Core.Tests.Helpers
 {
@@ -28,10 +29,28 @@ namespace NIST.CVP.Generation.Core.Tests.Helpers
         }
 
         [Test]
+        public void ShouldThrowWhenTypeIsNotEnum()
+        {
+            Assert.Throws(typeof(InvalidOperationException), () => EnumHelpers.GetEnumFromEnumDescription<int>(""));
+        }
+
+        [Test]
         [TestCase(TestDescription, FakeEnum.Third)]
         public void ShouldReturnCorrectEnumFromDescription(string description, FakeEnum expectedEnum)
         {
             Assert.AreEqual(expectedEnum, EnumHelpers.GetEnumFromEnumDescription<FakeEnum>(description));
+        }
+
+        [Test]
+        public void ShouldReturnDefaultWhenThrowIsFalse()
+        {
+            Assert.AreEqual(default(FakeEnum), EnumHelpers.GetEnumFromEnumDescription<FakeEnum>("bad description", false));
+        }
+
+        [Test]
+        public void ShouldThrowByDefaultWhenNotFound()
+        {
+            Assert.Throws(typeof(InvalidOperationException), () => EnumHelpers.GetEnumFromEnumDescription<FakeEnum>("bad description"));
         }
     }
 }
