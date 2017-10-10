@@ -11,5 +11,6 @@ namespace NIST.CVP.Generation.CMAC.AES
         public string[] Direction { get; set; }
         public MathDomain MsgLen { get; set; }
         public MathDomain MacLen { get; set; }
+        public int[] KeyLen { get; set; }
     }
 }
