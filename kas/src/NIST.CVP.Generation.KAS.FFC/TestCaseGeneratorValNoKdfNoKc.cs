@@ -4,7 +4,7 @@ using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KAS.FFC.Enums;
+using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Generation.KAS.FFC.Helpers;
 
 namespace NIST.CVP.Generation.KAS.FFC
@@ -38,6 +38,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
             TestCase tc = new TestCase();
+            tc.TestCaseDisposition = _intendedDisposition;
 
             return Generate(group, tc);
         }
@@ -91,7 +92,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             vParty.SetDomainParameters(dp);
 
             var uPartyPublic = uParty.ReturnPublicInfoThisParty();
-            //var vPartyPublic = uParty.ReturnPublicInfoThisParty();
+            var vPartyPublic = vParty.ReturnPublicInfoThisParty();
 
             var serverKas = group.KasRole == KeyAgreementRole.InitiatorPartyU ? vParty : uParty;
             var iutKas = group.KasRole == KeyAgreementRole.InitiatorPartyU ? vParty : uParty;
@@ -106,8 +107,16 @@ namespace NIST.CVP.Generation.KAS.FFC
                 iutKas
             );
 
-            //var serverResult = serverKas.ComputeResult(vPartyPublic);
-            var iutResult = iutKas.ComputeResult(uPartyPublic);
+            // Use the IUT kas for compute result
+            KasResult iutResult = null;
+            if (serverKas == uParty)
+            {
+                iutResult = vParty.ComputeResult(uPartyPublic);
+            }
+            else
+            {
+                iutResult = uParty.ComputeResult(vPartyPublic);
+            }
 
             // Set the test case up w/ the information from the kas instances
             TestCaseDispositionHelper.SetTestCaseInformationFromKasResults(group, testCase, serverKas, iutKas, iutResult);
@@ -127,7 +136,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             if (_intendedDisposition == TestCaseDispositionOption.FailChangedTag)
             {
                 testCase.FailureTest = true;
-                testCase.Tag[0] += 2;
+                testCase.HashZ[0] += 2;
             }
 
             // check for successful conditions w/ constraints.

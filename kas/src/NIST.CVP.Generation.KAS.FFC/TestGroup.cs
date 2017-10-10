@@ -1,10 +1,12 @@
 ﻿using System.Dynamic;
 using System.Numerics;
 using Newtonsoft.Json.Linq;
+using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
@@ -50,15 +52,16 @@ namespace NIST.CVP.Generation.KAS.FFC
             ExpandoObject expandoSource = (ExpandoObject)source;
 
             //Function = SpecificationMapping.FunctionArrayToFlags(source.function);
-            Scheme = expandoSource.GetTypeFromProperty<FfcScheme>("scheme");
+            Scheme = EnumHelpers.GetEnumFromEnumDescription<FfcScheme>(expandoSource.GetTypeFromProperty<string>("scheme"));
             TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            KasRole = expandoSource.GetTypeFromProperty<KeyAgreementRole>("kasRole");
-            KasMode = expandoSource.GetTypeFromProperty<KasMode>("kasMode");
+            KasRole = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementRole>(expandoSource.GetTypeFromProperty<string>("kasRole")); 
+            KasMode = EnumHelpers.GetEnumFromEnumDescription<KasMode>(expandoSource.GetTypeFromProperty<string>("kasMode"));
 
             var hashAttributes = ShaAttributes.GetShaAttributes(expandoSource.GetTypeFromProperty<string>("hashAlg"));
             HashAlg = new HashFunction(hashAttributes.mode, hashAttributes.digestSize);
 
-            MacType = expandoSource.GetTypeFromProperty<KeyAgreementMacType>("macType");
+            MacType = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementMacType>(expandoSource.GetTypeFromProperty<string>("macType"));
+
             KeyLen = expandoSource.GetTypeFromProperty<int>("keyLen");
             AesCcmNonceLen = expandoSource.GetTypeFromProperty<int>("nonceAesCcmLen");
             MacLen = expandoSource.GetTypeFromProperty<int>("macLen");
@@ -68,8 +71,8 @@ namespace NIST.CVP.Generation.KAS.FFC
             IdIutLen = expandoSource.GetTypeFromProperty<int>("idIutLen");
             IdIut = expandoSource.GetBitStringFromProperty("idIut");
             OiPattern = expandoSource.GetTypeFromProperty<string>("oiPattern");
-            KcRole = expandoSource.GetTypeFromProperty<KeyConfirmationRole>("kcRole"); ;
-            KcType = expandoSource.GetTypeFromProperty<KeyConfirmationDirection>("kcType");
+            KcRole = EnumHelpers.GetEnumFromEnumDescription<KeyConfirmationRole>(expandoSource.GetTypeFromProperty<string>("kcRole"), false);
+            KcType = EnumHelpers.GetEnumFromEnumDescription<KeyConfirmationDirection>(expandoSource.GetTypeFromProperty<string>("kcType"), false);
 
             P = expandoSource.GetBigIntegerFromProperty("p");
             Q = expandoSource.GetBigIntegerFromProperty("q");

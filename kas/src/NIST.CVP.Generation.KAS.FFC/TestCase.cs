@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.KAS.FFC
     {
         public TestCase() { }
 
-        protected TestCase(dynamic source)
+        public TestCase(dynamic source)
         {
             MapToProperties(source);
         }

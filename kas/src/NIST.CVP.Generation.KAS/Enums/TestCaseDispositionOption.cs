@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Generation.KAS.FFC.Enums
+﻿namespace NIST.CVP.Generation.KAS.Enums
 {
     public enum TestCaseDispositionOption
     {

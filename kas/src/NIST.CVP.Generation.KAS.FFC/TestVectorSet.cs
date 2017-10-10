@@ -25,6 +25,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                     SharedProjectionTestGroupInfo(group, updateObject);
 
                     var tests = new List<dynamic>();
+                    updateObject.TryAdd("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         ExpandoObject testObject = new ExpandoObject();
@@ -97,6 +98,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                     SharedProjectionTestGroupInfo(group, updateObject);
 
                     var tests = new List<dynamic>();
+                    updateObject.TryAdd("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         ExpandoObject testObject = new ExpandoObject();

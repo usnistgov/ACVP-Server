@@ -10,6 +10,7 @@ namespace NIST.CVP.Crypto.KAS.Enums
         /// <summary>
         /// No KeyConfirmation is performed
         /// </summary>
+        [Description("")]
         None,
         /// <summary>
         /// The provider of the Key that is to be confirmed

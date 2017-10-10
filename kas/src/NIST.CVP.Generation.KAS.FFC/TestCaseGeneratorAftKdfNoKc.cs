@@ -15,16 +15,16 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly ISchemeBuilder _schemeBuilder;
         private readonly IDsaFfcFactory _dsaFactory;
         private readonly IShaFactory _shaFactory;
-        private readonly IEntropyProviderFactory _entropyProviderFactory;
+        private readonly IEntropyProvider _entropyProvider;
         private readonly IMacParametersBuilder _macParametersBuilder;
 
-        public TestCaseGeneratorAftKdfNoKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IDsaFfcFactory dsaFactory, IShaFactory shaFactory, IEntropyProviderFactory entropyProviderFactory, IMacParametersBuilder macParametersBuilder)
+        public TestCaseGeneratorAftKdfNoKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IDsaFfcFactory dsaFactory, IShaFactory shaFactory, IEntropyProvider entropyProvider, IMacParametersBuilder macParametersBuilder)
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
             _dsaFactory = dsaFactory;
             _shaFactory = shaFactory;
-            _entropyProviderFactory = entropyProviderFactory;
+            _entropyProvider = entropyProvider;
             _macParametersBuilder = macParametersBuilder;
         }
 
@@ -41,11 +41,12 @@ namespace NIST.CVP.Generation.KAS.FFC
                 ? KeyAgreementRole.ResponderPartyV
                 : KeyAgreementRole.InitiatorPartyU;
 
+            testCase.NonceNoKc = _entropyProvider.GetEntropy(128);
+
             BitString aesCcmNonce = null;
-            if (serverRole == KeyAgreementRole.InitiatorPartyU)
+            if (serverRole == KeyAgreementRole.InitiatorPartyU && group.MacType == KeyAgreementMacType.AesCcm)
             {
-                aesCcmNonce = _entropyProviderFactory
-                    .GetEntropyProvider(EntropyProviderTypes.Random)
+                aesCcmNonce = _entropyProvider
                     .GetEntropy(group.AesCcmNonceLen);
 
                 testCase.NonceAesCcm = aesCcmNonce;
@@ -79,10 +80,10 @@ namespace NIST.CVP.Generation.KAS.FFC
             party.ReturnPublicInfoThisParty();
 
             testCase.StaticPrivateKeyServer = party.Scheme.StaticKeyPair?.PrivateKeyX ?? 0;
-            testCase.StaticPrivateKeyServer = party.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
+            testCase.StaticPublicKeyServer = party.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
 
             testCase.EphemeralPrivateKeyServer = party.Scheme.EphemeralKeyPair?.PrivateKeyX ?? 0;
-            testCase.EphemeralPrivateKeyServer = party.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
+            testCase.EphemeralPublicKeyServer = party.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
 
             return Generate(@group, testCase);
         }

@@ -52,10 +52,10 @@ namespace NIST.CVP.Generation.KAS.FFC
             party.ReturnPublicInfoThisParty();
 
             testCase.StaticPrivateKeyServer = party.Scheme.StaticKeyPair?.PrivateKeyX ?? 0;
-            testCase.StaticPrivateKeyServer = party.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
+            testCase.StaticPublicKeyServer = party.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
 
             testCase.EphemeralPrivateKeyServer = party.Scheme.EphemeralKeyPair?.PrivateKeyX ?? 0;
-            testCase.EphemeralPrivateKeyServer = party.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
+            testCase.EphemeralPublicKeyServer = party.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
 
             return Generate(@group, testCase);
         }

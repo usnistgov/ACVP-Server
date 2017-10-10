@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.Semantics;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Enums;
-using NIST.CVP.Generation.KAS.FFC.Enums;
+using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.KAS.FFC.Helpers
@@ -141,10 +141,10 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
             testCase.StaticPublicKeyServer = serverKas.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
             testCase.EphemeralPrivateKeyServer = serverKas.Scheme.EphemeralKeyPair?.PrivateKeyX ?? 0;
             testCase.EphemeralPublicKeyServer = serverKas.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
-            testCase.StaticPrivateKeyServer = iutKas.Scheme.StaticKeyPair?.PrivateKeyX ?? 0;
-            testCase.StaticPublicKeyServer = iutKas.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
-            testCase.EphemeralPrivateKeyServer = iutKas.Scheme.EphemeralKeyPair?.PrivateKeyX ?? 0;
-            testCase.EphemeralPublicKeyServer = iutKas.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
+            testCase.StaticPrivateKeyIut = iutKas.Scheme.StaticKeyPair?.PrivateKeyX ?? 0;
+            testCase.StaticPublicKeyIut = iutKas.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
+            testCase.EphemeralPrivateKeyIut = iutKas.Scheme.EphemeralKeyPair?.PrivateKeyX ?? 0;
+            testCase.EphemeralPublicKeyIut = iutKas.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
 
             testCase.Z = iutResult.Z;
             testCase.OtherInfo = iutResult.Oi;

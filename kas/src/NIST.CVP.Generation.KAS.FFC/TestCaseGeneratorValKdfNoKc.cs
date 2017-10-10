@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -7,7 +8,7 @@ using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KAS.FFC.Enums;
+using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Generation.KAS.FFC.Fakes;
 using NIST.CVP.Generation.KAS.FFC.Helpers;
 using NIST.CVP.Math.Entropy;
@@ -20,7 +21,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly ISchemeBuilder _schemeBuilder;
         private readonly IDsaFfcFactory _dsaFactory;
         private readonly IShaFactory _shaFactory;
-        private readonly IEntropyProviderFactory _entropyProviderFactory;
+        private readonly IEntropyProvider _entropyProvider;
         private readonly IMacParametersBuilder _macParametersBuilder;
         private readonly IKdfFactory _kdfFactory;
         private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
@@ -32,7 +33,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             ISchemeBuilder schemeBuilder, 
             IDsaFfcFactory dsaFactory, 
             IShaFactory shaFactory, 
-            IEntropyProviderFactory entropyProviderFactory, 
+            IEntropyProvider entropyProvider, 
             IMacParametersBuilder macParametersBuilder, 
             IKdfFactory kdfFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
@@ -44,7 +45,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             _schemeBuilder = schemeBuilder;
             _dsaFactory = dsaFactory;
             _shaFactory = shaFactory;
-            _entropyProviderFactory = entropyProviderFactory;
+            _entropyProvider = entropyProvider;
             _macParametersBuilder = macParametersBuilder;
             _kdfFactory = kdfFactory;
             _noKeyConfirmationFactory = noKeyConfirmationFactory;
@@ -56,6 +57,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
             TestCase tc = new TestCase();
+            tc.TestCaseDisposition = _intendedDisposition;
 
             return Generate(group, tc);
         }
@@ -67,11 +69,10 @@ namespace NIST.CVP.Generation.KAS.FFC
             var macParameters = _macParametersBuilder
                 .WithKeyAgreementMacType(group.MacType)
                 .WithMacLength(group.MacLen)
-                .WithNonce(_entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
-                    .GetEntropy(group.AesCcmNonceLen))
+                .WithNonce(_entropyProvider.GetEntropy(group.AesCcmNonceLen))
                 .Build();
 
-            if (macParameters.CcmNonce.BitLength != 0)
+            if (group.AesCcmNonceLen != 0)
             {
                 testCase.NonceAesCcm = macParameters.CcmNonce.GetDeepCopy();
             }
@@ -149,9 +150,8 @@ namespace NIST.CVP.Generation.KAS.FFC
             vParty.SetDomainParameters(dp);
 
             var uPartyPublic = uParty.ReturnPublicInfoThisParty();
-            //var vPartyPublic = uParty.ReturnPublicInfoThisParty();
-
             testCase.NonceNoKc = uPartyPublic.NoKeyConfirmationNonce;
+            var vPartyPublic = vParty.ReturnPublicInfoThisParty();
 
             var serverKas = group.KasRole == KeyAgreementRole.InitiatorPartyU ? vParty : uParty;
             var iutKas = group.KasRole == KeyAgreementRole.InitiatorPartyU ? vParty : uParty;
@@ -166,8 +166,17 @@ namespace NIST.CVP.Generation.KAS.FFC
                 iutKas
             );
 
-            //var serverResult = serverKas.ComputeResult(vPartyPublic);
-            var iutResult = iutKas.ComputeResult(uPartyPublic);
+            // Use the IUT kas for compute result
+            KasResult iutResult = null;
+            if (serverKas == uParty)
+            {
+                iutResult = vParty.ComputeResult(uPartyPublic);
+            }
+            else
+            {
+                iutResult = uParty.ComputeResult(vPartyPublic);
+            }
+
 
             // Set the test case up w/ the information from the kas instances
             TestCaseDispositionHelper.SetTestCaseInformationFromKasResults(group, testCase, serverKas, iutKas, iutResult);

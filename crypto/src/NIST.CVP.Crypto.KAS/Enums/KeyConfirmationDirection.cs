@@ -10,6 +10,7 @@ namespace NIST.CVP.Crypto.KAS.Enums
         /// <summary>
         /// No key confirmation is performed
         /// </summary>
+        [Description("")]
         None,
         /// <summary>
         /// Key Confirmation occurs only in one direction

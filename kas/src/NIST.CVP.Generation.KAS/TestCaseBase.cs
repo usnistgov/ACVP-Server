@@ -6,6 +6,7 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS
@@ -32,15 +33,18 @@ namespace NIST.CVP.Generation.KAS
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
 
-        public BigInteger EphemeralPrivateKeyServer { get; set; }
-        public BigInteger EphemeralPublicKeyServer { get; set; }
+        public TestCaseDispositionOption TestCaseDisposition { get; set; }
+
         public BigInteger StaticPrivateKeyServer { get; set; }
         public BigInteger StaticPublicKeyServer { get; set; }
+        public BigInteger EphemeralPrivateKeyServer { get; set; }
+        public BigInteger EphemeralPublicKeyServer { get; set; }
 
-        public BigInteger EphemeralPrivateKeyIut { get; set; }
-        public BigInteger EphemeralPublicKeyIut { get; set; }
         public BigInteger StaticPrivateKeyIut { get; set; }
         public BigInteger StaticPublicKeyIut { get; set; }
+        public BigInteger EphemeralPrivateKeyIut { get; set; }
+        public BigInteger EphemeralPublicKeyIut { get; set; }
+        
         
         public int IdIutLen { get; set; }
         public BitString IdIut { get; set; }
