@@ -22,5 +22,10 @@ namespace NIST.CVP.Crypto.DSA.FFC
             PrivateKeyX = privateKeyX;
             PublicKeyY = publicKeyY;
         }
+
+        public FfcKeyPair(BigInteger publicKeyY)
+        {
+            PublicKeyY = publicKeyY;
+        }
     }
 }
