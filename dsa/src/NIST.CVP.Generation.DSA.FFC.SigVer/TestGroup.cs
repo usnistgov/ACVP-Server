@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
-using NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers;
+using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer
@@ -23,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         public FfcDomainParameters DomainParams { get; set; }
         public HashFunction HashAlg { get; set; }
 
-        public IFailureHandler<SigFailureReasons> FailureHandler { get; set; }
+        public ITestCaseExpectationProvider<SigFailureReasons> TestCaseExpectationProvider { get; set; }
 
         public string TestType { get; set; }
         public List<ITestCase> Tests { get; set; }

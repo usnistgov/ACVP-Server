@@ -17,13 +17,4 @@ namespace NIST.CVP.Crypto.DSA.FFC.Enums
         None,
         ModifyG
     }
-
-    public enum SigFailureReasons
-    {
-        None,
-        ModifyS,
-        ModifyMessage,
-        ModifyR,
-        ModifyKey
-    }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.DSA.FFC.Enums;
+﻿using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
 using NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -39,7 +36,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
             {
                 TestCaseId = 1,
                 Result = shouldPass,   // Says the test "passed"
-                Reason = new FailureReason(SigFailureReasons.ModifyMessage) // Only matters in the failure event
+                Reason = new TestCaseExpectationReason(SigFailureReasons.ModifyMessage)     // Only matters in the failure event
             };
         }
     }

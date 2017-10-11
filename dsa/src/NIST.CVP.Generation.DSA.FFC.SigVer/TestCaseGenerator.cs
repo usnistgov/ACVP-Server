@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
 using NIST.CVP.Math;
 using NLog;
 
@@ -34,14 +32,14 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                 return new TestCaseGenerateResponse(keyResult.ErrorMessage);
             }
 
-            var reason = group.FailureHandler.GetNextFailureReason();
+            var reason = group.TestCaseExpectationProvider.GetRandomReason();
 
             var testCase = new TestCase()
             {
                 Message = _rand.GetRandomBitString(group.N),
                 Key = keyResult.KeyPair,
                 Reason = reason,
-                FailureTest = (reason.GetName() != "none")
+                FailureTest = (reason.GetReason() != SigFailureReasons.None)
             };
 
             return Generate(group, testCase);
@@ -70,6 +68,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             // Modify message
             if (testCase.Reason.GetReason() == SigFailureReasons.ModifyMessage)
             {
+                //var modifiedTestBuilder = new ModifiedTestCaseBuilder();
+                //testCase = modifiedTestBuilder.WithTestCase(testCase).Apply(modifiedTestBuilder.ModifyMessage).Build();
                 testCase.Message = _rand.GetDifferentBitStringOfSameSize(testCase.Message);
             }
             // Modify public key

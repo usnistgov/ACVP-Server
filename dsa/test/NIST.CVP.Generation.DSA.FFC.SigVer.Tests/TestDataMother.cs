@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers;
-using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
 {
@@ -26,7 +24,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
                         Message = new BitString("BEEFFACE"),
                         Signature = new FfcSignature(1, 2),
                         FailureTest = false,
-                        Reason = new FailureReason(SigFailureReasons.None),
+                        Reason = new TestCaseExpectationReason(SigFailureReasons.None),
                         TestCaseId = testId
                     });
                 }

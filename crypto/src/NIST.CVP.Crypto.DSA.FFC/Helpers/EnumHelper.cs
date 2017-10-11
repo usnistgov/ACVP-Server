@@ -112,51 +112,5 @@ namespace NIST.CVP.Crypto.DSA.FFC.Helpers
 
             throw new ArgumentOutOfRangeException("Not a valid PrimeGenMode");
         }
-
-        public static string SigFailureReasonToString(SigFailureReasons reason)
-        {
-            switch (reason)
-            {
-                case SigFailureReasons.None:
-                    return "none";
-
-                case SigFailureReasons.ModifyMessage:
-                    return "modify message";
-
-                case SigFailureReasons.ModifyKey:
-                    return "modify public key";
-
-                case SigFailureReasons.ModifyR:
-                    return "modify r";
-
-                case SigFailureReasons.ModifyS:
-                    return "modify s";
-            }
-
-            throw new ArgumentOutOfRangeException("Not a valid SigFailureReason");
-        }
-
-        public static SigFailureReasons StringToSigFailureReason(string reason)
-        {
-            switch (reason)
-            {
-                case "none":
-                    return SigFailureReasons.None;
-
-                case "modify message":
-                    return SigFailureReasons.ModifyMessage;
-
-                case "modify public key":
-                    return SigFailureReasons.ModifyKey;
-
-                case "modify r":
-                    return SigFailureReasons.ModifyR;
-
-                case "modify s":
-                    return SigFailureReasons.ModifyS;
-            }
-
-            throw new ArgumentOutOfRangeException("Not a valid SigFailureReason");
-        }
     }
 }

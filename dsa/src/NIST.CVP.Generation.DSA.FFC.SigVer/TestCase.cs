@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Numerics;
-using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
 using NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers;
 using NIST.CVP.Math;
 
@@ -21,7 +19,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         public bool Deferred { get; set; }
 
         public bool Result { get; set; }
-        public IFailureReason<SigFailureReasons> Reason { get; set; }
+        public ITestCaseExpectationReason<SigFailureReasons> Reason { get; set; }
         public FfcKeyPair Key { get; set; }
         public BitString Message { get; set; }
         public FfcSignature Signature { get; set; }
@@ -45,17 +43,11 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
-            
-            if (((ExpandoObject)source).ContainsProperty("result"))
-            {
-                Result = (((string)source.result).ToLower() == "passed");
-            }
 
-            if (((ExpandoObject)source).ContainsProperty("reason"))
-            {
-                var reason = EnumHelper.StringToSigFailureReason((string)source.reason);
-                Reason = new FailureReason(reason);
-            }
+            ExpandoObject expandoSource = (ExpandoObject)source;
+
+            Result = expandoSource.GetTypeFromProperty<string>("result").ToLower() == "passed";
+            Reason = new TestCaseExpectationReason(EnumHelpers.GetEnumFromEnumDescription<SigFailureReasons>(expandoSource.GetTypeFromProperty<string>("reason")));
         }
 
         public bool Merge(ITestCase otherTest)

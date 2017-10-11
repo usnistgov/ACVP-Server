@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers
+namespace NIST.CVP.Generation.Core
 {
-    public interface IFailureReason<TEnum>
+    public interface ITestCaseExpectationReason<TEnum>
         where TEnum : struct, IComparable, IFormattable, IConvertible
     {
         TEnum GetReason();

@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
         }
 
         [Test]
-        public void GenerateShouldGenerateOneOfEachFailureReason()
+        public void GenerateShouldGenerateProperAmountOfEachFailureReason()
         {
             var group = GetTestGroup();
 
@@ -134,7 +134,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
                 L = 2048,
                 N = 224,
                 DomainParams = new FfcDomainParameters(1, 2, 3),
-                FailureHandler = new FailureHandler(),
+                TestCaseExpectationProvider = new TestCaseExpectationProvider(),
                 HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256)
             };
         }

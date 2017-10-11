@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                         N = n,
                         HashAlg = sha,
                         DomainParams = domainParams,
-                        FailureHandler = new FailureHandler(parameters.IsSample)
+                        TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample)
                     };
 
                     testGroups.Add(testGroup);
