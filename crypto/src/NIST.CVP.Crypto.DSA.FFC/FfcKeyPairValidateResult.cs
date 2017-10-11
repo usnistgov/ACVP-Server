@@ -7,12 +7,12 @@ namespace NIST.CVP.Crypto.DSA.FFC
     public class FfcKeyPairValidateResult : IKeyPairValidateResult
     {
         /// <summary>
-        /// Was the generation successful?
+        /// Was the validation successful?
         /// </summary>
         public bool Success => string.IsNullOrEmpty(ErrorMessage);
 
         /// <summary>
-        /// Message associated to generation attempt
+        /// Message associated to validation attempt
         /// </summary>
         public string ErrorMessage { get; }
 
