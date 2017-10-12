@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
@@ -28,7 +30,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
                         var testGroup = new TestGroup
                         {
-                            PQGenMode = EnumHelper.StringToPQGenMode(pqGen),
+                            PQGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenMode>(pqGen),
                             L = capability.L,
                             N = capability.N,
                             HashAlg = hashFunction,

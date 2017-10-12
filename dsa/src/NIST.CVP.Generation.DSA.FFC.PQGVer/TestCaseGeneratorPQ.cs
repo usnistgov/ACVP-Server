@@ -8,6 +8,8 @@ using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Generation.DSA.FFC.PQGVer.Enums;
 using NIST.CVP.Math;
 using NLog;
 
@@ -33,13 +35,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 NumberOfTestCasesToGenerate = 2;
             }
 
-            var reason = group.FailureHandler.GetNextFailureReason();
-            var friendlyReason = reason.GetName();
+            var reason = group.PQTestCaseExpectationProvider.GetRandomReason();
 
             var testCase = new TestCase
             {
-                Reason = friendlyReason,
-                FailureTest = (friendlyReason != "none")
+                Reason = reason.GetName(),
+                FailureTest = (reason.GetReason() != PQFailureReasons.None)
             };
 
             return Generate(group, testCase);
@@ -70,7 +71,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             testCase.Counter = sampleResult.Count;
 
             // Modify values
-            var friendlyReason = EnumHelper.StringToPQReason(testCase.Reason);
+            var friendlyReason = EnumHelpers.GetEnumFromEnumDescription<PQFailureReasons>(testCase.Reason);
             if (friendlyReason == PQFailureReasons.ModifyP)
             {
                 // Make P not prime

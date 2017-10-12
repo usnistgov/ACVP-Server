@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
+﻿using System.Linq;
 using Moq;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
@@ -10,7 +6,7 @@ using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.FFC.PQGVer.FailureHandlers;
+using NIST.CVP.Generation.DSA.FFC.PQGVer.TestCaseExpectations;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -130,7 +126,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             return new TestGroup
             {
                 PQGenMode = PrimeGenMode.Probable,
-                FailureHandler = new PQFailureHandler(),
+                PQTestCaseExpectationProvider = new PQTestCaseExpectationProvider(),
                 L = 2048,
                 N = 224,
                 HashAlg = new HashFunction(attributes.shaMode, attributes.shaDigestSize)

@@ -11,7 +11,7 @@ using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.FFC.PQGVer.FailureHandlers;
+using NIST.CVP.Generation.DSA.FFC.PQGVer.TestCaseExpectations;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -146,7 +146,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             return new TestGroup
             {
                 GGenMode = GeneratorGenMode.Canonical,
-                FailureHandler = new GFailureHandler(),
+                GTestCaseExpectationProvider = new GTestCaseExpectationProvider(),
                 L = 2048,
                 N = 224,
                 HashAlg = new HashFunction(attributes.shaMode, attributes.shaDigestSize)

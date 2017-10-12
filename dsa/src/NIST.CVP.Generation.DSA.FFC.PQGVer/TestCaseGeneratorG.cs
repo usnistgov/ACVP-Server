@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.DSA.FFC.PQGVer.Enums;
 using NIST.CVP.Math;
 using NLog;
 
@@ -59,8 +60,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             } while (index.ToHex() == "00");
 
             // Determine failure reason
-            var reason = group.FailureHandler.GetNextFailureReason();
-            var friendlyReason = reason.GetName();
+            var reason = group.GTestCaseExpectationProvider.GetRandomReason();
 
             // Assign values of the TestCase
             var testCase = new TestCase
@@ -70,8 +70,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 Seed = pqResult.Seed,
                 Counter = pqResult.Count,
                 Index = index,
-                Reason = friendlyReason,
-                FailureTest = (friendlyReason != "none")
+                Reason = reason.GetName(),
+                FailureTest = (reason.GetReason() != GFailureReasons.None)
             };
 
             return Generate(group, testCase);

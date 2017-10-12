@@ -24,6 +24,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         public BitString Message { get; set; }
         public FfcSignature Signature { get; set; }
 
+        // public ITestCaseModifier<TestCase> Modifier { get; set; }
+
         private BigInteger _rSetString;
         private BigInteger _sSetString;
 

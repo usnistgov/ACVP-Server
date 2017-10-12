@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.FFC.PQGVer.FailureHandlers;
+using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Generation.DSA.FFC.PQGVer.Enums;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
@@ -21,7 +20,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
         public HashFunction HashAlg { get; set; }
 
         // Used internally to build test cases for the group
-        public IFailureHandler FailureHandler { get; set; }
+        public ITestCaseExpectationProvider<PQFailureReasons> PQTestCaseExpectationProvider { get; set; }
+        public ITestCaseExpectationProvider<GFailureReasons> GTestCaseExpectationProvider { get; set; }
 
         public string TestType { get; set; }
         public List<ITestCase> Tests { get; set; }
@@ -44,12 +44,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 
             if (((ExpandoObject)source).ContainsProperty("pqMode"))
             {
-                PQGenMode = EnumHelper.StringToPQGenMode(source.pqMode);
+                PQGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenMode>(source.pqMode, false);
             }
 
             if (((ExpandoObject)source).ContainsProperty("gMode"))
             {
-                GGenMode = EnumHelper.StringToGGenMode(source.gMode);
+                GGenMode = EnumHelpers.GetEnumFromEnumDescription<GeneratorGenMode>(source.gMode, false);
             }
 
             Tests = new List<ITestCase>();
@@ -78,19 +78,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 
         public override int GetHashCode()
         {
-            var gMode = "";
-            if (GGenMode != GeneratorGenMode.None)
-            {
-                gMode = EnumHelper.GGenModeToString(GGenMode);
-            }
-
-            var pqMode = "";
-            if (PQGenMode != PrimeGenMode.None)
-            {
-                pqMode = EnumHelper.PQGenModeToString(PQGenMode);
-            }
-
-            return ($"{L}{N}{HashAlg.Name}{pqMode}{gMode}").GetHashCode();
+            return ($"{L}{N}{HashAlg.Name}{EnumHelpers.GetEnumDescriptionFromEnum(PQGenMode)}{EnumHelpers.GetEnumDescriptionFromEnum(GGenMode)}").GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -113,11 +101,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             switch (name.ToLower())
             {
                 case "pqmode":
-                    PQGenMode = EnumHelper.StringToPQGenMode(value);
+                    PQGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenMode>(value);
                     return true;
 
                 case "gmode":
-                    GGenMode = EnumHelper.StringToGGenMode(value);
+                    GGenMode = EnumHelpers.GetEnumFromEnumDescription<GeneratorGenMode>(value);
                     return true;
 
                 case "l":

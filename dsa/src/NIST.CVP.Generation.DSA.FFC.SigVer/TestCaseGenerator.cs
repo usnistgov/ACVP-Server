@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                 Message = _rand.GetRandomBitString(group.N),
                 Key = keyResult.KeyPair,
                 Reason = reason,
-                FailureTest = (reason.GetReason() != SigFailureReasons.None)
+                FailureTest = (reason.GetReason() != SigFailureReasons.None),
             };
 
             return Generate(group, testCase);
@@ -66,9 +66,9 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             testCase.Signature = sigResult.Signature;
 
             // Modify message
+            //var modifiedTestBuilder = new ModifiedTestCaseBuilder();
             if (testCase.Reason.GetReason() == SigFailureReasons.ModifyMessage)
             {
-                //var modifiedTestBuilder = new ModifiedTestCaseBuilder();
                 //testCase = modifiedTestBuilder.WithTestCase(testCase).Apply(modifiedTestBuilder.ModifyMessage).Build();
                 testCase.Message = _rand.GetDifferentBitStringOfSameSize(testCase.Message);
             }

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DSA.FFC.PQGVer.FailureHandlers;
+using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Generation.DSA.FFC.PQGVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
@@ -29,11 +29,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 
                         var testGroup = new TestGroup
                         {
-                            PQGenMode = EnumHelper.StringToPQGenMode(pqGen),
+                            PQGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenMode>(pqGen),
                             L = capability.L,
                             N = capability.N,
                             HashAlg = hashFunction,
-                            FailureHandler = new PQFailureHandler(parameters.IsSample),
+                            PQTestCaseExpectationProvider = new PQTestCaseExpectationProvider(parameters.IsSample),
 
                             TestType = TEST_TYPE,
                         };

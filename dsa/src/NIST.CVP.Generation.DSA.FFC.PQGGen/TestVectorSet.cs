@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
@@ -59,11 +60,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
                     if (group.PQGenMode != PrimeGenMode.None)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("pqMode", EnumHelper.PQGenModeToString(group.PQGenMode));
+                        ((IDictionary<string, object>)updateObject).Add("pqMode", EnumHelpers.GetEnumDescriptionFromEnum(group.PQGenMode));
                     }
                     else if(group.GGenMode != GeneratorGenMode.None)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("gMode", EnumHelper.GGenModeToString(group.GGenMode));
+                        ((IDictionary<string, object>)updateObject).Add("gMode", EnumHelpers.GetEnumDescriptionFromEnum(group.GGenMode));
                     }
 
                     var tests = new List<dynamic>();
@@ -122,11 +123,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
                     if (group.PQGenMode != PrimeGenMode.None)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("pqMode", EnumHelper.PQGenModeToString(group.PQGenMode));
+                        ((IDictionary<string, object>)updateObject).Add("pqMode", EnumHelpers.GetEnumDescriptionFromEnum(group.PQGenMode));
                     }
                     else if (group.GGenMode != GeneratorGenMode.None)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("gMode", EnumHelper.GGenModeToString(group.GGenMode));
+                        ((IDictionary<string, object>)updateObject).Add("gMode", EnumHelpers.GetEnumDescriptionFromEnum(group.GGenMode));
                     }
 
                     var tests = new List<dynamic>();

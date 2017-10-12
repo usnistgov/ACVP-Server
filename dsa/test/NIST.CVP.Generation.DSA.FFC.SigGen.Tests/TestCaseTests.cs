@@ -44,36 +44,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         }
 
         [Test]
-        public void ShouldSetProperMessageFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.message, subject.Message);
-        }
-
-        [Test]
-        public void ShouldSetProperSignatureFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-
-            Assert.AreEqual(sourceTest.s, subject.Signature.S);
-            Assert.AreEqual(sourceTest.r, subject.Signature.R);
-        }
-
-        [Test]
-        public void ShouldSetProperKeyFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-
-            Assert.AreEqual(sourceTest.y, subject.Key.PublicKeyY);
-        }
-
-        [Test]
         public void ShouldNotMergeTestWithMismatchedIds()
         {
             var testCase = new TestCase { TestCaseId = 1 };

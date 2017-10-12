@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -64,7 +65,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             var sourceAnswer = GetSourceAnswer("g");
             var subject = new TestGroup(sourceAnswer);
             Assume.That(subject != null);
-            Assert.AreEqual(EnumHelper.StringToGGenMode(sourceAnswer.gMode), subject.GGenMode);
+            Assert.AreEqual((string)sourceAnswer.gMode, EnumHelpers.GetEnumDescriptionFromEnum(subject.GGenMode));
         }
 
         [Test]
@@ -73,7 +74,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             var sourceAnswer = GetSourceAnswer();
             var subject = new TestGroup(sourceAnswer);
             Assume.That(subject != null);
-            Assert.AreEqual(EnumHelper.StringToPQGenMode(sourceAnswer.pqMode), subject.PQGenMode);
+            Assert.AreEqual((string)sourceAnswer.pqMode, EnumHelpers.GetEnumDescriptionFromEnum(subject.PQGenMode));
         }
 
         private dynamic GetSourceAnswer(string mode = "pq")
