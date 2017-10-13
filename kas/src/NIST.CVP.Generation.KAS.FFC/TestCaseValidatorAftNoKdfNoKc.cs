@@ -14,18 +14,19 @@ namespace NIST.CVP.Generation.KAS.FFC
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _testGroup;
-        private readonly IKasBuilder _kasBuilder;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> _deferredResolver;
 
         private (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool
             generatesEphemeralKeyPair) _iutKeyRequirements;
-        private (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool
-            generatesEphemeralKeyPair) _serverKeyRequirements;
 
-        public TestCaseValidatorAftNoKdfNoKc(TestCase expectedResult, TestGroup testGroup, IKasBuilder kasBuilder)
+        public TestCaseValidatorAftNoKdfNoKc(TestCase expectedResult, TestGroup testGroup, IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> deferredResolver)
         {
             _expectedResult = expectedResult;
             _testGroup = testGroup;
-            _kasBuilder = kasBuilder;
+            _deferredResolver = deferredResolver;
+
+            _iutKeyRequirements =
+                SpecificationMapping.GetKeyGenerationOptionsForSchemeAndRole(_testGroup.Scheme, _testGroup.KasRole);
         }
 
         public int TestCaseId => _expectedResult.TestCaseId;
@@ -33,14 +34,6 @@ namespace NIST.CVP.Generation.KAS.FFC
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
-
-            _iutKeyRequirements =
-                SpecificationMapping.GetKeyGenerationOptionsForSchemeAndRole(_testGroup.Scheme, _testGroup.KasRole);
-            _serverKeyRequirements =
-                SpecificationMapping.GetKeyGenerationOptionsForSchemeAndRole(_testGroup.Scheme,
-                    _testGroup.KasRole == KeyAgreementRole.InitiatorPartyU
-                        ? KeyAgreementRole.ResponderPartyV
-                        : KeyAgreementRole.InitiatorPartyU);
 
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
@@ -81,54 +74,12 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         private void CheckResults(TestCase suppliedResult, List<string> errors)
         {
-            KasResult serverResult = PerformKas(suppliedResult);
+            KasResult serverResult = _deferredResolver.CompleteDeferredCrypto(_testGroup, _expectedResult, suppliedResult);
 
             if (!serverResult.Tag.Equals(suppliedResult.HashZ))
             {
                 errors.Add($"{nameof(suppliedResult.HashZ)} does not match");
             }
-        }
-
-        // TODO extract algo from class
-        private KasResult PerformKas(TestCase suppliedResult)
-        {
-            FfcDomainParameters domainParameters = new FfcDomainParameters(_testGroup.P, _testGroup.Q, _testGroup.G);
-            FfcSharedInformation iutPublicInfo = new FfcSharedInformation(
-                domainParameters,
-                null,
-                suppliedResult.StaticPublicKeyServer,
-                suppliedResult.EphemeralPublicKeyServer,
-                null,
-                null,
-                null
-            );
-
-            var serverKas = _kasBuilder
-                .WithKeyAgreementRole(
-                    _serverKeyRequirements.thisPartyKasRole
-                )
-                .WithParameterSet(_testGroup.ParmSet)
-                .WithScheme(_testGroup.Scheme)
-                .BuildNoKdfNoKc()
-                .Build();
-
-            serverKas.SetDomainParameters(domainParameters);
-            serverKas.ReturnPublicInfoThisParty();
-
-            if (_serverKeyRequirements.generatesStaticKeyPair)
-            {
-                serverKas.Scheme.StaticKeyPair.PrivateKeyX = _expectedResult.StaticPrivateKeyServer;
-                serverKas.Scheme.StaticKeyPair.PublicKeyY = _expectedResult.StaticPublicKeyServer;
-            }
-
-            if (_serverKeyRequirements.generatesEphemeralKeyPair)
-            {
-                serverKas.Scheme.EphemeralKeyPair.PrivateKeyX = _expectedResult.EphemeralPrivateKeyServer;
-                serverKas.Scheme.EphemeralKeyPair.PublicKeyY = _expectedResult.EphemeralPublicKeyServer;
-            }
-
-            var serverResult = serverKas.ComputeResult(iutPublicInfo);
-            return serverResult;
         }
     }
 }

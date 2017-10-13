@@ -42,6 +42,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     {
                         TestType = testType,
                         KasMode = kasMode,
+                        Scheme = FfcScheme.DhEphem,
                         Tests = new List<ITestCase>()
                         {
                             new TestCase()

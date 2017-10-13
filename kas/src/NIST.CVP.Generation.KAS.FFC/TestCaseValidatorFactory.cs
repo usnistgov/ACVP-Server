@@ -38,10 +38,13 @@ namespace NIST.CVP.Generation.KAS.FFC
                         switch (group.KasMode)
                         {
                             case KasMode.NoKdfNoKc:
-                                list.Add(new TestCaseValidatorAftNoKdfNoKc(workingTest, group, _kasBuilder));
+                                list.Add(new TestCaseValidatorAftNoKdfNoKc(workingTest, group,
+                                    new DeferredTestCaseResolverAftNoKdfNoKc(_kasBuilder)));
                                 break;
                             case KasMode.KdfNoKc:
-                                list.Add(new TestCaseValidatorAftKdfNoKc(workingTest, group, _kasBuilder, _macParametersBuilder, _schemeBuilder, _entropyProviderFactory));
+                                list.Add(new TestCaseValidatorAftKdfNoKc(workingTest, group,
+                                    new DeferredTestCaseResolverAftKdfNoKc(_kasBuilder, _macParametersBuilder,
+                                        _schemeBuilder, _entropyProviderFactory)));
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();

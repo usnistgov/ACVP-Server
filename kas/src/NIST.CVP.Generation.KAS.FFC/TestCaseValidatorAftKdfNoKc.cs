@@ -15,21 +15,16 @@ namespace NIST.CVP.Generation.KAS.FFC
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _testGroup;
-        private readonly IKasBuilder _kasBuilder;
-        private readonly IMacParametersBuilder _macParametersBuilder;
-        private readonly ISchemeBuilder _schemeBuilder;
-        private readonly IEntropyProviderFactory _entropyProviderFactory;
-        private (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair) _iutKeyRequirements;
-        private (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair) _serverKeyRequirements;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> _deferredResolver;
 
-        public TestCaseValidatorAftKdfNoKc(TestCase expectedResult, TestGroup testGroup, IKasBuilder kasBuilder, IMacParametersBuilder macParametersBuilder, ISchemeBuilder schemeBuilder, IEntropyProviderFactory entropyProviderFactory)
+        private (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool
+            generatesEphemeralKeyPair) _iutKeyRequirements;
+
+        public TestCaseValidatorAftKdfNoKc(TestCase expectedResult, TestGroup testGroup, IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> deferredResolver)
         {
             _expectedResult = expectedResult;
             _testGroup = testGroup;
-            _kasBuilder = kasBuilder;
-            _macParametersBuilder = macParametersBuilder;
-            _schemeBuilder = schemeBuilder;
-            _entropyProviderFactory = entropyProviderFactory;
+            _deferredResolver = deferredResolver;
         }
 
         public int TestCaseId => _expectedResult.TestCaseId;
@@ -40,11 +35,6 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             _iutKeyRequirements =
                 SpecificationMapping.GetKeyGenerationOptionsForSchemeAndRole(_testGroup.Scheme, _testGroup.KasRole);
-            _serverKeyRequirements =
-                SpecificationMapping.GetKeyGenerationOptionsForSchemeAndRole(_testGroup.Scheme,
-                    _testGroup.KasRole == KeyAgreementRole.InitiatorPartyU
-                        ? KeyAgreementRole.ResponderPartyV
-                        : KeyAgreementRole.InitiatorPartyU);
 
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
@@ -120,9 +110,9 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         private void CheckResults(TestCase suppliedResult, List<string> errors)
         {
-            KasResult serverResult = PerformKas(suppliedResult);
+            KasResult serverResult = _deferredResolver.CompleteDeferredCrypto(_testGroup, _expectedResult, suppliedResult);
 
-            if (!serverResult.Tag.Equals(suppliedResult.Dkm))
+            if (!serverResult.Dkm.Equals(suppliedResult.Dkm))
             {
                 errors.Add($"{nameof(suppliedResult.Dkm)} does not match");
             }
@@ -131,78 +121,6 @@ namespace NIST.CVP.Generation.KAS.FFC
             {
                 errors.Add($"{nameof(suppliedResult.Tag)} does not match");
             }
-        }
-
-        // TODO extract algo from class
-        private KasResult PerformKas(TestCase suppliedResult)
-        {
-            FfcDomainParameters domainParameters = new FfcDomainParameters(_testGroup.P, _testGroup.Q, _testGroup.G);
-            FfcSharedInformation iutPublicInfo = new FfcSharedInformation(
-                domainParameters,
-                suppliedResult.IdIut,
-                suppliedResult.StaticPublicKeyServer,
-                suppliedResult.EphemeralPublicKeyServer,
-                null,
-                null,
-                _expectedResult.NonceNoKc
-            );
-
-            var macParameters = _macParametersBuilder
-                .WithKeyAgreementMacType(_testGroup.MacType)
-                .WithMacLength(_testGroup.MacLen)
-                .WithNonce(suppliedResult.NonceAesCcm)
-                .Build();
-
-            KeyAgreementRole serverRole = _testGroup.KasRole == KeyAgreementRole.InitiatorPartyU
-                ? KeyAgreementRole.ResponderPartyV
-                : KeyAgreementRole.InitiatorPartyU;
-
-            // inject specific entropy for nonceNoKc when the server is the initiator
-            // when the server is not the initiator, nonceNoKc is provided via the other party's public info
-            if (serverRole == KeyAgreementRole.InitiatorPartyU)
-            {
-                var entropyProvider = _entropyProviderFactory
-                    .GetEntropyProvider(EntropyProviderTypes.Testable);
-                entropyProvider.AddEntropy(_expectedResult.NonceNoKc);
-                    
-                _schemeBuilder.WithEntropyProvider(entropyProvider);
-            }
-
-            var serverKas = _kasBuilder
-                .WithKeyAgreementRole(
-                    _serverKeyRequirements.thisPartyKasRole
-                )
-                .WithParameterSet(_testGroup.ParmSet)
-                .WithScheme(_testGroup.Scheme)
-                .WithSchemeBuilder(
-                    _schemeBuilder
-                        .WithOtherInfoFactory(new FakeOtherInfoFactory(suppliedResult.OtherInfo))
-                )
-                .WithKeyAgreementRole(serverRole)
-                .WithPartyId(_testGroup.IdServer)
-                .BuildKdfNoKc()
-                .WithKeyLength(_testGroup.KeyLen)
-                .WithMacParameters(macParameters)
-                .WithOtherInfoPattern(_testGroup.OiPattern)
-                .Build();
-
-            serverKas.SetDomainParameters(domainParameters);
-            serverKas.ReturnPublicInfoThisParty();
-
-            if (_serverKeyRequirements.generatesStaticKeyPair)
-            {
-                serverKas.Scheme.StaticKeyPair.PrivateKeyX = _expectedResult.StaticPrivateKeyServer;
-                serverKas.Scheme.StaticKeyPair.PublicKeyY = _expectedResult.StaticPublicKeyServer;
-            }
-
-            if (_serverKeyRequirements.generatesEphemeralKeyPair)
-            {
-                serverKas.Scheme.EphemeralKeyPair.PrivateKeyX = _expectedResult.EphemeralPrivateKeyServer;
-                serverKas.Scheme.EphemeralKeyPair.PublicKeyY = _expectedResult.EphemeralPublicKeyServer;
-            }
-
-            var serverResult = serverKas.ComputeResult(iutPublicInfo);
-            return serverResult;
         }
     }
 }

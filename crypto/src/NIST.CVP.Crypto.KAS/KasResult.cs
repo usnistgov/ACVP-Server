@@ -1,8 +1,9 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS
 {
-    public class KasResult
+    public class KasResult : ICryptoResult
     {
         /// <summary>
         /// Constructor used to create result with shared secret Z and Hashed Z within tag.  
