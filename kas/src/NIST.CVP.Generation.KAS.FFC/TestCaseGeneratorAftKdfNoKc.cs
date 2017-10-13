@@ -64,10 +64,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithParameterSet(group.ParmSet)
                 .WithPartyId(group.IdServer)
                 .WithKeyAgreementRole(serverRole)
-                .WithSchemeBuilder(
-                    _schemeBuilder
-                        .WithDsa(_dsaFactory.GetInstance(_shaFactory.GetShaInstance(group.HashAlg)))
-                )
                 .BuildKdfNoKc()
                 .WithKeyLength(group.KeyLen)
                 .WithMacParameters(

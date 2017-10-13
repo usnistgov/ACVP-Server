@@ -5,7 +5,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public class KasBuilderNoKdfNoKc
+    public class KasBuilderNoKdfNoKc : IKasBuilderNoKdfNoKc
     {
         private readonly ISchemeBuilder _schemeBuilder;
         private readonly KeyAgreementRole _keyAgreementRole;

@@ -31,8 +31,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _entropyProviderScheme = new TestableEntropyProvider();
             _entropyProviderOtherInfo = new TestableEntropyProvider();
 
-            _subject = new KasBuilder();
-            _subject.WithSchemeBuilder(
+            _subject = new KasBuilder(
                 new SchemeBuilder(
                     _dsa.Object,
                     new KdfFactory(

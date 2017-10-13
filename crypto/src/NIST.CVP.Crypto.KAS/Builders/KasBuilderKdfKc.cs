@@ -7,7 +7,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public class KasBuilderKdfKc
+    public class KasBuilderKdfKc : IKasBuilderKdfKc
     {
         private readonly ISchemeBuilder _schemeBuilder;
         private readonly KeyAgreementRole _keyAgreementRole;
@@ -37,7 +37,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public KasBuilderKdfKc WithKeyLength(int value)
+        public IKasBuilderKdfKc WithKeyLength(int value)
         {
             _keyLength = value;
             return this;
@@ -48,7 +48,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public KasBuilderKdfKc WithOtherInfoPattern(string value)
+        public IKasBuilderKdfKc WithOtherInfoPattern(string value)
         {
             _otherInfoPattern = value;
             return this;
@@ -59,7 +59,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public KasBuilderKdfKc WithMacParameters(MacParameters value)
+        public IKasBuilderKdfKc WithMacParameters(MacParameters value)
         {
             _macParameters = value;
             return this;
@@ -70,7 +70,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public KasBuilderKdfKc WithKeyConfirmationRole(KeyConfirmationRole value)
+        public IKasBuilderKdfKc WithKeyConfirmationRole(KeyConfirmationRole value)
         {
             _keyConfirmationRole = value;
             return this;
@@ -81,7 +81,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public KasBuilderKdfKc WithKeyConfirmationDirection(KeyConfirmationDirection value)
+        public IKasBuilderKdfKc WithKeyConfirmationDirection(KeyConfirmationDirection value)
         {
             _keyConfirmationDirection = value;
             return this;

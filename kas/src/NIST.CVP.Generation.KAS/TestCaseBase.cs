@@ -95,7 +95,6 @@ namespace NIST.CVP.Generation.KAS
 
             IdIutLen = expandoSource.GetTypeFromProperty<int>("idIutLen");
             IdIut = expandoSource.GetBitStringFromProperty("idIut");
-
             
             OiLen = expandoSource.GetTypeFromProperty<int>("oiLen");
             OtherInfo = expandoSource.GetBitStringFromProperty("oi");

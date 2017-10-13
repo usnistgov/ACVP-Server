@@ -25,7 +25,6 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly IMacParametersBuilder _macParametersBuilder;
         private readonly IKdfFactory _kdfFactory;
         private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
-        private readonly IDiffieHellman _diffieHellman;
         private readonly TestCaseDispositionOption _intendedDisposition;
 
         public TestCaseGeneratorValKdfNoKc(
@@ -37,7 +36,6 @@ namespace NIST.CVP.Generation.KAS.FFC
             IMacParametersBuilder macParametersBuilder, 
             IKdfFactory kdfFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
-            IDiffieHellman diffieHellman, 
             TestCaseDispositionOption intendedDisposition
         )
         {
@@ -49,7 +47,6 @@ namespace NIST.CVP.Generation.KAS.FFC
             _macParametersBuilder = macParametersBuilder;
             _kdfFactory = kdfFactory;
             _noKeyConfirmationFactory = noKeyConfirmationFactory;
-            _diffieHellman = diffieHellman;
             _intendedDisposition = intendedDisposition;
     }
 

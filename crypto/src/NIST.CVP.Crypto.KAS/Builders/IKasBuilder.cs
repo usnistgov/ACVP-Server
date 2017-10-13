@@ -45,22 +45,22 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// <returns></returns>
         IKasBuilder WithSchemeBuilder(ISchemeBuilder schemeBuilder);
         /// <summary>
-        /// Returns a builder capaable of producing a <see cref="IKas"/> 
+        /// Returns a builder capable of producing a <see cref="IKas"/> 
         /// with KDF and Key Confirmation capabilities.
         /// </summary>
         /// <returns></returns>
-        KasBuilderKdfKc BuildKdfKc();
+        IKasBuilderKdfKc BuildKdfKc();
         /// <summary>
-        /// Returns a builder capaable of producing a <see cref="IKas"/> 
+        /// Returns a builder capable of producing a <see cref="IKas"/> 
         /// with KDF and without Key Confirmation capabilities.
         /// </summary>
         /// <returns></returns>
-        KasBuilderKdfNoKc BuildKdfNoKc();
+        IKasBuilderKdfNoKc BuildKdfNoKc();
         /// <summary>
-        /// Returns a builder capaable of producing a <see cref="IKas"/> 
+        /// Returns a builder capable of producing a <see cref="IKas"/> 
         /// with no KDF and no Key Confirmation capabilities.
         /// </summary>
         /// <returns></returns>
-        KasBuilderNoKdfNoKc BuildNoKdfNoKc();
+        IKasBuilderNoKdfNoKc BuildNoKdfNoKc();
     }
 }

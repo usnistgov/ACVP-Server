@@ -49,7 +49,6 @@ namespace NIST.CVP.Generation.KAS.Tests
                 );
 
             _entropyProvider = new EntropyProvider(new Random800_90());
-            _kasBuilder = new KasBuilder();
             _schemeBuilder = new SchemeBuilder(
                     _dsa.Object,
                     new KdfFactory(
@@ -64,6 +63,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     new DiffieHellman(),
                     new Mqv()
             );
+            _kasBuilder = new KasBuilder(_schemeBuilder);
             _dsaFactory = new Mock<IDsaFfcFactory>();
             _dsaFactory
                 .Setup(s => s.GetInstance(It.IsAny<ISha>(), It.IsAny<EntropyProviderTypes>()))

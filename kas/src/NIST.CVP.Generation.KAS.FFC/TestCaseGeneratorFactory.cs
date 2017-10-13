@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                     case KasMode.NoKdfNoKc:
                         return new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, dispositionIntention);
                     case KasMode.KdfNoKc:
-                        return new TestCaseGeneratorValKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random), _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, _diffieHellman, dispositionIntention);
+                        return new TestCaseGeneratorValKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random), _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, dispositionIntention);
                 }
             }
 

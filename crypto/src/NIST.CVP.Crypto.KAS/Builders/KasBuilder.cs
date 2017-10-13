@@ -17,6 +17,11 @@ namespace NIST.CVP.Crypto.KAS.Builders
         private BitString _partyId;
         private ISchemeBuilder _schemeBuilder;
 
+        public KasBuilder(ISchemeBuilder schemeBuilder)
+        {
+            _schemeBuilder = schemeBuilder;
+        }
+
         /// <inheritdoc />
         public IKasBuilder WithKeyAgreementRole(KeyAgreementRole value)
         {
@@ -60,19 +65,19 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         /// <inheritdoc />
-        public KasBuilderNoKdfNoKc BuildNoKdfNoKc()
+        public IKasBuilderNoKdfNoKc BuildNoKdfNoKc()
         {
             return new KasBuilderNoKdfNoKc(_schemeBuilder, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId);
         }
 
         /// <inheritdoc />
-        public KasBuilderKdfNoKc BuildKdfNoKc()
+        public IKasBuilderKdfNoKc BuildKdfNoKc()
         {
             return new KasBuilderKdfNoKc(_schemeBuilder, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId);
         }
 
         /// <inheritdoc />
-        public KasBuilderKdfKc BuildKdfKc()
+        public IKasBuilderKdfKc BuildKdfKc()
         {
             return new KasBuilderKdfKc(_schemeBuilder, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId);
         }

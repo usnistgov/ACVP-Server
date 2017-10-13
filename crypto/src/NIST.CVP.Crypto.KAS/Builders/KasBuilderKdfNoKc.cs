@@ -6,7 +6,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public class KasBuilderKdfNoKc
+    public class KasBuilderKdfNoKc : IKasBuilderKdfNoKc
     {
         private readonly ISchemeBuilder _schemeBuilder;
         private readonly KeyAgreementRole _keyAgreementRole;
@@ -33,7 +33,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public KasBuilderKdfNoKc WithKeyLength(int value)
+        public IKasBuilderKdfNoKc WithKeyLength(int value)
         {
             _keyLength = value;
             return this;
@@ -44,7 +44,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public KasBuilderKdfNoKc WithOtherInfoPattern(string value)
+        public IKasBuilderKdfNoKc WithOtherInfoPattern(string value)
         {
             _otherInfoPattern = value;
             return this;
@@ -55,7 +55,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public KasBuilderKdfNoKc WithMacParameters(MacParameters value)
+        public IKasBuilderKdfNoKc WithMacParameters(MacParameters value)
         {
             _macParameters = value;
             return this;

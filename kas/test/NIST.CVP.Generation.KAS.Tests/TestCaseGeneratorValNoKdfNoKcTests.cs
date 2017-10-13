@@ -38,7 +38,6 @@ namespace NIST.CVP.Generation.KAS.Tests
         public void Setup()
         {
             _entropyProvider = new EntropyProvider(new Random800_90());
-            _kasBuilder = new KasBuilder();
             _schemeBuilder = new SchemeBuilder(
                     _dsa,
                     new KdfFactory(
@@ -53,6 +52,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     new DiffieHellman(),
                     new Mqv()
             );
+            _kasBuilder = new KasBuilder(_schemeBuilder);
             _shaFactory = new ShaFactory();
             _dsa = new FfcDsa(_shaFactory.GetShaInstance(_hashFunction));
 
