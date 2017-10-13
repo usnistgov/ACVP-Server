@@ -174,7 +174,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("result", (test.FailureTest ? "failed" : "passed"));
-                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason);
+                        //((IDictionary<string, object>)testObject).Add("reason", test.Reason);
 
                         tests.Add(testObject);
                     }

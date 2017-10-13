@@ -52,7 +52,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             TestCaseId = (int)source.tcId;
 
             ExpandoObject expandoSource = (ExpandoObject)source;
-            Result = expandoSource.GetTypeFromProperty<string>("result").ToLower() == "passed";
+            var resultValue = expandoSource.GetTypeFromProperty<string>("result");
+            if (resultValue != null)
+            {
+                Result = resultValue.ToLower() == "passed";
+            }
             Reason = expandoSource.GetTypeFromProperty<string>("reason");
         }
 

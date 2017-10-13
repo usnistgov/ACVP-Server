@@ -48,7 +48,11 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
 
             ExpandoObject expandoSource = (ExpandoObject)source;
 
-            Result = expandoSource.GetTypeFromProperty<string>("result").ToLower() == "passed";
+            var resultValue = expandoSource.GetTypeFromProperty<string>("result");
+            if (resultValue != null)
+            {
+                Result = resultValue.ToLower() == "passed";
+            }
             Reason = new TestCaseExpectationReason(EnumHelpers.GetEnumFromEnumDescription<SigFailureReasons>(expandoSource.GetTypeFromProperty<string>("reason")));
         }
 

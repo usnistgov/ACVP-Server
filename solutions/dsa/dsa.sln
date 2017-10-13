@@ -91,8 +91,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA-SigVer", "..\..\dsa\src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA-SigVer_Val", "..\..\dsa\src\DSA-SigVer_Val\DSA-SigVer_Val.csproj", "{1922BFC4-5AA5-4029-B6F6-37C9C33EB0EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "..\..\dsa\src\test-case-modifier\TestProject\TestProject.csproj", "{4C7C5EEE-0E5F-49E1-9961-B497AF9AD7FC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -267,10 +265,6 @@ Global
 		{1922BFC4-5AA5-4029-B6F6-37C9C33EB0EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1922BFC4-5AA5-4029-B6F6-37C9C33EB0EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1922BFC4-5AA5-4029-B6F6-37C9C33EB0EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C7C5EEE-0E5F-49E1-9961-B497AF9AD7FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C7C5EEE-0E5F-49E1-9961-B497AF9AD7FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C7C5EEE-0E5F-49E1-9961-B497AF9AD7FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C7C5EEE-0E5F-49E1-9961-B497AF9AD7FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -318,7 +312,6 @@ Global
 		{8EB471BF-BA3C-4B75-8E2B-4435EC80CA3A} = {3A1064A5-ACA1-4488-AEEC-8B5A127AC7D0}
 		{0F61E7AD-4A87-4574-A081-9D5F67590D10} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
 		{1922BFC4-5AA5-4029-B6F6-37C9C33EB0EE} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
-		{4C7C5EEE-0E5F-49E1-9961-B497AF9AD7FC} = {8A7FEA20-DFF5-4E1B-ADE9-349564E5FAAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1FB7617-33CC-4073-8F8F-057BADD417C4}
