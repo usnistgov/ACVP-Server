@@ -6,9 +6,9 @@ namespace NIST.CVP.Crypto.DSA.ECC
     public class EccDomainParameters : IDsaDomainParameters
     {
         /// <summary>
-        /// Field size
+        /// Field size, either a q = prime > 3, or q = 2^m where m is prime
         /// </summary>
-        public BigInteger Q { get; }
+        // public BigInteger FieldSizeQ { get; }
 
         /// <summary>
         /// Optional seed of at least 160 bits
@@ -16,18 +16,19 @@ namespace NIST.CVP.Crypto.DSA.ECC
         public BitString Seed { get; }
 
         /// <summary>
-        /// The polynomail representing the curve
+        /// The polynomial representing the curve, contains a, b and the curve type
         /// </summary>
-        public EccCurveBase E { get; }
+        public IEccCurve CurveE { get; }
 
-        /// <summary>
-        /// A point of prime order on the curve
-        /// </summary>
-        public EccPoint G { get; }
+        public EccDomainParameters(IEccCurve e)
+        {
+            CurveE = e;
+        }
 
-        /// <summary>
-        /// Cofactor
-        /// </summary>
-        public BigInteger H { get; }
+        public EccDomainParameters(IEccCurve e, BitString seed)
+        {
+            CurveE = e;
+            Seed = seed;
+        }
     }
 }

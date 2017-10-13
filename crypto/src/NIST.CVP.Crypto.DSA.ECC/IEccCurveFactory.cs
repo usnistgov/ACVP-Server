@@ -7,6 +7,6 @@ namespace NIST.CVP.Crypto.DSA.ECC
 {
     public interface IEccCurveFactory
     {
-        EccCurveBase GetCurve(Curve curve);
+        IEccCurve GetCurve(Curve curve);
     }
 }

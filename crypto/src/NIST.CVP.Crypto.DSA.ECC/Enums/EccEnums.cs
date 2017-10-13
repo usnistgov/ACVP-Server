@@ -22,4 +22,10 @@ namespace NIST.CVP.Crypto.DSA.ECC.Enums
         B409,
         B571
     }
+
+    public enum CurveType
+    {
+        Prime,
+        Binary
+    }
 }
