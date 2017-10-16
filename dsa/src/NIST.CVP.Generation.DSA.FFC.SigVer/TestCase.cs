@@ -53,7 +53,12 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             {
                 Result = resultValue.ToLower() == "passed";
             }
-            Reason = new TestCaseExpectationReason(EnumHelpers.GetEnumFromEnumDescription<SigFailureReasons>(expandoSource.GetTypeFromProperty<string>("reason")));
+
+            var reasonValue = expandoSource.GetTypeFromProperty<string>("reason");
+            if (reasonValue != null)
+            {
+                Reason = new TestCaseExpectationReason(EnumHelpers.GetEnumFromEnumDescription<SigFailureReasons>(expandoSource.GetTypeFromProperty<string>("reason")));
+            }
         }
 
         public bool Merge(ITestCase otherTest)
