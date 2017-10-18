@@ -2,8 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
 using System.Numerics;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Internal;
+using Microsoft.EntityFrameworkCore.Extensions.Internal;
 
 namespace NIST.CVP.Math.Helpers
 {
@@ -42,6 +46,7 @@ namespace NIST.CVP.Math.Helpers
             return copy;
         }
 
+
         public static byte[] ToBytes(this BitArray bArray)
         {
             byte[] bytes = new byte[(bArray.Length - 1) / BITSINBYTE + 1];
@@ -65,6 +70,30 @@ namespace NIST.CVP.Math.Helpers
             return bytes;
         }
 
+        public static BitArray SubArray(this BitArray bArray, int startIndex, int length)
+        {
+            //if (startIndex + length > bArray.Count)
+            //{
+            //    throw new IndexOutOfRangeException();
+            //}
+
+            var copy = new BitArray(length);
+            for (int i = startIndex, j = 0; j < length; i++, j++)
+            {
+                copy[j] = bArray[i];
+            }
+            return copy;
+        }
+
+        public static String ToBinaryString(this BitArray bArray)
+        {
+            var sb = new StringBuilder();
+            foreach (var b in bArray)
+            {
+                sb.Append(Convert.ToBoolean(b) ? "1" : "0");
+            }
+            return sb.ToString();
+        }
 
     }
 }
