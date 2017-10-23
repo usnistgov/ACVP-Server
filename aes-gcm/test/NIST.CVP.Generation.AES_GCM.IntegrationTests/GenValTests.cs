@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using AES_GCM;
 using Autofac;
+using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
