@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.Core
 {
@@ -10,7 +11,7 @@ namespace NIST.CVP.Generation.Core
     {
         [JsonProperty(PropertyName = "tcId")]
         public int TestCaseId { get; set; }
-        public string Result { get; set; }
+        public Disposition Result { get; set; }
         public string Reason { get; set; }
     }
 }

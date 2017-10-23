@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
 
             var result = subject.Validate(supplied);
 
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
 
             var result = subject.Validate(supplied);
 
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.ToLower().Contains("cipher text"), "Reason does not contain the expected Cipher Text");
             Assert.IsFalse(result.Reason.ToLower().Contains("plain text"), "Reason contains the unexpected value Plain Text");
             Assert.IsFalse(result.Reason.ToLower().Contains("key"), "Reason contains the unexpected value Key");
@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
 
             var result = subject.Validate(supplied);
 
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("cipher text"), "Reason contains the unexpected value Cipher Text");
             Assert.IsTrue(result.Reason.ToLower().Contains("plain text"), "Reason does not contain the expected Plain Text");
             Assert.IsFalse(result.Reason.ToLower().Contains("key"), "Reason contains the unexpected value Key");
@@ -75,7 +75,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
 
             var result = subject.Validate(supplied);
 
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsFalse(result.Reason.ToLower().Contains("cipher text"), "Reason contains the unexpected value Cipher Text");
             Assert.IsFalse(result.Reason.ToLower().Contains("plain text"), "Reason contains the unexpected value Plain Text");
             Assert.IsTrue(result.Reason.ToLower().Contains("key"), "Reason does not contain the expected value Key");
@@ -114,7 +114,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             var subject = new TestCaseValidatorMonteCarloDecrypt(expected);
             var result = subject.Validate(suppliedResult);
 
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
         }
 
@@ -129,7 +129,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             var subject = new TestCaseValidatorMonteCarloDecrypt(expected);
             var result = subject.Validate(suppliedResult);
 
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.PlainText)}"));
         }
 
@@ -144,7 +144,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             var subject = new TestCaseValidatorMonteCarloDecrypt(expected);
             var result = subject.Validate(suppliedResult);
 
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}"));
         }
 
@@ -159,7 +159,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             var subject = new TestCaseValidatorMonteCarloDecrypt(expected);
             var result = subject.Validate(suppliedResult);
 
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Keys)}"));
         }
 

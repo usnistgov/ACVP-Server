@@ -29,9 +29,9 @@ namespace NIST.CVP.Generation.AES_CCM
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors) };
+                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
             }
-            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
+            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)

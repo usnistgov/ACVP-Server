@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             var subject = new TestCaseValidator(GetResultTestCase(expected));
             var result = subject.Validate(GetResultTestCase(supplied));
 
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             var subject = new TestCaseValidator(GetResultTestCase(expected));
             var result = subject.Validate(GetResultTestCase(supplied));
 
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         private TestCase GetResultTestCase(bool shouldPass)
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
                 TestCaseId = 1,
                 P = 2,
                 Q = 3,
-                Result = shouldPass   // Says the test "passed"
+                Result = shouldPass   // Says the test Core.Enums.Disposition.Passed
             };
         }
     }

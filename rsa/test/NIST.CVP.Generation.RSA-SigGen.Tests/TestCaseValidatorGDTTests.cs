@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             var result = subject.Validate(GetResultTestCase());
 
             mockSigner.Verify(v => v.Verify(It.IsAny<int>(), It.IsAny<BitString>(), It.IsAny<KeyPair>(), It.IsAny<BitString>()), Times.Once);
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             var result = subject.Validate(GetResultTestCase());
 
             mockSigner.Verify(v => v.Verify(It.IsAny<int>(), It.IsAny<BitString>(), It.IsAny<KeyPair>(), It.IsAny<BitString>()), Times.Once);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         private TestCase GetTestCase()

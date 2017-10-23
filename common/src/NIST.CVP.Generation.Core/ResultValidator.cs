@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Generation.Core.Enums;
 using NLog;
 
 namespace NIST.CVP.Generation.Core
@@ -18,7 +19,7 @@ namespace NIST.CVP.Generation.Core
                 var suppliedResult = testResults.FirstOrDefault(r => r.TestCaseId == caseValidator.TestCaseId);
                 if (suppliedResult == null)
                 {
-                    validations.Add(new TestCaseValidation { TestCaseId = caseValidator.TestCaseId, Result = "missing" });
+                    validations.Add(new TestCaseValidation { TestCaseId = caseValidator.TestCaseId, Result = Disposition.Missing });
                     continue;
                 }
 
@@ -38,7 +39,7 @@ namespace NIST.CVP.Generation.Core
                     {
                         TestCaseId = caseValidator.TestCaseId,
                         Reason = "Unexpected failure",
-                        Result = "failed"
+                        Result = Disposition.Failed
                     });
                 }
 

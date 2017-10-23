@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
             var validateResult = _subject.Validate(testCase);
 
-            Assert.IsTrue(validateResult.Result.Equals("passed", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue(validateResult.Result == Core.Enums.Disposition.Passed);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
             var validateResult = _subject.Validate(suppliedTestCase);
 
-            Assert.IsTrue(validateResult.Result.Equals("failed", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue(validateResult.Result == Core.Enums.Disposition.Failed);
         }
     }
 }

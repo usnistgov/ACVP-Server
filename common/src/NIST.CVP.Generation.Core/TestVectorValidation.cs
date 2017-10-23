@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.Core
 {
     public class TestVectorValidation
     {
-        public string Disposition
+        public Disposition Disposition
         {
             get
             {
-                if (Validations.All(v => v.Result == "passed"))
+                if (Validations.All(v => v.Result == Disposition.Passed))
                 {
-                    return "passed";
+                    return Disposition.Passed;
                 }
-                return Validations.First(v => v.Result != "passed").Result;
+                return Validations.First(v => v.Result != Disposition.Passed).Result;
             }
         }
 

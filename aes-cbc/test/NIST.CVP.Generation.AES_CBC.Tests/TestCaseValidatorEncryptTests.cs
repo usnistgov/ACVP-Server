@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             var subject = new TestCaseValidatorEncrypt(testCase);
             var result = subject.Validate(testCase);
             Assume.That(result != null);
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -26,7 +27,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             suppliedResult.CipherText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Disposition.Failed, result.Result);
         }
 
         [Test]
@@ -38,7 +39,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             suppliedResult.CipherText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Cipher Text"));
         }
 
@@ -53,7 +54,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
 
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Disposition.Failed == result.Result);
 
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}"));
         }

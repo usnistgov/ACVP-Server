@@ -3,6 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Generation.Core.Resolvers;
 using NLog;
 
 namespace NIST.CVP.Generation.Core
@@ -40,7 +41,8 @@ namespace NIST.CVP.Generation.Core
             var validationJson = JsonConvert.SerializeObject(response, Formatting.Indented,
                 new JsonSerializerSettings
                 {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    ContractResolver = new ValidationResolver(),
+                    //ContractResolver = new CamelCasePropertyNamesContractResolver(),
                     NullValueHandling = NullValueHandling.Ignore
                 });
             var saveResult = SaveToFile(Path.GetDirectoryName(resultPath), "validation.json", validationJson);

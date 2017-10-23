@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
             var subject = new TestCaseValidatorDecrypt(testCase);
             var result = subject.Validate(testCase);
             Assume.That(result != null);
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
             suppliedResult.PlainText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
             suppliedResult.PlainText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Plain Text"));
         }
 
@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
 
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}"));
         }

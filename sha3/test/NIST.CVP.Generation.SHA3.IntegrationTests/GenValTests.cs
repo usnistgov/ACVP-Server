@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Autofac;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -150,7 +152,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             var dp = new DynamicParser();
             var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
 
-            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
         }
 
         [Test]
@@ -164,7 +166,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             var dp = new DynamicParser();
             var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
 
-            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
         }
 
         [Test]
@@ -178,7 +180,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             var dp = new DynamicParser();
             var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
 
-            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
         }
 
         [Test]
@@ -192,7 +194,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             var dp = new DynamicParser();
             var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
 
-            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
         }
 
         [Test]
@@ -207,7 +209,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             var dp = new DynamicParser();
             var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
 
-            Assert.AreEqual("failed", parsedValidation.ParsedObject.disposition.ToString(), "disposition");
+            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), parsedValidation.ParsedObject.disposition.ToString(), "disposition");
             foreach (var test in parsedValidation.ParsedObject.tests)
             {
                 int tcId = test.tcId;
@@ -215,11 +217,11 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 
                 if (expectedFailTestCases.Contains(tcId))
                 {
-                    Assert.AreEqual("failed", result, tcId.ToString());
+                    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), result, tcId.ToString());
                 }
                 else
                 {
-                    Assert.AreEqual("passed", result, tcId.ToString());
+                    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), result, tcId.ToString());
                 }
             }
         }

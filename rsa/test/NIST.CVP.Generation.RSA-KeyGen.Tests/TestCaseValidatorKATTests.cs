@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var result = subject.Validate(testCase);
 
             Assume.That(result != null);
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var result = subject.Validate(testCase);
 
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         private TestCase GetTestCase(bool failureTest)

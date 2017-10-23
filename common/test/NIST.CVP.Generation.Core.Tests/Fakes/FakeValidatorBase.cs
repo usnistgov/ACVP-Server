@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Castle.Components.DictionaryAdapter;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.Core.Tests.Fakes
@@ -26,7 +27,7 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
                     {
                         TestCaseId = 1,
                         Reason = string.Empty,
-                        Result = "passed"
+                        Result = Disposition.Passed
                     }
                 }
             };

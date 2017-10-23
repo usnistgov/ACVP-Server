@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
         {
             var subject = new TestCaseValidatorNull("error", 0);
             var result = subject.Validate(new TestCase());
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
     }
 }

@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
             var result = _subject.Validate(testCase);
 
-            Assert.IsTrue(result.Result.Equals("passed", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue(result.Result == Core.Enums.Disposition.Passed);
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
             var result = _subject.Validate(testCase);
 
-            Assert.IsTrue(result.Result.Equals("failed", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
             var result = _subject.Validate(testCase);
 
-            Assert.IsTrue(result.Result.Equals("failed", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
 
 
@@ -103,7 +103,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
             var result = _subject.Validate(testCase);
 
-            Assert.IsTrue(result.Result.Equals("failed", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
             var result = _subject.Validate(testCase);
 
-            Assert.IsTrue(result.Result.Equals("failed", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
 
         [Test]
@@ -159,7 +159,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
             var result = _subject.Validate(testCase);
 
-            Assert.IsTrue(result.Result.Equals("failed", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
 
         private TestGroup GetData()

@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
             var result = subject.Validate(GetResultTestCase());
 
             pqMock.Verify(v => v.Validate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<Counter>()), Times.Once);
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
             var result = subject.Validate(GetResultTestCase());
 
             pqMock.Verify(v => v.Validate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<Counter>()), Times.Once);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         private TestCase GetTestCase()

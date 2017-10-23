@@ -9,8 +9,6 @@ namespace NIST.CVP.Generation.Core
 {
     public class GeneratorBase
     {
-        public const int NUMBER_OF_CASES = 15; //@@@Make configurable
-
         protected readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>();
         
         public GeneratorBase()

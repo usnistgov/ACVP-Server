@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Moq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
@@ -118,13 +119,13 @@ namespace NIST.CVP.Generation.Core.Tests
             {
                 mocks.MockIResultValidator
                     .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<FakeTestCase>>>(), It.IsAny<List<FakeTestCase>>()))
-                    .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> {new TestCaseValidation { Result = "failed"} } });
+                    .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> {new TestCaseValidation { Result = Disposition.Failed } } });
             }
             else
             {
                 mocks.MockIResultValidator
                    .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<FakeTestCase>>>(), It.IsAny<List<FakeTestCase>>()))
-                   .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = "passed" } } });
+                   .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = Disposition.Passed } } });
             }
 
             return new Validator<FakeTestVectorSet, FakeTestCase>(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object, mocks.MockITestCaseValidatorFactory.Object, mocks.MockITestReconstitutor.Object);

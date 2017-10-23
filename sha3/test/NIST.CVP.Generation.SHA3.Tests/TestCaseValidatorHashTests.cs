@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var subject = new TestCaseValidatorHash(testCase);
             var result = subject.Validate(testCase);
             Assume.That(result != null);
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             suppliedResult.Digest = new BitString("BEEFFACE");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             suppliedResult.Digest = new BitString("BEEFFACE");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains("Digest"));
         }
 
@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
 
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.Digest)} was not present in the {nameof(TestCase)}"));
         }

@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.AES_XPN
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
-            return new TestCaseValidation() {Reason = _errorMessage, Result = "failed", TestCaseId = TestCaseId};
+            return new TestCaseValidation() {Reason = _errorMessage, Result = Core.Enums.Disposition.Failed, TestCaseId = TestCaseId};
         }
 
         public int TestCaseId { get; }

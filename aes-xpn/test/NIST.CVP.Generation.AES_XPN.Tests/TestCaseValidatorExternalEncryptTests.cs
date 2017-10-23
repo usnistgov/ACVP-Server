@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             _subject = new TestCaseValidatorExternalEncrypt(testCase);
             var result = _subject.Validate(testCase);
             Assume.That(result != null);
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             suppliedResult.CipherText = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             suppliedResult.CipherText = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Cipher Text"));
         }
 
@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             suppliedResult.Tag = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             suppliedResult.Tag = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Tag"));
         }
 
@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
 
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}"));
         }
@@ -96,7 +96,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
 
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.Tag)} was not present in the {nameof(TestCase)}"));
         }

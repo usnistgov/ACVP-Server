@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.AES_CBC
 {
@@ -29,9 +30,9 @@ namespace NIST.CVP.Generation.AES_CBC
             
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = string.Join("; ", errors) };
+                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Failed, Reason = string.Join("; ", errors) };
             }
-            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
+            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Passed };
         }
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)

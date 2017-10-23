@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             var subject = new TestCaseValidatorEncrypt(testCase);
             var result = subject.Validate(testCase);
             Assume.That(result != null);
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             suppliedResult.CipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("11");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             suppliedResult.CipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("11");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Cipher Text"));
         }
         
@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
 
             var result = subject.Validate(suppliedResult);
 
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
         }
 
@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
 
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}"));
         }

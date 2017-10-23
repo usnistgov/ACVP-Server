@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             _subject = new TestCaseValidatorGen<TestCase>(testCase);
             var result = _subject.Validate(testCase);
             Assume.That(result != null);
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             suppliedResult.Mac = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             suppliedResult.Mac = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("MAC"));
         }
 
@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
 
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.Mac)} was not present in the {typeof(TestCase)}"));
         }

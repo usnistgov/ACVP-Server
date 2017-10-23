@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             var subject = new TestCaseValidatorNull("error", 0);
             var result = subject.Validate(new TestCase());
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
     }
 }

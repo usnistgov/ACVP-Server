@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -18,7 +19,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             var subject = new TestCaseValidatorEncrypt(testCase);
             var result = subject.Validate(testCase);
             Assume.That(result != null);
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -30,7 +31,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             suppliedResult.CipherText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Disposition.Failed, result.Result);
         }
 
         [Test]
@@ -42,7 +43,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             suppliedResult.CipherText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Cipher Text"));
         }
 
@@ -55,7 +56,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             suppliedResult.Tag = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Disposition.Failed, result.Result);
         }
 
         [Test]
@@ -67,7 +68,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             suppliedResult.Tag = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Tag"));
         }
 
@@ -82,7 +83,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Disposition.Failed == result.Result);
 
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}"));
         }
@@ -98,7 +99,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That("failed" == result.Result);
+            Assume.That(Disposition.Failed == result.Result);
 
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.Tag)} was not present in the {nameof(TestCase)}"));
         }

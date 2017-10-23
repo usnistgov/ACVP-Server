@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         }
 
         // KATs here give the client some data and expect them to determine if the pair is
-        // a valid key pair. The expected response is just "passed" or "failed", so we check
+        // a valid key pair. The expected response is just 'passed' or 'failed', so we check
         // if the client recognizes the test as a failed test.
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
@@ -26,12 +26,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 return new TestCaseValidation
                 {
                     TestCaseId = suppliedResult.TestCaseId,
-                    Result = "failed",
+                    Result = Core.Enums.Disposition.Failed,
                     Reason = "Incorrect response"
                 };
             }
 
-            return new TestCaseValidation {TestCaseId = suppliedResult.TestCaseId, Result = "passed"};
+            return new TestCaseValidation {TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed};
         }
     }
 }

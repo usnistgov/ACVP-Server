@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -25,7 +26,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var validators = new List<ITestCaseValidator<ITestCase>>();
             for (int idx = 0; idx < count; idx++)
             {
-                validators.Add(new FakeTestCaseValidator<ITestCase>("passed") {TestCaseId = idx+1});
+                validators.Add(new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = idx+1});
             }
 
             var subject = new ResultValidator<ITestCase>();
@@ -42,13 +43,13 @@ namespace NIST.CVP.Generation.Core.Tests
                 subject.ValidateResults(
                     new List<ITestCaseValidator<ITestCase>>
                     {
-                        new FakeTestCaseValidator<ITestCase>("passed") {TestCaseId = 1}
+                        new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = 1}
                     },
                     new List<ITestCase>() {new FakeTestCase() {TestCaseId = 2}});
             Assume.That(validation != null);
             var firstResultValidation = validation.Validations.FirstOrDefault();
             Assume.That(firstResultValidation != null);
-            Assert.AreEqual("missing", firstResultValidation.Result);
+            Assert.AreEqual(Disposition.Missing, firstResultValidation.Result);
 
         }
 
@@ -60,13 +61,13 @@ namespace NIST.CVP.Generation.Core.Tests
                 subject.ValidateResults(
                     new List<ITestCaseValidator<ITestCase>>
                     {
-                        new FakeTestCaseValidator<ITestCase>("passed") {TestCaseId = 1}
+                        new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = 1}
                     },
                     new List<ITestCase> {new FakeTestCase() {TestCaseId = 1}});
             Assume.That(validation != null);
             var firstResultValidation = validation.Validations.FirstOrDefault();
             Assume.That(firstResultValidation != null);
-            Assert.AreEqual("passed", firstResultValidation.Result);
+            Assert.AreEqual(Disposition.Passed, firstResultValidation.Result);
 
         }
 
@@ -78,13 +79,13 @@ namespace NIST.CVP.Generation.Core.Tests
                 subject.ValidateResults(
                     new List<ITestCaseValidator<ITestCase>>
                     {
-                        new FakeTestCaseValidator<ITestCase>("failed") {TestCaseId = 1}
+                        new FakeTestCaseValidator<ITestCase>(Disposition.Failed) {TestCaseId = 1}
                     },
                     new List<ITestCase> {new FakeTestCase() {TestCaseId = 1}});
             Assume.That(validation != null);
             var firstResultValidation = validation.Validations.FirstOrDefault();
             Assume.That(firstResultValidation != null);
-            Assert.AreEqual("failed", firstResultValidation.Result);
+            Assert.AreEqual(Disposition.Failed, firstResultValidation.Result);
 
         }
 
@@ -96,18 +97,18 @@ namespace NIST.CVP.Generation.Core.Tests
                 subject.ValidateResults(
                     new List<ITestCaseValidator<ITestCase>>
                     {
-                        new FakeTestCaseValidator<ITestCase>("failed") {TestCaseId = 1},
-                        new FakeTestCaseValidator<ITestCase>("passed") {TestCaseId = 2},
-                        new FakeTestCaseValidator<ITestCase>("passed") {TestCaseId = 3}
+                        new FakeTestCaseValidator<ITestCase>(Disposition.Failed) {TestCaseId = 1},
+                        new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = 2},
+                        new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = 3}
                     },
                     new List<ITestCase> {new FakeTestCase() {TestCaseId = 1}, new FakeTestCase {TestCaseId = 2}});
             Assume.That(validation != null);
             var firstResultValidation = validation.Validations.FirstOrDefault(v => v.TestCaseId == 1);
-            Assert.AreEqual("failed", firstResultValidation.Result);
+            Assert.AreEqual(Disposition.Failed, firstResultValidation.Result);
             var secondResultValidation = validation.Validations.FirstOrDefault(v => v.TestCaseId == 2);
-            Assert.AreEqual("passed", secondResultValidation.Result);
+            Assert.AreEqual(Disposition.Passed, secondResultValidation.Result);
             var thirdResultValidation = validation.Validations.FirstOrDefault(v => v.TestCaseId == 3);
-            Assert.AreEqual("missing", thirdResultValidation.Result);
+            Assert.AreEqual(Disposition.Missing, thirdResultValidation.Result);
         }
     }
 }

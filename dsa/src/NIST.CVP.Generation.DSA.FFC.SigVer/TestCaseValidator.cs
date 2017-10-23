@@ -19,10 +19,10 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         {
             if (_expectedResult.Result != suppliedResult.Result)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = _expectedResult.Reason.GetName() };
+                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = _expectedResult.Reason.GetName() };
             }
 
-            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
+            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
     }
 }

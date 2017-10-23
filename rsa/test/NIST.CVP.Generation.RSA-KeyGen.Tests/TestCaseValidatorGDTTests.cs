@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var result = subject.Validate(testCase);
 
             Assume.That(result != null);
-            Assert.AreEqual("passed", result.Result, result.Reason);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result, result.Reason);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var result = subject.Validate(testCase);
 
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result, result.Reason);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result, result.Reason);
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var result = subject.Validate(testCase);
 
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result, result.Reason);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result, result.Reason);
             Assert.IsTrue(result.Reason.Contains("DMP1 value"));
         }
 
@@ -74,7 +74,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var result = subject.Validate(testCase);
 
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result, result.Reason);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result, result.Reason);
             Assert.IsTrue(result.Reason.Contains("D value"));
         }
 
@@ -90,7 +90,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var result = subject.Validate(testCase);
 
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result, result.Reason);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result, result.Reason);
             Assert.IsTrue(result.Reason.Contains("N value"));
         }
 

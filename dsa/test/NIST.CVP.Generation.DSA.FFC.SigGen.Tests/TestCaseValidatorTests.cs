@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
 
             dsaMock.Verify(v => v.Verify(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<FfcSignature>()), Times.Once);
 
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
 
             dsaMock.Verify(v => v.Verify(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<FfcSignature>()), Times.Once);
 
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         private TestCase GetTestCase()

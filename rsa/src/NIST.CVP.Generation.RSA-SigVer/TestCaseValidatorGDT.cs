@@ -20,11 +20,11 @@ namespace NIST.CVP.Generation.RSA_SigVer
         {
             if (_expectedResult.Result == suppliedResult.Result)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "passed" };
+                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
             }
             else
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = "failed", Reason = RSAEnumHelpers.FailureReasonToString(_expectedResult.Reason) };
+                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = RSAEnumHelpers.FailureReasonToString(_expectedResult.Reason) };
             }
         }
     }

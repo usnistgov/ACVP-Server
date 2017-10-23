@@ -6,6 +6,8 @@ using Autofac;
 using DSA_PQGVer;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
@@ -147,7 +149,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
             var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
 
             // Validate result as pass
-            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
         }
 
         [Test]
@@ -163,7 +165,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
             var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
 
             // Validate result as pass
-            Assert.AreEqual("passed", parsedValidation.ParsedObject.disposition.ToString());
+            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
         }
 
         [Test]
@@ -180,7 +182,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
             var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
 
             // Validate result as fail
-            Assert.AreEqual("failed", parsedValidation.ParsedObject.disposition.ToString(), "disposition");
+            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), parsedValidation.ParsedObject.disposition.ToString(), "disposition");
             foreach (var test in parsedValidation.ParsedObject.tests)
             {
                 int tcId = test.tcId;
@@ -188,12 +190,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
                 // Validate expected TCs are failure
                 if (expectedFailTestCases.Contains(tcId))
                 {
-                    Assert.AreEqual("failed", result, tcId.ToString());
+                    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), result, tcId.ToString());
                 }
                 // Validate other TCs are success
                 else
                 {
-                    Assert.AreEqual("passed", result, tcId.ToString());
+                    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), result, tcId.ToString());
                 }
             }
         }

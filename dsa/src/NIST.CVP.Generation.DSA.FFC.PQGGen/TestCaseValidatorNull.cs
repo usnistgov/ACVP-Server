@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
-            return new TestCaseValidation { Reason = _errorMessage, Result = "failed", TestCaseId = TestCaseId };
+            return new TestCaseValidation { Reason = _errorMessage, Result = Core.Enums.Disposition.Failed, TestCaseId = TestCaseId };
         }
 
         public int TestCaseId { get; }

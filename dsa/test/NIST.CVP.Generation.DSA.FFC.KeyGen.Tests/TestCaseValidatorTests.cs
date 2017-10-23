@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
 
             dsaMock.Verify(v => v.ValidateKeyPair(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>()), Times.Once);
 
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
 
             dsaMock.Verify(v => v.ValidateKeyPair(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>()), Times.Once);
 
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         private TestCase GetTestCase()
