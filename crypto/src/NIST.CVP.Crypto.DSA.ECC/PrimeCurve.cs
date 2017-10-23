@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using NIST.CVP.Crypto.DSA.ECC.Enums;
+using NIST.CVP.Crypto.Math;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 
@@ -22,7 +23,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
         // CurveType is obviously prime
         public CurveType CurveType { get { return CurveType.Prime; } }
-
+        
         public PrimeCurve(BigInteger p, BigInteger b, EccPoint g, BigInteger n)
         {
             FieldSizeQ = p;
@@ -33,9 +34,14 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
         public EccPoint Add(EccPoint pointA, EccPoint pointB)
         {
-            if (pointA.Infinity || pointB.Infinity)
+            if (pointA.Infinity)
             {
-                return new EccPoint("infinity");
+                return pointB;
+            }
+
+            if (pointB.Infinity)
+            {
+                return pointA;
             }
 
             if (pointA.X == pointB.X && pointA.Y == -1 * pointB.Y)
@@ -48,11 +54,21 @@ namespace NIST.CVP.Crypto.DSA.ECC
                 throw new ArgumentException("Cannot add two points with same x value");
             }
 
-            var lambda = ((pointB.Y - pointA.Y) / (pointB.X - pointA.X)).PosMod(FieldSizeQ);
+            var numerator = (pointB.Y - pointA.Y).PosMod(FieldSizeQ);
+            var demoninator = (pointB.X - pointA.X).PosMod(FieldSizeQ);
+            var lambda = (numerator * NumberTheory.ModularInverse(demoninator, FieldSizeQ)).PosMod(FieldSizeQ);
+            
             var pointCX = (lambda * lambda - pointA.X - pointB.X).PosMod(FieldSizeQ);
             var pointCY = (lambda * (pointA.X - pointCX) - pointA.Y).PosMod(FieldSizeQ);
 
             return new EccPoint(pointCX, pointCY);
+        }
+
+        public EccPoint Subtract(EccPoint pointA, EccPoint pointB)
+        {
+            // Negate the point, - (x, y) == (x, -y), but -1 * y (mod q) == q - y
+            var negPointB = new EccPoint(pointB.X, FieldSizeQ - pointB.Y);
+            return Add(pointA, negPointB);
         }
 
         public EccPoint Double(EccPoint point)
@@ -67,28 +83,42 @@ namespace NIST.CVP.Crypto.DSA.ECC
                 throw new ArgumentException("Cannot double a point with y = 0");
             }
 
-            var lambda = ((3 * point.X * point.X + CoefficientA) / (2 * point.Y)).PosMod(FieldSizeQ);
+            var numerator = (3 * point.X * point.X + CoefficientA).PosMod(FieldSizeQ);
+            var denominator = (2 * point.Y).PosMod(FieldSizeQ);
+            var lambda = (numerator * NumberTheory.ModularInverse(denominator, FieldSizeQ)).PosMod(FieldSizeQ);
+
             var x = ((lambda * lambda) - (2 * point.X)).PosMod(FieldSizeQ);
             var y = (lambda * (point.X - x) - point.Y).PosMod(FieldSizeQ);
 
             return new EccPoint(x, y);
         }
 
-        public EccPoint Multiply(EccPoint startPoint, BigInteger scalar)
+        public EccPoint Multiply(EccPoint startPoint, NonAdjacentBitString nafBs)
         {
-            var bits = new BitString(scalar).Bits;
-            var point = new EccPoint(0, 0);
-            
-            for (var i = bits.Length - 1; i >= 0; i--)
+            var point = new EccPoint("infinity");
+            var naBits = nafBs.Bits;
+
+            for (var i = naBits.Length - 1; i >= 0; i--)
             {
                 point = Double(point);
-                if (bits[i])
+                if (naBits[i] == 1)
                 {
                     point = Add(point, startPoint);
+                }
+                else if (naBits[i] == -1)
+                {
+                    point = Subtract(point, startPoint);
                 }
             }
 
             return point;
+        }
+
+        public EccPoint Multiply(EccPoint startPoint, BigInteger scalar)
+        {
+            // Find scalar within group
+            scalar %= FieldSizeQ;
+            return Multiply(startPoint, new NonAdjacentBitString(scalar));
         }
 
         public bool PointExistsOnCurve(EccPoint point)
@@ -107,7 +137,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
             var lhs = point.Y * point.Y;
             var rhs = point.X * point.X * point.X + CoefficientA * point.X + CoefficientB;
 
-            return (lhs == rhs);
+            return (lhs.PosMod(FieldSizeQ) == rhs.PosMod(FieldSizeQ));
         }
     }
 }

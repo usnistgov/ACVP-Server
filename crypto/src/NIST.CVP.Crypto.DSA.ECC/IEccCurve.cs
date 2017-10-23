@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using NIST.CVP.Crypto.DSA.ECC.Enums;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.DSA.ECC
 {
@@ -49,14 +50,24 @@ namespace NIST.CVP.Crypto.DSA.ECC
         EccPoint Multiply(EccPoint startPoint, BigInteger scalar);
 
         /// <summary>
+        /// Multiply a point by an non-adjacent form scalar over a curve
+        /// </summary>
+        EccPoint Multiply(EccPoint startPoint, NonAdjacentBitString nafBs);
+
+        /// <summary>
         /// Double a point over a curve
         /// </summary>
         EccPoint Double(EccPoint point);
 
         /// <summary>
-        /// Add two points together over a curve
+        /// Add two points together over a curve, a + b
         /// </summary>
         EccPoint Add(EccPoint pointA, EccPoint pointB);
+
+        /// <summary>
+        /// Subtracts two points over a curve, a - b
+        /// </summary>
+        EccPoint Subtract(EccPoint pointA, EccPoint pointB);
 
         /// <summary>
         /// Determines if a given point exists on the curve

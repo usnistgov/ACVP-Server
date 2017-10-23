@@ -111,6 +111,21 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
         public EccVerificationResult Verify(EccDomainParameters domainParameters, EccKeyPair keyPair, BitString message, EccSignature signature)
         {
+            // Check r and s to be within the interval [1, n-1]
+
+            // Hash message e = H(m)
+
+            // Compute u1 = e * s^-1 (mod n)
+
+            // Compute u2 = r * s^-1 (mod n)
+
+            // Compute point R = u1 * G + u2 * Q, if R is infinity, return invalid
+
+            // Convert xR to an integer j
+
+            // Compute v = j (mod n)
+
+            // If v == r, return valid, otherwise invalid
             throw new NotImplementedException();
         }
     }
