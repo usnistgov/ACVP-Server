@@ -123,7 +123,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                         new SchemesBuilder()
                             .WithDhEphem(
                                 new SchemeBuilder()
-                                    .WithRole(new string[] { "initiator" }) // 1
+                                    .WithRole(new string[] { "responder" }) // 1
                                     .WithNoKdfNoKc(
                                         new NoKdfNoKcBuilder()
                                             .WithParameterSets(

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.FFC;
@@ -19,7 +18,7 @@ namespace NIST.CVP.Generation.KAS.Tests
         [TestCase("AFT", KasMode.NoKdfNoKc, typeof(TestCaseValidatorAftNoKdfNoKc))]
         [TestCase("AFT", KasMode.KdfNoKc, typeof(TestCaseValidatorAftKdfNoKc))]
         [TestCase("VAL", KasMode.NoKdfNoKc, typeof(TestCaseValidatorVal))]
-        [TestCase("VAL", KasMode.NoKdfNoKc, typeof(TestCaseValidatorVal))]
+        [TestCase("VAL", KasMode.KdfNoKc, typeof(TestCaseValidatorVal))]
         public void ShouldReturnCorrectValidator(string testType, KasMode kasMode, Type expectedValidatorType)
         {
             TestVectorSet testVectorSet = null;

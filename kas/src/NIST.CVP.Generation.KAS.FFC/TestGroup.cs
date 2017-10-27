@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
@@ -45,6 +46,28 @@ namespace NIST.CVP.Generation.KAS.FFC
                 return false;
             }
             return this.GetHashCode() == otherGroup.GetHashCode();
+        }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "p":
+                    P = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "q":
+                    Q = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "g":
+                    G = new BitString(value).ToPositiveBigInteger();
+                    return true;
+            }
+            return false;
         }
 
         private void MapToProperties(dynamic source)

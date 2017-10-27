@@ -28,9 +28,9 @@ namespace NIST.CVP.Generation.KAS.FFC
             FfcDomainParameters domainParameters = new FfcDomainParameters(testGroup.P, testGroup.Q, testGroup.G);
             FfcSharedInformation iutPublicInfo = new FfcSharedInformation(
                 domainParameters,
-                null,
-                iutTestCase.StaticPublicKeyServer,
-                iutTestCase.EphemeralPublicKeyServer,
+                iutTestCase.IdIut ?? testGroup.IdIut,
+                iutTestCase.StaticPublicKeyIut,
+                iutTestCase.EphemeralPublicKeyIut,
                 null,
                 null,
                 null
@@ -40,6 +40,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithKeyAgreementRole(
                     serverKeyRequirements.thisPartyKasRole
                 )
+                .WithPartyId(testGroup.IdServer)
                 .WithParameterSet(testGroup.ParmSet)
                 .WithScheme(testGroup.Scheme)
                 .BuildNoKdfNoKc()

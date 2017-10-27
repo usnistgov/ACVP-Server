@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8A98FD09-7052-43B6-9BC0-E66DC0A7335D}"
 EndProject
@@ -67,7 +67,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Math", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.DSA.ECC", "..\..\crypto\src\NIST.CVP.Crypto.DSA.ECC\NIST.CVP.Crypto.DSA.ECC.csproj", "{BE839FD2-AF6E-4614-9A59-F192C932EADE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.KAS.FFC", "..\..\kas\src\NIST.CVP.Generation.KAS.FFC\NIST.CVP.Generation.KAS.FFC.csproj", "{77482A18-B039-49E9-8E25-486469CDD670}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.KAS.FFC", "..\..\kas\src\NIST.CVP.Generation.KAS.FFC\NIST.CVP.Generation.KAS.FFC.csproj", "{77482A18-B039-49E9-8E25-486469CDD670}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES", "..\..\crypto\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj", "{0B81800D-3A22-4040-B6FF-D80591651DCD}"
 EndProject

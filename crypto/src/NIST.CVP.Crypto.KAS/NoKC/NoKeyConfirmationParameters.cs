@@ -29,7 +29,6 @@ namespace NIST.CVP.Crypto.KAS.NoKC
                 throw new ArgumentException(nameof(ccmNonce));
             }
 
-
             KeyAgreementMacType = keyAgreementMacType;
             MacLength = macLength;
             DerivedKeyingMaterial = derivedKeyingMaterial;

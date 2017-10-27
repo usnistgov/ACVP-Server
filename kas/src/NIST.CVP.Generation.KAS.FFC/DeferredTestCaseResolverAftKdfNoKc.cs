@@ -36,9 +36,9 @@ namespace NIST.CVP.Generation.KAS.FFC
             FfcDomainParameters domainParameters = new FfcDomainParameters(testGroup.P, testGroup.Q, testGroup.G);
             FfcSharedInformation iutPublicInfo = new FfcSharedInformation(
                 domainParameters,
-                iutTestCase.IdIut,
-                iutTestCase.StaticPublicKeyServer,
-                iutTestCase.EphemeralPublicKeyServer,
+                iutTestCase.IdIut ?? testGroup.IdIut,
+                iutTestCase.StaticPublicKeyIut,
+                iutTestCase.EphemeralPublicKeyIut,
                 null,
                 null,
                 serverTestCase.NonceNoKc

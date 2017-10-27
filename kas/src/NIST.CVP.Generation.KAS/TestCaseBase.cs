@@ -74,6 +74,87 @@ namespace NIST.CVP.Generation.KAS
             return false;
         }
 
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "count":
+                    int.TryParse(value, out var result);
+                    TestCaseId = result;
+                    return true;
+                case "xstatcavs":
+                    StaticPrivateKeyServer = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "ystatcavs":
+                    StaticPublicKeyServer = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "xephemcavs":
+                    EphemeralPrivateKeyServer = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "yephemcavs":
+                    EphemeralPublicKeyServer = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "xstatiut":
+                    StaticPrivateKeyIut = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "ystatiut":
+                    StaticPublicKeyIut = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "xephemiut":
+                    EphemeralPrivateKeyIut = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "yephemiut":
+                    EphemeralPublicKeyIut = new BitString(value).ToPositiveBigInteger();
+                    return true;
+                case "nonce":
+                    NonceNoKc = new BitString(value);
+                    return true;
+                case "ccmnonce":
+                    NonceAesCcm = new BitString(value);
+                    return true;
+                case "oi":
+                    OtherInfo = new BitString(value);
+                    OiLen = OtherInfo.BitLength;
+                    return true;
+                case "cavstag":
+                    Tag = new BitString(value);
+                    return true;
+                case "cavshashzz":
+                    HashZ = new BitString(value);
+                    return true;
+                case "z":
+                    Z = new BitString(value);
+                    return true;
+                case "macdata":
+                    MacData = new BitString(value);
+                    return true;
+                case "dkm":
+                    Dkm = new BitString(value);
+                    return true;
+                case "hashzz":
+                    HashZ = new BitString(value);
+                    return true;
+                case "result":
+                    if (value.StartsWith("p"))
+                    {
+                        Result = "pass";
+                    }
+                    else
+                    {
+                        Result = "fail";
+                        FailureTest = true;
+                    }
+                    return true;
+            }
+
+            return false;
+        }
+
         protected void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;

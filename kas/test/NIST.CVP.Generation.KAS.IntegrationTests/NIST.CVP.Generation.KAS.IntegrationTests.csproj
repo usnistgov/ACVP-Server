@@ -16,8 +16,12 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\src\KAS\KAS.csproj" />
     <ProjectReference Include="..\..\src\KAS_Val\KAS_Val.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Generation.KAS.FFC\NIST.CVP.Generation.KAS.FFC.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Generation.KAS\NIST.CVP.Generation.KAS.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Generation.KAS.Tests\NIST.CVP.Generation.KAS.Tests.csproj" />
   </ItemGroup>
 
 </Project>
