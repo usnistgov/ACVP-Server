@@ -6,7 +6,6 @@ using NIST.CVP.Crypto.DSA.ECC.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
-using NLog;
 
 namespace NIST.CVP.Crypto.DSA.ECC
 {
@@ -125,9 +124,6 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
         private EccPoint Multiply(EccPoint startPoint, NonAdjacentBitString nafBs)
         {
-            LoggingHelper.ConfigureLogging("binarycurvetest", "binary");
-            var logger = LogManager.GetCurrentClassLogger();
-
             var point = new EccPoint("infinity");
             var naBits = nafBs.Bits;
             
@@ -137,19 +133,13 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
                 if (naBits[i] == 1)
                 {
-                    logger.Error($"Before addition = {new BitString(point.X).ToHex()}, {new BitString(point.Y).ToHex()}");
                     point = Add(point, startPoint);
-                    logger.Error($"After addition = {new BitString(point.X).ToHex()}, {new BitString(point.Y).ToHex()}");
                 }
                 else if (naBits[i] == -1)
                 {
-                    logger.Error($"Before subtraction = {new BitString(point.X).ToHex()}, {new BitString(point.Y).ToHex()}");
                     point = Subtract(point, startPoint);
-                    logger.Error($"After subtraction = {new BitString(point.X).ToHex()}, {new BitString(point.Y).ToHex()}");
                 }
             }
-
-            logger.Error($"x = {point.X}");
 
             return point;
         }
