@@ -24,15 +24,33 @@ namespace NIST.CVP.Crypto.DSA.ECC
             Infinity = true;
         }
 
-        public EccPoint(BigInteger x)
-        {
-            X = x;
-        }
-
         public EccPoint(BigInteger x, BigInteger y)
         {
             X = x;
             Y = y;
         }
+
+        public bool Equals(EccPoint b)
+        {
+            // Both points are infinity
+            if (this.Infinity && b.Infinity)
+            {
+                return true;
+            }
+
+            // One point is infinity and the other is not
+            if (this.Infinity || b.Infinity)
+            {
+                return false;
+            }
+
+            // Compare (x,y) values
+            if (this.X == b.X && this.Y == b.Y)
+            {
+                return true;
+            }
+
+            return false;
+        } 
     }
 }

@@ -70,8 +70,18 @@ namespace NIST.CVP.Crypto.DSA.ECC
         EccPoint Subtract(EccPoint pointA, EccPoint pointB);
 
         /// <summary>
+        /// Negates a point, a => -a
+        /// </summary>
+        EccPoint Negate(EccPoint point);
+
+        /// <summary>
         /// Determines if a given point exists on the curve
         /// </summary>
         bool PointExistsOnCurve(EccPoint point);
+
+        /// <summary>
+        /// Determines if a given point exists in the field
+        /// </summary>
+        bool PointExistsInField(EccPoint point);
     }
 }

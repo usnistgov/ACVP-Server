@@ -32,5 +32,19 @@ namespace NIST.CVP.Math.Tests.Helpers
                 Assert.AreEqual(BigInteger.Zero, (result + BigInteger.Abs(negativeResult)) % c);
             }
         }
+
+        [Test]
+        [TestCase("00", 0)]
+        [TestCase("01", 1)]
+        [TestCase("80", 8)]
+        [TestCase("01ABCD", 17)]
+        [TestCase("900001", 24)]
+        [TestCase("00004B", 7)]
+        [TestCase("00030E4D530849CD4A0D4154425A5DE775D45B059406", 162)]
+        public void ExactBitLengthShouldTakeAllBitsAfterMostSignificantBit(string hex, int expectedResult)
+        {
+            var value = new BitString(hex).ToPositiveBigInteger();
+            Assert.AreEqual(expectedResult, value.ExactBitLength());
+        }
     }
 }

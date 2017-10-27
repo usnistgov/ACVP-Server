@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using NIST.CVP.Crypto.DSA.ECC.Enums;
+using NIST.CVP.Crypto.Math;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.DSA.ECC
 {
@@ -53,28 +55,9 @@ namespace NIST.CVP.Crypto.DSA.ECC
             }
 
             // If Q is not a valid point (x, y are within the field), invalid
-            if (domainParameters.CurveE.CurveType == CurveType.Prime)
+            if (!domainParameters.CurveE.PointExistsInField(keyPair.PublicQ))
             {
-                if (keyPair.PublicQ.X < 0 || keyPair.PublicQ.X > domainParameters.CurveE.FieldSizeQ - 1)
-                {
-                    return new EccKeyPairValidateResult("Qx is out of range for prime curve");
-                }
-
-                if (keyPair.PublicQ.Y < 0 || keyPair.PublicQ.Y > domainParameters.CurveE.FieldSizeQ - 1)
-                {
-                    return new EccKeyPairValidateResult("Qy is out of range for prime curve");
-                }
-            }
-            else if (domainParameters.CurveE.CurveType == CurveType.Binary)
-            {
-                var xBitString = new BitString(keyPair.PublicQ.X);
-                var yBitString = new BitString(keyPair.PublicQ.Y);
-                var m = BigInteger.Log(domainParameters.CurveE.FieldSizeQ, 2);     // We know that q = 2^m, so m = log_2(q)
-
-                if (xBitString.BitLength == m || yBitString.BitLength == m)
-                {
-                    return new EccKeyPairValidateResult("x and y must not have bitlength m");
-                }
+                return new EccKeyPairValidateResult("Q is out of range of the field");
             }
 
             // If Q is not a valid point on the specific curve, invalid
@@ -90,23 +73,28 @@ namespace NIST.CVP.Crypto.DSA.ECC
             }
 
             // Otherwise invalid
-            return new EccKeyPairValidateResult("nQ must equal infinity");
+            return new EccKeyPairValidateResult("n * Q must equal infinity");
         }
 
         public EccSignatureResult Sign(EccDomainParameters domainParameters, EccKeyPair keyPair, BitString message)
         {
             // Generate random number k [1, n-1]
+            var k = _entropyProvider.GetEntropy(1, domainParameters.CurveE.OrderN - 1);
 
             // Compute point (x, y) = k * G
+            var point = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, k);
 
             // Represent x as an integer j
+            var j = point.X;
 
             // Compute r = j mod n
+            var r = j % domainParameters.CurveE.OrderN;
 
             // Compute s = k^-1 (e + d*r) mod n, where e = H(m) as an integer
+            var s = (NumberTheory.ModularInverse(k, domainParameters.CurveE.OrderN) * (Sha.HashMessage(message).ToBigInteger() + keyPair.PrivateD * r)).PosMod(domainParameters.CurveE.OrderN);
 
             // Return pair (r, s)
-            throw new NotImplementedException();
+            return new EccSignatureResult(new EccSignature(r, s));
         }
 
         public EccVerificationResult Verify(EccDomainParameters domainParameters, EccKeyPair keyPair, BitString message, EccSignature signature)
