@@ -119,21 +119,22 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
         public EccPoint Multiply(EccPoint startPoint, BigInteger scalar)
         {
-            return Multiply(startPoint, new NonAdjacentBitString(scalar));
+            // Intentional normal modulo, this is what CAVS does
+            return Multiply(startPoint, new NonAdjacentBitString(scalar % OrderN));
         }
 
-        public EccPoint Multiply(EccPoint startPoint, NonAdjacentBitString nafBs)
+        private EccPoint Multiply(EccPoint startPoint, NonAdjacentBitString nafBs)
         {
             LoggingHelper.ConfigureLogging("binarycurvetest", "binary");
             var logger = LogManager.GetCurrentClassLogger();
 
-            //var point = new EccPoint(startPoint.X, startPoint.Y);
             var point = new EccPoint("infinity");
             var naBits = nafBs.Bits;
             
             for (var i = naBits.Length - 1; i >= 0; i--)
             {
                 point = Double(point);
+
                 if (naBits[i] == 1)
                 {
                     logger.Error($"Before addition = {new BitString(point.X).ToHex()}, {new BitString(point.Y).ToHex()}");
@@ -147,6 +148,8 @@ namespace NIST.CVP.Crypto.DSA.ECC
                     logger.Error($"After subtraction = {new BitString(point.X).ToHex()}, {new BitString(point.Y).ToHex()}");
                 }
             }
+
+            logger.Error($"x = {point.X}");
 
             return point;
         }

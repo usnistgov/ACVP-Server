@@ -52,7 +52,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
         /// <summary>
         /// Multiply a point by an non-adjacent form scalar over a curve
         /// </summary>
-        EccPoint Multiply(EccPoint startPoint, NonAdjacentBitString nafBs);
+        //EccPoint Multiply(EccPoint startPoint, NonAdjacentBitString nafBs);
 
         /// <summary>
         /// Double a point over a curve
