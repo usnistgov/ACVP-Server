@@ -63,14 +63,13 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             {
                 var testGroup = (TestGroup) iTestGroup;
 
-                var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
-
                 foreach (var iTestCase in testGroup.Tests)
                 {
                     var testCase = (TestCase) iTestCase;
 
                     var schemeBuilder = new SchemeBuilder(
-                        new FfcDsa(sha),
+                        _shaFactory,
+                        new DsaFfcFactory(_shaFactory), 
                         new KdfFactory(_shaFactory),
                         new KeyConfirmationFactory(),
                         new NoKeyConfirmationFactory(),
@@ -85,7 +84,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     switch (testGroup.KasMode)
                     {
                         case KasMode.NoKdfNoKc:
-                            testCaseResolver = new DeferredTestCaseResolverAftNoKdfNoKc(kasBuilder);
+                            testCaseResolver = new DeferredTestCaseResolverAftNoKdfNoKc(kasBuilder, schemeBuilder);
                             break;
                         case KasMode.KdfNoKc:
                             testCaseResolver = new DeferredTestCaseResolverAftKdfNoKc(

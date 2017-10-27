@@ -20,20 +20,28 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
 
         private KasBuilder _subject;
         private MacParametersBuilder _macParamsBuilder;
+        private Mock<IShaFactory> _shaFactory;
         private Mock<IDsaFfc> _dsa;
+        private Mock<IDsaFfcFactory> _dsaFactory;
         private IEntropyProvider _entropyProviderScheme;
         private IEntropyProvider _entropyProviderOtherInfo;
 
         [SetUp]
         public void Setup()
         {
+            _shaFactory = new Mock<IShaFactory>();
             _dsa = new Mock<IDsaFfc>();
+            _dsaFactory = new Mock<IDsaFfcFactory>();
+            _dsaFactory
+                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
+                .Returns(_dsa.Object);
             _entropyProviderScheme = new TestableEntropyProvider();
             _entropyProviderOtherInfo = new TestableEntropyProvider();
 
             _subject = new KasBuilder(
                 new SchemeBuilder(
-                    _dsa.Object,
+                    _shaFactory.Object,
+                    _dsaFactory.Object,
                     new KdfFactory(
                         new ShaFactory()
                     ),

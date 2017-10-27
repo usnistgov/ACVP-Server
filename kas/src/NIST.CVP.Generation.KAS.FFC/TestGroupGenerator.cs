@@ -48,9 +48,9 @@ namespace NIST.CVP.Generation.KAS.FFC
         {
             foreach (var group in groups)
             {
-                var sha = _shaFactory.GetShaInstance(group.HashAlg);
+                var shaAttributes = ShaAttributes.GetShaAttributes(group.HashAlg.Mode, group.HashAlg.DigestSize);
 
-                var dsa = _dsaFactory.GetInstance(sha, EntropyProviderTypes.Random);
+                var dsa = _dsaFactory.GetInstance(group.HashAlg, EntropyProviderTypes.Random);
                 var parameterSetAttributes = FfcParameterSetDetails.GetDetailsForParameterSet(group.ParmSet);
 
                 var domainParams = dsa.GenerateDomainParameters(
@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                         parameterSetAttributes.qLength,
                         parameterSetAttributes.pLength,
                         parameterSetAttributes.qLength,
-                        sha.HashFunction.OutputLen,
+                        shaAttributes.outputLen,
                         null,
                         PrimeGenMode.None, 
                         GeneratorGenMode.Unverifiable

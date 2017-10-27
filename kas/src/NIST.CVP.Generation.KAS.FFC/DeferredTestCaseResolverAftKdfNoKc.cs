@@ -74,6 +74,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithSchemeBuilder(
                     _schemeBuilder
                         .WithOtherInfoFactory(new FakeOtherInfoFactory(iutTestCase.OtherInfo))
+                        .WithHashFunction(testGroup.HashAlg)
                 )
                 .WithKeyAgreementRole(serverRole)
                 .WithPartyId(testGroup.IdServer)

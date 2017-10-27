@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KES;
+using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Builders
@@ -14,11 +15,18 @@ namespace NIST.CVP.Crypto.KAS.Builders
     public interface ISchemeBuilder
     {
         /// <summary>
-        /// Sets the <see cref="IDsaFfc"/> used in the scheme.
+        /// Sets the <see cref="HashFunction" /> used for DSA.
         /// </summary>
-        /// <param name="dsa">The dsa implementation to use</param>
+        /// <param name="hashFunction">The hash function to use</param>
         /// <returns></returns>
-        ISchemeBuilder WithDsa(IDsaFfc dsa);
+        ISchemeBuilder WithHashFunction(HashFunction hashFunction);
+
+        /// <summary>
+        /// Sets the <see cref="IDsaFfcFactory"/> used in the scheme.
+        /// </summary>
+        /// <param name="dsaFactory">The dsa implementation to use</param>
+        /// <returns></returns>
+        ISchemeBuilder WithDsaFactory(IDsaFfcFactory dsaFactory);
 
         /// <summary>
         /// Sets the <see cref="IKdfFactory"/> used in the scheme.

@@ -9,4 +9,8 @@
     <ProjectReference Include="..\NIST.CVP.Generation.KAS\NIST.CVP.Generation.KAS.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.1" />
+  </ItemGroup>  
+  
 </Project>

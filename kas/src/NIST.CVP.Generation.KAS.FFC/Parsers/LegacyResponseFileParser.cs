@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Parsers
                 };
                 groups.Add(currentGroup);
                 TestCase currentTestCase = null;
-                int caseId = -1;
+                //int caseId = -1;
                 foreach (var line in lines)
                 {
                     var workingLine = line.Trim().ToLower();

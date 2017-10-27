@@ -6,13 +6,15 @@ using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KES;
+using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
     public class SchemeBuilder : ISchemeBuilder
     {
-        private readonly IDsaFfc _originalDsa;
+        private readonly IShaFactory _shaFactory;
+        private readonly IDsaFfcFactory _originalDsaFactory;
         private readonly IKdfFactory _originalKdfFactory;
         private readonly IKeyConfirmationFactory _originalKeyConfirmationFactory;
         private readonly INoKeyConfirmationFactory _originalNoKeyConfirmationFactory;
@@ -21,7 +23,8 @@ namespace NIST.CVP.Crypto.KAS.Builders
         private readonly IDiffieHellman _originalDiffieHellman;
         private readonly IMqv _originalMqv;
 
-        private IDsaFfc _withDsa;
+        private HashFunction _withHashFunction;
+        private IDsaFfcFactory _withDsaFactory;
         private IKdfFactory _withKdfFactory;
         private IKeyConfirmationFactory _withKeyConfirmationFactory;
         private INoKeyConfirmationFactory _withNoKeyConfirmationFactory;
@@ -29,10 +32,10 @@ namespace NIST.CVP.Crypto.KAS.Builders
         private IEntropyProvider _withEntropyProvider;
         private IDiffieHellman _withDiffieHellman;
         private IMqv _withMqv;
-
-
+        
         public SchemeBuilder(
-            IDsaFfc dsa,
+            IShaFactory shaFactory,
+            IDsaFfcFactory dsaFactory,
             IKdfFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
@@ -42,7 +45,8 @@ namespace NIST.CVP.Crypto.KAS.Builders
             IMqv mqv
         )
         {
-            _originalDsa = dsa;
+            _shaFactory = shaFactory;
+            _originalDsaFactory = dsaFactory;
             _originalKdfFactory = kdfFactory;
             _originalKeyConfirmationFactory = keyConfirmationFactory;
             _originalNoKeyConfirmationFactory = noKeyConfirmationFactory;
@@ -56,7 +60,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
 
         private void SetWithInjectablesToConstructionState()
         {
-            _withDsa = _originalDsa;
+            _withDsaFactory = _originalDsaFactory;
             _withKdfFactory = _originalKdfFactory;
             _withKeyConfirmationFactory = _originalKeyConfirmationFactory;
             _withNoKeyConfirmationFactory = _originalNoKeyConfirmationFactory;
@@ -66,9 +70,15 @@ namespace NIST.CVP.Crypto.KAS.Builders
             _withMqv = _originalMqv;
         }
 
-        public ISchemeBuilder WithDsa(IDsaFfc dsa)
+        public ISchemeBuilder WithHashFunction(HashFunction hashFunction)
         {
-            _withDsa = dsa;
+            _withHashFunction = hashFunction;
+            return this;
+        }
+
+        public ISchemeBuilder WithDsaFactory(IDsaFfcFactory dsaFactory)
+        {
+            _withDsaFactory = dsaFactory;
             return this;
         }
 
@@ -119,10 +129,12 @@ namespace NIST.CVP.Crypto.KAS.Builders
         {
             IScheme scheme = null;
 
+            var dsa = _withDsaFactory.GetInstance(_withHashFunction);
+
             switch (schemeParameters.Scheme)
             {
                 case FfcScheme.DhEphem:
-                    scheme = new SchemeDiffieHellmanEphemeral(_withDsa, _withKdfFactory,
+                    scheme = new SchemeDiffieHellmanEphemeral(dsa, _withKdfFactory,
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;

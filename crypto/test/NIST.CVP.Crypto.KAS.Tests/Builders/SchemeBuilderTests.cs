@@ -24,7 +24,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
     {
         private SchemeBuilder _subject;
         private Mock<ISha> _sha;
+        private Mock<IShaFactory> _shaFactory;
         private Mock<IDsaFfc> _dsa;
+        private Mock<IDsaFfcFactory> _dsaFactory;
         private Mock<IKdfFactory> _kdfFactory;
         private Mock<IKeyConfirmationFactory> _keyConfirmationFactory;
         private Mock<INoKeyConfirmationFactory> _noKeyConfirmationFactory;
@@ -39,7 +41,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
         public void Setup()
         {
             _sha = new Mock<ISha>();
+            _shaFactory = new Mock<IShaFactory>();
             _dsa = new Mock<IDsaFfc>();
+            _dsaFactory = new Mock<IDsaFfcFactory>();
             _kdfFactory = new Mock<IKdfFactory>();
             _keyConfirmationFactory = new Mock<IKeyConfirmationFactory>();
             _noKeyConfirmationFactory = new Mock<INoKeyConfirmationFactory>();
@@ -49,7 +53,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _mqv = new Mock<IMqv>();
 
             _subject = new SchemeBuilder(
-                _dsa.Object, 
+                _shaFactory.Object,
+                _dsaFactory.Object, 
                 _kdfFactory.Object, 
                 _keyConfirmationFactory.Object, 
                 _noKeyConfirmationFactory.Object, 
@@ -67,6 +72,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _sha
                 .Setup(s => s.HashMessage(It.IsAny<BitString>()))
                 .Returns(new HashResult(new BitString(1)));
+            _shaFactory
+                .Setup(s => s.GetShaInstance(It.IsAny<HashFunction>()))
+                .Returns(_sha.Object);
             _dsa
                 .Setup(s => s.Sha)
                 .Returns(_sha.Object);
@@ -82,6 +90,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _dsa
                 .Setup(s => s.GenerateKeyPair(It.IsAny<FfcDomainParameters>()))
                 .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(1, 2)));
+            _dsaFactory
+                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
+                .Returns(_dsa.Object);
         }
 
         [Test]
@@ -136,11 +147,10 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
         {
             FfcDomainParameters newDomainParameters = new FfcDomainParameters(42, 43, 44);
 
-            Mock<IDsaFfc> overrideDsa = new Mock<IDsaFfc>();
-            overrideDsa
+            _dsa
                 .Setup(s => s.Sha)
                 .Returns(_sha.Object);
-            overrideDsa
+            _dsa
                 .Setup(s => s.GenerateDomainParameters(It.IsAny<FfcDomainParametersGenerateRequest>()))
                 .Returns(
                     new FfcDomainParametersGenerateResult(
@@ -149,12 +159,13 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                         new Counter(0)
                     )
                 );
-            overrideDsa
+            _dsa
                 .Setup(s => s.GenerateKeyPair(It.IsAny<FfcDomainParameters>()))
                 .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(1, 2)));
 
             var scheme = _subject
-                .WithDsa(overrideDsa.Object)
+                .WithDsaFactory(_dsaFactory.Object)
+                .WithHashFunction(new HashFunction(ModeValues.SHA2, DigestSizes.d256))
                 .BuildScheme(
                     new SchemeParameters(
                         KeyAgreementRole.InitiatorPartyU,
@@ -197,6 +208,10 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             overrideDsa
                 .Setup(s => s.GenerateKeyPair(It.IsAny<FfcDomainParameters>()))
                 .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(1, 2)));
+            Mock<IDsaFfcFactory> overrideDsaFactory = new Mock<IDsaFfcFactory>();
+            overrideDsaFactory
+                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
+                .Returns(overrideDsa.Object);
 
             SchemeParameters sp = new SchemeParameters(
                 KeyAgreementRole.InitiatorPartyU,
@@ -210,7 +225,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             );
 
             var scheme = _subject
-                .WithDsa(overrideDsa.Object)
+                .WithDsaFactory(overrideDsaFactory.Object)
+                .WithHashFunction(new HashFunction(ModeValues.SHA2, DigestSizes.d256))
                 .BuildScheme(
                     sp,
                     null,
@@ -252,6 +268,10 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             overrideDsa
                 .Setup(s => s.GenerateKeyPair(It.IsAny<FfcDomainParameters>()))
                 .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(1, 2)));
+            Mock<IDsaFfcFactory> overrideDsaFactory = new Mock<IDsaFfcFactory>();
+            overrideDsaFactory
+                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
+                .Returns(overrideDsa.Object);
 
             SchemeParameters sp = new SchemeParameters(
                 KeyAgreementRole.InitiatorPartyU,
@@ -265,7 +285,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             );
 
             var scheme = _subject
-                .WithDsa(overrideDsa.Object)
+                .WithDsaFactory(overrideDsaFactory.Object)
+                .WithHashFunction(new HashFunction(ModeValues.SHA2, DigestSizes.d256))
                 .BuildScheme(
                     sp,
                     null,

@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            var dsa = _dsaFactory.GetInstance(_shaFactory.GetShaInstance(group.HashAlg));
+            var dsa = _dsaFactory.GetInstance(group.HashAlg);
 
             var uParty = _kasBuilder
                 .WithPartyId(
@@ -59,7 +59,8 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithScheme(group.Scheme)
                 .WithSchemeBuilder(
                     _schemeBuilder
-                        .WithDsa(dsa)
+                        .WithDsaFactory(_dsaFactory)
+                        .WithHashFunction(group.HashAlg)
                 )
                 .BuildNoKdfNoKc()
 
@@ -77,7 +78,8 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithScheme(group.Scheme)
                 .WithSchemeBuilder(
                     _schemeBuilder
-                        .WithDsa(dsa)
+                        .WithDsaFactory(_dsaFactory)
+                        .WithHashFunction(group.HashAlg)
                 )
                 .BuildNoKdfNoKc()
                 .Build();

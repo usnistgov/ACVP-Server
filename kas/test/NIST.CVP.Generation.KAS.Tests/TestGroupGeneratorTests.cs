@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             _sha = new Mock<ISha>();
 
             _dsaFactory
-                .Setup(s => s.GetInstance(It.IsAny<ISha>(), EntropyProviderTypes.Random))
+                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), EntropyProviderTypes.Random))
                 .Returns(_dsa.Object);
 
             _dsa.SetupGet(s => s.Sha).Returns(_sha.Object);

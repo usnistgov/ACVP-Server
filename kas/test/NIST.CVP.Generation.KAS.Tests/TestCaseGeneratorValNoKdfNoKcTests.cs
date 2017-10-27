@@ -37,9 +37,18 @@ namespace NIST.CVP.Generation.KAS.Tests
         [SetUp]
         public void Setup()
         {
+            _shaFactory = new ShaFactory();
+            _dsa = new FfcDsa(_shaFactory.GetShaInstance(_hashFunction));
+
+            _dsaFactory = new Mock<IDsaFfcFactory>();
+            _dsaFactory
+                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
+                .Returns(_dsa);
+
             _entropyProvider = new EntropyProvider(new Random800_90());
             _schemeBuilder = new SchemeBuilder(
-                    _dsa,
+                    _shaFactory,    
+                    _dsaFactory.Object,
                     new KdfFactory(
                         new ShaFactory()
                     ),
@@ -53,13 +62,6 @@ namespace NIST.CVP.Generation.KAS.Tests
                     new Mqv()
             );
             _kasBuilder = new KasBuilder(_schemeBuilder);
-            _shaFactory = new ShaFactory();
-            _dsa = new FfcDsa(_shaFactory.GetShaInstance(_hashFunction));
-
-            _dsaFactory = new Mock<IDsaFfcFactory>();
-            _dsaFactory
-                .Setup(s => s.GetInstance(It.IsAny<ISha>(), It.IsAny<EntropyProviderTypes>()))
-                .Returns(_dsa);
 
             _subject = new TestCaseGeneratorValNoKdfNoKc(
                 _kasBuilder, _schemeBuilder, _dsaFactory.Object, _shaFactory, TestCaseDispositionOption.Success

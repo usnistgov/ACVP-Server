@@ -61,8 +61,6 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            var dsa = _dsaFactory.GetInstance(_shaFactory.GetShaInstance(group.HashAlg));
-
             var macParameters = _macParametersBuilder
                 .WithKeyAgreementMacType(group.MacType)
                 .WithMacLength(group.MacLen)
@@ -105,7 +103,8 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithScheme(group.Scheme)
                 .WithSchemeBuilder(
                     _schemeBuilder
-                        .WithDsa(dsa)
+                        .WithDsaFactory(_dsaFactory)
+                        .WithHashFunction(group.HashAlg)
                         .WithKdfFactory(kdfFactory)
                         .WithNoKeyConfirmationFactory(noKeyConfirmationFactory)
                 )
@@ -127,7 +126,8 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithScheme(group.Scheme)
                 .WithSchemeBuilder(
                     _schemeBuilder
-                        .WithDsa(dsa)
+                        .WithDsaFactory(_dsaFactory)
+                        .WithHashFunction(group.HashAlg)
                         .WithKdfFactory(kdfFactory)
                         .WithNoKeyConfirmationFactory(noKeyConfirmationFactory)
                 )
@@ -157,7 +157,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             // IUT should pick up on bad private/public key information.
             TestCaseDispositionHelper.MangleKeys(
                 testCase,
-                dsa,
+                _dsaFactory.GetInstance(group.HashAlg),
                 _intendedDisposition,
                 serverKas,
                 iutKas

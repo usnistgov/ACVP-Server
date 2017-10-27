@@ -30,6 +30,7 @@ namespace NIST.CVP.Generation.KAS.Tests
         [SetUp]
         public void Setup()
         {
+            _shaFactory = new ShaFactory();
             _dsa = new Mock<IDsaFfc>();
             _dsa
                 .Setup(s => s.GenerateDomainParameters(It.IsAny<FfcDomainParametersGenerateRequest>()))
@@ -47,10 +48,15 @@ namespace NIST.CVP.Generation.KAS.Tests
                         new FfcKeyPair(4, 5)
                     )
                 );
+            _dsaFactory = new Mock<IDsaFfcFactory>();
+            _dsaFactory
+                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
+                .Returns(_dsa.Object);
 
             _entropyProvider = new EntropyProvider(new Random800_90());
             _schemeBuilder = new SchemeBuilder(
-                    _dsa.Object,
+                    _shaFactory,
+                    _dsaFactory.Object,
                     new KdfFactory(
                         new ShaFactory()
                     ),
@@ -64,11 +70,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     new Mqv()
             );
             _kasBuilder = new KasBuilder(_schemeBuilder);
-            _dsaFactory = new Mock<IDsaFfcFactory>();
-            _dsaFactory
-                .Setup(s => s.GetInstance(It.IsAny<ISha>(), It.IsAny<EntropyProviderTypes>()))
-                .Returns(_dsa.Object);
-            _shaFactory = new ShaFactory();
+            
             _macParametersBuilder = new MacParametersBuilder();
 
             _subject = new TestCaseGeneratorAftKdfNoKc(

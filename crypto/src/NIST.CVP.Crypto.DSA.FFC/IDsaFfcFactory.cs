@@ -5,6 +5,6 @@ namespace NIST.CVP.Crypto.DSA.FFC
 {
     public interface IDsaFfcFactory
     {
-        IDsaFfc GetInstance(ISha sha, EntropyProviderTypes entropyType = EntropyProviderTypes.Random);
+        IDsaFfc GetInstance(HashFunction hashFunction, EntropyProviderTypes entropyType = EntropyProviderTypes.Random);
     }
 }

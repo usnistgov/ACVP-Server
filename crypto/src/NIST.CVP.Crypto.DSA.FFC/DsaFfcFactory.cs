@@ -8,9 +8,16 @@ namespace NIST.CVP.Crypto.DSA.FFC
 {
     public class DsaFfcFactory : IDsaFfcFactory
     {
-        public IDsaFfc GetInstance(ISha sha, EntropyProviderTypes entropyType = EntropyProviderTypes.Random)
+        private readonly IShaFactory _shaFactory;
+
+        public DsaFfcFactory(IShaFactory shaFactory)
         {
-            return new FfcDsa(sha, entropyType);
+            _shaFactory = shaFactory;
+        }
+
+        public IDsaFfc GetInstance(HashFunction hashFunction, EntropyProviderTypes entropyType = EntropyProviderTypes.Random)
+        {
+            return new FfcDsa(_shaFactory.GetShaInstance(hashFunction), entropyType);
         }
     }
 }

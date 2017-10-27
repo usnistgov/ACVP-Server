@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                         {
                             case KasMode.NoKdfNoKc:
                                 list.Add(new TestCaseValidatorAftNoKdfNoKc(workingTest, group,
-                                    new DeferredTestCaseResolverAftNoKdfNoKc(_kasBuilder)));
+                                    new DeferredTestCaseResolverAftNoKdfNoKc(_kasBuilder, _schemeBuilder)));
                                 break;
                             case KasMode.KdfNoKc:
                                 list.Add(new TestCaseValidatorAftKdfNoKc(workingTest, group,

@@ -10,10 +10,12 @@ namespace NIST.CVP.Generation.KAS.FFC
     public class DeferredTestCaseResolverAftNoKdfNoKc : IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>
     {
         private readonly IKasBuilder _kasBuilder;
+        private readonly ISchemeBuilder _schemeBuilder;
 
-        public DeferredTestCaseResolverAftNoKdfNoKc(IKasBuilder kasBuilder)
+        public DeferredTestCaseResolverAftNoKdfNoKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder)
         {
             _kasBuilder = kasBuilder;
+            _schemeBuilder = schemeBuilder;
         }
 
         public KasResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
@@ -43,6 +45,10 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithPartyId(testGroup.IdServer)
                 .WithParameterSet(testGroup.ParmSet)
                 .WithScheme(testGroup.Scheme)
+                .WithSchemeBuilder(
+                    _schemeBuilder
+                        .WithHashFunction(testGroup.HashAlg)
+                )
                 .BuildNoKdfNoKc()
                 .Build();
 
