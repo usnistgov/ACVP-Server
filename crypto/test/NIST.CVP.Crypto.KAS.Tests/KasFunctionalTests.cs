@@ -46,7 +46,6 @@ namespace NIST.CVP.Crypto.KAS.Tests
 
             _subject = new KasBuilder(
                 new SchemeBuilder(
-                    _shaFactory.Object,
                     _dsaFactory.Object,
                     new KdfFactory(
                         new ShaFactory()

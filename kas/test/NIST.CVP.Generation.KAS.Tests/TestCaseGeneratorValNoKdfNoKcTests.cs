@@ -47,7 +47,6 @@ namespace NIST.CVP.Generation.KAS.Tests
 
             _entropyProvider = new EntropyProvider(new Random800_90());
             _schemeBuilder = new SchemeBuilder(
-                    _shaFactory,    
                     _dsaFactory.Object,
                     new KdfFactory(
                         new ShaFactory()

@@ -61,7 +61,32 @@ namespace NIST.CVP.Generation.KAS
         }
 
         public abstract List<dynamic> AnswerProjection { get; }
+        [JsonProperty(PropertyName = "testGroups")]
         public abstract List<dynamic> PromptProjection { get; }
+        [JsonProperty(PropertyName = "testResults")]
         public abstract List<dynamic> ResultProjection { get; }
+
+        protected void SetAnswerAndPrompts(dynamic answers, dynamic prompts)
+        {
+            foreach (var answer in answers.answerProjection)
+            {
+                var group = (TTestGroup)Activator.CreateInstance(typeof(TTestGroup), answer);
+                
+                TestGroups.Add(group);
+            }
+
+            foreach (var prompt in prompts.testGroups)
+            {
+                var promptGroup = (TTestGroup)Activator.CreateInstance(typeof(TTestGroup), prompt);
+                var matchingAnswerGroup = TestGroups.Single(g => g.Equals(promptGroup));
+                if (matchingAnswerGroup != null)
+                {
+                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
+                    {
+                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
+                    }
+                }
+            }
+        }
     }
 }

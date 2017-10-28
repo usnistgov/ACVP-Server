@@ -68,7 +68,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     var testCase = (TestCase) iTestCase;
 
                     var schemeBuilder = new SchemeBuilder(
-                        _shaFactory,
                         new DsaFfcFactory(_shaFactory), 
                         new KdfFactory(_shaFactory),
                         new KeyConfirmationFactory(),

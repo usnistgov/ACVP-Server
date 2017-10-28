@@ -13,7 +13,6 @@ namespace NIST.CVP.Crypto.KAS.Builders
 {
     public class SchemeBuilder : ISchemeBuilder
     {
-        private readonly IShaFactory _shaFactory;
         private readonly IDsaFfcFactory _originalDsaFactory;
         private readonly IKdfFactory _originalKdfFactory;
         private readonly IKeyConfirmationFactory _originalKeyConfirmationFactory;
@@ -34,7 +33,6 @@ namespace NIST.CVP.Crypto.KAS.Builders
         private IMqv _withMqv;
         
         public SchemeBuilder(
-            IShaFactory shaFactory,
             IDsaFfcFactory dsaFactory,
             IKdfFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
@@ -45,7 +43,6 @@ namespace NIST.CVP.Crypto.KAS.Builders
             IMqv mqv
         )
         {
-            _shaFactory = shaFactory;
             _originalDsaFactory = dsaFactory;
             _originalKdfFactory = kdfFactory;
             _originalKeyConfirmationFactory = keyConfirmationFactory;
