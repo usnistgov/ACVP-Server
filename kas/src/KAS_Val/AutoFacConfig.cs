@@ -1,8 +1,22 @@
 ﻿using System;
 using Autofac;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.HMAC;
+using NIST.CVP.Crypto.KAS.Builders;
+using NIST.CVP.Crypto.KAS.KC;
+using NIST.CVP.Crypto.KAS.KDF;
+using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.KES;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Generation.KAS;
+using NIST.CVP.Generation.KAS.FFC;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace KAS_Val
 {
@@ -18,9 +32,42 @@ namespace KAS_Val
         {
             ContainerBuilder builder = new ContainerBuilder();
 
+            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<Random800_90>().AsImplementedInterfaces();
+            builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<HmacFactory>().AsImplementedInterfaces();
+            builder.RegisterType<ShaFactory>().AsImplementedInterfaces();
+            builder.RegisterType<CmacFactory>().AsImplementedInterfaces();
+            builder.RegisterType<AES_CCMInternals>().AsImplementedInterfaces();
+            builder.RegisterType<AES_CCM>().AsImplementedInterfaces();
+            builder.RegisterType<DiffieHellman>().AsImplementedInterfaces();
+            builder.RegisterType<Mqv>().AsImplementedInterfaces();
+            builder.RegisterType<SchemeBuilder>().AsImplementedInterfaces();
+            builder.RegisterType<KasBuilder>().AsImplementedInterfaces();
+            builder.RegisterType<MacParametersBuilder>().AsImplementedInterfaces();
+            builder.RegisterType<KeyConfirmationFactory>().AsImplementedInterfaces();
+            builder.RegisterType<NoKeyConfirmationFactory>().AsImplementedInterfaces();
+            builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
+            builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
+            builder.RegisterType<KdfFactory>().AsImplementedInterfaces();
+            builder.RegisterType<OtherInfoFactory>().AsImplementedInterfaces();
+            builder.RegisterType<DsaFfcFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
+            builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
+            builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
+
             switch (algo.ToLower())
             {
-                case "KAS-FFC":
+                case "kas-ffc":
                     break;
 
                 default:

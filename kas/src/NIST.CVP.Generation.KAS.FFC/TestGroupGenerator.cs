@@ -18,12 +18,12 @@ namespace NIST.CVP.Generation.KAS.FFC
     {
         private readonly string[] _testTypes = new string[] { "AFT", "VAL" };
         private readonly IDsaFfcFactory _dsaFactory;
-        private readonly IShaFactory _shaFactory;
+        private readonly IPqgProvider _pqgProvider;
 
-        public TestGroupGenerator(IDsaFfcFactory dsaFactory, IShaFactory shaFactory)
+        public TestGroupGenerator(IDsaFfcFactory dsaFactory, IPqgProvider pqgProvider)
         {
             _dsaFactory = dsaFactory;
-            _shaFactory = shaFactory;
+            _pqgProvider = pqgProvider;
         }
 
         public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
@@ -48,26 +48,17 @@ namespace NIST.CVP.Generation.KAS.FFC
         {
             foreach (var group in groups)
             {
-                var shaAttributes = ShaAttributes.GetShaAttributes(group.HashAlg.Mode, group.HashAlg.DigestSize);
-
-                var dsa = _dsaFactory.GetInstance(group.HashAlg, EntropyProviderTypes.Random);
                 var parameterSetAttributes = FfcParameterSetDetails.GetDetailsForParameterSet(group.ParmSet);
 
-                var domainParams = dsa.GenerateDomainParameters(
-                    new FfcDomainParametersGenerateRequest(
-                        parameterSetAttributes.qLength,
-                        parameterSetAttributes.pLength,
-                        parameterSetAttributes.qLength,
-                        shaAttributes.outputLen,
-                        null,
-                        PrimeGenMode.None, 
-                        GeneratorGenMode.Unverifiable
-                    )
+                var domainParams = _pqgProvider.GetPqg(
+                    parameterSetAttributes.pLength,
+                    parameterSetAttributes.qLength,
+                    group.HashAlg
                 );
 
-                group.P = domainParams.PqgDomainParameters.P;
-                group.Q = domainParams.PqgDomainParameters.Q;
-                group.G = domainParams.PqgDomainParameters.G;
+                group.P = domainParams.P;
+                group.Q = domainParams.Q;
+                group.G = domainParams.G;
             }
         }
 

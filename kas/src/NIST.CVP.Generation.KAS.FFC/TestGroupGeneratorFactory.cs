@@ -10,13 +10,13 @@ namespace NIST.CVP.Generation.KAS.FFC
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
     {
         private readonly IDsaFfcFactory _dsaFactory;
-        private readonly IShaFactory _iShaFactory;
+        private readonly IPqgProvider _iPqgProvider;
         
 
-        public TestGroupGeneratorFactory(IDsaFfcFactory dsaFactory, IShaFactory iShaFactory)
+        public TestGroupGeneratorFactory(IDsaFfcFactory dsaFactory, IPqgProvider iPqgProvider)
         {
             _dsaFactory = dsaFactory;
-            _iShaFactory = iShaFactory;
+            _iPqgProvider = iPqgProvider;
         }
 
         public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             HashSet<ITestGroupGenerator<Parameters>> list =
                 new HashSet<ITestGroupGenerator<Parameters>>()
                 {
-                    new TestGroupGenerator(_dsaFactory, _iShaFactory),
+                    new TestGroupGenerator(_dsaFactory, _iPqgProvider),
                 };
 
             return list;

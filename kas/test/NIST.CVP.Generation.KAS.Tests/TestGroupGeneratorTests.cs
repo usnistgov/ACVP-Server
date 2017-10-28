@@ -18,38 +18,18 @@ namespace NIST.CVP.Generation.KAS.Tests
     {
         private TestGroupGenerator _subject;
         private Mock<IDsaFfcFactory> _dsaFactory;
-        private Mock<IDsaFfc> _dsa;
-        private Mock<IShaFactory> _shaFactory;
-        private Mock<ISha> _sha;
+        private Mock<IPqgProvider> _pqgProvider;
 
         [SetUp]
         public void Setup()
         {
             _dsaFactory = new Mock<IDsaFfcFactory>();
-            _dsa = new Mock<IDsaFfc>();
-            _shaFactory = new Mock<IShaFactory>();
-            _sha = new Mock<ISha>();
+            _pqgProvider = new Mock<IPqgProvider>();
+            _pqgProvider
+                .Setup(s => s.GetPqg(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<HashFunction>()))
+                .Returns(new FfcDomainParameters(1, 1, 1));
 
-            _dsaFactory
-                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), EntropyProviderTypes.Random))
-                .Returns(_dsa.Object);
-
-            _dsa.SetupGet(s => s.Sha).Returns(_sha.Object);
-            _dsa.Setup(s => s.GenerateDomainParameters(It.IsAny<FfcDomainParametersGenerateRequest>()))
-                .Returns(
-                    new FfcDomainParametersGenerateResult(
-                        new FfcDomainParameters(0, 0, 0), 
-                        new DomainSeed(0),
-                        new Counter(0)
-                    )
-                );
-
-            _shaFactory.Setup(s => s.GetShaInstance(It.IsAny<HashFunction>())).Returns(_sha.Object);
-
-            _sha.SetupGet(s => s.HashFunction).Returns(new HashFunction(ModeValues.SHA2, DigestSizes.d256));
-            _sha.Setup(s => s.HashMessage(It.IsAny<BitString>())).Returns(new HashResult(new BitString(0)));
-
-            _subject = new TestGroupGenerator(_dsaFactory.Object, _shaFactory.Object);
+            _subject = new TestGroupGenerator(_dsaFactory.Object, _pqgProvider.Object);
         }
 
         private static object[] _testShouldReturnCorrectNumberOfGroups = new object[]
