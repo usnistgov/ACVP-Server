@@ -41,7 +41,8 @@ namespace NIST.CVP.Generation.KAS.FFC
                         ExpandoObject testObject = new ExpandoObject();
 
                         testObject.AddIntegerWhenNotZero("tcId", test.TestCaseId);
-                            ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
+                        ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
+                        ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
                         testObject.AddBigIntegerWhenNotZero("xStaticServer", test.StaticPrivateKeyServer);
                         testObject.AddBigIntegerWhenNotZero("yStaticServer", test.StaticPublicKeyServer);
                         testObject.AddBigIntegerWhenNotZero("xEphemeralServer", test.EphemeralPrivateKeyServer);
@@ -60,10 +61,16 @@ namespace NIST.CVP.Generation.KAS.FFC
                             testObject.AddIntegerWhenNotZero("oiLen", test.OiLen);
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "otherInfo", test.OtherInfo);
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "dkm", test.Dkm);
-                            DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceAesCcm", test.NonceAesCcm);
+
+                            if (group.MacType == KeyAgreementMacType.AesCcm)
+                            {
+                                DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceAesCcm",
+                                    test.NonceAesCcm);
+                            }
+
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "macData", test.MacData);
 
-                            DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "tagServer", test.Tag);
+                            DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "tagIut", test.Tag);
                         }
                         else
                         {
@@ -106,6 +113,11 @@ namespace NIST.CVP.Generation.KAS.FFC
                             testObject.AddBigIntegerWhenNotZero("yEphemeralServer", test.EphemeralPublicKeyServer);
 
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceNoKc", test.NonceNoKc);
+
+                            if (group.MacType == KeyAgreementMacType.AesCcm)
+                            {
+                                DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceAesCcm", test.NonceAesCcm);
+                            }
                         }
 
                         if (group.TestType.Equals("val", StringComparison.OrdinalIgnoreCase))
@@ -124,8 +136,13 @@ namespace NIST.CVP.Generation.KAS.FFC
                             {
                                 testObject.AddIntegerWhenNotZero("oiLen", test.OiLen);
                                 DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "otherInfo", test.OtherInfo);
-                                DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceAesCcm", test.NonceAesCcm);
-                                
+
+                                if (group.MacType == KeyAgreementMacType.AesCcm)
+                                {
+                                    DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceAesCcm",
+                                        test.NonceAesCcm);
+                                }
+
                                 DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "tagIut", test.Tag);
                             }
                             else
@@ -159,9 +176,6 @@ namespace NIST.CVP.Generation.KAS.FFC
 
                         if (group.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase) && !test.Deferred)
                         {
-                            testObject.AddBigIntegerWhenNotZero("yStaticServer", test.StaticPublicKeyServer);
-                            testObject.AddBigIntegerWhenNotZero("yEphemeralServer", test.EphemeralPublicKeyServer);
-
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceNoKc", test.NonceNoKc);
 
                             testObject.AddBigIntegerWhenNotZero("xStaticIut", test.StaticPrivateKeyIut);
@@ -171,8 +185,11 @@ namespace NIST.CVP.Generation.KAS.FFC
 
                             if (group.MacType != KeyAgreementMacType.None)
                             {
+                                testObject.AddIntegerWhenNotZero("idIutLen", test.IdIutLen);
+                                DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "idIut", test.IdIut);
+
                                 testObject.AddIntegerWhenNotZero("oiLen", test.OiLen);
-                                DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "otherInfo", test.OtherInfo);
+                                DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "oi", test.OtherInfo);
                                 DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceAesCcm", test.NonceAesCcm);
 
                                 DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "tagIut", test.Tag);

@@ -33,8 +33,10 @@ namespace KAS_Val
             ContainerBuilder builder = new ContainerBuilder();
 
             builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
+            builder.RegisterType<EntropyProvider>().AsImplementedInterfaces();
 
             builder.RegisterType<HmacFactory>().AsImplementedInterfaces();
             builder.RegisterType<ShaFactory>().AsImplementedInterfaces();

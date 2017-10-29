@@ -185,8 +185,14 @@ namespace NIST.CVP.Generation.KAS
             NonceAesCcm = expandoSource.GetBitStringFromProperty("nonceAesCcm");
 
             Z = expandoSource.GetBitStringFromProperty("z");
+
+            Dkm = expandoSource.GetBitStringFromProperty("dkm");
+            MacData = expandoSource.GetBitStringFromProperty("macData");
+
             HashZ = expandoSource.GetBitStringFromProperty("hashZIut");
             Tag = expandoSource.GetBitStringFromProperty("tagIut");
+
+            Result = expandoSource.GetTypeFromProperty<string>("result");
         }
     }
 }

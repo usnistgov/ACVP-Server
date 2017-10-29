@@ -47,24 +47,19 @@ namespace NIST.CVP.Generation.KAS.FFC
             var macParameters = _macParametersBuilder
                 .WithKeyAgreementMacType(testGroup.MacType)
                 .WithMacLength(testGroup.MacLen)
-                .WithNonce(iutTestCase.NonceAesCcm)
+                .WithNonce(iutTestCase.NonceAesCcm ?? serverTestCase.NonceAesCcm)
                 .Build();
 
             KeyAgreementRole serverRole = testGroup.KasRole == KeyAgreementRole.InitiatorPartyU
                 ? KeyAgreementRole.ResponderPartyV
                 : KeyAgreementRole.InitiatorPartyU;
 
-            // inject specific entropy for nonceNoKc when the server is the initiator
-            // when the server is not the initiator, nonceNoKc is provided via the other party's public info
-            if (serverRole == KeyAgreementRole.InitiatorPartyU)
-            {
-                var entropyProvider = _entropyProviderFactory
-                    .GetEntropyProvider(EntropyProviderTypes.Testable);
-                entropyProvider.AddEntropy(serverTestCase.NonceNoKc);
+            var entropyProvider = _entropyProviderFactory
+                .GetEntropyProvider(EntropyProviderTypes.Testable);
+            entropyProvider.AddEntropy(serverTestCase.NonceNoKc ?? iutTestCase.NonceNoKc);
 
-                _schemeBuilder.WithEntropyProvider(entropyProvider);
-            }
-
+            _schemeBuilder.WithEntropyProvider(entropyProvider);
+            
             var serverKas = _kasBuilder
                 .WithKeyAgreementRole(
                     serverKeyRequirements.thisPartyKasRole

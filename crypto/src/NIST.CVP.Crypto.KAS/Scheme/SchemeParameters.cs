@@ -28,7 +28,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             BitString thisPartyId
         )
         {
-            if (BitString.IsZeroLengthOrNull(thisPartyId))
+            if (kasMode != KasMode.NoKdfNoKc && BitString.IsZeroLengthOrNull(thisPartyId))
             {
                 throw new ArgumentException(nameof(thisPartyId));
             }

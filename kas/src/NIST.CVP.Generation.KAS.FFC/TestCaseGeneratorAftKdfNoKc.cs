@@ -16,16 +16,16 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly ISchemeBuilder _schemeBuilder;
         private readonly IDsaFfcFactory _dsaFactory;
         private readonly IShaFactory _shaFactory;
-        private readonly IEntropyProvider _entropyProvider;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
 
-        public TestCaseGeneratorAftKdfNoKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IDsaFfcFactory dsaFactory, IShaFactory shaFactory, IEntropyProvider entropyProvider, IMacParametersBuilder macParametersBuilder)
+        public TestCaseGeneratorAftKdfNoKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IDsaFfcFactory dsaFactory, IShaFactory shaFactory, IEntropyProviderFactory entropyProviderFactory, IMacParametersBuilder macParametersBuilder)
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
             _dsaFactory = dsaFactory;
             _shaFactory = shaFactory;
-            _entropyProvider = entropyProvider;
+            _entropyProviderFactory = entropyProviderFactory;
             _macParametersBuilder = macParametersBuilder;
         }
 
@@ -42,12 +42,15 @@ namespace NIST.CVP.Generation.KAS.FFC
                 ? KeyAgreementRole.ResponderPartyV
                 : KeyAgreementRole.InitiatorPartyU;
 
-            testCase.NonceNoKc = _entropyProvider.GetEntropy(128);
+            testCase.NonceNoKc = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random).GetEntropy(128);
+            var noKcEntropyProvider = _entropyProviderFactory
+                .GetEntropyProvider(EntropyProviderTypes.Testable);
+            noKcEntropyProvider.AddEntropy(testCase.NonceNoKc.GetDeepCopy());
 
             BitString aesCcmNonce = null;
             if ((serverRole == KeyAgreementRole.InitiatorPartyU && group.MacType == KeyAgreementMacType.AesCcm) || isSample)
             {
-                aesCcmNonce = _entropyProvider
+                aesCcmNonce = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
                     .GetEntropy(group.AesCcmNonceLen);
 
                 testCase.NonceAesCcm = aesCcmNonce;
@@ -65,6 +68,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithSchemeBuilder(
                     _schemeBuilder
                         .WithHashFunction(group.HashAlg)
+                        .WithEntropyProvider(noKcEntropyProvider)
                 )
                 .WithParameterSet(group.ParmSet)
                 .WithPartyId(SpecificationMapping.ServerId)
@@ -96,6 +100,12 @@ namespace NIST.CVP.Generation.KAS.FFC
                 {
                     testCase.NonceAesCcm = macParameters.CcmNonce.GetDeepCopy();
                 }
+                testCase.IdIut = SpecificationMapping.IutId;
+                testCase.IdIutLen = testCase.IdIut.BitLength;
+
+                noKcEntropyProvider = _entropyProviderFactory
+                    .GetEntropyProvider(EntropyProviderTypes.Testable);
+                noKcEntropyProvider.AddEntropy(testCase.NonceNoKc.GetDeepCopy());
 
                 var iutKas = _kasBuilder
                     .WithAssurances(KasAssurance.None)
@@ -103,18 +113,19 @@ namespace NIST.CVP.Generation.KAS.FFC
                     .WithSchemeBuilder(
                         _schemeBuilder
                             .WithHashFunction(group.HashAlg)
+                            .WithEntropyProvider(noKcEntropyProvider)
                     )
                     .WithParameterSet(group.ParmSet)
-                    .WithPartyId(SpecificationMapping.IutId)
+                    .WithPartyId(testCase.IdIut)
                     .WithKeyAgreementRole(group.KasRole)
                     .BuildKdfNoKc()
                     .WithKeyLength(group.KeyLen)
                     .WithOtherInfoPattern(group.OiPattern)
                     .WithMacParameters(macParameters)
                     .Build();
-
+                
                 var result = iutKas.ComputeResult(serverPublicInfo);
-
+                
                 TestCaseDispositionHelper.SetTestCaseInformationFromKasResults(group, testCase, serverKas, iutKas, result);
             }
 

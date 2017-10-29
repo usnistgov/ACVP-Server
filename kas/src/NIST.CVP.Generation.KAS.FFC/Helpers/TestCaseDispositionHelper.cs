@@ -148,6 +148,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
 
             testCase.Z = iutResult.Z;
             testCase.OtherInfo = iutResult.Oi;
+            testCase.OiLen = testCase.OtherInfo?.BitLength ?? 0;
             testCase.Dkm = iutResult.Dkm;
             testCase.MacData = iutResult.MacData;
             if (group.KasMode == KasMode.NoKdfNoKc)

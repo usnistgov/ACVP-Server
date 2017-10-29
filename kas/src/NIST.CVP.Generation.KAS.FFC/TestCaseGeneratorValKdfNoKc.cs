@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly ISchemeBuilder _schemeBuilder;
         private readonly IDsaFfcFactory _dsaFactory;
         private readonly IShaFactory _shaFactory;
-        private readonly IEntropyProvider _entropyProvider;
+        private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
         private readonly IKdfFactory _kdfFactory;
         private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             ISchemeBuilder schemeBuilder, 
             IDsaFfcFactory dsaFactory, 
             IShaFactory shaFactory, 
-            IEntropyProvider entropyProvider, 
+            IEntropyProviderFactory entropyProviderFactory, 
             IMacParametersBuilder macParametersBuilder, 
             IKdfFactory kdfFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             _schemeBuilder = schemeBuilder;
             _dsaFactory = dsaFactory;
             _shaFactory = shaFactory;
-            _entropyProvider = entropyProvider;
+            _entropyProviderFactory = entropyProviderFactory;
             _macParametersBuilder = macParametersBuilder;
             _kdfFactory = kdfFactory;
             _noKeyConfirmationFactory = noKeyConfirmationFactory;
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             var macParameters = _macParametersBuilder
                 .WithKeyAgreementMacType(group.MacType)
                 .WithMacLength(group.MacLen)
-                .WithNonce(_entropyProvider.GetEntropy(group.AesCcmNonceLen))
+                .WithNonce(_entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random).GetEntropy(group.AesCcmNonceLen))
                 .Build();
 
             if (group.AesCcmNonceLen != 0)

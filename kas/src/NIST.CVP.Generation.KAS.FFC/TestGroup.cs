@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         public override int GetHashCode()
         {
             return (
-                $"{Scheme}|{TestType}|{KasRole}|{KasMode}|{ParmSet}|{HashAlg}|{MacType}|{KeyLen}|{AesCcmNonceLen}|{MacLen}|{KdfType}|{IdServerLen}|{IdServer}|{IdIutLen}|{IdIut}|{OiPattern}|{KcRole}|{KcType}"
+                $"{Scheme.ToString()}|{TestType}|{KasRole}|{KasMode}|{ParmSet}|{HashAlg.Name}|{MacType}|{KeyLen}|{AesCcmNonceLen}|{MacLen}|{KdfType}|{IdServerLen}|{IdServer}|{IdIutLen}|{IdIut}|{OiPattern}|{KcRole.ToString()}|{KcType.ToString()}|{P}|{Q}|{G}"
             ).GetHashCode();
         }
 
@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             var hashAttributes = ShaAttributes.GetShaAttributes(expandoSource.GetTypeFromProperty<string>("hashAlg"));
             HashAlg = new HashFunction(hashAttributes.mode, hashAttributes.digestSize);
 
-            MacType = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementMacType>(expandoSource.GetTypeFromProperty<string>("macType"));
+            MacType = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementMacType>(expandoSource.GetTypeFromProperty<string>("macType"), false);
 
             KeyLen = expandoSource.GetTypeFromProperty<int>("keyLen");
             AesCcmNonceLen = expandoSource.GetTypeFromProperty<int>("nonceAesCcmLen");

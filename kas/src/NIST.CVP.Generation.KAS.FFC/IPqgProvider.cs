@@ -8,6 +8,13 @@ namespace NIST.CVP.Generation.KAS.FFC
     /// </summary>
     public interface IPqgProvider
     {
+        /// <summary>
+        /// Gets a PQG based on the P/Q lengths and hash function
+        /// </summary>
+        /// <param name="p">The P length</param>
+        /// <param name="q">The q length</param>
+        /// <param name="hashFunction">The hash function in the underlying DSA generation</param>
+        /// <returns></returns>
         FfcDomainParameters GetPqg(int p, int q, HashFunction hashFunction);
     }
 }

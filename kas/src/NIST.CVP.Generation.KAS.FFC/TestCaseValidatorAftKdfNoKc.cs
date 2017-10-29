@@ -81,27 +81,20 @@ namespace NIST.CVP.Generation.KAS.FFC
             {
                 errors.Add($"Expected {nameof(suppliedResult.IdIutLen)} must be supplied and non zero");
             }
-
             if (suppliedResult.IdIut == null)
             {
-                errors.Add($"Expected {nameof(suppliedResult.Tag)} but was not supplied");
+                errors.Add($"Expected {nameof(suppliedResult.IdIut)} but was not supplied");
             }
-
+            
             if (suppliedResult.OiLen == 0)
             {
                 errors.Add($"Expected {nameof(suppliedResult.OiLen)} must be supplied and non zero");
             }
-
             if (suppliedResult.OtherInfo == null)
             {
                 errors.Add($"Expected {nameof(suppliedResult.OtherInfo)} but was not supplied");
             }
-
-            if (suppliedResult.Dkm == null)
-            {
-                errors.Add($"Expected {nameof(suppliedResult.Dkm)} but was not supplied");
-            }
-
+            
             if (suppliedResult.Tag == null)
             {
                 errors.Add($"Expected {nameof(suppliedResult.Tag)} but was not supplied");
@@ -111,12 +104,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         private void CheckResults(TestCase suppliedResult, List<string> errors)
         {
             KasResult serverResult = _deferredResolver.CompleteDeferredCrypto(_testGroup, _expectedResult, suppliedResult);
-
-            if (!serverResult.Dkm.Equals(suppliedResult.Dkm))
-            {
-                errors.Add($"{nameof(suppliedResult.Dkm)} does not match");
-            }
-
+            
             if (!serverResult.Tag.Equals(suppliedResult.Tag))
             {
                 errors.Add($"{nameof(suppliedResult.Tag)} does not match");

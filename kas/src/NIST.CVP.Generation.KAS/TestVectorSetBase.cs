@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.KAS
         public bool IsSample { get; set; }
         [JsonIgnore]
         [JsonProperty(PropertyName = "testGroupsNotSerialized")]
-        public List<ITestGroup> TestGroups { get; set; }
+        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
 
         public dynamic ToDynamic()
         {

@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                     case KasMode.NoKdfNoKc:
                         return new TestCaseGeneratorAftNoKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory);
                     case KasMode.KdfNoKc:
-                        return new TestCaseGeneratorAftKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random), _macParametersBuilder);
+                        return new TestCaseGeneratorAftKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, _entropyProviderFactory, _macParametersBuilder);
                     case KasMode.KdfKc:
                         break;
                     default:
@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                     case KasMode.NoKdfNoKc:
                         return new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, dispositionIntention);
                     case KasMode.KdfNoKc:
-                        return new TestCaseGeneratorValKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random), _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, dispositionIntention);
+                        return new TestCaseGeneratorValKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, dispositionIntention);
                 }
             }
 

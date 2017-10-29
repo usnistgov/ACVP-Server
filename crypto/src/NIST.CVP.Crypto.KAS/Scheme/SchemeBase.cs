@@ -114,6 +114,11 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                 GenerateKasKeyNonceInformation();
             }
 
+            if (otherPartyInformation.NoKeyConfirmationNonce != null)
+            {
+                NoKeyConfirmationNonce = otherPartyInformation.NoKeyConfirmationNonce;
+            }
+
             // Get shared secret, differs dependant on scheme
             var z = ComputeSharedSecret(otherPartyInformation);
 

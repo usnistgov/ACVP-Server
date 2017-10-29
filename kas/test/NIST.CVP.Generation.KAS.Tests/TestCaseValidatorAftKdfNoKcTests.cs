@@ -75,21 +75,6 @@ namespace NIST.CVP.Generation.KAS.Tests
             Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
 
-        [Test]
-        public void ShouldFailWhenIutDoesNotProvideDkm()
-        {
-            var testGroup = GetData();
-            var testCase = (TestCase)testGroup.Tests[0];
-            
-            testCase.Dkm = null;
-
-            _subject = new TestCaseValidatorAftKdfNoKc(testCase, testGroup, _deferredResolver.Object);
-
-            var result = _subject.Validate(testCase);
-
-            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
-        }
-
 
         [Test]
         public void ShouldFailWhenIutDoesNotProvideTag()
@@ -105,35 +90,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
             Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
-
-        [Test]
-        public void ShouldFailWhenMismatchedDkm()
-        {
-            var testGroup = GetData();
-            var testCase = (TestCase)testGroup.Tests[0];
-            
-            BitString newValue = testCase.Dkm.GetDeepCopy();
-            newValue[0] += 2;
-
-            _deferredResolver
-                .Setup(s => s.CompleteDeferredCrypto(testGroup, testCase, testCase))
-                .Returns(
-                    new KasResult(
-                        testCase.Z,
-                        testCase.OtherInfo,
-                        newValue,
-                        testCase.MacData,
-                        testCase.Tag
-                    )
-                );
-
-            _subject = new TestCaseValidatorAftKdfNoKc(testCase, testGroup, _deferredResolver.Object);
-
-            var result = _subject.Validate(testCase);
-
-            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
-        }
-
+        
         [Test]
         public void ShouldFailWhenMismatchedTag()
         {
