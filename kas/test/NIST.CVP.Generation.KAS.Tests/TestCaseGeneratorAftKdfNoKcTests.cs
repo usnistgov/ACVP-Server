@@ -25,13 +25,11 @@ namespace NIST.CVP.Generation.KAS.Tests
         private IKasBuilder _kasBuilder;
         private ISchemeBuilder _schemeBuilder;
         private Mock<IDsaFfcFactory> _dsaFactory;
-        private IShaFactory _shaFactory;
         private IMacParametersBuilder _macParametersBuilder;
 
         [SetUp]
         public void Setup()
         {
-            _shaFactory = new ShaFactory();
             _dsa = new Mock<IDsaFfc>();
             _dsa
                 .Setup(s => s.GenerateDomainParameters(It.IsAny<FfcDomainParametersGenerateRequest>()))
@@ -75,7 +73,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             _macParametersBuilder = new MacParametersBuilder();
 
             _subject = new TestCaseGeneratorAftKdfNoKc(
-                _kasBuilder, _schemeBuilder, _dsaFactory.Object, _shaFactory, _entropyProviderFactory, _macParametersBuilder
+                _kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder
             );
         }
 

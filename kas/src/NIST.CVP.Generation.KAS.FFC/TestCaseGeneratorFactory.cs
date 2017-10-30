@@ -70,9 +70,9 @@ namespace NIST.CVP.Generation.KAS.FFC
                 switch (testGroup.KasMode)
                 {
                     case KasMode.NoKdfNoKc:
-                        return new TestCaseGeneratorAftNoKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory);
+                        return new TestCaseGeneratorAftNoKdfNoKc(_kasBuilder, _schemeBuilder);
                     case KasMode.KdfNoKc:
-                        return new TestCaseGeneratorAftKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, _entropyProviderFactory, _macParametersBuilder);
+                        return new TestCaseGeneratorAftKdfNoKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder);
                     case KasMode.KdfKc:
                         break;
                     default:
@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 switch (testGroup.KasMode)
                 {
                     case KasMode.NoKdfNoKc:
-                        return new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, dispositionIntention);
+                        return new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, dispositionIntention);
                     case KasMode.KdfNoKc:
                         return new TestCaseGeneratorValKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, dispositionIntention);
                 }

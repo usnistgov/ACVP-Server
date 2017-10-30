@@ -63,7 +63,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             _kasBuilder = new KasBuilder(_schemeBuilder);
 
             _subject = new TestCaseGeneratorValNoKdfNoKc(
-                _kasBuilder, _schemeBuilder, _dsaFactory.Object, _shaFactory, TestCaseDispositionOption.Success
+                _kasBuilder, _schemeBuilder, _dsaFactory.Object, TestCaseDispositionOption.Success
             );
         }
 
@@ -147,7 +147,7 @@ namespace NIST.CVP.Generation.KAS.Tests
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedMacData)]
         public void ShouldSetInvalidTestCaseDispositionsToSuccess(FfcScheme scheme, KeyAgreementRole testGroupIutRole, TestCaseDispositionOption option)
         {
-            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory.Object, _shaFactory, option);
+            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory.Object,  option);
 
             BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
 
@@ -165,7 +165,7 @@ namespace NIST.CVP.Generation.KAS.Tests
         public void ShouldSetProperTestCaseFailureTestProperty(FfcScheme scheme, KeyAgreementRole testGroupIutRole,
             TestCaseDispositionOption option, bool isFailure)
         {
-            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory.Object, _shaFactory, option);
+            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory.Object, option);
 
             BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
 

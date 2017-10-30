@@ -24,12 +24,10 @@ namespace NIST.CVP.Generation.KAS.Tests
         private IKasBuilder _kasBuilder;
         private ISchemeBuilder _schemeBuilder;
         private Mock<IDsaFfcFactory> _dsaFactory;
-        private IShaFactory _shaFactory;
 
         [SetUp]
         public void Setup()
         {
-            _shaFactory = new ShaFactory();
             _dsa = new Mock<IDsaFfc>();
             _dsa
                 .Setup(s => s.GenerateDomainParameters(It.IsAny<FfcDomainParametersGenerateRequest>()))
@@ -72,7 +70,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
 
             _subject = new TestCaseGeneratorAftNoKdfNoKc(
-                _kasBuilder, _schemeBuilder, _dsaFactory.Object, _shaFactory
+                _kasBuilder, _schemeBuilder
             );
         }
 

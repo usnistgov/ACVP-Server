@@ -13,15 +13,11 @@ namespace NIST.CVP.Generation.KAS.FFC
     {
         private readonly IKasBuilder _kasBuilder;
         private readonly ISchemeBuilder _schemeBuilder;
-        private readonly IDsaFfcFactory _dsaFactory;
-        private readonly IShaFactory _shaFactory;
 
-        public TestCaseGeneratorAftNoKdfNoKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IDsaFfcFactory dsaFactory, IShaFactory shaFactory)
+        public TestCaseGeneratorAftNoKdfNoKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder)
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
-            _dsaFactory = dsaFactory;
-            _shaFactory = shaFactory;
         }
 
         public int NumberOfTestCasesToGenerate => 10;

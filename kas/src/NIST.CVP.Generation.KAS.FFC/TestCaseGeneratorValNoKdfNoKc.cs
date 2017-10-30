@@ -14,15 +14,13 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly IKasBuilder _kasBuilder;
         private readonly ISchemeBuilder _schemeBuilder;
         private readonly IDsaFfcFactory _dsaFactory;
-        private readonly IShaFactory _shaFactory;
         private readonly TestCaseDispositionOption _intendedDisposition;
 
-        public TestCaseGeneratorValNoKdfNoKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IDsaFfcFactory dsaFactory, IShaFactory shaFactory, TestCaseDispositionOption intendedDisposition)
+        public TestCaseGeneratorValNoKdfNoKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IDsaFfcFactory dsaFactory, TestCaseDispositionOption intendedDisposition)
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
             _dsaFactory = dsaFactory;
-            _shaFactory = shaFactory;
             _intendedDisposition = intendedDisposition;
 
             // This shouldn't happen, but just in case, NoKdfNoKc doesn't use DKM, MacData, or OI

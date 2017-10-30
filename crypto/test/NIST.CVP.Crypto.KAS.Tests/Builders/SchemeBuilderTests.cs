@@ -53,7 +53,6 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _mqv = new Mock<IMqv>();
 
             _subject = new SchemeBuilder(
-                _shaFactory.Object,
                 _dsaFactory.Object, 
                 _kdfFactory.Object, 
                 _keyConfirmationFactory.Object, 

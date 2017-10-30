@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         [OneTimeTearDown]
         public void Teardown()
         {
-            //Directory.Delete(_testPath, true);
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
