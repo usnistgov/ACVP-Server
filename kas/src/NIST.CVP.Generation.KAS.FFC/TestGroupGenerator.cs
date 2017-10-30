@@ -17,12 +17,10 @@ namespace NIST.CVP.Generation.KAS.FFC
     public class TestGroupGenerator : ITestGroupGenerator<Parameters>
     {
         private readonly string[] _testTypes = new string[] { "AFT", "VAL" };
-        private readonly IDsaFfcFactory _dsaFactory;
         private readonly IPqgProvider _pqgProvider;
 
-        public TestGroupGenerator(IDsaFfcFactory dsaFactory, IPqgProvider pqgProvider)
+        public TestGroupGenerator(IPqgProvider pqgProvider)
         {
-            _dsaFactory = dsaFactory;
             _pqgProvider = pqgProvider;
         }
 

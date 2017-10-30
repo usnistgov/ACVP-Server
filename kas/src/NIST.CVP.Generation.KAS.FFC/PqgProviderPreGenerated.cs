@@ -113,9 +113,9 @@ namespace NIST.CVP.Generation.KAS.FFC
                     PrimeGenMode.Probable,
                     GeneratorGenMode.Unverifiable
                 )
-            );
+            ).PqgDomainParameters;
 
-            return domainParams.PqgDomainParameters;
+            return domainParams;
         }
     }
 }

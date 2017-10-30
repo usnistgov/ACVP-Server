@@ -36,13 +36,8 @@ namespace KAS
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
             builder.RegisterType<EntropyProvider>().AsImplementedInterfaces();
-
-            /* TODO create separate providers for dev/release?
-             * Current provider always uses "preGenerated" PQG
-             * A release provider could be used to actually generate PQGs
-             * but reuse them for the same registration, across multiple schemes.
-            */
-            builder.RegisterType<PqgProviderPreGenerated>().AsImplementedInterfaces();
+            
+            builder.RegisterType<PqgProviderReuseGenerations>().AsImplementedInterfaces();
 
             builder.RegisterType<HmacFactory>().AsImplementedInterfaces();
             builder.RegisterType<ShaFactory>().AsImplementedInterfaces();

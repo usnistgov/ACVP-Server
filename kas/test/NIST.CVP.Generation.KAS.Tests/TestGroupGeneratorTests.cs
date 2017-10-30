@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                 .Setup(s => s.GetPqg(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<HashFunction>()))
                 .Returns(new FfcDomainParameters(1, 1, 1));
 
-            _subject = new TestGroupGenerator(_dsaFactory.Object, _pqgProvider.Object);
+            _subject = new TestGroupGenerator(_pqgProvider.Object);
         }
 
         private static object[] _testShouldReturnCorrectNumberOfGroups = new object[]

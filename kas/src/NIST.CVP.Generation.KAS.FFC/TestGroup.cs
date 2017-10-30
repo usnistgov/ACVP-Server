@@ -86,7 +86,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             MacType = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementMacType>(expandoSource.GetTypeFromProperty<string>("macType"), false);
 
             KeyLen = expandoSource.GetTypeFromProperty<int>("keyLen");
-            AesCcmNonceLen = expandoSource.GetTypeFromProperty<int>("nonceAesCcmLen");
+            AesCcmNonceLen = expandoSource.GetTypeFromProperty<int>("aesCcmNonceLen");
             MacLen = expandoSource.GetTypeFromProperty<int>("macLen");
             KdfType = expandoSource.GetTypeFromProperty<string>("kdfType");
             IdServerLen = expandoSource.GetTypeFromProperty<int>("idServerLen");

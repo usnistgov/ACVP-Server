@@ -16,6 +16,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Generation.KAS.FFC;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
@@ -38,6 +39,11 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
             AutofacConfig.OverrideRegistrations = null;
             KAS_Val.AutofacConfig.OverrideRegistrations = null;
+
+            AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<PqgProviderPreGenerated>().AsImplementedInterfaces();
+            };
         }
 
         [OneTimeTearDown]
