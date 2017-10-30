@@ -50,11 +50,6 @@ namespace NIST.CVP.Crypto.DSA.ECC
         EccPoint Multiply(EccPoint startPoint, BigInteger scalar);
 
         /// <summary>
-        /// Multiply a point by an non-adjacent form scalar over a curve
-        /// </summary>
-        //EccPoint Multiply(EccPoint startPoint, NonAdjacentBitString nafBs);
-
-        /// <summary>
         /// Double a point over a curve
         /// </summary>
         EccPoint Double(EccPoint point);

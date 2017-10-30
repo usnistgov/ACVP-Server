@@ -146,7 +146,28 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
         public bool PointExistsOnCurve(EccPoint point)
         {
-            throw new NotImplementedException();
+            if (point.Infinity)
+            {
+                return true;
+            }
+
+            // Point is out of bounds
+            if (!PointExistsInField(point))
+            {
+                return false;
+            }
+
+            var ySquared = _operator.Multiply(point.Y, point.Y);
+            var xTimesY = _operator.Multiply(point.X, point.Y);
+            var lhs = _operator.Add(ySquared, xTimesY);
+
+            var xCubed = _operator.Multiply(_operator.Multiply(point.X, point.X), point.X);
+            var xSquared = _operator.Multiply(point.X, point.X);
+            var aTimesXSquares = _operator.Multiply(CoefficientA, xSquared);
+            var rhs = _operator.Add(_operator.Add(xCubed, aTimesXSquares), CoefficientB);
+
+            // y^2 + xy = x^3 + ax^2 + b
+            return (lhs == rhs);
         }
 
         public bool PointExistsInField(EccPoint point)

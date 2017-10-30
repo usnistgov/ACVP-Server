@@ -112,7 +112,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
         private readonly BigInteger k409B = new BitString("01").ToPositiveBigInteger();
         private readonly BigInteger k409Gx = new BitString("60f05f658f49c1ad3ab1890f7184210efd0987e307c84c27accfb8f9f67cc2c460189eb5aaaa62ee222eb1b35540cfe9023746").ToPositiveBigInteger();
         private readonly BigInteger k409Gy = new BitString("01e369050b7c4e42acba1dacbf04299c3460782f918ea427e6325165e9ea10e3da5f6c42e9c55215aa9ca27a5863ec48d8e0286b").ToPositiveBigInteger();
-        private readonly BigInteger k409N = new BitString("8000000000000000000000000000069d5bb915bcd46efb1ad5f173abdf").ToPositiveBigInteger();
+        private readonly BigInteger k409N = new BitString("007ffffffffffffffffffffffffffffffffffffffffffffffffffe5f83b2d4ea20400ec4557d5ed3e3e7ca5b4b5c83b8e01e5fcf").ToPositiveBigInteger();
         private readonly int k409H = 4;
 
         private readonly BigInteger k571F = new BitString("080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000425").ToPositiveBigInteger();

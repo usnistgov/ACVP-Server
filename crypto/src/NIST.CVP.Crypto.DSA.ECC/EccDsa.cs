@@ -24,6 +24,16 @@ namespace NIST.CVP.Crypto.DSA.ECC
             _entropyProvider = _entropyFactory.GetEntropyProvider(entropyType);
         }
 
+        public EccDsa(EntropyProviderTypes entropyType)
+        {
+            _entropyProvider = _entropyFactory.GetEntropyProvider(entropyType);
+        }
+
+        public void AddEntropy(BigInteger entropy)
+        {
+            _entropyProvider.AddEntropy(entropy);
+        }
+
         public EccDomainParametersGenerateResult GenerateDomainParameters(EccDomainParametersGenerateRequest generateRequest)
         {
             throw new NotImplementedException();
@@ -36,8 +46,8 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
         public EccKeyPairGenerateResult GenerateKeyPair(EccDomainParameters domainParameters)
         {
-            // Generate random number d [1, n-1]
-            var d = _entropyProvider.GetEntropy(1, domainParameters.CurveE.OrderN);
+            // Generate random number d [1, n - 2]
+            var d = _entropyProvider.GetEntropy(1, domainParameters.CurveE.OrderN - 1);
 
             // Compute Q such that Q = d * G
             var Q = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, d);
@@ -67,6 +77,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
             }
 
             // If n * Q == 0, valid
+            // This is fast because the scalar (n) is taken modulo n... so it's 0
             if (domainParameters.CurveE.Multiply(keyPair.PublicQ, domainParameters.CurveE.OrderN).Infinity)
             {
                 return new EccKeyPairValidateResult();
@@ -91,7 +102,8 @@ namespace NIST.CVP.Crypto.DSA.ECC
             var r = j % domainParameters.CurveE.OrderN;
 
             // Compute s = k^-1 (e + d*r) mod n, where e = H(m) as an integer
-            var s = (NumberTheory.ModularInverse(k, domainParameters.CurveE.OrderN) * (Sha.HashMessage(message).ToBigInteger() + keyPair.PrivateD * r)).PosMod(domainParameters.CurveE.OrderN);
+            var kInverse = NumberTheory.ModularInverse(k, domainParameters.CurveE.OrderN);
+            var s = (kInverse * (Sha.HashMessage(message).ToBigInteger() + keyPair.PrivateD * r)).PosMod(domainParameters.CurveE.OrderN);
 
             // Return pair (r, s)
             return new EccSignatureResult(new EccSignature(r, s));
@@ -100,21 +112,64 @@ namespace NIST.CVP.Crypto.DSA.ECC
         public EccVerificationResult Verify(EccDomainParameters domainParameters, EccKeyPair keyPair, BitString message, EccSignature signature)
         {
             // Check r and s to be within the interval [1, n-1]
+            if (signature.R < 1 || signature.R > domainParameters.CurveE.OrderN - 1 || signature.S < 1 || signature.S > domainParameters.CurveE.OrderN)
+            {
+                return new EccVerificationResult("signature values not within the necessary interval");
+            }
 
             // Hash message e = H(m)
+            var e = Sha.HashMessage(message).ToBigInteger();
 
             // Compute u1 = e * s^-1 (mod n)
+            var sInverse = NumberTheory.ModularInverse(signature.S, domainParameters.CurveE.OrderN);
+            var u1 = (e * sInverse) % domainParameters.CurveE.OrderN;
 
             // Compute u2 = r * s^-1 (mod n)
+            var u2 = (signature.R * sInverse) % domainParameters.CurveE.OrderN;
 
             // Compute point R = u1 * G + u2 * Q, if R is infinity, return invalid
+            var u1TimesG = domainParameters.CurveE.Multiply(domainParameters.CurveE.BasePointG, u1);
+            var u2TimesQ = domainParameters.CurveE.Multiply(keyPair.PublicQ, u2);
+            var pointR = domainParameters.CurveE.Add(u1TimesG, u2TimesQ);
 
             // Convert xR to an integer j
+            var j = pointR.X;
 
             // Compute v = j (mod n)
+            var v = j % domainParameters.CurveE.OrderN;
 
             // If v == r, return valid, otherwise invalid
-            throw new NotImplementedException();
+            if (v == signature.R)
+            {
+                return new EccVerificationResult();
+            }
+            else
+            {
+                return new EccVerificationResult("v did not match r, signature not valid");
+            }
+        }
+
+        // Both secret generation methods exist, but we don't have a reason to use them. No need to worry about them.
+        private BigInteger GetSecretViaExtraRandomBits(BigInteger N)
+        {
+            var bitLength = N.ExactBitLength();
+            var c = _entropyProvider.GetEntropy(bitLength + 64).ToPositiveBigInteger();
+            var d = (c % (N - 1)) + 1;
+            return d;
+        }
+
+        private BigInteger GetSecretViaTestingCandidates(BigInteger N)
+        {
+            var bitLength = N.ExactBitLength();
+
+            BigInteger c;
+            do
+            {
+                c = _entropyProvider.GetEntropy(bitLength).ToPositiveBigInteger();
+            } while (c > N - 2);
+
+            var d = c + 1;
+            return d;
         }
     }
 }

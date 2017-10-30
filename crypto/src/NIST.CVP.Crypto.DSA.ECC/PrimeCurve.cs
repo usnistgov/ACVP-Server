@@ -110,7 +110,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
             return new EccPoint(x, y);
         }
 
-        public EccPoint Multiply(EccPoint startPoint, NonAdjacentBitString nafBs)
+        private EccPoint Multiply(EccPoint startPoint, NonAdjacentBitString nafBs)
         {
             var point = new EccPoint("infinity");
             var naBits = nafBs.Bits;
@@ -133,8 +133,8 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
         public EccPoint Multiply(EccPoint startPoint, BigInteger scalar)
         {
-            // Find scalar within group and convert to NABS
-            return Multiply(startPoint, new NonAdjacentBitString(_operator.Modulo(scalar)));
+            // Find scalar within group and convert to NABS, normal modulo here, not on the field, like CAVS
+            return Multiply(startPoint, new NonAdjacentBitString(scalar % OrderN));
         }
 
         public bool PointExistsOnCurve(EccPoint point)
@@ -145,7 +145,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
             }
 
             // Point is out of bounds
-            if (point.X < 0 || point.X >= FieldSizeQ || point.Y < 0 || point.Y >= FieldSizeQ)
+            if (!PointExistsInField(point))
             {
                 return false;
             }

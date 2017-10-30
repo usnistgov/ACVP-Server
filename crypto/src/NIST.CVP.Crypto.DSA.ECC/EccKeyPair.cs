@@ -17,5 +17,10 @@ namespace NIST.CVP.Crypto.DSA.ECC
         {
             PublicQ = q;
         }
+
+        public EccKeyPair(BigInteger d)
+        {
+            PrivateD = d;
+        }
     }
 }
