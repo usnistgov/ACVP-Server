@@ -22,8 +22,12 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
         public CurveType CurveType { get { return CurveType.Binary; } }
 
-        public BinaryCurve(BigInteger f, BigInteger a, BigInteger b, EccPoint basis, BigInteger n, int h)
+        public Curve CurveName { get; }
+
+        public BinaryCurve(Curve curveName, BigInteger f, BigInteger a, BigInteger b, EccPoint basis, BigInteger n, int h)
         {
+            CurveName = curveName;
+
             FieldSizeQ = f;
             CoefficientA = a;
             CoefficientB = b;

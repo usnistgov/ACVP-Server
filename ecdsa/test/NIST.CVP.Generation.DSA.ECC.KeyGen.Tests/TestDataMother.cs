@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.DSA.ECC.Enums;
+using NIST.CVP.Generation.Core;
+
+namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
+{
+    public class TestDataMother
+    {
+        public List<TestGroup> GetTestGroups(int groups = 1)
+        {
+            var testGroups = new List<TestGroup>();
+            for (var groupIdx = 0; groupIdx < groups; groupIdx++)
+            {
+                var tests = new List<ITestCase>();
+                for(var testId = 5 * groupIdx + 1; testId <= (groupIdx + 1) * 5; testId++)
+                {
+                    tests.Add(new TestCase
+                    {
+                        TestCaseId = testId,
+                        KeyPair = new EccKeyPair(new EccPoint(1, 2), 3)
+                    });
+                }
+
+                testGroups.Add(new TestGroup
+                {
+                    DomainParameters = new EccDomainParameters(new PrimeCurve(Curve.P224, groupIdx, 0, new EccPoint(0, 0), 0), SecretGenerationMode.TestingCandidates),
+                    Tests = tests
+                });
+            }
+
+            return testGroups;
+        }
+    }
+}

@@ -15,6 +15,11 @@ namespace NIST.CVP.Crypto.DSA.ECC
         CurveType CurveType { get; }
 
         /// <summary>
+        /// Name of the curve as an enum
+        /// </summary>
+        Curve CurveName { get; }
+
+        /// <summary>
         /// Field size, either a q = prime > 3, or q = 2^m where m is prime. Represents the total number of points
         /// </summary>
         BigInteger FieldSizeQ { get; }

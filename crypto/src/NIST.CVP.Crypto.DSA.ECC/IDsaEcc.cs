@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Crypto.DSA.ECC
+﻿using System.Numerics;
+
+namespace NIST.CVP.Crypto.DSA.ECC
 {
     public interface IDsaEcc : IDsa<
         EccDomainParametersGenerateRequest,
@@ -14,5 +16,6 @@
         EccVerificationResult
         >
     {
+        void AddEntropy(BigInteger entropy);
     }
 }

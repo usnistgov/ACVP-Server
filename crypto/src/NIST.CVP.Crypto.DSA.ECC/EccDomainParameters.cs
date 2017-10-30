@@ -12,7 +12,9 @@ namespace NIST.CVP.Crypto.DSA.ECC
         public IEccCurve CurveE { get; }
 
         /// <summary>
-        /// How secrets are generated used by these <see cref="EccDomainParameters"/>
+        /// How secrets are generated used by these <see cref="EccDomainParameters"/>.
+        /// Generally this field doesn't matter but is needed for some group properties in gen/vals.
+        /// Theoretically it should factor into KeyGen, but our tests are agnostic to this property.
         /// </summary>
         public SecretGenerationMode SecretGeneration { get; }
 

@@ -14,37 +14,37 @@ namespace NIST.CVP.Crypto.DSA.ECC
             switch (curve)
             {
                 case Curve.P192:
-                    return new PrimeCurve(p192P, p192B, new EccPoint(p192Gx, p192Gy), p192N);
+                    return new PrimeCurve(curve, p192P, p192B, new EccPoint(p192Gx, p192Gy), p192N);
                 case Curve.P224:
-                    return new PrimeCurve(p224P, p224B, new EccPoint(p224Gx, p224Gy), p224N);
+                    return new PrimeCurve(curve, p224P, p224B, new EccPoint(p224Gx, p224Gy), p224N);
                 case Curve.P256:
-                    return new PrimeCurve(p256P, p256B, new EccPoint(p256Gx, p256Gy), p256N);
+                    return new PrimeCurve(curve, p256P, p256B, new EccPoint(p256Gx, p256Gy), p256N);
                 case Curve.P384:
-                    return new PrimeCurve(p384P, p384B, new EccPoint(p384Gx, p384Gy), p384N);
+                    return new PrimeCurve(curve, p384P, p384B, new EccPoint(p384Gx, p384Gy), p384N);
                 case Curve.P521:
-                    return new PrimeCurve(p521P, p521B, new EccPoint(p521Gx, p521Gy), p521N);
+                    return new PrimeCurve(curve, p521P, p521B, new EccPoint(p521Gx, p521Gy), p521N);
 
                 case Curve.B163:
-                    return new BinaryCurve(b163F, b163A, b163B, new EccPoint(b163Gx, b163Gy), b163N, b163H);
+                    return new BinaryCurve(curve, b163F, b163A, b163B, new EccPoint(b163Gx, b163Gy), b163N, b163H);
                 case Curve.B233:
-                    return new BinaryCurve(b233F, b233A, b233B, new EccPoint(b233Gx, b233Gy), b233N, b233H);
+                    return new BinaryCurve(curve, b233F, b233A, b233B, new EccPoint(b233Gx, b233Gy), b233N, b233H);
                 case Curve.B283:
-                    return new BinaryCurve(b283F, b283A, b283B, new EccPoint(b283Gx, b283Gy), b283N, b283H);
+                    return new BinaryCurve(curve, b283F, b283A, b283B, new EccPoint(b283Gx, b283Gy), b283N, b283H);
                 case Curve.B409:
-                    return new BinaryCurve(b409F, b409A, b409B, new EccPoint(b409Gx, b409Gy), b409N, b409H);
+                    return new BinaryCurve(curve, b409F, b409A, b409B, new EccPoint(b409Gx, b409Gy), b409N, b409H);
                 case Curve.B571:
-                    return new BinaryCurve(b571F, b571A, b571B, new EccPoint(b571Gx, b571Gy), b571N, b571H);
+                    return new BinaryCurve(curve, b571F, b571A, b571B, new EccPoint(b571Gx, b571Gy), b571N, b571H);
 
                 case Curve.K163:
-                    return new BinaryCurve(k163F, k163A, k163B, new EccPoint(k163Gx, k163Gy), k163N, k163H);
+                    return new BinaryCurve(curve, k163F, k163A, k163B, new EccPoint(k163Gx, k163Gy), k163N, k163H);
                 case Curve.K233:
-                    return new BinaryCurve(k233F, k233A, k233B, new EccPoint(k233Gx, k233Gy), k233N, k233H);
+                    return new BinaryCurve(curve, k233F, k233A, k233B, new EccPoint(k233Gx, k233Gy), k233N, k233H);
                 case Curve.K283:
-                    return new BinaryCurve(k283F, k283A, k283B, new EccPoint(k283Gx, k283Gy), k283N, k283H);
+                    return new BinaryCurve(curve, k283F, k283A, k283B, new EccPoint(k283Gx, k283Gy), k283N, k283H);
                 case Curve.K409:
-                    return new BinaryCurve(k409F, k409A, k409B, new EccPoint(k409Gx, k409Gy), k409N, k409H);
+                    return new BinaryCurve(curve, k409F, k409A, k409B, new EccPoint(k409Gx, k409Gy), k409N, k409H);
                 case Curve.K571:
-                    return new BinaryCurve(k571F, k571A, k571B, new EccPoint(k571Gx, k571Gy), k571N, k571H);
+                    return new BinaryCurve(curve, k571F, k571A, k571B, new EccPoint(k571Gx, k571Gy), k571N, k571H);
             }
 
             throw new ArgumentOutOfRangeException("Curve does not exist");

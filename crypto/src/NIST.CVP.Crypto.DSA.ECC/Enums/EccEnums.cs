@@ -47,7 +47,10 @@ namespace NIST.CVP.Crypto.DSA.ECC.Enums
 
     public enum SecretGenerationMode
     {
+        [Description("testing candidates")]
         TestingCandidates,
+
+        [Description("extra bits")]
         ExtraRandomBits
     }
 }

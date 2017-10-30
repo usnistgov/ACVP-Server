@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.DSA.ECC.Tests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, LongRunningIntegrationTest]
     public class EccDsaTests
     {
         [Test]
@@ -632,38 +632,38 @@ namespace NIST.CVP.Crypto.DSA.ECC.Tests
             "00e00e434c83dc8e0187d85a9f9cd03b47c53006d523c581578caa498fc7d60577e69eee",
             false,
             TestName = "SigVer b-283 sha2-256 Bad Signature")]
-        [TestCase(Curve.B409, "sha2-384",
+        [TestCase(Curve.B409, "sha-1",
             "00e0e4fa090ab0cddaf24f6cc519b6d4dbfea0dbb697fa9b16bfbe2e3e3f160ac37ebc4fd886ecb0a0671f885227a796cb7fa00f",
             "015e44beb435ed5b625df0fc0a74376b185cad91ccf8d9c92981f7b0fde6e2a7f4fadf301f1ad3a5df62dd477e2871c4a9ea74f1",
             "3036da2fa56650429ee90c189888c37c5ae10ff42087e26454ef436a8717522980313db5c49d26ef9a18bca19c35f04b22e67f4d3c5d4a94a4846377f2e9e52ddc8659b03de9716366d36dd9107b607360a9a7bb3645b76bbecef229241828c254f855f19e4c47834caa54eb64db07717d80422ab050352dfbc0d8f9c1b2b0d2",
             "001a1ef5fff035efad063640c75eefc985cd29d2d42dcfb387ab461f70108d9b367091097dd6a36983abbbe39ffb11ab12c9c108",
             "0095fa5a326613fcdaf44555c62d1a08c5b937ac1c774f05992da7d10f254d00df109ef194b72b250ebc04c6819220411d9be44f",
             true,
-            TestName = "SigVer b-409 sha2-384 Good Signature")]
-        [TestCase(Curve.B409, "sha2-384",
+            TestName = "SigVer b-409 sha-1 Good Signature")]
+        [TestCase(Curve.B409, "sha-1",
             "002c3bdc458ef796b9755fa3393f4502b4fa95a8542699128ee76617248fa33acd2b86d4a777056537385e9f8dfde007ab6f7f8f",
             "0007d1062be51d255717d1142c5cbce59cf72f1c456515d666a1f3594f5d2454f908ba9b82354497368cbd4a6c95b6703e7cd0e3",
             "b4626b2954716ad518154f02a83163669f0f616ac9977ac7deffc504221abc8416b06c46c3bf1ad84d150661203a6d8416480b14b10893dc3858513746cb2ba28b96b4bcdcdc30c75cfbac3a9cf0c4f98f55e6cbc2d430ca64d68882b86adfa88d081533a1eb1fabfaae763bf81ac74f2ef1930c137c54521c083dc96b72b1ae",
             "0029b4d7a0e95456c21c6f6b59de9adb415e725114c6dd981d8473fe69852922e1a15909b4fad11b23257d1f4ca4fb32065100ab",
             "0019497b34be56fd4c240e3f4a8a602566d294a5ebdabd1db46fbf49c2ddc8a4dd6211f63538bf4b4caf29f1ac5320e792b591b9",
             false,
-            TestName = "SigVer b-409 sha2-384 Bad Signature")]
-        [TestCase(Curve.B571, "sha2-512",
+            TestName = "SigVer b-409 sha-1 Bad Signature")]
+        [TestCase(Curve.B571, "sha-1",
             "0796e57aa6bca619785b91240aa10ff57ae0c73f807f156546639e045e4b6f54a293b133d8f3955e1e380cf60cfa622f897b74e8a06baa03fa54857f8bc4a4f50b5f1fa74ac6b64b",
             "078f9d3f66eb67579b6ad73fcb0f34402e462e05275fe584e709f1a2fb6f9c9f590adeb72dc9bcef306150d207c7344788312e73647491b3ec4d35334130c7fc42e01548e2eb654c",
             "188fab6788a134eae93b62c3e3556d6047123b7b273907512af4d61777f408dc50585a9eeb41c310f4e8d7f26a3c562cf65250c42bfb4c4e5c28170ee79566924f9af46936c635fbc5128c1d3cb46b3f2ee2f6c967a081e345f561bc9c534c77901ad238cc60355e1e04691bf0a66dc71a51dea507af6775408a30dcd1c7fff6",
             "02691c347cc3efabb7216fb96375f1b3130bde054089b3891a52393307acb5e9f405bea8ecf3a4edae775511e72075c65fb04a47b9f6518c2541fa6902a513ac69184f8297c9a72a",
             "00133375d15a1017a62b6912470c88bf74c4ebab65d4754bd1bf419e58e5f8610a92349c82d8a5811243081d4ae1762206096619f50327f608910d40f0868726eb3f9369bfd1d37c",
             true,
-            TestName = "SigVer b-571 sha2-512 Good Signature")]
-        [TestCase(Curve.B571, "sha2-512",
+            TestName = "SigVer b-571 sha-1 Good Signature")]
+        [TestCase(Curve.B571, "sha-1",
             "02d7bb1f66eaec470fe4c68a867e2d315328182d22230154b2d77226bd820b4a23e9d7b9c2df04cde63ea4d64fa9ac63d1af17bf4cc5f529a7ead164304bbb46d36ef4142bafcf29",
             "065039196f74ffbe3908377263cd0c6656080eb640013039b8f2b5c9ee7a5c3155518d1c5ce32c11e05a3b6b7b489997add843e81cbb9e8411e2fba372c160359cd9113709c6d235",
             "e7822cdd238ccf58ff343fbf61895fa50dcc6fe3170094368bbf7b1552a7c406ea54fed69a1b84ff582a78409f665da1560a79d9925d98dc16cda10083b6f707ab05bdad47aab84790f88550a02a56f07c2dc4d3884df8cfc4c019252c6122fb30f539268742b77e2b9d50575441834542727f2e983f7cdfb7327a0b0c3c7c73",
             "021920d9ce54bbe8fd6f4c6edf79cbd6f6eaed206f63ae63ba4eeb801052fa82dc0d12ccb0d47e5abbb02580c50969e7efcccf70d7f2875f9e5d9cac0dcc44f41e7ee0542d6c1b66",
             "010fac7c8bbcc4aeccf17e3365c53836d379f8d7bd21520f093c8bc79ae363803b9237b70430e644f8ee4f3f7f964fca5c3229a5f87f7d0942ce3cd8673d3f0c92360fd2fd84a0b2",
             false,
-            TestName = "SigVer b-571 sha2-512 Bad Signature")]
+            TestName = "SigVer b-571 sha-1 Bad Signature")]
         #endregion SigVer-B
         public void ShouldValidateSignaturesCorrectly(Curve curveEnum, string sha, string qXHex, string qYHex, string msgHex, string rHex, string sHex, bool expectedResult)
         {

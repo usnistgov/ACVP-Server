@@ -26,8 +26,12 @@ namespace NIST.CVP.Crypto.DSA.ECC
         // CurveType is obviously prime
         public CurveType CurveType { get { return CurveType.Prime; } }
         
-        public PrimeCurve(BigInteger p, BigInteger b, EccPoint g, BigInteger n)
+        public Curve CurveName { get; }
+
+        public PrimeCurve(Curve curveName, BigInteger p, BigInteger b, EccPoint g, BigInteger n)
         {
+            CurveName = curveName;
+
             FieldSizeQ = p;
             CoefficientB = b;
             BasePointG = g;
