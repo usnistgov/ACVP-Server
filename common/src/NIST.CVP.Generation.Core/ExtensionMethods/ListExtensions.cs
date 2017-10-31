@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NIST.CVP.Generation.Core.ExtensionMethods
@@ -64,6 +65,16 @@ namespace NIST.CVP.Generation.Core.ExtensionMethods
             {
                 list.Add(itemToAdd);
             }
+        }
+
+        /// <summary>
+        /// Shuffles a list in place.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        public static List<T> Shuffle<T>(this List<T> list)
+        {
+            return list.OrderBy(a => Guid.NewGuid()).ToList();
         }
     }
 }
