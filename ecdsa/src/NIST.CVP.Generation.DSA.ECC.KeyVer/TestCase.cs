@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Numerics;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.DSA.ECC;
@@ -9,6 +10,7 @@ using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.DSA.ECC.KeyVer.Enums;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer
 {
@@ -19,6 +21,9 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
         public bool Deferred { get; set; }
         public TestCaseExpectationEnum Reason { get; set; }
         public bool Result { get; set; }
+
+        private BigInteger _setStringQx;
+        private BigInteger _setStringQy;
 
         public EccKeyPair KeyPair { get; set; }
 
@@ -52,6 +57,38 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
         {
             // We don't need any properties from the prompt...
             return (TestCaseId == otherTest.TestCaseId);
+        }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            // Sometimes these values aren't even length...
+            if (value.Length % 2 != 0)
+            {
+                value = value.Insert(0, "0");
+            }
+
+            switch (name.ToLower())
+            {
+                case "qx":
+                    _setStringQx = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "qy":
+                    _setStringQy = new BitString(value).ToPositiveBigInteger();
+                    KeyPair = new EccKeyPair(new EccPoint(_setStringQx, _setStringQy));
+                    return true;
+
+                case "result":
+                    Result = value.Contains("p (0");
+                    return true;
+            }
+
+            return false;
         }
     }
 }

@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("result", (test.FailureTest ? Disposition.Failed : Disposition.Passed));
+                        ((IDictionary<string, object>)testObject).Add("result", EnumHelpers.GetEnumDescriptionFromEnum(test.FailureTest ? Disposition.Failed : Disposition.Passed));
                         ((IDictionary<string, object>)testObject).Add("reason", EnumHelpers.GetEnumDescriptionFromEnum(test.Reason));
 
                         tests.Add(testObject);
@@ -92,7 +92,6 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("qx", test.KeyPair.PublicQ.X);
                         ((IDictionary<string, object>)testObject).Add("qy", test.KeyPair.PublicQ.Y);
-                        ((IDictionary<string, object>)testObject).Add("d", test.KeyPair.PrivateD);
 
                         tests.Add(testObject);
                     }
@@ -116,8 +115,8 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("result", (test.FailureTest ? Disposition.Failed : Disposition.Passed));
-                        
+                        ((IDictionary<string, object>)testObject).Add("result", EnumHelpers.GetEnumDescriptionFromEnum(test.FailureTest ? Disposition.Failed : Disposition.Passed));
+
                         // this property is optional
                         //((IDictionary<string, object>)testObject).Add("reason", EnumHelpers.GetEnumDescriptionFromEnum(test.Reason));
 

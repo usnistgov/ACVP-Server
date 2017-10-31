@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Generation.DSA.ECC.KeyVer\NIST.CVP.Generation.DSA.ECC.KeyVer.csproj" />
+  </ItemGroup>
+
+</Project>
