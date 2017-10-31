@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
@@ -17,6 +18,10 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
         public bool Deferred { get; set; }
 
         public EccKeyPair KeyPair { get; set; }
+
+        private BigInteger _setStringD;
+        private BigInteger _setStringQx;
+        private BigInteger _setStringQy;
 
         public TestCase() { }
 
@@ -48,6 +53,38 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
             return true;
         }
 
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            // Sometimes these values aren't even length...
+            if (value.Length % 2 != 0)
+            {
+                value = value.Insert(0, "0");
+            }
+
+            switch (name.ToLower())
+            {
+                case "d":
+                    _setStringD = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "qx":
+                    _setStringQx = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "qy":
+                    _setStringQy = new BitString(value).ToPositiveBigInteger();
+                    KeyPair = new EccKeyPair(new EccPoint(_setStringQx, _setStringQy), _setStringD);
+                    return true;
+            }
+
+            return false;
+        }
+
         private void ParseKey(ExpandoObject source)
         {
             BigInteger d, Qx, Qy;
@@ -57,14 +94,14 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
                 d = source.GetBigIntegerFromProperty("d");
             }
 
-            if (source.ContainsProperty("Qx"))
+            if (source.ContainsProperty("qx"))
             {
-                Qx = source.GetBigIntegerFromProperty("Qx");
+                Qx = source.GetBigIntegerFromProperty("qx");
             }
 
-            if (source.ContainsProperty("Qy"))
+            if (source.ContainsProperty("qy"))
             {
-                Qy = source.GetBigIntegerFromProperty("Qy");
+                Qy = source.GetBigIntegerFromProperty("qy");
             }
 
             KeyPair = new EccKeyPair(new EccPoint(Qx, Qy), d);
