@@ -16,7 +16,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseGeneratorGTests
+    public class TestCaseGeneratorTests
     {
         [Test]
         public void GenerateShouldReturnNonNullTestCaseGenerateResponse()
