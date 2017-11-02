@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20171009-10" />
+    <PackageReference Include="NUnit" Version="3.8.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
+    <ProjectReference Include="..\..\src\ECDSA-SigGen\ECDSA-SigGen.csproj" />
+    <ProjectReference Include="..\..\src\ECDSA-SigGen_Val\ECDSA-SigGen_Val.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Generation.DSA.ECC.SigGen\NIST.CVP.Generation.DSA.ECC.SigGen.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -73,6 +73,30 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             return this.GetHashCode() == otherGroup.GetHashCode();
         }
 
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "curve":
+                    var factory = new EccCurveFactory();
+                    var curve = factory.GetCurve(EnumHelpers.GetEnumFromEnumDescription<Curve>(value));
+                    DomainParameters = new EccDomainParameters(curve);
+                    return true;
+
+                case "hashalg":
+                    var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(value);
+                    HashAlg = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
+                    return true;
+            }
+
+            return false;
+        }
+
         private void ParseDomainParams(ExpandoObject source)
         {
             var curveFactory = new EccCurveFactory();

@@ -23,6 +23,11 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
         public EccKeyPair KeyPair { get; set; }
         public EccSignature Signature { get; set; }
 
+        // Needed for FireHoseTests
+        public BigInteger K;
+        public BigInteger _rSetString;
+        public BigInteger _sSetString;
+
         public TestCase() { }
 
         public TestCase(JObject source)
@@ -61,6 +66,46 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             {
                 Message = otherTypedTest.Message.GetDeepCopy();
                 return true;
+            }
+
+            return false;
+        }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            // Sometimes these values aren't even length...
+            if (value.Length % 2 != 0)
+            {
+                value = value.Insert(0, "0");
+            }
+
+            switch (name.ToLower())
+            {
+                case "msg":
+                    Message = new BitString(value);
+                    return true;
+
+                case "r":
+                    _rSetString = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "s":
+                    _sSetString = new BitString(value).ToPositiveBigInteger();
+                    Signature = new EccSignature(_rSetString, _sSetString);
+                    return true;
+
+                case "d":
+                    KeyPair = new EccKeyPair(new BitString(value).ToPositiveBigInteger());
+                    return true;
+
+                case "k":
+                    K = new BitString(value).ToPositiveBigInteger();
+                    return true;
             }
 
             return false;
