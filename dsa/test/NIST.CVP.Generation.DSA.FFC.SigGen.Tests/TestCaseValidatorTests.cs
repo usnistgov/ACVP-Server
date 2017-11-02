@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseValidatorGTests
+    public class TestCaseValidatorTests
     {
         [Test]
         public void ShouldRunVerifyMethodAndSucceedWithGoodSignature()

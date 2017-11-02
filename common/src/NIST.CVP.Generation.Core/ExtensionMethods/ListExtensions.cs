@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.Core.ExtensionMethods
         }
 
         /// <summary>
-        /// Shuffles a list in place.
+        /// Shuffles a list.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>

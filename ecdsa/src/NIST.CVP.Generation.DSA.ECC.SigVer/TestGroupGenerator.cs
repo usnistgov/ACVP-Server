@@ -7,8 +7,10 @@ using NIST.CVP.Crypto.DSA.ECC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Generation.DSA.ECC.SigVer.TestCaseExpectations;
+using NIST.CVP.Generation.DSA.ECC.SigVer.Enums;
 
-namespace NIST.CVP.Generation.DSA.ECC.SigGen
+namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters>
     {
@@ -36,6 +38,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 
                         var testGroup = new TestGroup
                         {
+                            TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
                             DomainParameters = new EccDomainParameters(curve),
                             HashAlg = sha
                         };
