@@ -103,7 +103,8 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
             // Compute s = k^-1 (e + d*r) mod n, where e = H(m) as an integer
             var kInverse = NumberTheory.ModularInverse(k, domainParameters.CurveE.OrderN);
-            var s = (kInverse * (Sha.HashMessage(message).ToBigInteger() + keyPair.PrivateD * r)).PosMod(domainParameters.CurveE.OrderN);
+            var e = Sha.HashMessage(message).ToBigInteger().PosMod(domainParameters.CurveE.OrderN);
+            var s = (kInverse * (e + keyPair.PrivateD * r)).PosMod(domainParameters.CurveE.OrderN);
 
             // Return pair (r, s)
             return new EccSignatureResult(new EccSignature(r, s));
@@ -150,6 +151,8 @@ namespace NIST.CVP.Crypto.DSA.ECC
         }
 
         // Both secret generation methods exist, but we don't have a reason to use them. No need to worry about them.
+        // These won't work well when the d value is provided instead of randomly generated because what comes out
+        // of the entropy provider is modified before becoming d
         private BigInteger GetSecretViaExtraRandomBits(BigInteger N)
         {
             var bitLength = N.ExactBitLength();
