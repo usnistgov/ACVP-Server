@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.DSA.ECC.Enums;
+using NIST.CVP.Crypto.DSA.ECC.Helpers;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Helpers;
+
+namespace NIST.CVP.Generation.DSA.ECC.SigGen
+{
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    {
+        private IShaFactory _shaFactory = new ShaFactory();
+        private IDsaEcc _eccDsa;
+        private readonly EccCurveFactory _curveFactory = new EccCurveFactory();
+
+        public TestGroupGenerator(IDsaEcc eccDsa = null)
+        {
+            _eccDsa = eccDsa;
+        }
+
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        {
+            // Use a hash set because the registration allows for duplicate pairings to occur
+            // Equality of groups is done via name of the curve and name of the hash function.
+            // HashSet eliminates any duplicates that may be registered
+            var testGroups = new HashSet<TestGroup>();
+
+            foreach (var capability in parameters.Capabilities)
+            {
+                foreach (var curveName in capability.Curve)
+                {
+                    var curveEnum = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
+                    var curve = _curveFactory.GetCurve(curveEnum);
+
+                    foreach (var hashAlg in capability.HashAlg)
+                    {
+                        var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(hashAlg);
+                        var sha = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
+
+                        var testGroup = new TestGroup
+                        {
+                            DomainParameters = new EccDomainParameters(curve),
+                            HashAlg = sha
+                        };
+
+                        testGroups.Add(testGroup);
+                    }
+                }
+            }
+
+            return testGroups;
+        }
+    }
+}

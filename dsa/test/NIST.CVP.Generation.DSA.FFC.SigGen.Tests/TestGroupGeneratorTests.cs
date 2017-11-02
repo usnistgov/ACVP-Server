@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
 {
     [TestFixture, UnitTest]
-    public class TestGroupGeneratorGTests
+    public class TestGroupGeneratorTests
     {
         private static object[] parameters =
         {

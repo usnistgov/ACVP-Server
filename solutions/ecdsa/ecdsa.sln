@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E4AFAA09-238E-4702-9534-3520C9DAE860}"
 EndProject
@@ -35,25 +35,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Math", "..\..\crypto\src\NIST.CVP.Crypto.Math\NIST.CVP.Crypto.Math.csproj", "{27FCAD82-1BAD-470F-825C-58ED8CF51381}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.ECC.KeyGen", "..\..\ecdsa\src\NIST.CVP.Generation.DSA.ECC.KeyGen\NIST.CVP.Generation.DSA.ECC.KeyGen.csproj", "{4E826EFA-B009-4444-B8F7-6DBA01C3E216}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC.KeyGen", "..\..\ecdsa\src\NIST.CVP.Generation.DSA.ECC.KeyGen\NIST.CVP.Generation.DSA.ECC.KeyGen.csproj", "{4E826EFA-B009-4444-B8F7-6DBA01C3E216}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.ECC.KeyGen.Tests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.KeyGen.Tests\NIST.CVP.Generation.DSA.ECC.KeyGen.Tests.csproj", "{C0C4EA23-2604-41DE-A317-5C38C5B0209D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC.KeyGen.Tests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.KeyGen.Tests\NIST.CVP.Generation.DSA.ECC.KeyGen.Tests.csproj", "{C0C4EA23-2604-41DE-A317-5C38C5B0209D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECDSA-KeyGen", "..\..\ecdsa\src\ECDSA-KeyGen\ECDSA-KeyGen.csproj", "{779BD7D7-F86D-475B-BAB3-8DF78163AB1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECDSA-KeyGen", "..\..\ecdsa\src\ECDSA-KeyGen\ECDSA-KeyGen.csproj", "{779BD7D7-F86D-475B-BAB3-8DF78163AB1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECDSA-KeyGen_Val", "..\..\ecdsa\src\ECDSA-KeyGen_Val\ECDSA-KeyGen_Val.csproj", "{EF063FD3-8D1E-4A67-9D7B-3B05C6151637}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECDSA-KeyGen_Val", "..\..\ecdsa\src\ECDSA-KeyGen_Val\ECDSA-KeyGen_Val.csproj", "{EF063FD3-8D1E-4A67-9D7B-3B05C6151637}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.ECC.KeyGen.IntegrationTests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.KeyGen.IntegrationTests\NIST.CVP.Generation.DSA.ECC.KeyGen.IntegrationTests.csproj", "{B217628A-1729-4BE8-83E9-E65B6DB52560}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC.KeyGen.IntegrationTests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.KeyGen.IntegrationTests\NIST.CVP.Generation.DSA.ECC.KeyGen.IntegrationTests.csproj", "{B217628A-1729-4BE8-83E9-E65B6DB52560}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.ECC.KeyVer", "..\..\ecdsa\src\NIST.CVP.Generation.DSA.ECC.KeyVer\NIST.CVP.Generation.DSA.ECC.KeyVer.csproj", "{131C74A3-90E5-468F-9E78-C59AFAA1F062}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC.KeyVer", "..\..\ecdsa\src\NIST.CVP.Generation.DSA.ECC.KeyVer\NIST.CVP.Generation.DSA.ECC.KeyVer.csproj", "{131C74A3-90E5-468F-9E78-C59AFAA1F062}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.ECC.KeyVer.Tests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.KeyVer.Tests\NIST.CVP.Generation.DSA.ECC.KeyVer.Tests.csproj", "{212CBDB1-7298-41A2-A153-3848F7F6DDEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC.KeyVer.Tests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.KeyVer.Tests\NIST.CVP.Generation.DSA.ECC.KeyVer.Tests.csproj", "{212CBDB1-7298-41A2-A153-3848F7F6DDEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECDSA-KeyVer", "..\..\ecdsa\src\ECDSA-KeyVer\ECDSA-KeyVer.csproj", "{D90606CB-4537-48C8-9757-85BA79FCF062}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECDSA-KeyVer", "..\..\ecdsa\src\ECDSA-KeyVer\ECDSA-KeyVer.csproj", "{D90606CB-4537-48C8-9757-85BA79FCF062}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECDSA-KeyVer_Val", "..\..\ecdsa\src\ECDSA-KeyVer_Val\ECDSA-KeyVer_Val.csproj", "{7E9AC41C-42D9-4E23-B4E9-860DF24BA4CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECDSA-KeyVer_Val", "..\..\ecdsa\src\ECDSA-KeyVer_Val\ECDSA-KeyVer_Val.csproj", "{7E9AC41C-42D9-4E23-B4E9-860DF24BA4CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests\NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests.csproj", "{56EEB82E-8433-46E5-A9EA-370488D03A31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests\NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests.csproj", "{56EEB82E-8433-46E5-A9EA-370488D03A31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.ECC.SigGen", "..\..\ecdsa\src\NIST.CVP.Generation.DSA.ECC.SigGen\NIST.CVP.Generation.DSA.ECC.SigGen.csproj", "{CB7F8399-1794-4251-A279-23E911A42AF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.ECC.SigGen.Tests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.SigGen.Tests\NIST.CVP.Generation.DSA.ECC.SigGen.Tests.csproj", "{68A5FAE5-04BE-4B7E-AA2E-22AA3EE9C330}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,6 +161,14 @@ Global
 		{56EEB82E-8433-46E5-A9EA-370488D03A31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56EEB82E-8433-46E5-A9EA-370488D03A31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56EEB82E-8433-46E5-A9EA-370488D03A31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB7F8399-1794-4251-A279-23E911A42AF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB7F8399-1794-4251-A279-23E911A42AF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB7F8399-1794-4251-A279-23E911A42AF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB7F8399-1794-4251-A279-23E911A42AF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68A5FAE5-04BE-4B7E-AA2E-22AA3EE9C330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A5FAE5-04BE-4B7E-AA2E-22AA3EE9C330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68A5FAE5-04BE-4B7E-AA2E-22AA3EE9C330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68A5FAE5-04BE-4B7E-AA2E-22AA3EE9C330}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +198,8 @@ Global
 		{D90606CB-4537-48C8-9757-85BA79FCF062} = {E4AFAA09-238E-4702-9534-3520C9DAE860}
 		{7E9AC41C-42D9-4E23-B4E9-860DF24BA4CE} = {E4AFAA09-238E-4702-9534-3520C9DAE860}
 		{56EEB82E-8433-46E5-A9EA-370488D03A31} = {7D91911F-608E-4C44-A5A6-76D83EC88ECA}
+		{CB7F8399-1794-4251-A279-23E911A42AF1} = {E4AFAA09-238E-4702-9534-3520C9DAE860}
+		{68A5FAE5-04BE-4B7E-AA2E-22AA3EE9C330} = {7D91911F-608E-4C44-A5A6-76D83EC88ECA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4A143FD-6751-433D-8F1B-E43688F20A05}
