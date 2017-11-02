@@ -27,13 +27,16 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         public KasResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
+            KeyAgreementRole serverRole =
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(testGroup.KasRole);
+
             var serverKeyRequirements =
-                KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
+                KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                     testGroup.Scheme,
-                    testGroup.KasRole == KeyAgreementRole.InitiatorPartyU
-                        ? KeyAgreementRole.ResponderPartyV
-                        : KeyAgreementRole.InitiatorPartyU, 
-                    testGroup.KasMode
+                    testGroup.KasMode,
+                    serverRole, 
+                    testGroup.KcRole,
+                    testGroup.KcType
                 );
 
             FfcDomainParameters domainParameters = new FfcDomainParameters(testGroup.P, testGroup.Q, testGroup.G);
@@ -53,10 +56,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithNonce(iutTestCase.NonceAesCcm ?? serverTestCase.NonceAesCcm)
                 .Build();
 
-            KeyAgreementRole serverRole = testGroup.KasRole == KeyAgreementRole.InitiatorPartyU
-                ? KeyAgreementRole.ResponderPartyV
-                : KeyAgreementRole.InitiatorPartyU;
-
             var entropyProvider = _entropyProviderFactory
                 .GetEntropyProvider(EntropyProviderTypes.Testable);
             entropyProvider.AddEntropy(serverTestCase.NonceNoKc ?? iutTestCase.NonceNoKc);
@@ -65,7 +64,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             
             var serverKas = _kasBuilder
                 .WithKeyAgreementRole(
-                    serverKeyRequirements.thisPartyKasRole
+                    serverKeyRequirements.ThisPartyKasRole
                 )
                 .WithParameterSet(testGroup.ParmSet)
                 .WithScheme(testGroup.Scheme)
@@ -85,13 +84,13 @@ namespace NIST.CVP.Generation.KAS.FFC
             serverKas.SetDomainParameters(domainParameters);
             serverKas.ReturnPublicInfoThisParty();
 
-            if (serverKeyRequirements.generatesStaticKeyPair)
+            if (serverKeyRequirements.GeneratesStaticKeyPair)
             {
                 serverKas.Scheme.StaticKeyPair.PrivateKeyX = serverTestCase.StaticPrivateKeyServer;
                 serverKas.Scheme.StaticKeyPair.PublicKeyY = serverTestCase.StaticPublicKeyServer;
             }
 
-            if (serverKeyRequirements.generatesEphemeralKeyPair)
+            if (serverKeyRequirements.GeneratesEphemeralKeyPair)
             {
                 serverKas.Scheme.EphemeralKeyPair.PrivateKeyX = serverTestCase.EphemeralPrivateKeyServer;
                 serverKas.Scheme.EphemeralKeyPair.PublicKeyY = serverTestCase.EphemeralPublicKeyServer;

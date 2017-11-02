@@ -77,7 +77,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
             Assert.IsFalse(resultTestCase.Deferred, nameof(resultTestCase.Deferred));
             #region KeyCheck
-            if (serverKeyGenRequirements.generatesStaticKeyPair)
+            if (serverKeyGenRequirements.GeneratesStaticKeyPair)
             {
                 Assert.IsTrue(resultTestCase.StaticPrivateKeyServer != 0,
                     nameof(resultTestCase.StaticPrivateKeyServer));
@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     nameof(resultTestCase.StaticPublicKeyServer));
             }
 
-            if (serverKeyGenRequirements.generatesEphemeralKeyPair)
+            if (serverKeyGenRequirements.GeneratesEphemeralKeyPair)
             {
                 Assert.IsTrue(resultTestCase.EphemeralPrivateKeyServer != 0,
                     nameof(resultTestCase.EphemeralPrivateKeyServer));
@@ -107,7 +107,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     nameof(resultTestCase.EphemeralPublicKeyServer));
             }
 
-            if (iutKeyGenRequirements.generatesStaticKeyPair)
+            if (iutKeyGenRequirements.GeneratesStaticKeyPair)
             {
                 Assert.IsTrue(resultTestCase.StaticPrivateKeyIut != 0,
                     nameof(resultTestCase.StaticPrivateKeyIut));
@@ -122,7 +122,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     nameof(resultTestCase.StaticPublicKeyIut));
             }
 
-            if (iutKeyGenRequirements.generatesEphemeralKeyPair)
+            if (iutKeyGenRequirements.GeneratesEphemeralKeyPair)
             {
                 Assert.IsTrue(resultTestCase.EphemeralPrivateKeyIut != 0,
                     nameof(resultTestCase.EphemeralPrivateKeyIut));
@@ -173,7 +173,13 @@ namespace NIST.CVP.Generation.KAS.Tests
             Assert.AreEqual(isFailure, resultTestCase.FailureTest);
         }
 
-        private void BuildTestGroup(FfcScheme scheme, KeyAgreementRole testGroupIutRole, out (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, KasMode kasMode, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair) iutKeyGenRequirements, out (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, KasMode kasMode, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair) serverKeyGenRequirements, out TestCase resultTestCase)
+        private void BuildTestGroup(
+            FfcScheme scheme, 
+            KeyAgreementRole testGroupIutRole, 
+            out SchemeKeyNonceGenRequirement iutKeyGenRequirements, 
+            out SchemeKeyNonceGenRequirement serverKeyGenRequirements, 
+            out TestCase resultTestCase
+        )
         {
             TestGroup tg = new TestGroup()
             {
@@ -191,21 +197,24 @@ namespace NIST.CVP.Generation.KAS.Tests
                 G = _domainParameters.G
             };
 
-            KeyAgreementRole serverRole = KeyAgreementRole.InitiatorPartyU;
-            if (testGroupIutRole == KeyAgreementRole.InitiatorPartyU)
-            {
-                serverRole = KeyAgreementRole.ResponderPartyV;
-            }
+            KeyAgreementRole serverRole =
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(testGroupIutRole);
+            KeyConfirmationRole serverKeyConfRole =
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(tg.KcRole);
 
-            iutKeyGenRequirements = KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
-                scheme, 
+            iutKeyGenRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                scheme,
+                tg.KasMode,
                 tg.KasRole,
-                tg.KasMode
+                tg.KcRole,
+                tg.KcType
             );
-            serverKeyGenRequirements = KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
-                scheme, 
+            serverKeyGenRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                scheme,
+                tg.KasMode,
                 serverRole,
-                tg.KasMode
+                serverKeyConfRole,
+                tg.KcType
             );
             var result = _subject.Generate(tg, false);
             resultTestCase = (TestCase)result.TestCase;

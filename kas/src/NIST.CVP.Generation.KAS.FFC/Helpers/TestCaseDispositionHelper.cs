@@ -33,30 +33,34 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
             IKas iutKas
         )
         {
-            var serverKeyExpectations = KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
+            var serverKeyExpectations = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 serverKas.Scheme.SchemeParameters.Scheme,
+                serverKas.Scheme.SchemeParameters.KasMode,
                 serverKas.Scheme.SchemeParameters.KeyAgreementRole,
-                serverKas.Scheme.SchemeParameters.KasMode
+                serverKas.Scheme.SchemeParameters.KeyConfirmationRole,
+                serverKas.Scheme.SchemeParameters.KeyConfirmationDirection
             );
-            var iutKeyExpectations = KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
+            var iutKeyExpectations = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 iutKas.Scheme.SchemeParameters.Scheme,
+                serverKas.Scheme.SchemeParameters.KasMode,
                 iutKas.Scheme.SchemeParameters.KeyAgreementRole,
-                serverKas.Scheme.SchemeParameters.KasMode
+                iutKas.Scheme.SchemeParameters.KeyConfirmationRole,
+                iutKas.Scheme.SchemeParameters.KeyConfirmationDirection
             );
 
             switch (dispositionOption)
             {
                 case TestCaseDispositionOption.FailAssuranceServerStaticPublicKey:
-                    MangleServerStaticPublicKey(testCase, dsa, serverKas, serverKeyExpectations.generatesStaticKeyPair);
+                    MangleServerStaticPublicKey(testCase, dsa, serverKas, serverKeyExpectations.GeneratesStaticKeyPair);
                     break;
                 case TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey:
-                    MangleServerEphemeralPublicKey(testCase, dsa, serverKas, serverKeyExpectations.generatesEphemeralKeyPair);
+                    MangleServerEphemeralPublicKey(testCase, dsa, serverKas, serverKeyExpectations.GeneratesEphemeralKeyPair);
                     break;
                 case TestCaseDispositionOption.FailAssuranceIutStaticPrivateKey:
-                    MangleIutStaticPrivateKey(testCase, iutKas, iutKeyExpectations.generatesStaticKeyPair);
+                    MangleIutStaticPrivateKey(testCase, iutKas, iutKeyExpectations.GeneratesStaticKeyPair);
                     break;
                 case TestCaseDispositionOption.FailAssuranceIutStaticPublicKey:
-                    MangleIutStaticPublicKey(testCase, dsa, iutKas, iutKeyExpectations.generatesStaticKeyPair);
+                    MangleIutStaticPublicKey(testCase, dsa, iutKas, iutKeyExpectations.GeneratesStaticKeyPair);
                     break;
                 case TestCaseDispositionOption.Success:
                 case TestCaseDispositionOption.SuccessLeadingZeroNibbleZ:

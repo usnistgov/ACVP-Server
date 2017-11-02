@@ -93,23 +93,24 @@ namespace NIST.CVP.Generation.KAS.Tests
                 TestType = "AFT"
             };
 
-            KeyAgreementRole serverRole = KeyAgreementRole.InitiatorPartyU;
-            if (testGroupIutRole == KeyAgreementRole.InitiatorPartyU)
-            {
-                serverRole = KeyAgreementRole.ResponderPartyV;
-            }
+            KeyAgreementRole serverRole =
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(testGroupIutRole);
+            KeyConfirmationRole serverKeyConfRole =
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(tg.KcRole);
 
-            var keyGenRequirements = KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
-                scheme, 
+            var keyGenRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                scheme,
+                tg.KasMode,
                 serverRole,
-                tg.KasMode
+                serverKeyConfRole,
+                tg.KcType
             );
 
             var result = _subject.Generate(tg, false);
             var resultTestCase = (TestCase) result.TestCase;
 
             Assert.IsTrue(resultTestCase.Deferred, nameof(resultTestCase.Deferred));
-            if (keyGenRequirements.generatesStaticKeyPair)
+            if (keyGenRequirements.GeneratesStaticKeyPair)
             {
                 Assert.IsTrue(resultTestCase.StaticPrivateKeyServer != 0,
                     nameof(resultTestCase.StaticPrivateKeyServer));
@@ -124,7 +125,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     nameof(resultTestCase.StaticPublicKeyServer));
             }
 
-            if (keyGenRequirements.generatesEphemeralKeyPair)
+            if (keyGenRequirements.GeneratesEphemeralKeyPair)
             {
                 Assert.IsTrue(resultTestCase.EphemeralPrivateKeyServer != 0,
                     nameof(resultTestCase.EphemeralPrivateKeyServer));

@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
@@ -28,9 +29,8 @@ namespace NIST.CVP.Generation.KAS.FFC
                 Deferred = true
             };
 
-            var serverRole = group.KasRole == KeyAgreementRole.InitiatorPartyU
-                ? KeyAgreementRole.ResponderPartyV
-                : KeyAgreementRole.InitiatorPartyU;
+            KeyAgreementRole serverRole =
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(group.KasRole);
 
             var serverKas = _kasBuilder
                 .WithAssurances(KasAssurance.None)

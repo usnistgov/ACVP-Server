@@ -18,8 +18,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly TestGroup _testGroup;
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> _deferredResolver;
 
-        private (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, KasMode kasMode, bool generatesStaticKeyPair, bool
-            generatesEphemeralKeyPair) _iutKeyRequirements;
+        private SchemeKeyNonceGenRequirement _iutKeyRequirements;
 
         public TestCaseValidatorAftKdfNoKc(TestCase expectedResult, TestGroup testGroup, IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> deferredResolver)
         {
@@ -35,10 +34,12 @@ namespace NIST.CVP.Generation.KAS.FFC
             var errors = new List<string>();
 
             _iutKeyRequirements =
-                KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
-                    _testGroup.Scheme, 
+                KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                    _testGroup.Scheme,
+                    _testGroup.KasMode,
                     _testGroup.KasRole,
-                    _testGroup.KasMode
+                    _testGroup.KcRole,
+                    _testGroup.KcType
                 );
 
             ValidateResultPresent(suppliedResult, errors);
@@ -56,7 +57,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (_iutKeyRequirements.generatesStaticKeyPair)
+            if (_iutKeyRequirements.GeneratesStaticKeyPair)
             {
                 if (suppliedResult.StaticPublicKeyIut == 0)
                 {
@@ -64,7 +65,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 }
             }
 
-            if (_iutKeyRequirements.generatesEphemeralKeyPair)
+            if (_iutKeyRequirements.GeneratesEphemeralKeyPair)
             {
                 if (suppliedResult.EphemeralPublicKeyIut == 0)
                 {

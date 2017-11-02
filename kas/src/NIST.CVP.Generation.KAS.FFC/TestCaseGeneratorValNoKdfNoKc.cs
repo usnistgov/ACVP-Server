@@ -35,8 +35,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         public int NumberOfTestCasesToGenerate => 25;
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
-            TestCase tc = new TestCase();
-            tc.TestCaseDisposition = _intendedDisposition;
+            TestCase tc = new TestCase {TestCaseDisposition = _intendedDisposition};
 
             return Generate(group, tc);
         }

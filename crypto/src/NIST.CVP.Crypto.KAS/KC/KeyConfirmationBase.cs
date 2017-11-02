@@ -28,7 +28,6 @@ namespace NIST.CVP.Crypto.KAS.KC
                 };
 
         protected IKeyConfirmationParameters _keyConfirmationParameters;
-        private ComputeKeyMacResult _computeMac;
 
         public ComputeKeyMacResult ComputeMac()
         {
