@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
@@ -120,7 +121,11 @@ namespace NIST.CVP.Generation.KAS.Tests
                 serverRole = KeyAgreementRole.ResponderPartyV;
             }
 
-            var keyGenRequirements = SpecificationMapping.GetKeyGenerationOptionsForSchemeAndRole(scheme, serverRole);
+            var keyGenRequirements = KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
+                scheme, 
+                serverRole,
+                tg.KasMode
+            );
 
             var result = _subject.Generate(tg, false);
             var resultTestCase = (TestCase)result.TestCase;

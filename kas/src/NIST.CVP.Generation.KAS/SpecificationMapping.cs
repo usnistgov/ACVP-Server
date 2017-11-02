@@ -74,27 +74,6 @@ namespace NIST.CVP.Generation.KAS
 
             return result.schemeEnum;
         }
-
-        public static
-            List<(FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair)> 
-                FfcSchemeKeyGenerationRequirements =
-                    new List<(FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair)>()
-                    {
-                        (FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, false, true),
-                        (FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, false, true)
-                    };
-
-
-        public static (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair) 
-            GetKeyGenerationOptionsForSchemeAndRole(FfcScheme scheme, KeyAgreementRole thisPartyRole)
-        {
-            if (!FfcSchemeKeyGenerationRequirements.TryFirst(w => w.scheme == scheme && w.thisPartyKasRole == thisPartyRole, out var result))
-            {
-                throw new ArgumentException("Invalid scheme/key agreement role combination");
-            }
-
-            return result;
-        }
         #endregion scheme
 
         #region functions

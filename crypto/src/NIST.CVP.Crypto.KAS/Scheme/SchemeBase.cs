@@ -1,11 +1,11 @@
-﻿using NIST.CVP.Crypto.DSA;
+﻿using System.Numerics;
+using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -131,7 +131,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                 return new KasResult(z, tag.Digest);
             }
 
-            // Build OI, differs dependant on scheme
+            // Get other information
             var oi = GenerateOtherInformation(otherPartyInformation).GetOtherInfo();
 
             // Get keying material
@@ -139,7 +139,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             var dkm = kdf.DeriveKey(z, KdfParameters.KeyLength, oi);
 
             // Perform key confirmation, differs depending on scheme
-            var computedKeyMac = ComputeKeyMac(otherPartyInformation, dkm.DerivedKey);
+            var computedKeyMac = ComputeMac(otherPartyInformation, dkm.DerivedKey);
 
             return new KasResult(z, oi, dkm.DerivedKey, computedKeyMac.MacData, computedKeyMac.Mac);
         }
@@ -165,6 +165,72 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                     )
                 ).PqgDomainParameters);
         }
+        
+        /// <summary>
+        /// Generates key pairs and nonce information specific to the scheme selected
+        /// </summary>
+        protected abstract void GenerateKasKeyNonceInformation();
+
+        /// <summary>
+        /// Computes a shared secret based off of party U and party V inputs based on the scheme
+        /// </summary>
+        /// <param name="otherPartyInformation">The other party's public information</param>
+        /// <returns></returns>
+        protected abstract BitString ComputeSharedSecret(FfcSharedInformation otherPartyInformation);
+
+        /// <summary>
+        /// Generate the OtherInformation that is to be plugged into a KDF function.
+        /// </summary>
+        /// <param name="otherPartyInformation">The other party's public information</param>
+        /// <returns></returns>
+
+        protected IOtherInfo GenerateOtherInformation(FfcSharedInformation otherPartyInformation)
+        {
+            return OtherInfoFactory.GetInstance(
+                KdfParameters.OtherInfoPattern,
+                OtherInputLength,
+                SchemeParameters.KeyAgreementRole,
+                ReturnPublicInfoThisParty(),
+                otherPartyInformation
+            );
+        }
+
+        /// <summary>
+        /// Compute's the MAC of a key for both key confirmation and no key confirmation
+        /// </summary>
+        /// <param name="otherPartyInformation">The other party's public information</param>
+        /// <param name="derivedKeyingMaterial">The derived keying material generated via KDF</param>
+        /// <returns></returns>
+        protected ComputeKeyMacResult ComputeMac(FfcSharedInformation otherPartyInformation,
+            BitString derivedKeyingMaterial)
+        {
+            if (SchemeParameters.KasMode == KasMode.KdfNoKc)
+            {
+                return NoKeyConfirmation(otherPartyInformation, derivedKeyingMaterial);
+            }
+
+            return KeyConfirmation(otherPartyInformation, derivedKeyingMaterial);
+        }
+
+        /// <summary>
+        /// Performs macing with NoKeyConfirmation logic
+        /// </summary>
+        /// <param name="otherPartyInformation">The other party's public information</param>
+        /// <param name="derivedKeyingMaterial">The DKM from the KDF</param>
+        /// <returns></returns>
+        protected ComputeKeyMacResult NoKeyConfirmation(FfcSharedInformation otherPartyInformation, BitString derivedKeyingMaterial)
+        {
+            // No key confirmation nonce provided by party u.
+            var noKeyConfirmationNonce = SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
+                ? NoKeyConfirmationNonce
+                : otherPartyInformation.NoKeyConfirmationNonce;
+
+            var noKeyConfirmationParameters = GetNoKeyConfirmationParameters(derivedKeyingMaterial, noKeyConfirmationNonce);
+
+            var noKeyConfirmationInstance = NoKeyConfirmationFactory.GetInstance(noKeyConfirmationParameters);
+
+            return noKeyConfirmationInstance.ComputeMac();
+        }
 
         /// <summary>
         /// Gets the <see cref="NoKeyConfirmationParameters"/> for use in <see cref="INoKeyConfirmationFactory"/>
@@ -172,7 +238,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <param name="derivedKeyingMaterial">The derived keying material (dkm) plugged into a MAC function H(dkm, macData)</param>
         /// <param name="noKeyConfirmationNonce">The nonce used as a party of macData in H(dkm, macData)</param>
         /// <returns></returns>
-        protected INoKeyConfirmationParameters GetNoKeyConfirmationParameters(BitString derivedKeyingMaterial, BitString noKeyConfirmationNonce)
+        private INoKeyConfirmationParameters GetNoKeyConfirmationParameters(BitString derivedKeyingMaterial, BitString noKeyConfirmationNonce)
         {
             if (MacParameters.MacType == KeyAgreementMacType.AesCcm)
             {
@@ -194,30 +260,80 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         }
 
         /// <summary>
-        /// Generates key pairs and nonce information specific to the scheme selected
-        /// </summary>
-        protected abstract void GenerateKasKeyNonceInformation();
-
-        /// <summary>
-        /// Computes a shared secret based off of party U and party V inputs based on the scheme
+        /// Performs macing with KeyConfirmation logic
         /// </summary>
         /// <param name="otherPartyInformation">The other party's public information</param>
+        /// <param name="derivedKeyingMaterial">The DKM from the KDF</param>
         /// <returns></returns>
-        protected abstract BitString ComputeSharedSecret(FfcSharedInformation otherPartyInformation);
+        protected ComputeKeyMacResult KeyConfirmation(FfcSharedInformation otherPartyInformation, BitString derivedKeyingMaterial)
+        {
+            var keyConfirmationParameters = GetKeyConfirmationParameters(otherPartyInformation, derivedKeyingMaterial);
+
+            var keyConfirmationInstance = KeyConfirmationFactory.GetInstance(keyConfirmationParameters);
+
+            return keyConfirmationInstance.ComputeMac();
+        }
 
         /// <summary>
-        /// Generate the OtherInformation that is to be plugged into a KDF function.
+        /// Gets the <see cref="KeyConfirmationParameters"/> for use in <see cref="IKeyConfirmationFactory"/>
         /// </summary>
-        /// <param name="otherPartyInformation">The other party's public information</param>
+        /// <param name="otherPartyInformation">The other party's information used in construction of the macData</param>
+        /// <param name="derivedKeyingMaterial">The derived keying material (dkm) plugged into a MAC function H(dkm, macData)</param>
         /// <returns></returns>
-        protected abstract IOtherInfo GenerateOtherInformation(FfcSharedInformation otherPartyInformation);
+        private IKeyConfirmationParameters GetKeyConfirmationParameters(FfcSharedInformation otherPartyInformation, BitString derivedKeyingMaterial)
+        {
+            var thisPartyEphemeralPublicKeyOrNonce =
+                GetEphemeralKeyOrNonce(EphemeralKeyPair?.PublicKeyY ?? 0, EphemeralNonce);
+            var otherPartyEphemeralPublicKeyOrNonce = GetEphemeralKeyOrNonce(otherPartyInformation.EphemeralPublicKey,
+                otherPartyInformation.EphemeralNonce);
+
+            if (MacParameters.MacType == KeyAgreementMacType.AesCcm)
+            {
+                return new KeyConfirmationParameters(
+                    SchemeParameters.KeyAgreementRole,
+                    SchemeParameters.KeyConfirmationRole,
+                    SchemeParameters.KeyConfirmationDirection,
+                    MacParameters.MacType,
+                    KdfParameters.KeyLength,
+                    MacParameters.MacLength,
+                    SchemeParameters.ThisPartyId,
+                    otherPartyInformation.PartyId,
+                    thisPartyEphemeralPublicKeyOrNonce,
+                    otherPartyEphemeralPublicKeyOrNonce,
+                    derivedKeyingMaterial,
+                    MacParameters.CcmNonce
+                );
+            }
+
+            return new KeyConfirmationParameters(
+                SchemeParameters.KeyAgreementRole,
+                SchemeParameters.KeyConfirmationRole,
+                SchemeParameters.KeyConfirmationDirection,
+                MacParameters.MacType,
+                KdfParameters.KeyLength,
+                MacParameters.MacLength,
+                SchemeParameters.ThisPartyId,
+                otherPartyInformation.PartyId,
+                thisPartyEphemeralPublicKeyOrNonce,
+                otherPartyEphemeralPublicKeyOrNonce,
+                derivedKeyingMaterial
+            );
+        }
 
         /// <summary>
-        /// Compute's the MAC of a key for both key confirmation and no key confirmation
+        /// Gets the ephemeral key or nonce from a EphemeralPublicKey and EphemeralNonce
         /// </summary>
-        /// <param name="otherPartyInformation">The other party's public information</param>
-        /// <param name="derivedKeyingMaterial">The derived keying material generated via KDF</param>
+        /// <param name="ephemeralPublicKey">The key to use (when not 0)</param>
+        /// <param name="ephemeralNonce">The nonce to use (when the key is 0)</param>
         /// <returns></returns>
-        protected abstract ComputeKeyMacResult ComputeKeyMac(FfcSharedInformation otherPartyInformation, BitString derivedKeyingMaterial);
+        private BitString GetEphemeralKeyOrNonce(BigInteger ephemeralPublicKey, BitString ephemeralNonce)
+        {
+            if (ephemeralPublicKey != 0)
+            {
+                return new BitString(ephemeralPublicKey);
+            }
+
+            return ephemeralNonce;
+        }
     }
 }

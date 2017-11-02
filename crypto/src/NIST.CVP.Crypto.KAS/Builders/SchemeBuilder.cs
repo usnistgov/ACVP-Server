@@ -135,11 +135,16 @@ namespace NIST.CVP.Crypto.KAS.Builders
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
+                case FfcScheme.Mqv1:
+                    scheme = new SchemeMqv1(dsa, _withKdfFactory,
+                        _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withMqv);
+                    break;
                 case FfcScheme.DhHybrid1:
                 case FfcScheme.DhHybridOneFlow:
                 case FfcScheme.DhOneFlow:
                 case FfcScheme.DhStatic:
-                case FfcScheme.Mqv1:
+                
                 case FfcScheme.Mqv2:
                     // TODO coming soon to a KAS near you!
                     throw new NotImplementedException();

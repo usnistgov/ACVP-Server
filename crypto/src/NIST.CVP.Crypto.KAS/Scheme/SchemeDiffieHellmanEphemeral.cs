@@ -56,9 +56,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 
             EphemeralKeyPair = Dsa.GenerateKeyPair(DomainParameters).KeyPair;
 
-            // TODO confirm party u always generates in specification
-            // Key confirmation not possible for dhEphem scheme, MACData requires the use of a nonce
-            // Initiator should generate (doesn't actually matter who generates, just that someone does)
+            // when party U and KdfNoKc, a NoKeyConfirmationNonce is needed.
             if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU 
                 && SchemeParameters.KasMode == KasMode.KdfNoKc)
             {
@@ -70,7 +68,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <summary>
         /// Generates the shared secret.  
         /// Shared secret Z is made up of this party's private key along with the other parties public key, 
-        /// run through the <see cref="IDiffieHellman{TDsaDomainParameters} "/> primitive.
+        /// run through the <see cref="IDiffieHellman"/> primitive.
         /// </summary>
         /// <param name="otherPartyInformation"></param>
         /// <returns></returns>
@@ -78,34 +76,6 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         {
             return Dh.GenerateSharedSecretZ(DomainParameters.P, EphemeralKeyPair.PrivateKeyX,
                 otherPartyInformation.EphemeralPublicKey).SharedSecretZ;
-        }
-
-        /// <inheritdoc />
-        protected override IOtherInfo GenerateOtherInformation(FfcSharedInformation otherPartyInformation)
-        {
-            return OtherInfoFactory.GetInstance(
-                KdfParameters.OtherInfoPattern, 
-                OtherInputLength,
-                SchemeParameters.KeyAgreementRole, 
-                ReturnPublicInfoThisParty(), 
-                otherPartyInformation
-            );
-        }
-
-        /// <inheritdoc />
-        protected override ComputeKeyMacResult ComputeKeyMac(FfcSharedInformation otherPartyInformation, BitString derivedKeyingMaterial)
-        {
-            // key confirmation not possible with this scheme, proceed with no key confirmation
-            // No key confirmation nonce provided by party u.
-            var noKeyConfirmationNonce = SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
-                ? NoKeyConfirmationNonce
-                : otherPartyInformation.NoKeyConfirmationNonce;
-
-            var noKeyConfirmationParameters = GetNoKeyConfirmationParameters(derivedKeyingMaterial, noKeyConfirmationNonce);
-
-            var noKeyConfirmationInstance = NoKeyConfirmationFactory.GetInstance(noKeyConfirmationParameters);
-            
-            return noKeyConfirmationInstance.ComputeMac();
         }
     }
 }

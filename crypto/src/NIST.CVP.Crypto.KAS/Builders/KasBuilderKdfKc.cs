@@ -95,7 +95,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         {
             var schemeParameters = new SchemeParameters(
                 _keyAgreementRole,
-                KasMode.NoKdfNoKc,
+                KasMode.KdfKc,
                 _scheme,
                 _keyConfirmationRole,
                 _keyConfirmationDirection,

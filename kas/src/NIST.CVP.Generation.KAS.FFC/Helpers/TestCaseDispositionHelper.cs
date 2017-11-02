@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.Semantics;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
@@ -32,13 +33,15 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
             IKas iutKas
         )
         {
-            var serverKeyExpectations = SpecificationMapping.GetKeyGenerationOptionsForSchemeAndRole(
+            var serverKeyExpectations = KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
                 serverKas.Scheme.SchemeParameters.Scheme,
-                serverKas.Scheme.SchemeParameters.KeyAgreementRole
+                serverKas.Scheme.SchemeParameters.KeyAgreementRole,
+                serverKas.Scheme.SchemeParameters.KasMode
             );
-            var iutKeyExpectations = SpecificationMapping.GetKeyGenerationOptionsForSchemeAndRole(
+            var iutKeyExpectations = KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
                 iutKas.Scheme.SchemeParameters.Scheme,
-                iutKas.Scheme.SchemeParameters.KeyAgreementRole
+                iutKas.Scheme.SchemeParameters.KeyAgreementRole,
+                serverKas.Scheme.SchemeParameters.KasMode
             );
 
             switch (dispositionOption)

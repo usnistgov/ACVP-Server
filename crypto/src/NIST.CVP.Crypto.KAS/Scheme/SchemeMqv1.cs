@@ -1,0 +1,108 @@
+﻿using System;
+using System.Numerics;
+using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.KC;
+using NIST.CVP.Crypto.KAS.KDF;
+using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.KES;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
+
+namespace NIST.CVP.Crypto.KAS.Scheme
+{
+    public class SchemeMqv1 : SchemeBase
+    {
+        private readonly IMqv _mqv;
+
+        public SchemeMqv1(
+            IDsaFfc dsa, 
+            IKdfFactory kdfFactory, 
+            IKeyConfirmationFactory keyConfirmationFactory, 
+            INoKeyConfirmationFactory noKeyConfirmationFactory, 
+            IOtherInfoFactory otherInfoFactory, 
+            IEntropyProvider entropyProvider, 
+            SchemeParameters schemeParameters, 
+            KdfParameters kdfParameters, 
+            MacParameters macParameters, 
+            IMqv mqv
+        ) 
+            : base(dsa, kdfFactory, keyConfirmationFactory, noKeyConfirmationFactory, otherInfoFactory, entropyProvider, schemeParameters, kdfParameters, macParameters)
+        {
+            _mqv = mqv;
+
+            if (SchemeParameters.Scheme != FfcScheme.Mqv1)
+            {
+                throw new ArgumentException(nameof(SchemeParameters.Scheme));
+            }
+        }
+
+        protected override void GenerateKasKeyNonceInformation()
+        {
+            if (DomainParameters == null)
+            {
+                GenerateDomainParameters();
+            }
+
+            StaticKeyPair = Dsa.GenerateKeyPair(DomainParameters).KeyPair;
+
+            // Only party U generates an ephemeral key
+            if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU)
+            {
+                EphemeralKeyPair = Dsa.GenerateKeyPair(DomainParameters).KeyPair;
+            }
+
+            // When party V, KC, Bilateral, generate ephemeral nonce
+            // When party V, KC, Unilateral, and the recipient of key confirmation, ephemeral nonce
+            // Otherwise, no ephemeral nonce.
+            if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.ResponderPartyV &&
+                SchemeParameters.KasMode == KasMode.KdfKc && 
+                (
+                    SchemeParameters.KeyConfirmationDirection == KeyConfirmationDirection.Bilateral ||
+                    (
+                        SchemeParameters.KeyConfirmationDirection == KeyConfirmationDirection.Unilateral 
+                        && SchemeParameters.KeyConfirmationRole == KeyConfirmationRole.Recipient
+                    )
+                )
+            )
+            {
+                EphemeralNonce = EntropyProvider.GetEntropy(new BitString(DomainParameters.P).BitLength);
+            }
+
+            // when party U and KdfNoKc, a NoKeyConfirmationNonce is needed.
+            if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
+                && SchemeParameters.KasMode == KasMode.KdfNoKc)
+            {
+                NoKeyConfirmationNonce = EntropyProvider.GetEntropy(128);
+            }
+        }
+
+        protected override BitString ComputeSharedSecret(FfcSharedInformation otherPartyInformation)
+        {
+            // Party U uses both its static and ephemeral keys, and Party V's static public key
+            if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU)
+            {
+                return _mqv.GenerateSharedSecretZ(
+                    DomainParameters.P,
+                    DomainParameters.Q,
+                    StaticKeyPair.PrivateKeyX,
+                    otherPartyInformation.StaticPublicKey,
+                    EphemeralKeyPair.PrivateKeyX,
+                    EphemeralKeyPair.PublicKeyY,
+                    otherPartyInformation.StaticPublicKey
+                ).SharedSecretZ;
+            }
+            
+            // Party V uses its static key, and party V's static and ephemeral keys
+            return _mqv.GenerateSharedSecretZ(
+                DomainParameters.P,
+                DomainParameters.Q,
+                StaticKeyPair.PrivateKeyX,
+                otherPartyInformation.StaticPublicKey,
+                StaticKeyPair.PrivateKeyX,
+                StaticKeyPair.PublicKeyY,
+                otherPartyInformation.EphemeralPublicKey
+            ).SharedSecretZ;
+        }
+    }
+}

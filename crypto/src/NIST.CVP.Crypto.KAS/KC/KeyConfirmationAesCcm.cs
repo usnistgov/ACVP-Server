@@ -8,7 +8,6 @@ namespace NIST.CVP.Crypto.KAS.KC
 {
     public class KeyConfirmationAesCcm : KeyConfirmationBase
     {
-        private const string _STANDARD_MESSAGE = "Standard Test Message";
         private readonly IAES_CCM _iAesCcm;
 
         public KeyConfirmationAesCcm(IAES_CCM iAesCcm, IKeyConfirmationParameters keyConfirmationParameters)

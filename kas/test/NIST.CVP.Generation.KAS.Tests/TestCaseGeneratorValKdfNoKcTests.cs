@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
@@ -249,7 +250,13 @@ namespace NIST.CVP.Generation.KAS.Tests
             Assert.AreEqual(isFailure, resultTestCase.FailureTest);
         }
 
-        private void BuildTestGroup(FfcScheme scheme, KeyAgreementRole testGroupIutRole, KeyAgreementMacType macType, out (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair) iutKeyGenRequirements, out (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair) serverKeyGenRequirements, out TestCase resultTestCase)
+        private void BuildTestGroup(
+            FfcScheme scheme, 
+            KeyAgreementRole testGroupIutRole, 
+            KeyAgreementMacType macType, 
+            out (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, KasMode kasMode, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair) iutKeyGenRequirements, 
+            out (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, KasMode kasMode, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair) serverKeyGenRequirements, 
+            out TestCase resultTestCase)
         {
             TestGroup tg = new TestGroup()
             {
@@ -287,8 +294,16 @@ namespace NIST.CVP.Generation.KAS.Tests
                 serverRole = KeyAgreementRole.ResponderPartyV;
             }
 
-            iutKeyGenRequirements = SpecificationMapping.GetKeyGenerationOptionsForSchemeAndRole(scheme, tg.KasRole);
-            serverKeyGenRequirements = SpecificationMapping.GetKeyGenerationOptionsForSchemeAndRole(scheme, serverRole);
+            iutKeyGenRequirements = KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
+                scheme, 
+                tg.KasRole,
+                tg.KasMode
+            );
+            serverKeyGenRequirements = KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
+                scheme, 
+                serverRole,
+                tg.KasMode
+            );
             var result = _subject.Generate(tg, false);
             resultTestCase = (TestCase)result.TestCase;
         }

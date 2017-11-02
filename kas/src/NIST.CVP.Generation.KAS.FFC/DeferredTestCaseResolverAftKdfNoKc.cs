@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.FFC.Fakes;
@@ -26,12 +27,14 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         public KasResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            (FfcScheme scheme, KeyAgreementRole thisPartyKasRole, bool generatesStaticKeyPair, bool
-                generatesEphemeralKeyPair) serverKeyRequirements =
-                    SpecificationMapping.GetKeyGenerationOptionsForSchemeAndRole(testGroup.Scheme,
-                        testGroup.KasRole == KeyAgreementRole.InitiatorPartyU
-                            ? KeyAgreementRole.ResponderPartyV
-                            : KeyAgreementRole.InitiatorPartyU);
+            var serverKeyRequirements =
+                KeyGenerationRequirements.GetKeyGenerationOptionsForSchemeAndRole(
+                    testGroup.Scheme,
+                    testGroup.KasRole == KeyAgreementRole.InitiatorPartyU
+                        ? KeyAgreementRole.ResponderPartyV
+                        : KeyAgreementRole.InitiatorPartyU, 
+                    testGroup.KasMode
+                );
 
             FfcDomainParameters domainParameters = new FfcDomainParameters(testGroup.P, testGroup.Q, testGroup.G);
             FfcSharedInformation iutPublicInfo = new FfcSharedInformation(
