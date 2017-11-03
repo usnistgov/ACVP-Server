@@ -29,21 +29,26 @@ namespace NIST.CVP.Crypto.DSA.ECC
             // EccMPPoly::operator*
 
             BigInteger shorter, longer;
-            if (a.ExactBitLength() < b.ExactBitLength())
+            int shortLen, longLen;
+            int aBitLen = a.ExactBitLength();
+            int bBitLen = b.ExactBitLength();
+
+            if (aBitLen < bBitLen)
             {
                 shorter = a;
+                shortLen = aBitLen;
                 longer = b;
+                longLen = bBitLen;
             }
             else
             {
                 shorter = b;
+                shortLen = bBitLen;
                 longer = a;
+                longLen = aBitLen;
             }
 
-            var shortLen = shorter.ExactBitLength();
-            var longLen = longer.ExactBitLength();
-            BigInteger c, mask;
-
+            BigInteger c;
             for (var i = 0; i < shortLen; i++)
             {
                 if (!shorter.GetBit(i))
@@ -53,9 +58,10 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
                 for (var j = 0; j < longLen; j++)
                 {
-                    mask = Convert.ToInt32(longer.GetBit(j));
-                    mask <<= (i + j);
-                    c ^= mask;
+                    if (longer.GetBit(j))
+                    {
+                        c ^= (BigInteger.One << (i + j));
+                    }
                 }
             }
 
@@ -113,7 +119,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
             q2 = 1;
             q1 = 0;
 
-            while(true)
+            while (true)
             {
                 q = Divide(r2, r1);
                 r = Modulo(r2, r1);
