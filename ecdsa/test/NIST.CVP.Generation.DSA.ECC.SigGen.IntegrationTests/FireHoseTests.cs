@@ -75,6 +75,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                         if (result.Signature.R != testCase.Signature.R || result.Signature.S != testCase.Signature.S)
                         {
                             failingList.Add(tcId);
+                            break;
                             //Assert.Fail($"Could not validate TestCase: {testCase.TestCaseId}");
                         }
 

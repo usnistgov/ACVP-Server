@@ -48,24 +48,26 @@ namespace NIST.CVP.Crypto.DSA.ECC
                 longLen = aBitLen;
             }
 
-            BigInteger c;
+            var shorterBits = new BitString(shorter).Bits;
+            var longerBits = new BitString(longer).Bits;
+            var c = new BitString(shortLen + longLen);
             for (var i = 0; i < shortLen; i++)
             {
-                if (!shorter.GetBit(i))
+                if (!shorterBits[i])
                 {
                     continue;
                 }
 
                 for (var j = 0; j < longLen; j++)
                 {
-                    if (longer.GetBit(j))
+                    if (longerBits[j])
                     {
-                        c ^= (BigInteger.One << (i + j));
+                        c.Set(i + j, !c.Bits[i + j]);
                     }
                 }
             }
 
-            return Modulo(c);
+            return Modulo(c.ToPositiveBigInteger());
         }
 
         public BigInteger Divide(BigInteger a, BigInteger b)
@@ -153,9 +155,6 @@ namespace NIST.CVP.Crypto.DSA.ECC
             // Pulled from CAVS, EccMp.cpp, line 265
             // EccMPPoly::operator%
 
-            // Need temporary variable
-            var modulo = m;
-
             var aLen = a.ExactBitLength();
             var mLen = m.ExactBitLength();
 
@@ -165,14 +164,14 @@ namespace NIST.CVP.Crypto.DSA.ECC
                 return a;
             }
 
-            modulo <<= ((aLen - mLen) + 1);
+            m <<= ((aLen - mLen) + 1);
 
             for (var i = aLen; i >= mLen; i--)
             {
-                modulo >>= 1;
+                m >>= 1;
                 if (a.GetBit(i - 1))
                 {
-                    a ^= modulo;
+                    a ^= m;
                 }
             }
 
