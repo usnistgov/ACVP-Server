@@ -47,10 +47,7 @@ namespace NIST.CVP.Crypto.TDES_CFB.Tests
         [TestCase("TDES-CFB64", "2a464f98497c3b6b4cbc920d5e1a084c2926b698a423b316", "73e80e3c40364188", "7101553f01ab8950082c8df256dde4ebaf4785a8d9e78c24f42e300b0accf51ee72e22d92b4576539d8a1767c23fcb11aff76a1a1b5894f8b8209ff0c466d37dda23daf50ff0726a3a1165ce93b3bb5b", "66ed1d2acc7cfcf907a3a41b8d869b0c2fafc926badc4c6d12097e80f217c4fc26156067363b14cb2de870977d7f7f7394fd798bcfe3798ed9214fe6504e41225eaf6a9a922fbb2815735b2b3c4ce436", true)]
         public void ShouldEncryptSuccessfully(string algo, string _key, string _iv, string _plainText, string _cipherText, bool isPtCtHex)
         {
-            
-            var modeFactory = new ModeFactory();
-                
-            var mode = modeFactory.GetMode(EnumEx.FromDescription<Algo>(algo));
+            var mode = ModeFactory.GetMode(EnumEx.FromDescription<Algo>(algo));
             BitString key, iv, plainText, cipherText;
             key = new BitString(_key);
             iv = new BitString(_iv);
@@ -85,6 +82,14 @@ namespace NIST.CVP.Crypto.TDES_CFB.Tests
         [TestCase("TDES-CFB1", "7f9e57198cb0b5860dbc58f4858c80effb76ad3b75d962d3", "fda9acbfa062da69", "001011010", "001110001", false)]
         [TestCase("TDES-CFB1", "bc54975d57bcf89e25d02fe09876769d94f14304bc1351c1", "5adc17d44040e4c1", "1101101000", "1111000101", false)]
 
+
+
+
+
+        [TestCase("TDES-CFB1", "8c0e01f425236bfe3238f834434952ce8c0e01f425236bfe", "4336567c29b490f5", "100", "010", false)]
+
+
+
         [TestCase("TDES-CFB8", "139bf28a97e0e99b3db3c1732c461973156e430829e9f1f1", "28db7111b723f3b8", "13", "e7", true)]
         [TestCase("TDES-CFB8", "c4fea2ece626d0ba75010b92feda4f9710f4f2314a29f78a", "7c022f5af24f7925", "3d11", "1f83", true)]
         [TestCase("TDES-CFB8", "b598d0adfe0bd3f120fb291abf982abfbcd5136825ef0802", "1ef39345ac75ce92", "7dee18", "b7b2ce", true)]
@@ -110,10 +115,7 @@ namespace NIST.CVP.Crypto.TDES_CFB.Tests
         [TestCase("TDES-CFB8", "0123456789ABCDEF23456789ABCDEF01456789ABCDEF0123", "F69F2445DF4F9B17", "6BC1BEE22E409F96", "07951B729DC23AB4", true)]
         public void ShouldDecryptSuccessfully(string algo, string _key, string _iv, string _plainText, string _cipherText, bool isPtCtHex)
         {
-
-            var modeFactory = new ModeFactory();
-
-            var mode = modeFactory.GetMode(EnumEx.FromDescription<Algo>(algo));
+            var mode = ModeFactory.GetMode(EnumEx.FromDescription<Algo>(algo));
             BitString key, iv, plainText, cipherText;
             key = new BitString(_key);
             iv = new BitString(_iv);

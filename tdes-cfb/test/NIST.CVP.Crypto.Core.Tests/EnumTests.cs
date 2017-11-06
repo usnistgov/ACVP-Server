@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using NUnit.Framework;
+using NIST.CVP.Crypto.TDES_CFB;
 
 namespace NIST.CVP.Crypto.Core.Tests
 {

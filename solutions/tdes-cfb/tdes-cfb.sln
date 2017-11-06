@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3470156B-6097-49B5-9B50-2FD556068D68}"
 EndProject
@@ -35,9 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TDES_CF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TDES_CFB.Tests", "..\..\tdes-cfb\test\NIST.CVP.Generation.TDES_CFB.Tests\NIST.CVP.Generation.TDES_CFB.Tests.csproj", "{A43E33ED-A0EE-4193-BE7A-DB9E4F5B8F3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.Core", "..\..\common\src\NIST.CVP.Crypto.Core\NIST.CVP.Crypto.Core.csproj", "{C4E89044-6D83-44BD-B9E8-22F79553AC61}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.Core.Tests", "..\..\tdes-cfb\test\NIST.CVP.Crypto.Core.Tests\NIST.CVP.Crypto.Core.Tests.csproj", "{A8DFCAC2-5E87-41C9-8013-8EA1C03E5237}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Core.Tests", "..\..\tdes-cfb\test\NIST.CVP.Crypto.Core.Tests\NIST.CVP.Crypto.Core.Tests.csproj", "{A8DFCAC2-5E87-41C9-8013-8EA1C03E5237}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,10 +99,6 @@ Global
 		{A43E33ED-A0EE-4193-BE7A-DB9E4F5B8F3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A43E33ED-A0EE-4193-BE7A-DB9E4F5B8F3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A43E33ED-A0EE-4193-BE7A-DB9E4F5B8F3F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C4E89044-6D83-44BD-B9E8-22F79553AC61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4E89044-6D83-44BD-B9E8-22F79553AC61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C4E89044-6D83-44BD-B9E8-22F79553AC61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4E89044-6D83-44BD-B9E8-22F79553AC61}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8DFCAC2-5E87-41C9-8013-8EA1C03E5237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A8DFCAC2-5E87-41C9-8013-8EA1C03E5237}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8DFCAC2-5E87-41C9-8013-8EA1C03E5237}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -128,7 +122,6 @@ Global
 		{817ACAB4-0269-48F5-BA80-859726B90C4C} = {CF437750-0943-400D-ACEF-C13008A5E125}
 		{083A3B4B-1972-43E6-9E0F-C41D2DC8C7AF} = {CF437750-0943-400D-ACEF-C13008A5E125}
 		{A43E33ED-A0EE-4193-BE7A-DB9E4F5B8F3F} = {CF437750-0943-400D-ACEF-C13008A5E125}
-		{C4E89044-6D83-44BD-B9E8-22F79553AC61} = {3470156B-6097-49B5-9B50-2FD556068D68}
 		{A8DFCAC2-5E87-41C9-8013-8EA1C03E5237} = {CF437750-0943-400D-ACEF-C13008A5E125}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

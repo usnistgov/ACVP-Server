@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.TDES_CFB
+namespace NIST.CVP.Crypto.Core
 {
-    public class IModeOfOperation
+    public interface IModeOfOperation
     {
+        TDES_CFB.Algo Algo { get; }
+
+        EncryptionResult BlockEncrypt(BitString key, BitString iv, BitString plainText);
+        DecryptionResult BlockDecrypt(BitString key, BitString iv, BitString cipherText);
     }
 }

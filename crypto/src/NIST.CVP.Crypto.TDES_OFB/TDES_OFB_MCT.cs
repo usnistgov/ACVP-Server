@@ -100,6 +100,7 @@ namespace NIST.CVP.Crypto.TDES_OFB
                 BitString output = null;
                 for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
                 {
+                    Debug.WriteLine($"Encrypting {i + 1}.{j + 1} out of {NumberOfCases}.{NUMBER_OF_ITERATIONS}");
                     prevTempIv = tempIv;
                     decryptionResult = _algo.BlockDecrypt(responses[i].Keys, tempCipherText, tempIv);
                     //the result is OUTPUT xored with TEXT. 

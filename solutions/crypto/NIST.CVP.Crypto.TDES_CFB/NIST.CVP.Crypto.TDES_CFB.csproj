@@ -7,4 +7,17 @@
     <StartupObject />
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="ITDES_CFB.cs" />
+    <Compile Remove="TDESBlockInput.cs" />
+    <Compile Remove="TDESBlockOutput.cs" />
+    <Compile Remove="TDESMctOutput.cs" />
+    <Compile Remove="TDES_CFB.cs" />
+    <Compile Remove="TDES_CFB_MCT.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj" />
+  </ItemGroup>
+
 </Project>
