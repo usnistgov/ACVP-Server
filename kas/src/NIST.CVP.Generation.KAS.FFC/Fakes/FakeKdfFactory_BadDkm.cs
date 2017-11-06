@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Fakes
         }
     }
 
-    public class FakeKdfSha_BadDkm : KdfSha
+    internal class FakeKdfSha_BadDkm : KdfSha
     {
         public FakeKdfSha_BadDkm(ISha sha) : base(sha)
         {

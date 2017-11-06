@@ -1,9 +1,9 @@
 ﻿using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.Scheme;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.FFC.Helpers;
 using NIST.CVP.Math;
@@ -11,14 +11,14 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestCaseGeneratorAftKdfNoKc : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAftKdfKc : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IKasBuilder _kasBuilder;
         private readonly ISchemeBuilder _schemeBuilder;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
 
-        public TestCaseGeneratorAftKdfNoKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IEntropyProviderFactory entropyProviderFactory, IMacParametersBuilder macParametersBuilder)
+        public TestCaseGeneratorAftKdfKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IEntropyProviderFactory entropyProviderFactory, IMacParametersBuilder macParametersBuilder)
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
@@ -27,7 +27,6 @@ namespace NIST.CVP.Generation.KAS.FFC
         }
 
         public int NumberOfTestCasesToGenerate => 10;
-
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
             var testCase = new TestCase()
@@ -37,12 +36,28 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             KeyAgreementRole serverRole =
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(group.KasRole);
+            KeyConfirmationRole serverKcRole =
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(group.KcRole);
 
-            testCase.NonceNoKc = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random).GetEntropy(128);
-            var noKcEntropyProvider = _entropyProviderFactory
-                .GetEntropyProvider(EntropyProviderTypes.Testable);
-            noKcEntropyProvider.AddEntropy(testCase.NonceNoKc.GetDeepCopy());
-            _schemeBuilder.WithEntropyProvider(noKcEntropyProvider);
+            // TODO validate this can be done at below todo
+            var serverKeyNonceRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                group.Scheme,
+                group.KasMode,
+                serverRole,
+                serverKcRole,
+                group.KcType
+            );
+
+            if (serverKeyNonceRequirements.GeneratesEphemeralNonce)
+            {
+                var parameterSetAttributes = FfcParameterSetDetails.GetDetailsForParameterSet(group.ParmSet);
+                testCase.EphemeralNonceServer = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
+                    .GetEntropy(parameterSetAttributes.pLength);
+                var ephemeralNonceEntropyProvider = _entropyProviderFactory
+                    .GetEntropyProvider(EntropyProviderTypes.Testable);
+                ephemeralNonceEntropyProvider.AddEntropy(testCase.EphemeralNonceServer.GetDeepCopy());
+                _schemeBuilder.WithEntropyProvider(ephemeralNonceEntropyProvider);
+            }
 
             BitString aesCcmNonce = null;
             if ((serverRole == KeyAgreementRole.InitiatorPartyU && group.MacType == KeyAgreementMacType.AesCcm) || isSample)
@@ -69,12 +84,14 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithParameterSet(group.ParmSet)
                 .WithPartyId(SpecificationMapping.ServerId)
                 .WithKeyAgreementRole(serverRole)
-                .BuildKdfNoKc()
+                .BuildKdfKc()
                 .WithKeyLength(group.KeyLen)
                 .WithMacParameters(
                     macParameters
                 )
                 .WithOtherInfoPattern(group.OiPattern)
+                .WithKeyConfirmationRole(serverKcRole)
+                .WithKeyConfirmationDirection(group.KcType)
                 .Build();
 
             serverKas.SetDomainParameters(new FfcDomainParameters(group.P, group.Q, group.G));
@@ -91,6 +108,28 @@ namespace NIST.CVP.Generation.KAS.FFC
             if (isSample)
             {
                 testCase.Deferred = false;
+                _schemeBuilder.WithEntropyProvider(
+                    _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
+                );
+
+                var iutKeyNonceRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                    group.Scheme,
+                    group.KasMode,
+                    group.KasRole,
+                    group.KcRole,
+                    group.KcType
+                );
+
+                if (iutKeyNonceRequirements.GeneratesEphemeralNonce)
+                {
+                    var parameterSetAttributes = FfcParameterSetDetails.GetDetailsForParameterSet(group.ParmSet);
+                    testCase.EphemeralNonceIut = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
+                        .GetEntropy(parameterSetAttributes.pLength);
+                    var ephemeralNonceEntropyProvider = _entropyProviderFactory
+                        .GetEntropyProvider(EntropyProviderTypes.Testable);
+                    ephemeralNonceEntropyProvider.AddEntropy(testCase.EphemeralNonceServer.GetDeepCopy());
+                    _schemeBuilder.WithEntropyProvider(ephemeralNonceEntropyProvider);
+                }
 
                 if (group.AesCcmNonceLen != 0)
                 {
@@ -98,11 +137,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                 }
                 testCase.IdIut = SpecificationMapping.IutId;
                 testCase.IdIutLen = testCase.IdIut.BitLength;
-
-                noKcEntropyProvider = _entropyProviderFactory
-                    .GetEntropyProvider(EntropyProviderTypes.Testable);
-                noKcEntropyProvider.AddEntropy(testCase.NonceNoKc.GetDeepCopy());
-                _schemeBuilder.WithEntropyProvider(noKcEntropyProvider);
 
                 var iutKas = _kasBuilder
                     .WithAssurances(KasAssurance.None)
@@ -114,14 +148,16 @@ namespace NIST.CVP.Generation.KAS.FFC
                     .WithParameterSet(group.ParmSet)
                     .WithPartyId(testCase.IdIut)
                     .WithKeyAgreementRole(group.KasRole)
-                    .BuildKdfNoKc()
+                    .BuildKdfKc()
                     .WithKeyLength(group.KeyLen)
                     .WithOtherInfoPattern(group.OiPattern)
                     .WithMacParameters(macParameters)
+                    .WithKeyConfirmationRole(group.KcRole)
+                    .WithKeyConfirmationDirection(group.KcType)
                     .Build();
-                
+
                 var result = iutKas.ComputeResult(serverPublicInfo);
-                
+
                 TestCaseDispositionHelper.SetTestCaseInformationFromKasResults(group, testCase, serverKas, iutKas, result);
             }
 

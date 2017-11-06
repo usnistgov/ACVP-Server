@@ -39,11 +39,13 @@ namespace NIST.CVP.Generation.KAS
         public BigInteger StaticPublicKeyServer { get; set; }
         public BigInteger EphemeralPrivateKeyServer { get; set; }
         public BigInteger EphemeralPublicKeyServer { get; set; }
+        public BitString EphemeralNonceServer { get; set; }
 
         public BigInteger StaticPrivateKeyIut { get; set; }
         public BigInteger StaticPublicKeyIut { get; set; }
         public BigInteger EphemeralPrivateKeyIut { get; set; }
         public BigInteger EphemeralPublicKeyIut { get; set; }
+        public BitString EphemeralNonceIut { get; set; }
         
         
         public int IdIutLen { get; set; }
@@ -99,6 +101,9 @@ namespace NIST.CVP.Generation.KAS
                 case "yephemcavs":
                     EphemeralPublicKeyServer = new BitString(value).ToPositiveBigInteger();
                     return true;
+                case "nonceephemcavs":
+                    EphemeralNonceServer = new BitString(value);
+                    break;
                 case "xstatiut":
                     StaticPrivateKeyIut = new BitString(value).ToPositiveBigInteger();
                     return true;
@@ -111,6 +116,9 @@ namespace NIST.CVP.Generation.KAS
                 case "yephemiut":
                     EphemeralPublicKeyIut = new BitString(value).ToPositiveBigInteger();
                     return true;
+                case "nonceephemiut":
+                    EphemeralNonceIut = new BitString(value);
+                    break;
                 case "nonce":
                     NonceNoKc = new BitString(value);
                     return true;

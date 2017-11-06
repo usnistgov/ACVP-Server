@@ -39,6 +39,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         private void GenerateGroups(Schemes parametersScheme, KasAssurance flagFunctions, List<TestGroup> groups)
         {
             CreateGroupsPerScheme(parametersScheme.DhEphem, flagFunctions, groups);
+            CreateGroupsPerScheme(parametersScheme.Mqv1, flagFunctions, groups);
             // TODO additional schemes
         }
 
@@ -71,6 +72,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             CreateGroupsForNoKdfNoKc(schemeBase, flagFunctions, scheme, groups);
             CreateGroupsForKdfNoKc(schemeBase, flagFunctions, scheme, groups);
+            CreateGroupsForKdfKc(schemeBase, flagFunctions, scheme, groups);
         }
 
         #region adds test groups
@@ -158,7 +160,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                     {
                         foreach (var parameterSet in hashPerParameterSet)
                         {
-                            if (parameterSet.Value.hashFunc.Any())
+                            if (parameterSet.Value.hashFunc.Any() && parameterSet.Value.mac.Any())
                             {
                                 var mac = parameterSet.Value.mac.OrderBy(ob => Guid.NewGuid()).ToList().First();
                                 var keyLen = mac.KeyLen.OrderBy(ob => Guid.NewGuid()).ToList().First();
@@ -181,6 +183,88 @@ namespace NIST.CVP.Generation.KAS.FFC
                                     MacLen = mac.MacLen,
                                     AesCcmNonceLen = mac.NonceLen
                                 });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void CreateGroupsForKdfKc(SchemeBase schemeBase, KasAssurance flagFunctions, FfcScheme scheme, List<TestGroup> groups)
+        {
+            if (schemeBase.KdfKc == null)
+            {
+                return;
+            }
+
+            Dictionary<FfcParameterSet, (List<HashFunction> hashFunc, List<MacOptionsBase> mac)> hashPerParameterSet =
+                new Dictionary<FfcParameterSet, (List<HashFunction> hashFunc, List<MacOptionsBase> mac)>
+                {
+                    {
+                        FfcParameterSet.Fb,
+                        (GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Fb)
+                            .ToList(),
+                        GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Fb)
+                            .ToList())
+                    },
+                    {
+                        FfcParameterSet.Fc,
+                        (GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Fc).ToList(),
+                        GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Fc).ToList())
+                    }
+                };
+
+            foreach (var testType in _testTypes)
+            {
+                foreach (var role in schemeBase.Role)
+                {
+                    foreach (var kdf in GetKdfOptions(schemeBase.KdfNoKc.KdfOption))
+                    {
+                        foreach (var nonceType in schemeBase.KdfKc.KcOption.NonceType)
+                        {
+                            foreach (var kcRole in schemeBase.KdfKc.KcOption.KcRole)
+                            {
+                                foreach (var kcType in schemeBase.KdfKc.KcOption.KcType)
+                                {
+                                    foreach (var parameterSet in hashPerParameterSet)
+                                    {
+                                        if (parameterSet.Value.hashFunc.Any() && parameterSet.Value.mac.Any())
+                                        {
+                                            foreach (var mac in parameterSet.Value.mac)
+                                            {
+                                                foreach (var keyLen in mac.KeyLen)
+                                                {
+                                                    var keyAgreementMacType =
+                                                        SpecificationMapping.GetMacInfoFromParameterClass(mac)
+                                                            .keyAgreementMacType;
+
+                                                    groups.Add(new TestGroup()
+                                                    {
+                                                        Scheme = scheme,
+                                                        KasMode = KasMode.KdfKc,
+                                                        TestType = testType,
+                                                        Function = flagFunctions,
+                                                        HashAlg = parameterSet.Value.hashFunc.First(),
+                                                        KasRole =
+                                                            EnumHelpers.GetEnumFromEnumDescription<KeyAgreementRole>(role),
+                                                        KcRole = 
+                                                            EnumHelpers.GetEnumFromEnumDescription<KeyConfirmationRole>(kcRole),
+                                                        KcType = 
+                                                            EnumHelpers.GetEnumFromEnumDescription<KeyConfirmationDirection>(kcType),
+                                                        NonceType = nonceType,
+                                                        ParmSet = parameterSet.Key,
+                                                        KdfType = kdf.Key,
+                                                        OiPattern = kdf.Value,
+                                                        MacType = keyAgreementMacType,
+                                                        KeyLen = keyLen,
+                                                        MacLen = mac.MacLen,
+                                                        AesCcmNonceLen = mac.NonceLen
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

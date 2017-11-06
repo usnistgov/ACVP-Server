@@ -29,6 +29,7 @@ namespace NIST.CVP.Generation.KAS
         public string OiPattern { get; set; }
         public KeyConfirmationRole KcRole { get; set; }
         public KeyConfirmationDirection KcType { get; set; }
+        public string NonceType { get; set; }
         
         public List<ITestCase> Tests { get; set; } = new List<ITestCase>();
         public bool MergeTests(List<ITestCase> testsToMerge)

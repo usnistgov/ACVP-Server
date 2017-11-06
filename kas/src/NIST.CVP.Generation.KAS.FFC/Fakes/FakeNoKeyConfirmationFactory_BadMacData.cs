@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Fakes
             }
         }
 
-        public class FakeNoKeyConfirmationCmac_BadMacData : NoKeyConfirmationCmac
+        internal class FakeNoKeyConfirmationCmac_BadMacData : NoKeyConfirmationCmac
         {
             public FakeNoKeyConfirmationCmac_BadMacData(INoKeyConfirmationParameters parameters, ICmac cmacAes)
                 : base(parameters, cmacAes) { }
@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Fakes
             }
         }
 
-        public class FakeNoKeyConfirmationHmac_BadMacData : NoKeyConfirmationHmac
+        internal class FakeNoKeyConfirmationHmac_BadMacData : NoKeyConfirmationHmac
         {
             public FakeNoKeyConfirmationHmac_BadMacData(INoKeyConfirmationParameters parameters, IHmac hmac)
                 : base(parameters, hmac) { }

@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             var vPartyPublic = vParty.ReturnPublicInfoThisParty();
 
             var serverKas = group.KasRole == KeyAgreementRole.InitiatorPartyU ? vParty : uParty;
-            var iutKas = group.KasRole == KeyAgreementRole.InitiatorPartyU ? vParty : uParty;
+            var iutKas = group.KasRole == KeyAgreementRole.InitiatorPartyU ? uParty : vParty;
 
             // Mangle the keys prior to running compute result, to create a "successful" result on bad keys.
             // IUT should pick up on bad private/public key information.

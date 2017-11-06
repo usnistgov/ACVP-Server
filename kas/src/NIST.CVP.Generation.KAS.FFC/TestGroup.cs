@@ -96,6 +96,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             OiPattern = expandoSource.GetTypeFromProperty<string>("oiPattern");
             KcRole = EnumHelpers.GetEnumFromEnumDescription<KeyConfirmationRole>(expandoSource.GetTypeFromProperty<string>("kcRole"), false);
             KcType = EnumHelpers.GetEnumFromEnumDescription<KeyConfirmationDirection>(expandoSource.GetTypeFromProperty<string>("kcType"), false);
+            NonceType = expandoSource.GetTypeFromProperty<string>("nonceType");
 
             P = expandoSource.GetBigIntegerFromProperty("p");
             Q = expandoSource.GetBigIntegerFromProperty("q");

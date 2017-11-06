@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Localization.Internal;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Enums;
@@ -40,6 +41,15 @@ namespace NIST.CVP.Generation.KAS
         };
         public static readonly int[] ValidAesKeyLengths = new int[] { 128, 192, 256 };
         public static readonly int[] ValidAesCcmNonceLengths = new int[] { 56, 64, 72, 80, 88, 96 };
+        public static readonly string[] ValidKeyConfirmationRoles = new string[] { "provider", "recipient" };
+        public static readonly string[] ValidKeyConfirmationTypes = new string[] { "unilateral", "bilateral" };
+        public static readonly string[] ValidNonceTypes = new string[]
+        {
+            "randomNonce",
+            "timestamp",
+            "sequence",
+            "timestampSequence"
+        };
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
@@ -92,6 +102,7 @@ namespace NIST.CVP.Generation.KAS
 
             ValidateAtLeastOneSchemePresent(parameters.Scheme, errorResults);
             ValidateDhEphemScheme(parameters.Scheme.DhEphem, errorResults);
+            ValidateMqv1Scheme(parameters.Scheme.Mqv1, errorResults);
         }
 
         #region scheme validation
@@ -104,7 +115,34 @@ namespace NIST.CVP.Generation.KAS
             }
         }
 
-        private void ValidateDhEphemScheme(DhEphem scheme, List<string> errorResults)
+        private void ValidateDhEphemScheme(SchemeBase scheme, List<string> errorResults)
+        {
+            if (scheme == null)
+            {
+                return;
+            }
+
+            ValidateKeyAgreementRoles(scheme.Role, errorResults);
+
+            ValidateAtLeastOneKasModePresent(scheme, errorResults);
+            if (errorResults.Count > 0)
+            {
+                return;
+            }
+
+            // kdfKc is invalid for dhEphem
+            if (scheme.KdfKc != null)
+            {
+                errorResults.Add("Key Confirmation not possible with dhEphem.");
+                return;
+            }
+
+            ValidateNoKdfNoKc(scheme.NoKdfNoKc, errorResults);
+            ValidateKdfNoKc(scheme.KdfNoKc, errorResults);
+            ValidateKdfKc(scheme.KdfKc, errorResults);
+        }
+
+        private void ValidateMqv1Scheme(SchemeBase scheme, List<string> errorResults)
         {
             if (scheme == null)
             {
@@ -137,7 +175,7 @@ namespace NIST.CVP.Generation.KAS
         #endregion scheme validation
 
         #region kasModes
-        private void ValidateAtLeastOneKasModePresent(DhEphem scheme, List<string> errorResults)
+        private void ValidateAtLeastOneKasModePresent(SchemeBase scheme, List<string> errorResults)
         {
             if (scheme.NoKdfNoKc == null && scheme.KdfNoKc == null && scheme.KdfKc == null)
             {
@@ -158,8 +196,8 @@ namespace NIST.CVP.Generation.KAS
                 return;
             }
 
-            ValidateParameterSet(kasMode.ParameterSet.Fb, false, FfcParameterSet.Fb, errorResults);
-            ValidateParameterSet(kasMode.ParameterSet.Fc, false, FfcParameterSet.Fc, errorResults);
+            ValidateParameterSetFfc(kasMode.ParameterSet.Fb, false, FfcParameterSet.Fb, errorResults);
+            ValidateParameterSetFfc(kasMode.ParameterSet.Fc, false, FfcParameterSet.Fc, errorResults);
         }
 
         private void ValidateKdfNoKc(KdfNoKc kasMode, List<string> errorResults)
@@ -180,9 +218,33 @@ namespace NIST.CVP.Generation.KAS
                 return;
             }
 
-            ValidateParameterSet(kasMode.ParameterSet.Fb, true, FfcParameterSet.Fb, errorResults);
-            ValidateParameterSet(kasMode.ParameterSet.Fc, true, FfcParameterSet.Fc, errorResults);
+            ValidateParameterSetFfc(kasMode.ParameterSet.Fb, true, FfcParameterSet.Fb, errorResults);
+            ValidateParameterSetFfc(kasMode.ParameterSet.Fc, true, FfcParameterSet.Fc, errorResults);
             ValidateKdfOption(kasMode.KdfOption, errorResults);
+        }
+
+        private void ValidateKdfKc(KdfKc kasMode, List<string> errorResults)
+        {
+            if (kasMode == null)
+            {
+                return;
+            }
+
+            ValidateAtLeastOneParameterSetPresent(kasMode, errorResults);
+            if (kasMode.KdfOption == null)
+            {
+                errorResults.Add($"{nameof(kasMode.KdfOption)} are required.");
+            }
+
+            if (errorResults.Count > 0)
+            {
+                return;
+            }
+
+            ValidateParameterSetFfc(kasMode.ParameterSet.Fb, true, FfcParameterSet.Fb, errorResults);
+            ValidateParameterSetFfc(kasMode.ParameterSet.Fc, true, FfcParameterSet.Fc, errorResults);
+            ValidateKdfOption(kasMode.KdfOption, errorResults);
+            ValidateKcOption(kasMode.KcOption, errorResults);
         }
         #endregion kasModes
 
@@ -201,7 +263,7 @@ namespace NIST.CVP.Generation.KAS
             }
         }
 
-        private void ValidateParameterSet(ParameterSetBase parameterSet, bool macRequired, FfcParameterSet parameterSetType, List<string> errorResults)
+        private void ValidateParameterSetFfc(ParameterSetBase parameterSet, bool macRequired, FfcParameterSet parameterSetType, List<string> errorResults)
         {
             if (parameterSet == null)
             {
@@ -357,5 +419,19 @@ namespace NIST.CVP.Generation.KAS
             }
         }
         #endregion KDF
+
+        #region KC
+        private void ValidateKcOption(KcOptions kasModeKcOption, List<string> errorResults)
+        {
+            if (kasModeKcOption == null)
+            {
+                return;
+            }
+
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(kasModeKcOption.KcRole, ValidKeyConfirmationRoles, "Key Confirmation Roles"));
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(kasModeKcOption.KcType, ValidKeyConfirmationTypes, "Key Confirmation Types"));
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(kasModeKcOption.NonceType, ValidNonceTypes, "Key Confirmation Nonce Types"));
+        }
+        #endregion KC
     }
 }

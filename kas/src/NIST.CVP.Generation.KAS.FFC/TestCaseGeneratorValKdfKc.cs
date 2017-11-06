@@ -1,11 +1,10 @@
-﻿using NIST.CVP.Crypto.DSA;
-using NIST.CVP.Crypto.DSA.FFC;
+﻿using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Enums;
@@ -15,7 +14,7 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestCaseGeneratorValKdfNoKc : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorValKdfKc : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IKasBuilder _kasBuilder;
         private readonly ISchemeBuilder _schemeBuilder;
@@ -27,17 +26,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
         private readonly TestCaseDispositionOption _intendedDisposition;
 
-        public TestCaseGeneratorValKdfNoKc(
-            IKasBuilder kasBuilder, 
-            ISchemeBuilder schemeBuilder, 
-            IDsaFfcFactory dsaFactory, 
-            IShaFactory shaFactory, 
-            IEntropyProviderFactory entropyProviderFactory, 
-            IMacParametersBuilder macParametersBuilder, 
-            IKdfFactory kdfFactory, 
-            INoKeyConfirmationFactory noKeyConfirmationFactory, 
-            TestCaseDispositionOption intendedDisposition
-        )
+        public TestCaseGeneratorValKdfKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IDsaFfcFactory dsaFactory, IShaFactory shaFactory, IEntropyProviderFactory entropyProviderFactory, IMacParametersBuilder macParametersBuilder, IKdfFactory kdfFactory, INoKeyConfirmationFactory noKeyConfirmationFactory, TestCaseDispositionOption dispositionIntention)
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
@@ -47,13 +36,13 @@ namespace NIST.CVP.Generation.KAS.FFC
             _macParametersBuilder = macParametersBuilder;
             _kdfFactory = kdfFactory;
             _noKeyConfirmationFactory = noKeyConfirmationFactory;
-            _intendedDisposition = intendedDisposition;
-    }
+            _intendedDisposition = dispositionIntention;
+        }
 
         public int NumberOfTestCasesToGenerate => 25;
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
-            TestCase tc = new TestCase {TestCaseDisposition = _intendedDisposition};
+            TestCase tc = new TestCase { TestCaseDisposition = _intendedDisposition };
 
             return Generate(group, tc);
         }
@@ -70,6 +59,12 @@ namespace NIST.CVP.Generation.KAS.FFC
             {
                 testCase.NonceAesCcm = macParameters.CcmNonce.GetDeepCopy();
             }
+
+            var iutKeyConfirmationRole = group.KcRole;
+            var serverIutKeyConfirmationRole =
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(iutKeyConfirmationRole);
+
+            // TODO implement key confirmation in builders?
 
             // Handles Failures due to changed z, dkm, macData
             IKdfFactory kdfFactory = _kdfFactory;
@@ -107,10 +102,16 @@ namespace NIST.CVP.Generation.KAS.FFC
                         .WithKdfFactory(kdfFactory)
                         .WithNoKeyConfirmationFactory(noKeyConfirmationFactory)
                 )
-                .BuildKdfNoKc()
+                .BuildKdfKc()
                 .WithKeyLength(group.KeyLen)
                 .WithMacParameters(macParameters)
                 .WithOtherInfoPattern(group.OiPattern)
+                .WithKeyConfirmationRole(
+                    group.KasRole == KeyAgreementRole.InitiatorPartyU
+                        ? iutKeyConfirmationRole
+                        : serverIutKeyConfirmationRole
+                )
+                .WithKeyConfirmationDirection(group.KcType)
                 .Build();
 
             var vParty = _kasBuilder
@@ -130,10 +131,16 @@ namespace NIST.CVP.Generation.KAS.FFC
                         .WithKdfFactory(kdfFactory)
                         .WithNoKeyConfirmationFactory(noKeyConfirmationFactory)
                 )
-                .BuildKdfNoKc()
+                .BuildKdfKc()
                 .WithKeyLength(group.KeyLen)
                 .WithMacParameters(macParameters)
                 .WithOtherInfoPattern(group.OiPattern)
+                .WithKeyConfirmationRole(
+                    group.KasRole == KeyAgreementRole.ResponderPartyV
+                        ? iutKeyConfirmationRole
+                        : serverIutKeyConfirmationRole
+                )
+                .WithKeyConfirmationDirection(group.KcType)
                 .Build();
 
             FfcDomainParameters dp = new FfcDomainParameters(
@@ -172,8 +179,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             {
                 iutResult = uParty.ComputeResult(vPartyPublic);
             }
-
-
+            
             // Set the test case up w/ the information from the kas instances
             TestCaseDispositionHelper.SetTestCaseInformationFromKasResults(group, testCase, serverKas, iutKas, iutResult);
 

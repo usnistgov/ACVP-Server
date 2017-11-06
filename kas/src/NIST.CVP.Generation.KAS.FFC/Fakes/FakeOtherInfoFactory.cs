@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Fakes
         }
     }
 
-    public class FakeOtherInfo : IOtherInfo
+    internal class FakeOtherInfo : IOtherInfo
     {
         private readonly BitString _otherInfo;
 

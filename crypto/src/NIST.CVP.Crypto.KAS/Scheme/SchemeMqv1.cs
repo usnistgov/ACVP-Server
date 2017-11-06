@@ -56,17 +56,17 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             // When party V, KC, Unilateral, and the recipient of key confirmation, ephemeral nonce
             // Otherwise, no ephemeral nonce.
             if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.ResponderPartyV &&
-                SchemeParameters.KasMode == KasMode.KdfKc && 
-                (
-                    SchemeParameters.KeyConfirmationDirection == KeyConfirmationDirection.Bilateral ||
+                SchemeParameters.KasMode == KasMode.KdfKc)
+            {
+                if (SchemeParameters.KeyConfirmationDirection == KeyConfirmationDirection.Bilateral ||
                     (
-                        SchemeParameters.KeyConfirmationDirection == KeyConfirmationDirection.Unilateral 
-                        && SchemeParameters.KeyConfirmationRole == KeyConfirmationRole.Recipient
+                        SchemeParameters.KeyConfirmationDirection == KeyConfirmationDirection.Unilateral &&
+                        SchemeParameters.KeyConfirmationRole == KeyConfirmationRole.Recipient
                     )
                 )
-            )
-            {
-                EphemeralNonce = EntropyProvider.GetEntropy(new BitString(DomainParameters.P).BitLength);
+                {
+                    EphemeralNonce = EntropyProvider.GetEntropy(new BitString(DomainParameters.P).BitLength);
+                }
             }
 
             // when party U and KdfNoKc, a NoKeyConfirmationNonce is needed.

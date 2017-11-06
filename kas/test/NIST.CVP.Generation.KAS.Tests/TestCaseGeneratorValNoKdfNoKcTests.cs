@@ -71,12 +71,15 @@ namespace NIST.CVP.Generation.KAS.Tests
         [Test]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
         public void ShouldPopulateCorrectKeysNoncesForSchemeRole(FfcScheme scheme, KeyAgreementRole testGroupIutRole)
         {
             BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
 
             Assert.IsFalse(resultTestCase.Deferred, nameof(resultTestCase.Deferred));
             #region KeyCheck
+            // Server checks
             if (serverKeyGenRequirements.GeneratesStaticKeyPair)
             {
                 Assert.IsTrue(resultTestCase.StaticPrivateKeyServer != 0,
@@ -107,6 +110,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     nameof(resultTestCase.EphemeralPublicKeyServer));
             }
 
+            // Iut checks
             if (iutKeyGenRequirements.GeneratesStaticKeyPair)
             {
                 Assert.IsTrue(resultTestCase.StaticPrivateKeyIut != 0,
@@ -146,6 +150,12 @@ namespace NIST.CVP.Generation.KAS.Tests
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedDkm)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedMacData)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedMacData)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedOi)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedOi)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedDkm)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedDkm)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedMacData)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedMacData)]
         public void ShouldSetInvalidTestCaseDispositionsToSuccess(FfcScheme scheme, KeyAgreementRole testGroupIutRole, TestCaseDispositionOption option)
         {
             _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory.Object,  option);
@@ -163,6 +173,14 @@ namespace NIST.CVP.Generation.KAS.Tests
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)] // server doesn't generate ephem key when party v
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
         public void ShouldSetProperTestCaseFailureTestProperty(FfcScheme scheme, KeyAgreementRole testGroupIutRole,
             TestCaseDispositionOption option, bool isFailure)
         {

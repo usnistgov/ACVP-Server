@@ -33,6 +33,10 @@ namespace NIST.CVP.Generation.KAS
         /// Diffie Hellman Ephemeral
         /// </summary>
         public DhEphem DhEphem { get; set; }
+        /// <summary>
+        /// MQV1
+        /// </summary>
+        public Mqv1 Mqv1 { get; set; }
     }
 
     /// <summary>
@@ -63,6 +67,12 @@ namespace NIST.CVP.Generation.KAS
     /// Registration for DiffieHellman ephemeral
     /// </summary>
     public class DhEphem : SchemeBase { }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for MQV1
+    /// </summary>
+    public class Mqv1 : SchemeBase { }
 
     /// <summary>
     /// Registration requirements for NoKdfNoKc

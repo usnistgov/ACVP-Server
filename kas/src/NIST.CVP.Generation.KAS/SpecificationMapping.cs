@@ -62,7 +62,8 @@ namespace NIST.CVP.Generation.KAS
         public static List<(FfcScheme schemeEnum, Type schemeParameter)> FfcSchemeMapping =
             new List<(FfcScheme schemeEnum, Type schemeParameter)>()
             {
-                (FfcScheme.DhEphem, typeof(DhEphem))
+                (FfcScheme.DhEphem, typeof(DhEphem)),
+                (FfcScheme.Mqv1, typeof(Mqv1))
             };
 
         public static FfcScheme GetEnumFromType(SchemeBase schemeBase)

@@ -116,7 +116,7 @@ namespace NIST.CVP.Generation.KAS.Tests
              * Wanted to add a test that will fail once schemes are added to help 
              * ensure the other tests are updated to account for new schemes.
             */
-            const int numberOfSchemesImplemented = 1;
+            const int numberOfSchemesImplemented = 2;
 
             Assert.AreEqual(numberOfSchemesImplemented, SpecificationMapping.FfcSchemeMapping.Count);
         }
@@ -127,6 +127,11 @@ namespace NIST.CVP.Generation.KAS.Tests
             {
                 new DhEphem(),
                 FfcScheme.DhEphem
+            },
+            new object[]
+            {
+                new Mqv1(), 
+                FfcScheme.Mqv1
             }
         };
 
