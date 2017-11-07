@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NIST.CVP.Crypto.Core;
-using NIST.CVP.Math;
-using NUnit.Framework;
+﻿using NIST.CVP.Crypto.Core;
 using NIST.CVP.Generation.TDES_CFB;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
+using System;
+using System.Collections;
+using System.Linq;
 
 namespace NIST.CVP.Crypto.TDES_CFB.Tests
 {

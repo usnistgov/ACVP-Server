@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
-    <ProjectReference Include="..\..\..\solutions\crypto\NIST.CVP.Crypto.TDES_CFB\NIST.CVP.Crypto.TDES_CFB.csproj" />
     <ProjectReference Include="..\..\..\tdes-cfb\src\NIST.CVP.Generation.TDES_CFB\NIST.CVP.Generation.TDES_CFB.csproj" />
   </ItemGroup>
   
