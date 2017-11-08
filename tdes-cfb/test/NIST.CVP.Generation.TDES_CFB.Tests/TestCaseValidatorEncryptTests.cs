@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var subject = new TestCaseValidatorEncrypt(testCase);
             var result = subject.Validate(testCase);
             Assume.That(result != null);
-            Assert.AreEqual("passed", result.Result);
+            Assert.AreEqual(Disposition.Passed, result.Result);
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             suppliedResult.CipherText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assert.AreEqual("failed", result.Result);
+            Assert.AreEqual(Disposition.Failed, result.Result);
         }
 
         [Test]
