@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Moq;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS;
-using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
-using NIST.CVP.Crypto.KAS.KC;
-using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KAS.Scheme;
-using NIST.CVP.Crypto.KES;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.FFC;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -26,7 +17,6 @@ namespace NIST.CVP.Generation.KAS.Tests
         private readonly TestDataMother _tdm = new TestDataMother();
         private TestCaseValidatorAftNoKdfNoKc _subject;
         private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>> _deferredResolver;
-        
 
         [SetUp]
         public void Setup()
@@ -35,9 +25,13 @@ namespace NIST.CVP.Generation.KAS.Tests
         }
 
         [Test]
-        public void ShouldSucceedValidation()
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+        public void ShouldSucceedValidation(FfcScheme scheme, KeyAgreementRole kasRole)
         {
-            var testGroup = GetData();
+            var testGroup = GetData(scheme, kasRole);
             var testCase = (TestCase)testGroup.Tests[0];
 
             _subject = new TestCaseValidatorAftNoKdfNoKc(testCase, testGroup, _deferredResolver.Object);
@@ -52,10 +46,13 @@ namespace NIST.CVP.Generation.KAS.Tests
         }
 
         [Test]
-        [TestCase(FfcScheme.DhEphem)]
-        public void ShouldFailWhenIutDoesNotProvideEphemeralKeyPair(FfcScheme scheme)
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+        public void ShouldFailWhenIutDoesNotProvideEphemeralKeyPair(FfcScheme scheme, KeyAgreementRole kasRole)
         {
-            var testGroup = GetData();
+            var testGroup = GetData(scheme, kasRole);
             var testCase = (TestCase)testGroup.Tests[0];
             testGroup.Scheme = FfcScheme.DhEphem;
             testCase.EphemeralPublicKeyIut = 0;
@@ -68,9 +65,13 @@ namespace NIST.CVP.Generation.KAS.Tests
         }
 
         [Test]
-        public void ShouldFailWhenIutDoesNotProvideHashZ()
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+        public void ShouldFailWhenIutDoesNotProvideHashZ(FfcScheme scheme, KeyAgreementRole kasRole)
         {
-            var testGroup = GetData();
+            var testGroup = GetData(scheme, kasRole);
             var testCase = (TestCase)testGroup.Tests[0];
             
             testCase.HashZ = null;
@@ -83,9 +84,13 @@ namespace NIST.CVP.Generation.KAS.Tests
         }
 
         [Test]
-        public void ShouldFailWhenMismatchedHashZ()
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+        public void ShouldFailWhenMismatchedHashZ(FfcScheme scheme, KeyAgreementRole kasRole)
         {
-            var testGroup = GetData();
+            var testGroup = GetData(scheme, kasRole);
             var testCase = (TestCase)testGroup.Tests[0];
 
             BitString newValue = testCase.HashZ.GetDeepCopy();
@@ -102,9 +107,14 @@ namespace NIST.CVP.Generation.KAS.Tests
             Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
         
-        private TestGroup GetData()
+        private TestGroup GetData(FfcScheme scheme, KeyAgreementRole kasRole)
         {
-            return _tdm.GetTestGroups().First();
+            var testGroup =  _tdm.GetTestGroups().First();
+            testGroup.KasMode = KasMode.NoKdfNoKc;
+            testGroup.Scheme = scheme;
+            testGroup.KasRole = kasRole;
+
+            return testGroup;
         }
     }
 }

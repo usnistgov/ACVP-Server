@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS;
-using NIST.CVP.Crypto.KAS.Builders;
-using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
-using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseValidatorAftNoKdfNoKc : ITestCaseValidator<TestCase>
     {
-        private readonly TestCase _expectedResult;
+        private readonly TestCase _workingResult;
         private readonly TestGroup _testGroup;
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> _deferredResolver;
 
         private readonly SchemeKeyNonceGenRequirement _iutKeyRequirements;
 
-        public TestCaseValidatorAftNoKdfNoKc(TestCase expectedResult, TestGroup testGroup, IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> deferredResolver)
+        public TestCaseValidatorAftNoKdfNoKc(TestCase workingResult, TestGroup testGroup, IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> deferredResolver)
         {
-            _expectedResult = expectedResult;
+            _workingResult = workingResult;
             _testGroup = testGroup;
             _deferredResolver = deferredResolver;
 
@@ -35,7 +30,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 );
         }
 
-        public int TestCaseId => _expectedResult.TestCaseId;
+        public int TestCaseId => _workingResult.TestCaseId;
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
@@ -80,7 +75,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         private void CheckResults(TestCase suppliedResult, List<string> errors)
         {
-            KasResult serverResult = _deferredResolver.CompleteDeferredCrypto(_testGroup, _expectedResult, suppliedResult);
+            KasResult serverResult = _deferredResolver.CompleteDeferredCrypto(_testGroup, _workingResult, suppliedResult);
 
             if (!serverResult.Tag.Equals(suppliedResult.HashZ))
             {

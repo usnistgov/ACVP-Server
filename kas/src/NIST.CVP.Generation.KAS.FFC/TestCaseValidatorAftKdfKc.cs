@@ -6,17 +6,17 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestCaseValidatorAftKdfNoKc : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorAftKdfKc : ITestCaseValidator<TestCase>
     {
-        private readonly TestCase _workingResult;
+        private readonly TestCase _workingTest;
         private readonly TestGroup _testGroup;
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> _deferredResolver;
 
         private readonly SchemeKeyNonceGenRequirement _iutKeyRequirements;
 
-        public TestCaseValidatorAftKdfNoKc(TestCase workingResult, TestGroup testGroup, IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> deferredResolver)
+        public TestCaseValidatorAftKdfKc(TestCase workingTest, TestGroup testGroup, IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> deferredResolver)
         {
-            _workingResult = workingResult;
+            _workingTest = workingTest;
             _testGroup = testGroup;
             _deferredResolver = deferredResolver;
 
@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 );
         }
 
-        public int TestCaseId => _workingResult.TestCaseId;
+        public int TestCaseId => _workingTest.TestCaseId;
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
@@ -67,6 +67,14 @@ namespace NIST.CVP.Generation.KAS.FFC
                 }
             }
 
+            if (_iutKeyRequirements.GeneratesEphemeralNonce)
+            {
+                if (suppliedResult.EphemeralNonceIut == null || suppliedResult.EphemeralNonceIut.BitLength == 0)
+                {
+                    errors.Add($"Expected {nameof(suppliedResult.EphemeralPublicKeyIut)} but was not supplied");
+                }
+            }
+
             // AES-CCM nonce required only when IUT is both initiator, and macType is AES-CCM
             if (_testGroup.KasRole == KeyAgreementRole.InitiatorPartyU
                 && _testGroup.MacType == KeyAgreementMacType.AesCcm)
@@ -85,7 +93,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             {
                 errors.Add($"Expected {nameof(suppliedResult.IdIut)} but was not supplied");
             }
-            
+
             if (suppliedResult.OiLen == 0)
             {
                 errors.Add($"Expected {nameof(suppliedResult.OiLen)} must be supplied and non zero");
@@ -94,7 +102,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             {
                 errors.Add($"Expected {nameof(suppliedResult.OtherInfo)} but was not supplied");
             }
-            
+
             if (suppliedResult.Tag == null)
             {
                 errors.Add($"Expected {nameof(suppliedResult.Tag)} but was not supplied");
@@ -103,8 +111,8 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         private void CheckResults(TestCase suppliedResult, List<string> errors)
         {
-            KasResult serverResult = _deferredResolver.CompleteDeferredCrypto(_testGroup, _workingResult, suppliedResult);
-            
+            KasResult serverResult = _deferredResolver.CompleteDeferredCrypto(_testGroup, _workingTest, suppliedResult);
+
             if (!serverResult.Tag.Equals(suppliedResult.Tag))
             {
                 errors.Add($"{nameof(suppliedResult.Tag)} does not match");

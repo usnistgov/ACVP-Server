@@ -46,6 +46,11 @@ namespace NIST.CVP.Generation.KAS.FFC
                                     new DeferredTestCaseResolverAftKdfNoKc(_kasBuilder, _macParametersBuilder,
                                         _schemeBuilder, _entropyProviderFactory)));
                                 break;
+                            case KasMode.KdfKc:
+                                list.Add(new TestCaseValidatorAftKdfKc(workingTest, group,
+                                    new DeferredTestCaseResolverAftKdfKc(_kasBuilder, _macParametersBuilder,
+                                        _schemeBuilder, _entropyProviderFactory)));
+                                break;
                             default:
                                 throw new ArgumentOutOfRangeException();
                         }

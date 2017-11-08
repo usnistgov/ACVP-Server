@@ -15,14 +15,21 @@ namespace NIST.CVP.Generation.KAS.Tests
         private readonly TestCaseValidatorFactory _subject = new TestCaseValidatorFactory(null, null, null, null);
         
         [Test]
-        [TestCase("AFT", KasMode.NoKdfNoKc, typeof(TestCaseValidatorAftNoKdfNoKc))]
-        [TestCase("AFT", KasMode.KdfNoKc, typeof(TestCaseValidatorAftKdfNoKc))]
-        [TestCase("VAL", KasMode.NoKdfNoKc, typeof(TestCaseValidatorVal))]
-        [TestCase("VAL", KasMode.KdfNoKc, typeof(TestCaseValidatorVal))]
-        public void ShouldReturnCorrectValidator(string testType, KasMode kasMode, Type expectedValidatorType)
+        [TestCase("AFT", FfcScheme.DhEphem, KasMode.NoKdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorAftNoKdfNoKc))]
+        [TestCase("AFT", FfcScheme.DhEphem, KasMode.KdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorAftKdfNoKc))]
+        [TestCase("VAL", FfcScheme.DhEphem, KasMode.NoKdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorVal))]
+        [TestCase("VAL", FfcScheme.DhEphem, KasMode.KdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorVal))]
+        
+        [TestCase("AFT", FfcScheme.Mqv1, KasMode.NoKdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorAftNoKdfNoKc))]
+        [TestCase("AFT", FfcScheme.Mqv1, KasMode.KdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorAftKdfNoKc))]
+        [TestCase("AFT", FfcScheme.Mqv1, KasMode.KdfKc, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral, typeof(TestCaseValidatorAftKdfKc))]
+        [TestCase("VAL", FfcScheme.Mqv1, KasMode.NoKdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorVal))]
+        [TestCase("VAL", FfcScheme.Mqv1, KasMode.KdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorVal))]
+        [TestCase("VAL", FfcScheme.Mqv1, KasMode.KdfKc, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral, typeof(TestCaseValidatorVal))]
+        public void ShouldReturnCorrectValidator(string testType, FfcScheme scheme, KasMode kasMode, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType, Type expectedValidatorType)
         {
             TestVectorSet testVectorSet = null;
-            GetData(testType, kasMode, ref testVectorSet);
+            GetData(testType, scheme, kasMode, kcRole, kcType, ref testVectorSet);
 
             var result = _subject.GetValidators(testVectorSet, null).ToList();
 
@@ -30,7 +37,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             Assert.IsInstanceOf(expectedValidatorType, result[0]);
         }
 
-        private void GetData(string testType, KasMode kasMode, ref TestVectorSet testVectorSet)
+        private void GetData(string testType, FfcScheme scheme, KasMode kasMode, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType, ref TestVectorSet testVectorSet)
         {
             testVectorSet = new TestVectorSet()
             {
@@ -41,7 +48,9 @@ namespace NIST.CVP.Generation.KAS.Tests
                     {
                         TestType = testType,
                         KasMode = kasMode,
-                        Scheme = FfcScheme.DhEphem,
+                        Scheme = scheme,
+                        KcRole = kcRole,
+                        KcType = kcType,
                         Tests = new List<ITestCase>()
                         {
                             new TestCase()
