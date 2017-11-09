@@ -10,6 +10,7 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.DSA.ECC.SigGen.Parsers;
 using System.Linq;
+using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
 {
@@ -29,9 +30,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
         [Test]
         public void ShouldRunThroughTestFilesAndValidateSigGen()
         {
-            var failingList = new List<int>();
-            var tcId = 1;
-
             if (!Directory.Exists(_testPath))
             {
                 Assert.Fail("Test File Directory does not exist");
@@ -74,17 +72,11 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                         var result = algo.Sign(testGroup.DomainParameters, testCase.KeyPair, testCase.Message);
                         if (result.Signature.R != testCase.Signature.R || result.Signature.S != testCase.Signature.S)
                         {
-                            failingList.Add(tcId);
-                            break;
-                            //Assert.Fail($"Could not validate TestCase: {testCase.TestCaseId}");
+                            Assert.Fail($"Could not validate TestCase: {testCase.TestCaseId}");
                         }
-
-                        tcId++;
                     }
                 }
             }
-
-            Assert.Fail(string.Join(" ", failingList));
         }
     }
 }
