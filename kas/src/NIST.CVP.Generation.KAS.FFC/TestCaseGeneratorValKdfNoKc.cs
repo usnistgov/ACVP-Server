@@ -96,7 +96,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                         ? SpecificationMapping.IutId
                         : SpecificationMapping.ServerId
                 )
-                .WithAssurances(group.Function)
                 .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
                 .WithParameterSet(group.ParmSet)
                 .WithScheme(group.Scheme)
@@ -119,7 +118,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                         ? SpecificationMapping.IutId
                         : SpecificationMapping.ServerId
                 )
-                .WithAssurances(group.Function)
                 .WithKeyAgreementRole(KeyAgreementRole.ResponderPartyV)
                 .WithParameterSet(group.ParmSet)
                 .WithScheme(group.Scheme)
@@ -173,10 +171,9 @@ namespace NIST.CVP.Generation.KAS.FFC
                 iutResult = uParty.ComputeResult(vPartyPublic);
             }
 
-
             // Set the test case up w/ the information from the kas instances
             TestCaseDispositionHelper.SetTestCaseInformationFromKasResults(group, testCase, serverKas, iutKas, iutResult);
-
+            
             // Change data for failures that do not require a rerun of functions
             if (_intendedDisposition == TestCaseDispositionOption.FailChangedOi)
             {

@@ -1,8 +1,10 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
@@ -114,6 +116,12 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                 GenerateKasKeyNonceInformation();
             }
 
+            // Perform keychecks
+            if (!KeyChecks(otherPartyInformation))
+            {
+                return new KasResult("Failed key validation.");
+            }
+
             if (otherPartyInformation.NoKeyConfirmationNonce != null)
             {
                 NoKeyConfirmationNonce = otherPartyInformation.NoKeyConfirmationNonce;
@@ -138,10 +146,71 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             var kdf = KdfFactory.GetInstance(KdfHashMode.Sha, Dsa.Sha.HashFunction);
             var dkm = kdf.DeriveKey(z, KdfParameters.KeyLength, oi);
 
-            // Perform key confirmation, differs depending on scheme
+            // Perform no/key confirmation
             var computedKeyMac = ComputeMac(otherPartyInformation, dkm.DerivedKey);
 
             return new KasResult(z, oi, dkm.DerivedKey, computedKeyMac.MacData, computedKeyMac.Mac);
+        }
+
+        private bool KeyChecks(FfcSharedInformation otherPartyInformation)
+        {
+            try
+            {
+                // When KeyPairGen or FullVal, check the static public key
+                if (SchemeParameters.KasAssurances.HasFlag(KasAssurance.KeyPairGen) ||
+                    SchemeParameters.KasAssurances.HasFlag(KasAssurance.FullVal) &&
+                    StaticKeyPair != null)
+                {
+                    KeyValidationHelper.PerformFfcPublicKeyValidation(
+                        DomainParameters.P,
+                        DomainParameters.Q,
+                        StaticKeyPair.PublicKeyY,
+                        true
+                    );
+                }
+
+                // When fullval, and the other party provides a static public key
+                if (SchemeParameters.KasAssurances.HasFlag(KasAssurance.FullVal) &&
+                    otherPartyInformation.StaticPublicKey != 0)
+                {
+                    KeyValidationHelper.PerformFfcPublicKeyValidation(
+                        DomainParameters.P,
+                        DomainParameters.Q,
+                        otherPartyInformation.StaticPublicKey,
+                        true
+                    );
+                }
+
+                // When fullval, and the other party provides a ephemeral public key
+                if (SchemeParameters.KasAssurances.HasFlag(KasAssurance.FullVal) &&
+                    otherPartyInformation.EphemeralPublicKey != 0)
+                {
+                    KeyValidationHelper.PerformFfcPublicKeyValidation(
+                        DomainParameters.P,
+                        DomainParameters.Q,
+                        otherPartyInformation.EphemeralPublicKey,
+                        true
+                    );
+                }
+
+                // When using DpVal or KeyRegen, with a static key, 
+                // perform private static key validation
+                if ((SchemeParameters.KasAssurances.HasFlag(KasAssurance.DpVal) ||
+                    SchemeParameters.KasAssurances.HasFlag(KasAssurance.KeyRegen)) &&
+                        StaticKeyPair != null)
+                {
+                    if (Dsa.ValidateKeyPair(DomainParameters, StaticKeyPair).Success)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -151,7 +220,6 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         {
             var paramDetails = FfcParameterSetDetails.GetDetailsForParameterSet(SchemeParameters.FfcParameterSet);
 
-            // TODO validate generation mode correct
             SetDomainParameters(
                 Dsa.GenerateDomainParameters(
                     new FfcDomainParametersGenerateRequest(
@@ -284,8 +352,8 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         {
             var thisPartyEphemeralPublicKeyOrNonce =
                 GetEphemeralKeyOrNonce(EphemeralKeyPair?.PublicKeyY ?? 0, EphemeralNonce);
-            var otherPartyEphemeralPublicKeyOrNonce = GetEphemeralKeyOrNonce(otherPartyInformation.EphemeralPublicKey,
-                otherPartyInformation.EphemeralNonce);
+            var otherPartyEphemeralPublicKeyOrNonce = 
+                GetEphemeralKeyOrNonce(otherPartyInformation.EphemeralPublicKey, otherPartyInformation.EphemeralNonce);
 
             if (MacParameters.MacType == KeyAgreementMacType.AesCcm)
             {
@@ -330,7 +398,15 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         {
             if (ephemeralPublicKey != 0)
             {
-                return new BitString(ephemeralPublicKey);
+                var ephemKey = new BitString(ephemeralPublicKey);
+
+                // Ensure mod 32
+                if (ephemKey.BitLength % 32 != 0)
+                {
+                    ephemKey = BitString.ConcatenateBits(BitString.Zeroes(32 - ephemKey.BitLength % 32), ephemKey);
+                }
+
+                return ephemKey;
             }
 
             return ephemeralNonce;

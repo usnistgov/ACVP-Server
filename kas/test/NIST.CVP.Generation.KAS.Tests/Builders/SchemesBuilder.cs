@@ -5,12 +5,7 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
     public class SchemesBuilder
     {
         private DhEphem _dhEphem;
-
-        public SchemesBuilder()
-        {
-            // TODO add more schemes as they're added
-            _dhEphem = SchemeBuilder.GetBaseDhEphemBuilder().BuildDhEphem();
-        }
+        private Mqv1 _mqv1;
 
         public SchemesBuilder WithDhEphem(DhEphem value)
         {
@@ -18,11 +13,18 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
             return this;
         }
 
+        public SchemesBuilder WithMqv1(Mqv1 value)
+        {
+            _mqv1 = value;
+            return this;
+        }
+
         public Schemes BuildSchemes()
         {
             return new Schemes()
             {
-                DhEphem = _dhEphem
+                DhEphem = _dhEphem,
+                Mqv1 = _mqv1
             };
         }
     }

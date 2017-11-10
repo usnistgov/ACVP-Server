@@ -60,6 +60,16 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
                 new BitString("a1b2c3d4e5434156536964fa52970e44840dc70b96e5555fe35d1003b9db"),
                 // expectedDerivedKeyingMaterial
                 new BitString("d835f00a7b85d2a66fab2055bc7d3d3e")
+            },
+            new object[]
+            {
+                "from cavs",
+                ModeValues.SHA2,
+                DigestSizes.d224,
+                256,
+                new BitString("489d533a2cdf49d486329029bf633ddbf3e80ea0602de8ad42e3918a9cfae187cf5a408e290b11eee2625fdd0c2a25bc14655efcd100d31ca36570472e4e92296c5df310ff117b2322c4750080fc616ad3f423e614489cf455b0cddf9d7deb4df2ea495473c8dd2ed5b870a55e6eeebd4ff574d9d3da50287558d00c590420ccd1ef30ca294c56ad4c305c3080f36a473a30ff8b1fd939563c55ce6d85a9f535b3459c621e7a7ded1f3ddc51e8e54d292d07ff85505faf544b34122e9759630627f528a53c8bed8061cb32c3eb77140fd6e24f4d17ebb720f499e077001473fd7967c9f89049c7cefc21b27eaf642ef0c4cc5d0802380aa74761730d4481689c").ToPositiveBigInteger(),
+                new BitString("a1b2c3d4e543415653696412532948b6fab173270f7d2de3622e61b2efdc"),
+                new BitString("a0c5cea7f94deb7980fe78e9ef530a9c2f956df7f40aec2233398bc4f3a1c32f"),
             }
         };
 

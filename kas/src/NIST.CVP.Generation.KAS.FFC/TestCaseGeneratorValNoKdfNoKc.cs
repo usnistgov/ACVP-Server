@@ -50,7 +50,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                         ? SpecificationMapping.IutId
                         : SpecificationMapping.ServerId
                 )
-                .WithAssurances(group.Function)
                 .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
                 .WithParameterSet(group.ParmSet)
                 .WithScheme(group.Scheme)
@@ -60,7 +59,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                         .WithHashFunction(group.HashAlg)
                 )
                 .BuildNoKdfNoKc()
-
                 .Build();
 
             var vParty = _kasBuilder
@@ -69,7 +67,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                         ? SpecificationMapping.IutId
                         : SpecificationMapping.ServerId
                 )
-                .WithAssurances(group.Function)
                 .WithKeyAgreementRole(KeyAgreementRole.ResponderPartyV)
                 .WithParameterSet(group.ParmSet)
                 .WithScheme(group.Scheme)
@@ -119,7 +116,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             // Set the test case up w/ the information from the kas instances
             TestCaseDispositionHelper.SetTestCaseInformationFromKasResults(group, testCase, serverKas, iutKas, iutResult);
-
+            
             // introduce errors into other data
             if (_intendedDisposition == TestCaseDispositionOption.FailChangedZ)
             {

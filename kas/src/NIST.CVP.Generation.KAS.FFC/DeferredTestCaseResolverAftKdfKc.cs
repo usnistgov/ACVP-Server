@@ -10,7 +10,7 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    internal class DeferredTestCaseResolverAftKdfKc : IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>
+    public class DeferredTestCaseResolverAftKdfKc : IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>
     {
         private readonly IKasBuilder _kasBuilder;
         private readonly IMacParametersBuilder _macParametersBuilder;
@@ -29,13 +29,15 @@ namespace NIST.CVP.Generation.KAS.FFC
         {
             KeyAgreementRole serverRole =
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(testGroup.KasRole);
+            KeyConfirmationRole serverKcRole =
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(testGroup.KcRole);
 
             var serverKeyRequirements =
                 KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                     testGroup.Scheme,
                     testGroup.KasMode,
                     serverRole,
-                    testGroup.KcRole,
+                    serverKcRole,
                     testGroup.KcType
                 );
 
@@ -78,10 +80,13 @@ namespace NIST.CVP.Generation.KAS.FFC
                 )
                 .WithKeyAgreementRole(serverRole)
                 .WithPartyId(testGroup.IdServer)
-                .BuildKdfNoKc()
+                .BuildKdfKc()
                 .WithKeyLength(testGroup.KeyLen)
                 .WithMacParameters(macParameters)
                 .WithOtherInfoPattern(testGroup.OiPattern)
+                .WithKeyLength(testGroup.KeyLen)
+                .WithKeyConfirmationRole(serverKcRole)
+                .WithKeyConfirmationDirection(testGroup.KcType)
                 .Build();
 
             serverKas.SetDomainParameters(domainParameters);

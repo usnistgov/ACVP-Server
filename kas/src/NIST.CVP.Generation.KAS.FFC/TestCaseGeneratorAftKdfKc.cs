@@ -39,7 +39,6 @@ namespace NIST.CVP.Generation.KAS.FFC
             KeyConfirmationRole serverKcRole =
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(group.KcRole);
 
-            // TODO validate this can be done at below todo
             var serverKeyNonceRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 group.Scheme,
                 group.KasMode,
@@ -127,7 +126,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                         .GetEntropy(parameterSetAttributes.pLength);
                     var ephemeralNonceEntropyProvider = _entropyProviderFactory
                         .GetEntropyProvider(EntropyProviderTypes.Testable);
-                    ephemeralNonceEntropyProvider.AddEntropy(testCase.EphemeralNonceServer.GetDeepCopy());
+                    ephemeralNonceEntropyProvider.AddEntropy(testCase.EphemeralNonceIut.GetDeepCopy());
                     _schemeBuilder.WithEntropyProvider(ephemeralNonceEntropyProvider);
                 }
 

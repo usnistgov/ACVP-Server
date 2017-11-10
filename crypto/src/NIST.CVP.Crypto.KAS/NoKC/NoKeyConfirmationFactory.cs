@@ -34,7 +34,7 @@ namespace NIST.CVP.Crypto.KAS.NoKC
                     EnumMapping.GetHashFunctionOptions(parameters.KeyAgreementMacType, ref modeValue, ref digestSize);
                     return new NoKeyConfirmationHmac(parameters, hmacFactory.GetHmacInstance(new HashFunction(modeValue, digestSize)));
                 default:
-                    throw new ArgumentException(nameof(parameters.KeyAgreementMacType));
+                     throw new ArgumentException(nameof(parameters.KeyAgreementMacType));
             }
         }
     }

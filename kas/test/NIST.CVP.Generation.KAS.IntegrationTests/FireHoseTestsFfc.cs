@@ -1,9 +1,9 @@
 ﻿using System;
 using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
@@ -11,12 +11,12 @@ using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.FFC;
-using NIST.CVP.Generation.KAS.FFC.Fakes;
 using NIST.CVP.Generation.KAS.FFC.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NIST.CVP.Math.Helpers;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
@@ -61,18 +61,20 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
             foreach (var iTestGroup in testVector.TestGroups)
             {
-                var testGroup = (TestGroup) iTestGroup;
+                var testGroup = (TestGroup)iTestGroup;
+
+                SwitchTestGroupIutServerInformation(testGroup);
 
                 foreach (var iTestCase in testGroup.Tests)
                 {
-                    var testCase = (TestCase) iTestCase;
+                    var testCase = (TestCase)iTestCase;
 
                     var schemeBuilder = new SchemeBuilder(
-                        new DsaFfcFactory(_shaFactory), 
+                        new DsaFfcFactory(_shaFactory),
                         new KdfFactory(_shaFactory),
                         new KeyConfirmationFactory(),
                         new NoKeyConfirmationFactory(),
-                        new OtherInfoFactory(new EntropyProvider(new Random800_90())), 
+                        new OtherInfoFactory(new EntropyProvider(new Random800_90())),
                         new EntropyProvider(new Random800_90()),
                         new DiffieHellman(),
                         new Mqv()
@@ -93,9 +95,19 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 new EntropyProviderFactory()
                             );
                             break;
+                        case KasMode.KdfKc:
+                            testCaseResolver = new DeferredTestCaseResolverAftKdfKc(
+                                kasBuilder,
+                                new MacParametersBuilder(),
+                                schemeBuilder,
+                                new EntropyProviderFactory()
+                            );
+                            break;
                         default:
                             throw new NotImplementedException();
                     }
+
+                    SwitchTestCaseIutServerInformation(testCase);
 
                     var result = testCaseResolver.CompleteDeferredCrypto(testGroup, testCase, testCase);
 
@@ -121,6 +133,62 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
             Assert.IsTrue(passes > 0, nameof(passes));
             Assert.IsTrue(expectedFails > 0, nameof(expectedFails));
+        }
+
+        /// <summary>
+        /// note that deferred test case resolver performs KAS from the server perspective,
+        /// but in order to detect IUT errors from the CAVS files, the test cases must be
+        /// performed from the IUT perspective.
+        /// 
+        /// Switch around all server and iut related test information
+        /// </summary>
+        private static void SwitchTestGroupIutServerInformation(TestGroup testGroup)
+        {
+            var holdIdServer = testGroup.IdServer?.GetDeepCopy();
+            testGroup.IdServer = testGroup.IdIut?.GetDeepCopy();
+            testGroup.IdIut = holdIdServer?.GetDeepCopy();
+
+            var holdIdServerLen = testGroup.IdServerLen;
+            testGroup.IdServerLen = testGroup.IdIutLen;
+            testGroup.IdIutLen = holdIdServerLen;
+
+            testGroup.KasRole =
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(testGroup.KasRole);
+            testGroup.KcRole =
+                KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(testGroup.KcRole);
+        }
+
+        /// <summary>
+        /// note that deferred test case resolver performs KAS from the server perspective,
+        /// but in order to detect IUT errors from the CAVS files, the test cases must be
+        /// performed from the IUT perspective.
+        /// 
+        /// Switch around all server and iut related test information
+        /// </summary>
+        /// <param name="testCase"></param>
+        private static void SwitchTestCaseIutServerInformation(TestCase testCase)
+        {
+            testCase.IdIut = null;
+
+            var holdEphemNonceIut = testCase.EphemeralNonceIut?.GetDeepCopy();
+            testCase.EphemeralNonceIut = testCase.EphemeralNonceServer?.GetDeepCopy();
+            testCase.EphemeralNonceServer = holdEphemNonceIut?.GetDeepCopy();
+
+            var holdEphemeralPrivateKeyIut = testCase.EphemeralPrivateKeyIut;
+            testCase.EphemeralPrivateKeyIut = testCase.EphemeralPrivateKeyServer;
+            testCase.EphemeralPrivateKeyServer = holdEphemeralPrivateKeyIut;
+
+            var holdEphemeralPublicKeyIut = testCase.EphemeralPublicKeyIut;
+            testCase.EphemeralPublicKeyIut = testCase.EphemeralPublicKeyServer;
+            testCase.EphemeralPublicKeyServer = holdEphemeralPublicKeyIut;
+
+            var holdStaticPrivateKeyIut = testCase.StaticPrivateKeyIut;
+            testCase.StaticPrivateKeyIut = testCase.StaticPrivateKeyServer;
+            testCase.StaticPrivateKeyServer = holdStaticPrivateKeyIut;
+
+            var holdStaticPublicKeyIut = testCase.StaticPublicKeyIut;
+            testCase.StaticPublicKeyIut = testCase.StaticPublicKeyServer;
+            testCase.StaticPublicKeyServer = holdStaticPublicKeyIut;
         }
     }
 }

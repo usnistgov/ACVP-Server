@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.KAS.Enums;
+﻿using System;
+using NIST.CVP.Crypto.KAS.Enums;
 
 namespace NIST.CVP.Generation.KAS.Tests.Builders
 {
@@ -14,13 +15,24 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
             _role = new string[] { "initiator", "responder" };
         }
 
+        // TODO more schemes
+
         public static SchemeBuilder GetBaseDhEphemBuilder()
         {
-            // TODO
             return new SchemeBuilder()
             {
                 _noKdfNoKc = new NoKdfNoKcBuilder().BuildNoKdfNoKc(),
                 _kdfNoKc = new KdfNoKcBuilder().BuildKdfNoKc()
+            };
+        }
+
+        public static SchemeBuilder GetBaseMqv1Builder()
+        {
+            return new SchemeBuilder()
+            {
+                _noKdfNoKc = new NoKdfNoKcBuilder().BuildNoKdfNoKc(),
+                _kdfNoKc = new KdfNoKcBuilder().BuildKdfNoKc(),
+                _kdfKc = new KdfKcBuilder().Build()
             };
         }
 
@@ -48,15 +60,17 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
             return this;
         }
 
-        public DhEphem BuildDhEphem()
+        public T Build<T>()
+            where T : SchemeBase
         {
-            return new DhEphem()
-            {
-                NoKdfNoKc = _noKdfNoKc,
-                KdfNoKc = _kdfNoKc,
-                KdfKc = _kdfKc,
-                Role = _role
-            };
+            T instance = Activator.CreateInstance<T>();
+
+            instance.NoKdfNoKc = _noKdfNoKc;
+            instance.KdfNoKc = _kdfNoKc;
+            instance.KdfKc = _kdfKc;
+            instance.Role = _role;
+
+            return instance;
         }
     }
 }

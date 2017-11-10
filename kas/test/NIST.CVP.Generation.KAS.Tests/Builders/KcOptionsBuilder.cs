@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
         {
             _kcRole = new string[] { "provider", "recipient" };
             _kcType = new string[] { "unilateral", "bilateral" };
-            _nonceType = new string[] { "random", "sequence", "timestamp" } ;
+            _nonceType = new string[] { "randomNonce", "sequence", "timestamp" } ;
         }
 
         public KcOptionsBuilder WithKcRole(string[] value)

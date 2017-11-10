@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.FFC.Fakes;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {

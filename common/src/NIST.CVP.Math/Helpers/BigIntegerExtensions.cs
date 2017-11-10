@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 
 namespace NIST.CVP.Math.Helpers
 {
@@ -63,6 +60,24 @@ namespace NIST.CVP.Math.Helpers
         {
             var shifted = value >> index;
             return !shifted.IsEven;
+        }
+
+        /// <summary>
+        /// returns the hex representation of a <see cref="BigInteger"/>
+        /// </summary>
+        /// <param name="value">The value to return as hex</param>
+        /// <param name="zeroAsEmpty">Should <see cref="BigInteger.Zero"/> be represented as 
+        /// an empty hex string (true) 
+        /// or "00" (false)</param>
+        /// <returns></returns>
+        public static string ToHex(this BigInteger value, bool zeroAsEmpty = true)
+        {
+            if (value.IsZero)
+            {
+                return zeroAsEmpty ? string.Empty : "00";
+            }
+
+            return new BitString(value).ToHex();
         }
     }
 }

@@ -349,6 +349,20 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 }
                             }
                         }
+                    },
+                    Mqv1 = new Mqv1()
+                    {
+                        Role = new string[] { "initiator" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" }
+                                }
+                            }
+                        }
                     }
                 },
                 IsSample = true
@@ -442,6 +456,164 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                         Cmac = new MacOptionCmac()
                                         {
                                             KeyLen = new int[] { 128, 192, 256 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D256 = new MacOptionHmacSha2_d256()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D384 = new MacOptionHmacSha2_d384()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D512 = new MacOptionHmacSha2_d512()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    Mqv1 = new Mqv1()
+                    {
+                        Role = new string[] { "initiator", "responder" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224", "SHA2-512" }
+                                },
+                                Fc = new Fc()
+                                {
+                                    HashAlg = new string[] { "SHA2-256", "SHA2-512" }
+                                }
+                            }
+                        },
+                        KdfNoKc = new KdfNoKc()
+                        {
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224", "SHA2-512" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D256 = new MacOptionHmacSha2_d256()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D384 = new MacOptionHmacSha2_d384()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D512 = new MacOptionHmacSha2_d512()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    }
+                                },
+                                Fc = new Fc()
+                                {
+                                    HashAlg = new string[] { "SHA2-256", "SHA2-512" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D256 = new MacOptionHmacSha2_d256()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D384 = new MacOptionHmacSha2_d384()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D512 = new MacOptionHmacSha2_d512()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        KdfKc = new KdfKc()
+                        {
+                            KcOption = new KcOptions()
+                            {
+                                KcRole = new string[] { "provider", "recipient" },
+                                KcType = new string[] { "unilateral", "bilateral" },
+                                NonceType = new string[] { "randomNonce" }
+                            },
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafe1234]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224", "SHA2-512" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 256 },
                                             MacLen = 128
                                         },
                                         HmacSha2_D224 = new MacOptionHmacSha2_d224()

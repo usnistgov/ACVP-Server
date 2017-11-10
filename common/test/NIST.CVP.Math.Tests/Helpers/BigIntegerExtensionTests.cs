@@ -46,5 +46,28 @@ namespace NIST.CVP.Math.Tests.Helpers
             var value = new BitString(hex).ToPositiveBigInteger();
             Assert.AreEqual(expectedResult, value.ExactBitLength());
         }
+
+        [Test]
+        [TestCase(true, "")]
+        [TestCase(false, "00")]
+        public void ShouldReturnCorrectZeroRepresentationForToHex(bool zeroAsEmpty, string expectation)
+        {
+            var value = BigInteger.Zero;
+
+            var result = value.ToHex(zeroAsEmpty);
+
+            Assert.AreEqual(expectation, result);
+        }
+
+        [Test]
+        [TestCase(1, "01")]
+        public void ShouldReturnCorrectHexRepresentationOfBigInteger(int value, string expectation)
+        {
+            var valueAsBigInteger = new BigInteger(value);
+
+            var result = valueAsBigInteger.ToHex();
+
+            Assert.AreEqual(expectation, result);
+        }
     }
 }

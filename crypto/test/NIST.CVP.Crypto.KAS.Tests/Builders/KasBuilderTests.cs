@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
@@ -98,26 +99,31 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             Assert.AreEqual(KasMode.KdfNoKc, result.Scheme.SchemeParameters.KasMode);
         }
 
-        // TODO test valid once a key confirmation scheme exists (change FfcScheme.DhEphem)
-        //[Test]
-        //public void ShouldReturnKeyConfirmationKas()
-        //{
-        //    var result = _subject.GetInstance(
-        //        new KasParametersKeyConfirmation(
-        //            KeyAgreementRole.UPartyInitiator,
-        //            FfcScheme.DhEphem,
-        //            FfcParameterSet.FB,
-        //            KasAssurance.None,
-        //            _dsa.Object,
-        //            new BitString(1),
-        //            new KdfParameters(0, string.Empty),
-        //            new MacParameters(KeyAgreementMacType.AesCcm, 0, new BitString(1)),
-        //            KeyConfirmationRole.Provider,
-        //            KeyConfirmationDirection.Unilateral
-        //        )
-        //    );
+        [Test]
+        public void ShouldReturnKeyConfirmationKas()
+        {
+            var macParams = _macParamsBuilder
+                .WithKeyAgreementMacType(KeyAgreementMacType.AesCcm)
+                .WithMacLength(0)
+                .WithNonce(new BitString(1))
+                .Build();
+            
+            var result = _subject
+                .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
+                .WithScheme(FfcScheme.Mqv1)
+                .WithParameterSet(FfcParameterSet.Fb)
+                .WithAssurances(KasAssurance.None)
+                .WithPartyId(new BitString(1))
+                .BuildKdfKc()
+                .WithKeyLength(0)
+                .WithOtherInfoPattern(string.Empty)
+                .WithMacParameters(macParams)
+                .WithKeyConfirmationRole(KeyConfirmationRole.Provider)
+                .WithKeyConfirmationDirection(KeyConfirmationDirection.Bilateral)
+                .WithKeyLength(128)
+                .Build();
 
-        //    Assert.AreEqual(KasMode.KeyConfirmation, result.KasParameters.KasMode);
-        //}
+            Assert.AreEqual(KasMode.KdfKc, result.Scheme.SchemeParameters.KasMode);
+        }
     }
 }

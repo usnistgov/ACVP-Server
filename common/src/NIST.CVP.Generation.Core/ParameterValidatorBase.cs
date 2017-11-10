@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.Core
                 return $"{friendlyName} Contains null value.";
             }
 
-            var intersection = supplied.Select(v => v.ToLower()).Intersect(valid);
+            var intersection = supplied.Select(v => v.ToLower()).Intersect(valid, StringComparer.OrdinalIgnoreCase);
             if (intersection.Count() != supplied.Length)
             {
                 var invalid = supplied.Except(valid);

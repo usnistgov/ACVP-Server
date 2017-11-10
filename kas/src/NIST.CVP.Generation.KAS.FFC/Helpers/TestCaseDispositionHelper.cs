@@ -86,8 +86,10 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
                 while (true)
                 {
                     serverKas.Scheme.StaticKeyPair.PublicKeyY += 2;
-                    if (!dsa.ValidateKeyPair(serverKas.Scheme.DomainParameters, serverKas.Scheme.StaticKeyPair)
-                        .Success)
+                    if (!KeyValidationHelper.PerformFfcPublicKeyValidation(
+                        serverKas.Scheme.DomainParameters.P, 
+                        serverKas.Scheme.DomainParameters.Q, 
+                        serverKas.Scheme.StaticKeyPair.PublicKeyY))
                     {
                         break;
                     }
@@ -104,8 +106,10 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
                 while (true)
                 {
                     serverKas.Scheme.EphemeralKeyPair.PublicKeyY += 2;
-                    if (!dsa.ValidateKeyPair(serverKas.Scheme.DomainParameters, serverKas.Scheme.EphemeralKeyPair)
-                        .Success)
+                    if (!KeyValidationHelper.PerformFfcPublicKeyValidation(
+                        serverKas.Scheme.DomainParameters.P, 
+                        serverKas.Scheme.DomainParameters.Q, 
+                        serverKas.Scheme.EphemeralKeyPair.PublicKeyY))
                     {
                         break;
                     }
@@ -132,8 +136,10 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
                 while (true)
                 {
                     iutKas.Scheme.StaticKeyPair.PublicKeyY += 2;
-                    if (!dsa.ValidateKeyPair(iutKas.Scheme.DomainParameters, iutKas.Scheme.StaticKeyPair)
-                        .Success)
+                    if (!KeyValidationHelper.PerformFfcPublicKeyValidation(
+                        iutKas.Scheme.DomainParameters.P, 
+                        iutKas.Scheme.DomainParameters.Q, 
+                        iutKas.Scheme.StaticKeyPair.PublicKeyY))
                     {
                         break;
                     }

@@ -64,8 +64,6 @@ namespace NIST.CVP.Generation.KAS.FFC
             var serverIutKeyConfirmationRole =
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(iutKeyConfirmationRole);
 
-            // TODO implement key confirmation in builders?
-
             // Handles Failures due to changed z, dkm, macData
             IKdfFactory kdfFactory = _kdfFactory;
             if (_intendedDisposition == TestCaseDispositionOption.FailChangedZ)
@@ -91,7 +89,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                         ? SpecificationMapping.IutId
                         : SpecificationMapping.ServerId
                 )
-                .WithAssurances(group.Function)
                 .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
                 .WithParameterSet(group.ParmSet)
                 .WithScheme(group.Scheme)
@@ -120,7 +117,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                         ? SpecificationMapping.IutId
                         : SpecificationMapping.ServerId
                 )
-                .WithAssurances(group.Function)
                 .WithKeyAgreementRole(KeyAgreementRole.ResponderPartyV)
                 .WithParameterSet(group.ParmSet)
                 .WithScheme(group.Scheme)
@@ -182,7 +178,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             
             // Set the test case up w/ the information from the kas instances
             TestCaseDispositionHelper.SetTestCaseInformationFromKasResults(group, testCase, serverKas, iutKas, iutResult);
-
+            
             // Change data for failures that do not require a rerun of functions
             if (_intendedDisposition == TestCaseDispositionOption.FailChangedOi)
             {

@@ -176,11 +176,13 @@ namespace NIST.CVP.Generation.KAS
             EphemeralPublicKeyServer = expandoSource.GetBigIntegerFromProperty("yEphemeralServer");
             StaticPrivateKeyServer = expandoSource.GetBigIntegerFromProperty("xStaticServer");
             StaticPublicKeyServer = expandoSource.GetBigIntegerFromProperty("yStaticServer");
+            EphemeralNonceServer = expandoSource.GetBitStringFromProperty("nonceEphemeralServer");
 
             EphemeralPrivateKeyIut = expandoSource.GetBigIntegerFromProperty("xEphemeralIut");
             EphemeralPublicKeyIut = expandoSource.GetBigIntegerFromProperty("yEphemeralIut");
             StaticPrivateKeyIut = expandoSource.GetBigIntegerFromProperty("xStaticIut");
             StaticPublicKeyIut = expandoSource.GetBigIntegerFromProperty("yStaticIut");
+            EphemeralNonceIut = expandoSource.GetBitStringFromProperty("nonceEphemeralIut");
 
             IdIutLen = expandoSource.GetTypeFromProperty<int>("idIutLen");
             IdIut = expandoSource.GetBitStringFromProperty("idIut");

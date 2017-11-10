@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Text.RegularExpressions;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.Core.Parsers;
-using NLog.LayoutRenderers;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.FFC.Parsers
@@ -40,7 +35,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Parsers
 
             var groups = new List<TestGroup>();
 
-            var files = Directory.GetFiles(path, "*.fax");
+            var files = Directory.GetFiles(path, "*.fax", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 string fileName = Path.GetFileName(file).ToLower();
@@ -134,7 +129,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Parsers
                             continue;
                         }
                     }
-                    string hmacMacAlgoLine = "[HMAC SHAs supported: ";
+                    string hmacMacAlgoLine = "[HMAC SHAs supported:";
                     if (workingLine.StartsWith(hmacMacAlgoLine, StringComparison.OrdinalIgnoreCase))
                     {
                         workingLine = workingLine.Replace(hmacMacAlgoLine, "", StringComparison.OrdinalIgnoreCase).Replace("]", "");
@@ -264,6 +259,36 @@ namespace NIST.CVP.Generation.KAS.FFC.Parsers
             if (fileName.Contains("ffcephem"))
             {
                 scheme = FfcScheme.DhEphem;
+                return;
+            }
+            if (fileName.Contains("ffchybrid1"))
+            {
+                scheme = FfcScheme.DhHybrid1;
+                return;
+            }
+            if (fileName.Contains("ffchybridoneflow"))
+            {
+                scheme = FfcScheme.DhHybridOneFlow;
+                return;
+            }
+            if (fileName.Contains("ffconeflow"))
+            {
+                scheme = FfcScheme.DhOneFlow;
+                return;
+            }
+            if (fileName.Contains("ffcstatic"))
+            {
+                scheme = FfcScheme.DhStatic;
+                return;
+            }
+            if (fileName.Contains("ffcmqv1"))
+            {
+                scheme = FfcScheme.Mqv1;
+                return;
+            }
+            if (fileName.Contains("ffcmqv2"))
+            {
+                scheme = FfcScheme.Mqv2;
                 return;
             }
 

@@ -93,7 +93,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                 ).SharedSecretZ;
             }
             
-            // Party V uses its static key, and party V's static and ephemeral keys
+            // Party V uses its static key, and party U's static and ephemeral keys
             return _mqv.GenerateSharedSecretZ(
                 DomainParameters.P,
                 DomainParameters.Q,

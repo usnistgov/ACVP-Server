@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         public override int GetHashCode()
         {
             return (
-                $"{Scheme.ToString()}|{TestType}|{KasRole}|{KasMode}|{ParmSet}|{HashAlg.Name}|{MacType}|{KeyLen}|{AesCcmNonceLen}|{MacLen}|{KdfType}|{IdServerLen}|{IdServer}|{IdIutLen}|{IdIut}|{OiPattern}|{KcRole.ToString()}|{KcType.ToString()}|{P}|{Q}|{G}"
+                $"{Scheme.ToString()}|{TestType}|{KasRole}|{KasMode}|{HashAlg.Name}|{MacType}|{KeyLen}|{AesCcmNonceLen}|{MacLen}|{KdfType}|{IdServerLen}|{IdServer}|{IdIutLen}|{IdIut}|{OiPattern}|{KcRole.ToString()}|{KcType.ToString()}|{NonceType}|{ParmSet}|{P}|{Q}|{G}"
             ).GetHashCode();
         }
 

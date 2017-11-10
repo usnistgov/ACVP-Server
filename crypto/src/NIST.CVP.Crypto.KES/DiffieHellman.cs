@@ -18,14 +18,19 @@ namespace NIST.CVP.Crypto.KES
             BigInteger yPublicKeyPartyB)
         {
 
-            var z = BigInteger.ModPow(yPublicKeyPartyB, xPrivateKeyPartyA, p);
+            var z = new BitString(BigInteger.ModPow(yPublicKeyPartyB, xPrivateKeyPartyA, p));
 
-            if (z == BigInteger.One)
+            if (z.ToPositiveBigInteger() == 1)
             {
                 return new SharedSecretResponse($"{nameof(z)} was 1, error.");
             }
 
-            return new SharedSecretResponse(new BitString(z));
+            if (z.BitLength % 32 != 0)
+            {
+                z = BitString.ConcatenateBits(BitString.Zeroes(32 - z.BitLength % 32), z);
+            }
+
+            return new SharedSecretResponse(z);
         }
     }
 }

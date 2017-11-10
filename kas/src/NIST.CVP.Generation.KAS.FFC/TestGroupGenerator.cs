@@ -136,7 +136,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 {
                     {
                         FfcParameterSet.Fb,
-                        (GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Fb)
+                        (GetHashAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Fb)
                             .OrderBy(ob => Guid.NewGuid())
                             .ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Fb)
@@ -145,7 +145,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                     },
                     {
                         FfcParameterSet.Fc,
-                        (GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Fc).OrderBy(ob => Guid.NewGuid())
+                        (GetHashAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Fc).OrderBy(ob => Guid.NewGuid())
                             .ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Fc)
                             .OrderBy(ob => Guid.NewGuid()).ToList())
@@ -202,15 +202,15 @@ namespace NIST.CVP.Generation.KAS.FFC
                 {
                     {
                         FfcParameterSet.Fb,
-                        (GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Fb)
+                        (GetHashAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Fb)
                             .ToList(),
-                        GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Fb)
+                        GetMacAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Fb)
                             .ToList())
                     },
                     {
                         FfcParameterSet.Fc,
-                        (GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Fc).ToList(),
-                        GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Fc).ToList())
+                        (GetHashAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Fc).ToList(),
+                        GetMacAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Fc).ToList())
                     }
                 };
 
@@ -218,7 +218,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             {
                 foreach (var role in schemeBase.Role)
                 {
-                    foreach (var kdf in GetKdfOptions(schemeBase.KdfNoKc.KdfOption))
+                    foreach (var kdf in GetKdfOptions(schemeBase.KdfKc.KdfOption))
                     {
                         foreach (var nonceType in schemeBase.KdfKc.KcOption.NonceType)
                         {

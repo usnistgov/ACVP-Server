@@ -109,7 +109,7 @@ namespace NIST.CVP.Generation.KAS
         private void ValidateAtLeastOneSchemePresent(Schemes parametersScheme, List<string> errorResults)
         {
             // TODO add more schemes
-            if (parametersScheme.DhEphem == null)
+            if (parametersScheme.DhEphem == null && parametersScheme.Mqv1 == null)
             {
                 errorResults.Add("No schemes are present in the registration.");
             }
@@ -131,7 +131,7 @@ namespace NIST.CVP.Generation.KAS
             }
 
             // kdfKc is invalid for dhEphem
-            if (scheme.KdfKc != null)
+            if (scheme.KdfKc != null && scheme is DhEphem)
             {
                 errorResults.Add("Key Confirmation not possible with dhEphem.");
                 return;
@@ -157,15 +157,9 @@ namespace NIST.CVP.Generation.KAS
                 return;
             }
 
-            // kdfKc is invalid for dhEphem
-            if (scheme.KdfKc != null)
-            {
-                errorResults.Add("Key Confirmation not possible with dhEphem.");
-                return;
-            }
-
             ValidateNoKdfNoKc(scheme.NoKdfNoKc, errorResults);
             ValidateKdfNoKc(scheme.KdfNoKc, errorResults);
+            ValidateKdfKc(scheme.KdfKc, errorResults);
         }
 
         private void ValidateKeyAgreementRoles(string[] schemeRoles, List<string> errorResults)

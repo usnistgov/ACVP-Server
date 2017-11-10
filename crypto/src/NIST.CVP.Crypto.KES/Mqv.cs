@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.KES
             BigInteger tPublicKeyPartyB)
         {
             // 1. w = ceil (len(q) / 2)
-            var qBitString = new BitString(q, 0, true);
+            var qBitString = new BitString(q);
             int lenQ = qBitString.BitLength;
             int w = lenQ / 2 + ((lenQ % 2 != 0) ? 1 : 0);
 
@@ -40,9 +40,14 @@ namespace NIST.CVP.Crypto.KES
             // 5. Z = ((t_B * (y_B^T_B))^S_A) mod p
             // Two steps: 1. me1 = y_B ^ T_B mod p   2. z = (t_B * me1) ^ S_A mod p
             var me1 = BigInteger.ModPow(yPublicStaticKeyPartyB, T_B, p);
-            var z = BigInteger.ModPow((tPublicKeyPartyB * me1), S_A, p);
+            var z = new BitString(BigInteger.ModPow((tPublicKeyPartyB * me1), S_A, p));
 
-            return new SharedSecretResponse(new BitString(z, 0, false));
+            if (z.BitLength % 32 != 0)
+            {
+                z = BitString.ConcatenateBits(BitString.Zeroes(32 - z.BitLength % 32), z);
+            }
+
+            return new SharedSecretResponse(z);
         }
     }
 }
