@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             BigInteger testValue= 42;
 
             var sourceTest = GetSourceAnswerTest();
-            sourceTest.xStaticServer = testValue;
+            sourceTest.staticPrivateServer = testValue;
             var subject = new TestCase(sourceTest);
             Assume.That(_subject != null);
             Assert.AreEqual(testValue, subject.StaticPrivateKeyServer);
@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             BigInteger testValue = 42;
 
             var sourceTest = GetSourceAnswerTest();
-            sourceTest.yStaticServer = testValue;
+            sourceTest.staticPublicServer = testValue;
             var subject = new TestCase(sourceTest);
             Assume.That(_subject != null);
             Assert.AreEqual(testValue, subject.StaticPublicKeyServer);
@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             BigInteger testValue = 42;
 
             var sourceTest = GetSourceAnswerTest();
-            sourceTest.xEphemeralServer = testValue;
+            sourceTest.ephemeralPrivateServer = testValue;
             var subject = new TestCase(sourceTest);
             Assume.That(_subject != null);
             Assert.AreEqual(testValue, subject.EphemeralPrivateKeyServer);
@@ -116,7 +116,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             BigInteger testValue = 42;
 
             var sourceTest = GetSourceAnswerTest();
-            sourceTest.yEphemeralServer = testValue;
+            sourceTest.ephemeralPublicServer = testValue;
             var subject = new TestCase(sourceTest);
             Assume.That(_subject != null);
             Assert.AreEqual(testValue, subject.EphemeralPublicKeyServer);
@@ -128,7 +128,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             BigInteger testValue = 42;
 
             var sourceTest = GetSourceAnswerTest();
-            sourceTest.xStaticIut = testValue;
+            sourceTest.staticPrivateIut = testValue;
             var subject = new TestCase(sourceTest);
             Assume.That(_subject != null);
             Assert.AreEqual(testValue, subject.StaticPrivateKeyIut);
@@ -140,7 +140,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             BigInteger testValue = 42;
 
             var sourceTest = GetSourceAnswerTest();
-            sourceTest.yStaticIut = testValue;
+            sourceTest.staticPublicIut = testValue;
             var subject = new TestCase(sourceTest);
             Assume.That(_subject != null);
             Assert.AreEqual(testValue, subject.StaticPublicKeyIut);
@@ -152,7 +152,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             BigInteger testValue = 42;
 
             var sourceTest = GetSourceAnswerTest();
-            sourceTest.xEphemeralIut = testValue;
+            sourceTest.ephemeralPrivateIut = testValue;
             var subject = new TestCase(sourceTest);
             Assume.That(_subject != null);
             Assert.AreEqual(testValue, subject.EphemeralPrivateKeyIut);
@@ -164,7 +164,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             BigInteger testValue = 42;
 
             var sourceTest = GetSourceAnswerTest();
-            sourceTest.yEphemeralIut = testValue;
+            sourceTest.ephemeralPublicIut = testValue;
             var subject = new TestCase(sourceTest);
             Assume.That(_subject != null);
             Assert.AreEqual(testValue, subject.EphemeralPublicKeyIut);

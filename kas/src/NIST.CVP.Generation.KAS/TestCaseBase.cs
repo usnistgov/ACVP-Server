@@ -172,16 +172,16 @@ namespace NIST.CVP.Generation.KAS
             FailureTest = expandoSource.GetTypeFromProperty<bool>("failureTest");
             Deferred = expandoSource.GetTypeFromProperty<bool>("deferred");
 
-            EphemeralPrivateKeyServer = expandoSource.GetBigIntegerFromProperty("xEphemeralServer");
-            EphemeralPublicKeyServer = expandoSource.GetBigIntegerFromProperty("yEphemeralServer");
-            StaticPrivateKeyServer = expandoSource.GetBigIntegerFromProperty("xStaticServer");
-            StaticPublicKeyServer = expandoSource.GetBigIntegerFromProperty("yStaticServer");
+            EphemeralPrivateKeyServer = expandoSource.GetBigIntegerFromProperty("ephemeralPrivateServer");
+            EphemeralPublicKeyServer = expandoSource.GetBigIntegerFromProperty("ephemeralPublicServer");
+            StaticPrivateKeyServer = expandoSource.GetBigIntegerFromProperty("staticPrivateServer");
+            StaticPublicKeyServer = expandoSource.GetBigIntegerFromProperty("staticPublicServer");
             EphemeralNonceServer = expandoSource.GetBitStringFromProperty("nonceEphemeralServer");
 
-            EphemeralPrivateKeyIut = expandoSource.GetBigIntegerFromProperty("xEphemeralIut");
-            EphemeralPublicKeyIut = expandoSource.GetBigIntegerFromProperty("yEphemeralIut");
-            StaticPrivateKeyIut = expandoSource.GetBigIntegerFromProperty("xStaticIut");
-            StaticPublicKeyIut = expandoSource.GetBigIntegerFromProperty("yStaticIut");
+            EphemeralPrivateKeyIut = expandoSource.GetBigIntegerFromProperty("ephemeralPrivateIut");
+            EphemeralPublicKeyIut = expandoSource.GetBigIntegerFromProperty("ephemeralPublicIut");
+            StaticPrivateKeyIut = expandoSource.GetBigIntegerFromProperty("staticPrivateIut");
+            StaticPublicKeyIut = expandoSource.GetBigIntegerFromProperty("staticPublicIut");
             EphemeralNonceIut = expandoSource.GetBitStringFromProperty("nonceEphemeralIut");
 
             IdIutLen = expandoSource.GetTypeFromProperty<int>("idIutLen");

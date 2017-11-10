@@ -43,18 +43,18 @@ namespace NIST.CVP.Generation.KAS.FFC
                         testObject.AddIntegerWhenNotZero("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
                         ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
-                        testObject.AddBigIntegerWhenNotZero("xStaticServer", test.StaticPrivateKeyServer);
-                        testObject.AddBigIntegerWhenNotZero("yStaticServer", test.StaticPublicKeyServer);
-                        testObject.AddBigIntegerWhenNotZero("xEphemeralServer", test.EphemeralPrivateKeyServer);
-                        testObject.AddBigIntegerWhenNotZero("yEphemeralServer", test.EphemeralPublicKeyServer);
+                        testObject.AddBigIntegerWhenNotZero("staticPrivateServer", test.StaticPrivateKeyServer);
+                        testObject.AddBigIntegerWhenNotZero("staticPublicServer", test.StaticPublicKeyServer);
+                        testObject.AddBigIntegerWhenNotZero("ephemeralPrivateServer", test.EphemeralPrivateKeyServer);
+                        testObject.AddBigIntegerWhenNotZero("ephemeralPublicServer", test.EphemeralPublicKeyServer);
                         DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceEphemeralServer", test.EphemeralNonceServer);
 
                         DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceNoKc", test.NonceNoKc);
 
-                        testObject.AddBigIntegerWhenNotZero("xStaticIut", test.StaticPrivateKeyIut);
-                        testObject.AddBigIntegerWhenNotZero("yStaticIut", test.StaticPublicKeyIut);
-                        testObject.AddBigIntegerWhenNotZero("xEphemeralIut", test.EphemeralPrivateKeyIut);
-                        testObject.AddBigIntegerWhenNotZero("yEphemeralIut", test.EphemeralPublicKeyIut);
+                        testObject.AddBigIntegerWhenNotZero("staticPrivateIut", test.StaticPrivateKeyIut);
+                        testObject.AddBigIntegerWhenNotZero("staticPublicIut", test.StaticPublicKeyIut);
+                        testObject.AddBigIntegerWhenNotZero("ephemeralPrivateIut", test.EphemeralPrivateKeyIut);
+                        testObject.AddBigIntegerWhenNotZero("ephemeralPublicIut", test.EphemeralPublicKeyIut);
                         DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceEphemeralIut", test.EphemeralNonceIut);
 
                         DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "z", test.Z);
@@ -111,8 +111,8 @@ namespace NIST.CVP.Generation.KAS.FFC
 
                         if (group.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
                         {
-                            testObject.AddBigIntegerWhenNotZero("yStaticServer", test.StaticPublicKeyServer);
-                            testObject.AddBigIntegerWhenNotZero("yEphemeralServer", test.EphemeralPublicKeyServer);
+                            testObject.AddBigIntegerWhenNotZero("staticPublicServer", test.StaticPublicKeyServer);
+                            testObject.AddBigIntegerWhenNotZero("ephemeralPublicServer", test.EphemeralPublicKeyServer);
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceEphemeralServer", test.EphemeralNonceServer);
 
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceNoKc", test.NonceNoKc);
@@ -125,16 +125,16 @@ namespace NIST.CVP.Generation.KAS.FFC
 
                         if (group.TestType.Equals("val", StringComparison.OrdinalIgnoreCase))
                         {
-                            testObject.AddBigIntegerWhenNotZero("yStaticServer", test.StaticPublicKeyServer);
-                            testObject.AddBigIntegerWhenNotZero("yEphemeralServer", test.EphemeralPublicKeyServer);
+                            testObject.AddBigIntegerWhenNotZero("staticPublicServer", test.StaticPublicKeyServer);
+                            testObject.AddBigIntegerWhenNotZero("ephemeralPublicServer", test.EphemeralPublicKeyServer);
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceEphemeralServer", test.EphemeralNonceServer);
 
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceNoKc", test.NonceNoKc);
 
-                            testObject.AddBigIntegerWhenNotZero("xStaticIut", test.StaticPrivateKeyIut);
-                            testObject.AddBigIntegerWhenNotZero("yStaticIut", test.StaticPublicKeyIut);
-                            testObject.AddBigIntegerWhenNotZero("xEphemeralIut", test.EphemeralPrivateKeyIut);
-                            testObject.AddBigIntegerWhenNotZero("yEphemeralIut", test.EphemeralPublicKeyIut);
+                            testObject.AddBigIntegerWhenNotZero("staticPrivateIut", test.StaticPrivateKeyIut);
+                            testObject.AddBigIntegerWhenNotZero("staticPublicIut", test.StaticPublicKeyIut);
+                            testObject.AddBigIntegerWhenNotZero("ephemeralPrivateIut", test.EphemeralPrivateKeyIut);
+                            testObject.AddBigIntegerWhenNotZero("ephemeralPublicIut", test.EphemeralPublicKeyIut);
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceEphemeralIut", test.EphemeralNonceIut);
 
                             if (group.MacType != KeyAgreementMacType.None)
@@ -183,10 +183,10 @@ namespace NIST.CVP.Generation.KAS.FFC
                         {
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceNoKc", test.NonceNoKc);
 
-                            testObject.AddBigIntegerWhenNotZero("xStaticIut", test.StaticPrivateKeyIut);
-                            testObject.AddBigIntegerWhenNotZero("yStaticIut", test.StaticPublicKeyIut);
-                            testObject.AddBigIntegerWhenNotZero("xEphemeralIut", test.EphemeralPrivateKeyIut);
-                            testObject.AddBigIntegerWhenNotZero("yEphemeralIut", test.EphemeralPublicKeyIut);
+                            testObject.AddBigIntegerWhenNotZero("staticPrivateIut", test.StaticPrivateKeyIut);
+                            testObject.AddBigIntegerWhenNotZero("staticPublicIut", test.StaticPublicKeyIut);
+                            testObject.AddBigIntegerWhenNotZero("ephemeralPrivateIut", test.EphemeralPrivateKeyIut);
+                            testObject.AddBigIntegerWhenNotZero("ephemeralPublicIut", test.EphemeralPublicKeyIut);
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceEphemeralIut", test.EphemeralNonceIut);
 
                             if (group.MacType != KeyAgreementMacType.None)
