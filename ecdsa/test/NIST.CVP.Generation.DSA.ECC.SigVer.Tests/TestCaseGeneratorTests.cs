@@ -63,7 +63,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
 
             var result = subject.Generate(GetTestGroup(), true);
 
-            eccMock.Verify(v => v.GenerateKeyPair(It.IsAny<EccDomainParameters>()), Times.Once, "Call KeyGen Generate once");
+            eccMock.Verify(v => v.GenerateKeyPair(It.IsAny<EccDomainParameters>()), Times.AtLeastOnce, "Call KeyGen Generate at least once");
             eccMock.Verify(v => v.Sign(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>()), Times.Once, "Call Sign once");
 
             Assert.IsTrue(result.Success);

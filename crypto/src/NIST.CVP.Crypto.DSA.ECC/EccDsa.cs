@@ -105,9 +105,9 @@ namespace NIST.CVP.Crypto.DSA.ECC
             var kInverse = NumberTheory.ModularInverse(k, domainParameters.CurveE.OrderN);
 
             var bitsOfDigestNeeded = System.Math.Min(domainParameters.CurveE.OrderN.ExactBitLength(), Sha.HashFunction.OutputLen);
-            var e = Sha.HashMessage(message).Digest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
+            var hashDigest = Sha.HashMessage(message).Digest;
+            var e = hashDigest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
 
-            //var e = Sha.HashMessage(message).ToBigInteger().PosMod(domainParameters.CurveE.OrderN);
             var s = (kInverse * (e + keyPair.PrivateD * r)).PosMod(domainParameters.CurveE.OrderN);
 
             // Return pair (r, s)

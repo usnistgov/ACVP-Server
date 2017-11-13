@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                         var result = algo.Sign(testGroup.DomainParameters, testCase.KeyPair, testCase.Message);
                         if (result.Signature.R != testCase.Signature.R || result.Signature.S != testCase.Signature.S)
                         {
-                            Assert.Fail($"Could not validate TestCase: {testCase.TestCaseId}");
+                            Assert.Fail($"Could not validate TestCase: {testCase.TestCaseId}, with values: \nR: {testCase.Signature.R}\nS: {testCase.Signature.S}");
                         }
                     }
                 }
