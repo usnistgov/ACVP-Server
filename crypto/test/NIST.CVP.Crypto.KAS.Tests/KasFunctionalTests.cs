@@ -54,8 +54,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                         _entropyProviderOtherInfo
                     ),
                     _entropyProviderScheme,
-                    new DiffieHellman(),
-                    new Mqv()
+                    new DiffieHellmanFfc(),
+                    new MqvFfc()
                 )
             );
             

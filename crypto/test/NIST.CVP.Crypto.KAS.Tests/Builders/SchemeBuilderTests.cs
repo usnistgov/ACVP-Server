@@ -32,8 +32,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
         private Mock<INoKeyConfirmationFactory> _noKeyConfirmationFactory;
         private Mock<IOtherInfoFactory> _otherInfoFactory;
         private Mock<IEntropyProvider> _entropyProvider;
-        private Mock<IDiffieHellman> _diffieHellman;
-        private Mock<IMqv> _mqv;
+        private Mock<IDiffieHellman<FfcDomainParameters, FfcKeyPair>> _diffieHellmanFfc;
+        private Mock<IMqv<FfcDomainParameters, FfcKeyPair>> _mqv;
 
         private FfcDomainParameters _mockDomainParameters;
 
@@ -49,8 +49,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _noKeyConfirmationFactory = new Mock<INoKeyConfirmationFactory>();
             _otherInfoFactory = new Mock<IOtherInfoFactory>();
             _entropyProvider = new Mock<IEntropyProvider>();
-            _diffieHellman = new Mock<IDiffieHellman>();
-            _mqv = new Mock<IMqv>();
+            _diffieHellmanFfc = new Mock<IDiffieHellman<FfcDomainParameters, FfcKeyPair>>();
+            _mqv = new Mock<IMqv<FfcDomainParameters, FfcKeyPair>>();
 
             _subject = new SchemeBuilder(
                 _dsaFactory.Object, 
@@ -59,7 +59,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                 _noKeyConfirmationFactory.Object, 
                 _otherInfoFactory.Object, 
                 _entropyProvider.Object,
-                _diffieHellman.Object,
+                _diffieHellmanFfc.Object,
                 _mqv.Object
             );
 

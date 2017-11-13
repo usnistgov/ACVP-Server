@@ -9,12 +9,12 @@ namespace NIST.CVP.Crypto.KES.Tests
     [TestFixture, UnitTest, FastIntegrationTest]
     public class FfcMqvTests
     {
-        private Mqv _subject;
+        private MqvFfc _subject;
 
         [SetUp]
         public void Setup()
         {
-            _subject = new Mqv();
+            _subject = new MqvFfc();
         }
 
         private static object[] SuccessSharedSecretZTests = new object[]
@@ -136,13 +136,12 @@ namespace NIST.CVP.Crypto.KES.Tests
         )
         {
             var result = _subject.GenerateSharedSecretZ(
-                p, 
-                q,
-                xPrivateKeyPartyA, 
-                yPublicKeyPartyB, 
-                rPrivateKeyPartyA,
-                tPublicKeyPartyA, 
-                tPublicKeyPartyB
+                new FfcDomainParameters(p, q, 0), 
+                new FfcKeyPair(xPrivateKeyPartyA, 0),
+                new FfcKeyPair(yPublicKeyPartyB),
+                new FfcKeyPair(rPrivateKeyPartyA, 0),
+                new FfcKeyPair(tPublicKeyPartyA),
+                new FfcKeyPair(tPublicKeyPartyB)
             );
 
             Assume.That(result.Success, $"{nameof(result)} should have been successful");

@@ -510,7 +510,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             {
                                 Fb = new Fb()
                                 {
-                                    HashAlg = new string[] { "SHA2-224", "SHA2-512" },
+                                    HashAlg = new string[] { "SHA2-224" },
                                     MacOption = new MacOptions()
                                     {
                                         AesCcm = new MacOptionAesCcm()
@@ -525,21 +525,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         },
                                         HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D256 = new MacOptionHmacSha2_d256()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D384 = new MacOptionHmacSha2_d384()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D512 = new MacOptionHmacSha2_d512()
                                         {
                                             KeyLen = new int[] { 128 },
                                             MacLen = 128
@@ -548,7 +533,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 },
                                 Fc = new Fc()
                                 {
-                                    HashAlg = new string[] { "SHA2-256", "SHA2-512" },
+                                    HashAlg = new string[] { "SHA2-512" },
                                     MacOption = new MacOptions()
                                     {
                                         AesCcm = new MacOptionAesCcm()
@@ -560,21 +545,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                         Cmac = new MacOptionCmac()
                                         {
                                             KeyLen = new int[] { 256 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D256 = new MacOptionHmacSha2_d256()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D384 = new MacOptionHmacSha2_d384()
-                                        {
-                                            KeyLen = new int[] { 128 },
                                             MacLen = 128
                                         },
                                         HmacSha2_D512 = new MacOptionHmacSha2_d512()
@@ -602,7 +572,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             {
                                 Fb = new Fb()
                                 {
-                                    HashAlg = new string[] { "SHA2-224", "SHA2-512" },
+                                    HashAlg = new string[] { "SHA2-512" },
                                     MacOption = new MacOptions()
                                     {
                                         AesCcm = new MacOptionAesCcm()
@@ -616,22 +586,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             KeyLen = new int[] { 256 },
                                             MacLen = 128
                                         },
-                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D256 = new MacOptionHmacSha2_d256()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
                                         HmacSha2_D384 = new MacOptionHmacSha2_d384()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D512 = new MacOptionHmacSha2_d512()
                                         {
                                             KeyLen = new int[] { 128 },
                                             MacLen = 128

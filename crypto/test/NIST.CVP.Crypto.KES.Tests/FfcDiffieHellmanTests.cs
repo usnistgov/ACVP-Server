@@ -10,12 +10,12 @@ namespace NIST.CVP.Crypto.KES.Tests
     [TestFixture, UnitTest, FastIntegrationTest]
     public class FfcDiffieHellmanTests
     {
-        private DiffieHellman _subject;
+        private DiffieHellmanFfc _subject;
 
         [SetUp]
         public void Setup()
         {
-            _subject = new DiffieHellman();
+            _subject = new DiffieHellmanFfc();
         }
         
         private static object[] SuccessSharedSecretZTests = new object[]
@@ -144,7 +144,13 @@ namespace NIST.CVP.Crypto.KES.Tests
             BigInteger expectedSharedZ
         )
         {
-            var result = _subject.GenerateSharedSecretZ(p, xPrivateKeyPartyA, yPublicKeyPartyB);
+            FfcDomainParameters domainParameters = new FfcDomainParameters(p, 0, 0);
+
+            var result = _subject.GenerateSharedSecretZ(
+                domainParameters, 
+                new FfcKeyPair(xPrivateKeyPartyA, 0), 
+                new FfcKeyPair(yPublicKeyPartyB)
+            );
 
             Assume.That(result.Success, $"{nameof(result)} should have been successful");
             Assert.AreEqual(expectedSharedZ, result.SharedSecretZ.ToPositiveBigInteger(), nameof(expectedSharedZ));

@@ -44,8 +44,8 @@ namespace KAS
             builder.RegisterType<CmacFactory>().AsImplementedInterfaces();
             builder.RegisterType<AES_CCMInternals>().AsImplementedInterfaces();
             builder.RegisterType<AES_CCM>().AsImplementedInterfaces();
-            builder.RegisterType<DiffieHellman>().AsImplementedInterfaces();
-            builder.RegisterType<Mqv>().AsImplementedInterfaces();
+            builder.RegisterType<DiffieHellmanFfc>().AsImplementedInterfaces();
+            builder.RegisterType<MqvFfc>().AsImplementedInterfaces();
             builder.RegisterType<SchemeBuilder>().AsImplementedInterfaces();
             builder.RegisterType<KasBuilder>().AsImplementedInterfaces();
             builder.RegisterType<MacParametersBuilder>().AsImplementedInterfaces();

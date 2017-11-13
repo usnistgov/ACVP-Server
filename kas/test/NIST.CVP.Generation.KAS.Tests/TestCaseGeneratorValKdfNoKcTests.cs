@@ -68,8 +68,8 @@ namespace NIST.CVP.Generation.KAS.Tests
                         _entropyProvider
                     ),
                     _entropyProvider,
-                    new DiffieHellman(),
-                    new Mqv()
+                    new DiffieHellmanFfc(),
+                    new MqvFfc()
             );
             _kasBuilder = new KasBuilder(_schemeBuilder);
 

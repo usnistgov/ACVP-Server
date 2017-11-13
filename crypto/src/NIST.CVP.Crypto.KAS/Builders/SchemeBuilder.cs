@@ -19,8 +19,8 @@ namespace NIST.CVP.Crypto.KAS.Builders
         private readonly INoKeyConfirmationFactory _originalNoKeyConfirmationFactory;
         private readonly IOtherInfoFactory _originalOtherInfoFactory;
         private readonly IEntropyProvider _originalEntropyProvider;
-        private readonly IDiffieHellman _originalDiffieHellman;
-        private readonly IMqv _originalMqv;
+        private readonly IDiffieHellman<FfcDomainParameters, FfcKeyPair> _originalDiffieHellmanFfc;
+        private readonly IMqv<FfcDomainParameters, FfcKeyPair> _originalMqv;
 
         private HashFunction _withHashFunction;
         private IDsaFfcFactory _withDsaFactory;
@@ -29,8 +29,8 @@ namespace NIST.CVP.Crypto.KAS.Builders
         private INoKeyConfirmationFactory _withNoKeyConfirmationFactory;
         private IOtherInfoFactory _withOtherInfoFactory;
         private IEntropyProvider _withEntropyProvider;
-        private IDiffieHellman _withDiffieHellman;
-        private IMqv _withMqv;
+        private IDiffieHellman<FfcDomainParameters, FfcKeyPair> _withDiffieHellmanFfc;
+        private IMqv<FfcDomainParameters, FfcKeyPair> _withMqv;
         
         public SchemeBuilder(
             IDsaFfcFactory dsaFactory,
@@ -39,8 +39,8 @@ namespace NIST.CVP.Crypto.KAS.Builders
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
             IEntropyProvider entropyProvider,
-            IDiffieHellman diffieHellman,
-            IMqv mqv
+            IDiffieHellman<FfcDomainParameters, FfcKeyPair> diffieHellmanFfc,
+            IMqv<FfcDomainParameters, FfcKeyPair> mqv
         )
         {
             _originalDsaFactory = dsaFactory;
@@ -49,7 +49,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             _originalNoKeyConfirmationFactory = noKeyConfirmationFactory;
             _originalOtherInfoFactory = otherInfoFactory;
             _originalEntropyProvider = entropyProvider;
-            _originalDiffieHellman = diffieHellman;
+            _originalDiffieHellmanFfc = diffieHellmanFfc;
             _originalMqv = mqv;
 
             SetWithInjectablesToConstructionState();
@@ -63,7 +63,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             _withNoKeyConfirmationFactory = _originalNoKeyConfirmationFactory;
             _withOtherInfoFactory = _originalOtherInfoFactory;
             _withEntropyProvider = _originalEntropyProvider;
-            _withDiffieHellman = _originalDiffieHellman;
+            _withDiffieHellmanFfc = _originalDiffieHellmanFfc;
             _withMqv = _originalMqv;
         }
 
@@ -109,18 +109,6 @@ namespace NIST.CVP.Crypto.KAS.Builders
             return this;
         }
 
-        public ISchemeBuilder WithDiffieHellman(IDiffieHellman diffieHellman)
-        {
-            _withDiffieHellman = diffieHellman;
-            return this;
-        }
-
-        public ISchemeBuilder WithMqv(IMqv mqv)
-        {
-            _withMqv = mqv;
-            return this;
-        }
-
         public IScheme BuildScheme(SchemeParameters schemeParameters, KdfParameters kdfParameters, MacParameters macParameters,
             bool backToOriginalState = true)
         {
@@ -133,7 +121,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
                 case FfcScheme.DhEphem:
                     scheme = new SchemeFfcDiffieHellmanEphemeral(dsa, _withKdfFactory,
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
-                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellmanFfc);
                     break;
                 case FfcScheme.Mqv1:
                     scheme = new SchemeFfcMqv1(dsa, _withKdfFactory,

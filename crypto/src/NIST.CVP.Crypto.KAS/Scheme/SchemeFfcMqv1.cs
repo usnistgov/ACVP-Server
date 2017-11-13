@@ -13,7 +13,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 {
     public class SchemeFfcMqv1 : SchemeBaseFfc
     {
-        private readonly IMqv _mqv;
+        private readonly IMqv<FfcDomainParameters, FfcKeyPair> _mqv;
 
         public SchemeFfcMqv1(
             IDsaFfc dsa, 
@@ -25,7 +25,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             SchemeParameters schemeParameters, 
             KdfParameters kdfParameters, 
             MacParameters macParameters, 
-            IMqv mqv
+            IMqv<FfcDomainParameters, FfcKeyPair> mqv
         ) 
             : base(dsa, kdfFactory, keyConfirmationFactory, noKeyConfirmationFactory, otherInfoFactory, entropyProvider, schemeParameters, kdfParameters, macParameters)
         {
@@ -83,25 +83,23 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU)
             {
                 return _mqv.GenerateSharedSecretZ(
-                    DomainParameters.P,
-                    DomainParameters.Q,
-                    StaticKeyPair.PrivateKeyX,
-                    otherPartyInformation.StaticPublicKey,
-                    EphemeralKeyPair.PrivateKeyX,
-                    EphemeralKeyPair.PublicKeyY,
-                    otherPartyInformation.StaticPublicKey
+                    DomainParameters,
+                    StaticKeyPair,
+                    new FfcKeyPair(otherPartyInformation.StaticPublicKey),
+                    EphemeralKeyPair,
+                    EphemeralKeyPair,
+                    new FfcKeyPair(otherPartyInformation.StaticPublicKey)
                 ).SharedSecretZ;
             }
             
             // Party V uses its static key, and party U's static and ephemeral keys
             return _mqv.GenerateSharedSecretZ(
-                DomainParameters.P,
-                DomainParameters.Q,
-                StaticKeyPair.PrivateKeyX,
-                otherPartyInformation.StaticPublicKey,
-                StaticKeyPair.PrivateKeyX,
-                StaticKeyPair.PublicKeyY,
-                otherPartyInformation.EphemeralPublicKey
+                DomainParameters,
+                StaticKeyPair,
+                new FfcKeyPair(otherPartyInformation.StaticPublicKey),
+                StaticKeyPair,
+                StaticKeyPair,
+                new FfcKeyPair(otherPartyInformation.EphemeralPublicKey)
             ).SharedSecretZ;
         }
     }

@@ -205,7 +205,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

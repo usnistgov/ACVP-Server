@@ -64,21 +64,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// <param name="entropyProvider">The entropy provider used in the scheme.</param>
         /// <returns></returns>
         ISchemeBuilder WithEntropyProvider(IEntropyProvider entropyProvider);
-
-        /// <summary>
-        /// Sets the <see cref="IDiffieHellman"/> used in the scheme.
-        /// </summary>
-        /// <param name="diffieHellman">The diffie hellman instance.</param>
-        /// <returns></returns>
-        ISchemeBuilder WithDiffieHellman(IDiffieHellman diffieHellman);
-
-        /// <summary>
-        /// Sets the <see cref="IMqv"/> used in the scheme.
-        /// </summary>
-        /// <param name="mqv">The mqv instance.</param>
-        /// <returns></returns>
-        ISchemeBuilder WithMqv(IMqv mqv);
-
+        
         /// <summary>
         /// Builds the scheme using the provided parameters, and default (or overriden dependencies for testing)
         /// </summary>

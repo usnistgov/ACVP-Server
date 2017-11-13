@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 {
     public class SchemeFfcDiffieHellmanEphemeral : SchemeBaseFfc
     {
-        private readonly IDiffieHellman Dh;
+        private readonly IDiffieHellman<FfcDomainParameters, FfcKeyPair> Dh;
 
         public SchemeFfcDiffieHellmanEphemeral(
             IDsaFfc dsa, 
@@ -24,7 +24,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             SchemeParameters schemeParameters, 
             KdfParameters kdfParameters, 
             MacParameters macParameters,
-            IDiffieHellman dh
+            IDiffieHellman<FfcDomainParameters, FfcKeyPair> dh
         ) 
             : base(dsa, kdfFactory, keyConfirmationFactory, noKeyConfirmationFactory, otherInfoFactory, entropyProvider, schemeParameters, kdfParameters, macParameters)
         {
@@ -74,8 +74,11 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <returns></returns>
         protected override BitString ComputeSharedSecret(FfcSharedInformation otherPartyInformation)
         {
-            return Dh.GenerateSharedSecretZ(DomainParameters.P, EphemeralKeyPair.PrivateKeyX,
-                otherPartyInformation.EphemeralPublicKey).SharedSecretZ;
+            return Dh.GenerateSharedSecretZ(
+                DomainParameters, 
+                EphemeralKeyPair,
+                new FfcKeyPair(otherPartyInformation.EphemeralPublicKey)
+            ).SharedSecretZ;
         }
     }
 }

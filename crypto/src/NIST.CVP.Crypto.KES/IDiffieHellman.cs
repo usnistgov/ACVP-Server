@@ -10,21 +10,23 @@ namespace NIST.CVP.Crypto.KES
     /// Section 5.7.1.1 (FFC)
     /// Section 5.7.1.2 (ECC)
     /// </summary>
-    public interface IDiffieHellman
+    public interface IDiffieHellman<in TDomainParameters, in TKeyPair>
+        where TDomainParameters : IDsaDomainParameters
+        where TKeyPair : IDsaKeyPair
     {
         /// <summary>
         /// Generates a shared secret Z based on DSA Domain parameters, 
         /// a private key from party A, 
         /// and public key from party B
         /// </summary>
-        /// <param name="p">The p plugged into DH</param>
+        /// <param name="domainParameters">The domain parameters of the DSA instance</param>
         /// <param name="xPrivateKeyPartyA">The private key X of Party A</param>
         /// <param name="yPublicKeyPartyB">The public key Y of Party B</param>
         /// <returns></returns>
         SharedSecretResponse GenerateSharedSecretZ(
-            BigInteger p, 
-            BigInteger xPrivateKeyPartyA,
-            BigInteger yPublicKeyPartyB
+            TDomainParameters domainParameters,
+            TKeyPair xPrivateKeyPartyA,
+            TKeyPair yPublicKeyPartyB
         );
     }
 }

@@ -76,8 +76,8 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         new NoKeyConfirmationFactory(),
                         new OtherInfoFactory(new EntropyProvider(new Random800_90())),
                         new EntropyProvider(new Random800_90()),
-                        new DiffieHellman(),
-                        new Mqv()
+                        new DiffieHellmanFfc(),
+                        new MqvFfc()
                     );
                     var kasBuilder = new KasBuilder(schemeBuilder);
                     IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> testCaseResolver;
