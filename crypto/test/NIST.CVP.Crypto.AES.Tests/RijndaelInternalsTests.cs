@@ -9,7 +9,7 @@ namespace NIST.CVP.Crypto.AES.Tests
     /// <summary>
     /// Note unit tests can utilize <see cref="RijndaelTest"/> for hitting protected functions.
     /// </summary>
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class RijndaelInternalsTests
     {
         /// <summary>

@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace NIST.CVP.Crypto.TDES_CFB.Tests
 {
-    [TestFixture, UnitTest, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class MCTs
     {
 
@@ -279,7 +279,7 @@ namespace NIST.CVP.Crypto.TDES_CFB.Tests
 
 //namespace NIST.CVP.Crypto.TDES_CFB.Tests
 //{
-//    [TestFixture, UnitTest, FastIntegrationTest]
+//    [TestFixture, FastCryptoTest]
 //    public class MCTs
 //    {
 

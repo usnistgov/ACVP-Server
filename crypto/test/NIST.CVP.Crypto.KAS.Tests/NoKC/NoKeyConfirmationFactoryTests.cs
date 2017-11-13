@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests.NoKC
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class NoKeyConfirmationFactoryTests
     {
         private NoKeyConfirmationFactory _subject;

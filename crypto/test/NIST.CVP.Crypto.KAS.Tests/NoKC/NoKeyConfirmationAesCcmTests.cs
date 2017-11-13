@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests.NoKC
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class NoKeyConfirmationAesCcmTests
     {
         private NoKeyConfirmationAesCcm _subject;

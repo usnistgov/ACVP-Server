@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests.KDF
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class KdfFactoryTests
     {
         private KdfFactory _subject;

@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.SHA3.Tests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class KeccakStateTests
     {
         // Not all of these are necessary, only 800/1600 will ever be used

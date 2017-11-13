@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.HMAC.Tests
 {
-    [TestFixture, UnitTest, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class HmacTests
     {
         private Hmac _subject;

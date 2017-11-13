@@ -9,7 +9,7 @@ using NIST.CVP.Math.Entropy;using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.RSA.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class PrimeGeneratorFactoryTests
     {
         [Test]

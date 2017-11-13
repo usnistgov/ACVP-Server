@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class KasTests
     {
         private Kas _subject;

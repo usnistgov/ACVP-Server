@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.SHA3.Tests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class KeccakInternalsTests
     {
         private readonly int[] _rates = new int[] {1152, 1088, 832, 576};

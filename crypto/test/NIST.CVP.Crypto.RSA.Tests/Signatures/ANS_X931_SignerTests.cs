@@ -9,7 +9,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.RSA.Tests.Signatures
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class ANS_X931_SignerTests
     {
         // SHA2-512/256 Test cases will fail because they were generated with a bugged version of CAVS where 0x40 was used instead of 0x3a

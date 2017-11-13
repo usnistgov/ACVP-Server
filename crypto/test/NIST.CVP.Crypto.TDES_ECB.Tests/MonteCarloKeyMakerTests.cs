@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.TDES_ECB.Tests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class MonteCarloKeyMakerTests
     {
         private Random800_90 _randy = new Random800_90();

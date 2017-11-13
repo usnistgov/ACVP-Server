@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests.KC
 {
-    [TestFixture, UnitTest, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class KeyConfirmationAesCcmTests
     {
         private KeyConfirmationAesCcm _subject;

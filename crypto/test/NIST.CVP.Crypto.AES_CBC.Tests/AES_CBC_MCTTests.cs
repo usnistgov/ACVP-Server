@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_CBC.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class AES_CBC_MCTTests
     {
         private Mock<IAES_CBC> _aesEcb;

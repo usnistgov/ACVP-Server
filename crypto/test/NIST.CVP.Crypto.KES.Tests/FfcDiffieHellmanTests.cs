@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KES.Tests
 {
-    [TestFixture, UnitTest, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class FfcDiffieHellmanTests
     {
         private DiffieHellmanFfc _subject;

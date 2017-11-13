@@ -4,10 +4,12 @@ using System.Text;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.CMAC.Tests
 {
+    [TestFixture, FastCryptoTest]
     public class CmacTdesHealthTests
     {
         private CmacTdes _subject;

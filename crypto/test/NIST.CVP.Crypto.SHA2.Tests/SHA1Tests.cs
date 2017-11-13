@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.SHA2.Tests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class SHA1Tests
     {
         [Test]

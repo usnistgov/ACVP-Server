@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests.KDF
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class OtherInfoTests
     {
         private OtherInfo _subject;
@@ -145,7 +145,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             },
         };
 
-        [Test, FastIntegrationTest]
+        [Test, FastCryptoTest]
         [TestCaseSource(nameof(_cavsTests))]
         public void ShouldReturnCorrectOtherInfoCavsTests(KeyAgreementRole iutRole, FfcSharedInformation uPartySharedInformation, FfcSharedInformation vPartySharedInformation, int otherInfoLength, BitString expectedOtherInfo)
         {

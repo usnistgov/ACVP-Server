@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.TDES.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class TDESKeysTests
     {
 

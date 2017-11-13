@@ -10,7 +10,7 @@ using System.Text;
 
 namespace NIST.CVP.Crypto.RSA.Tests.Signatures
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class RSASSA_PSS_SignerTests
     {
         [Test]

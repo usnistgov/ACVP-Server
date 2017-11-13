@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class AllProbablePrimesWithConditionsGeneratorTests
     {
         [Test]

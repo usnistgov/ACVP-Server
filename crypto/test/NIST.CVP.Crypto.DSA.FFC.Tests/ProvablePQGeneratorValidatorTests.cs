@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.DSA.FFC.Tests
 {
-    [TestFixture, LongRunningIntegrationTest]
+    [TestFixture, LongCryptoTest]
     public class ProvablePQGeneratorValidatorTests
     {
         private IShaFactory _shaFactory = new ShaFactory();

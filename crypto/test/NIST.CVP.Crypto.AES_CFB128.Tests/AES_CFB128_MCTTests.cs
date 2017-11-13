@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_CFB128.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class AES_CFB128_MCTTests
     {
         private Mock<IAES_CFB128> _aes;

@@ -15,7 +15,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests.Builders
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class KasBuilderTests
     {
 

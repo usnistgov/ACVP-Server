@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_CFB128.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class AES_CFB128Tests
     {
         [Test]

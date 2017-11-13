@@ -13,7 +13,7 @@ using StackExchange.Redis;
 
 namespace NIST.CVP.Crypto.KAS.Tests.NoKC
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     class NoKeyConfirmationHmacTests
     {
         private NoKeyConfirmationHmac _subject;

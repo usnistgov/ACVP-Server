@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_CCM.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class AES_CCMTests
     {
         [Test]

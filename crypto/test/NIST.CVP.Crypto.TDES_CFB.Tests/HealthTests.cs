@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.TDES_CFB.Tests
 {
-    [TestFixture, UnitTest, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class HealthTests
     {
         [Test]

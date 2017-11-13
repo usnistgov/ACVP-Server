@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests.KC
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class KeyConfirmationFactoryTests
     {
         private readonly KeyConfirmationFactory _subject = new KeyConfirmationFactory();

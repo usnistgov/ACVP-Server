@@ -19,7 +19,7 @@ using ModeValues = NIST.CVP.Crypto.SHAWrapper.ModeValues;
 
 namespace NIST.CVP.Crypto.KAS.Tests.Builders
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class SchemeBuilderTests
     {
         private SchemeBuilder _subject;

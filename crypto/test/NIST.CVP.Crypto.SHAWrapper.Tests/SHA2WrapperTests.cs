@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.SHAWrapper.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class SHA2WrapperTests
     {
         private Mock<ISHAFactory> _shaFactory;

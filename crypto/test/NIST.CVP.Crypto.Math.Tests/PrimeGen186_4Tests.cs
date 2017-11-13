@@ -9,7 +9,7 @@ using NIST.CVP.Crypto.SHAWrapper;
 
 namespace NIST.CVP.Crypto.Math.Tests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class PrimeGen186_4Tests
     {
         // From ProvableProbablePrimesWithConditions (B35)

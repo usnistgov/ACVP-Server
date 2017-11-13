@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_GCM.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class AES_GCMInternalsTests
     {
         Mock<IRijndaelInternals> _mockIRijndaelInternals;

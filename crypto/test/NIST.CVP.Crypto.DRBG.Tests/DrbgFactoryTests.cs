@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.DRBG.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class DrbgFactoryTests
     {
         private Mock<IEntropyProvider> _mockEntropy;

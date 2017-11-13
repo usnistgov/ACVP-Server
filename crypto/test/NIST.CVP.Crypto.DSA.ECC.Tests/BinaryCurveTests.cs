@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.DSA.ECC.Tests
 {
-    [TestFixture, LongRunningIntegrationTest]
+    [TestFixture, LongCryptoTest]
     public class BinaryCurveTests
     {
         [Test]

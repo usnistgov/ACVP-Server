@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.CMAC.Tests
 {
-    [TestFixture, UnitTest, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class CmacAesHealthTests
     {
         private CmacAes _subject;

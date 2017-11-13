@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.SHAWrapper.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class ShaFactoryTests
     {
 
@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
             _subject = new ShaFactory();
         }
 
-        [Test, FastIntegrationTest]
+        [Test, FastCryptoTest]
         [TestCase(ModeValues.SHA1, DigestSizes.d160, typeof(Sha2Wrapper))]
         [TestCase(ModeValues.SHA2, DigestSizes.d224, typeof(Sha2Wrapper))]
         [TestCase(ModeValues.SHA2, DigestSizes.d256, typeof(Sha2Wrapper))]

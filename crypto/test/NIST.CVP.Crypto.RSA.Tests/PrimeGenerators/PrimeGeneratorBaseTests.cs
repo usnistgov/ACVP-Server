@@ -8,7 +8,7 @@ using System.Text;
 
 namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class PrimeGeneratorBaseTests
     {
         // B32

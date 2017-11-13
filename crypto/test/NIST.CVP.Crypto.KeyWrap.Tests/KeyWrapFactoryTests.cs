@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KeyWrap.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class KeyWrapFactoryTests
     {
 

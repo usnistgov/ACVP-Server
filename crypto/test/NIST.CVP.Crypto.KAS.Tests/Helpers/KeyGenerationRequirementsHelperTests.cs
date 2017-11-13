@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests.Helpers
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class KeyGenerationRequirementsHelperTests
     {
         [Test]

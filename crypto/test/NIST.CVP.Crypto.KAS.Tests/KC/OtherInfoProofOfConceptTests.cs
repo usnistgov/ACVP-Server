@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests.KC
@@ -70,7 +71,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KC
         public BitString DkmNonce { get; }
     }
 
-    [TestFixture]
+    [TestFixture, FastCryptoTest]
     public class OtherInfoProofOfConceptTests
     {
         OtherInfoProofOfConcept _subject = new OtherInfoProofOfConcept();

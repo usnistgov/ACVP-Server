@@ -6,7 +6,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KES.Tests
 {
-    [TestFixture, UnitTest, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class FfcMqvTests
     {
         private MqvFfc _subject;

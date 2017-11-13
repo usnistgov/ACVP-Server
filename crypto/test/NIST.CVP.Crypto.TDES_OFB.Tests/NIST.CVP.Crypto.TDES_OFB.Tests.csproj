@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Crypto.TDES_OFB\NIST.CVP.Crypto.TDES_OFB.csproj" />
   </ItemGroup>

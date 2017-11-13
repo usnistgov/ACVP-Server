@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests.KC
 {
-    [TestFixture, UnitTest, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class KeyConfirmationHmacTests
     {
         private KeyConfirmationHmac _subject;

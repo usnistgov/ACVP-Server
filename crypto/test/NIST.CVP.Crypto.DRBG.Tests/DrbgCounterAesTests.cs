@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.DRBG.Tests
 {
-    [TestFixture, UnitTest]
+    [TestFixture,  FastCryptoTest]
     public class DrbgCounterAesTests
     {
         private Mock<IAES_ECB> _mockAes;

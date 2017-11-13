@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.TDES_ECB.Tests
 {
-    [TestFixture, LongRunningIntegrationTest]
+    [TestFixture, LongCryptoTest]
     public class MCTs
     {
 

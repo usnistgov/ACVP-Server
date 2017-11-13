@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.TDES_OFB.Tests
 {
-    [TestFixture]
+    [TestFixture, FastCryptoTest]
     public class TdesOfbTests
     {
 
