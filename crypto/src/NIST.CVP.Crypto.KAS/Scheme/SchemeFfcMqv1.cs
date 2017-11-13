@@ -11,11 +11,11 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public class SchemeMqv1 : SchemeBase
+    public class SchemeFfcMqv1 : SchemeBaseFfc
     {
         private readonly IMqv _mqv;
 
-        public SchemeMqv1(
+        public SchemeFfcMqv1(
             IDsaFfc dsa, 
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 

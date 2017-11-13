@@ -13,7 +13,7 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public abstract class SchemeBase : IScheme
+    public abstract class SchemeBaseFfc : IScheme
     {
         protected IDsaFfc Dsa;
         protected IKdfFactory KdfFactory;
@@ -24,7 +24,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         protected KdfParameters KdfParameters;
         protected MacParameters MacParameters;
 
-        protected SchemeBase(
+        protected SchemeBaseFfc(
             IDsaFfc dsa, 
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory,

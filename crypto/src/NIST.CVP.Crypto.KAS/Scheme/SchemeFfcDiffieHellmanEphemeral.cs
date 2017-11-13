@@ -10,11 +10,11 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public class SchemeDiffieHellmanEphemeral : SchemeBase
+    public class SchemeFfcDiffieHellmanEphemeral : SchemeBaseFfc
     {
         private readonly IDiffieHellman Dh;
 
-        public SchemeDiffieHellmanEphemeral(
+        public SchemeFfcDiffieHellmanEphemeral(
             IDsaFfc dsa, 
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory,

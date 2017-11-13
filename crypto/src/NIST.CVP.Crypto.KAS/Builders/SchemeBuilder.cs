@@ -131,12 +131,12 @@ namespace NIST.CVP.Crypto.KAS.Builders
             switch (schemeParameters.Scheme)
             {
                 case FfcScheme.DhEphem:
-                    scheme = new SchemeDiffieHellmanEphemeral(dsa, _withKdfFactory,
+                    scheme = new SchemeFfcDiffieHellmanEphemeral(dsa, _withKdfFactory,
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
                 case FfcScheme.Mqv1:
-                    scheme = new SchemeMqv1(dsa, _withKdfFactory,
+                    scheme = new SchemeFfcMqv1(dsa, _withKdfFactory,
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withMqv);
                     break;
