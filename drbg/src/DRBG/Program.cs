@@ -1,10 +1,7 @@
 ﻿using System;
 using Autofac;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.Core;
 using NLog;
-using Parameters = NIST.CVP.Generation.DRBG.Parameters;
-using TestVectorSet = NIST.CVP.Generation.DRBG.TestVectorSet;
 
 namespace DRBG
 {

@@ -30,8 +30,7 @@ namespace ECDSA_SigGen
                     var result = gen.Generate(requestFile);
                     if (!result.Success)
                     {
-                        Console.Error.WriteLine(
-                            $"ERROR! Generating Test Vectors for {requestFile}: {result.ErrorMessage}");
+                        Console.Error.WriteLine($"ERROR! Generating Test Vectors for {requestFile}: {result.ErrorMessage}");
                         Logger.Error($"ERROR! Generating Test Vectors for {requestFile}: {result.ErrorMessage}");
 
                         return 1;

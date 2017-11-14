@@ -1,10 +1,7 @@
 ﻿using System;
 using Autofac;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.DRBG;
 using NLog;
-using TestCase = NIST.CVP.Generation.DRBG.TestCase;
-using TestVectorSet = NIST.CVP.Generation.DRBG.TestVectorSet;
 
 namespace DRBG_Val
 {
