@@ -29,6 +29,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
 
         private BigInteger _rSetString;
         private BigInteger _sSetString;
+        private BigInteger _qxSetString;
+        private BigInteger _qySetString;
 
         public TestCase() { }
 
@@ -75,10 +77,24 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                 return false;
             }
 
+            if (value.Length % 2 != 0)
+            {
+                value = "0" + value;
+            }
+
             switch (name.ToLower())
             {
                 case "msg":
                     Message = new BitString(value);
+                    return true;
+
+                case "qx":
+                    _qxSetString = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "qy":
+                    _qySetString = new BitString(value).ToPositiveBigInteger();
+                    KeyPair = new EccKeyPair(new EccPoint(_qxSetString, _qySetString));
                     return true;
 
                 case "r":
@@ -91,7 +107,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                     return true;
 
                 case "result":
-                    FailureTest = value.ToLower()[0] == 'f';
+                    Result = value.ToLower()[0] == 'p';
                     return true;
             }
 
