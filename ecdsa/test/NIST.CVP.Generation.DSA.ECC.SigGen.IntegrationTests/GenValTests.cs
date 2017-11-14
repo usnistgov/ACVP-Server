@@ -16,12 +16,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
         public override Executable Generator => ECDSA_SigGen.Program.Main;
         public override Executable Validator => ECDSA_SigGen_Val.Program.Main;
 
-        [OneTimeSetUp]
-        public override void OneTimeSetUp()
-        {
-            TestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
-        }
-
         [SetUp]
         public override void SetUp()
         {

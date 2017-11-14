@@ -21,12 +21,6 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public override Executable Generator => Program.Main;
         public override Executable Validator => DRBG_Val.Program.Main;
 
-        [OneTimeSetUp]
-        public override void OneTimeSetUp()
-        {
-            TestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
-        }
-
         [SetUp]
         public override void SetUp()
         {

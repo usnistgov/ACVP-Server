@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
@@ -19,15 +20,13 @@ namespace NIST.CVP.Tests.Core
     {
         public abstract string Algorithm { get; }
         public abstract string Mode { get; }
-        public string TestPath { get; set; }
+        public string TestPath { get; private set; }
+        public string JsonSavePath { get; private set; }
 
         public delegate int Executable(string[] paths);
 
         public abstract Executable Generator { get; }
         public abstract Executable Validator { get; }
-
-        // Set this to true to save all json
-        protected bool SaveJson { get; set; }
 
         public string[] TestVectorFileNames = { @"\testResults.json", @"\prompt.json", @"\answer.json" };
 
@@ -39,16 +38,19 @@ namespace NIST.CVP.Tests.Core
         protected abstract string GetTestFileFewTestCases(string folderName);
         protected abstract string GetTestFileLotsOfTestCases(string folderName);
 
-        public abstract void OneTimeSetUp();
         public abstract void SetUp();
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            TestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
+            JsonSavePath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\..\..\..\json-files\");
+        }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            if (!SaveJson)
-            {
-                Directory.Delete(TestPath, true);
-            }
+            Directory.Delete(TestPath, true);
         }
 
         [Test]
@@ -147,16 +149,9 @@ namespace NIST.CVP.Tests.Core
             Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
         }
 
-
-        // Should be able to add --params=saveJson to the execution command to not delete the resulting files
         [Test]
         public void ShouldReportAllSuccessfulTestsWithinValidationLotsOfTests()
         {
-            if (TestContext.Parameters.Exists("saveJson"))
-            {
-                SaveJson = true;
-            }
-
             var targetFolder = GetTestFolder("Lots");
             var fileName = GetTestFileLotsOfTestCases(targetFolder);
 
@@ -169,6 +164,20 @@ namespace NIST.CVP.Tests.Core
 
             // Validate result as pass
             Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
+
+            // If the assertion passed, move the files to the good directory
+            if (!Directory.Exists(JsonSavePath))
+            {
+                Directory.CreateDirectory(JsonSavePath);
+            }
+
+            var newLocation = Path.Combine(JsonSavePath, $"{Algorithm}-{Mode}");
+            if (Directory.Exists(newLocation))
+            {
+                Directory.Delete(newLocation, true);
+            }
+
+            Directory.Move(targetFolder, newLocation);
         }
 
         [Test]
