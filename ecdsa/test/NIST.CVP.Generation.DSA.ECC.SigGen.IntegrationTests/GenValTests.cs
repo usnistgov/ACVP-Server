@@ -20,10 +20,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
         public override void SetUp()
         {
             ECDSA_SigGen.AutofacConfig.OverrideRegistrations = null;
-            ECDSA_SigGen.AutofacConfig.IoCConfiguration();
-
             ECDSA_SigGen_Val.AutofacConfig.OverrideRegistrations = null;
-            ECDSA_SigGen_Val.AutofacConfig.IoCConfiguration();
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
@@ -52,7 +49,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
 
         protected override string GetTestFileMinimalTestCases(string targetFolder)
         {
-            var caps = new Capability[1]
+            var caps = new []
             {
                 new Capability
                 {
@@ -74,7 +71,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            var caps = new Capability[2]
+            var caps = new []
             {
                 new Capability
                 {
@@ -101,7 +98,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            var caps = new Capability[1]
+            var caps = new []
             {
                 new Capability
                 {
@@ -126,12 +123,12 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
             var rand = new Random800_90();
             if (testCase.r != null)
             {
-                testCase.r = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.r)).ToHex();
+                testCase.r = rand.GetDifferentBitStringOfSameSize(new BitString(testCase.r.ToString())).ToHex();
             }
 
             if (testCase.s != null)
             {
-                testCase.s = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.s)).ToHex();
+                testCase.s = rand.GetDifferentBitStringOfSameSize(new BitString(testCase.s.ToString())).ToHex();
             }
         }
     }

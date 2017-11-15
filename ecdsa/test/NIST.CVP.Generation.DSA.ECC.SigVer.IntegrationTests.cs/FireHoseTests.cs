@@ -9,7 +9,7 @@ using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.cs
+namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests

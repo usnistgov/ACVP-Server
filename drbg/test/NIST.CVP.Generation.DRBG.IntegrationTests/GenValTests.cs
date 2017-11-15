@@ -25,10 +25,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            AutofacConfig.IoCConfiguration();
-
             DRBG_Val.AutofacConfig.OverrideRegistrations = null;
-            DRBG_Val.AutofacConfig.IoCConfiguration();
         }
 
         protected override void OverrideRegistrationGenFakeFailure()

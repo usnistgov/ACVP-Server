@@ -6,7 +6,7 @@ using NUnit.Framework;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Helpers;
 
-namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.cs
+namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsBase
@@ -21,10 +21,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.cs
         public override void SetUp()
         {
             ECDSA_SigVer.AutofacConfig.OverrideRegistrations = null;
-            ECDSA_SigVer.AutofacConfig.IoCConfiguration();
-
             ECDSA_SigVer_Val.AutofacConfig.OverrideRegistrations = null;
-            ECDSA_SigVer_Val.AutofacConfig.IoCConfiguration();
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
