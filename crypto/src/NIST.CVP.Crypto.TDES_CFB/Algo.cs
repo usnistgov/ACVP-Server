@@ -19,7 +19,7 @@ namespace NIST.CVP.Crypto.TDES_CFB
         AES_CFB128,
     }
 
-    public static class EnumEx
+    public static class EnumEx  //TODO find in CORE
     {
         public static T FromDescription<T>(string description)
         {

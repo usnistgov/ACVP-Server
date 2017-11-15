@@ -36,7 +36,7 @@ namespace NIST.CVP.Crypto.TDES_CFB
         {
             
             var output = new bool[plainText.BitLength];
-            var subSegments = plainText.BitLength / Shift;  //to do this will break for non evenly divisble ones
+            var subSegments = plainText.BitLength / Shift;  //todo check mod and reject invalid input
             BitString previousEncryptionInput = null;
             BitString previousCipherSegment = null;
             for (var i = 0; i < subSegments; i++)

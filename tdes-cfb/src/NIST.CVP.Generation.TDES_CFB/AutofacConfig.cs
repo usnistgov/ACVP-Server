@@ -26,6 +26,7 @@ namespace NIST.CVP.Generation.TDES_CFB
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
+
             builder.Register(c => ModeFactory.GetMode(algo)).As<IModeOfOperation>();
             builder.Register(c => ModeFactoryMCT.GetMode(algo)).As<IModeOfOperationMCT>();
         }

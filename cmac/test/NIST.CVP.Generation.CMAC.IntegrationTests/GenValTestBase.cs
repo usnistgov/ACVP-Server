@@ -18,8 +18,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
     public abstract class GenValTestBase
     {
         protected string _testPath;
-        protected string[] _testVectorFileNames = new string[]
-        {
+        protected string[] _testVectorFileNames = {
             "\\testResults.json",
             "\\prompt.json",
             "\\answer.json"
