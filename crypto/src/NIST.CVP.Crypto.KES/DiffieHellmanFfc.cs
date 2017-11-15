@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.KES.Helpers;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KES
@@ -20,8 +21,8 @@ namespace NIST.CVP.Crypto.KES
 
             var z = new BitString(
                 BigInteger.ModPow(
-                    yPublicKeyPartyB.PublicKeyY, 
-                    xPrivateKeyPartyA.PrivateKeyX, 
+                    yPublicKeyPartyB.PublicKeyY,
+                    xPrivateKeyPartyA.PrivateKeyX,
                     domainParameters.P
                 )
             );
@@ -31,10 +32,7 @@ namespace NIST.CVP.Crypto.KES
                 return new SharedSecretResponse($"{nameof(z)} was 1, error.");
             }
 
-            if (z.BitLength % 32 != 0)
-            {
-                z = BitString.ConcatenateBits(BitString.Zeroes(32 - z.BitLength % 32), z);
-            }
+            SharedSecretZHelper.FormatFfcSharedSecretZ(ref z);
 
             return new SharedSecretResponse(z);
         }
