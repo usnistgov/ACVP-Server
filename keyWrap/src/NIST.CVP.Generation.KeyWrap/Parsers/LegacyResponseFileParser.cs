@@ -42,6 +42,11 @@ namespace NIST.CVP.Generation.KeyWrap.Parsers
                 }
 
                 KeyWrapType keyWrapType = 0;
+                if (path.Contains("AES-KWP"))
+                {
+                    keyWrapType = KeyWrapType.AES_KWP;
+                }
+
                 string direction = string.Empty;
                 string kwCipher = string.Empty;
                 int keySize = 0;

@@ -26,9 +26,19 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
         {
             SetType(keyWrapType);
 
-            _keyLen = ParameterValidator.VALID_KEY_SIZES;
-            _direction = ParameterValidator.VALID_DIRECTIONS;
-            _kwCipher = ParameterValidator.VALID_KWCIPHER;
+            if (keyWrapType == KeyWrapType.AES_KW)
+            {
+                _keyLen = ParameterValidator.VALID_KEY_SIZES;
+                _direction = ParameterValidator.VALID_DIRECTIONS;
+                _kwCipher = ParameterValidator.VALID_KWCIPHER;
+            }
+            else if (keyWrapType == KeyWrapType.AES_KWP)
+            {
+                _keyLen = KeyWrapWithPadding.AES.ParameterValidator.VALID_KEY_SIZES;
+                _direction = KeyWrapWithPadding.AES.ParameterValidator.VALID_DIRECTIONS;
+                _kwCipher = KeyWrapWithPadding.AES.ParameterValidator.VALID_KWCIPHER;
+            }
+
 
             SetMathRanges(keyWrapType);
         }
@@ -85,6 +95,10 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
                 case KeyWrapType.AES_KW:
                     _algorithm = "AES-KW";
                     break;
+
+                case KeyWrapType.AES_KWP:
+                    _algorithm = "AES-KWP";
+                    break;
             }
         }
 
@@ -100,6 +114,18 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
                                 128,
                                 ParameterValidator.MAXIMUM_PT_LEN,
                                 ParameterValidator.PT_MODULUS
+                            )
+                        );
+                    break;
+
+                case KeyWrapType.AES_KWP:
+                    _ptLen = new MathDomain()
+                        .AddSegment(
+                            new RangeDomainSegment(
+                                new Random800_90(), 
+                                KeyWrapWithPadding.AES.ParameterValidator.MINIMUM_PT_LEN,
+                                KeyWrapWithPadding.AES.ParameterValidator.MAXIMUM_PT_LEN,
+                                KeyWrapWithPadding.AES.ParameterValidator.PT_MODULUS
                             )
                         );
                     break;

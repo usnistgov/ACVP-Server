@@ -78,8 +78,6 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
         [TestCase("CASE 4: KW with AES, wrap 192 bits of plaintext with a 192-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F1011121314151617", "00112233445566778899AABBCCDDEEFF0001020304050607", "031d33264e15d33268F24EC260743EDCE1C6C7DDEE725A936BA814915C6762D2")]
         [TestCase("CASE 5: KW with AES, wrap 192 bits of plaintext with a 256-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F", "00112233445566778899AABBCCDDEEFF0001020304050607", "a8f9bc1612c68b3fF6E6F4FBE30E71E4769C8B80A32CB8958CD5D17D6B254DA1")]
         [TestCase("CASE 6: KW with AES, wrap 256 bits of plaintext with a 256-bit key", KeyWrapType.AES_KW, false, true, "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F", "00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F", "28c9f404c4b810f4CBCCB35CFB87F8263F5786E2D80ED326CBC7F0E71A99F43BFB988B9B7A02DD21")]
-        // AES-KWP tests from health check (once implemented)
-        // TDES-KW tests from health check (once implemented)
         [TestCase("Case 15: KW_AE, inverse cipher function", KeyWrapType.AES_KW, true, true, "761d0145907fb5064923a302b7f7924b", "ef6536af7de618b50ec11b5d719585a669dacdfd16b7067f", "046acacc2c25fd90bf15947ae9000d3a8c025684aad58bcdf970c19997207acb")]
         [TestCase("Case 16: KW_AD, inverse cipher function", KeyWrapType.AES_KW, true, false, "e8b58fb37ca9c313a679de74f2dbedfa", "11a608b60d46bc008e98b89a37966cc11c40ad543a75fe93", "")]
         public void ShouldReturnExpectedValue(string testLabel, KeyWrapType keyWrapType, bool useInverseCipher, bool successfulAuthenticate, string kString, string pString, string cExpectedString)

@@ -278,7 +278,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
         
         private TestVectorSetBase<TestGroup, TestCase> GetSubject(int groups = 1, string direction = "encrypt", bool failureTest = false)
         {
-            var subject = new TestVectorSet { Algorithm = "AES-OFB" };
+            var subject = new TestVectorSet { Algorithm = "KeyWrap" };
             var testGroups = _tdm.GetTestGroups(groups, direction, failureTest);
             subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return subject;

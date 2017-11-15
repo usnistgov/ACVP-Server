@@ -26,14 +26,11 @@ namespace KeyWrap
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-         
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
             builder.RegisterType<KeyWrapFactory>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
-
-
 
             switch (algo)
             {
@@ -43,7 +40,10 @@ namespace KeyWrap
 
                 case "TDES-KW":
                     NIST.CVP.Generation.KeyWrap.TDES.AutofacConfig.RegisterTypes(builder);
+                    break;
 
+                case "AES-KWP":
+                    NIST.CVP.Generation.KeyWrapWithPadding.AES.AutofacConfig.RegisterTypes(builder);
                     break;
 
                 default:
@@ -52,7 +52,6 @@ namespace KeyWrap
             OverrideRegistrations?.Invoke(builder);
 
             _container = builder.Build();
-
         }
     }
 }

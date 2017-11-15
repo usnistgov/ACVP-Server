@@ -19,7 +19,8 @@ namespace NIST.CVP.Generation.KeyWrap
             new List<(string algorithm, KeyWrapType keyWrapType)>()
             {
                 ("AES-KW", KeyWrapType.AES_KW),
-                ("TDES-KW", KeyWrapType.TDES_KW)
+                ("TDES-KW", KeyWrapType.TDES_KW),
+                ("AES-KWP", KeyWrapType.AES_KWP)
             };
     }
 }

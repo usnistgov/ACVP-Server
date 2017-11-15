@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.KeyWrap.AES\NIST.CVP.Generation.KeyWrap.AES.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.KeyWrap.TDES\NIST.CVP.Generation.KeyWrap.TDES.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Generation.KeyWrapWithPadding.AES\NIST.CVP.Generation.KeyWrapWithPadding.AES.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.KeyWrap\NIST.CVP.Generation.KeyWrap.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />

@@ -21,11 +21,12 @@ namespace NIST.CVP.Generation.KeyWrap.AES
         [JsonProperty(PropertyName = "keyLen")]
         public override int KeyLength { get; set; }
 
+        private bool _withPadding = false;
 
         public override  KeyWrapType KeyWrapType
         {
-            get { return KeyWrapType.AES_KW; }
-            set { }
+            get => _withPadding ? KeyWrapType.AES_KWP : KeyWrapType.AES_KW;
+            set => _withPadding = (value == KeyWrapType.AES_KWP);
         }
 
         public override int GetHashCode()

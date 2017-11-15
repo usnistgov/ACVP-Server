@@ -20,347 +20,96 @@ using SHA3;
 namespace NIST.CVP.Generation.SHA3.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests
+    public class GenValTests : GenValTestsBase
     {
-        private string _testPath;
+        public override string Algorithm { get; } = "SHA";
+        public override string Mode { get; } = "3";
 
-        private readonly string[] _testVectorFileNames = new string[]
-        {
-            @"\testResults.json",
-            @"\prompt.json",
-            @"\answer.json"
-        };
+        public override Executable Generator => Program.Main;
+        public override Executable Validator => SHA3_Val.Program.Main;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_IntegrationTests\");
             AutofacConfig.OverrideRegistrations = null;
             SHA3_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            Directory.Delete(_testPath, true);
-        }
-
-        [Test]
-        public void GenShouldReturn1OnInvalidFileName()
-        {
-            var result = Program.Main(new string[] {$"{Guid.NewGuid()}.json"});
-            Assert.AreEqual(1, result);
-        }
-
-        [Test]
-        public void GenShouldReturn1OnFailedRun()
+        protected override void OverrideRegistrationGenFakeFailure()
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
             };
-
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
-            var result = Program.Main(new string[] {fileName});
-            Assert.AreEqual(1, result);
         }
 
-        [Test]
-        public void GenShouldReturn1OnException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
-
-            var result = Program.Main(new string[] {fileName});
-            Assert.AreEqual(1, result);
-        }
-
-        [Test]
-        public void GenShouldCreateTestVectors()
-        {
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
-
-            RunGeneration(targetFolder, fileName);
-
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), "testResults");
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), "testResults");
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), "testResults");
-        }
-
-        [Test]
-        public void ValShouldReturn1OnFailedRun()
+        protected override void OverrideRegistrationValFakeFailure()
         {
             SHA3_Val.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
-
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
-
-            RunGeneration(targetFolder, fileName);
-
-            var result = SHA3_Val.Program.Main(GetFileNamesWithPath(targetFolder, _testVectorFileNames));
-
-            Assert.AreEqual(1, result);
         }
 
-        [Test]
-        public void ValShouldReturn1OnException()
+        protected override void OverrideRegistrationValFakeException()
         {
             SHA3_Val.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
-
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
-
-            RunGeneration(targetFolder, fileName);
-
-            var result = SHA3_Val.Program.Main(GetFileNamesWithPath(targetFolder, _testVectorFileNames));
-
-            Assert.AreEqual(1, result);
         }
 
-        [Test]
-        public void ShouldCreateValidationFile()
+        protected override void ModifyTestCaseToFail(dynamic testCase)
         {
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
-
-            RunGenerationAndValidation(targetFolder, fileName);
-
-            Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), "validation");
-        }
-
-        [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCasesSHA3()
-        {
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
-
-            RunGenerationAndValidation(targetFolder, fileName);
-
-            var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
-
-            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
-        }
-
-        [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationManyTestsSHA3()
-        {
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileManyTestCasesSHA3(targetFolder);
-
-            RunGenerationAndValidation(targetFolder, fileName);
-
-            var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
-
-            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
-        }
-
-        [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationFewTestsSHAKE()
-        {
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCasesSHAKE(targetFolder);
-
-            RunGenerationAndValidation(targetFolder, fileName);
-
-            var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
-
-            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
-        }
-
-        [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationManyTestsSHAKE()
-        {
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileManyTestCasesSHAKE(targetFolder);
-
-            RunGenerationAndValidation(targetFolder, fileName);
-
-            var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
-
-            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
-        }
-
-        [Test]
-        public void ShouldReportFailedDispositionOnErrorTests()
-        {
-            var targetFolder = GetTestFolder();
-            var fileName = GetTestFileFewTestCasesSHA3(targetFolder);
-
-            var expectedFailTestCases = new List<int>();
-            RunGenerationAndValidationWithExpectedFailures(targetFolder, fileName, ref expectedFailTestCases);
-
-            var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
-
-            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), parsedValidation.ParsedObject.disposition.ToString(), "disposition");
-            foreach (var test in parsedValidation.ParsedObject.tests)
-            {
-                int tcId = test.tcId;
-                string result = test.result;
-
-                if (expectedFailTestCases.Contains(tcId))
-                {
-                    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), result, tcId.ToString());
-                }
-                else
-                {
-                    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), result, tcId.ToString());
-                }
-            }
-        }
-
-        private string[] GetFileNamesWithPath(string directory, string[] fileNames)
-        {
-            var numOfFiles = fileNames.Length;
-            var fileNamesWithPaths = new string[numOfFiles];
-
-            for (var i = 0; i < numOfFiles; i++)
-            {
-                fileNamesWithPaths[i] = $"{directory}{fileNames[i]}";
-            }
-
-            return fileNamesWithPaths;
-        }
-
-        private string GetTestFolder()
-        {
-            var targetFolder = Path.Combine(_testPath, Guid.NewGuid().ToString());
-            Directory.CreateDirectory(targetFolder);
-            return targetFolder;
-        }
-
-        private void RunGenerationAndValidation(string targetFolder, string fileName)
-        {
-            RunGeneration(targetFolder, fileName);
-            RunValidation(targetFolder);
-        }
-
-        private void RunGenerationAndValidationWithExpectedFailures(string targetFolder, string fileName,
-            ref List<int> failureTcIds)
-        {
-            RunGeneration(targetFolder, fileName);
-            GetFailureTestCases(targetFolder, ref failureTcIds);
-            RunValidation(targetFolder);
-        }
-
-        private void RunGeneration(string targetFolder, string fileName)
-        {
-            var result = Program.Main(new string[] {fileName});
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"),
-                $@"{targetFolder}\{_testVectorFileNames[0]} file");
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"),
-                $@"{targetFolder}\{_testVectorFileNames[1]} file");
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"),
-                $@"{targetFolder}\{_testVectorFileNames[2]} file");
-            Assert.IsTrue(result == 0);
-        }
-
-        private void RunValidation(string targetFolder)
-        {
-            var result = SHA3_Val.Program.Main(GetFileNamesWithPath(targetFolder, _testVectorFileNames));
-            Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $@"{targetFolder}\validation file");
-            Assert.IsTrue(result == 0);
-        }
-
-        private void GetFailureTestCases(string targetFolder, ref List<int> failureTcIds)
-        {
-            var files = GetFileNamesWithPath(targetFolder, _testVectorFileNames);
-            var expectedFailTestCases = DoBadThingsToResultsFile(files[0]);
-            Assume.That(expectedFailTestCases.Count > 0);
-            failureTcIds.AddRange(expectedFailTestCases);
-        }
-
-        private List<int> DoBadThingsToResultsFile(string resultsFile)
-        {
-            var dp = new DynamicParser();
-            var parsedValidation = dp.Parse(resultsFile);
-            Assume.That(parsedValidation != null);
-            Assume.That(parsedValidation.Success);
-
-            var failedTestCases = new List<int>();
             var rand = new Random800_90();
-            foreach (var testCase in parsedValidation.ParsedObject.testResults)
+
+            if (testCase.md != null)
             {
-                if ((int) testCase.tcId % 2 == 0)
-                {
-                    failedTestCases.Add((int) testCase.tcId);
-
-                    if (testCase.hashFail != null)
-                    {
-                        testCase.hashFail = false;
-                    }
-
-                    if (testCase.md != null)
-                    {
-                        var bs = new BitString(testCase.md.ToString());
-                        bs = rand.GetDifferentBitStringOfSameSize(bs);
-                        testCase.md = bs.ToHex();
-                    }
-
-                    if (testCase.msg != null)
-                    {
-                        var bs = new BitString(testCase.msg.ToString());
-                        bs = rand.GetDifferentBitStringOfSameSize(bs);
-                        testCase.msg = bs.ToHex();
-                    }
-
-                    if (testCase.resultsArray != null)
-                    {
-                        var bsMessage = new BitString(testCase.resultsArray[0].msg.ToString());
-                        bsMessage = rand.GetDifferentBitStringOfSameSize(bsMessage);
-                        testCase.resultsArray[0].msg = bsMessage.ToHex();
-
-                        var bsDigest = new BitString(testCase.resultsArray[0].md.ToString());
-                        bsDigest = rand.GetDifferentBitStringOfSameSize(bsDigest);
-                        testCase.resultsArray[0].md = bsDigest.ToHex();
-                    }
-                }
+                var bs = new BitString(testCase.md.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
+                testCase.md = bs.ToHex();
             }
 
-            File.Delete(resultsFile);
-            File.WriteAllText(resultsFile, parsedValidation.ParsedObject.ToString());
+            if (testCase.msg != null)
+            {
+                var bs = new BitString(testCase.msg.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
+                testCase.msg = bs.ToHex();
+            }
 
-            return failedTestCases;
+            if (testCase.resultsArray != null)
+            {
+                var bsMessage = new BitString(testCase.resultsArray[0].msg.ToString());
+                bsMessage = rand.GetDifferentBitStringOfSameSize(bsMessage);
+                testCase.resultsArray[0].msg = bsMessage.ToHex();
+
+                var bsDigest = new BitString(testCase.resultsArray[0].md.ToString());
+                bsDigest = rand.GetDifferentBitStringOfSameSize(bsDigest);
+                testCase.resultsArray[0].md = bsDigest.ToHex();
+            }
         }
 
-        private string GetTestFileFewTestCasesSHA3(string targetFolder)
+        protected override string GetTestFileMinimalTestCases(string targetFolder)
         {
-            RemoveMctAndVotTestGroupFactories();
-
             var parameters = new Parameters
             {
-                Algorithm = "SHA3",
-                DigestSizes = new [] {512},
+                Algorithm = Algorithm,
+                Mode = Mode,
+                DigestSizes = new[] { 224 },
                 BitOrientedInput = false,
-                IncludeNull = false,
+                IncludeNull = true,
                 IsSample = true
             };
 
             return CreateRegistration(targetFolder, parameters);
         }
 
-        private string GetTestFileManyTestCasesSHA3(string targetFolder)
+        private string GetTestFileManyTestCases(string targetFolder)
         {
             var parameters = new Parameters
             {
-                Algorithm = "SHA3",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 DigestSizes = new [] {224, 256, 384, 512},
                 BitOrientedInput = true,
                 IncludeNull = true,
@@ -370,7 +119,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             return CreateRegistration(targetFolder, parameters);
         }
 
-        private string GetTestFileFewTestCasesSHAKE(string targetFolder)
+        protected override string GetTestFileFewTestCases(string targetFolder)
         {
             RemoveMctAndVotTestGroupFactories();
             var minMax = new MathDomain();
@@ -379,6 +128,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             var parameters = new Parameters
             {
                 Algorithm = "SHAKE",
+                Mode = "",
                 DigestSizes = new[] { 128 },
                 BitOrientedInput = false,
                 BitOrientedOutput = false,
@@ -390,24 +140,24 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             return CreateRegistration(targetFolder, parameters);
         }
 
-        private string GetTestFileManyTestCasesSHAKE(string targetFolder)
-        {
-            var minMax = new MathDomain();
-            minMax.AddSegment(new RangeDomainSegment(null, 256, 512, 1));
+        //private string GetTestFileManyTestCasesSHAKE(string targetFolder)
+        //{
+        //    var minMax = new MathDomain();
+        //    minMax.AddSegment(new RangeDomainSegment(null, 256, 512, 1));
 
-            var parameters = new Parameters
-            {
-                Algorithm = "SHAKE",
-                DigestSizes = new[] { 128, 256 },
-                BitOrientedInput = true,
-                BitOrientedOutput = true,
-                IncludeNull = true,
-                OutputLength = minMax,
-                IsSample = true
-            };
+        //    var parameters = new Parameters
+        //    {
+        //        Algorithm = "SHAKE",
+        //        DigestSizes = new[] { 128, 256 },
+        //        BitOrientedInput = true,
+        //        BitOrientedOutput = true,
+        //        IncludeNull = true,
+        //        OutputLength = minMax,
+        //        IsSample = true
+        //    };
 
-            return CreateRegistration(targetFolder, parameters);
-        }
+        //    return CreateRegistration(targetFolder, parameters);
+        //}
 
         /// <summary>
         /// Can be used to only generate AFT groups for the genval tests
@@ -429,23 +179,6 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             {
                 builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
             };
-        }
-
-        private static string CreateRegistration(string targetFolder, Parameters parameters)
-        {
-            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings()
-            {
-                Converters = new List<JsonConverter>()
-                {
-                    new BitstringConverter(),
-                    new DomainConverter()
-                },
-                Formatting = Formatting.Indented
-            });
-            string fileName = $@"{targetFolder}\registration.json";
-            File.WriteAllText(fileName, json);
-
-            return fileName;
         }
     }
 }

@@ -14,6 +14,8 @@ namespace NIST.CVP.Crypto.KeyWrap
                     return new KeyWrapAes(new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals())));
                 case KeyWrapType.TDES_KW:
                     return new KeyWrapTdes(new TDES_ECB.TdesEcb());
+                case KeyWrapType.AES_KWP:
+                    return new KeyWrapWithPaddingAes(new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals())));
                 default:
                     throw new ArgumentException($"Invalid {nameof(KeyWrapType)} provided.");
             }
