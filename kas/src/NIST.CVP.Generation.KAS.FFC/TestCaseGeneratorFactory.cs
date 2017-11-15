@@ -24,8 +24,8 @@ namespace NIST.CVP.Generation.KAS.FFC
         private const string aftTest = "aft";
         private const string valTest = "val";
 
-        private readonly IKasBuilder _kasBuilder;
-        private readonly ISchemeBuilder _schemeBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
         private readonly IDsaFfcFactory _dsaFactory;
         private readonly IShaFactory _shaFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
@@ -36,8 +36,8 @@ namespace NIST.CVP.Generation.KAS.FFC
         private List<TestCaseDispositionOption> _validityTestCaseOptions = new List<TestCaseDispositionOption>();
 
         public TestCaseGeneratorFactory(
-            IKasBuilder kasBuilder, 
-            ISchemeBuilder schemeBuilder,
+            IKasBuilder<FfcParameterSet, FfcScheme> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme> schemeBuilder,
             IDsaFfcFactory dsaFactory,
             IShaFactory shaFactory,
             IMacParametersBuilder macParametersBuilder, 

@@ -1,20 +1,30 @@
-﻿using NIST.CVP.Crypto.DSA.FFC;
+﻿using System;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public class KasBuilderNoKdfNoKc : IKasBuilderNoKdfNoKc
+    public abstract class KasBuilderNoKdfNoKc<TParameterSet, TScheme> : IKasBuilderNoKdfNoKc<TParameterSet, TScheme>
+        where TParameterSet : struct, IComparable
+        where TScheme : struct, IComparable
     {
-        private readonly ISchemeBuilder _schemeBuilder;
-        private readonly KeyAgreementRole _keyAgreementRole;
-        private readonly FfcScheme _scheme;
-        private readonly FfcParameterSet _parameterSet;
-        private readonly KasAssurance _assurances;
-        private readonly BitString _partyId;
+        protected readonly ISchemeBuilder<TParameterSet, TScheme> _schemeBuilder;
+        protected readonly KeyAgreementRole _keyAgreementRole;
+        protected readonly TScheme _scheme;
+        protected readonly TParameterSet _parameterSet;
+        protected readonly KasAssurance _assurances;
+        protected readonly BitString _partyId;
 
-        public KasBuilderNoKdfNoKc(ISchemeBuilder schemeBuilder, KeyAgreementRole keyAgreementRole, FfcScheme scheme, FfcParameterSet parameterSet, KasAssurance assurances, BitString partyId)
+        protected KasBuilderNoKdfNoKc(
+            ISchemeBuilder<TParameterSet, TScheme> schemeBuilder, 
+            KeyAgreementRole keyAgreementRole, 
+            TScheme scheme, 
+            TParameterSet parameterSet, 
+            KasAssurance assurances, 
+            BitString partyId
+        )
         {
             _schemeBuilder = schemeBuilder;
             _keyAgreementRole = keyAgreementRole;
@@ -24,25 +34,6 @@ namespace NIST.CVP.Crypto.KAS.Builders
             _partyId = partyId;
         }
 
-        /// <summary>
-        /// Builds and returns the <see cref="IKas"/>
-        /// </summary>
-        /// <returns></returns>
-        public IKas Build()
-        {
-            var schemeParameters = new SchemeParameters(
-                _keyAgreementRole,
-                KasMode.NoKdfNoKc,
-                _scheme,
-                KeyConfirmationRole.None,
-                KeyConfirmationDirection.None,
-                _parameterSet,
-                _assurances,
-                _partyId
-            );
-            var scheme = _schemeBuilder.BuildScheme(schemeParameters, null, null);
-
-            return new Kas(scheme);
-        }
+        public abstract IKas<TParameterSet, TScheme> Build();
     }
 }

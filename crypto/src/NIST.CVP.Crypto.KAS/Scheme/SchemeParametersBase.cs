@@ -4,7 +4,9 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public class SchemeParameters
+    public abstract class SchemeParametersBase<TParameterSet, TScheme> : ISchemeParameters<TParameterSet, TScheme>
+        where TParameterSet : struct, IComparable
+        where TScheme : struct, IComparable
     {
         /// <summary>
         /// Constructs Kas parameter information
@@ -14,16 +16,16 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <param name="scheme">The scheme used for KAS</param>
         /// <param name="keyConfirmationRole">This party's key confirmation role</param>
         /// <param name="keyConfirmationDirection">This party's key confirmation direction</param>
-        /// <param name="ffcParameterSet">The parameter set used in the KAS operation</param>
+        /// <param name="parameterSet">The parameter set used in the KAS operation</param>
         /// <param name="kasAssurances">The assuances associated with the KAS</param>
         /// <param name="thisPartyId">The ID associated with this party</param>
-        public SchemeParameters(
+        protected SchemeParametersBase(
             KeyAgreementRole keyAgreementRole, 
             KasMode kasMode,
-            FfcScheme scheme,
+            TScheme scheme,
             KeyConfirmationRole keyConfirmationRole, 
-            KeyConfirmationDirection keyConfirmationDirection, 
-            FfcParameterSet ffcParameterSet,
+            KeyConfirmationDirection keyConfirmationDirection,
+            TParameterSet parameterSet,
             KasAssurance kasAssurances,
             BitString thisPartyId
         )
@@ -48,7 +50,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             Scheme = scheme;
             KeyConfirmationRole = keyConfirmationRole;
             KeyConfirmationDirection = keyConfirmationDirection;
-            FfcParameterSet = ffcParameterSet;
+            ParameterSet = parameterSet;
             KasAssurances = kasAssurances;
             ThisPartyId = thisPartyId;
         }
@@ -64,7 +66,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <summary>
         /// The KAS scheme
         /// </summary>
-        public FfcScheme Scheme { get; }
+        public TScheme Scheme { get; }
         /// <summary>
         /// This party's key confirmation role
         /// </summary>
@@ -76,7 +78,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <summary>
         /// The parameter set utilized in the KAS operation
         /// </summary>
-        public FfcParameterSet FfcParameterSet { get; }
+        public TParameterSet ParameterSet { get; }
         /// <summary>
         /// The Assurances that are implemented by the KAS instance.
         /// </summary>

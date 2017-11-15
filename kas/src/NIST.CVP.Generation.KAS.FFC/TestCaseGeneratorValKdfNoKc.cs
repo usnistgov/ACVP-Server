@@ -17,8 +17,8 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseGeneratorValKdfNoKc : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IKasBuilder _kasBuilder;
-        private readonly ISchemeBuilder _schemeBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
         private readonly IDsaFfcFactory _dsaFactory;
         private readonly IShaFactory _shaFactory;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
@@ -28,8 +28,8 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly TestCaseDispositionOption _intendedDisposition;
 
         public TestCaseGeneratorValKdfNoKc(
-            IKasBuilder kasBuilder, 
-            ISchemeBuilder schemeBuilder, 
+            IKasBuilder<FfcParameterSet, FfcScheme> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme> schemeBuilder, 
             IDsaFfcFactory dsaFactory, 
             IShaFactory shaFactory, 
             IEntropyProviderFactory entropyProviderFactory, 

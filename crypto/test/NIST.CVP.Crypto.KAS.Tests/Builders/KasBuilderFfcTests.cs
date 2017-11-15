@@ -16,12 +16,11 @@ using NUnit.Framework;
 namespace NIST.CVP.Crypto.KAS.Tests.Builders
 {
     [TestFixture,  FastCryptoTest]
-    public class KasBuilderTests
+    public class KasBuilderFfcTests
     {
 
-        private KasBuilder _subject;
+        private KasBuilderFfc _subject;
         private MacParametersBuilder _macParamsBuilder;
-        private Mock<IShaFactory> _shaFactory;
         private Mock<IDsaFfc> _dsa;
         private Mock<IDsaFfcFactory> _dsaFactory;
         private IEntropyProvider _entropyProviderScheme;
@@ -30,7 +29,6 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
         [SetUp]
         public void Setup()
         {
-            _shaFactory = new Mock<IShaFactory>();
             _dsa = new Mock<IDsaFfc>();
             _dsaFactory = new Mock<IDsaFfcFactory>();
             _dsaFactory
@@ -39,8 +37,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _entropyProviderScheme = new TestableEntropyProvider();
             _entropyProviderOtherInfo = new TestableEntropyProvider();
 
-            _subject = new KasBuilder(
-                new SchemeBuilder(
+            _subject = new KasBuilderFfc(
+                new SchemeBuilderFfc(
                     _dsaFactory.Object,
                     new KdfFactory(
                         new ShaFactory()

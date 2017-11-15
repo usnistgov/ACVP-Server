@@ -1,10 +1,14 @@
-﻿using NIST.CVP.Crypto.DSA.FFC;
+﻿using System;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public interface IScheme
+    public interface IScheme<out TSchemeParameters, TParameterSet, TScheme>
+        where TSchemeParameters : ISchemeParameters<TParameterSet, TScheme>
+        where TParameterSet : struct, IComparable
+        where TScheme : struct, IComparable
     {
         /// <summary>
         /// The length of the OtherInfo that is plugged into the KDF key.
@@ -13,7 +17,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <summary>
         /// The Scheme parameters for this party
         /// </summary>
-        SchemeParameters SchemeParameters { get; }
+        TSchemeParameters SchemeParameters { get; }
         /// <summary>
         /// The domain parameters associated with key generation
         /// </summary>

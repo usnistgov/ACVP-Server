@@ -16,8 +16,8 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseGeneratorValKdfKc : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IKasBuilder _kasBuilder;
-        private readonly ISchemeBuilder _schemeBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
         private readonly IDsaFfcFactory _dsaFactory;
         private readonly IShaFactory _shaFactory;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
@@ -26,7 +26,17 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
         private readonly TestCaseDispositionOption _intendedDisposition;
 
-        public TestCaseGeneratorValKdfKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IDsaFfcFactory dsaFactory, IShaFactory shaFactory, IEntropyProviderFactory entropyProviderFactory, IMacParametersBuilder macParametersBuilder, IKdfFactory kdfFactory, INoKeyConfirmationFactory noKeyConfirmationFactory, TestCaseDispositionOption dispositionIntention)
+        public TestCaseGeneratorValKdfKc(
+            IKasBuilder<FfcParameterSet, FfcScheme> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme> schemeBuilder, 
+            IDsaFfcFactory dsaFactory, 
+            IShaFactory shaFactory, 
+            IEntropyProviderFactory entropyProviderFactory, 
+            IMacParametersBuilder macParametersBuilder, 
+            IKdfFactory kdfFactory, 
+            INoKeyConfirmationFactory noKeyConfirmationFactory, 
+            TestCaseDispositionOption dispositionIntention
+        )
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;

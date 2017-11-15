@@ -12,12 +12,17 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class DeferredTestCaseResolverAftKdfKc : IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>
     {
-        private readonly IKasBuilder _kasBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
         private readonly IMacParametersBuilder _macParametersBuilder;
-        private readonly ISchemeBuilder _schemeBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
 
-        public DeferredTestCaseResolverAftKdfKc(IKasBuilder kasBuilder, IMacParametersBuilder macParametersBuilder, ISchemeBuilder schemeBuilder, IEntropyProviderFactory entropyProviderFactory)
+        public DeferredTestCaseResolverAftKdfKc(
+            IKasBuilder<FfcParameterSet, FfcScheme> kasBuilder, 
+            IMacParametersBuilder macParametersBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme> schemeBuilder, 
+            IEntropyProviderFactory entropyProviderFactory
+        )
         {
             _kasBuilder = kasBuilder;
             _macParametersBuilder = macParametersBuilder;

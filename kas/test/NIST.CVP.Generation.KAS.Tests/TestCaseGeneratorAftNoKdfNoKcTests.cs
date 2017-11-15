@@ -22,8 +22,8 @@ namespace NIST.CVP.Generation.KAS.Tests
         private TestCaseGeneratorAftNoKdfNoKc _subject;
         private Mock<IDsaFfc> _dsa;
         private IEntropyProvider _entropyProvider;
-        private IKasBuilder _kasBuilder;
-        private ISchemeBuilder _schemeBuilder;
+        private IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
+        private ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
         private Mock<IDsaFfcFactory> _dsaFactory;
 
         [SetUp]
@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                 .Returns(_dsa.Object);
 
             _entropyProvider = new EntropyProvider(new Random800_90());
-            _schemeBuilder = new SchemeBuilder(
+            _schemeBuilder = new SchemeBuilderFfc(
                     _dsaFactory.Object,
                     new KdfFactory(
                         new ShaFactory()
@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     new DiffieHellmanFfc(),
                     new MqvFfc()
             );
-            _kasBuilder = new KasBuilder(_schemeBuilder);
+            _kasBuilder = new KasBuilderFfc(_schemeBuilder);
 
 
             _subject = new TestCaseGeneratorAftNoKdfNoKc(

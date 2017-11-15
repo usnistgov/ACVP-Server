@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA.FFC;
+﻿using System;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
@@ -12,28 +13,30 @@ namespace NIST.CVP.Crypto.KAS.Builders
     /// <summary>
     /// Interface for building a scheme instance
     /// </summary>
-    public interface ISchemeBuilder
+    public interface ISchemeBuilder<TParameterSet, TScheme>
+        where TParameterSet : struct, IComparable
+        where TScheme : struct, IComparable
     {
         /// <summary>
         /// Sets the <see cref="HashFunction" /> used for DSA.
         /// </summary>
         /// <param name="hashFunction">The hash function to use</param>
         /// <returns></returns>
-        ISchemeBuilder WithHashFunction(HashFunction hashFunction);
+        ISchemeBuilder<TParameterSet, TScheme> WithHashFunction(HashFunction hashFunction);
 
         /// <summary>
         /// Sets the <see cref="IDsaFfcFactory"/> used in the scheme.
         /// </summary>
         /// <param name="dsaFactory">The dsa implementation to use</param>
         /// <returns></returns>
-        ISchemeBuilder WithDsaFactory(IDsaFfcFactory dsaFactory);
+        ISchemeBuilder<TParameterSet, TScheme> WithDsaFactory(IDsaFfcFactory dsaFactory);
 
         /// <summary>
         /// Sets the <see cref="IKdfFactory"/> used in the scheme.
         /// </summary>
         /// <param name="kdfFactory">The kdf factory to use</param>
         /// <returns></returns>
-        ISchemeBuilder WithKdfFactory(IKdfFactory kdfFactory);
+        ISchemeBuilder<TParameterSet, TScheme> WithKdfFactory(IKdfFactory kdfFactory);
 
 
         /// <summary>
@@ -41,14 +44,14 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="keyConfirmationFactory">The key confirmation factory implementation to use</param>
         /// <returns></returns>
-        ISchemeBuilder WithKeyConfirmationFactory(IKeyConfirmationFactory keyConfirmationFactory);
+        ISchemeBuilder<TParameterSet, TScheme> WithKeyConfirmationFactory(IKeyConfirmationFactory keyConfirmationFactory);
 
         /// <summary>
         /// Sets the <see cref="IKeyConfirmationFactory"/> used in the scheme.
         /// </summary>
         /// <param name="noKeyConfirmationFactory">The kdf factory implementation to use</param>
         /// <returns></returns>
-        ISchemeBuilder WithNoKeyConfirmationFactory(INoKeyConfirmationFactory noKeyConfirmationFactory);
+        ISchemeBuilder<TParameterSet, TScheme> WithNoKeyConfirmationFactory(INoKeyConfirmationFactory noKeyConfirmationFactory);
 
 
         /// <summary>
@@ -56,14 +59,14 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="otherInfoFactory">The other info factory used in the scheme.</param>
         /// <returns></returns>
-        ISchemeBuilder WithOtherInfoFactory(IOtherInfoFactory otherInfoFactory);
+        ISchemeBuilder<TParameterSet, TScheme> WithOtherInfoFactory(IOtherInfoFactory otherInfoFactory);
 
         /// <summary>
         /// Sets the <see cref="IEntropyProvider"/> used in the scheme.
         /// </summary>
         /// <param name="entropyProvider">The entropy provider used in the scheme.</param>
         /// <returns></returns>
-        ISchemeBuilder WithEntropyProvider(IEntropyProvider entropyProvider);
+        ISchemeBuilder<TParameterSet, TScheme> WithEntropyProvider(IEntropyProvider entropyProvider);
         
         /// <summary>
         /// Builds the scheme using the provided parameters, and default (or overriden dependencies for testing)
@@ -76,7 +79,8 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// rather any overriden after construction.
         /// </param>
         /// <returns></returns>
-        IScheme BuildScheme(SchemeParameters schemeParameters, KdfParameters kdfParameters,
+        IScheme<SchemeParametersBase<TParameterSet, TScheme>, TParameterSet, TScheme>
+            BuildScheme(SchemeParametersBase<TParameterSet, TScheme> schemeParameters, KdfParameters kdfParameters,
             MacParameters macParameters, bool backToOriginalState = true);
     }
 }

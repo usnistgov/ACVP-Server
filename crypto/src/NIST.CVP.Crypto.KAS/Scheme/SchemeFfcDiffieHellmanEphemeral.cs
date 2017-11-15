@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
             IEntropyProvider entropyProvider,
-            SchemeParameters schemeParameters, 
+            SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters, 
             KdfParameters kdfParameters, 
             MacParameters macParameters,
             IDiffieHellman<FfcDomainParameters, FfcKeyPair> dh

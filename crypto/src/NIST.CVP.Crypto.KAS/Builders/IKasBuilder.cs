@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.KAS.Enums;
+﻿using System;
+using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
@@ -6,61 +7,63 @@ namespace NIST.CVP.Crypto.KAS.Builders
     /// <summary>
     /// Describes methods for building an <see cref="IKas"/>
     /// </summary>
-    public interface IKasBuilder
+    public interface IKasBuilder<TParameterSet, TScheme>
+        where TParameterSet : struct, IComparable
+        where TScheme : struct, IComparable
     {
         /// <summary>
         /// Sets the <see cref="KasAssurance"/> for the <see cref="IKas"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        IKasBuilder WithAssurances(KasAssurance value);
+        IKasBuilder<TParameterSet, TScheme> WithAssurances(KasAssurance value);
         /// <summary>
         /// Sets the <see cref="KeyAgreementRole"/> for the <see cref="IKas"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        IKasBuilder WithKeyAgreementRole(KeyAgreementRole value);
+        IKasBuilder<TParameterSet, TScheme> WithKeyAgreementRole(KeyAgreementRole value);
         /// <summary>
-        /// Sets the <see cref="FfcParameterSet"/> for the <see cref="IKas"/>
+        /// Sets the ParameterSet for the Kas
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        IKasBuilder WithParameterSet(FfcParameterSet value);
+        IKasBuilder<TParameterSet, TScheme> WithParameterSet(TParameterSet value);
         /// <summary>
-        /// Sets the PartyId for the <see cref="IKas"/>
+        /// Sets the PartyId for the Kas
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        IKasBuilder WithPartyId(BitString value);
+        IKasBuilder<TParameterSet, TScheme> WithPartyId(BitString value);
         /// <summary>
-        /// Sets the <see cref="FfcScheme"/> for the <see cref="IKas"/>
+        /// Sets the Scheme for the Kas
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        IKasBuilder WithScheme(FfcScheme value);
+        IKasBuilder<TParameterSet, TScheme> WithScheme(TScheme value);
         /// <summary>
-        /// Sets the <see cref="ISchemeBuilder"/> for the <see cref="IKas"/>
+        /// Sets the scheme for the kas
         /// </summary>
         /// <param name="schemeBuilder">The scheme builder to use</param>
         /// <returns></returns>
-        IKasBuilder WithSchemeBuilder(ISchemeBuilder schemeBuilder);
+        IKasBuilder<TParameterSet, TScheme> WithSchemeBuilder(ISchemeBuilder<TParameterSet, TScheme> schemeBuilder);
         /// <summary>
-        /// Returns a builder capable of producing a <see cref="IKas"/> 
+        /// Returns a builder capable of producing a Kas
         /// with KDF and Key Confirmation capabilities.
         /// </summary>
         /// <returns></returns>
-        IKasBuilderKdfKc BuildKdfKc();
+        IKasBuilderKdfKc<TParameterSet, TScheme> BuildKdfKc();
         /// <summary>
-        /// Returns a builder capable of producing a <see cref="IKas"/> 
+        /// Returns a builder capable of producing a Kas
         /// with KDF and without Key Confirmation capabilities.
         /// </summary>
         /// <returns></returns>
-        IKasBuilderKdfNoKc BuildKdfNoKc();
+        IKasBuilderKdfNoKc<TParameterSet, TScheme> BuildKdfNoKc();
         /// <summary>
-        /// Returns a builder capable of producing a <see cref="IKas"/> 
+        /// Returns a builder capable of producing a Kas
         /// with no KDF and no Key Confirmation capabilities.
         /// </summary>
         /// <returns></returns>
-        IKasBuilderNoKdfNoKc BuildNoKdfNoKc();
+        IKasBuilderNoKdfNoKc<TParameterSet, TScheme> BuildNoKdfNoKc();
     }
 }

@@ -46,8 +46,8 @@ namespace KAS
             builder.RegisterType<AES_CCM>().AsImplementedInterfaces();
             builder.RegisterType<DiffieHellmanFfc>().AsImplementedInterfaces();
             builder.RegisterType<MqvFfc>().AsImplementedInterfaces();
-            builder.RegisterType<SchemeBuilder>().AsImplementedInterfaces();
-            builder.RegisterType<KasBuilder>().AsImplementedInterfaces();
+            builder.RegisterType<SchemeBuilderFfc>().AsImplementedInterfaces();
+            builder.RegisterType<KasBuilderFfc>().AsImplementedInterfaces();
             builder.RegisterType<MacParametersBuilder>().AsImplementedInterfaces();
             builder.RegisterType<KeyConfirmationFactory>().AsImplementedInterfaces();
             builder.RegisterType<NoKeyConfirmationFactory>().AsImplementedInterfaces();

@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA.FFC;
+﻿using System;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Scheme;
 
@@ -7,9 +8,11 @@ namespace NIST.CVP.Crypto.KAS
     /// <summary>
     /// Interface for Key Agreement Schemes
     /// </summary>
-    public interface IKas
+    public interface IKas<TParameterSet, TScheme>
+        where TParameterSet : struct, IComparable
+        where TScheme : struct, IComparable
     {
-        IScheme Scheme { get; }
+        IScheme<SchemeParametersBase<TParameterSet, TScheme>, TParameterSet, TScheme> Scheme { get; }
 
         void SetDomainParameters(FfcDomainParameters domainParameters);
         /// <summary>

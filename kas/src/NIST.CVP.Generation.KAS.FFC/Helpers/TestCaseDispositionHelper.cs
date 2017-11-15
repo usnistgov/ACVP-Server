@@ -29,8 +29,8 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
             TestCase testCase,
             IDsaFfc dsa,
             TestCaseDispositionOption dispositionOption, 
-            IKas serverKas, 
-            IKas iutKas
+            IKas<FfcParameterSet, FfcScheme> serverKas, 
+            IKas<FfcParameterSet, FfcScheme> iutKas
         )
         {
             var serverKeyExpectations = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
@@ -77,7 +77,12 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
             }
         }
 
-        private static void MangleServerStaticPublicKey(TestCase testCase, IDsaFfc dsa, IKas serverKas, bool generatesKeyPair)
+        private static void MangleServerStaticPublicKey(
+            TestCase testCase, 
+            IDsaFfc dsa, 
+            IKas<FfcParameterSet, FfcScheme> serverKas, 
+            bool generatesKeyPair
+        )
         {
             if (generatesKeyPair)
             {
@@ -97,7 +102,12 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
             }
         }
 
-        private static void MangleServerEphemeralPublicKey(TestCase testCase, IDsaFfc dsa, IKas serverKas, bool generatesKeyPair)
+        private static void MangleServerEphemeralPublicKey(
+            TestCase testCase, 
+            IDsaFfc dsa, 
+            IKas<FfcParameterSet, FfcScheme> serverKas, 
+            bool generatesKeyPair
+        )
         {
             if (generatesKeyPair)
             {
@@ -117,7 +127,11 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
             }
         }
 
-        private static void MangleIutStaticPrivateKey(TestCase testCase, IKas iutKas, bool generatesKeyPair)
+        private static void MangleIutStaticPrivateKey(
+            TestCase testCase, 
+            IKas<FfcParameterSet, FfcScheme> iutKas, 
+            bool generatesKeyPair
+        )
         {
             if (generatesKeyPair)
             {
@@ -127,7 +141,12 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
             }
         }
 
-        private static void MangleIutStaticPublicKey(TestCase testCase, IDsaFfc dsa, IKas iutKas, bool generatesKeyPair)
+        private static void MangleIutStaticPublicKey(
+            TestCase testCase, 
+            IDsaFfc dsa, 
+            IKas<FfcParameterSet, FfcScheme> iutKas, 
+            bool generatesKeyPair
+        )
         {
             if (generatesKeyPair)
             {
@@ -148,7 +167,13 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
         }
         #endregion MangleKeys
 
-        public static void SetTestCaseInformationFromKasResults(TestGroup group, TestCase testCase, IKas serverKas, IKas iutKas, KasResult iutResult)
+        public static void SetTestCaseInformationFromKasResults(
+            TestGroup group, 
+            TestCase testCase, 
+            IKas<FfcParameterSet, FfcScheme> serverKas, 
+            IKas<FfcParameterSet, FfcScheme> iutKas, 
+            KasResult iutResult
+        )
         {
             testCase.StaticPrivateKeyServer = serverKas.Scheme.StaticKeyPair?.PrivateKeyX ?? 0;
             testCase.StaticPublicKeyServer = serverKas.Scheme.StaticKeyPair?.PublicKeyY ?? 0;

@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 {
                     var testCase = (TestCase)iTestCase;
 
-                    var schemeBuilder = new SchemeBuilder(
+                    var schemeBuilder = new SchemeBuilderFfc(
                         new DsaFfcFactory(_shaFactory),
                         new KdfFactory(_shaFactory),
                         new KeyConfirmationFactory(),
@@ -79,7 +79,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         new DiffieHellmanFfc(),
                         new MqvFfc()
                     );
-                    var kasBuilder = new KasBuilder(schemeBuilder);
+                    var kasBuilder = new KasBuilderFfc(schemeBuilder);
                     IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> testCaseResolver;
 
                     switch (testGroup.KasMode)

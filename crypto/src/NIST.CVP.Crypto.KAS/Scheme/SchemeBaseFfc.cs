@@ -13,7 +13,7 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public abstract class SchemeBaseFfc : IScheme
+    public abstract class SchemeBaseFfc : SchemeBase<SchemeParametersBase<FfcParameterSet, FfcScheme>, FfcParameterSet, FfcScheme>
     {
         protected IDsaFfc Dsa;
         protected IKdfFactory KdfFactory;
@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory otherInfoFactory,
             IEntropyProvider entropyProvider,
-            SchemeParameters schemeParameters,
+            SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters,
             KdfParameters kdfParameters,
             MacParameters macParameters
         )
@@ -48,22 +48,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         }
 
         /// <inheritdoc />
-        public int OtherInputLength => 240;
-
-        /// <inheritdoc />
-        public SchemeParameters SchemeParameters { get; protected set; }
-        /// <inheritdoc />
-        public FfcDomainParameters DomainParameters { get; protected set; }
-        /// <inheritdoc />
-        public FfcKeyPair StaticKeyPair { get; protected set; }
-        /// <inheritdoc />
-        public FfcKeyPair EphemeralKeyPair { get; protected set; }
-        /// <inheritdoc />
-        public BitString EphemeralNonce { get; protected set; }
-        /// <inheritdoc />
-        public BitString DkmNonce { get; protected set; }
-        /// <inheritdoc />
-        public BitString NoKeyConfirmationNonce { get; protected set; }
+        public override int OtherInputLength => 240;
 
         /// <summary>
         /// flag is used to determine if this party's private/public key/nonce information has already been generated.
@@ -77,13 +62,13 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         );
 
         /// <inheritdoc />
-        public void SetDomainParameters(FfcDomainParameters domainParameters)
+        public override void SetDomainParameters(FfcDomainParameters domainParameters)
         {
             DomainParameters = domainParameters;
         }
 
         /// <inheritdoc />
-        public FfcSharedInformation ReturnPublicInfoThisParty()
+        public override FfcSharedInformation ReturnPublicInfoThisParty()
         {
             if (!ThisPartyKeysGenerated)
             {
@@ -102,7 +87,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         }
 
         /// <inheritdoc />
-        public KasResult ComputeResult(FfcSharedInformation otherPartyInformation)
+        public override KasResult ComputeResult(FfcSharedInformation otherPartyInformation)
         {
             // Set this instance's domain parameters equal to the other party's assuming they were passed in
             if (otherPartyInformation.DomainParameters != null)
@@ -218,7 +203,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// </summary>
         protected void GenerateDomainParameters()
         {
-            var paramDetails = FfcParameterSetDetails.GetDetailsForParameterSet(SchemeParameters.FfcParameterSet);
+            var paramDetails = FfcParameterSetDetails.GetDetailsForParameterSet(SchemeParameters.ParameterSet);
 
             SetDomainParameters(
                 Dsa.GenerateDomainParameters(

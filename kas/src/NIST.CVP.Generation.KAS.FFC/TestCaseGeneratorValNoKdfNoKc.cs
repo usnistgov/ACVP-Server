@@ -11,12 +11,17 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseGeneratorValNoKdfNoKc : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IKasBuilder _kasBuilder;
-        private readonly ISchemeBuilder _schemeBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
         private readonly IDsaFfcFactory _dsaFactory;
         private readonly TestCaseDispositionOption _intendedDisposition;
 
-        public TestCaseGeneratorValNoKdfNoKc(IKasBuilder kasBuilder, ISchemeBuilder schemeBuilder, IDsaFfcFactory dsaFactory, TestCaseDispositionOption intendedDisposition)
+        public TestCaseGeneratorValNoKdfNoKc(
+            IKasBuilder<FfcParameterSet, FfcScheme> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme> schemeBuilder, 
+            IDsaFfcFactory dsaFactory, 
+            TestCaseDispositionOption intendedDisposition
+        )
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;

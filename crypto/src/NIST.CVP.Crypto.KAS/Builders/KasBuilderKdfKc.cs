@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA.FFC;
+﻿using System;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -7,22 +8,31 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public class KasBuilderKdfKc : IKasBuilderKdfKc
+    public abstract class KasBuilderKdfKc<TParameterSet, TScheme> : IKasBuilderKdfKc<TParameterSet, TScheme>
+        where TParameterSet : struct, IComparable
+        where TScheme : struct, IComparable
     {
-        private readonly ISchemeBuilder _schemeBuilder;
-        private readonly KeyAgreementRole _keyAgreementRole;
-        private readonly FfcScheme _scheme;
-        private readonly FfcParameterSet _parameterSet;
-        private readonly KasAssurance _assurances;
-        private readonly BitString _partyId;
-        private int _keyLength;
-        private string _otherInfoPattern = OtherInfo._CAVS_OTHER_INFO_PATTERN;
-        private MacParameters _macParameters;
-        private KeyConfirmationRole _keyConfirmationRole;
-        private KeyConfirmationDirection _keyConfirmationDirection;
+        protected readonly ISchemeBuilder<TParameterSet, TScheme> _schemeBuilder;
+        protected readonly KeyAgreementRole _keyAgreementRole;
+        protected readonly TScheme _scheme;
+        protected readonly TParameterSet _parameterSet;
+        protected readonly KasAssurance _assurances;
+        protected readonly BitString _partyId;
+        protected int _keyLength;
+        protected string _otherInfoPattern = OtherInfo._CAVS_OTHER_INFO_PATTERN;
+        protected MacParameters _macParameters;
+        protected KeyConfirmationRole _keyConfirmationRole;
+        protected KeyConfirmationDirection _keyConfirmationDirection;
        
 
-        public KasBuilderKdfKc(ISchemeBuilder schemeBuilder, KeyAgreementRole keyAgreementRole, FfcScheme scheme, FfcParameterSet parameterSet, KasAssurance assurances, BitString partyId)
+        protected KasBuilderKdfKc(
+            ISchemeBuilder<TParameterSet, TScheme> schemeBuilder, 
+            KeyAgreementRole keyAgreementRole, 
+            TScheme scheme, 
+            TParameterSet parameterSet, 
+            KasAssurance assurances, 
+            BitString partyId
+         )
         {
             _schemeBuilder = schemeBuilder;
             _keyAgreementRole = keyAgreementRole;
@@ -37,7 +47,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public IKasBuilderKdfKc WithKeyLength(int value)
+        public IKasBuilderKdfKc<TParameterSet, TScheme> WithKeyLength(int value)
         {
             _keyLength = value;
             return this;
@@ -48,7 +58,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public IKasBuilderKdfKc WithOtherInfoPattern(string value)
+        public IKasBuilderKdfKc<TParameterSet, TScheme> WithOtherInfoPattern(string value)
         {
             _otherInfoPattern = value;
             return this;
@@ -59,7 +69,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public IKasBuilderKdfKc WithMacParameters(MacParameters value)
+        public IKasBuilderKdfKc<TParameterSet, TScheme> WithMacParameters(MacParameters value)
         {
             _macParameters = value;
             return this;
@@ -70,7 +80,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public IKasBuilderKdfKc WithKeyConfirmationRole(KeyConfirmationRole value)
+        public IKasBuilderKdfKc<TParameterSet, TScheme> WithKeyConfirmationRole(KeyConfirmationRole value)
         {
             _keyConfirmationRole = value;
             return this;
@@ -81,33 +91,12 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public IKasBuilderKdfKc WithKeyConfirmationDirection(KeyConfirmationDirection value)
+        public IKasBuilderKdfKc<TParameterSet, TScheme> WithKeyConfirmationDirection(KeyConfirmationDirection value)
         {
             _keyConfirmationDirection = value;
             return this;
         }
 
-        /// <summary>
-        /// Builds and returns the <see cref="IKas"/>
-        /// </summary>
-        /// <returns></returns>
-        public IKas Build()
-        {
-            var schemeParameters = new SchemeParameters(
-                _keyAgreementRole,
-                KasMode.KdfKc,
-                _scheme,
-                _keyConfirmationRole,
-                _keyConfirmationDirection,
-                _parameterSet,
-                _assurances,
-                _partyId
-            );
-
-            var kdfParameters = new KdfParameters(_keyLength, _otherInfoPattern);
-            var scheme = _schemeBuilder.BuildScheme(schemeParameters, kdfParameters, _macParameters);
-
-            return new Kas(scheme);
-        }
+        public abstract IKas<TParameterSet, TScheme> Build();
     }
 }

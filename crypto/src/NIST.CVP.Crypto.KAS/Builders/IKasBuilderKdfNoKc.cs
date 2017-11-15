@@ -1,12 +1,15 @@
-﻿using NIST.CVP.Crypto.KAS.Scheme;
+﻿using System;
+using NIST.CVP.Crypto.KAS.Scheme;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public interface IKasBuilderKdfNoKc
+    public interface IKasBuilderKdfNoKc<TParameterSet, TScheme>
+        where TParameterSet : struct, IComparable
+        where TScheme : struct, IComparable
     {
-        IKas Build();
-        IKasBuilderKdfNoKc WithKeyLength(int value);
-        IKasBuilderKdfNoKc WithMacParameters(MacParameters value);
-        IKasBuilderKdfNoKc WithOtherInfoPattern(string value);
+        IKas<TParameterSet, TScheme> Build();
+        IKasBuilderKdfNoKc<TParameterSet, TScheme> WithKeyLength(int value);
+        IKasBuilderKdfNoKc<TParameterSet, TScheme> WithMacParameters(MacParameters value);
+        IKasBuilderKdfNoKc<TParameterSet, TScheme> WithOtherInfoPattern(string value);
     }
 }

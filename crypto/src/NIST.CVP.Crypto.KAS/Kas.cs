@@ -6,16 +6,18 @@ using NIST.CVP.Crypto.KAS.Scheme;
 
 namespace NIST.CVP.Crypto.KAS
 {
-    public class Kas : IKas
+    public class Kas<TParameterSet, TScheme> : IKas<TParameterSet, TScheme>
+        where TParameterSet : struct, IComparable
+        where TScheme : struct, IComparable
     {
-        private readonly IScheme _scheme;
+        private readonly IScheme<SchemeParametersBase<TParameterSet, TScheme>, TParameterSet, TScheme> _scheme;
 
-        public Kas(IScheme scheme)
+        public Kas(IScheme<SchemeParametersBase<TParameterSet, TScheme>, TParameterSet, TScheme> scheme)
         {
             _scheme = scheme;
         }
 
-        public IScheme Scheme => _scheme;
+        public IScheme<SchemeParametersBase<TParameterSet, TScheme>, TParameterSet, TScheme> Scheme => _scheme;
 
         public void SetDomainParameters(FfcDomainParameters domainParameters)
         {

@@ -1,7 +1,11 @@
-﻿namespace NIST.CVP.Crypto.KAS.Builders
+﻿using System;
+
+namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public interface IKasBuilderNoKdfNoKc
+    public interface IKasBuilderNoKdfNoKc<TParameterSet, TScheme>
+        where TParameterSet : struct, IComparable
+        where TScheme : struct, IComparable
     {
-        IKas Build();
+        IKas<TParameterSet, TScheme> Build();
     }
 }

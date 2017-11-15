@@ -20,9 +20,9 @@ using ModeValues = NIST.CVP.Crypto.SHAWrapper.ModeValues;
 namespace NIST.CVP.Crypto.KAS.Tests.Builders
 {
     [TestFixture,  FastCryptoTest]
-    public class SchemeBuilderTests
+    public class SchemeBuilderFfcTests
     {
-        private SchemeBuilder _subject;
+        private SchemeBuilderFfc _subject;
         private Mock<ISha> _sha;
         private Mock<IShaFactory> _shaFactory;
         private Mock<IDsaFfc> _dsa;
@@ -52,7 +52,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _diffieHellmanFfc = new Mock<IDiffieHellman<FfcDomainParameters, FfcKeyPair>>();
             _mqv = new Mock<IMqv<FfcDomainParameters, FfcKeyPair>>();
 
-            _subject = new SchemeBuilder(
+            _subject = new SchemeBuilderFfc(
                 _dsaFactory.Object, 
                 _kdfFactory.Object, 
                 _keyConfirmationFactory.Object, 
@@ -99,7 +99,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
         {
             var result = _subject
                 .BuildScheme(
-                    new SchemeParameters(
+                    new SchemeParametersFfc(
                         KeyAgreementRole.InitiatorPartyU,
                         KasMode.NoKdfNoKc,
                         FfcScheme.DhEphem,
@@ -113,7 +113,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                     null
                 );
 
-            Assert.IsInstanceOf(typeof(IScheme), result);
+            Assert.IsInstanceOf(typeof(IScheme<ISchemeParameters<FfcParameterSet, FfcScheme>, FfcParameterSet, FfcScheme>), result);
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
         {
             var scheme = _subject
                 .BuildScheme(
-                    new SchemeParameters(
+                    new SchemeParametersFfc(
                         KeyAgreementRole.InitiatorPartyU,
                         KasMode.NoKdfNoKc,
                         FfcScheme.DhEphem,
@@ -166,7 +166,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                 .WithDsaFactory(_dsaFactory.Object)
                 .WithHashFunction(new HashFunction(ModeValues.SHA2, DigestSizes.d256))
                 .BuildScheme(
-                    new SchemeParameters(
+                    new SchemeParametersFfc(
                         KeyAgreementRole.InitiatorPartyU,
                         KasMode.NoKdfNoKc,
                         FfcScheme.DhEphem,
@@ -212,7 +212,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                 .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
                 .Returns(overrideDsa.Object);
 
-            SchemeParameters sp = new SchemeParameters(
+            SchemeParametersFfc sp = new SchemeParametersFfc(
                 KeyAgreementRole.InitiatorPartyU,
                 KasMode.NoKdfNoKc,
                 FfcScheme.DhEphem,
@@ -272,7 +272,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                 .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
                 .Returns(overrideDsa.Object);
 
-            SchemeParameters sp = new SchemeParameters(
+            SchemeParametersFfc sp = new SchemeParametersFfc(
                 KeyAgreementRole.InitiatorPartyU,
                 KasMode.NoKdfNoKc,
                 FfcScheme.DhEphem,
