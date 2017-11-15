@@ -125,7 +125,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.cs
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             if (testCase.result == null) return;
-            var previousValue = EnumHelpers.GetEnumFromEnumDescription<Disposition>(testCase.result, false);
+            var previousValue = EnumHelpers.GetEnumFromEnumDescription<Disposition>(testCase.result.ToString(), false);
             var newValue = previousValue == Disposition.Passed ? Disposition.Failed : Disposition.Passed;
             testCase.result = EnumHelpers.GetEnumDescriptionFromEnum(newValue);
         }
