@@ -10,14 +10,24 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public class SchemeBuilderFfc : SchemeBuilderBase<FfcParameterSet, FfcScheme>
+    public class SchemeBuilderFfc 
+        : SchemeBuilderBase<
+            FfcParameterSet, 
+            FfcScheme, 
+            FfcSharedInformation<
+                FfcDomainParameters, 
+                FfcKeyPair
+            >, 
+            FfcDomainParameters, 
+            FfcKeyPair
+        >
     {
         public SchemeBuilderFfc(
             IDsaFfcFactory dsaFactory, 
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
-            IOtherInfoFactory otherInfoFactory, 
+            IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory, 
             IEntropyProvider entropyProvider, 
             IDiffieHellman<FfcDomainParameters, FfcKeyPair> diffieHellmanFfc, 
             IMqv<FfcDomainParameters, FfcKeyPair> mqv) 
@@ -33,14 +43,41 @@ namespace NIST.CVP.Crypto.KAS.Builders
         {
         }
 
-        public override IScheme<SchemeParametersBase<FfcParameterSet, FfcScheme>, FfcParameterSet, FfcScheme> BuildScheme(
+        public override IScheme<
+            SchemeParametersBase<
+                FfcParameterSet, 
+                FfcScheme
+            >, 
+            FfcParameterSet, 
+            FfcScheme,
+            FfcSharedInformation<
+                FfcDomainParameters, 
+                FfcKeyPair
+            >, 
+            FfcDomainParameters, 
+            FfcKeyPair
+        > 
+            BuildScheme(
             SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters, 
             KdfParameters kdfParameters, 
             MacParameters macParameters, 
             bool backToOriginalState = true
         )
         {
-            IScheme<SchemeParametersBase<FfcParameterSet, FfcScheme>, FfcParameterSet, FfcScheme> scheme = null;
+            IScheme<
+                SchemeParametersBase<
+                    FfcParameterSet,
+                    FfcScheme
+                >,
+                FfcParameterSet,
+                FfcScheme,
+                FfcSharedInformation<
+                    FfcDomainParameters,
+                    FfcKeyPair
+                >,
+                FfcDomainParameters,
+                FfcKeyPair
+            > scheme = null;
 
             var dsa = _withDsaFactory.GetInstance(_withHashFunction);
 

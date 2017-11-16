@@ -13,22 +13,22 @@ namespace NIST.CVP.Crypto.KAS.Tests
     [TestFixture,  FastCryptoTest]
     public class KasTestsFfc
     {
-        private Kas<FfcParameterSet, FfcScheme> _subject;
-        private Mock<IScheme<SchemeParametersBase<FfcParameterSet, FfcScheme>, FfcParameterSet, FfcScheme>> _scheme;
+        private Kas<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _subject;
+        private Mock<IScheme<SchemeParametersBase<FfcParameterSet, FfcScheme>, FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>> _scheme;
 
         [SetUp]
         public void Setup()
         {
-            _scheme = new Mock<IScheme<SchemeParametersBase<FfcParameterSet, FfcScheme>, FfcParameterSet, FfcScheme>>();
+            _scheme = new Mock<IScheme<SchemeParametersBase<FfcParameterSet, FfcScheme>, FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>>();
             _scheme.Setup(s => s.SetDomainParameters(It.IsAny<FfcDomainParameters>()));
             _scheme
                 .Setup(s => s.ReturnPublicInfoThisParty())
-                .Returns(It.IsAny<FfcSharedInformation>());
+                .Returns(It.IsAny<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>>());
             _scheme
-                .Setup(s => s.ComputeResult(It.IsAny<FfcSharedInformation>()))
+                .Setup(s => s.ComputeResult(It.IsAny<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>>()))
                 .Returns(new KasResult(string.Empty));
 
-            _subject = new Kas<FfcParameterSet, FfcScheme>(_scheme.Object);
+            _subject = new Kas<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(_scheme.Object);
         }
 
         [Test]
@@ -54,8 +54,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
         [Test]
         public void ShouldInvokeSchemeComputeResult()
         {
-            _subject.ComputeResult(It.IsAny<FfcSharedInformation>());
-            _scheme.Verify(v => v.ComputeResult(It.IsAny<FfcSharedInformation>()),
+            _subject.ComputeResult(It.IsAny<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>>());
+            _scheme.Verify(v => v.ComputeResult(It.IsAny<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>>()),
                 Times.Once,
                 nameof(_scheme.Object.ComputeResult)
             );

@@ -5,11 +5,14 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public abstract class SchemeBase<TSchemeParameters, TParameterSet, TScheme> 
-        : IScheme<TSchemeParameters, TParameterSet, TScheme>
+    public abstract class SchemeBase<TSchemeParameters, TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> 
+        : IScheme<TSchemeParameters, TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
         where TSchemeParameters : ISchemeParameters<TParameterSet, TScheme>
         where TParameterSet : struct, IComparable
         where TScheme : struct, IComparable
+        where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
+        where TDomainParameters : IDsaDomainParameters
+        where TKeyPair : IDsaKeyPair
     {
         public abstract int OtherInputLength { get; }
         public TSchemeParameters SchemeParameters { get; protected set; }
@@ -22,8 +25,8 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 
         public abstract void SetDomainParameters(FfcDomainParameters domainParameters);
 
-        public abstract FfcSharedInformation ReturnPublicInfoThisParty();
+        public abstract TOtherPartySharedInfo ReturnPublicInfoThisParty();
 
-        public abstract KasResult ComputeResult(FfcSharedInformation otherPartyInformation);
+        public abstract KasResult ComputeResult(TOtherPartySharedInfo otherPartyInformation);
     }
 }

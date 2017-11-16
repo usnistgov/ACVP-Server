@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
@@ -74,7 +75,14 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         new KdfFactory(_shaFactory),
                         new KeyConfirmationFactory(),
                         new NoKeyConfirmationFactory(),
-                        new OtherInfoFactory(new EntropyProvider(new Random800_90())),
+                        new OtherInfoFactory<
+                            FfcSharedInformation<
+                                FfcDomainParameters, 
+                                FfcKeyPair
+                            >, 
+                            FfcDomainParameters, 
+                            FfcKeyPair
+                        >(new EntropyProvider(new Random800_90())),
                         new EntropyProvider(new Random800_90()),
                         new DiffieHellmanFfc(),
                         new MqvFfc()

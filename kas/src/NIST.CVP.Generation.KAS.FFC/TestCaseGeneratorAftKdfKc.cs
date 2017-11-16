@@ -13,14 +13,14 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseGeneratorAftKdfKc : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
-        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
 
         public TestCaseGeneratorAftKdfKc(
-            IKasBuilder<FfcParameterSet, FfcScheme> kasBuilder, 
-            ISchemeBuilder<FfcParameterSet, FfcScheme> schemeBuilder, 
+            IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
             IEntropyProviderFactory entropyProviderFactory, 
             IMacParametersBuilder macParametersBuilder
         )

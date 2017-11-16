@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Enums;
@@ -11,14 +12,14 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseGeneratorValNoKdfNoKc : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
-        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private readonly IDsaFfcFactory _dsaFactory;
         private readonly TestCaseDispositionOption _intendedDisposition;
 
         public TestCaseGeneratorValNoKdfNoKc(
-            IKasBuilder<FfcParameterSet, FfcScheme> kasBuilder, 
-            ISchemeBuilder<FfcParameterSet, FfcScheme> schemeBuilder, 
+            IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
             IDsaFfcFactory dsaFactory, 
             TestCaseDispositionOption intendedDisposition
         )
@@ -102,7 +103,6 @@ namespace NIST.CVP.Generation.KAS.FFC
             // IUT should pick up on bad private/public key information.
             TestCaseDispositionHelper.MangleKeys(
                 testCase,
-                dsa,
                 _intendedDisposition,
                 serverKas,
                 iutKas

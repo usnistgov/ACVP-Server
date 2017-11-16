@@ -20,7 +20,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
-            IOtherInfoFactory otherInfoFactory, 
+            IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory, 
             IEntropyProvider entropyProvider, 
             SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters, 
             KdfParameters kdfParameters, 
@@ -77,7 +77,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             }
         }
 
-        protected override BitString ComputeSharedSecret(FfcSharedInformation otherPartyInformation)
+        protected override BitString ComputeSharedSecret(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
         {
             // Party U uses both its static and ephemeral keys, and Party V's static public key
             if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU)
@@ -85,10 +85,10 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                 return _mqv.GenerateSharedSecretZ(
                     DomainParameters,
                     StaticKeyPair,
-                    new FfcKeyPair(otherPartyInformation.StaticPublicKey),
+                    otherPartyInformation.StaticPublicKey,
                     EphemeralKeyPair,
                     EphemeralKeyPair,
-                    new FfcKeyPair(otherPartyInformation.StaticPublicKey)
+                    otherPartyInformation.StaticPublicKey
                 ).SharedSecretZ;
             }
             
@@ -96,10 +96,10 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             return _mqv.GenerateSharedSecretZ(
                 DomainParameters,
                 StaticKeyPair,
-                new FfcKeyPair(otherPartyInformation.StaticPublicKey),
+                otherPartyInformation.StaticPublicKey,
                 StaticKeyPair,
                 StaticKeyPair,
-                new FfcKeyPair(otherPartyInformation.EphemeralPublicKey)
+                otherPartyInformation.EphemeralPublicKey
             ).SharedSecretZ;
         }
     }

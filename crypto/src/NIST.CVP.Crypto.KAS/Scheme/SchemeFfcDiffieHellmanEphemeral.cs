@@ -19,7 +19,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            IOtherInfoFactory otherInfoFactory,
+            IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory,
             IEntropyProvider entropyProvider,
             SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters, 
             KdfParameters kdfParameters, 
@@ -68,16 +68,16 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <summary>
         /// Generates the shared secret.  
         /// Shared secret Z is made up of this party's private key along with the other parties public key, 
-        /// run through the <see cref="IDiffieHellman"/> primitive.
+        /// run through the DiffieHellman primitive.
         /// </summary>
         /// <param name="otherPartyInformation"></param>
         /// <returns></returns>
-        protected override BitString ComputeSharedSecret(FfcSharedInformation otherPartyInformation)
+        protected override BitString ComputeSharedSecret(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
         {
             return Dh.GenerateSharedSecretZ(
                 DomainParameters, 
                 EphemeralKeyPair,
-                new FfcKeyPair(otherPartyInformation.EphemeralPublicKey)
+                otherPartyInformation.EphemeralPublicKey
             ).SharedSecretZ;
         }
     }

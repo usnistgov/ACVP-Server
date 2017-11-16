@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -13,30 +14,54 @@ namespace NIST.CVP.Crypto.KAS.Builders
     /// <summary>
     /// Interface for building a scheme instance
     /// </summary>
-    public interface ISchemeBuilder<TParameterSet, TScheme>
+    public interface ISchemeBuilder<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair>
         where TParameterSet : struct, IComparable
         where TScheme : struct, IComparable
+        where TSharedInformation : ISharedInformation<TDomainParameters, TKeyPair>
+        where TDomainParameters : IDsaDomainParameters
+        where TKeyPair : IDsaKeyPair
     {
         /// <summary>
         /// Sets the <see cref="HashFunction" /> used for DSA.
         /// </summary>
         /// <param name="hashFunction">The hash function to use</param>
         /// <returns></returns>
-        ISchemeBuilder<TParameterSet, TScheme> WithHashFunction(HashFunction hashFunction);
+        ISchemeBuilder<
+            TParameterSet, 
+            TScheme, 
+            TSharedInformation, 
+            TDomainParameters, 
+            TKeyPair
+        > 
+            WithHashFunction(HashFunction hashFunction);
 
         /// <summary>
         /// Sets the <see cref="IDsaFfcFactory"/> used in the scheme.
         /// </summary>
         /// <param name="dsaFactory">The dsa implementation to use</param>
         /// <returns></returns>
-        ISchemeBuilder<TParameterSet, TScheme> WithDsaFactory(IDsaFfcFactory dsaFactory);
+        ISchemeBuilder<
+            TParameterSet, 
+            TScheme, 
+            TSharedInformation, 
+            TDomainParameters, 
+            TKeyPair
+        > 
+            WithDsaFactory(IDsaFfcFactory dsaFactory);
 
         /// <summary>
         /// Sets the <see cref="IKdfFactory"/> used in the scheme.
         /// </summary>
         /// <param name="kdfFactory">The kdf factory to use</param>
         /// <returns></returns>
-        ISchemeBuilder<TParameterSet, TScheme> WithKdfFactory(IKdfFactory kdfFactory);
+        ISchemeBuilder<
+            TParameterSet,
+            TScheme,
+            TSharedInformation,
+            TDomainParameters,
+            TKeyPair
+        > 
+            WithKdfFactory(IKdfFactory kdfFactory);
 
 
         /// <summary>
@@ -44,29 +69,57 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="keyConfirmationFactory">The key confirmation factory implementation to use</param>
         /// <returns></returns>
-        ISchemeBuilder<TParameterSet, TScheme> WithKeyConfirmationFactory(IKeyConfirmationFactory keyConfirmationFactory);
+        ISchemeBuilder<
+            TParameterSet,
+            TScheme,
+            TSharedInformation,
+            TDomainParameters,
+            TKeyPair
+        > 
+            WithKeyConfirmationFactory(IKeyConfirmationFactory keyConfirmationFactory);
 
         /// <summary>
         /// Sets the <see cref="IKeyConfirmationFactory"/> used in the scheme.
         /// </summary>
         /// <param name="noKeyConfirmationFactory">The kdf factory implementation to use</param>
         /// <returns></returns>
-        ISchemeBuilder<TParameterSet, TScheme> WithNoKeyConfirmationFactory(INoKeyConfirmationFactory noKeyConfirmationFactory);
+        ISchemeBuilder<
+            TParameterSet,
+            TScheme,
+            TSharedInformation,
+            TDomainParameters,
+            TKeyPair
+        > 
+            WithNoKeyConfirmationFactory(INoKeyConfirmationFactory noKeyConfirmationFactory);
 
 
         /// <summary>
-        /// Sets the <see cref="IOtherInfoFactory"/> used in the scheme
+        /// Sets the OtherInfoFactory used in the scheme
         /// </summary>
         /// <param name="otherInfoFactory">The other info factory used in the scheme.</param>
         /// <returns></returns>
-        ISchemeBuilder<TParameterSet, TScheme> WithOtherInfoFactory(IOtherInfoFactory otherInfoFactory);
+        ISchemeBuilder<
+            TParameterSet,
+            TScheme,
+            TSharedInformation,
+            TDomainParameters,
+            TKeyPair
+        > 
+            WithOtherInfoFactory(IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> otherInfoFactory);
 
         /// <summary>
         /// Sets the <see cref="IEntropyProvider"/> used in the scheme.
         /// </summary>
         /// <param name="entropyProvider">The entropy provider used in the scheme.</param>
         /// <returns></returns>
-        ISchemeBuilder<TParameterSet, TScheme> WithEntropyProvider(IEntropyProvider entropyProvider);
+        ISchemeBuilder<
+            TParameterSet,
+            TScheme,
+            TSharedInformation,
+            TDomainParameters,
+            TKeyPair
+        > 
+            WithEntropyProvider(IEntropyProvider entropyProvider);
         
         /// <summary>
         /// Builds the scheme using the provided parameters, and default (or overriden dependencies for testing)
@@ -79,8 +132,25 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// rather any overriden after construction.
         /// </param>
         /// <returns></returns>
-        IScheme<SchemeParametersBase<TParameterSet, TScheme>, TParameterSet, TScheme>
-            BuildScheme(SchemeParametersBase<TParameterSet, TScheme> schemeParameters, KdfParameters kdfParameters,
-            MacParameters macParameters, bool backToOriginalState = true);
+        IScheme<
+            SchemeParametersBase<
+                TParameterSet, 
+                TScheme
+            >, 
+            TParameterSet, 
+            TScheme, 
+            TSharedInformation, 
+            TDomainParameters, 
+            TKeyPair
+        >
+            BuildScheme(
+                SchemeParametersBase<
+                    TParameterSet, 
+                    TScheme
+                > schemeParameters, 
+                KdfParameters kdfParameters,
+                MacParameters macParameters, 
+                bool backToOriginalState = true
+            );
     }
 }

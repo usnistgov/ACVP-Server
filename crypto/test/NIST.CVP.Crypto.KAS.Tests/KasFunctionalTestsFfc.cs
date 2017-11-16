@@ -50,7 +50,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     ),
                     new KeyConfirmationFactory(),
                     new NoKeyConfirmationFactory(),
-                    new OtherInfoFactory(
+                    new OtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(
                         _entropyProviderOtherInfo
                     ),
                     _entropyProviderScheme,
@@ -144,11 +144,11 @@ namespace NIST.CVP.Crypto.KAS.Tests
         )
         {
             var vPartySharedInformation = 
-                new FfcSharedInformation(
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
                     domainParameters, 
                     otherPartyId, 
-                    0, 
-                    otherPartyPublicEphemKey, 
+                    new FfcKeyPair(0),
+                    new FfcKeyPair(otherPartyPublicEphemKey), 
                     null, 
                     null, 
                     null
@@ -621,11 +621,11 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 )
         {
             var otherPartySharedInformation =
-                new FfcSharedInformation(
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
                     domainParameters,
                     otherPartyId,
-                    0,
-                    otherPartyPublicEphemKey,
+                    new FfcKeyPair(0), 
+                    new FfcKeyPair(otherPartyPublicEphemKey),
                     null,
                     null,
                     // when "party v" noKeyConfirmationNonce is provided as a part of party U's shared information
@@ -784,11 +784,11 @@ namespace NIST.CVP.Crypto.KAS.Tests
         )
         {
             var vPartySharedInformation =
-                new FfcSharedInformation(
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
                     domainParameters,
                     otherPartyId,
-                    otherPartyPublicStaticKey,
-                    otherPartyPublicEphemeralKey,
+                    new FfcKeyPair(otherPartyPublicStaticKey),
+                        new FfcKeyPair(otherPartyPublicEphemeralKey),
                     null,
                     null,
                     null
@@ -988,11 +988,11 @@ namespace NIST.CVP.Crypto.KAS.Tests
         )
         {
             var otherPartySharedInformation =
-                new FfcSharedInformation(
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
                     domainParameters,
                     otherPartyId,
-                    otherPartyPublicStaticKey,
-                    otherPartyPublicEphemKey,
+                    new FfcKeyPair(otherPartyPublicStaticKey),
+                        new FfcKeyPair(otherPartyPublicEphemKey),
                     null,
                     null,
                     // when "party v" noKeyConfirmationNonce is provided as a part of party U's shared information
@@ -1614,11 +1614,11 @@ namespace NIST.CVP.Crypto.KAS.Tests
         )
         {
             var otherPartySharedInformation =
-                new FfcSharedInformation(
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
                     domainParameters,
                     otherPartyId,
-                    otherPartyPublicStaticKey,
-                    otherPartyPublicEphemKey,
+                    new FfcKeyPair(otherPartyPublicStaticKey),
+                    new FfcKeyPair(otherPartyPublicEphemKey),
                     otherPartyEphemeralNonce,
                     null,
                     null

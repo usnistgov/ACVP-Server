@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -7,22 +8,27 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public abstract class KasBuilderKdfNoKc<TParameterSet, TScheme> : IKasBuilderKdfNoKc<TParameterSet, TScheme>
+    public abstract class KasBuilderKdfNoKc<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> 
+        : IKasBuilderKdfNoKc<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
         where TParameterSet : struct, IComparable
         where TScheme : struct, IComparable
+        where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
+        where TDomainParameters : IDsaDomainParameters
+        where TKeyPair : IDsaKeyPair
     {
-        protected readonly ISchemeBuilder<TParameterSet, TScheme> _schemeBuilder;
+        protected readonly ISchemeBuilder<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> _schemeBuilder;
         protected readonly KeyAgreementRole _keyAgreementRole;
         protected readonly TScheme _scheme;
         protected readonly TParameterSet _parameterSet;
         protected readonly KasAssurance _assurances;
         protected readonly BitString _partyId;
         protected int _keyLength;
-        protected string _otherInfoPattern = OtherInfo._CAVS_OTHER_INFO_PATTERN;
+        protected string _otherInfoPattern = 
+            OtherInfo<TOtherPartySharedInfo, TDomainParameters, TKeyPair>._CAVS_OTHER_INFO_PATTERN;
         protected MacParameters _macParameters;
         
         protected KasBuilderKdfNoKc(
-            ISchemeBuilder<TParameterSet, TScheme> schemeBuilder, 
+            ISchemeBuilder<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> schemeBuilder, 
             KeyAgreementRole keyAgreementRole, 
             TScheme scheme, 
             TParameterSet parameterSet, 
@@ -43,7 +49,13 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public IKasBuilderKdfNoKc<TParameterSet, TScheme> WithKeyLength(int value)
+        public IKasBuilderKdfNoKc<
+            TParameterSet, 
+            TScheme, 
+            TOtherPartySharedInfo, 
+            TDomainParameters, 
+            TKeyPair
+        > WithKeyLength(int value)
         {
             _keyLength = value;
             return this;
@@ -54,7 +66,13 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public IKasBuilderKdfNoKc<TParameterSet, TScheme> WithOtherInfoPattern(string value)
+        public IKasBuilderKdfNoKc<
+            TParameterSet,
+            TScheme,
+            TOtherPartySharedInfo,
+            TDomainParameters,
+            TKeyPair
+        > WithOtherInfoPattern(string value)
         {
             _otherInfoPattern = value;
             return this;
@@ -65,12 +83,18 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public IKasBuilderKdfNoKc<TParameterSet, TScheme> WithMacParameters(MacParameters value)
+        public IKasBuilderKdfNoKc<
+            TParameterSet,
+            TScheme,
+            TOtherPartySharedInfo,
+            TDomainParameters,
+            TKeyPair
+        > WithMacParameters(MacParameters value)
         {
             _macParameters = value;
             return this;
         }
 
-        public abstract IKas<TParameterSet, TScheme> Build();
+        public abstract IKas<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> Build();
     }
 }

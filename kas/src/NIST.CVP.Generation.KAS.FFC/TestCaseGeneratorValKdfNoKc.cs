@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
@@ -17,8 +18,8 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseGeneratorValKdfNoKc : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
-        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private readonly IDsaFfcFactory _dsaFactory;
         private readonly IShaFactory _shaFactory;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
@@ -28,8 +29,8 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly TestCaseDispositionOption _intendedDisposition;
 
         public TestCaseGeneratorValKdfNoKc(
-            IKasBuilder<FfcParameterSet, FfcScheme> kasBuilder, 
-            ISchemeBuilder<FfcParameterSet, FfcScheme> schemeBuilder, 
+            IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
             IDsaFfcFactory dsaFactory, 
             IShaFactory shaFactory, 
             IEntropyProviderFactory entropyProviderFactory, 
@@ -154,7 +155,6 @@ namespace NIST.CVP.Generation.KAS.FFC
             // IUT should pick up on bad private/public key information.
             TestCaseDispositionHelper.MangleKeys(
                 testCase,
-                _dsaFactory.GetInstance(group.HashAlg),
                 _intendedDisposition,
                 serverKas,
                 iutKas

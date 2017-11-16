@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.KDF
 {
-    public class OtherInfoFactory : IOtherInfoFactory
+    public class OtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> : IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair>
+        where TSharedInformation : ISharedInformation<TDomainParameters, TKeyPair>
+        where TDomainParameters : IDsaDomainParameters
+        where TKeyPair : IDsaKeyPair
     {
         private readonly IEntropyProvider _entropyProvider;
 
@@ -20,11 +24,18 @@ namespace NIST.CVP.Crypto.KAS.KDF
             string otherInfoPattern, 
             int otherInfoLength, 
             KeyAgreementRole thisPartyKeyAgreementRole,
-            FfcSharedInformation thisPartySharedInformation, 
-            FfcSharedInformation otherPartySharedInformation
+            TSharedInformation thisPartySharedInformation,
+            TSharedInformation otherPartySharedInformation
         )
         {
-            return new OtherInfo(_entropyProvider, otherInfoPattern, otherInfoLength, thisPartyKeyAgreementRole, thisPartySharedInformation, otherPartySharedInformation);
+            return new OtherInfo<TSharedInformation, TDomainParameters, TKeyPair>(
+                _entropyProvider, 
+                otherInfoPattern, 
+                otherInfoLength, 
+                thisPartyKeyAgreementRole, 
+                thisPartySharedInformation, 
+                otherPartySharedInformation
+            );
         }
     }
 }

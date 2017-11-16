@@ -1,15 +1,19 @@
 ﻿using System.Numerics;
+using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public class FfcSharedInformation
+    public class FfcSharedInformation<TDomainParameters, TKeyPair> 
+        : ISharedInformation<TDomainParameters, TKeyPair>
+        where TDomainParameters : IDsaDomainParameters
+        where TKeyPair : IDsaKeyPair
     {
         /// <summary>
         /// The domain parameters involved in keypair generation
         /// </summary>
-        public FfcDomainParameters DomainParameters { get; }
+        public TDomainParameters DomainParameters { get; }
         /// <summary>
         /// The identifier of this party.
         /// </summary>
@@ -17,11 +21,11 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <summary>
         /// This Party's static public key
         /// </summary>
-        public BigInteger StaticPublicKey { get; }
+        public TKeyPair StaticPublicKey { get; }
         /// <summary>
         /// This Party's ephemeral public key
         /// </summary>
-        public BigInteger EphemeralPublicKey { get; }
+        public TKeyPair EphemeralPublicKey { get; }
         /// <summary>
         /// This party's ephemeral nonce
         /// </summary>
@@ -35,7 +39,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// </summary>
         public BitString NoKeyConfirmationNonce { get; }
 
-        public FfcSharedInformation(FfcDomainParameters domainParameters, BitString partyId, BigInteger staticPublicKey, BigInteger ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce, BitString noKeyConfirmationNonce)
+        public FfcSharedInformation(TDomainParameters domainParameters, BitString partyId, TKeyPair staticPublicKey, TKeyPair ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce, BitString noKeyConfirmationNonce)
         {
             DomainParameters = domainParameters;
             PartyId = partyId;

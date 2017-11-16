@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.Scheme;
@@ -15,27 +16,27 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
     [TestFixture,  FastCryptoTest]
     public class OtherInfoTests
     {
-        private OtherInfo _subject;
+        private OtherInfo<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _subject;
         
         private static object[] _proofOfConceptTests = new object[]
         {
             new object[]
             {
-                new FfcSharedInformation(null, new BitString("CAFECAFE"), 0, 0, new BitString(0), new BitString(0), new BitString(0)),
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("CAFECAFE"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)),
                 64,
                 "literal[12345abc]||uPartyInfo",
                 new BitString("12345abccafecafe")
             },
             new object[]
             {
-                new FfcSharedInformation(null, new BitString("CAFECAFE"), 0, 0, new BitString(0), new BitString(0), new BitString(0)),
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("CAFECAFE"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)),
                 64,
                 "uPartyInfo||literal[12345abc]",
                 new BitString("cafecafe12345abc")
             },
             new object[]
             {
-                new FfcSharedInformation(null, new BitString("CAFECAFE"), 0, 0, new BitString(0), new BitString("faceface"), new BitString(0)),
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("CAFECAFE"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString("faceface"), new BitString(0)),
                 96,
                 "literal[12345abc]||uPartyInfo",
                 new BitString("12345abccafecafefaceface")
@@ -44,19 +45,19 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
 
         [Test]
         [TestCaseSource(nameof(_proofOfConceptTests))]
-        public void OtherInfoProofOfConceptTests(FfcSharedInformation uPartySharedInformation, int otherInfoLength, string otherInfoPattern, BitString expectedBitString)
+        public void OtherInfoProofOfConceptTests(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> uPartySharedInformation, int otherInfoLength, string otherInfoPattern, BitString expectedBitString)
         {
-            var vPartySharedInformation = new FfcSharedInformation(
+            var vPartySharedInformation = new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
                 null, 
                 new BitString(0), 
-                0, 
-                0, 
+                new FfcKeyPair(0),
+                new FfcKeyPair(0),
                 new BitString(0),
                 new BitString(0), 
                 new BitString(0)
             );
 
-            _subject = new OtherInfo(new EntropyProvider(new Random800_90()), otherInfoPattern, otherInfoLength, KeyAgreementRole.InitiatorPartyU, uPartySharedInformation, vPartySharedInformation);
+            _subject = new OtherInfo<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(new EntropyProvider(new Random800_90()), otherInfoPattern, otherInfoLength, KeyAgreementRole.InitiatorPartyU, uPartySharedInformation, vPartySharedInformation);
             
             var result = _subject.GetOtherInfo();
 
@@ -70,9 +71,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
                 // iutRole
                 KeyAgreementRole.InitiatorPartyU,
                 // uParty
-                new FfcSharedInformation(null, new BitString("a1b2c3d4e5"), 0, 0, new BitString(0), new BitString(0), new BitString(0)), 
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("a1b2c3d4e5"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)), 
                 // vParty
-                new FfcSharedInformation(null, new BitString("434156536964"), 0, 0, new BitString(0), new BitString(0), new BitString(0)),
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("434156536964"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)),
                 // otherInfoLength
                 240,
                 // expectedOi
@@ -83,9 +84,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
                 // iutRole
                 KeyAgreementRole.InitiatorPartyU,
                 // uParty
-                new FfcSharedInformation(null, new BitString("a1b2c3d4e5"), 0, 0, new BitString(0), new BitString(0), new BitString(0)), 
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("a1b2c3d4e5"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)), 
                 // vParty
-                new FfcSharedInformation(null, new BitString("434156536964"), 0, 0, new BitString(0), new BitString(0), new BitString(0)),
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("434156536964"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)),
                 // otherInfoLength
                 240,
                 // expectedOi
@@ -96,9 +97,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
                 // iutRole
                 KeyAgreementRole.ResponderPartyV,
                 // uParty
-                new FfcSharedInformation(null, new BitString("434156536964"), 0, 0, new BitString(0), new BitString(0), new BitString(0)), 
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("434156536964"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)), 
                 // vParty
-                new FfcSharedInformation(null, new BitString("a1b2c3d4e5"), 0, 0, new BitString(0), new BitString(0), new BitString(0)),
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("a1b2c3d4e5"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)),
                 // otherInfoLength
                 240,
                 // expectedOi
@@ -109,9 +110,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
                 // iutRole
                 KeyAgreementRole.ResponderPartyV,
                 // uParty
-                new FfcSharedInformation(null, new BitString("434156536964"), 0, 0, new BitString(0), new BitString(0), new BitString(0)), 
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("434156536964"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)), 
                 // vParty
-                new FfcSharedInformation(null, new BitString("a1b2c3d4e5"), 0, 0, new BitString(0), new BitString(0), new BitString(0)),
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("a1b2c3d4e5"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)),
                 // otherInfoLength
                 240,
                 // expectedOi
@@ -122,9 +123,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
                 // iutRole
                 KeyAgreementRole.InitiatorPartyU,
                 // uParty
-                new FfcSharedInformation(null, new BitString("a1b2c3d4e5"), 0, 0, new BitString(0), new BitString("7e4710fc503b32d44b01f973d281"), new BitString(0)), 
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("a1b2c3d4e5"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString("7e4710fc503b32d44b01f973d281"), new BitString(0)), 
                 // vParty
-                new FfcSharedInformation(null, new BitString("434156536964"), 0, 0, new BitString(0), new BitString(0), new BitString(0)),
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("434156536964"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)),
                 // otherInfoLength
                 240,
                 // expectedOi
@@ -135,9 +136,9 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
                 // iutRole
                 KeyAgreementRole.ResponderPartyV,
                 // uParty
-                new FfcSharedInformation(null, new BitString("434156536964"), 0, 0, new BitString(0), new BitString("be58b39ab2f8ab722acac7a635f2"), new BitString(0)),
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("434156536964"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString("be58b39ab2f8ab722acac7a635f2"), new BitString(0)),
                 // vParty
-                new FfcSharedInformation(null, new BitString("a1b2c3d4e5"), 0, 0, new BitString(0), new BitString(0), new BitString(0)), 
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("a1b2c3d4e5"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)), 
                 // otherInfoLength
                 240,
                 // expectedOi
@@ -147,7 +148,13 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
 
         [Test, FastCryptoTest]
         [TestCaseSource(nameof(_cavsTests))]
-        public void ShouldReturnCorrectOtherInfoCavsTests(KeyAgreementRole iutRole, FfcSharedInformation uPartySharedInformation, FfcSharedInformation vPartySharedInformation, int otherInfoLength, BitString expectedOtherInfo)
+        public void ShouldReturnCorrectOtherInfoCavsTests(
+            KeyAgreementRole iutRole, 
+            FfcSharedInformation<FfcDomainParameters, FfcKeyPair> uPartySharedInformation, 
+            FfcSharedInformation<FfcDomainParameters, FfcKeyPair> vPartySharedInformation, 
+            int otherInfoLength, 
+            BitString expectedOtherInfo
+        )
         {
             string otherInfoPattern = "uPartyInfo||vPartyInfo";
 
@@ -163,7 +170,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
 
             entropyProvider.AddEntropy(entropyBits);
 
-            _subject = new OtherInfo(entropyProvider, otherInfoPattern, otherInfoLength, KeyAgreementRole.InitiatorPartyU, uPartySharedInformation, vPartySharedInformation);
+            _subject = new OtherInfo<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(entropyProvider, otherInfoPattern, otherInfoLength, KeyAgreementRole.InitiatorPartyU, uPartySharedInformation, vPartySharedInformation);
 
             var result = _subject.GetOtherInfo();
 

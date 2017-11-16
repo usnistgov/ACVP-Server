@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Entropy;
 
@@ -10,15 +12,15 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
     {
-        private readonly IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
         private readonly IMacParametersBuilder _macParametersBuilder;
-        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
 
         public TestCaseValidatorFactory(
-            IKasBuilder<FfcParameterSet, FfcScheme> kasBuilder, 
+            IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
             IMacParametersBuilder macParametersBuilder, 
-            ISchemeBuilder<FfcParameterSet, FfcScheme> schemeBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
             IEntropyProviderFactory entropyProviderFactory
         )
         {

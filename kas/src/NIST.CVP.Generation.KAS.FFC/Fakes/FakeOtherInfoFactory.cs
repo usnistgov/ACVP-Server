@@ -1,11 +1,15 @@
-﻿using NIST.CVP.Crypto.KAS.Enums;
+﻿using NIST.CVP.Crypto.DSA;
+using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.FFC.Fakes
 {
-    public class FakeOtherInfoFactory : IOtherInfoFactory
+    public class FakeOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> : IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair>
+        where TSharedInformation : ISharedInformation<TDomainParameters, TKeyPair>
+        where TDomainParameters : IDsaDomainParameters
+        where TKeyPair : IDsaKeyPair
     {
         private readonly BitString _otherInfo;
 
@@ -14,8 +18,12 @@ namespace NIST.CVP.Generation.KAS.FFC.Fakes
             _otherInfo = otherInfo;
         }
 
-        public IOtherInfo GetInstance(string otherInfoPattern, int otherInfoLength, KeyAgreementRole thisPartyKeyAgreementRole,
-            FfcSharedInformation thisPartySharedInformation, FfcSharedInformation otherPartySharedInformation)
+        public IOtherInfo GetInstance(
+            string otherInfoPattern, 
+            int otherInfoLength, 
+            KeyAgreementRole thisPartyKeyAgreementRole,
+            TSharedInformation thisPartySharedInformation,
+            TSharedInformation otherPartySharedInformation)
         {
             return new FakeOtherInfo(_otherInfo);
         }

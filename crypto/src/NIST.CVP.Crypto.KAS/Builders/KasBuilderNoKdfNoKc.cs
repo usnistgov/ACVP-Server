@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Scheme;
@@ -6,11 +7,14 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public abstract class KasBuilderNoKdfNoKc<TParameterSet, TScheme> : IKasBuilderNoKdfNoKc<TParameterSet, TScheme>
+    public abstract class KasBuilderNoKdfNoKc<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair> : IKasBuilderNoKdfNoKc<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair>
         where TParameterSet : struct, IComparable
         where TScheme : struct, IComparable
+        where TSharedInformation : ISharedInformation<TDomainParameters, TKeyPair>
+        where TDomainParameters : IDsaDomainParameters
+        where TKeyPair : IDsaKeyPair
     {
-        protected readonly ISchemeBuilder<TParameterSet, TScheme> _schemeBuilder;
+        protected readonly ISchemeBuilder<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair> _schemeBuilder;
         protected readonly KeyAgreementRole _keyAgreementRole;
         protected readonly TScheme _scheme;
         protected readonly TParameterSet _parameterSet;
@@ -18,7 +22,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         protected readonly BitString _partyId;
 
         protected KasBuilderNoKdfNoKc(
-            ISchemeBuilder<TParameterSet, TScheme> schemeBuilder, 
+            ISchemeBuilder<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair> schemeBuilder, 
             KeyAgreementRole keyAgreementRole, 
             TScheme scheme, 
             TParameterSet parameterSet, 
@@ -34,6 +38,6 @@ namespace NIST.CVP.Crypto.KAS.Builders
             _partyId = partyId;
         }
 
-        public abstract IKas<TParameterSet, TScheme> Build();
+        public abstract IKas<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair> Build();
     }
 }

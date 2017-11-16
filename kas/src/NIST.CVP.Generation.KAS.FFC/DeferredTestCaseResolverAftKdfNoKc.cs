@@ -13,15 +13,15 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class DeferredTestCaseResolverAftKdfNoKc : IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>
     {
-        private readonly IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
         private readonly IMacParametersBuilder _macParametersBuilder;
-        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
         
         public DeferredTestCaseResolverAftKdfNoKc(
-            IKasBuilder<FfcParameterSet, FfcScheme> kasBuilder, 
+            IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
             IMacParametersBuilder macParametersBuilder, 
-            ISchemeBuilder<FfcParameterSet, FfcScheme> schemeBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
             IEntropyProviderFactory entropyProviderFactory
         )
         {
@@ -46,15 +46,16 @@ namespace NIST.CVP.Generation.KAS.FFC
                 );
 
             FfcDomainParameters domainParameters = new FfcDomainParameters(testGroup.P, testGroup.Q, testGroup.G);
-            FfcSharedInformation iutPublicInfo = new FfcSharedInformation(
-                domainParameters,
-                iutTestCase.IdIut ?? testGroup.IdIut,
-                iutTestCase.StaticPublicKeyIut,
-                iutTestCase.EphemeralPublicKeyIut,
-                null,
-                null,
-                serverTestCase.NonceNoKc
-            );
+            FfcSharedInformation<FfcDomainParameters, FfcKeyPair> iutPublicInfo = 
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
+                    domainParameters,
+                    iutTestCase.IdIut ?? testGroup.IdIut,
+                    new FfcKeyPair(iutTestCase.StaticPublicKeyIut),
+                    new FfcKeyPair(iutTestCase.EphemeralPublicKeyIut),
+                    null,
+                    null,
+                    serverTestCase.NonceNoKc
+                );
 
             var macParameters = _macParametersBuilder
                 .WithKeyAgreementMacType(testGroup.MacType)
@@ -76,7 +77,16 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithScheme(testGroup.Scheme)
                 .WithSchemeBuilder(
                     _schemeBuilder
-                        .WithOtherInfoFactory(new FakeOtherInfoFactory(iutTestCase.OtherInfo))
+                        .WithOtherInfoFactory(
+                            new FakeOtherInfoFactory<
+                                FfcSharedInformation<
+                                    FfcDomainParameters, 
+                                    FfcKeyPair
+                                >,
+                                FfcDomainParameters, 
+                                FfcKeyPair
+                            >(iutTestCase.OtherInfo)
+                        )
                         .WithHashFunction(testGroup.HashAlg)
                 )
                 .WithKeyAgreementRole(serverRole)

@@ -9,6 +9,7 @@ using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
@@ -54,7 +55,16 @@ namespace KAS
             builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
             builder.RegisterType<KdfFactory>().AsImplementedInterfaces();
-            builder.RegisterType<OtherInfoFactory>().AsImplementedInterfaces();
+            builder.RegisterType<
+                OtherInfoFactory<
+                    FfcSharedInformation<
+                        FfcDomainParameters,
+                        FfcKeyPair
+                    >,
+                    FfcDomainParameters,
+                    FfcKeyPair
+                >
+            >().AsImplementedInterfaces();
             builder.RegisterType<DsaFfcFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

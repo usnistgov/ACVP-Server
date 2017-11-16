@@ -1,14 +1,18 @@
 ﻿using System;
+using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public interface IScheme<out TSchemeParameters, TParameterSet, TScheme>
+    public interface IScheme<out TSchemeParameters, TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
         where TSchemeParameters : ISchemeParameters<TParameterSet, TScheme>
         where TParameterSet : struct, IComparable
         where TScheme : struct, IComparable
+        where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
+        where TDomainParameters : IDsaDomainParameters
+        where TKeyPair : IDsaKeyPair
     {
         /// <summary>
         /// The length of the OtherInfo that is plugged into the KDF key.
@@ -54,12 +58,12 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// needed by the other party for KAS
         /// </summary>
         /// <returns></returns>
-        FfcSharedInformation ReturnPublicInfoThisParty();
+        TOtherPartySharedInfo ReturnPublicInfoThisParty();
         /// <summary>
         /// Computes the KAS result based on the provided other party's shared information
         /// </summary>
         /// <param name="otherPartyInformation"></param>
         /// <returns></returns>
-        KasResult ComputeResult(FfcSharedInformation otherPartyInformation);
+        KasResult ComputeResult(TOtherPartySharedInfo otherPartyInformation);
     }
 }

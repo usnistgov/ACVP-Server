@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Scheme;
@@ -8,72 +9,146 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public abstract class KasBuilderBase<TParameterSet, TScheme> : IKasBuilder<TParameterSet, TScheme>
+    public abstract class KasBuilderBase<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> : IKasBuilder<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
         where TParameterSet : struct, IComparable
         where TScheme : struct, IComparable
+        where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
+        where TDomainParameters : IDsaDomainParameters
+        where TKeyPair : IDsaKeyPair
     {
         protected KeyAgreementRole _keyAgreementRole;
         protected TParameterSet _parameterSet;
         protected TScheme _scheme;
         protected KasAssurance _assurances;
         protected BitString _partyId;
-        protected ISchemeBuilder<TParameterSet, TScheme> _schemeBuilder;
+        protected ISchemeBuilder<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> _schemeBuilder;
 
-        protected KasBuilderBase(ISchemeBuilder<TParameterSet, TScheme> schemeBuilder)
+        protected KasBuilderBase(ISchemeBuilder<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> schemeBuilder)
         {
             _schemeBuilder = schemeBuilder;
         }
 
         /// <inheritdoc />
-        public IKasBuilder<TParameterSet, TScheme> WithKeyAgreementRole(KeyAgreementRole value)
+        public IKasBuilder<
+            TParameterSet, 
+            TScheme, 
+            TOtherPartySharedInfo, 
+            TDomainParameters, 
+            TKeyPair
+        > 
+            WithKeyAgreementRole(KeyAgreementRole value)
         {
             _keyAgreementRole = value;
             return this;
         }
 
         /// <inheritdoc />
-        public IKasBuilder<TParameterSet, TScheme> WithScheme(TScheme value)
+        public IKasBuilder<
+            TParameterSet,
+            TScheme,
+            TOtherPartySharedInfo,
+            TDomainParameters,
+            TKeyPair
+        > 
+            WithScheme(TScheme value)
         {
             _scheme = value;
             return this;
         }
 
         /// <inheritdoc />
-        public IKasBuilder<TParameterSet, TScheme> WithParameterSet(TParameterSet value)
+        public IKasBuilder<
+            TParameterSet,
+            TScheme,
+            TOtherPartySharedInfo,
+            TDomainParameters,
+            TKeyPair
+        > 
+            WithParameterSet(TParameterSet value)
         {
             _parameterSet = value;
             return this;
         }
 
         /// <inheritdoc />
-        public IKasBuilder<TParameterSet, TScheme> WithSchemeBuilder(ISchemeBuilder<TParameterSet, TScheme> schemeBuilder)
+        public IKasBuilder<
+            TParameterSet,
+            TScheme,
+            TOtherPartySharedInfo,
+            TDomainParameters,
+            TKeyPair
+        > 
+            WithSchemeBuilder(
+                ISchemeBuilder<
+                    TParameterSet, 
+                    TScheme, 
+                    TOtherPartySharedInfo, 
+                    TDomainParameters, 
+                    TKeyPair
+                > schemeBuilder
+            )
         {
             _schemeBuilder = schemeBuilder;
             return this;
         }
 
         /// <inheritdoc />
-        public IKasBuilder<TParameterSet, TScheme> WithAssurances(KasAssurance value)
+        public IKasBuilder<
+            TParameterSet,
+            TScheme,
+            TOtherPartySharedInfo,
+            TDomainParameters,
+            TKeyPair
+        > 
+            WithAssurances(KasAssurance value)
         {
             _assurances = value;
             return this;
         }
 
         /// <inheritdoc />
-        public IKasBuilder<TParameterSet, TScheme> WithPartyId(BitString value)
+        public IKasBuilder<
+            TParameterSet,
+            TScheme,
+            TOtherPartySharedInfo,
+            TDomainParameters,
+            TKeyPair
+        > 
+            WithPartyId(BitString value)
         {
             _partyId = value;
             return this;
         }
 
         /// <inheritdoc />
-        public abstract IKasBuilderKdfKc<TParameterSet, TScheme> BuildKdfKc();
+        public abstract IKasBuilderKdfKc<
+            TParameterSet, 
+            TScheme, 
+            TOtherPartySharedInfo, 
+            TDomainParameters, 
+            TKeyPair
+        > 
+            BuildKdfKc();
 
         /// <inheritdoc />
-        public abstract IKasBuilderKdfNoKc<TParameterSet, TScheme> BuildKdfNoKc();
+        public abstract IKasBuilderKdfNoKc<
+            TParameterSet,
+            TScheme,
+            TOtherPartySharedInfo,
+            TDomainParameters,
+            TKeyPair
+        > 
+            BuildKdfNoKc();
 
         /// <inheritdoc />
-        public abstract IKasBuilderNoKdfNoKc<TParameterSet, TScheme> BuildNoKdfNoKc();
+        public abstract IKasBuilderNoKdfNoKc<
+            TParameterSet,
+            TScheme,
+            TOtherPartySharedInfo,
+            TDomainParameters,
+            TKeyPair
+        > 
+            BuildNoKdfNoKc();
 
     }
 }

@@ -10,12 +10,12 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class DeferredTestCaseResolverAftNoKdfNoKc : IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>
     {
-        private readonly IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
-        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
 
         public DeferredTestCaseResolverAftNoKdfNoKc(
-            IKasBuilder<FfcParameterSet, FfcScheme> kasBuilder, 
-            ISchemeBuilder<FfcParameterSet, FfcScheme> schemeBuilder)
+            IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder)
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
@@ -36,15 +36,16 @@ namespace NIST.CVP.Generation.KAS.FFC
                     );
 
             FfcDomainParameters domainParameters = new FfcDomainParameters(testGroup.P, testGroup.Q, testGroup.G);
-            FfcSharedInformation iutPublicInfo = new FfcSharedInformation(
-                domainParameters,
-                iutTestCase.IdIut ?? testGroup.IdIut,
-                iutTestCase.StaticPublicKeyIut,
-                iutTestCase.EphemeralPublicKeyIut,
-                null,
-                null,
-                null
-            );
+            FfcSharedInformation<FfcDomainParameters, FfcKeyPair> iutPublicInfo = 
+                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
+                    domainParameters,
+                    iutTestCase.IdIut ?? testGroup.IdIut,
+                    new FfcKeyPair(iutTestCase.StaticPublicKeyIut),
+                    new FfcKeyPair(iutTestCase.EphemeralPublicKeyIut),
+                    null,
+                    null,
+                    null
+                );
 
             var serverKas = _kasBuilder
                 .WithKeyAgreementRole(

@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
@@ -21,16 +22,14 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
         /// Used to mangle a private or public key, based on the <see cref="TestCaseDispositionOption"/>
         /// </summary>
         /// <param name="testCase">The current test case</param>
-        /// <param name="dsa">The dsa instance</param>
         /// <param name="dispositionOption">The disposition to </param>
         /// <param name="serverKas"></param>
         /// <param name="iutKas"></param>
         public static void MangleKeys(
             TestCase testCase,
-            IDsaFfc dsa,
             TestCaseDispositionOption dispositionOption, 
-            IKas<FfcParameterSet, FfcScheme> serverKas, 
-            IKas<FfcParameterSet, FfcScheme> iutKas
+            IKas<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
+            IKas<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas
         )
         {
             var serverKeyExpectations = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
@@ -51,16 +50,16 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
             switch (dispositionOption)
             {
                 case TestCaseDispositionOption.FailAssuranceServerStaticPublicKey:
-                    MangleServerStaticPublicKey(testCase, dsa, serverKas, serverKeyExpectations.GeneratesStaticKeyPair);
+                    MangleServerStaticPublicKey(testCase, serverKas, serverKeyExpectations.GeneratesStaticKeyPair);
                     break;
                 case TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey:
-                    MangleServerEphemeralPublicKey(testCase, dsa, serverKas, serverKeyExpectations.GeneratesEphemeralKeyPair);
+                    MangleServerEphemeralPublicKey(testCase, serverKas, serverKeyExpectations.GeneratesEphemeralKeyPair);
                     break;
                 case TestCaseDispositionOption.FailAssuranceIutStaticPrivateKey:
                     MangleIutStaticPrivateKey(testCase, iutKas, iutKeyExpectations.GeneratesStaticKeyPair);
                     break;
                 case TestCaseDispositionOption.FailAssuranceIutStaticPublicKey:
-                    MangleIutStaticPublicKey(testCase, dsa, iutKas, iutKeyExpectations.GeneratesStaticKeyPair);
+                    MangleIutStaticPublicKey(testCase, iutKas, iutKeyExpectations.GeneratesStaticKeyPair);
                     break;
                 case TestCaseDispositionOption.Success:
                 case TestCaseDispositionOption.SuccessLeadingZeroNibbleZ:
@@ -79,8 +78,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
 
         private static void MangleServerStaticPublicKey(
             TestCase testCase, 
-            IDsaFfc dsa, 
-            IKas<FfcParameterSet, FfcScheme> serverKas, 
+            IKas<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
             bool generatesKeyPair
         )
         {
@@ -104,8 +102,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
 
         private static void MangleServerEphemeralPublicKey(
             TestCase testCase, 
-            IDsaFfc dsa, 
-            IKas<FfcParameterSet, FfcScheme> serverKas, 
+            IKas<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
             bool generatesKeyPair
         )
         {
@@ -129,7 +126,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
 
         private static void MangleIutStaticPrivateKey(
             TestCase testCase, 
-            IKas<FfcParameterSet, FfcScheme> iutKas, 
+            IKas<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas, 
             bool generatesKeyPair
         )
         {
@@ -143,8 +140,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
 
         private static void MangleIutStaticPublicKey(
             TestCase testCase, 
-            IDsaFfc dsa, 
-            IKas<FfcParameterSet, FfcScheme> iutKas, 
+            IKas<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas, 
             bool generatesKeyPair
         )
         {
@@ -170,8 +166,8 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
         public static void SetTestCaseInformationFromKasResults(
             TestGroup group, 
             TestCase testCase, 
-            IKas<FfcParameterSet, FfcScheme> serverKas, 
-            IKas<FfcParameterSet, FfcScheme> iutKas, 
+            IKas<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
+            IKas<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas, 
             KasResult iutResult
         )
         {

@@ -13,13 +13,27 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public abstract class SchemeBaseFfc : SchemeBase<SchemeParametersBase<FfcParameterSet, FfcScheme>, FfcParameterSet, FfcScheme>
+    public abstract class SchemeBaseFfc 
+        : SchemeBase<
+            SchemeParametersBase<
+                FfcParameterSet, 
+                FfcScheme
+            >, 
+            FfcParameterSet, 
+            FfcScheme, 
+            FfcSharedInformation<
+                FfcDomainParameters, 
+                FfcKeyPair
+            >, 
+            FfcDomainParameters, 
+            FfcKeyPair
+        >
     {
         protected IDsaFfc Dsa;
         protected IKdfFactory KdfFactory;
         protected IKeyConfirmationFactory KeyConfirmationFactory;
         protected INoKeyConfirmationFactory NoKeyConfirmationFactory;
-        protected IOtherInfoFactory OtherInfoFactory;
+        protected IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> OtherInfoFactory;
         protected IEntropyProvider EntropyProvider;
         protected KdfParameters KdfParameters;
         protected MacParameters MacParameters;
@@ -29,7 +43,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            IOtherInfoFactory otherInfoFactory,
+            IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory,
             IEntropyProvider entropyProvider,
             SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters,
             KdfParameters kdfParameters,
@@ -68,18 +82,18 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         }
 
         /// <inheritdoc />
-        public override FfcSharedInformation ReturnPublicInfoThisParty()
+        public override FfcSharedInformation<FfcDomainParameters, FfcKeyPair> ReturnPublicInfoThisParty()
         {
             if (!ThisPartyKeysGenerated)
             {
                 GenerateKasKeyNonceInformation();
             }
 
-            return new FfcSharedInformation(
+            return new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
                 DomainParameters,
                 SchemeParameters.ThisPartyId,
-                StaticKeyPair?.PublicKeyY ?? 0,
-                EphemeralKeyPair?.PublicKeyY ?? 0,
+                StaticKeyPair,
+                EphemeralKeyPair,
                 EphemeralNonce,
                 DkmNonce,
                 NoKeyConfirmationNonce
@@ -87,7 +101,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         }
 
         /// <inheritdoc />
-        public override KasResult ComputeResult(FfcSharedInformation otherPartyInformation)
+        public override KasResult ComputeResult(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
         {
             // Set this instance's domain parameters equal to the other party's assuming they were passed in
             if (otherPartyInformation.DomainParameters != null)
@@ -137,7 +151,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             return new KasResult(z, oi, dkm.DerivedKey, computedKeyMac.MacData, computedKeyMac.Mac);
         }
 
-        private bool KeyChecks(FfcSharedInformation otherPartyInformation)
+        private bool KeyChecks(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
         {
             try
             {
@@ -156,24 +170,24 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 
                 // When fullval, and the other party provides a static public key
                 if (SchemeParameters.KasAssurances.HasFlag(KasAssurance.FullVal) &&
-                    otherPartyInformation.StaticPublicKey != 0)
+                    otherPartyInformation.StaticPublicKey != null)
                 {
                     KeyValidationHelper.PerformFfcPublicKeyValidation(
                         DomainParameters.P,
                         DomainParameters.Q,
-                        otherPartyInformation.StaticPublicKey,
+                        otherPartyInformation.StaticPublicKey.PublicKeyY,
                         true
                     );
                 }
 
                 // When fullval, and the other party provides a ephemeral public key
                 if (SchemeParameters.KasAssurances.HasFlag(KasAssurance.FullVal) &&
-                    otherPartyInformation.EphemeralPublicKey != 0)
+                    otherPartyInformation.EphemeralPublicKey != null)
                 {
                     KeyValidationHelper.PerformFfcPublicKeyValidation(
                         DomainParameters.P,
                         DomainParameters.Q,
-                        otherPartyInformation.EphemeralPublicKey,
+                        otherPartyInformation.EphemeralPublicKey.PublicKeyY,
                         true
                     );
                 }
@@ -229,7 +243,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// </summary>
         /// <param name="otherPartyInformation">The other party's public information</param>
         /// <returns></returns>
-        protected abstract BitString ComputeSharedSecret(FfcSharedInformation otherPartyInformation);
+        protected abstract BitString ComputeSharedSecret(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation);
 
         /// <summary>
         /// Generate the OtherInformation that is to be plugged into a KDF function.
@@ -237,7 +251,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <param name="otherPartyInformation">The other party's public information</param>
         /// <returns></returns>
 
-        protected IOtherInfo GenerateOtherInformation(FfcSharedInformation otherPartyInformation)
+        protected IOtherInfo GenerateOtherInformation(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
         {
             return OtherInfoFactory.GetInstance(
                 KdfParameters.OtherInfoPattern,
@@ -254,7 +268,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <param name="otherPartyInformation">The other party's public information</param>
         /// <param name="derivedKeyingMaterial">The derived keying material generated via KDF</param>
         /// <returns></returns>
-        protected ComputeKeyMacResult ComputeMac(FfcSharedInformation otherPartyInformation,
+        protected ComputeKeyMacResult ComputeMac(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation,
             BitString derivedKeyingMaterial)
         {
             if (SchemeParameters.KasMode == KasMode.KdfNoKc)
@@ -271,7 +285,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <param name="otherPartyInformation">The other party's public information</param>
         /// <param name="derivedKeyingMaterial">The DKM from the KDF</param>
         /// <returns></returns>
-        protected ComputeKeyMacResult NoKeyConfirmation(FfcSharedInformation otherPartyInformation, BitString derivedKeyingMaterial)
+        protected ComputeKeyMacResult NoKeyConfirmation(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation, BitString derivedKeyingMaterial)
         {
             // No key confirmation nonce provided by party u.
             var noKeyConfirmationNonce = SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
@@ -318,7 +332,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <param name="otherPartyInformation">The other party's public information</param>
         /// <param name="derivedKeyingMaterial">The DKM from the KDF</param>
         /// <returns></returns>
-        protected ComputeKeyMacResult KeyConfirmation(FfcSharedInformation otherPartyInformation, BitString derivedKeyingMaterial)
+        protected ComputeKeyMacResult KeyConfirmation(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation, BitString derivedKeyingMaterial)
         {
             var keyConfirmationParameters = GetKeyConfirmationParameters(otherPartyInformation, derivedKeyingMaterial);
 
@@ -333,10 +347,10 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <param name="otherPartyInformation">The other party's information used in construction of the macData</param>
         /// <param name="derivedKeyingMaterial">The derived keying material (dkm) plugged into a MAC function H(dkm, macData)</param>
         /// <returns></returns>
-        private IKeyConfirmationParameters GetKeyConfirmationParameters(FfcSharedInformation otherPartyInformation, BitString derivedKeyingMaterial)
+        private IKeyConfirmationParameters GetKeyConfirmationParameters(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation, BitString derivedKeyingMaterial)
         {
             var thisPartyEphemeralPublicKeyOrNonce =
-                GetEphemeralKeyOrNonce(EphemeralKeyPair?.PublicKeyY ?? 0, EphemeralNonce);
+                GetEphemeralKeyOrNonce(EphemeralKeyPair, EphemeralNonce);
             var otherPartyEphemeralPublicKeyOrNonce = 
                 GetEphemeralKeyOrNonce(otherPartyInformation.EphemeralPublicKey, otherPartyInformation.EphemeralNonce);
 
@@ -379,11 +393,11 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <param name="ephemeralPublicKey">The key to use (when not 0)</param>
         /// <param name="ephemeralNonce">The nonce to use (when the key is 0)</param>
         /// <returns></returns>
-        private BitString GetEphemeralKeyOrNonce(BigInteger ephemeralPublicKey, BitString ephemeralNonce)
+        private BitString GetEphemeralKeyOrNonce(FfcKeyPair ephemeralPublicKey, BitString ephemeralNonce)
         {
-            if (ephemeralPublicKey != 0)
+            if (ephemeralPublicKey != null && ephemeralPublicKey?.PublicKeyY != 0)
             {
-                var ephemKey = new BitString(ephemeralPublicKey);
+                var ephemKey = new BitString(ephemeralPublicKey.PublicKeyY);
 
                 // Ensure mod 32
                 if (ephemKey.BitLength % 32 != 0)

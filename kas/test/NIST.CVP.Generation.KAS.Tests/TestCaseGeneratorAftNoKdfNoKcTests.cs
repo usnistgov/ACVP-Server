@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.KAS.FFC;
@@ -22,8 +23,8 @@ namespace NIST.CVP.Generation.KAS.Tests
         private TestCaseGeneratorAftNoKdfNoKc _subject;
         private Mock<IDsaFfc> _dsa;
         private IEntropyProvider _entropyProvider;
-        private IKasBuilder<FfcParameterSet, FfcScheme> _kasBuilder;
-        private ISchemeBuilder<FfcParameterSet, FfcScheme> _schemeBuilder;
+        private IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private Mock<IDsaFfcFactory> _dsaFactory;
 
         [SetUp]
@@ -60,7 +61,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     ),
                     new KeyConfirmationFactory(),
                     new NoKeyConfirmationFactory(),
-                    new OtherInfoFactory(
+                    new OtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(
                         _entropyProvider
                     ),
                     _entropyProvider,

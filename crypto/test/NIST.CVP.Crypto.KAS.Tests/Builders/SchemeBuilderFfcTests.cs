@@ -1,4 +1,5 @@
 ﻿using Moq;
+using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
@@ -30,7 +31,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
         private Mock<IKdfFactory> _kdfFactory;
         private Mock<IKeyConfirmationFactory> _keyConfirmationFactory;
         private Mock<INoKeyConfirmationFactory> _noKeyConfirmationFactory;
-        private Mock<IOtherInfoFactory> _otherInfoFactory;
+        private Mock<IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>> _otherInfoFactory;
         private Mock<IEntropyProvider> _entropyProvider;
         private Mock<IDiffieHellman<FfcDomainParameters, FfcKeyPair>> _diffieHellmanFfc;
         private Mock<IMqv<FfcDomainParameters, FfcKeyPair>> _mqv;
@@ -47,7 +48,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _kdfFactory = new Mock<IKdfFactory>();
             _keyConfirmationFactory = new Mock<IKeyConfirmationFactory>();
             _noKeyConfirmationFactory = new Mock<INoKeyConfirmationFactory>();
-            _otherInfoFactory = new Mock<IOtherInfoFactory>();
+            _otherInfoFactory = new Mock<IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>>();
             _entropyProvider = new Mock<IEntropyProvider>();
             _diffieHellmanFfc = new Mock<IDiffieHellman<FfcDomainParameters, FfcKeyPair>>();
             _mqv = new Mock<IMqv<FfcDomainParameters, FfcKeyPair>>();
@@ -113,7 +114,20 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                     null
                 );
 
-            Assert.IsInstanceOf(typeof(IScheme<ISchemeParameters<FfcParameterSet, FfcScheme>, FfcParameterSet, FfcScheme>), result);
+            Assert.IsInstanceOf(typeof(IScheme<
+                ISchemeParameters<
+                    FfcParameterSet, 
+                    FfcScheme
+                >, 
+                FfcParameterSet, 
+                FfcScheme, 
+                FfcSharedInformation<
+                    FfcDomainParameters, 
+                    FfcKeyPair
+                >, 
+                FfcDomainParameters, 
+                FfcKeyPair
+            >), result);
         }
 
         [Test]
