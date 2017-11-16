@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             return CreateRegistration(targetFolder, parameters);
         }
 
-        private string GetTestFileManyTestCases(string targetFolder)
+        protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
             var parameters = new Parameters
             {
