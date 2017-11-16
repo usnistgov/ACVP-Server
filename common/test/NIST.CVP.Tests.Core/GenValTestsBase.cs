@@ -22,6 +22,7 @@ namespace NIST.CVP.Tests.Core
         public abstract string Mode { get; }
         public string TestPath { get; private set; }
         public string JsonSavePath { get; private set; }
+        public string[] AdditionalParameters { get; protected set; } = { };
 
         public delegate int Executable(string[] paths);
 
@@ -56,26 +57,26 @@ namespace NIST.CVP.Tests.Core
         [Test]
         public void GenShouldReturn1OnNoArgumentsSupplied()
         {
-            var result = Generator.Invoke(new string[] { });
+            var result = Generator.Invoke(GetParameters(new string[] { }));
             Assert.AreEqual(1, result);
         }
 
         [Test]
         public void GenShouldReturn1OnInvalidFileName()
         {
-            var result = Generator.Invoke(new[] { $"{Guid.NewGuid()}.json" });
+            var result = Generator.Invoke(GetParameters(new[] { $"{Guid.NewGuid()}.json" }));
             Assert.AreEqual(1, result);
         }
 
         [Test]
-        public void GenShouldReturn1OnAFailedRunBase()
+        public void GenShouldReturn1OnAFailedRun()
         {
             OverrideRegistrationGenFakeFailure();
 
             var targetFolder = GetTestFolder("GenShouldFail");
             var fileName = GetTestFileMinimalTestCases(targetFolder);
 
-            var result = Generator.Invoke(new string[] {fileName});
+            var result = Generator.Invoke(GetParameters(new string[] {fileName}));
             Assert.AreEqual(1, result);
         }
 
@@ -93,7 +94,7 @@ namespace NIST.CVP.Tests.Core
         }
 
         [Test]
-        public void ValShouldReturn1OnAFailedRunBase()
+        public void ValShouldReturn1OnAFailedRun()
         {
             OverrideRegistrationValFakeFailure();
 
@@ -101,13 +102,13 @@ namespace NIST.CVP.Tests.Core
             var fileName = GetTestFileMinimalTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
-            var result = Validator.Invoke(GetFileNamesWithPath(targetFolder, TestVectorFileNames));
+            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames)));
 
             Assert.AreEqual(1, result);
         }
 
         [Test]
-        public void ValShouldReturn1OnExceptionBase()
+        public void ValShouldReturn1OnException()
         {
             OverrideRegistrationValFakeException();
 
@@ -115,7 +116,7 @@ namespace NIST.CVP.Tests.Core
             var fileName = GetTestFileMinimalTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
-            var result = Validator.Invoke(GetFileNamesWithPath(targetFolder, TestVectorFileNames));
+            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames)));
 
             Assert.AreEqual(1, result);
         }
@@ -214,6 +215,16 @@ namespace NIST.CVP.Tests.Core
             }
         }
 
+        private string[] GetParameters(string[] parameters)
+        {
+            // Copy the parameters over to a new array with the AdditionalParameters coming first
+            var fullParameters = new string[parameters.Length + AdditionalParameters.Length];
+            Array.Copy(AdditionalParameters, fullParameters, AdditionalParameters.Length);
+            Array.Copy(parameters, 0, fullParameters, AdditionalParameters.Length, parameters.Length);
+
+            return fullParameters;
+        }
+
         private string[] GetFileNamesWithPath(string directory, string[] fileNames)
         {
             var numOfFiles = fileNames.Length;
@@ -248,7 +259,7 @@ namespace NIST.CVP.Tests.Core
         private void RunGeneration(string targetFolder, string fileName)
         {
             // Run test vector generation
-            var result = Generator.Invoke(new[] { fileName });
+            var result = Generator.Invoke(GetParameters(new[] { fileName }));
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[0]}"), $"{targetFolder}{TestVectorFileNames[0]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[1]}"), $"{targetFolder}{TestVectorFileNames[1]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[2]}"), $"{targetFolder}{TestVectorFileNames[2]}");
@@ -258,7 +269,7 @@ namespace NIST.CVP.Tests.Core
         private void RunValidation(string targetFolder)
         {
             // Run test vector validation
-            var result = Validator.Invoke(GetFileNamesWithPath(targetFolder, TestVectorFileNames));
+            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames)));
             Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder} validation");
             Assert.IsTrue(result == 0);
         }
