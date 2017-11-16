@@ -23,11 +23,11 @@ namespace NIST.CVP.Crypto.KAS
 
         public IScheme<SchemeParametersBase<TParameterSet, TScheme>, TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> Scheme => _scheme;
 
-        public void SetDomainParameters(FfcDomainParameters domainParameters)
+        public void SetDomainParameters(TDomainParameters domainParameters)
         {
             _scheme.SetDomainParameters(domainParameters);
         }
-
+        
         public TOtherPartySharedInfo ReturnPublicInfoThisParty()
         {
             return _scheme.ReturnPublicInfoThisParty();

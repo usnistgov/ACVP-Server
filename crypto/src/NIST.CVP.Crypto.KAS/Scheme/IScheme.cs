@@ -25,15 +25,15 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <summary>
         /// The domain parameters associated with key generation
         /// </summary>
-        FfcDomainParameters DomainParameters { get; }
+        TDomainParameters DomainParameters { get; }
         /// <summary>
         /// The static key pair used in the scheme (can be null)
         /// </summary>
-        FfcKeyPair StaticKeyPair { get; }
+        TKeyPair StaticKeyPair { get; }
         /// <summary>
         /// The ephemeral key pair used in the scheme (can be null)
         /// </summary>
-        FfcKeyPair EphemeralKeyPair { get; }
+        TKeyPair EphemeralKeyPair { get; }
         /// <summary>
         /// The Ephemeral public key nonce used in the scheme (can be null)
         /// </summary>
@@ -51,7 +51,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// Sets the domain parameters for use in <see cref="IDsaFfc"/>
         /// </summary>
         /// <param name="domainParameters">The domain parameters to set</param>
-        void SetDomainParameters(FfcDomainParameters domainParameters);
+        void SetDomainParameters(TDomainParameters domainParameters);
 
         /// <summary>
         /// Returns the shared information (public key/nonce information) 

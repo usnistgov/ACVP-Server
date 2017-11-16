@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.KAS
     {
         IScheme<SchemeParametersBase<TParameterSet, TScheme>, TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> Scheme { get; }
 
-        void SetDomainParameters(FfcDomainParameters domainParameters);
+        void SetDomainParameters(TDomainParameters domainParameters);
         /// <summary>
         /// Gets the shared information needed by the other party to complete key agreement
         /// </summary>
