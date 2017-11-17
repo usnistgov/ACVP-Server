@@ -247,7 +247,7 @@ namespace NIST.CVP.Tests.Core
             return result;
         }
 
-        private string GetTestFolder(string name)
+        protected string GetTestFolder(string name)
         {
             var folderName = $"{Algorithm}-{Mode}-{GetDateTime()}-{name}";
             var targetFolder = Path.Combine(TestPath, folderName);

@@ -87,8 +87,8 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
             Parameters p = new Parameters()
             {
-                Algorithm = "ctrDRBG",
-                Mode = "AES-128",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 NonceLen = nonceLen,
                 AdditionalInputLen = additionalInputLen,
                 PersoStringLen = persoStringLen,
@@ -120,8 +120,8 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
             Parameters p = new Parameters()
             {
-                Algorithm = "ctrDRBG",
-                Mode = "AES-256",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 NonceLen = nonceLen,
                 AdditionalInputLen = additionalInputLen,
                 PersoStringLen = persoStringLen,
