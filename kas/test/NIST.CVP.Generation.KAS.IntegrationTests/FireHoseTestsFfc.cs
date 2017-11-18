@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
+using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
@@ -76,7 +77,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         new KeyConfirmationFactory(),
                         new NoKeyConfirmationFactory(),
                         new OtherInfoFactory<
-                            FfcSharedInformation<
+                            OtherPartySharedInformation<
                                 FfcDomainParameters, 
                                 FfcKeyPair
                             >, 

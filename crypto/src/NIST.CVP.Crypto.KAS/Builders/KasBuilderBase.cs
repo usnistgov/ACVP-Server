@@ -9,7 +9,8 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public abstract class KasBuilderBase<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> : IKasBuilder<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
+    public abstract class KasBuilderBase<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> 
+        : IKasBuilder<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
         where TParameterSet : struct, IComparable
         where TScheme : struct, IComparable
         where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>

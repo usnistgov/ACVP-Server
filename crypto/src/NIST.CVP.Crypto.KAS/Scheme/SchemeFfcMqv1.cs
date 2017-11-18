@@ -20,7 +20,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
-            IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory, 
+            IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory, 
             IEntropyProvider entropyProvider, 
             SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters, 
             KdfParameters kdfParameters, 
@@ -77,7 +77,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             }
         }
 
-        protected override BitString ComputeSharedSecret(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
+        protected override BitString ComputeSharedSecret(OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
         {
             // Party U uses both its static and ephemeral keys, and Party V's static public key
             if (SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU)

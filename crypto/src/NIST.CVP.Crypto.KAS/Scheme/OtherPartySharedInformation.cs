@@ -5,7 +5,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public class FfcSharedInformation<TDomainParameters, TKeyPair> 
+    public class OtherPartySharedInformation<TDomainParameters, TKeyPair> 
         : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
@@ -39,7 +39,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// </summary>
         public BitString NoKeyConfirmationNonce { get; }
 
-        public FfcSharedInformation(TDomainParameters domainParameters, BitString partyId, TKeyPair staticPublicKey, TKeyPair ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce, BitString noKeyConfirmationNonce)
+        public OtherPartySharedInformation(TDomainParameters domainParameters, BitString partyId, TKeyPair staticPublicKey, TKeyPair ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce, BitString noKeyConfirmationNonce)
         {
             DomainParameters = domainParameters;
             PartyId = partyId;

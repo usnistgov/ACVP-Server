@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
+using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
@@ -24,8 +25,8 @@ namespace NIST.CVP.Generation.KAS.Tests
         private Mock<IDsaFfc> _dsa;
         private IEntropyProvider _entropyProvider;
         private IEntropyProviderFactory _entropyProviderFactory;
-        private IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
+        private IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private Mock<IDsaFfcFactory> _dsaFactory;
         private IMacParametersBuilder _macParametersBuilder;
 
@@ -63,7 +64,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     ),
                     new KeyConfirmationFactory(),
                     new NoKeyConfirmationFactory(),
-                    new OtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(
+                    new OtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(
                         _entropyProvider
                     ),
                     _entropyProvider,
@@ -166,7 +167,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             KeyConfirmationRole serverKeyConfRole =
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(tg.KcRole);
 
-            var keyGenRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+            var keyGenRequirements = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
                 scheme,
                 tg.KasMode,
                 serverRole,

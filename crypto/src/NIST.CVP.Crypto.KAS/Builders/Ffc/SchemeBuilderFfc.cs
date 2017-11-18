@@ -8,13 +8,13 @@ using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Math.Entropy;
 
-namespace NIST.CVP.Crypto.KAS.Builders
+namespace NIST.CVP.Crypto.KAS.Builders.Ffc
 {
     public class SchemeBuilderFfc 
         : SchemeBuilderBase<
             FfcParameterSet, 
             FfcScheme, 
-            FfcSharedInformation<
+            OtherPartySharedInformation<
                 FfcDomainParameters, 
                 FfcKeyPair
             >, 
@@ -22,17 +22,18 @@ namespace NIST.CVP.Crypto.KAS.Builders
             FfcKeyPair
         >
     {
+        private readonly IDsaFfcFactory _dsaFfcFactory;
+
         public SchemeBuilderFfc(
-            IDsaFfcFactory dsaFactory, 
+            IDsaFfcFactory dsaFfcFactory, 
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
-            IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory, 
+            IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory, 
             IEntropyProvider entropyProvider, 
             IDiffieHellman<FfcDomainParameters, FfcKeyPair> diffieHellmanFfc, 
             IMqv<FfcDomainParameters, FfcKeyPair> mqv) 
             : base(
-                  dsaFactory, 
                   kdfFactory, 
                   keyConfirmationFactory, 
                   noKeyConfirmationFactory, 
@@ -41,6 +42,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
                   diffieHellmanFfc, 
                   mqv)
         {
+            _dsaFfcFactory = dsaFfcFactory;
         }
 
         public override IScheme<
@@ -50,7 +52,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             >, 
             FfcParameterSet, 
             FfcScheme,
-            FfcSharedInformation<
+            OtherPartySharedInformation<
                 FfcDomainParameters, 
                 FfcKeyPair
             >, 
@@ -71,7 +73,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
                 >,
                 FfcParameterSet,
                 FfcScheme,
-                FfcSharedInformation<
+                OtherPartySharedInformation<
                     FfcDomainParameters,
                     FfcKeyPair
                 >,
@@ -79,14 +81,14 @@ namespace NIST.CVP.Crypto.KAS.Builders
                 FfcKeyPair
             > scheme = null;
 
-            var dsa = _withDsaFactory.GetInstance(_withHashFunction);
+            var dsa = _dsaFfcFactory.GetInstance(_withHashFunction);
 
             switch (schemeParameters.Scheme)
             {
                 case FfcScheme.DhEphem:
                     scheme = new SchemeFfcDiffieHellmanEphemeral(dsa, _withKdfFactory,
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
-                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellmanFfc);
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
                 case FfcScheme.Mqv1:
                     scheme = new SchemeFfcMqv1(dsa, _withKdfFactory,

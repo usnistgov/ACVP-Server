@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             _deferredResolver = deferredResolver;
 
             _iutKeyRequirements =
-                KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
                     _testGroup.Scheme,
                     _testGroup.KasMode,
                     _testGroup.KasRole,

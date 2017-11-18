@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
+using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
@@ -34,12 +35,10 @@ namespace NIST.CVP.Generation.KAS.Tests
             new BitString("37a7b2a094ed6253784d51c71a4a7407f0727df15e480a02b0ff2f9befdb0e92c0d63e482c6909e5337373abe347ceaec25a9f2a23f1770c2447bfb5c35dbda80d3f00d8b6569a0165a3d52f1cff03e02b67be47b2f26ebd0fc13299fd0317719c3bcbbcbba0a982915b5d68fb4c5c483c3df12052b56ceacd16176c783d56422b1366cd5ce65922b734a1780acf35b4a658cfe8166469ace04b87a33e1e8d4603ae3f9607d1e708137d581aaf2cd86608ca06e52cddbe475f8bdb4597cd5b55f47380276c86d08d8ddbbef4ee3ca76cefe6ff9c74d4d5d1be3407e30720be34cf41f482be8bc6ed6e89ea7cc2d164da1dc1c9d0e2762eef983dc9e96f3bfd50").ToPositiveBigInteger()
         );
         private TestCaseGeneratorValKdfNoKc _subject;
-        private FfcDsa _dsa;
         private IEntropyProvider _entropyProvider;
         private IEntropyProviderFactory _entropyProviderFactory;
-        private IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
-        private Mock<IDsaFfcFactory> _dsaFactory;
+        private IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private IMacParametersBuilder _macParametersBuilder;
         private INoKeyConfirmationFactory _noKeyConfirmationFactory;
         private IShaFactory _shaFactory;
@@ -49,23 +48,17 @@ namespace NIST.CVP.Generation.KAS.Tests
         public void Setup()
         {
             _shaFactory = new ShaFactory();
-            _dsa = new FfcDsa(_shaFactory.GetShaInstance(_hashFunction));
-
-            _dsaFactory = new Mock<IDsaFfcFactory>();
-            _dsaFactory
-                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
-                .Returns(_dsa);
-
+            
             _entropyProvider = new EntropyProvider(new Random800_90());
             _entropyProviderFactory = new EntropyProviderFactory();
             _schemeBuilder = new SchemeBuilderFfc(
-                    _dsaFactory.Object,
+                    new DsaFfcFactory(_shaFactory), 
                     new KdfFactory(
                         new ShaFactory()
                     ),
                     new KeyConfirmationFactory(),
                     new NoKeyConfirmationFactory(),
-                    new OtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(
+                    new OtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(
                         _entropyProvider
                     ),
                     _entropyProvider,
@@ -81,7 +74,6 @@ namespace NIST.CVP.Generation.KAS.Tests
             _subject = new TestCaseGeneratorValKdfNoKc(
                 _kasBuilder, 
                 _schemeBuilder, 
-                _dsaFactory.Object, 
                 _shaFactory, 
                 _entropyProviderFactory, 
                 _macParametersBuilder, 
@@ -288,7 +280,6 @@ namespace NIST.CVP.Generation.KAS.Tests
             _subject = new TestCaseGeneratorValKdfNoKc(
                 _kasBuilder,
                 _schemeBuilder,
-                _dsaFactory.Object,
                 _shaFactory,
                 _entropyProviderFactory,
                 _macParametersBuilder,
@@ -345,14 +336,14 @@ namespace NIST.CVP.Generation.KAS.Tests
             KeyConfirmationRole serverKeyConfRole =
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(tg.KcRole);
 
-            iutKeyGenRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+            iutKeyGenRequirements = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
                 scheme,
                 tg.KasMode,
                 tg.KasRole,
                 tg.KcRole,
                 tg.KcType
             );
-            serverKeyGenRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+            serverKeyGenRequirements = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
                 scheme,
                 tg.KasMode,
                 serverRole,

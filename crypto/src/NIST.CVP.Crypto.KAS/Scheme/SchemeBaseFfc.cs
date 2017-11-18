@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -21,7 +22,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             >, 
             FfcParameterSet, 
             FfcScheme, 
-            FfcSharedInformation<
+            OtherPartySharedInformation<
                 FfcDomainParameters, 
                 FfcKeyPair
             >, 
@@ -30,66 +31,44 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         >
     {
         protected IDsaFfc Dsa;
-        protected IKdfFactory KdfFactory;
-        protected IKeyConfirmationFactory KeyConfirmationFactory;
-        protected INoKeyConfirmationFactory NoKeyConfirmationFactory;
-        protected IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> OtherInfoFactory;
-        protected IEntropyProvider EntropyProvider;
-        protected KdfParameters KdfParameters;
-        protected MacParameters MacParameters;
-
+        
         protected SchemeBaseFfc(
             IDsaFfc dsa, 
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory,
+            IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory,
             IEntropyProvider entropyProvider,
             SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters,
             KdfParameters kdfParameters,
             MacParameters macParameters
         )
+            : base(
+                  kdfFactory, 
+                  keyConfirmationFactory, 
+                  noKeyConfirmationFactory, 
+                  otherInfoFactory, 
+                  entropyProvider, 
+                  schemeParameters, 
+                  kdfParameters, 
+                  macParameters
+              )
         {
             Dsa = dsa;
-            KdfFactory = kdfFactory;
-            KeyConfirmationFactory = keyConfirmationFactory;
-            NoKeyConfirmationFactory = noKeyConfirmationFactory;
-            OtherInfoFactory = otherInfoFactory;
-            EntropyProvider = entropyProvider;
-            SchemeParameters = schemeParameters;
-            KdfParameters = kdfParameters;
-            MacParameters = macParameters;
         }
 
         /// <inheritdoc />
         public override int OtherInputLength => 240;
 
-        /// <summary>
-        /// flag is used to determine if this party's private/public key/nonce information has already been generated.
-        /// </summary>
-        protected bool ThisPartyKeysGenerated => (
-            StaticKeyPair != null || 
-            EphemeralKeyPair != null || 
-            EphemeralNonce != null ||
-            DkmNonce != null ||
-            NoKeyConfirmationNonce != null
-        );
-
         /// <inheritdoc />
-        public override void SetDomainParameters(FfcDomainParameters domainParameters)
-        {
-            DomainParameters = domainParameters;
-        }
-
-        /// <inheritdoc />
-        public override FfcSharedInformation<FfcDomainParameters, FfcKeyPair> ReturnPublicInfoThisParty()
+        public override OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair> ReturnPublicInfoThisParty()
         {
             if (!ThisPartyKeysGenerated)
             {
                 GenerateKasKeyNonceInformation();
             }
 
-            return new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
+            return new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(
                 DomainParameters,
                 SchemeParameters.ThisPartyId,
                 StaticKeyPair,
@@ -101,57 +80,13 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         }
 
         /// <inheritdoc />
-        public override KasResult ComputeResult(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
+        protected override ISha GetShaInstanceFromDsa()
         {
-            // Set this instance's domain parameters equal to the other party's assuming they were passed in
-            if (otherPartyInformation.DomainParameters != null)
-            {
-                DomainParameters = otherPartyInformation.DomainParameters;
-            }
-
-            // this party's key/nonce information has not yet been generated, generate it.
-            if (!ThisPartyKeysGenerated)
-            {
-                GenerateKasKeyNonceInformation();
-            }
-
-            // Perform keychecks
-            if (!KeyChecks(otherPartyInformation))
-            {
-                return new KasResult("Failed key validation.");
-            }
-
-            if (otherPartyInformation.NoKeyConfirmationNonce != null)
-            {
-                NoKeyConfirmationNonce = otherPartyInformation.NoKeyConfirmationNonce;
-            }
-
-            // Get shared secret, differs dependant on scheme
-            var z = ComputeSharedSecret(otherPartyInformation);
-
-            // Component only test
-            if (SchemeParameters.KasMode == KasMode.NoKdfNoKc)
-            {
-                // The SHA used is the same used in the DSA instance
-                var tag = Dsa.Sha.HashMessage(z);
-
-                return new KasResult(z, tag.Digest);
-            }
-
-            // Get other information
-            var oi = GenerateOtherInformation(otherPartyInformation).GetOtherInfo();
-
-            // Get keying material
-            var kdf = KdfFactory.GetInstance(KdfHashMode.Sha, Dsa.Sha.HashFunction);
-            var dkm = kdf.DeriveKey(z, KdfParameters.KeyLength, oi);
-
-            // Perform no/key confirmation
-            var computedKeyMac = ComputeMac(otherPartyInformation, dkm.DerivedKey);
-
-            return new KasResult(z, oi, dkm.DerivedKey, computedKeyMac.MacData, computedKeyMac.Mac);
+            return Dsa.Sha;
         }
 
-        private bool KeyChecks(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
+        /// <inheritdoc />
+        protected override bool KeyValidityChecks(OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
         {
             try
             {
@@ -198,9 +133,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                     SchemeParameters.KasAssurances.HasFlag(KasAssurance.KeyRegen)) &&
                         StaticKeyPair != null)
                 {
-                    if (Dsa.ValidateKeyPair(DomainParameters, StaticKeyPair).Success)
+                    if (!Dsa.ValidateKeyPair(DomainParameters, StaticKeyPair).Success)
                     {
-                        return true;
+                        return false;
                     }
                 }
             }
@@ -212,10 +147,8 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             return true;
         }
 
-        /// <summary>
-        /// Generate a set of domain parameters
-        /// </summary>
-        protected void GenerateDomainParameters()
+        /// <inheritdoc />
+        protected override void GenerateDomainParameters()
         {
             var paramDetails = FfcParameterSetDetails.GetDetailsForParameterSet(SchemeParameters.ParameterSet);
 
@@ -232,168 +165,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                     )
                 ).PqgDomainParameters);
         }
-        
-        /// <summary>
-        /// Generates key pairs and nonce information specific to the scheme selected
-        /// </summary>
-        protected abstract void GenerateKasKeyNonceInformation();
 
-        /// <summary>
-        /// Computes a shared secret based off of party U and party V inputs based on the scheme
-        /// </summary>
-        /// <param name="otherPartyInformation">The other party's public information</param>
-        /// <returns></returns>
-        protected abstract BitString ComputeSharedSecret(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation);
-
-        /// <summary>
-        /// Generate the OtherInformation that is to be plugged into a KDF function.
-        /// </summary>
-        /// <param name="otherPartyInformation">The other party's public information</param>
-        /// <returns></returns>
-
-        protected IOtherInfo GenerateOtherInformation(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
-        {
-            return OtherInfoFactory.GetInstance(
-                KdfParameters.OtherInfoPattern,
-                OtherInputLength,
-                SchemeParameters.KeyAgreementRole,
-                ReturnPublicInfoThisParty(),
-                otherPartyInformation
-            );
-        }
-
-        /// <summary>
-        /// Compute's the MAC of a key for both key confirmation and no key confirmation
-        /// </summary>
-        /// <param name="otherPartyInformation">The other party's public information</param>
-        /// <param name="derivedKeyingMaterial">The derived keying material generated via KDF</param>
-        /// <returns></returns>
-        protected ComputeKeyMacResult ComputeMac(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation,
-            BitString derivedKeyingMaterial)
-        {
-            if (SchemeParameters.KasMode == KasMode.KdfNoKc)
-            {
-                return NoKeyConfirmation(otherPartyInformation, derivedKeyingMaterial);
-            }
-
-            return KeyConfirmation(otherPartyInformation, derivedKeyingMaterial);
-        }
-
-        /// <summary>
-        /// Performs macing with NoKeyConfirmation logic
-        /// </summary>
-        /// <param name="otherPartyInformation">The other party's public information</param>
-        /// <param name="derivedKeyingMaterial">The DKM from the KDF</param>
-        /// <returns></returns>
-        protected ComputeKeyMacResult NoKeyConfirmation(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation, BitString derivedKeyingMaterial)
-        {
-            // No key confirmation nonce provided by party u.
-            var noKeyConfirmationNonce = SchemeParameters.KeyAgreementRole == KeyAgreementRole.InitiatorPartyU
-                ? NoKeyConfirmationNonce
-                : otherPartyInformation.NoKeyConfirmationNonce;
-
-            var noKeyConfirmationParameters = GetNoKeyConfirmationParameters(derivedKeyingMaterial, noKeyConfirmationNonce);
-
-            var noKeyConfirmationInstance = NoKeyConfirmationFactory.GetInstance(noKeyConfirmationParameters);
-
-            return noKeyConfirmationInstance.ComputeMac();
-        }
-
-        /// <summary>
-        /// Gets the <see cref="NoKeyConfirmationParameters"/> for use in <see cref="INoKeyConfirmationFactory"/>
-        /// </summary>
-        /// <param name="derivedKeyingMaterial">The derived keying material (dkm) plugged into a MAC function H(dkm, macData)</param>
-        /// <param name="noKeyConfirmationNonce">The nonce used as a party of macData in H(dkm, macData)</param>
-        /// <returns></returns>
-        private INoKeyConfirmationParameters GetNoKeyConfirmationParameters(BitString derivedKeyingMaterial, BitString noKeyConfirmationNonce)
-        {
-            if (MacParameters.MacType == KeyAgreementMacType.AesCcm)
-            {
-                return new NoKeyConfirmationParameters(
-                    MacParameters.MacType,
-                    MacParameters.MacLength,
-                    derivedKeyingMaterial,
-                    noKeyConfirmationNonce,
-                    MacParameters.CcmNonce
-                );
-            }
-
-            return new NoKeyConfirmationParameters(
-                MacParameters.MacType,
-                MacParameters.MacLength,
-                derivedKeyingMaterial,
-                noKeyConfirmationNonce
-            );
-        }
-
-        /// <summary>
-        /// Performs macing with KeyConfirmation logic
-        /// </summary>
-        /// <param name="otherPartyInformation">The other party's public information</param>
-        /// <param name="derivedKeyingMaterial">The DKM from the KDF</param>
-        /// <returns></returns>
-        protected ComputeKeyMacResult KeyConfirmation(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation, BitString derivedKeyingMaterial)
-        {
-            var keyConfirmationParameters = GetKeyConfirmationParameters(otherPartyInformation, derivedKeyingMaterial);
-
-            var keyConfirmationInstance = KeyConfirmationFactory.GetInstance(keyConfirmationParameters);
-
-            return keyConfirmationInstance.ComputeMac();
-        }
-
-        /// <summary>
-        /// Gets the <see cref="KeyConfirmationParameters"/> for use in <see cref="IKeyConfirmationFactory"/>
-        /// </summary>
-        /// <param name="otherPartyInformation">The other party's information used in construction of the macData</param>
-        /// <param name="derivedKeyingMaterial">The derived keying material (dkm) plugged into a MAC function H(dkm, macData)</param>
-        /// <returns></returns>
-        private IKeyConfirmationParameters GetKeyConfirmationParameters(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation, BitString derivedKeyingMaterial)
-        {
-            var thisPartyEphemeralPublicKeyOrNonce =
-                GetEphemeralKeyOrNonce(EphemeralKeyPair, EphemeralNonce);
-            var otherPartyEphemeralPublicKeyOrNonce = 
-                GetEphemeralKeyOrNonce(otherPartyInformation.EphemeralPublicKey, otherPartyInformation.EphemeralNonce);
-
-            if (MacParameters.MacType == KeyAgreementMacType.AesCcm)
-            {
-                return new KeyConfirmationParameters(
-                    SchemeParameters.KeyAgreementRole,
-                    SchemeParameters.KeyConfirmationRole,
-                    SchemeParameters.KeyConfirmationDirection,
-                    MacParameters.MacType,
-                    KdfParameters.KeyLength,
-                    MacParameters.MacLength,
-                    SchemeParameters.ThisPartyId,
-                    otherPartyInformation.PartyId,
-                    thisPartyEphemeralPublicKeyOrNonce,
-                    otherPartyEphemeralPublicKeyOrNonce,
-                    derivedKeyingMaterial,
-                    MacParameters.CcmNonce
-                );
-            }
-
-            return new KeyConfirmationParameters(
-                SchemeParameters.KeyAgreementRole,
-                SchemeParameters.KeyConfirmationRole,
-                SchemeParameters.KeyConfirmationDirection,
-                MacParameters.MacType,
-                KdfParameters.KeyLength,
-                MacParameters.MacLength,
-                SchemeParameters.ThisPartyId,
-                otherPartyInformation.PartyId,
-                thisPartyEphemeralPublicKeyOrNonce,
-                otherPartyEphemeralPublicKeyOrNonce,
-                derivedKeyingMaterial
-            );
-        }
-
-        /// <summary>
-        /// Gets the ephemeral key or nonce from a EphemeralPublicKey and EphemeralNonce
-        /// </summary>
-        /// <param name="ephemeralPublicKey">The key to use (when not 0)</param>
-        /// <param name="ephemeralNonce">The nonce to use (when the key is 0)</param>
-        /// <returns></returns>
-        private BitString GetEphemeralKeyOrNonce(FfcKeyPair ephemeralPublicKey, BitString ephemeralNonce)
+        /// <inheritdoc />
+        protected override BitString GetEphemeralKeyOrNonce(FfcKeyPair ephemeralPublicKey, BitString ephemeralNonce)
         {
             if (ephemeralPublicKey != null && ephemeralPublicKey?.PublicKeyY != 0)
             {

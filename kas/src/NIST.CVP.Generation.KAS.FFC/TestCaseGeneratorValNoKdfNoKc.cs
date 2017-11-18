@@ -12,21 +12,21 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseGeneratorValNoKdfNoKc : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
-        private readonly IDsaFfcFactory _dsaFactory;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
+        private readonly IShaFactory _shaFactory;
         private readonly TestCaseDispositionOption _intendedDisposition;
 
         public TestCaseGeneratorValNoKdfNoKc(
-            IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
-            ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
-            IDsaFfcFactory dsaFactory, 
+            IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
+            IShaFactory shaFactory,
             TestCaseDispositionOption intendedDisposition
         )
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
-            _dsaFactory = dsaFactory;
+            _shaFactory = shaFactory;
             _intendedDisposition = intendedDisposition;
 
             // This shouldn't happen, but just in case, NoKdfNoKc doesn't use DKM, MacData, or OI
@@ -48,8 +48,6 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            var dsa = _dsaFactory.GetInstance(group.HashAlg);
-
             var uParty = _kasBuilder
                 .WithPartyId(
                     group.KasRole == KeyAgreementRole.InitiatorPartyU
@@ -61,7 +59,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithScheme(group.Scheme)
                 .WithSchemeBuilder(
                     _schemeBuilder
-                        .WithDsaFactory(_dsaFactory)
                         .WithHashFunction(group.HashAlg)
                 )
                 .BuildNoKdfNoKc()
@@ -78,7 +75,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithScheme(group.Scheme)
                 .WithSchemeBuilder(
                     _schemeBuilder
-                        .WithDsaFactory(_dsaFactory)
                         .WithHashFunction(group.HashAlg)
                 )
                 .BuildNoKdfNoKc()
@@ -131,7 +127,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 testCase.Z[0] += 2;
 
                 // Rehash Z
-                testCase.Tag = dsa.Sha.HashMessage(testCase.Z).Digest;
+                testCase.Tag = _shaFactory.GetShaInstance(group.HashAlg).HashMessage(testCase.Z).Digest;
             }
 
             if (_intendedDisposition == TestCaseDispositionOption.FailChangedTag)

@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.KAS.Builders;
+using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
@@ -57,7 +58,7 @@ namespace KAS
             builder.RegisterType<KdfFactory>().AsImplementedInterfaces();
             builder.RegisterType<
                 OtherInfoFactory<
-                    FfcSharedInformation<
+                    OtherPartySharedInformation<
                         FfcDomainParameters,
                         FfcKeyPair
                     >,

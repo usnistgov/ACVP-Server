@@ -34,21 +34,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             TKeyPair
         > 
             WithHashFunction(HashFunction hashFunction);
-
-        /// <summary>
-        /// Sets the <see cref="IDsaFfcFactory"/> used in the scheme.
-        /// </summary>
-        /// <param name="dsaFactory">The dsa implementation to use</param>
-        /// <returns></returns>
-        ISchemeBuilder<
-            TParameterSet, 
-            TScheme, 
-            TSharedInformation, 
-            TDomainParameters, 
-            TKeyPair
-        > 
-            WithDsaFactory(IDsaFfcFactory dsaFactory);
-
+        
         /// <summary>
         /// Sets the <see cref="IKdfFactory"/> used in the scheme.
         /// </summary>

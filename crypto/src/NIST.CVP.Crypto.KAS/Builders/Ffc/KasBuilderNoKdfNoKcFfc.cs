@@ -3,12 +3,22 @@ using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.KAS.Builders
+namespace NIST.CVP.Crypto.KAS.Builders.Ffc
 {
-    public class KasBuilderNoKdfNoKcFfc : KasBuilderNoKdfNoKc<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>
+    public class KasBuilderNoKdfNoKcFfc 
+        : KasBuilderNoKdfNoKc<
+            FfcParameterSet, 
+            FfcScheme, 
+            OtherPartySharedInformation<
+                FfcDomainParameters, 
+                FfcKeyPair
+            >, 
+            FfcDomainParameters, 
+            FfcKeyPair
+        >
     {
         public KasBuilderNoKdfNoKcFfc(
-            ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
             KeyAgreementRole keyAgreementRole, 
             FfcScheme scheme, 
             FfcParameterSet parameterSet, 
@@ -28,7 +38,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         public override IKas<
             FfcParameterSet, 
             FfcScheme, 
-            FfcSharedInformation<
+            OtherPartySharedInformation<
                 FfcDomainParameters, 
                 FfcKeyPair
             >, 
@@ -51,7 +61,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             return new Kas<
                 FfcParameterSet, 
                 FfcScheme, 
-                FfcSharedInformation<
+                OtherPartySharedInformation<
                     FfcDomainParameters, 
                     FfcKeyPair
                 >, 

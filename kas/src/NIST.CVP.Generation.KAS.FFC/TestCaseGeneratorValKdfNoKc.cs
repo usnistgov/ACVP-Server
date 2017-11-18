@@ -18,9 +18,8 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseGeneratorValKdfNoKc : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
-        private readonly IDsaFfcFactory _dsaFactory;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private readonly IShaFactory _shaFactory;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
@@ -29,9 +28,8 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly TestCaseDispositionOption _intendedDisposition;
 
         public TestCaseGeneratorValKdfNoKc(
-            IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
-            ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
-            IDsaFfcFactory dsaFactory, 
+            IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
             IShaFactory shaFactory, 
             IEntropyProviderFactory entropyProviderFactory, 
             IMacParametersBuilder macParametersBuilder, 
@@ -42,7 +40,6 @@ namespace NIST.CVP.Generation.KAS.FFC
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
-            _dsaFactory = dsaFactory;
             _shaFactory = shaFactory;
             _entropyProviderFactory = entropyProviderFactory;
             _macParametersBuilder = macParametersBuilder;
@@ -102,7 +99,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithScheme(group.Scheme)
                 .WithSchemeBuilder(
                     _schemeBuilder
-                        .WithDsaFactory(_dsaFactory)
                         .WithHashFunction(group.HashAlg)
                         .WithKdfFactory(kdfFactory)
                         .WithNoKeyConfirmationFactory(noKeyConfirmationFactory)
@@ -124,7 +120,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithScheme(group.Scheme)
                 .WithSchemeBuilder(
                     _schemeBuilder
-                        .WithDsaFactory(_dsaFactory)
                         .WithHashFunction(group.HashAlg)
                         .WithKdfFactory(kdfFactory)
                         .WithNoKeyConfirmationFactory(noKeyConfirmationFactory)

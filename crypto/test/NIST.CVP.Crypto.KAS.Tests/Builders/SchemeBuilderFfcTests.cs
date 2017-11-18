@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
+using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -31,7 +32,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
         private Mock<IKdfFactory> _kdfFactory;
         private Mock<IKeyConfirmationFactory> _keyConfirmationFactory;
         private Mock<INoKeyConfirmationFactory> _noKeyConfirmationFactory;
-        private Mock<IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>> _otherInfoFactory;
+        private Mock<IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>> _otherInfoFactory;
         private Mock<IEntropyProvider> _entropyProvider;
         private Mock<IDiffieHellman<FfcDomainParameters, FfcKeyPair>> _diffieHellmanFfc;
         private Mock<IMqv<FfcDomainParameters, FfcKeyPair>> _mqv;
@@ -48,7 +49,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _kdfFactory = new Mock<IKdfFactory>();
             _keyConfirmationFactory = new Mock<IKeyConfirmationFactory>();
             _noKeyConfirmationFactory = new Mock<INoKeyConfirmationFactory>();
-            _otherInfoFactory = new Mock<IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>>();
+            _otherInfoFactory = new Mock<IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>>();
             _entropyProvider = new Mock<IEntropyProvider>();
             _diffieHellmanFfc = new Mock<IDiffieHellman<FfcDomainParameters, FfcKeyPair>>();
             _mqv = new Mock<IMqv<FfcDomainParameters, FfcKeyPair>>();
@@ -121,7 +122,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                 >, 
                 FfcParameterSet, 
                 FfcScheme, 
-                FfcSharedInformation<
+                OtherPartySharedInformation<
                     FfcDomainParameters, 
                     FfcKeyPair
                 >, 
@@ -177,7 +178,6 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                 .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(1, 2)));
 
             var scheme = _subject
-                .WithDsaFactory(_dsaFactory.Object)
                 .WithHashFunction(new HashFunction(ModeValues.SHA2, DigestSizes.d256))
                 .BuildScheme(
                     new SchemeParametersFfc(
@@ -194,128 +194,6 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                     null
                 );
             var result = scheme.ReturnPublicInfoThisParty();
-
-            Assert.AreEqual(newDomainParameters.P, result.DomainParameters.P, nameof(newDomainParameters.P));
-            Assert.AreEqual(newDomainParameters.Q, result.DomainParameters.Q, nameof(newDomainParameters.Q));
-            Assert.AreEqual(newDomainParameters.G, result.DomainParameters.G, nameof(newDomainParameters.G));
-        }
-
-        [Test]
-        public void ShouldRevertToDefaultDependenciesAfterBuild()
-        {
-            FfcDomainParameters newDomainParameters = new FfcDomainParameters(42, 43, 44);
-
-            Mock<IDsaFfc> overrideDsa = new Mock<IDsaFfc>();
-            overrideDsa
-                .Setup(s => s.Sha)
-                .Returns(_sha.Object);
-            overrideDsa
-                .Setup(s => s.GenerateDomainParameters(It.IsAny<FfcDomainParametersGenerateRequest>()))
-                .Returns(
-                    new FfcDomainParametersGenerateResult(
-                        newDomainParameters,
-                        new DomainSeed(0, 1, 2),
-                        new Counter(0)
-                    )
-                );
-            overrideDsa
-                .Setup(s => s.GenerateKeyPair(It.IsAny<FfcDomainParameters>()))
-                .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(1, 2)));
-            Mock<IDsaFfcFactory> overrideDsaFactory = new Mock<IDsaFfcFactory>();
-            overrideDsaFactory
-                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
-                .Returns(overrideDsa.Object);
-
-            SchemeParametersFfc sp = new SchemeParametersFfc(
-                KeyAgreementRole.InitiatorPartyU,
-                KasMode.NoKdfNoKc,
-                FfcScheme.DhEphem,
-                KeyConfirmationRole.None,
-                KeyConfirmationDirection.None,
-                FfcParameterSet.Fb,
-                KasAssurance.None,
-                new BitString(1)
-            );
-
-            var scheme = _subject
-                .WithDsaFactory(overrideDsaFactory.Object)
-                .WithHashFunction(new HashFunction(ModeValues.SHA2, DigestSizes.d256))
-                .BuildScheme(
-                    sp,
-                    null,
-                    null
-                );
-            scheme.ReturnPublicInfoThisParty();
-
-            var secondScheme = _subject
-                .BuildScheme(
-                    sp,
-                    null,
-                    null
-                );
-            var result = secondScheme.ReturnPublicInfoThisParty();
-
-            Assert.AreEqual(_mockDomainParameters.P, result.DomainParameters.P, nameof(_mockDomainParameters.P));
-            Assert.AreEqual(_mockDomainParameters.Q, result.DomainParameters.Q, nameof(_mockDomainParameters.Q));
-            Assert.AreEqual(_mockDomainParameters.G, result.DomainParameters.G, nameof(_mockDomainParameters.G));
-        }
-
-        [Test]
-        public void ShouldKeepOverridenDependenciesAfterBuildWhenSpecified()
-        {
-            FfcDomainParameters newDomainParameters = new FfcDomainParameters(42, 43, 44);
-
-            Mock<IDsaFfc> overrideDsa = new Mock<IDsaFfc>();
-            overrideDsa
-                .Setup(s => s.Sha)
-                .Returns(_sha.Object);
-            overrideDsa
-                .Setup(s => s.GenerateDomainParameters(It.IsAny<FfcDomainParametersGenerateRequest>()))
-                .Returns(
-                    new FfcDomainParametersGenerateResult(
-                        newDomainParameters,
-                        new DomainSeed(0, 1, 2),
-                        new Counter(0)
-                    )
-                );
-            overrideDsa
-                .Setup(s => s.GenerateKeyPair(It.IsAny<FfcDomainParameters>()))
-                .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(1, 2)));
-            Mock<IDsaFfcFactory> overrideDsaFactory = new Mock<IDsaFfcFactory>();
-            overrideDsaFactory
-                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
-                .Returns(overrideDsa.Object);
-
-            SchemeParametersFfc sp = new SchemeParametersFfc(
-                KeyAgreementRole.InitiatorPartyU,
-                KasMode.NoKdfNoKc,
-                FfcScheme.DhEphem,
-                KeyConfirmationRole.None,
-                KeyConfirmationDirection.None,
-                FfcParameterSet.Fb,
-                KasAssurance.None,
-                new BitString(1)
-            );
-
-            var scheme = _subject
-                .WithDsaFactory(overrideDsaFactory.Object)
-                .WithHashFunction(new HashFunction(ModeValues.SHA2, DigestSizes.d256))
-                .BuildScheme(
-                    sp,
-                    null,
-                    null,
-                    false
-                );
-            scheme.ReturnPublicInfoThisParty();
-
-            var secondScheme = _subject
-                .BuildScheme(
-                    sp,
-                    null,
-                    null,
-                    false
-                );
-            var result = secondScheme.ReturnPublicInfoThisParty();
 
             Assert.AreEqual(newDomainParameters.P, result.DomainParameters.P, nameof(newDomainParameters.P));
             Assert.AreEqual(newDomainParameters.Q, result.DomainParameters.Q, nameof(newDomainParameters.Q));

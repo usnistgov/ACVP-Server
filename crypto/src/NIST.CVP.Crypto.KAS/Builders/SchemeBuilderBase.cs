@@ -12,44 +12,41 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public abstract class SchemeBuilderBase<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair> : ISchemeBuilder<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair>
+    public abstract class SchemeBuilderBase<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair> 
+        : ISchemeBuilder<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair>
         where TParameterSet : struct, IComparable
         where TScheme : struct, IComparable
         where TSharedInformation : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
     {
-        private readonly IDsaFfcFactory _originalDsaFactory;
         private readonly IKdfFactory _originalKdfFactory;
         private readonly IKeyConfirmationFactory _originalKeyConfirmationFactory;
         private readonly INoKeyConfirmationFactory _originalNoKeyConfirmationFactory;
         private readonly IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> _originalOtherInfoFactory;
         private readonly IEntropyProvider _originalEntropyProvider;
-        private readonly IDiffieHellman<FfcDomainParameters, FfcKeyPair> _originalDiffieHellmanFfc;
-        private readonly IMqv<FfcDomainParameters, FfcKeyPair> _originalMqv;
+        private readonly IDiffieHellman<TDomainParameters, TKeyPair> _originalDiffieHellmanFfc;
+        private readonly IMqv<TDomainParameters, TKeyPair> _originalMqv;
 
         protected HashFunction _withHashFunction;
-        protected IDsaFfcFactory _withDsaFactory;
         protected IKdfFactory _withKdfFactory;
         protected IKeyConfirmationFactory _withKeyConfirmationFactory;
         protected INoKeyConfirmationFactory _withNoKeyConfirmationFactory;
         protected IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> _withOtherInfoFactory;
         protected IEntropyProvider _withEntropyProvider;
-        protected IDiffieHellman<FfcDomainParameters, FfcKeyPair> _withDiffieHellmanFfc;
-        protected IMqv<FfcDomainParameters, FfcKeyPair> _withMqv;
+        protected IDiffieHellman<TDomainParameters, TKeyPair> _withDiffieHellman;
+        protected IMqv<TDomainParameters, TKeyPair> _withMqv;
 
         protected SchemeBuilderBase(
-            IDsaFfcFactory dsaFactory,
             IKdfFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> otherInfoFactory,
             IEntropyProvider entropyProvider,
-            IDiffieHellman<FfcDomainParameters, FfcKeyPair> diffieHellmanFfc,
-            IMqv<FfcDomainParameters, FfcKeyPair> mqv
+            IDiffieHellman<TDomainParameters, TKeyPair> diffieHellmanFfc,
+            IMqv<TDomainParameters, TKeyPair> mqv
         )
         {
-            _originalDsaFactory = dsaFactory;
             _originalKdfFactory = kdfFactory;
             _originalKeyConfirmationFactory = keyConfirmationFactory;
             _originalNoKeyConfirmationFactory = noKeyConfirmationFactory;
@@ -71,19 +68,6 @@ namespace NIST.CVP.Crypto.KAS.Builders
             WithHashFunction(HashFunction hashFunction)
         {
             _withHashFunction = hashFunction;
-            return this;
-        }
-
-        public ISchemeBuilder<
-            TParameterSet,
-            TScheme,
-            TSharedInformation,
-            TDomainParameters,
-            TKeyPair
-        > 
-            WithDsaFactory(IDsaFfcFactory dsaFactory)
-        {
-            _withDsaFactory = dsaFactory;
             return this;
         }
 
@@ -171,13 +155,12 @@ namespace NIST.CVP.Crypto.KAS.Builders
         
         protected void SetWithInjectablesToConstructionState()
         {
-            _withDsaFactory = _originalDsaFactory;
             _withKdfFactory = _originalKdfFactory;
             _withKeyConfirmationFactory = _originalKeyConfirmationFactory;
             _withNoKeyConfirmationFactory = _originalNoKeyConfirmationFactory;
             _withOtherInfoFactory = _originalOtherInfoFactory;
             _withEntropyProvider = _originalEntropyProvider;
-            _withDiffieHellmanFfc = _originalDiffieHellmanFfc;
+            _withDiffieHellman = _originalDiffieHellmanFfc;
             _withMqv = _originalMqv;
         }
     }

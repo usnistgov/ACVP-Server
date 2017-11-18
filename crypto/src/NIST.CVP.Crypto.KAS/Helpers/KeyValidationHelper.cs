@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using NIST.CVP.Crypto.DSA.ECC;
 
 namespace NIST.CVP.Crypto.KAS.Helpers
 {
@@ -27,6 +28,25 @@ namespace NIST.CVP.Crypto.KAS.Helpers
             }
 
             return false;
+        }
+
+        public static bool PerformEccPublicKeyValidation(IEccCurve curve, EccPoint publicKey, bool shouldThrow = false)
+        {
+            // TODO double check
+            var q = curve.FieldSizeQ;
+            var nQ = curve.Multiply(publicKey, q);
+            
+            if (!nQ.Infinity)
+            {
+                if (shouldThrow)
+                {
+                    throw new Exception("public key validation error");
+                }
+
+                return false;
+            }
+
+            return true;
         }
     }
 }

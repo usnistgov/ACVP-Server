@@ -13,14 +13,14 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseGeneratorAftKdfKc : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
 
         public TestCaseGeneratorAftKdfKc(
-            IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
-            ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
+            IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
             IEntropyProviderFactory entropyProviderFactory, 
             IMacParametersBuilder macParametersBuilder
         )
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             KeyConfirmationRole serverKcRole =
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(group.KcRole);
 
-            var serverKeyNonceRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+            var serverKeyNonceRequirements = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
                 group.Scheme,
                 group.KasMode,
                 serverRole,
@@ -116,7 +116,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                     _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
                 );
 
-                var iutKeyNonceRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                var iutKeyNonceRequirements = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
                     group.Scheme,
                     group.KasMode,
                     group.KasRole,

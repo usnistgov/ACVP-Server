@@ -6,6 +6,7 @@ using System.Threading;
 using Moq;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
+using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -50,7 +51,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     ),
                     new KeyConfirmationFactory(),
                     new NoKeyConfirmationFactory(),
-                    new OtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(
+                    new OtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(
                         _entropyProviderOtherInfo
                     ),
                     _entropyProviderScheme,
@@ -144,7 +145,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
         )
         {
             var vPartySharedInformation = 
-                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
+                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(
                     domainParameters, 
                     otherPartyId, 
                     new FfcKeyPair(0),
@@ -621,7 +622,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 )
         {
             var otherPartySharedInformation =
-                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
+                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(
                     domainParameters,
                     otherPartyId,
                     new FfcKeyPair(0), 
@@ -784,7 +785,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
         )
         {
             var vPartySharedInformation =
-                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
+                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(
                     domainParameters,
                     otherPartyId,
                     new FfcKeyPair(otherPartyPublicStaticKey),
@@ -988,7 +989,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
         )
         {
             var otherPartySharedInformation =
-                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
+                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(
                     domainParameters,
                     otherPartyId,
                     new FfcKeyPair(otherPartyPublicStaticKey),
@@ -1614,7 +1615,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
         )
         {
             var otherPartySharedInformation =
-                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
+                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(
                     domainParameters,
                     otherPartyId,
                     new FfcKeyPair(otherPartyPublicStaticKey),

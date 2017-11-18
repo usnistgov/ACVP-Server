@@ -24,8 +24,8 @@ namespace NIST.CVP.Generation.KAS.FFC
         private const string aftTest = "aft";
         private const string valTest = "val";
 
-        private readonly IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private readonly IDsaFfcFactory _dsaFactory;
         private readonly IShaFactory _shaFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
@@ -36,8 +36,8 @@ namespace NIST.CVP.Generation.KAS.FFC
         private List<TestCaseDispositionOption> _validityTestCaseOptions = new List<TestCaseDispositionOption>();
 
         public TestCaseGeneratorFactory(
-            IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
-            ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder,
+            IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder,
             IDsaFfcFactory dsaFactory,
             IShaFactory shaFactory,
             IMacParametersBuilder macParametersBuilder, 
@@ -86,11 +86,11 @@ namespace NIST.CVP.Generation.KAS.FFC
                 switch (testGroup.KasMode)
                 {
                     case KasMode.NoKdfNoKc:
-                        return new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, dispositionIntention);
+                        return new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, dispositionIntention);
                     case KasMode.KdfNoKc:
-                        return new TestCaseGeneratorValKdfNoKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, dispositionIntention);
+                        return new TestCaseGeneratorValKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, dispositionIntention);
                     case KasMode.KdfKc:
-                        return new TestCaseGeneratorValKdfKc(_kasBuilder, _schemeBuilder, _dsaFactory, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, dispositionIntention);
+                        return new TestCaseGeneratorValKdfKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, dispositionIntention);
                     default:
                         return new TestCaseGeneratorNull();
                 }

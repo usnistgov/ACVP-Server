@@ -9,12 +9,18 @@ namespace NIST.CVP.Crypto.DSA
     /// http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf
     /// </summary>
     public interface IDsa<
-                            TDomainParametersGenerateRequest, TDomainParametersGenerateResult,
-                            TDomainParametersValidateRequest, TDomainParametersValidateResult,
-                            TDsaDomainParameters, 
-                            TKeyPairGenerateResult, TDsaKeyPair, TDsaKeyPairValidationResult,
-                            TDsaSignature, TDsaSignatureResult, TDsaVerificationResult
-                         >
+        in TDomainParametersGenerateRequest, 
+        out TDomainParametersGenerateResult, 
+        in TDomainParametersValidateRequest, 
+        out TDomainParametersValidateResult, 
+        in TDsaDomainParameters, 
+        out TKeyPairGenerateResult, 
+        in TDsaKeyPair, 
+        out TDsaKeyPairValidationResult, 
+        in TDsaSignature, 
+        out TDsaSignatureResult, 
+        out TDsaVerificationResult
+     >
         where TDomainParametersGenerateRequest : IDomainParametersGenerateRequest
         where TDomainParametersGenerateResult : IDomainParametersGenerateResult
         where TDomainParametersValidateRequest : IDomainParametersValidateRequest

@@ -10,12 +10,12 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class DeferredTestCaseResolverAftNoKdfNoKc : IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>
     {
-        private readonly IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
+        private readonly IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
 
         public DeferredTestCaseResolverAftNoKdfNoKc(
-            IKasBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
-            ISchemeBuilder<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder)
+            IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
+            ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder)
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(testGroup.KasRole);
 
             var serverKeyRequirements =
-                    KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
+                    KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
                         testGroup.Scheme,
                         testGroup.KasMode,
                         serverRole,
@@ -36,8 +36,8 @@ namespace NIST.CVP.Generation.KAS.FFC
                     );
 
             FfcDomainParameters domainParameters = new FfcDomainParameters(testGroup.P, testGroup.Q, testGroup.G);
-            FfcSharedInformation<FfcDomainParameters, FfcKeyPair> iutPublicInfo = 
-                new FfcSharedInformation<FfcDomainParameters, FfcKeyPair>(
+            OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair> iutPublicInfo = 
+                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(
                     domainParameters,
                     iutTestCase.IdIut ?? testGroup.IdIut,
                     new FfcKeyPair(iutTestCase.StaticPublicKeyIut),

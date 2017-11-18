@@ -140,7 +140,7 @@ namespace NIST.CVP.Crypto.KAS.Helpers
                     #endregion mqv1
                 };
         
-        public static SchemeKeyNonceGenRequirement GetKeyGenerationOptionsForSchemeAndRole(FfcScheme scheme, KasMode kasMode, KeyAgreementRole thisPartyRole, KeyConfirmationRole thisPartyKeyConfirmationRole, KeyConfirmationDirection keyConfirmationDirection)
+        public static SchemeKeyNonceGenRequirement GetFfcKeyGenerationOptionsForSchemeAndRole(FfcScheme scheme, KasMode kasMode, KeyAgreementRole thisPartyRole, KeyConfirmationRole thisPartyKeyConfirmationRole, KeyConfirmationDirection keyConfirmationDirection)
         {
             if (!FfcSchemeKeyGenerationRequirements
                 .TryFirst(w => 

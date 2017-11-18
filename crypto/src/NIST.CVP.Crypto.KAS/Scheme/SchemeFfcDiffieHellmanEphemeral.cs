@@ -19,7 +19,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            IOtherInfoFactory<FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory,
+            IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory,
             IEntropyProvider entropyProvider,
             SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters, 
             KdfParameters kdfParameters, 
@@ -72,7 +72,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// </summary>
         /// <param name="otherPartyInformation"></param>
         /// <returns></returns>
-        protected override BitString ComputeSharedSecret(FfcSharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
+        protected override BitString ComputeSharedSecret(OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)
         {
             return Dh.GenerateSharedSecretZ(
                 DomainParameters, 

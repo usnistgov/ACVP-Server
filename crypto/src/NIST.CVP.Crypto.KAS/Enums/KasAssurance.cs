@@ -29,14 +29,19 @@ namespace NIST.CVP.Crypto.KAS.Enums
         [Description("keyPairGen")]
         KeyPairGen = 1 << 3,
         /// <summary>
-        /// Full Validation
+        /// Full Validation (FFC)
         /// </summary>
         [Description("fullVal")]
         FullVal = 1 << 4,
         /// <summary>
+        /// Partial Validation (ECC)
+        /// </summary>
+        [Description("partialVal")]
+        PartialVal = 1 << 5,
+        /// <summary>
         /// Key Regeneration
         /// </summary>
         [Description("keyRegen")]
-        KeyRegen = 1 << 5
+        KeyRegen = 1 << 6
     }
 }

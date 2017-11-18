@@ -3,19 +3,29 @@ using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.KAS.Builders
+namespace NIST.CVP.Crypto.KAS.Builders.Ffc
 {
-    public class KasBuilderKdfNoKcFfc : KasBuilderKdfNoKc<FfcParameterSet, FfcScheme, FfcSharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>
+    public class KasBuilderKdfKcFfc 
+        : KasBuilderKdfKc<
+            FfcParameterSet, 
+            FfcScheme, 
+            OtherPartySharedInformation<
+                FfcDomainParameters, 
+                FfcKeyPair
+            >, 
+            FfcDomainParameters, 
+            FfcKeyPair
+        >
     {
-        public KasBuilderKdfNoKcFfc(
+        public KasBuilderKdfKcFfc(
             ISchemeBuilder<
                 FfcParameterSet, 
-                FfcScheme, 
-                FfcSharedInformation<
-                    FfcDomainParameters, 
+                FfcScheme,
+                OtherPartySharedInformation<
+                    FfcDomainParameters,
                     FfcKeyPair
-                >, 
-                FfcDomainParameters, 
+                >,
+                FfcDomainParameters,
                 FfcKeyPair
             > schemeBuilder, 
             KeyAgreementRole keyAgreementRole, 
@@ -36,37 +46,37 @@ namespace NIST.CVP.Crypto.KAS.Builders
 
         public override IKas<
             FfcParameterSet, 
-            FfcScheme, 
-            FfcSharedInformation<
-                FfcDomainParameters, 
+            FfcScheme,
+            OtherPartySharedInformation<
+                FfcDomainParameters,
                 FfcKeyPair
-            >, 
-            FfcDomainParameters, 
+            >,
+            FfcDomainParameters,
             FfcKeyPair
         > Build()
         {
             var schemeParameters = new SchemeParametersFfc(
-                    _keyAgreementRole,
-                    KasMode.KdfNoKc,
-                    _scheme,
-                    KeyConfirmationRole.None,
-                    KeyConfirmationDirection.None,
-                    _parameterSet,
-                    _assurances,
-                    _partyId
-                );
+                _keyAgreementRole,
+                KasMode.KdfKc,
+                _scheme,
+                _keyConfirmationRole,
+                _keyConfirmationDirection,
+                _parameterSet,
+                _assurances,
+                _partyId
+            );
 
             var kdfParameters = new KdfParameters(_keyLength, _otherInfoPattern);
             var scheme = _schemeBuilder.BuildScheme(schemeParameters, kdfParameters, _macParameters);
 
             return new Kas<
                 FfcParameterSet, 
-                FfcScheme, 
-                FfcSharedInformation<
-                    FfcDomainParameters, 
+                FfcScheme,
+                OtherPartySharedInformation<
+                    FfcDomainParameters,
                     FfcKeyPair
-                >, 
-                FfcDomainParameters, 
+                >,
+                FfcDomainParameters,
                 FfcKeyPair
             >(scheme);
         }
