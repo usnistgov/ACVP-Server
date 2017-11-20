@@ -178,6 +178,17 @@ namespace NIST.CVP.Crypto.Math
             return result;
         }
 
+        public static int CeilingDivide(int a, int b)
+        {
+            var result = a / b;
+            if (result * b != a)
+            {
+                result++;
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Calculates exponent a^b
         /// </summary>

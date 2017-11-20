@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="AesXts.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.AES_ECB\NIST.CVP.Crypto.AES_ECB.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.Math\NIST.CVP.Crypto.Math.csproj" />
+  </ItemGroup>
+
+</Project>
