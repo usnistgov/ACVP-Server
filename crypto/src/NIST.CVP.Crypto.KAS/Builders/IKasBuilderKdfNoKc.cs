@@ -4,18 +4,16 @@ using NIST.CVP.Crypto.KAS.Scheme;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public interface IKasBuilderKdfNoKc<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
-        where TParameterSet : struct, IComparable
-        where TScheme : struct, IComparable
+    public interface IKasBuilderKdfNoKc<TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
+        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
         where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
     {
-        IKas<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> Build();
+        IKas<TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair> Build();
 
         IKasBuilderKdfNoKc<
-            TParameterSet, 
-            TScheme, 
+            TKasDsaAlgoAttributes, 
             TOtherPartySharedInfo, 
             TDomainParameters, 
             TKeyPair
@@ -23,8 +21,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             WithKeyLength(int value);
 
         IKasBuilderKdfNoKc<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TOtherPartySharedInfo,
             TDomainParameters,
             TKeyPair
@@ -32,8 +29,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             WithMacParameters(MacParameters value);
 
         IKasBuilderKdfNoKc<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TOtherPartySharedInfo,
             TDomainParameters,
             TKeyPair

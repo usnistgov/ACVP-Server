@@ -102,12 +102,11 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             var result = _subject
                 .BuildScheme(
                     new SchemeParametersFfc(
+                        new KasDsaAlgoAttributesFfc(FfcScheme.DhEphem, FfcParameterSet.Fb), 
                         KeyAgreementRole.InitiatorPartyU,
                         KasMode.NoKdfNoKc,
-                        FfcScheme.DhEphem,
                         KeyConfirmationRole.None,
                         KeyConfirmationDirection.None,
-                        FfcParameterSet.Fb,
                         KasAssurance.None,
                         new BitString(1)
                     ),
@@ -116,12 +115,8 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                 );
 
             Assert.IsInstanceOf(typeof(IScheme<
-                ISchemeParameters<
-                    FfcParameterSet, 
-                    FfcScheme
-                >, 
-                FfcParameterSet, 
-                FfcScheme, 
+                ISchemeParameters<KasDsaAlgoAttributesFfc>,
+                KasDsaAlgoAttributesFfc,
                 OtherPartySharedInformation<
                     FfcDomainParameters, 
                     FfcKeyPair
@@ -137,12 +132,11 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             var scheme = _subject
                 .BuildScheme(
                     new SchemeParametersFfc(
+                        new KasDsaAlgoAttributesFfc(FfcScheme.DhEphem, FfcParameterSet.Fb), 
                         KeyAgreementRole.InitiatorPartyU,
                         KasMode.NoKdfNoKc,
-                        FfcScheme.DhEphem,
                         KeyConfirmationRole.None,
                         KeyConfirmationDirection.None,
-                        FfcParameterSet.Fb,
                         KasAssurance.None,
                         new BitString(1)
                     ),
@@ -181,12 +175,11 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                 .WithHashFunction(new HashFunction(ModeValues.SHA2, DigestSizes.d256))
                 .BuildScheme(
                     new SchemeParametersFfc(
+                        new KasDsaAlgoAttributesFfc(FfcScheme.DhEphem, FfcParameterSet.Fb), 
                         KeyAgreementRole.InitiatorPartyU,
                         KasMode.NoKdfNoKc,
-                        FfcScheme.DhEphem,
                         KeyConfirmationRole.None,
                         KeyConfirmationDirection.None,
-                        FfcParameterSet.Fb,
                         KasAssurance.None,
                         new BitString(1)
                     ),

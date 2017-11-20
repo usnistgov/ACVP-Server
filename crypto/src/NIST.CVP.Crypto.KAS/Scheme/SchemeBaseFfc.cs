@@ -16,12 +16,8 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 {
     public abstract class SchemeBaseFfc 
         : SchemeBase<
-            SchemeParametersBase<
-                FfcParameterSet, 
-                FfcScheme
-            >, 
-            FfcParameterSet, 
-            FfcScheme, 
+            SchemeParametersBase<KasDsaAlgoAttributesFfc>,
+            KasDsaAlgoAttributesFfc,
             OtherPartySharedInformation<
                 FfcDomainParameters, 
                 FfcKeyPair
@@ -39,7 +35,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory,
             IEntropyProvider entropyProvider,
-            SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters,
+            SchemeParametersBase<KasDsaAlgoAttributesFfc> schemeParameters,
             KdfParameters kdfParameters,
             MacParameters macParameters
         )
@@ -150,7 +146,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <inheritdoc />
         protected override void GenerateDomainParameters()
         {
-            var paramDetails = ParameterSetDetails.GetDetailsForFfcParameterSet(SchemeParameters.ParameterSet);
+            var paramDetails = ParameterSetDetails.GetDetailsForFfcParameterSet(SchemeParameters.KasDsaAlgoAttributes.ParameterSet);
 
             SetDomainParameters(
                 Dsa.GenerateDomainParameters(

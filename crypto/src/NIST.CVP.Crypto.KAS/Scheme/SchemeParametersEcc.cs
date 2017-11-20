@@ -3,24 +3,22 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public class SchemeParametersEcc : SchemeParametersBase<EccParameterSet, EccScheme>
+    public class SchemeParametersEcc : SchemeParametersBase<KasDsaAlgoAttributesEcc>
     {
         public SchemeParametersEcc(
+            KasDsaAlgoAttributesEcc kasDsaAlgoAttributes,
             KeyAgreementRole keyAgreementRole,
             KasMode kasMode,
-            EccScheme scheme,
             KeyConfirmationRole keyConfirmationRole,
             KeyConfirmationDirection keyConfirmationDirection,
-            EccParameterSet parameterSet,
             KasAssurance kasAssurances,
             BitString thisPartyId)
             : base(
+                kasDsaAlgoAttributes,
                 keyAgreementRole,
                 kasMode,
-                scheme,
                 keyConfirmationRole,
                 keyConfirmationDirection,
-                parameterSet,
                 kasAssurances,
                 thisPartyId
             )

@@ -7,8 +7,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
 {
     public class KasBuilderKdfNoKcEcc :
         KasBuilderKdfNoKc<
-            EccParameterSet,
-            EccScheme,
+            KasDsaAlgoAttributesEcc,
             OtherPartySharedInformation<
                 EccDomainParameters,
                 EccKeyPair
@@ -19,8 +18,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
     {
         public KasBuilderKdfNoKcEcc(
             ISchemeBuilder<
-                EccParameterSet,
-                EccScheme,
+                KasDsaAlgoAttributesEcc,
                 OtherPartySharedInformation<
                     EccDomainParameters,
                     EccKeyPair
@@ -28,16 +26,14 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
                 EccDomainParameters,
                 EccKeyPair
             > schemeBuilder,
+            KasDsaAlgoAttributesEcc kasDsaAlgoAttributes,
             KeyAgreementRole keyAgreementRole,
-            EccScheme scheme,
-            EccParameterSet parameterSet,
             KasAssurance assurances,
             BitString partyId)
             : base(
                   schemeBuilder,
+                  kasDsaAlgoAttributes,
                   keyAgreementRole,
-                  scheme,
-                  parameterSet,
                   assurances,
                   partyId
               )
@@ -45,8 +41,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
         }
 
         public override IKas<
-            EccParameterSet,
-            EccScheme,
+            KasDsaAlgoAttributesEcc,
             OtherPartySharedInformation<
                 EccDomainParameters,
                 EccKeyPair
@@ -56,22 +51,20 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
         > Build()
         {
             var schemeParameters = new SchemeParametersEcc(
-                    _keyAgreementRole,
-                    KasMode.KdfNoKc,
-                    _scheme,
-                    KeyConfirmationRole.None,
-                    KeyConfirmationDirection.None,
-                    _parameterSet,
-                    _assurances,
-                    _partyId
-                );
+                _kasDsaAlgoAttributes,
+                _keyAgreementRole,
+                KasMode.KdfNoKc,
+                KeyConfirmationRole.None,
+                KeyConfirmationDirection.None,
+                _assurances,
+                _partyId
+            );
 
             var kdfParameters = new KdfParameters(_keyLength, _otherInfoPattern);
             var scheme = _schemeBuilder.BuildScheme(schemeParameters, kdfParameters, _macParameters);
 
             return new Kas<
-                EccParameterSet,
-                EccScheme,
+                KasDsaAlgoAttributesEcc,
                 OtherPartySharedInformation<
                     EccDomainParameters,
                     EccKeyPair

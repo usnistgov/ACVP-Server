@@ -18,12 +18,8 @@ namespace NIST.CVP.Crypto.KAS.Scheme
 {
     public abstract class SchemeBaseEcc 
         : SchemeBase<
-            SchemeParametersBase<
-                EccParameterSet, 
-                EccScheme
-            >, 
-            EccParameterSet, 
-            EccScheme, 
+            SchemeParametersBase<KasDsaAlgoAttributesEcc>,
+            KasDsaAlgoAttributesEcc, 
             OtherPartySharedInformation<
                 EccDomainParameters, 
                 EccKeyPair
@@ -43,7 +39,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory<OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> otherInfoFactory,
             IEntropyProvider entropyProvider,
-            SchemeParametersBase<EccParameterSet, EccScheme> schemeParameters,
+            SchemeParametersBase<KasDsaAlgoAttributesEcc> schemeParameters,
             KdfParameters kdfParameters,
             MacParameters macParameters
         )

@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             INoKeyConfirmationFactory noKeyConfirmationFactory,
             IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory,
             IEntropyProvider entropyProvider,
-            SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters, 
+            SchemeParametersBase<KasDsaAlgoAttributesFfc> schemeParameters, 
             KdfParameters kdfParameters, 
             MacParameters macParameters,
             IDiffieHellman<FfcDomainParameters, FfcKeyPair> dh
@@ -30,14 +30,14 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         {
             Dh = dh;
 
-            if (SchemeParameters.Scheme != FfcScheme.DhEphem)
+            if (SchemeParameters.KasDsaAlgoAttributes.Scheme != FfcScheme.DhEphem)
             {
-                throw new ArgumentException(nameof(SchemeParameters.Scheme));
+                throw new ArgumentException(nameof(SchemeParameters.KasDsaAlgoAttributes.Scheme));
             }
 
             if (SchemeParameters.KasMode == KasMode.KdfKc)
             {
-                throw new ArgumentException($"{SchemeParameters.KasMode} not possible with {SchemeParameters.Scheme}");
+                throw new ArgumentException($"{SchemeParameters.KasMode} not possible with {SchemeParameters.KasDsaAlgoAttributes.Scheme}");
             }
         }
 

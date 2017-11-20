@@ -25,8 +25,8 @@ namespace NIST.CVP.Generation.KAS.Tests
         private Mock<IDsaFfc> _dsa;
         private IEntropyProvider _entropyProvider;
         private IEntropyProviderFactory _entropyProviderFactory;
-        private IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
+        private IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private Mock<IDsaFfcFactory> _dsaFactory;
         private IMacParametersBuilder _macParametersBuilder;
 

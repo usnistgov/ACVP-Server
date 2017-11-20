@@ -9,14 +9,13 @@ namespace NIST.CVP.Crypto.KAS
     /// <summary>
     /// Interface for Key Agreement Schemes
     /// </summary>
-    public interface IKas<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
-        where TParameterSet : struct, IComparable
-        where TScheme : struct, IComparable
+    public interface IKas<TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
+        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
         where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
     {
-        IScheme<SchemeParametersBase<TParameterSet, TScheme>, TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> Scheme { get; }
+        IScheme<SchemeParametersBase<TKasDsaAlgoAttributes>, TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair> Scheme { get; }
 
         void SetDomainParameters(TDomainParameters domainParameters);
         /// <summary>

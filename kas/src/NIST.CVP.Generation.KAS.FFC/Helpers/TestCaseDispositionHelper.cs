@@ -28,19 +28,19 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
         public static void MangleKeys(
             TestCase testCase,
             TestCaseDispositionOption dispositionOption, 
-            IKas<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
-            IKas<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas
         )
         {
             var serverKeyExpectations = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
-                serverKas.Scheme.SchemeParameters.Scheme,
+                serverKas.Scheme.SchemeParameters.KasDsaAlgoAttributes.Scheme,
                 serverKas.Scheme.SchemeParameters.KasMode,
                 serverKas.Scheme.SchemeParameters.KeyAgreementRole,
                 serverKas.Scheme.SchemeParameters.KeyConfirmationRole,
                 serverKas.Scheme.SchemeParameters.KeyConfirmationDirection
             );
             var iutKeyExpectations = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
-                iutKas.Scheme.SchemeParameters.Scheme,
+                iutKas.Scheme.SchemeParameters.KasDsaAlgoAttributes.Scheme,
                 serverKas.Scheme.SchemeParameters.KasMode,
                 iutKas.Scheme.SchemeParameters.KeyAgreementRole,
                 iutKas.Scheme.SchemeParameters.KeyConfirmationRole,
@@ -78,7 +78,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
 
         private static void MangleServerStaticPublicKey(
             TestCase testCase, 
-            IKas<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
             bool generatesKeyPair
         )
         {
@@ -102,7 +102,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
 
         private static void MangleServerEphemeralPublicKey(
             TestCase testCase, 
-            IKas<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
             bool generatesKeyPair
         )
         {
@@ -126,7 +126,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
 
         private static void MangleIutStaticPrivateKey(
             TestCase testCase, 
-            IKas<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas, 
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas, 
             bool generatesKeyPair
         )
         {
@@ -140,7 +140,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
 
         private static void MangleIutStaticPublicKey(
             TestCase testCase, 
-            IKas<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas, 
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas, 
             bool generatesKeyPair
         )
         {
@@ -166,8 +166,8 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
         public static void SetTestCaseInformationFromKasResults(
             TestGroup group, 
             TestCase testCase, 
-            IKas<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
-            IKas<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas, 
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> serverKas, 
+            IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas, 
             KasResult iutResult
         )
         {

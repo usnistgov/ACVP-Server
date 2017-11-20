@@ -7,8 +7,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
 {
     public class KasBuilderKdfKcEcc
             : KasBuilderKdfKc<
-                EccParameterSet,
-                EccScheme,
+                KasDsaAlgoAttributesEcc,
                 OtherPartySharedInformation<
                     EccDomainParameters,
                     EccKeyPair
@@ -19,8 +18,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
     {
         public KasBuilderKdfKcEcc(
             ISchemeBuilder<
-                EccParameterSet,
-                EccScheme,
+                KasDsaAlgoAttributesEcc,
                 OtherPartySharedInformation<
                     EccDomainParameters,
                     EccKeyPair
@@ -28,16 +26,14 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
                 EccDomainParameters,
                 EccKeyPair
             > schemeBuilder,
+            KasDsaAlgoAttributesEcc kasDsaAlgoAttributes,
             KeyAgreementRole keyAgreementRole,
-            EccScheme scheme,
-            EccParameterSet parameterSet,
             KasAssurance assurances,
             BitString partyId)
             : base(
                   schemeBuilder,
+                  kasDsaAlgoAttributes,
                   keyAgreementRole,
-                  scheme,
-                  parameterSet,
                   assurances,
                   partyId
               )
@@ -45,8 +41,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
         }
 
         public override IKas<
-            EccParameterSet,
-            EccScheme,
+            KasDsaAlgoAttributesEcc,
             OtherPartySharedInformation<
                 EccDomainParameters,
                 EccKeyPair
@@ -56,12 +51,11 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
         > Build()
         {
             var schemeParameters = new SchemeParametersEcc(
+                _kasDsaAlgoAttributes,
                 _keyAgreementRole,
                 KasMode.KdfKc,
-                _scheme,
                 _keyConfirmationRole,
                 _keyConfirmationDirection,
-                _parameterSet,
                 _assurances,
                 _partyId
             );
@@ -70,8 +64,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
             var scheme = _schemeBuilder.BuildScheme(schemeParameters, kdfParameters, _macParameters);
 
             return new Kas<
-                EccParameterSet,
-                EccScheme,
+                KasDsaAlgoAttributesEcc,
                 OtherPartySharedInformation<
                     EccDomainParameters,
                     EccKeyPair

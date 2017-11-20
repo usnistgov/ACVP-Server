@@ -30,10 +30,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                 EccKeyPair
             > otherInfoFactory, 
             IEntropyProvider entropyProvider, 
-            SchemeParametersBase<
-                EccParameterSet, 
-                EccScheme
-            > schemeParameters, 
+            SchemeParametersBase<KasDsaAlgoAttributesEcc> schemeParameters, 
             KdfParameters kdfParameters, 
             MacParameters macParameters,
             IDiffieHellman<EccDomainParameters, EccKeyPair> diffieHellman
@@ -53,14 +50,14 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         {
             _diffieHellman = diffieHellman;
 
-            if (SchemeParameters.Scheme != EccScheme.EphemeralUnified)
+            if (SchemeParameters.KasDsaAlgoAttributes.Scheme != EccScheme.EphemeralUnified)
             {
-                throw new ArgumentException(nameof(SchemeParameters.Scheme));
+                throw new ArgumentException(nameof(SchemeParameters.KasDsaAlgoAttributes.Scheme));
             }
 
             if (SchemeParameters.KasMode == KasMode.KdfKc)
             {
-                throw new ArgumentException($"{SchemeParameters.KasMode} not possible with {SchemeParameters.Scheme}");
+                throw new ArgumentException($"{SchemeParameters.KasMode} not possible with {SchemeParameters.KasDsaAlgoAttributes.Scheme}");
             }
         }
 

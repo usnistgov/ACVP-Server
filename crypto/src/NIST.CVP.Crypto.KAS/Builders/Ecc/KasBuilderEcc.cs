@@ -6,8 +6,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
 {
     public class KasBuilderEcc
         : KasBuilderBase<
-            EccParameterSet,
-            EccScheme,
+            KasDsaAlgoAttributesEcc,
             OtherPartySharedInformation<
                 EccDomainParameters,
                 EccKeyPair
@@ -16,26 +15,26 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
             EccKeyPair
         >
     {
-        public KasBuilderEcc(ISchemeBuilder<EccParameterSet, EccScheme, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> schemeBuilder) : base(schemeBuilder)
+        public KasBuilderEcc(ISchemeBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> schemeBuilder) : base(schemeBuilder)
         {
         }
 
         /// <inheritdoc />
-        public override IKasBuilderNoKdfNoKc<EccParameterSet, EccScheme, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> BuildNoKdfNoKc()
+        public override IKasBuilderNoKdfNoKc<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> BuildNoKdfNoKc()
         {
-            return new KasBuilderNoKdfNoKcEcc(_schemeBuilder, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId);
+            return new KasBuilderNoKdfNoKcEcc(_schemeBuilder, _kasDsaAlgoAttributes, _keyAgreementRole, _assurances, _partyId);
         }
 
         /// <inheritdoc />
-        public override IKasBuilderKdfNoKc<EccParameterSet, EccScheme, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> BuildKdfNoKc()
+        public override IKasBuilderKdfNoKc<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> BuildKdfNoKc()
         {
-            return new KasBuilderKdfNoKcEcc(_schemeBuilder, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId);
+            return new KasBuilderKdfNoKcEcc(_schemeBuilder, _kasDsaAlgoAttributes, _keyAgreementRole, _assurances, _partyId);
         }
 
         /// <inheritdoc />
-        public override IKasBuilderKdfKc<EccParameterSet, EccScheme, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> BuildKdfKc()
+        public override IKasBuilderKdfKc<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> BuildKdfKc()
         {
-            return new KasBuilderKdfKcEcc(_schemeBuilder, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId);
+            return new KasBuilderKdfKcEcc(_schemeBuilder, _kasDsaAlgoAttributes, _keyAgreementRole, _assurances, _partyId);
         }
     }
 }

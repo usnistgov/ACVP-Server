@@ -37,8 +37,8 @@ namespace NIST.CVP.Generation.KAS.Tests
         private TestCaseGeneratorValKdfNoKc _subject;
         private IEntropyProvider _entropyProvider;
         private IEntropyProviderFactory _entropyProviderFactory;
-        private IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
+        private IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private IMacParametersBuilder _macParametersBuilder;
         private INoKeyConfirmationFactory _noKeyConfirmationFactory;
         private IShaFactory _shaFactory;

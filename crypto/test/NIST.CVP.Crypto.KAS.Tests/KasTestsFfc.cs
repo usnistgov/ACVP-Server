@@ -13,13 +13,13 @@ namespace NIST.CVP.Crypto.KAS.Tests
     [TestFixture,  FastCryptoTest]
     public class KasTestsFfc
     {
-        private Kas<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _subject;
-        private Mock<IScheme<SchemeParametersBase<FfcParameterSet, FfcScheme>, FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>> _scheme;
+        private Kas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _subject;
+        private Mock<IScheme<SchemeParametersBase<KasDsaAlgoAttributesFfc>, KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>> _scheme;
 
         [SetUp]
         public void Setup()
         {
-            _scheme = new Mock<IScheme<SchemeParametersBase<FfcParameterSet, FfcScheme>, FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>>();
+            _scheme = new Mock<IScheme<SchemeParametersBase<KasDsaAlgoAttributesFfc>, KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>>();
             _scheme.Setup(s => s.SetDomainParameters(It.IsAny<FfcDomainParameters>()));
             _scheme
                 .Setup(s => s.ReturnPublicInfoThisParty())
@@ -28,7 +28,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 .Setup(s => s.ComputeResult(It.IsAny<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>>()))
                 .Returns(new KasResult(string.Empty));
 
-            _subject = new Kas<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(_scheme.Object);
+            _subject = new Kas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(_scheme.Object);
         }
 
         [Test]

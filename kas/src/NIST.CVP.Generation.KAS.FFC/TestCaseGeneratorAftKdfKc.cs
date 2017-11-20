@@ -13,14 +13,14 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestCaseGeneratorAftKdfKc : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private readonly ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
+        private readonly IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
+        private readonly ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
 
         public TestCaseGeneratorAftKdfKc(
-            IKasBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
-            ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
+            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
+            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
             IEntropyProviderFactory entropyProviderFactory, 
             IMacParametersBuilder macParametersBuilder
         )
@@ -80,12 +80,11 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             var serverKas = _kasBuilder
                 .WithAssurances(KasAssurance.None)
-                .WithScheme(group.Scheme)
+                .WithKasDsaAlgoAttributes(group.KasDsaAlgoAttributes)
                 .WithSchemeBuilder(
                     _schemeBuilder
                         .WithHashFunction(group.HashAlg)
                 )
-                .WithParameterSet(group.ParmSet)
                 .WithPartyId(SpecificationMapping.ServerId)
                 .WithKeyAgreementRole(serverRole)
                 .BuildKdfKc()
@@ -144,12 +143,11 @@ namespace NIST.CVP.Generation.KAS.FFC
 
                 var iutKas = _kasBuilder
                     .WithAssurances(KasAssurance.None)
-                    .WithScheme(group.Scheme)
+                    .WithKasDsaAlgoAttributes(group.KasDsaAlgoAttributes)
                     .WithSchemeBuilder(
                         _schemeBuilder
                             .WithHashFunction(group.HashAlg)
                     )
-                    .WithParameterSet(group.ParmSet)
                     .WithPartyId(testCase.IdIut)
                     .WithKeyAgreementRole(group.KasRole)
                     .BuildKdfKc()

@@ -22,7 +22,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
             IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory, 
             IEntropyProvider entropyProvider, 
-            SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters, 
+            SchemeParametersBase<KasDsaAlgoAttributesFfc> schemeParameters, 
             KdfParameters kdfParameters, 
             MacParameters macParameters, 
             IMqv<FfcDomainParameters, FfcKeyPair> mqv
@@ -31,9 +31,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         {
             _mqv = mqv;
 
-            if (SchemeParameters.Scheme != FfcScheme.Mqv1)
+            if (SchemeParameters.KasDsaAlgoAttributes.Scheme != FfcScheme.Mqv1)
             {
-                throw new ArgumentException(nameof(SchemeParameters.Scheme));
+                throw new ArgumentException(nameof(SchemeParameters.KasDsaAlgoAttributes.Scheme));
             }
         }
 

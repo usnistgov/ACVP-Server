@@ -12,8 +12,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
 {
     public class SchemeBuilderFfc 
         : SchemeBuilderBase<
-            FfcParameterSet, 
-            FfcScheme, 
+            KasDsaAlgoAttributesFfc, 
             OtherPartySharedInformation<
                 FfcDomainParameters, 
                 FfcKeyPair
@@ -46,12 +45,8 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
         }
 
         public override IScheme<
-            SchemeParametersBase<
-                FfcParameterSet, 
-                FfcScheme
-            >, 
-            FfcParameterSet, 
-            FfcScheme,
+            SchemeParametersBase<KasDsaAlgoAttributesFfc>,
+            KasDsaAlgoAttributesFfc,
             OtherPartySharedInformation<
                 FfcDomainParameters, 
                 FfcKeyPair
@@ -60,19 +55,15 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
             FfcKeyPair
         > 
             BuildScheme(
-            SchemeParametersBase<FfcParameterSet, FfcScheme> schemeParameters, 
+            SchemeParametersBase<KasDsaAlgoAttributesFfc> schemeParameters, 
             KdfParameters kdfParameters, 
             MacParameters macParameters, 
             bool backToOriginalState = true
         )
         {
             IScheme<
-                SchemeParametersBase<
-                    FfcParameterSet,
-                    FfcScheme
-                >,
-                FfcParameterSet,
-                FfcScheme,
+                SchemeParametersBase<KasDsaAlgoAttributesFfc>,
+                KasDsaAlgoAttributesFfc,
                 OtherPartySharedInformation<
                     FfcDomainParameters,
                     FfcKeyPair
@@ -83,7 +74,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
 
             var dsa = _dsaFfcFactory.GetInstance(_withHashFunction);
 
-            switch (schemeParameters.Scheme)
+            switch (schemeParameters.KasDsaAlgoAttributes.Scheme)
             {
                 case FfcScheme.DhEphem:
                     scheme = new SchemeFfcDiffieHellmanEphemeral(dsa, _withKdfFactory,
@@ -104,7 +95,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
                     // TODO coming soon to a KAS near you!
                     throw new NotImplementedException();
                 default:
-                    throw new ArgumentException(nameof(schemeParameters.Scheme));
+                    throw new ArgumentException(nameof(schemeParameters.KasDsaAlgoAttributes.Scheme));
             }
 
             if (backToOriginalState)

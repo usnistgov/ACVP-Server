@@ -12,10 +12,9 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public abstract class SchemeBuilderBase<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair> 
-        : ISchemeBuilder<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair>
-        where TParameterSet : struct, IComparable
-        where TScheme : struct, IComparable
+    public abstract class SchemeBuilderBase<TKasDsaAlgoAttributes, TSharedInformation, TDomainParameters, TKeyPair> 
+        : ISchemeBuilder<TKasDsaAlgoAttributes, TSharedInformation, TDomainParameters, TKeyPair>
+        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
         where TSharedInformation : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
@@ -59,8 +58,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         public ISchemeBuilder<
-            TParameterSet, 
-            TScheme, 
+            TKasDsaAlgoAttributes, 
             TSharedInformation, 
             TDomainParameters, 
             TKeyPair
@@ -72,8 +70,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         public ISchemeBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TSharedInformation,
             TDomainParameters,
             TKeyPair
@@ -85,8 +82,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         public ISchemeBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TSharedInformation,
             TDomainParameters,
             TKeyPair
@@ -98,8 +94,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         public ISchemeBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TSharedInformation,
             TDomainParameters,
             TKeyPair
@@ -111,8 +106,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         public ISchemeBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TSharedInformation,
             TDomainParameters,
             TKeyPair
@@ -124,8 +118,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         public ISchemeBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TSharedInformation,
             TDomainParameters,
             TKeyPair
@@ -136,18 +129,14 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         public abstract IScheme<
-            SchemeParametersBase<
-                TParameterSet, 
-                TScheme
-            >, 
-            TParameterSet, 
-            TScheme, 
+            SchemeParametersBase<TKasDsaAlgoAttributes>,
+            TKasDsaAlgoAttributes, 
             TSharedInformation, 
             TDomainParameters, 
             TKeyPair
         > 
             BuildScheme(
-                SchemeParametersBase<TParameterSet, TScheme> schemeParameters, 
+                SchemeParametersBase<TKasDsaAlgoAttributes> schemeParameters, 
                 KdfParameters kdfParameters, 
                 MacParameters macParameters,
                 bool backToOriginalState = true

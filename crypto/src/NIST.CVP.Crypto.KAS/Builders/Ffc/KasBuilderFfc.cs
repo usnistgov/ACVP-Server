@@ -6,8 +6,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
 {
     public class KasBuilderFfc 
         : KasBuilderBase<
-            FfcParameterSet, 
-            FfcScheme, 
+            KasDsaAlgoAttributesFfc, 
             OtherPartySharedInformation<
                 FfcDomainParameters, 
                 FfcKeyPair
@@ -16,26 +15,26 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
             FfcKeyPair
         >
     {
-        public KasBuilderFfc(ISchemeBuilder<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder) : base(schemeBuilder)
+        public KasBuilderFfc(ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder) : base(schemeBuilder)
         {
         }
         
         /// <inheritdoc />
-        public override IKasBuilderNoKdfNoKc<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> BuildNoKdfNoKc()
+        public override IKasBuilderNoKdfNoKc<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> BuildNoKdfNoKc()
         {
-            return new KasBuilderNoKdfNoKcFfc(_schemeBuilder, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId);
+            return new KasBuilderNoKdfNoKcFfc(_schemeBuilder, _kasDsaAlgoAttributes, _keyAgreementRole, _assurances, _partyId);
         }
 
         /// <inheritdoc />
-        public override IKasBuilderKdfNoKc<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> BuildKdfNoKc()
+        public override IKasBuilderKdfNoKc<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> BuildKdfNoKc()
         {
-            return new KasBuilderKdfNoKcFfc(_schemeBuilder, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId);
+            return new KasBuilderKdfNoKcFfc(_schemeBuilder, _kasDsaAlgoAttributes, _keyAgreementRole, _assurances, _partyId);
         }
 
         /// <inheritdoc />
-        public override IKasBuilderKdfKc<FfcParameterSet, FfcScheme, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> BuildKdfKc()
+        public override IKasBuilderKdfKc<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> BuildKdfKc()
         {
-            return new KasBuilderKdfKcFfc(_schemeBuilder, _keyAgreementRole, _scheme, _parameterSet, _assurances, _partyId);
+            return new KasBuilderKdfKcFfc(_schemeBuilder, _kasDsaAlgoAttributes, _keyAgreementRole, _assurances, _partyId);
         }
     }
 }

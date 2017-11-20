@@ -9,30 +9,27 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
 {
-    public abstract class KasBuilderBase<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> 
-        : IKasBuilder<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
-        where TParameterSet : struct, IComparable
-        where TScheme : struct, IComparable
+    public abstract class KasBuilderBase<TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair> 
+        : IKasBuilder<TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
+        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
         where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
     {
         protected KeyAgreementRole _keyAgreementRole;
-        protected TParameterSet _parameterSet;
-        protected TScheme _scheme;
+        protected TKasDsaAlgoAttributes _kasDsaAlgoAttributes;
         protected KasAssurance _assurances;
         protected BitString _partyId;
-        protected ISchemeBuilder<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> _schemeBuilder;
+        protected ISchemeBuilder<TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair> _schemeBuilder;
 
-        protected KasBuilderBase(ISchemeBuilder<TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> schemeBuilder)
+        protected KasBuilderBase(ISchemeBuilder<TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair> schemeBuilder)
         {
             _schemeBuilder = schemeBuilder;
         }
 
         /// <inheritdoc />
         public IKasBuilder<
-            TParameterSet, 
-            TScheme, 
+            TKasDsaAlgoAttributes, 
             TOtherPartySharedInfo, 
             TDomainParameters, 
             TKeyPair
@@ -45,44 +42,27 @@ namespace NIST.CVP.Crypto.KAS.Builders
 
         /// <inheritdoc />
         public IKasBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TOtherPartySharedInfo,
             TDomainParameters,
             TKeyPair
         > 
-            WithScheme(TScheme value)
+            WithKasDsaAlgoAttributes(TKasDsaAlgoAttributes value)
         {
-            _scheme = value;
+            _kasDsaAlgoAttributes = value;
             return this;
         }
 
         /// <inheritdoc />
         public IKasBuilder<
-            TParameterSet,
-            TScheme,
-            TOtherPartySharedInfo,
-            TDomainParameters,
-            TKeyPair
-        > 
-            WithParameterSet(TParameterSet value)
-        {
-            _parameterSet = value;
-            return this;
-        }
-
-        /// <inheritdoc />
-        public IKasBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TOtherPartySharedInfo,
             TDomainParameters,
             TKeyPair
         > 
             WithSchemeBuilder(
                 ISchemeBuilder<
-                    TParameterSet, 
-                    TScheme, 
+                    TKasDsaAlgoAttributes, 
                     TOtherPartySharedInfo, 
                     TDomainParameters, 
                     TKeyPair
@@ -95,8 +75,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
 
         /// <inheritdoc />
         public IKasBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TOtherPartySharedInfo,
             TDomainParameters,
             TKeyPair
@@ -109,8 +88,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
 
         /// <inheritdoc />
         public IKasBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TOtherPartySharedInfo,
             TDomainParameters,
             TKeyPair
@@ -123,8 +101,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
 
         /// <inheritdoc />
         public abstract IKasBuilderKdfKc<
-            TParameterSet, 
-            TScheme, 
+            TKasDsaAlgoAttributes, 
             TOtherPartySharedInfo, 
             TDomainParameters, 
             TKeyPair
@@ -133,8 +110,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
 
         /// <inheritdoc />
         public abstract IKasBuilderKdfNoKc<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TOtherPartySharedInfo,
             TDomainParameters,
             TKeyPair
@@ -143,8 +119,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
 
         /// <inheritdoc />
         public abstract IKasBuilderNoKdfNoKc<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TOtherPartySharedInfo,
             TDomainParameters,
             TKeyPair

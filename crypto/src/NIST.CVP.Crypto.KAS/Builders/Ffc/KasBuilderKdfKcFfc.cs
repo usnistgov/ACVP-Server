@@ -7,8 +7,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
 {
     public class KasBuilderKdfKcFfc 
         : KasBuilderKdfKc<
-            FfcParameterSet, 
-            FfcScheme, 
+            KasDsaAlgoAttributesFfc, 
             OtherPartySharedInformation<
                 FfcDomainParameters, 
                 FfcKeyPair
@@ -19,25 +18,22 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
     {
         public KasBuilderKdfKcFfc(
             ISchemeBuilder<
-                FfcParameterSet, 
-                FfcScheme,
+                KasDsaAlgoAttributesFfc,
                 OtherPartySharedInformation<
                     FfcDomainParameters,
                     FfcKeyPair
                 >,
                 FfcDomainParameters,
                 FfcKeyPair
-            > schemeBuilder, 
+            > schemeBuilder,
+            KasDsaAlgoAttributesFfc kasDsaAlgoAttributes,
             KeyAgreementRole keyAgreementRole, 
-            FfcScheme scheme, 
-            FfcParameterSet parameterSet, 
             KasAssurance assurances, 
             BitString partyId) 
             : base(
                   schemeBuilder, 
+                  kasDsaAlgoAttributes,
                   keyAgreementRole, 
-                  scheme, 
-                  parameterSet, 
                   assurances, 
                   partyId
               )
@@ -45,8 +41,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
         }
 
         public override IKas<
-            FfcParameterSet, 
-            FfcScheme,
+            KasDsaAlgoAttributesFfc,
             OtherPartySharedInformation<
                 FfcDomainParameters,
                 FfcKeyPair
@@ -56,12 +51,11 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
         > Build()
         {
             var schemeParameters = new SchemeParametersFfc(
+                _kasDsaAlgoAttributes,
                 _keyAgreementRole,
                 KasMode.KdfKc,
-                _scheme,
                 _keyConfirmationRole,
                 _keyConfirmationDirection,
-                _parameterSet,
                 _assurances,
                 _partyId
             );
@@ -70,8 +64,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
             var scheme = _schemeBuilder.BuildScheme(schemeParameters, kdfParameters, _macParameters);
 
             return new Kas<
-                FfcParameterSet, 
-                FfcScheme,
+                KasDsaAlgoAttributesFfc,
                 OtherPartySharedInformation<
                     FfcDomainParameters,
                     FfcKeyPair

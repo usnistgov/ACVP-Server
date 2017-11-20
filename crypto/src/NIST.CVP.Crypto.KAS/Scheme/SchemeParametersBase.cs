@@ -4,28 +4,24 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public abstract class SchemeParametersBase<TParameterSet, TScheme> : ISchemeParameters<TParameterSet, TScheme>
-        where TParameterSet : struct, IComparable
-        where TScheme : struct, IComparable
+    public abstract class SchemeParametersBase<TKasDsaAlgoAttributes> : ISchemeParameters<TKasDsaAlgoAttributes>
+        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
     {
         /// <summary>
         /// Constructs Kas parameter information
         /// </summary>
         /// <param name="keyAgreementRole">This party's key agreement role</param>
         /// <param name="kasMode">The mode of the KAS attempt</param>
-        /// <param name="scheme">The scheme used for KAS</param>
         /// <param name="keyConfirmationRole">This party's key confirmation role</param>
         /// <param name="keyConfirmationDirection">This party's key confirmation direction</param>
-        /// <param name="parameterSet">The parameter set used in the KAS operation</param>
         /// <param name="kasAssurances">The assuances associated with the KAS</param>
         /// <param name="thisPartyId">The ID associated with this party</param>
         protected SchemeParametersBase(
+            TKasDsaAlgoAttributes kasDsaAlgoAttributes,
             KeyAgreementRole keyAgreementRole, 
             KasMode kasMode,
-            TScheme scheme,
             KeyConfirmationRole keyConfirmationRole, 
             KeyConfirmationDirection keyConfirmationDirection,
-            TParameterSet parameterSet,
             KasAssurance kasAssurances,
             BitString thisPartyId
         )
@@ -44,48 +40,27 @@ namespace NIST.CVP.Crypto.KAS.Scheme
                         $"{nameof(KasMode.KdfKc)} requires a valid (not None) value for both {nameof(keyConfirmationRole)} and {nameof(keyConfirmationDirection)}");
                 }
             }
-
+            KasDsaAlgoAttributes = kasDsaAlgoAttributes;
             KeyAgreementRole = keyAgreementRole;
             KasMode = kasMode;
-            Scheme = scheme;
             KeyConfirmationRole = keyConfirmationRole;
             KeyConfirmationDirection = keyConfirmationDirection;
-            ParameterSet = parameterSet;
             KasAssurances = kasAssurances;
             ThisPartyId = thisPartyId;
         }
-
-        /// <summary>
-        /// This party's key agreement role
-        /// </summary>
+        /// <inheritdoc />
+        public TKasDsaAlgoAttributes KasDsaAlgoAttributes { get; }
+        /// <inheritdoc />
         public KeyAgreementRole KeyAgreementRole { get; }
-        /// <summary>
-        /// The mode of the KAS attempt
-        /// </summary>
+        /// <inheritdoc />
         public KasMode KasMode { get; }
-        /// <summary>
-        /// The KAS scheme
-        /// </summary>
-        public TScheme Scheme { get; }
-        /// <summary>
-        /// This party's key confirmation role
-        /// </summary>
+        /// <inheritdoc />
         public KeyConfirmationRole KeyConfirmationRole { get; }
-        /// <summary>
-        /// This party's key confirmation direction
-        /// </summary>
+        /// <inheritdoc />
         public KeyConfirmationDirection KeyConfirmationDirection { get; }
-        /// <summary>
-        /// The parameter set utilized in the KAS operation
-        /// </summary>
-        public TParameterSet ParameterSet { get; }
-        /// <summary>
-        /// The Assurances that are implemented by the KAS instance.
-        /// </summary>
+        /// <inheritdoc />
         public KasAssurance KasAssurances { get; }
-        /// <summary>
-        /// The ID associated with this party
-        /// </summary>
+        /// <inheritdoc />
         public BitString ThisPartyId { get; }
     }
 }

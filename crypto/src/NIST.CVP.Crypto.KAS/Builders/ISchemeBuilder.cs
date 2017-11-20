@@ -14,9 +14,8 @@ namespace NIST.CVP.Crypto.KAS.Builders
     /// <summary>
     /// Interface for building a scheme instance
     /// </summary>
-    public interface ISchemeBuilder<TParameterSet, TScheme, TSharedInformation, TDomainParameters, TKeyPair>
-        where TParameterSet : struct, IComparable
-        where TScheme : struct, IComparable
+    public interface ISchemeBuilder<TKasDsaAlgoAttributes, TSharedInformation, TDomainParameters, TKeyPair>
+        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
         where TSharedInformation : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
@@ -27,8 +26,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// <param name="hashFunction">The hash function to use</param>
         /// <returns></returns>
         ISchemeBuilder<
-            TParameterSet, 
-            TScheme, 
+            TKasDsaAlgoAttributes,
             TSharedInformation, 
             TDomainParameters, 
             TKeyPair
@@ -41,8 +39,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// <param name="kdfFactory">The kdf factory to use</param>
         /// <returns></returns>
         ISchemeBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TSharedInformation,
             TDomainParameters,
             TKeyPair
@@ -56,8 +53,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// <param name="keyConfirmationFactory">The key confirmation factory implementation to use</param>
         /// <returns></returns>
         ISchemeBuilder<
-            TParameterSet,
-            TScheme,
+                TKasDsaAlgoAttributes,
             TSharedInformation,
             TDomainParameters,
             TKeyPair
@@ -70,8 +66,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// <param name="noKeyConfirmationFactory">The kdf factory implementation to use</param>
         /// <returns></returns>
         ISchemeBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TSharedInformation,
             TDomainParameters,
             TKeyPair
@@ -85,8 +80,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// <param name="otherInfoFactory">The other info factory used in the scheme.</param>
         /// <returns></returns>
         ISchemeBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TSharedInformation,
             TDomainParameters,
             TKeyPair
@@ -99,8 +93,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// <param name="entropyProvider">The entropy provider used in the scheme.</param>
         /// <returns></returns>
         ISchemeBuilder<
-            TParameterSet,
-            TScheme,
+            TKasDsaAlgoAttributes,
             TSharedInformation,
             TDomainParameters,
             TKeyPair
@@ -119,21 +112,14 @@ namespace NIST.CVP.Crypto.KAS.Builders
         /// </param>
         /// <returns></returns>
         IScheme<
-            SchemeParametersBase<
-                TParameterSet, 
-                TScheme
-            >, 
-            TParameterSet, 
-            TScheme, 
+            SchemeParametersBase<TKasDsaAlgoAttributes>,
+            TKasDsaAlgoAttributes,
             TSharedInformation, 
             TDomainParameters, 
             TKeyPair
         >
             BuildScheme(
-                SchemeParametersBase<
-                    TParameterSet, 
-                    TScheme
-                > schemeParameters, 
+                SchemeParametersBase<TKasDsaAlgoAttributes> schemeParameters, 
                 KdfParameters kdfParameters,
                 MacParameters macParameters, 
                 bool backToOriginalState = true

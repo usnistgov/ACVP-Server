@@ -6,10 +6,9 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public interface IScheme<out TSchemeParameters, TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
-        where TSchemeParameters : ISchemeParameters<TParameterSet, TScheme>
-        where TParameterSet : struct, IComparable
-        where TScheme : struct, IComparable
+    public interface IScheme<out TSchemeParameters, TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
+        where TSchemeParameters : ISchemeParameters<TKasDsaAlgoAttributes>
+        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
         where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair

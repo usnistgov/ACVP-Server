@@ -63,8 +63,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
         {
             var result = _subject
                 .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
-                .WithScheme(FfcScheme.DhEphem)
-                .WithParameterSet(FfcParameterSet.Fb)
+                .WithKasDsaAlgoAttributes(new KasDsaAlgoAttributesFfc(FfcScheme.DhEphem, FfcParameterSet.Fb))
                 .WithAssurances(KasAssurance.None)
                 .WithPartyId(new BitString(1))
                 .BuildNoKdfNoKc()
@@ -85,8 +84,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
 
             var result = _subject
                 .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
-                .WithScheme(FfcScheme.DhEphem)
-                .WithParameterSet(FfcParameterSet.Fb)
+                .WithKasDsaAlgoAttributes(new KasDsaAlgoAttributesFfc(FfcScheme.DhEphem, FfcParameterSet.Fb))
                 .WithAssurances(KasAssurance.None)
                 .WithPartyId(new BitString(1))
                 .BuildKdfNoKc()
@@ -109,8 +107,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             
             var result = _subject
                 .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
-                .WithScheme(FfcScheme.Mqv1)
-                .WithParameterSet(FfcParameterSet.Fb)
+                .WithKasDsaAlgoAttributes(new KasDsaAlgoAttributesFfc(FfcScheme.Mqv1, FfcParameterSet.Fb))
                 .WithAssurances(KasAssurance.None)
                 .WithPartyId(new BitString(1))
                 .BuildKdfKc()

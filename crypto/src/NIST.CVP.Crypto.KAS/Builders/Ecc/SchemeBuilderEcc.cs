@@ -12,8 +12,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
 {
     public class SchemeBuilderEcc
         : SchemeBuilderBase<
-            EccParameterSet,
-            EccScheme,
+            KasDsaAlgoAttributesEcc,
             OtherPartySharedInformation<
                 EccDomainParameters,
                 EccKeyPair
@@ -50,12 +49,8 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
         }
 
         public override IScheme<
-            SchemeParametersBase<
-                EccParameterSet,
-                EccScheme
-            >,
-            EccParameterSet,
-            EccScheme,
+            SchemeParametersBase<KasDsaAlgoAttributesEcc>,
+            KasDsaAlgoAttributesEcc,
             OtherPartySharedInformation<
                 EccDomainParameters,
                 EccKeyPair
@@ -64,19 +59,15 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
             EccKeyPair
         >
             BuildScheme(
-            SchemeParametersBase<EccParameterSet, EccScheme> schemeParameters,
+            SchemeParametersBase<KasDsaAlgoAttributesEcc> schemeParameters,
             KdfParameters kdfParameters,
             MacParameters macParameters,
             bool backToOriginalState = true
         )
         {
             IScheme<
-                SchemeParametersBase<
-                    EccParameterSet,
-                    EccScheme
-                >,
-                EccParameterSet,
-                EccScheme,
+                SchemeParametersBase<KasDsaAlgoAttributesEcc>,
+                KasDsaAlgoAttributesEcc,
                 OtherPartySharedInformation<
                     EccDomainParameters,
                     EccKeyPair
@@ -87,7 +78,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
 
             var dsa = _dsaEccFactory.GetInstance(_withHashFunction);
 
-            switch (schemeParameters.Scheme)
+            switch (schemeParameters.KasDsaAlgoAttributes.Scheme)
             {
                 case EccScheme.EphemeralUnified:
                     scheme = new SchemeEccEphemeralUnified(dsa, _eccCurveFactory, _withKdfFactory,
@@ -104,7 +95,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
                     // TODO coming soon to a KAS near you!
                     throw new NotImplementedException();
                 default:
-                    throw new ArgumentException(nameof(schemeParameters.Scheme));
+                    throw new ArgumentException(nameof(schemeParameters.KasDsaAlgoAttributes.Scheme));
             }
 
             if (backToOriginalState)

@@ -11,11 +11,10 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.Scheme
 {
-    public abstract class SchemeBase<TSchemeParameters, TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair> 
-        : IScheme<TSchemeParameters, TParameterSet, TScheme, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
-        where TSchemeParameters : ISchemeParameters<TParameterSet, TScheme>
-        where TParameterSet : struct, IComparable
-        where TScheme : struct, IComparable
+    public abstract class SchemeBase<TSchemeParameters, TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair> 
+        : IScheme<TSchemeParameters, TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair>
+        where TSchemeParameters : ISchemeParameters<TKasDsaAlgoAttributes>
+        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
         where TOtherPartySharedInfo : ISharedInformation<TDomainParameters, TKeyPair>
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair

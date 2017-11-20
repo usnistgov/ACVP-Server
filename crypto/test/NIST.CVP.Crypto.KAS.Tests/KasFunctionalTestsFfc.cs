@@ -17,7 +17,6 @@ using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NuGet.Packaging;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.KAS.Tests
@@ -165,8 +164,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
 
             var kas = _subject
                 .WithKeyAgreementRole(keyAgreementRole)
-                .WithScheme(FfcScheme.DhEphem)
-                .WithParameterSet(FfcParameterSet.Fb)
+                .WithKasDsaAlgoAttributes(new KasDsaAlgoAttributesFfc(FfcScheme.DhEphem, FfcParameterSet.Fb))
                 .WithAssurances(KasAssurance.None)
                 .WithPartyId(thisPartyId)
                 .BuildNoKdfNoKc()
@@ -662,7 +660,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
 
             var kas = _subject
                 .WithKeyAgreementRole(keyAgreementRole)
-                .WithScheme(FfcScheme.DhEphem)
+                .WithKasDsaAlgoAttributes(new KasDsaAlgoAttributesFfc(FfcScheme.DhEphem, FfcParameterSet.Fb))
                 .WithPartyId(thisPartyId)
                 .BuildKdfNoKc()
                 .WithKeyLength(keyLength)
@@ -802,8 +800,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 
             var kas = _subject
                 .WithKeyAgreementRole(keyAgreementRole)
-                .WithScheme(FfcScheme.Mqv1)
-                .WithParameterSet(FfcParameterSet.Fc)
+                .WithKasDsaAlgoAttributes(new KasDsaAlgoAttributesFfc(FfcScheme.Mqv1, FfcParameterSet.Fc))
                 .WithAssurances(KasAssurance.None)
                 .WithPartyId(thisPartyId)
                 .BuildNoKdfNoKc()
@@ -1026,7 +1023,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
 
             var kas = _subject
                 .WithKeyAgreementRole(keyAgreementRole)
-                .WithScheme(FfcScheme.Mqv1)
+                .WithKasDsaAlgoAttributes(new KasDsaAlgoAttributesFfc(FfcScheme.Mqv1, FfcParameterSet.Fb))
                 .WithPartyId(thisPartyId)
                 .BuildKdfNoKc()
                 .WithKeyLength(keyLength)
@@ -1654,7 +1651,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
 
             var kas = _subject
                 .WithKeyAgreementRole(keyAgreementRole)
-                .WithScheme(FfcScheme.Mqv1)
+                .WithKasDsaAlgoAttributes(new KasDsaAlgoAttributesFfc(FfcScheme.Mqv1, FfcParameterSet.Fb))
                 .WithPartyId(thisPartyId)
                 .BuildKdfKc()
                 .WithKeyLength(keyLength)
