@@ -8,7 +8,6 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         where TParameterSet : struct, IComparable
         where TScheme : struct, IComparable
     {
-
         TParameterSet ParameterSet { get; }
         KasAssurance KasAssurances { get; }
         KasMode KasMode { get; }

@@ -150,7 +150,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <inheritdoc />
         protected override void GenerateDomainParameters()
         {
-            var paramDetails = FfcParameterSetDetails.GetDetailsForParameterSet(SchemeParameters.ParameterSet);
+            var paramDetails = ParameterSetDetails.GetDetailsForFfcParameterSet(SchemeParameters.ParameterSet);
 
             SetDomainParameters(
                 Dsa.GenerateDomainParameters(

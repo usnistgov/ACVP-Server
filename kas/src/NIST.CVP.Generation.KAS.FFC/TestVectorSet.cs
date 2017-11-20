@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -10,7 +11,7 @@ using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestVectorSet : TestVectorSetBase<TestGroup, TestCase>
+    public class TestVectorSet : TestVectorSetBase<TestGroup, TestCase, KasDsaAlgoAttributesFfc>
     {
 
         public TestVectorSet()

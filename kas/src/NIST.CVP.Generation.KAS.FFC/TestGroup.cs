@@ -3,6 +3,7 @@ using System.Numerics;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -11,7 +12,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestGroup : TestGroupBase
+    public class TestGroup : TestGroupBase<KasDsaAlgoAttributesFfc>
     {
         public TestGroup()
         {
@@ -32,6 +33,9 @@ namespace NIST.CVP.Generation.KAS.FFC
         public BigInteger Q { get; set; }
         public BigInteger G { get; set; }
 
+        public override KasDsaAlgoAttributesFfc KasDsaAlgoAttributes => 
+            new KasDsaAlgoAttributesFfc(Scheme, ParmSet);
+
         public override int GetHashCode()
         {
             return (
@@ -41,7 +45,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         public override bool Equals(object obj)
         {
-            if (!(obj is TestGroupBase otherGroup))
+            if (!(obj is TestGroupBase<KasDsaAlgoAttributesFfc> otherGroup))
             {
                 return false;
             }

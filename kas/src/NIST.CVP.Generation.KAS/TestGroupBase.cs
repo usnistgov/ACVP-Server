@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS
 {
-    public abstract class TestGroupBase : ITestGroup
+    public abstract class TestGroupBase<TKasDsaAlgoAttributes> : ITestGroup
+        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
     {
         public KasAssurance Function { get; set; }
         public string TestType { get; set; }
@@ -30,7 +33,10 @@ namespace NIST.CVP.Generation.KAS
         public KeyConfirmationRole KcRole { get; set; }
         public KeyConfirmationDirection KcType { get; set; }
         public string NonceType { get; set; }
-        
+
+        [JsonIgnore]
+        public abstract TKasDsaAlgoAttributes KasDsaAlgoAttributes { get; }
+
         public List<ITestCase> Tests { get; set; } = new List<ITestCase>();
         public bool MergeTests(List<ITestCase> testsToMerge)
         {

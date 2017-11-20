@@ -54,7 +54,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             if (serverKeyNonceRequirements.GeneratesEphemeralNonce)
             {
-                var parameterSetAttributes = FfcParameterSetDetails.GetDetailsForParameterSet(group.ParmSet);
+                var parameterSetAttributes = ParameterSetDetails.GetDetailsForFfcParameterSet(group.ParmSet);
                 testCase.EphemeralNonceServer = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
                     .GetEntropy(parameterSetAttributes.pLength);
                 var ephemeralNonceEntropyProvider = _entropyProviderFactory
@@ -126,7 +126,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 
                 if (iutKeyNonceRequirements.GeneratesEphemeralNonce)
                 {
-                    var parameterSetAttributes = FfcParameterSetDetails.GetDetailsForParameterSet(group.ParmSet);
+                    var parameterSetAttributes = ParameterSetDetails.GetDetailsForFfcParameterSet(group.ParmSet);
                     testCase.EphemeralNonceIut = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
                         .GetEntropy(parameterSetAttributes.pLength);
                     var ephemeralNonceEntropyProvider = _entropyProviderFactory

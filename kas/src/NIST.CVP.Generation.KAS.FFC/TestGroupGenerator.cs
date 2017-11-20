@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core;
@@ -47,7 +48,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         {
             foreach (var group in groups)
             {
-                var parameterSetAttributes = FfcParameterSetDetails.GetDetailsForParameterSet(group.ParmSet);
+                var parameterSetAttributes = ParameterSetDetails.GetDetailsForFfcParameterSet(group.ParmSet);
 
                 var domainParams = _pqgProvider.GetPqg(
                     parameterSetAttributes.pLength,

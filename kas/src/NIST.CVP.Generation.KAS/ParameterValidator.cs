@@ -8,6 +8,7 @@ using Microsoft.Extensions.Localization.Internal;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core;
@@ -264,7 +265,7 @@ namespace NIST.CVP.Generation.KAS
                 return;
             }
 
-            var fbDetails = FfcParameterSetDetails.GetDetailsForParameterSet(parameterSetType);
+            var fbDetails = ParameterSetDetails.GetDetailsForFfcParameterSet(parameterSetType);
 
             ValidateHashFunctions(parameterSet.HashAlg, parameterSetType, fbDetails.minHashLength, errorResults);
             ValidateMacOptions(parameterSet.MacOption, macRequired, parameterSetType, fbDetails.minMacLength,

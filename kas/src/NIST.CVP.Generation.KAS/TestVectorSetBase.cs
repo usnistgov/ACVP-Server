@@ -4,15 +4,17 @@ using System.Dynamic;
 using System.Linq;
 using Newtonsoft.Json;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.KAS
 {
-    public abstract class TestVectorSetBase<TTestGroup, TTestCase> : ITestVectorSet
-        where TTestGroup : TestGroupBase, new()
+    public abstract class TestVectorSetBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes> : ITestVectorSet
+        where TTestGroup : TestGroupBase<TKasDsaAlgoAttributes>, new()
         where TTestCase : TestCaseBase, new()
+        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
     {
 
         protected readonly DynamicBitStringPrintWithOptions DynamicBitStringPrintWithOptions = new DynamicBitStringPrintWithOptions(PrintOptionBitStringNull.DoNotPrintProperty, PrintOptionBitStringEmpty.PrintAsEmptyString);
