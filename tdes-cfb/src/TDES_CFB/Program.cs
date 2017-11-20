@@ -2,8 +2,9 @@
 using System;
 using NLog;
 using Autofac;
-using NIST.CVP.Crypto.Core;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.TDES_CFB;
+using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.TDES_CFB;
 using NIST.CVP.Math;
@@ -24,7 +25,7 @@ namespace tdes_cfb
             LoggingHelper.ConfigureLogging(requestFile, algoStr);
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
-            var algo = EnumEx.FromDescription<Algo>(algoStr);
+            var algo = EnumHelpers.GetEnumFromEnumDescription<Algo>(algoStr);
             //get generator and call it
             Logger.Debug("Generating");
 

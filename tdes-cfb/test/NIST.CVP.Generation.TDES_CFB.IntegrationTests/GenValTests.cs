@@ -5,10 +5,11 @@ using System.Linq;
 using Autofac;
 using tdes_cfb;
 using Newtonsoft.Json;
-using NIST.CVP.Crypto.Core;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.TDES_CFB;
 using NIST.CVP.Generation.TDES_CFB;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -131,7 +132,7 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
             RunGeneration(targetFolder, fileName, algo);
 
             var result = TDES_CFB_Val.Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Prepend(algo.GetDescription()).ToArray()
+                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Prepend(EnumHelpers.GetEnumDescriptionFromEnum(algo)).ToArray()
             );
 
             Assert.AreEqual(1, result);
@@ -154,7 +155,7 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
             RunGeneration(targetFolder, fileName, algo);
 
             var result = TDES_CFB_Val.Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Prepend(algo.GetDescription()).ToArray()
+                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Prepend(EnumHelpers.GetEnumDescriptionFromEnum(algo)).ToArray()
             );
 
             Assert.AreEqual(1, result);
@@ -281,7 +282,7 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
         private void RunGeneration(string targetFolder, string fileName, Algo algo)
         {
             // Run test vector generation
-            var result = Program.Main(new string[] { algo.GetDescription(), fileName });
+            var result = Program.Main(new string[] { EnumHelpers.GetEnumDescriptionFromEnum(algo), fileName });
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), $"{targetFolder}{_testVectorFileNames[0]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), $"{targetFolder}{_testVectorFileNames[1]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), $"{targetFolder}{_testVectorFileNames[2]}");
@@ -401,7 +402,7 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
         {
             // Run test vector validation
             var result = TDES_CFB_Val.Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Prepend(algo.GetDescription()).ToArray());
+                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Prepend(EnumHelpers.GetEnumDescriptionFromEnum(algo)).ToArray());
             Assert.IsTrue(File.Exists($"{targetFolder}\\validation.json"), $"{targetFolder}validation");
             Assert.IsTrue(result == 0);
         }
@@ -412,7 +413,7 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = algo.GetDescription(),
+                Algorithm = EnumHelpers.GetEnumDescriptionFromEnum(algo),
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 IsSample = false,
                 KeyingOption = new[] { 1 }
@@ -427,7 +428,7 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
 
             Parameters p = new Parameters()
             {
-                Algorithm = algo.GetDescription(),
+                Algorithm = EnumHelpers.GetEnumDescriptionFromEnum(algo),
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 //Direction = new []{ "decrypt" },
                 IsSample = false,

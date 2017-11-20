@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.TDES_CFBP\NIST.CVP.Crypto.TDES_CFBP.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using NIST.CVP.Crypto.Core;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 

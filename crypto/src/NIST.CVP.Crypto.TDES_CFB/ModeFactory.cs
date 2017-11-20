@@ -1,5 +1,7 @@
-﻿using System;
-using NIST.CVP.Crypto.Core;
+﻿using NIST.CVP.Crypto.TDES_CFBP;
+using System;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.TDES;
 
 namespace NIST.CVP.Crypto.TDES_CFB
 {
@@ -14,6 +16,12 @@ namespace NIST.CVP.Crypto.TDES_CFB
                 case Algo.TDES_CFB8:
                 case Algo.TDES_CFB64:
                     mode = new CFBMode(algo);
+                    break;
+
+                case Algo.TDES_CFBP1:
+                case Algo.TDES_CFBP8:
+                case Algo.TDES_CFBP64:
+                    mode = new CFBPMode(algo);
                     break;
 
                 case Algo.AES_CFB1:

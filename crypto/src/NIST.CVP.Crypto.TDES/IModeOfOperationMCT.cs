@@ -1,8 +1,7 @@
-﻿using NIST.CVP.Crypto.Core;
-using NIST.CVP.Crypto.TDES;
+﻿using NIST.CVP.Crypto.Common;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.TDES_CFB
+namespace NIST.CVP.Crypto.TDES
 {
     public interface IModeOfOperationMCT
     {   

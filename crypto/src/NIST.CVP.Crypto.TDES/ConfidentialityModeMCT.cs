@@ -1,4 +1,4 @@
-﻿using NIST.CVP.Crypto.Core;
+﻿using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 

@@ -8,7 +8,6 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NIST.CVP.Crypto.Core;
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
 {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using NIST.CVP.Crypto.Core;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -47,7 +48,8 @@ namespace NIST.CVP.Crypto.TDES_CFB.Tests
         [TestCase("TDES-CFB64", "2a464f98497c3b6b4cbc920d5e1a084c2926b698a423b316", "73e80e3c40364188", "7101553f01ab8950082c8df256dde4ebaf4785a8d9e78c24f42e300b0accf51ee72e22d92b4576539d8a1767c23fcb11aff76a1a1b5894f8b8209ff0c466d37dda23daf50ff0726a3a1165ce93b3bb5b", "66ed1d2acc7cfcf907a3a41b8d869b0c2fafc926badc4c6d12097e80f217c4fc26156067363b14cb2de870977d7f7f7394fd798bcfe3798ed9214fe6504e41225eaf6a9a922fbb2815735b2b3c4ce436", true)]
         public void ShouldEncryptSuccessfully(string algo, string _key, string _iv, string _plainText, string _cipherText, bool isPtCtHex)
         {
-            var mode = ModeFactory.GetMode(EnumEx.FromDescription<Algo>(algo));
+            var mode = ModeFactory.GetMode(EnumHelpers.GetEnumFromEnumDescription<Algo>(algo)); 
+            //var mode = ModeFactory.GetMode(EnumEx.FromDescription<Algo>(algo));
             BitString key, iv, plainText, cipherText;
             key = new BitString(_key);
             iv = new BitString(_iv);
@@ -115,7 +117,7 @@ namespace NIST.CVP.Crypto.TDES_CFB.Tests
         [TestCase("TDES-CFB8", "0123456789ABCDEF23456789ABCDEF01456789ABCDEF0123", "F69F2445DF4F9B17", "6BC1BEE22E409F96", "07951B729DC23AB4", true)]
         public void ShouldDecryptSuccessfully(string algo, string _key, string _iv, string _plainText, string _cipherText, bool isPtCtHex)
         {
-            var mode = ModeFactory.GetMode(EnumEx.FromDescription<Algo>(algo));
+            var mode = ModeFactory.GetMode(EnumHelpers.GetEnumFromEnumDescription<Algo>(algo));
             BitString key, iv, plainText, cipherText;
             key = new BitString(_key);
             iv = new BitString(_iv);

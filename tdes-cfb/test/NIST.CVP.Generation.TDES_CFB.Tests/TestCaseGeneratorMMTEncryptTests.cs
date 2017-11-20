@@ -1,5 +1,4 @@
 ﻿using Moq;
-using NIST.CVP.Crypto.Core;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CFB;
 using NIST.CVP.Math;
@@ -7,7 +6,8 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Algo = NIST.CVP.Crypto.TDES_CFB.Algo;
+using NIST.CVP.Crypto.Common;
+
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
 {

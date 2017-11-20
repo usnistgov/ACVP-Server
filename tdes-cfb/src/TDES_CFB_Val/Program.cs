@@ -1,12 +1,11 @@
 ﻿using System;
 using Autofac;
 using Microsoft.Extensions.PlatformAbstractions;
-//using NIST.CVP.Crypto.Core;
+using NIST.CVP.Crypto.Common;
 using NLog;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Crypto.TDES_CFB;
-using Algo = NIST.CVP.Crypto.TDES_CFB.Algo;
-using EnumEx = NIST.CVP.Crypto.TDES_CFB.EnumEx;
+using NIST.CVP.Generation.Core.Helpers;
 
 namespace TDES_CFB_Val
 {
@@ -30,7 +29,7 @@ namespace TDES_CFB_Val
             Logger.Info($"Validating test results for {resultFile}");
             try
             {
-                var algo = EnumEx.FromDescription<Algo>(algoStr);
+                var algo = EnumHelpers.GetEnumFromEnumDescription<Algo>(algoStr);
                 AutofacConfig.IoCConfiguration(algo);
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {

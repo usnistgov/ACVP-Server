@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using NIST.CVP.Crypto.Core;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.TDES_CFB;
+using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.TDES_CFB.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
-using Algo = NIST.CVP.Crypto.TDES_CFB.Algo;
 
 namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
 {
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
         [TestCase(Algo.TDES_CFB64)]
         public void ShouldParseAndRunCAVSFiles(Algo algo)
         {
-            var _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $@"..\..\TestFiles\LegacyParserFiles\{algo.GetDescription()}");
+            var _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $@"..\..\TestFiles\LegacyParserFiles\{EnumHelpers.GetEnumDescriptionFromEnum(algo)}");
             if (!Directory.Exists(_testPath))
             {
                 Assert.Fail("Test File Directory does not exist");

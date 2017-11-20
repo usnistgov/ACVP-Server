@@ -1,8 +1,8 @@
 ﻿using System;
 using Autofac;
-using NIST.CVP.Crypto.Core;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.TDES_CFB;
-using Algo = NIST.CVP.Crypto.TDES_CFB.Algo;
+
 
 namespace TDES_CFB_Val
 {

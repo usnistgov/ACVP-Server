@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Core;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core.Enums;
 

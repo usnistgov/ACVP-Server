@@ -6,7 +6,6 @@ using NIST.CVP.Tests.Core;
 using NLog;
 using NUnit.Framework;
 using System;
-using NIST.CVP.Crypto.Core;
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
 {

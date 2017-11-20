@@ -5,13 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using NIST.CVP.Crypto.Core;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using NLog.LayoutRenderers.Wrappers;
 using NIST.CVP.Crypto.TDES_CFB;
+using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.TDES_CFB.Parsers
 {
@@ -30,7 +31,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Parsers
                 return new ParseResponse<TestVectorSet>($"Could not find path {path}");
             }
 
-            var algo = EnumEx.FromDescription<Algo>(Path.GetFileName(path));
+            var algo = EnumHelpers.GetEnumFromEnumDescription<Algo>(Path.GetFileName(path));
 
             // these are the only algorithms this parse will support
 
@@ -41,7 +42,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Parsers
 
             var testVectorSet = new TestVectorSet
             {
-                Algorithm = algo.GetDescription(),
+                Algorithm = EnumHelpers.GetEnumDescriptionFromEnum(algo),
             };
 
             // this regex will allow to pull out just the encryption group, or just the decryption group

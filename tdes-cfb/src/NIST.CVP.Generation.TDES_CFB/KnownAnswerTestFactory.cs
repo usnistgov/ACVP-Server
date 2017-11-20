@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Core;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Crypto.TDES_CFB;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
@@ -18,7 +19,7 @@ namespace NIST.CVP.Generation.TDES_CFB
                 return new List<TestCase>();
             }
 
-            var algo = EnumEx.FromDescription<Algo>(algorithm);
+            var algo = EnumHelpers.GetEnumFromEnumDescription<Algo>(algorithm);
             testType = testType.ToLower();
             direction = direction.ToLower();
             testType = string.Concat(testType, direction);
