@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{51CE63DD-7073-4E48-98D9-0EB913518D81}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TDES_OFB.IntegrationTests", "..\..\tdes-ofb\test\NIST.CVP.Generation.TDES_OFB.IntegrationTests\NIST.CVP.Generation.TDES_OFB.IntegrationTests.csproj", "{745226B9-D017-46F7-B2F7-38E65A78C0AC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TDES_OFB.Tests", "..\..\tdes-ofb\test\NIST.CVP.Generation.TDES_OFB.Tests\NIST.CVP.Generation.TDES_OFB.Tests.csproj", "{440B271E-3753-4694-886A-53FA6407EEC6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{0865B718-818D-4919-A9E8-4D7DA77D7C28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,10 @@ Global
 		{440B271E-3753-4694-886A-53FA6407EEC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{440B271E-3753-4694-886A-53FA6407EEC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{440B271E-3753-4694-886A-53FA6407EEC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0865B718-818D-4919-A9E8-4D7DA77D7C28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0865B718-818D-4919-A9E8-4D7DA77D7C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0865B718-818D-4919-A9E8-4D7DA77D7C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0865B718-818D-4919-A9E8-4D7DA77D7C28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,5 +115,9 @@ Global
 		{5A97FC9D-5332-4AF2-8D03-2D5EB2B15082} = {8E6EB033-8EE6-4DCE-BE4D-5075675C2573}
 		{745226B9-D017-46F7-B2F7-38E65A78C0AC} = {8E6EB033-8EE6-4DCE-BE4D-5075675C2573}
 		{440B271E-3753-4694-886A-53FA6407EEC6} = {8E6EB033-8EE6-4DCE-BE4D-5075675C2573}
+		{0865B718-818D-4919-A9E8-4D7DA77D7C28} = {51CE63DD-7073-4E48-98D9-0EB913518D81}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1FA4D1F0-BCAF-406F-AA66-AFA9DA470FC4}
 	EndGlobalSection
 EndGlobal

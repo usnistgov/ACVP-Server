@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27009.1
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0B113BDD-3E60-45BE-940B-0C346168DCF1}"
 EndProject
@@ -616,6 +616,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests\NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests.csproj", "{FF46927C-EDE2-45D0-A927-0FC15802E635}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.FFC.SigVer.Tests", "..\..\dsa\test\NIST.CVP.Generation.DSA.FFC.SigVer.Tests\NIST.CVP.Generation.DSA.FFC.SigVer.Tests.csproj", "{D99C4682-F5E8-494B-863C-7CBA3584320C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{4619D083-58ED-42B7-A899-ECD746D6ADCB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1423,6 +1425,10 @@ Global
 		{D99C4682-F5E8-494B-863C-7CBA3584320C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D99C4682-F5E8-494B-863C-7CBA3584320C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D99C4682-F5E8-494B-863C-7CBA3584320C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4619D083-58ED-42B7-A899-ECD746D6ADCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4619D083-58ED-42B7-A899-ECD746D6ADCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4619D083-58ED-42B7-A899-ECD746D6ADCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4619D083-58ED-42B7-A899-ECD746D6ADCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1734,6 +1740,10 @@ Global
 		{EB70EDD0-EC88-4A4B-B809-67909498858E} = {0CA313DB-73D6-47FA-B902-6A05D11E668C}
 		{FF46927C-EDE2-45D0-A927-0FC15802E635} = {0CA313DB-73D6-47FA-B902-6A05D11E668C}
 		{D99C4682-F5E8-494B-863C-7CBA3584320C} = {0CA313DB-73D6-47FA-B902-6A05D11E668C}
+		{4619D083-58ED-42B7-A899-ECD746D6ADCB} = {F3680E65-17E6-495A-9AE8-3F57A27009A4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {08322A69-0956-49E7-BE0C-E456E181624E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {08322A69-0956-49E7-BE0C-E456E181624E}

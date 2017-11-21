@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core.Tests", "..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj", "{BAC2804B-BFE0-4BB6-A732-C9544BB76C47}"
 EndProject
@@ -42,6 +42,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES_ECB", "..\..\crypto\src\NIST.CVP.Crypto.TDES_ECB\NIST.CVP.Crypto.TDES_ECB.csproj", "{3352FF77-10D8-461C-9B1D-6B5388BE2963}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TDES", "..\..\crypto\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj", "{60207503-1B01-412B-AC0C-90C11B4F55AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{E740673D-DB71-4997-B814-091D0CF13B34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -121,6 +123,10 @@ Global
 		{60207503-1B01-412B-AC0C-90C11B4F55AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60207503-1B01-412B-AC0C-90C11B4F55AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60207503-1B01-412B-AC0C-90C11B4F55AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E740673D-DB71-4997-B814-091D0CF13B34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E740673D-DB71-4997-B814-091D0CF13B34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E740673D-DB71-4997-B814-091D0CF13B34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E740673D-DB71-4997-B814-091D0CF13B34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,6 +150,7 @@ Global
 		{E7043E24-DA28-43CD-B89A-A7D296B8FDD5} = {8D85FF9B-DC06-4B58-B4E6-3567FD1D42A8}
 		{3352FF77-10D8-461C-9B1D-6B5388BE2963} = {8D85FF9B-DC06-4B58-B4E6-3567FD1D42A8}
 		{60207503-1B01-412B-AC0C-90C11B4F55AB} = {8D85FF9B-DC06-4B58-B4E6-3567FD1D42A8}
+		{E740673D-DB71-4997-B814-091D0CF13B34} = {8D85FF9B-DC06-4B58-B4E6-3567FD1D42A8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80E5C0AB-8362-4388-B9DF-075707067269}

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{10DE0719-00BC-48D6-AD96-7F3B71646012}"
 EndProject
@@ -45,11 +45,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.KeyWrap", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.KeyWrap.Tests.AES", "..\..\keyWrap\test\NIST.CVP.Generation.KeyWrap.Tests.AES\NIST.CVP.Generation.KeyWrap.Tests.AES.csproj", "{D56AE970-C15C-403D-AC68-B42626FF77AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.KeyWrap.Tests.TDES", "..\..\keyWrap\test\NIST.CVP.Generation.KeyWrap.Tests.TDES\NIST.CVP.Generation.KeyWrap.Tests.TDES.csproj", "{BA3DB23B-91CE-4847-A3B1-A7B6EE0C68F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.KeyWrap.Tests.TDES", "..\..\keyWrap\test\NIST.CVP.Generation.KeyWrap.Tests.TDES\NIST.CVP.Generation.KeyWrap.Tests.TDES.csproj", "{BA3DB23B-91CE-4847-A3B1-A7B6EE0C68F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.KeyWrapWithPadding.AES", "..\..\keyWrap\src\NIST.CVP.Generation.KeyWrapWithPadding.AES\NIST.CVP.Generation.KeyWrapWithPadding.AES.csproj", "{221AF172-1BDD-45DF-8F37-80B0F77D9C6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.KeyWrapWithPadding.AES", "..\..\keyWrap\src\NIST.CVP.Generation.KeyWrapWithPadding.AES\NIST.CVP.Generation.KeyWrapWithPadding.AES.csproj", "{221AF172-1BDD-45DF-8F37-80B0F77D9C6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.KeyWrapWithPadding.Tests.AES", "..\..\keyWrap\test\NIST.CVP.Generation.KeyWrapWithPadding.Tests.AES\NIST.CVP.Generation.KeyWrapWithPadding.Tests.AES.csproj", "{EC6C3058-84DE-4B5D-A5BF-C2FA7FF3ECED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.KeyWrapWithPadding.Tests.AES", "..\..\keyWrap\test\NIST.CVP.Generation.KeyWrapWithPadding.Tests.AES\NIST.CVP.Generation.KeyWrapWithPadding.Tests.AES.csproj", "{EC6C3058-84DE-4B5D-A5BF-C2FA7FF3ECED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{CC9DDA5A-0D02-4B26-8520-9848A7E7AB46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -145,6 +147,10 @@ Global
 		{EC6C3058-84DE-4B5D-A5BF-C2FA7FF3ECED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC6C3058-84DE-4B5D-A5BF-C2FA7FF3ECED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC6C3058-84DE-4B5D-A5BF-C2FA7FF3ECED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC9DDA5A-0D02-4B26-8520-9848A7E7AB46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC9DDA5A-0D02-4B26-8520-9848A7E7AB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC9DDA5A-0D02-4B26-8520-9848A7E7AB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC9DDA5A-0D02-4B26-8520-9848A7E7AB46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,6 +178,7 @@ Global
 		{BA3DB23B-91CE-4847-A3B1-A7B6EE0C68F5} = {30216A77-8DCE-4F36-9115-8B226E7E9A07}
 		{221AF172-1BDD-45DF-8F37-80B0F77D9C6A} = {10DE0719-00BC-48D6-AD96-7F3B71646012}
 		{EC6C3058-84DE-4B5D-A5BF-C2FA7FF3ECED} = {30216A77-8DCE-4F36-9115-8B226E7E9A07}
+		{CC9DDA5A-0D02-4B26-8520-9848A7E7AB46} = {10DE0719-00BC-48D6-AD96-7F3B71646012}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B8A14AB-7130-4E82-AC53-C4EDDC637EBB}
