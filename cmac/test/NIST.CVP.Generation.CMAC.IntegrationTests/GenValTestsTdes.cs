@@ -1,27 +1,104 @@
 ﻿using System.Linq;
+using Autofac;
 using CMAC;
 using NIST.CVP.Generation.CMAC.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.Fakes;
+using AutofacConfig = CMAC.AutofacConfig;
 
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsTdes : GenValTestBase
+    public class GenValTestsTdes : GenValTestsBase
     {
+        public override string Algorithm { get; } = "CMAC";
+        public override string Mode { get; } = "TDES";
 
-        protected override int ExecuteMainGenerator(string fileName)
+        public override Executable Generator => Program.Main;
+        public override Executable Validator => CMAC_Val.Program.Main;
+
+        [SetUp]
+        public override void SetUp()
         {
-            return Program.Main(new string[] { "CMAC-TDES", fileName });
+            AdditionalParameters = new[] { "CMAC-TDES" };
+            AutofacConfig.OverrideRegistrations = null;
+            CMAC_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
-        protected override int ExecuteMainValidator(string targetFolder)
+        protected override void OverrideRegistrationGenFakeFailure()
         {
-            return CMAC_Val.Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Prepend("CMAC-TDES").ToArray()
-            );
+            AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
+            };
+        }
+
+        protected override void OverrideRegistrationValFakeFailure()
+        {
+            CMAC_Val.AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
+            };
+        }
+
+        protected override void OverrideRegistrationValFakeException()
+        {
+            CMAC_Val.AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+            };
+        }
+
+        protected override void ModifyTestCaseToFail(dynamic testCase)
+        {
+            var rand = new Random800_90();
+
+            // If TC is intended to be a failure test, change it
+            if (testCase.result != null)
+            {
+                if (testCase.result == "fail")
+                {
+                    testCase.result = "pass";
+                }
+                else
+                {
+                    testCase.result = "fail";
+                }
+            }
+
+            // If TC has a mac, change it
+            if (testCase.mac != null)
+            {
+                BitString bs = new BitString(testCase.mac.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                // Can't get something "different" of empty bitstring of the same length
+                if (bs == null)
+                {
+                    bs = new BitString("01");
+                }
+
+                testCase.mac = bs.ToHex();
+            }
+        }
+
+        protected override string GetTestFileMinimalTestCases(string targetFolder)
+        {
+            Parameters p = new Parameters()
+            {
+                Algorithm = "CMAC-TDES",
+                Direction = new[] { "gen", "ver" },
+                KeyingOption = new[] { 1 },
+                MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                MacLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),
+                IsSample = true
+            };
+
+            return CreateRegistration(targetFolder, p);
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)

@@ -172,7 +172,9 @@ namespace NIST.CVP.Tests.Core
                 Directory.CreateDirectory(JsonSavePath);
             }
 
-            var newLocation = Path.Combine(JsonSavePath, $"{Algorithm}-{Mode}");
+            var spacing = Mode == "" ? "" : "-";
+            var friendlyAlgorithm = Algorithm.Replace("/", "-");
+            var newLocation = Path.Combine(JsonSavePath, $"{friendlyAlgorithm}{spacing}{Mode}");
             if (Directory.Exists(newLocation))
             {
                 Directory.Delete(newLocation, true);
@@ -249,14 +251,15 @@ namespace NIST.CVP.Tests.Core
 
         protected string GetTestFolder(string name)
         {
-            var folderName = $"{Algorithm}-{Mode}-{GetDateTime()}-{name}";
+            var spacing = Mode == "" ? "" : "-";
+            var folderName = $"{Algorithm}{spacing}{Mode}-{GetDateTime()}-{name}";
             var targetFolder = Path.Combine(TestPath, folderName);
             Directory.CreateDirectory(targetFolder);
 
             return targetFolder;
         }
 
-        private void RunGeneration(string targetFolder, string fileName)
+        protected void RunGeneration(string targetFolder, string fileName)
         {
             // Run test vector generation
             var result = Generator.Invoke(GetParameters(new[] { fileName }));
@@ -266,7 +269,7 @@ namespace NIST.CVP.Tests.Core
             Assert.IsTrue(result == 0);
         }
 
-        private void RunValidation(string targetFolder)
+        protected void RunValidation(string targetFolder)
         {
             // Run test vector validation
             var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames)));

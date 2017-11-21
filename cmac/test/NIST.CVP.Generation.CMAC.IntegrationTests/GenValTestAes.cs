@@ -1,26 +1,106 @@
 ﻿using System.Linq;
+using Autofac;
 using CMAC;
 using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using NIST.CVP.Tests.Core;
+using NIST.CVP.Tests.Core.Fakes;
+using AutofacConfig = CMAC.AutofacConfig;
 
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsAes : GenValTestBase
+    public class GenValTestsAes : GenValTestsBase
     {
-        protected override int ExecuteMainGenerator(string fileName)
+        public override string Algorithm { get; } = "CMAC";
+        public override string Mode { get; } = "AES";
+
+        public override Executable Generator => Program.Main;
+        public override Executable Validator => CMAC_Val.Program.Main;
+
+        [SetUp]
+        public override void SetUp()
         {
-            return Program.Main(new string[] { "CMAC-AES", fileName });
+            AdditionalParameters = new[] {"CMAC-AES"};
+            AutofacConfig.OverrideRegistrations = null;
+            CMAC_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
-        protected override int ExecuteMainValidator(string targetFolder)
+        protected override void OverrideRegistrationGenFakeFailure()
         {
-            return CMAC_Val.Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames).Prepend("CMAC-AES").ToArray()
-            );
+            AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
+            };
+        }
+
+        protected override void OverrideRegistrationValFakeFailure()
+        {
+            CMAC_Val.AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
+            };
+        }
+
+        protected override void OverrideRegistrationValFakeException()
+        {
+            CMAC_Val.AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+            };
+        }
+
+        protected override void ModifyTestCaseToFail(dynamic testCase)
+        {
+            var rand = new Random800_90();
+
+            // If TC is intended to be a failure test, change it
+            if (testCase.result != null)
+            {
+                if (testCase.result == "fail")
+                {
+                    testCase.result = "pass";
+                }
+                else
+                {
+                    testCase.result = "fail";
+                }
+            }
+
+            // If TC has a mac, change it
+            if (testCase.mac != null)
+            {
+                BitString bs = new BitString(testCase.mac.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                // Can't get something "different" of empty bitstring of the same length
+                if (bs == null)
+                {
+                    bs = new BitString("01");
+                }
+
+                testCase.mac = bs.ToHex();
+            }
+        }
+
+        protected override string GetTestFileMinimalTestCases(string targetFolder)
+        {
+            var p = new Parameters
+            {
+                Algorithm = "CMAC-AES-128",
+                Mode = Mode,
+                Direction = new[] {"gen"},
+                KeyLen = new[] {128},
+                MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                MacLen = new MathDomain().AddSegment(new ValueDomainSegment(128))
+                    .AddSegment(new ValueDomainSegment(127)),
+                IsSample = true
+            };
+
+            return CreateRegistration(targetFolder, p);
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)
@@ -28,6 +108,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "CMAC-AES-128",
+                Mode = Mode,
                 Direction = new[] { "gen", "ver" },
                 KeyLen = new[] { 128 },
                 MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
@@ -47,6 +128,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = "CMAC-AES-256",
+                Mode = Mode,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new[] { 256 },
                 MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),

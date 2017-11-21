@@ -1,327 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Tests.Core;
+﻿using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using DSA_KeyGen;
-using System.IO;
 using Autofac;
 using NIST.CVP.Tests.Core.Fakes;
-using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
-using Newtonsoft.Json;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests
+    public class GenValTests : GenValTestsBase
     {
-        private string _testPath;
-        private readonly string[] _testVectorFileNames =
-        {
-            @"\testResults.json",
-            @"\prompt.json",
-            @"\answer.json"
-        };
+        public override string Algorithm { get; } = "DSA";
+        public override string Mode { get; } = "KeyGen";
+
+        public override Executable Generator => Program.Main;
+        public override Executable Validator => DSA_KeyGen_Val.Program.Main;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
-            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
             AutofacConfig.OverrideRegistrations = null;
             DSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            Directory.Delete(_testPath, true);
-        }
-
-        [Test]
-        public void GenShouldReturn1OnNoArgumentsSupplied()
-        {
-            var result = Program.Main(new string[] { });
-            Assert.AreEqual(1, result);
-        }
-
-        [Test]
-        public void GenShouldReturn1OnInvalidFileName()
-        {
-            var result = Program.Main(new[] { $"{Guid.NewGuid()}.json" });
-
-            Assert.AreEqual(1, result);
-        }
-
-        [Test]
-        public void GenShouldReturn1OnFailedRun()
+        protected override void OverrideRegistrationGenFakeFailure()
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
             };
-
-            var targetFolder = GetTestFolder("GenFailed");
-            var fileName = GetTestFileMinimalTestCases(targetFolder);
-
-            var result = Program.Main(new string[] { fileName });
-            Assert.AreEqual(1, result);
         }
 
-        [Test]
-        public void GenShouldCreateTestVectors()
-        {
-            var targetFolder = GetTestFolder("Gen");
-            var fileName = GetTestFileMinimalTestCases(targetFolder);
-
-            RunGeneration(targetFolder, fileName);
-
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), "testResults");
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), "prompt");
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), "answer");
-        }
-
-        [Test]
-        public void ValShouldReturn1OnFailedRun()
+        protected override void OverrideRegistrationValFakeFailure()
         {
             DSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
-
-            var targetFolder = GetTestFolder("ValFailed");
-            var fileName = GetTestFileMinimalTestCases(targetFolder);
-
-            RunGeneration(targetFolder, fileName);
-
-            var result = DSA_KeyGen_Val.Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames)
-            );
-
-            Assert.AreEqual(1, result);
         }
 
-        [Test]
-        public void ValShouldReturn1OnException()
+        protected override void OverrideRegistrationValFakeException()
         {
             DSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
-
-            var targetFolder = GetTestFolder("ValException");
-            var fileName = GetTestFileMinimalTestCases(targetFolder);
-
-            RunGeneration(targetFolder, fileName);
-
-            var result = DSA_KeyGen_Val.Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames)
-            );
-
-            Assert.AreEqual(1, result);
         }
 
-        [Test]
-        public void ShouldCreateValidationFile()
+        protected override void ModifyTestCaseToFail(dynamic testCase)
         {
-            var targetFolder = GetTestFolder("Val");
-            var fileName = GetTestFileMinimalTestCases(targetFolder);
-
-            RunGenerationAndValidation(targetFolder, fileName);
-
-            Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), "validation");
-        }
-
-        [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCases()
-        {
-            var targetFolder = GetTestFolder("Few");
-            var fileName = GetTestFileFewTestCases(targetFolder);
-
-            RunGenerationAndValidation(targetFolder, fileName);
-
-            // Get object for the validation.json
-            var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
-
-            // Validate result as pass
-            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
-        }
-
-        [Test]
-        public void ShouldReportAllSuccessfulTestsWithinValidationLotsOfTests()
-        {
-            var targetFolder = GetTestFolder("Lots");
-            var fileName = GetTestFileLotsOfTestCases(targetFolder);
-
-            RunGenerationAndValidation(targetFolder, fileName);
-
-            // Get object for the validation.json
-            var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
-
-            // Validate result as pass
-            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
-        }
-
-        [Test]
-        public void ShouldReportFailedDispositionOnErrorTests()
-        {
-            var targetFolder = GetTestFolder("FailedTests");
-            var fileName = GetTestFileFewTestCases(targetFolder);
-
-            var expectedFailTestCases = new List<int>();
-            RunGenerationAndValidationWithExpectedFailures(targetFolder, fileName, ref expectedFailTestCases);
-
-            // Get object for the validation.json
-            var dp = new DynamicParser();
-            var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
-
-            // Validate result as fail
-            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), parsedValidation.ParsedObject.disposition.ToString(), "disposition");
-            foreach (var test in parsedValidation.ParsedObject.tests)
-            {
-                int tcId = test.tcId;
-                string result = test.result;
-                // Validate expected TCs are failure
-                if (expectedFailTestCases.Contains(tcId))
-                {
-                    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), result, tcId.ToString());
-                }
-                // Validate other TCs are success
-                else
-                {
-                    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), result, tcId.ToString());
-                }
-            }
-        }
-
-        private string[] GetFileNamesWithPath(string directory, string[] fileNames)
-        {
-            var numOfFiles = fileNames.Length;
-            var fileNamesWithPaths = new string[numOfFiles];
-
-            for (var i = 0; i < numOfFiles; i++)
-            {
-                fileNamesWithPaths[i] = $"{directory}{fileNames[i]}";
-            }
-
-            return fileNamesWithPaths;
-        }
-
-        private string GetTestFolder(string name = "")
-        {
-            var prefix = name == "" ? "" : name + "--";
-            var folderName = "KeyGen--" + prefix + Guid.NewGuid().ToString().Substring(0, 8);
-            var targetFolder = Path.Combine(_testPath, folderName);
-            Directory.CreateDirectory(targetFolder);
-
-            return targetFolder;
-        }
-
-        private void RunGenerationAndValidation(string targetFolder, string fileName)
-        {
-            RunGeneration(targetFolder, fileName);
-            RunValidation(targetFolder);
-        }
-
-        private void RunGenerationAndValidationWithExpectedFailures(string targetFolder, string fileName, ref List<int> failureTcIds)
-        {
-            RunGeneration(targetFolder, fileName);
-            GetFailureTestCases(targetFolder, ref failureTcIds);
-            RunValidation(targetFolder);
-        }
-
-        private void RunGeneration(string targetFolder, string fileName)
-        {
-            // Run test vector generation
-            var result = Program.Main(new[] { fileName });
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[0]}"), $"{targetFolder}{_testVectorFileNames[0]}");
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[1]}"), $"{targetFolder}{_testVectorFileNames[1]}");
-            Assert.IsTrue(File.Exists($"{targetFolder}{_testVectorFileNames[2]}"), $"{targetFolder}{_testVectorFileNames[2]}");
-            Assert.IsTrue(result == 0);
-        }
-
-        private void RunValidation(string targetFolder)
-        {
-            // Run test vector validation
-            var result = DSA_KeyGen_Val.Program.Main(
-                GetFileNamesWithPath(targetFolder, _testVectorFileNames)
-            );
-            Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder} validation");
-            Assert.IsTrue(result == 0);
-        }
-
-        private void GetFailureTestCases(string targetFolder, ref List<int> failureTcIds)
-        {
-            var files = GetFileNamesWithPath(targetFolder, _testVectorFileNames);
-
-            // Modify testResults in order to contain some tests that will fail
-            var expectedFailTestCases = DoBadThingsToResultsFile(files[0]);
-            Assume.That(expectedFailTestCases.Count > 0);
-            failureTcIds.AddRange(expectedFailTestCases);
-        }
-
-        private List<int> DoBadThingsToResultsFile(string resultsFile)
-        {
-            // Parse file
-            var dp = new DynamicParser();
-            var parsedValidation = dp.Parse(resultsFile);
-            Assume.That(parsedValidation != null);
-            Assume.That(parsedValidation.Success);
-
-            var failedTestCases = new List<int>();
             var rand = new Random800_90();
-            foreach (var testCase in parsedValidation.ParsedObject.testResults)
+
+            // If TC has a result, change it
+            if (testCase.x != null)
             {
-                if ((int)testCase.tcId % 2 == 0)
-                {
-                    failedTestCases.Add((int)testCase.tcId);
-
-                    // If TC has a result, change it
-                    if (testCase.x != null)
-                    {
-                        testCase.x = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.x)).ToHex();
-                        continue;
-                    }
-
-                    if (testCase.y != null)
-                    {
-                        testCase.y = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.y)).ToHex();
-                        continue;
-                    }
-                }
+                testCase.x = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.x)).ToHex();
             }
 
-            // Write the new JSON to the results file
-            File.Delete(resultsFile);
-            File.WriteAllText(resultsFile, parsedValidation.ParsedObject.ToString());
-
-            return failedTestCases;
-        }
-
-        private static string CreateRegistration(string targetFolder, Parameters parameters)
-        {
-            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings()
+            if (testCase.y != null)
             {
-                Converters = new List<JsonConverter>
-                {
-                    new BitstringConverter(),
-                    new BigIntegerConverter()
-                },
-                Formatting = Formatting.Indented
-            });
-            var fileName = $@"{targetFolder}\registration.json";
-            File.WriteAllText(fileName, json);
-
-            return fileName;
+                testCase.y = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.y)).ToHex();
+            }
         }
 
-        private string GetTestFileMinimalTestCases(string targetFolder)
+        protected override string GetTestFileMinimalTestCases(string targetFolder)
         {
             var caps = new Capability[1];
 
@@ -333,8 +76,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
 
             var p = new Parameters
             {
-                Algorithm = "DSA",
-                Mode = "KeyGen",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 IsSample = true,
                 Capabilities = caps,
             };
@@ -342,7 +85,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
             return CreateRegistration(targetFolder, p);
         }
 
-        private string GetTestFileFewTestCases(string targetFolder)
+        protected override string GetTestFileFewTestCases(string targetFolder)
         {
             var caps = new Capability[2];
 
@@ -360,8 +103,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
 
             var p = new Parameters
             {
-                Algorithm = "DSA",
-                Mode = "KeyGen",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 IsSample = true,
                 Capabilities = caps,
             };
@@ -369,7 +112,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
             return CreateRegistration(targetFolder, p);
         }
 
-        private string GetTestFileLotsOfTestCases(string targetFolder)
+        protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
             var caps = new Capability[3];
 
@@ -393,8 +136,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
 
             var p = new Parameters
             {
-                Algorithm = "DSA",
-                Mode = "KeyGen",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 IsSample = true,
                 Capabilities = caps,
             };
