@@ -102,7 +102,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             KeyConfirmationRole serverKeyConfRole =
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(tg.KcRole);
 
-            var keyGenRequirements = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
+            var keyGenRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 scheme,
                 tg.KasMode,
                 serverRole,

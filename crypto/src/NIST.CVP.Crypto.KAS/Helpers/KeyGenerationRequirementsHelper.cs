@@ -8,19 +8,19 @@ namespace NIST.CVP.Crypto.KAS.Helpers
     public static class KeyGenerationRequirementsHelper
     {
         public static
-            List<SchemeKeyNonceGenRequirement> FfcSchemeKeyGenerationRequirements =
-                new List<SchemeKeyNonceGenRequirement>()
+            List<SchemeKeyNonceGenRequirement<FfcScheme>> FfcSchemeKeyGenerationRequirements =
+                new List<SchemeKeyNonceGenRequirement<FfcScheme>>()
                 {
                     #region dhEphem
                     #region NoKdfNoKc
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.DhEphem, KasMode.NoKdfNoKc,
                         KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None,
                         generatesStaticKeyPair: false, 
                         generatesEphemeralKeyPair: true,
                         generatesEphemeralNonce: false
                     ),
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.DhEphem, KasMode.NoKdfNoKc,
                         KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None,
                         generatesStaticKeyPair: false,
@@ -29,14 +29,14 @@ namespace NIST.CVP.Crypto.KAS.Helpers
                     ),
                     #endregion NoKdfNoKc
                     #region KdfNoKc
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.DhEphem, KasMode.KdfNoKc,
                         KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None,
                         generatesStaticKeyPair: false,
                         generatesEphemeralKeyPair: true,
                         generatesEphemeralNonce: false
                     ),
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.DhEphem, KasMode.KdfNoKc,
                         KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None,
                         generatesStaticKeyPair: false,
@@ -47,14 +47,14 @@ namespace NIST.CVP.Crypto.KAS.Helpers
                     #endregion dhEphem
                     #region mqv1
                     #region NoKdfNoKc
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.Mqv1, KasMode.NoKdfNoKc,
                         KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None,
                         generatesStaticKeyPair: true,
                         generatesEphemeralKeyPair: true,
                         generatesEphemeralNonce: false
                     ),
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.Mqv1, KasMode.NoKdfNoKc,
                         KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None,
                         generatesStaticKeyPair: true,
@@ -63,14 +63,14 @@ namespace NIST.CVP.Crypto.KAS.Helpers
                     ),
                     #endregion NoKdfNoKc
                     #region KdfNoKc
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.Mqv1, KasMode.KdfNoKc,
                         KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None,
                         generatesStaticKeyPair: true,
                         generatesEphemeralKeyPair: true,
                         generatesEphemeralNonce: false
                     ),
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.Mqv1, KasMode.KdfNoKc,
                         KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None,
                         generatesStaticKeyPair: true,
@@ -79,28 +79,28 @@ namespace NIST.CVP.Crypto.KAS.Helpers
                     ),
                     #endregion KdfNoKc
                     #region KdfKc
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.Mqv1, KasMode.KdfKc,
                         KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral,
                         generatesStaticKeyPair: true,
                         generatesEphemeralKeyPair: true,
                         generatesEphemeralNonce: false
                     ),
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.Mqv1, KasMode.KdfKc,
                         KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral,
                         generatesStaticKeyPair: true,
                         generatesEphemeralKeyPair: true,
                         generatesEphemeralNonce: false
                     ),
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.Mqv1, KasMode.KdfKc,
                         KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral,
                         generatesStaticKeyPair: true,
                         generatesEphemeralKeyPair: true,
                         generatesEphemeralNonce: false
                     ),
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.Mqv1, KasMode.KdfKc,
                         KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral,
                         generatesStaticKeyPair: true,
@@ -108,28 +108,28 @@ namespace NIST.CVP.Crypto.KAS.Helpers
                         generatesEphemeralNonce: false
                     ),
 
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.Mqv1, KasMode.KdfKc,
                         KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral,
                         generatesStaticKeyPair: true,
                         generatesEphemeralKeyPair: false,
                         generatesEphemeralNonce: false
                     ),
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.Mqv1, KasMode.KdfKc,
                         KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral,
                         generatesStaticKeyPair: true,
                         generatesEphemeralKeyPair: false,
                         generatesEphemeralNonce: true
                     ),
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.Mqv1, KasMode.KdfKc,
                         KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral,
                         generatesStaticKeyPair: true,
                         generatesEphemeralKeyPair: false,
                         generatesEphemeralNonce: true
                     ),
-                    new SchemeKeyNonceGenRequirement(
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
                         FfcScheme.Mqv1, KasMode.KdfKc,
                         KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral,
                         generatesStaticKeyPair: true,
@@ -139,14 +139,82 @@ namespace NIST.CVP.Crypto.KAS.Helpers
                     #endregion KdfKc
                     #endregion mqv1
                 };
-        
-        public static SchemeKeyNonceGenRequirement GetFfcKeyGenerationOptionsForSchemeAndRole(FfcScheme scheme, KasMode kasMode, KeyAgreementRole thisPartyRole, KeyConfirmationRole thisPartyKeyConfirmationRole, KeyConfirmationDirection keyConfirmationDirection)
+
+        public static
+            List<SchemeKeyNonceGenRequirement<EccScheme>> EccSchemeKeyGenerationRequirements =
+                new List<SchemeKeyNonceGenRequirement<EccScheme>>()
+                {
+                    #region dhEphem
+                    #region NoKdfNoKc
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.EphemeralUnified, KasMode.NoKdfNoKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None,
+                        generatesStaticKeyPair: false,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.EphemeralUnified, KasMode.NoKdfNoKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None,
+                        generatesStaticKeyPair: false,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    #endregion NoKdfNoKc
+                    #region KdfNoKc
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.EphemeralUnified, KasMode.KdfNoKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None,
+                        generatesStaticKeyPair: false,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.EphemeralUnified, KasMode.KdfNoKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None,
+                        generatesStaticKeyPair: false,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    #endregion KdfNoKc
+                    #endregion dhEphem
+                };
+
+        public static SchemeKeyNonceGenRequirement<FfcScheme> GetKeyGenerationOptionsForSchemeAndRole(
+            FfcScheme scheme, 
+            KasMode kasMode, 
+            KeyAgreementRole thisPartyRole, 
+            KeyConfirmationRole thisPartyKeyConfirmationRole, 
+            KeyConfirmationDirection keyConfirmationDirection
+        )
         {
             if (!FfcSchemeKeyGenerationRequirements
                 .TryFirst(w => 
                     w.Scheme == scheme &&
                     w.KasMode == kasMode &&
                     w.ThisPartyKasRole == thisPartyRole && 
+                    w.ThisPartyKeyConfirmationRole == thisPartyKeyConfirmationRole &&
+                    w.KeyConfirmationDirection == keyConfirmationDirection, out var result))
+            {
+                throw new ArgumentException("Invalid scheme/mode/key agreement role combination");
+            }
+
+            return result;
+        }
+
+        public static SchemeKeyNonceGenRequirement<EccScheme> GetKeyGenerationOptionsForSchemeAndRole(
+            EccScheme scheme,
+            KasMode kasMode,
+            KeyAgreementRole thisPartyRole,
+            KeyConfirmationRole thisPartyKeyConfirmationRole,
+            KeyConfirmationDirection keyConfirmationDirection
+        )
+        {
+            if (!EccSchemeKeyGenerationRequirements
+                .TryFirst(w =>
+                    w.Scheme == scheme &&
+                    w.KasMode == kasMode &&
+                    w.ThisPartyKasRole == thisPartyRole &&
                     w.ThisPartyKeyConfirmationRole == thisPartyKeyConfirmationRole &&
                     w.KeyConfirmationDirection == keyConfirmationDirection, out var result))
             {

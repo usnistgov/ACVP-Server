@@ -19,6 +19,7 @@ using NIST.CVP.Generation.KAS;
 using NIST.CVP.Generation.KAS.FFC;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using ParameterValidatorBase = NIST.CVP.Generation.KAS.ParameterValidatorBase;
 
 namespace KAS_Val
 {

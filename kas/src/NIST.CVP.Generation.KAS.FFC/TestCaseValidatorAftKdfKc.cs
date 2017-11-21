@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly TestGroup _testGroup;
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> _deferredResolver;
 
-        private readonly SchemeKeyNonceGenRequirement _iutKeyRequirements;
+        private readonly SchemeKeyNonceGenRequirement<FfcScheme> _iutKeyRequirements;
 
         public TestCaseValidatorAftKdfKc(TestCase workingTest, TestGroup testGroup, IDeferredTestCaseResolver<TestGroup, TestCase, KasResult> deferredResolver)
         {
@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             _deferredResolver = deferredResolver;
 
             _iutKeyRequirements =
-                KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
+                KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                     _testGroup.Scheme,
                     _testGroup.KasMode,
                     _testGroup.KasRole,

@@ -18,13 +18,6 @@ namespace NIST.CVP.Crypto.KES
                 return new SharedSecretResponse($"Point {nameof(qB)} does not exist on curve");
             }
 
-            //var p = domainParameters.CurveE.Multiply(
-            //    domainParameters.CurveE.Multiply(
-            //        qB.PublicQ, 
-            //        dA.PrivateD
-            //    ),
-            //    domainParameters.CurveE.CofactorH
-            //);
             var p = domainParameters.CurveE.Multiply(qB.PublicQ, dA.PrivateD);
             p = domainParameters.CurveE.Multiply(p, domainParameters.CurveE.CofactorH);
 

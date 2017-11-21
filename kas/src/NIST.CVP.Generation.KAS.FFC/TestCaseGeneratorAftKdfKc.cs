@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             KeyConfirmationRole serverKcRole =
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(group.KcRole);
 
-            var serverKeyNonceRequirements = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
+            var serverKeyNonceRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 group.Scheme,
                 group.KasMode,
                 serverRole,
@@ -115,7 +115,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                     _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
                 );
 
-                var iutKeyNonceRequirements = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
+                var iutKeyNonceRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                     group.Scheme,
                     group.KasMode,
                     group.KasRole,

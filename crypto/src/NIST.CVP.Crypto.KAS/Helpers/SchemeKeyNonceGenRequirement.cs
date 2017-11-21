@@ -5,9 +5,10 @@ using NIST.CVP.Crypto.KAS.Enums;
 
 namespace NIST.CVP.Crypto.KAS.Helpers
 {
-    public class SchemeKeyNonceGenRequirement
+    public class SchemeKeyNonceGenRequirement<TScheme>
+        where TScheme : struct, IComparable
     {
-        public SchemeKeyNonceGenRequirement(FfcScheme scheme, KasMode kasMode, KeyAgreementRole thisPartyKasRole, KeyConfirmationRole thisPartyKeyConfirmationRole, KeyConfirmationDirection keyConfirmationDirection, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair, bool generatesEphemeralNonce)
+        public SchemeKeyNonceGenRequirement(TScheme scheme, KasMode kasMode, KeyAgreementRole thisPartyKasRole, KeyConfirmationRole thisPartyKeyConfirmationRole, KeyConfirmationDirection keyConfirmationDirection, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair, bool generatesEphemeralNonce)
         {
             Scheme = scheme;
             KasMode = kasMode;
@@ -19,7 +20,7 @@ namespace NIST.CVP.Crypto.KAS.Helpers
             GeneratesEphemeralNonce = generatesEphemeralNonce;
         }
 
-        public FfcScheme Scheme { get; }
+        public TScheme Scheme { get; }
         public KasMode KasMode { get; }
         public KeyAgreementRole ThisPartyKasRole { get; }
         public KeyConfirmationRole ThisPartyKeyConfirmationRole { get; }

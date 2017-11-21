@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(testGroup.KcRole);
 
             var serverKeyRequirements =
-                KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
+                KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                     testGroup.Scheme,
                     testGroup.KasMode,
                     serverRole,

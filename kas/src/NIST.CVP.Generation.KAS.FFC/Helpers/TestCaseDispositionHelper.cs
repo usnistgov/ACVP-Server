@@ -32,14 +32,14 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
             IKas<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> iutKas
         )
         {
-            var serverKeyExpectations = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
+            var serverKeyExpectations = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 serverKas.Scheme.SchemeParameters.KasDsaAlgoAttributes.Scheme,
                 serverKas.Scheme.SchemeParameters.KasMode,
                 serverKas.Scheme.SchemeParameters.KeyAgreementRole,
                 serverKas.Scheme.SchemeParameters.KeyConfirmationRole,
                 serverKas.Scheme.SchemeParameters.KeyConfirmationDirection
             );
-            var iutKeyExpectations = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
+            var iutKeyExpectations = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 iutKas.Scheme.SchemeParameters.KasDsaAlgoAttributes.Scheme,
                 serverKas.Scheme.SchemeParameters.KasMode,
                 iutKas.Scheme.SchemeParameters.KeyAgreementRole,

@@ -1,6 +1,4 @@
-﻿using SQLitePCL;
-
-namespace NIST.CVP.Generation.KAS.Tests.Builders
+﻿namespace NIST.CVP.Generation.KAS.Tests.Builders
 {
     public class ParameterBuilder
     {
@@ -11,7 +9,14 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
         public ParameterBuilder()
         {
             _algorithm = "KAS-FFC";
-            _functions = ParameterValidator.ValidFunctions;
+            _functions = new string[]
+            {
+                "dpGen",
+                "dpVal",
+                "keyPairGen",
+                "fullVal",
+                "keyRegen"
+            };
             _schemes = new SchemesBuilder().BuildSchemes();
         }
 

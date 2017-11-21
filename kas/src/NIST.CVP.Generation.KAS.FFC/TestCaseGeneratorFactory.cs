@@ -26,7 +26,6 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         private readonly IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
         private readonly ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
-        private readonly IDsaFfcFactory _dsaFactory;
         private readonly IShaFactory _shaFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
         private readonly IEntropyProviderFactory _entropyProviderFactory;
@@ -38,7 +37,6 @@ namespace NIST.CVP.Generation.KAS.FFC
         public TestCaseGeneratorFactory(
             IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
             ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder,
-            IDsaFfcFactory dsaFactory,
             IShaFactory shaFactory,
             IMacParametersBuilder macParametersBuilder, 
             IEntropyProviderFactory entropyProviderFactory,
@@ -48,7 +46,6 @@ namespace NIST.CVP.Generation.KAS.FFC
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
-            _dsaFactory = dsaFactory;
             _shaFactory = shaFactory;
             _macParametersBuilder = macParametersBuilder;
             _entropyProviderFactory = entropyProviderFactory;

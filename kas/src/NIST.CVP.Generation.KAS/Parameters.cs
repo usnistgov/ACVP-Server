@@ -137,6 +137,10 @@ namespace NIST.CVP.Generation.KAS
         /// The MAC options for NoKc and Kc
         /// </summary>
         public MacOptions MacOption { get; set; }
+        /// <summary>
+        /// The curve to use in ECC schemes
+        /// </summary>
+        public string CurveName { get; set; }
     }
 
     /// <inheritdoc />

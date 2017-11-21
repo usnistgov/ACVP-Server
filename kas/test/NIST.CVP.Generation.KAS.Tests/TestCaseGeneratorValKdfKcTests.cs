@@ -437,8 +437,8 @@ namespace NIST.CVP.Generation.KAS.Tests
             KeyConfirmationRole kcRole,
             KeyConfirmationDirection kcType,
             KeyAgreementMacType macType,
-            out SchemeKeyNonceGenRequirement iutKeyGenRequirements,
-            out SchemeKeyNonceGenRequirement serverKeyGenRequirements,
+            out SchemeKeyNonceGenRequirement<FfcScheme> iutKeyGenRequirements,
+            out SchemeKeyNonceGenRequirement<FfcScheme> serverKeyGenRequirements,
             out TestCase resultTestCase
         )
         {
@@ -477,14 +477,14 @@ namespace NIST.CVP.Generation.KAS.Tests
             KeyConfirmationRole serverKeyConfRole =
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(tg.KcRole);
 
-            iutKeyGenRequirements = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
+            iutKeyGenRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 scheme,
                 tg.KasMode,
                 tg.KasRole,
                 tg.KcRole,
                 tg.KcType
             );
-            serverKeyGenRequirements = KeyGenerationRequirementsHelper.GetFfcKeyGenerationOptionsForSchemeAndRole(
+            serverKeyGenRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                 scheme,
                 tg.KasMode,
                 serverRole,

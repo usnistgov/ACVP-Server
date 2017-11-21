@@ -16,18 +16,12 @@ using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.KAS
 {
-    public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
+    public abstract class ParameterValidatorBase : Core.ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public const string Algorithm = "KAS-FFC";
+        public abstract string Algorithm { get; }
 
-        public static readonly string[] ValidFunctions = new string[]
-        {
-            "dpgen",
-            "dpval",
-            "keypairgen",
-            "fullval",
-            "keyregen"
-        };
+        public abstract string[] ValidFunctions { get; }
+
         public static readonly string[] ValidKeyAgreementRoles = new string[]
         {
             "initiator",
@@ -93,84 +87,18 @@ namespace NIST.CVP.Generation.KAS
             errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.Function, ValidFunctions, "Functions"));
         }
 
-        private void ValidateSchemes(Parameters parameters, List<string> errorResults)
-        {
-            if (parameters.Scheme == null)
-            {
-                errorResults.Add("Scheme is required.");
-                return;
-            }
-
-            ValidateAtLeastOneSchemePresent(parameters.Scheme, errorResults);
-            ValidateDhEphemScheme(parameters.Scheme.DhEphem, errorResults);
-            ValidateMqv1Scheme(parameters.Scheme.Mqv1, errorResults);
-        }
+        protected abstract void ValidateSchemes(Parameters parameters, List<string> errorResults);
+        
 
         #region scheme validation
-        private void ValidateAtLeastOneSchemePresent(Schemes parametersScheme, List<string> errorResults)
-        {
-            // TODO add more schemes
-            if (parametersScheme.DhEphem == null && parametersScheme.Mqv1 == null)
-            {
-                errorResults.Add("No schemes are present in the registration.");
-            }
-        }
-
-        private void ValidateDhEphemScheme(SchemeBase scheme, List<string> errorResults)
-        {
-            if (scheme == null)
-            {
-                return;
-            }
-
-            ValidateKeyAgreementRoles(scheme.Role, errorResults);
-
-            ValidateAtLeastOneKasModePresent(scheme, errorResults);
-            if (errorResults.Count > 0)
-            {
-                return;
-            }
-
-            // kdfKc is invalid for dhEphem
-            if (scheme.KdfKc != null && scheme is DhEphem)
-            {
-                errorResults.Add("Key Confirmation not possible with dhEphem.");
-                return;
-            }
-
-            ValidateNoKdfNoKc(scheme.NoKdfNoKc, errorResults);
-            ValidateKdfNoKc(scheme.KdfNoKc, errorResults);
-            ValidateKdfKc(scheme.KdfKc, errorResults);
-        }
-
-        private void ValidateMqv1Scheme(SchemeBase scheme, List<string> errorResults)
-        {
-            if (scheme == null)
-            {
-                return;
-            }
-
-            ValidateKeyAgreementRoles(scheme.Role, errorResults);
-
-            ValidateAtLeastOneKasModePresent(scheme, errorResults);
-            if (errorResults.Count > 0)
-            {
-                return;
-            }
-
-            ValidateNoKdfNoKc(scheme.NoKdfNoKc, errorResults);
-            ValidateKdfNoKc(scheme.KdfNoKc, errorResults);
-            ValidateKdfKc(scheme.KdfKc, errorResults);
-        }
-
-        private void ValidateKeyAgreementRoles(string[] schemeRoles, List<string> errorResults)
+        protected void ValidateKeyAgreementRoles(string[] schemeRoles, List<string> errorResults)
         {
             errorResults.AddIfNotNullOrEmpty(ValidateArray(schemeRoles, ValidKeyAgreementRoles, "Key Agreement Roles"));
         }
         #endregion scheme validation
 
         #region kasModes
-        private void ValidateAtLeastOneKasModePresent(SchemeBase scheme, List<string> errorResults)
+        protected void ValidateAtLeastOneKasModePresent(SchemeBase scheme, List<string> errorResults)
         {
             if (scheme.NoKdfNoKc == null && scheme.KdfNoKc == null && scheme.KdfKc == null)
             {
@@ -178,7 +106,7 @@ namespace NIST.CVP.Generation.KAS
             }
         }
 
-        private void ValidateNoKdfNoKc(NoKdfNoKc kasMode, List<string> errorResults)
+        protected void ValidateNoKdfNoKc(NoKdfNoKc kasMode, List<string> errorResults)
         {
             if (kasMode == null)
             {
@@ -191,11 +119,12 @@ namespace NIST.CVP.Generation.KAS
                 return;
             }
 
-            ValidateParameterSetFfc(kasMode.ParameterSet.Fb, false, FfcParameterSet.Fb, errorResults);
-            ValidateParameterSetFfc(kasMode.ParameterSet.Fc, false, FfcParameterSet.Fc, errorResults);
+            ValidateParameterSets(kasMode, false, errorResults);
         }
 
-        private void ValidateKdfNoKc(KdfNoKc kasMode, List<string> errorResults)
+        protected abstract void ValidateParameterSets(NoKdfNoKc kasMode, bool macRequired, List<string> errorResults);
+
+        protected void ValidateKdfNoKc(KdfNoKc kasMode, List<string> errorResults)
         {
             if (kasMode == null)
             {
@@ -213,12 +142,11 @@ namespace NIST.CVP.Generation.KAS
                 return;
             }
 
-            ValidateParameterSetFfc(kasMode.ParameterSet.Fb, true, FfcParameterSet.Fb, errorResults);
-            ValidateParameterSetFfc(kasMode.ParameterSet.Fc, true, FfcParameterSet.Fc, errorResults);
+            ValidateParameterSets(kasMode, true, errorResults);
             ValidateKdfOption(kasMode.KdfOption, errorResults);
         }
 
-        private void ValidateKdfKc(KdfKc kasMode, List<string> errorResults)
+        protected void ValidateKdfKc(KdfKc kasMode, List<string> errorResults)
         {
             if (kasMode == null)
             {
@@ -236,43 +164,17 @@ namespace NIST.CVP.Generation.KAS
                 return;
             }
 
-            ValidateParameterSetFfc(kasMode.ParameterSet.Fb, true, FfcParameterSet.Fb, errorResults);
-            ValidateParameterSetFfc(kasMode.ParameterSet.Fc, true, FfcParameterSet.Fc, errorResults);
+            ValidateParameterSets(kasMode, true, errorResults);
             ValidateKdfOption(kasMode.KdfOption, errorResults);
             ValidateKcOption(kasMode.KcOption, errorResults);
         }
         #endregion kasModes
 
         #region parameterSet
-        private void ValidateAtLeastOneParameterSetPresent(NoKdfNoKc kasMode, List<string> errorResults)
-        {
-            if (kasMode.ParameterSet == null)
-            {
-                errorResults.Add("ParameterSet must be provided.");
-                return;
-            }
 
-            if (kasMode.ParameterSet.Fb == null && kasMode.ParameterSet.Fc == null)
-            {
-                errorResults.Add("At least one paramter set must be provided.");
-            }
-        }
+        protected abstract void ValidateAtLeastOneParameterSetPresent(NoKdfNoKc kasMode, List<string> errorResults);
 
-        private void ValidateParameterSetFfc(ParameterSetBase parameterSet, bool macRequired, FfcParameterSet parameterSetType, List<string> errorResults)
-        {
-            if (parameterSet == null)
-            {
-                return;
-            }
-
-            var fbDetails = ParameterSetDetails.GetDetailsForFfcParameterSet(parameterSetType);
-
-            ValidateHashFunctions(parameterSet.HashAlg, parameterSetType, fbDetails.minHashLength, errorResults);
-            ValidateMacOptions(parameterSet.MacOption, macRequired, parameterSetType, fbDetails.minMacLength,
-                fbDetails.minMacKeyLength, errorResults);
-        }
-
-        private void ValidateHashFunctions(string[] hashAlg, FfcParameterSet parameterSetType, int minHashLength, List<string> errorResults)
+        protected void ValidateHashFunctions(string[] hashAlg, string parameterSetType, int minHashLength, List<string> errorResults)
         {
             // Validate valid entries
             errorResults.AddIfNotNullOrEmpty(ValidateArray(hashAlg, ValidHashAlgs, "HashAlgs"));
@@ -293,7 +195,7 @@ namespace NIST.CVP.Generation.KAS
             }
         }
 
-        private void ValidateMacOptions(MacOptions macOption, bool macRequired, FfcParameterSet parameterSetType, int minMacLength, int minMacKeyLength, List<string> errorResults)
+        protected void ValidateMacOptions(MacOptions macOption, bool macRequired, int minMacLength, int minMacKeyLength, List<string> errorResults)
         {
             if (macRequired)
             {
@@ -327,7 +229,7 @@ namespace NIST.CVP.Generation.KAS
             }
         }
 
-        private void ValidateMacOptions(MacOptionsBase macOptionsBase, int minMacLength, int minMacKeyLength, List<string> errorResults)
+        protected void ValidateMacOptions(MacOptionsBase macOptionsBase, int minMacLength, int minMacKeyLength, List<string> errorResults)
         {
             if (macOptionsBase == null)
             {
@@ -356,7 +258,6 @@ namespace NIST.CVP.Generation.KAS
             {
                 var macAttributes = SpecificationMapping.GetHmacInfoFromParameterClass(macOptionsBase);
                 maxMacLength = macAttributes.hashFunction.OutputLen;
-                
             }
 
             // validate key mod 8
