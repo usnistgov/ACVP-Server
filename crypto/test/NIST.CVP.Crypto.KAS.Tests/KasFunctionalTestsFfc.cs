@@ -24,8 +24,10 @@ namespace NIST.CVP.Crypto.KAS.Tests
     [TestFixture, FastCryptoTest]
     public class KasFunctionalTestsFfc
     {
+        private readonly MacParametersBuilder _macParamsBuilder = new MacParametersBuilder();
+
         private KasBuilderFfc _subject;
-        private MacParametersBuilder _macParamsBuilder;
+       
         private Mock<IDsaFfc> _dsa;
         private Mock<IDsaFfcFactory> _dsaFactory;
         private IEntropyProvider _entropyProviderScheme;
@@ -58,8 +60,6 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new MqvFfc()
                 )
             );
-            
-            _macParamsBuilder = new MacParametersBuilder();
         }
 
         #region dhEphem

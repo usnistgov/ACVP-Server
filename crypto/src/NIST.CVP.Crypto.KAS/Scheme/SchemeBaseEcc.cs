@@ -124,8 +124,11 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <inheritdoc />
         protected override void GenerateDomainParameters()
         {
-            // TODO NEED TO PASS CORRECT CURVE
-            DomainParameters = new EccDomainParameters(EccCurveFactory.GetCurve(Curve.B163));
+            DomainParameters = new EccDomainParameters(
+                EccCurveFactory.GetCurve(
+                    SchemeParameters.KasDsaAlgoAttributes.CurveName
+                )
+            );
         }
 
         /// <inheritdoc />
