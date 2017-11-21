@@ -84,6 +84,27 @@ namespace NIST.CVP.Math.Tests.Domain
         }
 
         [Test]
+        [TestCase(1, true)]
+        [TestCase(6, true)]
+        //[TestCase(int.MaxValue, true)] Doesn't pass because there is a max limit to ValueDomainSegment
+        [TestCase(0, false)]
+        [TestCase(-6, false)]
+        [TestCase(int.MinValue, false)]
+        public void ShouldReturnSingleValueThatMatchesCondition(int value, bool resultShouldHaveContent)
+        {
+            _subject = new ValueDomainSegment(value);
+
+            var result = _subject.GetValues(v => v > 0, 1).ToList();
+
+            Assert.AreEqual(resultShouldHaveContent, result.Count != 0);
+
+            if (resultShouldHaveContent)
+            {
+                Assert.AreEqual(value, result[0]);
+            }
+        }
+
+        [Test]
         [TestCase(5, 5, 10, true)]
         [TestCase(7, 5, 10, true)]
         [TestCase(10, 5, 10, true)]

@@ -359,6 +359,31 @@ namespace NIST.CVP.Math.Tests.Domain
 
             Assert.AreEqual(expectedValues.ToList(), result.ToList());
         }
+
+        [Test]
+        // 1048576 is the largest value supported by a RangeDomainSegment
+        [TestCase(0, 1048576, 1)]
+        [TestCase(0, 10, 1)]
+        [TestCase(-1024, 1024, 1)]
+        [TestCase(0, 65536 * 2, 2)]
+        [TestCase(0, 1048575, 3)]
+        [TestCase(128, 512, 128)]
+        public void ShouldReturnValuesThatMatchAGivenCondition(int min, int max, int increment)
+        {
+            _subject = new RangeDomainSegment(new Random800_90(), min, max, increment)
+            {
+                SegmentValueOptions = RangeDomainSegmentOptions.Random
+            };
+
+            var result = _subject.GetValues(v => v % 8 == 0, 10);
+
+            Assert.LessOrEqual(result.Count(), 10);
+
+            foreach (var value in result)
+            {
+                Assert.IsTrue(value % 8 == 0);
+            }
+        }
         #endregion GetValues
     }
 }

@@ -28,8 +28,13 @@ namespace NIST.CVP.Crypto.AES_XTS
         {
             if (_key.BitLength != 256 && _key.BitLength != 512)
             {
-                throw new ArgumentException("Invalid key length in XTS");
+                // throw new ArgumentException("Invalid key length in XTS");
             }
+        }
+
+        public string ToHex()
+        {
+            return Key1.ToHex() + Key2.ToHex();
         }
     }
 }

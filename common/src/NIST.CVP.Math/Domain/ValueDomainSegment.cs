@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Math.Domain
 {
@@ -70,6 +71,11 @@ namespace NIST.CVP.Math.Domain
         public IEnumerable<int> GetValues(int quantity)
         {
             return new List<int>() { _value };
+        }
+
+        public IEnumerable<int> GetValues(Func<int, bool> condition, int quantity)
+        {
+            return new List<int> { _value }.Where(condition);
         }
 
         /// <summary>

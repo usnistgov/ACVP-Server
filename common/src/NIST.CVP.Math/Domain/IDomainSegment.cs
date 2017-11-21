@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Math.Domain
 {
@@ -42,6 +43,13 @@ namespace NIST.CVP.Math.Domain
         /// <param name="quantity">The maximum number of values to return from the <see cref="IDomainSegment"/></param>
         /// <returns></returns>
         IEnumerable<int> GetValues(int min, int max, int quantity);
+        /// <summary>
+        /// Get values from the <see cref="IDomainSegment"/>, with a specific condition.
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <param name="quantity"></param>
+        /// <returns></returns>
+        IEnumerable<int> GetValues(Func<int, bool> condition, int quantity);
         /// <summary>
         /// Returns a deep copy of the <see cref="IDomainSegment"/>
         /// </summary>

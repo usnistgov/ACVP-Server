@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace NIST.CVP.Math.Domain
 {
@@ -164,6 +165,25 @@ namespace NIST.CVP.Math.Domain
             return values
                 .Distinct()
                 .OrderBy(ob => ob);
+        }
+
+        public IEnumerable<int> GetValues(Func<int, bool> condition, int numberOfTotalValues, bool randomOrder)
+        {
+            var potentialOptions = new List<int>();
+
+            foreach (var domainSegment in _domainSegments)
+            {
+                potentialOptions.AddRange(domainSegment.GetValues(condition, numberOfTotalValues));
+            }
+
+            if (randomOrder)
+            {
+                return potentialOptions.Distinct().OrderBy(a => Guid.NewGuid()).Take(numberOfTotalValues);
+            }
+            else
+            {
+                return potentialOptions.Distinct().OrderBy(a => a).Take(numberOfTotalValues);
+            }
         }
 
         /// <summary>
