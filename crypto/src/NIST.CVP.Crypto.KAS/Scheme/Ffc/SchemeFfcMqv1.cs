@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
@@ -9,7 +8,7 @@ using NIST.CVP.Crypto.KES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
-namespace NIST.CVP.Crypto.KAS.Scheme
+namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
 {
     public class SchemeFfcMqv1 : SchemeBaseFfc
     {

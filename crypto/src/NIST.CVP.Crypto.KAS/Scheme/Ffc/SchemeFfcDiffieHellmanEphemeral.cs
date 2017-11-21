@@ -8,7 +8,7 @@ using NIST.CVP.Crypto.KES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
-namespace NIST.CVP.Crypto.KAS.Scheme
+namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
 {
     public class SchemeFfcDiffieHellmanEphemeral : SchemeBaseFfc
     {

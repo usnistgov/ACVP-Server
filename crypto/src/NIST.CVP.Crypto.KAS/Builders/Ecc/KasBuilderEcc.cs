@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Scheme;
+using NIST.CVP.Crypto.KAS.Scheme.Ecc;
 
 namespace NIST.CVP.Crypto.KAS.Builders.Ecc
 {

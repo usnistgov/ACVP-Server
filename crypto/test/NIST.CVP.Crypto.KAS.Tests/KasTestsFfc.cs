@@ -5,6 +5,7 @@ using Moq;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Scheme;
+using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

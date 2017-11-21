@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.Scheme;
+using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 

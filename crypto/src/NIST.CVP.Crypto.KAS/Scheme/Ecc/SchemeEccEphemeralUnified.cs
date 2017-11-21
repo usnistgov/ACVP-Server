@@ -1,6 +1,5 @@
 ﻿using System;
 using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC.Enums;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -9,7 +8,7 @@ using NIST.CVP.Crypto.KES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
-namespace NIST.CVP.Crypto.KAS.Scheme
+namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
 {
     public class SchemeEccEphemeralUnified : SchemeBaseEcc
     {

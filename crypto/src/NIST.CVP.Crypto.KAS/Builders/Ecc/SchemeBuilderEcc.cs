@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme;
+using NIST.CVP.Crypto.KAS.Scheme.Ecc;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Math.Entropy;
 

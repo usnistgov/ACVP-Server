@@ -15,8 +15,15 @@ namespace NIST.CVP.Crypto.KAS
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
     {
+        /// <summary>
+        /// The scheme used under the KAS instance
+        /// </summary>
         IScheme<SchemeParametersBase<TKasDsaAlgoAttributes>, TKasDsaAlgoAttributes, TOtherPartySharedInfo, TDomainParameters, TKeyPair> Scheme { get; }
 
+        /// <summary>
+        /// Sets the domain parameters for the KAS instance
+        /// </summary>
+        /// <param name="domainParameters">The domain parameters to use.</param>
         void SetDomainParameters(TDomainParameters domainParameters);
         /// <summary>
         /// Gets the shared information needed by the other party to complete key agreement

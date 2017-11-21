@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme;
+using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;

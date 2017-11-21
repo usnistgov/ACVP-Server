@@ -1,7 +1,7 @@
 ﻿using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.KAS.Scheme
+namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
 {
     public class SchemeParametersEcc : SchemeParametersBase<KasDsaAlgoAttributesEcc>
     {
