@@ -6,49 +6,40 @@ using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class DeferredTestCaseResolverAftNoKdfNoKc : IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>
+    public class DeferredTestCaseResolverAftNoKdfNoKc
+        : DeferredTestCaseResolverBaseFfc
     {
-        private readonly IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private readonly ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
-
+        
         public DeferredTestCaseResolverAftNoKdfNoKc(
-            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
-            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder)
+            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder,
+            IMacParametersBuilder macParametersBuilder,
+            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder,
+            IEntropyProviderFactory entropyProviderFactory
+        ) : base(kasBuilder, macParametersBuilder, schemeBuilder, entropyProviderFactory) { }
+
+        /// <inheritdoc />
+        protected override IKas<
+            KasDsaAlgoAttributesFfc, 
+            OtherPartySharedInformation<
+                FfcDomainParameters, 
+                FfcKeyPair
+            >, 
+            FfcDomainParameters, 
+            FfcKeyPair
+        > GetServerKas(
+            SchemeKeyNonceGenRequirement<FfcScheme> serverKeyRequirements, 
+            KeyAgreementRole serverRole,
+            KeyConfirmationRole serverKcRole, 
+            MacParameters macParameters, 
+            TestGroup testGroup, 
+            TestCase iutTestCase
+        )
         {
-            _kasBuilder = kasBuilder;
-            _schemeBuilder = schemeBuilder;
-        }
-
-        public KasResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
-        {
-            KeyAgreementRole serverRole =
-                KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(testGroup.KasRole);
-
-            var serverKeyRequirements =
-                    KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
-                        testGroup.Scheme,
-                        testGroup.KasMode,
-                        serverRole,
-                        testGroup.KcRole,
-                        testGroup.KcType
-                    );
-
-            FfcDomainParameters domainParameters = new FfcDomainParameters(testGroup.P, testGroup.Q, testGroup.G);
-            OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair> iutPublicInfo = 
-                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(
-                    domainParameters,
-                    iutTestCase.IdIut ?? testGroup.IdIut,
-                    new FfcKeyPair(iutTestCase.StaticPublicKeyIut),
-                    new FfcKeyPair(iutTestCase.EphemeralPublicKeyIut),
-                    null,
-                    null,
-                    null
-                );
-
-            var serverKas = _kasBuilder
+            return _kasBuilder
                 .WithKeyAgreementRole(
                     serverKeyRequirements.ThisPartyKasRole
                 )
@@ -60,24 +51,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                 )
                 .BuildNoKdfNoKc()
                 .Build();
-
-            serverKas.SetDomainParameters(domainParameters);
-            serverKas.ReturnPublicInfoThisParty();
-
-            if (serverKeyRequirements.GeneratesStaticKeyPair)
-            {
-                serverKas.Scheme.StaticKeyPair.PrivateKeyX = serverTestCase.StaticPrivateKeyServer;
-                serverKas.Scheme.StaticKeyPair.PublicKeyY = serverTestCase.StaticPublicKeyServer;
-            }
-
-            if (serverKeyRequirements.GeneratesEphemeralKeyPair)
-            {
-                serverKas.Scheme.EphemeralKeyPair.PrivateKeyX = serverTestCase.EphemeralPrivateKeyServer;
-                serverKas.Scheme.EphemeralKeyPair.PublicKeyY = serverTestCase.EphemeralPublicKeyServer;
-            }
-
-            var serverResult = serverKas.ComputeResult(iutPublicInfo);
-            return serverResult;
         }
     }
 }

@@ -19,8 +19,10 @@ namespace NIST.CVP.Generation.KAS
 
         public TestCaseDispositionOption TestCaseDisposition { get; set; }
 
+        public BitString DkmNonceServer { get; set; }
         public BitString EphemeralNonceServer { get; set; }
 
+        public BitString DkmNonceIut { get; set; }
         public BitString EphemeralNonceIut { get; set; }
         
         

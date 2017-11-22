@@ -19,9 +19,9 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly IEntropyProviderFactory _entropyProviderFactory;
 
         public TestCaseValidatorFactory(
-            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
-            IMacParametersBuilder macParametersBuilder, 
-            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
+            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder,
+            IMacParametersBuilder macParametersBuilder,
+            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder,
             IEntropyProviderFactory entropyProviderFactory
         )
         {
@@ -35,9 +35,9 @@ namespace NIST.CVP.Generation.KAS.FFC
         {
             var list = new List<ITestCaseValidator<TestCase>>();
 
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup) g))
+            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
             {
-                foreach (var test in group.Tests.Select(t => (TestCase) t))
+                foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
                     var workingTest = test;
 
@@ -46,18 +46,46 @@ namespace NIST.CVP.Generation.KAS.FFC
                         switch (group.KasMode)
                         {
                             case KasMode.NoKdfNoKc:
-                                list.Add(new TestCaseValidatorAftNoKdfNoKc(workingTest, group,
-                                    new DeferredTestCaseResolverAftNoKdfNoKc(_kasBuilder, _schemeBuilder)));
+                                list.Add(
+                                    new TestCaseValidatorAftNoKdfNoKc(
+                                        workingTest, 
+                                        group,
+                                        new DeferredTestCaseResolverAftNoKdfNoKc(
+                                            _kasBuilder,
+                                            _macParametersBuilder,
+                                            _schemeBuilder,
+                                            _entropyProviderFactory
+                                        )
+                                    )
+                                );
                                 break;
                             case KasMode.KdfNoKc:
-                                list.Add(new TestCaseValidatorAftKdfNoKc(workingTest, group,
-                                    new DeferredTestCaseResolverAftKdfNoKc(_kasBuilder, _macParametersBuilder,
-                                        _schemeBuilder, _entropyProviderFactory)));
+                                list.Add(
+                                    new TestCaseValidatorAftKdfNoKc(
+                                        workingTest, 
+                                        group,
+                                        new DeferredTestCaseResolverAftKdfNoKc(
+                                            _kasBuilder,
+                                            _macParametersBuilder,
+                                            _schemeBuilder,
+                                            _entropyProviderFactory
+                                        )
+                                    )
+                                );
                                 break;
                             case KasMode.KdfKc:
-                                list.Add(new TestCaseValidatorAftKdfKc(workingTest, group,
-                                    new DeferredTestCaseResolverAftKdfKc(_kasBuilder, _macParametersBuilder,
-                                        _schemeBuilder, _entropyProviderFactory)));
+                                list.Add(
+                                    new TestCaseValidatorAftKdfKc(
+                                        workingTest, 
+                                        group,
+                                        new DeferredTestCaseResolverAftKdfKc(
+                                            _kasBuilder,
+                                            _macParametersBuilder,
+                                            _schemeBuilder,
+                                            _entropyProviderFactory
+                                        )
+                                    )
+                                );
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();

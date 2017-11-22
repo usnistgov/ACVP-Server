@@ -94,7 +94,12 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     switch (testGroup.KasMode)
                     {
                         case KasMode.NoKdfNoKc:
-                            testCaseResolver = new DeferredTestCaseResolverAftNoKdfNoKc(kasBuilder, schemeBuilder);
+                            testCaseResolver = new DeferredTestCaseResolverAftNoKdfNoKc(
+                                kasBuilder, 
+                                new MacParametersBuilder(),
+                                schemeBuilder,
+                                new EntropyProviderFactory()
+                            );
                             break;
                         case KasMode.KdfNoKc:
                             testCaseResolver = new DeferredTestCaseResolverAftKdfNoKc(
