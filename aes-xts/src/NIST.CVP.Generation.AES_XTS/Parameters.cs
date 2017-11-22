@@ -16,6 +16,5 @@ namespace NIST.CVP.Generation.AES_XTS
         public string[] Direction { get; set; }
         public MathDomain PtLen { get; set; }
         public string[] TweakModes { get; set; }
-        public bool BitOriented { get; set; }
     }
 }

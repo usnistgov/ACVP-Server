@@ -189,5 +189,27 @@ namespace NIST.CVP.Crypto.AES_XTS.Tests
 
             Assert.AreEqual(expectedBitString, result);
         }
+
+        [Test]
+        [TestCase(129,
+            "0bd647666a2de8eb9b0acc4c17a80e4980",
+            "bde59de7a8cab6780f510048daa74a889061d9468d17a9b9f1bb4f3641e0e974",
+            22,
+            "cedbec745b96e714d77371005bc1e6a600")]
+        public void ShouldGetCAVSFileRight(int length, string ptHex, string keyHex, int seqNum, string ctHex)
+        {
+            var key = new XtsKey(new BitString(keyHex));
+            var pt = new BitString(ptHex, length);
+            var ct = new BitString(ctHex, length);
+            
+            var subject = new AesXts();
+
+            var i = subject.GetIFromInteger(seqNum);
+
+            var result = subject.Encrypt(key, pt, i);
+
+            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.AreEqual(ct, result.CipherText);
+        }
     }
 }

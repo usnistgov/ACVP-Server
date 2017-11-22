@@ -100,14 +100,24 @@ namespace NIST.CVP.Generation.AES_XTS
                 case "p":
                     PlainText = new BitString(value);
                     return true;
+
                 case "ct":
                 case "ciphertext":
                 case "c":
                     CipherText = new BitString(value);
                     return true;
+
                 case "key":
                 case "k":
                     Key = new XtsKey(new BitString(value));
+                    return true;
+
+                case "i":
+                    I = new BitString(value);
+                    return true;
+
+                case "dataunitseqnumber":
+                    SequenceNumber = Int32.Parse(value);
                     return true;
             }
             return false;

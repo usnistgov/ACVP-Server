@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
 
         [Test]
         [TestCaseSource(nameof(GetParametersAndExpectedGroups))]
-        public void ShouldReturnOneITestGroupForEachComination(string label, string[] direction, int[] keyLen, string[] tweakModes, MathDomain ptLen, int expectedResultCount)
+        public void ShouldReturnOneITestGroupForEachCombination(string label, string[] direction, int[] keyLen, string[] tweakModes, MathDomain ptLen, int expectedResultCount)
         {
             var p = new Parameters
             {

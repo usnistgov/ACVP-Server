@@ -82,8 +82,20 @@ namespace NIST.CVP.Generation.AES_XTS
                     KeyLen = int.Parse(value);
                     return true;
 
-                case "ptlen":
+                case "dataunitlen":
                     PtLen = int.Parse(value);
+                    return true;
+
+                case "encrypt":
+                    Direction = "encrypt";
+                    return true;
+
+                case "decrypt":
+                    Direction = "decrypt";
+                    return true;
+
+                case "direction":
+                    Direction = value;
                     return true;
             }
             return false;
