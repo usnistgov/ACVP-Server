@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
+using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme;
@@ -24,7 +25,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IMacParametersBuilder _macParametersBuilder;
         private readonly IKdfFactory _kdfFactory;
-        private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
+        private readonly IKeyConfirmationFactory _keyConfirmationFactory;
         private readonly TestCaseDispositionOption _intendedDisposition;
 
         public TestCaseGeneratorValKdfKc(
@@ -34,7 +35,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             IEntropyProviderFactory entropyProviderFactory, 
             IMacParametersBuilder macParametersBuilder, 
             IKdfFactory kdfFactory, 
-            INoKeyConfirmationFactory noKeyConfirmationFactory, 
+            IKeyConfirmationFactory keyConfirmationFactory, 
             TestCaseDispositionOption dispositionIntention
         )
         {
@@ -44,7 +45,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             _entropyProviderFactory = entropyProviderFactory;
             _macParametersBuilder = macParametersBuilder;
             _kdfFactory = kdfFactory;
-            _noKeyConfirmationFactory = noKeyConfirmationFactory;
+            _keyConfirmationFactory = keyConfirmationFactory;
             _intendedDisposition = dispositionIntention;
         }
 
@@ -70,7 +71,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             }
 
             var iutKeyConfirmationRole = group.KcRole;
-            var serverIutKeyConfirmationRole =
+            var serverKeyConfirmationRole =
                 KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(iutKeyConfirmationRole);
 
             // Handles Failures due to changed z, dkm, macData
@@ -85,11 +86,11 @@ namespace NIST.CVP.Generation.KAS.FFC
                 testCase.FailureTest = true;
                 kdfFactory = new FakeKdfFactory_BadDkm(_shaFactory);
             }
-            INoKeyConfirmationFactory noKeyConfirmationFactory = _noKeyConfirmationFactory;
+            IKeyConfirmationFactory keyConfirmationFactory = _keyConfirmationFactory;
             if (_intendedDisposition == TestCaseDispositionOption.FailChangedMacData)
             {
                 testCase.FailureTest = true;
-                noKeyConfirmationFactory = new FakeNoKeyConfirmationFactory_BadMacData();
+                keyConfirmationFactory = new FakeKeyConfirmationFactory_BadMacData();
             }
 
             var uParty = _kasBuilder
@@ -104,7 +105,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                     _schemeBuilder
                         .WithHashFunction(group.HashAlg)
                         .WithKdfFactory(kdfFactory)
-                        .WithNoKeyConfirmationFactory(noKeyConfirmationFactory)
+                        .WithKeyConfirmationFactory(keyConfirmationFactory)
                 )
                 .BuildKdfKc()
                 .WithKeyLength(group.KeyLen)
@@ -113,7 +114,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithKeyConfirmationRole(
                     group.KasRole == KeyAgreementRole.InitiatorPartyU
                         ? iutKeyConfirmationRole
-                        : serverIutKeyConfirmationRole
+                        : serverKeyConfirmationRole
                 )
                 .WithKeyConfirmationDirection(group.KcType)
                 .Build();
@@ -130,7 +131,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                     _schemeBuilder
                         .WithHashFunction(group.HashAlg)
                         .WithKdfFactory(kdfFactory)
-                        .WithNoKeyConfirmationFactory(noKeyConfirmationFactory)
+                        .WithKeyConfirmationFactory(keyConfirmationFactory)
                 )
                 .BuildKdfKc()
                 .WithKeyLength(group.KeyLen)
@@ -139,7 +140,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithKeyConfirmationRole(
                     group.KasRole == KeyAgreementRole.ResponderPartyV
                         ? iutKeyConfirmationRole
-                        : serverIutKeyConfirmationRole
+                        : serverKeyConfirmationRole
                 )
                 .WithKeyConfirmationDirection(group.KcType)
                 .Build();

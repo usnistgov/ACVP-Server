@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme;
@@ -32,6 +33,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly IEntropyProviderFactory _entropyProviderFactory;
         private readonly IKdfFactory _kdfFactory;
         private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
+        private readonly IKeyConfirmationFactory _keyConfirmationFactory;
 
         private List<TestCaseDispositionOption> _validityTestCaseOptions = new List<TestCaseDispositionOption>();
 
@@ -42,7 +44,8 @@ namespace NIST.CVP.Generation.KAS.FFC
             IMacParametersBuilder macParametersBuilder, 
             IEntropyProviderFactory entropyProviderFactory,
             IKdfFactory kdfFactory,
-            INoKeyConfirmationFactory noKeyConfirmationFactory
+            INoKeyConfirmationFactory noKeyConfirmationFactory,
+            IKeyConfirmationFactory keyConfirmationFactory
         )
         {
             _kasBuilder = kasBuilder;
@@ -52,6 +55,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             _entropyProviderFactory = entropyProviderFactory;
             _kdfFactory = kdfFactory;
             _noKeyConfirmationFactory = noKeyConfirmationFactory;
+            _keyConfirmationFactory = keyConfirmationFactory;
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
@@ -88,7 +92,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                     case KasMode.KdfNoKc:
                         return new TestCaseGeneratorValKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, dispositionIntention);
                     case KasMode.KdfKc:
-                        return new TestCaseGeneratorValKdfKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, dispositionIntention);
+                        return new TestCaseGeneratorValKdfKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, dispositionIntention);
                     default:
                         return new TestCaseGeneratorNull();
                 }
