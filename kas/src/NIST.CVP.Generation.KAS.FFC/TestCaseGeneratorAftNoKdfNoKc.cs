@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
@@ -7,85 +8,66 @@ using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.FFC.Helpers;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestCaseGeneratorAftNoKdfNoKc : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorAftNoKdfNoKc : TestCaseGeneratorAftBaseFfc
     {
-        private readonly IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private readonly ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
-
+        
         public TestCaseGeneratorAftNoKdfNoKc(
-            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
-            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder
+            IKasBuilder<
+                KasDsaAlgoAttributesFfc,
+                OtherPartySharedInformation<
+                    FfcDomainParameters,
+                    FfcKeyPair
+                >,
+                FfcDomainParameters,
+                FfcKeyPair
+            > kasBuilder,
+            ISchemeBuilder<
+                KasDsaAlgoAttributesFfc,
+                OtherPartySharedInformation<
+                    FfcDomainParameters,
+                    FfcKeyPair
+                >,
+                FfcDomainParameters,
+                FfcKeyPair
+            > schemeBuilder,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder
+        ) : base(kasBuilder, schemeBuilder, entropyProviderFactory, macParametersBuilder) { }
+
+        protected override IKas<
+            KasDsaAlgoAttributesFfc, 
+            OtherPartySharedInformation<
+                FfcDomainParameters, 
+                FfcKeyPair
+            >, 
+            FfcDomainParameters, 
+            FfcKeyPair
+        > GetKasInstance(
+            SchemeKeyNonceGenRequirement<FfcScheme> partyKeyNonceRequirements, 
+            KeyAgreementRole partyRole,
+            KeyConfirmationRole partyKcRole, 
+            MacParameters macParameters, 
+            TestGroup @group,
+            TestCase testCase,
+            BitString partyId
         )
         {
-            _kasBuilder = kasBuilder;
-            _schemeBuilder = schemeBuilder;
-        }
-
-        public int NumberOfTestCasesToGenerate => 10;
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
-        {
-            var testCase = new TestCase()
-            {
-                Deferred = true
-            };
-
-            KeyAgreementRole serverRole =
-                KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(group.KasRole);
-
-            var serverKas = _kasBuilder
-                .WithAssurances(KasAssurance.None)
-                .WithKasDsaAlgoAttributes(group.KasDsaAlgoAttributes)
-                .WithSchemeBuilder(
-                    _schemeBuilder
-                        .WithHashFunction(group.HashAlg)
-                )
-                .WithPartyId(SpecificationMapping.ServerId)
-                .WithKeyAgreementRole(serverRole)
-                .BuildNoKdfNoKc()
-                .Build();
-
-            serverKas.SetDomainParameters(new FfcDomainParameters(group.P, group.Q, group.G));
-            var serverPublicInfo = serverKas.ReturnPublicInfoThisParty();
-
-            testCase.StaticPrivateKeyServer = serverKas.Scheme.StaticKeyPair?.PrivateKeyX ?? 0;
-            testCase.StaticPublicKeyServer = serverKas.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
-
-            testCase.EphemeralPrivateKeyServer = serverKas.Scheme.EphemeralKeyPair?.PrivateKeyX ?? 0;
-            testCase.EphemeralPublicKeyServer = serverKas.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
-
-            // For sample, we need to generate everything up front so that something's available
-            // in the answer files
-            if (isSample)
-            {
-                testCase.Deferred = false;
-
-                var iutKas = _kasBuilder
+            return _kasBuilder
                     .WithAssurances(KasAssurance.None)
                     .WithKasDsaAlgoAttributes(group.KasDsaAlgoAttributes)
                     .WithSchemeBuilder(
                         _schemeBuilder
                             .WithHashFunction(group.HashAlg)
                     )
-                    .WithPartyId(SpecificationMapping.IutId)
-                    .WithKeyAgreementRole(group.KasRole)
+                    .WithPartyId(partyId)
+                    .WithKeyAgreementRole(partyRole)
                     .BuildNoKdfNoKc()
                     .Build();
-
-                var result = iutKas.ComputeResult(serverPublicInfo);
-
-                TestCaseDispositionHelper.SetTestCaseInformationFromKasResults(group, testCase, serverKas, iutKas, result);
-            }
-
-            return Generate(@group, testCase);
-        }
-
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
-        {
-            return new TestCaseGenerateResponse(testCase);
         }
     }
 }

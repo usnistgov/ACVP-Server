@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 switch (testGroup.KasMode)
                 {
                     case KasMode.NoKdfNoKc:
-                        return new TestCaseGeneratorAftNoKdfNoKc(_kasBuilder, _schemeBuilder);
+                        return new TestCaseGeneratorAftNoKdfNoKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder);
                     case KasMode.KdfNoKc:
                         return new TestCaseGeneratorAftKdfNoKc(_kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder);
                     case KasMode.KdfKc:

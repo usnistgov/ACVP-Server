@@ -22,6 +22,9 @@ namespace NIST.CVP.Generation.KAS.Tests
     [TestFixture, UnitTest]
     public class TestCaseGeneratorAftNoKdfNoKcTests
     {
+        private readonly EntropyProviderFactory _entropyProviderFactory = new EntropyProviderFactory();
+        private readonly MacParametersBuilder _macParametersBuilder = new MacParametersBuilder();
+
         private TestCaseGeneratorAftNoKdfNoKc _subject;
         private Mock<IDsaFfc> _dsa;
         private IEntropyProvider _entropyProvider;
@@ -74,7 +77,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
 
             _subject = new TestCaseGeneratorAftNoKdfNoKc(
-                _kasBuilder, _schemeBuilder
+                _kasBuilder, _schemeBuilder, _entropyProviderFactory, _macParametersBuilder
             );
         }
 

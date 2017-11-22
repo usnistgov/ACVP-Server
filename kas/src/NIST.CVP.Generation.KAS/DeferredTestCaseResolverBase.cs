@@ -26,9 +26,26 @@ namespace NIST.CVP.Generation.KAS
         where TKeyPair : IDsaKeyPair
         where TScheme : struct, IComparable
     {
-        protected readonly IKasBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair> _kasBuilder;
+
+        protected readonly IKasBuilder<
+            TKasDsaAlgoAttributes, 
+            OtherPartySharedInformation<
+                TDomainParameters, 
+                TKeyPair
+            >, 
+            TDomainParameters, 
+            TKeyPair
+        > _kasBuilder;
         protected readonly IMacParametersBuilder _macParametersBuilder;
-        protected readonly ISchemeBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair> _schemeBuilder;
+        protected readonly ISchemeBuilder<
+            TKasDsaAlgoAttributes, 
+            OtherPartySharedInformation<
+                TDomainParameters, 
+                TKeyPair
+            >, 
+            TDomainParameters, 
+            TKeyPair
+        > _schemeBuilder;
         protected readonly IEntropyProviderFactory _entropyProviderFactory;
 
         protected DeferredTestCaseResolverBase(

@@ -18,6 +18,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         FfcScheme
     >
     {
+
         protected DeferredTestCaseResolverBaseFfc(
             IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
             IMacParametersBuilder macParametersBuilder, 
