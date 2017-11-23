@@ -9,7 +9,7 @@ using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.KAS.FFC.Fakes
+namespace NIST.CVP.Generation.KAS.Fakes
 {
     public class FakeKeyConfirmationFactory_BadMacData : IKeyConfirmationFactory
     {

@@ -2,34 +2,62 @@
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.KC;
+using NIST.CVP.Crypto.KAS.KDF;
+using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Generation.KAS.FFC.Helpers;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestCaseGeneratorValNoKdfNoKc : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorValNoKdfNoKc : TestCaseGeneratorValBaseFfc
     {
-        private readonly IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
-        private readonly ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
-        private readonly IShaFactory _shaFactory;
-        private readonly TestCaseDispositionOption _intendedDisposition;
 
         public TestCaseGeneratorValNoKdfNoKc(
-            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
-            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
+            IKasBuilder<
+                KasDsaAlgoAttributesFfc,
+                OtherPartySharedInformation<
+                    FfcDomainParameters,
+                    FfcKeyPair
+                >,
+                FfcDomainParameters,
+                FfcKeyPair
+            > kasBuilder,
+            ISchemeBuilder<
+                KasDsaAlgoAttributesFfc,
+                OtherPartySharedInformation<
+                    FfcDomainParameters,
+                    FfcKeyPair
+                >,
+                FfcDomainParameters,
+                FfcKeyPair
+            > schemeBuilder,
             IShaFactory shaFactory,
+            IEntropyProviderFactory entropyProviderFactory,
+            IMacParametersBuilder macParametersBuilder,
+            IKdfFactory kdfFactory,
+            IKeyConfirmationFactory keyConfirmationFactory,
+            INoKeyConfirmationFactory noKeyConfirmationFactory,
             TestCaseDispositionOption intendedDisposition
         )
+            : base(
+                  kasBuilder, 
+                  schemeBuilder, 
+                  shaFactory, 
+                  entropyProviderFactory, 
+                  macParametersBuilder, 
+                  kdfFactory,
+                  keyConfirmationFactory, 
+                  noKeyConfirmationFactory, 
+                  intendedDisposition
+             )
         {
-            _kasBuilder = kasBuilder;
-            _schemeBuilder = schemeBuilder;
-            _shaFactory = shaFactory;
-            _intendedDisposition = intendedDisposition;
-
             // This shouldn't happen, but just in case, NoKdfNoKc doesn't use DKM, MacData, or OI
             if (_intendedDisposition == TestCaseDispositionOption.FailChangedDkm
                 || _intendedDisposition == TestCaseDispositionOption.FailChangedMacData
@@ -39,23 +67,29 @@ namespace NIST.CVP.Generation.KAS.FFC
             }
         }
 
-        public int NumberOfTestCasesToGenerate => 25;
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        protected override IKas<
+            KasDsaAlgoAttributesFfc,
+            OtherPartySharedInformation<
+                FfcDomainParameters,
+                FfcKeyPair
+            >,
+            FfcDomainParameters,
+            FfcKeyPair
+        > GetKasInstance(
+            KeyAgreementRole partyRole,
+            KeyConfirmationRole partyKcRole,
+            MacParameters macParameters,
+            TestGroup @group,
+            TestCase testCase,
+            BitString partyId,
+            IKdfFactory kdfFactory,
+            INoKeyConfirmationFactory noKeyConfirmationFactory,
+            IKeyConfirmationFactory keyConfirmationFactory
+        )
         {
-            TestCase tc = new TestCase {TestCaseDisposition = _intendedDisposition};
-
-            return Generate(group, tc);
-        }
-
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
-        {
-            var uParty = _kasBuilder
-                .WithPartyId(
-                    group.KasRole == KeyAgreementRole.InitiatorPartyU
-                        ? SpecificationMapping.IutId
-                        : SpecificationMapping.ServerId
-                )
-                .WithKeyAgreementRole(KeyAgreementRole.InitiatorPartyU)
+            return _kasBuilder
+                .WithPartyId(partyId)
+                .WithKeyAgreementRole(partyRole)
                 .WithKasDsaAlgoAttributes(group.KasDsaAlgoAttributes)
                 .WithSchemeBuilder(
                     _schemeBuilder
@@ -63,90 +97,6 @@ namespace NIST.CVP.Generation.KAS.FFC
                 )
                 .BuildNoKdfNoKc()
                 .Build();
-
-            var vParty = _kasBuilder
-                .WithPartyId(
-                    group.KasRole == KeyAgreementRole.ResponderPartyV
-                        ? SpecificationMapping.IutId
-                        : SpecificationMapping.ServerId
-                )
-                .WithKeyAgreementRole(KeyAgreementRole.ResponderPartyV)
-                .WithKasDsaAlgoAttributes(group.KasDsaAlgoAttributes)
-                .WithSchemeBuilder(
-                    _schemeBuilder
-                        .WithHashFunction(group.HashAlg)
-                )
-                .BuildNoKdfNoKc()
-                .Build();
-
-            FfcDomainParameters dp = new FfcDomainParameters(
-                group.P,
-                group.Q,
-                group.G
-            );
-
-            uParty.SetDomainParameters(dp);
-            vParty.SetDomainParameters(dp);
-
-            var uPartyPublic = uParty.ReturnPublicInfoThisParty();
-            var vPartyPublic = vParty.ReturnPublicInfoThisParty();
-
-            var serverKas = group.KasRole == KeyAgreementRole.InitiatorPartyU ? vParty : uParty;
-            var iutKas = group.KasRole == KeyAgreementRole.InitiatorPartyU ? uParty : vParty;
-
-            // Mangle the keys prior to running compute result, to create a "successful" result on bad keys.
-            // IUT should pick up on bad private/public key information.
-            TestCaseDispositionHelper.MangleKeys(
-                testCase,
-                _intendedDisposition,
-                serverKas,
-                iutKas
-            );
-
-            // Use the IUT kas for compute result
-            KasResult iutResult = null;
-            if (serverKas == uParty)
-            {
-                iutResult = vParty.ComputeResult(uPartyPublic);
-            }
-            else
-            {
-                iutResult = uParty.ComputeResult(vPartyPublic);
-            }
-
-            // Set the test case up w/ the information from the kas instances
-            TestCaseDispositionHelper.SetTestCaseInformationFromKasResults(group, testCase, serverKas, iutKas, iutResult);
-            
-            // introduce errors into other data
-            if (_intendedDisposition == TestCaseDispositionOption.FailChangedZ)
-            {
-                testCase.FailureTest = true;
-
-                // Change the Z
-                testCase.Z[0] += 2;
-
-                // Rehash Z
-                testCase.Tag = _shaFactory.GetShaInstance(group.HashAlg).HashMessage(testCase.Z).Digest;
-            }
-
-            if (_intendedDisposition == TestCaseDispositionOption.FailChangedTag)
-            {
-                testCase.FailureTest = true;
-                testCase.HashZ[0] += 2;
-            }
-
-            // check for successful conditions w/ constraints.
-            if (_intendedDisposition == TestCaseDispositionOption.SuccessLeadingZeroNibbleZ)
-            {
-                // No zero nibble in MSB
-                if (testCase.Z[0] >= 0x10)
-                {
-                    // call generate again, until getting to a zero nibble MSB for Z
-                    Generate(group, testCase);
-                }
-            }
-
-            return new TestCaseGenerateResponse(testCase);
         }
     }
 }

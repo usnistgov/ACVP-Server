@@ -32,9 +32,14 @@ namespace NIST.CVP.Generation.KAS.Tests
         );
         private TestCaseGeneratorValNoKdfNoKc _subject;
         private IEntropyProvider _entropyProvider;
+        private IEntropyProviderFactory _entropyProviderFactory;
         private IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
         private ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private IShaFactory _shaFactory;
+        private IMacParametersBuilder _macParametersBuilder;
+        private IKeyConfirmationFactory _keyConfirmationFactory;
+        private INoKeyConfirmationFactory _noKeyConfirmationFactory;
+        private IKdfFactory _kdfFactory;
 
         [SetUp]
         public void Setup()
@@ -42,6 +47,7 @@ namespace NIST.CVP.Generation.KAS.Tests
             _shaFactory = new ShaFactory();
             
             _entropyProvider = new EntropyProvider(new Random800_90());
+            _entropyProviderFactory = new EntropyProviderFactory();
             _schemeBuilder = new SchemeBuilderFfc(
                     new DsaFfcFactory(_shaFactory), 
                     new KdfFactory(
@@ -58,8 +64,13 @@ namespace NIST.CVP.Generation.KAS.Tests
             );
             _kasBuilder = new KasBuilderFfc(_schemeBuilder);
 
+            _macParametersBuilder = new MacParametersBuilder();
+            _keyConfirmationFactory = new KeyConfirmationFactory();
+            _noKeyConfirmationFactory = new NoKeyConfirmationFactory();
+            _kdfFactory = new KdfFactory(_shaFactory);
+
             _subject = new TestCaseGeneratorValNoKdfNoKc(
-                _kasBuilder, _schemeBuilder, _shaFactory, TestCaseDispositionOption.Success
+                _kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, TestCaseDispositionOption.Success
             );
         }
 
@@ -153,7 +164,7 @@ namespace NIST.CVP.Generation.KAS.Tests
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedMacData)]
         public void ShouldSetInvalidTestCaseDispositionsToSuccess(FfcScheme scheme, KeyAgreementRole testGroupIutRole, TestCaseDispositionOption option)
         {
-            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory,  option);
+            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, option);
 
             BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
 
@@ -179,7 +190,7 @@ namespace NIST.CVP.Generation.KAS.Tests
         public void ShouldSetProperTestCaseFailureTestProperty(FfcScheme scheme, KeyAgreementRole testGroupIutRole,
             TestCaseDispositionOption option, bool isFailure)
         {
-            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, option);
+            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, option);
 
             BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
 

@@ -4,7 +4,7 @@ using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.KAS.FFC.Fakes
+namespace NIST.CVP.Generation.KAS.Fakes
 {
     public class FakeOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> : IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair>
         where TSharedInformation : ISharedInformation<TDomainParameters, TKeyPair>

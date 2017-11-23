@@ -88,11 +88,11 @@ namespace NIST.CVP.Generation.KAS.FFC
                 switch (testGroup.KasMode)
                 {
                     case KasMode.NoKdfNoKc:
-                        return new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, dispositionIntention);
+                        return new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, dispositionIntention);
                     case KasMode.KdfNoKc:
-                        return new TestCaseGeneratorValKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _noKeyConfirmationFactory, dispositionIntention);
+                        return new TestCaseGeneratorValKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, dispositionIntention);
                     case KasMode.KdfKc:
-                        return new TestCaseGeneratorValKdfKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, dispositionIntention);
+                        return new TestCaseGeneratorValKdfKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, dispositionIntention);
                     default:
                         return new TestCaseGeneratorNull();
                 }

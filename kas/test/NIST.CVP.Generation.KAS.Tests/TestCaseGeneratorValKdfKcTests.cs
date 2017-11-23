@@ -13,7 +13,7 @@ using NIST.CVP.Crypto.KES;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Generation.KAS.FFC;
-using NIST.CVP.Generation.KAS.FFC.Fakes;
+using NIST.CVP.Generation.KAS.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -38,6 +38,7 @@ namespace NIST.CVP.Generation.KAS.Tests
         private ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _schemeBuilder;
         private IMacParametersBuilder _macParametersBuilder;
         private IKeyConfirmationFactory _keyConfirmationFactory;
+        private INoKeyConfirmationFactory _noKeyConfirmationFactory;
         private IShaFactory _shaFactory;
         private IKdfFactory _kdfFactory;
 
@@ -66,6 +67,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
             _macParametersBuilder = new MacParametersBuilder();
             _keyConfirmationFactory = new KeyConfirmationFactory();
+            _noKeyConfirmationFactory = new NoKeyConfirmationFactory();
             _kdfFactory = new FakeKdfFactory_BadDkm(_shaFactory);
 
             _subject = new TestCaseGeneratorValKdfKc(
@@ -76,6 +78,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                 _macParametersBuilder,
                 _kdfFactory,
                 _keyConfirmationFactory,
+                _noKeyConfirmationFactory,
                 TestCaseDispositionOption.Success
             );
         }
@@ -424,6 +427,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                 _macParametersBuilder,
                 _kdfFactory,
                 _keyConfirmationFactory,
+                _noKeyConfirmationFactory,
                 option
             );
 

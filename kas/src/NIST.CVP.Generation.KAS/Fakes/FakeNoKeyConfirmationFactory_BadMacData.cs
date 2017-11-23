@@ -10,7 +10,7 @@ using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using ModeValues = NIST.CVP.Crypto.SHAWrapper.ModeValues;
 
-namespace NIST.CVP.Generation.KAS.FFC.Fakes
+namespace NIST.CVP.Generation.KAS.Fakes
 {
     public class FakeNoKeyConfirmationFactory_BadMacData : INoKeyConfirmationFactory
     {

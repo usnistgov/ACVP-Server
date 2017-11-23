@@ -5,13 +5,13 @@ using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.KAS.FFC.Fakes
+namespace NIST.CVP.Generation.KAS.Fakes
 {
-    public class FakeKdfFactory_BadDkm : IKdfFactory
+    public class FakeKdfFactory_BadZ : IKdfFactory
     {
         private readonly IShaFactory _shaFactory;
 
-        public FakeKdfFactory_BadDkm(IShaFactory shaFactory)
+        public FakeKdfFactory_BadZ(IShaFactory shaFactory)
         {
             _shaFactory = shaFactory;
         }
@@ -23,27 +23,25 @@ namespace NIST.CVP.Generation.KAS.FFC.Fakes
             switch (kdfHashMode)
             {
                 case KdfHashMode.Sha:
-                    return new FakeKdfSha_BadDkm(sha);
+                    return new FakeKdfSha_BadZ(sha);
                 default:
                     throw new ArgumentException(nameof(kdfHashMode));
             }
         }
     }
 
-    internal class FakeKdfSha_BadDkm : KdfSha
+    internal class FakeKdfSha_BadZ : KdfSha
     {
-        public FakeKdfSha_BadDkm(ISha sha) : base(sha)
+        public FakeKdfSha_BadZ(ISha sha) : base(sha)
         {
         }
 
         public override KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo)
         {
-            var dkmResult = base.DeriveKey(z, keyDataLength, otherInfo);
+            // change the z prior to passing to the KDF
+            z[0] += 2;
 
-            // Change the DKM prior to returning
-            dkmResult.DerivedKey[0] += 2;
-
-            return dkmResult;
+            return base.DeriveKey(z, keyDataLength, otherInfo);
         }
     }
 }
