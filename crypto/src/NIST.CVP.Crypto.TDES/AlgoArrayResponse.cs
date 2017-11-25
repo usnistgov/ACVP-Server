@@ -6,6 +6,10 @@ namespace NIST.CVP.Crypto.TDES
     {
         public BitString Keys { get; set; }
         public BitString IV { get; set; }
+        //TODO it would be better to create an AlgoArrayResponse with no IVS, and then subclass it with a single IV and a tripple IV
+        public BitString IV2 { get; set; }
+        public BitString IV3 { get; set; }
+
         private BitString _plainText;
         public BitString PlainText
         {

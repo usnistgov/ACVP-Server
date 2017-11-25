@@ -1,10 +1,9 @@
-﻿using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Math;
-using System;
-using System.Linq;
+﻿using System;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.TDES_CFBP
+namespace NIST.CVP.Crypto.TDES_CFB
 {
     public class CFBPMode : ConfidentialityMode
     {

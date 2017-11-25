@@ -1,7 +1,7 @@
 ﻿using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.TDES_CFBP
+namespace NIST.CVP.Crypto.TDES_CFB
 {
     public class DecryptionResultWithIv : DecryptionResult
     {

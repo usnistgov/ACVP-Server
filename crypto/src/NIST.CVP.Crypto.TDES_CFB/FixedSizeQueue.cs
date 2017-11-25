@@ -1,13 +1,15 @@
-﻿//TODO move to a common library
+﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Text;
 
-namespace NIST.CVP.Crypto.TDES_CFBP
+namespace NIST.CVP.Crypto.TDES_CFB
 {
     public class FixedSizedQueue<T> : ConcurrentQueue<T>
     {
         private readonly object syncObject = new object();
 
-        public int Size { get; }
+        public int Size { get; private set; }
 
         public FixedSizedQueue(int size)
         {
@@ -19,9 +21,10 @@ namespace NIST.CVP.Crypto.TDES_CFBP
             base.Enqueue(obj);
             lock (syncObject)
             {
-                while (Count > Size)
+                while (base.Count > Size)
                 {
-                    TryDequeue(out _);
+                    T outObj;
+                    base.TryDequeue(out outObj);
                 }
             }
         }
