@@ -20,7 +20,7 @@ namespace NIST.CVP.Math.Domain
         private RangeDomainSegmentOptions _segmentValueOptions = RangeDomainSegmentOptions.Sequential;
         private RangeMinMax _originalMinMax;
 
-        public const int _MAXIMUM_ALLOWED_RETURNS = 1024;
+        public const int _MAXIMUM_ALLOWED_RETURNS = 4096;
         public const int _MAXIMUM_ALLOWED_NUMBER_TO_RANDOMLY_GENERATE = (1 << 16) * 8;
         public const string _NOT_SUPPORTED_OPERATION =
             "Values have already been generated, cannot change generation options once this occurs.";
@@ -201,9 +201,18 @@ namespace NIST.CVP.Math.Domain
         public IEnumerable<int> GetValues(Func<int, bool> condition, int quantity)
         {
             _valuesHaveBeenGenerated = true;
+            var range = Enumerable.Range(_min, _max - _min + 1).Where(x => x % _increment == 0);
 
             // Pick out the number of values needed in whatever pre-specified order was used that meet the condition
-            return GetValues(MaxNumberOfValuesInSegment).Where(condition).Take(quantity);
+            if (SegmentValueOptions == RangeDomainSegmentOptions.Sequential)
+            {
+                return range.Where(condition).Take(quantity);
+            }
+            else
+            {
+                return range.Where(condition).OrderBy(a => Guid.NewGuid()).Take(quantity);
+            }
+            // return GetValues(MaxNumberOfValuesInSegment).Where(condition).Take(quantity);
         }
 
         /// <summary>

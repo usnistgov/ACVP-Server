@@ -384,6 +384,29 @@ namespace NIST.CVP.Math.Tests.Domain
                 Assert.IsTrue(value % 8 == 0);
             }
         }
+
+        [Test]
+        [TestCase(128, 128 * 200, 1)]
+        [TestCase(1, 128 * 5, 1)]
+        public void ShouldAlwaysPullMaximumNumberOfValuesWithACondition(int min, int max, int increment)
+        {
+            _subject = new RangeDomainSegment(new Random800_90(), min, max, increment)
+            {
+                SegmentValueOptions = RangeDomainSegmentOptions.Random
+            };
+
+            for (var i = 0; i < 100; i++)
+            {
+                var result = _subject.GetValues(v => v % 128 == 0, 5);
+                Assert.AreEqual(result.Count(), 5, "pulled not enough mod 128");
+            }
+
+            for (var i = 0; i < 100; i++)
+            {
+                var result = _subject.GetValues(v => v % 128 != 0, 5);
+                Assert.AreEqual(result.Count(), 5, "pulled not enough not mod 128");
+            }
+        }
         #endregion GetValues
     }
 }

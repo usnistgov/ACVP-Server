@@ -22,21 +22,7 @@ namespace NIST.CVP.Generation.AES_XTS
                 {
                     foreach (var tweakMode in parameters.TweakModes)
                     {
-                        //// Note, number of valid values (mod 128) is small compared to otherwise, need a consistent way to hit all groups
-                        //var ptLensAvailableToTest = parameters.PtLen.GetValues(5000).ToList();  // TODO Fix this so it isn't just a shotgun approach
                         var testPtLens = new List<int>();
-
-                        //// Add two random ptLens that are modulo 128
-                        //testPtLens.AddRangeIfNotNullOrEmpty(ptLensAvailableToTest
-                        //    .Where(w => w % 128 == 0 &&
-                        //                w != minMaxPtLen.Maximum)
-                        //    .Take(2));
-
-                        //// Add two random ptLens that are not modulo 128
-                        //testPtLens.AddRangeIfNotNullOrEmpty(ptLensAvailableToTest
-                        //    .Where(w => w % 128 != 0 &&
-                        //                w != minMaxPtLen.Maximum)
-                        //    .Take(2));
 
                         testPtLens.AddRange(parameters.PtLen.GetValues(w => w % 128 == 0 && w != minMaxPtLen.Maximum, 2, true));
                         testPtLens.AddRange(parameters.PtLen.GetValues(w => w % 128 != 0 && w != minMaxPtLen.Maximum, 2, true));
