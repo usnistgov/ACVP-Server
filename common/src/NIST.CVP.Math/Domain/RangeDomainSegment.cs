@@ -201,7 +201,9 @@ namespace NIST.CVP.Math.Domain
         public IEnumerable<int> GetValues(Func<int, bool> condition, int quantity)
         {
             _valuesHaveBeenGenerated = true;
-            var range = Enumerable.Range(_min, _max - _min + 1).Where(x => x % _increment == 0);
+
+            // Get a range of all the values in the domain
+            var range = Enumerable.Range(0, ((_max - _min) / _increment) + 1).Select(x => _min + _increment * x).Where(x => x >= _min && x <= _max);
 
             // Pick out the number of values needed in whatever pre-specified order was used that meet the condition
             if (SegmentValueOptions == RangeDomainSegmentOptions.Sequential)
