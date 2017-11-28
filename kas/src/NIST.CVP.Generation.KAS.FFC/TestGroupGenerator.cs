@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 return;
             }
 
-            FfcScheme scheme = SpecificationMapping.GetEnumFromType(schemeBase);
+            FfcScheme scheme = SpecificationMapping.GetFfcEnumFromType(schemeBase);
 
             CreateGroupsForNoKdfNoKc(schemeBase, flagFunctions, scheme, groups);
             CreateGroupsForKdfNoKc(schemeBase, flagFunctions, scheme, groups);

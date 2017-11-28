@@ -80,10 +80,10 @@ namespace NIST.CVP.Generation.KAS.FFC
             {
                 if (_validityTestCaseOptions.Count == 0)
                 {
-                    _validityTestCaseOptions = TestCaseDispositionHelper.PopulateValidityTestCaseOptions(testGroup);
+                    _validityTestCaseOptions = KAS.Helpers.TestCaseDispositionHelper.PopulateValidityTestCaseOptions(testGroup);
                 }
 
-                TestCaseDispositionOption dispositionIntention = TestCaseDispositionHelper.GetTestCaseIntention(_validityTestCaseOptions);
+                TestCaseDispositionOption dispositionIntention = KAS.Helpers.TestCaseDispositionHelper.GetTestCaseIntention(_validityTestCaseOptions);
 
                 switch (testGroup.KasMode)
                 {

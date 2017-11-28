@@ -68,9 +68,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithKeyAgreementRole(partyRole)
                 .BuildKdfNoKc()
                 .WithKeyLength(group.KeyLen)
-                .WithMacParameters(
-                    macParameters
-                )
+                .WithMacParameters(macParameters)
                 .WithOtherInfoPattern(group.OiPattern)
                 .Build();
         }

@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Parsers
 
             var groups = new List<TestGroup>();
 
-            var files = Directory.GetFiles(path, "*.fax", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(path, "*ffc*.fax", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 string fileName = Path.GetFileName(file).ToLower();

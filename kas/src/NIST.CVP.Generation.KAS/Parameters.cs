@@ -29,14 +29,23 @@ namespace NIST.CVP.Generation.KAS
     /// </summary>
     public class Schemes
     {
+        #region FFC
         /// <summary>
-        /// Diffie Hellman Ephemeral
+        /// FFC Diffie Hellman Ephemeral
         /// </summary>
         public DhEphem DhEphem { get; set; }
         /// <summary>
-        /// MQV1
+        /// FFC MQV1
         /// </summary>
         public Mqv1 Mqv1 { get; set; }
+        #endregion FFC
+
+        #region ECC
+        /// <summary>
+        /// ECC Ephemeral Unified
+        /// </summary>
+        public EphemeralUnified EphemeralUnified { get; set; }
+        #endregion ECC
     }
 
     /// <summary>
@@ -73,6 +82,8 @@ namespace NIST.CVP.Generation.KAS
     /// Registration for MQV1
     /// </summary>
     public class Mqv1 : SchemeBase { }
+
+    public class EphemeralUnified : SchemeBase { }
 
     /// <summary>
     /// Registration requirements for NoKdfNoKc
@@ -114,14 +125,34 @@ namespace NIST.CVP.Generation.KAS
     /// </summary>
     public class ParameterSets
     {
+        #region FFC
         /// <summary>
-        /// The FB parameter set
+        /// The FFC FB parameter set
         /// </summary>
         public Fb Fb { get; set; }
         /// <summary>
-        /// The FC parameter set
+        /// The FFC FC parameter set
         /// </summary>
         public Fc Fc { get; set; }
+        #endregion FFC
+        #region ECC
+        /// <summary>
+        /// The ECC Eb parameter set
+        /// </summary>
+        public Eb Eb { get; set; }
+        /// <summary>
+        /// The ECC Ec parameter set
+        /// </summary>
+        public Ec Ec { get; set; }
+        /// <summary>
+        /// The ECC Ed parameter set
+        /// </summary>
+        public Ed Ed { get; set; }
+        /// <summary>
+        /// The ECC Ee parameter set
+        /// </summary>
+        public Ee Ee { get; set; }
+        #endregion ECC
     }
 
     /// <summary>
@@ -150,6 +181,22 @@ namespace NIST.CVP.Generation.KAS
     /// <inheritdoc />
     /// <summary>Fc</summary>
     public class Fc : ParameterSetBase { }
+
+    /// <inheritdoc />
+    /// <summary>Eb</summary>
+    public class Eb : ParameterSetBase { }
+
+    /// <inheritdoc />
+    /// <summary>Ec</summary>
+    public class Ec : ParameterSetBase { }
+
+    /// <inheritdoc />
+    /// <summary>Ed</summary>
+    public class Ed : ParameterSetBase { }
+
+    /// <inheritdoc />
+    /// <summary>Ee</summary>
+    public class Ee : ParameterSetBase { }
 
     /// <summary>
     /// The options for a Kdf function

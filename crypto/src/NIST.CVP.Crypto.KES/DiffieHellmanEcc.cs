@@ -13,11 +13,6 @@ namespace NIST.CVP.Crypto.KES
             EccKeyPair qB
         )
         {
-            if (!domainParameters.CurveE.PointExistsOnCurve(dA.PublicQ))
-            {
-                return new SharedSecretResponse($"Point {nameof(qB)} does not exist on curve");
-            }
-
             var p = domainParameters.CurveE.Multiply(qB.PublicQ, dA.PrivateD);
             p = domainParameters.CurveE.Multiply(p, domainParameters.CurveE.CofactorH);
 

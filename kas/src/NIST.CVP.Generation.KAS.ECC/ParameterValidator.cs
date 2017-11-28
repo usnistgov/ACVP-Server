@@ -1,0 +1,134 @@
+﻿using System;
+using System.Collections.Generic;
+using NIST.CVP.Crypto.DSA.ECC.Enums;
+using NIST.CVP.Crypto.DSA.ECC.Helpers;
+using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.KAS.Helpers;
+using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Generation.KAS;
+
+namespace NIST.CVP.Generation.KAS.ECC
+{
+    public class ParameterValidator : ParameterValidatorBase
+    {
+        public override string Algorithm => "KAS-ECC";
+
+        public override string[] ValidFunctions => new string[]
+        {
+            "dpGen",
+            "dpVal",
+            "keyPairGen",
+            "partialVal",
+            "keyRegen"
+        };
+
+        protected override void ValidateSchemes(Parameters parameters, List<string> errorResults)
+        {
+            if (parameters.Scheme == null)
+            {
+                errorResults.Add("Scheme is required.");
+                return;
+            }
+
+            ValidateAtLeastOneSchemePresent(parameters.Scheme, errorResults);
+            ValidateEphemeralUnified(parameters.Scheme.DhEphem, errorResults);
+        }
+
+        protected override void ValidateAtLeastOneParameterSetPresent(NoKdfNoKc kasMode, List<string> errorResults)
+        {
+            if (kasMode.ParameterSet == null)
+            {
+                errorResults.Add("ParameterSet must be provided.");
+                return;
+            }
+
+            if (kasMode.ParameterSet.Fb == null && kasMode.ParameterSet.Fc == null)
+            {
+                errorResults.Add("At least one paramter set must be provided.");
+            }
+        }
+
+        protected override void ValidateParameterSets(NoKdfNoKc kasMode, bool macRequired, List<string> errorResults)
+        {
+            ValidateParameterSetEcc(kasMode.ParameterSet.Eb, macRequired, EccParameterSet.Eb, errorResults);
+            ValidateParameterSetEcc(kasMode.ParameterSet.Ec, macRequired, EccParameterSet.Ec, errorResults);
+            ValidateParameterSetEcc(kasMode.ParameterSet.Ed, macRequired, EccParameterSet.Ed, errorResults);
+            ValidateParameterSetEcc(kasMode.ParameterSet.Ee, macRequired, EccParameterSet.Ee, errorResults);
+        }
+
+        private void ValidateAtLeastOneSchemePresent(Schemes parametersScheme, List<string> errorResults)
+        {
+            // TODO add more schemes
+            if (parametersScheme.EphemeralUnified == null)
+            {
+                errorResults.Add("No schemes are present in the registration.");
+            }
+        }
+
+        private void ValidateEphemeralUnified(SchemeBase scheme, List<string> errorResults)
+        {
+            if (scheme == null)
+            {
+                return;
+            }
+
+            ValidateKeyAgreementRoles(scheme.Role, errorResults);
+
+            ValidateAtLeastOneKasModePresent(scheme, errorResults);
+            if (errorResults.Count > 0)
+            {
+                return;
+            }
+
+            // kdfKc is invalid for dhEphem
+            if (scheme.KdfKc != null && scheme is DhEphem)
+            {
+                errorResults.Add("Key Confirmation not possible with ephemeralUnified.");
+                return;
+            }
+
+            ValidateNoKdfNoKc(scheme.NoKdfNoKc, errorResults);
+            ValidateKdfNoKc(scheme.KdfNoKc, errorResults);
+            ValidateKdfKc(scheme.KdfKc, errorResults);
+        }
+
+        private void ValidateParameterSetEcc(ParameterSetBase parameterSet, bool macRequired, EccParameterSet parameterSetType, List<string> errorResults)
+        {
+            if (parameterSet == null)
+            {
+                return;
+            }
+
+            var parameterSetDetails = ParameterSetDetails.GetDetailsForEccParameterSet(parameterSetType);
+
+            ValidateCurve(
+                parameterSet.CurveName, parameterSetDetails.minLengthN, parameterSetDetails.maxLengthN,
+                errorResults);
+            ValidateHashFunctions(parameterSet.HashAlg, parameterSetType.ToString(),
+                parameterSetDetails.minHashLength, errorResults);
+            ValidateMacOptions(parameterSet.MacOption, macRequired, parameterSetDetails.minMacLength,
+                parameterSetDetails.minMacKeyLength, errorResults);
+        }
+
+        private void ValidateCurve(string parameterSetCurveName, int minLenN, int maxLenN, List<string> errorResults)
+        {
+            Curve curve;
+            try
+            {
+                curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(parameterSetCurveName);
+            }
+            catch (Exception)
+            {
+                errorResults.Add("Invalid Curve name");
+                return;
+            }
+
+            var curveAttribute = CurveAttributesHelper.GetCurveAttribute(curve);
+            if (curveAttribute.LengthN < minLenN ||
+                curveAttribute.LengthN > maxLenN)
+            {
+                errorResults.Add("Curve not valid for parameterset");
+            }
+        }
+    }
+}

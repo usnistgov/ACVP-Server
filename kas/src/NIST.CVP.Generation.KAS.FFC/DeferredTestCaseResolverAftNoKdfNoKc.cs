@@ -16,10 +16,10 @@ namespace NIST.CVP.Generation.KAS.FFC
         
         public DeferredTestCaseResolverAftNoKdfNoKc(
             IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder,
-            IMacParametersBuilder macParametersBuilder,
             ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder,
+            IMacParametersBuilder macParametersBuilder,
             IEntropyProviderFactory entropyProviderFactory
-        ) : base(kasBuilder, macParametersBuilder, schemeBuilder, entropyProviderFactory) { }
+        ) : base(kasBuilder, schemeBuilder, macParametersBuilder, entropyProviderFactory) { }
 
         /// <inheritdoc />
         protected override IKas<
@@ -40,9 +40,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         )
         {
             return _kasBuilder
-                .WithKeyAgreementRole(
-                    serverKeyRequirements.ThisPartyKasRole
-                )
+                .WithKeyAgreementRole(serverKeyRequirements.ThisPartyKasRole)
                 .WithPartyId(testGroup.IdServer)
                 .WithKasDsaAlgoAttributes(testGroup.KasDsaAlgoAttributes)
                 .WithSchemeBuilder(

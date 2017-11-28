@@ -95,25 +95,25 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     {
                         case KasMode.NoKdfNoKc:
                             testCaseResolver = new DeferredTestCaseResolverAftNoKdfNoKc(
-                                kasBuilder, 
-                                new MacParametersBuilder(),
+                                kasBuilder,
                                 schemeBuilder,
+                                new MacParametersBuilder(),
                                 new EntropyProviderFactory()
                             );
                             break;
                         case KasMode.KdfNoKc:
                             testCaseResolver = new DeferredTestCaseResolverAftKdfNoKc(
                                 kasBuilder,
-                                new MacParametersBuilder(),
                                 schemeBuilder,
+                                new MacParametersBuilder(),
                                 new EntropyProviderFactory()
                             );
                             break;
                         case KasMode.KdfKc:
                             testCaseResolver = new DeferredTestCaseResolverAftKdfKc(
                                 kasBuilder,
-                                new MacParametersBuilder(),
                                 schemeBuilder,
+                                new MacParametersBuilder(),
                                 new EntropyProviderFactory()
                             );
                             break;

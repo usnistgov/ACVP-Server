@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             {
                 if (suppliedResult.EphemeralNonceIut == null || suppliedResult.EphemeralNonceIut.BitLength == 0)
                 {
-                    errors.Add($"Expected {nameof(suppliedResult.EphemeralPublicKeyIut)} but was not supplied");
+                    errors.Add($"Expected {nameof(suppliedResult.EphemeralNonceIut)} but was not supplied");
                 }
             }
 

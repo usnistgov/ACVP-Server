@@ -1,7 +1,7 @@
 ﻿namespace NIST.CVP.Generation.Core
 {
     /// <summary>
-    /// Represents the result from a cryto algo
+    /// Represents the result from a crypto algo
     /// </summary>
     public interface ICryptoResult
     {

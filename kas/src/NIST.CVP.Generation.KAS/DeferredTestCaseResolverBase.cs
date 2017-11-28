@@ -58,7 +58,6 @@ namespace NIST.CVP.Generation.KAS
                 TDomainParameters,
                 TKeyPair
             > kasBuilder,
-            IMacParametersBuilder macParametersBuilder,
             ISchemeBuilder<
                 TKasDsaAlgoAttributes,
                 OtherPartySharedInformation<
@@ -68,6 +67,7 @@ namespace NIST.CVP.Generation.KAS
                 TDomainParameters,
                 TKeyPair
             > schemeBuilder,
+            IMacParametersBuilder macParametersBuilder,
             IEntropyProviderFactory entropyProviderFactory
         )
         {

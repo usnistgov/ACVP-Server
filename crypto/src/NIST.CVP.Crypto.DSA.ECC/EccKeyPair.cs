@@ -4,8 +4,8 @@ namespace NIST.CVP.Crypto.DSA.ECC
 {
     public class EccKeyPair : IDsaKeyPair
     {
-        public EccPoint PublicQ { get; }
-        public BigInteger PrivateD { get; }
+        public EccPoint PublicQ { get; set; }
+        public BigInteger PrivateD { get; set; }
 
         public EccKeyPair(EccPoint q, BigInteger d)
         {

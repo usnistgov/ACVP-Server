@@ -66,9 +66,25 @@ namespace NIST.CVP.Generation.KAS
                 (FfcScheme.Mqv1, typeof(Mqv1))
             };
 
-        public static FfcScheme GetEnumFromType(SchemeBase schemeBase)
+        public static FfcScheme GetFfcEnumFromType(SchemeBase schemeBase)
         {
             if (!FfcSchemeMapping.TryFirst(w => w.schemeParameter.IsInstanceOfType(schemeBase), out var result))
+            {
+                throw new ArgumentException(nameof(schemeBase));
+            }
+
+            return result.schemeEnum;
+        }
+
+        public static List<(EccScheme schemeEnum, Type schemeParameter)> EccSchemeMapping =
+            new List<(EccScheme schemeEnum, Type schemeParameter)>()
+            {
+                (EccScheme.EphemeralUnified, typeof(EphemeralUnified))
+            };
+
+        public static EccScheme GetEccEnumFromType(SchemeBase schemeBase)
+        {
+            if (!EccSchemeMapping.TryFirst(w => w.schemeParameter.IsInstanceOfType(schemeBase), out var result))
             {
                 throw new ArgumentException(nameof(schemeBase));
             }

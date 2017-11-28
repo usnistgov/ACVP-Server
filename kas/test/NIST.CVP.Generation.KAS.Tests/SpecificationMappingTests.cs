@@ -109,7 +109,7 @@ namespace NIST.CVP.Generation.KAS.Tests
         #region scheme
 
         [Test]
-        public void ShouldHaveCorrectNumberOfSchemes()
+        public void ShouldHaveCorrectNumberOfSchemesFfc()
         {
             /* 
              * TODO update this as more schemes are added.
@@ -121,7 +121,20 @@ namespace NIST.CVP.Generation.KAS.Tests
             Assert.AreEqual(numberOfSchemesImplemented, SpecificationMapping.FfcSchemeMapping.Count);
         }
 
-        private static object[] _testShouldGetEnumFromType = new object[]
+
+        [Test]
+        public void ShouldHaveCorrectNumberOfSchemesEcc()
+        {
+            /* 
+             * TODO update this as more schemes are added.
+             * Wanted to add a test that will fail once schemes are added to help 
+             * ensure the other tests are updated to account for new schemes.
+            */
+            const int numberOfSchemesImplemented = 1;
+
+            Assert.AreEqual(numberOfSchemesImplemented, SpecificationMapping.EccSchemeMapping.Count);
+        }
+        private static object[] _testShouldGetEnumFromTypeFfc = new object[]
         {
             new object[]
             {
@@ -136,10 +149,28 @@ namespace NIST.CVP.Generation.KAS.Tests
         };
 
         [Test]
-        [TestCaseSource(nameof(_testShouldGetEnumFromType))]
-        public void ShouldGetEnumFromType(SchemeBase schemeBase, FfcScheme expectedSchemeEnum)
+        [TestCaseSource(nameof(_testShouldGetEnumFromTypeFfc))]
+        public void ShouldGetEnumFromTypeFfc(SchemeBase schemeBase, FfcScheme expectedSchemeEnum)
         {
-            var result = SpecificationMapping.GetEnumFromType(schemeBase);
+            var result = SpecificationMapping.GetFfcEnumFromType(schemeBase);
+
+            Assert.AreEqual(expectedSchemeEnum, result);
+        }
+
+        private static object[] _testShouldGetEnumFromTypeEcc = new object[]
+        {
+            new object[]
+            {
+                new EphemeralUnified(), 
+                EccScheme.EphemeralUnified
+            }
+        };
+
+        [Test]
+        [TestCaseSource(nameof(_testShouldGetEnumFromTypeEcc))]
+        public void ShouldGetEnumFromType(SchemeBase schemeBase, EccScheme expectedSchemeEnum)
+        {
+            var result = SpecificationMapping.GetEccEnumFromType(schemeBase);
 
             Assert.AreEqual(expectedSchemeEnum, result);
         }
@@ -147,10 +178,17 @@ namespace NIST.CVP.Generation.KAS.Tests
         private class FakeSchemeBase : SchemeBase { }
 
         [Test]
-        public void ShouldThrowWhenInvalidScheme()
+        public void ShouldThrowWhenInvalidSchemeFfc()
         {
             Assert.Throws(typeof(ArgumentException),
-                () => SpecificationMapping.GetEnumFromType(new FakeSchemeBase()));
+                () => SpecificationMapping.GetFfcEnumFromType(new FakeSchemeBase()));
+        }
+
+        [Test]
+        public void ShouldThrowWhenInvalidSchemeEcc()
+        {
+            Assert.Throws(typeof(ArgumentException),
+                () => SpecificationMapping.GetEccEnumFromType(new FakeSchemeBase()));
         }
         #endregion scheme
 

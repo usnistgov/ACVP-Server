@@ -20,11 +20,11 @@ namespace NIST.CVP.Generation.KAS.FFC
     {
 
         protected DeferredTestCaseResolverBaseFfc(
-            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
-            IMacParametersBuilder macParametersBuilder, 
-            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder, 
+            IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder,
+            ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder,
+            IMacParametersBuilder macParametersBuilder,
             IEntropyProviderFactory entropyProviderFactory
-        ) : base(kasBuilder, macParametersBuilder, schemeBuilder, entropyProviderFactory) { }
+        ) : base(kasBuilder, schemeBuilder, macParametersBuilder, entropyProviderFactory) { }
 
         /// <inheritdoc />
         protected override SchemeKeyNonceGenRequirement<FfcScheme> GetServerNonceKeyGenRequirements(

@@ -52,8 +52,8 @@ namespace NIST.CVP.Generation.KAS.FFC
                                         group,
                                         new DeferredTestCaseResolverAftNoKdfNoKc(
                                             _kasBuilder,
-                                            _macParametersBuilder,
                                             _schemeBuilder,
+                                            _macParametersBuilder,
                                             _entropyProviderFactory
                                         )
                                     )
@@ -66,8 +66,8 @@ namespace NIST.CVP.Generation.KAS.FFC
                                         group,
                                         new DeferredTestCaseResolverAftKdfNoKc(
                                             _kasBuilder,
-                                            _macParametersBuilder,
                                             _schemeBuilder,
+                                            _macParametersBuilder,
                                             _entropyProviderFactory
                                         )
                                     )
@@ -80,8 +80,8 @@ namespace NIST.CVP.Generation.KAS.FFC
                                         group,
                                         new DeferredTestCaseResolverAftKdfKc(
                                             _kasBuilder,
-                                            _macParametersBuilder,
                                             _schemeBuilder,
+                                            _macParametersBuilder,
                                             _entropyProviderFactory
                                         )
                                     )
