@@ -109,6 +109,44 @@ namespace NIST.CVP.Math.Tests.Domain
         }
 
         [Test]
+        public void ShouldNotSayDomainContainsOtherElements()
+        {
+            int min = 100;
+            int max = 100;
+
+            _mockDomainSegment
+                .SetupGet(s => s.RangeMinMax)
+                .Returns(new RangeMinMax()
+                {
+                    Minimum = min,
+                    Maximum = max
+                });
+
+            var result = _subject.ContainsValueOtherThan(100);
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void ShouldSayDomainContainsOtherElements()
+        {
+            int min = 1;
+            int max = 100;
+
+            _mockDomainSegment
+                .SetupGet(s => s.RangeMinMax)
+                .Returns(new RangeMinMax()
+                {
+                    Minimum = min,
+                    Maximum = max
+                });
+
+            var result = _subject.ContainsValueOtherThan(100);
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
         [TestCase(1)]
         [TestCase(5)]
         public void ShouldGetRangeMinMaxForEachSegment(int numberOfSegments)

@@ -149,6 +149,22 @@ namespace NIST.CVP.Math.Domain
         }
 
         /// <summary>
+        /// Checks if the domain contains any value other than the provided value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool ContainsValueOtherThan(int value)
+        {
+            var minMax = GetDomainMinMax();
+            if (minMax.Minimum != value || minMax.Maximum != value)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Gets the number of values specified from each segment (or up to the upper limit of the segment)
         /// </summary>
         /// <param name="numberOfValuesPerSegment">Max number of values to get per <see cref="IDomainSegment"/></param>
