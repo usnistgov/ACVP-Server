@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E4AFAA09-238E-4702-9534-3520C9DAE860}"
 EndProject
@@ -69,11 +69,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC.SigVer.Tests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.SigVer.Tests\NIST.CVP.Generation.DSA.ECC.SigVer.Tests.csproj", "{AE6B5685-F419-48AF-9FD2-EF97AC457901}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECDSA-SigVer", "..\..\ecdsa\src\ECDSA-SigVer\ECDSA-SigVer.csproj", "{1072095B-E011-400B-85F6-2579762BB065}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECDSA-SigVer", "..\..\ecdsa\src\ECDSA-SigVer\ECDSA-SigVer.csproj", "{1072095B-E011-400B-85F6-2579762BB065}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECDSA-SigVer_Val", "..\..\ecdsa\src\ECDSA-SigVer_Val\ECDSA-SigVer_Val.csproj", "{E9439CD3-446D-4124-BC9D-EA1AEEA01AF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECDSA-SigVer_Val", "..\..\ecdsa\src\ECDSA-SigVer_Val\ECDSA-SigVer_Val.csproj", "{E9439CD3-446D-4124-BC9D-EA1AEEA01AF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.cs\NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.csproj", "{BC447FF2-2D89-4F95-A79E-30C9EA563A66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests", "..\..\ecdsa\test\NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.cs\NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests.csproj", "{BC447FF2-2D89-4F95-A79E-30C9EA563A66}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{2CE55695-E9FF-4D54-B71A-9190B7B13507}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -217,6 +219,10 @@ Global
 		{BC447FF2-2D89-4F95-A79E-30C9EA563A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC447FF2-2D89-4F95-A79E-30C9EA563A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC447FF2-2D89-4F95-A79E-30C9EA563A66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CE55695-E9FF-4D54-B71A-9190B7B13507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE55695-E9FF-4D54-B71A-9190B7B13507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CE55695-E9FF-4D54-B71A-9190B7B13507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CE55695-E9FF-4D54-B71A-9190B7B13507}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -256,6 +262,7 @@ Global
 		{1072095B-E011-400B-85F6-2579762BB065} = {E4AFAA09-238E-4702-9534-3520C9DAE860}
 		{E9439CD3-446D-4124-BC9D-EA1AEEA01AF7} = {E4AFAA09-238E-4702-9534-3520C9DAE860}
 		{BC447FF2-2D89-4F95-A79E-30C9EA563A66} = {7D91911F-608E-4C44-A5A6-76D83EC88ECA}
+		{2CE55695-E9FF-4D54-B71A-9190B7B13507} = {E4AFAA09-238E-4702-9534-3520C9DAE860}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4A143FD-6751-433D-8F1B-E43688F20A05}

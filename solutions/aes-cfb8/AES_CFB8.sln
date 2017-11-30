@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B1CE289E-A3FE-4708-8E2A-A7C5BB527046}"
 EndProject
@@ -34,6 +34,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_CFB8", "..\..\crypto\src\NIST.CVP.Crypto.AES_CFB8\NIST.CVP.Crypto.AES_CFB8.csproj", "{EE062F83-DBC2-4DD7-B897-2263046D9863}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_CFB8.Tests", "..\..\crypto\test\NIST.CVP.Crypto.AES_CFB8.Tests\NIST.CVP.Crypto.AES_CFB8.Tests.csproj", "{3C2C6DBF-8230-44AD-8FD7-2E19F1409ED8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{8E03C31C-9E36-4EAC-AA34-9B8422A30ED7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +99,10 @@ Global
 		{3C2C6DBF-8230-44AD-8FD7-2E19F1409ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C2C6DBF-8230-44AD-8FD7-2E19F1409ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C2C6DBF-8230-44AD-8FD7-2E19F1409ED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E03C31C-9E36-4EAC-AA34-9B8422A30ED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E03C31C-9E36-4EAC-AA34-9B8422A30ED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E03C31C-9E36-4EAC-AA34-9B8422A30ED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E03C31C-9E36-4EAC-AA34-9B8422A30ED7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,5 +122,9 @@ Global
 		{713110FA-7520-4D30-BCE1-281C07FB99A8} = {B1CE289E-A3FE-4708-8E2A-A7C5BB527046}
 		{EE062F83-DBC2-4DD7-B897-2263046D9863} = {B1CE289E-A3FE-4708-8E2A-A7C5BB527046}
 		{3C2C6DBF-8230-44AD-8FD7-2E19F1409ED8} = {B6AC12C0-68A1-48B1-AADA-4F7F035924D4}
+		{8E03C31C-9E36-4EAC-AA34-9B8422A30ED7} = {B1CE289E-A3FE-4708-8E2A-A7C5BB527046}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9E879506-509D-4617-9A2B-DE0CE6C0ED61}
 	EndGlobalSection
 EndGlobal

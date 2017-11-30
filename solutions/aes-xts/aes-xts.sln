@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5386C67B-5584-4BB1-8602-F9CF01237D4C}"
 EndProject
@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Tests.Core", "..\.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES.Tests", "..\..\crypto\test\NIST.CVP.Crypto.AES.Tests\NIST.CVP.Crypto.AES.Tests.csproj", "{8218B173-1361-463D-9C0F-6B212C6B27C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.AES_XTS", "..\..\crypto\src\NIST.CVP.Crypto.AES_XTS\NIST.CVP.Crypto.AES_XTS.csproj", "{E7F0EC0F-C13A-4AFC-B1B0-AB4523AA0349}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_XTS", "..\..\crypto\src\NIST.CVP.Crypto.AES_XTS\NIST.CVP.Crypto.AES_XTS.csproj", "{E7F0EC0F-C13A-4AFC-B1B0-AB4523AA0349}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_ECB", "..\..\crypto\src\NIST.CVP.Crypto.AES_ECB\NIST.CVP.Crypto.AES_ECB.csproj", "{6A180E0D-A03E-4A7B-9E00-46D88DAE8DD1}"
 EndProject
@@ -33,17 +33,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SHA2", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SHA3", "..\..\crypto\src\NIST.CVP.Crypto.SHA3\NIST.CVP.Crypto.SHA3.csproj", "{FBDC050A-59ED-4E49-9B32-BA6760A30BB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.AES_XTS", "..\..\aes-xts\src\NIST.CVP.Generation.AES_XTS\NIST.CVP.Generation.AES_XTS.csproj", "{D2670296-1954-4DFA-932A-4A3D7117AE00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.AES_XTS", "..\..\aes-xts\src\NIST.CVP.Generation.AES_XTS\NIST.CVP.Generation.AES_XTS.csproj", "{D2670296-1954-4DFA-932A-4A3D7117AE00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.AES_XTS.Tests", "..\..\aes-xts\test\NIST.CVP.Generation.AES_XTS.Tests\NIST.CVP.Generation.AES_XTS.Tests.csproj", "{D5F96BAE-A67D-47ED-8D8D-697FE11B5C0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.AES_XTS.Tests", "..\..\aes-xts\test\NIST.CVP.Generation.AES_XTS.Tests\NIST.CVP.Generation.AES_XTS.Tests.csproj", "{D5F96BAE-A67D-47ED-8D8D-697FE11B5C0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.AES_XTS.Tests", "..\..\crypto\test\NIST.CVP.Crypto.AES_XTS.Tests\NIST.CVP.Crypto.AES_XTS.Tests.csproj", "{0BF0BD57-2911-45DC-B016-783164588C9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.AES_XTS.Tests", "..\..\crypto\test\NIST.CVP.Crypto.AES_XTS.Tests\NIST.CVP.Crypto.AES_XTS.Tests.csproj", "{0BF0BD57-2911-45DC-B016-783164588C9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.AES_XTS.IntegrationTests", "..\..\aes-xts\test\NIST.CVP.Generation.AES_XTS.IntegrationTests\NIST.CVP.Generation.AES_XTS.IntegrationTests.csproj", "{9BECBA0A-E89F-4FD3-B44B-B99C6F7475DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.AES_XTS.IntegrationTests", "..\..\aes-xts\test\NIST.CVP.Generation.AES_XTS.IntegrationTests\NIST.CVP.Generation.AES_XTS.IntegrationTests.csproj", "{9BECBA0A-E89F-4FD3-B44B-B99C6F7475DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AES_XTS", "..\..\aes-xts\src\AES_XTS\AES_XTS.csproj", "{24EC9177-3005-4178-8C07-F21CBBA67FC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AES_XTS", "..\..\aes-xts\src\AES_XTS\AES_XTS.csproj", "{24EC9177-3005-4178-8C07-F21CBBA67FC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AES_XTS_Val", "..\..\aes-xts\src\AES_XTS_Val\AES_XTS_Val.csproj", "{DE17FFC7-4445-48C7-BF40-DEFE8E58A5AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AES_XTS_Val", "..\..\aes-xts\src\AES_XTS_Val\AES_XTS_Val.csproj", "{DE17FFC7-4445-48C7-BF40-DEFE8E58A5AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{DC4175CE-BC42-4A08-A5DF-CED4815C9350}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,10 @@ Global
 		{DE17FFC7-4445-48C7-BF40-DEFE8E58A5AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE17FFC7-4445-48C7-BF40-DEFE8E58A5AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE17FFC7-4445-48C7-BF40-DEFE8E58A5AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC4175CE-BC42-4A08-A5DF-CED4815C9350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC4175CE-BC42-4A08-A5DF-CED4815C9350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC4175CE-BC42-4A08-A5DF-CED4815C9350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC4175CE-BC42-4A08-A5DF-CED4815C9350}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +157,7 @@ Global
 		{9BECBA0A-E89F-4FD3-B44B-B99C6F7475DA} = {88ACFD4F-9DFF-48D6-B7CA-BF1B95E32564}
 		{24EC9177-3005-4178-8C07-F21CBBA67FC7} = {5386C67B-5584-4BB1-8602-F9CF01237D4C}
 		{DE17FFC7-4445-48C7-BF40-DEFE8E58A5AB} = {5386C67B-5584-4BB1-8602-F9CF01237D4C}
+		{DC4175CE-BC42-4A08-A5DF-CED4815C9350} = {5386C67B-5584-4BB1-8602-F9CF01237D4C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F816C81E-ABF3-48F7-8C74-69226DAE7230}

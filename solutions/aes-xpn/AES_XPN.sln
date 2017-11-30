@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EC6617CD-B066-4B62-94DC-43A76ED9E944}"
 EndProject
@@ -34,6 +34,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AES_XPN", "..\..\aes-xpn\src\AES_XPN\AES_XPN.csproj", "{0FF6B563-3DC0-4640-9EC3-0FEC2F65EF07}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AES_XPN_Val", "..\..\aes-xpn\src\AES_XPN_Val\AES_XPN_Val.csproj", "{DB73790D-F347-4C3C-BE58-A25B894D0D83}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{5B253AB2-D1AC-4CD2-BCA0-3F4B3574A99C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +99,10 @@ Global
 		{DB73790D-F347-4C3C-BE58-A25B894D0D83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB73790D-F347-4C3C-BE58-A25B894D0D83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB73790D-F347-4C3C-BE58-A25B894D0D83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B253AB2-D1AC-4CD2-BCA0-3F4B3574A99C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B253AB2-D1AC-4CD2-BCA0-3F4B3574A99C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B253AB2-D1AC-4CD2-BCA0-3F4B3574A99C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B253AB2-D1AC-4CD2-BCA0-3F4B3574A99C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,5 +122,9 @@ Global
 		{EE82B022-632D-4382-AECB-7C31C229A9F4} = {3E0CB0C4-6F0D-4774-BFE4-88F4142D9766}
 		{0FF6B563-3DC0-4640-9EC3-0FEC2F65EF07} = {EC6617CD-B066-4B62-94DC-43A76ED9E944}
 		{DB73790D-F347-4C3C-BE58-A25B894D0D83} = {EC6617CD-B066-4B62-94DC-43A76ED9E944}
+		{5B253AB2-D1AC-4CD2-BCA0-3F4B3574A99C} = {EC6617CD-B066-4B62-94DC-43A76ED9E944}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F8B97697-4BBE-4FB7-B61C-F549651BA215}
 	EndGlobalSection
 EndGlobal

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-KeyGen", "..\..\rsa\src\NIST.CVP.Generation.RSA-KeyGen\NIST.CVP.Generation.RSA-KeyGen.csproj", "{20933D7A-B864-408D-95D5-871C6E75BE32}"
 EndProject
@@ -66,6 +66,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SHA3.Tests", "..\..\crypto\test\NIST.CVP.Crypto.SHA3.Tests\NIST.CVP.Crypto.SHA3.Tests.csproj", "{802F7A52-87D0-4114-9262-46DCFD572A52}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SHA3", "..\..\crypto\src\NIST.CVP.Crypto.SHA3\NIST.CVP.Crypto.SHA3.csproj", "{4B928239-7519-4287-B66E-54B9D4D1E3C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{272DAF38-9B62-4CFE-8065-C0FF9165B474}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -193,6 +195,10 @@ Global
 		{4B928239-7519-4287-B66E-54B9D4D1E3C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B928239-7519-4287-B66E-54B9D4D1E3C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B928239-7519-4287-B66E-54B9D4D1E3C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{272DAF38-9B62-4CFE-8065-C0FF9165B474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{272DAF38-9B62-4CFE-8065-C0FF9165B474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{272DAF38-9B62-4CFE-8065-C0FF9165B474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{272DAF38-9B62-4CFE-8065-C0FF9165B474}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,6 +234,7 @@ Global
 		{4C5DABCC-78A7-4241-99E6-10EE2B22F72C} = {05A83241-08C3-48EC-81E0-20D7F7812078}
 		{802F7A52-87D0-4114-9262-46DCFD572A52} = {05A83241-08C3-48EC-81E0-20D7F7812078}
 		{4B928239-7519-4287-B66E-54B9D4D1E3C7} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
+		{272DAF38-9B62-4CFE-8065-C0FF9165B474} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81006EE6-52E0-4C5A-8A4B-94A560EAC8D6}
