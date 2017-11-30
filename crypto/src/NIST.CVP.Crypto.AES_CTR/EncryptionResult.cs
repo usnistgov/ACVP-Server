@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.AES_CTR

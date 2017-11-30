@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Generation.Core
+﻿using NIST.CVP.Crypto.Common;
+
+namespace NIST.CVP.Generation.Core
 {
     /// <summary>
     /// Describes functions necessary for completing a deferred crypto operation

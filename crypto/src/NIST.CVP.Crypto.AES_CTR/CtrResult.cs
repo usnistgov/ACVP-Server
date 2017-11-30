@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common;
 
 namespace NIST.CVP.Crypto.AES_CTR
 {
-    public class CtrResult
+    public class CtrResult : ICryptoResult
     {
         public List<AlgoArrayResponse> Response { get; }
         public string ErrorMessage { get; }
