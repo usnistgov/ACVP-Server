@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA.FFC;
+﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
@@ -48,7 +49,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             IKdfFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            TestCaseDispositionOption intendedDisposition)
+            List<TestCaseDispositionOption> dispositionList)
             : base(
                   kasBuilder,
                   schemeBuilder,
@@ -58,7 +59,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                   kdfFactory,
                   keyConfirmationFactory,
                   noKeyConfirmationFactory,
-                  intendedDisposition
+                  dispositionList
             )
         { }
 
@@ -93,7 +94,7 @@ namespace NIST.CVP.Generation.KAS.FFC
         {
             TestCaseDispositionHelper.MangleKeys(
                 testCase,
-                _intendedDisposition,
+                intendedDisposition,
                 serverKas,
                 iutKas
             );

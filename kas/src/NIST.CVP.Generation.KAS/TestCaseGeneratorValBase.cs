@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
@@ -12,6 +13,7 @@ using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Generation.KAS.Fakes;
+using NIST.CVP.Generation.KAS.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -55,7 +57,7 @@ namespace NIST.CVP.Generation.KAS
         protected readonly IKdfFactory _kdfFactory;
         protected readonly IKeyConfirmationFactory _keyConfirmationFactory;
         protected readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
-        protected TestCaseDispositionOption _intendedDisposition;
+        protected List<TestCaseDispositionOption> _dispositionList;
 
         protected TestCaseGeneratorValBase(
             IKasBuilder<TKasDsaAlgoAttributes, OtherPartySharedInformation<TDomainParameters, TKeyPair>, TDomainParameters, TKeyPair> kasBuilder,
@@ -66,7 +68,7 @@ namespace NIST.CVP.Generation.KAS
             IKdfFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            TestCaseDispositionOption intendedDisposition
+            List<TestCaseDispositionOption> dispositionList
         )
         {
             _kasBuilder = kasBuilder;
@@ -77,7 +79,7 @@ namespace NIST.CVP.Generation.KAS
             _kdfFactory = kdfFactory;
             _noKeyConfirmationFactory = noKeyConfirmationFactory;
             _keyConfirmationFactory = keyConfirmationFactory;
-            _intendedDisposition = intendedDisposition;
+            _dispositionList = dispositionList;
         }
 
         public int NumberOfTestCasesToGenerate => 25;
@@ -85,7 +87,7 @@ namespace NIST.CVP.Generation.KAS
         {
             var testCase = new TTestCase()
             {
-                TestCaseDisposition = _intendedDisposition
+                TestCaseDisposition = TestCaseDispositionHelper.GetTestCaseIntention(_dispositionList)
             };
 
             return Generate(group, testCase);
@@ -110,24 +112,24 @@ namespace NIST.CVP.Generation.KAS
 
             // Handles Failures due to changed z, dkm, macData
             IKdfFactory kdfFactory = _kdfFactory;
-            if (_intendedDisposition == TestCaseDispositionOption.FailChangedZ)
+            if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedZ)
             {
                 testCase.FailureTest = true;
                 kdfFactory = new FakeKdfFactory_BadZ(_shaFactory);
             }
-            if (_intendedDisposition == TestCaseDispositionOption.FailChangedDkm)
+            if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedDkm)
             {
                 testCase.FailureTest = true;
                 kdfFactory = new FakeKdfFactory_BadDkm(_shaFactory);
             }
             INoKeyConfirmationFactory noKeyConfirmationFactory = _noKeyConfirmationFactory;
-            if (_intendedDisposition == TestCaseDispositionOption.FailChangedMacData)
+            if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedMacData)
             {
                 testCase.FailureTest = true;
                 noKeyConfirmationFactory = new FakeNoKeyConfirmationFactory_BadMacData();
             }
             IKeyConfirmationFactory keyConfirmationFactory = _keyConfirmationFactory;
-            if (_intendedDisposition == TestCaseDispositionOption.FailChangedMacData)
+            if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedMacData)
             {
                 testCase.FailureTest = true;
                 keyConfirmationFactory = new FakeKeyConfirmationFactory_BadMacData();
@@ -181,7 +183,7 @@ namespace NIST.CVP.Generation.KAS
             // IUT should pick up on bad private/public key information.
             MangleKeys(
                 testCase,
-                _intendedDisposition,
+                testCase.TestCaseDisposition,
                 serverKas,
                 iutKas
             );
@@ -200,12 +202,12 @@ namespace NIST.CVP.Generation.KAS
             SetTestCaseInformationFromKasResult(group, testCase, serverKas, iutKas, iutResult);
 
             // Change data for failures that do not require a rerun of functions
-            if (_intendedDisposition == TestCaseDispositionOption.FailChangedOi)
+            if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedOi)
             {
                 testCase.FailureTest = true;
                 testCase.OtherInfo[0] += 2;
             }
-            if (_intendedDisposition == TestCaseDispositionOption.FailChangedTag)
+            if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedTag)
             {
                 if (testCase.Tag != null)
                 {
@@ -220,7 +222,7 @@ namespace NIST.CVP.Generation.KAS
             }
 
             // check for successful conditions w/ constraints.
-            if (_intendedDisposition == TestCaseDispositionOption.SuccessLeadingZeroNibbleZ)
+            if (testCase.TestCaseDisposition == TestCaseDispositionOption.SuccessLeadingZeroNibbleZ)
             {
                 // No zero nibble in MSB
                 if (testCase.Z[0] >= 0x10)
@@ -231,7 +233,7 @@ namespace NIST.CVP.Generation.KAS
             }
 
             // check for successful conditions w/ constraints.
-            if (_intendedDisposition == TestCaseDispositionOption.SuccessLeadingZeroNibbleDkm)
+            if (testCase.TestCaseDisposition == TestCaseDispositionOption.SuccessLeadingZeroNibbleDkm)
             {
                 // No zero nibble in MSB
                 if (testCase.Dkm[0] >= 0x10)

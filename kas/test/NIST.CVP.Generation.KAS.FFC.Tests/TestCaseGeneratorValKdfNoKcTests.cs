@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA.FFC;
+﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.Enums;
@@ -81,7 +82,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
                 _kdfFactory, 
                 _keyConfirmationFactory,
                 _noKeyConfirmationFactory, 
-                TestCaseDispositionOption.Success
+                new List<TestCaseDispositionOption>() {TestCaseDispositionOption.Success}
             );
         }
 
@@ -288,7 +289,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
                 _kdfFactory,
                 _keyConfirmationFactory,
                 _noKeyConfirmationFactory,
-                option
+                new List<TestCaseDispositionOption>() {option}
             );
 
             BuildTestGroup(scheme, testGroupIutRole, macType, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);

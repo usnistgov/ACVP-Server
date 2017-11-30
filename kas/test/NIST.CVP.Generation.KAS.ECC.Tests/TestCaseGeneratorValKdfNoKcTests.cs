@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Collections.Generic;
+using Moq;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.DSA.ECC.Enums;
 using NIST.CVP.Crypto.KAS.Builders;
@@ -107,7 +108,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
                 _kdfFactory, 
                 _keyConfirmationFactory,
                 _noKeyConfirmationFactory, 
-                TestCaseDispositionOption.Success
+                new List<TestCaseDispositionOption>() {TestCaseDispositionOption.Success}
             );
         }
 
@@ -277,7 +278,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
                 _kdfFactory,
                 _keyConfirmationFactory,
                 _noKeyConfirmationFactory,
-                option
+                new List<TestCaseDispositionOption>() {option}
             );
 
             BuildTestGroup(scheme, testGroupIutRole, macType, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);

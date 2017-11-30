@@ -35,8 +35,6 @@ namespace NIST.CVP.Generation.KAS.FFC
         private readonly INoKeyConfirmationFactory _noKeyConfirmationFactory;
         private readonly IKeyConfirmationFactory _keyConfirmationFactory;
 
-        private List<TestCaseDispositionOption> _validityTestCaseOptions = new List<TestCaseDispositionOption>();
-
         public TestCaseGeneratorFactory(
             IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> kasBuilder, 
             ISchemeBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> schemeBuilder,
@@ -78,21 +76,16 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             if (testGroup.TestType.Equals(valTest, StringComparison.OrdinalIgnoreCase))
             {
-                if (_validityTestCaseOptions.Count == 0)
-                {
-                    _validityTestCaseOptions = KAS.Helpers.TestCaseDispositionHelper.PopulateValidityTestCaseOptions(testGroup);
-                }
-
-                TestCaseDispositionOption dispositionIntention = KAS.Helpers.TestCaseDispositionHelper.GetTestCaseIntention(_validityTestCaseOptions);
+                var validityTestCaseOptions = KAS.Helpers.TestCaseDispositionHelper.PopulateValidityTestCaseOptions(testGroup);
 
                 switch (testGroup.KasMode)
                 {
                     case KasMode.NoKdfNoKc:
-                        return new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, dispositionIntention);
+                        return new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, validityTestCaseOptions);
                     case KasMode.KdfNoKc:
-                        return new TestCaseGeneratorValKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, dispositionIntention);
+                        return new TestCaseGeneratorValKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, validityTestCaseOptions);
                     case KasMode.KdfKc:
-                        return new TestCaseGeneratorValKdfKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, dispositionIntention);
+                        return new TestCaseGeneratorValKdfKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, validityTestCaseOptions);
                     default:
                         return new TestCaseGeneratorNull();
                 }

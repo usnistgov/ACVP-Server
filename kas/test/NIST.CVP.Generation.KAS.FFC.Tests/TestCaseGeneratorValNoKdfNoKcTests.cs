@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA.FFC;
+﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Builders.Ffc;
 using NIST.CVP.Crypto.KAS.Enums;
@@ -68,7 +69,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
             _kdfFactory = new KdfFactory(_shaFactory);
 
             _subject = new TestCaseGeneratorValNoKdfNoKc(
-                _kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, TestCaseDispositionOption.Success
+                _kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, new List<TestCaseDispositionOption>() {TestCaseDispositionOption.Success}
             );
         }
 
@@ -147,28 +148,6 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
             #endregion KeyCheck
         }
 
-        [Test]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedOi)]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedOi)]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedDkm)]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedDkm)]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedMacData)]
-        [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedMacData)]
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedOi)]
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedOi)]
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedDkm)]
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedDkm)]
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedMacData)]
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedMacData)]
-        public void ShouldSetInvalidTestCaseDispositionsToSuccess(FfcScheme scheme, KeyAgreementRole testGroupIutRole, TestCaseDispositionOption option)
-        {
-            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, option);
-
-            BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
-
-            Assert.AreEqual(TestCaseDispositionOption.Success, resultTestCase.TestCaseDisposition);
-        }
-
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
@@ -188,7 +167,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         public void ShouldSetProperTestCaseFailureTestProperty(FfcScheme scheme, KeyAgreementRole testGroupIutRole,
             TestCaseDispositionOption option, bool isFailure)
         {
-            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, option);
+            _subject = new TestCaseGeneratorValNoKdfNoKc(_kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, new List<TestCaseDispositionOption>() {option});
 
             BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
 

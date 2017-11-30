@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA;
+﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
@@ -47,7 +48,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             IKdfFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            TestCaseDispositionOption intendedDisposition
+            List<TestCaseDispositionOption> dispositionList
         )
             : base(
                   kasBuilder, 
@@ -57,8 +58,8 @@ namespace NIST.CVP.Generation.KAS.FFC
                   macParametersBuilder, 
                   kdfFactory,
                   keyConfirmationFactory, 
-                  noKeyConfirmationFactory, 
-                  intendedDisposition
+                  noKeyConfirmationFactory,
+                  dispositionList
               ) { }
         
         protected override IKas<

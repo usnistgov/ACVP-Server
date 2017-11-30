@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.KES
                 return new SharedSecretResponse("Point is infinity");
             }
 
-            var pExactLength = domainParameters.CurveE.OrderN.ExactBitLength();
+            var pExactLength = domainParameters.CurveE.FieldSizeQ.ExactBitLength();
             BitString z = SharedSecretZHelper.FormatEccSharedSecretZ(p, pExactLength);
 
             return new SharedSecretResponse(z);

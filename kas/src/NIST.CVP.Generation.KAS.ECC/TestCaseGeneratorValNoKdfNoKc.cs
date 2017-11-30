@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA.ECC;
+﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Enums;
@@ -42,7 +43,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             IKdfFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            TestCaseDispositionOption intendedDisposition
+            List<TestCaseDispositionOption> dispositionList
         ) : base(
             curveFactory,
             kasBuilder,
@@ -53,17 +54,8 @@ namespace NIST.CVP.Generation.KAS.ECC
             kdfFactory,
             keyConfirmationFactory,
             noKeyConfirmationFactory,
-            intendedDisposition
-        )
-        {
-            // This shouldn't happen, but just in case, NoKdfNoKc doesn't use DKM, MacData, or OI
-            if (_intendedDisposition == TestCaseDispositionOption.FailChangedDkm
-                || _intendedDisposition == TestCaseDispositionOption.FailChangedMacData
-                || _intendedDisposition == TestCaseDispositionOption.FailChangedOi)
-            {
-                _intendedDisposition = TestCaseDispositionOption.Success;
-            }
-        }
+            dispositionList
+        ) { }
 
         protected override IKas<
             KasDsaAlgoAttributesEcc,

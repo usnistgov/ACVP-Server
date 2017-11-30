@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA.ECC;
+﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.KC;
@@ -50,7 +51,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
-            TestCaseDispositionOption intendedDisposition
+            List<TestCaseDispositionOption> dispositionList
         ) : base(
             kasBuilder, 
             schemeBuilder, 
@@ -59,8 +60,8 @@ namespace NIST.CVP.Generation.KAS.ECC
             macParametersBuilder, 
             kdfFactory, 
             keyConfirmationFactory, 
-            noKeyConfirmationFactory, 
-            intendedDisposition
+            noKeyConfirmationFactory,
+            dispositionList
         )
         {
             _curveFactory = curveFactory;
@@ -75,7 +76,7 @@ namespace NIST.CVP.Generation.KAS.ECC
         {
             TestCaseDispositionHelper.MangleKeys(
                 testCase,
-                _intendedDisposition,
+                intendedDisposition,
                 serverKas,
                 iutKas
             );

@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.KAS.ECC
 
         public override bool Equals(object obj)
         {
-            if (!(obj is TestGroupBase<KasDsaAlgoAttributesFfc> otherGroup))
+            if (!(obj is TestGroupBase<KasDsaAlgoAttributesEcc> otherGroup))
             {
                 return false;
             }

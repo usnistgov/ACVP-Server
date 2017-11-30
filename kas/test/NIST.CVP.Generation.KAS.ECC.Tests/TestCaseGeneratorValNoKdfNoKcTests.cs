@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Collections.Generic;
+using Moq;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.DSA.ECC.Enums;
 using NIST.CVP.Crypto.KAS.Builders;
@@ -93,7 +94,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
             _kdfFactory = new KdfFactory(_shaFactory);
 
             _subject = new TestCaseGeneratorValNoKdfNoKc(
-                _curveFactory, _kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, TestCaseDispositionOption.Success
+                _curveFactory, _kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, new List<TestCaseDispositionOption>() {TestCaseDispositionOption.Success}
             );
         }
 
@@ -186,22 +187,6 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
             #endregion KeyCheck
         }
 
-        [Test]
-        [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedOi)]
-        [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedOi)]
-        [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedDkm)]
-        [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedDkm)]
-        [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedMacData)]
-        [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedMacData)]
-        public void ShouldSetInvalidTestCaseDispositionsToSuccess(EccScheme scheme, KeyAgreementRole testGroupIutRole, TestCaseDispositionOption option)
-        {
-            _subject = new TestCaseGeneratorValNoKdfNoKc(_curveFactory, _kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, option);
-
-            BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
-
-            Assert.AreEqual(TestCaseDispositionOption.Success, resultTestCase.TestCaseDisposition);
-        }
-
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
@@ -213,7 +198,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         public void ShouldSetProperTestCaseFailureTestProperty(EccScheme scheme, KeyAgreementRole testGroupIutRole,
             TestCaseDispositionOption option, bool isFailure)
         {
-            _subject = new TestCaseGeneratorValNoKdfNoKc(_curveFactory, _kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, option);
+            _subject = new TestCaseGeneratorValNoKdfNoKc(_curveFactory, _kasBuilder, _schemeBuilder, _shaFactory, _entropyProviderFactory, _macParametersBuilder, _kdfFactory, _keyConfirmationFactory, _noKeyConfirmationFactory, new List<TestCaseDispositionOption>() { option });
 
             BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
 
