@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.AES_CTR
 {
-    public class CounterDecryptionResult
+    public class CounterDecryptionResult : ICryptoResult
     {
         public List<BitString> IVs { get; }
-        public BitString CipherText { get; }
+        public BitString PlainText { get; }
         public string ErrorMessage { get; }
 
-        public bool Success => !string.IsNullOrEmpty(ErrorMessage);
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
 
-        public CounterDecryptionResult(BitString cipherText, List<BitString> ivs)
+        public CounterDecryptionResult(BitString plainText, List<BitString> ivs)
         {
-            CipherText = cipherText;
+            PlainText = plainText;
             IVs = ivs;
         }
 

@@ -21,6 +21,7 @@ namespace NIST.CVP.Generation.AES_CTR
 
         // This is a vectorset / IUT property but it needs to be defined somewhere other than Parameter.cs
         public bool IncrementalCounter { get; set; }
+        public bool OverflowCounter { get; set; }
 
         public string TestType { get; set; }
         public List<ITestCase> Tests { get; set; }
@@ -34,7 +35,8 @@ namespace NIST.CVP.Generation.AES_CTR
         {
             var expandoSource = (ExpandoObject)source;
             Direction = expandoSource.GetTypeFromProperty<string>("direction");
-            KeyLength = expandoSource.GetTypeFromProperty<int>("keyLength");
+            KeyLength = source.keyLen;
+            TestType = expandoSource.GetTypeFromProperty<string>("testType");
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
@@ -63,7 +65,7 @@ namespace NIST.CVP.Generation.AES_CTR
         public override int GetHashCode()
         {
             return
-                $"{Direction}|{KeyLength}|{TestType}"
+                $"{Direction}|{KeyLength}|{TestType}|{OverflowCounter}|{IncrementalCounter}"
                     .GetHashCode();
         }
 
@@ -75,6 +77,26 @@ namespace NIST.CVP.Generation.AES_CTR
                 return false;
             }
             return this.GetHashCode() == otherGroup.GetHashCode();
+        }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            switch (name.ToLower())
+            {
+                case "keylen":
+                    KeyLength = Int32.Parse(value);
+                    return true;
+
+                case "direction":
+                    Direction = value;
+                    return true;
+            }
+            return false;
         }
     }
 }

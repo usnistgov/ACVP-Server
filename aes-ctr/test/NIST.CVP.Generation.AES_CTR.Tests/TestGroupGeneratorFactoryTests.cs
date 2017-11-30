@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_OFB.Tests
+namespace NIST.CVP.Generation.AES_CTR.Tests
 {
     [TestFixture, UnitTest]
     public class TestGroupGeneratorFactoryTests
@@ -13,9 +13,10 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         private TestGroupGeneratorFactory _subject;
 
         [Test]
-        [TestCase(typeof(TestGroupGeneratorKnownAnswerTests))]
-        [TestCase(typeof(TestGroupGeneratorMultiBlockMessage))]
-        [TestCase(typeof(TestGroupGeneratorMonteCarlo))]
+        [TestCase(typeof(TestGroupGeneratorKnownAnswerTest))]
+        [TestCase(typeof(TestGroupGeneratorSingleBlockMessage))]
+        [TestCase(typeof(TestGroupGeneratorPartialBlockMessage))]
+        [TestCase(typeof(TestGroupGeneratorCounter))]
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
             _subject = new TestGroupGeneratorFactory();
@@ -26,13 +27,13 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         }
 
         [Test]
-        public void ReturnedResultShouldContainThreeGenerators()
+        public void ReturnedResultShouldContainFourGenerators()
         {
             _subject = new TestGroupGeneratorFactory();
 
             var result = _subject.GetTestGroupGenerators();
 
-            Assert.IsTrue(result.Count() == 3);
+            Assert.IsTrue(result.Count() == 4);
         }
     }
 }

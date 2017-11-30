@@ -1,0 +1,163 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Moq;
+using NIST.CVP.Crypto.AES_CTR;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
+
+namespace NIST.CVP.Generation.AES_CTR.Tests
+{
+    [TestFixture, UnitTest]
+    public class TestCaseGeneratorCounterDecryptTests
+    {
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void GenerateShouldReturnTestCaseGenerateResponse(bool isSample)
+        {
+            var subject = new TestCaseGeneratorCounterDecrypt(GetRandomMock().Object, GetAESMock().Object);
+
+            var result = subject.Generate(GetTestGroup(true, true), isSample);
+
+            Assert.IsNotNull(result, $"{nameof(result)} should be null");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+        }
+
+        [Test]
+        public void GenerateShouldReturnNullITestCaseOnFailedEncryption()
+        {
+            var aes = GetAESMock();
+            aes
+                .Setup(s => s.Decrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<ICounter>()))
+                .Returns(new CounterDecryptionResult("Fail"));
+
+            var subject = new TestCaseGeneratorCounterDecrypt(GetRandomMock().Object, aes.Object);
+
+            var result = subject.Generate(GetTestGroup(true, true), true);
+
+            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
+            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
+        }
+
+        [Test]
+        public void GenerateShouldReturnNullITestCaseOnExceptionEncryption()
+        {
+            var aes = GetAESMock();
+            aes
+                .Setup(s => s.Decrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<ICounter>()))
+                .Throws(new Exception());
+
+            var subject = new TestCaseGeneratorCounterDecrypt(GetRandomMock().Object, aes.Object);
+
+            var result = subject.Generate(GetTestGroup(true, true), true);
+
+            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
+            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
+        }
+
+        [Test]
+        public void GenerateShouldInvokeEncryptionOperationWhenIsSampleIsTrue()
+        {
+            var aes = GetAESMock();
+
+            var subject = new TestCaseGeneratorCounterDecrypt(GetRandomMock().Object, aes.Object);
+
+            var result = subject.Generate(GetTestGroup(true, true), true);
+
+            aes.Verify(v => v.Decrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<ICounter>()),
+                Times.AtLeastOnce,
+                "Decrypt should have been invoked"
+            );
+        }
+
+        [Test]
+        public void GenerateShouldNotInvokeEncryptionOperationWhenIsSampleIsFalse()
+        {
+            var aes = GetAESMock();
+
+            var subject = new TestCaseGeneratorCounterDecrypt(GetRandomMock().Object, aes.Object);
+
+            var result = subject.Generate(GetTestGroup(true, true), false);
+
+            aes.Verify(v => v.Decrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<ICounter>()),
+                Times.Never,
+                "Decrypt should not have been invoked"
+            );
+        }
+
+        [Test]
+        public void GenerateShouldReturnFilledTestCaseObjectOnSuccess()
+        {
+            var fakeCipher = new BitString(new byte[] { 1 });
+            var fakeIvs = new List<BitString>();
+
+            var aes = GetAESMock();
+            aes
+                .Setup(s => s.Decrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<ICounter>()))
+                .Returns(new CounterDecryptionResult(fakeCipher, fakeIvs));
+
+            var subject = new TestCaseGeneratorCounterDecrypt(GetRandomMock().Object, aes.Object);
+
+            var result = subject.Generate(GetTestGroup(true, true), true);
+
+            Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
+            Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
+
+            Assert.IsNotEmpty(((TestCase)result.TestCase).CipherText.ToString(), "CipherText");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).Key.ToString(), "Key");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).IVs.ToString(), "IVs");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");
+            Assert.IsTrue(result.TestCase.Deferred, "Deferred");
+        }
+
+        [Test]
+        public void GeneratedPlainTextShouldEncryptBackToCipherText()
+        {
+            var aes_ctr = new AesCtr();
+            var subject = new TestCaseGeneratorCounterDecrypt(new Random800_90(), aes_ctr);
+            var testGroup = GetTestGroup(true, false);
+
+            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            {
+                var result = subject.Generate(testGroup, true);
+                Assume.That(result.Success);
+                testGroup.Tests.Add(result.TestCase);
+            }
+
+            Assert.AreEqual(1, testGroup.Tests.Count);
+
+            var testCase = (TestCase)testGroup.Tests.First();
+            var encryptResult = aes_ctr.Encrypt(testCase.Key, testCase.PlainText, new TestableCounter(testCase.IVs));
+            Assert.AreEqual(testCase.CipherText, encryptResult.CipherText);
+        }
+
+        private Mock<IRandom800_90> GetRandomMock()
+        {
+            var mock = new Mock<IRandom800_90>();
+            mock
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString("ABCD"));
+
+            return mock;
+        }
+
+        private Mock<IAesCtr> GetAESMock()
+        {
+            return new Mock<IAesCtr>();
+        }
+
+        private TestGroup GetTestGroup(bool increment, bool overflow)
+        {
+            return new TestGroup
+            {
+                KeyLength = 128,
+                IncrementalCounter = increment,
+                OverflowCounter = overflow
+            };
+        }
+    }
+}

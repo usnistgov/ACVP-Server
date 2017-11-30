@@ -49,11 +49,11 @@ namespace NIST.CVP.Generation.AES_CTR
             {
                 if (direction == "encrypt")
                 {
-                    
+                    return new TestCaseGeneratorCounterEncrypt(_rand, _algo);
                 }
                 else if (direction == "decrypt")
                 {
-                    
+                    return new TestCaseGeneratorCounterDecrypt(_rand, _algo);
                 }
             }
 

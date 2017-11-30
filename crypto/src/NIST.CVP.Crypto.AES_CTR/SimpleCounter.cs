@@ -27,7 +27,7 @@ namespace NIST.CVP.Crypto.AES_CTR
 
         public BitString GetNextIV()
         {
-            var currentIV = _iv.Substring(0, 128).GetDeepCopy();
+            var currentIV = _iv.GetLeastSignificantBits(128).GetDeepCopy();
             _iv = _iv.BitStringAddition(BitString.One());
 
             return currentIV;

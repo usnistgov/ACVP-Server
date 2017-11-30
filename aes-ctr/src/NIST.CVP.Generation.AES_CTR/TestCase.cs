@@ -77,11 +77,6 @@ namespace NIST.CVP.Generation.AES_CTR
                 return true;
             }
 
-            //if (CtrArray.Count != 0 && otherTypedTest.CtrArray.Count != 0)
-            //{
-            //    return true;
-            //}
-
             return false;
         }
 
@@ -108,6 +103,10 @@ namespace NIST.CVP.Generation.AES_CTR
 
                 case "iv":
                     IV = new BitString(value);
+                    return true;
+
+                case "key":
+                    Key = new BitString(value);
                     return true;
             }
             return false;

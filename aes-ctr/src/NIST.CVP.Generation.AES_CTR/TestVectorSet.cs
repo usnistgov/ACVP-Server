@@ -43,11 +43,149 @@ namespace NIST.CVP.Generation.AES_CTR
             }
         }
 
-        public List<dynamic> AnswerProjection => throw new NotImplementedException();
+        public List<dynamic> AnswerProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("direction", group.Direction);
+                    ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
 
-        public List<dynamic> PromptProjection => throw new NotImplementedException();
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("key", test.Key);
+                        ((IDictionary<string, object>)testObject).Add("dataLen", test.Length);
 
-        public List<dynamic> ResultProjection => throw new NotImplementedException();
+                        if (group.TestType.ToLower().Equals("counter"))
+                        {
+                            ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
+                        }
+                        else
+                        {
+                            ((IDictionary<string, object>)testObject).Add("iv", test.IV);
+
+                            if (group.Direction.ToLower().Equals("encrypt"))
+                            {
+                                ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            }
+                            else
+                            {
+                                ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            }
+                        }
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
+
+        [JsonProperty(PropertyName = "testGroups")]
+        public List<dynamic> PromptProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup) g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("direction", group.Direction);
+                    ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
+                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase) t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("key", test.Key);
+                        ((IDictionary<string, object>)testObject).Add("dataLen", test.Length);
+
+                        if (group.Direction.ToLower().Equals("encrypt"))
+                        {
+                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                        }
+                        else
+                        {
+                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                        }
+
+                        if (group.TestType.ToLower().Equals("counter"))
+                        {
+                            ((IDictionary<string, object>) testObject).Add("deferred", test.Deferred);
+                        }
+                        else
+                        {
+                            ((IDictionary<string, object>)testObject).Add("iv", test.IV);
+                        }
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
+
+        [JsonProperty(PropertyName = "testResults")]
+        public List<dynamic> ResultProjection
+        {
+            get
+            {
+                var tests = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+
+                        if (group.TestType.ToLower() == "counter")
+                        {
+                            if (group.Direction.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                            {
+                                ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            }
+                            else
+                            {
+                                ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            }
+
+                            ((IDictionary<string, object>)testObject).Add("ivs", test.IVs);
+                        }
+                        else
+                        {
+                            if (group.Direction.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                            {
+                                ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            }
+                            else
+                            {
+                                ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            }
+                        }
+
+                        tests.Add(testObject);
+                    }
+                }
+                return tests;
+            }
+        }
 
         public dynamic ToDynamic()
         {

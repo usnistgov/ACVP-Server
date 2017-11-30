@@ -8,7 +8,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestCaseGeneratorCounterEncrypt : ITestCaseGenerator<TestGroup, TestCase>
+    public class TestCaseGeneratorCounterDecrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _rand;
         private readonly IAesCtr _algo;
@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.AES_CTR
 
         public int NumberOfTestCasesToGenerate { get; } = 1;
 
-        public TestCaseGeneratorCounterEncrypt(IRandom800_90 rand, IAesCtr algo)
+        public TestCaseGeneratorCounterDecrypt(IRandom800_90 rand, IAesCtr algo)
         {
             _rand = rand;
             _algo = algo;
@@ -31,16 +31,16 @@ namespace NIST.CVP.Generation.AES_CTR
             }
 
             // Option to potentially include an incomplete block at the end of this
-            var plainText = _rand.GetRandomBitString(128 * _numberOfBlocks);
+            var cipherText = _rand.GetRandomBitString(128 * _numberOfBlocks);
             var key = _rand.GetRandomBitString(128);
             var iv = GetStartingIV(group);
 
             var testCase = new TestCase
             {
-                PlainText = plainText,
+                CipherText = cipherText,
                 Key = key,
                 IV = iv,
-                Length = plainText.BitLength,
+                Length = cipherText.BitLength,
                 Deferred = true
             };
 
@@ -56,17 +56,17 @@ namespace NIST.CVP.Generation.AES_CTR
 
         public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
         {
-            CounterEncryptionResult encryptionResult = null;
+            CounterDecryptionResult decryptionResult = null;
             try
             {
                 // Get a simple counter (has wrapping) starting at the provided IV
                 var simpleCounter = new SimpleCounter(testCase.IV);
 
-                encryptionResult = _algo.Encrypt(testCase.Key, testCase.PlainText, simpleCounter);
-                if (!encryptionResult.Success)
+                decryptionResult = _algo.Decrypt(testCase.Key, testCase.CipherText, simpleCounter);
+                if (!decryptionResult.Success)
                 {
-                    ThisLogger.Warn(encryptionResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                    ThisLogger.Warn(decryptionResult.ErrorMessage);
+                    return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
@@ -75,8 +75,8 @@ namespace NIST.CVP.Generation.AES_CTR
                 return new TestCaseGenerateResponse(ex.Message);
             }
 
-            testCase.CipherText = encryptionResult.CipherText;
-            testCase.IVs = encryptionResult.IVs;
+            testCase.PlainText = decryptionResult.PlainText;
+            testCase.IVs = decryptionResult.IVs;
             return new TestCaseGenerateResponse(testCase);
         }
 
@@ -102,4 +102,3 @@ namespace NIST.CVP.Generation.AES_CTR
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
-

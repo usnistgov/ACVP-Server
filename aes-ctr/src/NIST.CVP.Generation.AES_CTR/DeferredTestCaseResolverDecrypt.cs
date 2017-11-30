@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class DeferredTestCaseResolverDecrypt : IDeferredTestCaseResolver<TestGroup, TestCase, DecryptionResult>
+    public class DeferredTestCaseResolverDecrypt : IDeferredTestCaseResolver<TestGroup, TestCase, CounterDecryptionResult>
     {
         private readonly IAesCtr _algo;
 
@@ -15,9 +15,10 @@ namespace NIST.CVP.Generation.AES_CTR
             _algo = algo;
         }
 
-        public DecryptionResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public CounterDecryptionResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            return _algo.DecryptBlock(serverTestCase.Key, serverTestCase.CipherText, iutTestCase.IV);
+            var counter = new TestableCounter(iutTestCase.IVs);
+            return _algo.Decrypt(serverTestCase.Key, serverTestCase.CipherText, counter);
         }
     }
 }

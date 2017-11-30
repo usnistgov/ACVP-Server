@@ -8,7 +8,6 @@ namespace NIST.CVP.Generation.AES_CTR
     public class TestGroupGeneratorCounter : ITestGroupGenerator<Parameters>
     {
         public const string LABEL = "counter";
-        public const string OVERFLOW_LABEL = "overflowcounter";
 
         public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
@@ -25,9 +24,10 @@ namespace NIST.CVP.Generation.AES_CTR
                             Direction = direction,
                             KeyLength = keyLength,
                             IncrementalCounter = parameters.IncrementalCounter,
+                            OverflowCounter = true,
 
                             StaticGroupOfTests = false,
-                            TestType = OVERFLOW_LABEL
+                            TestType = LABEL
                         };
 
                         testGroups.Add(overflowGroup);
@@ -38,6 +38,7 @@ namespace NIST.CVP.Generation.AES_CTR
                         Direction = direction,
                         KeyLength = keyLength,
                         IncrementalCounter = parameters.IncrementalCounter,
+                        OverflowCounter = false,
 
                         StaticGroupOfTests = false,
                         TestType = LABEL
