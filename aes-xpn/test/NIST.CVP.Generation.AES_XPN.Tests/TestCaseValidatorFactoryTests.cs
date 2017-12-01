@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
+using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -13,24 +14,14 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
     public class TestCaseValidatorFactoryTests
     {
 
-        private Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>> _mockTestCaseGeneratorFactory;
-        private Mock<ITestCaseGenerator<TestGroup, TestCase>> _mockTestCaseGenerator;
+        private Mock<IAES_GCM> _mockAlgo;
         private TestCaseValidatorFactory _subject;
 
         [SetUp]
         public void Setup()
         {
-            _mockTestCaseGeneratorFactory = new Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>>();
-            _mockTestCaseGenerator = new Mock<ITestCaseGenerator<TestGroup, TestCase>>();
-
-            _mockTestCaseGenerator
-                .Setup(s => s.Generate(It.IsAny<TestGroup>(), It.IsAny<TestCase>()))
-                .Returns(new TestCaseGenerateResponse(new TestCase()));
-            _mockTestCaseGeneratorFactory
-                .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
-                .Returns(_mockTestCaseGenerator.Object);
-
-            _subject = new TestCaseValidatorFactory(_mockTestCaseGeneratorFactory.Object);
+            _mockAlgo = new Mock<IAES_GCM>();
+            _subject = new TestCaseValidatorFactory(_mockAlgo.Object);
         }
 
         [Test]

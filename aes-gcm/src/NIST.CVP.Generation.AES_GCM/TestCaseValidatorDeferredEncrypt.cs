@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 
-namespace NIST.CVP.Generation.AES_XPN
+namespace NIST.CVP.Generation.AES_GCM
 {
-    public class TestCaseValidatorInternalEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorDeferredEncrypt : ITestCaseValidator<TestCase>
     {
         private readonly TestGroup _testGroup;
         private readonly TestCase _serverTestCase;
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, EncryptionResult> _testCaseResolver;
 
-        public TestCaseValidatorInternalEncrypt(TestGroup testGroup, TestCase serverTestCase, IDeferredTestCaseResolver<TestGroup, TestCase, EncryptionResult> testCaseResolver)
+        public TestCaseValidatorDeferredEncrypt(TestGroup testGroup, TestCase serverTestCase, IDeferredTestCaseResolver<TestGroup, TestCase, EncryptionResult> deferredTestCaseResolver)
         {
-            _serverTestCase = serverTestCase;
             _testGroup = testGroup;
-            _testCaseResolver = testCaseResolver;
+            _serverTestCase = serverTestCase;
+            _testCaseResolver = deferredTestCaseResolver;
         }
 
         public int TestCaseId => _serverTestCase.TestCaseId;
@@ -39,28 +39,10 @@ namespace NIST.CVP.Generation.AES_XPN
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (_testGroup.IVGeneration.ToLower() == "internal")
-            {
-                if (suppliedResult.IV == null)
-                {
-                    errors.Add($"{nameof(suppliedResult.IV)} was not present in the {nameof(TestCase)}");
-                }
-            }
-
-            // When internal, validate the Salt is present in suppliedResults, otherwise use the expectedResults Salt
-            if (_testGroup.SaltGen.ToLower() == "internal")
-            {
-                if (suppliedResult.Salt == null)
-                {
-                    errors.Add($"{nameof(suppliedResult.Salt)} was not present in the {nameof(TestCase)}");
-                }
-            }
-
             if (suppliedResult.CipherText == null)
             {
                 errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}");
             }
-
             if (suppliedResult.Tag == null)
             {
                 errors.Add($"{nameof(suppliedResult.Tag)} was not present in the {nameof(TestCase)}");

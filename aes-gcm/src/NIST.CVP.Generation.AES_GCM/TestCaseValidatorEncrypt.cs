@@ -16,10 +16,7 @@ namespace NIST.CVP.Generation.AES_GCM
             _expectedResult = expectedResult;
         }
 
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
-        }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {

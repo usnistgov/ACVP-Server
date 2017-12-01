@@ -1,8 +1,9 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.Common;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.AES_GCM
 {
-    public class DecryptionResult
+    public class DecryptionResult : ICryptoResult
     {
         public BitString PlainText { get; private set; }
         public string ErrorMessage { get; private set; }

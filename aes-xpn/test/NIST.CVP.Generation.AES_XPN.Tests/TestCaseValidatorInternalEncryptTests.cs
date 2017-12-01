@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Castle.Components.DictionaryAdapter;
 using Moq;
+using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -15,26 +16,26 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
     public class TestCaseValidatorInternalEncryptTests
     {
         private TestCaseValidatorInternalEncrypt _subject;
-        private Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>> _factory;
-        private Mock<ITestCaseGenerator<TestGroup, TestCase>> _generator;
+        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, EncryptionResult>> _deferredResolver;
 
         [SetUp]
         public void Setup()
         {
-            _generator = new Mock<ITestCaseGenerator<TestGroup, TestCase>>();
-            _generator.Setup(s => s.Generate(It.IsAny<TestGroup>(), It.IsAny<TestCase>()))
-                .Returns(new TestCaseGenerateResponse((TestCase)GetTestGroup("", "").Tests[0]));
-            _factory = new Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>>();
-            _factory
-                .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
-                .Returns(_generator.Object);
+            _deferredResolver = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, EncryptionResult>>();
         }
 
         [Test]
         public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testGroup = GetTestGroup("internal", "internal");
-            _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
+            _subject = new TestCaseValidatorInternalEncrypt(testGroup, (TestCase)testGroup.Tests[0], _deferredResolver.Object);
+
+            var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
+
+            _deferredResolver
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new EncryptionResult(suppliedResult.CipherText, suppliedResult.Tag));
+
             var result = _subject.Validate((TestCase)testGroup.Tests[0]);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
@@ -44,9 +45,15 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         public void ShouldFailIfCipherTextDoesNotMatch()
         {
             var testGroup = GetTestGroup("internal", "internal");
-            _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
+            _subject = new TestCaseValidatorInternalEncrypt(testGroup, (TestCase)testGroup.Tests[0], _deferredResolver.Object);
             var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
+
+            _deferredResolver
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new EncryptionResult(suppliedResult.CipherText, suppliedResult.Tag));
+
             suppliedResult.CipherText = new BitString("D00000");
+
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
@@ -56,8 +63,13 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         public void ShouldShowCipherTextAsReasonIfItDoesNotMatch()
         {
             var testGroup = GetTestGroup("internal", "internal");
-            _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
+            _subject = new TestCaseValidatorInternalEncrypt(testGroup, (TestCase)testGroup.Tests[0], _deferredResolver.Object);
             var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
+
+            _deferredResolver
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new EncryptionResult(suppliedResult.CipherText, suppliedResult.Tag));
+
             suppliedResult.CipherText = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
@@ -69,8 +81,13 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         public void ShouldFailIfTagDoesNotMatch()
         {
             var testGroup = GetTestGroup("internal", "internal");
-            _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
+            _subject = new TestCaseValidatorInternalEncrypt(testGroup, (TestCase)testGroup.Tests[0], _deferredResolver.Object);
             var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
+
+            _deferredResolver
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new EncryptionResult(suppliedResult.CipherText, suppliedResult.Tag));
+
             suppliedResult.Tag = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
@@ -81,8 +98,13 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         public void ShouldShowTagAsReasonIfItDoesNotMatch()
         {
             var testGroup = GetTestGroup("internal", "internal");
-            _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
+            _subject = new TestCaseValidatorInternalEncrypt(testGroup, (TestCase)testGroup.Tests[0], _deferredResolver.Object);
             var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
+
+            _deferredResolver
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new EncryptionResult(suppliedResult.CipherText, suppliedResult.Tag));
+
             suppliedResult.Tag = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
@@ -94,7 +116,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         public void ShouldFailIfCipherTextNotPresent()
         {
             var testGroup = GetTestGroup("internal", "internal");
-            _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
+            _subject = new TestCaseValidatorInternalEncrypt(testGroup, (TestCase)testGroup.Tests[0], _deferredResolver.Object);
             var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
 
             suppliedResult.CipherText = null;
@@ -110,7 +132,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         public void ShouldFailIfTagNotPresent()
         {
             var testGroup = GetTestGroup("internal", "internal");
-            _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
+            _subject = new TestCaseValidatorInternalEncrypt(testGroup, (TestCase)testGroup.Tests[0], _deferredResolver.Object);
             var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
 
             suppliedResult.Tag = null;
@@ -126,7 +148,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         public void ShouldFailIfIVNotPresentInSuppliedTestCaseWhenInternal()
         {
             var testGroup = GetTestGroup("internal", "external");
-            _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
+            _subject = new TestCaseValidatorInternalEncrypt(testGroup, (TestCase)testGroup.Tests[0], _deferredResolver.Object);
             var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
 
             suppliedResult.IV = null;
@@ -142,7 +164,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         public void ShouldFailIfSaltNotPresentInSuppliedTestCaseWhenInternal()
         {
             var testGroup = GetTestGroup("external", "internal");
-            _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
+            _subject = new TestCaseValidatorInternalEncrypt(testGroup, (TestCase)testGroup.Tests[0], _deferredResolver.Object);
             var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
 
             suppliedResult.Salt = null;
@@ -152,24 +174,6 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.Salt)} was not present in the {nameof(TestCase)}"));
-        }
-
-        [Test]
-        public void ShouldReportFailureIfEncryptOperationFails()
-        {
-            _generator
-                .Setup(s => s.Generate(It.IsAny<TestGroup>(), It.IsAny<TestCase>()))
-                .Returns(new TestCaseGenerateResponse("fail"));
-
-            var testGroup = GetTestGroup("external", "internal");
-            _subject = new TestCaseValidatorInternalEncrypt((TestCase)testGroup.Tests[0], testGroup, _factory.Object);
-            var suppliedResult = (TestCase)GetTestGroup("internal", "internal").Tests[0];
-
-            var result = _subject.Validate(suppliedResult);
-            Assume.That(result != null);
-            Assume.That(Core.Enums.Disposition.Failed == result.Result);
-
-            Assert.IsTrue(result.Reason.Contains("Failed generating TestCase on inputs"));
         }
 
         private TestGroup GetTestGroup(string ivGen, string saltGen)

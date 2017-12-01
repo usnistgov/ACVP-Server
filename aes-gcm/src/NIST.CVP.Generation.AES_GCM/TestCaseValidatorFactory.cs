@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
     {
-        private readonly ITestCaseGeneratorFactory<TestGroup, TestCase> _testCaseGeneratorFactory;
+        private readonly IAES_GCM _algo;
 
-        public TestCaseValidatorFactory(ITestCaseGeneratorFactory<TestGroup, TestCase> testCaseGeneratorFactory)
+        public TestCaseValidatorFactory(IAES_GCM algo)
         {
-            _testCaseGeneratorFactory = testCaseGeneratorFactory;
+            _algo = algo;
         }
 
         public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
@@ -21,37 +23,20 @@ namespace NIST.CVP.Generation.AES_GCM
 
             foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
             {
-                var generator = _testCaseGeneratorFactory.GetCaseGenerator(group);
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
                     var workingTest = test;
-                    if (test.Deferred)
+                    if (test.Deferred && group.Function == "encrypt")
                     {
-                        //if we're waiting for additional input on the response...
-                        var matchingResult = suppliedResults.FirstOrDefault(r => r.TestCaseId == test.TestCaseId);
-                        var protoTest = new TestCase
-                        {
-                            TestCaseId = test.TestCaseId,
-                            AAD = test.AAD,
-                            Key = test.Key,
-                            PlainText = test.PlainText,
-                            IV = matchingResult.IV
-                        };
-                        var genResult = generator.Generate(group, protoTest);
-
-                        if (!genResult.Success)
-                        {
-                            list.Add(new TestCaseValidatorNull($"Could not generate results. for testCase = {matchingResult.TestCaseId}", matchingResult.TestCaseId));
-                            continue;
-                        }
-
-                        TestCase generatedTestCase = (TestCase)genResult.TestCase;
-
-                        test.CipherText = generatedTestCase.CipherText;
-                        test.Tag = generatedTestCase.Tag;
-                        test.IV = generatedTestCase.IV;
+                        list.Add(
+                            new TestCaseValidatorDeferredEncrypt(
+                                group, 
+                                workingTest,
+                                new DeferredEncryptResolver(_algo)
+                            )
+                        );
                     }
-                    if (group.Function == "encrypt")
+                    else if (group.Function == "encrypt")
                     {
                         list.Add(new TestCaseValidatorEncrypt(workingTest));
                     }
