@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.CTR.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Crypto.AES_CTR.Tests
+namespace NIST.CVP.Crypto.CTR.Tests
 {
     [TestFixture, FastCryptoTest]
     public class TestableCounterTests
@@ -26,7 +27,7 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
                 BitString.Zeroes(120).ConcatenateBits(new BitString("20"))
             };
 
-            var subject = new TestableCounter(ivs);
+            var subject = new TestableCounter(Cipher.AES, ivs);
 
             foreach (var iv in ivs)
             {
@@ -43,10 +44,25 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
                 BitString.Zeroes(128)
             };
 
-            var subject = new TestableCounter(ivs);
+            var subject = new TestableCounter(Cipher.AES, ivs);
             var firstResult = subject.GetNextIV();
 
             Assert.Throws(Is.TypeOf<Exception>(), () => subject.GetNextIV());
+        }
+
+        [Test]
+        [TestCase(Cipher.AES, 128)]
+        [TestCase(Cipher.TDES, 64)]
+        public void ShouldGetCorrectBlockSize(Cipher cipher, int blockSize)
+        {
+            var ivs = new List<BitString>
+            {
+                BitString.Zero()
+            };
+
+            var subject = new TestableCounter(cipher, ivs);
+            var result = subject.GetNextIV();
+            Assert.AreEqual(blockSize, result.BitLength);
         }
 
         [Test]
@@ -63,7 +79,7 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
                 new BitString(hex)
             };
 
-            var subject = new TestableCounter(ivs);
+            var subject = new TestableCounter(Cipher.AES, ivs);
 
             foreach (var iv in ivs)
             {

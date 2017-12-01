@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_ECB;
-using NIST.CVP.Math;
-using NIST.CVP.Crypto.CTR.Helpers;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.CTR;
+using NIST.CVP.Crypto.CTR.Enums;
+using NIST.CVP.Crypto.CTR.Helpers;
+using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Crypto.TDES_ECB;
+using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.AES_CTR
+namespace NIST.CVP.Crypto.TDES_CTR
 {
-    public class AesCtr : IAesCtr
+    public class TdesCtr : ITdesCtr
     {
-        private readonly IAES_ECB _aesEcb = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
-        private readonly int _blockSize = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(CTR.Enums.Cipher.AES).blockSize;
+        private readonly ITDES_ECB _tdesEcb = new TDES_ECB.TDES_ECB();
+        private readonly int _blockSize = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(Cipher.TDES).blockSize;
 
         /// <summary>
         /// Only operates on a single block at a time.
@@ -24,7 +25,7 @@ namespace NIST.CVP.Crypto.AES_CTR
         /// <returns></returns>
         public EncryptionResult EncryptBlock(BitString key, BitString plainText, BitString iv)
         {
-            var encryption = _aesEcb.BlockEncrypt(key, iv);
+            var encryption = _tdesEcb.BlockEncrypt(key, iv);
             if (encryption.Success)
             {
                 var completeBlockPlainText = plainText.ConcatenateBits(BitString.Zeroes(_blockSize - plainText.BitLength));
@@ -115,43 +116,15 @@ namespace NIST.CVP.Crypto.AES_CTR
         /// <returns></returns>
         public CounterDecryptionResult Decrypt(BitString key, BitString cipherText, ICounter counter)
         {
-            var numCompleteBlocks = cipherText.BitLength / _blockSize;
-            var plainText = new BitString(0);
-            var ivs = new List<BitString>();
-
-            for (var i = 0; i < numCompleteBlocks; i++)
+            var encryptionResult = Encrypt(key, cipherText, counter);
+            if (encryptionResult.Success)
             {
-                var blockCt = cipherText.MSBSubstring(i * _blockSize, _blockSize);
-                var iv = counter.GetNextIV();
-                ivs.Add(iv);
-
-                var result = DecryptBlock(key, blockCt, iv);
-                if (!result.Success)
-                {
-                    return new CounterDecryptionResult(result.ErrorMessage);
-                }
-
-                plainText = plainText.ConcatenateBits(result.PlainText);
+                return new CounterDecryptionResult(encryptionResult.CipherText, encryptionResult.IVs);
             }
-
-            var numIncompleteBlock = cipherText.BitLength % _blockSize == 0 ? 0 : 1;
-            for (var i = 0; i < numIncompleteBlock; i++)
+            else
             {
-                var lastBlockCt = cipherText.Substring(0, cipherText.BitLength % _blockSize);
-                var iv = counter.GetNextIV();
-                ivs.Add(iv);
-
-                var result = DecryptBlock(key, lastBlockCt, iv);
-                if (!result.Success)
-                {
-                    return new CounterDecryptionResult(result.ErrorMessage);
-                }
-
-                plainText = plainText.ConcatenateBits(result.PlainText);
+                return new CounterDecryptionResult(encryptionResult.ErrorMessage);
             }
-
-            return new CounterDecryptionResult(plainText, ivs);
         }
     }
 }
-

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Moq;
 using NIST.CVP.Crypto.AES_CTR;
+using NIST.CVP.Crypto.CTR;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;

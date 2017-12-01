@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.AES_CTR;
+using NIST.CVP.Crypto.CTR;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CTR

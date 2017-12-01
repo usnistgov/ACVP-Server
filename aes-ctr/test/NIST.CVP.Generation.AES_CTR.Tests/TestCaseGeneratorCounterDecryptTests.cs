@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NIST.CVP.Crypto.AES_CTR;
+using NIST.CVP.Crypto.CTR;
+using NIST.CVP.Crypto.CTR.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -131,7 +133,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             Assert.AreEqual(1, testGroup.Tests.Count);
 
             var testCase = (TestCase)testGroup.Tests.First();
-            var encryptResult = aes_ctr.Encrypt(testCase.Key, testCase.PlainText, new TestableCounter(testCase.IVs));
+            var encryptResult = aes_ctr.Encrypt(testCase.Key, testCase.PlainText, new TestableCounter(Cipher.AES, testCase.IVs));
             Assert.AreEqual(testCase.CipherText, encryptResult.CipherText);
         }
 

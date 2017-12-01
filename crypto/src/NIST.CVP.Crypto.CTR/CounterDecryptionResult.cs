@@ -1,6 +1,10 @@
-﻿using System;using System.Collections.Generic;using System.Text;using NIST.CVP.Crypto.Common;using NIST.CVP.Math;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.AES_CTR
+namespace NIST.CVP.Crypto.CTR
 {
     public class CounterDecryptionResult : ICryptoResult
     {
