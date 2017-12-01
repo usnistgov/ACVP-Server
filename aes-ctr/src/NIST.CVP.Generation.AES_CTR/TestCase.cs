@@ -41,17 +41,22 @@ namespace NIST.CVP.Generation.AES_CTR
 
             var expandoSource = (ExpandoObject)source;
 
-            Length = expandoSource.GetTypeFromProperty<int>("length");
+            Length = expandoSource.GetTypeFromProperty<int>("dataLength");
 
             IV = expandoSource.GetBitStringFromProperty("iv");
             PlainText = expandoSource.GetBitStringFromProperty("plainText");
             CipherText = expandoSource.GetBitStringFromProperty("cipherText");
             Key = expandoSource.GetBitStringFromProperty("key");
 
-            if (expandoSource.ContainsProperty("ctrArray"))
+            if (expandoSource.ContainsProperty("ivs"))
             {
-                //CtrArray = CtrArrayToObject(expandoSource);
+                IVs = new List<BitString>();
+                foreach (var iv in source.ivs)
+                {
+                    IVs.Add(new BitString(iv));
+                }
             }
+            
         }
 
         public bool Merge(ITestCase otherTest)
@@ -66,14 +71,12 @@ namespace NIST.CVP.Generation.AES_CTR
             if (PlainText == null && otherTypedTest.PlainText != null)
             {
                 PlainText = otherTypedTest.PlainText;
-                IV = otherTypedTest.IV;
                 return true;
             }
 
             if (CipherText == null && otherTypedTest.CipherText != null)
             {
                 CipherText = otherTypedTest.CipherText;
-                IV = otherTypedTest.IV;
                 return true;
             }
 

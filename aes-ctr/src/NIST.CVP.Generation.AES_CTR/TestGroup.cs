@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -26,6 +27,8 @@ namespace NIST.CVP.Generation.AES_CTR
         public string TestType { get; set; }
         public List<ITestCase> Tests { get; set; }
 
+        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -33,11 +36,13 @@ namespace NIST.CVP.Generation.AES_CTR
 
         public TestGroup(dynamic source)
         {
-            var expandoSource = (ExpandoObject)source;
-            Direction = expandoSource.GetTypeFromProperty<string>("direction");
-            KeyLength = source.keyLen;
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
+            var expandoSource = (ExpandoObject) source;
 
+            Direction = expandoSource.GetTypeFromProperty<string>("direction");
+            KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");
+            TestType = expandoSource.GetTypeFromProperty<string>("testType");
+            OverflowCounter = expandoSource.GetTypeFromProperty<bool>("overflow");
+            
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {

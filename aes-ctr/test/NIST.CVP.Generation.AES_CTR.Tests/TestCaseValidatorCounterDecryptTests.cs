@@ -129,14 +129,14 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         {
             return new TestCase
             {
-                PlainText = new BitString("ABCD"),
-                Key = new BitString("ABCD"),
+                PlainText = new BitString(128),
+                Key = new BitString(128),
                 Length = 128,
                 IVs = new List<BitString>
                 {
-                    new BitString("ABCD")
+                    new BitString(128)
                 },
-                CipherText = new BitString("DCBA")
+                CipherText = new BitString(128)
             };
         }
 

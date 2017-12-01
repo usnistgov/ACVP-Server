@@ -22,8 +22,22 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         [Test]
         [TestCase("encrypt", "singleblock", typeof(TestCaseValidatorEncrypt))]
         [TestCase("decrypt", "SingleBlock", typeof(TestCaseValidatorDecrypt))]
+
         [TestCase("encrypt", "partialblock", typeof(TestCaseValidatorEncrypt))]
         [TestCase("decrypt", "PartialBlock", typeof(TestCaseValidatorDecrypt))]
+
+        [TestCase("encrypt", "GFSBOX", typeof(TestCaseValidatorEncrypt))]
+        [TestCase("decrypt", "gfsbox", typeof(TestCaseValidatorDecrypt))]
+
+        [TestCase("encrypt", "KeySBox", typeof(TestCaseValidatorEncrypt))]
+        [TestCase("decrypt", "KEYSBOX", typeof(TestCaseValidatorDecrypt))]
+
+        [TestCase("encrypt", "VarKey", typeof(TestCaseValidatorEncrypt))]
+        [TestCase("decrypt", "varkey", typeof(TestCaseValidatorDecrypt))]
+
+        [TestCase("encrypt", "Vartxt", typeof(TestCaseValidatorEncrypt))]
+        [TestCase("decrypt", "varTXT", typeof(TestCaseValidatorDecrypt))]
+
         [TestCase("encrypT", "cOUNTER", typeof(TestCaseValidatorCounterEncrypt))]
         [TestCase("DECRYPT", "coUNTER", typeof(TestCaseValidatorCounterDecrypt))]
         [TestCase("encrypt", "Junk", typeof(TestCaseValidatorNull))]

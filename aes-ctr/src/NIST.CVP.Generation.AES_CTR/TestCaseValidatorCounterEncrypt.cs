@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.AES_CTR
                 return;
             }
 
-            if (suppliedResult.IVs.Count != _serverTestCase.Length / 128)
+            if (suppliedResult.IVs.Count != _serverTestCase.PlainText.BitLength / 128)
             {
                 errors.Add($"{nameof(suppliedResult.IVs)} does not have the correct number of values");
             }

@@ -41,6 +41,9 @@ namespace NIST.CVP.Tests.Core
 
         public abstract void SetUp();
 
+        // Set this during a test if you want to save the json from the session
+        public bool SaveJson = false;
+
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
@@ -51,7 +54,10 @@ namespace NIST.CVP.Tests.Core
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Directory.Delete(TestPath, true);
+            if (!SaveJson)
+            {
+                Directory.Delete(TestPath, true);
+            }
         }
 
         [Test]

@@ -10,6 +10,7 @@ namespace NIST.CVP.Generation.AES_CTR
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
     {
         private readonly IAesCtr _algo;
+        private readonly List<string> _katTestTypes = new List<string> { "gfsbox", "keysbox", "varkey", "vartxt" };
 
         public TestCaseValidatorFactory(IAesCtr algo)
         {
@@ -25,7 +26,7 @@ namespace NIST.CVP.Generation.AES_CTR
                 var testType = group.TestType.ToLower();
                 var direction = group.Direction.ToLower();
 
-                if (testType == "singleblock" || testType == "partialblock")
+                if (testType == "singleblock" || testType == "partialblock" || _katTestTypes.Contains(testType))
                 {
                     if (direction == "encrypt")
                     {

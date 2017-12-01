@@ -87,7 +87,7 @@ namespace NIST.CVP.Generation.AES_CTR
 
             if (group.OverflowCounter == group.IncrementalCounter)
             {
-                randomBits = (int)System.Math.Log(_numberOfBlocks) - 1;      // Intentional cast to toss away decimal
+                randomBits = 7;             // Arbitrary 'small' value so samples and normal registrations always hit boundary
                 padding = BitString.Ones(128 - randomBits);
             }
             else

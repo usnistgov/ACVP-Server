@@ -55,6 +55,11 @@ namespace NIST.CVP.Generation.AES_CTR
                     ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
 
+                    if (group.TestType.ToLower() == "counter")
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("overflow", group.OverflowCounter);
+                    }
+
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
@@ -105,6 +110,11 @@ namespace NIST.CVP.Generation.AES_CTR
                     ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
 
+                    if (group.TestType.ToLower() == "counter")
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("overflow", group.OverflowCounter);
+                    }
+
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase) t))
@@ -113,6 +123,7 @@ namespace NIST.CVP.Generation.AES_CTR
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("key", test.Key);
                         ((IDictionary<string, object>)testObject).Add("dataLen", test.Length);
+                        ((IDictionary<string, object>)testObject).Add("iv", test.IV);
 
                         if (group.Direction.ToLower().Equals("encrypt"))
                         {
@@ -126,10 +137,6 @@ namespace NIST.CVP.Generation.AES_CTR
                         if (group.TestType.ToLower().Equals("counter"))
                         {
                             ((IDictionary<string, object>) testObject).Add("deferred", test.Deferred);
-                        }
-                        else
-                        {
-                            ((IDictionary<string, object>)testObject).Add("iv", test.IV);
                         }
 
                         tests.Add(testObject);

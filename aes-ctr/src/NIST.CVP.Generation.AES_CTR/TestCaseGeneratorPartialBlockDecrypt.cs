@@ -40,20 +40,18 @@ namespace NIST.CVP.Generation.AES_CTR
             if (!_sizesSet)
             {
                 _validSizes = GetValidSizes(group.DataLength);
+
+                // Must be set here because it depends on group information
+                NumberOfTestCasesToGenerate = _casesPerSize * _validSizes.Count;
             }
 
-            // Must be set here because it depends on group information
-            NumberOfTestCasesToGenerate = _casesPerSize * _validSizes.Count;
-
-            if (_curCasePerSizeIndex < _casesPerSize)
-            {
-                _curCasePerSizeIndex++;
-            }
-            else
+            if (_curCasePerSizeIndex >= _casesPerSize)
             {
                 _curCasePerSizeIndex = 0;
                 _curSizeIndex++;
             }
+
+            _curCasePerSizeIndex++;
 
             var ctLen = _validSizes[_curSizeIndex];
 
