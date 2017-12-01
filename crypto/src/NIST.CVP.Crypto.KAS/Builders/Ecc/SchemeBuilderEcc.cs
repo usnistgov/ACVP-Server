@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
             IKdfFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            IOtherInfoFactory<OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> otherInfoFactory,
+            IOtherInfoFactory otherInfoFactory,
             IEntropyProvider entropyProvider,
             IDiffieHellman<EccDomainParameters, EccKeyPair> diffieHellmanEcc,
             IMqv<EccDomainParameters, EccKeyPair> mqv)

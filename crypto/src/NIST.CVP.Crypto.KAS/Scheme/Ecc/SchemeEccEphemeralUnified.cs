@@ -20,14 +20,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
-            IOtherInfoFactory<
-                OtherPartySharedInformation<
-                    EccDomainParameters, 
-                    EccKeyPair
-                >, 
-                EccDomainParameters, 
-                EccKeyPair
-            > otherInfoFactory, 
+            IOtherInfoFactory otherInfoFactory, 
             IEntropyProvider entropyProvider, 
             SchemeParametersBase<KasDsaAlgoAttributesEcc> schemeParameters, 
             KdfParameters kdfParameters, 

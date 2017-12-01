@@ -47,7 +47,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         BitString NoKeyConfirmationNonce { get; }
 
         /// <summary>
-        /// Sets the domain parameters for use in <see cref="IDsaFfc"/>
+        /// Sets the domain parameters for use in DSA
         /// </summary>
         /// <param name="domainParameters">The domain parameters to set</param>
         void SetDomainParameters(TDomainParameters domainParameters);
@@ -58,6 +58,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// </summary>
         /// <returns></returns>
         TOtherPartySharedInfo ReturnPublicInfoThisParty();
+        
         /// <summary>
         /// Computes the KAS result based on the provided other party's shared information
         /// </summary>

@@ -64,9 +64,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
                     ),
                     new KeyConfirmationFactory(),
                     new NoKeyConfirmationFactory(),
-                    new OtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(
-                        _entropyProvider
-                    ),
+                    new OtherInfoFactory(_entropyProvider),
                     _entropyProvider,
                     new DiffieHellmanFfc(),
                     new MqvFfc()

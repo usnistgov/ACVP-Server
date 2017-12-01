@@ -21,8 +21,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         protected readonly KasAssurance _assurances;
         protected readonly BitString _partyId;
         protected int _keyLength;
-        protected string _otherInfoPattern = 
-            OtherInfo<TOtherPartySharedInfo, TDomainParameters, TKeyPair>._CAVS_OTHER_INFO_PATTERN;
+        protected string _otherInfoPattern = OtherInfo._CAVS_OTHER_INFO_PATTERN;
         protected MacParameters _macParameters;
         
         protected KasBuilderKdfNoKc(

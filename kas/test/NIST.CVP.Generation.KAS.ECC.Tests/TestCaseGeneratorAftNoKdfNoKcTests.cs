@@ -64,9 +64,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
                 ),
                 new KeyConfirmationFactory(),
                 new NoKeyConfirmationFactory(),
-                new OtherInfoFactory<OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>(
-                    _entropyProvider
-                ),
+                new OtherInfoFactory(_entropyProvider),
                 _entropyProvider,
                 new DiffieHellmanEcc(),
                 new MqvEcc()

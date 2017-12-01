@@ -20,16 +20,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             builder.RegisterType<MqvEcc>().AsImplementedInterfaces();
             builder.RegisterType<SchemeBuilderEcc>().AsImplementedInterfaces();
             builder.RegisterType<KasBuilderEcc>().AsImplementedInterfaces();
-            builder.RegisterType<
-                OtherInfoFactory<
-                    OtherPartySharedInformation<
-                        EccDomainParameters,
-                        EccKeyPair
-                    >,
-                    EccDomainParameters,
-                    EccKeyPair
-                >
-            >().AsImplementedInterfaces();
+            builder.RegisterType<OtherInfoFactory>().AsImplementedInterfaces();
             builder.RegisterType<DsaEccFactory>().AsImplementedInterfaces();
             builder.RegisterType<EccCurveFactory>().AsImplementedInterfaces();
 

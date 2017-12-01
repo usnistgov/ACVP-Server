@@ -29,7 +29,7 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory, 
-            IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory, 
+            IOtherInfoFactory otherInfoFactory, 
             IEntropyProvider entropyProvider, 
             IDiffieHellman<FfcDomainParameters, FfcKeyPair> diffieHellmanFfc, 
             IMqv<FfcDomainParameters, FfcKeyPair> mqv) 

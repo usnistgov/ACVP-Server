@@ -16,7 +16,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
     [TestFixture,  FastCryptoTest]
     public class OtherInfoTests
     {
-        private OtherInfo<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _subject;
+        private OtherInfo _subject;
         
         private static object[] _proofOfConceptTests = new object[]
         {
@@ -57,7 +57,17 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
                 new BitString(0)
             );
 
-            _subject = new OtherInfo<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(new EntropyProvider(new Random800_90()), otherInfoPattern, otherInfoLength, KeyAgreementRole.InitiatorPartyU, uPartySharedInformation, vPartySharedInformation);
+            var uPartyOtherInfo = new PartyOtherInfo(uPartySharedInformation.PartyId, uPartySharedInformation.DkmNonce);
+            var vPartyotherInfo = new PartyOtherInfo(vPartySharedInformation.PartyId, vPartySharedInformation.DkmNonce);
+
+            _subject = new OtherInfo(
+                new EntropyProvider(new Random800_90()), 
+                otherInfoPattern, 
+                otherInfoLength, 
+                KeyAgreementRole.InitiatorPartyU, 
+                uPartyOtherInfo, 
+                vPartyotherInfo
+            );
             
             var result = _subject.GetOtherInfo();
 
@@ -170,7 +180,17 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
 
             entropyProvider.AddEntropy(entropyBits);
 
-            _subject = new OtherInfo<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(entropyProvider, otherInfoPattern, otherInfoLength, KeyAgreementRole.InitiatorPartyU, uPartySharedInformation, vPartySharedInformation);
+            var uPartyOtherInfo = new PartyOtherInfo(uPartySharedInformation.PartyId, uPartySharedInformation.DkmNonce);
+            var vPartyOtherInfo = new PartyOtherInfo(vPartySharedInformation.PartyId, vPartySharedInformation.DkmNonce);
+
+            _subject = new OtherInfo(
+                entropyProvider, 
+                otherInfoPattern, 
+                otherInfoLength, 
+                KeyAgreementRole.InitiatorPartyU, 
+                uPartyOtherInfo, 
+                vPartyOtherInfo
+            );
 
             var result = _subject.GetOtherInfo();
 

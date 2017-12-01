@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> otherInfoFactory,
+            IOtherInfoFactory otherInfoFactory,
             IEntropyProvider entropyProvider,
             SchemeParametersBase<KasDsaAlgoAttributesFfc> schemeParameters,
             KdfParameters kdfParameters,

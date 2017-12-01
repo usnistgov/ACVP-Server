@@ -23,7 +23,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         protected IKdfFactory KdfFactory;
         protected IKeyConfirmationFactory KeyConfirmationFactory;
         protected INoKeyConfirmationFactory NoKeyConfirmationFactory;
-        protected IOtherInfoFactory<TOtherPartySharedInfo, TDomainParameters, TKeyPair> OtherInfoFactory;
+        protected IOtherInfoFactory OtherInfoFactory;
         protected IEntropyProvider EntropyProvider;
         protected KdfParameters KdfParameters;
         protected MacParameters MacParameters;
@@ -32,7 +32,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme
             IKdfFactory kdfFactory, 
             IKeyConfirmationFactory keyConfirmationFactory, 
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            IOtherInfoFactory<TOtherPartySharedInfo, TDomainParameters, TKeyPair> otherInfoFactory,
+            IOtherInfoFactory otherInfoFactory,
             IEntropyProvider entropyProvider,
             TSchemeParameters schemeParameters,
             KdfParameters kdfParameters, 
@@ -152,12 +152,17 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// <returns></returns>
         protected IOtherInfo GenerateOtherInformation(TOtherPartySharedInfo otherPartyInformation)
         {
+            var thisPartyPublicInfo = ReturnPublicInfoThisParty();
+            var thisPartyOtherInfo = new PartyOtherInfo(thisPartyPublicInfo.PartyId, thisPartyPublicInfo.DkmNonce);
+
+            var otherPartyOtherInfo = new PartyOtherInfo(otherPartyInformation.PartyId, otherPartyInformation.DkmNonce);
+
             return OtherInfoFactory.GetInstance(
                 KdfParameters.OtherInfoPattern,
                 OtherInputLength,
                 SchemeParameters.KeyAgreementRole,
-                ReturnPublicInfoThisParty(),
-                otherPartyInformation
+                thisPartyOtherInfo,
+                otherPartyOtherInfo
             );
         }
 

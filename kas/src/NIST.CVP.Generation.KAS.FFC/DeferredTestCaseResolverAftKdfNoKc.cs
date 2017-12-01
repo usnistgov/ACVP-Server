@@ -46,16 +46,7 @@ namespace NIST.CVP.Generation.KAS.FFC
                 .WithKasDsaAlgoAttributes(testGroup.KasDsaAlgoAttributes)
                 .WithSchemeBuilder(
                     _schemeBuilder
-                        .WithOtherInfoFactory(
-                            new FakeOtherInfoFactory<
-                                OtherPartySharedInformation<
-                                    FfcDomainParameters,
-                                    FfcKeyPair
-                                >,
-                                FfcDomainParameters,
-                                FfcKeyPair
-                            >(iutTestCase.OtherInfo)
-                        )
+                        .WithOtherInfoFactory(new FakeOtherInfoFactory(iutTestCase.OtherInfo))
                         .WithHashFunction(testGroup.HashAlg)
                 )
                 .WithKeyAgreementRole(serverRole)

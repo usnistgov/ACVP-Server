@@ -22,7 +22,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         private readonly IKdfFactory _originalKdfFactory;
         private readonly IKeyConfirmationFactory _originalKeyConfirmationFactory;
         private readonly INoKeyConfirmationFactory _originalNoKeyConfirmationFactory;
-        private readonly IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> _originalOtherInfoFactory;
+        private readonly IOtherInfoFactory _originalOtherInfoFactory;
         private readonly IEntropyProvider _originalEntropyProvider;
         private readonly IDiffieHellman<TDomainParameters, TKeyPair> _originalDiffieHellmanFfc;
         private readonly IMqv<TDomainParameters, TKeyPair> _originalMqv;
@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         protected IKdfFactory _withKdfFactory;
         protected IKeyConfirmationFactory _withKeyConfirmationFactory;
         protected INoKeyConfirmationFactory _withNoKeyConfirmationFactory;
-        protected IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> _withOtherInfoFactory;
+        protected IOtherInfoFactory _withOtherInfoFactory;
         protected IEntropyProvider _withEntropyProvider;
         protected IDiffieHellman<TDomainParameters, TKeyPair> _withDiffieHellman;
         protected IMqv<TDomainParameters, TKeyPair> _withMqv;
@@ -40,7 +40,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             IKdfFactory kdfFactory,
             IKeyConfirmationFactory keyConfirmationFactory,
             INoKeyConfirmationFactory noKeyConfirmationFactory,
-            IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> otherInfoFactory,
+            IOtherInfoFactory otherInfoFactory,
             IEntropyProvider entropyProvider,
             IDiffieHellman<TDomainParameters, TKeyPair> diffieHellmanFfc,
             IMqv<TDomainParameters, TKeyPair> mqv
@@ -111,7 +111,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             TDomainParameters,
             TKeyPair
         > 
-            WithOtherInfoFactory(IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> otherInfoFactory)
+            WithOtherInfoFactory(IOtherInfoFactory otherInfoFactory)
         {
             _withOtherInfoFactory = otherInfoFactory;
             return this;

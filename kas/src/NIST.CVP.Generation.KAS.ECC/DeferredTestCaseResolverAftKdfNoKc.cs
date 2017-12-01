@@ -59,14 +59,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                 .WithSchemeBuilder(
                     _schemeBuilder
                         .WithOtherInfoFactory(
-                            new FakeOtherInfoFactory<
-                                OtherPartySharedInformation<
-                                    EccDomainParameters,
-                                    EccKeyPair
-                                >,
-                                EccDomainParameters,
-                                EccKeyPair
-                            >(iutTestCase.OtherInfo)
+                            new FakeOtherInfoFactory(iutTestCase.OtherInfo)
                         )
                         .WithHashFunction(testGroup.HashAlg)
                 )

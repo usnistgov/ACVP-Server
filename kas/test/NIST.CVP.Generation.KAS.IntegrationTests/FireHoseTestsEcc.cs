@@ -76,14 +76,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         new KdfFactory(_shaFactory),
                         new KeyConfirmationFactory(),
                         new NoKeyConfirmationFactory(),
-                        new OtherInfoFactory<
-                            OtherPartySharedInformation<
-                                EccDomainParameters,
-                                EccKeyPair
-                            >,
-                            EccDomainParameters,
-                            EccKeyPair
-                        >(new EntropyProvider(new Random800_90())),
+                        new OtherInfoFactory(new EntropyProvider(new Random800_90())),
                         new EntropyProvider(new Random800_90()),
                         new DiffieHellmanEcc(),
                         new MqvEcc()

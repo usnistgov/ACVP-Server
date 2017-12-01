@@ -6,10 +6,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.Fakes
 {
-    public class FakeOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> : IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair>
-        where TSharedInformation : ISharedInformation<TDomainParameters, TKeyPair>
-        where TDomainParameters : IDsaDomainParameters
-        where TKeyPair : IDsaKeyPair
+    public class FakeOtherInfoFactory : IOtherInfoFactory
     {
         private readonly BitString _otherInfo;
 
@@ -22,8 +19,8 @@ namespace NIST.CVP.Generation.KAS.Fakes
             string otherInfoPattern, 
             int otherInfoLength, 
             KeyAgreementRole thisPartyKeyAgreementRole,
-            TSharedInformation thisPartySharedInformation,
-            TSharedInformation otherPartySharedInformation)
+            PartyOtherInfo thisPartySharedInformation,
+            PartyOtherInfo otherPartySharedInformation)
         {
             return new FakeOtherInfo(_otherInfo);
         }

@@ -9,31 +9,28 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.KAS.KDF
 {
-    public class OtherInfo<TSharedInformaiton, TDomainParameters, TKeyPair> : IOtherInfo
-        where TSharedInformaiton : ISharedInformation<TDomainParameters, TKeyPair>
-        where TDomainParameters : IDsaDomainParameters
-        where TKeyPair : IDsaKeyPair
+    public class OtherInfo : IOtherInfo
     {
         public const string _CAVS_OTHER_INFO_PATTERN = "uPartyInfo||vPartyInfo";
 
         private readonly BitString _otherInfo = new BitString(0);
 
         private readonly KeyAgreementRole _thisPartyKeyAgreementRole;
-        private readonly TSharedInformaiton _thisPartySharedInformation;
-        private readonly TSharedInformaiton _otherPartySharedInformation;
+        private readonly PartyOtherInfo _thisPartyOtherInfo;
+        private readonly PartyOtherInfo _otherPartyOtherInfo;
 
         public OtherInfo(
             IEntropyProvider entropyProvider, 
             string otherInfoPattern, 
             int otherInfoLength, 
             KeyAgreementRole thisPartyKeyAgreementRole,
-            TSharedInformaiton thisPartySharedInformation,
-            TSharedInformaiton otherPartySharedInformation
+            PartyOtherInfo thisPartyOtherInfo,
+            PartyOtherInfo otherPartyOtherInfo
         )
         {
             _thisPartyKeyAgreementRole = thisPartyKeyAgreementRole;
-            _thisPartySharedInformation = thisPartySharedInformation;
-            _otherPartySharedInformation = otherPartySharedInformation;
+            _thisPartyOtherInfo = thisPartyOtherInfo;
+            _otherPartyOtherInfo = otherPartyOtherInfo;
 
             // split the pattern into pieces
             var pieces = otherInfoPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -63,13 +60,13 @@ namespace NIST.CVP.Crypto.KAS.KDF
             {
                 if (_thisPartyKeyAgreementRole == KeyAgreementRole.InitiatorPartyU)
                 {
-                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_thisPartySharedInformation.PartyId));
-                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_thisPartySharedInformation.DkmNonce));
+                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_thisPartyOtherInfo.PartyId));
+                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_thisPartyOtherInfo.DkmNonce));
                 }
                 else
                 {
-                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_otherPartySharedInformation.PartyId));
-                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_otherPartySharedInformation.DkmNonce));
+                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_otherPartyOtherInfo.PartyId));
+                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_otherPartyOtherInfo.DkmNonce));
                 }
                 
                 return oi;
@@ -79,13 +76,13 @@ namespace NIST.CVP.Crypto.KAS.KDF
             {
                 if (_thisPartyKeyAgreementRole == KeyAgreementRole.ResponderPartyV)
                 {
-                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_thisPartySharedInformation.PartyId));
-                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_thisPartySharedInformation.DkmNonce));
+                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_thisPartyOtherInfo.PartyId));
+                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_thisPartyOtherInfo.DkmNonce));
                 }
                 else
                 {
-                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_otherPartySharedInformation.PartyId));
-                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_otherPartySharedInformation.DkmNonce));
+                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_otherPartyOtherInfo.PartyId));
+                    oi = oi.ConcatenateBits(BitString.GetAtLeastZeroLengthBitString(_otherPartyOtherInfo.DkmNonce));
                 }
 
                 return oi;

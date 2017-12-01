@@ -21,16 +21,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             builder.RegisterType<MqvFfc>().AsImplementedInterfaces();
             builder.RegisterType<SchemeBuilderFfc>().AsImplementedInterfaces();
             builder.RegisterType<KasBuilderFfc>().AsImplementedInterfaces();
-            builder.RegisterType<
-                OtherInfoFactory<
-                    OtherPartySharedInformation<
-                        FfcDomainParameters,
-                        FfcKeyPair
-                    >,
-                    FfcDomainParameters,
-                    FfcKeyPair
-                >
-            >().AsImplementedInterfaces();
+            builder.RegisterType<OtherInfoFactory>().AsImplementedInterfaces();
             builder.RegisterType<DsaFfcFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();

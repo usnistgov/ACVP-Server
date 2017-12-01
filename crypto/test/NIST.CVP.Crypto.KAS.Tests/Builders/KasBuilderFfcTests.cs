@@ -47,9 +47,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
                     ),
                     new KeyConfirmationFactory(),
                     new NoKeyConfirmationFactory(),
-                    new OtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>(
-                        _entropyProviderOtherInfo
-                    ),
+                    new OtherInfoFactory(_entropyProviderOtherInfo),
                     _entropyProviderScheme,
                     new DiffieHellmanFfc(),
                     new MqvFfc()

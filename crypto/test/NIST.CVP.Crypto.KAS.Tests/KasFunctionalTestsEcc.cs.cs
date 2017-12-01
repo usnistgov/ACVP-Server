@@ -56,9 +56,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     ),
                     new KeyConfirmationFactory(),
                     new NoKeyConfirmationFactory(),
-                    new OtherInfoFactory<OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair>(
-                        _entropyProviderOtherInfo
-                    ),
+                    new OtherInfoFactory(_entropyProviderOtherInfo),
                     _entropyProviderScheme,
                     new DiffieHellmanEcc(),
                     new MqvEcc()

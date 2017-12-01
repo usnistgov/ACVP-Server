@@ -85,7 +85,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
             TDomainParameters,
             TKeyPair
         > 
-            WithOtherInfoFactory(IOtherInfoFactory<TSharedInformation, TDomainParameters, TKeyPair> otherInfoFactory);
+            WithOtherInfoFactory(IOtherInfoFactory otherInfoFactory);
 
         /// <summary>
         /// Sets the <see cref="IEntropyProvider"/> used in the scheme.

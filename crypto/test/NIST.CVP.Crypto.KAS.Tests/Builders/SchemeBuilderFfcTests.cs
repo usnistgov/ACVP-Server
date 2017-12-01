@@ -33,7 +33,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
         private Mock<IKdfFactory> _kdfFactory;
         private Mock<IKeyConfirmationFactory> _keyConfirmationFactory;
         private Mock<INoKeyConfirmationFactory> _noKeyConfirmationFactory;
-        private Mock<IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>> _otherInfoFactory;
+        private Mock<IOtherInfoFactory> _otherInfoFactory;
         private Mock<IEntropyProvider> _entropyProvider;
         private Mock<IDiffieHellman<FfcDomainParameters, FfcKeyPair>> _diffieHellmanFfc;
         private Mock<IMqv<FfcDomainParameters, FfcKeyPair>> _mqv;
@@ -50,7 +50,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             _kdfFactory = new Mock<IKdfFactory>();
             _keyConfirmationFactory = new Mock<IKeyConfirmationFactory>();
             _noKeyConfirmationFactory = new Mock<INoKeyConfirmationFactory>();
-            _otherInfoFactory = new Mock<IOtherInfoFactory<OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair>>();
+            _otherInfoFactory = new Mock<IOtherInfoFactory>();
             _entropyProvider = new Mock<IEntropyProvider>();
             _diffieHellmanFfc = new Mock<IDiffieHellman<FfcDomainParameters, FfcKeyPair>>();
             _mqv = new Mock<IMqv<FfcDomainParameters, FfcKeyPair>>();
