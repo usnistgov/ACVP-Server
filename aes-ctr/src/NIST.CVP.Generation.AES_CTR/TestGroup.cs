@@ -42,7 +42,8 @@ namespace NIST.CVP.Generation.AES_CTR
             KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");
             TestType = expandoSource.GetTypeFromProperty<string>("testType");
             OverflowCounter = expandoSource.GetTypeFromProperty<bool>("overflow");
-            
+            IncrementalCounter = expandoSource.GetTypeFromProperty<bool>("incremental");
+
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {

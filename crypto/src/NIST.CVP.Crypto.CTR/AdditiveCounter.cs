@@ -11,12 +11,12 @@ namespace NIST.CVP.Crypto.CTR
     /// <summary>
     /// A simple <see cref="ICounter"/> with wrapping. Starts at 000...0 by default and increases by 1 each request
     /// </summary>
-    public class SimpleCounter : ICounter
+    public class AdditiveCounter : ICounter
     {
         private BitString _iv;
         private readonly int _blockSize;
 
-        public SimpleCounter(Cipher cipher, BitString initialIV)
+        public AdditiveCounter(Cipher cipher, BitString initialIV)
         {
             _blockSize = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(cipher).blockSize;
             _iv = BitString.Zeroes(_blockSize);

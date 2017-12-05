@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.AES_CTR
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {
             var cipherText = _rand.GetRandomBitString(128);
-            var key = _rand.GetRandomBitString(128);
+            var key = _rand.GetRandomBitString(group.KeyLength);
             var iv = _rand.GetRandomBitString(128);
 
             var testCase = new TestCase

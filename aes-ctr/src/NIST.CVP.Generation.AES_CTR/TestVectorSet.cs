@@ -58,6 +58,7 @@ namespace NIST.CVP.Generation.AES_CTR
                     if (group.TestType.ToLower() == "counter")
                     {
                         ((IDictionary<string, object>)updateObject).Add("overflow", group.OverflowCounter);
+                        ((IDictionary<string, object>)updateObject).Add("incremental", group.IncrementalCounter);
                     }
 
                     var tests = new List<dynamic>();
@@ -113,6 +114,7 @@ namespace NIST.CVP.Generation.AES_CTR
                     if (group.TestType.ToLower() == "counter")
                     {
                         ((IDictionary<string, object>)updateObject).Add("overflow", group.OverflowCounter);
+                        ((IDictionary<string, object>)updateObject).Add("incremental", group.IncrementalCounter);
                     }
 
                     var tests = new List<dynamic>();

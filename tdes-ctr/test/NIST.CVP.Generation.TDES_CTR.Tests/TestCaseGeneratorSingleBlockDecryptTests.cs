@@ -1,0 +1,142 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Moq;
+using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Crypto.TDES_CTR;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
+
+namespace NIST.CVP.Generation.TDES_CTR.Tests
+{
+    [TestFixture, UnitTest]
+    public class TestCaseGeneratorSingleBlockDecryptTests
+    {
+        [Test]
+        public void GenerateShouldReturnTestCaseGenerateResponse()
+        {
+            var subject = new TestCaseGeneratorSingleBlockDecrypt(GetRandomMock().Object, GetTDESMock().Object);
+
+            var result = subject.Generate(new TestGroup(), false);
+
+            Assert.IsNotNull(result, $"{nameof(result)} should be null");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+        }
+
+        [Test]
+        public void GenerateShouldReturnNullITestCaseOnFailedEncryption()
+        {
+            var tdes = GetTDESMock();
+            tdes
+                .Setup(s => s.DecryptBlock(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Returns(new DecryptionResult("Fail"));
+
+            var subject = new TestCaseGeneratorSingleBlockDecrypt(GetRandomMock().Object, tdes.Object);
+
+            var result = subject.Generate(new TestGroup(), false);
+
+            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
+            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
+        }
+
+        [Test]
+        public void GenerateShouldReturnNullITestCaseOnExceptionEncryption()
+        {
+            var tdes = GetTDESMock();
+            tdes
+                .Setup(s => s.DecryptBlock(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Throws(new Exception());
+
+            var subject = new TestCaseGeneratorSingleBlockDecrypt(GetRandomMock().Object, tdes.Object);
+
+            var result = subject.Generate(new TestGroup(), false);
+
+            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
+            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
+        }
+
+        [Test]
+        public void GenerateShouldInvokeEncryptionOperation()
+        {
+            var tdes = GetTDESMock();
+            var random = GetRandomMock();
+            random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(0));
+
+            var subject = new TestCaseGeneratorSingleBlockDecrypt(random.Object, tdes.Object);
+
+            var result = subject.Generate(new TestGroup(), true);
+
+            tdes.Verify(v => v.DecryptBlock(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()),
+                Times.AtLeastOnce,
+                "BlockEncrypt should have been invoked"
+            );
+        }
+
+        [Test]
+        public void GenerateShouldReturnFilledTestCaseObjectOnSuccess()
+        {
+            var fakeCipher = new BitString(new byte[] { 1 });
+            var random = GetRandomMock();
+            random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(new byte[] { 3 }));
+            var tdes = GetTDESMock();
+            tdes
+                .Setup(s => s.DecryptBlock(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Returns(new DecryptionResult(fakeCipher));
+
+            var subject = new TestCaseGeneratorSingleBlockDecrypt(random.Object, tdes.Object);
+
+            var result = subject.Generate(new TestGroup(), false);
+
+            Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
+            Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
+
+            Assert.IsNotEmpty(((TestCase)result.TestCase).CipherText.ToString(), "CipherText");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).Key.ToString(), "Key");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).Iv.ToString(), "Iv");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");
+            Assert.IsFalse(result.TestCase.Deferred, "Deferred");
+        }
+
+        [Test]
+        public void GeneratedCipherTextShouldDecryptBackToPlainText()
+        {
+            var tdes_ctr = new TdesCtr();
+            var subject = new TestCaseGeneratorSingleBlockDecrypt(new Random800_90(), tdes_ctr);
+            var testGroup = new TestGroup { NumberOfKeys = 3 };
+
+            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            {
+                var result = subject.Generate(testGroup, false);
+                Assume.That(result.Success);
+                testGroup.Tests.Add(result.TestCase);
+            }
+
+            foreach (TestCase testCase in testGroup.Tests)
+            {
+                var encryptResult = tdes_ctr.EncryptBlock(testCase.Key, testCase.PlainText, testCase.Iv);
+                Assert.AreEqual(testCase.CipherText, encryptResult.CipherText);
+            }
+        }
+
+        private Mock<IRandom800_90> GetRandomMock()
+        {
+            var random = new Mock<IRandom800_90>();
+            random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(new byte[] { 3 }));
+
+            return random;
+        }
+
+        private Mock<ITdesCtr> GetTDESMock()
+        {
+            return new Mock<ITdesCtr>();
+        }
+    }
+}

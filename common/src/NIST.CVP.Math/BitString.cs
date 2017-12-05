@@ -498,6 +498,25 @@ namespace NIST.CVP.Math
             return BitString.LSBShift(this, distance);
         }
 
+        public static BitString BitStringSubtraction(BitString larger, BitString smaller)
+        {
+            var largerVal = larger.ToPositiveBigInteger();
+            var smallerVal = smaller.ToPositiveBigInteger();
+
+            if (smallerVal > largerVal)
+            {
+                throw new ArgumentException("Unable to subtract, leads to negative value");
+            }
+
+            var result = largerVal - smallerVal;
+            return new BitString(result, larger.BitLength);
+        }
+
+        public BitString BitStringSubtraction(BitString right)
+        {
+            return BitStringSubtraction(this, right);
+        }
+
         /// <summary>
         /// Adds two bit strings together - e.g. "11" (3) + 111 (7) = 1010 (10).
         /// Similar to <see cref="AddWithModulo(NIST.CVP.Math.BitString,NIST.CVP.Math.BitString,int)"/>, but without truncation.

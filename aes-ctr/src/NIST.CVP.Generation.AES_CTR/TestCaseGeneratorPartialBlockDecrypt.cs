@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.AES_CTR
             var ctLen = _validSizes[_curSizeIndex];
 
             var ct = _rand.GetRandomBitString(ctLen);
-            var key = _rand.GetRandomBitString(128);
+            var key = _rand.GetRandomBitString(group.KeyLength);
             var iv = _rand.GetRandomBitString(128);
 
             var testCase = new TestCase

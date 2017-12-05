@@ -110,6 +110,215 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
+        public void ShouldFailWhenAnIVIsRepeated()
+        {
+            var suppliedTestCase = new TestCase
+            {
+                Key = new BitString(128),
+                Length = 256,
+                PlainText = new BitString(256),
+                CipherText = new BitString(256),
+                IVs = new List<BitString>
+                {
+                    new BitString(128),
+                    new BitString(128)
+                }
+            };
+
+            var deferredMock = GetDeferredResolver();
+            deferredMock
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new CounterDecryptionResult(suppliedTestCase.PlainText, suppliedTestCase.IVs));
+
+            var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), suppliedTestCase, deferredMock.Object);
+            var result = subject.Validate(suppliedTestCase);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
+            Assert.IsTrue(result.Reason.Contains("distinct"), "Reason");
+        }
+
+        [Test]
+        public void ShouldFailWhenAnIVIsOverflowedWhenItShouldNot()
+        {
+            var suppliedTestCase = new TestCase
+            {
+                Key = new BitString(128),
+                Length = 256,
+                PlainText = new BitString(256),
+                CipherText = new BitString(256),
+                IVs = new List<BitString>
+                {
+                    BitString.Ones(128),
+                    BitString.Zeroes(128)
+                }
+            };
+
+            var group = new TestGroup
+            {
+                IncrementalCounter = true,
+                OverflowCounter = false
+            };
+
+            var deferredMock = GetDeferredResolver();
+            deferredMock
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new CounterDecryptionResult(suppliedTestCase.PlainText, suppliedTestCase.IVs));
+
+            var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
+            var result = subject.Validate(suppliedTestCase);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
+            Assert.IsTrue(result.Reason.Contains("overflow"), "Reason");
+        }
+
+        [Test]
+        public void ShouldFailWhenAnIVIsUnderflowedWhenItShouldNot()
+        {
+            var suppliedTestCase = new TestCase
+            {
+                Key = new BitString(128),
+                Length = 256,
+                PlainText = new BitString(256),
+                CipherText = new BitString(256),
+                IVs = new List<BitString>
+                {
+                    BitString.Zeroes(128),
+                    BitString.Ones(128)
+                }
+            };
+
+            var group = new TestGroup
+            {
+                IncrementalCounter = false,
+                OverflowCounter = false
+            };
+
+            var deferredMock = GetDeferredResolver();
+            deferredMock
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new CounterDecryptionResult(suppliedTestCase.PlainText, suppliedTestCase.IVs));
+
+            var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
+            var result = subject.Validate(suppliedTestCase);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
+            Assert.IsTrue(result.Reason.Contains("underflow"), "Reason");
+        }
+
+        [Test]
+        public void ShouldFailWhenNoOverflowOccursWhenItShould()
+        {
+            var suppliedTestCase = new TestCase
+            {
+                Key = new BitString(128),
+                Length = 256,
+                PlainText = new BitString(256),
+                CipherText = new BitString(256),
+                IVs = new List<BitString>
+                {
+                    BitString.Zeroes(128),
+                    BitString.Ones(128)
+                }
+            };
+
+            var group = new TestGroup
+            {
+                IncrementalCounter = true,
+                OverflowCounter = true
+            };
+
+            var deferredMock = GetDeferredResolver();
+            deferredMock
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new CounterDecryptionResult(suppliedTestCase.PlainText, suppliedTestCase.IVs));
+
+            var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
+            var result = subject.Validate(suppliedTestCase);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
+            Assert.IsTrue(result.Reason.Contains("none occurred"), "Reason");
+        }
+
+        [Test]
+        public void ShouldFailWhenIVsAreNotSequential()
+        {
+            var suppliedTestCase = new TestCase
+            {
+                Key = new BitString(128),
+                Length = 128 * 4,
+                PlainText = new BitString(128 * 4),
+                CipherText = new BitString(128 * 4),
+                IVs = new List<BitString>
+                {
+                    BitString.Zeroes(128),
+                    BitString.Zeroes(64).ConcatenateBits(BitString.Ones(64)),
+                    BitString.Zeroes(100).ConcatenateBits(BitString.Ones(28)),
+                    BitString.Ones(128)
+                }
+            };
+
+            var group = new TestGroup
+            {
+                IncrementalCounter = true,
+                OverflowCounter = true
+            };
+
+            var deferredMock = GetDeferredResolver();
+            deferredMock
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new CounterDecryptionResult(suppliedTestCase.PlainText, suppliedTestCase.IVs));
+
+            var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
+            var result = subject.Validate(suppliedTestCase);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
+            Assert.IsTrue(result.Reason.Contains("greater"), "Reason");
+        }
+
+        [Test]
+        public void ShouldReportSuccessOnValidTestCaseWithMultipleIVs()
+        {
+            var suppliedTestCase = new TestCase
+            {
+                Key = new BitString(128),
+                Length = 128 * 6,
+                PlainText = new BitString(128 * 6),
+                CipherText = new BitString(128 * 6),
+                IVs = new List<BitString>
+                {
+                    BitString.Zeroes(120).ConcatenateBits(BitString.Ones(8)),
+                    BitString.Zeroes(100).ConcatenateBits(BitString.Ones(28)),
+                    BitString.Zeroes(64).ConcatenateBits(BitString.Ones(64)),
+                    BitString.Ones(128),
+                    BitString.Zeroes(128),
+                    BitString.Zeroes(127).ConcatenateBits(BitString.Ones(1))
+                }
+            };
+
+            var group = new TestGroup
+            {
+                IncrementalCounter = true,
+                OverflowCounter = true
+            };
+
+            var deferredMock = GetDeferredResolver();
+            deferredMock
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new CounterDecryptionResult(suppliedTestCase.PlainText, suppliedTestCase.IVs));
+
+            var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
+            var result = subject.Validate(suppliedTestCase);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(Disposition.Passed, result.Result, "Result");
+        }
+
+        [Test]
         public void ShouldReportSuccessOnValidTestCase()
         {
             var goodTestCase = GetTestCase();

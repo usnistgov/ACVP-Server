@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 using System.Text;
 using NIST.CVP.Crypto.AES_CTR;
 using NIST.CVP.Crypto.CTR;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
@@ -29,6 +32,7 @@ namespace NIST.CVP.Generation.AES_CTR
             if (errors.Count == 0)
             {
                 CheckResults(suppliedResult, errors);
+                ValidateIVs(suppliedResult.IVs, errors);
             }
 
             if (errors.Count > 0)
@@ -70,6 +74,91 @@ namespace NIST.CVP.Generation.AES_CTR
             if (!serverResult.PlainText.Equals(suppliedResult.PlainText))
             {
                 errors.Add("Plain Text does not match");
+            }
+        }
+
+        private void ValidateIVs(List<BitString> ivs, List<string> errors)
+        {
+            var expectedBreaks = _group.OverflowCounter ? 1 : 0;
+            var ivValues = ivs.Select(iv => iv.ToPositiveBigInteger()).ToList();
+
+            // Check for distinctness
+            if (ivValues.Count != ivValues.Distinct().Count())
+            {
+                errors.Add("IVs are not distinct");
+                return;
+            }
+
+            // Check for sequential order
+            var actualBreaks = 0;
+            var breakLocation = 0;
+            for (var i = 0; i < ivValues.Count - 1; i++)
+            {
+                if (_group.IncrementalCounter)
+                {
+                    if (ivValues[i] > ivValues[i + 1])
+                    {
+                        actualBreaks++;
+                        breakLocation = i + 1;
+
+                        if (actualBreaks > expectedBreaks)
+                        {
+                            errors.Add($"Unexpected counter overflow at IV {i}");
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    if (ivValues[i] < ivValues[i + 1])
+                    {
+                        actualBreaks++;
+                        breakLocation = i + 1;
+
+                        if (actualBreaks > expectedBreaks)
+                        {
+                            errors.Add($"Unexpected counter underflow at IV {i}");
+                            return;
+                        }
+                    }
+                }
+            }
+
+            if (actualBreaks != expectedBreaks)
+            {
+                errors.Add("Expected overflow/underflow but none occurred");
+                return;
+            }
+
+            var sortedIvValues = new List<BigInteger>();
+            for (var i = breakLocation; i < ivValues.Count; i++)
+            {
+                sortedIvValues.Add(ivValues[i]);
+            }
+
+            for (var i = 0; i < breakLocation; i++)
+            {
+                sortedIvValues.Add(ivValues[i]);
+            }
+
+            for (var i = 0; i < sortedIvValues.Count - 1; i++)
+            {
+                if (_group.IncrementalCounter)
+                {
+                    if (sortedIvValues[i] > sortedIvValues[i + 1])
+                    {
+                        errors.Add($"IV {i} is greater than IV {i + 1}");
+                        return;
+                    }
+                }
+                else
+                {
+                    if (sortedIvValues[i] < sortedIvValues[i + 1])
+                    {
+                        errors.Add($"IV {i} is less than IV {i + 1}");
+                        return;
+                    }
+                }
             }
         }
     }

@@ -16,6 +16,7 @@ namespace NIST.CVP.Generation.AES_CTR
         private readonly IAesCtr _algo;
 
         private int _numberOfBlocks = 1000;
+        private bool _isSample;
 
         public int NumberOfTestCasesToGenerate { get; } = 1;
 
@@ -29,12 +30,13 @@ namespace NIST.CVP.Generation.AES_CTR
         {
             if (isSample)
             {
+                _isSample = isSample;
                 _numberOfBlocks = 100;
             }
 
             // Option to potentially include an incomplete block at the end of this
             var plainText = _rand.GetRandomBitString(128 * _numberOfBlocks);
-            var key = _rand.GetRandomBitString(128);
+            var key = _rand.GetRandomBitString(group.KeyLength);
             var iv = GetStartingIV(group);
 
             var testCase = new TestCase
@@ -62,9 +64,17 @@ namespace NIST.CVP.Generation.AES_CTR
             try
             {
                 // Get a simple counter (has wrapping) starting at the provided IV
-                var simpleCounter = new SimpleCounter(Cipher.AES, testCase.IV);
+                ICounter counter;
+                if (group.IncrementalCounter)
+                {
+                    counter = new AdditiveCounter(Cipher.AES, testCase.IV);
+                }
+                else
+                {
+                    counter = new SubtractiveCounter(Cipher.AES, testCase.IV);
+                }
 
-                encryptionResult = _algo.Encrypt(testCase.Key, testCase.PlainText, simpleCounter);
+                encryptionResult = _algo.Encrypt(testCase.Key, testCase.PlainText, counter);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
@@ -85,16 +95,16 @@ namespace NIST.CVP.Generation.AES_CTR
         private BitString GetStartingIV(TestGroup group)
         {
             BitString padding;
-            int randomBits;
+
+            // Arbitrary 'small' value so samples and normal registrations always hit boundary
+            int randomBits = _isSample ? 6 : 9;
 
             if (group.OverflowCounter == group.IncrementalCounter)
             {
-                randomBits = 7;             // Arbitrary 'small' value so samples and normal registrations always hit boundary
                 padding = BitString.Ones(128 - randomBits);
             }
             else
             {
-                randomBits = 19;            // Arbitrary 'small' value, all counters must support 2^20 messages max per iv, so a 19-bit counter should always work
                 padding = BitString.Zeroes(128 - randomBits);
             }
 

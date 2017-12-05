@@ -15,7 +15,7 @@ namespace NIST.CVP.Crypto.CTR.Tests
         public void ShouldWrapTheCounterWhenAtMaxValue()
         {
             var initialValue = BitString.Ones(128);
-            var subject = new SimpleCounter(Cipher.AES, initialValue);
+            var subject = new AdditiveCounter(Cipher.AES, initialValue);
 
             var firstResult = subject.GetNextIV();
             var secondResult = subject.GetNextIV();
@@ -29,7 +29,7 @@ namespace NIST.CVP.Crypto.CTR.Tests
         [Test]
         public void ShouldIncreaseByOneEachCall()
         {
-            var subject = new SimpleCounter(Cipher.AES, BitString.Zero());
+            var subject = new AdditiveCounter(Cipher.AES, BitString.Zero());
 
             var prevResult = subject.GetNextIV().ToPositiveBigInteger();
             for (var i = 0; i < 1000; i++)
@@ -46,7 +46,7 @@ namespace NIST.CVP.Crypto.CTR.Tests
         [TestCase(Cipher.TDES, 64)]
         public void ShouldGetCorrectBlockSize(Cipher cipher, int blockSize)
         {
-            var subject = new SimpleCounter(cipher, BitString.Zero());
+            var subject = new AdditiveCounter(cipher, BitString.Zero());
             var result = subject.GetNextIV();
             Assert.AreEqual(blockSize, result.BitLength);
         }
@@ -59,7 +59,7 @@ namespace NIST.CVP.Crypto.CTR.Tests
         public void ShouldAlwaysOfferExactly128Bits(string hex)
         {
             var firstValue = new BitString(hex);
-            var subject = new SimpleCounter(Cipher.AES, firstValue);
+            var subject = new AdditiveCounter(Cipher.AES, firstValue);
 
             for (var i = 0; i < 1000; i++)
             {

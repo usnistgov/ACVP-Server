@@ -56,7 +56,6 @@ namespace NIST.CVP.Generation.AES_CTR
                     IVs.Add(new BitString(iv));
                 }
             }
-            
         }
 
         public bool Merge(ITestCase otherTest)
@@ -114,16 +113,5 @@ namespace NIST.CVP.Generation.AES_CTR
             }
             return false;
         }
-
-        //private List<AlgoArrayResponse> CtrArrayToObject(ExpandoObject ctrArray)
-        //{
-        //    return (from dynamic item in ctrArray
-        //        select new AlgoArrayResponse
-        //        {
-        //            CipherText = ctrArray.GetBitStringFromProperty("cipherText"),
-        //            IV = ctrArray.GetBitStringFromProperty("iv"),
-        //            PlainText = ctrArray.GetBitStringFromProperty("plainText")
-        //        }).ToList();
-        //}
     }
 }

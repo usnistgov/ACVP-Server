@@ -79,7 +79,7 @@ namespace NIST.CVP.Crypto.TDES_CTR
                 var iv = counter.GetNextIV();
                 ivs.Add(iv);
 
-                var result = EncryptBlock(key, blockPt, iv);
+                var result = EncryptBlock(key.GetDeepCopy(), blockPt, iv);
                 if (!result.Success)
                 {
                     return new CounterEncryptionResult(result.ErrorMessage);
@@ -95,7 +95,7 @@ namespace NIST.CVP.Crypto.TDES_CTR
                 var iv = counter.GetNextIV();
                 ivs.Add(iv);
 
-                var result = EncryptBlock(key, lastBlockPt, iv);
+                var result = EncryptBlock(key.GetDeepCopy(), lastBlockPt, iv);
                 if (!result.Success)
                 {
                     return new CounterEncryptionResult(result.ErrorMessage);
