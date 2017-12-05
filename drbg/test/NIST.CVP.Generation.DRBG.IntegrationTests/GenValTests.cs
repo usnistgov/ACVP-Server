@@ -15,8 +15,8 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class GenValTests : GenValTestsBase
     {
-        public override string Algorithm { get; } = "DRBG";
-        public override string Mode { get; } = "AES";
+        public override string Algorithm { get; } = "ctrDRBG";  // Need to be these specific values for ParameterValidator
+        public override string Mode { get; } = "AES-128";
 
         public override Executable Generator => Program.Main;
         public override Executable Validator => DRBG_Val.Program.Main;
