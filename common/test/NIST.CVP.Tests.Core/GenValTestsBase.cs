@@ -42,7 +42,7 @@ namespace NIST.CVP.Tests.Core
         public abstract void SetUp();
 
         // Set this during a test if you want to save the json from the session
-        public bool SaveJson = true;
+        public bool SaveJson = false;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
