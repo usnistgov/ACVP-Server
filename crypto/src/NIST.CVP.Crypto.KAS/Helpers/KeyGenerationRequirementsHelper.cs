@@ -45,6 +45,7 @@ namespace NIST.CVP.Crypto.KAS.Helpers
                     ),
                     #endregion KdfNoKc
                     #endregion dhEphem
+
                     #region mqv1
                     #region NoKdfNoKc
                     new SchemeKeyNonceGenRequirement<FfcScheme>(
@@ -144,7 +145,7 @@ namespace NIST.CVP.Crypto.KAS.Helpers
             List<SchemeKeyNonceGenRequirement<EccScheme>> EccSchemeKeyGenerationRequirements =
                 new List<SchemeKeyNonceGenRequirement<EccScheme>>()
                 {
-                    #region dhEphem
+                    #region EphemeralUnified
                     #region NoKdfNoKc
                     new SchemeKeyNonceGenRequirement<EccScheme>(
                         EccScheme.EphemeralUnified, KasMode.NoKdfNoKc,
@@ -177,7 +178,101 @@ namespace NIST.CVP.Crypto.KAS.Helpers
                         generatesEphemeralNonce: false
                     ),
                     #endregion KdfNoKc
-                    #endregion dhEphem
+                    #endregion EphemeralUnified
+
+                    #region OnePassMqv
+                    #region NoKdfNoKc
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.OnePassMqv, KasMode.NoKdfNoKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.OnePassMqv, KasMode.NoKdfNoKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: false,
+                        generatesEphemeralNonce: false
+                    ),
+                    #endregion NoKdfNoKc
+                    #region KdfNoKc
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.OnePassMqv, KasMode.KdfNoKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.OnePassMqv, KasMode.KdfNoKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: false,
+                        generatesEphemeralNonce: false
+                    ),
+                    #endregion KdfNoKc
+                    #region KdfKc
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.OnePassMqv, KasMode.KdfKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.OnePassMqv, KasMode.KdfKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.OnePassMqv, KasMode.KdfKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.OnePassMqv, KasMode.KdfKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.OnePassMqv, KasMode.KdfKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: false,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.OnePassMqv, KasMode.KdfKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: false,
+                        generatesEphemeralNonce: true
+                    ),
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.OnePassMqv, KasMode.KdfKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: false,
+                        generatesEphemeralNonce: true
+                    ),
+                    new SchemeKeyNonceGenRequirement<EccScheme>(
+                        EccScheme.OnePassMqv, KasMode.KdfKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: false,
+                        generatesEphemeralNonce: true
+                    ),
+                    #endregion KdfKc
+                    #endregion OnePassMqv
                 };
 
         public static SchemeKeyNonceGenRequirement<FfcScheme> GetKeyGenerationOptionsForSchemeAndRole(

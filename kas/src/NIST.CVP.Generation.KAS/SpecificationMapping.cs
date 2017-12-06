@@ -62,8 +62,13 @@ namespace NIST.CVP.Generation.KAS
         public static List<(FfcScheme schemeEnum, Type schemeParameter)> FfcSchemeMapping =
             new List<(FfcScheme schemeEnum, Type schemeParameter)>()
             {
-                (FfcScheme.DhEphem, typeof(DhEphem)),
-                (FfcScheme.Mqv1, typeof(Mqv1))
+                (FfcScheme.DhEphem, typeof(FfcDhEphem)),
+                (FfcScheme.Mqv1, typeof(FfcMqv1)),
+                (FfcScheme.DhHybrid1, typeof(FfcDhHybrid1)),
+                (FfcScheme.DhHybridOneFlow, typeof(FfcDhHybridOneFlow)),
+                (FfcScheme.DhOneFlow, typeof(FfcDhOneFlow)),
+                (FfcScheme.Mqv2, typeof(FfcMqv2)),
+                (FfcScheme.DhStatic, typeof(FfcDhStatic))
             };
 
         public static FfcScheme GetFfcEnumFromType(SchemeBase schemeBase)
@@ -79,7 +84,13 @@ namespace NIST.CVP.Generation.KAS
         public static List<(EccScheme schemeEnum, Type schemeParameter)> EccSchemeMapping =
             new List<(EccScheme schemeEnum, Type schemeParameter)>()
             {
-                (EccScheme.EphemeralUnified, typeof(EphemeralUnified))
+                (EccScheme.EphemeralUnified, typeof(EccEphemeralUnified)),
+                (EccScheme.OnePassMqv, typeof(EccOnePassMqv)),
+                (EccScheme.FullMqv, typeof(EccFullMqv)),
+                (EccScheme.FullUnified, typeof(EccFullUnified)),
+                (EccScheme.OnePassDh, typeof(EccOnePassDh)),
+                (EccScheme.OnePassUnified, typeof(EccOnePassUnified)),
+                (EccScheme.StaticUnified, typeof(EccStaticUnified))
             };
 
         public static EccScheme GetEccEnumFromType(SchemeBase schemeBase)

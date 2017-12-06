@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             }
 
             ValidateAtLeastOneSchemePresent(parameters.Scheme, errorResults);
-            ValidateEphemeralUnified(parameters.Scheme.DhEphem, errorResults);
+            ValidateEphemeralUnified(parameters.Scheme.FfcDhEphem, errorResults);
         }
 
         protected override void ValidateAtLeastOneParameterSetPresent(NoKdfNoKc kasMode, List<string> errorResults)
@@ -42,7 +42,11 @@ namespace NIST.CVP.Generation.KAS.ECC
                 return;
             }
 
-            if (kasMode.ParameterSet.Fb == null && kasMode.ParameterSet.Fc == null)
+            if (kasMode.ParameterSet.Eb == null 
+                && kasMode.ParameterSet.Ec == null 
+                && kasMode.ParameterSet.Ed == null 
+                && kasMode.ParameterSet.Ee == null
+            )
             {
                 errorResults.Add("At least one paramter set must be provided.");
             }
@@ -58,8 +62,13 @@ namespace NIST.CVP.Generation.KAS.ECC
 
         private void ValidateAtLeastOneSchemePresent(Schemes parametersScheme, List<string> errorResults)
         {
-            // TODO add more schemes
-            if (parametersScheme.EphemeralUnified == null)
+            if (parametersScheme.EccEphemeralUnified == null &&
+                parametersScheme.EccFullMqv == null &&
+                parametersScheme.EccFullUnified == null &&
+                parametersScheme.EccOnePassDh == null &&
+                parametersScheme.EccOnePassUnified == null &&
+                parametersScheme.EccOnePassMqv == null &&
+                parametersScheme.EccStaticUnified == null)
             {
                 errorResults.Add("No schemes are present in the registration.");
             }
@@ -81,7 +90,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             }
 
             // kdfKc is invalid for dhEphem
-            if (scheme.KdfKc != null && scheme is DhEphem)
+            if (scheme.KdfKc != null && scheme is FfcDhEphem)
             {
                 errorResults.Add("Key Confirmation not possible with ephemeralUnified.");
                 return;

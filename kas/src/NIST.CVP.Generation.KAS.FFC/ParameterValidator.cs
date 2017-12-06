@@ -26,8 +26,8 @@ namespace NIST.CVP.Generation.KAS.FFC
             }
 
             ValidateAtLeastOneSchemePresent(parameters.Scheme, errorResults);
-            ValidateDhEphemScheme(parameters.Scheme.DhEphem, errorResults);
-            ValidateMqv1Scheme(parameters.Scheme.Mqv1, errorResults);
+            ValidateDhEphemScheme(parameters.Scheme.FfcDhEphem, errorResults);
+            ValidateMqv1Scheme(parameters.Scheme.FfcMqv1, errorResults);
         }
 
         protected override void ValidateAtLeastOneParameterSetPresent(NoKdfNoKc kasMode, List<string> errorResults)
@@ -52,8 +52,13 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         private void ValidateAtLeastOneSchemePresent(Schemes parametersScheme, List<string> errorResults)
         {
-            // TODO add more schemes
-            if (parametersScheme.DhEphem == null && parametersScheme.Mqv1 == null)
+            if (parametersScheme.FfcDhEphem == null && 
+                parametersScheme.FfcMqv1 == null &&
+                parametersScheme.FfcDhHybrid1 == null &&
+                parametersScheme.FfcDhHybridOneFlow == null &&
+                parametersScheme.FfcDhOneFlow == null &&
+                parametersScheme.FfcMqv2 == null &&
+                parametersScheme.FfcDhStatic == null)
             {
                 errorResults.Add("No schemes are present in the registration.");
             }
@@ -75,7 +80,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             }
 
             // kdfKc is invalid for dhEphem
-            if (scheme.KdfKc != null && scheme is DhEphem)
+            if (scheme.KdfKc != null && scheme is FfcDhEphem)
             {
                 errorResults.Add("Key Confirmation not possible with dhEphem.");
                 return;

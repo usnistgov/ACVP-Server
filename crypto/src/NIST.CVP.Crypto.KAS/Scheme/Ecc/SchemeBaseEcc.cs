@@ -129,10 +129,14 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
         /// <inheritdoc />
         protected override BitString GetEphemeralKeyOrNonce(EccKeyPair ephemeralPublicKey, BitString ephemeralNonce)
         {
-            if (ephemeralPublicKey != null && ephemeralPublicKey?.PublicQ.X != 0)
+            if (ephemeralPublicKey?.PublicQ != null && ephemeralPublicKey.PublicQ?.X != 0)
             {
                 var exactLength = DomainParameters.CurveE.OrderN.ExactBitLength();
-                return SharedSecretZHelper.FormatEccSharedSecretZ(ephemeralPublicKey.PublicQ, exactLength);
+
+                return BitString.ConcatenateBits(
+                    SharedSecretZHelper.FormatEccSharedSecretZ(ephemeralPublicKey.PublicQ.X, exactLength),
+                    SharedSecretZHelper.FormatEccSharedSecretZ(ephemeralPublicKey.PublicQ.Y, exactLength)
+                );
             }
 
             return ephemeralNonce;

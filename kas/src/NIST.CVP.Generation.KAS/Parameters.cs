@@ -33,18 +33,62 @@ namespace NIST.CVP.Generation.KAS
         /// <summary>
         /// FFC Diffie Hellman Ephemeral
         /// </summary>
-        public DhEphem DhEphem { get; set; }
+        public FfcDhEphem FfcDhEphem { get; set; }
         /// <summary>
         /// FFC MQV1
         /// </summary>
-        public Mqv1 Mqv1 { get; set; }
+        public FfcMqv1 FfcMqv1 { get; set; }
+        /// <summary>
+        /// FFC DhHybrid1
+        /// </summary>
+        public FfcDhHybrid1 FfcDhHybrid1 { get; set; }
+        /// <summary>
+        /// FFC MQV2
+        /// </summary>
+        public FfcMqv2 FfcMqv2 { get; set; }
+        /// <summary>
+        /// FFC DhHybridOneFlow
+        /// </summary>
+        public FfcDhHybridOneFlow FfcDhHybridOneFlow { get; set; }
+        /// <summary>
+        /// FFC DhOneFLow
+        /// </summary>
+        public FfcDhOneFlow FfcDhOneFlow { get; set; }
+        /// <summary>
+        /// FFC DhStatic
+        /// </summary>
+        public FfcDhStatic FfcDhStatic { get; set; }
         #endregion FFC
 
         #region ECC
         /// <summary>
         /// ECC Ephemeral Unified
         /// </summary>
-        public EphemeralUnified EphemeralUnified { get; set; }
+        public EccEphemeralUnified EccEphemeralUnified { get; set; }
+        /// <summary>
+        /// ECC OnePassMqv
+        /// </summary>
+        public EccOnePassMqv EccOnePassMqv { get; set; }
+        /// <summary>
+        /// ECC FullUnified
+        /// </summary>
+        public EccFullUnified EccFullUnified { get; set; }
+        /// <summary>
+        /// ECC FullMqv
+        /// </summary>
+        public EccFullMqv EccFullMqv { get; set; }
+        /// <summary>
+        /// ECC OnePassUnified
+        /// </summary>
+        public EccOnePassUnified EccOnePassUnified { get; set; }
+        /// <summary>
+        /// ECC OnePassDh
+        /// </summary>
+        public EccOnePassDh EccOnePassDh { get; set; }
+        /// <summary>
+        /// ECC StaticUnified
+        /// </summary>
+        public EccStaticUnified EccStaticUnified { get; set; }
         #endregion ECC
     }
 
@@ -71,19 +115,93 @@ namespace NIST.CVP.Generation.KAS
         public KdfKc KdfKc { get; set; }
     }
 
+    #region FFC
     /// <inheritdoc />
     /// <summary>
     /// Registration for DiffieHellman ephemeral
     /// </summary>
-    public class DhEphem : SchemeBase { }
+    public class FfcDhEphem : SchemeBase { }
 
     /// <inheritdoc />
     /// <summary>
     /// Registration for MQV1
     /// </summary>
-    public class Mqv1 : SchemeBase { }
+    public class FfcMqv1 : SchemeBase { }
 
-    public class EphemeralUnified : SchemeBase { }
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for DhHybrid1
+    /// </summary>
+    public class FfcDhHybrid1 : SchemeBase { }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for Mqv2
+    /// </summary>
+    public class FfcMqv2 : SchemeBase { }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for DhHybridOneFlow
+    /// </summary>
+    public class FfcDhHybridOneFlow : SchemeBase { }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for DhOneFlow
+    /// </summary>
+    public class FfcDhOneFlow : SchemeBase { }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for DhStatic
+    /// </summary>
+    public class FfcDhStatic : SchemeBase { }
+    #endregion FFC
+
+    #region ECC
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for EphemeralUnified
+    /// </summary>
+    public class EccEphemeralUnified : SchemeBase { }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for OnePassMqv
+    /// </summary>
+    public class EccOnePassMqv : SchemeBase { }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for FullUnified
+    /// </summary>
+    public class EccFullUnified : SchemeBase { }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for FullMqv
+    /// </summary>
+    public class EccFullMqv : SchemeBase { }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for OnePassUnified
+    /// </summary>
+    public class EccOnePassUnified : SchemeBase { }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for OnePassDh
+    /// </summary>
+    public class EccOnePassDh : SchemeBase { }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Registration for StaticUnified
+    /// </summary>
+    public class EccStaticUnified : SchemeBase { }
+    #endregion ECC
 
     /// <summary>
     /// Registration requirements for NoKdfNoKc

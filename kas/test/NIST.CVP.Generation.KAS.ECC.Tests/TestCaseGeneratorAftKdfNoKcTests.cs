@@ -92,6 +92,19 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D384)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D512)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D512)]
+
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.AesCcm)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.AesCcm)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.CmacAes)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.CmacAes)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D224)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D224)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D256)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D256)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D384)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D384)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D512)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D512)]
         public void ShouldPopulateCorrectKeysNoncesForSchemeRole(EccScheme scheme, KeyAgreementRole testGroupIutRole, KeyAgreementMacType macType)
         {
             TestGroup tg = new TestGroup()

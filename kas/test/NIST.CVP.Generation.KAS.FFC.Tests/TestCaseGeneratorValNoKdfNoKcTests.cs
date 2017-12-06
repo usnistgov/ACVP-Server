@@ -154,6 +154,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)] // server doesn't generate ephem key when party v

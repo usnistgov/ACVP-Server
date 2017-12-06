@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA.ECC;
+﻿using System.Numerics;
+using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KES.Helpers
@@ -13,7 +14,7 @@ namespace NIST.CVP.Crypto.KES.Helpers
             }
         }
 
-        public static BitString FormatEccSharedSecretZ(EccPoint p, int exactLength)
+        public static BitString FormatEccSharedSecretZ(BigInteger p, int exactLength)
         {
             int lengthMod8;
             if (exactLength % 8 != 0)
@@ -25,7 +26,7 @@ namespace NIST.CVP.Crypto.KES.Helpers
                 lengthMod8 = exactLength;
             }
 
-            var z = new BitString(p.X, lengthMod8);
+            var z = new BitString(p, lengthMod8);
             return z;
         }
     }

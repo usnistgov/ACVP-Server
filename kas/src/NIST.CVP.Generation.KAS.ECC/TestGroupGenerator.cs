@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.KAS.ECC
 
         private void GenerateGroups(Schemes parametersScheme, KasAssurance flagFunctions, List<TestGroup> groups)
         {
-            CreateGroupsPerScheme(parametersScheme.EphemeralUnified, flagFunctions, groups);
+            CreateGroupsPerScheme(parametersScheme.EccEphemeralUnified, flagFunctions, groups);
             // TODO additional schemes
         }
 

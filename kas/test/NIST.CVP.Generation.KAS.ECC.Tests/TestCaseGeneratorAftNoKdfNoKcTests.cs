@@ -80,6 +80,9 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [Test]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
         public void ShouldPopulateCorrectKeysNoncesForSchemeRole(EccScheme scheme, KeyAgreementRole testGroupIutRole)
         {
             TestGroup tg = new TestGroup()

@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                     Function = new string[] {"function", "function2"},
                     Scheme = new Schemes()
                     {
-                        DhEphem = new DhEphem()
+                        FfcDhEphem = new FfcDhEphem()
                         {
                             Role = new string[]{ "initiator" },
                             KdfNoKc = new KdfNoKc()

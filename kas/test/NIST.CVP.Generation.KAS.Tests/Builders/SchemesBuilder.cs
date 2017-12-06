@@ -4,16 +4,16 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
 {
     public class SchemesBuilder
     {
-        private DhEphem _dhEphem;
-        private Mqv1 _mqv1;
+        private FfcDhEphem _dhEphem;
+        private FfcMqv1 _mqv1;
 
-        public SchemesBuilder WithDhEphem(DhEphem value)
+        public SchemesBuilder WithDhEphem(FfcDhEphem value)
         {
             _dhEphem = value;
             return this;
         }
 
-        public SchemesBuilder WithMqv1(Mqv1 value)
+        public SchemesBuilder WithMqv1(FfcMqv1 value)
         {
             _mqv1 = value;
             return this;
@@ -23,8 +23,8 @@ namespace NIST.CVP.Generation.KAS.Tests.Builders
         {
             return new Schemes()
             {
-                DhEphem = _dhEphem,
-                Mqv1 = _mqv1
+                FfcDhEphem = _dhEphem,
+                FfcMqv1 = _mqv1
             };
         }
     }

@@ -99,6 +99,9 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [Test]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
         public void ShouldPopulateCorrectKeysNoncesForSchemeRole(EccScheme scheme, KeyAgreementRole testGroupIutRole)
         {
             BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
@@ -193,6 +196,15 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)] // server doesn't generate ephem key when party v
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
         public void ShouldSetProperTestCaseFailureTestProperty(EccScheme scheme, KeyAgreementRole testGroupIutRole,
             TestCaseDispositionOption option, bool isFailure)
         {

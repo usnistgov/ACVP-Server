@@ -113,7 +113,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Function = new string[] { "dpGen" },
                 Scheme = new Schemes()
                 {
-                    EphemeralUnified = new EphemeralUnified()
+                    EccEphemeralUnified = new EccEphemeralUnified()
                     {
                         Role = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
@@ -128,6 +128,21 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             }
                         }
                     },
+                    EccOnePassMqv = new EccOnePassMqv()
+                    {
+                        Role = new string[] { "initiator" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        }
+                    }
                 },
                 IsSample = true
             };
@@ -143,7 +158,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Function = new string[] { "dpGen", "dpVal", "keyPairGen", "partialVal", "keyRegen" },
                 Scheme = new Schemes()
                 {
-                    EphemeralUnified = new EphemeralUnified()
+                    EccEphemeralUnified = new EccEphemeralUnified()
                     {
                         Role = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
@@ -154,11 +169,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 {
                                     HashAlg = new string[] { "SHA2-224" },
                                     CurveName = "P-224"
-                                },
-                                Ec = new Ec()
-                                {
-                                    HashAlg = new string[] { "SHA2-256" },
-                                    CurveName = "P-256"
                                 }
                             }
                         },
@@ -190,28 +200,38 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                         {
                                             KeyLen = new int[] { 128 },
                                             MacLen = 128
-                                        },
-                                        HmacSha2_D256 = new MacOptionHmacSha2_d256()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D384 = new MacOptionHmacSha2_d384()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D512 = new MacOptionHmacSha2_d512()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
                                         }
                                     },
                                     CurveName = "P-224"
-                                },
-                                Ec = new Ec()
+                                }
+                            }
+                        }
+                    },
+                    EccOnePassMqv = new EccOnePassMqv()
+                    {
+                        Role = new string[] { "initiator", "responder" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
                                 {
-                                    HashAlg = new string[] { "SHA2-256" },
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                        KdfNoKc = new KdfNoKc()
+                        {
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
                                     MacOption = new MacOptions()
                                     {
                                         AesCcm = new MacOptionAesCcm()
@@ -229,27 +249,52 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                         {
                                             KeyLen = new int[] { 128 },
                                             MacLen = 128
+                                        }
+                                    },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                        KdfKc = new KdfKc()
+                        {
+                            KcOption = new KcOptions()
+                            {
+                                KcRole = new string[] { "provider", "recipient" },
+                                KcType = new string[] { "unilateral", "bilateral" },
+                                NonceType = new string[] { "randomNonce" }
+                            },
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128,
+                                            NonceLen = 64
                                         },
-                                        HmacSha2_D256 = new MacOptionHmacSha2_d256()
+                                        Cmac = new MacOptionCmac()
                                         {
                                             KeyLen = new int[] { 128 },
                                             MacLen = 128
                                         },
-                                        HmacSha2_D384 = new MacOptionHmacSha2_d384()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D512 = new MacOptionHmacSha2_d512()
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
                                         {
                                             KeyLen = new int[] { 128 },
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-256"
+                                    CurveName = "P-224"
                                 }
                             }
-                        }
+                        },
                     }
                 },
                 IsSample = true
@@ -267,7 +312,8 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     new BitstringConverter(),
                     new DomainConverter()
                 },
-                Formatting = Formatting.Indented
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore
             });
             string fileName = $"{targetFolder}\\registration.json";
             File.WriteAllText(fileName, json);

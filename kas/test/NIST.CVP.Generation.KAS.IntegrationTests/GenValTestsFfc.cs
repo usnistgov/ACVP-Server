@@ -118,7 +118,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Function = new string[] { "dpGen" },
                 Scheme = new Schemes()
                 {
-                    DhEphem = new DhEphem()
+                    FfcDhEphem = new FfcDhEphem()
                     {
                         Role = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
@@ -132,7 +132,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             }
                         }
                     },
-                    Mqv1 = new Mqv1()
+                    FfcMqv1 = new FfcMqv1()
                     {
                         Role = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
@@ -161,7 +161,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Function = new string[] { "dpGen", "dpVal", "keyPairGen", "fullVal", "keyRegen" },
                 Scheme = new Schemes()
                 {
-                    DhEphem = new DhEphem()
+                    FfcDhEphem = new FfcDhEphem()
                     {
                         Role = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
@@ -171,10 +171,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 Fb = new Fb()
                                 {
                                     HashAlg = new string[] { "SHA2-224" }
-                                },
-                                Fc = new Fc()
-                                {
-                                    HashAlg = new string[] { "SHA2-256" }
                                 }
                             }
                         },
@@ -188,74 +184,21 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             {
                                 Fb = new Fb()
                                 {
-                                    HashAlg = new string[] { "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512" },
+                                    HashAlg = new string[] { "SHA2-224", "SHA2-256" },
                                     MacOption = new MacOptions()
                                     {
                                         AesCcm = new MacOptionAesCcm()
                                         {
-                                            KeyLen = new int[] { 128, 192, 256 },
+                                            KeyLen = new int[] { 128 },
                                             MacLen = 128,
                                             NonceLen = 64
                                         },
                                         Cmac = new MacOptionCmac()
                                         {
-                                            KeyLen = new int[] { 128, 192, 256 },
+                                            KeyLen = new int[] { 128 },
                                             MacLen = 128
                                         },
                                         HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D256 = new MacOptionHmacSha2_d256()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D384 = new MacOptionHmacSha2_d384()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D512 = new MacOptionHmacSha2_d512()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        }
-                                    }
-                                },
-                                Fc = new Fc()
-                                {
-                                    HashAlg = new string[] { "SHA2-256", "SHA2-384", "SHA2-512" },
-                                    MacOption = new MacOptions()
-                                    {
-                                        AesCcm = new MacOptionAesCcm()
-                                        {
-                                            KeyLen = new int[] { 128, 192, 256 },
-                                            MacLen = 128,
-                                            NonceLen = 64
-                                        },
-                                        Cmac = new MacOptionCmac()
-                                        {
-                                            KeyLen = new int[] { 128, 192, 256 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D256 = new MacOptionHmacSha2_d256()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D384 = new MacOptionHmacSha2_d384()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D512 = new MacOptionHmacSha2_d512()
                                         {
                                             KeyLen = new int[] { 128 },
                                             MacLen = 128
@@ -265,7 +208,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             }
                         }
                     },
-                    Mqv1 = new Mqv1()
+                    FfcMqv1 = new FfcMqv1()
                     {
                         Role = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
@@ -274,11 +217,11 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             {
                                 Fb = new Fb()
                                 {
-                                    HashAlg = new string[] { "SHA2-224", "SHA2-512" }
+                                    HashAlg = new string[] { "SHA2-224" }
                                 },
                                 Fc = new Fc()
                                 {
-                                    HashAlg = new string[] { "SHA2-256", "SHA2-512" }
+                                    HashAlg = new string[] { "SHA2-256" }
                                 }
                             }
                         },
@@ -307,29 +250,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         },
                                         HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                                        {
-                                            KeyLen = new int[] { 128 },
-                                            MacLen = 128
-                                        }
-                                    }
-                                },
-                                Fc = new Fc()
-                                {
-                                    HashAlg = new string[] { "SHA2-512" },
-                                    MacOption = new MacOptions()
-                                    {
-                                        AesCcm = new MacOptionAesCcm()
-                                        {
-                                            KeyLen = new int[] { 256 },
-                                            MacLen = 128,
-                                            NonceLen = 64
-                                        },
-                                        Cmac = new MacOptionCmac()
-                                        {
-                                            KeyLen = new int[] { 256 },
-                                            MacLen = 128
-                                        },
-                                        HmacSha2_D512 = new MacOptionHmacSha2_d512()
                                         {
                                             KeyLen = new int[] { 128 },
                                             MacLen = 128
@@ -394,7 +314,8 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     new BitstringConverter(),
                     new DomainConverter()
                 },
-                Formatting = Formatting.Indented
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore
             });
             string fileName = $"{targetFolder}\\registration.json";
             File.WriteAllText(fileName, json);

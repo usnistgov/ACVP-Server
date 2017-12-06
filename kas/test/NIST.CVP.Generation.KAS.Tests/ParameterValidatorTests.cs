@@ -28,8 +28,8 @@ namespace NIST.CVP.Generation.KAS.Tests
             Parameters p = _builder
                 .WithSchemes(
                     new SchemesBuilder()
-                        .WithDhEphem(SchemeBuilder.GetBaseDhEphemBuilder().Build<DhEphem>())
-                        .WithMqv1(SchemeBuilder.GetBaseMqv1Builder().Build<Mqv1>())
+                        .WithDhEphem(SchemeBuilder.GetBaseDhEphemBuilder().Build<FfcDhEphem>())
+                        .WithMqv1(SchemeBuilder.GetBaseMqv1Builder().Build<FfcMqv1>())
                         .BuildSchemes())
                 .BuildParameters();
 
@@ -86,7 +86,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                 new ParameterBuilder()
                     .WithSchemes(
                         new SchemesBuilder().WithDhEphem(
-                            new SchemeBuilder().WithRole(null).Build<DhEphem>()
+                            new SchemeBuilder().WithRole(null).Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "role"
@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                 new ParameterBuilder()
                     .WithSchemes(
                         new SchemesBuilder().WithDhEphem(
-                            new SchemeBuilder().WithRole(new string[] { "invalid" }).Build<DhEphem>()
+                            new SchemeBuilder().WithRole(new string[] { "invalid" }).Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "role"
@@ -112,7 +112,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                 .WithNoKdfNoKc(null)
                                 .WithKdfNoKc(null)
                                 .WithKdfKc(null)
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "kas mode"
@@ -127,7 +127,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                 .WithKdfKc(
                                     new KdfKcBuilder().Build()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "key confirmation"
@@ -142,7 +142,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                 .WithNoKdfNoKc(
                                     new NoKdfNoKcBuilder().WithParameterSets(null).BuildNoKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "parameterset"
@@ -157,7 +157,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                 .WithKdfNoKc(
                                     new KdfNoKcBuilder().WithParameterSets(null).BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "parameterset"
@@ -172,7 +172,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                 .WithKdfNoKc(
                                     new KdfNoKcBuilder().WithKdfOptions(null).BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "kdfOption"
@@ -191,7 +191,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "oiPattern"
@@ -210,7 +210,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "oiPattern"
@@ -235,7 +235,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildNoKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "hashAlgs"
@@ -260,7 +260,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                     )
                                     .BuildNoKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "hash length"
@@ -279,7 +279,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildNoKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "macOption"
@@ -298,7 +298,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "macOption"
@@ -332,7 +332,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "macOption is required"
@@ -370,7 +370,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "AES-CCM Nonce Length"
@@ -408,7 +408,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "AES-CCM Nonce Length"
@@ -446,7 +446,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "unexpected for macOptions"
@@ -484,7 +484,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "unexpected for macOptions"
@@ -522,7 +522,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "unexpected for macOptions"
@@ -560,7 +560,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "unexpected for macOptions"
@@ -598,7 +598,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "unexpected for macOptions"
@@ -636,7 +636,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "AES Key Lengths"
@@ -674,7 +674,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "AES Key Lengths"
@@ -712,7 +712,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "KeyLength Modulus"
@@ -750,7 +750,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "KeyLength"
@@ -788,7 +788,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "MacLength Range"
@@ -826,7 +826,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "MacLength Modulus"
@@ -864,7 +864,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "MacLength Range"
@@ -902,7 +902,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                                         )
                                         .BuildKdfNoKc()
                                 )
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         ).BuildSchemes()
                     ).BuildParameters(),
                 "MacLength Modulus"
@@ -929,7 +929,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                         .WithDhEphem(
                             SchemeBuilder
                                 .GetBaseDhEphemBuilder()
-                                .Build<DhEphem>()
+                                .Build<FfcDhEphem>()
                         )
                         .BuildSchemes()
                 )
@@ -943,7 +943,7 @@ namespace NIST.CVP.Generation.KAS.Tests
                         .WithMqv1(
                             SchemeBuilder
                                 .GetBaseMqv1Builder()
-                                .Build<Mqv1>()
+                                .Build<FfcMqv1>()
                         )
                         .BuildSchemes()
                 )

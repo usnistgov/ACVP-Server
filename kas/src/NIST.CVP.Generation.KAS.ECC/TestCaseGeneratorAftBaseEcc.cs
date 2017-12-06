@@ -69,8 +69,8 @@ namespace NIST.CVP.Generation.KAS.ECC
         /// <inheritdoc />
         protected override int GetEphemeralLengthRequirement(TestGroup testGroup)
         {
-            // TODO confirm ephem length
-            return CurveAttributesHelper.GetCurveAttribute(testGroup.CurveName).LengthN;
+            var curveAttributes = CurveAttributesHelper.GetCurveAttribute(testGroup.CurveName);
+            return curveAttributes.LengthN * 2;
         }
 
         /// <inheritdoc />

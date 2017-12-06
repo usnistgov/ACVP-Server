@@ -116,7 +116,7 @@ namespace NIST.CVP.Generation.KAS.Tests
              * Wanted to add a test that will fail once schemes are added to help 
              * ensure the other tests are updated to account for new schemes.
             */
-            const int numberOfSchemesImplemented = 2;
+            const int numberOfSchemesImplemented = 7;
 
             Assert.AreEqual(numberOfSchemesImplemented, SpecificationMapping.FfcSchemeMapping.Count);
         }
@@ -130,21 +130,47 @@ namespace NIST.CVP.Generation.KAS.Tests
              * Wanted to add a test that will fail once schemes are added to help 
              * ensure the other tests are updated to account for new schemes.
             */
-            const int numberOfSchemesImplemented = 1;
+            const int numberOfSchemesImplemented = 7;
 
             Assert.AreEqual(numberOfSchemesImplemented, SpecificationMapping.EccSchemeMapping.Count);
         }
+
         private static object[] _testShouldGetEnumFromTypeFfc = new object[]
         {
             new object[]
             {
-                new DhEphem(),
+                new FfcDhEphem(),
                 FfcScheme.DhEphem
             },
             new object[]
             {
-                new Mqv1(), 
+                new FfcMqv1(),
                 FfcScheme.Mqv1
+            },
+            new object[]
+            {
+                new FfcDhHybrid1(),
+                FfcScheme.DhHybrid1
+            },
+            new object[]
+            {
+                new FfcDhHybridOneFlow(),
+                FfcScheme.DhHybridOneFlow
+            },
+            new object[]
+            {
+                new FfcDhOneFlow(),
+                FfcScheme.DhOneFlow
+            },
+            new object[]
+            {
+                new FfcMqv2(),
+                FfcScheme.Mqv2
+            },
+            new object[]
+            {
+                new FfcDhStatic(),
+                FfcScheme.DhStatic
             }
         };
 
@@ -161,9 +187,39 @@ namespace NIST.CVP.Generation.KAS.Tests
         {
             new object[]
             {
-                new EphemeralUnified(), 
+                new EccEphemeralUnified(), 
                 EccScheme.EphemeralUnified
-            }
+            },
+            new object[]
+            {
+                new EccOnePassMqv(),
+                EccScheme.OnePassMqv
+            },
+            new object[]
+            {
+                new EccFullMqv(),
+                EccScheme.FullMqv
+            },
+            new object[]
+            {
+                new EccFullUnified(),
+                EccScheme.FullUnified
+            },
+            new object[]
+            {
+                new EccOnePassDh(),
+                EccScheme.OnePassDh
+            },
+            new object[]
+            {
+                new EccOnePassUnified(),
+                EccScheme.OnePassUnified
+            },
+            new object[]
+            {
+                new EccStaticUnified(),
+                EccScheme.StaticUnified
+            },
         };
 
         [Test]

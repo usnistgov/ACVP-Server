@@ -22,7 +22,7 @@ namespace NIST.CVP.Crypto.KES
             }
 
             var pExactLength = domainParameters.CurveE.FieldSizeQ.ExactBitLength();
-            BitString z = SharedSecretZHelper.FormatEccSharedSecretZ(p, pExactLength);
+            BitString z = SharedSecretZHelper.FormatEccSharedSecretZ(p.X, pExactLength);
 
             return new SharedSecretResponse(z);
         }

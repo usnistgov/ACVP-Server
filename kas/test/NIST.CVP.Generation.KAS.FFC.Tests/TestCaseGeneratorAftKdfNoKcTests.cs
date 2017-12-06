@@ -91,6 +91,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D384)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D512)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D512)]
+
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.AesCcm)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.AesCcm)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.CmacAes)]

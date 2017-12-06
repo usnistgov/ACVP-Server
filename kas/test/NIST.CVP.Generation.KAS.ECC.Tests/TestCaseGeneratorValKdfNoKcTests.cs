@@ -123,6 +123,19 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D384)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D512)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D512)]
+
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.AesCcm)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.AesCcm)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.CmacAes)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.CmacAes)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D224)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D224)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D256)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D256)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D384)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D384)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D512)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D512)]
         public void ShouldPopulateCorrectKeysNoncesForSchemeRole(EccScheme scheme, KeyAgreementRole testGroupIutRole, KeyAgreementMacType macType)
         {
             BuildTestGroup(scheme, testGroupIutRole, macType, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
@@ -262,7 +275,49 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedMacData, true)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedTag, true)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedTag, true)]
-        
+
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)] // does not generate ephemeral key
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.FailChangedOi, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.FailChangedOi, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.FailChangedDkm, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.FailChangedDkm, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.FailChangedMacData, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.FailChangedMacData, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.AesCcm, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)] // does not generate ephemeral key
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.FailChangedOi, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.FailChangedOi, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.FailChangedDkm, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.FailChangedDkm, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.FailChangedMacData, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.FailChangedMacData, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.CmacAes, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)] // does not generate ephemeral key
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedOi, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedOi, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedDkm, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedDkm, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedMacData, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedMacData, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D224, TestCaseDispositionOption.FailChangedTag, true)]
         public void ShouldSetProperTestCaseFailureTestProperty(EccScheme scheme, KeyAgreementRole testGroupIutRole,
             KeyAgreementMacType macType, TestCaseDispositionOption option, bool isFailure)
         {
