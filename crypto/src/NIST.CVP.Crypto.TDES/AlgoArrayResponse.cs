@@ -6,43 +6,30 @@ namespace NIST.CVP.Crypto.TDES
     {
         public BitString Keys { get; set; }
         public BitString IV { get; set; }
-        //TODO it would be better to create an AlgoArrayResponse with no IVS, and then subclass it with a single IV and a tripple IV
-        public BitString IV2 { get; set; }
-        public BitString IV3 { get; set; }
-
-        private BitString _plainText;
-        public BitString PlainText
+        public BitString PlainText { get; set; }
+        public BitString CipherText { get; set; }
+        public int? DataTextLength => (PlainText ?? CipherText).BitLength;
+        public BitString Key1
         {
-            get => _plainText;
-
-            set
-            {
-                _plainText = value;
-                if (_plainText != null && (_plainText.BitLength == 0 || _plainText.BitLength % 8 != 0))
-                {
-                    PlainTextLength = _plainText.BitLength;
-                }
-            }
+            get => Keys?.MSBSubstring(0, 64);
+            set => Keys = Keys == null ?
+                value.ConcatenateBits(new BitString(128)) :
+                value.ConcatenateBits(Keys.MSBSubstring(64, 128));
         }
-        public int? PlainTextLength { get; private set; }
-        private BitString _cipherText;
-        public BitString CipherText
+
+        public BitString Key2
         {
-            get => _cipherText;
-
-            set
-            {
-                _cipherText = value;
-                if (_cipherText != null && (_cipherText.BitLength == 0 || _cipherText.BitLength % 8 != 0))
-                {
-                    CipherTextLength = _cipherText.BitLength;
-                }
-            }
+            get => Keys?.MSBSubstring(64, 64);
+            set => Keys = Keys == null ?
+                new BitString(64).ConcatenateBits(value).ConcatenateBits(new BitString(64)) :
+                Keys.MSBSubstring(0, 64).ConcatenateBits(value).ConcatenateBits(Keys.MSBSubstring(128, 64));
         }
-        public int? CipherTextLength { get; private set; }
-
-        public BitString Key1 { get; set; }
-        public BitString Key2 { get; set; }
-        public BitString Key3 { get; set; }
+        public BitString Key3
+        {
+            get => Keys?.MSBSubstring(128, 64);
+            set => Keys = Keys == null ?
+                new BitString(128).ConcatenateBits(value) :
+                Keys.MSBSubstring(0, 128).ConcatenateBits(value);
+        }
     }
 }

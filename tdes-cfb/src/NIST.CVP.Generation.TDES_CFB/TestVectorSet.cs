@@ -69,11 +69,10 @@ namespace NIST.CVP.Generation.TDES_CFB
                     ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
+
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-
-
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
                         if (group.TestType.Equals("MCT", StringComparison.OrdinalIgnoreCase))
@@ -91,32 +90,18 @@ namespace NIST.CVP.Generation.TDES_CFB
                                     ((IDictionary<string, object>)resultObject).Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
                                 }
                                 ((IDictionary<string, object>)resultObject).Add("iv", result.IV);
-                                if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                                {
+                                //if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                                //{
                                     ((IDictionary<string, object>)resultObject).Add("pt", result.PlainText);
-                                    if (result.PlainTextLength.HasValue)
-                                    {
-                                        ((IDictionary<string, object>)resultObject).Add("ptLen", result.PlainTextLength.Value);
-                                    }
                                     ((IDictionary<string, object>)resultObject).Add("ct", result.CipherText);
-                                    if (result.CipherTextLength.HasValue)
-                                    {
-                                        ((IDictionary<string, object>)resultObject).Add("ctLen", result.CipherTextLength.Value);
-                                    }
-                                }
-                                if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    ((IDictionary<string, object>)resultObject).Add("ct", result.CipherText);
-                                    if (result.CipherTextLength.HasValue)
-                                    {
-                                        ((IDictionary<string, object>)resultObject).Add("ctLen", result.CipherTextLength.Value);
-                                    }
-                                    ((IDictionary<string, object>)resultObject).Add("pt", result.PlainText);
-                                    if (result.PlainTextLength.HasValue)
-                                    {
-                                        ((IDictionary<string, object>)resultObject).Add("ptLen", result.PlainTextLength.Value);
-                                    }
-                                }
+                                    ((IDictionary<string, object>)resultObject).Add("dataLength", result.DataTextLength.Value);
+                                //}
+                                //if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                                //{
+                                //    ((IDictionary<string, object>)resultObject).Add("dataLength", result.DataTextLength.Value);
+                                //    ((IDictionary<string, object>)resultObject).Add("ct", result.CipherText);
+                                //    ((IDictionary<string, object>)resultObject).Add("pt", result.PlainText);
+                                //}
 
                                 resultsArray.Add(resultObject);
                             }
@@ -124,7 +109,7 @@ namespace NIST.CVP.Generation.TDES_CFB
                         }
                         else
                         {
-                            TDESKeys keys = test.Keys;
+                            var keys = new TDESKeys(test.Keys);
                             for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
                             {
                                 ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
@@ -182,8 +167,6 @@ namespace NIST.CVP.Generation.TDES_CFB
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-
-
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
                     ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
@@ -192,34 +175,75 @@ namespace NIST.CVP.Generation.TDES_CFB
 
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
-
                         dynamic testObject = new ExpandoObject();
-
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
+                        if (group.TestType.Equals("MCT", StringComparison.OrdinalIgnoreCase))
+                        {
+                            var resultsArray = new List<dynamic>();
 
-                        var keys = test.Keys;
-                        for (var iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
-                        {
-                            ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
-                        }
-                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            ((IDictionary<string, object>)testObject).Add("pt", test.PlainText);
-                            if (test.PlainTextLength.HasValue)
+                            foreach (var result in test.ResultsArray)
                             {
-                                ((IDictionary<string, object>)testObject).Add("ptLen", test.PlainTextLength.Value);
+                                dynamic resultObject = new ExpandoObject();
+
+
+                                var keys = new TDESKeys(result.Keys);
+                                for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
+                                {
+                                    ((IDictionary<string, object>) resultObject).Add($"key{iKeyIndex + 1}",
+                                        keys.KeysAsBitStrings[iKeyIndex]);
+                                }
+
+                                ((IDictionary<string, object>) resultObject).Add("iv", result.IV);
+                                //if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                                //{
+                                ((IDictionary<string, object>) resultObject).Add("pt", result.PlainText);
+                                ((IDictionary<string, object>) resultObject).Add("ct", result.CipherText);
+                                ((IDictionary<string, object>) resultObject).Add("dataLength",
+                                    result.DataTextLength.Value);
+                                //}
+                                //if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                                //{
+                                //    ((IDictionary<string, object>)resultObject).Add("dataLength", result.DataTextLength.Value);
+                                //    ((IDictionary<string, object>)resultObject).Add("ct", result.CipherText);
+                                //    ((IDictionary<string, object>)resultObject).Add("pt", result.PlainText);
+                                //}
+
+                                resultsArray.Add(resultObject);
                             }
+
+                            ((IDictionary<string, object>) testObject).Add("resultsArray", resultsArray);
                         }
-                        else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                        else
                         {
-                            ((IDictionary<string, object>)testObject).Add("ct", test.CipherText);
-                            if (test.CipherTextLength.HasValue)
+
+                            var keys = new TDESKeys(test.Keys);
+                            for (var iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
                             {
-                                ((IDictionary<string, object>)testObject).Add("ctLen", test.CipherTextLength.Value);
+                                ((IDictionary<string, object>) testObject).Add($"key{iKeyIndex + 1}",
+                                    keys.KeysAsBitStrings[iKeyIndex]);
                             }
+
+                            if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                            {
+                                ((IDictionary<string, object>) testObject).Add("pt", test.PlainText);
+                                if (test.PlainTextLength.HasValue)
+                                {
+                                    ((IDictionary<string, object>) testObject).Add("ptLen", test.PlainTextLength.Value);
+                                }
+                            }
+                            else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                            {
+                                ((IDictionary<string, object>) testObject).Add("ct", test.CipherText);
+                                if (test.CipherTextLength.HasValue)
+                                {
+                                    ((IDictionary<string, object>) testObject).Add("ctLen",
+                                        test.CipherTextLength.Value);
+                                }
+                            }
+
+                            ((IDictionary<string, object>) testObject).Add("iv", test.Iv);
                         }
-                        ((IDictionary<string, object>)testObject).Add("iv", test.Iv);
 
                         tests.Add(testObject);
                     }
@@ -259,34 +283,20 @@ namespace NIST.CVP.Generation.TDES_CFB
                                     resultObject.Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
                                 }
 
-                                if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                                {
+                                //if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                                //{
                                     resultObject.Add("pt", result.PlainText);
-                                    if (result.PlainTextLength.HasValue)
-                                    {
-                                        resultObject.Add("ptLen", result.PlainTextLength.Value);
-                                    }
                                     resultObject.Add("ct", result.CipherText);
-                                    if (result.CipherTextLength.HasValue)
-                                    {
-                                        resultObject.Add("ctLen", result.CipherTextLength.Value);
-                                    }
+                                    resultObject.Add("dataLength", result.DataTextLength.Value);
                                     resultObject.Add("iv", result.IV);
-                                }
-                                else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    resultObject.Add("ct", result.CipherText);
-                                    if (result.CipherTextLength.HasValue)
-                                    {
-                                        resultObject.Add("ctLen", result.CipherTextLength.Value);
-                                    }
-                                    resultObject.Add("pt", result.PlainText);
-                                    if (result.PlainTextLength.HasValue)
-                                    {
-                                        resultObject.Add("ptLen", result.PlainTextLength.Value);
-                                    }
-                                    resultObject.Add("iv", result.IV);
-                                }
+                                //}
+                                //else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                                //{
+                                //    resultObject.Add("ct", result.CipherText);
+                                //    resultObject.Add("pt", result.PlainText);
+                                //    resultObject.Add("dataLength", result.DataTextLength.Value);
+                                //    resultObject.Add("iv", result.IV);
+                                //}
                                 resultsArray.Add(resultObject);
                             }
                             ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);

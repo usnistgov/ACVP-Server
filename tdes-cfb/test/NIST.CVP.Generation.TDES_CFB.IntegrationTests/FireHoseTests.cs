@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
                         {
                             
                             var result = modeMCT.MCTEncrypt(
-                                firstResult.Key1.ConcatenateBits(firstResult.Key2).ConcatenateBits(firstResult.Key3),
+                                firstResult.Keys,
                                 firstResult.IV,
                                 firstResult.PlainText
                             );
@@ -98,7 +98,7 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
                             var result = modeMCT.MCTDecrypt(
-                                firstResult.Key1.ConcatenateBits(firstResult.Key2).ConcatenateBits(firstResult.Key3),
+                                firstResult.Keys,
                                 firstResult.IV,
                                 firstResult.CipherText
                             );
@@ -119,12 +119,8 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            //if (testGroup.TestType.ToLower() == "mmt")
-                            //{
-                            //    testCase.Key = testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
-                            //}
                             var result = mode.BlockEncrypt(
-                                testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3)),
+                                testCase.Keys,
                                 testCase.Iv,
                                 testCase.PlainText
                             );
@@ -141,13 +137,8 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            //if (testGroup.TestType.ToLower() == "mmt")
-                            //{
-                            //    //Since MMT files include 3 keys (while KAT files only include 1), we concatenate them into a single key before inputing them into the DEA.
-                            //    testCase.Key = testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
-                            //}
                             var result = mode.BlockDecrypt(
-                                testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3)),
+                                testCase.Keys,
                                 testCase.Iv,
                                 testCase.CipherText
                             );

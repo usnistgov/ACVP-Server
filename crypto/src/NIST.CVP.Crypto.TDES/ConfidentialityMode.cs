@@ -7,8 +7,8 @@ namespace NIST.CVP.Crypto.TDES
     {
         public Algo Algo { get; protected set; }
         //protected BlockCipher BlockCipher { get; set; }
-        public abstract EncryptionResult BlockEncrypt(BitString key, BitString iv, BitString plainText);
-        public abstract DecryptionResult BlockDecrypt(BitString key, BitString iv, BitString cipherText);
+        public abstract EncryptionResult BlockEncrypt(BitString key, BitString iv, BitString plainText, bool produceAuxiliaryValues = false);
+        public abstract DecryptionResult BlockDecrypt(BitString key, BitString iv, BitString cipherText, bool produceAuxiliaryValues = false);
 
 
 

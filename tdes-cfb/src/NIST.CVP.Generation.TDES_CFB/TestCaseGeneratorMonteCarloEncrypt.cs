@@ -14,10 +14,9 @@ namespace NIST.CVP.Generation.TDES_CFB
 
         private readonly IRandom800_90 _random800_90;
         private readonly int _shift;
-        private readonly IModeOfOperationMCT _mode;
+        private readonly ICFBModeMCT _mode;
 
-        public TestCaseGeneratorMonteCarloEncrypt(IRandom800_90 random800_90, 
-            IModeOfOperationMCT mode)
+        public TestCaseGeneratorMonteCarloEncrypt(IRandom800_90 random800_90, ICFBModeMCT mode)
         {
             switch (mode.Algo)
             {
@@ -57,7 +56,7 @@ namespace NIST.CVP.Generation.TDES_CFB
             MCTResult<AlgoArrayResponse> encryptionResult = null;
             try
             {
-                encryptionResult = _mode.MCTEncrypt(seedCase.Key, seedCase.Iv, seedCase.PlainText);
+                encryptionResult = _mode.MCTEncrypt(seedCase.Keys, seedCase.Iv, seedCase.PlainText);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
@@ -79,13 +78,13 @@ namespace NIST.CVP.Generation.TDES_CFB
 
         private TestCase GetSeedCase(TestGroup @group)
         {
-            var key = TdesHelpers.GenerateTdesKey(group.KeyingOption);
+            var keys = TdesHelpers.GenerateTdesKey(group.KeyingOption);
             var plainText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
             var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
             return new TestCase
             {
-                Key = key,
-                PlainText = plainText.Substring(0, _shift),
+                Keys = keys,
+                PlainText = plainText.MSBSubstring(0, _shift),
                 Iv = iv
             };
         }

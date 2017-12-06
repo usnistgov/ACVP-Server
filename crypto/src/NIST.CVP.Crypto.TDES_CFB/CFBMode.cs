@@ -7,9 +7,10 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.TDES_CFB
 {
-    public class CFBMode : ConfidentialityMode
+    public class CFBMode : ICFBMode
     {
         private int Shift { get; set; }
+        public Algo Algo { get; set;}
         public CFBMode(Algo algo)
         {
             Algo = algo;
@@ -32,11 +33,15 @@ namespace NIST.CVP.Crypto.TDES_CFB
             }
         }
 
-        public override EncryptionResult BlockEncrypt(BitString key, BitString iv, BitString plainText)
+        public EncryptionResult BlockEncrypt(BitString key, BitString iv, BitString plainText)
         {
-            
+            if (plainText.BitLength % Shift != 0)
+            {
+                throw new ArgumentException("Plain text lenght isn't evenly divisble by the segment size");
+            }
+
             var output = new bool[plainText.BitLength];
-            var subSegments = plainText.BitLength / Shift;  //todo check mod and reject invalid input
+            var subSegments = plainText.BitLength / Shift;  
             BitString previousEncryptionInput = null;
             BitString previousCipherSegment = null;
             for (var i = 0; i < subSegments; i++)
@@ -65,7 +70,7 @@ namespace NIST.CVP.Crypto.TDES_CFB
             }
             return new EncryptionResult(new BitString(new BitArray(output.ToArray())));
         }
-        public override DecryptionResult BlockDecrypt(BitString key, BitString iv, BitString cipherText)
+        public DecryptionResult BlockDecrypt(BitString key, BitString iv, BitString cipherText)
         {
             
             var output = new bool[cipherText.BitLength];

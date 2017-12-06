@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.TDES;
+﻿using NIST.CVP.Crypto.Common;
 
 namespace NIST.CVP.Crypto.TDES_CFB
 {
     public static class ModeFactoryMCT
     {
-        public static IModeOfOperationMCT GetMode(Algo algo)
+        public static ICFBModeMCT GetMode(Algo algo)
         {
             var mode = ModeFactory.GetMode(algo);
 
-            IModeOfOperationMCT modeMCT;
+            ICFBModeMCT modeMCT;
             switch (algo)
             {
                 case Algo.TDES_CFB1:

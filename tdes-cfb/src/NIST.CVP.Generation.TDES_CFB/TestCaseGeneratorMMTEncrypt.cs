@@ -1,10 +1,10 @@
-﻿using NIST.CVP.Crypto.TDES;
+﻿using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CFB;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;
-using NIST.CVP.Crypto.Common;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
@@ -13,11 +13,11 @@ namespace NIST.CVP.Generation.TDES_CFB
         private const int BLOCK_SIZE_BITS = 64;
         private const int NUMBER_OF_CASES = 10;
         private readonly IRandom800_90 _random800_90;
-        private readonly IModeOfOperation _modeOfOperation;
+        private readonly ICFBMode _modeOfOperation;
         private int _currentCase;
         private int _shift;
 
-        public TestCaseGeneratorMMTEncrypt(IRandom800_90 random800_90, IModeOfOperation modeOfOperation)
+        public TestCaseGeneratorMMTEncrypt(IRandom800_90 random800_90, ICFBMode modeOfOperation)
         {
             _random800_90 = random800_90;
             _modeOfOperation = modeOfOperation;
@@ -41,12 +41,12 @@ namespace NIST.CVP.Generation.TDES_CFB
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
-            var key = TdesHelpers.GenerateTdesKey(group.KeyingOption);
+            var keys = TdesHelpers.GenerateTdesKey(group.KeyingOption);
             var plainText = _random800_90.GetRandomBitString(_shift * (_currentCase + 1));
             var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
             var testCase = new TestCase
             {
-                Key = key,
+                Keys = keys,
                 PlainText = plainText,
                 Iv = iv,
                 Deferred = false
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.TDES_CFB
             EncryptionResult encryptionResult = null;
             try
             {
-                encryptionResult = _modeOfOperation.BlockEncrypt(testCase.Key, testCase.Iv, testCase.PlainText);
+                encryptionResult = _modeOfOperation.BlockEncrypt(testCase.Keys, testCase.Iv, testCase.PlainText);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);

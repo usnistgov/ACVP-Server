@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
     {
 
         private Mock<IRandom800_90> _mockRandom;
-        private Mock<IModeOfOperationMCT> _mockMCT;
+        private Mock<ICFBModeMCT> _mockMCT;
         private TestCaseGeneratorMonteCarloDecrypt _subject;
 
 
@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             _mockRandom = new Mock<IRandom800_90>();
             _mockRandom.Setup(s => s.GetRandomBitString(It.IsAny<int>())).Returns((int i) => new BitString(i));
-            _mockMCT = new Mock<IModeOfOperationMCT>();
+            _mockMCT = new Mock<ICFBModeMCT>();
             _subject = new TestCaseGeneratorMonteCarloDecrypt(_mockRandom.Object, _mockMCT.Object);
         }
 

@@ -66,7 +66,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             //mockAlgo.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
             //    .Returns(new EncryptionResult("I Failed to decrypt"));
 
-            var mockModeOfOperation = new Mock<IModeOfOperation>();
+            var mockModeOfOperation = new Mock<ICFBMode>();
             mockModeOfOperation.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
                             .Returns(new EncryptionResult("I Failed to decrypt"));
 
@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
 
             foreach (TestCase testCase in testGroup.Tests)
             {
-                var result = modeOfOperation.BlockDecrypt(testCase.Key, testCase.Iv, testCase.CipherText);
+                var result = modeOfOperation.BlockDecrypt(testCase.Keys, testCase.Iv, testCase.CipherText);
 
                 Assert.AreEqual(testCase.PlainText, result.PlainText);
             }

@@ -42,7 +42,7 @@ namespace NIST.CVP.Tests.Core
         public abstract void SetUp();
 
         // Set this during a test if you want to save the json from the session
-        public bool SaveJson = false;
+        public bool SaveJson = true;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -304,7 +304,7 @@ namespace NIST.CVP.Tests.Core
             var failedTestCases = new List<int>();
             foreach (var testCase in parsedValidation.ParsedObject.testResults)
             {
-                if ((int)testCase.tcId % 2 == 0)
+                if ((int)testCase.tcId % 2 == 0 || testCase.resultsArray != null)
                 {
                     failedTestCases.Add((int)testCase.tcId);
                     ModifyTestCaseToFail(testCase);

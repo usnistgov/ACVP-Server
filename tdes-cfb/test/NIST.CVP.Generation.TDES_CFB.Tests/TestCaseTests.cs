@@ -111,9 +111,9 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         public void ShouldSetKey(string name)
         {
             var subject = new TestCase();
-            var result = subject.SetString(name, "00AA");
+            var result = subject.SetString(name, "00AA00AA00AA00AA00AA00AA00AA00AA00AA00AA00AA00AA");
             Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.Key.ToHex());
+            Assert.AreEqual("00AA00AA00AA00AA00AA00AA00AA00AA00AA00AA00AA00AA", subject.Keys.ToHex());
         }
 
 

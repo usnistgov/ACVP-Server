@@ -1,7 +1,7 @@
 ﻿using System;
 using Autofac;
 using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.TDES_CFB;
+
 
 
 namespace TDES_CFB_Val
@@ -28,6 +28,11 @@ namespace TDES_CFB_Val
                 case Algo.TDES_CFB8:
                 case Algo.TDES_CFB64:
                     NIST.CVP.Generation.TDES_CFB.AutofacConfig.RegisterTypes(builder, algo);
+                    break;
+                case Algo.TDES_CFBP1:
+                case Algo.TDES_CFBP8:
+                case Algo.TDES_CFBP64:
+                    NIST.CVP.Generation.TDES_CFBP.AutofacConfig.RegisterTypes(builder, algo);
                     break;
 
                 default:

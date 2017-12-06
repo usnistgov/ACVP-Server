@@ -8,6 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AlgoArrayResponseCfbp.cs" />
+    <Compile Remove="BlockCipher.cs" />
+    <Compile Remove="CFBPMode.cs" />
+    <Compile Remove="CFBPModeMCT.cs" />
+    <Compile Remove="DecryptionResultWithIv.cs" />
+    <Compile Remove="EncryptionResultWithIv.cs" />
+    <Compile Remove="ICipher.cs" />
+    <Compile Remove="ITdesCfbFactory.cs" />
+    <Compile Remove="ITDES_CFB.cs" />
+    <Compile Remove="ITDES_CFB_MCT.cs" />
+    <Compile Remove="TdesCfbFactory.cs" />
+    <Compile Remove="TDES_CFB.cs" />
+    <Compile Remove="TDES_CFB_MCT.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.TDES_CFBP\NIST.CVP.Crypto.TDES_CFBP.csproj" />

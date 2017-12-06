@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -18,10 +19,10 @@ namespace NIST.CVP.Generation.TDES_CFB
         {
             MapToProperties(source);
         }
-        public TestCase(BitString key, BitString plainText, BitString cipherText, BitString iv)
+        public TestCase(BitString keys, BitString plainText, BitString cipherText, BitString iv)
         {
             Iv = iv;
-            Key = key;
+            Keys = keys;
             PlainText = plainText;
             CipherText = cipherText;
         }
@@ -53,10 +54,22 @@ namespace NIST.CVP.Generation.TDES_CFB
             }
             else
             {
-                Key = BitStringFromObject("key", (ExpandoObject)source);
+                Keys = BitStringFromObject("key", (ExpandoObject)source);
             }
+
             CipherText = BitStringFromObject("ct", (ExpandoObject)source);
+            if (((ExpandoObject)source).ContainsProperty("ctLen"))
+            {
+                CipherText = CipherText?.MSBSubstring(0, (int)source.ctLen);
+            }
+
             PlainText = BitStringFromObject("pt", (ExpandoObject)source);
+            if (((ExpandoObject)source).ContainsProperty("ptLen"))
+            {
+                var ptLen = (int)source.ptLen;
+                PlainText = PlainText?.MSBSubstring(0, ptLen);
+            }
+
             Iv = BitStringFromObject("iv", (ExpandoObject)source);
 
         }
@@ -112,57 +125,81 @@ namespace NIST.CVP.Generation.TDES_CFB
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
 
-        private BitString _plainText;
-        public BitString PlainText
+        private BitString _keys;
+        public BitString Keys //TODO this belongs in TDES keys, not here
         {
-            get => _plainText;
-
+            get => _keys;
             set
             {
-                _plainText = value;
-                if (_plainText != null && (_plainText.BitLength == 0 || _plainText.BitLength % 8 != 0))
+                if (value == null)
                 {
-                    PlainTextLength = _plainText.BitLength;
+                    _keys = null;
+                    return;
+                }
+                if (value.BitLength == 64)
+                {
+                    _keys = value.ConcatenateBits(value).ConcatenateBits(value);
+                }
+                else if (value.BitLength == 128)
+                {
+                    _keys = value.Substring(0, 64)
+                        .ConcatenateBits(value.Substring(64, 64))
+                        .ConcatenateBits(value.Substring(0, 64));
+                }
+                else if (value.BitLength == 192)
+                {
+                    _keys = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid key size");
                 }
             }
         }
-        public int? PlainTextLength { get; private set; }
-        public BitString Key { get; set; }
-        public BitString Key1 { get; set; }
-        public BitString Key2 { get; set; }
-        public BitString Key3 { get; set; }
-
-        private BitString _cipherText;
-        public BitString CipherText
+        //This allows for either the main key to be set, or any of the three keys to be set individually
+        public BitString Key1
         {
-            get => _cipherText;
-
-            set
-            {
-                _cipherText = value;
-                if (_cipherText != null && (_cipherText.BitLength == 0 || _cipherText.BitLength % 8 != 0))
-                {
-                    CipherTextLength = _cipherText.BitLength;
-                }
-            }
+            get => Keys?.MSBSubstring(0, 64);
+            set => Keys = Keys == null ?
+                value.ConcatenateBits(new BitString(128)) :
+                value.ConcatenateBits(Keys.MSBSubstring(64, 128));
         }
 
-        public int? CipherTextLength { get; private set; }
+        public BitString Key2
+        {
+            get => Keys?.MSBSubstring(64, 64);
+            set => Keys = Keys == null ?
+                new BitString(64).ConcatenateBits(value).ConcatenateBits(new BitString(64)) :
+                Keys.MSBSubstring(0, 64).ConcatenateBits(value).ConcatenateBits(Keys.MSBSubstring(128, 64));
+        }
+        public BitString Key3
+        {
+            get => Keys?.MSBSubstring(128, 64);
+            set => Keys = Keys == null ?
+                new BitString(128).ConcatenateBits(value) :
+                Keys.MSBSubstring(0, 128).ConcatenateBits(value);
+        }
+
+        public BitString PlainText { get; set; }
+        public int? PlainTextLength => PlainText?.BitLength;
+
+        public BitString CipherText { get; set; }
+        public int? CipherTextLength => CipherText?.BitLength;
 
         public BitString Iv { get; set; }
         public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
 
-        public TDESKeys Keys
-        {
-            get
-            {
-                if (Key2 == null)
-                {
-                    return new TDESKeys(Key);
-                }
-                return new TDESKeys(Key1.ConcatenateBits(Key2.ConcatenateBits(Key3)));
-            }
-        }
+        //public TDESKeys Keys
+        //{
+        //    get
+        //    {
+        //        if (Key2 == null)
+        //        {
+        //            return new TDESKeys(Key);
+        //        }
+        //        return new TDESKeys(Key1.ConcatenateBits(Key2.ConcatenateBits(Key3)));
+        //    }
+        //}
 
 
 
@@ -235,7 +272,7 @@ namespace NIST.CVP.Generation.TDES_CFB
             {
                 case "key":
                 case "keys":
-                    Key = new BitString(value);
+                    Keys = value == null ? null : new BitString(value);
                     return true;
 
                 case "key1":

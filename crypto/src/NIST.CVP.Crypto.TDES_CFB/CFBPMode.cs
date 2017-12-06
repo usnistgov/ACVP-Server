@@ -30,7 +30,7 @@ namespace NIST.CVP.Crypto.TDES_CFB
             }
         }
         //Input: P1, P2, …, Pn; IV1, IV2, IV3. |Pi| = k, |IVj| = 64.
-        public override EncryptionResult BlockEncrypt(BitString key, BitString iv, BitString plainText)
+        public override EncryptionResult BlockEncrypt(BitString key, BitString iv, BitString plainText, bool produceAuxiliaryValues = false)
         {
 
             var tdesIvs = new BitString[3]; //TODO is this the best representation?
@@ -68,12 +68,23 @@ namespace NIST.CVP.Crypto.TDES_CFB
                 cipherText = cipherText.ConcatenateBits(cipherTextSegment);
             }
 
-
+            if (produceAuxiliaryValues)
+            {
+                if (plainText.BitLength != Shift)
+                {
+                    throw new NotImplementedException("Doesn't work on multiple blocks at this time");
+                }
+                else
+                {
+                    var encryptionOutput2 = new BitString(EncryptWorker(key, tdesIvs[1].ToBytes()));
+                    var encryptionOutput1 = new BitString(EncryptWorker(key, tdesIvs[2].ToBytes()));
+                }
+            }
 
             return new EncryptionResultWithIv(cipherText, tdesIvs);
         }
 
-        public override DecryptionResult BlockDecrypt(BitString key, BitString iv, BitString cipherText)
+        public override DecryptionResult BlockDecrypt(BitString key, BitString iv, BitString cipherText, bool produceAuxiliaryValues = false)
         {
             var tdesIvs = new BitString[3]; //TODO is this the best representation?
             tdesIvs[0] = iv;
@@ -120,6 +131,23 @@ namespace NIST.CVP.Crypto.TDES_CFB
             byte[] interm1 = context.Schedule[0].Apply(input);
             byte[] interm2 = context.Schedule[1].Apply(interm1);
             byte[] output = context.Schedule[2].Apply(interm2);
+            return output;
+        }
+
+        private byte[] EncryptWorker2(BitString keyBits, byte[] input)
+        {
+            var keys = new TDESKeys(keyBits);
+            var context = new TDESContext(keys, FunctionValues.Encryption);
+            byte[] interm1 = context.Schedule[0].Apply(input);
+            byte[] output = context.Schedule[1].Apply(interm1);
+            return output;
+        }
+
+        private byte[] EncryptWorker1(BitString keyBits, byte[] input)
+        {
+            var keys = new TDESKeys(keyBits);
+            var context = new TDESContext(keys, FunctionValues.Encryption);
+            byte[] output = context.Schedule[0].Apply(input);
             return output;
         }
     }

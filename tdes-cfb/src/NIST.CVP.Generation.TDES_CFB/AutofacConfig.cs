@@ -1,14 +1,16 @@
 ﻿using Autofac;
 using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CFB;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
+using System;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
     public class AutofacConfig
     {
+        public static Action<ContainerBuilder> OverrideRegistrations;
+
         public static void RegisterTypes(ContainerBuilder builder, Algo algo)
         {
             builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
@@ -27,8 +29,10 @@ namespace NIST.CVP.Generation.TDES_CFB
             builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
 
-            builder.Register(c => ModeFactory.GetMode(algo)).As<IModeOfOperation>();
-            builder.Register(c => ModeFactoryMCT.GetMode(algo)).As<IModeOfOperationMCT>();
+            builder.Register(c => ModeFactory.GetMode(algo)).As<ICFBMode>();
+            builder.Register(c => ModeFactoryMCT.GetMode(algo)).As<ICFBModeMCT>();
+
+            OverrideRegistrations?.Invoke(builder);
         }
     }
 }

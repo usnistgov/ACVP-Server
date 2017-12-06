@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.TDES_CFB
             {
                 //Debug.WriteLine($"Generating {group.TestType}-{group.Function}");
                 ////int testId = 1;
-                if (group.TestType.ToLower() != "multiblockmessage" && group.TestType.ToLower() != "mct")  //TODO these should be enumerators
+                if (group.TestType.ToLower() != "multiblockmessage" && group.TestType.ToLower() != "mct")  //TODO express as enums
                 {
                     //known answer test -- just grab 'em, add a test case Id and move along
                     var kats = _iKnownAnswerTestFactory.GetKATTestCases(@group.TestType, @group.Function, testVectorSet.Algorithm);

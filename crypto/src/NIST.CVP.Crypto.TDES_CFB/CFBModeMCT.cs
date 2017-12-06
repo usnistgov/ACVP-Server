@@ -1,18 +1,17 @@
-﻿using System;
+﻿using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Math;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.TDES_CFB
 {
-    public class CFBModeMCT : ConfidentialityModeMCT
+    public class CFBModeMCT : ICFBModeMCT
     {
         private readonly IMonteCarloKeyMaker _keyMaker;
-        private readonly IModeOfOperation _modeOfOperation;
+        private readonly ICFBMode _cfbMode;
 
         private const int NUMBER_OF_CASES = 400;
         //private const int NUMBER_OF_CASES = 5;
@@ -21,9 +20,10 @@ namespace NIST.CVP.Crypto.TDES_CFB
 
         protected virtual int NumberOfCases { get { return NUMBER_OF_CASES; } }
         public int Shift { get; set; }
-        public CFBModeMCT(IMonteCarloKeyMaker keyMaker, 
-                          IModeOfOperation modeOfOperation, 
-                          Algo algo) : base(modeOfOperation)
+        public ICFBMode ModeOfOperation { get; set; }
+        public Algo Algo { get; set; }
+
+        public CFBModeMCT(IMonteCarloKeyMaker keyMaker, ICFBMode cfbMode, Algo algo)
         {
             switch (algo)
             {
@@ -39,12 +39,12 @@ namespace NIST.CVP.Crypto.TDES_CFB
                 default:
                     throw new ArgumentOutOfRangeException(nameof(algo), algo, null);
             }
-
+            Algo = algo;
             _keyMaker = keyMaker;
-            _modeOfOperation = modeOfOperation;
+            _cfbMode = cfbMode;
         }
 
-        public override MCTResult<AlgoArrayResponse> MCTEncrypt(BitString keyBits, BitString iv, BitString data)
+        public MCTResult<AlgoArrayResponse> MCTEncrypt(BitString keyBits, BitString iv, BitString data)
         {
             var responses = new List<AlgoArrayResponse>{
                 new AlgoArrayResponse {
@@ -68,9 +68,12 @@ namespace NIST.CVP.Crypto.TDES_CFB
                 for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
                 {
                     prevTempIv = tempIv;
-                    output = _modeOfOperation.BlockEncrypt(keysForThisRound, tempIv, tempText).CipherText;
+                    output = _cfbMode.BlockEncrypt(keysForThisRound, tempIv, tempText).CipherText;
                     tempText = tempIv.MSBSubstring(0, Shift);
                     tempIv = tempIv.Substring(0, 64 - Shift).ConcatenateBits(output);
+                    //tempIv = Shift < 64 ?
+                    //        tempIv.MSBSubstring(0, 64 - Shift).ConcatenateBits(output) :
+                    //        output.GetDeepCopy();
                     if (j >= indexAtWhichToStartSaving)
                     {
                         lastCipherTexts.Insert(0, output.GetDeepCopy());
@@ -89,7 +92,7 @@ namespace NIST.CVP.Crypto.TDES_CFB
             return new MCTResult<AlgoArrayResponse>(responses);
         }
 
-        public override MCTResult<AlgoArrayResponse> MCTDecrypt(BitString keyBits, BitString iv, BitString data)
+        public MCTResult<AlgoArrayResponse> MCTDecrypt(BitString keyBits, BitString iv, BitString data)
         {
             var responses = new List<AlgoArrayResponse>{
                 new AlgoArrayResponse {
@@ -111,9 +114,12 @@ namespace NIST.CVP.Crypto.TDES_CFB
                 var keysForThisRound = responses[i].Keys;
                 for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
                 {
-                    output = _modeOfOperation.BlockDecrypt(keysForThisRound, tempIv, tempText).PlainText;
+                    output = _cfbMode.BlockDecrypt(keysForThisRound, tempIv, tempText).PlainText;
                     tempIv = tempIv.Substring(0, 64 - Shift).ConcatenateBits(tempText);
-                    tempText = output.Substring(0, Shift).XOR(tempText);
+                    //tempIv = Shift < 64 ?
+                    //    tempIv.MSBSubstring(0, 64 - Shift).ConcatenateBits(output) :
+                    //    output.GetDeepCopy();
+                    tempText = output.MSBSubstring(0, Shift).XOR(tempText);
                     if (j >= indexAtWhichToStartSaving)
                     {
                         lastPlainTexts.Insert(0, output.GetDeepCopy());

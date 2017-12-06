@@ -1,0 +1,112 @@
+﻿using Moq;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Crypto.TDES_CFBP;
+using NIST.CVP.Math;
+using NUnit.Framework;
+
+namespace NIST.CVP.Generation.TDES_CFBP.Tests
+{
+    [TestFixture]
+    public class TestCaseGeneratorMMTDecryptTests
+    {
+
+
+        [Test]
+        [TestCase(Algo.TDES_CFBP1)]
+        [TestCase(Algo.TDES_CFBP8)]
+        [TestCase(Algo.TDES_CFBP64)]
+        public void ShouldSuccessfullyGenerate(Algo algo)
+        {
+            var modeOfOperation = ModeFactory.GetMode(algo);
+            var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), modeOfOperation);
+            var result = subject.Generate(new TestGroup { Function = "decrypt", KeyingOption = 1 }, false);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Success);
+        }
+
+        [Test]
+        [TestCase(Algo.TDES_CFBP1)]
+        [TestCase(Algo.TDES_CFBP8)]
+        [TestCase(Algo.TDES_CFBP64)]
+        public void ShouldHaveProperNumberOfTestCasesToGenerate(Algo algo)
+        {
+            var modeOfOperation = ModeFactory.GetMode(algo);
+            var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), modeOfOperation);
+            Assert.AreEqual(10, subject.NumberOfTestCasesToGenerate);
+        }
+
+        [Test]
+        [TestCase(Algo.TDES_CFBP1, 1)]
+        [TestCase(Algo.TDES_CFBP8, 8)]
+        [TestCase(Algo.TDES_CFBP64, 64)]
+        public void ShouldGenerateProperlySizedCipherTextForEachGenerateCall(Algo algo, int shift)
+        {
+            var modeOfOperation = ModeFactory.GetMode(algo);
+            var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), modeOfOperation);
+            for (int caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
+            {
+                var result = subject.Generate(new TestGroup { Function = "decrypt", KeyingOption = 1 }, false);
+                Assume.That(result != null);
+                Assume.That(result.Success);
+                var testCase = (TestCase)result.TestCase;
+                Assert.AreEqual((caseIdx + 1) * shift, testCase.CipherText.BitLength);
+            }
+
+        }
+
+        [Test]
+        [TestCase(Algo.TDES_CFBP1)]
+        [TestCase(Algo.TDES_CFBP8)]
+        [TestCase(Algo.TDES_CFBP64)]
+        public void ShouldReturnAnErrorIfAnDecryptionFails(Algo algo)
+        {
+            //var mockAlgo = new Mock<ITDES_CFB>();
+            //mockAlgo.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+            //    .Returns(new EncryptionResult("I Failed to decrypt"));
+
+            var mockModeOfOperation = new Mock<ICFBPMode>();
+            mockModeOfOperation.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), false))
+                            .Returns(new EncryptionResultWithIv("I Failed to decrypt"));
+            mockModeOfOperation.SetupProperty(x => x.Algo, Algo.TDES_CFBP1);
+            var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), mockModeOfOperation.Object);
+            var result = subject.Generate(new TestGroup { Function = "decrypt", KeyingOption = 1 }, false);
+            Assert.IsFalse(result.Success);
+
+
+        }
+
+
+        [Test]
+        [TestCase(Algo.TDES_CFBP1)]
+        [TestCase(Algo.TDES_CFBP8)]
+        [TestCase(Algo.TDES_CFBP64)]
+        public void GeneratedPlainTextShouldDecryptBackToPlainText(Algo algo)
+        {
+            var modeOfOperation = ModeFactory.GetMode(algo);
+
+            var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), modeOfOperation);
+            var testGroup = new TestGroup()
+            {
+                Function = "decrypt",
+                KeyingOption = 1
+            };
+
+            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            {
+                var result = subject.Generate(testGroup, false);
+                Assume.That(result.Success);
+                testGroup.Tests.Add(result.TestCase);
+            }
+
+            Assume.That(testGroup.Tests.Count > 0);
+
+            foreach (TestCase testCase in testGroup.Tests)
+            {
+                var result = modeOfOperation.BlockDecrypt(testCase.Keys, testCase.IV1, testCase.CipherText);
+
+                Assert.AreEqual(testCase.PlainText, result.PlainText);
+            }
+        }
+    }
+}

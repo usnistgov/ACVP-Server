@@ -22,7 +22,7 @@ namespace NIST.CVP.Crypto.TDES_CFB
         protected virtual int NumberOfCases { get { return NUMBER_OF_CASES; } }
         public int Shift { get; set; }
         public CFBPModeMCT(IMonteCarloKeyMaker keyMaker,
-                          IModeOfOperation modeOfOperation,
+                          ICFBMode modeOfOperation,
                           Algo algo) : base(modeOfOperation)
         {
             switch (algo)
@@ -44,10 +44,10 @@ namespace NIST.CVP.Crypto.TDES_CFB
             _modeOfOperation = modeOfOperation;
         }
 
-        public override MCTResult<AlgoArrayResponse> MCTEncrypt(BitString keyBits, BitString iv, BitString data)
+        public override MCTResult<AlgoArrayResponseCfbp> MCTEncrypt(BitString keyBits, BitString iv, BitString data)
         {
-            var responses = new List<AlgoArrayResponse>{
-                new AlgoArrayResponse {
+            var responses = new List<AlgoArrayResponseCfbp>{
+                new AlgoArrayResponseCfbp {
                     IV = iv,
                     IV2 = iv.AddWithModulo(new BitString("5555555555555555"), 64),
                     IV3 = iv.AddWithModulo(new BitString("AAAAAAAAAAAAAAAA"), 64),
@@ -100,7 +100,7 @@ namespace NIST.CVP.Crypto.TDES_CFB
                 responses[i].CipherText = output;
 
                 var newIv = iv.MSBSubstring(Shift, 64 - Shift).ConcatenateBits(output);
-                responses.Add(new AlgoArrayResponse()
+                responses.Add(new AlgoArrayResponseCfbp()
                 {
                     Keys = _keyMaker.MixKeys(new TDESKeys(responses[i].Keys.GetDeepCopy()), lastCipherTexts.ToList())
                         .ToOddParityBitString(),
@@ -111,13 +111,13 @@ namespace NIST.CVP.Crypto.TDES_CFB
                 });
             }
             responses.RemoveAt(responses.Count - 1);
-            return new MCTResult<AlgoArrayResponse>(responses);
+            return new MCTResult<AlgoArrayResponseCfbp>(responses);
         }
 
         public override MCTResult<AlgoArrayResponse> MCTDecrypt(BitString keyBits, BitString iv, BitString data)
         {
-            var responses = new List<AlgoArrayResponse>{
-                new AlgoArrayResponse {
+            var responses = new List<AlgoArrayResponseCfbp>{
+                new AlgoArrayResponseCfbp {
                     IV = iv,
                     IV2 = iv.AddWithModulo(new BitString("5555555555555555"), 64),
                     IV3 = iv.AddWithModulo(new BitString("AAAAAAAAAAAAAAAA"), 64),

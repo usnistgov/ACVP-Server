@@ -1,12 +1,9 @@
 ﻿using Moq;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CFB;
 using NIST.CVP.Math;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common;
 
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
@@ -68,7 +65,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             //mockAlgo.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
             //    .Returns(new EncryptionResult("I Failed to encrypt"));
 
-            var mockModeOfOperation = new Mock<IModeOfOperation>();
+            var mockModeOfOperation = new Mock<ICFBMode>();
             mockModeOfOperation.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Returns(new EncryptionResult("I Failed to encrypt"));
 
@@ -104,7 +101,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
 
             foreach (TestCase testCase in testGroup.Tests)
             {
-                var result = modeOfOperation.BlockEncrypt(testCase.Key, testCase.Iv, testCase.PlainText);
+                var result = modeOfOperation.BlockEncrypt(testCase.Keys, testCase.Iv, testCase.PlainText);
                 Assert.AreEqual(testCase.CipherText, result.CipherText);
             }
         }

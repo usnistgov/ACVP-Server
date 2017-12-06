@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CFB;
+
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -8,10 +9,10 @@ namespace NIST.CVP.Generation.TDES_CFB
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly IModeOfOperation _modeOfOperation;
-        private readonly IModeOfOperationMCT _modeOfOperationMCT;
+        private readonly ICFBMode _modeOfOperation;
+        private readonly ICFBModeMCT _modeOfOperationMCT;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, IModeOfOperation modeOfOperation, IModeOfOperationMCT modeOfOperationMCT)
+        public TestCaseGeneratorFactory(IRandom800_90 random800_90, ICFBMode modeOfOperation, ICFBModeMCT modeOfOperationMCT)
         {
             _random800_90 = random800_90;
             _modeOfOperation = modeOfOperation;

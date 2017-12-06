@@ -74,7 +74,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var testCase = new TestCase()
             {
 
-                Key = rand.GetRandomBitString(8),
+                Keys = rand.GetRandomBitString(64),
                 CipherText = null,
                 PlainText = null,
                 TestCaseId = 42

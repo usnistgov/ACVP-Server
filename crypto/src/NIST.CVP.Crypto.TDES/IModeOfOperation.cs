@@ -7,7 +7,7 @@ namespace NIST.CVP.Crypto.TDES
     {
         Algo Algo { get; }
 
-        EncryptionResult BlockEncrypt(BitString key, BitString iv, BitString plainText);
-        DecryptionResult BlockDecrypt(BitString key, BitString iv, BitString cipherText);
+        EncryptionResult BlockEncrypt(BitString key, BitString iv, BitString plainText, bool produceAuxiliaryValues = false);
+        DecryptionResult BlockDecrypt(BitString key, BitString iv, BitString cipherText, bool produceAuxiliaryValues = false);
     }
 }

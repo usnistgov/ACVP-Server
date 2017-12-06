@@ -16,7 +16,7 @@ namespace NIST.CVP.Crypto.TDES_CFB.Tests
 
         private class TestCFBModeMCT : CFBModeMCT
         {
-            public TestCFBModeMCT(IMonteCarloKeyMaker keyMaker, IModeOfOperation modeOfOperation, Algo algo)
+            public TestCFBModeMCT(IMonteCarloKeyMaker keyMaker, ICFBMode modeOfOperation, Algo algo)
                 : base(keyMaker, modeOfOperation, algo) { }
 
             private int _numberOfCases = 1;
