@@ -319,5 +319,44 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
             Assert.AreEqual(expectation, result.Bits);
         }
+
+        [Test]
+        public void ShouldDrbg128DfPredResistNoReseed()
+        {
+            TestableEntropyProvider entropyProvider = new TestableEntropyProvider();
+
+            DrbgFactory factory = new DrbgFactory();
+
+            DrbgParameters parameters = new DrbgParameters()
+            {
+                PredResistanceEnabled = true,
+                EntropyInputLen = 128,
+                NonceLen = 64,
+                PersoStringLen = 0,
+                AdditionalInputLen = 0,
+                ReturnedBitsLen = 512,
+                DerFuncEnabled = true,
+                Mechanism = DrbgMechanism.Counter,
+                Mode = DrbgMode.AES128,
+                ReseedImplemented = false
+            };
+
+            var subject = factory.GetDrbgInstance(parameters, entropyProvider);
+
+            entropyProvider.AddEntropy(new BitString("66ae5f101636bd4e0ae6cbd08b63d536")); // Entropy Input
+            entropyProvider.AddEntropy(new BitString("18d1f9b15079bdf8")); // Nonce
+            subject.Instantiate(128, new BitString(0));
+
+            entropyProvider.AddEntropy(new BitString("8948ec6a48135bfd2637b325617d8304"));
+            entropyProvider.AddEntropy(new BitString("33f961fbf39b621145db2b61bd7be663"));
+
+            //subject.Reseed(false, new BitString("005debda17ad3a6b8600314fd19be0871da2f4f3f58946e6745554f79d0915bb5ea0f5fe2eb794d44742c1e14461cd87"));
+            subject.Generate(parameters.ReturnedBitsLen, new BitString(0));
+            var result = subject.Generate(parameters.ReturnedBitsLen, new BitString(0));
+
+            var expectation = new BitString("fd6f5ae6a2f1dd244b12052cfbbccddda0d0f950fbdce6e1e3817f4122bec3268d0aa3a88424c1b1739613dd669fa45ea9b44779869354738010785c8eee4d21");
+
+            Assert.AreEqual(expectation, result.Bits);
+        }
     }
 }
