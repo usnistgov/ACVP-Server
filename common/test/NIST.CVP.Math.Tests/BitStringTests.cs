@@ -943,7 +943,7 @@ namespace NIST.CVP.Math.Tests
             BitString expectedBs = new BitString(new BitArray(expectedBitString));
 
             // Act
-            var results = testBs.MSBSubstring(startIndex, numberOfBits);
+            var results = testBs.Substring(startIndex, numberOfBits);
 
             // Assert
             Assert.AreEqual(expectedBs, results);
@@ -956,7 +956,7 @@ namespace NIST.CVP.Math.Tests
             BitString bs = new BitString(new BitArray(new bool[] { true }));
 
             // Act / Assert
-            Assert.Throws(typeof(ArgumentOutOfRangeException), () => BitString.MSBSubstring(bs, -1, 0));
+            Assert.Throws(typeof(ArgumentOutOfRangeException), () => BitString.Substring(bs, -1, 0));
         }
 
         [Test]
@@ -968,7 +968,7 @@ namespace NIST.CVP.Math.Tests
             BitString bs = new BitString(new BitArray(new bool[] { true }));
 
             // Act / Assert
-            Assert.Throws(typeof(ArgumentOutOfRangeException), () => BitString.MSBSubstring(bs, startIndex, 1));
+            Assert.Throws(typeof(ArgumentOutOfRangeException), () => BitString.Substring(bs, startIndex, 1));
         }
 
         [Test]
@@ -981,7 +981,7 @@ namespace NIST.CVP.Math.Tests
             BitString bs = new BitString(new BitArray(new bool[] { true, true, true }));
 
             // Act / Assert
-            Assert.Throws(typeof(ArgumentOutOfRangeException), () => BitString.MSBSubstring(bs, startIndex, numberOfBits));
+            Assert.Throws(typeof(ArgumentOutOfRangeException), () => BitString.Substring(bs, startIndex, numberOfBits));
         }
 
         [Test]
@@ -1004,7 +1004,7 @@ namespace NIST.CVP.Math.Tests
             BitString expectedBs = new BitString(new BitArray(expectedBitString));
 
             // Act
-            var results = BitString.MSBSubstring(testBs, startIndex, numberOfBits);
+            var results = BitString.Substring(testBs, startIndex, numberOfBits);
 
             // Assert
             Assert.AreEqual(expectedBs, results);
