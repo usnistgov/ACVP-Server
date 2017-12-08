@@ -17,6 +17,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     {
         public override string Algorithm => "ctrDRBG";
         public override string Mode => "AES-128";
+        public override int KeyLength => 128;
     }
 
     [TestFixture, FastIntegrationTest]
@@ -24,6 +25,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     {
         public override string Algorithm => "ctrDRBG";
         public override string Mode => "AES-192";
+        public override int KeyLength => 192;
     }
 
     [TestFixture, FastIntegrationTest]
@@ -31,5 +33,6 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     {
         public override string Algorithm => "ctrDRBG";
         public override string Mode => "AES-256";
+        public override int KeyLength => 256;
     }
 }

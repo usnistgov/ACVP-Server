@@ -15,22 +15,25 @@ namespace NIST.CVP.Crypto.DRBG
                 case DrbgMechanism.Counter:
                     return GetCounterImplementation(drbgParameters, iEntropyProvider);
                 default:
-                    throw new ArgumentException("Invalid DRBG Mechanmism provided");
+                    throw new ArgumentException("Invalid DRBG Mechanism provided");
             }
         }
 
         private IDrbg GetCounterImplementation(DrbgParameters drbgParameters, IEntropyProvider iEntropyProvider)
         {
-            AES_ECB.AES_ECB aesEcb = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            var aesEcb = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+            var tdesEcb = new TDES_ECB.TDES_ECB();
 
             switch (drbgParameters.Mode)
             {
                 case DrbgMode.AES128:
-                    return new DrbgCounterAes(iEntropyProvider, aesEcb, drbgParameters, 128);
+                    return new DrbgCounterAes(iEntropyProvider, aesEcb, drbgParameters);
                 case DrbgMode.AES192:
-                    return new DrbgCounterAes(iEntropyProvider, aesEcb, drbgParameters, 192);
+                    return new DrbgCounterAes(iEntropyProvider, aesEcb, drbgParameters);
                 case DrbgMode.AES256:
-                    return new DrbgCounterAes(iEntropyProvider, aesEcb, drbgParameters, 256);
+                    return new DrbgCounterAes(iEntropyProvider, aesEcb, drbgParameters);
+                case DrbgMode.TDES:
+                    return new DrbgCounterTdes(iEntropyProvider, tdesEcb, drbgParameters);
                 default:
                     throw new ArgumentException("Invalid DRBG mode provided for current mechanism");
             }

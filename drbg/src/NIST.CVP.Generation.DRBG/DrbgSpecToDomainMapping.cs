@@ -18,7 +18,8 @@ namespace NIST.CVP.Generation.DRBG
         {
                 ("ctrDRBG", DrbgMechanism.Counter, "AES-128", DrbgMode.AES128, 128, 128),
                 ("ctrDRBG", DrbgMechanism.Counter, "AES-192", DrbgMode.AES192, 192, 128),
-                ("ctrDRBG", DrbgMechanism.Counter, "AES-256", DrbgMode.AES256, 256, 128)
+                ("ctrDRBG", DrbgMechanism.Counter, "AES-256", DrbgMode.AES256, 256, 128),
+                ("ctrDRBG", DrbgMechanism.Counter, "TDES", DrbgMode.TDES, 112, 64),
         };
     }
 }

@@ -8,11 +8,10 @@ namespace NIST.CVP.Crypto.DRBG
     {
         protected IAES_ECB AesEcb;
 
-        public DrbgCounterAes(IEntropyProvider entropyProvider, IAES_ECB aesEcb, DrbgParameters drbgParameters, int keyLength)
-            : base(entropyProvider, drbgParameters, keyLength)
+        public DrbgCounterAes(IEntropyProvider entropyProvider, IAES_ECB aesEcb, DrbgParameters drbgParameters)
+            : base(entropyProvider, drbgParameters)
         {
             AesEcb = aesEcb;
-            OutputLength = 128;
         }
 
         protected override BitString BlockEncrypt(BitString k, BitString x)

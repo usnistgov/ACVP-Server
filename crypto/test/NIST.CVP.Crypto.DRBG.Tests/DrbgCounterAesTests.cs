@@ -23,7 +23,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
         public void Setup()
         {
             _mockAes = new Mock<IAES_ECB>();
-            _subject = new FakeDrbgCounterAes(new Mock<IEntropyProvider>().Object, _mockAes.Object, new DrbgParameters(), 0);
+            _subject = new FakeDrbgCounterAes(new Mock<IEntropyProvider>().Object, _mockAes.Object, new DrbgParameters());
         }
 
         [Test]

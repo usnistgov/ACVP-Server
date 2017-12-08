@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using NIST.CVP.Crypto.DRBG.Enums;
+using NIST.CVP.Crypto.DRBG.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NLog;
@@ -8,148 +9,42 @@ namespace NIST.CVP.Crypto.DRBG
 {
     public abstract class DrbgBase : IDrbg
     {
-        private readonly DrbgState _drbgState = new DrbgState();
-        private int _securityStrength = -1;
-        private int _maxPersonalizationStringLength = -1;
-        private long _maxAdditionalInputLength = -1;
-        private int _minEntropyLength = -1;
-        private int _maxEntropyLength = -1;
-        private int _seedLength = -1;
-        private int _outputLength = -1;
-        private long _reseedInterval = -1;
-        private long _maxNumberOfBitsPerRequest = -1;
-
         protected const int DefaultEntropyLength = 256;
         protected IEntropyProvider EntropyProvider;
         protected DrbgParameters DrbgParameters;
         protected bool IsInstantiated = false;
-        protected int MaxSecurityStrength = 256;
         protected int ReseedCounter;
 
-        #region Properties
+        protected DrbgAttributes Attributes;
+
         /// <summary>
         /// The current DRBG State
         /// </summary>
-        public DrbgState DrbgState { get { return _drbgState; } }
-        protected int SecurityStrength
-        {
-            get
-            {
-                Debug.Assert(_securityStrength > 0);
-                return _securityStrength;
-            }
-            set { _securityStrength = value; }
-        }
-
-        protected int MaxPersonalizationStringLength
-        {
-            get
-            {
-                Debug.Assert(_maxPersonalizationStringLength > 0);
-                return _maxPersonalizationStringLength;
-            }
-            set { _maxPersonalizationStringLength = value; }
-        }
-
-        public long MaxAdditionalInputLength
-        {
-            get
-            {
-                Debug.Assert(_maxAdditionalInputLength > 0);
-                return _maxAdditionalInputLength;
-            }
-            set { _maxAdditionalInputLength = value; }
-        }
-
-        protected int MinEntropyLength
-        {
-            get
-            {
-                Debug.Assert(_minEntropyLength > 0);
-                return _minEntropyLength;
-            }
-            set { _minEntropyLength = value; }
-        }
-
-        protected int MaxEntropyLength
-        {
-            get
-            {
-                Debug.Assert(_maxEntropyLength > 0);
-                return _maxEntropyLength;
-            }
-            set { _maxEntropyLength = value; }
-        }
-
-        protected int SeedLength
-        {
-            get
-            {
-                Debug.Assert(_seedLength > 0);
-                return _seedLength;
-            }
-            set { _seedLength = value; }
-        }
-
-        protected int OutputLength
-        {
-            get
-            {
-                Debug.Assert(_outputLength > 0);
-                return _outputLength;
-            }
-            set { _outputLength = value; }
-        }
-
-        protected long ReseedInterval
-        {
-            get
-            {
-                Debug.Assert(_reseedInterval > 0);
-                return _reseedInterval;
-            }
-            set { _reseedInterval = value; }
-        }
-
-        protected long MaxNumberOfBitsPerRequest
-        {
-            get
-            {
-                Debug.Assert(_maxNumberOfBitsPerRequest > 0);
-                return _maxNumberOfBitsPerRequest;
-            }
-            set { _maxNumberOfBitsPerRequest = value; }
-        }
-        #endregion Properties
+        public DrbgState DrbgState { get; } = new DrbgState();
 
         protected DrbgBase(IEntropyProvider entropyProvider, DrbgParameters drbgParameters)
         {
             EntropyProvider = entropyProvider;
             DrbgParameters = drbgParameters;
-
-            MaxPersonalizationStringLength = (1 << 24);
-            MaxAdditionalInputLength = ((long)1 << 35);
-            MaxNumberOfBitsPerRequest = (1 << 19);
-            ReseedInterval = ((long)1 << 48);
+            Attributes = DrbgAttributesHelper.GetDrbgAttributes(drbgParameters.Mechanism, drbgParameters.Mode, drbgParameters.DerFuncEnabled);
         }
 
         public DrbgStatus Instantiate(int requestedSecurityStrength, BitString personalizationString)
         {
             // 1. check security strength
-            if (requestedSecurityStrength > MaxSecurityStrength)
+            if (requestedSecurityStrength > Attributes.MaxSecurityStrength)
             {
                 return DrbgStatus.RequestedSecurityStrengthTooHigh;
             }
 
             // 3. personalization string
-            if (personalizationString.BitLength > MaxPersonalizationStringLength)
+            if (personalizationString.BitLength > Attributes.MaxPersonalizationStringLength)
             {
                 return DrbgStatus.PersonalizationStringTooLong;
             }
 
             // 4. Set security_strength to the nearest security strength greater
             // than or equal to requested_instantiation_security_strength
-            SetSecurityStrengths(requestedSecurityStrength);
 
             // 5. Using security_strength, select appropriate DRBG mechanism parameters
             // Depricated Null step for preserving numbering
@@ -197,9 +92,9 @@ namespace NIST.CVP.Crypto.DRBG
 
             // 2. If requested_number_of_bits > max_number_of_bits_per_request, then
             // return an ERROR_FLAG
-            if (requestedNumberOfBits > MaxNumberOfBitsPerRequest)
+            if (requestedNumberOfBits > Attributes.MaxNumberOfBitsPerRequest)
             {
-                ThisLogger.Debug($"{nameof(requestedNumberOfBits)} > {nameof(MaxNumberOfBitsPerRequest)}");
+                ThisLogger.Debug($"{nameof(requestedNumberOfBits)} > {nameof(Attributes.MaxNumberOfBitsPerRequest)}");
                 return new DrbgResult(DrbgStatus.Error);
             }
 
@@ -210,9 +105,9 @@ namespace NIST.CVP.Crypto.DRBG
 
             // 4. If the length of the additional_input > max_additional_input_length,
             // then return an ERROR_FLAG
-            if (additionalInput.BitLength > MaxAdditionalInputLength)
+            if (additionalInput.BitLength > Attributes.MaxAdditionalInputStringLength)
             {
-                ThisLogger.Debug($"{nameof(additionalInput)} > {nameof(MaxAdditionalInputLength)}");
+                ThisLogger.Debug($"{nameof(additionalInput)} > {nameof(Attributes.MaxAdditionalInputStringLength)}");
                 return new DrbgResult(DrbgStatus.Error);
             }
 
@@ -278,7 +173,7 @@ namespace NIST.CVP.Crypto.DRBG
             IsInstantiated = false;
         }
 
-        protected abstract void SetSecurityStrengths(int requestedSecurityStrength);
+        //protected abstract void SetSecurityStrengths(int requestedSecurityStrength);
         protected abstract DrbgStatus InstantiateAlgorithm(BitString entropyInput, BitString nonce, BitString personalizationString);
         protected abstract DrbgStatus ReseedAlgorithm(BitString entropyInput, BitString additionalInput);
         protected abstract DrbgResult GenerateAlgorithm(int requestedNumberOfBits, BitString additionalInput);

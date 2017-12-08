@@ -6,7 +6,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests.Fakes
 {
     public class FakeDrbgCounterAes : DrbgCounterAes
     {
-        public FakeDrbgCounterAes(IEntropyProvider entropyProvider, IAES_ECB aesEcb, DrbgParameters drbgParameters, int keyLength) : base(entropyProvider, aesEcb, drbgParameters, keyLength)
+        public FakeDrbgCounterAes(IEntropyProvider entropyProvider, IAES_ECB aesEcb, DrbgParameters drbgParameters) : base(entropyProvider, aesEcb, drbgParameters)
         {
             AesEcb = aesEcb;
         }

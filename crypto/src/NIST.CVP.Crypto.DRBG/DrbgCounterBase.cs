@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using NIST.CVP.Crypto.DRBG.Enums;
+using NIST.CVP.Crypto.DRBG.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -9,55 +10,13 @@ namespace NIST.CVP.Crypto.DRBG
 {
     public abstract class DrbgCounterBase : DrbgBase
     {
-
-        private int _keyLength;
         protected BitString V = null;
         protected BitString Key = null;
+        protected DrbgCounterAttributes CounterAttributes;
 
-        protected DrbgCounterBase(IEntropyProvider entropyProvider, DrbgParameters drbgParameters, int keyLength) : base(entropyProvider, drbgParameters)
+        protected DrbgCounterBase(IEntropyProvider entropyProvider, DrbgParameters drbgParameters) : base(entropyProvider, drbgParameters)
         {
-            _keyLength = keyLength;
-
-            if (!drbgParameters.DerFuncEnabled)
-            {
-                MaxPersonalizationStringLength = 384;
-            }
-        }
-        
-        protected override void SetSecurityStrengths(int requestedSecurityStrength)
-        {
-            SeedLength = OutputLength + _keyLength;
-
-            if (requestedSecurityStrength > 192)
-            {
-                SecurityStrength = 256;
-            }
-            else if (requestedSecurityStrength > 128)
-            {
-                SecurityStrength = 192;
-            }
-            else if (requestedSecurityStrength > 112)
-            {
-                SecurityStrength = 128;
-            }
-            else
-            {
-                SecurityStrength = 112;
-            }
-
-            if (DrbgParameters.DerFuncEnabled)
-            {
-                MinEntropyLength = SecurityStrength;
-                // standard allows maximum entropy input length of 2^35
-                MaxEntropyLength = (1 << 24);
-            }
-            else
-            {
-                MinEntropyLength = SeedLength;
-                MaxEntropyLength = SeedLength;
-                MaxPersonalizationStringLength = SeedLength;
-                MaxAdditionalInputLength = SeedLength;
-            }
+            CounterAttributes = DrbgAttributesHelper.GetCounterDrbgAttributes(drbgParameters.Mode);
         }
 
         protected override DrbgStatus InstantiateAlgorithm(BitString entropyInput, BitString nonce, BitString personalizationString)
@@ -84,15 +43,15 @@ namespace NIST.CVP.Crypto.DRBG
 
                 // 2. If (temp < seedlen) then additional_input =
                 // additional_input || 0^(seedlen - temp)
-                if (temp < SeedLength)
+                if (temp < CounterAttributes.SeedLength)
                 {
                     additionalInput = additionalInput
-                        .ConcatenateBits(new BitString(SeedLength - temp)); // Concatenate with bitstring made up of 0s;
+                        .ConcatenateBits(new BitString(CounterAttributes.SeedLength - temp)); // Concatenate with bitstring made up of 0s;
                 }
 
-                if (additionalInput.BitLength != SeedLength)
+                if (additionalInput.BitLength != CounterAttributes.SeedLength)
                 {
-                    ThisLogger.Debug($"{nameof(additionalInput.BitLength)} != {nameof(SeedLength)}");
+                    ThisLogger.Debug($"{nameof(additionalInput.BitLength)} != {nameof(CounterAttributes.SeedLength)}");
                     return DrbgStatus.Error;
                 }
 
@@ -105,7 +64,7 @@ namespace NIST.CVP.Crypto.DRBG
                 seedMaterial = entropyInput.ConcatenateBits(additionalInput);
 
                 // 2. seed_material = Block_Cipher_df(seed_material, seedlen)
-                var blockCipherDf = BlockCipherDf(seedMaterial, SeedLength);
+                var blockCipherDf = BlockCipherDf(seedMaterial, CounterAttributes.SeedLength);
                 if (blockCipherDf.Success)
                 {
                     seedMaterial = blockCipherDf.Bits;
@@ -145,7 +104,7 @@ namespace NIST.CVP.Crypto.DRBG
         
         private DrbgStatus InstantiateDf(BitString entropyInput, BitString nonce, BitString personalizationString)
         {
-            Debug.Assert(personalizationString.BitLength <= MaxPersonalizationStringLength);
+            Debug.Assert(personalizationString.BitLength <= Attributes.MaxPersonalizationStringLength);
 
             // 1. seed_material = entropy_input || nonce || personalization_string
             BitString seedMaterial = entropyInput
@@ -155,7 +114,7 @@ namespace NIST.CVP.Crypto.DRBG
             // 2. seed_material = Block_Cipher_df(seed_material, seedlen)
             // Comment: Ensure that the length of the seed material is exactly seedlen
             // bits
-            var blockCipherDf = BlockCipherDf(seedMaterial, SeedLength);
+            var blockCipherDf = BlockCipherDf(seedMaterial, CounterAttributes.SeedLength);
             if (blockCipherDf.Success)
             {
                 seedMaterial = blockCipherDf.Bits;
@@ -166,15 +125,15 @@ namespace NIST.CVP.Crypto.DRBG
                 return DrbgStatus.Error;
             }
 
-            Debug.Assert(seedMaterial.BitLength == SeedLength);
+            Debug.Assert(seedMaterial.BitLength == CounterAttributes.SeedLength);
 
             // 3. Key = 0^keylen
             // Comment: keylen bits of zeros
-            Key = new BitString(_keyLength);
+            Key = new BitString(CounterAttributes.KeyLength);
 
             // 4. V = 0^outlen
             // Comment: outlen bits of zeros
-            V = new BitString(OutputLength);
+            V = new BitString(CounterAttributes.OutputLength);
 
             // 5. (Key, V) = Update(seed_material, Key, V)
             Update(seedMaterial);
@@ -194,20 +153,20 @@ namespace NIST.CVP.Crypto.DRBG
 
             // 2. If (temp < seedlen) then personalization_string =
             // personalization_string || 0^(seedlen - temp)
-            if (temp < SeedLength)
+            if (temp < CounterAttributes.SeedLength)
             {
                 personalizationString = personalizationString
-                    .ConcatenateBits(new BitString(SeedLength - temp)); // Add zeroes to bitstring to make it equal the SeedLength
+                    .ConcatenateBits(new BitString(CounterAttributes.SeedLength - temp)); // Add zeroes to bitstring to make it equal the SeedLength
             }
 
             // 3. seed_material = entropy_input xor personalization_string
             BitString seedMaterial = entropyInput.XOR(personalizationString);
 
             // 4. Key = 0^keylen
-            Key = new BitString(_keyLength);
+            Key = new BitString(CounterAttributes.KeyLength);
 
             // 5. V = 0^outlen
-            V = new BitString(OutputLength);
+            V = new BitString(CounterAttributes.OutputLength);
 
             // 6. (Key, V) = Update(seed_material, Key, V)
             // NOTE: update uses member variables m_Key and m_V
@@ -225,7 +184,7 @@ namespace NIST.CVP.Crypto.DRBG
             
             // 1. If reseed_counter > reseed_interval, then return an indication that
             // a reseed is required
-            if (ReseedCounter > ReseedInterval)
+            if (ReseedCounter > Attributes.MaxNumberOfRequestsBetweenReseeds)
             {
                 return new DrbgResult(DrbgStatus.ReseedRequired);
             }
@@ -234,7 +193,7 @@ namespace NIST.CVP.Crypto.DRBG
             if (additionalInput.BitLength != 0)
             {
                 // 2.1 additional_input = Block_Cipher_df(additional_input, seedlen)
-                var blockCipherDf = BlockCipherDf(additionalInput, SeedLength);
+                var blockCipherDf = BlockCipherDf(additionalInput, CounterAttributes.SeedLength);
 
                 if (blockCipherDf.Success)
                 {
@@ -252,7 +211,7 @@ namespace NIST.CVP.Crypto.DRBG
             else
             {
                 // 2 (cont) Else additional_input = 0^seedlen
-                additionalInput = new BitString(SeedLength);
+                additionalInput = new BitString(CounterAttributes.SeedLength);
             }
 
             // 3. temp = Null
@@ -262,7 +221,7 @@ namespace NIST.CVP.Crypto.DRBG
             while (temp.BitLength < requestedNumberOfBits)
             {
                 // 4.1 V = (V + 1) mod 2^outlen
-                V = V.BitStringAddition(BitString.One()).GetLeastSignificantBits(OutputLength);
+                V = V.BitStringAddition(BitString.One()).GetLeastSignificantBits(CounterAttributes.OutputLength);
                 
                 // 4.2 output_block = Block_Encrypt(Key, V)
                 BitString outputBlock = BlockEncrypt(Key, V);
@@ -293,7 +252,7 @@ namespace NIST.CVP.Crypto.DRBG
 
             // 1. If reseed_counter > reseed_interval, then return an indication that
             // a reseed is required
-            if (ReseedCounter > ReseedInterval)
+            if (ReseedCounter > Attributes.MaxNumberOfRequestsBetweenReseeds)
             {
                 return new DrbgResult(DrbgStatus.ReseedRequired);
             }
@@ -305,9 +264,9 @@ namespace NIST.CVP.Crypto.DRBG
                 int tempLen = additionalInput.BitLength;
                 // 2.2 If (temp < seedlen), then
                 //     additional_input = additional_input || 0^(seedlen - temp)
-                if (tempLen < SeedLength)
+                if (tempLen < CounterAttributes.SeedLength)
                 {
-                    additionalInput = additionalInput.ConcatenateBits(new BitString(SeedLength - tempLen));
+                    additionalInput = additionalInput.ConcatenateBits(new BitString(CounterAttributes.SeedLength - tempLen));
                 }
 
                 // 2.3 (Key, V) = Update(additional_input, Key, V)
@@ -316,7 +275,7 @@ namespace NIST.CVP.Crypto.DRBG
             else
             {
                 // 2 (cont) Else additional_input = 0^seedlen
-                additionalInput = new BitString(SeedLength);
+                additionalInput = new BitString(CounterAttributes.SeedLength);
             }
 
             // 3. temp = Null
@@ -328,10 +287,11 @@ namespace NIST.CVP.Crypto.DRBG
                 // 4.1 V = (V + 1) mod 2^outlen
                 V = V
                     .BitStringAddition(BitString.One())
-                    .GetLeastSignificantBits(OutputLength);
+                    .GetLeastSignificantBits(CounterAttributes.OutputLength);
                 
                 // 4.2 output_block = Block_Encrypt(Key, V)
                 BitString outputBlock = BlockEncrypt(Key, V);
+
                 // 4.3 temp = temp || output_block
                 temp = temp.ConcatenateBits(outputBlock);
             }
@@ -396,7 +356,7 @@ namespace NIST.CVP.Crypto.DRBG
 
             // 4. While (len(S) mod outlen) != 0, S = S || 0x00
             // Comment: Pad S with zeros if necessary
-            while ((s.BitLength % OutputLength) != 0)
+            while ((s.BitLength % CounterAttributes.OutputLength) != 0)
             {
                 s = s
                     .ConcatenateBits(BitString.Zero());
@@ -417,14 +377,14 @@ namespace NIST.CVP.Crypto.DRBG
             }
 
             // 7. K = leftmost keylen bits of 0x000102030405
-            BitString k = new BitString(bt).GetMostSignificantBits(_keyLength);
+            BitString k = new BitString(bt).GetMostSignificantBits(CounterAttributes.KeyLength);
 
             // 8. While len(temp)< keylen + outlen, do:
-            while (temp.BitLength < (_keyLength + OutputLength))
+            while (temp.BitLength < (CounterAttributes.KeyLength + CounterAttributes.OutputLength))
             {
                 // 8.1 IV = i || 0^(outlen - len(i))
                 BitString iv = new BitString(BitConverter.GetBytes(i).Reverse().ToArray())
-                    .ConcatenateBits(new BitString(OutputLength - 32));
+                    .ConcatenateBits(new BitString(CounterAttributes.OutputLength - 32));
                 // 8.2 temp = temp || BCC(K, (IV || S))
                 temp = temp
                     .ConcatenateBits(BCC(k, iv.ConcatenateBits(s)));
@@ -433,11 +393,11 @@ namespace NIST.CVP.Crypto.DRBG
             }
 
             // 9. K = Leftmost keylen bits of temp
-            k = temp.GetMostSignificantBits(_keyLength);
+            k = temp.GetMostSignificantBits(CounterAttributes.KeyLength);
 
             // 10. X = Next outlen bits of temp
-            int istart = temp.BitLength - _keyLength - OutputLength;
-            BitString x = temp.Substring(istart, OutputLength);
+            int istart = temp.BitLength - CounterAttributes.KeyLength - CounterAttributes.OutputLength;
+            BitString x = temp.Substring(istart, CounterAttributes.OutputLength);
 
             // 11. temp = the Null string
             temp = new BitString(0);
@@ -459,20 +419,20 @@ namespace NIST.CVP.Crypto.DRBG
         {
             // 1. chaining_value = 0^outlen
             // Comment: set the first chaining value to outlen zeros
-            BitString chainingValue = new BitString(OutputLength);
+            BitString chainingValue = new BitString(CounterAttributes.OutputLength);
 
             // 2. n = len(data)/outlen
-            int n = data.BitLength / OutputLength;
+            int n = data.BitLength / CounterAttributes.OutputLength;
 
             // 3. Starting with the leftmost bits of data, split the data into n
             // blocks of outlen bits each forming block_1 to block_n
 
             // 4. For i = 1 to n do:
-            int iStart = data.BitLength - OutputLength;
-            for (int i = 0; i < n; ++i, iStart -= OutputLength)
+            int iStart = data.BitLength - CounterAttributes.OutputLength;
+            for (int i = 0; i < n; ++i, iStart -= CounterAttributes.OutputLength)
             {
                 // 4.1 input_block = chaining_value xor block(i)
-                BitString inputBlock = chainingValue.XOR(data.Substring(iStart, OutputLength));
+                BitString inputBlock = chainingValue.XOR(data.Substring(iStart, CounterAttributes.OutputLength));
                 // 4.2 chaining_value = Block_Encrypt(Key, input_block)
                 chainingValue = BlockEncrypt(key, inputBlock);
             }
@@ -493,11 +453,11 @@ namespace NIST.CVP.Crypto.DRBG
             BitString temp = new BitString(0);
 
             // 2. While (len(temp)<seedlen) do:
-            while (temp.BitLength < SeedLength)
+            while (temp.BitLength < CounterAttributes.SeedLength)
             {
                 v = v
                     .BitStringAddition(BitString.One())
-                    .ConcatenateBits(new BitString(OutputLength - v.BitLength)); // Add zeroes to bitstring to make it the length of the OutputLength
+                    .ConcatenateBits(new BitString(CounterAttributes.OutputLength - v.BitLength)); // Add zeroes to bitstring to make it the length of the OutputLength
 
                 BitString outputBlock = BlockEncrypt(key, v);
 
@@ -505,17 +465,17 @@ namespace NIST.CVP.Crypto.DRBG
             }
 
             // 3. temp = Leftmost seedlen bits of temp
-            temp = temp.GetMostSignificantBits(SeedLength);
+            temp = temp.GetMostSignificantBits(CounterAttributes.SeedLength);
 
             // 4. temp = temp xor provided_data
             Debug.Assert(temp.BitLength == seedMaterial.BitLength);
             temp = temp.XOR(seedMaterial);
 
             // 5. Key = Leftmost keylen bits of temp
-            key = temp.GetMostSignificantBits(_keyLength);
+            key = temp.GetMostSignificantBits(CounterAttributes.KeyLength);
 
             // 6. V = Rightmost outlen bits of temp
-            v = temp.GetLeastSignificantBits(OutputLength);
+            v = temp.GetLeastSignificantBits(CounterAttributes.OutputLength);
 
             // 7. Return new values of Key and V
             Key = key.GetDeepCopy();

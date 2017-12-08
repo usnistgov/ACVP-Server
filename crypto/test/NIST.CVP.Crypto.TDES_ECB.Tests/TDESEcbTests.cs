@@ -645,5 +645,18 @@ namespace NIST.CVP.Crypto.TDES_ECB.Tests
 
             Assert.AreNotEqual(new BitString(plaintext), result.PlainText);
         }
+
+        // Test won't always pass because the key is 168-bits instead of 192 bits. Does not need the parity applied.
+        //[Test]
+        //[TestCase("00 00000000 00000000 00000000 00000000 00000000", "00000000 00000004", "D2FD8867 D50D2DFE")]
+        //[TestCase("16 6A42B74E BF4DD10E EEE029C2 9F7E805E A082DAB6", "EF008BCA E4927CCA", "077AF02D 5209B1A5")]
+        //public void ShouldPassSpecialCase(string key, string pt, string ct)
+        //{
+        //    var subject = new TDES_ECB();
+        //    var result = subject.BlockEncrypt(new BitString(key), new BitString(pt));
+        //    Assert.IsTrue(result.Success);
+
+        //    Assert.AreEqual(new BitString(ct), result.CipherText);
+        //}
     }
 }

@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using Moq.Protected;
 using NIST.CVP.Crypto.DRBG.Enums;
 using NIST.CVP.Crypto.DRBG.Tests.Fakes;
@@ -12,7 +13,6 @@ namespace NIST.CVP.Crypto.DRBG.Tests
     [TestFixture,  FastCryptoTest]
     public class DrbgBaseTests
     {
-
         private Mock<FakeDrbgImplementation> _subject;
         private Mock<IEntropyProvider> _entropy;
         private DrbgParameters _parameters;
@@ -41,20 +41,6 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
         #region Instantiate
         [Test]
-        public void ShouldInvokeAlgorithmSetSecurityStrengthsOnSuccess()
-        {
-            _entropy
-                .Setup(s => s.GetEntropy(_parameters.EntropyInputLen))
-                .Returns(new BitString(_parameters.EntropyInputLen));
-            _entropy
-                .Setup(s => s.GetEntropy(_parameters.NonceLen))
-                .Returns(new BitString(_parameters.NonceLen));
-
-            _subject.Object.Instantiate(_parameters.SecurityStrength, new BitString(_parameters.PersoStringLen));
-            _subject.Protected().Verify("SetSecurityStrengths", Times.Once(), _parameters.SecurityStrength);
-        }
-
-        [Test]
         public void ShouldInvokeAlgorithmInstantiateOnSuccess()
         {
             _entropy
@@ -79,9 +65,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
         [Test]
         public void ShouldReturnPersonalizationStringTooLongWhenPersoStringExceedsMax()
         {
-            _subject.Object.SetMaxPersonalizationStringLength(1);
-
-            var result = _subject.Object.Instantiate(_parameters.SecurityStrength, new BitString(_parameters.PersoStringLen));
+            var result = _subject.Object.Instantiate(_parameters.SecurityStrength, new BitString(Int32.MaxValue));
 
             Assert.AreEqual(DrbgStatus.PersonalizationStringTooLong, result);
         }
@@ -164,9 +148,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
         [Test]
         public void ShouldReturnErrorIfRequestedNumberOfBitsExceedsMaximum()
         {
-            _subject.Object.SetMaxNumberOfBitsPerRequest(1);
-
-            var result = _subject.Object.Generate(_parameters.ReturnedBitsLen, new BitString(_parameters.AdditionalInputLen));
+            var result = _subject.Object.Generate(Int32.MaxValue, new BitString(_parameters.AdditionalInputLen));
 
             Assert.AreEqual(DrbgStatus.Error, result.DrbgStatus);
         }
@@ -174,9 +156,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
         [Test]
         public void ShouldReturnErrorIfAdditionalInputExceedsMax()
         {
-            _subject.Object.SetMaxAdditionalInput(1);
-
-            var result = _subject.Object.Generate(_parameters.ReturnedBitsLen, new BitString(_parameters.AdditionalInputLen));
+            var result = _subject.Object.Generate(_parameters.ReturnedBitsLen, new BitString(Int32.MaxValue));
 
             Assert.AreEqual(DrbgStatus.Error, result.DrbgStatus);
         }

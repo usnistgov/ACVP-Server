@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.DRBG.Enums;
+using NIST.CVP.Crypto.DRBG.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -13,28 +14,26 @@ namespace NIST.CVP.Crypto.DRBG.Tests.Fakes
         public DrbgStatus DrbgStatus { get; set; }
         public DrbgResult DrbgResult { get; set; } = new DrbgResult(new BitString(0));
 
-        public void SetMaxPersonalizationStringLength(int length)
-        {
-            MaxPersonalizationStringLength = length;
-        }
-
-        public void SetMaxNumberOfBitsPerRequest(int length)
-        {
-            MaxNumberOfBitsPerRequest = length;
-        }
-
-        public void SetMaxAdditionalInput(int length)
-        {
-            MaxAdditionalInputLength = length;
-        }
-
         public FakeDrbgImplementation(IEntropyProvider entropyProvider, DrbgParameters drbgParameters) : base(entropyProvider, drbgParameters)
         {
-        }
+            var att = DrbgAttributesHelper.GetDrbgAttributes(drbgParameters.Mechanism, drbgParameters.Mode, drbgParameters.DerFuncEnabled);
+            var intMax = Int32.MaxValue - 1;
 
-        protected override void SetSecurityStrengths(int requestedSecurityStrength)
-        {
-            
+            Attributes = new DrbgAttributes
+                         (
+                            att.Mechanism,
+                            att.Mode,
+                            att.MaxSecurityStrength,
+                            att.MinEntropyInputLength,
+                            intMax,
+                            intMax,
+                            intMax,
+                            intMax,
+                            intMax,
+                            att.MinNonceLength,
+                            intMax
+                        );
+
         }
 
         protected override DrbgStatus InstantiateAlgorithm(BitString entropyInput, BitString nonce, BitString personalizationString)

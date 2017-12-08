@@ -25,6 +25,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
         [TestCase(DrbgMechanism.Counter, DrbgMode.AES128, typeof(DrbgCounterAes))]
         [TestCase(DrbgMechanism.Counter, DrbgMode.AES192, typeof(DrbgCounterAes))]
         [TestCase(DrbgMechanism.Counter, DrbgMode.AES256, typeof(DrbgCounterAes))]
+        [TestCase(DrbgMechanism.Counter, DrbgMode.TDES, typeof(DrbgCounterTdes))]
         public void ShouldReturnCorrectType(DrbgMechanism drbgMechanism, DrbgMode drbgMode, Type expectedType)
         {
             DrbgParameters p = new DrbgParameters();

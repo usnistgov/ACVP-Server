@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.DRBG.Enums;
+using NIST.CVP.Crypto.DRBG.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
@@ -9,31 +10,12 @@ namespace NIST.CVP.Generation.DRBG
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-
-        private int _seedLength;
-
-        private long _minimumEntropy;
-        private long _maximumEntropy;
-
-        private long _minimumNonce;
-        private long _maximumNonce;
-
-        private long _minimumPersonalizationString;
-        private long _maximumPersonalizationString;
-
-        private long _minimumAdditionalInput;
-        private long _maximumAdditionalInput;
-
         public ParameterValidateResponse Validate(Parameters parameters)
         {
-            DrbgMechanism drbgMechanism = 0;
-            DrbgMode drbgMode = 0;
-            int securityStrength = 0;
-            int blockSize = 0;
+            DrbgAttributes attributes = null;
+            var errorResults = new List<string>();
 
-            List<string> errorResults = new List<string>();
-
-            ValidateAndGetOptions(parameters, errorResults, ref drbgMechanism, ref drbgMode, ref securityStrength, ref blockSize);
+            ValidateAndGetOptions(parameters, errorResults, ref attributes);
 
             // Cannot validate the rest of the parameters as they are dependant on the successful validation of the mechanism and mode.
             if (errorResults.Count > 0)
@@ -41,13 +23,16 @@ namespace NIST.CVP.Generation.DRBG
                 return new ParameterValidateResponse(string.Join(";", errorResults));
             }
 
-            SetDrbgValidationAttributes(parameters, drbgMechanism, drbgMode, securityStrength);
+            ValidateEntropy(parameters, attributes, errorResults);
+            ValidateNonce(parameters, attributes, errorResults);
+            ValidatePersonalizationString(parameters, attributes, errorResults);
+            ValidateAdditionalInput(parameters, attributes, errorResults);
 
-            ValidateEntropy(parameters, errorResults);
-            ValidateNonce(parameters, errorResults);
-            ValidatePersonalizationString(parameters, errorResults);
-            ValidateAdditionalInput(parameters, errorResults);
-            ValidateOutputBitLength(parameters, errorResults, blockSize);
+            if (attributes.Mechanism == DrbgMechanism.Counter)
+            {
+                var counterAttributes = DrbgAttributesHelper.GetCounterDrbgAttributes(attributes.Mode);
+                ValidateOutputBitLength(parameters, errorResults, counterAttributes.BlockSize);
+            }
 
             if (errorResults.Count > 0)
             {
@@ -57,72 +42,19 @@ namespace NIST.CVP.Generation.DRBG
             return new ParameterValidateResponse();
         }
         
-        private void ValidateAndGetOptions(Parameters parameters, List<string> errorResults,
-            ref DrbgMechanism drbgMechanism, ref DrbgMode drbgMode, ref int securityStrength, ref int blockSize)
+        private void ValidateAndGetOptions(Parameters parameters, List<string> errorResults, ref DrbgAttributes attributes)
         {
-            if (DrbgSpecToDomainMapping.Map
-                .TryFirst(
-                    w => w.mechanism.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase) && 
-                         w.mode.Equals(parameters.Mode, StringComparison.OrdinalIgnoreCase), 
-                    out var result))
+            try
             {
-                drbgMechanism = result.drbgMechanism;
-                drbgMode = result.drbgMode;
-                securityStrength = result.maxSecurityStrength;
-                blockSize = result.blockSize;
+                attributes = DrbgAttributesHelper.GetDrbgAttributes(parameters.Algorithm, parameters.Mode, parameters.DerFuncEnabled);
             }
-            else
+            catch (ArgumentException)
             {
                 errorResults.Add("Invalid Algorithm/Mode provided.");
             }
         }
 
-        /// <summary>
-        /// Set the min/max values that are to be validated against - based on Parameters
-        /// </summary>
-        private void SetDrbgValidationAttributes(Parameters parameters, DrbgMechanism drbgMechanism, DrbgMode drbgMode,
-            int securityStrength)
-        {
-            int outLength = 128;
-            int keyLength = 0;
-            switch (drbgMode)
-            {
-                case DrbgMode.AES128:
-                    keyLength = 128;
-                    break;
-                case DrbgMode.AES192:
-                    keyLength = 192;
-                    break;
-                case DrbgMode.AES256:
-                    keyLength = 256;
-                    break;
-            }
-
-            _seedLength = outLength + keyLength;
-            _minimumAdditionalInput = 0;
-            _minimumPersonalizationString = 0;
-
-            if (parameters.DerFuncEnabled)
-            {
-                _minimumEntropy = securityStrength;
-                _maximumEntropy = (long) 1 << 35;
-                _minimumNonce = securityStrength / 2;
-                _maximumNonce = (long) 1 << 35;
-                _maximumPersonalizationString = (long) 1 << 35;
-                _maximumAdditionalInput = (long) 1 << 35;
-            }
-            else
-            {
-                _minimumEntropy = _seedLength;
-                _maximumEntropy = _seedLength;
-                _minimumNonce = 0;
-                _maximumNonce = (long)1 << 35;
-                _maximumPersonalizationString = _seedLength;
-                _maximumAdditionalInput = _seedLength;
-            }
-        }
-
-        private void ValidateEntropy(Parameters parameters, List<string> errorResults)
+        private void ValidateEntropy(Parameters parameters, DrbgAttributes attributes, List<string> errorResults)
         {
             var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.EntropyInputLen, "Entropy Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
@@ -135,8 +67,8 @@ namespace NIST.CVP.Generation.DRBG
 
             var rangeCheck = ValidateRange(
                 new long[] { entropyFullDomain.Minimum , entropyFullDomain.Maximum },
-                _minimumEntropy, 
-                _maximumEntropy,
+                attributes.MinEntropyInputLength,
+                attributes.MaxEntropyInputLength,
                 "Entropy Range"
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
@@ -145,7 +77,7 @@ namespace NIST.CVP.Generation.DRBG
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
-        private void ValidateNonce(Parameters parameters, List<string> errorResults)
+        private void ValidateNonce(Parameters parameters, DrbgAttributes attributes, List<string> errorResults)
         {
             var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.NonceLen, "Nonce Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
@@ -157,8 +89,8 @@ namespace NIST.CVP.Generation.DRBG
             var nonceFullDomain = parameters.NonceLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { nonceFullDomain.Minimum, nonceFullDomain.Maximum },
-                _minimumNonce, 
-                _maximumNonce,
+                attributes.MinNonceLength,
+                attributes.MaxNonceLength,
                 "Nonce Range"
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
@@ -167,7 +99,7 @@ namespace NIST.CVP.Generation.DRBG
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
-        private void ValidatePersonalizationString(Parameters parameters, List<string> errorResults)
+        private void ValidatePersonalizationString(Parameters parameters, DrbgAttributes attributes, List<string> errorResults)
         {
             var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.PersoStringLen, "Personalization String Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
@@ -180,8 +112,8 @@ namespace NIST.CVP.Generation.DRBG
 
             var rangeCheck = ValidateRange(
                 new long[] {personalizationStringFullDomain.Minimum, personalizationStringFullDomain.Maximum, },
-                _minimumPersonalizationString, 
-                _maximumPersonalizationString,
+                0,
+                attributes.MaxPersonalizationStringLength,
                 "Personalization String Range"
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
@@ -190,7 +122,7 @@ namespace NIST.CVP.Generation.DRBG
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
-        private void ValidateAdditionalInput(Parameters parameters, List<string> errorResults)
+        private void ValidateAdditionalInput(Parameters parameters, DrbgAttributes attributes, List<string> errorResults)
         {
             var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.AdditionalInputLen, "Additional Input Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
@@ -202,8 +134,8 @@ namespace NIST.CVP.Generation.DRBG
             var additionalInputFullDomain = parameters.AdditionalInputLen.GetDomainMinMax();
 
             var rangeCheck = ValidateRange(new long[] { additionalInputFullDomain.Minimum, additionalInputFullDomain.Maximum, },
-                _minimumAdditionalInput, 
-                _maximumAdditionalInput,
+                0, 
+                attributes.MaxAdditionalInputStringLength,
                 "Additional Input Range"
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
