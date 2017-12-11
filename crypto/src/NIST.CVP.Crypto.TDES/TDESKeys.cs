@@ -24,9 +24,13 @@ namespace NIST.CVP.Crypto.TDES
         }
         public TDESKeys(BitString bitString)
         {
+            if (bitString.BitLength != 64 && bitString.BitLength != 128 && bitString.BitLength != 192)
+            {
+                throw new Exception("Invalid key length, expected 64, 128, 192 bits");
+            }
 
-           //MakeKeys(bitString);
-           MakeKeySimple(bitString);
+            //MakeKeys(bitString);
+            MakeKeySimple(bitString);
         }
 
         private void MakeKeySimple(BitString keyBits)

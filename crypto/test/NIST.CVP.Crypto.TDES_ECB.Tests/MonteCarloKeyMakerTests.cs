@@ -19,7 +19,7 @@ namespace NIST.CVP.Crypto.TDES_ECB.Tests
             var subject = new MonteCarloKeyMaker();
             Assert.Throws(
                typeof(ArgumentException),
-               () => subject.MixKeys(new TDESKeys(new BitString(0)), new List<BitString>())
+               () => subject.MixKeys(new TDESKeys(new BitString(64)), new List<BitString>())
            );
         }
 
@@ -29,7 +29,7 @@ namespace NIST.CVP.Crypto.TDES_ECB.Tests
             var subject = new MonteCarloKeyMaker();
             Assert.Throws(
                typeof(ArgumentException),
-               () => subject.MixKeys(new TDESKeys(new BitString(0)), null)
+               () => subject.MixKeys(new TDESKeys(new BitString(64)), null)
            );
         }
 
@@ -39,7 +39,7 @@ namespace NIST.CVP.Crypto.TDES_ECB.Tests
             var subject = new MonteCarloKeyMaker();
             Assert.Throws(
                typeof(ArgumentNullException),
-               () => subject.MixKeys(null, new List<BitString> {new BitString(0), new BitString(0), new BitString(0)})
+               () => subject.MixKeys(null, new List<BitString> {new BitString(64), new BitString(64), new BitString(64)})
            );
         }
 
