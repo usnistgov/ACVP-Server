@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using NIST.CVP.Crypto.DRBG.Enums;
+using NIST.CVP.Generation.Core.Helpers;
+
+namespace NIST.CVP.Crypto.DRBG.Helpers
+{
+    public class DrbgHashAttributes
+    {
+        public DrbgMechanism Mechanism { get; }
+        public DrbgMode Mode { get; }
+        public int MaxSecurityStrength { get; }
+        public int OutputLength { get; }
+        public int SeedLength { get; }
+
+        public string MechanismAsString => EnumHelpers.GetEnumDescriptionFromEnum(Mechanism);
+        public string ModeAsString => EnumHelpers.GetEnumDescriptionFromEnum(Mode);
+
+        public DrbgHashAttributes(DrbgMechanism mechanism, DrbgMode mode, int maxSecurityStrength, int outputLength, int seedLength)
+        {
+            Mechanism = mechanism;
+            Mode = mode;
+            MaxSecurityStrength = maxSecurityStrength;
+            OutputLength = outputLength;
+            SeedLength = seedLength;
+        }
+    }
+}

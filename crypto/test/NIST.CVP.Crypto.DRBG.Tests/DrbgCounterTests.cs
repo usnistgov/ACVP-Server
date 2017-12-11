@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Crypto.DRBG.Tests
 {
     [TestFixture,  FastCryptoTest]
-    public class DRBGTests
+    public class DrbgCounterTests
     {
         [SetUp]
         public void Setup()

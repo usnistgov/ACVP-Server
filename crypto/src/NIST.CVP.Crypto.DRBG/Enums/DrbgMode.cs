@@ -14,6 +14,27 @@ namespace NIST.CVP.Crypto.DRBG.Enums
         AES256,
 
         [Description("TDES")]
-        TDES
+        TDES,
+
+        [Description("SHA-1")]
+        SHA1,
+
+        [Description("SHA2-224")]
+        SHA224,
+
+        [Description("SHA2-256")]
+        SHA256,
+
+        [Description("SHA2-384")]
+        SHA384,
+
+        [Description("SHA2-512")]
+        SHA512,
+
+        [Description("SHA2-512/224")]
+        SHA512t224,
+
+        [Description("SHA2-512/256")]
+        SHA512t256,
     }
 }
