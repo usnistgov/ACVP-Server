@@ -35,15 +35,18 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         }
  
         [Test]
-        public void ShouldRunThroughAllTestFilesAndValidate()
+        [TestCase("aes")]
+        [TestCase("tdes")]
+        public void ShouldRunThroughAllTestFilesAndValidate(string folderName)
         {
-            if (!Directory.Exists(_testPath))
+            var path = Path.Combine(_testPath, folderName);
+            if (!Directory.Exists(path))
             {
                 Assert.Fail("Test File Directory does not exist");
             }
 
             LegacyResponseFileParser parser = new LegacyResponseFileParser();
-            var parsedFiles = parser.Parse(_testPath);
+            var parsedFiles = parser.Parse(path);
             if (!parsedFiles.Success)
             {
                 Assert.Fail("Failed parsing test files");

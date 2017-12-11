@@ -188,6 +188,12 @@ namespace NIST.CVP.Generation.DRBG.Parsers
                     throw new FileLoadException("Invalid mode encountered");
                 }
             }
+            else if (workingLine.Contains("tdea"))
+            {
+                currentParameters.Mechanism = DrbgMechanism.Counter;
+                currentParameters.Mode = DrbgMode.TDES;
+                currentParameters.SecurityStrength = 112;
+            }
             else
             {
                 throw new FileLoadException("Invalid Mechanism encountered");
