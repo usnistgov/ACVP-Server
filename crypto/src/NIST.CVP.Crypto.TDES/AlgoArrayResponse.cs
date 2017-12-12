@@ -8,7 +8,9 @@ namespace NIST.CVP.Crypto.TDES
         public BitString IV { get; set; }
         public BitString PlainText { get; set; }
         public BitString CipherText { get; set; }
-        public int? DataTextLength => (PlainText ?? CipherText).BitLength;
+        public int? CipherTextLength => CipherText?.BitLength;
+        public int? PlainTextLength => PlainText?.BitLength;
+
         public BitString Key1
         {
             get => Keys?.MSBSubstring(0, 64);

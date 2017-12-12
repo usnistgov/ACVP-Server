@@ -99,24 +99,24 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             false,               //isPtAndCtHex
             TestName = "Encrypt TDES CFBP1 (010 round)")]
 
-        [TestCase(
-            "8f7013cd6d13bc52",  //key1 
-            "57158c403bb9ec6e",  //key2
-            "89bf19cd61cb8a02",  //key3
-            "96e4773ba9a19fe4",  //iv1
-            "0",                 //plaintext
-            400,                 //number of rounds
-            "49764c320bb38315",  //expected key1
-            "a298bcbc348abf70",  //expected key2 
-            "e6e37f8576c44ac2",  //expected key3
-            "b959e6fbc6a52b1e",  //expected iv1
-            "0eaf3c511bfa8073",  //expected iv2
-            "640491a6714fd5c8",  //expected iv3
-            "0",                 //expected plainText
-            "1",                 //expected cipherText
-            Algo.TDES_CFBP1,     //algo
-            false,               //isPtAndCtHex
-            TestName = "Encrypt TDES CFBP1 (400 round)")]
+        //[TestCase(
+        //    "8f7013cd6d13bc52",  //key1 
+        //    "57158c403bb9ec6e",  //key2
+        //    "89bf19cd61cb8a02",  //key3
+        //    "96e4773ba9a19fe4",  //iv1
+        //    "0",                 //plaintext
+        //    400,                 //number of rounds
+        //    "49764c320bb38315",  //expected key1
+        //    "a298bcbc348abf70",  //expected key2 
+        //    "e6e37f8576c44ac2",  //expected key3
+        //    "b959e6fbc6a52b1e",  //expected iv1
+        //    "0eaf3c511bfa8073",  //expected iv2
+        //    "640491a6714fd5c8",  //expected iv3
+        //    "0",                 //expected plainText
+        //    "1",                 //expected cipherText
+        //    Algo.TDES_CFBP1,     //algo
+        //    false,               //isPtAndCtHex
+        //    TestName = "Encrypt TDES CFBP1 (400 round)")]
 
         [TestCase(
             "089725404620fd94",  //key1 
@@ -172,23 +172,23 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             Algo.TDES_CFBP8,     //algo
             TestName = "Encrypt TDES CFBP8 (010 round)")]
 
-        [TestCase(
-            "089725404620fd94",  //key1 
-            "b0ba371cc764ada4",  //key2
-            "79c2bc837a5e4cdc",  //key3
-            "ca818994fc5ce8ed",  //iv1
-            "88",                //plaintext
-            400,                  //number of rounds
-            "d537fb2fd3e34651",  //expected key1
-            "5e0e45d507b35ea1",  //expected key2 
-            "c2e064f77946d057",  //expected key3
-            "e0c21430750706a4",  //expected iv1
-            "36176985ca5c5bf9",  //expected iv2
-            "8b6cbedb1fb1b14e",  //expected iv3
-            "6e",                //expected plainText
-            "95",                //expected cipherText
-            Algo.TDES_CFBP8,     //algo
-            TestName = "Encrypt TDES CFBP8 (400 round)")]
+        //[TestCase(
+        //    "089725404620fd94",  //key1 
+        //    "b0ba371cc764ada4",  //key2
+        //    "79c2bc837a5e4cdc",  //key3
+        //    "ca818994fc5ce8ed",  //iv1
+        //    "88",                //plaintext
+        //    400,                  //number of rounds
+        //    "d537fb2fd3e34651",  //expected key1
+        //    "5e0e45d507b35ea1",  //expected key2 
+        //    "c2e064f77946d057",  //expected key3
+        //    "e0c21430750706a4",  //expected iv1
+        //    "36176985ca5c5bf9",  //expected iv2
+        //    "8b6cbedb1fb1b14e",  //expected iv3
+        //    "6e",                //expected plainText
+        //    "95",                //expected cipherText
+        //    Algo.TDES_CFBP8,     //algo
+        //    TestName = "Encrypt TDES CFBP8 (400 round)")]
 
 
         [TestCase(
@@ -245,23 +245,23 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             Algo.TDES_CFBP64,     //algo
             TestName = "Encrypt TDES CFBP64 (010 round)")]
 
-        [TestCase(
-            "a8b62ae0a804853b",  //key1 
-            "4f3ecb49d9bc3d70",  //key2
-            "1ff19b31e9bff129",  //key3
-            "5976d50349f89a13",  //iv1
-            "bc205af012edc861",  //plaintext
-            400,                 //number of rounds
-            "6e457516ae85e6df",  //expected key1
-            "079deaf48ada7631",  //expected key2 
-            "9d2f1f6eda26f78c",  //expected key3
-            "65c0b7ec2fa3029b",  //expected iv1
-            "bb160d4184f857f0",  //expected iv2
-            "106b6296da4dad45",  //expected iv3
-            "d12bd7fb718776e6",  //expected plainText
-            "f8138a17203ab304",  //expected cipherText
-            Algo.TDES_CFBP64,     //algo
-            TestName = "Encrypt TDES CFBP64 (400 round)")]
+        //[TestCase(
+        //    "a8b62ae0a804853b",  //key1 
+        //    "4f3ecb49d9bc3d70",  //key2
+        //    "1ff19b31e9bff129",  //key3
+        //    "5976d50349f89a13",  //iv1
+        //    "bc205af012edc861",  //plaintext
+        //    400,                 //number of rounds
+        //    "6e457516ae85e6df",  //expected key1
+        //    "079deaf48ada7631",  //expected key2 
+        //    "9d2f1f6eda26f78c",  //expected key3
+        //    "65c0b7ec2fa3029b",  //expected iv1
+        //    "bb160d4184f857f0",  //expected iv2
+        //    "106b6296da4dad45",  //expected iv3
+        //    "d12bd7fb718776e6",  //expected plainText
+        //    "f8138a17203ab304",  //expected cipherText
+        //    Algo.TDES_CFBP64,     //algo
+        //    TestName = "Encrypt TDES CFBP64 (400 round)")]
         public void ShouldMonteCarloTestEncrypt(
             string startKey1, string startKey2, string startKey3,
             string startIv1, string startPlainText, int rounds,
@@ -382,24 +382,24 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             false,
             TestName = "Decrypt TDES CFBP1 (010 round)")]
 
-        [TestCase(
-            "9b89f4fd2c38fbe9",  //key1 
-            "0207c46183e65176",  //key2
-            "51a40158c126456d",  //key3
-            "3911ad61de0c405b",  //iv1
-            "1",                 //ciphertext
-            400,                 //number of rounds
-            "2302c16b07a73843",  //expected key1
-            "4f64ce254692a808",  //expected key2 
-            "2acee5c234160275",  //expected key3
-            "981df41c92ee37aa",  //expected iv1
-            "ed734971e8438cff",  //expected iv2
-            "42c89ec73d98e254",  //expected iv3
-            "0",                 //expected cipherText
-            "1",                 //expected plainText
-            Algo.TDES_CFBP1,     //algo
-            false,
-            TestName = "Decrypt TDES CFBP1 (400 round)")]
+        //[TestCase(
+        //    "9b89f4fd2c38fbe9",  //key1 
+        //    "0207c46183e65176",  //key2
+        //    "51a40158c126456d",  //key3
+        //    "3911ad61de0c405b",  //iv1
+        //    "1",                 //ciphertext
+        //    400,                 //number of rounds
+        //    "2302c16b07a73843",  //expected key1
+        //    "4f64ce254692a808",  //expected key2 
+        //    "2acee5c234160275",  //expected key3
+        //    "981df41c92ee37aa",  //expected iv1
+        //    "ed734971e8438cff",  //expected iv2
+        //    "42c89ec73d98e254",  //expected iv3
+        //    "0",                 //expected cipherText
+        //    "1",                 //expected plainText
+        //    Algo.TDES_CFBP1,     //algo
+        //    false,
+        //    TestName = "Decrypt TDES CFBP1 (400 round)")]
 
         [TestCase(
             "fb267a6b895d897c",  //key1 
@@ -455,23 +455,23 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             Algo.TDES_CFBP8,    //algo
             TestName = "Decrypt TDES CFBP8 (010 round)")]
 
-        [TestCase(
-            "fb267a6b895d897c",  //key1 
-            "25403d807fdcb386",  //key2
-            "527958b6da1fef9b",  //key3
-            "8ffd4ebcc176fda4",  //iv1
-            "8a",                //ciphertext
-            400,                 //number of rounds
-            "511c70d96ee69467",  //expected key1
-            "e692a7cb464ff1c8",  //expected key2 
-            "5204d5d5a8496208",  //expected key3
-            "49fcc955df5d11f3",  //expected iv1
-            "9f521eab34b26748",  //expected iv2
-            "f4a774008a07bc9d",  //expected iv3
-            "60",                //expected cipherText
-            "ef",                //expected plainText
-            Algo.TDES_CFBP8,    //algo
-            TestName = "Decrypt TDES CFBP8 (400 round)")]
+        //[TestCase(
+        //    "fb267a6b895d897c",  //key1 
+        //    "25403d807fdcb386",  //key2
+        //    "527958b6da1fef9b",  //key3
+        //    "8ffd4ebcc176fda4",  //iv1
+        //    "8a",                //ciphertext
+        //    400,                 //number of rounds
+        //    "511c70d96ee69467",  //expected key1
+        //    "e692a7cb464ff1c8",  //expected key2 
+        //    "5204d5d5a8496208",  //expected key3
+        //    "49fcc955df5d11f3",  //expected iv1
+        //    "9f521eab34b26748",  //expected iv2
+        //    "f4a774008a07bc9d",  //expected iv3
+        //    "60",                //expected cipherText
+        //    "ef",                //expected plainText
+        //    Algo.TDES_CFBP8,    //algo
+        //    TestName = "Decrypt TDES CFBP8 (400 round)")]
 
         [TestCase(
             "15525b6b6bc7cbea",  //key1 
@@ -527,23 +527,23 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             Algo.TDES_CFBP64,   //algo
             TestName = "Decrypt TDES CFBP64 (010 round)")]
 
-        [TestCase(
-            "15525b6b6bc7cbea",  //key1 
-            "3732d5dfd9c7dfa8",  //key2
-            "5eae258a32159297",  //key3
-            "cb9892b0a58b760d",  //iv1
-            "977b0343a9f1dd40",  //ciphertext
-            400,                 //number of rounds
-            "6ed5643b8cf770f8",  //expected key1
-            "8c92cd3bc789f180",  //expected key2 
-            "7025622a25153862",  //expected key3
-            "d8b739ff1599c88e",  //expected iv1
-            "2e0c8f546aef1de3",  //expected iv2
-            "8361e4a9c0447338",  //expected iv3
-            "5d1c6efbc5f7b573",  //expected cipherText
-            "f322967f44c106af",  //expected plainText
-            Algo.TDES_CFBP64,    //algo
-            TestName = "Decrypt TDES CFBP64 (400 round)")]
+        //[TestCase(
+        //    "15525b6b6bc7cbea",  //key1 
+        //    "3732d5dfd9c7dfa8",  //key2
+        //    "5eae258a32159297",  //key3
+        //    "cb9892b0a58b760d",  //iv1
+        //    "977b0343a9f1dd40",  //ciphertext
+        //    400,                 //number of rounds
+        //    "6ed5643b8cf770f8",  //expected key1
+        //    "8c92cd3bc789f180",  //expected key2 
+        //    "7025622a25153862",  //expected key3
+        //    "d8b739ff1599c88e",  //expected iv1
+        //    "2e0c8f546aef1de3",  //expected iv2
+        //    "8361e4a9c0447338",  //expected iv3
+        //    "5d1c6efbc5f7b573",  //expected cipherText
+        //    "f322967f44c106af",  //expected plainText
+        //    Algo.TDES_CFBP64,    //algo
+        //    TestName = "Decrypt TDES CFBP64 (400 round)")]
 
         public void ShouldMonteCarloTestDecrypt(
             string startKey1, string startKey2, string startKey3,

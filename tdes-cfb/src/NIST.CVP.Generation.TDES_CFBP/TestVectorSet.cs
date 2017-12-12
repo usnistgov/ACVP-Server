@@ -93,7 +93,8 @@ namespace NIST.CVP.Generation.TDES_CFBP
                                 ((IDictionary<string, object>)resultObject).Add("iv3", result.IV3);
                                 ((IDictionary<string, object>)resultObject).Add("pt", result.PlainText);
                                 ((IDictionary<string, object>)resultObject).Add("ct", result.CipherText);
-                                ((IDictionary<string, object>)resultObject).Add("dataLength", result.DataTextLength);
+                                ((IDictionary<string, object>)resultObject).Add("ctLen", result.CipherTextLength);
+                                ((IDictionary<string, object>)resultObject).Add("ptLen", result.PlainTextLength);
 
                                 resultsArray.Add(resultObject);
                             }
@@ -182,60 +183,33 @@ namespace NIST.CVP.Generation.TDES_CFBP
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        if (group.TestType.Equals("MCT", StringComparison.OrdinalIgnoreCase))
+                        AddToObjectIfNotNull(testObject, "key1", test.Key1);
+                        AddToObjectIfNotNull(testObject, "key2", test.Key2);
+                        AddToObjectIfNotNull(testObject, "key3", test.Key3);
+
+                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            var resultsArray = new List<dynamic>();
-
-                            foreach (var result in test.ResultsArray)
-                            {
-                                dynamic resultObject = new ExpandoObject();
-
-                                var keys = new TDESKeys(result.Keys);
-                                for (var iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
-                                {
-                                    ((IDictionary<string, object>)resultObject).Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
-                                }
-                                ((IDictionary<string, object>)resultObject).Add("iv1", result.IV1);
-                                ((IDictionary<string, object>)resultObject).Add("iv2", result.IV2);
-                                ((IDictionary<string, object>)resultObject).Add("iv3", result.IV3);
-                                ((IDictionary<string, object>)resultObject).Add("pt", result.PlainText);
-                                ((IDictionary<string, object>)resultObject).Add("ct", result.CipherText);
-                                ((IDictionary<string, object>)resultObject).Add("dataLength", result.DataTextLength);
-
-                                resultsArray.Add(resultObject);
-                            }
-                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
+                            AddToObjectIfNotNull(testObject, "pt", test.PlainText);
+                            AddToObjectIfNotNull(testObject, "pt1", test.PlainText1);
+                            AddToObjectIfNotNull(testObject, "pt2", test.PlainText2);
+                            AddToObjectIfNotNull(testObject, "pt3", test.PlainText3);
+                            AddToObjectIfNotNull(testObject, "ptLen", test.PlainTextLength);
                         }
-                        else
+                        else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            AddToObjectIfNotNull(testObject, "key1", test.Key1);
-                            AddToObjectIfNotNull(testObject, "key2", test.Key2);
-                            AddToObjectIfNotNull(testObject, "key3", test.Key3);
-
-                            if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                            {
-                                AddToObjectIfNotNull(testObject, "pt", test.PlainText);
-                                AddToObjectIfNotNull(testObject, "pt1", test.PlainText1);
-                                AddToObjectIfNotNull(testObject, "pt2", test.PlainText2);
-                                AddToObjectIfNotNull(testObject, "pt3", test.PlainText3);
-                                AddToObjectIfNotNull(testObject, "ptLen", test.PlainTextLength);
-                            }
-                            else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                            {
-                                AddToObjectIfNotNull(testObject, "ct", test.CipherText);
-                                AddToObjectIfNotNull(testObject, "ct1", test.CipherText1);
-                                AddToObjectIfNotNull(testObject, "ct2", test.CipherText2);
-                                AddToObjectIfNotNull(testObject, "ct3", test.CipherText3);
-                                AddToObjectIfNotNull(testObject, "ctLen", test.CipherTextLength);
-                            }
-
-
-
-
-                            AddToObjectIfNotNull(testObject, "iv1", test.IV1);
-                            AddToObjectIfNotNull(testObject, "iv2", test.IV2);
-                            AddToObjectIfNotNull(testObject, "iv3", test.IV3);
+                            AddToObjectIfNotNull(testObject, "ct", test.CipherText);
+                            AddToObjectIfNotNull(testObject, "ct1", test.CipherText1);
+                            AddToObjectIfNotNull(testObject, "ct2", test.CipherText2);
+                            AddToObjectIfNotNull(testObject, "ct3", test.CipherText3);
+                            AddToObjectIfNotNull(testObject, "ctLen", test.CipherTextLength);
                         }
+
+
+
+
+                        AddToObjectIfNotNull(testObject, "iv1", test.IV1);
+                        AddToObjectIfNotNull(testObject, "iv2", test.IV2);
+                        AddToObjectIfNotNull(testObject, "iv3", test.IV3);
 
                         tests.Add(testObject);
                     }
@@ -280,8 +254,10 @@ namespace NIST.CVP.Generation.TDES_CFBP
                                 resultObject.Add("iv3", result.IV3);
 
                                 resultObject.Add("pt", result.PlainText);
+                                resultObject.Add("ptLen", result.PlainTextLength);
                                 resultObject.Add("ct", result.CipherText);
-                                resultObject.Add("dataLength", result.DataTextLength);
+                                resultObject.Add("ctLen", result.CipherTextLength);
+
 
 
                                 resultsArray.Add(resultObject);
@@ -316,8 +292,8 @@ namespace NIST.CVP.Generation.TDES_CFBP
                                     AddToObjectIfNotNull(testObject, "ptLen", test.PlainTextLength);
                                 }
                             }
-                            
-                            
+
+
                         }
 
                         tests.Add(testObject);

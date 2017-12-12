@@ -90,18 +90,17 @@ namespace NIST.CVP.Generation.TDES_CFB
                                     ((IDictionary<string, object>)resultObject).Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
                                 }
                                 ((IDictionary<string, object>)resultObject).Add("iv", result.IV);
-                                //if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                                //{
-                                    ((IDictionary<string, object>)resultObject).Add("pt", result.PlainText);
-                                    ((IDictionary<string, object>)resultObject).Add("ct", result.CipherText);
-                                    ((IDictionary<string, object>)resultObject).Add("dataLength", result.DataTextLength.Value);
-                                //}
-                                //if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                                //{
-                                //    ((IDictionary<string, object>)resultObject).Add("dataLength", result.DataTextLength.Value);
-                                //    ((IDictionary<string, object>)resultObject).Add("ct", result.CipherText);
-                                //    ((IDictionary<string, object>)resultObject).Add("pt", result.PlainText);
-                                //}
+                                ((IDictionary<string, object>)resultObject).Add("pt", result.PlainText);
+                                ((IDictionary<string, object>)resultObject).Add("ct", result.CipherText);
+                                if (result.CipherTextLength != null)
+                                {
+                                    ((IDictionary<string, object>)resultObject).Add("ctLen", result.CipherTextLength.Value);
+                                }
+
+                                if (result.PlainTextLength != null)
+                                {
+                                    ((IDictionary<string, object>)resultObject).Add("ptLen", result.PlainTextLength.Value);
+                                }
 
                                 resultsArray.Add(resultObject);
                             }
@@ -178,72 +177,35 @@ namespace NIST.CVP.Generation.TDES_CFB
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
 
-                        if (group.TestType.Equals("MCT", StringComparison.OrdinalIgnoreCase))
+
+
+                        var keys = new TDESKeys(test.Keys);
+                        for (var iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
                         {
-                            var resultsArray = new List<dynamic>();
-
-                            foreach (var result in test.ResultsArray)
-                            {
-                                dynamic resultObject = new ExpandoObject();
-
-
-                                var keys = new TDESKeys(result.Keys);
-                                for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
-                                {
-                                    ((IDictionary<string, object>) resultObject).Add($"key{iKeyIndex + 1}",
-                                        keys.KeysAsBitStrings[iKeyIndex]);
-                                }
-
-                                ((IDictionary<string, object>) resultObject).Add("iv", result.IV);
-                                //if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                                //{
-                                ((IDictionary<string, object>) resultObject).Add("pt", result.PlainText);
-                                ((IDictionary<string, object>) resultObject).Add("ct", result.CipherText);
-                                ((IDictionary<string, object>) resultObject).Add("dataLength",
-                                    result.DataTextLength.Value);
-                                //}
-                                //if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                                //{
-                                //    ((IDictionary<string, object>)resultObject).Add("dataLength", result.DataTextLength.Value);
-                                //    ((IDictionary<string, object>)resultObject).Add("ct", result.CipherText);
-                                //    ((IDictionary<string, object>)resultObject).Add("pt", result.PlainText);
-                                //}
-
-                                resultsArray.Add(resultObject);
-                            }
-
-                            ((IDictionary<string, object>) testObject).Add("resultsArray", resultsArray);
+                            ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}",
+                                keys.KeysAsBitStrings[iKeyIndex]);
                         }
-                        else
+
+                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-
-                            var keys = new TDESKeys(test.Keys);
-                            for (var iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
+                            ((IDictionary<string, object>)testObject).Add("pt", test.PlainText);
+                            if (test.PlainTextLength.HasValue)
                             {
-                                ((IDictionary<string, object>) testObject).Add($"key{iKeyIndex + 1}",
-                                    keys.KeysAsBitStrings[iKeyIndex]);
+                                ((IDictionary<string, object>)testObject).Add("ptLen", test.PlainTextLength.Value);
                             }
-
-                            if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                            {
-                                ((IDictionary<string, object>) testObject).Add("pt", test.PlainText);
-                                if (test.PlainTextLength.HasValue)
-                                {
-                                    ((IDictionary<string, object>) testObject).Add("ptLen", test.PlainTextLength.Value);
-                                }
-                            }
-                            else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                            {
-                                ((IDictionary<string, object>) testObject).Add("ct", test.CipherText);
-                                if (test.CipherTextLength.HasValue)
-                                {
-                                    ((IDictionary<string, object>) testObject).Add("ctLen",
-                                        test.CipherTextLength.Value);
-                                }
-                            }
-
-                            ((IDictionary<string, object>) testObject).Add("iv", test.Iv);
                         }
+                        else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ((IDictionary<string, object>)testObject).Add("ct", test.CipherText);
+                            if (test.CipherTextLength.HasValue)
+                            {
+                                ((IDictionary<string, object>)testObject).Add("ctLen",
+                                    test.CipherTextLength.Value);
+                            }
+                        }
+
+                        ((IDictionary<string, object>)testObject).Add("iv", test.Iv);
+
 
                         tests.Add(testObject);
                     }
@@ -277,26 +239,26 @@ namespace NIST.CVP.Generation.TDES_CFB
                             {
                                 dynamic resultObject = new Dictionary<string, object>();
 
-                                TDESKeys keys = new TDESKeys(result.Keys);
+                                var keys = new TDESKeys(result.Keys);
                                 for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
                                 {
                                     resultObject.Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
                                 }
 
-                                //if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                                //{
-                                    resultObject.Add("pt", result.PlainText);
-                                    resultObject.Add("ct", result.CipherText);
-                                    resultObject.Add("dataLength", result.DataTextLength.Value);
-                                    resultObject.Add("iv", result.IV);
-                                //}
-                                //else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                                //{
-                                //    resultObject.Add("ct", result.CipherText);
-                                //    resultObject.Add("pt", result.PlainText);
-                                //    resultObject.Add("dataLength", result.DataTextLength.Value);
-                                //    resultObject.Add("iv", result.IV);
-                                //}
+                                resultObject.Add("pt", result.PlainText);
+                                resultObject.Add("ct", result.CipherText);
+
+                                if (result.CipherTextLength != null)
+                                {
+                                    resultObject.Add("ctLen", result.CipherTextLength.Value);
+                                }
+
+                                if (result.PlainTextLength != null)
+                                {
+                                    resultObject.Add("ptLen", result.PlainTextLength.Value);
+                                }
+
+                                resultObject.Add("iv", result.IV);
                                 resultsArray.Add(resultObject);
                             }
                             ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);

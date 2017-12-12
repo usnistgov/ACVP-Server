@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "testType")]
-        public string TestType { get; set; }
+        public string TestType { get; set; } = "AFT";
         [JsonProperty(PropertyName = "keyingOption")]
         public int KeyingOption { get; set; }
         public List<ITestCase> Tests { get; set; }
