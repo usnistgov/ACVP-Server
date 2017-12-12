@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
     #region Hash
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHashSha1 : GenValTestsDrbgBase
+    public class GenValTestsHashSha1 : GenValTestsHashBase
     {
         public override string Algorithm => "hashDRBG";
         public override string Mode => "SHA-1";
@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     }
 
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHashSha224 : GenValTestsDrbgBase
+    public class GenValTestsHashSha224 : GenValTestsHashBase
     {
         public override string Algorithm => "hashDRBG";
         public override string Mode => "SHA2-224";
@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
     
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHashSha256 : GenValTestsDrbgBase
+    public class GenValTestsHashSha256 : GenValTestsHashBase
     {
         public override string Algorithm => "hashDRBG";
         public override string Mode => "SHA2-256";
@@ -75,7 +75,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     }
 
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHashSha384 : GenValTestsDrbgBase
+    public class GenValTestsHashSha384 : GenValTestsHashBase
     {
         public override string Algorithm => "hashDRBG";
         public override string Mode => "SHA2-384";
@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
     
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHashSha512 : GenValTestsDrbgBase
+    public class GenValTestsHashSha512 : GenValTestsHashBase
     {
         public override string Algorithm => "hashDRBG";
         public override string Mode => "SHA2-512";
@@ -93,7 +93,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
     
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHashSha512t224 : GenValTestsDrbgBase
+    public class GenValTestsHashSha512t224 : GenValTestsHashBase
     {
         public override string Algorithm => "hashDRBG";
         public override string Mode => "SHA2-512/224";
@@ -102,7 +102,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
     
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHashSha512t256 : GenValTestsDrbgBase
+    public class GenValTestsHashSha512t256 : GenValTestsHashBase
     {
         public override string Algorithm => "hashDRBG";
         public override string Mode => "SHA2-512/256";
@@ -112,7 +112,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
     #region HMAC
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHMACSha1 : GenValTestsDrbgBase
+    public class GenValTestsHMACSha1 : GenValTestsHashBase
     {
         public override string Algorithm => "hmacDRBG";
         public override string Mode => "SHA-1";
@@ -120,7 +120,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     }
 
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHMACSha224 : GenValTestsDrbgBase
+    public class GenValTestsHMACSha224 : GenValTestsHashBase
     {
         public override string Algorithm => "hmacDRBG";
         public override string Mode => "SHA2-224";
@@ -129,7 +129,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
     
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHMACSha256 : GenValTestsDrbgBase
+    public class GenValTestsHMACSha256 : GenValTestsHashBase
     {
         public override string Algorithm => "hmacDRBG";
         public override string Mode => "SHA2-256";
@@ -137,7 +137,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     }
 
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHMACSha384 : GenValTestsDrbgBase
+    public class GenValTestsHMACSha384 : GenValTestsHashBase
     {
         public override string Algorithm => "hmacDRBG";
         public override string Mode => "SHA2-384";
@@ -146,7 +146,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
     
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHMACSha512 : GenValTestsDrbgBase
+    public class GenValTestsHMACSha512 : GenValTestsHashBase
     {
         public override string Algorithm => "hmacDRBG";
         public override string Mode => "SHA2-512";
@@ -155,7 +155,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
     
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHMACSha512t224 : GenValTestsDrbgBase
+    public class GenValTestsHMACSha512t224 : GenValTestsHashBase
     {
         public override string Algorithm => "hmacDRBG";
         public override string Mode => "SHA2-512/224";
@@ -164,7 +164,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
     
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsHMACSha512t256 : GenValTestsDrbgBase
+    public class GenValTestsHMACSha512t256 : GenValTestsHashBase
     {
         public override string Algorithm => "hmacDRBG";
         public override string Mode => "SHA2-512/256";

@@ -359,6 +359,13 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
         public static DrbgAttributes GetDrbgAttributes(string mechanism, string mode, bool derivationFunction = false)
         {
             DrbgAttributes result = null;
+
+            // We treat HMAC as Hash here because they share the same larger properties
+            if (mechanism.Equals("hmacDRBG", StringComparison.OrdinalIgnoreCase))
+            {
+                mechanism = "hashDRBG";
+            }
+
             if (derivationFunction)
             {
                 if (!DrbgAttributesWithDerFunc
