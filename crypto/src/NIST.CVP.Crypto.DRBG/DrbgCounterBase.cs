@@ -376,7 +376,7 @@ namespace NIST.CVP.Crypto.DRBG
                 bt[iterator] = (byte) iterator;
             }
 
-            // 7. K = leftmost keylen bits of 0x000102030405
+            // 7. Key = leftmost keylen bits of 0x000102030405
             BitString k = new BitString(bt).GetMostSignificantBits(CounterAttributes.KeyLength);
 
             // 8. While len(temp)< keylen + outlen, do:
@@ -385,14 +385,14 @@ namespace NIST.CVP.Crypto.DRBG
                 // 8.1 IV = i || 0^(outlen - len(i))
                 BitString iv = new BitString(BitConverter.GetBytes(i).Reverse().ToArray())
                     .ConcatenateBits(new BitString(CounterAttributes.OutputLength - 32));
-                // 8.2 temp = temp || BCC(K, (IV || S))
+                // 8.2 temp = temp || BCC(Key, (IV || S))
                 temp = temp
                     .ConcatenateBits(BCC(k, iv.ConcatenateBits(s)));
 
                 i++;
             }
 
-            // 9. K = Leftmost keylen bits of temp
+            // 9. Key = Leftmost keylen bits of temp
             k = temp.GetMostSignificantBits(CounterAttributes.KeyLength);
 
             // 10. X = Next outlen bits of temp
@@ -405,7 +405,7 @@ namespace NIST.CVP.Crypto.DRBG
             // 12. While len(temp) < number_of_bits_to_return, do:
             while (temp.BitLength < numberOfBitsToReturn)
             {
-                // 12.1 X = Block_Encrypt(K, X)
+                // 12.1 X = Block_Encrypt(Key, X)
                 x = BlockEncrypt(k, x);
                 // 12.2 temp = temp || X
                 temp = temp.ConcatenateBits(x);

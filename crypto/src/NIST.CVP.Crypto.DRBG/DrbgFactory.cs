@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.DRBG.Enums;
+using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math.Entropy;
 using ModeValues = NIST.CVP.Crypto.SHAWrapper.ModeValues;
@@ -18,6 +19,8 @@ namespace NIST.CVP.Crypto.DRBG
                     return GetCounterImplementation(drbgParameters, iEntropyProvider);
                 case DrbgMechanism.Hash:
                     return GetHashImplementation(drbgParameters, iEntropyProvider);
+                case DrbgMechanism.HMAC:
+                    return GetHmacImplementation(drbgParameters, iEntropyProvider);
                 default:
                     throw new ArgumentException("Invalid DRBG Mechanism provided");
             }
@@ -48,6 +51,13 @@ namespace NIST.CVP.Crypto.DRBG
             var hashFunction = GetHashFunction(drbgParameters.Mode);
             var sha = new ShaFactory().GetShaInstance(hashFunction);
             return new DrbgHash(iEntropyProvider, sha, drbgParameters);
+        }
+
+        private IDrbg GetHmacImplementation(DrbgParameters drbgParameters, IEntropyProvider iEntropyProvider)
+        {
+            var hashFunction = GetHashFunction(drbgParameters.Mode);
+            var hmac = new HmacFactory(new ShaFactory()).GetHmacInstance(hashFunction);
+            return new DrbgHmac(iEntropyProvider, hmac, drbgParameters);
         }
 
         private HashFunction GetHashFunction(DrbgMode mode)

@@ -331,6 +331,13 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
         public static DrbgAttributes GetDrbgAttributes(DrbgMechanism mechanism, DrbgMode mode, bool derivationFunction = false)
         {
             DrbgAttributes result = null;
+            
+            // We treat HMAC as Hash here because they share the same larger properties
+            if (mechanism == DrbgMechanism.HMAC)
+            {
+                mechanism = DrbgMechanism.Hash;
+            }
+
             if (derivationFunction)
             {
                 if (!DrbgAttributesWithDerFunc.TryFirst(w => w.Mechanism == mechanism && w.Mode == mode, out result))

@@ -13,9 +13,9 @@ namespace NIST.CVP.Crypto.DRBG
     public class DrbgHash : DrbgBase
     {
         private readonly ISha _sha;
-        private readonly DrbgHashAttributes HashAttributes;
-        private BitString V = null;
-        private BitString C = null;
+        protected readonly DrbgHashAttributes HashAttributes;
+        protected BitString V = null;
+        protected BitString C = null;
 
         public DrbgHash(IEntropyProvider entropyProvider, ISha sha, DrbgParameters drbgParameters) : base(entropyProvider, drbgParameters)
         {

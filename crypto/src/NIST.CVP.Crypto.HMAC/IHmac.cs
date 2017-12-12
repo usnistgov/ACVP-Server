@@ -14,6 +14,6 @@ namespace NIST.CVP.Crypto.HMAC
         /// <param name="message">The message</param>
         /// <param name="macLength">Number of bits to return from the MSb of the MAC</param>
         /// <returns></returns>
-        HmacResult Generate(BitString key, BitString message, int macLength);
+        HmacResult Generate(BitString key, BitString message, int macLength = 0);
     }
 }

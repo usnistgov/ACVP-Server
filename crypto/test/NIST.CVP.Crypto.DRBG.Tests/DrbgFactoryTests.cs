@@ -26,6 +26,20 @@ namespace NIST.CVP.Crypto.DRBG.Tests
         [TestCase(DrbgMechanism.Counter, DrbgMode.AES192, typeof(DrbgCounterAes))]
         [TestCase(DrbgMechanism.Counter, DrbgMode.AES256, typeof(DrbgCounterAes))]
         [TestCase(DrbgMechanism.Counter, DrbgMode.TDES, typeof(DrbgCounterTdes))]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA1, typeof(DrbgHash))]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA224, typeof(DrbgHash))]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA256, typeof(DrbgHash))]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA384, typeof(DrbgHash))]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA512, typeof(DrbgHash))]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA512t224, typeof(DrbgHash))]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA512t256, typeof(DrbgHash))]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA1, typeof(DrbgHmac))]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA224, typeof(DrbgHmac))]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA256, typeof(DrbgHmac))]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA384, typeof(DrbgHmac))]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA512, typeof(DrbgHmac))]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA512t224, typeof(DrbgHmac))]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA512t256, typeof(DrbgHmac))]
         public void ShouldReturnCorrectType(DrbgMechanism drbgMechanism, DrbgMode drbgMode, Type expectedType)
         {
             DrbgParameters p = new DrbgParameters();
@@ -60,5 +74,24 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
             Assert.Throws(typeof(ArgumentException), () => _subject.GetDrbgInstance(p, _mockEntropy.Object));
         }
+
+        [Test]
+        [TestCase(DrbgMechanism.Counter, DrbgMode.SHA1)]
+        [TestCase(DrbgMechanism.Counter, DrbgMode.SHA512t224)]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.TDES)]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.AES128)]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.AES192)]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.AES256)]
+        public void ShouldReturnArgumentExceptionWithNonMatchingEnums(DrbgMechanism mechanism, DrbgMode mode)
+        {
+            var p = new DrbgParameters
+            {
+                Mechanism = mechanism,
+                Mode = mode
+            };
+
+            Assert.Throws(typeof(ArgumentException), () => _subject.GetDrbgInstance(p, _mockEntropy.Object));
+        }
     }
 }
+

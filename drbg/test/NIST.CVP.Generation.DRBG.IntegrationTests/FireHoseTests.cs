@@ -12,7 +12,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.DRBG.IntegrationTests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
         string _testPath;
@@ -37,6 +37,8 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         [Test]
         [TestCase("aes")]
         [TestCase("tdes")]
+        [TestCase("hash")]
+        [TestCase("hmac")]
         public void ShouldRunThroughAllTestFilesAndValidate(string folderName)
         {
             var path = Path.Combine(_testPath, folderName);
@@ -86,6 +88,11 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                     if (!result.Success)
                     {
                         fails++;
+                        continue;
+                    }
+
+                    if (expectedReturnBits.ToHex() != resultingTestCase.ReturnedBits.ToHex())
+                    {
                         continue;
                     }
 

@@ -31,7 +31,12 @@ namespace NIST.CVP.Generation.DRBG
             if (attributes.Mechanism == DrbgMechanism.Counter)
             {
                 var counterAttributes = DrbgAttributesHelper.GetCounterDrbgAttributes(attributes.Mode);
-                ValidateOutputBitLength(parameters, errorResults, counterAttributes.BlockSize);
+                ValidateOutputBitLength(parameters, errorResults, counterAttributes.OutputLength);
+            }
+            else if (attributes.Mechanism == DrbgMechanism.Hash || attributes.Mechanism == DrbgMechanism.HMAC)
+            {
+                var hashAttributes = DrbgAttributesHelper.GetHashDrbgAttriutes(attributes.Mode);
+                ValidateOutputBitLength(parameters, errorResults, hashAttributes.OutputLength);
             }
 
             if (errorResults.Count > 0)

@@ -20,6 +20,41 @@ namespace NIST.CVP.Crypto.DRBG.Tests
         }
 
         [Test]
+        public void ShouldSha512224NoReseedNoPrNoPersoNoAddInput()
+        {
+            var entropyProvider = new TestableEntropyProvider();
+            var factory = new DrbgFactory();
+            var parameters = new DrbgParameters
+            {
+                PredResistanceEnabled = false,
+                EntropyInputLen = 192,
+                NonceLen = 96,
+                PersoStringLen = 0,
+                AdditionalInputLen = 0,
+                ReturnedBitsLen = 896,
+                DerFuncEnabled = false,
+                Mechanism = DrbgMechanism.Hash,
+                Mode = DrbgMode.SHA512t224,
+                ReseedImplemented = false
+            };
+
+            var subject = factory.GetDrbgInstance(parameters, entropyProvider);
+
+            entropyProvider.AddEntropy(new BitString("65568162700f22ac868a504110fa466c70cfe0e7c32f1451")); // Entropy Input
+            entropyProvider.AddEntropy(new BitString("69545e871b89c7b3f95885eb")); // Nonce
+            subject.Instantiate(160, new BitString(0)); // Perso string
+            entropyProvider.AddEntropy(new BitString(0)); // Entropy Input Reseed
+
+            //subject.Reseed(false, new BitString(0));
+            subject.Generate(parameters.ReturnedBitsLen, new BitString(0)); // Additional Input
+            var result = subject.Generate(parameters.ReturnedBitsLen, new BitString(0)); // Additional Input
+
+            var expectation = new BitString("588572c2e4f0d6c7077d2b9eb593687ca92c86e5a9729505fcff52adfcf8a5eb850b910b985df10299bfe7434f3b6b7af92a3edaed732751cdb421c38431e2763afc6799eb61e176f9f20945870680ff8b62484378d3a7fd7d29202e5d371785d68fe399d5f600f34517fcccadf58937");
+
+            Assert.AreEqual(expectation, result.Bits);
+        }
+
+        [Test]
         public void ShouldSha1NoReseedNoPrNoPersoNoAddInput()
         {
             var entropyProvider = new TestableEntropyProvider();
@@ -136,8 +171,8 @@ namespace NIST.CVP.Crypto.DRBG.Tests
                 PredResistanceEnabled = true,
                 EntropyInputLen = 256,
                 NonceLen = 128,
-                PersoStringLen = 0,
-                AdditionalInputLen = 256,
+                PersoStringLen = 256,
+                AdditionalInputLen = 0,
                 ReturnedBitsLen = 1536,
                 DerFuncEnabled = false,
                 Mechanism = DrbgMechanism.Hash,

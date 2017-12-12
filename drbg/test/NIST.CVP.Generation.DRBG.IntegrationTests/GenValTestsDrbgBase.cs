@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public override Executable Generator => Program.Main;
         public override Executable Validator => DRBG_Val.Program.Main;
 
-        public abstract int KeyLength { get; }
+        public abstract int DataLength { get; }
 
         [SetUp]
         public override void SetUp()
@@ -75,16 +75,16 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
             MathDomain nonceLen = new MathDomain();
-            nonceLen.AddSegment(new ValueDomainSegment(KeyLength));
+            nonceLen.AddSegment(new ValueDomainSegment(DataLength));
 
             MathDomain additionalInputLen = new MathDomain();
-            additionalInputLen.AddSegment(new RangeDomainSegment(new Random800_90(), KeyLength, KeyLength + 64, 64));
+            additionalInputLen.AddSegment(new RangeDomainSegment(new Random800_90(), DataLength, DataLength + 64, 64));
 
             MathDomain persoStringLen = new MathDomain();
-            persoStringLen.AddSegment(new ValueDomainSegment(KeyLength));
+            persoStringLen.AddSegment(new ValueDomainSegment(DataLength));
 
             MathDomain entropyInputLen = new MathDomain();
-            entropyInputLen.AddSegment(new ValueDomainSegment(KeyLength));
+            entropyInputLen.AddSegment(new ValueDomainSegment(DataLength));
 
             Parameters p = new Parameters()
             {
@@ -109,11 +109,11 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
             nonceLen.AddSegment(new ValueDomainSegment(128));
 
             MathDomain additionalInputLen = new MathDomain();
-            additionalInputLen.AddSegment(new RangeDomainSegment(new Random800_90(), KeyLength, KeyLength + 64, 64));
+            additionalInputLen.AddSegment(new RangeDomainSegment(new Random800_90(), DataLength, DataLength + 64, 64));
             additionalInputLen.AddSegment(new ValueDomainSegment(256));
 
             MathDomain persoStringLen = new MathDomain();
-            persoStringLen.AddSegment(new ValueDomainSegment(KeyLength));
+            persoStringLen.AddSegment(new ValueDomainSegment(DataLength));
             persoStringLen.AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512, 128));
 
             MathDomain entropyInputLen = new MathDomain();

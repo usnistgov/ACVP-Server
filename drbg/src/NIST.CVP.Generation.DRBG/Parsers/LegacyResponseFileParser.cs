@@ -12,6 +12,9 @@ namespace NIST.CVP.Generation.DRBG.Parsers
 {
     public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
     {
+        private static DrbgMechanism _mechanism;
+        private static string _mode;
+
         public ParseResponse<TestVectorSet> Parse(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -54,6 +57,16 @@ namespace NIST.CVP.Generation.DRBG.Parsers
                     }
                     if (workingLine.StartsWith("#"))
                     {
+                        if (workingLine.Contains("hmac"))
+                        {
+                            _mechanism = DrbgMechanism.HMAC;
+                        }
+
+                        if (workingLine.Contains("hash"))
+                        {
+                            _mechanism = DrbgMechanism.Hash;
+                        }
+
                         continue;
                     }
                     // New test group when "[" encountered and nextLeftBracketIsStartOfGroup is true
@@ -62,6 +75,7 @@ namespace NIST.CVP.Generation.DRBG.Parsers
                         currentParameters = new DrbgParameters();
                         currentGroup = new TestGroup();
                         workingLine = workingLine.Replace("[", "").Replace("]", "");
+                        _mode = workingLine.Trim();
 
                         SetMechanismAndMode(currentParameters, workingLine);
                         SetDerivationFunction(currentParameters, workingLine);
@@ -193,6 +207,50 @@ namespace NIST.CVP.Generation.DRBG.Parsers
                 currentParameters.Mechanism = DrbgMechanism.Counter;
                 currentParameters.Mode = DrbgMode.TDES;
                 currentParameters.SecurityStrength = 112;
+            }
+            else if (_mechanism == DrbgMechanism.HMAC || _mechanism == DrbgMechanism.Hash)
+            {
+                currentParameters.Mechanism = _mechanism;
+                if (_mode.Contains("sha-1"))
+                {
+                    currentParameters.Mode = DrbgMode.SHA1;
+                    currentParameters.SecurityStrength = 160;
+                }
+                else if (_mode.Contains("sha-224"))
+                {
+                    currentParameters.Mode = DrbgMode.SHA224;
+                    currentParameters.SecurityStrength = 224;
+                }
+                else if (_mode.Contains("sha-256"))
+                {
+                    currentParameters.Mode = DrbgMode.SHA256;
+                    currentParameters.SecurityStrength = 256;
+                }
+                else if (_mode.Contains("sha-384"))
+                {
+                    currentParameters.Mode = DrbgMode.SHA384;
+                    currentParameters.SecurityStrength = 384;
+                }
+                // Do these checks first because they both contain "sha-512"...
+                else if (_mode.Contains("sha-512/224"))
+                {
+                    currentParameters.Mode = DrbgMode.SHA512t224;
+                    currentParameters.SecurityStrength = 224;
+                }
+                else if (_mode.Contains("sha-512/256"))
+                {
+                    currentParameters.Mode = DrbgMode.SHA512t256;
+                    currentParameters.SecurityStrength = 256;
+                }
+                else if (_mode.Contains("sha-512"))
+                {
+                    currentParameters.Mode = DrbgMode.SHA512;
+                    currentParameters.SecurityStrength = 512;
+                }
+                else
+                {
+                    throw new FileLoadException("Invalid mode encountered");
+                }
             }
             else
             {
