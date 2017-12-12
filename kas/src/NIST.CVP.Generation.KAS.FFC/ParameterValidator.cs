@@ -26,8 +26,14 @@ namespace NIST.CVP.Generation.KAS.FFC
             }
 
             ValidateAtLeastOneSchemePresent(parameters.Scheme, errorResults);
-            ValidateDhEphemScheme(parameters.Scheme.FfcDhEphem, errorResults);
-            ValidateMqv1Scheme(parameters.Scheme.FfcMqv1, errorResults);
+
+            ValidateScheme(parameters.Scheme.FfcDhHybrid1, errorResults);
+            ValidateScheme(parameters.Scheme.FfcMqv2, errorResults);
+            ValidateScheme(parameters.Scheme.FfcDhEphem, errorResults);
+            ValidateScheme(parameters.Scheme.FfcDhHybridOneFlow, errorResults);
+            ValidateScheme(parameters.Scheme.FfcMqv1, errorResults);
+            ValidateScheme(parameters.Scheme.FfcDhOneFlow, errorResults);
+            ValidateScheme(parameters.Scheme.FfcDhStatic, errorResults);
         }
 
         protected override void ValidateAtLeastOneParameterSetPresent(NoKdfNoKc kasMode, List<string> errorResults)
@@ -64,7 +70,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             }
         }
 
-        private void ValidateDhEphemScheme(SchemeBase scheme, List<string> errorResults)
+        private void ValidateScheme(SchemeBase scheme, List<string> errorResults)
         {
             if (scheme == null)
             {
@@ -83,26 +89,6 @@ namespace NIST.CVP.Generation.KAS.FFC
             if (scheme.KdfKc != null && scheme is FfcDhEphem)
             {
                 errorResults.Add("Key Confirmation not possible with dhEphem.");
-                return;
-            }
-
-            ValidateNoKdfNoKc(scheme.NoKdfNoKc, errorResults);
-            ValidateKdfNoKc(scheme.KdfNoKc, errorResults);
-            ValidateKdfKc(scheme.KdfKc, errorResults);
-        }
-
-        private void ValidateMqv1Scheme(SchemeBase scheme, List<string> errorResults)
-        {
-            if (scheme == null)
-            {
-                return;
-            }
-
-            ValidateKeyAgreementRoles(scheme.Role, errorResults);
-
-            ValidateAtLeastOneKasModePresent(scheme, errorResults);
-            if (errorResults.Count > 0)
-            {
                 return;
             }
 

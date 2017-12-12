@@ -11,6 +11,100 @@ namespace NIST.CVP.Crypto.KAS.Helpers
             List<SchemeKeyNonceGenRequirement<FfcScheme>> FfcSchemeKeyGenerationRequirements =
                 new List<SchemeKeyNonceGenRequirement<FfcScheme>>()
                 {
+                    #region dhHybrid1
+                    #region NoKdfNoKc
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
+                        FfcScheme.DhHybrid1, KasMode.NoKdfNoKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
+                        FfcScheme.DhHybrid1, KasMode.NoKdfNoKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    #endregion NoKdfNoKc
+                    #region KdfNoKc
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
+                        FfcScheme.DhHybrid1, KasMode.KdfNoKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.None, KeyConfirmationDirection.None,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
+                        FfcScheme.DhHybrid1, KasMode.KdfNoKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.None, KeyConfirmationDirection.None,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    #endregion KdfNoKc
+                    #region KdfKc
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
+                        FfcScheme.DhHybrid1, KasMode.KdfKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
+                        FfcScheme.DhHybrid1, KasMode.KdfKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
+                        FfcScheme.DhHybrid1, KasMode.KdfKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
+                        FfcScheme.DhHybrid1, KasMode.KdfKc,
+                        KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
+                        FfcScheme.DhHybrid1, KasMode.KdfKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
+                        FfcScheme.DhHybrid1, KasMode.KdfKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
+                        FfcScheme.DhHybrid1, KasMode.KdfKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    new SchemeKeyNonceGenRequirement<FfcScheme>(
+                        FfcScheme.DhHybrid1, KasMode.KdfKc,
+                        KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral,
+                        generatesStaticKeyPair: true,
+                        generatesEphemeralKeyPair: true,
+                        generatesEphemeralNonce: false
+                    ),
+                    #endregion KdfKc
+                    #endregion dhHybrid1
+
                     #region dhEphem
                     #region NoKdfNoKc
                     new SchemeKeyNonceGenRequirement<FfcScheme>(

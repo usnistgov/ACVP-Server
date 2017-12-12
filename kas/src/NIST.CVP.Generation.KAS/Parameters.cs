@@ -33,30 +33,37 @@ namespace NIST.CVP.Generation.KAS
         /// <summary>
         /// FFC Diffie Hellman Ephemeral
         /// </summary>
+        [JsonProperty(PropertyName = "dhEphem")]
         public FfcDhEphem FfcDhEphem { get; set; }
         /// <summary>
         /// FFC MQV1
         /// </summary>
+        [JsonProperty(PropertyName = "mqv1")]
         public FfcMqv1 FfcMqv1 { get; set; }
         /// <summary>
         /// FFC DhHybrid1
         /// </summary>
+        [JsonProperty(PropertyName = "dhHybrid1")]
         public FfcDhHybrid1 FfcDhHybrid1 { get; set; }
         /// <summary>
         /// FFC MQV2
         /// </summary>
+        [JsonProperty(PropertyName = "mqv2")]
         public FfcMqv2 FfcMqv2 { get; set; }
         /// <summary>
         /// FFC DhHybridOneFlow
         /// </summary>
+        [JsonProperty(PropertyName = "hybridOneFlow")]
         public FfcDhHybridOneFlow FfcDhHybridOneFlow { get; set; }
         /// <summary>
         /// FFC DhOneFLow
         /// </summary>
+        [JsonProperty(PropertyName = "dhOneFlow")]
         public FfcDhOneFlow FfcDhOneFlow { get; set; }
         /// <summary>
         /// FFC DhStatic
         /// </summary>
+        [JsonProperty(PropertyName = "dhStatic")]
         public FfcDhStatic FfcDhStatic { get; set; }
         #endregion FFC
 
@@ -64,30 +71,37 @@ namespace NIST.CVP.Generation.KAS
         /// <summary>
         /// ECC Ephemeral Unified
         /// </summary>
+        [JsonProperty(PropertyName = "ephemeralUnified")]
         public EccEphemeralUnified EccEphemeralUnified { get; set; }
         /// <summary>
         /// ECC OnePassMqv
         /// </summary>
+        [JsonProperty(PropertyName = "onePassMqv")]
         public EccOnePassMqv EccOnePassMqv { get; set; }
         /// <summary>
         /// ECC FullUnified
         /// </summary>
+        [JsonProperty(PropertyName = "fullUnified")]
         public EccFullUnified EccFullUnified { get; set; }
         /// <summary>
         /// ECC FullMqv
         /// </summary>
+        [JsonProperty(PropertyName = "fullMqv")]
         public EccFullMqv EccFullMqv { get; set; }
         /// <summary>
         /// ECC OnePassUnified
         /// </summary>
+        [JsonProperty(PropertyName = "onePassUnified")]
         public EccOnePassUnified EccOnePassUnified { get; set; }
         /// <summary>
         /// ECC OnePassDh
         /// </summary>
+        [JsonProperty(PropertyName = "onePassDh")]
         public EccOnePassDh EccOnePassDh { get; set; }
         /// <summary>
         /// ECC StaticUnified
         /// </summary>
+        [JsonProperty(PropertyName = "staticUnified")]
         public EccStaticUnified EccStaticUnified { get; set; }
         #endregion ECC
     }

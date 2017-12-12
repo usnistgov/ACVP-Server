@@ -4,17 +4,13 @@ using Autofac;
 using KAS;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.Helpers;
-using NIST.CVP.Generation.Core.Parsers;
+
 using NIST.CVP.Math;
-using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 using NIST.CVP.Generation.KAS.FFC;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
@@ -118,6 +114,20 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Function = new string[] { "dpGen" },
                 Scheme = new Schemes()
                 {
+                    FfcDhHybrid1 = new FfcDhHybrid1()
+                    {
+                        Role = new string[] { "initiator" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" }
+                                }
+                            }
+                        }
+                    },
                     FfcDhEphem = new FfcDhEphem()
                     {
                         Role = new string[] { "initiator" },
@@ -161,6 +171,53 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Function = new string[] { "dpGen", "dpVal", "keyPairGen", "fullVal", "keyRegen" },
                 Scheme = new Schemes()
                 {
+                    FfcDhHybrid1 = new FfcDhHybrid1()
+                    {
+                        Role = new string[] { "initiator", "responder" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" }
+                                }
+                            }
+                        },
+                        KdfNoKc = new KdfNoKc()
+                        {
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     FfcDhEphem = new FfcDhEphem()
                     {
                         Role = new string[] { "initiator", "responder" },
@@ -184,7 +241,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             {
                                 Fb = new Fb()
                                 {
-                                    HashAlg = new string[] { "SHA2-224", "SHA2-256" },
+                                    HashAlg = new string[] { "SHA2-224" },
                                     MacOption = new MacOptions()
                                     {
                                         AesCcm = new MacOptionAesCcm()
@@ -218,10 +275,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 Fb = new Fb()
                                 {
                                     HashAlg = new string[] { "SHA2-224" }
-                                },
-                                Fc = new Fc()
-                                {
-                                    HashAlg = new string[] { "SHA2-256" }
                                 }
                             }
                         },

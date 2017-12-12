@@ -111,11 +111,6 @@ namespace NIST.CVP.Generation.KAS.Tests
         [Test]
         public void ShouldHaveCorrectNumberOfSchemesFfc()
         {
-            /* 
-             * TODO update this as more schemes are added.
-             * Wanted to add a test that will fail once schemes are added to help 
-             * ensure the other tests are updated to account for new schemes.
-            */
             const int numberOfSchemesImplemented = 7;
 
             Assert.AreEqual(numberOfSchemesImplemented, SpecificationMapping.FfcSchemeMapping.Count);
@@ -125,11 +120,6 @@ namespace NIST.CVP.Generation.KAS.Tests
         [Test]
         public void ShouldHaveCorrectNumberOfSchemesEcc()
         {
-            /* 
-             * TODO update this as more schemes are added.
-             * Wanted to add a test that will fail once schemes are added to help 
-             * ensure the other tests are updated to account for new schemes.
-            */
             const int numberOfSchemesImplemented = 7;
 
             Assert.AreEqual(numberOfSchemesImplemented, SpecificationMapping.EccSchemeMapping.Count);

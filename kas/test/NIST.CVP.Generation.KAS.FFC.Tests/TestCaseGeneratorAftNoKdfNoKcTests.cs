@@ -81,8 +81,12 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [Test]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
         public void ShouldPopulateCorrectKeysNoncesForSchemeRole(FfcScheme scheme, KeyAgreementRole testGroupIutRole)
         {
             TestGroup tg = new TestGroup()

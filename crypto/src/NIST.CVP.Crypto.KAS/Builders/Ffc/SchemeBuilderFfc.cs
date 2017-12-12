@@ -88,6 +88,10 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withMqv);
                     break;
                 case FfcScheme.DhHybrid1:
+                    scheme = new SchemeFfcDhHybrid1(dsa, _withKdfFactory,
+                        _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
+                    break;
                 case FfcScheme.DhHybridOneFlow:
                 case FfcScheme.DhOneFlow:
                 case FfcScheme.DhStatic:

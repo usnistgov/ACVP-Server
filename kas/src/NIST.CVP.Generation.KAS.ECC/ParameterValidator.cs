@@ -5,7 +5,6 @@ using NIST.CVP.Crypto.DSA.ECC.Helpers;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Generation.Core.Helpers;
-using NIST.CVP.Generation.KAS;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
@@ -31,7 +30,14 @@ namespace NIST.CVP.Generation.KAS.ECC
             }
 
             ValidateAtLeastOneSchemePresent(parameters.Scheme, errorResults);
-            ValidateEphemeralUnified(parameters.Scheme.FfcDhEphem, errorResults);
+
+            ValidateScheme(parameters.Scheme.EccFullUnified, errorResults);
+            ValidateScheme(parameters.Scheme.EccFullMqv, errorResults);
+            ValidateScheme(parameters.Scheme.EccEphemeralUnified, errorResults);
+            ValidateScheme(parameters.Scheme.EccOnePassUnified, errorResults);
+            ValidateScheme(parameters.Scheme.EccOnePassMqv, errorResults);
+            ValidateScheme(parameters.Scheme.EccOnePassDh, errorResults);
+            ValidateScheme(parameters.Scheme.EccStaticUnified, errorResults);
         }
 
         protected override void ValidateAtLeastOneParameterSetPresent(NoKdfNoKc kasMode, List<string> errorResults)
@@ -74,7 +80,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             }
         }
 
-        private void ValidateEphemeralUnified(SchemeBase scheme, List<string> errorResults)
+        private void ValidateScheme(SchemeBase scheme, List<string> errorResults)
         {
             if (scheme == null)
             {
@@ -100,7 +106,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             ValidateKdfNoKc(scheme.KdfNoKc, errorResults);
             ValidateKdfKc(scheme.KdfKc, errorResults);
         }
-
+        
         private void ValidateParameterSetEcc(ParameterSetBase parameterSet, bool macRequired, EccParameterSet parameterSetType, List<string> errorResults)
         {
             if (parameterSet == null)

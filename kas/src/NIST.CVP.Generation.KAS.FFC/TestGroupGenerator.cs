@@ -39,9 +39,13 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         private void GenerateGroups(Schemes parametersScheme, KasAssurance flagFunctions, List<TestGroup> groups)
         {
+            CreateGroupsPerScheme(parametersScheme.FfcDhHybrid1, flagFunctions, groups);
+            CreateGroupsPerScheme(parametersScheme.FfcMqv2, flagFunctions, groups);
             CreateGroupsPerScheme(parametersScheme.FfcDhEphem, flagFunctions, groups);
+            CreateGroupsPerScheme(parametersScheme.FfcDhHybridOneFlow, flagFunctions, groups);
             CreateGroupsPerScheme(parametersScheme.FfcMqv1, flagFunctions, groups);
-            // TODO additional schemes
+            CreateGroupsPerScheme(parametersScheme.FfcDhOneFlow, flagFunctions, groups);
+            CreateGroupsPerScheme(parametersScheme.FfcDhStatic, flagFunctions, groups);
         }
 
         private void GeneratePqgPerGroup(List<TestGroup> groups)

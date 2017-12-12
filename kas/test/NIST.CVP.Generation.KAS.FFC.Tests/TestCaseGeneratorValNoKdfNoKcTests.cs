@@ -74,8 +74,12 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [Test]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
         public void ShouldPopulateCorrectKeysNoncesForSchemeRole(FfcScheme scheme, KeyAgreementRole testGroupIutRole)
         {
             BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
@@ -163,6 +167,15 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
         public void ShouldSetProperTestCaseFailureTestProperty(FfcScheme scheme, KeyAgreementRole testGroupIutRole,
             TestCaseDispositionOption option, bool isFailure)
         {

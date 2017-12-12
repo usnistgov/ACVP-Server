@@ -26,8 +26,12 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [Test]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
         public void ShouldSucceedValidation(FfcScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
@@ -55,9 +59,13 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [Test]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
         // party v for MQV1 does not provide an ephemeral key
         // [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
         public void ShouldFailWhenIutDoesNotProvideEphemeralKeyPair(FfcScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
@@ -75,8 +83,12 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [Test]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
         public void ShouldFailWhenIutDoesNotProvideTag(FfcScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
@@ -94,8 +106,12 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [Test]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
         public void ShouldFailWhenMismatchedTag(FfcScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
