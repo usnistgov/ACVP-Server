@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
                         PlainText = new BitString("1AAADFFF"),
                         Deferred = false,
                         CipherText = new BitString("7EADDC"),
-                        Key = new BitString("9998ADCD"),
+                        Key = new BitString(64),
                         Iv = new BitString("CAFECAFE"),
                         TestCaseId = testId
                     });
@@ -54,7 +54,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
                         Deferred = true,
                         PlainText = new BitString("1AAADFFF"),
                         CipherText = new BitString("7EADDC"),
-                        Key = new BitString("9998ADCD"),
+                        Key = new BitString(64),
                         Ivs = new List<BitString>
                         {
                             new BitString("CAFECAFE"),
