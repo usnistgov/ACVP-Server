@@ -150,7 +150,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
         {
             var width = 4;
             var degree = FieldSizeQ.ExactBitLength();
-            var d = (int) NumberTheory.CeilingDivide(degree, width);
+            var d = degree.CeilingDivide(width);
             var scalarBits = new BitString(scalar, degree).Bits;
             var point = new EccPoint("infinity");
 

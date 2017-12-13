@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using NIST.CVP.Crypto.Math;
 
 namespace NIST.CVP.Crypto.RSA
@@ -23,7 +24,7 @@ namespace NIST.CVP.Crypto.RSA
         public KeyPair(BigInteger p, BigInteger q, BigInteger e)
         {
             PubKey = new PublicKey {E = e, N = p * q};
-            PrivKey = new PrivateKey { P = p, Q = q, D = NumberTheory.ModularInverse(PubKey.E, NumberTheory.LCM(p - 1, q - 1)) }; // Carmichael totient function
+            PrivKey = new PrivateKey { P = p, Q = q, D = PubKey.E.ModularInverse(NumberTheory.LCM(p - 1, q - 1)) }; // Carmichael totient function
         }
 
         public KeyPair(BigInteger p, BigInteger q, BigInteger e, BigInteger dmp1, BigInteger dmq1, BigInteger iqmp)
@@ -90,7 +91,7 @@ namespace NIST.CVP.Crypto.RSA
         {
             DMP1 = D % (P - 1);
             DMQ1 = D % (Q - 1);
-            IQMP = NumberTheory.ModularInverse(Q, P);
+            IQMP = Q.ModularInverse(P);
         }
     }
 }

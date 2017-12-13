@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Crypto.Math;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
@@ -169,8 +170,8 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             // 2 and ensure R is positive
-            var Rfirst = NumberTheory.ModularInverse(r2, 2 * r1) * r2;
-            var Rsecond = NumberTheory.ModularInverse(2 * r1, r2) * 2 * r1;
+            var Rfirst = r2.ModularInverse(2 * r1) * r2;
+            var Rsecond = (2 * r1).ModularInverse(r2) * 2 * r1;
 
             BigInteger R;
             do
@@ -301,7 +302,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
             // 7, 8, 9
             var outLen = SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize);
-            var iterations = NumberTheory.CeilingDivide(L, outLen) - 1;
+            var iterations = L.CeilingDivide(outLen) - 1;
             var pGenCounter = 0;
             BigInteger x = 0;
 
@@ -344,21 +345,21 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             // 14
-            var y = NumberTheory.ModularInverse(p0 * p1, p2);
+            var y = (p0 * p1).ModularInverse(p2);
             if (y == 0)
             {
                 y = p2;
             }
 
             // 15
-            var t = NumberTheory.CeilingDivide((2 * y * p0 * p1) + x, 2 * p0 * p1 * p2);
+            var t = ((2 * y * p0 * p1) + x).CeilingDivide(2 * p0 * p1 * p2);
 
             while (true)
             {
                 // 16
                 if (2 * (t * p2 - y) * p0 * p1 + 1 > NumberTheory.Pow2(L))
                 {
-                    t = NumberTheory.CeilingDivide(2 * y * p0 * p1 + lowerBound, 2 * p0 * p1 * p2);
+                    t = ((2 * y * p0 * p1) + lowerBound).CeilingDivide(2 * p0 * p1 * p2);
                 }
 
                 // 17, 18

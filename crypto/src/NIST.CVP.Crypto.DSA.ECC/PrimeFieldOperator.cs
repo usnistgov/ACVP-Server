@@ -33,7 +33,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
         public BigInteger Inverse(BigInteger a)
         {
-            return NumberTheory.ModularInverse(a, _m);
+            return a.ModularInverse(_m);
         }
 
         public BigInteger Modulo(BigInteger a)

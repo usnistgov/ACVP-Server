@@ -79,5 +79,64 @@ namespace NIST.CVP.Math.Helpers
 
             return new BitString(value).ToHex();
         }
+
+        /// <summary>
+        /// Rounds up after dividing a by b
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static BigInteger CeilingDivide(this BigInteger a, BigInteger b)
+        {
+            var result = a / b;
+
+            if (result * b != a)
+            {
+                result++;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Solve for b in the equation ab = 1 mod m
+        /// </summary>
+        /// <param name="a">value</param>
+        /// <param name="m">modulo</param>
+        /// <returns></returns>
+        public static BigInteger ModularInverse(this BigInteger a, BigInteger m)
+        {
+            BigInteger t = 0;
+            BigInteger new_t = 1;
+            BigInteger r = m;
+            BigInteger new_r = a;
+            BigInteger temp;
+
+            while (new_r != 0)
+            {
+                var quotient = r / new_r;
+                temp = new_t;
+                new_t = t - quotient * new_t;
+                t = temp;
+
+                temp = new_r;
+                new_r = r - quotient * new_r;
+                r = temp;
+            }
+
+            // No inverse exists
+            if (r > 1)
+            {
+                return 0;
+            }
+
+            // Ensure positivity
+            if (t < 0)
+            {
+                t += m;
+            }
+
+            return t;
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Numerics;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.Math
 {
@@ -561,7 +562,7 @@ namespace NIST.CVP.Crypto.Math
             }
 
             // 16, 17
-            var iterations = NumberTheory.CeilingDivide(length, outLen) - 1;
+            var iterations = length.CeilingDivide(outLen) - 1;
             var oldCounter = primeGenCounter;
 
             // 18, 19
@@ -574,14 +575,14 @@ namespace NIST.CVP.Crypto.Math
             // 20, 21, 22
             primeSeed += iterations + 1;
             x = NumberTheory.Pow2(length - 1) + x % NumberTheory.Pow2(length - 1);
-            var t = NumberTheory.CeilingDivide(x, 2 * prime0);
+            var t = x.CeilingDivide(2 * prime0);
 
             while (true)
             {
                 // 23
                 if (2 * t * prime0 + 1 > NumberTheory.Pow2(length))
                 {
-                    t = NumberTheory.CeilingDivide(NumberTheory.Pow2(length - 1), 2 * prime0);
+                    t = NumberTheory.Pow2(length - 1).CeilingDivide(2 * prime0);
                 }
 
                 // 24, 25
@@ -689,7 +690,7 @@ namespace NIST.CVP.Crypto.Math
             }
 
             // 16, 17
-            var iterations = NumberTheory.CeilingDivide(length, outLen) - 1;
+            var iterations = length.CeilingDivide(outLen) - 1;
             var oldCounter = primeGenCounter;
 
             // 18, 19
@@ -702,14 +703,14 @@ namespace NIST.CVP.Crypto.Math
             // 20, 21, 22
             primeSeed += iterations + 1;
             x = NumberTheory.Pow2(length - 1) + x % NumberTheory.Pow2(length - 1);
-            var t = NumberTheory.CeilingDivide(x, 2 * prime0);
+            var t = x.CeilingDivide(2 * prime0);
 
             while (true)
             {
                 // 23
                 if (2 * t * prime0 + 1 > NumberTheory.Pow2(length))
                 {
-                    t = NumberTheory.CeilingDivide(NumberTheory.Pow2(length - 1), 2 * prime0);
+                    t = NumberTheory.Pow2(length - 1).CeilingDivide(2 * prime0);
                 }
 
                 // 24, 25

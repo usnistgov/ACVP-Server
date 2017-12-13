@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using NIST.CVP.Math.Entropy;
 using System;
 using NIST.CVP.Crypto.Math;
@@ -123,7 +124,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
             do
             {
                 var k = _entropyProvider.GetEntropy(1, domainParameters.Q - 1);
-                var kInv = NumberTheory.ModularInverse(k, domainParameters.Q);
+                var kInv = k.ModularInverse(domainParameters.Q);
 
                 r = BigInteger.ModPow(domainParameters.G, k, domainParameters.P) % domainParameters.Q;
 
@@ -151,7 +152,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
             }
 
             // 2
-            var w = NumberTheory.ModularInverse(signature.S, domainParameters.Q);
+            var w = signature.S.ModularInverse(domainParameters.Q);
             var zLen = System.Math.Min(Sha.HashFunction.OutputLen, new BitString(domainParameters.Q).BitLength);
             var z = BitString.MSBSubstring(Sha.HashMessage(message).Digest, 0, zLen).ToPositiveBigInteger();
             var u1 = (z * w) % domainParameters.Q;

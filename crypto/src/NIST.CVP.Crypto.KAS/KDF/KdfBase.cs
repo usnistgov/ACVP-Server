@@ -2,6 +2,7 @@
 using System.Numerics;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.KAS.KDF
 {
@@ -14,7 +15,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
         public virtual KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo)
         {
             // 1. reps =  keydatalen / hashlen.
-            var reps = NumberTheory.CeilingDivide(keyDataLength,  OutputLength);
+            var reps = keyDataLength.CeilingDivide(OutputLength);
 
             // 2. If reps > (23^2 −1), then return an error indicator without performing the remaining actions.
             if (reps > ((BigInteger)1 << 32) - 1)

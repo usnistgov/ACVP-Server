@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using System.Numerics;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Crypto.Math;
@@ -22,7 +23,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
         {
             var T = new BitString(0);
             var hLen = SHAEnumHelpers.DigestSizeToInt(_hashFunction.DigestSize);
-            var iterations = (int)NumberTheory.CeilingDivide(maskLen, hLen) - 1;
+            var iterations = maskLen.CeilingDivide(hLen) - 1;
 
             for (var i = 0; i <= iterations; i++)
             {
@@ -40,8 +41,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
         private BitString EMSA_PSS_Encode(BitString message, int emBits)
         {
             var mHash = Hash(message);
-
-            var emLen = (int)NumberTheory.CeilingDivide(emBits, 8);
+            var emLen = emBits.CeilingDivide(8);
 
             // All byte values
             if (emLen < mHash.BitLength / 8 + _saltLen + 2)
@@ -173,8 +173,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
         {
             var emBits = nlen - 1;
             var mHash = Hash(message);
-
-            var emLen = (int)NumberTheory.CeilingDivide(emBits, 8);
+            var emLen = emBits.CeilingDivide(8);
 
             // All byte values
             if (emLen < mHash.BitLength / 8 + _saltLen + 2)
@@ -220,8 +219,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             var _rand = new Random800_90();
             var emBits = nlen - 1;
             var mHash = Hash(message);
-
-            var emLen = (int)NumberTheory.CeilingDivide(emBits, 8);
+            var emLen = emBits.CeilingDivide(8);
 
             // All byte values
             if (emLen < mHash.BitLength / 8 + _saltLen + 2)

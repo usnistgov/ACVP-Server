@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.Math;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
 {
@@ -93,7 +94,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             var qCounter = qResult.PrimeGenCounter;
 
             // 3
-            var pLen = (int)NumberTheory.CeilingDivide(L, 2) + 1;
+            var pLen = L.CeilingDivide(2) + 1;
             var pResult = PrimeGen186_4.ShaweTaylorRandomPrime(pLen, qSeed, _sha);
             if (!pResult.Success)
             {
@@ -105,7 +106,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
 
             // 4, 5
             var outLen = _sha.HashFunction.OutputLen;
-            var iterations = (int)NumberTheory.CeilingDivide(L, outLen) - 1;
+            var iterations = L.CeilingDivide(outLen) - 1;
             var oldCounter = pCounter;
 
             // 6, 7
@@ -122,14 +123,14 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
             x = NumberTheory.Pow2(L - 1) + (x % NumberTheory.Pow2(L - 1));
 
             // 10
-            var t = NumberTheory.CeilingDivide(x, 2 * q * p0);
+            var t = x.CeilingDivide(2 * q * p0);
 
             do
             {
                 // 11
                 if (2 * t * q * p0 + 1 > NumberTheory.Pow2(L))
                 {
-                    t = NumberTheory.CeilingDivide(NumberTheory.Pow2(L - 1), 2 * q * p0);
+                    t = NumberTheory.Pow2(L - 1).CeilingDivide(2 * q * p0);
                 }
 
                 // 12, 13

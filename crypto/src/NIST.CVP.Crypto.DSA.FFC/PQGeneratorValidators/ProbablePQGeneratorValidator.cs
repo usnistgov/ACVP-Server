@@ -7,6 +7,7 @@ using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.Math;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
@@ -52,7 +53,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
 
             // 3, 4 Compute n, b
             var outLen = _sha.HashFunction.OutputLen;
-            var n = (int)NumberTheory.CeilingDivide(L, outLen) - 1;
+            var n = L.CeilingDivide(outLen) - 1;
             var b = L - 1 - (n * outLen);
 
             do
@@ -165,7 +166,7 @@ namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
 
             // 10, 11, 12
             var outLen = _sha.HashFunction.OutputLen;
-            var n = (int)NumberTheory.CeilingDivide(L, outLen) - 1;
+            var n = L.CeilingDivide(outLen) - 1;
             var b = L - 1 - (n * outLen);
             var offset = 1;
 

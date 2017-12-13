@@ -69,5 +69,79 @@ namespace NIST.CVP.Math.Tests.Helpers
 
             Assert.AreEqual(expectation, result);
         }
+
+        #region Modular Inverse
+        private static object[] ModInvSource = 
+        {
+            new object[]
+            {
+                (BigInteger)123456789,
+                (BigInteger)98765,
+                (BigInteger)14659
+            },
+            new object[]
+            {
+                (BigInteger)10069,
+                (BigInteger)411379717319,
+                (BigInteger)37751003953
+            },
+            new object[]
+            {
+                (BigInteger)1111235916285193,
+                (BigInteger)9999999900000001,
+                (BigInteger)4515344125655825
+            },
+            new object[]
+            {
+                (BigInteger)1333333333333333,
+                (BigInteger)11111333333333,
+                (BigInteger)6486601407832
+            }
+        };
+
+        [Test]
+        [TestCaseSource(nameof(ModInvSource))]
+        public void ShouldFindModularInverseCorrectly(BigInteger a, BigInteger m, BigInteger expectedResult)
+        {
+            Assert.AreEqual(expectedResult, a.ModularInverse(m));
+        }
+        #endregion Modular Inverse
+
+        #region Ceiling Divide
+        private static object[] DivSource =
+        {
+            new object[]
+            {
+                (BigInteger)9223372036854775808,
+                (BigInteger)12345,
+                (BigInteger)747134227367743
+            },
+            new object[]
+            {
+                (BigInteger)96546574376,
+                (BigInteger)21654,
+                (BigInteger)4458603
+            },
+            new object[]
+            {
+                (BigInteger)9,
+                (BigInteger)4,
+                (BigInteger)3
+            },
+            new object[]
+            {
+                (BigInteger)65535,
+                (BigInteger)2,
+                (BigInteger)32768
+            }
+        };
+
+        [Test]
+        [TestCaseSource(nameof(DivSource))]
+        public void ShouldCeilingDivideCorrectly(BigInteger a, BigInteger b, BigInteger expectedResult)
+        {
+            Assert.AreEqual(expectedResult, a.CeilingDivide(b));
+        }
+        #endregion Ceiling Divide
     }
 }

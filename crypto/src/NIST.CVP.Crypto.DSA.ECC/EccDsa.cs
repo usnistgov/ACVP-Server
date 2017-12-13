@@ -102,7 +102,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
             var r = j % domainParameters.CurveE.OrderN;
 
             // Compute s = k^-1 (e + d*r) mod n, where e = H(m) as an integer
-            var kInverse = NumberTheory.ModularInverse(k, domainParameters.CurveE.OrderN);
+            var kInverse = k.ModularInverse(domainParameters.CurveE.OrderN);
 
             var bitsOfDigestNeeded = System.Math.Min(domainParameters.CurveE.OrderN.ExactBitLength(), Sha.HashFunction.OutputLen);
             var hashDigest = Sha.HashMessage(message).Digest;
@@ -127,7 +127,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
             var e = Sha.HashMessage(message).Digest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
 
             // Compute u1 = e * s^-1 (mod n)
-            var sInverse = NumberTheory.ModularInverse(signature.S, domainParameters.CurveE.OrderN);
+            var sInverse = signature.S.ModularInverse(domainParameters.CurveE.OrderN);
             var u1 = (e * sInverse) % domainParameters.CurveE.OrderN;
 
             // Compute u2 = r * s^-1 (mod n)

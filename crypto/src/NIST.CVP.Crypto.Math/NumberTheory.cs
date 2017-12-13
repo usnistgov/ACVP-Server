@@ -10,8 +10,8 @@ namespace NIST.CVP.Crypto.Math
         /// <summary>
         /// C.3.1 Probabilistic Primality Check, Miller-Rabin Algorithm
         /// </summary>
-        /// <param name="w"></param>
-        /// <param name="iterations"></param>
+        /// <param name="n">Number</param>
+        /// <param name="k">Iteraions</param>
         /// <returns>True if probably prime. False if composite.</returns>
         public static bool MillerRabin(BigInteger n, int k)
         {
@@ -50,47 +50,6 @@ namespace NIST.CVP.Crypto.Math
         }
 
         /// <summary>
-        /// Solve for b in the equation ab = 1 mod m
-        /// </summary>
-        /// <param name="a">value</param>
-        /// <param name="m">modulo</param>
-        /// <returns></returns>
-        public static BigInteger ModularInverse(BigInteger a, BigInteger m)
-        {
-            BigInteger t = 0;
-            BigInteger new_t = 1;
-            BigInteger r = m;
-            BigInteger new_r = a;
-            BigInteger temp;
-
-            while (new_r != 0)
-            {
-                var quotient = r / new_r;
-                temp = new_t;
-                new_t = t - quotient * new_t;
-                t = temp;
-
-                temp = new_r;
-                new_r = r - quotient * new_r;
-                r = temp;
-            }
-
-            // No inverse exists
-            if (r > 1)
-            {
-                return 0;
-            }
-
-            // Ensure positivity
-            if (t < 0)
-            {
-                t += m;
-            }
-
-            return t;
-        }
-
-        /// <summary>
         /// Find greatest common denominator of a and b, from page 606, Handbook of Applied Cryptography
         /// </summary>
         /// <param name="a"></param>
@@ -99,56 +58,8 @@ namespace NIST.CVP.Crypto.Math
         public static BigInteger GCD(BigInteger a, BigInteger b)
         {
             return BigInteger.GreatestCommonDivisor(a, b);
-        } 
-
-        // Has some problems with infinite looping under rare situations...
-        public static BigInteger GCD2(BigInteger a, BigInteger b)
-        {
-            BigInteger min, max;
-            if(a <= b)
-            {
-                min = a;
-                max = b;
-            }
-            else
-            {
-                min = b;
-                max = a;
-            }
-
-            BigInteger g = 1;
-            while(min.IsEven && max.IsEven)
-            {
-                min >>= 1;
-                max >>= 1;
-                g <<= 1;
-            }
-
-            while(min != 0)
-            {
-                while (min.IsEven)
-                {
-                    min >>= 1;
-                }
-
-                while (max.IsEven)
-                {
-                    max >>= 1;
-                }
-
-                if (min >= max)
-                {
-                    min = (min - max) >> 1;
-                }
-                else
-                {
-                    max = (max - min) >> 1;
-                }
-            }
-
-            return max * g;
         }
-    
+
         /// <summary>
         /// Find least common multiple of a and b
         /// </summary>
@@ -157,48 +68,7 @@ namespace NIST.CVP.Crypto.Math
         /// <returns></returns>
         public static BigInteger LCM(BigInteger a, BigInteger b)
         {
-            return a * b / GCD(a, b);
-        }
-
-        /// <summary>
-        /// Rounds up after dividing a by b
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static BigInteger CeilingDivide(BigInteger a, BigInteger b)
-        {
-            var result = a / b;
-
-            if (result * b != a)
-            {
-                result++;
-            }
-
-            return result;
-        }
-
-        public static int CeilingDivide(int a, int b)
-        {
-            var result = a / b;
-            if (result * b != a)
-            {
-                result++;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Calculates exponent a^b
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static BigInteger Pow(BigInteger a, BigInteger b)
-        {
-            // This is a bit lazy but should suffice. It's mainly just to solve some casting problems
-            return BigInteger.Pow(a, (int)b);
+            return a * b / BigInteger.GreatestCommonDivisor(a, b);
         }
 
         /// <summary>
