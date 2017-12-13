@@ -1,9 +1,0 @@
-#  CAVS 21.2
-#  "SHA-512/256 Monte" information for "test1"
-#  SHA-512/256 tests are configured for BYTE oriented implementations
-#  Generated on Mon Jan 30 15:53:52 2017
-
-[L = 32]
-
-Seed = 762c3e174e9666b190e0963503c56e57dfac88d8317dfef980b42d35b1b4b92f
-
