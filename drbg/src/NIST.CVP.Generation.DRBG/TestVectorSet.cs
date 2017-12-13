@@ -145,6 +145,7 @@ namespace NIST.CVP.Generation.DRBG
         {
             dynamic updateObject = new ExpandoObject();
             ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+            ((IDictionary<string, object>)updateObject).Add("mode", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
             ((IDictionary<string, object>)updateObject).Add("derFunc", group.DerFunc);
             ((IDictionary<string, object>)updateObject).Add("predResistance", group.PredResistance);
             ((IDictionary<string, object>)updateObject).Add("entropyInputLen", group.EntropyInputLen);

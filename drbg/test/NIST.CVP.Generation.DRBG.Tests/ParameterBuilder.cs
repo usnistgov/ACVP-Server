@@ -105,14 +105,22 @@ namespace NIST.CVP.Generation.DRBG.Tests
                 Algorithm = _algorithm,
                 Mode = _mode,
 
-                DerFuncEnabled = _derFunctionEnabled,
-                PredResistanceEnabled = _predResistEnabled,
                 ReseedImplemented = _reseedImplemented,
-                EntropyInputLen = _entropyInputLen,
-                NonceLen = _nonceLen,
-                PersoStringLen = _persoStringLen,
-                AdditionalInputLen = _additionalInputLen,
-                ReturnedBitsLen = _returnedBitsLen,
+                PredResistanceEnabled = new []{_predResistEnabled},
+
+                Capabilities = new []
+                {
+                    new Capability
+                    {
+                        Mode = _mode,
+                        DerFuncEnabled = _derFunctionEnabled,
+                        EntropyInputLen = _entropyInputLen,
+                        NonceLen = _nonceLen,
+                        PersoStringLen = _persoStringLen,
+                        AdditionalInputLen = _additionalInputLen,
+                        ReturnedBitsLen = _returnedBitsLen,
+                    }
+                }
             };
         }
         

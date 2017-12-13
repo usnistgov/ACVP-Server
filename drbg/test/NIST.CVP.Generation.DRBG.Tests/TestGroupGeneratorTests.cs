@@ -28,11 +28,14 @@ namespace NIST.CVP.Generation.DRBG.Tests
         [TestCase("", "")]
         [TestCase("ctrDRBG", "invalid")]
         [TestCase("invalid", "AES-128")]
+        [TestCase("hashDRBG", "AES-256")]
+        [TestCase("ctrDRBG", "SHA-1")]
+        [TestCase("hmacDRBG", "TDES")]
         public void ShouldThrowExceptionOnInvalidMechanismModeCombination(string mechanism, string mode)
         {
             var p = GetParametersDomainsAsValue();
             p.Algorithm = mechanism;
-            p.Mode = mode;
+            p.Capabilities.First().Mode = mode;
 
             Assert.Throws(typeof(ArgumentException), () => _subject.BuildTestGroups(p));
         }
@@ -66,10 +69,18 @@ namespace NIST.CVP.Generation.DRBG.Tests
             {
                 Algorithm = "ctrDRBG",
                 Mode = "AES-128",
-                NonceLen = md,
-                AdditionalInputLen = md,
-                PersoStringLen = md,
-                EntropyInputLen = md
+                PredResistanceEnabled = new [] {true},
+                Capabilities = new []
+                {
+                    new Capability
+                    {
+                        Mode = "AES-128",
+                        NonceLen = md,
+                        AdditionalInputLen = md,
+                        PersoStringLen = md,
+                        EntropyInputLen = md
+                    }
+                }
             };
 
             return p;
@@ -84,10 +95,18 @@ namespace NIST.CVP.Generation.DRBG.Tests
             {
                 Algorithm = "ctrDRBG",
                 Mode = "AES-128",
-                NonceLen = md,
-                AdditionalInputLen = md,
-                PersoStringLen = md,
-                EntropyInputLen = md
+                PredResistanceEnabled = new [] {true},
+                Capabilities = new []
+                {
+                    new Capability
+                    {
+                        Mode = "AES-128",
+                        NonceLen = md,
+                        AdditionalInputLen = md,
+                        PersoStringLen = md,
+                        EntropyInputLen = md
+                    }
+                }
             };
 
             return p;

@@ -15,28 +15,43 @@ namespace NIST.CVP.Generation.DRBG
             DrbgAttributes attributes = null;
             var errorResults = new List<string>();
 
-            ValidateAndGetOptions(parameters, errorResults, ref attributes);
-
-            // Cannot validate the rest of the parameters as they are dependant on the successful validation of the mechanism and mode.
-            if (errorResults.Count > 0)
+            if (parameters.PredResistanceEnabled.Length != 1 && parameters.PredResistanceEnabled.Length != 2)
             {
-                return new ParameterValidateResponse(string.Join(";", errorResults));
+                errorResults.Add("predResistance must be a minimal array of booleans");
             }
 
-            ValidateEntropy(parameters, attributes, errorResults);
-            ValidateNonce(parameters, attributes, errorResults);
-            ValidatePersonalizationString(parameters, attributes, errorResults);
-            ValidateAdditionalInput(parameters, attributes, errorResults);
-
-            if (attributes.Mechanism == DrbgMechanism.Counter)
+            if (parameters.PredResistanceEnabled.Distinct().Count() != parameters.PredResistanceEnabled.Length)
             {
-                var counterAttributes = DrbgAttributesHelper.GetCounterDrbgAttributes(attributes.Mode);
-                ValidateOutputBitLength(parameters, errorResults, counterAttributes.OutputLength);
+                errorResults.Add("predResistance must have distinct elements");
             }
-            else if (attributes.Mechanism == DrbgMechanism.Hash || attributes.Mechanism == DrbgMechanism.HMAC)
+
+            foreach (var capability in parameters.Capabilities)
             {
-                var hashAttributes = DrbgAttributesHelper.GetHashDrbgAttriutes(attributes.Mode);
-                ValidateOutputBitLength(parameters, errorResults, hashAttributes.OutputLength);
+                ValidateAndGetOptions(parameters, capability, errorResults, ref attributes);
+
+                // Cannot validate the rest of the parameters as they are dependant on the successful validation of the mechanism and mode.
+                if (errorResults.Count > 0)
+                {
+                    return new ParameterValidateResponse(string.Join(";", errorResults));
+                }
+
+                ValidateEntropy(capability, attributes, errorResults);
+                ValidateNonce(capability, attributes, errorResults);
+                ValidatePersonalizationString(capability, attributes, errorResults);
+                ValidateAdditionalInput(capability, attributes, errorResults);
+
+                // TODO this can be removed with an interface
+                var baseOutputLength = 0;
+                if (attributes.Mechanism == DrbgMechanism.Counter)
+                {
+                    baseOutputLength = DrbgAttributesHelper.GetCounterDrbgAttributes(attributes.Mode).OutputLength;
+                }
+                else if (attributes.Mechanism == DrbgMechanism.Hash || attributes.Mechanism == DrbgMechanism.HMAC)
+                {
+                    baseOutputLength = DrbgAttributesHelper.GetHashDrbgAttriutes(attributes.Mode).OutputLength;
+                }
+
+                ValidateOutputBitLength(capability, errorResults, baseOutputLength);
             }
 
             if (errorResults.Count > 0)
@@ -47,28 +62,34 @@ namespace NIST.CVP.Generation.DRBG
             return new ParameterValidateResponse();
         }
         
-        private void ValidateAndGetOptions(Parameters parameters, List<string> errorResults, ref DrbgAttributes attributes)
+        private void ValidateAndGetOptions(Parameters parameters, Capability capability, List<string> errorResults, ref DrbgAttributes attributes)
         {
             try
             {
-                attributes = DrbgAttributesHelper.GetDrbgAttributes(parameters.Algorithm, parameters.Mode, parameters.DerFuncEnabled);
+                attributes = DrbgAttributesHelper.GetDrbgAttributes(parameters.Algorithm, capability.Mode, capability.DerFuncEnabled);
             }
             catch (ArgumentException)
             {
                 errorResults.Add("Invalid Algorithm/Mode provided.");
+                return;
+            }
+
+            if (attributes.Mechanism != DrbgMechanism.Counter && capability.DerFuncEnabled)
+            {
+                errorResults.Add("Derivation Function not supported for hash/hmac based drbgs");
             }
         }
 
-        private void ValidateEntropy(Parameters parameters, DrbgAttributes attributes, List<string> errorResults)
+        private void ValidateEntropy(Capability capability, DrbgAttributes attributes, List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.EntropyInputLen, "Entropy Domain");
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(capability.EntropyInputLen, "Entropy Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
                 return;
             }
 
-            var entropyFullDomain = parameters.EntropyInputLen.GetDomainMinMax();
+            var entropyFullDomain = capability.EntropyInputLen.GetDomainMinMax();
 
             var rangeCheck = ValidateRange(
                 new long[] { entropyFullDomain.Minimum , entropyFullDomain.Maximum },
@@ -78,20 +99,20 @@ namespace NIST.CVP.Generation.DRBG
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            var modCheck = ValidateMultipleOf(parameters.EntropyInputLen, 8, "Entropy Modulus");
+            var modCheck = ValidateMultipleOf(capability.EntropyInputLen, 8, "Entropy Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
-        private void ValidateNonce(Parameters parameters, DrbgAttributes attributes, List<string> errorResults)
+        private void ValidateNonce(Capability capability, DrbgAttributes attributes, List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.NonceLen, "Nonce Domain");
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(capability.NonceLen, "Nonce Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
                 return;
             }
 
-            var nonceFullDomain = parameters.NonceLen.GetDomainMinMax();
+            var nonceFullDomain = capability.NonceLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { nonceFullDomain.Minimum, nonceFullDomain.Maximum },
                 attributes.MinNonceLength,
@@ -100,20 +121,20 @@ namespace NIST.CVP.Generation.DRBG
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            var modCheck = ValidateMultipleOf(parameters.NonceLen, 8, "Nonce Modulus");
+            var modCheck = ValidateMultipleOf(capability.NonceLen, 8, "Nonce Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
-        private void ValidatePersonalizationString(Parameters parameters, DrbgAttributes attributes, List<string> errorResults)
+        private void ValidatePersonalizationString(Capability capability, DrbgAttributes attributes, List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.PersoStringLen, "Personalization String Domain");
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(capability.PersoStringLen, "Personalization String Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
                 return;
             }
 
-            var personalizationStringFullDomain = parameters.PersoStringLen.GetDomainMinMax();
+            var personalizationStringFullDomain = capability.PersoStringLen.GetDomainMinMax();
 
             var rangeCheck = ValidateRange(
                 new long[] {personalizationStringFullDomain.Minimum, personalizationStringFullDomain.Maximum, },
@@ -123,20 +144,20 @@ namespace NIST.CVP.Generation.DRBG
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            var modCheck = ValidateMultipleOf(parameters.PersoStringLen, 8, "Personalization String Modulus");
+            var modCheck = ValidateMultipleOf(capability.PersoStringLen, 8, "Personalization String Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
-        private void ValidateAdditionalInput(Parameters parameters, DrbgAttributes attributes, List<string> errorResults)
+        private void ValidateAdditionalInput(Capability capability, DrbgAttributes attributes, List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.AdditionalInputLen, "Additional Input Domain");
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(capability.AdditionalInputLen, "Additional Input Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
                 return;
             }
 
-            var additionalInputFullDomain = parameters.AdditionalInputLen.GetDomainMinMax();
+            var additionalInputFullDomain = capability.AdditionalInputLen.GetDomainMinMax();
 
             var rangeCheck = ValidateRange(new long[] { additionalInputFullDomain.Minimum, additionalInputFullDomain.Maximum, },
                 0, 
@@ -145,13 +166,13 @@ namespace NIST.CVP.Generation.DRBG
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 
-            var modCheck = ValidateMultipleOf(parameters.AdditionalInputLen, 8, "Additional Input Modulus");
+            var modCheck = ValidateMultipleOf(capability.AdditionalInputLen, 8, "Additional Input Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
         
-        private void ValidateOutputBitLength(Parameters parameters, List<string> errorResults, int blockSize)
+        private void ValidateOutputBitLength(Capability capability, List<string> errorResults, int blockSize)
         {
-            var modCheck = ValidateMultipleOf(new int[] {parameters.ReturnedBitsLen}, blockSize, "Returned Bits Modulus");
+            var modCheck = ValidateMultipleOf(new [] {capability.ReturnedBitsLen}, blockSize, "Returned Bits Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }
     }

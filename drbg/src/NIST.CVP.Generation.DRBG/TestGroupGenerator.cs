@@ -23,47 +23,53 @@ namespace NIST.CVP.Generation.DRBG
 
         private void CreateGroups(List<ITestGroup> groups, Parameters parameters)
         {
-            var attributes = DrbgAttributesHelper.GetDrbgAttributes(parameters.Algorithm, parameters.Mode, parameters.DerFuncEnabled);
-
-            // We don't want to generate test groups that have 1 << 35 sized lengths (as that is the cap in some cases)
-            // Set to a maximum value to generate.
-            parameters.EntropyInputLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
-            parameters.NonceLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
-            parameters.PersoStringLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
-            parameters.AdditionalInputLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
-
-            foreach (var entropyLen in parameters.EntropyInputLen.GetDomainMinMaxAsEnumerable())
+            foreach (var predResistance in parameters.PredResistanceEnabled)
             {
-                foreach (var nonceLen in parameters.NonceLen.GetDomainMinMaxAsEnumerable())
+                foreach (var capability in parameters.Capabilities)
                 {
-                    foreach (var persoStringLen in parameters.PersoStringLen.GetDomainMinMaxAsEnumerable())
+                    var attributes = DrbgAttributesHelper.GetDrbgAttributes(parameters.Algorithm, capability.Mode, capability.DerFuncEnabled);
+
+                    // We don't want to generate test groups that have 1 << 35 sized lengths (as that is the cap in some cases)
+                    // Set to a maximum value to generate.
+                    capability.EntropyInputLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
+                    capability.NonceLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
+                    capability.PersoStringLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
+                    capability.AdditionalInputLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
+
+                    foreach (var entropyLen in capability.EntropyInputLen.GetDomainMinMaxAsEnumerable())
                     {
-                        foreach (var additionalInputLen in parameters.AdditionalInputLen.GetDomainMinMaxAsEnumerable())
+                        foreach (var nonceLen in capability.NonceLen.GetDomainMinMaxAsEnumerable())
                         {
-                            DrbgParameters dp = new DrbgParameters()
+                            foreach (var persoStringLen in capability.PersoStringLen.GetDomainMinMaxAsEnumerable())
                             {
-                                Mechanism = attributes.Mechanism,
-                                Mode = attributes.Mode,
-                                SecurityStrength = attributes.MaxSecurityStrength,
+                                foreach (var additionalInputLen in capability.AdditionalInputLen.GetDomainMinMaxAsEnumerable())
+                                {
+                                    var dp = new DrbgParameters
+                                    {
+                                        Mechanism = attributes.Mechanism,
+                                        Mode = attributes.Mode,
+                                        SecurityStrength = attributes.MaxSecurityStrength,
 
-                                DerFuncEnabled = parameters.DerFuncEnabled,
-                                PredResistanceEnabled = parameters.PredResistanceEnabled,
-                                ReseedImplemented = parameters.ReseedImplemented,
+                                        DerFuncEnabled = capability.DerFuncEnabled,
+                                        PredResistanceEnabled = predResistance,
+                                        ReseedImplemented = parameters.ReseedImplemented,
 
-                                EntropyInputLen = entropyLen,
-                                NonceLen = nonceLen,
-                                PersoStringLen = persoStringLen,
-                                AdditionalInputLen = additionalInputLen,
+                                        EntropyInputLen = entropyLen,
+                                        NonceLen = nonceLen,
+                                        PersoStringLen = persoStringLen,
+                                        AdditionalInputLen = additionalInputLen,
 
-                                ReturnedBitsLen = parameters.ReturnedBitsLen
-                            };
+                                        ReturnedBitsLen = capability.ReturnedBitsLen
+                                    };
 
-                            TestGroup tg = new TestGroup
-                            {
-                                DrbgParameters = dp
-                            };
+                                    var tg = new TestGroup
+                                    {
+                                        DrbgParameters = dp
+                                    };
 
-                            groups.Add(tg);
+                                    groups.Add(tg);
+                                }
+                            }
                         }
                     }
                 }

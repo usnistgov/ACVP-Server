@@ -15,12 +15,13 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     public abstract class GenValTestsDrbgBase : GenValTestsBase
     {
         public abstract override string Algorithm { get; }
-        public abstract override string Mode { get; }
+        public override string Mode { get; } = "";
 
         public override Executable Generator => Program.Main;
         public override Executable Validator => DRBG_Val.Program.Main;
 
-        public abstract int DataLength { get; }
+        public abstract string[] Modes { get; }
+        public abstract int[] SeedLength { get; }
 
         [SetUp]
         public override void SetUp()
@@ -69,35 +70,76 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
         protected override string GetTestFileMinimalTestCases(string targetFolder)
         {
-            return GetTestFileFewTestCases(targetFolder);
+            var index = 0;
+
+            var nonceLen = new MathDomain();
+            nonceLen.AddSegment(new ValueDomainSegment(SeedLength[index]));
+
+            var additionalInputLen = new MathDomain();
+            additionalInputLen.AddSegment(new RangeDomainSegment(new Random800_90(), SeedLength[index], SeedLength[index] + 64, 64));
+
+            var persoStringLen = new MathDomain();
+            persoStringLen.AddSegment(new ValueDomainSegment(SeedLength[index]));
+
+            var entropyInputLen = new MathDomain();
+            entropyInputLen.AddSegment(new ValueDomainSegment(SeedLength[index]));
+
+            var p = new Parameters
+            {
+                Algorithm = Algorithm,
+                ReseedImplemented = true,
+                PredResistanceEnabled = new []{true},
+                Capabilities = new []
+                {
+                    new Capability
+                    {
+                        Mode = Modes[index],
+                        NonceLen = nonceLen,
+                        AdditionalInputLen = additionalInputLen,
+                        PersoStringLen = persoStringLen,
+                        EntropyInputLen = entropyInputLen,
+                        ReturnedBitsLen = 128 * 4,
+                        DerFuncEnabled = true
+                    }
+                }
+            };
+
+            return CreateRegistration(targetFolder, p);
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            MathDomain nonceLen = new MathDomain();
-            nonceLen.AddSegment(new ValueDomainSegment(DataLength));
+            var index = 0;
+            var otherIndex = 1;
 
-            MathDomain additionalInputLen = new MathDomain();
-            additionalInputLen.AddSegment(new RangeDomainSegment(new Random800_90(), DataLength, DataLength + 64, 64));
-
-            MathDomain persoStringLen = new MathDomain();
-            persoStringLen.AddSegment(new ValueDomainSegment(DataLength));
-
-            MathDomain entropyInputLen = new MathDomain();
-            entropyInputLen.AddSegment(new ValueDomainSegment(DataLength));
-
-            Parameters p = new Parameters()
+            var p = new Parameters
             {
                 Algorithm = Algorithm,
-                Mode = Mode,
-                NonceLen = nonceLen,
-                AdditionalInputLen = additionalInputLen,
-                PersoStringLen = persoStringLen,
-                EntropyInputLen = entropyInputLen,
-                ReturnedBitsLen = 128 * 4,
-                DerFuncEnabled = true,
                 ReseedImplemented = true,
-                PredResistanceEnabled = true
+                PredResistanceEnabled = new []{true},
+                Capabilities = new []
+                {
+                    new Capability
+                    {
+                        Mode = Modes[index],
+                        NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[index])),
+                        AdditionalInputLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), SeedLength[index], SeedLength[index] + 64, 64)),
+                        PersoStringLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[index])),
+                        EntropyInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[index])),
+                        ReturnedBitsLen = 128 * 4,
+                        DerFuncEnabled = true
+                    },
+                    new Capability
+                    {
+                        Mode = Modes[otherIndex],
+                        NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[otherIndex])),
+                        AdditionalInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[otherIndex])),
+                        PersoStringLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[otherIndex])),
+                        EntropyInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[otherIndex])),
+                        ReturnedBitsLen = 256 * 4,
+                        DerFuncEnabled = false
+                    }
+                }
             };
 
             return CreateRegistration(targetFolder, p);
@@ -105,32 +147,32 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            MathDomain nonceLen = new MathDomain();
-            nonceLen.AddSegment(new ValueDomainSegment(128));
+            var capabilities = new Capability[Modes.Length * 2];
+            var bools = new[] {true, false};
 
-            MathDomain additionalInputLen = new MathDomain();
-            additionalInputLen.AddSegment(new RangeDomainSegment(new Random800_90(), DataLength, DataLength + 64, 64));
-            additionalInputLen.AddSegment(new ValueDomainSegment(256));
+            for (var i = 0; i < Modes.Length; i++)
+            {
+                for (var j = 0; j < bools.Length; j++)
+                {
+                    capabilities[i + j * Modes.Length] = new Capability
+                    {
+                        Mode = Modes[i],
+                        NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
+                        AdditionalInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
+                        PersoStringLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
+                        EntropyInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
+                        ReturnedBitsLen = 128 * 4,
+                        DerFuncEnabled = bools[j]
+                    };
+                }
+            }
 
-            MathDomain persoStringLen = new MathDomain();
-            persoStringLen.AddSegment(new ValueDomainSegment(DataLength));
-            persoStringLen.AddSegment(new RangeDomainSegment(new Random800_90(), 256, 512, 128));
-
-            MathDomain entropyInputLen = new MathDomain();
-            entropyInputLen.AddSegment(new ValueDomainSegment(256));
-
-            Parameters p = new Parameters()
+            Parameters p = new Parameters
             {
                 Algorithm = Algorithm,
-                Mode = Mode,
-                NonceLen = nonceLen,
-                AdditionalInputLen = additionalInputLen,
-                PersoStringLen = persoStringLen,
-                EntropyInputLen = entropyInputLen,
-                ReturnedBitsLen = 128 * 4,
-                DerFuncEnabled = true,
                 ReseedImplemented = true,
-                PredResistanceEnabled = true
+                PredResistanceEnabled = new []{true, false},
+                Capabilities = capabilities
             };
 
             return CreateRegistration(targetFolder, p);

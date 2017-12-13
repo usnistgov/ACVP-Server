@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
             Parameters p = new ParameterBuilder(drbgMechanism, drbgMode).Build();
             var result = _subject.Validate(p);
 
-            Assert.IsTrue(result.Success);
+            Assert.IsTrue(result.Success, result.ErrorMessage);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
             Parameters p = new ParameterBuilder(invalid, DrbgMode.AES128).Build();
             var result = _subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.IsFalse(result.Success, result.ErrorMessage);
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
             Parameters p = new ParameterBuilder(DrbgMechanism.Counter, invalid).Build();
             var result = _subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.IsFalse(result.Success, result.ErrorMessage);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
             
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success);
+            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success);
+            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success);
+            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
         }
 
         [Test]
@@ -143,7 +143,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success);
+            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
         }
 
         [Test]
@@ -158,7 +158,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
                 .Build();
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(shouldPass, result.Success);
+            Assert.AreEqual(shouldPass, result.Success, result.ErrorMessage);
         }
     }
 }

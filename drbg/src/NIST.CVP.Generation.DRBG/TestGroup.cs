@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Crypto.DRBG.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.DRBG
 {
@@ -22,6 +23,8 @@ namespace NIST.CVP.Generation.DRBG
             set
             {
                 _drbgParameters = value;
+
+                Mode = _drbgParameters.Mode;
 
                 DerFunc = _drbgParameters.DerFuncEnabled;
                 PredResistance = _drbgParameters.PredResistanceEnabled;
@@ -54,6 +57,8 @@ namespace NIST.CVP.Generation.DRBG
         public int AdditionalInputLen { get; set; }
         [JsonProperty(PropertyName = "returnedBitsLen")]
         public int ReturnedBitsLen { get; set; }
+        [JsonProperty(PropertyName = "mode")]
+        public DrbgMode Mode { get; set; }
 
         public List<ITestCase> Tests { get; set; }
 
@@ -73,6 +78,10 @@ namespace NIST.CVP.Generation.DRBG
             PersoStringLen = source.persoStringLen;
             AdditionalInputLen = source.additionalInputLen;
             ReturnedBitsLen = source.returnedBitsLen;
+
+            // TODO maybe fix cast?
+            Mode = EnumHelpers.GetEnumFromEnumDescription<DrbgMode>((string)source.mode);
+
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {
@@ -100,7 +109,7 @@ namespace NIST.CVP.Generation.DRBG
         public override int GetHashCode()
         {
             return
-                $"{TestType}|{DerFunc}|{PredResistance}|{ReSeed}|{EntropyInputLen}|{NonceLen}|{PersoStringLen}|{AdditionalInputLen}|{ReturnedBitsLen}"
+                $"{TestType}|{DerFunc}|{PredResistance}|{ReSeed}|{EntropyInputLen}|{NonceLen}|{PersoStringLen}|{AdditionalInputLen}|{ReturnedBitsLen}|{Mode}"
                     .GetHashCode();
         }
 
