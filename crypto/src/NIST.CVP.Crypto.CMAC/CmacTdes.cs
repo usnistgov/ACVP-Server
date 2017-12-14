@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Crypto.MAC;
 using NIST.CVP.Math;
 using NLog;
 using NIST.CVP.Crypto.TDES_ECB;
@@ -15,7 +16,7 @@ namespace NIST.CVP.Crypto.CMAC
             _tdes = tdes;
         }
 
-        public CmacResult Generate(BitString key, BitString message, int macLength)
+        public MacResult Generate(BitString key, BitString message, int macLength)
         {
 
             //http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38b.pdf
@@ -124,7 +125,7 @@ namespace NIST.CVP.Crypto.CMAC
             //    8. Return T.
             try
             {
-                return new CmacResult(currC.MSBSubstring(0, macLength));
+                return new MacResult(currC.MSBSubstring(0, macLength));
             }
             catch (Exception e)
             {
@@ -136,7 +137,7 @@ namespace NIST.CVP.Crypto.CMAC
 
 
 
-        public CmacResult Verify(BitString keyBits, BitString message, BitString macToVerify)
+        public MacResult Verify(BitString keyBits, BitString message, BitString macToVerify)
         {
             try
             {
@@ -144,21 +145,21 @@ namespace NIST.CVP.Crypto.CMAC
 
                 if (!mac.Success)
                 {
-                    return new CmacResult(mac.ErrorMessage);
+                    return new MacResult(mac.ErrorMessage);
                 }
 
-                if (mac.ResultingMac.Equals(macToVerify))
+                if (mac.Mac.Equals(macToVerify))
                 {
-                    return new CmacResult(mac.ResultingMac);
+                    return new MacResult(mac.Mac);
                 }
 
-                return new CmacResult("CMAC did not match.");
+                return new MacResult("CMAC did not match.");
             }
             catch (Exception ex)
             {
                 ThisLogger.Debug($"keyLen:{keyBits.BitLength}; dataLen:{message.BitLength}");
                 ThisLogger.Error(ex);
-                return new CmacResult(ex.Message);
+                return new MacResult(ex.Message);
             }
         }
 

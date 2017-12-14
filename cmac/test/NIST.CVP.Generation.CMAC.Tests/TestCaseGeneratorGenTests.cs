@@ -1,6 +1,7 @@
 ﻿using System;
 using Moq;
 using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.MAC;
 using NIST.CVP.Generation.CMAC;
 using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Generation.Core;
@@ -39,7 +40,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         {
             _cmac
                 .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new CmacResult("Fail"));
+                .Returns(new MacResult("Fail"));
 
             var result = _subject.Generate(new TestGroup(), false);
 
@@ -82,7 +83,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
                 .Returns(new BitString(new byte[] { 3 }));
             _cmac
                 .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new CmacResult(fakeMac));
+                .Returns(new MacResult(fakeMac));
 
             var result = _subject.Generate(new TestGroup(), false);
 

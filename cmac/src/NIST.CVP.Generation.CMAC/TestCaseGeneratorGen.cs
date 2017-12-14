@@ -1,5 +1,6 @@
 ﻿using System;
 using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.MAC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -36,7 +37,7 @@ namespace NIST.CVP.Generation.CMAC
 
         public TestCaseGenerateResponse Generate(TTestGroup @group, TTestCase testCase)
         {
-            CmacResult genResult = null;
+            MacResult genResult = null;
             try
             {
                 genResult = _algo.Generate(testCase.Key, testCase.Message, group.MacLength);
@@ -55,7 +56,7 @@ namespace NIST.CVP.Generation.CMAC
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
-            testCase.Mac = genResult.ResultingMac;
+            testCase.Mac = genResult.Mac;
 
             return new TestCaseGenerateResponse(testCase);
         }

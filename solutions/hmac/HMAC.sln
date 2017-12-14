@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DD980EBE-CED7-4255-B422-391782F943DA}"
 EndProject
@@ -44,6 +44,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SHAWrapper.Tests", "..\..\crypto\test\NIST.CVP.Crypto.SHAWrapper.Tests\NIST.CVP.Crypto.SHAWrapper.Tests.csproj", "{F207044A-9CE2-4CE0-BC0D-961DB6505705}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{7729F761-E9B1-4A02-96BA-3A728A822706}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.MAC", "..\..\crypto\src\NIST.CVP.Crypto.MAC\NIST.CVP.Crypto.MAC.csproj", "{A3D88ACA-9E6F-4F97-AE28-663A4406760B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,10 @@ Global
 		{7729F761-E9B1-4A02-96BA-3A728A822706}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7729F761-E9B1-4A02-96BA-3A728A822706}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7729F761-E9B1-4A02-96BA-3A728A822706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3D88ACA-9E6F-4F97-AE28-663A4406760B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3D88ACA-9E6F-4F97-AE28-663A4406760B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3D88ACA-9E6F-4F97-AE28-663A4406760B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3D88ACA-9E6F-4F97-AE28-663A4406760B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +157,7 @@ Global
 		{4A1E0438-3C18-429E-86B7-4C1C606E5E75} = {DD980EBE-CED7-4255-B422-391782F943DA}
 		{F207044A-9CE2-4CE0-BC0D-961DB6505705} = {649D6DCE-4161-4F48-A233-7BA3A623DC0F}
 		{7729F761-E9B1-4A02-96BA-3A728A822706} = {DD980EBE-CED7-4255-B422-391782F943DA}
+		{A3D88ACA-9E6F-4F97-AE28-663A4406760B} = {DD980EBE-CED7-4255-B422-391782F943DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {286FB4A2-9545-4CD6-B45F-7C490AA51030}

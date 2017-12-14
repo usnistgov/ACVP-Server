@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
 using Moq;
 using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.MAC;
 using NIST.CVP.Generation.CMAC;
 using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Generation.Core;
@@ -41,7 +42,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         {
             _cmac
                 .Setup(s => s.Verify(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new CmacResult("Fail"));
+                .Returns(new MacResult("Fail"));
 
             var result = _subject.Generate(new TestGroup(), false);
 
@@ -67,7 +68,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         {
             _cmac
                 .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new CmacResult(new BitString(0)));
+                .Returns(new MacResult(new BitString(0)));
 
             _subject.Generate(new TestGroup(), true);
 
@@ -88,7 +89,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
                 .Returns(new BitString(new byte[] { 4 }));
             _cmac
                 .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new CmacResult(fakeMac));
+                .Returns(new MacResult(fakeMac));
 
             var result = _subject.Generate(new TestGroup(), false);
 
@@ -112,7 +113,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
                 .Returns(mangledMac);
             _cmac
                 .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new CmacResult(fakeMac));
+                .Returns(new MacResult(fakeMac));
 
             bool originalFakeMacHit = false;
             bool mangledMacHit = false;

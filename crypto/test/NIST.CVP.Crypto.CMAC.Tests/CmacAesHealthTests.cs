@@ -41,11 +41,11 @@ namespace NIST.CVP.Crypto.CMAC.Tests
             var badMac = rand.GetDifferentBitStringOfSameSize(expectedMac);
 
             var generateResult = _subject.Generate(key, message, macLength);
-            var goodValidateResult = _subject.Verify(key, message, generateResult.ResultingMac);
+            var goodValidateResult = _subject.Verify(key, message, generateResult.Mac);
             var badValidateResult = _subject.Verify(key, message, badMac);
 
             Assert.IsTrue(generateResult.Success, "Successful generate");
-            Assert.AreEqual(expectedMac.ToHex(), generateResult.ResultingMac.ToHex(), "Generate MAC");
+            Assert.AreEqual(expectedMac.ToHex(), generateResult.Mac.ToHex(), "Generate MAC");
             Assert.IsTrue(goodValidateResult.Success, "Verify success");
             Assert.IsFalse(badValidateResult.Success, "Verify failure");
         }

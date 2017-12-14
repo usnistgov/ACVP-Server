@@ -1,6 +1,7 @@
 ﻿using System;
 using Moq;
 using NIST.CVP.Crypto.HMAC;
+using NIST.CVP.Crypto.MAC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -37,7 +38,7 @@ namespace NIST.CVP.Generation.HMAC.Tests
         {
             _algo
                 .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new HmacResult("Fail"));
+                .Returns(new MacResult("Fail"));
 
             var result = _subject.Generate(new TestGroup(), false);
 
@@ -80,7 +81,7 @@ namespace NIST.CVP.Generation.HMAC.Tests
                 .Returns(new BitString(new byte[] { 3 }));
             _algo
                 .Setup(s => s.Generate(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new HmacResult(fakeMac));
+                .Returns(new MacResult(fakeMac));
 
             var result = _subject.Generate(new TestGroup(), false);
 

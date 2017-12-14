@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.MAC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 
@@ -17,13 +18,13 @@ namespace NIST.CVP.Crypto.HMAC
             _iSha = iSha;
         }
         
-        public HmacResult Generate(BitString key, BitString message, int macLength = 0)
+        public MacResult Generate(BitString key, BitString message, int macLength = 0)
         {
             int blockSize = _iSha.HashFunction.BlockSize;
 
             if (macLength > blockSize)
             {
-                return new HmacResult($"Requested {nameof(macLength)} of {macLength} is greater than the {nameof(blockSize)} of {blockSize}");
+                return new MacResult($"Requested {nameof(macLength)} of {macLength} is greater than the {nameof(blockSize)} of {blockSize}");
             }
             
             // Step 1-3
@@ -52,7 +53,7 @@ namespace NIST.CVP.Crypto.HMAC
                 macLength = final.BitLength;
             }
             
-            return new HmacResult(final.GetMostSignificantBits(macLength));
+            return new MacResult(final.GetMostSignificantBits(macLength));
         }
 
         private BitString PadKey(BitString key)

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{44A69F34-A2D5-4003-B218-4318EA3EFBC9}"
 EndProject
@@ -64,6 +64,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.HMAC", "..\..\crypto\src\NIST.CVP.Crypto.HMAC\NIST.CVP.Crypto.HMAC.csproj", "{27760A3E-3CAD-421A-B9D7-81A46E41958C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.HMAC.Tests", "..\..\crypto\test\NIST.CVP.Crypto.HMAC.Tests\NIST.CVP.Crypto.HMAC.Tests.csproj", "{3468792D-550F-4570-B085-FF2AB7333705}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.MAC", "..\..\crypto\src\NIST.CVP.Crypto.MAC\NIST.CVP.Crypto.MAC.csproj", "{560B2A2E-6398-4CBD-9FAA-F901B2E10057}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -187,6 +189,10 @@ Global
 		{3468792D-550F-4570-B085-FF2AB7333705}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3468792D-550F-4570-B085-FF2AB7333705}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3468792D-550F-4570-B085-FF2AB7333705}.Release|Any CPU.Build.0 = Release|Any CPU
+		{560B2A2E-6398-4CBD-9FAA-F901B2E10057}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{560B2A2E-6398-4CBD-9FAA-F901B2E10057}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{560B2A2E-6398-4CBD-9FAA-F901B2E10057}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{560B2A2E-6398-4CBD-9FAA-F901B2E10057}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -221,6 +227,7 @@ Global
 		{EE399CF0-6EF0-4226-AE09-F3C39A5A0B8B} = {A2DF7570-77EB-41E8-A015-46C292183797}
 		{27760A3E-3CAD-421A-B9D7-81A46E41958C} = {44A69F34-A2D5-4003-B218-4318EA3EFBC9}
 		{3468792D-550F-4570-B085-FF2AB7333705} = {A2DF7570-77EB-41E8-A015-46C292183797}
+		{560B2A2E-6398-4CBD-9FAA-F901B2E10057} = {44A69F34-A2D5-4003-B218-4318EA3EFBC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE059B9F-C16C-4EFD-B87B-1F6239C1460F}

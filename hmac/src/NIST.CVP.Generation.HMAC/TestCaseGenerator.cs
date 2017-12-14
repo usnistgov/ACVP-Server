@@ -1,5 +1,6 @@
 ﻿using System;
 using NIST.CVP.Crypto.HMAC;
+using NIST.CVP.Crypto.MAC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -33,7 +34,7 @@ namespace NIST.CVP.Generation.HMAC
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            HmacResult genResult = null;
+            MacResult genResult = null;
             try
             {
                 genResult = _algo.Generate(testCase.Key, testCase.Message, group.MacLength);

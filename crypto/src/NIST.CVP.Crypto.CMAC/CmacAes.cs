@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.MAC;
 using NIST.CVP.Math;
 using NLog;
 
@@ -17,7 +18,7 @@ namespace NIST.CVP.Crypto.CMAC
             _iRijndaelFactory = iRijndaelFactory;
         }
         
-        public CmacResult Generate(BitString keyBits, BitString message, int macLength)
+        public MacResult Generate(BitString keyBits, BitString message, int macLength)
         {
             try
             {
@@ -32,17 +33,17 @@ namespace NIST.CVP.Crypto.CMAC
 
                 var mac = encryptedBits.GetMostSignificantBits(macLength);
                 
-                return new CmacResult(mac);
+                return new MacResult(mac);
             }
             catch (Exception ex)
             {
                 ThisLogger.Debug($"keyLen:{keyBits.BitLength}; dataLen:{message.BitLength}");
                 ThisLogger.Error(ex);
-                return new CmacResult(ex.Message);
+                return new MacResult(ex.Message);
             }
         }
 
-        public CmacResult Verify(BitString keyBits, BitString message, BitString macToVerify)
+        public MacResult Verify(BitString keyBits, BitString message, BitString macToVerify)
         {
             try
             {
@@ -50,21 +51,21 @@ namespace NIST.CVP.Crypto.CMAC
 
                 if (!mac.Success)
                 {
-                    return new CmacResult(mac.ErrorMessage);
+                    return new MacResult(mac.ErrorMessage);
                 }
 
-                if (mac.ResultingMac.Equals(macToVerify))
+                if (mac.Mac.Equals(macToVerify))
                 {
-                    return new CmacResult(mac.ResultingMac);
+                    return new MacResult(mac.Mac);
                 }
                 
-                return new CmacResult("CMAC did not match.");
+                return new MacResult("CMAC did not match.");
             }
             catch (Exception ex)
             {
                 ThisLogger.Debug($"keyLen:{keyBits.BitLength}; dataLen:{message.BitLength}");
                 ThisLogger.Error(ex);
-                return new CmacResult(ex.Message);
+                return new MacResult(ex.Message);
             }
         }
 
