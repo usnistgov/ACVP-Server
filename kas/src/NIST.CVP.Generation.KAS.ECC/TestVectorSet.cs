@@ -134,8 +134,8 @@ namespace NIST.CVP.Generation.KAS.ECC
 
                         if (group.TestType.Equals("val", StringComparison.OrdinalIgnoreCase))
                         {
-                            testObject.AddBigIntegerWhenNotZero("staticPublicServer", test.StaticPublicKeyServerX);
-                            testObject.AddBigIntegerWhenNotZero("staticPublicServer", test.StaticPublicKeyServerY);
+                            testObject.AddBigIntegerWhenNotZero("staticPublicServerX", test.StaticPublicKeyServerX);
+                            testObject.AddBigIntegerWhenNotZero("staticPublicServerY", test.StaticPublicKeyServerY);
                             testObject.AddBigIntegerWhenNotZero("ephemeralPublicServerX", test.EphemeralPublicKeyServerX);
                             testObject.AddBigIntegerWhenNotZero("ephemeralPublicServerY", test.EphemeralPublicKeyServerY);
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceEphemeralServer", test.EphemeralNonceServer);
@@ -144,8 +144,8 @@ namespace NIST.CVP.Generation.KAS.ECC
                             DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "nonceNoKc", test.NonceNoKc);
 
                             testObject.AddBigIntegerWhenNotZero("staticPrivateIut", test.StaticPrivateKeyIut);
-                            testObject.AddBigIntegerWhenNotZero("staticPublicIut", test.StaticPublicKeyIutX);
-                            testObject.AddBigIntegerWhenNotZero("staticPublicIut", test.StaticPublicKeyIutY);
+                            testObject.AddBigIntegerWhenNotZero("staticPublicIutX", test.StaticPublicKeyIutX);
+                            testObject.AddBigIntegerWhenNotZero("staticPublicIutY", test.StaticPublicKeyIutY);
                             testObject.AddBigIntegerWhenNotZero("ephemeralPrivateIut", test.EphemeralPrivateKeyIut);
                             testObject.AddBigIntegerWhenNotZero("ephemeralPublicIutX", test.EphemeralPublicKeyIutX);
                             testObject.AddBigIntegerWhenNotZero("ephemeralPublicIutY", test.EphemeralPublicKeyIutY);

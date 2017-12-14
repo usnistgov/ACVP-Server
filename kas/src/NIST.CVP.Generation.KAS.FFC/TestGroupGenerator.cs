@@ -243,6 +243,30 @@ namespace NIST.CVP.Generation.KAS.FFC
                                                         SpecificationMapping.GetMacInfoFromParameterClass(mac)
                                                             .keyAgreementMacType;
 
+                                                    var kasRoleEnum =
+                                                        EnumHelpers.GetEnumFromEnumDescription<KeyAgreementRole>(role);
+                                                    var kcRoleEnum =
+                                                        EnumHelpers.GetEnumFromEnumDescription<KeyConfirmationRole>(
+                                                            kcRole);
+                                                    var kcTypeEnum =
+                                                        EnumHelpers
+                                                            .GetEnumFromEnumDescription<KeyConfirmationDirection>(
+                                                                kcType);
+
+                                                    // DhOneFlow only allows unilateral key confirmation V to U
+                                                    // do not create groups outside of that constraint
+                                                    if (scheme == FfcScheme.DhOneFlow)
+                                                    {
+                                                        if (kcTypeEnum == KeyConfirmationDirection.Bilateral ||
+                                                         (kasRoleEnum == KeyAgreementRole.InitiatorPartyU &&
+                                                          kcRoleEnum == KeyConfirmationRole.Provider) ||
+                                                         (kasRoleEnum == KeyAgreementRole.ResponderPartyV &&
+                                                          kcRoleEnum == KeyConfirmationRole.Recipient))
+                                                        {
+                                                            continue;
+                                                        }
+                                                    }
+
                                                     groups.Add(new TestGroup()
                                                     {
                                                         Scheme = scheme,
@@ -250,12 +274,9 @@ namespace NIST.CVP.Generation.KAS.FFC
                                                         TestType = testType,
                                                         Function = flagFunctions,
                                                         HashAlg = parameterSet.Value.hashFunc.First(),
-                                                        KasRole =
-                                                            EnumHelpers.GetEnumFromEnumDescription<KeyAgreementRole>(role),
-                                                        KcRole = 
-                                                            EnumHelpers.GetEnumFromEnumDescription<KeyConfirmationRole>(kcRole),
-                                                        KcType = 
-                                                            EnumHelpers.GetEnumFromEnumDescription<KeyConfirmationDirection>(kcType),
+                                                        KasRole = kasRoleEnum,
+                                                        KcRole = kcRoleEnum,
+                                                        KcType = kcTypeEnum,
                                                         NonceType = nonceType,
                                                         ParmSet = parameterSet.Key,
                                                         KdfType = kdf.Key,

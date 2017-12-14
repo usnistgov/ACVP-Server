@@ -83,6 +83,31 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         }
 
         [Test]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+
+        // Ephemeral key pair is provided by party u only
+        //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+        public void ShouldFailWhenIutDoesNotProvideStaticKeyPair(EccScheme scheme, KeyAgreementRole kasRole, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType)
+        {
+            var testGroup = GetData(scheme, kasRole, kcRole, kcType);
+            var testCase = (TestCase)testGroup.Tests[0];
+
+            testCase.StaticPublicKeyIutX = 0;
+
+            _subject = new TestCaseValidatorAftKdfKc(testCase, testGroup, _deferredResolver.Object);
+
+            var result = _subject.Validate(testCase);
+
+            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
+        }
+
+        [Test]
         // Party U does not use an ephemeral nonce
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]

@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA.FFC;
+﻿using System;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
@@ -38,6 +39,11 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
             )
         {
             _diffieHellman = diffieHellman;
+
+            if (SchemeParameters.KasDsaAlgoAttributes.Scheme != FfcScheme.DhHybrid1)
+            {
+                throw new ArgumentException(nameof(SchemeParameters.KasDsaAlgoAttributes.Scheme));
+            }
         }
 
         protected override BitString ComputeSharedSecret(OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair> otherPartyInformation)

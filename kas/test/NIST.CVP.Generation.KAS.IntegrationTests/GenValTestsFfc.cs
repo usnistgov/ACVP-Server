@@ -128,7 +128,35 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             }
                         }
                     },
+                    FfcMqv2 = new FfcMqv2()
+                    {
+                        Role = new string[] { "initiator" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" }
+                                }
+                            }
+                        }
+                    },
                     FfcDhEphem = new FfcDhEphem()
+                    {
+                        Role = new string[] { "initiator" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" }
+                                }
+                            }
+                        }
+                    },
+                    FfcDhHybridOneFlow = new FfcDhHybridOneFlow()
                     {
                         Role = new string[] { "initiator" },
                         NoKdfNoKc = new NoKdfNoKc()
@@ -155,7 +183,21 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 }
                             }
                         }
-                    }
+                    },
+                    FfcDhOneFlow = new FfcDhOneFlow()
+                    {
+                        Role = new string[] { "initiator" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" }
+                                }
+                            }
+                        }
+                    },
                 },
                 IsSample = true
             };
@@ -218,6 +260,92 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             }
                         }
                     },
+                    FfcMqv2 = new FfcMqv2()
+                    {
+                        Role = new string[] { "initiator", "responder" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" }
+                                }
+                            }
+                        },
+                        KdfNoKc = new KdfNoKc()
+                        {
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        KdfKc = new KdfKc()
+                        {
+                            KcOption = new KcOptions()
+                            {
+                                KcRole = new string[] { "provider", "recipient" },
+                                KcType = new string[] { "unilateral", "bilateral" },
+                                NonceType = new string[] { "randomNonce" }
+                            },
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafe1234]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-512" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D384 = new MacOptionHmacSha2_d384()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     FfcDhEphem = new FfcDhEphem()
                     {
                         Role = new string[] { "initiator", "responder" },
@@ -256,6 +384,92 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         },
                                         HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    FfcDhHybridOneFlow = new FfcDhHybridOneFlow()
+                    {
+                        Role = new string[] { "initiator", "responder" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" }
+                                }
+                            }
+                        },
+                        KdfNoKc = new KdfNoKc()
+                        {
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        KdfKc = new KdfKc()
+                        {
+                            KcOption = new KcOptions()
+                            {
+                                KcRole = new string[] { "provider", "recipient" },
+                                KcType = new string[] { "unilateral", "bilateral" },
+                                NonceType = new string[] { "randomNonce" }
+                            },
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafe1234]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-512" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D384 = new MacOptionHmacSha2_d384()
                                         {
                                             KeyLen = new int[] { 128 },
                                             MacLen = 128
@@ -350,7 +564,93 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 }
                             }
                         }
-                    }
+                    },
+                    FfcDhOneFlow = new FfcDhOneFlow()
+                    {
+                        Role = new string[] { "initiator", "responder" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" }
+                                }
+                            }
+                        },
+                        KdfNoKc = new KdfNoKc()
+                        {
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        KdfKc = new KdfKc()
+                        {
+                            KcOption = new KcOptions()
+                            {
+                                KcRole = new string[] { "provider", "recipient" },
+                                KcType = new string[] { "unilateral" },
+                                NonceType = new string[] { "randomNonce" }
+                            },
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafe1234]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-512" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 256 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D384 = new MacOptionHmacSha2_d384()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                 },
                 IsSample = true
             };

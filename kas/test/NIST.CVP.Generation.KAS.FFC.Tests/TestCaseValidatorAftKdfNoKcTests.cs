@@ -24,14 +24,24 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         }
 
         [Test]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.Mqv2, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.Mqv2, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.ResponderPartyV)]
 
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
 
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
+        [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV)]
+
         public void ShouldSucceedValidation(FfcScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
@@ -57,15 +67,24 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         }
 
         [Test]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.Mqv2, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.Mqv2, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
 
-        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
-        // party v for MQV1 does not provide an ephemeral key
-        // [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+        [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.ResponderPartyV)]
 
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV)]
+
         public void ShouldFailWhenIutDoesNotProvideEphemeralKeyPair(FfcScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
@@ -79,16 +98,58 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
 
             Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
-        
+
         [Test]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.Mqv2, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.Mqv2, KeyAgreementRole.ResponderPartyV)]
+
+        //[TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+
+        //[TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.ResponderPartyV)]
+
+        //[TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
+
+        //[TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV)]
+
+        public void ShouldFailWhenIutDoesNotProvideStaticKeyPair(FfcScheme scheme, KeyAgreementRole kasRole)
+        {
+            var testGroup = GetData(scheme, kasRole);
+            var testCase = (TestCase)testGroup.Tests[0];
+
+            testCase.StaticPublicKeyIut = 0;
+
+            _subject = new TestCaseValidatorAftKdfNoKc(testCase, testGroup, _deferredResolver.Object);
+
+            var result = _subject.Validate(testCase);
+
+            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
+        }
+
+        [Test]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.Mqv2, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.Mqv2, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.ResponderPartyV)]
 
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
 
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
+        [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV)]
         public void ShouldFailWhenIutDoesNotProvideTag(FfcScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
@@ -104,14 +165,23 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         }
         
         [Test]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.Mqv2, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.Mqv2, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.ResponderPartyV)]
 
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
 
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
+        [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV)]
         public void ShouldFailWhenMismatchedTag(FfcScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);

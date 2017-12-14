@@ -29,7 +29,7 @@ namespace NIST.CVP.Crypto.KAS.NoKC
                 throw new Exception(mac.ErrorMessage);
             }
 
-            return mac.ResultingMac;
+            return mac.Mac;
         }
     }
 }

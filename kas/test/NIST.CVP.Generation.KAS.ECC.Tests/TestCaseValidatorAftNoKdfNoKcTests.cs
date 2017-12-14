@@ -48,7 +48,6 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         {
             var testGroup = GetData(scheme, kasRole);
             var testCase = (TestCase)testGroup.Tests[0];
-            testGroup.Scheme = EccScheme.EphemeralUnified;
             testCase.EphemeralPublicKeyIutX = 0;
 
             _subject = new TestCaseValidatorAftNoKdfNoKc(testCase, testGroup, _deferredResolver.Object);
@@ -57,6 +56,22 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
 
             Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
+
+        //[Test]
+        ////[TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
+        ////[TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
+        //public void ShouldFailWhenIutDoesNotProvideStaticKeyPair(EccScheme scheme, KeyAgreementRole kasRole)
+        //{
+        //    var testGroup = GetData(scheme, kasRole);
+        //    var testCase = (TestCase)testGroup.Tests[0];
+        //    testCase.StaticPublicKeyIutX = 0;
+
+        //    _subject = new TestCaseValidatorAftNoKdfNoKc(testCase, testGroup, _deferredResolver.Object);
+
+        //    var result = _subject.Validate(testCase);
+
+        //    Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
+        //}
 
         [Test]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]

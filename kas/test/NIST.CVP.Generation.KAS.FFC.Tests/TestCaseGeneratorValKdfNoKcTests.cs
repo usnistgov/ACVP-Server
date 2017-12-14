@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Moq;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Builders.Ffc;
@@ -44,16 +45,43 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         private IShaFactory _shaFactory;
         private IKdfFactory _kdfFactory;
         private IKeyConfirmationFactory _keyConfirmationFactory;
-        
+        private Mock<IDsaFfc> _dsa;
+        private Mock<IDsaFfcFactory> _dsaFactory;
+
         [SetUp]
         public void Setup()
         {
             _shaFactory = new ShaFactory();
-            
+
+            _dsa = new Mock<IDsaFfc>();
+            _dsa
+                .SetupGet(s => s.Sha)
+                .Returns(_shaFactory.GetShaInstance(_hashFunction));
+            _dsa
+                .Setup(s => s.GenerateDomainParameters(It.IsAny<FfcDomainParametersGenerateRequest>()))
+                .Returns(
+                    new FfcDomainParametersGenerateResult(
+                        new FfcDomainParameters(1, 2, 3),
+                        new DomainSeed(1),
+                        new Counter(1)
+                    )
+                );
+            _dsa
+                .Setup(s => s.GenerateKeyPair(It.IsAny<FfcDomainParameters>()))
+                .Returns(
+                    new FfcKeyPairGenerateResult(
+                        new FfcKeyPair(4, 5)
+                    )
+                );
+            _dsaFactory = new Mock<IDsaFfcFactory>();
+            _dsaFactory
+                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
+                .Returns(_dsa.Object);
+
             _entropyProvider = new EntropyProvider(new Random800_90());
             _entropyProviderFactory = new EntropyProviderFactory();
             _schemeBuilder = new SchemeBuilderFfc(
-                    new DsaFfcFactory(_shaFactory), 
+                    _dsaFactory.Object, 
                     new KdfFactory(
                         new ShaFactory()
                     ),

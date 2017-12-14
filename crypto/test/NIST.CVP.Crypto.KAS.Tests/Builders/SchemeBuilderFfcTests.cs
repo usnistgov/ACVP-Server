@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using NIST.CVP.Crypto.DSA;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
@@ -192,6 +193,35 @@ namespace NIST.CVP.Crypto.KAS.Tests.Builders
             Assert.AreEqual(newDomainParameters.P, result.DomainParameters.P, nameof(newDomainParameters.P));
             Assert.AreEqual(newDomainParameters.Q, result.DomainParameters.Q, nameof(newDomainParameters.Q));
             Assert.AreEqual(newDomainParameters.G, result.DomainParameters.G, nameof(newDomainParameters.G));
+        }
+
+        [Test]
+        [TestCase(FfcScheme.DhHybrid1, typeof(SchemeFfcDhHybrid1))]
+        [TestCase(FfcScheme.Mqv2, typeof(SchemeFfcMqv2))]
+        [TestCase(FfcScheme.DhEphem, typeof(SchemeFfcDiffieHellmanEphemeral))]
+        [TestCase(FfcScheme.DhHybridOneFlow, typeof(SchemeFfcDhHybridOneFlow))]
+        [TestCase(FfcScheme.Mqv1, typeof(SchemeFfcMqv1))]
+        [TestCase(FfcScheme.DhOneFlow, typeof(SchemeFfcDhOneFlow))]
+        // TODO last scheme
+        public void ShouldReturnCorrectKasScheme(FfcScheme scheme, Type expectedType)
+        {
+            var result = _subject
+                .WithHashFunction(new HashFunction(ModeValues.SHA2, DigestSizes.d256))
+                .BuildScheme(
+                    new SchemeParametersFfc(
+                        new KasDsaAlgoAttributesFfc(scheme, FfcParameterSet.Fb),
+                        KeyAgreementRole.InitiatorPartyU,
+                        KasMode.NoKdfNoKc,
+                        KeyConfirmationRole.None,
+                        KeyConfirmationDirection.None,
+                        KasAssurance.None,
+                        new BitString(1)
+                    ),
+                    null,
+                    null
+                );
+
+            Assert.IsInstanceOf(expectedType, result);
         }
     }
 }

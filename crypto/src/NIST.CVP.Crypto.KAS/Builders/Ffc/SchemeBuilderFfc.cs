@@ -77,8 +77,23 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
 
             switch (schemeParameters.KasDsaAlgoAttributes.Scheme)
             {
+                case FfcScheme.DhHybrid1:
+                    scheme = new SchemeFfcDhHybrid1(dsa, _withKdfFactory,
+                        _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
+                    break;
+                case FfcScheme.Mqv2:
+                    scheme = new SchemeFfcMqv2(dsa, _withKdfFactory,
+                        _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withMqv);
+                    break;
                 case FfcScheme.DhEphem:
                     scheme = new SchemeFfcDiffieHellmanEphemeral(dsa, _withKdfFactory,
+                        _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
+                    break;
+                case FfcScheme.DhHybridOneFlow:
+                    scheme = new SchemeFfcDhHybridOneFlow(dsa, _withKdfFactory,
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
@@ -87,16 +102,12 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withMqv);
                     break;
-                case FfcScheme.DhHybrid1:
-                    scheme = new SchemeFfcDhHybrid1(dsa, _withKdfFactory,
+                case FfcScheme.DhOneFlow:
+                    scheme = new SchemeFfcDhOneFlow(dsa, _withKdfFactory,
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
-                case FfcScheme.DhHybridOneFlow:
-                case FfcScheme.DhOneFlow:
                 case FfcScheme.DhStatic:
-
-                case FfcScheme.Mqv2:
                     // TODO coming soon to a KAS near you!
                     throw new NotImplementedException();
                 default:

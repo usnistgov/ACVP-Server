@@ -79,14 +79,24 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         }
 
         [Test]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.Mqv2, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.Mqv2, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhEphem, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhHybridOneFlow, KeyAgreementRole.ResponderPartyV)]
 
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.Mqv1, KeyAgreementRole.ResponderPartyV)]
 
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
-        [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
+        [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV)]
+
         public void ShouldPopulateCorrectKeysNoncesForSchemeRole(FfcScheme scheme, KeyAgreementRole testGroupIutRole)
         {
             TestGroup tg = new TestGroup()
