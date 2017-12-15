@@ -13,12 +13,14 @@ namespace NIST.CVP.Crypto.CMAC
         private readonly IRijndaelFactory _iRijndaelFactory;
         private const ModeValues Mode = ModeValues.CMAC;
 
+        public int OutputLength => 128;
+
         public CmacAes(IRijndaelFactory iRijndaelFactory)
         {
             _iRijndaelFactory = iRijndaelFactory;
         }
         
-        public MacResult Generate(BitString keyBits, BitString message, int macLength)
+        public MacResult Generate(BitString keyBits, BitString message, int macLength = 0)
         {
             try
             {
@@ -31,7 +33,15 @@ namespace NIST.CVP.Crypto.CMAC
                 
                 var encryptedBits = rijn.BlockEncrypt(cipher, key, message.ToBytes(), cipher.BlockLength);
 
-                var mac = encryptedBits.GetMostSignificantBits(macLength);
+                BitString mac;
+                if (macLength != 0)
+                {
+                    mac = encryptedBits.GetMostSignificantBits(macLength);
+                }
+                else
+                {
+                    mac = encryptedBits.GetDeepCopy();
+                }
                 
                 return new MacResult(mac);
             }

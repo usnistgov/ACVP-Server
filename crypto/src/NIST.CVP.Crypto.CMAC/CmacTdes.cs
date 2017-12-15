@@ -11,12 +11,15 @@ namespace NIST.CVP.Crypto.CMAC
         private const int BlockSize = 64;
         private readonly ITDES_ECB _tdes;
         private readonly BitString Rb64 = new BitString("000000000000001A");  //TODO this should be 1B, not 1A
+
+        public int OutputLength => BlockSize;
+
         public CmacTdes(ITDES_ECB tdes)
         {
             _tdes = tdes;
         }
 
-        public MacResult Generate(BitString key, BitString message, int macLength)
+        public MacResult Generate(BitString key, BitString message, int macLength = 0)
         {
 
             //http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38b.pdf
@@ -125,7 +128,17 @@ namespace NIST.CVP.Crypto.CMAC
             //    8. Return T.
             try
             {
-                return new MacResult(currC.MSBSubstring(0, macLength));
+                BitString mac;
+                if (macLength != 0)
+                {
+                    mac = currC.GetMostSignificantBits(macLength);
+                }
+                else
+                {
+                    mac = currC.GetDeepCopy();
+                }
+
+                return new MacResult(mac);
             }
             catch (Exception e)
             {

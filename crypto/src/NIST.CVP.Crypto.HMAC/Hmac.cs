@@ -12,7 +12,9 @@ namespace NIST.CVP.Crypto.HMAC
         private readonly ISha _iSha;
         private readonly byte _iPad = 0x36;
         private readonly byte _oPad = 0x5c;
-        
+
+        public int OutputLength => _iSha.HashFunction.OutputLen;
+
         public Hmac(ISha iSha)
         {
             _iSha = iSha;

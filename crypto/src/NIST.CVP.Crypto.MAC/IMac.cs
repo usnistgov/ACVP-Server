@@ -15,5 +15,7 @@ namespace NIST.CVP.Crypto.MAC
         /// <param name="macLength">Number of bits to return from the MSb of the MAC</param>
         /// <returns></returns>
         MacResult Generate(BitString key, BitString message, int macLength = 0);
+        
+        int OutputLength { get; }
     }
 }
