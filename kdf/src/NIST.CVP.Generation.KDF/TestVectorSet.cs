@@ -1,0 +1,178 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
+using System.Text;
+using Newtonsoft.Json;
+using NIST.CVP.Crypto.KDF.Enums;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Helpers;
+
+namespace NIST.CVP.Generation.KDF
+{
+    public class TestVectorSet : ITestVectorSet
+    {
+        public string Algorithm { get; set; }
+        public string Mode { get; set; }
+        public bool IsSample { get; set; }
+
+        [JsonIgnore]
+        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
+        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
+
+        public TestVectorSet() { }
+
+        public TestVectorSet(dynamic answers, dynamic prompts)
+        {
+            foreach (var answer in answers.answerProjection)
+            {
+                var group = new TestGroup(answer);
+
+                TestGroups.Add(group);
+            }
+
+            foreach (var prompt in prompts.testGroups)
+            {
+                var promptGroup = new TestGroup(prompt);
+                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
+                if (matchingAnswerGroup != null)
+                {
+                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
+                    {
+                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
+                    }
+                }
+            }
+        }
+
+        public List<dynamic> AnswerProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup) g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("kdfMode", EnumHelpers.GetEnumDescriptionFromEnum(group.KdfMode));
+                    ((IDictionary<string, object>)updateObject).Add("macMode", EnumHelpers.GetEnumDescriptionFromEnum(group.MacMode));
+                    ((IDictionary<string, object>)updateObject).Add("counterLocation", EnumHelpers.GetEnumDescriptionFromEnum(group.CounterLocation));
+                    ((IDictionary<string, object>)updateObject).Add("keyOutLength", group.KeyOutLength);
+                    ((IDictionary<string, object>)updateObject).Add("zeroLengthIv", group.ZeroLengthIv);
+
+                    if (group.CounterLocation != CounterLocations.None)
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("counterLength", group.CounterLength);
+                    }
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase) t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>) testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>) testObject).Add("keyIn", test.KeyIn);
+
+                        if (group.KdfMode == KdfModes.Feedback)
+                        {
+                            ((IDictionary<string, object>) testObject).Add("iv", test.IV);
+                        }
+
+                        ((IDictionary<string, object>) testObject).Add("deferred", test.Deferred);
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
+
+        [JsonProperty(PropertyName = "testGroups")]
+        public List<dynamic> PromptProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup) g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("kdfMode", EnumHelpers.GetEnumDescriptionFromEnum(group.KdfMode));
+                    ((IDictionary<string, object>)updateObject).Add("macMode", EnumHelpers.GetEnumDescriptionFromEnum(group.MacMode));
+                    ((IDictionary<string, object>)updateObject).Add("counterLocation", EnumHelpers.GetEnumDescriptionFromEnum(group.CounterLocation));
+                    ((IDictionary<string, object>)updateObject).Add("keyOutLength", group.KeyOutLength);
+                    ((IDictionary<string, object>)updateObject).Add("zeroLengthIv", group.ZeroLengthIv);
+
+                    if (group.CounterLocation != CounterLocations.None)
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("counterLength", group.CounterLength);
+                    }
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase) t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>) testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>) testObject).Add("keyIn", test.KeyIn);
+
+                        if (group.KdfMode == KdfModes.Feedback)
+                        {
+                            ((IDictionary<string, object>) testObject).Add("iv", test.IV);
+                        }
+
+                        ((IDictionary<string, object>) testObject).Add("deferred", test.Deferred);
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
+
+        [JsonProperty(PropertyName = "testResults")]
+        public List<dynamic> ResultProjection
+        {
+            get
+            {
+                var tests = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>) testObject).Add("tcId", test.TestCaseId);
+
+                        if (IsSample)
+                        {
+                            ((IDictionary<string, object>) testObject).Add("keyOut", test.KeyOut);
+                            ((IDictionary<string, object>) testObject).Add("fixedData", test.FixedData);
+
+                            if (group.KdfMode == KdfModes.Counter && group.CounterLocation == CounterLocations.MiddleFixedData)
+                            {
+                                ((IDictionary<string, object>) testObject).Add("breakLocation", test.BreakLocation);
+                            }
+                        }
+                        
+                        tests.Add(testObject);
+                    }
+                }
+
+                return tests;
+            }
+        }
+
+        public dynamic ToDynamic()
+        {
+            dynamic vectorSetObject = new ExpandoObject();
+            ((IDictionary<string, object>)vectorSetObject).Add("answerProjection", AnswerProjection);
+            ((IDictionary<string, object>)vectorSetObject).Add("testGroups", PromptProjection);
+            ((IDictionary<string, object>)vectorSetObject).Add("resultProjection", ResultProjection);
+            return vectorSetObject;
+        }
+    }
+}

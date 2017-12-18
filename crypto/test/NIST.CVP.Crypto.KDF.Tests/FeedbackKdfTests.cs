@@ -20,13 +20,13 @@ namespace NIST.CVP.Crypto.KDF.Tests
         }
 
         [Test]
-        [TestCase(MacModes.CMAC_AES128, CounterLocations.BeforeFixedData, 8, 512,
+        [TestCase(MacModes.CMAC_AES128, CounterLocations.BeforeIterator, 8, 512,
             "6874c099a14942d5bcd823183a4ceb9c",
             "0909d62821ec989fe16d6d77358126d272fff3e2dc4795c5a9421bee65be679b9f651668fdbc2c13d2ef4932f8830b56e5e1e0",
             "4ab31c84730527fbf008e446501bb26a",
             "265062a5de896edbfc0d071bdfb6dfd18901f3786cee3c401e53c198e80e78bab17c7049c723d4cd9d334952509c44d7e7bc16627a1e7177b80157a3c56ac21b",
             TestName = "Feedback Kdf - CMAC_AES128 - Before Fixed Data - 8bit Counter")]
-        [TestCase(MacModes.CMAC_AES128, CounterLocations.BeforeFixedData, 16, 512,
+        [TestCase(MacModes.CMAC_AES128, CounterLocations.BeforeIterator, 16, 512,
             "ca26c14fb4c6544e006d4d2f0080fcbb",
             "05ccc1d72d7177aa8a5d31f7f5dbd01a2bb34eed4ab56ec7b3567ec39f511f2121d41c8ae367f3b110b9688097419e727fbb5e",
             "fb73ad9683e6c637a1e3369e4a403d68",
@@ -39,7 +39,7 @@ namespace NIST.CVP.Crypto.KDF.Tests
             "",
             "9cceccd7e7c11d11054eea092967d95f8705fb6416a6fc3edd05886f88f742513b0d49a1c50f1c1ba342879ddbe002f9f4b2fb0a7388b634a0301b8ba143e9c6",
             TestName = "Feedback Kdf - CMAC_AES256 - Middle Fixed Data - 32bit Counter - No IV")]
-        [TestCase(MacModes.CMAC_TDES, CounterLocations.BeforeFixedData, 24, 2048,
+        [TestCase(MacModes.CMAC_TDES, CounterLocations.BeforeIterator, 24, 2048,
             "88cc0591e7727235d5fe0348ae7ba6d2b032ff6185c299d8",
             "4a30f359d11f0b368c4e1b7d92fad79556a3a06ad9ebf88e237090f568115d69210f0ebb6253447797fc728c221636bfaa43ce",
             "",

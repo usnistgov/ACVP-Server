@@ -20,12 +20,12 @@ namespace NIST.CVP.Crypto.KDF.Tests
         }
 
         [Test]
-        [TestCase(MacModes.CMAC_AES128, CounterLocations.BeforeFixedData, 8, 512,
+        [TestCase(MacModes.CMAC_AES128, CounterLocations.BeforeIterator, 8, 512,
             "c6254d95dd108e9bb29e0053ddeec351",
             "22f498fc9b8d4b72188bce30ba9875fc2b0eb3fe76874d85426e6e5b3b237c9f445f2da20a60ab189802e2c152c4a3602aa342",
             "1e133a952df55a11ee038120375f61e7c0162842c817160693b1f39dc0b795bc6f3691db775cf3af4b0a9f69fecbe99679fd4b4873dda743f5c6a2d2e873f26d",
             TestName = "Pipeline Kdf - CMAC_AES128 - Before Fixed Data - 8bit Counter")]
-        [TestCase(MacModes.CMAC_AES128, CounterLocations.BeforeFixedData, 16, 512,
+        [TestCase(MacModes.CMAC_AES128, CounterLocations.BeforeIterator, 16, 512,
             "343eccae7e7e233fdc819ecfabf11735",
             "44465519cee317a678247ec5621c6b06e07f42497028261b48a55a916f1116abdd3c92dd43c372b4e7ee953309a6e356c7dec1",
             "e424531e6ec5fb56d43d02cdb67d3bb92652c004ec2fea8a3feb66b83ea44b5d50487bdce7861380684802e7e3a145afb02b033d755841e7906924e87bb30001",
@@ -36,7 +36,7 @@ namespace NIST.CVP.Crypto.KDF.Tests
             "62100bfd621c06b107db99b1dd6d8eebd9d93f4fa1f8fc4501c02b591f54d7b2de0cbd69c52dd48c361e7bd6d88688607332ff",
             "7fd7553297ef5b5dfa25706524296288f19abd7344b7445fb74bd33ea894493b9616e72bb433a51b7a6c42255c89ed954a0e3530fb85f8727681fb04c817367b",
             TestName = "Pipeline Kdf - CMAC_AES256 - Middle Fixed Data - 32bit Counter")]
-        [TestCase(MacModes.CMAC_TDES, CounterLocations.BeforeFixedData, 24, 2048,
+        [TestCase(MacModes.CMAC_TDES, CounterLocations.BeforeIterator, 24, 2048,
             "73a03812f851f2b34b83e61f9fbbc20ab89a65e7f9e1cda6",
             "f54906c994a3ea51a2cf95ee59cd8343efac94defff3447715426adf62f98ac4260d00dbcfcf2545d59062af136a986568b70d",
             "6f8d7cd238c816a98f661b37e22b7159f01c3835b16a1b37d43f1d66c82c9311154332c140fc74f0e8586ac8a5d2c5c52b28a41e6c0be1bd8c29d8080b3f0f07e54d8fca9c63e30aeb276c1bf362e4d91c4d0e326d9fd3f47373228eb9d967d09c720ad2b0721ea8d620a107ce0e942726ffd3dc88dedb5425d2e15e1d1ee15b517d2ea1ea97e0d07414d31ab40f6392db0def3487c93a8e1d35947b48c72c2a1d0dd699ac16524771c6b522c71918d40f0b67f39ea85bd6e2fc62dfe6a084ced22b7cbef53c2ce251a7a58936035ebf6f1899d25f30099c7f277a61fe8c5c6300b2827a1be579a2646799617159f4fc756dd7cb331764550e93f6e7818e520e",

@@ -13,7 +13,7 @@ namespace NIST.CVP.Crypto.KDF.Enums
         [Description("feedback")]
         Feedback,
 
-        [Description("double-pipeline")]
+        [Description("double pipeline iteration")]
         Pipeline
     }
 }

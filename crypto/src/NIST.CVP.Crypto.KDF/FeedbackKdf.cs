@@ -51,7 +51,7 @@ namespace NIST.CVP.Crypto.KDF
 
                 switch (_counterLocation)
                 {
-                    case CounterLocations.BeforeFixedData:
+                    case CounterLocations.BeforeIterator:
                         // counter || prevK || fixedData
                         data = data.ConcatenateBits(counterBits).ConcatenateBits(prevK).ConcatenateBits(fixedData);
                         break;
@@ -62,6 +62,7 @@ namespace NIST.CVP.Crypto.KDF
                         break;
 
                     case CounterLocations.MiddleFixedData:
+                    case CounterLocations.BeforeFixedData:
                         // prevK || counter || fixedData
                         data = data.ConcatenateBits(prevK).ConcatenateBits(counterBits).ConcatenateBits(fixedData);
                         break;

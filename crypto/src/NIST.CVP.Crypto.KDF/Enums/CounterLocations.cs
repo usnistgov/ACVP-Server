@@ -10,13 +10,16 @@ namespace NIST.CVP.Crypto.KDF.Enums
         [Description("none")]
         None,
 
-        [Description("before")]
+        [Description("before fixed data")]
         BeforeFixedData,
 
-        [Description("middle")]
+        [Description("middle fixed data")]
         MiddleFixedData,
 
-        [Description("after")]
+        [Description("after fixed data")]
         AfterFixedData,
+
+        [Description("before iterator")]
+        BeforeIterator,
     }
 }
