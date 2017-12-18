@@ -105,6 +105,19 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D384)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D512)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D512)]
+
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.AesCcm)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.AesCcm)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.CmacAes)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.CmacAes)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D224)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D224)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D256)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D256)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D384)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D384)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyAgreementMacType.HmacSha2D512)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyAgreementMacType.HmacSha2D512)]
         public void ShouldPopulateCorrectKeysNoncesForSchemeRole(EccScheme scheme, KeyAgreementRole testGroupIutRole, KeyAgreementMacType macType)
         {
             TestGroup tg = new TestGroup()
@@ -192,6 +205,17 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
                     nameof(resultTestCase.EphemeralPublicKeyServerX));
                 Assert.IsTrue(resultTestCase.EphemeralPublicKeyServerY == 0,
                     nameof(resultTestCase.EphemeralPublicKeyServerY));
+            }
+
+            if (keyGenRequirements.GeneratesDkmNonce)
+            {
+                Assert.IsTrue(resultTestCase.DkmNonceServer != null,
+                    nameof(resultTestCase.DkmNonceServer));
+            }
+            else
+            {
+                Assert.IsTrue(resultTestCase.DkmNonceServer == null,
+                    nameof(resultTestCase.DkmNonceServer));
             }
         }
     }

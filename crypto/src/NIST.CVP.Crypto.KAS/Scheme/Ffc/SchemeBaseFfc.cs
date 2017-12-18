@@ -67,8 +67,8 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
                 SchemeParameters.ThisPartyId,
                 StaticKeyPair,
                 EphemeralKeyPair,
-                EphemeralNonce,
                 DkmNonce,
+                EphemeralNonce,
                 NoKeyConfirmationNonce
             );
         }
@@ -161,7 +161,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
         }
 
         /// <inheritdoc />
-        protected override BitString GetEphemeralKeyOrNonce(FfcKeyPair ephemeralPublicKey, BitString ephemeralNonce)
+        protected override BitString GetEphemeralKeyOrNonce(FfcKeyPair ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce)
         {
             if (ephemeralPublicKey != null && ephemeralPublicKey?.PublicKeyY != 0)
             {
@@ -176,7 +176,12 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ffc
                 return ephemKey;
             }
 
-            return ephemeralNonce;
+            if (ephemeralNonce != null && ephemeralNonce?.BitLength != 0)
+            {
+                return ephemeralNonce;
+            }
+
+            return dkmNonce;
         }
     }
 }

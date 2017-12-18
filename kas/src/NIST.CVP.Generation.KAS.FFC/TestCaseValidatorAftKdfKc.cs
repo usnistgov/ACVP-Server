@@ -67,6 +67,14 @@ namespace NIST.CVP.Generation.KAS.FFC
                 }
             }
 
+            if (_iutKeyRequirements.GeneratesDkmNonce)
+            {
+                if (suppliedResult.DkmNonceIut == null || suppliedResult.DkmNonceIut.BitLength == 0)
+                {
+                    errors.Add($"Expected {nameof(suppliedResult.DkmNonceIut)} but was not supplied");
+                }
+            }
+
             if (_iutKeyRequirements.GeneratesEphemeralNonce)
             {
                 if (suppliedResult.EphemeralNonceIut == null || suppliedResult.EphemeralNonceIut.BitLength == 0)

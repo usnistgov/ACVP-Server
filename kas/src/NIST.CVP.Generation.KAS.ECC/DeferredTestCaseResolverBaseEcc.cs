@@ -83,8 +83,8 @@ namespace NIST.CVP.Generation.KAS.ECC
                 iutTestCase.IdIut ?? testGroup.IdIut,
                 new EccKeyPair(new EccPoint(iutTestCase.StaticPublicKeyIutX, iutTestCase.StaticPublicKeyIutY)),
                 new EccKeyPair(new EccPoint(iutTestCase.EphemeralPublicKeyIutX, iutTestCase.EphemeralPublicKeyIutY)),
-                iutTestCase.EphemeralNonceIut,
                 iutTestCase.DkmNonceIut,
+                iutTestCase.EphemeralNonceIut,
                 serverTestCase.NonceNoKc
             );
         }

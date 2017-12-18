@@ -26,6 +26,12 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [Test]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
         public void ShouldSucceedValidation(EccScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
@@ -53,6 +59,12 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [Test]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
+
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
         public void ShouldFailWhenIutDoesNotProvideEphemeralKeyPair(EccScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
@@ -67,26 +79,38 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
             Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
         }
 
-        //[Test]
+        [Test]
         //[TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         //[TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
-        //public void ShouldFailWhenIutDoesNotProvideStaticKeyPair(EccScheme scheme, KeyAgreementRole kasRole)
-        //{
-        //    var testGroup = GetData(scheme, kasRole);
-        //    var testCase = (TestCase)testGroup.Tests[0];
 
-        //    testCase.StaticPublicKeyIutX = 0;
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
 
-        //    _subject = new TestCaseValidatorAftKdfNoKc(testCase, testGroup, _deferredResolver.Object);
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
+        public void ShouldFailWhenIutDoesNotProvideStaticKeyPair(EccScheme scheme, KeyAgreementRole kasRole)
+        {
+            var testGroup = GetData(scheme, kasRole);
+            var testCase = (TestCase)testGroup.Tests[0];
 
-        //    var result = _subject.Validate(testCase);
+            testCase.StaticPublicKeyIutX = 0;
 
-        //    Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
-        //}
+            _subject = new TestCaseValidatorAftKdfNoKc(testCase, testGroup, _deferredResolver.Object);
+
+            var result = _subject.Validate(testCase);
+
+            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
+        }
 
         [Test]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
         public void ShouldFailWhenIutDoesNotProvideTag(EccScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
@@ -104,6 +128,12 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [Test]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
         public void ShouldFailWhenMismatchedTag(EccScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);

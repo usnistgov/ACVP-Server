@@ -27,26 +27,26 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// </summary>
         public TKeyPair EphemeralPublicKey { get; }
         /// <summary>
-        /// This party's ephemeral nonce
-        /// </summary>
-        public BitString EphemeralNonce { get; }
-        /// <summary>
         /// The DKM Nonce
         /// </summary>
         public BitString DkmNonce { get; }
+        /// <summary>
+        /// This party's ephemeral nonce
+        /// </summary>
+        public BitString EphemeralNonce { get; }
         /// <summary>
         /// A nonce utilized within MACData for no key confirmation KAS
         /// </summary>
         public BitString NoKeyConfirmationNonce { get; }
 
-        public OtherPartySharedInformation(TDomainParameters domainParameters, BitString partyId, TKeyPair staticPublicKey, TKeyPair ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce, BitString noKeyConfirmationNonce)
+        public OtherPartySharedInformation(TDomainParameters domainParameters, BitString partyId, TKeyPair staticPublicKey, TKeyPair ephemeralPublicKey, BitString dkmNonce, BitString ephemeralNonce, BitString noKeyConfirmationNonce)
         {
             DomainParameters = domainParameters;
             PartyId = partyId;
             StaticPublicKey = staticPublicKey;
             EphemeralPublicKey = ephemeralPublicKey;
-            EphemeralNonce = ephemeralNonce;
             DkmNonce = dkmNonce;
+            EphemeralNonce = ephemeralNonce;
             NoKeyConfirmationNonce = noKeyConfirmationNonce;
         }
     }

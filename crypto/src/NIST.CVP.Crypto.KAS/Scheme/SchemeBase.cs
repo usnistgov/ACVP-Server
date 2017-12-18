@@ -64,8 +64,8 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         protected bool ThisPartyKeysGenerated => (
             StaticKeyPair != null ||
             EphemeralKeyPair != null ||
-            EphemeralNonce != null ||
             DkmNonce != null ||
+            EphemeralNonce != null ||
             NoKeyConfirmationNonce != null
         );
 
@@ -254,9 +254,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         protected IKeyConfirmationParameters GetKeyConfirmationParameters(TOtherPartySharedInfo otherPartyInformation, BitString derivedKeyingMaterial)
         {
             var thisPartyEphemeralPublicKeyOrNonce =
-                GetEphemeralKeyOrNonce(EphemeralKeyPair, EphemeralNonce);
+                GetEphemeralKeyOrNonce(EphemeralKeyPair, EphemeralNonce, DkmNonce);
             var otherPartyEphemeralPublicKeyOrNonce =
-                GetEphemeralKeyOrNonce(otherPartyInformation.EphemeralPublicKey, otherPartyInformation.EphemeralNonce);
+                GetEphemeralKeyOrNonce(otherPartyInformation.EphemeralPublicKey, otherPartyInformation.EphemeralNonce, otherPartyInformation.DkmNonce);
 
             if (MacParameters.MacType == KeyAgreementMacType.AesCcm)
             {
@@ -317,8 +317,9 @@ namespace NIST.CVP.Crypto.KAS.Scheme
         /// </summary>
         /// <param name="ephemeralPublicKey">The ephemeral public key</param>
         /// <param name="ephemeralNonce">the ephemeral nonce</param>
+        /// <param name="dkmNonce">The dkm nonce (can be used in place of ephemeral nonce)</param>
         /// <returns></returns>
-        protected abstract BitString GetEphemeralKeyOrNonce(TKeyPair ephemeralPublicKey, BitString ephemeralNonce);
+        protected abstract BitString GetEphemeralKeyOrNonce(TKeyPair ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce);
         #endregion abstract methods to be implemented in extension DSA classes (Ffc/Ecc)
 
         #region scheme specific

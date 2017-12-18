@@ -68,8 +68,8 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
                 SchemeParameters.ThisPartyId,
                 StaticKeyPair,
                 EphemeralKeyPair,
-                EphemeralNonce,
                 DkmNonce,
+                EphemeralNonce,
                 NoKeyConfirmationNonce
             );
         }
@@ -127,7 +127,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
         }
 
         /// <inheritdoc />
-        protected override BitString GetEphemeralKeyOrNonce(EccKeyPair ephemeralPublicKey, BitString ephemeralNonce)
+        protected override BitString GetEphemeralKeyOrNonce(EccKeyPair ephemeralPublicKey, BitString ephemeralNonce, BitString dkmNonce)
         {
             if (ephemeralPublicKey?.PublicQ != null && ephemeralPublicKey.PublicQ?.X != 0)
             {
@@ -139,7 +139,12 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
                 );
             }
 
-            return ephemeralNonce;
+            if (ephemeralNonce != null && ephemeralNonce?.BitLength != 0)
+            {
+                return ephemeralNonce;
+            }
+
+            return dkmNonce;
         }
     }
 }

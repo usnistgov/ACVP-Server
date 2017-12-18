@@ -67,6 +67,12 @@ namespace NIST.CVP.Generation.KAS.FFC
         }
 
         /// <inheritdoc />
+        protected override int GetDkmLengthRequirement(TestGroup testGroup)
+        {
+            return ParameterSetDetails.GetDetailsForFfcParameterSet(testGroup.ParmSet).qLength / 2;
+        }
+
+        /// <inheritdoc />
         protected override FfcDomainParameters GetGroupDomainParameters(TestGroup testGroup)
         {
             return new FfcDomainParameters(testGroup.P, testGroup.Q, testGroup.G);

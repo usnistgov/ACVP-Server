@@ -108,6 +108,9 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
 
         [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV)]
         public void ShouldPopulateCorrectKeysNoncesForSchemeRole(FfcScheme scheme, KeyAgreementRole testGroupIutRole)
         {
             BuildTestGroup(scheme, testGroupIutRole, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
@@ -128,6 +131,17 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
                     nameof(resultTestCase.StaticPrivateKeyServer));
                 Assert.IsTrue(resultTestCase.StaticPublicKeyServer == 0,
                     nameof(resultTestCase.StaticPublicKeyServer));
+            }
+
+            if (serverKeyGenRequirements.GeneratesDkmNonce)
+            {
+                Assert.IsTrue(resultTestCase.DkmNonceServer != null,
+                    nameof(resultTestCase.DkmNonceServer));
+            }
+            else
+            {
+                Assert.IsTrue(resultTestCase.DkmNonceServer == null,
+                    nameof(resultTestCase.DkmNonceServer));
             }
 
             if (serverKeyGenRequirements.GeneratesEphemeralKeyPair)
@@ -159,6 +173,17 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
                     nameof(resultTestCase.StaticPrivateKeyIut));
                 Assert.IsTrue(resultTestCase.StaticPublicKeyIut == 0,
                     nameof(resultTestCase.StaticPublicKeyIut));
+            }
+
+            if (iutKeyGenRequirements.GeneratesDkmNonce)
+            {
+                Assert.IsTrue(resultTestCase.DkmNonceIut != null,
+                    nameof(resultTestCase.DkmNonceIut));
+            }
+            else
+            {
+                Assert.IsTrue(resultTestCase.DkmNonceIut == null,
+                    nameof(resultTestCase.DkmNonceIut));
             }
 
             if (iutKeyGenRequirements.GeneratesEphemeralKeyPair)
@@ -204,6 +229,15 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
         [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
         [TestCase(FfcScheme.DhHybrid1, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
         public void ShouldSetProperTestCaseFailureTestProperty(FfcScheme scheme, KeyAgreementRole testGroupIutRole,
             TestCaseDispositionOption option, bool isFailure)
         {

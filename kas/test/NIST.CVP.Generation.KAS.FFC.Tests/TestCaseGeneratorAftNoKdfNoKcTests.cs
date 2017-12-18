@@ -97,11 +97,14 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV)]
 
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV)]
+
         public void ShouldPopulateCorrectKeysNoncesForSchemeRole(FfcScheme scheme, KeyAgreementRole testGroupIutRole)
         {
             TestGroup tg = new TestGroup()
             {
-                KasMode = KasMode.KdfNoKc,
+                KasMode = KasMode.NoKdfNoKc,
                 Scheme = scheme,
                 KasRole = testGroupIutRole,
                 Function = KasAssurance.None,
@@ -157,6 +160,17 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
                     nameof(resultTestCase.EphemeralPrivateKeyServer));
                 Assert.IsTrue(resultTestCase.EphemeralPublicKeyServer == 0,
                     nameof(resultTestCase.EphemeralPublicKeyServer));
+            }
+
+            if (keyGenRequirements.GeneratesDkmNonce)
+            {
+                Assert.IsTrue(resultTestCase.DkmNonceServer != null,
+                    nameof(resultTestCase.DkmNonceServer));
+            }
+            else
+            {
+                Assert.IsTrue(resultTestCase.DkmNonceServer == null,
+                    nameof(resultTestCase.DkmNonceServer));
             }
         }
     }

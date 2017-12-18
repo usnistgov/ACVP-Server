@@ -118,6 +118,9 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         //[TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV)]
 
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV)]
+
         public void ShouldFailWhenIutDoesNotProvideStaticKeyPair(FfcScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
@@ -150,6 +153,9 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
 
         [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV)]
         public void ShouldFailWhenIutDoesNotProvideTag(FfcScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
@@ -182,6 +188,9 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
 
         [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV)]
         public void ShouldFailWhenMismatchedTag(FfcScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);

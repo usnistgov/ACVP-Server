@@ -238,6 +238,10 @@ namespace NIST.CVP.Generation.KAS
         /// KDF specific options
         /// </summary>
         public KdfOptions KdfOption { get; set; }
+        /// <summary>
+        /// Nonce types used in DKM construction (applies to static schemes only)
+        /// </summary>
+        public string[] DkmNonceTypes { get; set; }
     }
 
     /// <inheritdoc />

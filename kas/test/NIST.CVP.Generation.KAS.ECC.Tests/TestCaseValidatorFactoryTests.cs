@@ -25,6 +25,13 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase("VAL", EccScheme.OnePassMqv, KasMode.NoKdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorVal))]
         [TestCase("VAL", EccScheme.OnePassMqv, KasMode.KdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorVal))]
         [TestCase("VAL", EccScheme.OnePassMqv, KasMode.KdfKc, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral, typeof(TestCaseValidatorVal))]
+
+        [TestCase("AFT", EccScheme.StaticUnified, KasMode.NoKdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorAftNoKdfNoKc))]
+        [TestCase("AFT", EccScheme.StaticUnified, KasMode.KdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorAftKdfNoKc))]
+        [TestCase("AFT", EccScheme.StaticUnified, KasMode.KdfKc, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral, typeof(TestCaseValidatorAftKdfKc))]
+        [TestCase("VAL", EccScheme.StaticUnified, KasMode.NoKdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorVal))]
+        [TestCase("VAL", EccScheme.StaticUnified, KasMode.KdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorVal))]
+        [TestCase("VAL", EccScheme.StaticUnified, KasMode.KdfKc, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral, typeof(TestCaseValidatorVal))]
         public void ShouldReturnCorrectValidator(string testType, EccScheme scheme, KasMode kasMode, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType, Type expectedValidatorType)
         {
             TestVectorSet testVectorSet = null;

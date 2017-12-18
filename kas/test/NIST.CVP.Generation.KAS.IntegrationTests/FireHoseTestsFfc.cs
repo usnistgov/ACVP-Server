@@ -181,6 +181,10 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             testCase.EphemeralNonceIut = testCase.EphemeralNonceServer?.GetDeepCopy();
             testCase.EphemeralNonceServer = holdEphemNonceIut?.GetDeepCopy();
 
+            var holdDkmNonceIut = testCase.DkmNonceIut?.GetDeepCopy();
+            testCase.DkmNonceIut = testCase.DkmNonceServer?.GetDeepCopy();
+            testCase.DkmNonceServer = holdDkmNonceIut?.GetDeepCopy();
+
             var holdEphemeralPrivateKeyIut = testCase.EphemeralPrivateKeyIut;
             testCase.EphemeralPrivateKeyIut = testCase.EphemeralPrivateKeyServer;
             testCase.EphemeralPrivateKeyServer = holdEphemeralPrivateKeyIut;

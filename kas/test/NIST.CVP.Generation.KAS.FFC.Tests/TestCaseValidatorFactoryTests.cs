@@ -54,6 +54,13 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [TestCase("VAL", FfcScheme.DhOneFlow, KasMode.KdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorVal))]
         //[TestCase("VAL", FfcScheme.DhOneFlow, KasMode.KdfKc, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral, typeof(TestCaseValidatorVal))]
 
+        [TestCase("AFT", FfcScheme.DhStatic, KasMode.NoKdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorAftNoKdfNoKc))]
+        [TestCase("AFT", FfcScheme.DhStatic, KasMode.KdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorAftKdfNoKc))]
+        [TestCase("AFT", FfcScheme.DhStatic, KasMode.KdfKc, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral, typeof(TestCaseValidatorAftKdfKc))]
+        [TestCase("VAL", FfcScheme.DhStatic, KasMode.NoKdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorVal))]
+        [TestCase("VAL", FfcScheme.DhStatic, KasMode.KdfNoKc, KeyConfirmationRole.None, KeyConfirmationDirection.None, typeof(TestCaseValidatorVal))]
+        [TestCase("VAL", FfcScheme.DhStatic, KasMode.KdfKc, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral, typeof(TestCaseValidatorVal))]
+
         public void ShouldReturnCorrectValidator(string testType, FfcScheme scheme, KasMode kasMode, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType, Type expectedValidatorType)
         {
             TestVectorSet testVectorSet = null;

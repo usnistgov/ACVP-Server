@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.DSA.ECC.Enums;
 using NIST.CVP.Crypto.DSA.ECC.Helpers;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.KAS.ECC
@@ -102,11 +103,34 @@ namespace NIST.CVP.Generation.KAS.ECC
                 return;
             }
 
+            ValidateDkmNonceTypeProvidedStaticScheme(scheme, errorResults);
+
             ValidateNoKdfNoKc(scheme.NoKdfNoKc, errorResults);
             ValidateKdfNoKc(scheme.KdfNoKc, errorResults);
             ValidateKdfKc(scheme.KdfKc, errorResults);
         }
-        
+
+        private void ValidateDkmNonceTypeProvidedStaticScheme(SchemeBase scheme, List<string> errorResults)
+        {
+            if (!(scheme is EccStaticUnified))
+            {
+                return;
+            }
+
+            ValidateDkmNonceTypeProvidedStaticScheme(scheme.KdfNoKc, errorResults);
+            ValidateDkmNonceTypeProvidedStaticScheme(scheme.KdfKc, errorResults);
+        }
+
+        private void ValidateDkmNonceTypeProvidedStaticScheme(KdfNoKc kdfNoKc, List<string> errorResults)
+        {
+            if (kdfNoKc == null)
+            {
+                return;
+            }
+
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(kdfNoKc.DkmNonceTypes, ValidNonceTypes, "Dkm Nonce Types"));
+        }
+
         private void ValidateParameterSetEcc(ParameterSetBase parameterSet, bool macRequired, EccParameterSet parameterSetType, List<string> errorResults)
         {
             if (parameterSet == null)

@@ -1,6 +1,8 @@
 ﻿using NIST.CVP.Crypto.KAS.Enums;
 using System.Collections.Generic;
 using NIST.CVP.Crypto.KAS.Helpers;
+using System;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
@@ -92,9 +94,32 @@ namespace NIST.CVP.Generation.KAS.FFC
                 return;
             }
 
+            ValidateDkmNonceTypeProvidedStaticScheme(scheme, errorResults);
+
             ValidateNoKdfNoKc(scheme.NoKdfNoKc, errorResults);
             ValidateKdfNoKc(scheme.KdfNoKc, errorResults);
             ValidateKdfKc(scheme.KdfKc, errorResults);
+        }
+
+        private void ValidateDkmNonceTypeProvidedStaticScheme(SchemeBase scheme, List<string> errorResults)
+        {
+            if (!(scheme is FfcDhStatic))
+            {
+                return;
+            }
+
+            ValidateDkmNonceTypeProvidedStaticScheme(scheme.KdfNoKc, errorResults);
+            ValidateDkmNonceTypeProvidedStaticScheme(scheme.KdfKc, errorResults);
+        }
+
+        private void ValidateDkmNonceTypeProvidedStaticScheme(KdfNoKc kdfNoKc, List<string> errorResults)
+        {
+            if (kdfNoKc == null)
+            {
+                return;
+            }
+
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(kdfNoKc.DkmNonceTypes, ValidNonceTypes, "Dkm Nonce Types"));
         }
 
         private void ValidateParameterSetFfc(ParameterSetBase parameterSet, bool macRequired, FfcParameterSet parameterSetType, List<string> errorResults)

@@ -257,6 +257,99 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("60fb697f0f2e456df819aa5e38730410cc8cd712d7f4bf1827f787912bcf73d4")
             },
             #endregion onePassMqv
+
+            #region StaticUnified
+            new object[]
+            {
+                // label
+                "staticUnified B233",
+                // scheme
+                EccScheme.StaticUnified,
+                // Curve
+                Curve.B233, 
+                // Sha mode,
+                ModeValues.SHA2,
+                // Digest size
+                DigestSizes.d512,
+                // this party role
+                KeyAgreementRole.InitiatorPartyU,
+                // this party Id
+                new BitString("a1b2c3d4e5"),
+                // private static this party
+                new BitString("0000007b530ac501d9f2bb4a0e52b95f87809b468f69cfb143a7a63f34ee03be").ToPositiveBigInteger(),
+                // public static this party
+                new EccPoint(
+                    new BitString("000000c67f22adeafe0be6a69d16ce6782f3949008589082c6104b6dbc613c32").ToPositiveBigInteger(),
+                    new BitString("000000393543e586d2b4039c0a80ae6054c90663548e1fec381967244f4b7b33").ToPositiveBigInteger()
+                ),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                null,
+                // Other Party ID
+                new BitString("434156536964"),
+                // private static this party
+                new BitString("00000042f7332ced6378f3b36c490cb7f6f5ff2782082c37e744463c5ed40429").ToPositiveBigInteger(),
+                // public static this party
+                new EccPoint(
+                    new BitString("00000152e639c21fb0659b381cd46fc7eaa4ad34a5be7581d62dd5c60c7fc0b3").ToPositiveBigInteger(),
+                    new BitString("00000037ab7ab4b51a0053487cf951b3840fe5941dcc7a53fb04e9d29845bf1c").ToPositiveBigInteger()
+                ),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                null,
+                // expected Z
+                new BitString("01850e5218501c977edef608abb1af00b34f06d09b118b7cfaa30b372468"),
+                // expected Z hash
+                new BitString("ed49fd480ecbbf3dc46a67ea581f26a1a661996184cd2b5ce29a6f25eb6d7cbcc7565c4193decd7183f967abbb3487e998647ee9a8d6d6347c1757f7b7eecece")
+            },
+            new object[]
+            {
+                // label
+                "staticUnified B233 inverse",
+                // scheme
+                EccScheme.StaticUnified,
+                // Curve
+                Curve.B233, 
+                // Sha mode,
+                ModeValues.SHA2,
+                // Digest size
+                DigestSizes.d512,
+                // this party role
+                KeyAgreementRole.ResponderPartyV,
+                // this party Id
+                new BitString("434156536964"),
+                // private static this party
+                new BitString("00000042f7332ced6378f3b36c490cb7f6f5ff2782082c37e744463c5ed40429").ToPositiveBigInteger(),
+                // public static this party
+                new EccPoint(
+                    new BitString("00000152e639c21fb0659b381cd46fc7eaa4ad34a5be7581d62dd5c60c7fc0b3").ToPositiveBigInteger(),
+                    new BitString("00000037ab7ab4b51a0053487cf951b3840fe5941dcc7a53fb04e9d29845bf1c").ToPositiveBigInteger()
+                ),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                null,
+                // Other Party ID
+                new BitString("a1b2c3d4e5"),
+                // private static this party
+                new BitString("0000007b530ac501d9f2bb4a0e52b95f87809b468f69cfb143a7a63f34ee03be").ToPositiveBigInteger(),
+                // public static this party
+                new EccPoint(
+                    new BitString("000000c67f22adeafe0be6a69d16ce6782f3949008589082c6104b6dbc613c32").ToPositiveBigInteger(),
+                    new BitString("000000393543e586d2b4039c0a80ae6054c90663548e1fec381967244f4b7b33").ToPositiveBigInteger()
+                ),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                null,
+                // expected Z
+                new BitString("01850e5218501c977edef608abb1af00b34f06d09b118b7cfaa30b372468"),
+                // expected Z hash
+                new BitString("ed49fd480ecbbf3dc46a67ea581f26a1a661996184cd2b5ce29a6f25eb6d7cbcc7565c4193decd7183f967abbb3487e998647ee9a8d6d6347c1757f7b7eecece")
+            },
+            #endregion StaticUnified
         };
 
         [Test]
@@ -374,6 +467,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("784028a2246950401ec81f8e4e03fd3765c4da4d45eba652ed5ba2b5").ToPositiveBigInteger(),
                     new BitString("d071c32634bcf058f072493b6943453a0bd117f5ee5c5866f037f6ab").ToPositiveBigInteger()
                 ),
+                // dkmNonce this party
+                null,
                 // otherPartyId
                 new BitString("434156536964"),
                 // otherPartyPrivateStaticKey
@@ -387,6 +482,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("c7893ced15c3009b93cb0abeaea2ede308b67fbbd902c6c5d94c24a4").ToPositiveBigInteger(),
                     new BitString("858afc2edd61fcefef3469dd5a004e74a3c727d16498a9408a8e3224").ToPositiveBigInteger()
                 ),
+                // dkmNonce other party
+                null,
                 // expectedZ
                 new BitString("dfd0570d4ae5c9f690c757aead04f7e14758fdc4ee05d8f0d089b91a"),
                 // expectedOi
@@ -435,6 +532,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("c7893ced15c3009b93cb0abeaea2ede308b67fbbd902c6c5d94c24a4").ToPositiveBigInteger(),
                     new BitString("858afc2edd61fcefef3469dd5a004e74a3c727d16498a9408a8e3224").ToPositiveBigInteger()
                 ),
+                // dkmNonce this party
+                null,
                 // otherPartyId
                 new BitString("a1b2c3d4e5"),
                 // otherPartyPrivateStaticKey
@@ -448,6 +547,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("784028a2246950401ec81f8e4e03fd3765c4da4d45eba652ed5ba2b5").ToPositiveBigInteger(),
                     new BitString("d071c32634bcf058f072493b6943453a0bd117f5ee5c5866f037f6ab").ToPositiveBigInteger()
                 ),
+                // dkmNonce other party
+                null,
                 // expectedZ
                 new BitString("dfd0570d4ae5c9f690c757aead04f7e14758fdc4ee05d8f0d089b91a"),
                 // expectedOi
@@ -498,6 +599,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("2240e3d5ef61fc9e516f726bd4fd2d18caea337451ad42c07b97dcb6").ToPositiveBigInteger(),
                     new BitString("56700b229e6655d635d9af60923fff9bc21709c3308ec956d7ff35de").ToPositiveBigInteger()
                 ),
+                // dkmNonce this party
+                null,
                 // otherPartyId
                 new BitString("434156536964"),
                 // otherPartyPrivateStaticKey
@@ -511,6 +614,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("9ce739dfcf76b8f1d8472eb8bf7bdf3e60a72913578edfd2e5891a29").ToPositiveBigInteger(),
                     new BitString("4359df09d4435c3c20611e97d22e4a058cf249fa342c1993181bc569").ToPositiveBigInteger()
                 ),
+                // dkmNonce other party
+                null,
                 // expectedZ
                 new BitString("ea83ece5641d41ad2486145f76d2f38145955efc6e67443050b7df07"),
                 // expectedOi
@@ -559,6 +664,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("9ce739dfcf76b8f1d8472eb8bf7bdf3e60a72913578edfd2e5891a29").ToPositiveBigInteger(),
                     new BitString("4359df09d4435c3c20611e97d22e4a058cf249fa342c1993181bc569").ToPositiveBigInteger()
                 ),
+                // dkmNonce this party
+                null,
                 // otherPartyId
                 new BitString("a1b2c3d4e5"),
                 // otherPartyPrivateStaticKey
@@ -572,6 +679,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("2240e3d5ef61fc9e516f726bd4fd2d18caea337451ad42c07b97dcb6").ToPositiveBigInteger(),
                     new BitString("56700b229e6655d635d9af60923fff9bc21709c3308ec956d7ff35de").ToPositiveBigInteger()
                 ),
+                // dkmNonce other party
+                null,
                 // expectedZ
                 new BitString("ea83ece5641d41ad2486145f76d2f38145955efc6e67443050b7df07"),
                 // expectedOi
@@ -585,6 +694,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
             },
             #endregion ccm
             #endregion ephemeralunified
+
             #region onePassMqv
             #region hmac
             new object[]
@@ -624,6 +734,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // thisPartyPublicEphemKey
                 null,
+                // dkmNonce this party
+                null,
                 // otherPartyId
                 new BitString("434156536964"),
                 // otherPartyPrivateStaticKey
@@ -640,6 +752,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("dcd2a6c0b73310b90912bfb613c9217dd91078b2789f2412ba43121e").ToPositiveBigInteger(),
                     new BitString("a971971c9d3666e22ce30914ccbaeafae8ca8b6d09625412cbfd7aa0").ToPositiveBigInteger()
                 ),
+                // dkmNonce other party
+                null,
                 // expectedZ
                 new BitString("0d3e8be1ac2b5e270828f3c8522f5108fa309c9872da4a0d2ba0b253"),
                 // expectedOi
@@ -691,6 +805,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("dcd2a6c0b73310b90912bfb613c9217dd91078b2789f2412ba43121e").ToPositiveBigInteger(),
                     new BitString("a971971c9d3666e22ce30914ccbaeafae8ca8b6d09625412cbfd7aa0").ToPositiveBigInteger()
                 ),
+                // dkmNonce this party
+                null,
                 // otherPartyId
                 new BitString("a1b2c3d4e5"),
                 // otherPartyPrivateStaticKey
@@ -703,6 +819,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 // otherPartyPrivateEphemKey
                 new BitString("00").ToPositiveBigInteger(),
                 // otherPartyPublicEphemKey
+                null,
+                // dkmNonce other party
                 null,
                 // expectedZ
                 new BitString("0d3e8be1ac2b5e270828f3c8522f5108fa309c9872da4a0d2ba0b253"),
@@ -757,6 +875,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("96efadc75bf3091b8d74de7a415fd3b3e4ef0a6d59485ba6d35b2b6c").ToPositiveBigInteger(),
                     new BitString("90ab198b4e8d4861fbf7d06f30890f1d754645aa5fce67e5798a4b13").ToPositiveBigInteger()
                 ),
+                // dkmNonce this party
+                null,
                 // otherPartyId
                 new BitString("434156536964"),
                 // otherPartyPrivateStaticKey
@@ -769,6 +889,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 // otherPartyPrivateEphemKey
                 new BitString("00").ToPositiveBigInteger(),
                 // otherPartyPublicEphemKey
+                null,
+                // dkmNonce other party
                 null,
                 // expectedZ
                 new BitString("37258088597e2d33628acd795d6d80358c87ae30ed0b8076f31ca2bd"),
@@ -818,6 +940,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // thisPartyPublicEphemKey
                 null,
+                // dkmNonce this party
+                null,
                 // otherPartyId
                 new BitString("a1b2c3d4e5"),
                 // otherPartyPrivateStaticKey
@@ -834,6 +958,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("96efadc75bf3091b8d74de7a415fd3b3e4ef0a6d59485ba6d35b2b6c").ToPositiveBigInteger(),
                     new BitString("90ab198b4e8d4861fbf7d06f30890f1d754645aa5fce67e5798a4b13").ToPositiveBigInteger()
                 ),
+                // dkmNonce other party
+                null,
                 // expectedZ
                 new BitString("37258088597e2d33628acd795d6d80358c87ae30ed0b8076f31ca2bd"),
                 // expectedOi
@@ -847,6 +973,141 @@ namespace NIST.CVP.Crypto.KAS.Tests
             },
             #endregion ccm
             #endregion onePassMqv
+
+            #region StaticUnified
+            #region hmac
+            new object[]
+            {
+                // label
+                "StaticUnified P-224 hmac",
+                // scheme
+                EccScheme.StaticUnified,
+                // curve
+                Curve.P224,
+                // key agreement role
+                KeyAgreementRole.InitiatorPartyU,
+                // kdf hash mode
+                ModeValues.SHA2,
+                // kdf digest size,
+                DigestSizes.d224,
+                // mac type
+                KeyAgreementMacType.HmacSha2D512,
+                // keyLength
+                112,
+                // tagLength
+                64,
+                // noKeyConfirmationNonce
+                new BitString("5ac86fdbe298025324111cb4367d2fb5"),
+                // aesCcmNonce
+                null,
+                // thisPartyId
+                new BitString("a1b2c3d4e5"),
+                // thisPartyPrivateStaticKey
+                new BitString("0aaf95da34a07b4e0e4b146be3234770cfeb6e82e3eac764dea01ff1").ToPositiveBigInteger(),
+                // thisPartyPublicStaticKey
+                new EccPoint(
+                    new BitString("d9da9d9b868bc66dc42b5c1a574036575efc4ff50136d655a79dd9f9").ToPositiveBigInteger(),
+                    new BitString("3e2b5c4b3bd22f56fa7dde4c955456868bd659164e1d5a36ea6419ab").ToPositiveBigInteger()
+                ),
+                // thisPartyPrivateEphemKey
+                new BitString("00").ToPositiveBigInteger(),
+                // thisPartyPublicEphemKey
+                null,
+                // dkmNonce this party
+                new BitString("dd51b8eff60bbf79b9e11b0b5363"),
+                // otherPartyId
+                new BitString("434156536964"),
+                // otherPartyPrivateStaticKey
+                new BitString("38bd268409377242ccccf0da07d78c926fa90f19668f3a254d49c484").ToPositiveBigInteger(),
+                // otherPartyPublicStaticKey
+                new EccPoint(
+                    new BitString("e9ae73e20729b94468686115c87e550a5b80bea570de3380eaca24f7").ToPositiveBigInteger(),
+                    new BitString("6ef16e93abbb28fc0f1ebc720642fabc904d1059825dea220b2fbe8e").ToPositiveBigInteger()
+                ),
+                // otherPartyPrivateEphemKey
+                new BitString("00").ToPositiveBigInteger(),
+                // otherPartyPublicEphemKey
+                null,
+                // dkmNonce other party
+                null,
+                // expectedZ
+                new BitString("0b29d163b4c37de794698d6b19d0643ee261e364c5dbc1119329d462"),
+                // expectedOi
+                new BitString("a1b2c3d4e5dd51b8eff60bbf79b9e11b0b5363434156536964875086e2c370f08c52627a0bc191b637daaf5f71c94a"),
+                // expectedDkm
+                new BitString("3d9415aabd46d8b805e043da461b"),
+                // expectedMacData
+                new BitString("5374616e646172642054657374204d6573736167655ac86fdbe298025324111cb4367d2fb5"),
+                // expectedTag
+                new BitString("d64a14da54bdabd8"),
+            },
+            new object[]
+            {
+                // label
+                "StaticUnified P-224 hmac inverse",
+                // scheme
+                EccScheme.StaticUnified,
+                // curve
+                Curve.P224,
+                // key agreement role
+                KeyAgreementRole.ResponderPartyV,
+                // kdf hash mode
+                ModeValues.SHA2,
+                // kdf digest size,
+                DigestSizes.d224,
+                // mac type
+                KeyAgreementMacType.HmacSha2D512,
+                // keyLength
+                112,
+                // tagLength
+                64,
+                // noKeyConfirmationNonce
+                new BitString("5ac86fdbe298025324111cb4367d2fb5"),
+                // aesCcmNonce
+                null,
+                // thisPartyId
+                new BitString("434156536964"),
+                // thisPartyPrivateStaticKey
+                new BitString("38bd268409377242ccccf0da07d78c926fa90f19668f3a254d49c484").ToPositiveBigInteger(),
+                // thisPartyPublicStaticKey
+                new EccPoint(
+                    new BitString("e9ae73e20729b94468686115c87e550a5b80bea570de3380eaca24f7").ToPositiveBigInteger(),
+                    new BitString("6ef16e93abbb28fc0f1ebc720642fabc904d1059825dea220b2fbe8e").ToPositiveBigInteger()
+                ),
+                // thisPartyPrivateEphemKey
+                new BitString("00").ToPositiveBigInteger(),
+                // thisPartyPublicEphemKey
+                null,
+                // dkmNonce this party
+                null,
+                // otherPartyId
+                new BitString("a1b2c3d4e5"),
+                // otherPartyPrivateStaticKey
+                new BitString("0aaf95da34a07b4e0e4b146be3234770cfeb6e82e3eac764dea01ff1").ToPositiveBigInteger(),
+                // otherPartyPublicStaticKey
+                new EccPoint(
+                    new BitString("d9da9d9b868bc66dc42b5c1a574036575efc4ff50136d655a79dd9f9").ToPositiveBigInteger(),
+                    new BitString("3e2b5c4b3bd22f56fa7dde4c955456868bd659164e1d5a36ea6419ab").ToPositiveBigInteger()
+                ),
+                // otherPartyPrivateEphemKey
+                new BitString("00").ToPositiveBigInteger(),
+                // otherPartyPublicEphemKey
+                null,
+                // dkmNonce other party
+                new BitString("dd51b8eff60bbf79b9e11b0b5363"),
+                // expectedZ
+                new BitString("0b29d163b4c37de794698d6b19d0643ee261e364c5dbc1119329d462"),
+                // expectedOi
+                new BitString("a1b2c3d4e5dd51b8eff60bbf79b9e11b0b5363434156536964875086e2c370f08c52627a0bc191b637daaf5f71c94a"),
+                // expectedDkm
+                new BitString("3d9415aabd46d8b805e043da461b"),
+                // expectedMacData
+                new BitString("5374616e646172642054657374204d6573736167655ac86fdbe298025324111cb4367d2fb5"),
+                // expectedTag
+                new BitString("d64a14da54bdabd8"),
+            },
+            #endregion hmac
+            #endregion StaticUnified
         };
 
         [Test]
@@ -868,11 +1129,13 @@ namespace NIST.CVP.Crypto.KAS.Tests
             EccPoint thisPartyPublicStaticKey,
             BigInteger thisPartyPrivateEphemKey,
             EccPoint thisPartyPublicEphemKey,
+            BitString thisPartyDkmNonce,
             BitString otherPartyId,
             BigInteger otherPartyPrivateStaticKey,
             EccPoint otherpartyPublicStaticKey,
             BigInteger otherPartyPrivateEphemKey,
             EccPoint otherPartyPublicEphemKey,
+            BitString otherPartyDkmNonce,
             BitString expectedZ,
             BitString expectedOi,
             BitString expectedDkm,
@@ -889,7 +1152,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     otherPartyId,
                     new EccKeyPair(otherpartyPublicStaticKey),
                     new EccKeyPair(otherPartyPublicEphemKey),
-                    null,
+                    otherPartyDkmNonce,
                     null,
                     // when "party v" noKeyConfirmationNonce is provided as a part of party U's shared information
                     keyAgreementRole == KeyAgreementRole.ResponderPartyV ? noKeyConfirmationNonce : null
@@ -898,12 +1161,19 @@ namespace NIST.CVP.Crypto.KAS.Tests
             // u/v party info comprised of ID, and dkmNonce (when available), find the bitlength of both parties contributed information 
             // to determine which bits are the "random" bits to inject into the TestableEntropyProvider.
             var composedBitLength = thisPartyId.BitLength +
-                                    new BitString(0).BitLength + // DKM nonce when applicable
+                                    (thisPartyDkmNonce?.BitLength ?? 0) + // DKM nonce when applicable
+                                    (otherPartyDkmNonce?.BitLength ?? 0) + // DKM nonce when applicable
                                     otherPartyId.BitLength;
 
             var entropyBits = expectedOi.GetLeastSignificantBits(expectedOi.BitLength - composedBitLength);
 
             _entropyProviderOtherInfo.AddEntropy(entropyBits);
+
+            // add dkm nonce to entropy provided when needed
+            if (thisPartyDkmNonce != null)
+            {
+                _entropyProviderScheme.AddEntropy(thisPartyDkmNonce);
+            }
 
             // MAC no key confirmation data makes use of a nonce
             _entropyProviderScheme.AddEntropy(noKeyConfirmationNonce);
@@ -1000,6 +1270,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("00e7ae5ff2b618eca669eb723e5a19233460532ac0aff7e59a5b2087").ToPositiveBigInteger(),
                     new BitString("71f14c792f9a37050cbf7814538cce3db13f91c0d3ebd4ebe8857ecf").ToPositiveBigInteger()
                 ),
+                // dkmNonce other party
+                null,
                 // thisPartyEphemeralNonce
                 null,
                 // otherPartyId
@@ -1014,6 +1286,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 // otherPartyPrivateEphemKey
                 new BitString("00").ToPositiveBigInteger(),
                 // otherPartyPublicEphemKey
+                null,
+                // dkmNonce other party
                 null,
                 // otherPartyEphemeralNonce
                 new BitString("f7320c90bd3a25e9ffccaedbc9d0b6c252b6c2a5dcc5cc20dcb08ba15b6bf5d89c3c0368ff15b4e3252154f5559dfedf1ee960273edfbe8e"),
@@ -1067,6 +1341,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // thisPartyPublicEphemKey
                 null,
+                // dkmNonce other party
+                null,
                 // thisPartyEphemeralNonce
                 new BitString("f7320c90bd3a25e9ffccaedbc9d0b6c252b6c2a5dcc5cc20dcb08ba15b6bf5d89c3c0368ff15b4e3252154f5559dfedf1ee960273edfbe8e"),
                 // otherPartyId
@@ -1085,6 +1361,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("00e7ae5ff2b618eca669eb723e5a19233460532ac0aff7e59a5b2087").ToPositiveBigInteger(),
                     new BitString("71f14c792f9a37050cbf7814538cce3db13f91c0d3ebd4ebe8857ecf").ToPositiveBigInteger()
                 ),
+                // dkmNonce other party
+                null,
                 // otherPartyEphemeralNonce
                 null,
                 // expectedZ
@@ -1139,6 +1417,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // thisPartyPublicEphemKey
                 null,
+                // dkmNonce other party
+                null,
                 // thisPartyEphemeralNonce
                 null,
                 // otherPartyId
@@ -1157,6 +1437,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("72e8163f3a8eb6bacf29049d4cddd2888c8ca6fbf05e592793b602c5").ToPositiveBigInteger(),
                     new BitString("3451e29cefed856ccedbf60360094b338c440d04ee299e451bbfb048").ToPositiveBigInteger()
                 ),
+                // dkmNonce other party
+                null,
                 // otherPartyEphemeralNonce
                 null,
                 // expectedZ
@@ -1212,6 +1494,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("72e8163f3a8eb6bacf29049d4cddd2888c8ca6fbf05e592793b602c5").ToPositiveBigInteger(),
                     new BitString("3451e29cefed856ccedbf60360094b338c440d04ee299e451bbfb048").ToPositiveBigInteger()
                 ),
+                // dkmNonce other party
+                null,
                 // thisPartyEphemeralNonce
                 null,
                 // otherPartyId
@@ -1226,6 +1510,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 // otherPartyPrivateEphemKey
                 new BitString("00").ToPositiveBigInteger(),
                 // otherPartyPublicEphemKey
+                null,
+                // dkmNonce other party
                 null,
                 // otherPartyEphemeralNonce
                 null,
@@ -1279,6 +1565,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // thisPartyPublicEphemKey
                 null,
+                // dkmNonce other party
+                null,
                 // thisPartyEphemeralNonce
                 null,
                 // otherPartyId
@@ -1297,6 +1585,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("72e8163f3a8eb6bacf29049d4cddd2888c8ca6fbf05e592793b602c5").ToPositiveBigInteger(),
                     new BitString("3451e29cefed856ccedbf60360094b338c440d04ee299e451bbfb048").ToPositiveBigInteger()
                 ),
+                // dkmNonce other party
+                null,
                 // otherPartyEphemeralNonce
                 null,
                 // expectedZ
@@ -1352,6 +1642,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     new BitString("72e8163f3a8eb6bacf29049d4cddd2888c8ca6fbf05e592793b602c5").ToPositiveBigInteger(),
                     new BitString("3451e29cefed856ccedbf60360094b338c440d04ee299e451bbfb048").ToPositiveBigInteger()
                 ),
+                // dkmNonce other party
+                null,
                 // thisPartyEphemeralNonce
                 null,
                 // otherPartyId
@@ -1366,6 +1658,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 // otherPartyPrivateEphemKey
                 new BitString("00").ToPositiveBigInteger(),
                 // otherPartyPublicEphemKey
+                null,
+                // dkmNonce other party
                 null,
                 // otherPartyEphemeralNonce
                 null,
@@ -1382,11 +1676,304 @@ namespace NIST.CVP.Crypto.KAS.Tests
             },
             #endregion ccm
             #endregion onePassMqv
+
+            #region StaticUnified
+            #region hmac
+            new object[]
+            {
+                // label
+                "StaticUnified P224 hmac",
+                // scheme
+                EccScheme.StaticUnified,
+                // curveName
+                Curve.P224,
+                // keyAgreementRole
+                KeyAgreementRole.InitiatorPartyU,
+                // dsaKdfHashMode
+                ModeValues.SHA2,
+                // dsaKdfDigestSize
+                DigestSizes.d224,
+                // macType
+                KeyAgreementMacType.HmacSha2D224,
+                // keyConfirmationRole
+                KeyConfirmationRole.Provider,
+                // keyConfirmationDirection
+                KeyConfirmationDirection.Bilateral,
+                // keyLength
+                112,
+                // tagLength
+                64,
+                // aesCcmNonce
+                null,
+                // thisPartyId
+                new BitString("a1b2c3d4e5"),
+                // thisPartyPrivateStaticKey
+                new BitString("b8706f099ef246aa5fcdaa2062d8820b8f2d0749fe6fd076939e4ca2").ToPositiveBigInteger(),
+                // thisPartyPublicStaticKey
+                new EccPoint(
+                    new BitString("8eb82fd84b257cbe16bebb643d590e65198e82cdab32a5f2196edc45").ToPositiveBigInteger(),
+                    new BitString("df3c23bd8c61aaf6a983fc31ceaf38c3ddeb5614338c289c3865f66e").ToPositiveBigInteger()
+                ),
+                // thisPartyPrivateEphemKey
+                new BitString("00").ToPositiveBigInteger(),
+                // thisPartyPublicEphemKey
+                null,
+                // dkmNonce this party
+                new BitString("34e74cd386476a01a91a80533919"),
+                // thisPartyEphemeralNonce
+                null,
+                // otherPartyId
+                new BitString("434156536964"),
+                // otherPartyPrivateStaticKey
+                new BitString("baa3488d9499c4409e57a7f9efdc7b23eee14c6719e04ffda48e3729").ToPositiveBigInteger(),
+                // otherPartyPublicStaticKey
+                new EccPoint(
+                    new BitString("b8a97d2a2d8ce6c58537afc41027cf9863aac3cf225533e5eba90e37").ToPositiveBigInteger(),
+                    new BitString("e5ff363350ba18ea7b4b3d178e7f9b967b8440e3b82b01b30e83dc3f").ToPositiveBigInteger()
+                ),
+                // otherPartyPrivateEphemKey
+                new BitString("00").ToPositiveBigInteger(),
+                // otherPartyPublicEphemKey
+                null,
+                // dkmNonce other party
+                null,
+                // otherPartyEphemeralNonce
+                new BitString("836a4e8914ef58e0f3e8f1cd3f03daa15b2e1ec84d64984264c7b5581ef07b874883cac16706e2d557f3262b320b20b474eec4215ce9f953"),
+                // expectedZ
+                new BitString("a997f2f38776f1e59dc47a2f3865fad252bcf0954138c3e8ff59ba6f"),
+                // expectedOi
+                new BitString("a1b2c3d4e534e74cd386476a01a91a80533919434156536964e204a7177157f793f51806ad1a9beee2eefe63ebde51"),
+                // expectedDkm
+                new BitString("7d740e1d93e4fc2b53df5038c930"),
+                // expectedMacData
+                new BitString("4b435f325f55a1b2c3d4e543415653696434e74cd386476a01a91a80533919836a4e8914ef58e0f3e8f1cd3f03daa15b2e1ec84d64984264c7b5581ef07b874883cac16706e2d557f3262b320b20b474eec4215ce9f953"),
+                // expectedTag
+                new BitString("0d49be39bb9ee470")
+            },
+            new object[]
+            {
+                // label
+                "StaticUnified P224 hmac inverse",
+                // scheme
+                EccScheme.StaticUnified,
+                // curveName
+                Curve.P224,
+                // keyAgreementRole
+                KeyAgreementRole.ResponderPartyV,
+                // dsaKdfHashMode
+                ModeValues.SHA2,
+                // dsaKdfDigestSize
+                DigestSizes.d224,
+                // macType
+                KeyAgreementMacType.HmacSha2D224,
+                // keyConfirmationRole
+                KeyConfirmationRole.Recipient,
+                // keyConfirmationDirection
+                KeyConfirmationDirection.Bilateral,
+                // keyLength
+                112,
+                // tagLength
+                64,
+                // aesCcmNonce
+                null,
+                // thisPartyId
+                new BitString("434156536964"),
+                // thisPartyPrivateStaticKey
+                new BitString("baa3488d9499c4409e57a7f9efdc7b23eee14c6719e04ffda48e3729").ToPositiveBigInteger(),
+                // thisPartyPublicStaticKey
+                new EccPoint(
+                    new BitString("b8a97d2a2d8ce6c58537afc41027cf9863aac3cf225533e5eba90e37").ToPositiveBigInteger(),
+                    new BitString("e5ff363350ba18ea7b4b3d178e7f9b967b8440e3b82b01b30e83dc3f").ToPositiveBigInteger()
+                ),
+                // thisPartyPrivateEphemKey
+                new BitString("00").ToPositiveBigInteger(),
+                // thisPartyPublicEphemKey
+                null,
+                // dkmNonce this party
+                null,
+                // thisPartyEphemeralNonce
+                new BitString("836a4e8914ef58e0f3e8f1cd3f03daa15b2e1ec84d64984264c7b5581ef07b874883cac16706e2d557f3262b320b20b474eec4215ce9f953"),
+                // otherPartyId
+                new BitString("a1b2c3d4e5"),
+                // otherPartyPrivateStaticKey
+                new BitString("b8706f099ef246aa5fcdaa2062d8820b8f2d0749fe6fd076939e4ca2").ToPositiveBigInteger(),
+                // otherPartyPublicStaticKey
+                new EccPoint(
+                    new BitString("8eb82fd84b257cbe16bebb643d590e65198e82cdab32a5f2196edc45").ToPositiveBigInteger(),
+                    new BitString("df3c23bd8c61aaf6a983fc31ceaf38c3ddeb5614338c289c3865f66e").ToPositiveBigInteger()
+                ),
+                // otherPartyPrivateEphemKey
+                new BitString("00").ToPositiveBigInteger(),
+                // otherPartyPublicEphemKey
+                null,
+                // dkmNonce other party
+                new BitString("34e74cd386476a01a91a80533919"),
+                // otherPartyEphemeralNonce
+                null,
+                // expectedZ
+                new BitString("a997f2f38776f1e59dc47a2f3865fad252bcf0954138c3e8ff59ba6f"),
+                // expectedOi
+                new BitString("a1b2c3d4e534e74cd386476a01a91a80533919434156536964e204a7177157f793f51806ad1a9beee2eefe63ebde51"),
+                // expectedDkm
+                new BitString("7d740e1d93e4fc2b53df5038c930"),
+                // expectedMacData
+                new BitString("4b435f325f55a1b2c3d4e543415653696434e74cd386476a01a91a80533919836a4e8914ef58e0f3e8f1cd3f03daa15b2e1ec84d64984264c7b5581ef07b874883cac16706e2d557f3262b320b20b474eec4215ce9f953"),
+                // expectedTag
+                new BitString("0d49be39bb9ee470")
+            },
+            #endregion hmac
+
+            #region ccm
+            new object[]
+            {
+                // label
+                "StaticUnified P224 ccm",
+                // scheme
+                EccScheme.StaticUnified,
+                // curveName
+                Curve.P224,
+                // keyAgreementRole
+                KeyAgreementRole.InitiatorPartyU,
+                // dsaKdfHashMode
+                ModeValues.SHA2,
+                // dsaKdfDigestSize
+                DigestSizes.d224,
+                // macType
+                KeyAgreementMacType.AesCcm,
+                // keyConfirmationRole
+                KeyConfirmationRole.Provider,
+                // keyConfirmationDirection
+                KeyConfirmationDirection.Bilateral,
+                // keyLength
+                128,
+                // tagLength
+                128,
+                // aesCcmNonce
+                new BitString("74c5b2ffc98670024d99a36a51"),
+                // thisPartyId
+                new BitString("a1b2c3d4e5"),
+                // thisPartyPrivateStaticKey
+                new BitString("0747edc603288e86cc03ba184138af5a13fbdfc400013a42936a0321").ToPositiveBigInteger(),
+                // thisPartyPublicStaticKey
+                new EccPoint(
+                    new BitString("1e1c2b7952184c197684bba87f4e5128e5b869b17c155016dcaa31e3").ToPositiveBigInteger(),
+                    new BitString("4e12b6f0fe7842fc19d0f19707edac9339b48721718053ec3a5c6edc").ToPositiveBigInteger()
+                ),
+                // thisPartyPrivateEphemKey
+                new BitString("00").ToPositiveBigInteger(),
+                // thisPartyPublicEphemKey
+                null,
+                // dkmNonce this party
+                new BitString("b256233d5ee114f6cd00b073a5d2"),
+                // thisPartyEphemeralNonce
+                null,
+                // otherPartyId
+                new BitString("434156536964"),
+                // otherPartyPrivateStaticKey
+                new BitString("d38c193ac27d316a6787d6b34fbeaaecb41d6f5169b8e46fb3a4679e").ToPositiveBigInteger(),
+                // otherPartyPublicStaticKey
+                new EccPoint(
+                    new BitString("e6ca16d9a54202b89071df52b325b883ccff4c520a9988bca86c9dcd").ToPositiveBigInteger(),
+                    new BitString("d248676560c2120cbd9165f2504eb76629a8c31b5c8de2c590502f77").ToPositiveBigInteger()
+                ),
+                // otherPartyPrivateEphemKey
+                new BitString("00").ToPositiveBigInteger(),
+                // otherPartyPublicEphemKey
+                null,
+                // dkmNonce other party
+                null,
+                // otherPartyEphemeralNonce
+                new BitString("40bc7e4d90e30406c36d3c1c80779bc479f90ccc935735d14732fbb24884484466ec0b48b246819ae37fb4abf8a741301f485d1cd6f71acc"),
+                // expectedZ
+                new BitString("b0ba5f60deb5fc881482cf909a1f9b41d680324afc11d59e327fe35f"),
+                // expectedOi
+                new BitString("a1b2c3d4e5b256233d5ee114f6cd00b073a5d243415653696482f93f1b6cfb3973d5ae963541969e1ec877d52dbf68"),
+                // expectedDkm
+                new BitString("fb7d879de16afa55885b6ae35e0f1733"),
+                // expectedMacData
+                new BitString("4b435f325f55a1b2c3d4e5434156536964b256233d5ee114f6cd00b073a5d240bc7e4d90e30406c36d3c1c80779bc479f90ccc935735d14732fbb24884484466ec0b48b246819ae37fb4abf8a741301f485d1cd6f71acc"),
+                // expectedTag
+                new BitString("4adae4db55fd6cd342705c97586f9988")
+            },
+            new object[]
+            {
+                // label
+                "StaticUnified P224 ccm inverse",
+                // scheme
+                EccScheme.StaticUnified,
+                // curveName
+                Curve.P224,
+                // keyAgreementRole
+                KeyAgreementRole.ResponderPartyV,
+                // dsaKdfHashMode
+                ModeValues.SHA2,
+                // dsaKdfDigestSize
+                DigestSizes.d224,
+                // macType
+                KeyAgreementMacType.AesCcm,
+                // keyConfirmationRole
+                KeyConfirmationRole.Recipient,
+                // keyConfirmationDirection
+                KeyConfirmationDirection.Bilateral,
+                // keyLength
+                128,
+                // tagLength
+                128,
+                // aesCcmNonce
+                new BitString("74c5b2ffc98670024d99a36a51"),
+                
+                // thisPartyId
+                new BitString("434156536964"),
+                // thisPartyPrivateStaticKey
+                new BitString("d38c193ac27d316a6787d6b34fbeaaecb41d6f5169b8e46fb3a4679e").ToPositiveBigInteger(),
+                // thisPartyPublicStaticKey
+                new EccPoint(
+                    new BitString("e6ca16d9a54202b89071df52b325b883ccff4c520a9988bca86c9dcd").ToPositiveBigInteger(),
+                    new BitString("d248676560c2120cbd9165f2504eb76629a8c31b5c8de2c590502f77").ToPositiveBigInteger()
+                ),
+                // thisPartyPrivateEphemKey
+                new BitString("00").ToPositiveBigInteger(),
+                // thisPartyPublicEphemKey
+                null,
+                // dkmNonce this party
+                null,
+                // thisPartyEphemeralNonce
+                new BitString("40bc7e4d90e30406c36d3c1c80779bc479f90ccc935735d14732fbb24884484466ec0b48b246819ae37fb4abf8a741301f485d1cd6f71acc"),
+                // otherPartyId
+                new BitString("a1b2c3d4e5"),
+                // otherPartyPrivateStaticKey
+                new BitString("0747edc603288e86cc03ba184138af5a13fbdfc400013a42936a0321").ToPositiveBigInteger(),
+                // otherPartyPublicStaticKey
+                new EccPoint(
+                    new BitString("1e1c2b7952184c197684bba87f4e5128e5b869b17c155016dcaa31e3").ToPositiveBigInteger(),
+                    new BitString("4e12b6f0fe7842fc19d0f19707edac9339b48721718053ec3a5c6edc").ToPositiveBigInteger()
+                ),
+                // otherPartyPrivateEphemKey
+                new BitString("00").ToPositiveBigInteger(),
+                // otherPartyPublicEphemKey
+                null,
+                // dkmNonce other party
+                new BitString("b256233d5ee114f6cd00b073a5d2"),
+                // otherPartyEphemeralNonce
+                null,
+                // expectedZ
+                new BitString("b0ba5f60deb5fc881482cf909a1f9b41d680324afc11d59e327fe35f"),
+                // expectedOi
+                new BitString("a1b2c3d4e5b256233d5ee114f6cd00b073a5d243415653696482f93f1b6cfb3973d5ae963541969e1ec877d52dbf68"),
+                // expectedDkm
+                new BitString("fb7d879de16afa55885b6ae35e0f1733"),
+                // expectedMacData
+                new BitString("4b435f325f55a1b2c3d4e5434156536964b256233d5ee114f6cd00b073a5d240bc7e4d90e30406c36d3c1c80779bc479f90ccc935735d14732fbb24884484466ec0b48b246819ae37fb4abf8a741301f485d1cd6f71acc"),
+                // expectedTag
+                new BitString("4adae4db55fd6cd342705c97586f9988")
+            },
+            #endregion ccm
+            #endregion StaticUnified
         };
 
         [Test]
         [TestCaseSource(nameof(_test_keyConfirmation))]
-        public void ShouldMqv1KeyConfirmationCorrectly(
+        public void ShouldKeyConfirmationCorrectly(
             string label,
             EccScheme scheme,
             Curve curveName,
@@ -1404,12 +1991,14 @@ namespace NIST.CVP.Crypto.KAS.Tests
             EccPoint thisPartyPublicStaticKey,
             BigInteger thisPartyPrivateEphemKey,
             EccPoint thisPartyPublicEphemKey,
+            BitString thisPartyDkmNonce,
             BitString thisPartyEphemeralNonce,
             BitString otherPartyId,
             BigInteger otherPartyPrivateStaticKey,
             EccPoint otherPartyPublicStaticKey,
             BigInteger otherPartyPrivateEphemKey,
             EccPoint otherPartyPublicEphemKey,
+            BitString otherPartyDkmNonce,
             BitString otherPartyEphemeralNonce,
             BitString expectedZ,
             BitString expectedOi,
@@ -1427,20 +2016,27 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     otherPartyId,
                     new EccKeyPair(otherPartyPublicStaticKey),
                     new EccKeyPair(otherPartyPublicEphemKey),
+                    otherPartyDkmNonce,
                     otherPartyEphemeralNonce,
-                    null,
                     null
                 );
 
             // u/v party info comprised of ID, and dkmNonce (when available), find the bitlength of both parties contributed information 
             // to determine which bits are the "random" bits to inject into the TestableEntropyProvider.
             var composedBitLength = thisPartyId.BitLength +
-                                    new BitString(0).BitLength + // DKM nonce when applicable
+                                    (thisPartyDkmNonce?.BitLength ?? 0) + // DKM nonce when applicable
+                                    (otherPartyDkmNonce?.BitLength ?? 0) + // DKM nonce when applicable
                                     otherPartyId.BitLength;
 
             var entropyBits = expectedOi.GetLeastSignificantBits(expectedOi.BitLength - composedBitLength);
 
             _entropyProviderOtherInfo.AddEntropy(entropyBits);
+
+            // add dkm nonce to entropy provided when needed
+            if (thisPartyDkmNonce != null)
+            {
+                _entropyProviderScheme.AddEntropy(thisPartyDkmNonce);
+            }
 
             // MAC no key confirmation data makes use of a nonce
             if (thisPartyEphemeralNonce != null)

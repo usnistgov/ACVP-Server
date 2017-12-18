@@ -56,6 +56,9 @@ namespace NIST.CVP.Generation.KAS.FFC
                 case "yephemcavs":
                     EphemeralPublicKeyServer = new BitString(value).ToPositiveBigInteger();
                     return true;
+                case "noncedkmcavs":
+                    DkmNonceServer = new BitString(value);
+                    break;
                 case "nonceephemcavs":
                     EphemeralNonceServer = new BitString(value);
                     break;
@@ -71,6 +74,9 @@ namespace NIST.CVP.Generation.KAS.FFC
                 case "yephemiut":
                     EphemeralPublicKeyIut = new BitString(value).ToPositiveBigInteger();
                     return true;
+                case "noncedkmiut":
+                    DkmNonceIut = new BitString(value);
+                    break;
                 case "nonceephemiut":
                     EphemeralNonceIut = new BitString(value);
                     break;
@@ -131,12 +137,14 @@ namespace NIST.CVP.Generation.KAS.FFC
             EphemeralPublicKeyServer = expandoSource.GetBigIntegerFromProperty("ephemeralPublicServer");
             StaticPrivateKeyServer = expandoSource.GetBigIntegerFromProperty("staticPrivateServer");
             StaticPublicKeyServer = expandoSource.GetBigIntegerFromProperty("staticPublicServer");
+            DkmNonceServer = expandoSource.GetBitStringFromProperty("nonceDkmServer");
             EphemeralNonceServer = expandoSource.GetBitStringFromProperty("nonceEphemeralServer");
 
             EphemeralPrivateKeyIut = expandoSource.GetBigIntegerFromProperty("ephemeralPrivateIut");
             EphemeralPublicKeyIut = expandoSource.GetBigIntegerFromProperty("ephemeralPublicIut");
             StaticPrivateKeyIut = expandoSource.GetBigIntegerFromProperty("staticPrivateIut");
             StaticPublicKeyIut = expandoSource.GetBigIntegerFromProperty("staticPublicIut");
+            DkmNonceIut = expandoSource.GetBitStringFromProperty("nonceDkmIut");
             EphemeralNonceIut = expandoSource.GetBitStringFromProperty("nonceEphemeralIut");
 
             IdIutLen = expandoSource.GetTypeFromProperty<int>("idIutLen");

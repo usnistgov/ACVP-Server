@@ -71,7 +71,14 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         //[TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         //[TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
 
-
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
         public void ShouldSucceedValidation(FfcScheme scheme, KeyAgreementRole kasRole, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType)
         {
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
@@ -143,7 +150,16 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         //[TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         //[TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         //[TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
-        
+
+        //[TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        //[TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        //[TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        //[TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+        //[TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        //[TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        //[TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        //[TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+
         public void ShouldFailWhenIutDoesNotProvideEphemeralKeyPair(FfcScheme scheme, KeyAgreementRole kasRole, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType)
         {
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
@@ -205,6 +221,15 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         //[TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         //[TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         //[TestCase(FfcScheme.DhOneFlow, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(FfcScheme.DhStatic, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
 
         public void ShouldFailWhenIutDoesNotProvideStaticKeyPair(FfcScheme scheme, KeyAgreementRole kasRole, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType)
         {

@@ -632,6 +632,101 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("1e26586fd9e758d1116cc37b6fba8fd81fc6c93f165a9b1555be07770eb04d00841f904074647ce8b964378f06317bd2e5912ae1b7f07e1852ede8a5a0a3f2f6")
             },
             #endregion dhOneFlow
+
+            #region dhStatic
+            new object[]
+            {
+                // label
+                "dhStatic sha2-512",
+                // Domain parameters
+                new FfcDomainParameters(
+                    // p
+                    new BitString("dcca1511b2313225f52116e1542789e001f0425bccc7f366f7406407f1c9fa8be610f1778bb170be39dbb76f85bf24ce6880adb7629f7c6d015e61d43fa3ee4de185f2cfd041ffde9d418407e15138bb021daeb35f762d1782acc658d32bd4b0232c927dd38fa097b3d1859fa8acafb98f066608fc644ec7ddb6f08599f92ac1b59825da8432077def695646063c20823c9507ab6f0176d4730d990dbbe6361cd8b2b94d3d2f329b82099bd661f42950f403df3ede62a33188b02798ba823f44b946fe9df677a0c5a1238eaa97b70f80da8cac88e092b1127060ffbf45579994011dc2faa5e7f6c76245e1cc312231c17d1ca6b19007ef0db99f9cb60e1d5f69").ToPositiveBigInteger(),
+                    // q
+                    new BitString("898b226717ef039e603e82e5c7afe48374ac5f625c54f1ea11acb57d").ToPositiveBigInteger(), 
+                    // g
+                    new BitString("5ef7b88f2df60139351dfbfe1266805fdf356cdfd13a4da0050c7ede246df59f6abf96ade5f2b28ffe88d6bce7f7894a3d535fc82126ddd424872e16b838df8c51e9016f889c7c203e98a8b631f9c72563d38a49589a0753d358e783318cefd9677c7b2dbb77d6dce2a1963795ca64b92d1c9aac6d0e8d431de5e50060dff78689c9eca1c1248c16ed09c7ad412a17406d2b525aa1cabb237b9734ec7b8ce3fae02f29c5efed30d69187da109c2c9fe2aadbb0c22af54c616655000c431c6b4a379763b0a91658efc84e8b06358c8b4f213710fd10172cf39b830c2dd84a0c8ab82516ecab995fa4215e023e4ecf8074c39d6c88b70d1ee4e96fdc20ea115c32").ToPositiveBigInteger()
+                ), 
+                // scheme
+                FfcScheme.DhStatic,
+                // mode
+                ModeValues.SHA2,
+                // digest
+                DigestSizes.d512,
+                // this party role
+                KeyAgreementRole.InitiatorPartyU,
+                // this party Id
+                new BitString("a1b2c3d4e5"),
+                // private static this party
+                new BitString("1adf389e2ac131ea502ee38462067b11b1e2648245c26d5d00a11f23").ToPositiveBigInteger(),
+                // public static this party
+                new BitString("1fc1da341d1a846a96b7be24340f877dd010aa0356d5ad58aae9c7b08f749a32235110b5d88eb5dbfa978d27ecc530f02d3114005b64b1c0e024cb8ae21698bca9e60d42808622f181c56e1de7a96e6efee9d66567e91b977042c7e3d0448f05fb77f522b9bfc8d33cc3c31ed3b31f0fecb6db4f6ea311e77afdbcd47aee1bb150f216873578fb96468e8f9f3de8efbfce75624b1df05322a34f1463e839e8984c4ad0a96e1ac842e5318cc23c062a8ca171b8d575980dde7fc56f1536523820d43192bfd51e8e228978aca5b94472f339caeb9931b42be301268bc99789c9b25571c3c0e4cb3f007f1a511cbb53c8519cdd1302abca6c0f34f96739f17ff48b").ToPositiveBigInteger(),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // Other Party ID
+                new BitString("434156536964"),
+                // private static other party
+                new BitString("1433e0b5a917b60a3023f2f8aa2c2d70d2968aba9aeac81540b8fce6").ToPositiveBigInteger(),
+                // public static other party
+                new BitString("95dd338d29e5710492b918317b72a36936e1951a2ee5a5591699c0486d0d4f9bdd6d5a3f6b98890c62b37652d36e712111e68a735537250699efe330537391fbc2c548bc5ac3e5b23386c3eef5eb43c099d70a5202687e83964248fca91f40908e8fb3319315f6d2606d7f7cd52cc6e7c5843afb22519cf0f0f9d3a0a4e8c88899efede7364351fb6a363ee717e5445adab4c931a6483997b87dad83677e4d1d3a7775e0f6d00fdf73c7ad801e665a0e5a796d0a0380a19fa182efc8a04f5e4db90d1a8637f95db16436bdc8f3fc096c4ff7f234be8fef479ac4b0dc4b77263e07d9959de0f1bf3f0ae3d9d50e4b89c99e3ea1217343dd8c6581acc4959c91d3").ToPositiveBigInteger(),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                new BitString("00").ToPositiveBigInteger(),
+                // expected Z
+                new BitString("08ff33bb2ecff49a7d4a7912aeb1bb6ab511641b4a76770c8cc1bcc233343dfe700d11813d2c9ed23b211ca9e8786921edca283c68b16153fa01e91ab82c90ddab4a95816770a98710e14c92ab83b6e46e1e426ee852430d6187daa3720a6bcd73235c6b0f941f3364f50420551a4bfeafe2bc438505a59a4a40daca7a895a73db575c74c13a23ad8832957d582d38f0a6165fb0d7e9b8799e42fd3220e332e98185a0c9429757b2d0d02c17dbaa1ff6ed93d7e73e241eaed90caf394d2bc6570f18c81f2be5d01a2ca99ff142b5d963f9f500325e7556f95849b3ffc7479486be1d4596a3106bd5cb4f61c57ec5f100fb7a0c82a10b82526a97d1d97d98eaf6"),
+                // expected Z hash
+                new BitString("90df31241ea4b4bc0fec4ffafe513fea0a83f442397b1bbeb2a88003cc9aadf467b262c9e42105e26a8424ff1f7b04c33a8be71736972c2d595dc545233fbece")
+            },
+            new object[]
+            {
+                // label
+                "dhStatic sha2-512 inverse",
+                // Domain parameters
+                new FfcDomainParameters(
+                    // p
+                    new BitString("dcca1511b2313225f52116e1542789e001f0425bccc7f366f7406407f1c9fa8be610f1778bb170be39dbb76f85bf24ce6880adb7629f7c6d015e61d43fa3ee4de185f2cfd041ffde9d418407e15138bb021daeb35f762d1782acc658d32bd4b0232c927dd38fa097b3d1859fa8acafb98f066608fc644ec7ddb6f08599f92ac1b59825da8432077def695646063c20823c9507ab6f0176d4730d990dbbe6361cd8b2b94d3d2f329b82099bd661f42950f403df3ede62a33188b02798ba823f44b946fe9df677a0c5a1238eaa97b70f80da8cac88e092b1127060ffbf45579994011dc2faa5e7f6c76245e1cc312231c17d1ca6b19007ef0db99f9cb60e1d5f69").ToPositiveBigInteger(),
+                    // q
+                    new BitString("898b226717ef039e603e82e5c7afe48374ac5f625c54f1ea11acb57d").ToPositiveBigInteger(), 
+                    // g
+                    new BitString("5ef7b88f2df60139351dfbfe1266805fdf356cdfd13a4da0050c7ede246df59f6abf96ade5f2b28ffe88d6bce7f7894a3d535fc82126ddd424872e16b838df8c51e9016f889c7c203e98a8b631f9c72563d38a49589a0753d358e783318cefd9677c7b2dbb77d6dce2a1963795ca64b92d1c9aac6d0e8d431de5e50060dff78689c9eca1c1248c16ed09c7ad412a17406d2b525aa1cabb237b9734ec7b8ce3fae02f29c5efed30d69187da109c2c9fe2aadbb0c22af54c616655000c431c6b4a379763b0a91658efc84e8b06358c8b4f213710fd10172cf39b830c2dd84a0c8ab82516ecab995fa4215e023e4ecf8074c39d6c88b70d1ee4e96fdc20ea115c32").ToPositiveBigInteger()
+                ), 
+                // scheme
+                FfcScheme.DhStatic,
+                // mode
+                ModeValues.SHA2,
+                // digest
+                DigestSizes.d512,
+                // this party role
+                KeyAgreementRole.InitiatorPartyU,
+                // this party Id
+                new BitString("a1b2c3d4e5"),
+                // private static this party
+                new BitString("1433e0b5a917b60a3023f2f8aa2c2d70d2968aba9aeac81540b8fce6").ToPositiveBigInteger(),
+                // public static this party
+                new BitString("95dd338d29e5710492b918317b72a36936e1951a2ee5a5591699c0486d0d4f9bdd6d5a3f6b98890c62b37652d36e712111e68a735537250699efe330537391fbc2c548bc5ac3e5b23386c3eef5eb43c099d70a5202687e83964248fca91f40908e8fb3319315f6d2606d7f7cd52cc6e7c5843afb22519cf0f0f9d3a0a4e8c88899efede7364351fb6a363ee717e5445adab4c931a6483997b87dad83677e4d1d3a7775e0f6d00fdf73c7ad801e665a0e5a796d0a0380a19fa182efc8a04f5e4db90d1a8637f95db16436bdc8f3fc096c4ff7f234be8fef479ac4b0dc4b77263e07d9959de0f1bf3f0ae3d9d50e4b89c99e3ea1217343dd8c6581acc4959c91d3").ToPositiveBigInteger(),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // Other Party ID
+                new BitString("434156536964"),
+                // private static other party
+                new BitString("1adf389e2ac131ea502ee38462067b11b1e2648245c26d5d00a11f23").ToPositiveBigInteger(),
+                // public static other party
+                new BitString("1fc1da341d1a846a96b7be24340f877dd010aa0356d5ad58aae9c7b08f749a32235110b5d88eb5dbfa978d27ecc530f02d3114005b64b1c0e024cb8ae21698bca9e60d42808622f181c56e1de7a96e6efee9d66567e91b977042c7e3d0448f05fb77f522b9bfc8d33cc3c31ed3b31f0fecb6db4f6ea311e77afdbcd47aee1bb150f216873578fb96468e8f9f3de8efbfce75624b1df05322a34f1463e839e8984c4ad0a96e1ac842e5318cc23c062a8ca171b8d575980dde7fc56f1536523820d43192bfd51e8e228978aca5b94472f339caeb9931b42be301268bc99789c9b25571c3c0e4cb3f007f1a511cbb53c8519cdd1302abca6c0f34f96739f17ff48b").ToPositiveBigInteger(),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                new BitString("00").ToPositiveBigInteger(),
+                // expected Z
+                new BitString("08ff33bb2ecff49a7d4a7912aeb1bb6ab511641b4a76770c8cc1bcc233343dfe700d11813d2c9ed23b211ca9e8786921edca283c68b16153fa01e91ab82c90ddab4a95816770a98710e14c92ab83b6e46e1e426ee852430d6187daa3720a6bcd73235c6b0f941f3364f50420551a4bfeafe2bc438505a59a4a40daca7a895a73db575c74c13a23ad8832957d582d38f0a6165fb0d7e9b8799e42fd3220e332e98185a0c9429757b2d0d02c17dbaa1ff6ed93d7e73e241eaed90caf394d2bc6570f18c81f2be5d01a2ca99ff142b5d963f9f500325e7556f95849b3ffc7479486be1d4596a3106bd5cb4f61c57ec5f100fb7a0c82a10b82526a97d1d97d98eaf6"),
+                // expected Z hash
+                new BitString("90df31241ea4b4bc0fec4ffafe513fea0a83f442397b1bbeb2a88003cc9aadf467b262c9e42105e26a8424ff1f7b04c33a8be71736972c2d595dc545233fbece")
+            },
+            #endregion dhStatic
         };
 
         [Test]
@@ -750,6 +845,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("b3e8c72dd64466fe9eca11bc38c3210e4855b5b28f1f08eb1dce241f").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("6a22c61b77f5103d0e2e4a432fd37c53dd7dddff2e673995af3ea187df8616d7698a3d39d72fba3e523bd1a2d33d3404e208cf93d4dcdd9601fd6fcf5e251f99461f0b1636cdce0cf55e9f471dcffc0ce8360a50f60c88e75b177f54f28a191611df4ffdcde306628f57c28cec8b62511c9a8e67fdcb06ea9331e364d9987adee417c70c05b8654c5f771ade98eca46e2bdbabb99dff197a0296c245b864edeef53b3a808fbb97477586e73a6271b46f42cd18f20498fd194e52e6284dcf004d9545129a270e796a3849c6cb6ef2fdf831552cc54f16964fa42b7b23c78fa590d36d1c89aca7328c0ec2ae0025196deb7da21dceb24e18112e220d7423d99335").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -760,6 +857,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("c0aee2c27dadae552c5049589fecb63c88538327b530ce576d5671fb").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("50095b929b8355794e6b4945f5cd2b5a92d724a82a3b5d488f10f5baa1a90ab0f21d1792c0004b1d404c6ce8239a9e07db9e8b8ffed5eb67d4127956a37b7969d9d734cef25a8ada20e5357813675bd28a1f43efe33fd366659ae78fd5765a52e32321f2aab891457dbe26a01dfd1a4abb1fc6f9b775b4f461b3dcc1b4023caa3453b9b7fb8afddcf33f923bf2111fcf3e3663989e24a24673d5c0a935a81f2f05859031d1332161d86a380f062cb2b5b5bc75b9959c1f4ddb96c825d3599c241e81db4f86e00faa59b9c6f944574acc860a887d4c505133009ac3a6cbad36a3eea052ac5761c2349966b24bad1e3b71f8adf6ed902893261fe5eb77f06bdf02").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("34e3113913999902b487266b0a313f6a428614890c06c6be7cd313b76692c8830c9372c1f238dd748c7d9842e106fc781d778c6151e2e2082a645705abaabff3400ec8ca1d3639c573e7cf75f691f04915d571e5190f6de0b9a69b1cc44283d33b58e0359d3529ec0318202e2473cfcae9290089842ea76d0e8ae7fa305f2b3b1094263031c47fd2228c2b167ed8c3f3112ec3f741b7cf5ff23812face12a749ef7361dacceae05c75711ec977ea4b47aff3cdf6e56eb0fdd6f9d14300f2dffb0c57e4c4dc9d27d262131a699138a51b0c55f9db6cdfa5d727f1b98f0fba61170ef34ff01703b90bbf8d6ec41ccd65e4532b63ab808c6f2fcf0f6327170ba3c43c2561dd93211aeadbca281ae2e2fc6f2f2e60142bc4b708ff475f0dc7e52205e55942b2cae6d88ea87638ae6c81ee99453fc9e042105f715402fb52cb957cfe4a80b22afd4c28fad743a90bdd62c75d40206e946216068e6980acbd487f26633d36babdbfa3428ecfae8020374b5b74de65d9e870502ca1bbd51a584880c17a2d25d624ffde839364f7e60c8121e933e12e0c8538a9b7dc14464abab9ac555ac7c533cd8e4c8a2617b1045bccd58c37c2eb426f1741a4d6bd3dfc5b66e407be7922890330f7fb47c3d5080446d38632e33908901ea8e6882262747d07e46f8d320a97a09f1f662f010a6f14c596ecd0ea673cc03e843061fbe4601dc30bffcc"),
                 // expected oi
@@ -812,6 +911,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("c0aee2c27dadae552c5049589fecb63c88538327b530ce576d5671fb").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("50095b929b8355794e6b4945f5cd2b5a92d724a82a3b5d488f10f5baa1a90ab0f21d1792c0004b1d404c6ce8239a9e07db9e8b8ffed5eb67d4127956a37b7969d9d734cef25a8ada20e5357813675bd28a1f43efe33fd366659ae78fd5765a52e32321f2aab891457dbe26a01dfd1a4abb1fc6f9b775b4f461b3dcc1b4023caa3453b9b7fb8afddcf33f923bf2111fcf3e3663989e24a24673d5c0a935a81f2f05859031d1332161d86a380f062cb2b5b5bc75b9959c1f4ddb96c825d3599c241e81db4f86e00faa59b9c6f944574acc860a887d4c505133009ac3a6cbad36a3eea052ac5761c2349966b24bad1e3b71f8adf6ed902893261fe5eb77f06bdf02").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -822,6 +923,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("b3e8c72dd64466fe9eca11bc38c3210e4855b5b28f1f08eb1dce241f").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("6a22c61b77f5103d0e2e4a432fd37c53dd7dddff2e673995af3ea187df8616d7698a3d39d72fba3e523bd1a2d33d3404e208cf93d4dcdd9601fd6fcf5e251f99461f0b1636cdce0cf55e9f471dcffc0ce8360a50f60c88e75b177f54f28a191611df4ffdcde306628f57c28cec8b62511c9a8e67fdcb06ea9331e364d9987adee417c70c05b8654c5f771ade98eca46e2bdbabb99dff197a0296c245b864edeef53b3a808fbb97477586e73a6271b46f42cd18f20498fd194e52e6284dcf004d9545129a270e796a3849c6cb6ef2fdf831552cc54f16964fa42b7b23c78fa590d36d1c89aca7328c0ec2ae0025196deb7da21dceb24e18112e220d7423d99335").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("34e3113913999902b487266b0a313f6a428614890c06c6be7cd313b76692c8830c9372c1f238dd748c7d9842e106fc781d778c6151e2e2082a645705abaabff3400ec8ca1d3639c573e7cf75f691f04915d571e5190f6de0b9a69b1cc44283d33b58e0359d3529ec0318202e2473cfcae9290089842ea76d0e8ae7fa305f2b3b1094263031c47fd2228c2b167ed8c3f3112ec3f741b7cf5ff23812face12a749ef7361dacceae05c75711ec977ea4b47aff3cdf6e56eb0fdd6f9d14300f2dffb0c57e4c4dc9d27d262131a699138a51b0c55f9db6cdfa5d727f1b98f0fba61170ef34ff01703b90bbf8d6ec41ccd65e4532b63ab808c6f2fcf0f6327170ba3c43c2561dd93211aeadbca281ae2e2fc6f2f2e60142bc4b708ff475f0dc7e52205e55942b2cae6d88ea87638ae6c81ee99453fc9e042105f715402fb52cb957cfe4a80b22afd4c28fad743a90bdd62c75d40206e946216068e6980acbd487f26633d36babdbfa3428ecfae8020374b5b74de65d9e870502ca1bbd51a584880c17a2d25d624ffde839364f7e60c8121e933e12e0c8538a9b7dc14464abab9ac555ac7c533cd8e4c8a2617b1045bccd58c37c2eb426f1741a4d6bd3dfc5b66e407be7922890330f7fb47c3d5080446d38632e33908901ea8e6882262747d07e46f8d320a97a09f1f662f010a6f14c596ecd0ea673cc03e843061fbe4601dc30bffcc"),
                 // expected oi
@@ -876,6 +979,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("60da9ee395cf6313d92f30c3e0cef7bc999d962fc3404c676add95c7").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("6e091f6fe7c681e81afeffb5b59a7d8c588167d991451ffbf45c77aaa20ea545d960cdb2ecc728dbd576f5d8df7d96079866f1eee454181a3c70d3d89816bd7e57a3a8a447a059a81479a149f5743f5421b03f643fb8585fa259f8253195caaaf367936d0560b7f9f968a85a97e528070d7331864e15919a5f44c6a2781aca5551f0e8d1d7d38a7f72f8d518c9bea74f9255b3c5cfe355a90f4f94664086dcd9ca694c06550f0e6e834ad5ad96e14d294d9e6e76a10529f696f6a6f36a1a4e9d38bcde5841d9aa77bf967449e153752be27af11e15d0479caf7b76980f67fee6fb4566e187d9739aa57b5c0669defddb84f4472c1a37e84d594a0e53004e22a9").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -886,6 +991,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("4046ead8a7011ca5bcbc45000717f2540935559591eeb204326b0c0b").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("7af39a48dc2e663f5171b77a27df26cc5dfe871a1c8d7bd4ed7629cfaea329655f141869d8bab9e69cb3f9fb9d2f7a13b1c20e1496c294b3ee04fe19a73f9ee57ec62be22c685c0553bffd0bd006f8179b1447fbf07ced8a011b3521367a5a834b35f97c6a18f2311f0497c61539cdcf98aea88b531a169decba8359b5fe35c219ef998d5f07f7f752a47af5003b1288ffd172286e4aba9c27b1ab4ad520d6a806d82d5f22b72c0055c424f92d7bc1abb01e16d7be84950414a8d61768da9c9c262d06c2a75927f2002255cc9284eab5399da68e2f849697b1e8f37676c323c2274c65b0bb58e1f9be5462723019d3ec87e756d3be5036416f7c1e135b4f640c").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("00d8248ddd7bd0dca10af0d7fdbc999a97aa84d7eadc2a08a9eaf085e4dce846d29391ee42bc957763d0be81138cd3490bdde3d27d7206c652c1991bb6f3debbbc435b812407c4b928e114348ffdc2d3f5c24035ead5d7758e3a9ad4b3bb64f83ec7ddd8dc65336de8c02daa3fb0e7978e74408fc2942aec5b5ada83b4165c9f8ca9267544f30a179112ad71966b6e7ccdbdbf2c4a727b6275a637974c21ff5788d89c0d302c9618bb3c2290bd1313edceb14b9be7a0c8f5117011eb4d776993ce5776870db0cf4bd948f1248a93236d83ac8d03514471bb60846e1c4bae11018ef1f9a1a464960c024c8e10d2c28fcc68b9b9955417f5b7d465eb76649766358437aa03d87326905f6ecb48da88c6d73d5763b8203cb1edfe8880f2c8a4ef38e5004c93929f9be3163d171ba266b7330801bb6a14e0c7b6bfab5d91fe1c093a7cd5adf854c82f07d9600eb4cd3fc068968f0bb072673ea908a671c625d25410e08399a00e4a1c91ab8295a0a53f01ec1581318a088332843d08ede937c59128a00c7f920c6200d834b092442af46f073f7e0476e62d784546fc53173979c56e12254f34895d732844630c6a8dd275fa62d6c0f19228f602eeee07a34e3f894f0cfbb51b4e9b97b827bbb36f524fd3038d5561d05f3206ae82c8dfe841344d4bd41bed56c362ef1496a8182a2a7eb5ffe842e87509ec864cbca1c7aceeb7c1c2"),
                 // expected oi
@@ -938,6 +1045,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("4046ead8a7011ca5bcbc45000717f2540935559591eeb204326b0c0b").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("7af39a48dc2e663f5171b77a27df26cc5dfe871a1c8d7bd4ed7629cfaea329655f141869d8bab9e69cb3f9fb9d2f7a13b1c20e1496c294b3ee04fe19a73f9ee57ec62be22c685c0553bffd0bd006f8179b1447fbf07ced8a011b3521367a5a834b35f97c6a18f2311f0497c61539cdcf98aea88b531a169decba8359b5fe35c219ef998d5f07f7f752a47af5003b1288ffd172286e4aba9c27b1ab4ad520d6a806d82d5f22b72c0055c424f92d7bc1abb01e16d7be84950414a8d61768da9c9c262d06c2a75927f2002255cc9284eab5399da68e2f849697b1e8f37676c323c2274c65b0bb58e1f9be5462723019d3ec87e756d3be5036416f7c1e135b4f640c").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -948,6 +1057,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("60da9ee395cf6313d92f30c3e0cef7bc999d962fc3404c676add95c7").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("6e091f6fe7c681e81afeffb5b59a7d8c588167d991451ffbf45c77aaa20ea545d960cdb2ecc728dbd576f5d8df7d96079866f1eee454181a3c70d3d89816bd7e57a3a8a447a059a81479a149f5743f5421b03f643fb8585fa259f8253195caaaf367936d0560b7f9f968a85a97e528070d7331864e15919a5f44c6a2781aca5551f0e8d1d7d38a7f72f8d518c9bea74f9255b3c5cfe355a90f4f94664086dcd9ca694c06550f0e6e834ad5ad96e14d294d9e6e76a10529f696f6a6f36a1a4e9d38bcde5841d9aa77bf967449e153752be27af11e15d0479caf7b76980f67fee6fb4566e187d9739aa57b5c0669defddb84f4472c1a37e84d594a0e53004e22a9").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("00d8248ddd7bd0dca10af0d7fdbc999a97aa84d7eadc2a08a9eaf085e4dce846d29391ee42bc957763d0be81138cd3490bdde3d27d7206c652c1991bb6f3debbbc435b812407c4b928e114348ffdc2d3f5c24035ead5d7758e3a9ad4b3bb64f83ec7ddd8dc65336de8c02daa3fb0e7978e74408fc2942aec5b5ada83b4165c9f8ca9267544f30a179112ad71966b6e7ccdbdbf2c4a727b6275a637974c21ff5788d89c0d302c9618bb3c2290bd1313edceb14b9be7a0c8f5117011eb4d776993ce5776870db0cf4bd948f1248a93236d83ac8d03514471bb60846e1c4bae11018ef1f9a1a464960c024c8e10d2c28fcc68b9b9955417f5b7d465eb76649766358437aa03d87326905f6ecb48da88c6d73d5763b8203cb1edfe8880f2c8a4ef38e5004c93929f9be3163d171ba266b7330801bb6a14e0c7b6bfab5d91fe1c093a7cd5adf854c82f07d9600eb4cd3fc068968f0bb072673ea908a671c625d25410e08399a00e4a1c91ab8295a0a53f01ec1581318a088332843d08ede937c59128a00c7f920c6200d834b092442af46f073f7e0476e62d784546fc53173979c56e12254f34895d732844630c6a8dd275fa62d6c0f19228f602eeee07a34e3f894f0cfbb51b4e9b97b827bbb36f524fd3038d5561d05f3206ae82c8dfe841344d4bd41bed56c362ef1496a8182a2a7eb5ffe842e87509ec864cbca1c7aceeb7c1c2"),
                 // expected oi
@@ -1005,6 +1116,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("192ffe21ff0c413d98863b978d70b21724033f22326d78c6480be4c4").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("1e7141c5409c3abf1809b35c67553086964443a5f47eac0c3cccfb97e014fd7dd5d273d214587babb3802939f4a2a56afca9a9a6be4a98f454e190e27d4fd2d7dbb5570bb51628dbd742d8a9d33883df915a17b3a647c39aca71fa4c3eabfe470c520244f990bd152230f1f1e64c7499a9ca1822f186fe5843d0d4d9d2e42d9ff84ad4986bcc6ba2cbdc172033527e6f56ef621fc0153a325c9b5d7bcc648eda70847e1ac086205c4f044904746c9cfc7b921770137cab281c8a48c57c06a533966d963a54b97512da545b9649625c31f33bf184967e06c5d75316a9a39c456dc6f3da321eaa5e19bb685cc1c294206e11d3f9449e5b73f084218c9890defeab").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -1015,6 +1128,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("9541c4c455c9cbbddaf56f5aa1bfb8686ed2577b556c033f3889a23b").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("3e893b0d86053c10b2f2e261cf937cd6f92a4862670594064a50d64c4bd32f33f112e683b05e507200faf91b0889fb5036aefbed9cfdf3c114bdabe2a327c171b087f0f8028d5d306c64e7cb7e432d6a83347a4efec30d823a2bd0fc7430b667da61e45535e3b01755b7300341c238350b7789348f478cf1c3e0250ebfe63e1879b482faaeffd167a4fd8db464bbca22754d4236228f81bbd2c727b9b85a6682cbf4453a1219af169491b12c5ceba8001ed28e5e623757ac4fbfa116d70a3322ed4435859d060091aa5f1f265f2cd107a82f298dc9733f08c7a5ec694418cede121262f6640e1a9bfd87bb9847b071687e19aacc7319204129e3522a4d86856e").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("093a7ecfb40d809a7725cad627270872634e7e2e77acb7283372ed79704c85bf280e7e156066da78622b1f787b45d41efcfb35892925b204e5c201b27c0e38054db763477dd9beae965afe5620e815390ca2b9cbda7635f71ba61bdc66bdd1a6a56c85c0751245d403bd37511b4b1b6afe878cf41cbbff4dc8e8b9ddcdf66f32fe436365f909191fa5c30637f322a03b8110f0d807c4619a5478ab8bfa98c3aaa197971abf1d3e25d9a608ae568295b38226bfd301b207ae0ee78e3aa14f0adf598a9f7fbd8c83a4fc0362e0ee0f577915023a111f783b6b7cb7f5edbe6115d29958e34cf710410e8e17f715d59c973ff357d2007147a0120eb7eae067f808a0"),
                 // expected oi
@@ -1067,6 +1182,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("9541c4c455c9cbbddaf56f5aa1bfb8686ed2577b556c033f3889a23b").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("3e893b0d86053c10b2f2e261cf937cd6f92a4862670594064a50d64c4bd32f33f112e683b05e507200faf91b0889fb5036aefbed9cfdf3c114bdabe2a327c171b087f0f8028d5d306c64e7cb7e432d6a83347a4efec30d823a2bd0fc7430b667da61e45535e3b01755b7300341c238350b7789348f478cf1c3e0250ebfe63e1879b482faaeffd167a4fd8db464bbca22754d4236228f81bbd2c727b9b85a6682cbf4453a1219af169491b12c5ceba8001ed28e5e623757ac4fbfa116d70a3322ed4435859d060091aa5f1f265f2cd107a82f298dc9733f08c7a5ec694418cede121262f6640e1a9bfd87bb9847b071687e19aacc7319204129e3522a4d86856e").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -1077,6 +1194,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("192ffe21ff0c413d98863b978d70b21724033f22326d78c6480be4c4").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("1e7141c5409c3abf1809b35c67553086964443a5f47eac0c3cccfb97e014fd7dd5d273d214587babb3802939f4a2a56afca9a9a6be4a98f454e190e27d4fd2d7dbb5570bb51628dbd742d8a9d33883df915a17b3a647c39aca71fa4c3eabfe470c520244f990bd152230f1f1e64c7499a9ca1822f186fe5843d0d4d9d2e42d9ff84ad4986bcc6ba2cbdc172033527e6f56ef621fc0153a325c9b5d7bcc648eda70847e1ac086205c4f044904746c9cfc7b921770137cab281c8a48c57c06a533966d963a54b97512da545b9649625c31f33bf184967e06c5d75316a9a39c456dc6f3da321eaa5e19bb685cc1c294206e11d3f9449e5b73f084218c9890defeab").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("093a7ecfb40d809a7725cad627270872634e7e2e77acb7283372ed79704c85bf280e7e156066da78622b1f787b45d41efcfb35892925b204e5c201b27c0e38054db763477dd9beae965afe5620e815390ca2b9cbda7635f71ba61bdc66bdd1a6a56c85c0751245d403bd37511b4b1b6afe878cf41cbbff4dc8e8b9ddcdf66f32fe436365f909191fa5c30637f322a03b8110f0d807c4619a5478ab8bfa98c3aaa197971abf1d3e25d9a608ae568295b38226bfd301b207ae0ee78e3aa14f0adf598a9f7fbd8c83a4fc0362e0ee0f577915023a111f783b6b7cb7f5edbe6115d29958e34cf710410e8e17f715d59c973ff357d2007147a0120eb7eae067f808a0"),
                 // expected oi
@@ -1133,6 +1252,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00009e55e127fa1262a5f45688b44efef2cd2c7067c872d5d4fbc2eb").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("78209298785c1afc11f936d9e23916fb820789837dc79d1ad12315ac76aa06e2e004970c790070a0854b1ece0cb24fd4e8c35cd17e5f2d65dc62bc7a34736b04e58c32853e84eb01241b6d40130e0092e933f8cc122c86525c949ae41f46caa915e32a822381cfd4041816230dd35dbff35c937a95c4486202e2720253a90d5c24bf79135f9f6fbb403f7d1412f832cb078fc0067db04709eb41c445804d4870490d27e90c6d10627e71c360961b90ec4c70812f8fb298fbbb69987babe6a6d34aacc07c513b827aa9cc75b76cb18b6317afdfd7b0c43f0a65c4de97169d27dcd13c29b50d28d03b5370deee474652e0b24695da8eb0cfe6f6f447f175e0eb56").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -1143,6 +1264,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("825e78970228785c873121506db1e4bd17b67ffd10cc5c0b81aeed81").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("9144cc4b5624ed84eaab4efa7394a3267ffd63e77e5c0fe23f7d5099351b3eac92533762a8fe13c0865680d2790edb06a2e588eeb3aeac8f513c8f60fcc6612c6fa93f850960edc2d1544ccf083c11350aea2fde70f3753e80830090d26d90f26024d688924c488f5d7f85941757f93322f7cb059bc310f994ae96afdec1aae8bdc54a0f8cf052d195b19a86d55d950c71fd4311a39c952eb6e25f8a77af3454eb86fb20d106114de7801517e144f37e6c4f16c2daab39c43d8501b10afe510ea519b1ee62789e1c5332ac6f358f13615929e13ac049629d84493b35113f9a22a1a31f3ac4ae8a380b6fdb8f1d54607a6595bd214b0cd99d6d329de33e250376").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("17ec645e7229407c5638be23e3378b1610d2bdc162955b0d614fe5a147c2650f14e0abfe6095420f7d3fdf4d7f4089677d33e2a48ff406de07c9ab79c8733597e48b42b39558b94af03d2d5d83959ce8023b947201ea70b2ee5d788719baf36a9fc4861409f505d3559ec674025f1d736d6404d239c490ed3b6902fd2ce851439ec8ade6aa5377c1c8c9367fdaeefe43f9f3d1d69602bad337191fd12fbf092c6d8619018146f340c31e6e5357a73c6ef2553130aac3dd9c11d90189948dbbc251ee17f5dc1d1ebbcd9622a84a3ba28d60dca8abd86ed1191cf8c20904090daf3b335c9c9ad561fce8ed4c5ad0255aff78e9daf66342b8fd1b9ccae813969bfe"),
                 // expected oi
@@ -1195,6 +1318,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("825e78970228785c873121506db1e4bd17b67ffd10cc5c0b81aeed81").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("9144cc4b5624ed84eaab4efa7394a3267ffd63e77e5c0fe23f7d5099351b3eac92533762a8fe13c0865680d2790edb06a2e588eeb3aeac8f513c8f60fcc6612c6fa93f850960edc2d1544ccf083c11350aea2fde70f3753e80830090d26d90f26024d688924c488f5d7f85941757f93322f7cb059bc310f994ae96afdec1aae8bdc54a0f8cf052d195b19a86d55d950c71fd4311a39c952eb6e25f8a77af3454eb86fb20d106114de7801517e144f37e6c4f16c2daab39c43d8501b10afe510ea519b1ee62789e1c5332ac6f358f13615929e13ac049629d84493b35113f9a22a1a31f3ac4ae8a380b6fdb8f1d54607a6595bd214b0cd99d6d329de33e250376").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -1205,6 +1330,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00009e55e127fa1262a5f45688b44efef2cd2c7067c872d5d4fbc2eb").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("78209298785c1afc11f936d9e23916fb820789837dc79d1ad12315ac76aa06e2e004970c790070a0854b1ece0cb24fd4e8c35cd17e5f2d65dc62bc7a34736b04e58c32853e84eb01241b6d40130e0092e933f8cc122c86525c949ae41f46caa915e32a822381cfd4041816230dd35dbff35c937a95c4486202e2720253a90d5c24bf79135f9f6fbb403f7d1412f832cb078fc0067db04709eb41c445804d4870490d27e90c6d10627e71c360961b90ec4c70812f8fb298fbbb69987babe6a6d34aacc07c513b827aa9cc75b76cb18b6317afdfd7b0c43f0a65c4de97169d27dcd13c29b50d28d03b5370deee474652e0b24695da8eb0cfe6f6f447f175e0eb56").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("17ec645e7229407c5638be23e3378b1610d2bdc162955b0d614fe5a147c2650f14e0abfe6095420f7d3fdf4d7f4089677d33e2a48ff406de07c9ab79c8733597e48b42b39558b94af03d2d5d83959ce8023b947201ea70b2ee5d788719baf36a9fc4861409f505d3559ec674025f1d736d6404d239c490ed3b6902fd2ce851439ec8ade6aa5377c1c8c9367fdaeefe43f9f3d1d69602bad337191fd12fbf092c6d8619018146f340c31e6e5357a73c6ef2553130aac3dd9c11d90189948dbbc251ee17f5dc1d1ebbcd9622a84a3ba28d60dca8abd86ed1191cf8c20904090daf3b335c9c9ad561fce8ed4c5ad0255aff78e9daf66342b8fd1b9ccae813969bfe"),
                 // expected oi
@@ -1261,6 +1388,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("9a605c81ce070651179b45a80c85c11f016acebaef35acd86c6b8689").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("91e613404cd0008dc355938267ff694d322d5ca501b1fee1ad02dfc6e9a594d3a0c4c783b0ca9c356e767c7f88a6eaecc3af9cc3d1feb6eab9e931a01de77621f8384af85335e898f19feb761eb69a06e26d51d52454e80345b40f7ab0f6ea11a317df15c1f27b598a2fb2a2d785e901598aa67e7024969c3ed1a5360cac1055db70e437ab1c090343ccfe1bc5c9646f0632dbb11eae6f363843d03bb5c694f6c5e3d42cd5a725b915c52e19375bd8f5f175968cc96015180864e095d8ae76f9d529ca1f34a22ef16da42cd2bbba2093b7f75b3aa2b2dcc9a0bd562215bd333ca46b54553664958cd63dbce064345bcec96f64b6bdbe3f15ca4ce8c2be28ce43").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -1271,6 +1400,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("33c07fcae0241ed4848b46ead94f1ce9225027a252e91f2200b3a59f").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("d875db9f7e9ffc6f92219187663b9d243b2b563685723836eaa801cf6ab5422503780ebada23bf8e55ec084c9e84ffc8024b274ac3d4a7a7a483708b7e18b4ba5437b2f295f8bf65dcd7cd87b1d37d64ade05b0853bc36ab8922835bf2139637bda7951745d6cfa8969cc6525d6203204d3f6d986266570147faa92dfab60ab28e743e35a6ef4211f38c66d0afcb0dbc4c78898ad591323fb2dec6e846056a935a6a0a58b5e96b44241d0f52f49e7fde9d44e6590e328541452c138b7f258a72336c281d62c444d081070c2400fdbcf29fb9cad138598e08fddc1de0220d0e8c2254799cd3291bff14e63667137ba00cdc278d3486d07ee06a4cf53696a602a3").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("940702cfcd2b22c7d7125244286012c86f189a2eb179c8203aaeb3358495bc97ee79e79bb6caabe300c9fa8f738dcad9dc88027834b42fb7be984d5a14fe1dd716035b9aba9caa71a0ee1ff0e16505f824d44be4709c3757528bdf41d526aaa68a9a83e0e7ab473ed06d169227dc0dd58087a0d4d77dda346f023766f1dd58ade0541dec4dd5156bf008653085577ba4e0f294555db7cb1c0ea7372e7a16b5abc4b8b03a0aa5258455c2ec8bd680f3a5bed512ef832b25011273952309c3750ffca457960136883d5926d2f804d5e1f28c91bd0a3c2d3b8f54ba1a477f538113e323cf2ddbb699b8bfef9f58795744296dc3c215bb329f3aad1ac44b74ed3f15"),
                 // expected oi
@@ -1323,6 +1454,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("33c07fcae0241ed4848b46ead94f1ce9225027a252e91f2200b3a59f").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("d875db9f7e9ffc6f92219187663b9d243b2b563685723836eaa801cf6ab5422503780ebada23bf8e55ec084c9e84ffc8024b274ac3d4a7a7a483708b7e18b4ba5437b2f295f8bf65dcd7cd87b1d37d64ade05b0853bc36ab8922835bf2139637bda7951745d6cfa8969cc6525d6203204d3f6d986266570147faa92dfab60ab28e743e35a6ef4211f38c66d0afcb0dbc4c78898ad591323fb2dec6e846056a935a6a0a58b5e96b44241d0f52f49e7fde9d44e6590e328541452c138b7f258a72336c281d62c444d081070c2400fdbcf29fb9cad138598e08fddc1de0220d0e8c2254799cd3291bff14e63667137ba00cdc278d3486d07ee06a4cf53696a602a3").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -1333,6 +1466,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("9a605c81ce070651179b45a80c85c11f016acebaef35acd86c6b8689").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("91e613404cd0008dc355938267ff694d322d5ca501b1fee1ad02dfc6e9a594d3a0c4c783b0ca9c356e767c7f88a6eaecc3af9cc3d1feb6eab9e931a01de77621f8384af85335e898f19feb761eb69a06e26d51d52454e80345b40f7ab0f6ea11a317df15c1f27b598a2fb2a2d785e901598aa67e7024969c3ed1a5360cac1055db70e437ab1c090343ccfe1bc5c9646f0632dbb11eae6f363843d03bb5c694f6c5e3d42cd5a725b915c52e19375bd8f5f175968cc96015180864e095d8ae76f9d529ca1f34a22ef16da42cd2bbba2093b7f75b3aa2b2dcc9a0bd562215bd333ca46b54553664958cd63dbce064345bcec96f64b6bdbe3f15ca4ce8c2be28ce43").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("940702cfcd2b22c7d7125244286012c86f189a2eb179c8203aaeb3358495bc97ee79e79bb6caabe300c9fa8f738dcad9dc88027834b42fb7be984d5a14fe1dd716035b9aba9caa71a0ee1ff0e16505f824d44be4709c3757528bdf41d526aaa68a9a83e0e7ab473ed06d169227dc0dd58087a0d4d77dda346f023766f1dd58ade0541dec4dd5156bf008653085577ba4e0f294555db7cb1c0ea7372e7a16b5abc4b8b03a0aa5258455c2ec8bd680f3a5bed512ef832b25011273952309c3750ffca457960136883d5926d2f804d5e1f28c91bd0a3c2d3b8f54ba1a477f538113e323cf2ddbb699b8bfef9f58795744296dc3c215bb329f3aad1ac44b74ed3f15"),
                 // expected oi
@@ -1385,6 +1520,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("6eff9e56cc20c156555980739322aa1742f423a5016fbda2844822282511d2f0").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("58e2799a2f8b982158ffb28c16f21a68b457d1f397366d4d754a53f5146ca7a3cc9914c56962caee720bf269a1843a448fe24d85aa9f4b75498ca93ef6dcb293f786988bd61871c21529563c36626108ae1c2686364cc8c0401d95ecd1f31f27f82d4201cae8e7d7e7b47726e9fa0d557dbcfa7ce3a0a6f21ad4dcc290e63d998dca99b2bc6f4aaf785cb283a0cc923c406279d23e0bb36281f65989cd0a6363fa48fa5616e15d889b998792e21dfdabfd944646f610e1f6dd706c44b1c333f01cda17fc9b1f81cacf8d0a91779a4f6ea4e3849e492c30f0a096f2822d06f174e6f3dc741b3c4d792fe6be3a8aefe9f6999c15d983de96729e9f295ca78c9789").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -1395,6 +1532,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("0564098c67915d2b66823755206978710087d9fc3096d62694cca73b6444a043").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("4fd088a8c4da7e08e9ebb33c9be4b18f2c90bc4f7a74358285586eef953884282af51cf80118cedda8c9b0cfe10346e94ecf7f6a8ccedd8bc8f0e7718a34aab5a6aae166e20be0e4e6670ee5af553c3aeb9bbb0ddb5e2985e804c6e80f79b487b912530604c85cfb8e278e334a94b186a9946aa6f46bfcfa56020ec0954d3a786598b03e7cd0cc63de9ab72a70eefd05446195b66d6748201f6aed3b3963dfe55004ad7af22ada15f23b56b21f1bdfe1fa1f1da5a7cf9123c080d0e44ee507e562be13081d2d399614f855e9ae9d7aa32b8761fb37899808dadc8e0f29a1368ff99e8a7d4c91354b09e0244fac78585cd281830647908442013464df5f127b02").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("18c08b86cdd00b70262b183bf0204bc9eb4b38bd42effb54696e732234acc22a2a1d34db9701b932c913988f46fb635803b89dcfb2566f608174077413935a02269616ff65230bb57e18867cec5ceeef248155b72c1eea984da76fe0fff31ee0b8e4ed4d1d0dcdef83fcbb87956f4b82081238f5c2a7294f2016d7a4252a60609860f19c118b9cf68c4edad8202b08be7b2a0f35b16e20d9a18be602a504d2a5734b9eac3bc69c594faeb5a39d1d2428c4be6f539fc6c979b40e4ca5c1b50001c49051b93c013f371d4f956f4e892ce627a33fe4c96b911c78b8d7193c65dc18bfa09538ec17b3f5408cecdb524175d83c03c03193b4b2512c23476ac86f9b22"),
                 // expected oi
@@ -1447,6 +1586,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("0564098c67915d2b66823755206978710087d9fc3096d62694cca73b6444a043").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("4fd088a8c4da7e08e9ebb33c9be4b18f2c90bc4f7a74358285586eef953884282af51cf80118cedda8c9b0cfe10346e94ecf7f6a8ccedd8bc8f0e7718a34aab5a6aae166e20be0e4e6670ee5af553c3aeb9bbb0ddb5e2985e804c6e80f79b487b912530604c85cfb8e278e334a94b186a9946aa6f46bfcfa56020ec0954d3a786598b03e7cd0cc63de9ab72a70eefd05446195b66d6748201f6aed3b3963dfe55004ad7af22ada15f23b56b21f1bdfe1fa1f1da5a7cf9123c080d0e44ee507e562be13081d2d399614f855e9ae9d7aa32b8761fb37899808dadc8e0f29a1368ff99e8a7d4c91354b09e0244fac78585cd281830647908442013464df5f127b02").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -1457,6 +1598,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("6eff9e56cc20c156555980739322aa1742f423a5016fbda2844822282511d2f0").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("58e2799a2f8b982158ffb28c16f21a68b457d1f397366d4d754a53f5146ca7a3cc9914c56962caee720bf269a1843a448fe24d85aa9f4b75498ca93ef6dcb293f786988bd61871c21529563c36626108ae1c2686364cc8c0401d95ecd1f31f27f82d4201cae8e7d7e7b47726e9fa0d557dbcfa7ce3a0a6f21ad4dcc290e63d998dca99b2bc6f4aaf785cb283a0cc923c406279d23e0bb36281f65989cd0a6363fa48fa5616e15d889b998792e21dfdabfd944646f610e1f6dd706c44b1c333f01cda17fc9b1f81cacf8d0a91779a4f6ea4e3849e492c30f0a096f2822d06f174e6f3dc741b3c4d792fe6be3a8aefe9f6999c15d983de96729e9f295ca78c9789").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("18c08b86cdd00b70262b183bf0204bc9eb4b38bd42effb54696e732234acc22a2a1d34db9701b932c913988f46fb635803b89dcfb2566f608174077413935a02269616ff65230bb57e18867cec5ceeef248155b72c1eea984da76fe0fff31ee0b8e4ed4d1d0dcdef83fcbb87956f4b82081238f5c2a7294f2016d7a4252a60609860f19c118b9cf68c4edad8202b08be7b2a0f35b16e20d9a18be602a504d2a5734b9eac3bc69c594faeb5a39d1d2428c4be6f539fc6c979b40e4ca5c1b50001c49051b93c013f371d4f956f4e892ce627a33fe4c96b911c78b8d7193c65dc18bfa09538ec17b3f5408cecdb524175d83c03c03193b4b2512c23476ac86f9b22"),
                 // expected oi
@@ -1511,6 +1654,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("5e1a7ca61ee4759ba46144cb873ee1ffccc155237df04002efe8c173").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("0d5745eb14a277033fa9db517ecb323ee3997b0b0b230bf528429d4c64cbc7b3c5a141cedc6caca65388d199efcd4ae719cb22160f013bd94a518339361f2ed685599a6f5af16700ac4ff744b37e9abe2d9a4def314308b77eabe0b0af0c3779ea8eecf2ab8d31c81a8120b3cadff1d29e866892b21534daf36417e841e49ad55e7d13e4690bc49c68dbb8667a86c150110b3c05dc1bda7d8a4841539acd25dc32ab822bf045b2789061c2c9db3e4683cf1853a28e4a9af99d0ba66aca315e9ddb3948e756771f0e780da7b5fdfd30ea8e356508199a8ff750089aaa09a8104379c8e2fd9e058694fad10d74de790ebf39dcebe576fd75f6a3c8d35d7161a072").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -1521,6 +1666,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("236658b70be16ef58355b1de4b0a4c685737435a25bf84b773065159").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("7c6191d1fcc854d0d6dd8a7b69abf10a9fa720d106b087277a1bd03adc6a28c113e082d649870e126c2db976dd97afdbfa74b106e192d6fd053d5cc26c707d474513673d68dbc8d5b17976ba8d2c53414900c06c9fa3dfd5eb380db50cb0d735cb0644277411f5d799a683d5fafa0d2536416d01824f3dd55df2c4dc09194a6fe17a107b15e57fdf91ee2c6cfe3203ca1b8d3975acf3df42f2147f1c7888659602e5ebe68f44426ba2eacccd4a7c1153001c3130fd02dc741c5e847c0c3b012a7d13e3b9eecefa35a9bb40e47713c7f4871dff44b5f6a23ae13d2be0dab0968ce9fb6423ba71e1803ec099ffe32b55d4b70c15957edd04cf9c25d80dc8fc5ef5").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("be54338e08a2c15ea7954eec28c417ad4d048be2af37d91a718b7e5bf0cf5348c35e4771c9b1e63c9bb96009d3ef63015355c762e6c13e28388f70719a612a9a468fcd2278648f28d4a83e4fb378a173b82cc94d12a21859e5887c9d81bda09644d3ccc57c1a87795b4659fb9e2591489774f2e612898d335818e60c7d703e1958077b19d938c4705792cfc1898b5ea1ac408ae0f29bc1da238b78a628a0e25efbea21d95f8d34ae8ab446fa436e9010c566271c225e38b5b0cf96c66ecd68ecc2f58958f9f515f28990336649e08ef8ade0964dbd6795e8ee34b098900023f90785ca46c7bab13a062fb29861968b83be1e10d17d45581d69e85217bc41477e"),
                 // expected oi
@@ -1573,6 +1720,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("236658b70be16ef58355b1de4b0a4c685737435a25bf84b773065159").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("7c6191d1fcc854d0d6dd8a7b69abf10a9fa720d106b087277a1bd03adc6a28c113e082d649870e126c2db976dd97afdbfa74b106e192d6fd053d5cc26c707d474513673d68dbc8d5b17976ba8d2c53414900c06c9fa3dfd5eb380db50cb0d735cb0644277411f5d799a683d5fafa0d2536416d01824f3dd55df2c4dc09194a6fe17a107b15e57fdf91ee2c6cfe3203ca1b8d3975acf3df42f2147f1c7888659602e5ebe68f44426ba2eacccd4a7c1153001c3130fd02dc741c5e847c0c3b012a7d13e3b9eecefa35a9bb40e47713c7f4871dff44b5f6a23ae13d2be0dab0968ce9fb6423ba71e1803ec099ffe32b55d4b70c15957edd04cf9c25d80dc8fc5ef5").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -1583,6 +1732,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("5e1a7ca61ee4759ba46144cb873ee1ffccc155237df04002efe8c173").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("0d5745eb14a277033fa9db517ecb323ee3997b0b0b230bf528429d4c64cbc7b3c5a141cedc6caca65388d199efcd4ae719cb22160f013bd94a518339361f2ed685599a6f5af16700ac4ff744b37e9abe2d9a4def314308b77eabe0b0af0c3779ea8eecf2ab8d31c81a8120b3cadff1d29e866892b21534daf36417e841e49ad55e7d13e4690bc49c68dbb8667a86c150110b3c05dc1bda7d8a4841539acd25dc32ab822bf045b2789061c2c9db3e4683cf1853a28e4a9af99d0ba66aca315e9ddb3948e756771f0e780da7b5fdfd30ea8e356508199a8ff750089aaa09a8104379c8e2fd9e058694fad10d74de790ebf39dcebe576fd75f6a3c8d35d7161a072").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("be54338e08a2c15ea7954eec28c417ad4d048be2af37d91a718b7e5bf0cf5348c35e4771c9b1e63c9bb96009d3ef63015355c762e6c13e28388f70719a612a9a468fcd2278648f28d4a83e4fb378a173b82cc94d12a21859e5887c9d81bda09644d3ccc57c1a87795b4659fb9e2591489774f2e612898d335818e60c7d703e1958077b19d938c4705792cfc1898b5ea1ac408ae0f29bc1da238b78a628a0e25efbea21d95f8d34ae8ab446fa436e9010c566271c225e38b5b0cf96c66ecd68ecc2f58958f9f515f28990336649e08ef8ade0964dbd6795e8ee34b098900023f90785ca46c7bab13a062fb29861968b83be1e10d17d45581d69e85217bc41477e"),
                 // expected oi
@@ -1637,6 +1788,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("41f8582a2f3ac19cc925fb5cf72ec98f89630fec8e71853397870c3fda1eb08b").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("a6f3b734391112b2ae81cb3021bc1275383c4a6c80b9a1265ae3f5a8256a0a621667f71e3e081b86bc427d5adddb901aacd4e3b7b48170c7d13cd9dccd7b04072d97a7c39fc44c079a48fa3d2495e90659786275f13b5ad2402509dd12637630de980369c5e55953091df4ef3e369880547737df1d7bd7a9d437488cb01a94b444c05ae33d6ae6126bd0c9c7be19adc752f210f68ee7657a9151ef3299b4e4e12f19ba9f3070cacfe1af329e69a2bd6416c51c7d33b183702dbd20df91ca09c5190321f59f55fca903546cc42c3edcb3c4eb30b3a4228fe2e1906484174715e0b08d9d93c4588c33739f416ca45a33faa861dc6e9fb7831cc95d2d2741533be3").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -1647,6 +1800,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("a388f6b35f25619d1e76ed7cc6d10f8f3a6d919e6560c3f0090eb96e1f27d908").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("4fc5ed02abf0791bb01ad33527bd16ee58f875bbc85de5b513ccce95d05d6c735e726a102f11a69152f1c430b027ef3f2049e07db96f448d9b016ebd9258cd33175c06c00d107c99ccfebc8e77b19c61ed7c9e1d8a3e912a893b30ec9ab1d59d2bd5133c9669090c7bcc48318a21cabffbe56477e9fda36aba9c5e4462854fa682f503de3e895579b0c51a2f2a6b1fc59bee015e8bd89041a2efafbe8ea491215a88302f6a4858ea3c0d846e52f6ea070b61dda82009bdf0ed13a077ea1777233e059fed4c45249c5bbba1fbaa6f574058ec58d56e6b3a486e0aa306ef2d63d70617f6b384fe238e82832dfeff6317aa887aab894efc9b60e6f5127581fe735c").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("93dd543113b567adb45dad4149a7503768e5c4d43964a578357541df39353ce36910a75ae7833914e105f732f0dc34339007dfb14aba37a65ad825a2a63f70e5522bdce9e2e757c103104139e09671668d8f1c3edc2d4b41a623f0b24332e1d0569e992ca56855443e2d1c587b853dcc4fa816ca63f95f6fd1fa735d58389a3110b4863fa791168ae509ba1a87fa1d9e1ddde40e91126179c9cce0770555078e788add2497f9f30934a917acbc6e8377e9c20573fd594aa5e488847602ba83e721a8a7f24c198bdb81128edef59949e359b590ed933810b692cec57c65ded444ba4a221d86ad5c4ad70d1dcd2b47cc0c70cdf2ffaaf9d893e3bf3a5d0880bf05"),
                 // expected oi
@@ -1699,6 +1854,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("a388f6b35f25619d1e76ed7cc6d10f8f3a6d919e6560c3f0090eb96e1f27d908").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("4fc5ed02abf0791bb01ad33527bd16ee58f875bbc85de5b513ccce95d05d6c735e726a102f11a69152f1c430b027ef3f2049e07db96f448d9b016ebd9258cd33175c06c00d107c99ccfebc8e77b19c61ed7c9e1d8a3e912a893b30ec9ab1d59d2bd5133c9669090c7bcc48318a21cabffbe56477e9fda36aba9c5e4462854fa682f503de3e895579b0c51a2f2a6b1fc59bee015e8bd89041a2efafbe8ea491215a88302f6a4858ea3c0d846e52f6ea070b61dda82009bdf0ed13a077ea1777233e059fed4c45249c5bbba1fbaa6f574058ec58d56e6b3a486e0aa306ef2d63d70617f6b384fe238e82832dfeff6317aa887aab894efc9b60e6f5127581fe735c").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -1709,6 +1866,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("41f8582a2f3ac19cc925fb5cf72ec98f89630fec8e71853397870c3fda1eb08b").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("a6f3b734391112b2ae81cb3021bc1275383c4a6c80b9a1265ae3f5a8256a0a621667f71e3e081b86bc427d5adddb901aacd4e3b7b48170c7d13cd9dccd7b04072d97a7c39fc44c079a48fa3d2495e90659786275f13b5ad2402509dd12637630de980369c5e55953091df4ef3e369880547737df1d7bd7a9d437488cb01a94b444c05ae33d6ae6126bd0c9c7be19adc752f210f68ee7657a9151ef3299b4e4e12f19ba9f3070cacfe1af329e69a2bd6416c51c7d33b183702dbd20df91ca09c5190321f59f55fca903546cc42c3edcb3c4eb30b3a4228fe2e1906484174715e0b08d9d93c4588c33739f416ca45a33faa861dc6e9fb7831cc95d2d2741533be3").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("93dd543113b567adb45dad4149a7503768e5c4d43964a578357541df39353ce36910a75ae7833914e105f732f0dc34339007dfb14aba37a65ad825a2a63f70e5522bdce9e2e757c103104139e09671668d8f1c3edc2d4b41a623f0b24332e1d0569e992ca56855443e2d1c587b853dcc4fa816ca63f95f6fd1fa735d58389a3110b4863fa791168ae509ba1a87fa1d9e1ddde40e91126179c9cce0770555078e788add2497f9f30934a917acbc6e8377e9c20573fd594aa5e488847602ba83e721a8a7f24c198bdb81128edef59949e359b590ed933810b692cec57c65ded444ba4a221d86ad5c4ad70d1dcd2b47cc0c70cdf2ffaaf9d893e3bf3a5d0880bf05"),
                 // expected oi
@@ -1766,6 +1925,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("ca3bca4cbb74e3335132593e84f5ab5764813d478f31c1bcebf02977").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("62768930a173e8fa697f593b89b0519e082e8662c2a58f1a2669addebced98513de667d9820396d330fa0577cfd3652f9a3887fc449ed8ae44d70852b8a229ad06ad724d76fed90edd2cac1ee42aca4d128f8fb07cb67ba38baa1559ec046d38e67d1500243b49110c0d5d51e950a10d8e71a115c09bce2c33629e8b6fa13640d0436b93c749c79b893899bcd60127d71057567d9f8ae4dd8033055be45a7af27d4711cef54f443fcafda9763ec55491a7ea99717feca6d5d74d04aba0af02faf0396b2a8f375292f73550ef2871576e332b3a71867defce1d9fe05160576bfe546c91a78b51ca6e24b310da0317737dba4a7a502ac57b0a4772f908d18c4cff").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -1776,6 +1937,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("a1d0dd93fd9c53bf6401d840c4d73b625bdbf067e4810ad1ef10f5cda7926e52d922960981bd2c7b52e54426f9fdcf1ce6fc61c541e15471500868500bcfefdb571d3ad283733976f136d1778b7d76c4797722ccfe883aee017e298fdcdc05cd536d3d14bbb504ede829e20512b8077648037346afb6293d08e498d10d8f2d555690e3401fd38e827cb8f9d1c17d55f12564fb4ec3e5980287850060520988af90e462f90bc7291608a33c6c3395137fc0fc1e8feea7acedc60f9cab65c0a0f4cc4f71076ab446c57146d9f7beb2163c667b57d04862b60ba457417b3ff6b0a48cddf0d22ff472a38c72a8436933d44b0e13ae043947bf1dc2a6c4e4ff7b63221bc458e77fd4adec36b83a1f0bfbe3602e045d0436b9745a34ee5dd4307d0d34f70e9a8c8b0304fc13a7758b83098b91bfeb20b2ad6f816f59b4230bd136f6f54d2b93380964795c6fdec965a2c8de973069a72760b0cc673e14f78a967e3ab332ea8eec60303b031a1b3e5faf8eea2d025621ea132630b7179120585fccf80adfa7dabaa431f20780f8dcf29afaae63900841d8bb1d3b68a0e7eba7a4343a1b94ae7c1593d161d4747845249cf79fbe51d3af04095de1d1e25dacc7c81cc28cf3149f7cc6ccd2c6e27a3644d7880ed12e35638185af81504e863a199b53a9a42fb5b21f0ab898963829cb6faa14fa4c42bfff1c32466fea599a9edb9ce8a5cd"),
                 // expected oi
@@ -1828,6 +1991,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -1838,6 +2003,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("ca3bca4cbb74e3335132593e84f5ab5764813d478f31c1bcebf02977").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("62768930a173e8fa697f593b89b0519e082e8662c2a58f1a2669addebced98513de667d9820396d330fa0577cfd3652f9a3887fc449ed8ae44d70852b8a229ad06ad724d76fed90edd2cac1ee42aca4d128f8fb07cb67ba38baa1559ec046d38e67d1500243b49110c0d5d51e950a10d8e71a115c09bce2c33629e8b6fa13640d0436b93c749c79b893899bcd60127d71057567d9f8ae4dd8033055be45a7af27d4711cef54f443fcafda9763ec55491a7ea99717feca6d5d74d04aba0af02faf0396b2a8f375292f73550ef2871576e332b3a71867defce1d9fe05160576bfe546c91a78b51ca6e24b310da0317737dba4a7a502ac57b0a4772f908d18c4cff").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("a1d0dd93fd9c53bf6401d840c4d73b625bdbf067e4810ad1ef10f5cda7926e52d922960981bd2c7b52e54426f9fdcf1ce6fc61c541e15471500868500bcfefdb571d3ad283733976f136d1778b7d76c4797722ccfe883aee017e298fdcdc05cd536d3d14bbb504ede829e20512b8077648037346afb6293d08e498d10d8f2d555690e3401fd38e827cb8f9d1c17d55f12564fb4ec3e5980287850060520988af90e462f90bc7291608a33c6c3395137fc0fc1e8feea7acedc60f9cab65c0a0f4cc4f71076ab446c57146d9f7beb2163c667b57d04862b60ba457417b3ff6b0a48cddf0d22ff472a38c72a8436933d44b0e13ae043947bf1dc2a6c4e4ff7b63221bc458e77fd4adec36b83a1f0bfbe3602e045d0436b9745a34ee5dd4307d0d34f70e9a8c8b0304fc13a7758b83098b91bfeb20b2ad6f816f59b4230bd136f6f54d2b93380964795c6fdec965a2c8de973069a72760b0cc673e14f78a967e3ab332ea8eec60303b031a1b3e5faf8eea2d025621ea132630b7179120585fccf80adfa7dabaa431f20780f8dcf29afaae63900841d8bb1d3b68a0e7eba7a4343a1b94ae7c1593d161d4747845249cf79fbe51d3af04095de1d1e25dacc7c81cc28cf3149f7cc6ccd2c6e27a3644d7880ed12e35638185af81504e863a199b53a9a42fb5b21f0ab898963829cb6faa14fa4c42bfff1c32466fea599a9edb9ce8a5cd"),
                 // expected oi
@@ -1893,6 +2060,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("722b4dedc553af05446df5b80b7977cec92ef76b37cd1ea00458c131").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("9a5d71194f6433dceb94bc74ce512a626cb589f333d36fdce3eb4623313b62848df69c7f98706b17ee3ecd17db5e48d17c94b224cd08d9a3339ef82f357d6f784ada882ca9d0d5ed7b981608f25b7bc2fe12ea17c3c66a52ed4cbe04d02aaa1b240cfca28f1c6d5c0e4553836220b2faf33b262e95450bab93b74a268f4aeef21da78a07cc94fd09f52fc0a67340f551a2362b7daf92caec9e1ea2e399c6043dbc22006190c2ade2f02d54522deccf3ec283a6cc0184591c56f2731d40c9654ac746a671e3ece277f094c0fe91163ccc9f7e79f69623065aa25456714adf5591f7dcc2078570de150043142340d5fd5d4d80cdd2f455c65b9bad925a8197bf05").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -1903,6 +2072,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("21e867375764f91b1873567012abbfcf50d7ef38ec06de05a5bb63c99f79c1839b7acedb85783161bb37537208e99410c9517636168248c0174bc38557c3165ccd616ab01ad9e8d0e3e0fbe031989ec8d8cfc7e8370f755bff41087f3f1c9e5b0c551b3aa50872cc19f1d5aa37107ef4fb920186dc25b135a7caf47592d7877987a5448af73955fb1ea5690dc36f0032a0a9159eff416a9cd650d70a59bb4f900f0071258df40bfc38a13e796f06c29fd04b6d935c9cf8a486676fa01efd254c6c23ad69244beb19bdba93db393d8c77e1b86a8607ffb36db8464aff738fde4f8d5504ff3bfdf4ffdbaf55efd0624432c706939d704bf960afcb5170ec65ef2a9d43cb683057c38d4453d1cf79d676e37b4bb36b4983db97885df14d375cdc8b88909223114e2b2238a5cbbb3200b7b5f8320f921499624207bdc19010a6347d1dfb41c45fe196bdad6fc268c20b15ee93f2a68b62e00c7770e0a23e30b1e1c3ef0f90104493b1b6867d2cae4f56945d6242fa9f9400459db44b05d28f74a77da6ca8ab90089e19c9dd94af1ed36be81028f0509f3c7c50a755e63c4157e5f1c50169c0e215eaf3248d7b2fde1df10459870b9feaaf66de33ec290e107b0a84c1fa2ac85b74136d1282f803d5961341f9e1c202a611781e88865adc6abb2050d831b1a3e19fb88b650cb6753de711675c404baf42ac19ccae295bbd50584082a"),
                 // expected oi
@@ -1955,6 +2126,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -1965,6 +2138,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("722b4dedc553af05446df5b80b7977cec92ef76b37cd1ea00458c131").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("9a5d71194f6433dceb94bc74ce512a626cb589f333d36fdce3eb4623313b62848df69c7f98706b17ee3ecd17db5e48d17c94b224cd08d9a3339ef82f357d6f784ada882ca9d0d5ed7b981608f25b7bc2fe12ea17c3c66a52ed4cbe04d02aaa1b240cfca28f1c6d5c0e4553836220b2faf33b262e95450bab93b74a268f4aeef21da78a07cc94fd09f52fc0a67340f551a2362b7daf92caec9e1ea2e399c6043dbc22006190c2ade2f02d54522deccf3ec283a6cc0184591c56f2731d40c9654ac746a671e3ece277f094c0fe91163ccc9f7e79f69623065aa25456714adf5591f7dcc2078570de150043142340d5fd5d4d80cdd2f455c65b9bad925a8197bf05").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("21e867375764f91b1873567012abbfcf50d7ef38ec06de05a5bb63c99f79c1839b7acedb85783161bb37537208e99410c9517636168248c0174bc38557c3165ccd616ab01ad9e8d0e3e0fbe031989ec8d8cfc7e8370f755bff41087f3f1c9e5b0c551b3aa50872cc19f1d5aa37107ef4fb920186dc25b135a7caf47592d7877987a5448af73955fb1ea5690dc36f0032a0a9159eff416a9cd650d70a59bb4f900f0071258df40bfc38a13e796f06c29fd04b6d935c9cf8a486676fa01efd254c6c23ad69244beb19bdba93db393d8c77e1b86a8607ffb36db8464aff738fde4f8d5504ff3bfdf4ffdbaf55efd0624432c706939d704bf960afcb5170ec65ef2a9d43cb683057c38d4453d1cf79d676e37b4bb36b4983db97885df14d375cdc8b88909223114e2b2238a5cbbb3200b7b5f8320f921499624207bdc19010a6347d1dfb41c45fe196bdad6fc268c20b15ee93f2a68b62e00c7770e0a23e30b1e1c3ef0f90104493b1b6867d2cae4f56945d6242fa9f9400459db44b05d28f74a77da6ca8ab90089e19c9dd94af1ed36be81028f0509f3c7c50a755e63c4157e5f1c50169c0e215eaf3248d7b2fde1df10459870b9feaaf66de33ec290e107b0a84c1fa2ac85b74136d1282f803d5961341f9e1c202a611781e88865adc6abb2050d831b1a3e19fb88b650cb6753de711675c404baf42ac19ccae295bbd50584082a"),
                 // expected oi
@@ -2022,6 +2197,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("04ff973d33f9c3df575e75a9f6c4e9d5fbf19e496ba5c83aa77b7afc").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("59f343fa6183210f05e3c339e95d94eeff87fcb26354c0ad6089b9ec8d4a79cd104c9395c4eb598374756d07af5695a8d5bdcae3ef111592f3b907d8d4bffd96ed947b398b9ca25865dde9f4c4dc54aa65ad51ad670755c53e97ebd8cd29070049f8cee4925bec3ed6e862852ae5d1e885aa403f5f097b4c3846c2eaaa9c484eed87f64ddc1cf03207ef080730995aba2b34b4b5543a6f434ae34d8055c687bacd9330151471118907be5c85a18f9106c5e2e9ad2e875778db55bb8db5c50049bab74dab0da9f457b6e9b210365e9acf5676cd9807305270f227359aa18bd356f741c7720e6ff9d9ea64b74bbc24e73b8adbacdd12392bb746351fb7874c5d14").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -2032,6 +2209,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("7c0afe78a0767607d3574f4d7c2fb4ce926c5c0fa444b5bdfa81aa54797f59f2e88fc1406e3745ebb5908fb1940db1346d135307aaee4a37e915b6c144a780650778479acef6dda2b57a125f9031c02eb050283654dcd6ac3d4256acdf22244d5e97d096b9d584d15588a0ff1f50ef8bcbb1c61caa0d8814e7c946598755ea2e3c635af371bbc336cb9a672677c7490068428cd7589584d1fa62968a73b431eae9f12ac3fd9e877017b8b132e2b88c733972720eaa9368e90e8d455b75ecad474ae289b5ce542ca7cf1b779141bce7969b44abedb1a4c403eb1f2a3c73d14e095c3c04b9456ce2b2536918a9c0e46b9b0b921a0dd3fef91e4d3fe76a1f564d62"),
                 // expected oi
@@ -2084,6 +2263,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -2094,6 +2275,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("04ff973d33f9c3df575e75a9f6c4e9d5fbf19e496ba5c83aa77b7afc").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("59f343fa6183210f05e3c339e95d94eeff87fcb26354c0ad6089b9ec8d4a79cd104c9395c4eb598374756d07af5695a8d5bdcae3ef111592f3b907d8d4bffd96ed947b398b9ca25865dde9f4c4dc54aa65ad51ad670755c53e97ebd8cd29070049f8cee4925bec3ed6e862852ae5d1e885aa403f5f097b4c3846c2eaaa9c484eed87f64ddc1cf03207ef080730995aba2b34b4b5543a6f434ae34d8055c687bacd9330151471118907be5c85a18f9106c5e2e9ad2e875778db55bb8db5c50049bab74dab0da9f457b6e9b210365e9acf5676cd9807305270f227359aa18bd356f741c7720e6ff9d9ea64b74bbc24e73b8adbacdd12392bb746351fb7874c5d14").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("7c0afe78a0767607d3574f4d7c2fb4ce926c5c0fa444b5bdfa81aa54797f59f2e88fc1406e3745ebb5908fb1940db1346d135307aaee4a37e915b6c144a780650778479acef6dda2b57a125f9031c02eb050283654dcd6ac3d4256acdf22244d5e97d096b9d584d15588a0ff1f50ef8bcbb1c61caa0d8814e7c946598755ea2e3c635af371bbc336cb9a672677c7490068428cd7589584d1fa62968a73b431eae9f12ac3fd9e877017b8b132e2b88c733972720eaa9368e90e8d455b75ecad474ae289b5ce542ca7cf1b779141bce7969b44abedb1a4c403eb1f2a3c73d14e095c3c04b9456ce2b2536918a9c0e46b9b0b921a0dd3fef91e4d3fe76a1f564d62"),
                 // expected oi
@@ -2151,6 +2334,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("3a8f3f184184133f5a57c97bf300704938d63855f194f687dd600b94").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("a178a998eb5e45126ffc400d2095248ad444e44cd05efe418ddb30fcb094a2e4b86d3498bd709be6b14aa69324a7d3895ca58480ce10c1d3c14b7f5ba7b899a3693c821fad22d7d035195b3d93a20fcaa6b51e02b5cea9356ff27debf4900497c2a94934605c21b3124395c1802449f6d3fc646fcdaeef59d901047ec11aa7e950f494ca1f4e16c625b0d5c4bdd7164914e8e0306115fd717c9205ea42556e02c51f9647e996f69eb72427fe977d2ad9f26249cdb91460dd70fa80765ce382e1f884cf8fae3714867d25a0332097f0615a6a3ff67900320f504051540d17ec84b5e6b3fc470bbb4461949c710cb8c5f2b23ce2fc9e9664beb6c97d003c8411b6").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -2161,6 +2346,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("5ffb6af52709ff0d191d270baf8225355a27f44bac4c5c7213d593a14588a6ebb9beb96808ed2eb96fca65801eb34acda442b6d703459db4fcd5094bcfc8345e582c30308d5e70f7fec8be46ed456adc5aab0bb4fe82ed2468e7cb1e94a2a771cf4d960c17d84a2bc5c8ed4562262d42cb6e8beee4cb1b42e2ded67c8d8edff8e51d96face8530f11d6b7e38ec649e482bdfd6b278361e999b7548b49e5c26cbfc2b09c861e9e5a307dcfbad904713c650f4fdc457739ec7d8e877d26dc8cbd487f19478d62c5f9e87adc57d5bf5024c1e45727a621009dc57d0ac1abce12d18fa805fc6bd6a0afb8ca2f8cfbf08830f35b0e9f8ffb57375f75c08e76637a312"),
                 // expected oi
@@ -2213,6 +2400,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -2223,6 +2412,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("3a8f3f184184133f5a57c97bf300704938d63855f194f687dd600b94").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("a178a998eb5e45126ffc400d2095248ad444e44cd05efe418ddb30fcb094a2e4b86d3498bd709be6b14aa69324a7d3895ca58480ce10c1d3c14b7f5ba7b899a3693c821fad22d7d035195b3d93a20fcaa6b51e02b5cea9356ff27debf4900497c2a94934605c21b3124395c1802449f6d3fc646fcdaeef59d901047ec11aa7e950f494ca1f4e16c625b0d5c4bdd7164914e8e0306115fd717c9205ea42556e02c51f9647e996f69eb72427fe977d2ad9f26249cdb91460dd70fa80765ce382e1f884cf8fae3714867d25a0332097f0615a6a3ff67900320f504051540d17ec84b5e6b3fc470bbb4461949c710cb8c5f2b23ce2fc9e9664beb6c97d003c8411b6").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("5ffb6af52709ff0d191d270baf8225355a27f44bac4c5c7213d593a14588a6ebb9beb96808ed2eb96fca65801eb34acda442b6d703459db4fcd5094bcfc8345e582c30308d5e70f7fec8be46ed456adc5aab0bb4fe82ed2468e7cb1e94a2a771cf4d960c17d84a2bc5c8ed4562262d42cb6e8beee4cb1b42e2ded67c8d8edff8e51d96face8530f11d6b7e38ec649e482bdfd6b278361e999b7548b49e5c26cbfc2b09c861e9e5a307dcfbad904713c650f4fdc457739ec7d8e877d26dc8cbd487f19478d62c5f9e87adc57d5bf5024c1e45727a621009dc57d0ac1abce12d18fa805fc6bd6a0afb8ca2f8cfbf08830f35b0e9f8ffb57375f75c08e76637a312"),
                 // expected oi
@@ -2278,6 +2469,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("58537d11be06cf88aed2818b9b89767093bb1585246b241f3b2874cc").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("57a11add2a5bfe77bcf5503d4d6c7acf618a64eae420d35d6102900132d76769a142aa4c8cb31a63bf26fcab73224628d4d85446dde7ce1420199d5aa6344610e56b5b65f3246c5070faf9f1d61afb9ea2ae90ed4d96cf9cf7957909c7516042485f436fb32310ea662a647e089c3dc4242e032e203e92c9fd2d9f40df110ad783a16623326c2e36f5ac4ca19c37f9cde00dec3f22990214329828a80a19e796492f30adcaa030cf608ebc81b3726540613fda275014ce597fb251a9b2bc9dda6304cc3fb086c895041d57e1d4c6d85e969bcc88f23bacc1b8fb26e8b5a467c2e943340a46637da26987115d559bb062fefc565db1b3c25d540d4c0671e446da").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("434156536964"),
                 // private static other party
@@ -2288,6 +2481,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("1803d2578c0ae67b9c8a445ceac100a695a2bb409c9dcdcaffadfe5645def641f33c7c0cd9417ad0eb34b22092f5a66e6b6c0d8b97c2ad7e32b0678a071ff16566a894bf70012e578966c9225cab3128c2c8e04e684a8293f6bc61942d80e62b4b77895a409605ecfb16250fd32aebb88ffcf9a4eb93f3f3b51bb5505e6c7314b76ae5d3653eac5ed1216e002318a9f8eb34a91711733f766666038525671f1b232e9e5723e4ce1c5c8f23637f91f5fac6755337b50f3043e553a25eb79a7e6667194da7ab44af26c23887c8535cdbb3afe2be3c64ae96bb45bfd324c7bb9ffbce4ada90f630e9c4b5a4b6c3d08a87b361f84f87cc509bf59bda9708e72c5930"),
                 // expected oi
@@ -2340,6 +2535,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // Other Party ID
                 new BitString("a1b2c3d4e5"),
                 // private static other party
@@ -2350,6 +2547,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("58537d11be06cf88aed2818b9b89767093bb1585246b241f3b2874cc").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("57a11add2a5bfe77bcf5503d4d6c7acf618a64eae420d35d6102900132d76769a142aa4c8cb31a63bf26fcab73224628d4d85446dde7ce1420199d5aa6344610e56b5b65f3246c5070faf9f1d61afb9ea2ae90ed4d96cf9cf7957909c7516042485f436fb32310ea662a647e089c3dc4242e032e203e92c9fd2d9f40df110ad783a16623326c2e36f5ac4ca19c37f9cde00dec3f22990214329828a80a19e796492f30adcaa030cf608ebc81b3726540613fda275014ce597fb251a9b2bc9dda6304cc3fb086c895041d57e1d4c6d85e969bcc88f23bacc1b8fb26e8b5a467c2e943340a46637da26987115d559bb062fefc565db1b3c25d540d4c0671e446da").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // expected Z
                 new BitString("1803d2578c0ae67b9c8a445ceac100a695a2bb409c9dcdcaffadfe5645def641f33c7c0cd9417ad0eb34b22092f5a66e6b6c0d8b97c2ad7e32b0678a071ff16566a894bf70012e578966c9225cab3128c2c8e04e684a8293f6bc61942d80e62b4b77895a409605ecfb16250fd32aebb88ffcf9a4eb93f3f3b51bb5505e6c7314b76ae5d3653eac5ed1216e002318a9f8eb34a91711733f766666038525671f1b232e9e5723e4ce1c5c8f23637f91f5fac6755337b50f3043e553a25eb79a7e6667194da7ab44af26c23887c8535cdbb3afe2be3c64ae96bb45bfd324c7bb9ffbce4ada90f630e9c4b5a4b6c3d08a87b361f84f87cc509bf59bda9708e72c5930"),
                 // expected oi
@@ -2363,6 +2562,278 @@ namespace NIST.CVP.Crypto.KAS.Tests
             },
             #endregion ccm
             #endregion dhOneFlow
+
+            #region dhStatic
+            #region hmac
+            new object[]
+            {
+                // label
+                "dhStatic hmac sha2-224",
+                // Domain parameters
+                new FfcDomainParameters(
+                    // p
+                    new BitString("81f15dff1873890c3fdc70ec6615c2c19c1c95cf7f5731669c7a6b42ca6c2bae4369518538c07cb4aa3601eb628161549be2dfe4f69add71c9f1c6340cc514cda1f906883c3a3e55a2840e4bdf2cf81b040fb9bfe4cd597f85ebae1f0b4114532e43fbc5b0e4e958d8ddddf29de886157d85dc401ae96cf9538d5adc53e0d603aa127fa030712fe5e779d31c39bfa892030cddcc50988fbeb8d02ebb904d4401e234d5f3bc50c8dff1e445995edc3417b253f942498e481125f60e48f4eb226774f1b6d666423eaceb066c9edf9284fa0469c1709017f20c8f50df14c5b0b2d8a763f73d7dfcd2dc9da7688aa2fdef3cd9c31b0f6b0c21daf4ceaef28789bfeb").ToPositiveBigInteger(),
+                    // q
+                    new BitString("cc2c1d163a3e0aea348825e0689af896133dc401a823f59c121e7af3").ToPositiveBigInteger(), 
+                    // g
+                    new BitString("5941d1178d593f2f404f8f1b1b162cebbaa787d55666edecbd5071dece793d4de1197a19c993ff98d10a5f1c99976077cde0739953db74d50b6fbd6c864d1917085c81f89e0c2a0fa7186992da10fa0bd52494a97a6b36ad6291872a9d1663cf710426f858b23cb510a2494e6fa17ca18ac735890e44a7c579861e3ad778071b15bb2ab8b75e1ca0507e22775ae38290dfed0fcf5d4f0df5fe40ab10967a4dbcdc118aad51dfaf675a274ff4c54652b5ca6da913c141cb158242203f48fae4d78cfd5b94b180e84585d45c7e692d83369c8dae07fb6308a05164ac1854743bc7764e74aca434a40f7f063a04d0f95b501e02045341234658d9c657048b200c3b").ToPositiveBigInteger()
+                ), 
+                // scheme
+                FfcScheme.DhStatic,
+                // this party role
+                KeyAgreementRole.InitiatorPartyU,
+                // DSA/KDF hash mode
+                ModeValues.SHA2,
+                // DSA/KDF digest size
+                DigestSizes.d224,
+                // mac type
+                KeyAgreementMacType.HmacSha2D512,
+                // key length
+                112,
+                // tag length
+                64,
+                // noKeyConfirmationNonce
+                new BitString("345e02df604063e4160b7c6d3b9efd7e"),
+                // aes-ccm nonce
+                null,
+                // this party Id
+                new BitString("a1b2c3d4e5"),
+                // private static this party
+                new BitString("4e0f5416ee270385fc2244bdf3405902b505362df56d39378f74b326").ToPositiveBigInteger(),
+                // public static this party
+                new BitString("7451802fe814a0f0dacc6b92d6d356b234a686c3c5c50b0abdb75f252462bd18b06794c073838d134b8d930fc9372caf28c03d8bbb789bb918a692d5afd2b24390e4a55781b500f80ba4f14ee3b261ee9b57b042d3ededd932b2232c5f8ffc3c767aa38b95e847fbc1c9eb6dfca6de98f92b22afb1f260ccae2ed45ea054382c69ca98d3607e8e25281f1736038b5ddeff19a1924700e53633a4d2f6bdd262a9c6fb17a9930d8d20cd011c0a7769b5b80c60a64db4e6c30035f273d9a1bbd4aae661620415b4a0449d0e192b98931a8d10f8b6baa3cc9699869471b92556d305f21c29749ae8ff854a669de10ae3919e8e9d3cbc9ba0b96fa0319314ebba7956").ToPositiveBigInteger(),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                new BitString("5b147b3ffcdc63076793989b4f30"),
+                // Other Party ID
+                new BitString("434156536964"),
+                // private static other party
+                new BitString("8dfcf6f49c0f7e9f34c62c3dadd82a6e7f9f7800598bbcd030d14c2f").ToPositiveBigInteger(),
+                // public static other party
+                new BitString("3b071528d852ee6cc08ea58d22e84f0bd416104be2c1278f0ad9139dafcce67c372ee52da9103aeb7dc53c433b9d86a5b10aafe186fa2de8efd444d30b850f310ffb3cdbbe2cb5e7944370c7b02dd962d88521519982dcf49e7921e0f766ad9b2eacfe6ecde37060d0cefed7462be640effa88bf1ad45e2874e22142cae052d7aff505e77d47a178c84893fe92361fcdb73aee9700206c65179fde46de15bcaf56a1b7c5348d0f7880578a15372ebb8c335d82f022e86412b979a137acb69ccd1f42dae383c7e8326b3609b236e7c976a74f56a7d8e1a542734fdb83c733c6fbbf66d3ce44a5ec773624088b4895f0a648aaac37b897f67af894855c8f1240c6").ToPositiveBigInteger(),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
+                // expected Z
+                new BitString("05aae6798a2bcb6985e5c774765b4265d23c1415a5569f56ff1ac8c659afbbdf1041f636c0c7c244ccd45ea46f9ceae79e3474514911cc836addb3a8196bf76eee20f8b70229c8fcc5dd20629898e8dca24209908a647efb892d2f056dd7906d2f1c34b673968121918b86b3a8111a61f43e09979231b6bc7f482cd262a5d379e0099f3836fca48395effe7b1cca62a770bbdab52cc91bdddcdba95fdb539ab3104276c2eb6ae6d366af969e447643ddf66ed7376b6aea618a65b9c7aaf7985e7ed690c4bce1fd3fd72dbd5d99d524c7cd575fd80e80b683259f9931c3cf064a67ff3cbda2e8cb1461d4fcd0a2377251d773a6f3521ca1e5b65cee71f4c67b92"),
+                // expected oi
+                new BitString("a1b2c3d4e55b147b3ffcdc63076793989b4f304341565369649f294b94da"),
+                // expected dkm
+                new BitString("293fb6866bf5009262b7b4c4e002"),
+                // expected macData
+                new BitString("5374616e646172642054657374204d657373616765345e02df604063e4160b7c6d3b9efd7e"),
+                // expected tag
+                new BitString("b01e09be90315273")
+            },
+            new object[]
+            {
+                // label
+                "dhStatic hmac sha2-224 inverse",
+                // Domain parameters
+                new FfcDomainParameters(
+                    // p
+                    new BitString("81f15dff1873890c3fdc70ec6615c2c19c1c95cf7f5731669c7a6b42ca6c2bae4369518538c07cb4aa3601eb628161549be2dfe4f69add71c9f1c6340cc514cda1f906883c3a3e55a2840e4bdf2cf81b040fb9bfe4cd597f85ebae1f0b4114532e43fbc5b0e4e958d8ddddf29de886157d85dc401ae96cf9538d5adc53e0d603aa127fa030712fe5e779d31c39bfa892030cddcc50988fbeb8d02ebb904d4401e234d5f3bc50c8dff1e445995edc3417b253f942498e481125f60e48f4eb226774f1b6d666423eaceb066c9edf9284fa0469c1709017f20c8f50df14c5b0b2d8a763f73d7dfcd2dc9da7688aa2fdef3cd9c31b0f6b0c21daf4ceaef28789bfeb").ToPositiveBigInteger(),
+                    // q
+                    new BitString("cc2c1d163a3e0aea348825e0689af896133dc401a823f59c121e7af3").ToPositiveBigInteger(), 
+                    // g
+                    new BitString("5941d1178d593f2f404f8f1b1b162cebbaa787d55666edecbd5071dece793d4de1197a19c993ff98d10a5f1c99976077cde0739953db74d50b6fbd6c864d1917085c81f89e0c2a0fa7186992da10fa0bd52494a97a6b36ad6291872a9d1663cf710426f858b23cb510a2494e6fa17ca18ac735890e44a7c579861e3ad778071b15bb2ab8b75e1ca0507e22775ae38290dfed0fcf5d4f0df5fe40ab10967a4dbcdc118aad51dfaf675a274ff4c54652b5ca6da913c141cb158242203f48fae4d78cfd5b94b180e84585d45c7e692d83369c8dae07fb6308a05164ac1854743bc7764e74aca434a40f7f063a04d0f95b501e02045341234658d9c657048b200c3b").ToPositiveBigInteger()
+                ), 
+                // scheme
+                FfcScheme.DhStatic,
+                // this party role
+                KeyAgreementRole.ResponderPartyV,
+                // DSA/KDF hash mode
+                ModeValues.SHA2,
+                // DSA/KDF digest size
+                DigestSizes.d224,
+                // mac type
+                KeyAgreementMacType.HmacSha2D512,
+                // key length
+                112,
+                // tag length
+                64,
+                // noKeyConfirmationNonce
+                new BitString("345e02df604063e4160b7c6d3b9efd7e"),
+                // aes-ccm nonce
+                null,
+                // this party Id
+                new BitString("434156536964"),
+                // private static this party
+                new BitString("8dfcf6f49c0f7e9f34c62c3dadd82a6e7f9f7800598bbcd030d14c2f").ToPositiveBigInteger(),
+                // public static this party
+                new BitString("3b071528d852ee6cc08ea58d22e84f0bd416104be2c1278f0ad9139dafcce67c372ee52da9103aeb7dc53c433b9d86a5b10aafe186fa2de8efd444d30b850f310ffb3cdbbe2cb5e7944370c7b02dd962d88521519982dcf49e7921e0f766ad9b2eacfe6ecde37060d0cefed7462be640effa88bf1ad45e2874e22142cae052d7aff505e77d47a178c84893fe92361fcdb73aee9700206c65179fde46de15bcaf56a1b7c5348d0f7880578a15372ebb8c335d82f022e86412b979a137acb69ccd1f42dae383c7e8326b3609b236e7c976a74f56a7d8e1a542734fdb83c733c6fbbf66d3ce44a5ec773624088b4895f0a648aaac37b897f67af894855c8f1240c6").ToPositiveBigInteger(),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
+                // Other Party ID
+                new BitString("a1b2c3d4e5"),
+                // private static other party
+                new BitString("4e0f5416ee270385fc2244bdf3405902b505362df56d39378f74b326").ToPositiveBigInteger(),
+                // public static other party
+                new BitString("7451802fe814a0f0dacc6b92d6d356b234a686c3c5c50b0abdb75f252462bd18b06794c073838d134b8d930fc9372caf28c03d8bbb789bb918a692d5afd2b24390e4a55781b500f80ba4f14ee3b261ee9b57b042d3ededd932b2232c5f8ffc3c767aa38b95e847fbc1c9eb6dfca6de98f92b22afb1f260ccae2ed45ea054382c69ca98d3607e8e25281f1736038b5ddeff19a1924700e53633a4d2f6bdd262a9c6fb17a9930d8d20cd011c0a7769b5b80c60a64db4e6c30035f273d9a1bbd4aae661620415b4a0449d0e192b98931a8d10f8b6baa3cc9699869471b92556d305f21c29749ae8ff854a669de10ae3919e8e9d3cbc9ba0b96fa0319314ebba7956").ToPositiveBigInteger(),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                new BitString("5b147b3ffcdc63076793989b4f30"),
+                // expected Z
+                new BitString("05aae6798a2bcb6985e5c774765b4265d23c1415a5569f56ff1ac8c659afbbdf1041f636c0c7c244ccd45ea46f9ceae79e3474514911cc836addb3a8196bf76eee20f8b70229c8fcc5dd20629898e8dca24209908a647efb892d2f056dd7906d2f1c34b673968121918b86b3a8111a61f43e09979231b6bc7f482cd262a5d379e0099f3836fca48395effe7b1cca62a770bbdab52cc91bdddcdba95fdb539ab3104276c2eb6ae6d366af969e447643ddf66ed7376b6aea618a65b9c7aaf7985e7ed690c4bce1fd3fd72dbd5d99d524c7cd575fd80e80b683259f9931c3cf064a67ff3cbda2e8cb1461d4fcd0a2377251d773a6f3521ca1e5b65cee71f4c67b92"),
+                // expected oi
+                new BitString("a1b2c3d4e55b147b3ffcdc63076793989b4f304341565369649f294b94da"),
+                // expected dkm
+                new BitString("293fb6866bf5009262b7b4c4e002"),
+                // expected macData
+                new BitString("5374616e646172642054657374204d657373616765345e02df604063e4160b7c6d3b9efd7e"),
+                // expected tag
+                new BitString("b01e09be90315273")
+            },
+            #endregion hmac
+            
+            #region ccm
+            new object[]
+            {
+                // label
+                "dhStatic ccm sha2-224",
+                // Domain parameters
+                new FfcDomainParameters(
+                    // p
+                    new BitString("f20f2553eb14c2fb9581912a814c3440d2f09fd469f38947d136c9aa804ec64848ed2934390a770e560f4525c47aa3b7901c9f6d5e6c473eb5dfa48183db5203634e135c740480fac71c1816476a90464265391bcffd6bd0af3146a82f31dc48d7a710cb4fdaa4f2c7cc3c3ded1a97a743f22df1d8d1712ad51ab624ccb39aa0f09a6c4094ddb456b2c5b0273ae7ffa18b7ef287cf437dbf0626bf6677902c42e8b3bf5d83e482db7e4f76b33edc042ee2a0ba5ac845825f81550cca3b80f579108d9c4bf8eb64bcf08f0fc714a5a68221e7ee6b6c2e91782d614692118727175b35087466a6fd77aa49067b97964f275fd0e8a775bc1c2de3853800bf2757e9").ToPositiveBigInteger(),
+                    // q
+                    new BitString("add6bcc7af25dbbfb8ab659623a4163c8291b69bd8fd83916163db09").ToPositiveBigInteger(), 
+                    // g
+                    new BitString("137986b494e520581bf3c0f40aa4287c505cdca1499c6659ec412231ff88bf3182e6e73945ef1b401d18ca03779d7c68bc5168064d4aa7077ba3d41106f957bdf43fcaf5a4fb3e220af8753c135ff0c3b1652f5f9c800edfe42563badc355862eeceb9b504ac6b245f00c1857070f34642c4b8ab45d13b723b12063146f29e81c2516c675ecc43aca92489626d4350b1ea208c47e48b44b13b26c93cd2f4744bcadf591aa9e9784f76e25ae38206237cbad33f577782ae2a56f7407eac94243f9997b7c8b3967571b989b6cdc364335a93b31543fa956ee7654c6f05ca1cecab9d1cc340e269a0ee7ca042687ccd5d3155df154cd3e67fad4c0a3f8ac0e9b3b3").ToPositiveBigInteger()
+                ), 
+                // scheme
+                FfcScheme.DhStatic,
+                // this party role
+                KeyAgreementRole.InitiatorPartyU,
+                // DSA/KDF hash mode
+                ModeValues.SHA2,
+                // DSA/KDF digest size
+                DigestSizes.d224,
+                // mac type
+                KeyAgreementMacType.AesCcm,
+                // key length
+                128,
+                // tag length
+                64,
+                // noKeyConfirmationNonce
+                new BitString("ed7b8e50881ba27d0bb6a33dbb0f9e7e"),
+                // aes-ccm nonce
+                new BitString("42ba55af92c975"),
+                // this party Id
+                new BitString("a1b2c3d4e5"),
+                // private static this party
+                new BitString("66207fd6fd0f05ffd08ec4b869af6831fd2684ff7be995a9ce3bd279").ToPositiveBigInteger(),
+                // public static this party
+                new BitString("1261cc852da6a2fb4528462e8ed467a246a50a398d532b013791fc3c373fe6782103af9533cf82fede7404138fc97829595d92162efb0dd8eccd036ec3d68ac27b3e445c8ce0f60db4ebe5094c4bb20644f62bca7d10953dab9a7f668961762e8e034f65f1e2a1a435c16613a8aae0e47432aef4faec19b60c3cc20bfdd0b17bc835df5d8c27d708f6645bd1328c49b74b89c335f1daa0afe7d85fc448d0737036fce056adcae8bcd4488b9ad511e442058d6eef4336b3230b8da7ec497f95b8bd018c241155ec79dede3592aad083c7efa3c542e38324c017db2707ecce6242414463344ec73a2784437c789576b9fc9a5593aa365dfc9fc37e2563029c8e13").ToPositiveBigInteger(),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                new BitString("60a8d3fa7d3d957315adde0d2a01"),
+                // Other Party ID
+                new BitString("434156536964"),
+                // private static other party
+                new BitString("2d6d09d360cf277a1a749b03677a49ba054e8a4c4b77d8f66a537a89").ToPositiveBigInteger(),
+                // public static other party
+                new BitString("d0fe5b52c7488f11983d69201b3ceeb559fcb2b1fa98b8b70253dba1e6afdc21f8eba2e7e87f3abbe361a0b6ec97467685f5214b586f0b19c616af39a331bd8c201a6c6f31d8035dd3a94e39b9690040979938363a4c3f8fb2d268025f43a648e04476bf31cf62a36787baa5f8be38944781132d7e989536206c4acc3485d7e9dd878eca978ef48496b1a6c675cd86a436b94135643db088dda98d88ec92c137f16f169a39b27fd85e6136890b3a42b3f2356bd31dc0ba30654ae68a7fc729a112fa73f0f14a6a770e18eb7c40cf609e3d08dd27f35bdc3ebd1c46623398170d7d799800ee43ab8ed00824def52e602fd22c88f0a44dafded16e800e8a54159c").ToPositiveBigInteger(),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
+                // expected Z
+                new BitString("aae94826523986ec6b460c9b7e5b82666e941870f61505776091fd1af8bdeaec7789dc2227a06b3e40e698115da4a85ad721ddb27891755e321dfaef95ece9b95503a73b5fab771552b9bcebccffbb13dfd682fcd62ac64d8f8bed05473d1bf19a94e88faeb8f07d4135076314ec9ea3cd95ebb071919016dab65598ed7f6b0afe023adfd526ea1128eb375efe496a3de0d93454f35d1c405f34be8a3e1d33f743e76802b758db635e9ac88f09eaf41f03c7481f2897c8c2083a9a90c86cc02de86ed3d85e4be788dca7dfa2b526a6e826cc9dfe3fad5fb2f83f483af92cece3ab62f89f5abb5869a86fed5ab37c24961714f59a59e6886c671b8badf3127fd5"),
+                // expected oi
+                new BitString("a1b2c3d4e560a8d3fa7d3d957315adde0d2a01434156536964600cf36e99"),
+                // expected dkm
+                new BitString("23e83fdc4f0e4d4752247ab50fad2e20"),
+                // expected macData
+                new BitString("5374616e646172642054657374204d657373616765ed7b8e50881ba27d0bb6a33dbb0f9e7e"),
+                // expected tag
+                new BitString("377a428156d37e71")
+            },
+            new object[]
+            {
+                // label
+                "dhStatic ccm sha2-224 inverse",
+                // Domain parameters
+                new FfcDomainParameters(
+                    // p
+                    new BitString("f20f2553eb14c2fb9581912a814c3440d2f09fd469f38947d136c9aa804ec64848ed2934390a770e560f4525c47aa3b7901c9f6d5e6c473eb5dfa48183db5203634e135c740480fac71c1816476a90464265391bcffd6bd0af3146a82f31dc48d7a710cb4fdaa4f2c7cc3c3ded1a97a743f22df1d8d1712ad51ab624ccb39aa0f09a6c4094ddb456b2c5b0273ae7ffa18b7ef287cf437dbf0626bf6677902c42e8b3bf5d83e482db7e4f76b33edc042ee2a0ba5ac845825f81550cca3b80f579108d9c4bf8eb64bcf08f0fc714a5a68221e7ee6b6c2e91782d614692118727175b35087466a6fd77aa49067b97964f275fd0e8a775bc1c2de3853800bf2757e9").ToPositiveBigInteger(),
+                    // q
+                    new BitString("add6bcc7af25dbbfb8ab659623a4163c8291b69bd8fd83916163db09").ToPositiveBigInteger(), 
+                    // g
+                    new BitString("137986b494e520581bf3c0f40aa4287c505cdca1499c6659ec412231ff88bf3182e6e73945ef1b401d18ca03779d7c68bc5168064d4aa7077ba3d41106f957bdf43fcaf5a4fb3e220af8753c135ff0c3b1652f5f9c800edfe42563badc355862eeceb9b504ac6b245f00c1857070f34642c4b8ab45d13b723b12063146f29e81c2516c675ecc43aca92489626d4350b1ea208c47e48b44b13b26c93cd2f4744bcadf591aa9e9784f76e25ae38206237cbad33f577782ae2a56f7407eac94243f9997b7c8b3967571b989b6cdc364335a93b31543fa956ee7654c6f05ca1cecab9d1cc340e269a0ee7ca042687ccd5d3155df154cd3e67fad4c0a3f8ac0e9b3b3").ToPositiveBigInteger()
+                ), 
+                // scheme
+                FfcScheme.DhStatic,
+                // this party role
+                KeyAgreementRole.ResponderPartyV,
+                // DSA/KDF hash mode
+                ModeValues.SHA2,
+                // DSA/KDF digest size
+                DigestSizes.d224,
+                // mac type
+                KeyAgreementMacType.AesCcm,
+                // key length
+                128,
+                // tag length
+                64,
+                // noKeyConfirmationNonce
+                new BitString("ed7b8e50881ba27d0bb6a33dbb0f9e7e"),
+                // aes-ccm nonce
+                new BitString("42ba55af92c975"),
+                // this party Id
+                new BitString("434156536964"),
+                // private static this party
+                new BitString("2d6d09d360cf277a1a749b03677a49ba054e8a4c4b77d8f66a537a89").ToPositiveBigInteger(),
+                // public static this party
+                new BitString("d0fe5b52c7488f11983d69201b3ceeb559fcb2b1fa98b8b70253dba1e6afdc21f8eba2e7e87f3abbe361a0b6ec97467685f5214b586f0b19c616af39a331bd8c201a6c6f31d8035dd3a94e39b9690040979938363a4c3f8fb2d268025f43a648e04476bf31cf62a36787baa5f8be38944781132d7e989536206c4acc3485d7e9dd878eca978ef48496b1a6c675cd86a436b94135643db088dda98d88ec92c137f16f169a39b27fd85e6136890b3a42b3f2356bd31dc0ba30654ae68a7fc729a112fa73f0f14a6a770e18eb7c40cf609e3d08dd27f35bdc3ebd1c46623398170d7d799800ee43ab8ed00824def52e602fd22c88f0a44dafded16e800e8a54159c").ToPositiveBigInteger(),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
+                // Other Party ID
+                new BitString("a1b2c3d4e5"),
+                // private static other party
+                new BitString("66207fd6fd0f05ffd08ec4b869af6831fd2684ff7be995a9ce3bd279").ToPositiveBigInteger(),
+                // public static other party
+                new BitString("1261cc852da6a2fb4528462e8ed467a246a50a398d532b013791fc3c373fe6782103af9533cf82fede7404138fc97829595d92162efb0dd8eccd036ec3d68ac27b3e445c8ce0f60db4ebe5094c4bb20644f62bca7d10953dab9a7f668961762e8e034f65f1e2a1a435c16613a8aae0e47432aef4faec19b60c3cc20bfdd0b17bc835df5d8c27d708f6645bd1328c49b74b89c335f1daa0afe7d85fc448d0737036fce056adcae8bcd4488b9ad511e442058d6eef4336b3230b8da7ec497f95b8bd018c241155ec79dede3592aad083c7efa3c542e38324c017db2707ecce6242414463344ec73a2784437c789576b9fc9a5593aa365dfc9fc37e2563029c8e13").ToPositiveBigInteger(),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                new BitString("60a8d3fa7d3d957315adde0d2a01"),
+                // expected Z
+                new BitString("aae94826523986ec6b460c9b7e5b82666e941870f61505776091fd1af8bdeaec7789dc2227a06b3e40e698115da4a85ad721ddb27891755e321dfaef95ece9b95503a73b5fab771552b9bcebccffbb13dfd682fcd62ac64d8f8bed05473d1bf19a94e88faeb8f07d4135076314ec9ea3cd95ebb071919016dab65598ed7f6b0afe023adfd526ea1128eb375efe496a3de0d93454f35d1c405f34be8a3e1d33f743e76802b758db635e9ac88f09eaf41f03c7481f2897c8c2083a9a90c86cc02de86ed3d85e4be788dca7dfa2b526a6e826cc9dfe3fad5fb2f83f483af92cece3ab62f89f5abb5869a86fed5ab37c24961714f59a59e6886c671b8badf3127fd5"),
+                // expected oi
+                new BitString("a1b2c3d4e560a8d3fa7d3d957315adde0d2a01434156536964600cf36e99"),
+                // expected dkm
+                new BitString("23e83fdc4f0e4d4752247ab50fad2e20"),
+                // expected macData
+                new BitString("5374616e646172642054657374204d657373616765ed7b8e50881ba27d0bb6a33dbb0f9e7e"),
+                // expected tag
+                new BitString("377a428156d37e71")
+            },
+            #endregion ccm
+            #endregion dhStatic
         };
 
         [Test]
@@ -2384,11 +2855,13 @@ namespace NIST.CVP.Crypto.KAS.Tests
             BigInteger thisPartyPublicStaticKey,
             BigInteger thisPartyPrivateEphemKey,
             BigInteger thisPartyPublicEphemKey,
+            BitString thisPartyDkmNonce,
             BitString otherPartyId,
             BigInteger otherPartyPrivateStaticKey,
             BigInteger otherPartyPublicStaticKey,
             BigInteger otherPartyPrivateEphemKey,
             BigInteger otherPartyPublicEphemKey,
+            BitString otherPartyDkmNonce,
             BitString expectedZ,
             BitString expectedOi,
             BitString expectedDkm,
@@ -2402,7 +2875,7 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     otherPartyId,
                     new FfcKeyPair(otherPartyPublicStaticKey), 
                     new FfcKeyPair(otherPartyPublicEphemKey),
-                    null,
+                    otherPartyDkmNonce,
                     null,
                     // when "party v" noKeyConfirmationNonce is provided as a part of party U's shared information
                     keyAgreementRole == KeyAgreementRole.ResponderPartyV ? noKeyConfirmationNonce : null
@@ -2411,12 +2884,19 @@ namespace NIST.CVP.Crypto.KAS.Tests
             // u/v party info comprised of ID, and dkmNonce (when available), find the bitlength of both parties contributed information 
             // to determine which bits are the "random" bits to inject into the TestableEntropyProvider.
             var composedBitLength = thisPartyId.BitLength +
-                                    new BitString(0).BitLength + // DKM nonce when applicable
+                                    (thisPartyDkmNonce?.BitLength ?? 0) + // DKM nonce when applicable
+                                    (otherPartyDkmNonce?.BitLength ?? 0) + // DKM nonce when applicable
                                     otherPartyId.BitLength;
 
             var entropyBits = expectedOi.GetLeastSignificantBits(expectedOi.BitLength - composedBitLength);
 
             _entropyProviderOtherInfo.AddEntropy(entropyBits);
+
+            // add dkm nonce to entropy provided when needed
+            if (thisPartyDkmNonce != null)
+            {
+                _entropyProviderScheme.AddEntropy(thisPartyDkmNonce);
+            }
 
             // MAC no key confirmation data makes use of a nonce
             _entropyProviderScheme.AddEntropy(noKeyConfirmationNonce);
@@ -2515,6 +2995,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("89f1b69071e0fa857399ed1a3ea0a830803601c6dd93ffa3a5b014fa").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("54f4ad107e849716774b3910c6f9b920e5fdc2f69f94bed21adf5e87c4343a0832f78360c7e2febbe39e00778a8a781640ca53a12f3280763a8ab2c53fa1d1fbd1a6b8d5a3e5b2b1097af9aea3370240a846f97105fa90ce238e504e1dd17247fd8a9950bc54651eba7a19a320f0c4e8586d570f5d0b09141d36a42f03c2ba1e33d61ebe4ead935b10fce1098c54baa08f79a204fbc80beb2fcf10d37213bc90246ab59cc27406d15c63ec585280c749dbf33e2e79ead1acb035245c45788813f33a9eb1865942f208d7b30bfbdb6ee70febd0159a01a4e89882264615b5a6d84a7cdec5966a68f7751b8b544d41e4a59b5971574ffa620719cf18b135b29210").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -2527,6 +3009,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("18a2d714d92487ac795b9b4e2c867ddeb9c7da42e6dfcf85eeb239c1").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("07bf775ab92262b1a2e271795236b41712b830373954b2c74cb548a9b044c97b44788afebd34736ea8a21f580e859d26b615e7aa50d5faf856f3decb66998a790d5058af1f38885ed5e106b5cfc5c0c92525445b9d352069673c3b0dafb2a949b414332683f5fd30ec66f56f5b529ed68ac493d91578889b7d8136518edc1f38decd59ae72c4d32adc8237e2c2db4f905dd9a438a8c7680b07c7a5dcb5b2cbf28c0706ce92e6b1ab9ece33b13dd2c5640a4547b2ea1649def0711572b4a8f05fc3b32ca6b840965cce5c76bd94663513ceb768fbb20a2d1214f704552a63cf3ca7a947d3a506d7dbacffc20c77053c0abbe6f75287ff3aac3fe05b855217d817").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -2583,6 +3067,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("18a2d714d92487ac795b9b4e2c867ddeb9c7da42e6dfcf85eeb239c1").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("07bf775ab92262b1a2e271795236b41712b830373954b2c74cb548a9b044c97b44788afebd34736ea8a21f580e859d26b615e7aa50d5faf856f3decb66998a790d5058af1f38885ed5e106b5cfc5c0c92525445b9d352069673c3b0dafb2a949b414332683f5fd30ec66f56f5b529ed68ac493d91578889b7d8136518edc1f38decd59ae72c4d32adc8237e2c2db4f905dd9a438a8c7680b07c7a5dcb5b2cbf28c0706ce92e6b1ab9ece33b13dd2c5640a4547b2ea1649def0711572b4a8f05fc3b32ca6b840965cce5c76bd94663513ceb768fbb20a2d1214f704552a63cf3ca7a947d3a506d7dbacffc20c77053c0abbe6f75287ff3aac3fe05b855217d817").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -2595,6 +3081,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("89f1b69071e0fa857399ed1a3ea0a830803601c6dd93ffa3a5b014fa").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("54f4ad107e849716774b3910c6f9b920e5fdc2f69f94bed21adf5e87c4343a0832f78360c7e2febbe39e00778a8a781640ca53a12f3280763a8ab2c53fa1d1fbd1a6b8d5a3e5b2b1097af9aea3370240a846f97105fa90ce238e504e1dd17247fd8a9950bc54651eba7a19a320f0c4e8586d570f5d0b09141d36a42f03c2ba1e33d61ebe4ead935b10fce1098c54baa08f79a204fbc80beb2fcf10d37213bc90246ab59cc27406d15c63ec585280c749dbf33e2e79ead1acb035245c45788813f33a9eb1865942f208d7b30bfbdb6ee70febd0159a01a4e89882264615b5a6d84a7cdec5966a68f7751b8b544d41e4a59b5971574ffa620719cf18b135b29210").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -2653,6 +3141,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("42e1780924932bf2f5d66079c8066dc0703cf082195b9c20cbe38227").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("21bc81ba76f97e71b5ab828de9675333d23492f17da5e50f479126e211f643c048a31144fbeccf9f70810cb661ad347c7b15ff2d50a89d5465db776b370fd66c0a2c09ec08828aa23d2282174450b39da1bae1330447ed7ac29e175d49a6498d62489fc9ac1a5d22d755f9990959d84f2c80584bf3854a3e5bc5b8b0853a045bb40b68e8ad48a853b60a8ca01f06235d1fbf1a50946012c2cbe3650055c716f1a96d9f793d04fcd603bdd12f18b43b229974d9b604a4f9e583cbc6c3e9f0b4b88dd23f5572e21cf9e84a25aa2c74a1b04198a7c64c0ea81f22332cd2cf3db43cace8a24a301f76feb5f5c3062c37215cf3b342d2fe7fe292a9951fab34c5e8ba").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -2665,6 +3155,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("048e96ae669db6d12ce755f3cb9025585e7b8c61a8d7680d5971d3ed").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("6fe96fff9eca9685d5d1afc01066b639cf16bcba3bb07640d5594b2423755b061588b08f59e1de640361f9bc5fe22ad6b7cd77a457cee2746d55ed28c47c80a683a755a6ab770d3dc15b2d49626383eb424e5faa7a9307052e5743c97b687db18372ce4624ac644c4f9b89b1368ed0abaa89cea95512d38d3e62f1b1f0a3ac1a3bac460095b4b370c462862b0003b007e5d21ea115e23e196c0baa617f4440424c40a9b6f4bfd51743eb093b5b573f1fdfe979605c3cb5468c6f43e7764c4d146561d4c3b982ee30626bf274c88d760208f62a620cdb997db9c887da08ac2cae74f9b4a04de1a64dd872ae3070690f43166fe97f57118590adaa6ea50d54f15b").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -2721,6 +3213,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("048e96ae669db6d12ce755f3cb9025585e7b8c61a8d7680d5971d3ed").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("6fe96fff9eca9685d5d1afc01066b639cf16bcba3bb07640d5594b2423755b061588b08f59e1de640361f9bc5fe22ad6b7cd77a457cee2746d55ed28c47c80a683a755a6ab770d3dc15b2d49626383eb424e5faa7a9307052e5743c97b687db18372ce4624ac644c4f9b89b1368ed0abaa89cea95512d38d3e62f1b1f0a3ac1a3bac460095b4b370c462862b0003b007e5d21ea115e23e196c0baa617f4440424c40a9b6f4bfd51743eb093b5b573f1fdfe979605c3cb5468c6f43e7764c4d146561d4c3b982ee30626bf274c88d760208f62a620cdb997db9c887da08ac2cae74f9b4a04de1a64dd872ae3070690f43166fe97f57118590adaa6ea50d54f15b").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -2733,6 +3227,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("42e1780924932bf2f5d66079c8066dc0703cf082195b9c20cbe38227").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("21bc81ba76f97e71b5ab828de9675333d23492f17da5e50f479126e211f643c048a31144fbeccf9f70810cb661ad347c7b15ff2d50a89d5465db776b370fd66c0a2c09ec08828aa23d2282174450b39da1bae1330447ed7ac29e175d49a6498d62489fc9ac1a5d22d755f9990959d84f2c80584bf3854a3e5bc5b8b0853a045bb40b68e8ad48a853b60a8ca01f06235d1fbf1a50946012c2cbe3650055c716f1a96d9f793d04fcd603bdd12f18b43b229974d9b604a4f9e583cbc6c3e9f0b4b88dd23f5572e21cf9e84a25aa2c74a1b04198a7c64c0ea81f22332cd2cf3db43cace8a24a301f76feb5f5c3062c37215cf3b342d2fe7fe292a9951fab34c5e8ba").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -2794,6 +3290,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("2e2dc83d78d707129c0c08898af72a3439cdddf449ec6f50936d1da7").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("70e0f8beb815d30223d34e0f20e83cd6bb6346a156f658cf5ffbdb0dec48b85c0acd4e4b6ea3f3bcdedae55af5bb85184dd25ff2b2acbcf5cab7f551582e4e45462ed64ab11d068a0ad5a62478807a4cec92a4fcaf53ce3d8681575a592f2805f282e28214dfb1727514f6c67932eb409545176e70d5b912e0976e5027aa9e1eb7d26a64d02d66b95e6ca62cbfdc6e36eb49e3b0bf334bd47ca5e54e3adce36c8d24e87c41827f3ee256dcb8d359c892f991a905eae0668dd371e2dda9977ffb74ebf118f164df23f9fc1ab8d7eb23b59d58d7ccb72538aa667b1cc327348df34dfea2cccad690354bb7bdd118da0c0901aad4078f82265da0c01711c3d13b2a").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -2806,6 +3304,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("7e7705a23819b19a42fe3f8edafbd8969e166fec10f1e7d57e9ae9f8").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("99e13b3d73f742b1868b50bc4da529542640c399494250a4767158f0e27555fbbbc8ccaf0789456422b85127674ca0372f8d40fb339be2796d2e1a379fdc6ce8c17ab94150c9252d316f9eaef6354a3e05389dcef36357bed870c3852cc342c17bee00b85e356c5691e463f7904206ad88527ede9bcf5f7fe2bab98db0214af5c97c56098e650c5ae9cb70dd735c01b7048c13f584013b7386e36201c09c8f795f0bd13f79e570d7957e6fd1803921d84c7588f4e9ff83a0efd16f49f293f394102deeac81ede25c395f7ce493a8290a3589a62ffac0f333592fc3f85ebdd863eac4a309b10ea531e2327a5e4085eba1fd46dfed2c1a55965affbe18d1540b33").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -2862,6 +3362,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("7e7705a23819b19a42fe3f8edafbd8969e166fec10f1e7d57e9ae9f8").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("99e13b3d73f742b1868b50bc4da529542640c399494250a4767158f0e27555fbbbc8ccaf0789456422b85127674ca0372f8d40fb339be2796d2e1a379fdc6ce8c17ab94150c9252d316f9eaef6354a3e05389dcef36357bed870c3852cc342c17bee00b85e356c5691e463f7904206ad88527ede9bcf5f7fe2bab98db0214af5c97c56098e650c5ae9cb70dd735c01b7048c13f584013b7386e36201c09c8f795f0bd13f79e570d7957e6fd1803921d84c7588f4e9ff83a0efd16f49f293f394102deeac81ede25c395f7ce493a8290a3589a62ffac0f333592fc3f85ebdd863eac4a309b10ea531e2327a5e4085eba1fd46dfed2c1a55965affbe18d1540b33").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -2874,6 +3376,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("2e2dc83d78d707129c0c08898af72a3439cdddf449ec6f50936d1da7").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("70e0f8beb815d30223d34e0f20e83cd6bb6346a156f658cf5ffbdb0dec48b85c0acd4e4b6ea3f3bcdedae55af5bb85184dd25ff2b2acbcf5cab7f551582e4e45462ed64ab11d068a0ad5a62478807a4cec92a4fcaf53ce3d8681575a592f2805f282e28214dfb1727514f6c67932eb409545176e70d5b912e0976e5027aa9e1eb7d26a64d02d66b95e6ca62cbfdc6e36eb49e3b0bf334bd47ca5e54e3adce36c8d24e87c41827f3ee256dcb8d359c892f991a905eae0668dd371e2dda9977ffb74ebf118f164df23f9fc1ab8d7eb23b59d58d7ccb72538aa667b1cc327348df34dfea2cccad690354bb7bdd118da0c0901aad4078f82265da0c01711c3d13b2a").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -2933,6 +3437,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("5aac6ae71d099f5d434d3d025bdf7eda0bc46e9b151f201f49243c09").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("8a62c99a00fe56d6ca021d9e7efa32b8b5df37740c24cac95cfa57a98f5c726868779ebd68d654c9952e6174118dee4ec22ab2af3b106f4f41bdc49d2d42a361e6a40bc91ffa9449d1997b366c5408ba93f419e1eaa25ac750fe09d10f474485174a0dde22d9c4a076d713d5463d7635da21da7f043a29fa7a9e796e478e9c632369ffe44c0852ee7147239cff26099c1890a5ca64f05b932ecf104f2ab107e8fe42615eeda3fcfc498b42106395ea085547d778b75c829116f8ca71d62be563a9fcb6ed7ab1e3144efe4f136be692713076b2d86629954851b824d77a917dc6d8681fa70d62a87178ba5b6ed84df9e6727853f331b2ec7303c679dc46e334e8").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -2945,6 +3451,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("99ce04a1d0b87332be7c67000d3d4c572e49f4a7c1fd8ba6829390ac").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("2a8e351686d839a71dbb284e2ae446fced6f9185678e6b42e94cf914a75114271de8db5677bdfef0323cea92f4a1d64f94a0770f2c70ba46a81c15e0dd9e89a5b73b3019710bd26255298b7aed16c11e14be17e78167bc775f4c9767b6e161af6376c0a2a24d228e1be0522fe36b56e2f00a59bc59fb7f09639b401a9ee0abde41fe50e030a3fd4012a59aa3387f30ed0090dde1f7aef38fada13442ab83bcfb609bf7009986c0ef11b3ad13778990dacbf80601bf15d786c9f9460dd252d936884167e450b6bdddf6bd96ab09daa4aeb86b35df7e0a123065dba91c67efa7dfabd995d19a838fe3512950df657abfb551ceb622317872678fd42aa1f0222245").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -3001,6 +3509,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("99ce04a1d0b87332be7c67000d3d4c572e49f4a7c1fd8ba6829390ac").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("2a8e351686d839a71dbb284e2ae446fced6f9185678e6b42e94cf914a75114271de8db5677bdfef0323cea92f4a1d64f94a0770f2c70ba46a81c15e0dd9e89a5b73b3019710bd26255298b7aed16c11e14be17e78167bc775f4c9767b6e161af6376c0a2a24d228e1be0522fe36b56e2f00a59bc59fb7f09639b401a9ee0abde41fe50e030a3fd4012a59aa3387f30ed0090dde1f7aef38fada13442ab83bcfb609bf7009986c0ef11b3ad13778990dacbf80601bf15d786c9f9460dd252d936884167e450b6bdddf6bd96ab09daa4aeb86b35df7e0a123065dba91c67efa7dfabd995d19a838fe3512950df657abfb551ceb622317872678fd42aa1f0222245").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -3013,6 +3523,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("5aac6ae71d099f5d434d3d025bdf7eda0bc46e9b151f201f49243c09").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("8a62c99a00fe56d6ca021d9e7efa32b8b5df37740c24cac95cfa57a98f5c726868779ebd68d654c9952e6174118dee4ec22ab2af3b106f4f41bdc49d2d42a361e6a40bc91ffa9449d1997b366c5408ba93f419e1eaa25ac750fe09d10f474485174a0dde22d9c4a076d713d5463d7635da21da7f043a29fa7a9e796e478e9c632369ffe44c0852ee7147239cff26099c1890a5ca64f05b932ecf104f2ab107e8fe42615eeda3fcfc498b42106395ea085547d778b75c829116f8ca71d62be563a9fcb6ed7ab1e3144efe4f136be692713076b2d86629954851b824d77a917dc6d8681fa70d62a87178ba5b6ed84df9e6727853f331b2ec7303c679dc46e334e8").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -3074,6 +3586,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("874130248cc38e4b9b0723b24334f814b3c473da47585e13b251b8e3").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("6c6424a6d40b3cce7f34ec75bf84f5f4298207dcee1e5df07918e1de09c8216d2a6c6750dc0d9f8933330cdb214aa674b93844763574da8f8968b952678370c5d0cba2b0274fd53c5d5bcef649bf00673a09fb8acabe6e2d4a1314da1489a95ffe751a76927602398c64bbf2cdb451ea02c5d8ed36dc3edfec1e3aa93ecfd89d2a12e7ba72ded6ab2003d6da562a2d7cc50193ad39459214cb783f691546fd457ab0e3a7100a4c3000ca4ff0aee22290571ab9676c8c866d5d5cd2d3ed89b7d2442506194bb418d0d568159935df8b4c93427085d4df9626a72b4d7b8b7952e752a0ae7bfc36fb929caa74021686e937dd159b758da3f8e3b42c67f2d23b6e27").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -3086,6 +3600,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 new BitString("ce22de377026529085cee76c5e3711ffb445f7618ff1798567e4726a89443a95bdce70be2625f6ca69693cf9120cc26133e1d89b4d76a9bc74a47786af6428e09ee402845fdbb3f8b11994bf5a622ed0c77cfe47f387755b8a8d43904d5ad52db88e1cf1e2f09102a605762600e25e35b93eefcf47cbe74aefc75dee2ccd4a6554f2476d790d98d08d566a96ca335979514e359912eb0671eb794d0a14668d6eba380a60eadad14ab133f87782fd2782d7d5580f1b8edab8c8cb9c4bcdcda8323289ee32fefe435959c5a931eeead13a93fade972c5d6c08cce6d1181ea9a298040d7a4b7d22f6e3cc34042cd7a05e88cde6519b0b00c34741f274dbd0a38487"),
                 // expected Z
@@ -3142,6 +3658,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 new BitString("ce22de377026529085cee76c5e3711ffb445f7618ff1798567e4726a89443a95bdce70be2625f6ca69693cf9120cc26133e1d89b4d76a9bc74a47786af6428e09ee402845fdbb3f8b11994bf5a622ed0c77cfe47f387755b8a8d43904d5ad52db88e1cf1e2f09102a605762600e25e35b93eefcf47cbe74aefc75dee2ccd4a6554f2476d790d98d08d566a96ca335979514e359912eb0671eb794d0a14668d6eba380a60eadad14ab133f87782fd2782d7d5580f1b8edab8c8cb9c4bcdcda8323289ee32fefe435959c5a931eeead13a93fade972c5d6c08cce6d1181ea9a298040d7a4b7d22f6e3cc34042cd7a05e88cde6519b0b00c34741f274dbd0a38487"),
                 // Other Party ID
@@ -3154,6 +3672,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("874130248cc38e4b9b0723b24334f814b3c473da47585e13b251b8e3").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("6c6424a6d40b3cce7f34ec75bf84f5f4298207dcee1e5df07918e1de09c8216d2a6c6750dc0d9f8933330cdb214aa674b93844763574da8f8968b952678370c5d0cba2b0274fd53c5d5bcef649bf00673a09fb8acabe6e2d4a1314da1489a95ffe751a76927602398c64bbf2cdb451ea02c5d8ed36dc3edfec1e3aa93ecfd89d2a12e7ba72ded6ab2003d6da562a2d7cc50193ad39459214cb783f691546fd457ab0e3a7100a4c3000ca4ff0aee22290571ab9676c8c866d5d5cd2d3ed89b7d2442506194bb418d0d568159935df8b4c93427085d4df9626a72b4d7b8b7952e752a0ae7bfc36fb929caa74021686e937dd159b758da3f8e3b42c67f2d23b6e27").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -3213,6 +3733,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("072460fda97147f0f994051e3da40154cda210e092926140defe2c90").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("2969087fa9647a62fdfe198ae61b3f2a10cb5cebb3f9638649072a4abaf1f758319bb0a746b54a0f355c9180c9b550a9131edb66406c7eb3e692f093c15298b3fd537a9bb2d02752b36c33b2fb01caa2133703952d2e670558a0cb84fa5777f2573dce480eaa10665f1f02e0ac8df6b16980439aed20b0ceab8b809175c36a922e47d4441d8e28103f7e74e02bdb99c626ac2249f86c754af35f22f18f22cd0cfe0dc81232d11f2fe0ec3f31b2e6b3fadde80a49caceb927e77ded576dff23fc7e4f21b20e906e77f9f5ed03b4d70c045f655531fb3b1bee901d14cbcade8f804ae3a2685e597844f0206f387324bc386d7d7a0e8b760057f7d2716a09b49555").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -3225,6 +3747,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -3281,6 +3805,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -3293,6 +3819,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("072460fda97147f0f994051e3da40154cda210e092926140defe2c90").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("2969087fa9647a62fdfe198ae61b3f2a10cb5cebb3f9638649072a4abaf1f758319bb0a746b54a0f355c9180c9b550a9131edb66406c7eb3e692f093c15298b3fd537a9bb2d02752b36c33b2fb01caa2133703952d2e670558a0cb84fa5777f2573dce480eaa10665f1f02e0ac8df6b16980439aed20b0ceab8b809175c36a922e47d4441d8e28103f7e74e02bdb99c626ac2249f86c754af35f22f18f22cd0cfe0dc81232d11f2fe0ec3f31b2e6b3fadde80a49caceb927e77ded576dff23fc7e4f21b20e906e77f9f5ed03b4d70c045f655531fb3b1bee901d14cbcade8f804ae3a2685e597844f0206f387324bc386d7d7a0e8b760057f7d2716a09b49555").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -3354,6 +3882,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("3096e167964d6d2c7c463fb3a38de40389560f5c421cf3890db62d08").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("4a19abc15c6e7052605d378114ba85a699f658388a88af654587ee18fc917895011bf6eb9c43f18ade1b1d7127b3b7528a1d9e41de9b46bdb38ce0777ae268d82cfd9e52ad1b1bfa2f3cdef66097900e959a96dda09fb42172a8200ceeda5f154a941335fda014974cab11ba0eb5f1ebbf60be8e7ab1fffbb07d6e28f6dfb3f81d13b595037893baacdb21427dc644798ccd76c2d136a44270d3dea67d2bc26d6bd0f0fd346ca3021acc69f3a20b514a56d6f191acd0ba51c4b92b55b8eb9393349feafc1090e8a8efd518fa23cf7215a393b766f7d683bd07900be924ce24c9e46730b6b747a6e1276900f4e3e4b7e930d7db26445a1beb306e589fde7b2b40").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -3366,6 +3896,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 new BitString("6e1487efa42e42dcbf73f582cd844543b77f70b4cf3883fea8c6cd852a4293c7e5cb0586a6cd71294883b760cdbbfd07aedaa34d6e1f7915752c309c1cc20f5c05cce731ad9f49bb4480f603bc6697612002af9d27fdcd540981069d91faa2ed731e1638e12b3359596f9cb4c10e7d1ab5007aed2059e68409cd36d0b073b540dac979e369f995cd2f5a90bb043a16fa16dbee8481bb2c6d2018a87da2b4ae1fe0d6f7796d91d8dd6f48ba60ae72cac8eb9bf2ac73ab07d6f46b44ec8e45f7502d4c7a44177c6552c14202ebe73f014edb496dab1eb2df882dcdf2659daff69b6a33e98a8d41a3f3cc4f50a3d62723528feb49caa9571c4c74479a2ff77915ca"),
                 // expected Z
@@ -3422,6 +3954,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 new BitString("6e1487efa42e42dcbf73f582cd844543b77f70b4cf3883fea8c6cd852a4293c7e5cb0586a6cd71294883b760cdbbfd07aedaa34d6e1f7915752c309c1cc20f5c05cce731ad9f49bb4480f603bc6697612002af9d27fdcd540981069d91faa2ed731e1638e12b3359596f9cb4c10e7d1ab5007aed2059e68409cd36d0b073b540dac979e369f995cd2f5a90bb043a16fa16dbee8481bb2c6d2018a87da2b4ae1fe0d6f7796d91d8dd6f48ba60ae72cac8eb9bf2ac73ab07d6f46b44ec8e45f7502d4c7a44177c6552c14202ebe73f014edb496dab1eb2df882dcdf2659daff69b6a33e98a8d41a3f3cc4f50a3d62723528feb49caa9571c4c74479a2ff77915ca"), 
                 // Other Party ID
@@ -3434,6 +3968,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("3096e167964d6d2c7c463fb3a38de40389560f5c421cf3890db62d08").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("4a19abc15c6e7052605d378114ba85a699f658388a88af654587ee18fc917895011bf6eb9c43f18ade1b1d7127b3b7528a1d9e41de9b46bdb38ce0777ae268d82cfd9e52ad1b1bfa2f3cdef66097900e959a96dda09fb42172a8200ceeda5f154a941335fda014974cab11ba0eb5f1ebbf60be8e7ab1fffbb07d6e28f6dfb3f81d13b595037893baacdb21427dc644798ccd76c2d136a44270d3dea67d2bc26d6bd0f0fd346ca3021acc69f3a20b514a56d6f191acd0ba51c4b92b55b8eb9393349feafc1090e8a8efd518fa23cf7215a393b766f7d683bd07900be924ce24c9e46730b6b747a6e1276900f4e3e4b7e930d7db26445a1beb306e589fde7b2b40").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -3490,6 +4026,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("0d506f7b3ad2aa2ee044650b5de99518e9fa04ef13aaa6f6ce05d181").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("80df83a01c5f220696783a1c1edab66238eb67674dd3fb614f6aa51d555c5886632c721149e872a094af916e21062dde0620041edb231d7e3e853f48e91f424faef2e52afd5c9e7ce53ca907d1b77f78282a46804ea8524ccf27f5e122390a5dd6bf3543b02cd794600367d6abaa3365e499903a2e07739a845b6b947ba9b5cdab834686f0f16c4c98ff495c1fd2135bede92b5e10e4a1d0891a35ed842a36b2a45edd58e31eafac094d0c4228c9600e4b7dc04702fb56c00b913a7ce34d4f2b69660eb0b634e792fabc9098324f73b8ab7d626b95f7246261eda515ca6b7d115081bb9e5fc7a67866b8b831548769d0bef6dda41f202dc74645d7f25edb0c92").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -3502,6 +4040,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 new BitString("8f8bcb5edf1ecf5efdaca7936697bb13ed2db5359a2aee3bb87e25352a517722fe458b5745fb0e2521d85fb61f098b38c7c47b3d72d16c625c4aa02ffa9f533f8edcf1a1f82f867dcfa576fbb0346e60d6fe9a7bebd4193f1ef9aeb17629b80566da6403a1c221b02f99542bc1204dd542627ab4ae3adb1a2715b68146f98cbaafc74b47e8bdc5056b3e610ef9d611dd327984b3630b9c3a9f2622681117b9a79029103374275cc3a81c066b015da0c1cec91e3fb15043e8adb2592e7f892514328a1a90ee08cd3311b9a90b80bde4c940dcb11f4010b86c7943c39b3959ba48bc71d125fd68009dcb9fb4b71fffc43cad3aa61cb953e30e2c60c877e78f5e8d"),
                 // expected Z
@@ -3558,6 +4098,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 new BitString("8f8bcb5edf1ecf5efdaca7936697bb13ed2db5359a2aee3bb87e25352a517722fe458b5745fb0e2521d85fb61f098b38c7c47b3d72d16c625c4aa02ffa9f533f8edcf1a1f82f867dcfa576fbb0346e60d6fe9a7bebd4193f1ef9aeb17629b80566da6403a1c221b02f99542bc1204dd542627ab4ae3adb1a2715b68146f98cbaafc74b47e8bdc5056b3e610ef9d611dd327984b3630b9c3a9f2622681117b9a79029103374275cc3a81c066b015da0c1cec91e3fb15043e8adb2592e7f892514328a1a90ee08cd3311b9a90b80bde4c940dcb11f4010b86c7943c39b3959ba48bc71d125fd68009dcb9fb4b71fffc43cad3aa61cb953e30e2c60c877e78f5e8d"), 
                 // Other Party ID
@@ -3570,6 +4112,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("0d506f7b3ad2aa2ee044650b5de99518e9fa04ef13aaa6f6ce05d181").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("80df83a01c5f220696783a1c1edab66238eb67674dd3fb614f6aa51d555c5886632c721149e872a094af916e21062dde0620041edb231d7e3e853f48e91f424faef2e52afd5c9e7ce53ca907d1b77f78282a46804ea8524ccf27f5e122390a5dd6bf3543b02cd794600367d6abaa3365e499903a2e07739a845b6b947ba9b5cdab834686f0f16c4c98ff495c1fd2135bede92b5e10e4a1d0891a35ed842a36b2a45edd58e31eafac094d0c4228c9600e4b7dc04702fb56c00b913a7ce34d4f2b69660eb0b634e792fabc9098324f73b8ab7d626b95f7246261eda515ca6b7d115081bb9e5fc7a67866b8b831548769d0bef6dda41f202dc74645d7f25edb0c92").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -3628,6 +4172,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null, 
                 // Other Party ID
@@ -3640,6 +4186,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("4bb251a2ed4732b17d94b486d09aa7e2a9001a8b6b3260778987bc5e").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("b13450c04274a280dee69ace9597a9895f53ba7962aa64a56316590d5150dd4b1bfc95472a9d58b7b002e8ee708eda07faae935a15481fae90b08ef7b6e88e8487ee558f5829ab699e055cfb18351e7ddb15f57ae0e2c1a9e61793be1e8f1109b34d059a01bc959ad985e47c092e9fec5a938b24efe0a8e349628b82443563086925522c1d8f1c20a4b7fa49582874de48a70c9514718b6c41787e9c6e924180d19efcf3cd728526f95a4d185cbb7ef76dda971dd01bbcfec7b7ef982d9f1d95aeb7e1020f950ca25a3468c3254edfb9727fba9b3a0b1f848428f2276bb895cb2aff7153e1ec37aac009349d7e644ce11f27172fc9f661307b986034b544a516").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -3696,6 +4244,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("4bb251a2ed4732b17d94b486d09aa7e2a9001a8b6b3260778987bc5e").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("b13450c04274a280dee69ace9597a9895f53ba7962aa64a56316590d5150dd4b1bfc95472a9d58b7b002e8ee708eda07faae935a15481fae90b08ef7b6e88e8487ee558f5829ab699e055cfb18351e7ddb15f57ae0e2c1a9e61793be1e8f1109b34d059a01bc959ad985e47c092e9fec5a938b24efe0a8e349628b82443563086925522c1d8f1c20a4b7fa49582874de48a70c9514718b6c41787e9c6e924180d19efcf3cd728526f95a4d185cbb7ef76dda971dd01bbcfec7b7ef982d9f1d95aeb7e1020f950ca25a3468c3254edfb9727fba9b3a0b1f848428f2276bb895cb2aff7153e1ec37aac009349d7e644ce11f27172fc9f661307b986034b544a516").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null, 
                 // Other Party ID
@@ -3708,6 +4258,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -3766,6 +4318,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 new BitString("128236c0241e2db7e529625b716264906aef92c0e2ad28d07bc57a53cc807afe075c805cd95f4bc392ab43878653006db36d1063a468f56e95a06ee3d730f8da760793e01a3fc9ec2baaed9538ada1819a519a215497a89b3e0cf008639e7ce0a7aef7b2ad66b119f74deaeb4f184cb366c4b962bce14741bf31892a377111f8e177323c5a7d0b323fbdc0f3933e0beb61edf48ea2efdc476036c0b11c52bc0a6e8acee5eb2cdd1e4b21fa13ccc4e511d1f5d30dcf686e9569431e06dae987fe94105314261a31c763a21db5c155e30eff03de470bf5061322822a8f39dd79bc9c314733d5f00e14cf68b3403b970bc833409ea51d3eaba9d3196cb501d79a2d"), 
                 // Other Party ID
@@ -3778,6 +4332,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("717bd203746069b932ad83b54bdcffca60c15dbc09de37d14b6cfe92").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("9ca269eace1bed5502f3c92dbc4a600d1ee707842544c5ce95dc148b2670c68f892596fd7d1b5ceb7d1fa5eb7634fcab5c9e4a35c654e6d6fda18ccd2a3313f16bc0498d024064711d7f820db35f89116f54bf4d5dbbe394d48b43a4571a8e62c328b2a71e2b2405d8aba0fd8f312c01cde53c9a4c58e11efcd512737e953175aa62799a41c7855f7f331a1673874e22a0d78ff9809e124db3b893f79bf7e65917ca08e088b5fed1647466baac40707cc4637b972616511fd491213ea249206a1ab00acfe44996d7f642579a664bd26ca6e46a09cb346dc2fa524dc97d2f5bbc91d5e87af55b5b755ed2a90355275144dabc417d22d21ab7cefaaf5e6749707a").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -3834,6 +4390,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("717bd203746069b932ad83b54bdcffca60c15dbc09de37d14b6cfe92").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("9ca269eace1bed5502f3c92dbc4a600d1ee707842544c5ce95dc148b2670c68f892596fd7d1b5ceb7d1fa5eb7634fcab5c9e4a35c654e6d6fda18ccd2a3313f16bc0498d024064711d7f820db35f89116f54bf4d5dbbe394d48b43a4571a8e62c328b2a71e2b2405d8aba0fd8f312c01cde53c9a4c58e11efcd512737e953175aa62799a41c7855f7f331a1673874e22a0d78ff9809e124db3b893f79bf7e65917ca08e088b5fed1647466baac40707cc4637b972616511fd491213ea249206a1ab00acfe44996d7f642579a664bd26ca6e46a09cb346dc2fa524dc97d2f5bbc91d5e87af55b5b755ed2a90355275144dabc417d22d21ab7cefaaf5e6749707a").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -3846,6 +4404,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 new BitString("128236c0241e2db7e529625b716264906aef92c0e2ad28d07bc57a53cc807afe075c805cd95f4bc392ab43878653006db36d1063a468f56e95a06ee3d730f8da760793e01a3fc9ec2baaed9538ada1819a519a215497a89b3e0cf008639e7ce0a7aef7b2ad66b119f74deaeb4f184cb366c4b962bce14741bf31892a377111f8e177323c5a7d0b323fbdc0f3933e0beb61edf48ea2efdc476036c0b11c52bc0a6e8acee5eb2cdd1e4b21fa13ccc4e511d1f5d30dcf686e9569431e06dae987fe94105314261a31c763a21db5c155e30eff03de470bf5061322822a8f39dd79bc9c314733d5f00e14cf68b3403b970bc833409ea51d3eaba9d3196cb501d79a2d"), 
                 // expected Z
@@ -3907,6 +4467,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("51339958488bd28561c721793462ec4ff618a198b58d99a38d18c879").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("d0645d05b0275e094729f28b3b56c79addab90a2c4589209e74d136d9a354b511c739be4f1396ce84fae4450250169552ee18b11a7d9d0667bdfd2551c8188cde08a2e64c425809d0f191c66fe5d32d6ff155b4280ba29df28e21c95f1204edb75fc60b37bb5a22f58ca33a12981f7f4a9cf6d69df1b4ff3141a269a8df29691b8c04c73fc50dfbc28d245ff021cf2840cea667e60948441a1539cbf3b7e8a4bec0ac3ae43fdbd0dab65e7d3fee96142d91f93963e8d6fe4b73e3fe7459348fdb5d428a25a7b60f5d07e4224fa90f0543597e708607a5f947cd2d989b3d6cc5c48963cebe7c9554d2bbbae4d61b43d41106cb2c0157601c49233c29529ca4356").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -3919,6 +4481,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -3975,6 +4539,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -3987,6 +4553,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("51339958488bd28561c721793462ec4ff618a198b58d99a38d18c879").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("d0645d05b0275e094729f28b3b56c79addab90a2c4589209e74d136d9a354b511c739be4f1396ce84fae4450250169552ee18b11a7d9d0667bdfd2551c8188cde08a2e64c425809d0f191c66fe5d32d6ff155b4280ba29df28e21c95f1204edb75fc60b37bb5a22f58ca33a12981f7f4a9cf6d69df1b4ff3141a269a8df29691b8c04c73fc50dfbc28d245ff021cf2840cea667e60948441a1539cbf3b7e8a4bec0ac3ae43fdbd0dab65e7d3fee96142d91f93963e8d6fe4b73e3fe7459348fdb5d428a25a7b60f5d07e4224fa90f0543597e708607a5f947cd2d989b3d6cc5c48963cebe7c9554d2bbbae4d61b43d41106cb2c0157601c49233c29529ca4356").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -4046,6 +4614,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("7a00eb9f012f115d041bf14c8b1098cbf516a193389e73b3f09cce61").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("4189f223b40276ba41cda60d980ddf22e1453c1e2712e01c3dcfc77c3bcfdb2fed11f09eb6d4183eed3950a34ffbf19408e47d558a1ef27ab58ed2bd02be3be19d823a559bcf2118e26d471e67f031d1c32c3f5ff18807a15971fb801b51fb7545e8cd2127da6b4ad7b1827798d65a63cc2471d023f8413fd29604a1ced8e0062d147cf9ec919c86b86a61fa7ff4a4dd5afa6e333dbe3a1d5dc854e109c9915fe59698203b5f6b4c9654db6f2839dc12ebd3f99a1f30076a94e4c9819e841c25c90ca9eb9bff75d242fabb10cd38411a14d08ba9a7fb1fd7f96b40c2e1054909ba14776b47fec48cff2cda0450fda3b2f0d695420144cd655b285da3e2032c1c").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -4058,6 +4628,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -4114,6 +4686,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("00").ToPositiveBigInteger(),
                 // public ephem this party
                 new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
                 // ephem nonce this party
                 null,
                 // Other Party ID
@@ -4126,6 +4700,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new BitString("7a00eb9f012f115d041bf14c8b1098cbf516a193389e73b3f09cce61").ToPositiveBigInteger(), 
                 // public ephem other party
                 new BitString("4189f223b40276ba41cda60d980ddf22e1453c1e2712e01c3dcfc77c3bcfdb2fed11f09eb6d4183eed3950a34ffbf19408e47d558a1ef27ab58ed2bd02be3be19d823a559bcf2118e26d471e67f031d1c32c3f5ff18807a15971fb801b51fb7545e8cd2127da6b4ad7b1827798d65a63cc2471d023f8413fd29604a1ced8e0062d147cf9ec919c86b86a61fa7ff4a4dd5afa6e333dbe3a1d5dc854e109c9915fe59698203b5f6b4c9654db6f2839dc12ebd3f99a1f30076a94e4c9819e841c25c90ca9eb9bff75d242fabb10cd38411a14d08ba9a7fb1fd7f96b40c2e1054909ba14776b47fec48cff2cda0450fda3b2f0d695420144cd655b285da3e2032c1c").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
                 // Ephem nonce other party
                 null,
                 // expected Z
@@ -4141,6 +4717,374 @@ namespace NIST.CVP.Crypto.KAS.Tests
             },
             #endregion ccm
             #endregion dhOneFlow
+
+            #region dhStatic
+            #region hmac
+            new object[]
+            {
+                // label
+                "dhStatic hmac224 sha2-224",
+                // Domain parameters
+                new FfcDomainParameters(
+                    // p
+                    new BitString("c60dc06b8b8420743720e16fef08882a033a42c223bad697d1f56ccee3c0fe222220d8135350bfe1774316cb28fbb72885baa0134bee49c8521ccf97d54b60116564c6eeeb746d9730564181148298014551837183e8fabd66d37b9a5f07cd14c9c3ea75ce0cd5715acebe13313516c280d4110503eaa5dea4510e264da649de54b61a9f55370f1a11391bd8b076285c5b45208966de507f9b6001efa7f443fb8eb4b81128324e67d1a7ccb71596bb953a1ddcc8bf567e5df2151a1959fb5c58055ed7815dc9b0644111914e9152cb48d602c6c110f675621fae32b439c9a164d007c692f2960ac8723e81e1f55eff3fadd651916915d26f23d41116bd824637").ToPositiveBigInteger(),
+                    // q
+                    new BitString("82d514e0cd3611f40a6d428d788b4f11cc2065052ea7d1db02497b95").ToPositiveBigInteger(), 
+                    // g
+                    new BitString("3737f0812f25c65bd7e1e7837213e9cd21f1b60e10f0bc80239d60be25b89a0f0066f68a28b8a0eb875f82f7a49658f6b8b244744001599c115d3b17aaff184957fa9eca76a277c3f08642761abffbe2164238494c56228b23f7e18f84553ca4dfb7cf267e95a2b34003c551b193f8318b6bd3577f79279fb85ae7853ee86580af854ef279e143fe8309ac9f401942d2037c0a1f60cffee28129f12f7afcc9a1ff49654101093914f0c81318ab776a544f4d128eeb4be339f47bb427a719ecd85fa08ebadfd611f3f85462eefd70c164074ad284633120b7dd6e6de6d8582e4fab867acef5801dbae83fcdd5e1fd7ff1881d1ac620bf934b0cb886e429aacc43").ToPositiveBigInteger()
+                ), 
+                // scheme
+                FfcScheme.DhStatic,
+                // this party role
+                KeyAgreementRole.InitiatorPartyU,
+                // DSA/KDF hash mode
+                ModeValues.SHA2,
+                // DSA/KDF digest size
+                DigestSizes.d224,
+                // mac type
+                KeyAgreementMacType.HmacSha2D224,
+                // Key confirmation role
+                KeyConfirmationRole.Provider,
+                // Key confirmation direction
+                KeyConfirmationDirection.Bilateral,
+                // key length
+                112,
+                // tag length
+                64,
+                // aes-ccm nonce
+                null,
+                // this party Id
+                new BitString("a1b2c3d4e5"),
+                // private static this party
+                new BitString("0b4233e6a119f82ce165e22b3d068ada253429fab41f8ee4a69d51dc").ToPositiveBigInteger(),
+                // public static this party
+                new BitString("c0f6dfd92837a4fd74e33177f509361b5736599e18d80274993fc21fde6f41793f228314d71dde22a6e1f72b3041757c615d45ed56832c7399ecd23e6b0df02e5ade4ce22d70425c74a35d5641af3023f46e148c78f1d51d6410a2fb4ef7654e851d51ee24108b17068b516c5f548aec29105228f1b1ae0cee6f5b830f4e103fe39c434bc7ad1b9c6c1919101b2fdce36983ad6daca68bb5bd25db1bf79a0929703bf8019093bd299913d5883faecaf2c99de78cd42d6881c3061c6aa583a1d7c3a6ba401d54d0f0edcc897590de75200a601c29a954cf8790526df79d750214c1d54fa1a5804f175f240d3d1d06d087644aadff81fce370d55ee97f29a414f4").ToPositiveBigInteger(),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                new BitString("9afd538159dba31263c604c40bd5"),
+                // ephem nonce this party
+                null,
+                // Other Party ID
+                new BitString("434156536964"),
+                // private static other party
+                new BitString("61a4b5421a4bfe392a79171642680eb073cb6f0730f437ba7f074f7e").ToPositiveBigInteger(), 
+                // public static other party
+                new BitString("bb2d9413137a77e0ce948508541b6a1ee30c186a68b1a98ece69004d722fd429e1f8036a181877a669f6e6033a241060d1006fa676f7227bd8813f5b027913d3748fd061216c02501673f4cb07be6ce43e2e2f769730b96565833834b284cc1853ddddd5af7b7a8c0e8d619c7d4ca5ce8002f377ccf9c9a0076371411783e452089005a582f155d54e95b6232d752e38076f9915a60f022bb8746eea91a8994fba87b0b2e821181a08a799d0f6921c9b89ce97bcf401d78df33d9ac0a1c3225f939de2bbf6ba93523d60d3828e0346b03a99021db50b9192d43a0705f9c94d09f4fdcf48dcd2b82b642780b3b95d5d57fb73740840813ee583914fa6541c1298").ToPositiveBigInteger(),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
+                // Ephem nonce other party
+                new BitString("ea7b68eee90677f96400870ba420c8aae542f3b55a5c76f872b4d1fe5a504026c3ae9af9e5b679bbc3ed9b40b1eb8802140f75706a7169888a189ea72c6e2aa0abf0de0c0a2a6fe236e3d3488a95eea898206e0527bef490783a7476ce5ddefd2caafecf614ba195424af9c8370442c4f9dba61f992c5e38c5811b134707a464ce42c0e9f1ff56fd718ad36bbe22cc80bdaae564c9a1f1aaf8545a259f52c3fd1821ed03c22fd7424a0b2ad629d5d3026ef4f27cbe06f30b991dfa54de2885f192af4dc4ddc46d8b5536c5b48007a172932096108044ad863043c44a0d703068c454a7d549a45e001b716eabc99f7cf9b59899c818416740462e7dac34120d89"),
+                // expected Z
+                new BitString("8ca3791ef965eb80f9812b8992c69e1f04042c367934731f9df277a69235f63181aadbba2d683ef8f6e930ffc0bc935f1a6173bfb7d62fc00587e8f6c7b1342313c7459e729d87195345abde542829b705001e413a36420f710b8628d1f7003193d37d90448a693dbabbdc02747ee9d51bc7584ab65d4d37650dc0c2da0350f047546db8deaf448b31d0b9bcf422c668aba142c4235e7ac6d49316edcf8f274904ca62c49d7a94b6e7003b18401b1aa3ace4f5d9d640c506da3f7a1f913d6dda75c81e7c5aa6912af173d1fd88fb59f8f60670f1e8651b8d687b4a6cba161c331590acc98826ab2f0a0f3a25eddb04cb15a572ea9a35db3c02e21f78a0d2a061"),
+                // expected oi
+                new BitString("a1b2c3d4e59afd538159dba31263c604c40bd5434156536964d05684ab56"),
+                // expected dkm
+                new BitString("e14e32dd55560ca3534f5eec9bdb"),
+                // expected macData
+                new BitString("4b435f325f55a1b2c3d4e54341565369649afd538159dba31263c604c40bd5ea7b68eee90677f96400870ba420c8aae542f3b55a5c76f872b4d1fe5a504026c3ae9af9e5b679bbc3ed9b40b1eb8802140f75706a7169888a189ea72c6e2aa0abf0de0c0a2a6fe236e3d3488a95eea898206e0527bef490783a7476ce5ddefd2caafecf614ba195424af9c8370442c4f9dba61f992c5e38c5811b134707a464ce42c0e9f1ff56fd718ad36bbe22cc80bdaae564c9a1f1aaf8545a259f52c3fd1821ed03c22fd7424a0b2ad629d5d3026ef4f27cbe06f30b991dfa54de2885f192af4dc4ddc46d8b5536c5b48007a172932096108044ad863043c44a0d703068c454a7d549a45e001b716eabc99f7cf9b59899c818416740462e7dac34120d89"),
+                // expected tag
+                new BitString("e3e6a856a5496419")
+            },
+            new object[]
+            {
+                // label
+                "dhStatic hmac224 sha2-224 inverse",
+                // Domain parameters
+                new FfcDomainParameters(
+                    // p
+                    new BitString("c60dc06b8b8420743720e16fef08882a033a42c223bad697d1f56ccee3c0fe222220d8135350bfe1774316cb28fbb72885baa0134bee49c8521ccf97d54b60116564c6eeeb746d9730564181148298014551837183e8fabd66d37b9a5f07cd14c9c3ea75ce0cd5715acebe13313516c280d4110503eaa5dea4510e264da649de54b61a9f55370f1a11391bd8b076285c5b45208966de507f9b6001efa7f443fb8eb4b81128324e67d1a7ccb71596bb953a1ddcc8bf567e5df2151a1959fb5c58055ed7815dc9b0644111914e9152cb48d602c6c110f675621fae32b439c9a164d007c692f2960ac8723e81e1f55eff3fadd651916915d26f23d41116bd824637").ToPositiveBigInteger(),
+                    // q
+                    new BitString("82d514e0cd3611f40a6d428d788b4f11cc2065052ea7d1db02497b95").ToPositiveBigInteger(), 
+                    // g
+                    new BitString("3737f0812f25c65bd7e1e7837213e9cd21f1b60e10f0bc80239d60be25b89a0f0066f68a28b8a0eb875f82f7a49658f6b8b244744001599c115d3b17aaff184957fa9eca76a277c3f08642761abffbe2164238494c56228b23f7e18f84553ca4dfb7cf267e95a2b34003c551b193f8318b6bd3577f79279fb85ae7853ee86580af854ef279e143fe8309ac9f401942d2037c0a1f60cffee28129f12f7afcc9a1ff49654101093914f0c81318ab776a544f4d128eeb4be339f47bb427a719ecd85fa08ebadfd611f3f85462eefd70c164074ad284633120b7dd6e6de6d8582e4fab867acef5801dbae83fcdd5e1fd7ff1881d1ac620bf934b0cb886e429aacc43").ToPositiveBigInteger()
+                ), 
+                // scheme
+                FfcScheme.DhStatic,
+                // this party role
+                KeyAgreementRole.ResponderPartyV,
+                // DSA/KDF hash mode
+                ModeValues.SHA2,
+                // DSA/KDF digest size
+                DigestSizes.d224,
+                // mac type
+                KeyAgreementMacType.HmacSha2D224,
+                // Key confirmation role
+                KeyConfirmationRole.Recipient,
+                // Key confirmation direction
+                KeyConfirmationDirection.Bilateral,
+                // key length
+                112,
+                // tag length
+                64,
+                // aes-ccm nonce
+                null,
+                // this party Id
+                new BitString("434156536964"),
+                // private static this party
+                new BitString("61a4b5421a4bfe392a79171642680eb073cb6f0730f437ba7f074f7e").ToPositiveBigInteger(),
+                // public static this party
+                new BitString("bb2d9413137a77e0ce948508541b6a1ee30c186a68b1a98ece69004d722fd429e1f8036a181877a669f6e6033a241060d1006fa676f7227bd8813f5b027913d3748fd061216c02501673f4cb07be6ce43e2e2f769730b96565833834b284cc1853ddddd5af7b7a8c0e8d619c7d4ca5ce8002f377ccf9c9a0076371411783e452089005a582f155d54e95b6232d752e38076f9915a60f022bb8746eea91a8994fba87b0b2e821181a08a799d0f6921c9b89ce97bcf401d78df33d9ac0a1c3225f939de2bbf6ba93523d60d3828e0346b03a99021db50b9192d43a0705f9c94d09f4fdcf48dcd2b82b642780b3b95d5d57fb73740840813ee583914fa6541c1298").ToPositiveBigInteger(),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
+                // ephem nonce this party
+                new BitString("ea7b68eee90677f96400870ba420c8aae542f3b55a5c76f872b4d1fe5a504026c3ae9af9e5b679bbc3ed9b40b1eb8802140f75706a7169888a189ea72c6e2aa0abf0de0c0a2a6fe236e3d3488a95eea898206e0527bef490783a7476ce5ddefd2caafecf614ba195424af9c8370442c4f9dba61f992c5e38c5811b134707a464ce42c0e9f1ff56fd718ad36bbe22cc80bdaae564c9a1f1aaf8545a259f52c3fd1821ed03c22fd7424a0b2ad629d5d3026ef4f27cbe06f30b991dfa54de2885f192af4dc4ddc46d8b5536c5b48007a172932096108044ad863043c44a0d703068c454a7d549a45e001b716eabc99f7cf9b59899c818416740462e7dac34120d89"),
+                // Other Party ID
+                new BitString("a1b2c3d4e5"),
+                // private static other party
+                new BitString("0b4233e6a119f82ce165e22b3d068ada253429fab41f8ee4a69d51dc").ToPositiveBigInteger(), 
+                // public static other party
+                new BitString("c0f6dfd92837a4fd74e33177f509361b5736599e18d80274993fc21fde6f41793f228314d71dde22a6e1f72b3041757c615d45ed56832c7399ecd23e6b0df02e5ade4ce22d70425c74a35d5641af3023f46e148c78f1d51d6410a2fb4ef7654e851d51ee24108b17068b516c5f548aec29105228f1b1ae0cee6f5b830f4e103fe39c434bc7ad1b9c6c1919101b2fdce36983ad6daca68bb5bd25db1bf79a0929703bf8019093bd299913d5883faecaf2c99de78cd42d6881c3061c6aa583a1d7c3a6ba401d54d0f0edcc897590de75200a601c29a954cf8790526df79d750214c1d54fa1a5804f175f240d3d1d06d087644aadff81fce370d55ee97f29a414f4").ToPositiveBigInteger(),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                new BitString("9afd538159dba31263c604c40bd5"),
+                // Ephem nonce other party
+                null,
+                // expected Z
+                new BitString("8ca3791ef965eb80f9812b8992c69e1f04042c367934731f9df277a69235f63181aadbba2d683ef8f6e930ffc0bc935f1a6173bfb7d62fc00587e8f6c7b1342313c7459e729d87195345abde542829b705001e413a36420f710b8628d1f7003193d37d90448a693dbabbdc02747ee9d51bc7584ab65d4d37650dc0c2da0350f047546db8deaf448b31d0b9bcf422c668aba142c4235e7ac6d49316edcf8f274904ca62c49d7a94b6e7003b18401b1aa3ace4f5d9d640c506da3f7a1f913d6dda75c81e7c5aa6912af173d1fd88fb59f8f60670f1e8651b8d687b4a6cba161c331590acc98826ab2f0a0f3a25eddb04cb15a572ea9a35db3c02e21f78a0d2a061"),
+                // expected oi
+                new BitString("a1b2c3d4e59afd538159dba31263c604c40bd5434156536964d05684ab56"),
+                // expected dkm
+                new BitString("e14e32dd55560ca3534f5eec9bdb"),
+                // expected macData
+                new BitString("4b435f325f55a1b2c3d4e54341565369649afd538159dba31263c604c40bd5ea7b68eee90677f96400870ba420c8aae542f3b55a5c76f872b4d1fe5a504026c3ae9af9e5b679bbc3ed9b40b1eb8802140f75706a7169888a189ea72c6e2aa0abf0de0c0a2a6fe236e3d3488a95eea898206e0527bef490783a7476ce5ddefd2caafecf614ba195424af9c8370442c4f9dba61f992c5e38c5811b134707a464ce42c0e9f1ff56fd718ad36bbe22cc80bdaae564c9a1f1aaf8545a259f52c3fd1821ed03c22fd7424a0b2ad629d5d3026ef4f27cbe06f30b991dfa54de2885f192af4dc4ddc46d8b5536c5b48007a172932096108044ad863043c44a0d703068c454a7d549a45e001b716eabc99f7cf9b59899c818416740462e7dac34120d89"),
+                // expected tag
+                new BitString("e3e6a856a5496419")
+            },
+            #endregion hmac
+
+            #region ccm
+            new object[]
+            {
+                // label
+                "dhStatic ccm sha2-224",
+                // Domain parameters
+                new FfcDomainParameters(
+                    // p
+                    new BitString("c60dc06b8b8420743720e16fef08882a033a42c223bad697d1f56ccee3c0fe222220d8135350bfe1774316cb28fbb72885baa0134bee49c8521ccf97d54b60116564c6eeeb746d9730564181148298014551837183e8fabd66d37b9a5f07cd14c9c3ea75ce0cd5715acebe13313516c280d4110503eaa5dea4510e264da649de54b61a9f55370f1a11391bd8b076285c5b45208966de507f9b6001efa7f443fb8eb4b81128324e67d1a7ccb71596bb953a1ddcc8bf567e5df2151a1959fb5c58055ed7815dc9b0644111914e9152cb48d602c6c110f675621fae32b439c9a164d007c692f2960ac8723e81e1f55eff3fadd651916915d26f23d41116bd824637").ToPositiveBigInteger(),
+                    // q
+                    new BitString("82d514e0cd3611f40a6d428d788b4f11cc2065052ea7d1db02497b95").ToPositiveBigInteger(), 
+                    // g
+                    new BitString("3737f0812f25c65bd7e1e7837213e9cd21f1b60e10f0bc80239d60be25b89a0f0066f68a28b8a0eb875f82f7a49658f6b8b244744001599c115d3b17aaff184957fa9eca76a277c3f08642761abffbe2164238494c56228b23f7e18f84553ca4dfb7cf267e95a2b34003c551b193f8318b6bd3577f79279fb85ae7853ee86580af854ef279e143fe8309ac9f401942d2037c0a1f60cffee28129f12f7afcc9a1ff49654101093914f0c81318ab776a544f4d128eeb4be339f47bb427a719ecd85fa08ebadfd611f3f85462eefd70c164074ad284633120b7dd6e6de6d8582e4fab867acef5801dbae83fcdd5e1fd7ff1881d1ac620bf934b0cb886e429aacc43").ToPositiveBigInteger()
+                ), 
+                // scheme
+                FfcScheme.DhStatic,
+                // this party role
+                KeyAgreementRole.InitiatorPartyU,
+                // DSA/KDF hash mode
+                ModeValues.SHA2,
+                // DSA/KDF digest size
+                DigestSizes.d224,
+                // mac type
+                KeyAgreementMacType.AesCcm,
+                // Key confirmation role
+                KeyConfirmationRole.Provider,
+                // Key confirmation direction
+                KeyConfirmationDirection.Bilateral,
+                // key length
+                128,
+                // tag length
+                128,
+                // aes-ccm nonce
+                new BitString("46512bdc7752b2eaa5fc4d8ab6"),
+                // this party Id
+                new BitString("a1b2c3d4e5"),
+                // private static this party
+                new BitString("73e00757c2685bb97c87a4fbca2c613b184272027f36143f9a0250e6").ToPositiveBigInteger(),
+                // public static this party
+                new BitString("28e39795e31a48210aec7c77a3b1b989a4169e55bb82b98fe10e319c4016d736005642dcf82286d1074bb99d9a5e128dd46cc1becc547e90bf12dc9a66cac6080f3896f7e5aa519f193c63ddf6f1fae39d9339a2d7755e58d944b1e8d23f8b7dbe413477e7f8a9ec87e353a197269ee5be02c594f0839ff359be772853f3063f42495326e5ddee3db13b212bd0d1c60a8b0a4b734ee73e296a87a261f65823b88955f1c50cf602711308e56c1cf66cb2ca758fe11422f56ae16fe1f061dcedae20bfd0f5e94174b40885d589719b82dfb64c40eeb0f5cd1b35f9f9f2ee4139addfcf6609e79606f2a0e2de204f0ab314a0023e6d285eecf98d4ee576c0a4bb00").ToPositiveBigInteger(),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                new BitString("04bd510a75a0488718a996a5e9f5"),
+                // ephem nonce this party
+                null,
+                // Other Party ID
+                new BitString("434156536964"),
+                // private static other party
+                new BitString("410046ab3b79867d376e1dab12de7c10c6d531a8fbc408b671292607").ToPositiveBigInteger(), 
+                // public static other party
+                new BitString("7474e18538a50b92cf3c14fdb7ae2ac36e5e468a166c3657452ec77fbe87e07f8f9fcb665dcc7fa17b4d8c785246c6de841ca2f96c5ae5b36b49bcfe8a8bb9855452b99f8e0784e46b55e7e8c9ba4abde7756cc597031f0d8831242c5e58a2a2f1670f27d7f987327d58458b5722075b9b72af42e5c174fbc49ea8c541c6bbea7769fd2a5705384a8c88833a4ebc5ed313dbf7dbcf22a4fbd58f93c3045829e9a196b2df9a5a14b687282dbb3a02152dffbcbd6b3cfa512fc3d074e8b63db83cf8b059149cb5b9e5b341b54fa4a85304d1ffc44d69bb4129669db0c31ae0033dc992636e8a7987de66a4fc0dcde0f510488702491adf879684b5ede1cdc4bce9").ToPositiveBigInteger(),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                null,
+                // Ephem nonce other party
+                new BitString("9bb7ae95688ac2f1cb3a681f2c9defb90653468c479d7705fa7272e623d00c3dea514797fcfed4712f67d6ef65f4e9d1b27663a2c101da3273fee647ca7c279006c78ada0d3cc986105b313b6c1ea8d8ce89eead9b8323ea8fe48a57a4cf8c46354200c763eba91ab83e006a0ac434b8a2b670159eca5c14944de67f78724249c0ea2fc4c5b47d146d37cce4078e965776237041927f8c98cb608325100c517fefe6a13afd3f4c5c786e1c102b23d59f92f8769b3f49bc5e7c46e8b33246c2d2095fde92d1331eda210c78583d2cf9763d5e0a8a6cd1f34def269d8fa7c89c29587c6c320a39fb76af39682307500bc6c17db576e3bf394f6b292b233639e76b"),
+                // expected Z
+                new BitString("664c4c3515e4af61fc962939cb63061fc2bd72da8bd5e89f4789a5c50f168cd67449e3c745177ccc1c8b262d41536ed517267539e704c95045cb76f4270439cb97b8b68bd7239f2b311ab8e8c888dd5e3ae1bcddafece8531e4d798f90d6bed8bdd9ffb9cd6e03b9074be27683364bc98ff8e8e8b59eb96c0395ec603e78370ad865c1c0cda2316b41a9f9e798f00255bde8a583767cffb3dcf8ac6765d5c02f01a9f12c94ac535e054f0b2ce7cd93816cf701a6f32d46b37727c13a42ba2c0c1b559c1d168af5a528b36fc654968849021cb157bc528df4da4292d575ce14321fcd35e43f5247aa42c92fbb51165211110d5263f696ef552002098fca97c3fa"),
+                // expected oi
+                new BitString("a1b2c3d4e504bd510a75a0488718a996a5e9f5434156536964930bb72674"),
+                // expected dkm
+                new BitString("071ded063e262a2540cfc14d037b2432"),
+                // expected macData
+                new BitString("4b435f325f55a1b2c3d4e543415653696404bd510a75a0488718a996a5e9f59bb7ae95688ac2f1cb3a681f2c9defb90653468c479d7705fa7272e623d00c3dea514797fcfed4712f67d6ef65f4e9d1b27663a2c101da3273fee647ca7c279006c78ada0d3cc986105b313b6c1ea8d8ce89eead9b8323ea8fe48a57a4cf8c46354200c763eba91ab83e006a0ac434b8a2b670159eca5c14944de67f78724249c0ea2fc4c5b47d146d37cce4078e965776237041927f8c98cb608325100c517fefe6a13afd3f4c5c786e1c102b23d59f92f8769b3f49bc5e7c46e8b33246c2d2095fde92d1331eda210c78583d2cf9763d5e0a8a6cd1f34def269d8fa7c89c29587c6c320a39fb76af39682307500bc6c17db576e3bf394f6b292b233639e76b"),
+                // expected tag
+                new BitString("0388d182e7969c3a23048bffc8cb5460")
+            },
+            new object[]
+            {
+                // label
+                "dhStatic ccm sha2-224 inverse",
+                // Domain parameters
+                new FfcDomainParameters(
+                    // p
+                    new BitString("c60dc06b8b8420743720e16fef08882a033a42c223bad697d1f56ccee3c0fe222220d8135350bfe1774316cb28fbb72885baa0134bee49c8521ccf97d54b60116564c6eeeb746d9730564181148298014551837183e8fabd66d37b9a5f07cd14c9c3ea75ce0cd5715acebe13313516c280d4110503eaa5dea4510e264da649de54b61a9f55370f1a11391bd8b076285c5b45208966de507f9b6001efa7f443fb8eb4b81128324e67d1a7ccb71596bb953a1ddcc8bf567e5df2151a1959fb5c58055ed7815dc9b0644111914e9152cb48d602c6c110f675621fae32b439c9a164d007c692f2960ac8723e81e1f55eff3fadd651916915d26f23d41116bd824637").ToPositiveBigInteger(),
+                    // q
+                    new BitString("82d514e0cd3611f40a6d428d788b4f11cc2065052ea7d1db02497b95").ToPositiveBigInteger(), 
+                    // g
+                    new BitString("3737f0812f25c65bd7e1e7837213e9cd21f1b60e10f0bc80239d60be25b89a0f0066f68a28b8a0eb875f82f7a49658f6b8b244744001599c115d3b17aaff184957fa9eca76a277c3f08642761abffbe2164238494c56228b23f7e18f84553ca4dfb7cf267e95a2b34003c551b193f8318b6bd3577f79279fb85ae7853ee86580af854ef279e143fe8309ac9f401942d2037c0a1f60cffee28129f12f7afcc9a1ff49654101093914f0c81318ab776a544f4d128eeb4be339f47bb427a719ecd85fa08ebadfd611f3f85462eefd70c164074ad284633120b7dd6e6de6d8582e4fab867acef5801dbae83fcdd5e1fd7ff1881d1ac620bf934b0cb886e429aacc43").ToPositiveBigInteger()
+                ), 
+                // scheme
+                FfcScheme.DhStatic,
+                // this party role
+                KeyAgreementRole.ResponderPartyV,
+                // DSA/KDF hash mode
+                ModeValues.SHA2,
+                // DSA/KDF digest size
+                DigestSizes.d224,
+                // mac type
+                KeyAgreementMacType.AesCcm,
+                // Key confirmation role
+                KeyConfirmationRole.Recipient,
+                // Key confirmation direction
+                KeyConfirmationDirection.Bilateral,
+                // key length
+                128,
+                // tag length
+                128,
+                // aes-ccm nonce
+                new BitString("46512bdc7752b2eaa5fc4d8ab6"),
+                // this party Id
+                new BitString("434156536964"),
+                // private static this party
+                new BitString("410046ab3b79867d376e1dab12de7c10c6d531a8fbc408b671292607").ToPositiveBigInteger(),
+                // public static this party
+                new BitString("7474e18538a50b92cf3c14fdb7ae2ac36e5e468a166c3657452ec77fbe87e07f8f9fcb665dcc7fa17b4d8c785246c6de841ca2f96c5ae5b36b49bcfe8a8bb9855452b99f8e0784e46b55e7e8c9ba4abde7756cc597031f0d8831242c5e58a2a2f1670f27d7f987327d58458b5722075b9b72af42e5c174fbc49ea8c541c6bbea7769fd2a5705384a8c88833a4ebc5ed313dbf7dbcf22a4fbd58f93c3045829e9a196b2df9a5a14b687282dbb3a02152dffbcbd6b3cfa512fc3d074e8b63db83cf8b059149cb5b9e5b341b54fa4a85304d1ffc44d69bb4129669db0c31ae0033dc992636e8a7987de66a4fc0dcde0f510488702491adf879684b5ede1cdc4bce9").ToPositiveBigInteger(),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
+                // ephem nonce this party
+                new BitString("9bb7ae95688ac2f1cb3a681f2c9defb90653468c479d7705fa7272e623d00c3dea514797fcfed4712f67d6ef65f4e9d1b27663a2c101da3273fee647ca7c279006c78ada0d3cc986105b313b6c1ea8d8ce89eead9b8323ea8fe48a57a4cf8c46354200c763eba91ab83e006a0ac434b8a2b670159eca5c14944de67f78724249c0ea2fc4c5b47d146d37cce4078e965776237041927f8c98cb608325100c517fefe6a13afd3f4c5c786e1c102b23d59f92f8769b3f49bc5e7c46e8b33246c2d2095fde92d1331eda210c78583d2cf9763d5e0a8a6cd1f34def269d8fa7c89c29587c6c320a39fb76af39682307500bc6c17db576e3bf394f6b292b233639e76b"),
+                // Other Party ID
+                new BitString("a1b2c3d4e5"),
+                // private static other party
+                new BitString("73e00757c2685bb97c87a4fbca2c613b184272027f36143f9a0250e6").ToPositiveBigInteger(), 
+                // public static other party
+                new BitString("28e39795e31a48210aec7c77a3b1b989a4169e55bb82b98fe10e319c4016d736005642dcf82286d1074bb99d9a5e128dd46cc1becc547e90bf12dc9a66cac6080f3896f7e5aa519f193c63ddf6f1fae39d9339a2d7755e58d944b1e8d23f8b7dbe413477e7f8a9ec87e353a197269ee5be02c594f0839ff359be772853f3063f42495326e5ddee3db13b212bd0d1c60a8b0a4b734ee73e296a87a261f65823b88955f1c50cf602711308e56c1cf66cb2ca758fe11422f56ae16fe1f061dcedae20bfd0f5e94174b40885d589719b82dfb64c40eeb0f5cd1b35f9f9f2ee4139addfcf6609e79606f2a0e2de204f0ab314a0023e6d285eecf98d4ee576c0a4bb00").ToPositiveBigInteger(),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                new BitString("04bd510a75a0488718a996a5e9f5"),
+                // Ephem nonce other party
+                null,
+                // expected Z
+                new BitString("664c4c3515e4af61fc962939cb63061fc2bd72da8bd5e89f4789a5c50f168cd67449e3c745177ccc1c8b262d41536ed517267539e704c95045cb76f4270439cb97b8b68bd7239f2b311ab8e8c888dd5e3ae1bcddafece8531e4d798f90d6bed8bdd9ffb9cd6e03b9074be27683364bc98ff8e8e8b59eb96c0395ec603e78370ad865c1c0cda2316b41a9f9e798f00255bde8a583767cffb3dcf8ac6765d5c02f01a9f12c94ac535e054f0b2ce7cd93816cf701a6f32d46b37727c13a42ba2c0c1b559c1d168af5a528b36fc654968849021cb157bc528df4da4292d575ce14321fcd35e43f5247aa42c92fbb51165211110d5263f696ef552002098fca97c3fa"),
+                // expected oi
+                new BitString("a1b2c3d4e504bd510a75a0488718a996a5e9f5434156536964930bb72674"),
+                // expected dkm
+                new BitString("071ded063e262a2540cfc14d037b2432"),
+                // expected macData
+                new BitString("4b435f325f55a1b2c3d4e543415653696404bd510a75a0488718a996a5e9f59bb7ae95688ac2f1cb3a681f2c9defb90653468c479d7705fa7272e623d00c3dea514797fcfed4712f67d6ef65f4e9d1b27663a2c101da3273fee647ca7c279006c78ada0d3cc986105b313b6c1ea8d8ce89eead9b8323ea8fe48a57a4cf8c46354200c763eba91ab83e006a0ac434b8a2b670159eca5c14944de67f78724249c0ea2fc4c5b47d146d37cce4078e965776237041927f8c98cb608325100c517fefe6a13afd3f4c5c786e1c102b23d59f92f8769b3f49bc5e7c46e8b33246c2d2095fde92d1331eda210c78583d2cf9763d5e0a8a6cd1f34def269d8fa7c89c29587c6c320a39fb76af39682307500bc6c17db576e3bf394f6b292b233639e76b"),
+                // expected tag
+                new BitString("0388d182e7969c3a23048bffc8cb5460")
+            },
+            new object[]
+            {
+                // label
+                "dhStatic ccm sha2-224 second scenario",
+                // Domain parameters
+                new FfcDomainParameters(
+                    // p
+                    new BitString("82ae740eef15c71bcb89c686de8c039465eef628707e2d4a6d53d334ad2d3a26d8bd06198379c20a8f961daee6af911cc94e5cfb972ed42ce48d6b91aa18f24407330b88e96fd8f69844edfc10f49e9ae0c3d8c9797de60fc9e4eef11d3fffc8396cb980120f7847a39b0873063c8924e2d8f1571c26f74d11de40631bb36c122372a6d7b93c0816a619e3fbe96257697bc61d1d8004bfc6cd39dffd6cc4dcca4bf0512b0629c7c879e351e82c8612056e3bddaf181699bb423255a04206d1e1d8a848ec291d86439df99fa952387c45f04c09efedbcb18e5239288fc0d0ff4896673038cfe6eeb942ce4d059032521308129f1614717f04bebf242fa78a4c3f").ToPositiveBigInteger(),
+                    // q
+                    new BitString("e0334792be592fc6374d4b28e952db8b00b82b00b40dca23fd909135").ToPositiveBigInteger(), 
+                    // g
+                    new BitString("7bc96b3f11ff32708ab273570c5b0c0f6bcde1697c670c839b56950fe4283c3cd376dd2744c7facc11527085180c0eb6ea345311964d65dd076429766a3158308e7df7f4e874ec6cd89a9552ddfca0073d7df985164092d691485ad5c08c77e196c219e9acf3a16413e292389d8c590523924c7f3f0169083f09498fde65957f1dc2712ae239ff5a35183bf15b629da899d33e15943bb04beb1306f4d83545eeaced04a5b7d0e22a16c1a72e8343267b5ec43d9bf6c8993d9bc318684fbd80980ff73a918fdab9a8e028c6d4afcb0237413a73441b7e7b5a70f0795a664811baa265ff577c6817c12eff920dfd470a55da9f0194c554c91ffbe86601c5016b47").ToPositiveBigInteger()
+                ), 
+                // scheme
+                FfcScheme.DhStatic,
+                // this party role
+                KeyAgreementRole.ResponderPartyV,
+                // DSA/KDF hash mode
+                ModeValues.SHA2,
+                // DSA/KDF digest size
+                DigestSizes.d224,
+                // mac type
+                KeyAgreementMacType.AesCcm,
+                // Key confirmation role
+                KeyConfirmationRole.Provider,
+                // Key confirmation direction
+                KeyConfirmationDirection.Bilateral,
+                // key length
+                128,
+                // tag length
+                128,
+                // aes-ccm nonce
+                new BitString("06d267f1e30899187587c3e765"),
+                // this party Id
+                new BitString("a1b2c3d4e5"),
+                // private static this party
+                new BitString("4139a0f4628f1bf97f63ff31367a58537356475157e6766f08a25c29").ToPositiveBigInteger(),
+                // public static this party
+                new BitString("548fc6df90777506530194196a76dcf148f510f64b38af75541f58c20e2b4bf1a998e7899acf4d3ad6ad433dfb91f319ea8a4b7514544f9d57576d323cb802eab94fa3f7dcf0939612c628f66ada4a3ee8b2ef9b5bf63b3aef6b52e98737ec1e480aea02da89be253d80571d30c24e5e9d428139445e41416518d1546a9ecc348814e55de38b91354b747ab515640f6a0c77eb79965c57c2b911ce3e52ff7d5aa133a56a9316c02be3cfa6e7f6e7eda3c182d9bef8ab9340398a787c6717fe7efd27af9295297c85517c60d938e5889e6fbed99ecbac9972bb19c033ac02f6a4f297ade161799a8c7a8d3e432cc49c30597ce9d71513e00c6298b5085e01c71d").ToPositiveBigInteger(),
+                // private ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // public ephem this party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce this party
+                null,
+                // ephem nonce this party
+                new BitString("a6438dbbc0efd927c93141a9549e13283dee38b5e25f0b1090546c6e3c420f7974cc1a99952df0723dd747ae035981fc6686395804d41c8e0d02faf9f6fe1c917205d9259e0c64e47b5fe822a288d75933727f6e0fcede3647b6b739d490e5b68836f0e74454de856c114b8f98f1bc488cf9317f6b15f91227b8cab53cc211f09ea68767efcc055ef634997c4d5dd9cf596577117f71162a954f5cf5975a49479c9ec72e083d82760212f9722993d6f982fc7aaeb5aadd847ac495824e2134c46a66d7c3f56ffcd679f194f8945d5acbf00762dd7487f52abc5f9ce3c7df7b6ef046e0ae202a1c84411a9296f6810d4f89cd572725d1072445689aa06c5cc54e"),
+                // Other Party ID
+                new BitString("434156536964"),
+                // private static other party
+                new BitString("87b4232259d242288821e400bff08210294d214c5d874f78ce03a762").ToPositiveBigInteger(), 
+                // public static other party
+                new BitString("3f24eaa216ab1d7cc03e70b1df6a0f7efce065fa8065104aeb0ee59a6dcb0958f909bb7a5ce0c8e7cc26b01a42bab685fe055cfb97861bed4767885181f55c066af8c68f8df27a63bd24288d235ccb66c0021d37def576d1c9b8ed8e2960307b8f6477b838c3a64c6d660282f63c0977d34eeea16e72baeea1b5ae33382c87feb457ad654ffc91a4d8e56fee9c87950df23a2f334357d6f45466fb2b9edee9d1544a9e33b0b6b4d8e910e91d8f0d0872c60ad55a90cf38091b7a7e0144051072823e5478f9acc046c7de943ca1f0d04f618869b0b3e334e3e7658bc1eec8053f6fbdf9a87bc272ff0501254c92c94837353784e3b961501d9bbc1b96d556e9f6").ToPositiveBigInteger(),
+                // private ephem other party
+                new BitString("00").ToPositiveBigInteger(), 
+                // public ephem other party
+                new BitString("00").ToPositiveBigInteger(),
+                // dkmNonce other party
+                new BitString("6b44bb3e2d665999c3f7ef3af07b"),
+                // Ephem nonce other party
+                null,
+                // expected Z
+                new BitString("33a8ae50e45cc0192d54d81a911711f9e4426e18dc5f3caab0cbc3204798717a57508956266845a4465dd8f8571daa4dd2bd0ced323c6d7143e5174429db1e533497ff56257bd82d6386fef754c5f75e1407a78c0489dfe1df8982ae1928f1e1fdb3fc8447ce744a4515ec1dcacd6d862e9ec2b12718eccd31ac570328d515192b84fb84fd62d2fe237b4763479586dadec16729d1755c25ed3f3dcf2cdc38d21353f385762da214dda8a3e3982169f46b4068d10ecdc050ae88a5c529e1a1350b9371d87b8a9d3a334db46129dbf75b402cf4ca7d735948c5bc402ed7f91016d2de1d218d09a01dd9e6bea3ec3e490257194f33848fd9e0cbf40160c9faa178"),
+                // expected oi
+                new BitString("4341565369646b44bb3e2d665999c3f7ef3af07ba1b2c3d4e579c3d29376"),
+                // expected dkm
+                new BitString("6bbd73fa94ae00df561f0944a199611c"),
+                // expected macData
+                new BitString("4b435f325f56a1b2c3d4e5434156536964a6438dbbc0efd927c93141a9549e13283dee38b5e25f0b1090546c6e3c420f7974cc1a99952df0723dd747ae035981fc6686395804d41c8e0d02faf9f6fe1c917205d9259e0c64e47b5fe822a288d75933727f6e0fcede3647b6b739d490e5b68836f0e74454de856c114b8f98f1bc488cf9317f6b15f91227b8cab53cc211f09ea68767efcc055ef634997c4d5dd9cf596577117f71162a954f5cf5975a49479c9ec72e083d82760212f9722993d6f982fc7aaeb5aadd847ac495824e2134c46a66d7c3f56ffcd679f194f8945d5acbf00762dd7487f52abc5f9ce3c7df7b6ef046e0ae202a1c84411a9296f6810d4f89cd572725d1072445689aa06c5cc54e6b44bb3e2d665999c3f7ef3af07b"),
+                // expected tag
+                new BitString("8c0292f32157bb43084fe5b072b0ed9b")
+            },
+            #endregion ccm
+            #endregion dhStatic
         };
 
         [Test]
@@ -4163,12 +5107,14 @@ namespace NIST.CVP.Crypto.KAS.Tests
             BigInteger thisPartyPublicStaticKey,
             BigInteger thisPartyPrivateEphemKey,
             BigInteger thisPartyPublicEphemKey,
+            BitString thisPartyDkmNonce,
             BitString thisPartyEphemeralNonce,
             BitString otherPartyId,
             BigInteger otherPartyPrivateStaticKey,
             BigInteger otherPartyPublicStaticKey,
             BigInteger otherPartyPrivateEphemKey,
             BigInteger otherPartyPublicEphemKey,
+            BitString otherPartyDkmNonce,
             BitString otherPartyEphemeralNonce,
             BitString expectedZ,
             BitString expectedOi,
@@ -4183,20 +5129,27 @@ namespace NIST.CVP.Crypto.KAS.Tests
                     otherPartyId,
                     new FfcKeyPair(otherPartyPublicStaticKey),
                     new FfcKeyPair(otherPartyPublicEphemKey),
+                    otherPartyDkmNonce,
                     otherPartyEphemeralNonce,
-                    null,
                     null
                 );
 
             // u/v party info comprised of ID, and dkmNonce (when available), find the bitlength of both parties contributed information 
             // to determine which bits are the "random" bits to inject into the TestableEntropyProvider.
             var composedBitLength = thisPartyId.BitLength +
-                                    new BitString(0).BitLength + // DKM nonce when applicable
+                                    (thisPartyDkmNonce?.BitLength ?? 0) + // DKM nonce when applicable
+                                    (otherPartyDkmNonce?.BitLength ?? 0) + // DKM nonce when applicable
                                     otherPartyId.BitLength;
 
             var entropyBits = expectedOi.GetLeastSignificantBits(expectedOi.BitLength - composedBitLength);
 
             _entropyProviderOtherInfo.AddEntropy(entropyBits);
+
+            // add dkm nonce to entropy provided when needed
+            if (thisPartyDkmNonce != null)
+            {
+                _entropyProviderScheme.AddEntropy(thisPartyDkmNonce);
+            }
 
             // MAC no key confirmation data makes use of a nonce
             if (thisPartyEphemeralNonce != null)
@@ -4204,10 +5157,12 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 _entropyProviderScheme.AddEntropy(thisPartyEphemeralNonce);
             }
 
-            FfcDsa dsa = new FfcDsa(new ShaFactory().GetShaInstance(new HashFunction(dsaKdfHashMode, dsaKdfDigestSize)));
-            _dsaFactory
-                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), EntropyProviderTypes.Random))
-                .Returns(dsa);
+            _dsa
+                .SetupGet(s => s.Sha)
+                .Returns(new ShaFactory().GetShaInstance(new HashFunction(dsaKdfHashMode, dsaKdfDigestSize)));
+            _dsa
+                .Setup(s => s.GenerateKeyPair(domainParameters))
+                .Returns(() => new FfcKeyPairGenerateResult(new FfcKeyPair(0, 0)));
 
             var macParams = _macParamsBuilder
                 .WithKeyAgreementMacType(macType)

@@ -180,6 +180,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Helpers
             testCase.EphemeralPrivateKeyServer = serverKas.Scheme.EphemeralKeyPair?.PrivateD ?? 0;
             testCase.EphemeralPublicKeyServerX = serverKas.Scheme.EphemeralKeyPair?.PublicQ?.X ?? 0;
             testCase.EphemeralPublicKeyServerY = serverKas.Scheme.EphemeralKeyPair?.PublicQ?.Y ?? 0;
+            testCase.DkmNonceServer = serverKas.Scheme.DkmNonce;
             testCase.EphemeralNonceServer = serverKas.Scheme.EphemeralNonce;
 
             testCase.StaticPrivateKeyIut = iutKas?.Scheme?.StaticKeyPair?.PrivateD ?? 0;
@@ -188,7 +189,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Helpers
             testCase.EphemeralPrivateKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PrivateD ?? 0;
             testCase.EphemeralPublicKeyIutX = iutKas?.Scheme?.EphemeralKeyPair?.PublicQ?.X ?? 0;
             testCase.EphemeralPublicKeyIutY = iutKas?.Scheme?.EphemeralKeyPair?.PublicQ?.Y ?? 0;
-
+            testCase.DkmNonceIut = iutKas?.Scheme?.DkmNonce;
             testCase.EphemeralNonceIut = iutKas?.Scheme?.EphemeralNonce;
 
             testCase.Z = iutResult?.Z;

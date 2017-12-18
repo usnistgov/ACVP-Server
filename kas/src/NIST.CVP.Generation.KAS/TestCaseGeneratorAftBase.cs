@@ -99,6 +99,21 @@ namespace NIST.CVP.Generation.KAS
                 serverKcRole
             );
 
+            var entropyProvider = _entropyProviderFactory
+                .GetEntropyProvider(EntropyProviderTypes.Testable);
+
+            // If the server has a requirement of generating an DKM nonce, 
+            // inject it into the entropy provider
+            if (serverKeyNonceRequirements.GeneratesDkmNonce)
+            {
+                var dkmNonceLength = GetDkmLengthRequirement(group);
+
+                testCase.DkmNonceServer = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
+                    .GetEntropy(dkmNonceLength);
+                entropyProvider.AddEntropy(testCase.DkmNonceServer.GetDeepCopy());
+                _schemeBuilder.WithEntropyProvider(entropyProvider);
+            }
+
             // Set up entropy injection when server generates an ephemeral nonce
             if (serverKeyNonceRequirements.GeneratesEphemeralNonce)
             {
@@ -106,10 +121,8 @@ namespace NIST.CVP.Generation.KAS
 
                 testCase.EphemeralNonceServer = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
                     .GetEntropy(ephemeralNonceLength);
-                var ephemeralNonceEntropyProvider = _entropyProviderFactory
-                    .GetEntropyProvider(EntropyProviderTypes.Testable);
-                ephemeralNonceEntropyProvider.AddEntropy(testCase.EphemeralNonceServer.GetDeepCopy());
-                _schemeBuilder.WithEntropyProvider(ephemeralNonceEntropyProvider);
+                entropyProvider.AddEntropy(testCase.EphemeralNonceServer.GetDeepCopy());
+                _schemeBuilder.WithEntropyProvider(entropyProvider);
             }
 
             // a nonce is used for KdfNoKc, set up entropy injection
@@ -117,10 +130,9 @@ namespace NIST.CVP.Generation.KAS
             {
                 testCase.NonceNoKc = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
                     .GetEntropy(128);
-                var noKcEntropyProvider = _entropyProviderFactory
-                    .GetEntropyProvider(EntropyProviderTypes.Testable);
-                noKcEntropyProvider.AddEntropy(testCase.NonceNoKc.GetDeepCopy());
-                _schemeBuilder.WithEntropyProvider(noKcEntropyProvider);
+
+                entropyProvider.AddEntropy(testCase.NonceNoKc.GetDeepCopy());
+                _schemeBuilder.WithEntropyProvider(entropyProvider);
             }
 
             BitString aesCcmNonce = null;
@@ -171,24 +183,35 @@ namespace NIST.CVP.Generation.KAS
                     group.KcRole
                 );
 
+                var entropyProviderSample = _entropyProviderFactory
+                    .GetEntropyProvider(EntropyProviderTypes.Testable);
+
+                if (iutKeyNonceRequirements.GeneratesDkmNonce)
+                {
+                    var dkmNonceLength = GetDkmLengthRequirement(group);
+
+                    testCase.DkmNonceIut = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
+                        .GetEntropy(dkmNonceLength);
+
+                    entropyProviderSample.AddEntropy(testCase.DkmNonceIut.GetDeepCopy());
+                    _schemeBuilder.WithEntropyProvider(entropyProviderSample);
+                }
+
                 if (iutKeyNonceRequirements.GeneratesEphemeralNonce)
                 {
                     var ephemeralNonceLength = GetEphemeralLengthRequirement(group);
                     
                     testCase.EphemeralNonceIut = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random)
                         .GetEntropy(ephemeralNonceLength);
-                    var ephemeralNonceEntropyProvider = _entropyProviderFactory
-                        .GetEntropyProvider(EntropyProviderTypes.Testable);
-                    ephemeralNonceEntropyProvider.AddEntropy(testCase.EphemeralNonceIut.GetDeepCopy());
-                    _schemeBuilder.WithEntropyProvider(ephemeralNonceEntropyProvider);
+
+                    entropyProviderSample.AddEntropy(testCase.EphemeralNonceIut.GetDeepCopy());
+                    _schemeBuilder.WithEntropyProvider(entropyProviderSample);
                 }
 
                 if (group.KasMode == KasMode.KdfNoKc)
                 {
-                    var noKcEntropyProvider = _entropyProviderFactory
-                        .GetEntropyProvider(EntropyProviderTypes.Testable);
-                    noKcEntropyProvider.AddEntropy(testCase.NonceNoKc.GetDeepCopy());
-                    _schemeBuilder.WithEntropyProvider(noKcEntropyProvider);
+                    entropyProviderSample.AddEntropy(testCase.NonceNoKc.GetDeepCopy());
+                    _schemeBuilder.WithEntropyProvider(entropyProviderSample);
                 }
 
                 if (group.AesCcmNonceLen != 0)
@@ -241,6 +264,13 @@ namespace NIST.CVP.Generation.KAS
         /// <param name="testGroup">The test group.</param>
         /// <returns></returns>
         protected abstract int GetEphemeralLengthRequirement(TTestGroup testGroup);
+
+        /// <summary>
+        /// Gets the length requirement for the dkm nonce.
+        /// </summary>
+        /// <param name="testGroup">The test group</param>
+        /// <returns></returns>
+        protected abstract int GetDkmLengthRequirement(TTestGroup testGroup);
 
         /// <summary>
         /// Gets the KAS instance based on the provided parameters.

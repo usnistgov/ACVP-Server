@@ -108,12 +108,14 @@ namespace NIST.CVP.Generation.KAS
                 .WithNonce(iutTestCase.NonceAesCcm ?? serverTestCase.NonceAesCcm)
                 .Build();
 
-            // KdfNoKc mode requires the use of a Nonce
-            if (testGroup.KasMode == KasMode.KdfNoKc)
+            var entropyProvider = _entropyProviderFactory
+                .GetEntropyProvider(EntropyProviderTypes.Testable);
+
+            // If the server has a requirement of generating an DKM nonce, 
+            // inject it into the entropy provider
+            if (serverKeyRequirements.GeneratesDkmNonce)
             {
-                var entropyProvider = _entropyProviderFactory
-                    .GetEntropyProvider(EntropyProviderTypes.Testable);
-                entropyProvider.AddEntropy(serverTestCase.NonceNoKc ?? iutTestCase.NonceNoKc);
+                entropyProvider.AddEntropy(serverTestCase.DkmNonceServer);
 
                 _schemeBuilder.WithEntropyProvider(entropyProvider);
             }
@@ -122,9 +124,15 @@ namespace NIST.CVP.Generation.KAS
             // inject it into the entropy provider
             if (serverKeyRequirements.GeneratesEphemeralNonce)
             {
-                var entropyProvider = _entropyProviderFactory
-                    .GetEntropyProvider(EntropyProviderTypes.Testable);
                 entropyProvider.AddEntropy(serverTestCase.EphemeralNonceServer);
+
+                _schemeBuilder.WithEntropyProvider(entropyProvider);
+            }
+
+            // KdfNoKc mode requires the use of a Nonce
+            if (testGroup.KasMode == KasMode.KdfNoKc)
+            {
+                entropyProvider.AddEntropy(serverTestCase.NonceNoKc ?? iutTestCase.NonceNoKc);
 
                 _schemeBuilder.WithEntropyProvider(entropyProvider);
             }

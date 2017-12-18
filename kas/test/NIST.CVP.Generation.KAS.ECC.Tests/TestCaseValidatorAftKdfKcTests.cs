@@ -33,6 +33,15 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
         public void ShouldSucceedValidation(EccScheme scheme, KeyAgreementRole kasRole, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType)
         {
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
@@ -62,12 +71,19 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
-
-        // Ephemeral key pair is provided by party u only
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
         public void ShouldFailWhenIutDoesNotProvideEphemeralKeyPair(EccScheme scheme, KeyAgreementRole kasRole, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType)
         {
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
@@ -87,12 +103,19 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
-
-        // Ephemeral key pair is provided by party u only
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
         public void ShouldFailWhenIutDoesNotProvideStaticKeyPair(EccScheme scheme, KeyAgreementRole kasRole, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType)
         {
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
@@ -108,17 +131,23 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         }
 
         [Test]
-        // Party U does not use an ephemeral nonce
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
-
-        // Party V, provider, unilateral does not provide an ephemeral nonce
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
         public void ShouldFailWhenIutDoesNotProvideEphemeralNonce(EccScheme scheme, KeyAgreementRole kasRole, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType)
         {
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
@@ -142,6 +171,15 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
         public void ShouldFailWhenIutDoesNotProvideTag(EccScheme scheme, KeyAgreementRole kasRole, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType)
         {
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);
@@ -165,6 +203,15 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Provider, KeyConfirmationDirection.Bilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Unilateral)]
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, KeyConfirmationRole.Recipient, KeyConfirmationDirection.Bilateral)]
         public void ShouldFailWhenMismatchedTag(EccScheme scheme, KeyAgreementRole kasRole, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType)
         {
             var testGroup = GetData(scheme, kasRole, kcRole, kcType);

@@ -74,6 +74,13 @@ namespace NIST.CVP.Generation.KAS.ECC
         }
 
         /// <inheritdoc />
+        protected override int GetDkmLengthRequirement(TestGroup testGroup)
+        {
+            var curveAttributes = CurveAttributesHelper.GetCurveAttribute(testGroup.CurveName);
+            return curveAttributes.LengthN / 2;
+        }
+
+        /// <inheritdoc />
         protected override EccDomainParameters GetGroupDomainParameters(TestGroup testGroup)
         {
             return new EccDomainParameters(_curveFactory.GetCurve(testGroup.CurveName));

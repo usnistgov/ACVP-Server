@@ -67,6 +67,14 @@ namespace NIST.CVP.Generation.KAS.FFC
                 }
             }
 
+            if (_iutKeyRequirements.GeneratesDkmNonce)
+            {
+                if (suppliedResult.DkmNonceIut == null || suppliedResult.DkmNonceIut.BitLength == 0)
+                {
+                    errors.Add($"Expected {nameof(suppliedResult.DkmNonceIut)} but was not supplied");
+                }
+            }
+
             // AES-CCM nonce required only when IUT is both initiator, and macType is AES-CCM
             if (_testGroup.KasRole == KeyAgreementRole.InitiatorPartyU
                 && _testGroup.MacType == KeyAgreementMacType.AesCcm)

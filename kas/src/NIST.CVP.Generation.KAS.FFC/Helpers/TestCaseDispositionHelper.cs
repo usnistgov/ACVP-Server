@@ -175,12 +175,14 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
             testCase.StaticPublicKeyServer = serverKas.Scheme.StaticKeyPair?.PublicKeyY ?? 0;
             testCase.EphemeralPrivateKeyServer = serverKas.Scheme.EphemeralKeyPair?.PrivateKeyX ?? 0;
             testCase.EphemeralPublicKeyServer = serverKas.Scheme.EphemeralKeyPair?.PublicKeyY ?? 0;
+            testCase.DkmNonceServer = serverKas.Scheme.DkmNonce;
             testCase.EphemeralNonceServer = serverKas.Scheme.EphemeralNonce;
 
             testCase.StaticPrivateKeyIut = iutKas?.Scheme?.StaticKeyPair?.PrivateKeyX ?? 0;
             testCase.StaticPublicKeyIut = iutKas?.Scheme?.StaticKeyPair?.PublicKeyY ?? 0;
             testCase.EphemeralPrivateKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PrivateKeyX ?? 0;
             testCase.EphemeralPublicKeyIut = iutKas?.Scheme?.EphemeralKeyPair?.PublicKeyY ?? 0;
+            testCase.DkmNonceIut = iutKas?.Scheme?.DkmNonce;
             testCase.EphemeralNonceIut = iutKas?.Scheme?.EphemeralNonce;
 
             testCase.Z = iutResult?.Z;

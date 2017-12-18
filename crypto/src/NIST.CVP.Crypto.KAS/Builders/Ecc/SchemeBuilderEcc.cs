@@ -91,11 +91,14 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withMqv);
                     break;
+                case EccScheme.StaticUnified:
+                    scheme = new SchemeEccStaticUnified(dsa, _eccCurveFactory, _withKdfFactory,
+                        _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
+                    break;
                 case EccScheme.FullUnified:
                 case EccScheme.OnePassDh:
                 case EccScheme.OnePassUnified:
-                case EccScheme.StaticUnified:
-
                 case EccScheme.FullMqv:
                     // TODO coming soon to a KAS near you!
                     throw new NotImplementedException();

@@ -36,7 +36,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             },
             new object[]
             {
-                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("CAFECAFE"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString("faceface"), new BitString(0)),
+                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("CAFECAFE"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString("faceface"), new BitString(0), new BitString(0)),
                 96,
                 "literal[12345abc]||uPartyInfo",
                 new BitString("12345abccafecafefaceface")
@@ -133,7 +133,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
                 // iutRole
                 KeyAgreementRole.InitiatorPartyU,
                 // uParty
-                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("a1b2c3d4e5"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString("7e4710fc503b32d44b01f973d281"), new BitString(0)), 
+                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("a1b2c3d4e5"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString("7e4710fc503b32d44b01f973d281"), new BitString(0), new BitString(0)), 
                 // vParty
                 new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("434156536964"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)),
                 // otherInfoLength
@@ -146,7 +146,7 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
                 // iutRole
                 KeyAgreementRole.ResponderPartyV,
                 // uParty
-                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("434156536964"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString("be58b39ab2f8ab722acac7a635f2"), new BitString(0)),
+                new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("434156536964"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString("be58b39ab2f8ab722acac7a635f2"), new BitString(0), new BitString(0)),
                 // vParty
                 new OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>(null, new BitString("a1b2c3d4e5"), new FfcKeyPair(0), new FfcKeyPair(0), new BitString(0), new BitString(0), new BitString(0)), 
                 // otherInfoLength

@@ -108,8 +108,10 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ffc
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
                 case FfcScheme.DhStatic:
-                    // TODO coming soon to a KAS near you!
-                    throw new NotImplementedException();
+                    scheme = new SchemeFfcDhStatic(dsa, _withKdfFactory,
+                        _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
+                    break;
                 default:
                     throw new ArgumentException(nameof(schemeParameters.KasDsaAlgoAttributes.Scheme));
             }

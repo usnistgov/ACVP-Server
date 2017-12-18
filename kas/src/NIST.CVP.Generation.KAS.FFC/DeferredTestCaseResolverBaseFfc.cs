@@ -61,8 +61,8 @@ namespace NIST.CVP.Generation.KAS.FFC
                 iutTestCase.IdIut ?? testGroup.IdIut,
                 new FfcKeyPair(iutTestCase.StaticPublicKeyIut),
                 new FfcKeyPair(iutTestCase.EphemeralPublicKeyIut),
-                iutTestCase.EphemeralNonceIut,
                 iutTestCase.DkmNonceIut,
+                iutTestCase.EphemeralNonceIut,
                 serverTestCase.NonceNoKc
             );
         }

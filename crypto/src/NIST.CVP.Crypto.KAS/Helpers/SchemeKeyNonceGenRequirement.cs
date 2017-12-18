@@ -8,7 +8,17 @@ namespace NIST.CVP.Crypto.KAS.Helpers
     public class SchemeKeyNonceGenRequirement<TScheme>
         where TScheme : struct, IComparable
     {
-        public SchemeKeyNonceGenRequirement(TScheme scheme, KasMode kasMode, KeyAgreementRole thisPartyKasRole, KeyConfirmationRole thisPartyKeyConfirmationRole, KeyConfirmationDirection keyConfirmationDirection, bool generatesStaticKeyPair, bool generatesEphemeralKeyPair, bool generatesEphemeralNonce)
+        public SchemeKeyNonceGenRequirement(
+            TScheme scheme, 
+            KasMode kasMode, 
+            KeyAgreementRole thisPartyKasRole, 
+            KeyConfirmationRole thisPartyKeyConfirmationRole, 
+            KeyConfirmationDirection keyConfirmationDirection, 
+            bool generatesStaticKeyPair, 
+            bool generatesEphemeralKeyPair, 
+            bool generatesEphemeralNonce, 
+            bool generatesDkmNonce
+        )
         {
             Scheme = scheme;
             KasMode = kasMode;
@@ -18,6 +28,7 @@ namespace NIST.CVP.Crypto.KAS.Helpers
             GeneratesStaticKeyPair = generatesStaticKeyPair;
             GeneratesEphemeralKeyPair = generatesEphemeralKeyPair;
             GeneratesEphemeralNonce = generatesEphemeralNonce;
+            GeneratesDkmNonce = generatesDkmNonce;
         }
 
         public TScheme Scheme { get; }
@@ -28,5 +39,6 @@ namespace NIST.CVP.Crypto.KAS.Helpers
         public bool GeneratesStaticKeyPair { get; }
         public bool GeneratesEphemeralKeyPair { get; }
         public bool GeneratesEphemeralNonce { get; }
+        public bool GeneratesDkmNonce { get; }
     }
 }
