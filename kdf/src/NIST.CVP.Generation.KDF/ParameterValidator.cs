@@ -80,6 +80,11 @@ namespace NIST.CVP.Generation.KDF
                     errors.Add("none FixedDataOrder is not valid with Counter KDF");
                 }
 
+                if (capability.CounterLength.Contains(0))
+                {
+                    errors.Add("Counter KDF requires a non-zero counter length");
+                }
+
                 if (capability.FixedDataOrder.Contains("before iterator"))
                 {
                     errors.Add("before iterator FixedDataORder is not valid with Counter KDF");
@@ -90,6 +95,11 @@ namespace NIST.CVP.Generation.KDF
                 if (capability.FixedDataOrder.Contains("middle fixed data"))
                 {
                     errors.Add("middle fixed data FixedDataOrder is not valid with non-Counter KDFs");
+                }
+
+                if (!(capability.FixedDataOrder.Contains("none") && capability.CounterLength.Contains(0)))
+                {
+                    errors.Add("none FixedDataOrder must be paired with 0 counter length");
                 }
             }
         }

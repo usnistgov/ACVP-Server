@@ -36,9 +36,25 @@ namespace NIST.CVP.Generation.KDF
                     {
                         foreach (var counterOrder in capability.FixedDataOrder)
                         {
+                            // If counter length is 0, only do the 'none', otherwise, skip the 'none'
+                            if (counterLength == 0)
+                            {
+                                if (!counterOrder.Equals("none", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                if (counterOrder.Equals("none", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    continue;
+                                }
+                            }
+
                             var testOutputLengths = new List<int>();
                             testOutputLengths.AddRange(capability.SupportedLengths.GetValues(w => w % macOutputLength == 0, 2, true));
-                            testOutputLengths.AddRange(capability.SupportedLengths.GetValues(w => w % macOutputLength != 0, 2, true));
+                            testOutputLengths.AddRange(capability.SupportedLengths.GetValues(w => w % macOutputLength != 0 && w > macOutputLength, 2, true));
 
                             foreach (var outputLen in testOutputLengths)
                             {

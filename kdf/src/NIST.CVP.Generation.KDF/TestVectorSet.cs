@@ -57,7 +57,11 @@ namespace NIST.CVP.Generation.KDF
                     ((IDictionary<string, object>)updateObject).Add("macMode", EnumHelpers.GetEnumDescriptionFromEnum(group.MacMode));
                     ((IDictionary<string, object>)updateObject).Add("counterLocation", EnumHelpers.GetEnumDescriptionFromEnum(group.CounterLocation));
                     ((IDictionary<string, object>)updateObject).Add("keyOutLength", group.KeyOutLength);
-                    ((IDictionary<string, object>)updateObject).Add("zeroLengthIv", group.ZeroLengthIv);
+
+                    if (group.KdfMode == KdfModes.Feedback)
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("zeroLengthIv", group.ZeroLengthIv);
+                    }
 
                     if (group.CounterLocation != CounterLocations.None)
                     {
@@ -102,7 +106,11 @@ namespace NIST.CVP.Generation.KDF
                     ((IDictionary<string, object>)updateObject).Add("macMode", EnumHelpers.GetEnumDescriptionFromEnum(group.MacMode));
                     ((IDictionary<string, object>)updateObject).Add("counterLocation", EnumHelpers.GetEnumDescriptionFromEnum(group.CounterLocation));
                     ((IDictionary<string, object>)updateObject).Add("keyOutLength", group.KeyOutLength);
-                    ((IDictionary<string, object>)updateObject).Add("zeroLengthIv", group.ZeroLengthIv);
+
+                    if (group.KdfMode == KdfModes.Feedback)
+                    {
+                        ((IDictionary<string, object>)updateObject).Add("zeroLengthIv", group.ZeroLengthIv);
+                    }
 
                     if (group.CounterLocation != CounterLocations.None)
                     {

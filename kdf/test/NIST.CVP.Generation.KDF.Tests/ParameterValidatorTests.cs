@@ -62,7 +62,6 @@ namespace NIST.CVP.Generation.KDF.Tests
 
         static object[] counterLengthTestCases = 
         {
-            new object[] { "null", null },
             new object[] { "empty", new int[] { } },
             new object[] { "Invalid value", new [] { 1 } },
             new object[] { "Partially valid", new [] { 8, 1 } },

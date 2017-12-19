@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.KDF.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -26,6 +27,8 @@ namespace NIST.CVP.Generation.KDF
         {
             Tests = new List<ITestCase>();
         }
+
+        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
 
         public TestGroup(dynamic source)
         {
@@ -88,9 +91,49 @@ namespace NIST.CVP.Generation.KDF
             switch (name.ToLower())
             {
                 case "keyoutlength":
-                    KeyOutLength = Int32.Parse(value);
+                case "l":
+                    KeyOutLength = int.Parse(value);
+                    return true;
+
+                case "prf":
+                    value = value.Replace("_", "-");
+                    MacMode = EnumHelpers.GetEnumFromEnumDescription<MacModes>(value);
+                    return true;
+
+                case "ctrlocation":
+                    if (value.ToLower().Equals("before_iter"))
+                    {
+                        CounterLocation = CounterLocations.BeforeIterator;
+                        return true;
+                    }
+                    else if (value.ToLower().Equals("after_iter"))
+                    {
+                        CounterLocation = CounterLocations.BeforeFixedData;
+                        return true;
+                    }
+                    else if (value.ToLower().Equals("after_fixed"))
+                    {
+                        CounterLocation = CounterLocations.AfterFixedData;
+                        return true;
+                    }
+                    else if (value.ToLower().Equals("before_fixed"))
+                    {
+                        CounterLocation = CounterLocations.BeforeFixedData;
+                        return true;
+                    }
+                    else if (value.ToLower().Equals("middle_fixed"))
+                    {
+                        CounterLocation = CounterLocations.MiddleFixedData;
+                        return true;
+                    }
+                    return false;
+
+                case "rlen":
+                    value = value.Split("_")[0];
+                    CounterLength = int.Parse(value);
                     return true;
             }
+
             return false;
         }
     }

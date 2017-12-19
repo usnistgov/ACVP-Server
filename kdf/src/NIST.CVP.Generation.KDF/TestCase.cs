@@ -21,6 +21,9 @@ namespace NIST.CVP.Generation.KDF
         public int BreakLocation { get; set; }
         public BitString KeyOut { get; set; }
 
+        // Only used in FireHoseTests
+        public int L;
+
         public TestCase() { }
 
         public TestCase(dynamic source)
@@ -80,10 +83,25 @@ namespace NIST.CVP.Generation.KDF
                     IV = new BitString(value);
                     return true;
 
-                case "fixeddata":
+                case "fixedinputdata":
+                case "databeforectrdata":
                     FixedData = new BitString(value);
                     return true;
+
+                case "dataafterctrdata":
+                    FixedData = FixedData.ConcatenateBits(new BitString(value));
+                    return true;
+
+                case "l":
+                    L = int.Parse(value);
+                    return true;
+
+                case "fixedinputdatabytelen":
+                case "databeforectrlen":
+                    BreakLocation = int.Parse(value) * 8;
+                    return true;
             }
+
             return false;
         }
     }

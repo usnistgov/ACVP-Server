@@ -64,8 +64,7 @@ namespace NIST.CVP.Generation.KDF
             KdfResult kdfResult = null;
             try
             {
-                kdfResult = _algo.DeriveKey(testCase.KeyIn, testCase.FixedData, group.KeyOutLength, testCase.IV,
-                    testCase.BreakLocation);
+                kdfResult = _algo.DeriveKey(testCase.KeyIn, testCase.FixedData, group.KeyOutLength, testCase.IV, testCase.BreakLocation);
                 if (!kdfResult.Success)
                 {
                     ThisLogger.Warn(kdfResult.ErrorMessage);
