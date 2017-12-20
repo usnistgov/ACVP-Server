@@ -21,14 +21,6 @@ namespace NIST.CVP.Generation.CMAC.AES
 
         private IEnumerable<ITestGroup> CreateGroups(Parameters parameters, List<ITestGroup> testGroups)
         {
-            if (!AlgorithmSpecificationMapping.Map
-                .TryFirst(
-                    w => w.algoSpecification.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase),
-                    out var result))
-            {
-                throw new ArgumentException("Invalid Algorithm provided.");
-            }
-
             DetermineLengths(parameters);
 
             foreach (var function in parameters.Direction)
@@ -37,16 +29,28 @@ namespace NIST.CVP.Generation.CMAC.AES
                 {
                     foreach (var macLen in MacLens)
                     {
-                        TestGroup tg = new TestGroup()
+                        foreach (var keyLen in parameters.KeyLen)
                         {
-                            CmacType = result.mappedCmacType,
-                            Function = function,
-                            KeyLength = result.keySize,
-                            MessageLength = msgLen,
-                            MacLength = macLen
-                        };
+                            if (!AlgorithmSpecificationMapping.Map
+                                .TryFirst(
+                                    w => w.keySize == keyLen &&
+                                         w.algoSpecification.StartsWith("CMAC-AES", StringComparison.OrdinalIgnoreCase),
+                                    out var result))
+                            {
+                                throw new ArgumentException("Invalid Algorithm provided.");
+                            }
 
-                        testGroups.Add(tg);
+                            TestGroup tg = new TestGroup()
+                            {
+                                CmacType = result.mappedCmacType,
+                                Function = function,
+                                KeyLength = keyLen,
+                                MessageLength = msgLen,
+                                MacLength = macLen
+                            };
+
+                            testGroups.Add(tg);
+                        }
                     }
                 }
             }

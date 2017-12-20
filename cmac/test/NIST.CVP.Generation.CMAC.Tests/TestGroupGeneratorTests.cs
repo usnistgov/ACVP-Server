@@ -27,23 +27,25 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
                 "test1 - 0",
                 new string[] { },
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                new MathDomain().AddSegment(new ValueDomainSegment(8))
+                new MathDomain().AddSegment(new ValueDomainSegment(8)),
+                new int[] { }
             },
             new object[]
             {
-                // 3 (2*1*1)
+                // 3 (2*1*1*1)
                 "test2 - 3",
                 new string[] {"gen", "ver"},
                 new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                new MathDomain().AddSegment(new ValueDomainSegment(8))
+                new MathDomain().AddSegment(new ValueDomainSegment(8)),
+                new int[] { 128 }
             },
-            // 27 (3*3*3)
             new object[]
             {
                 "test3 - 1620",
                 new string[] {"gen", "ver"},
                 new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)),
-                new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8))
+                new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)),
+                new int[] { }
             }
         };
         
@@ -53,20 +55,22 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             string label,
             string[] mode,
             MathDomain msgLen,
-            MathDomain macLen
+            MathDomain macLen,
+            int[] keyLen
         )
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "CMAC-AES-128",
+                Algorithm = "CMAC-AES",
                 Direction = mode,
                 MsgLen = msgLen,
-                MacLen = macLen
+                MacLen = macLen,
+                KeyLen = keyLen
             };
 
             var result = _subject.BuildTestGroups(p);
 
-            var expectedResultCount = mode.Length * _subject.MsgLens.Length * _subject.MacLens.Length;
+            var expectedResultCount = mode.Length * _subject.MsgLens.Length * _subject.MacLens.Length * keyLen.Length;
 
             Assert.AreEqual(expectedResultCount, result.Count());
         }

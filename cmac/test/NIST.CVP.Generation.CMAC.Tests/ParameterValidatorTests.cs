@@ -31,8 +31,8 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         }
 
         [Test]
-        [TestCase("CMAC-AES-128", true)]
-        [TestCase("CMAC-AES-123", false)]
+        [TestCase("CMAC-AES", true)]
+        [TestCase("CMAC-TDES", false)]
         [TestCase("badValue", false)]
         [TestCase(null, false)]
         public void ShouldReportFailureWithBadAlgorithm(string value, bool success)
@@ -174,6 +174,22 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         {
             Parameters p = new ParameterBuilder()
                 .WithMacLen(value)
+                .Build();
+
+            var result = _subject.Validate(p);
+
+            Assert.AreEqual(success, result.Success);
+        }
+
+        [Test]
+        [TestCase("All good", new int[] { 128, 192, 256 }, true)]
+        [TestCase("None", new int[] { }, false)]
+        [TestCase("Null", null, false)]
+        [TestCase("One bad", new int[] { 128, 64 }, false)]
+        public void ShouldReportFailureWithKeyLen(string label, int[] keyLen, bool success)
+        {
+            Parameters p = new ParameterBuilder()
+                .WithKeyLen(keyLen)
                 .Build();
 
             var result = _subject.Validate(p);

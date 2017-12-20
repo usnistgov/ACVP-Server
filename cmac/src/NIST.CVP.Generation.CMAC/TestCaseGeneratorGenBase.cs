@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.CMAC
 
         public int NumberOfTestCasesToGenerate => 8;
 
-        public TestCaseGeneratorGenBase(IRandom800_90 random800_90, ICmac algo)
+        protected TestCaseGeneratorGenBase(IRandom800_90 random800_90, ICmac algo)
         {
             _random800_90 = random800_90;
             _algo = algo;

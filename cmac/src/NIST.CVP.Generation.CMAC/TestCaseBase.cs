@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.CMAC
         public BitString Mac { get; set; }
         public string Result { get; set; }
 
-        public TestCaseBase()
+        protected TestCaseBase()
         {
             
         }

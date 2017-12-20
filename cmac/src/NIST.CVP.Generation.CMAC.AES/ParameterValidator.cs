@@ -8,7 +8,9 @@ namespace NIST.CVP.Generation.CMAC.AES
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
+        public static string VALID_ALGORITHM = "CMAC-AES";
         public static string[] VALID_DIRECTIONS = new string[] { "gen", "ver" };
+        public static int[] VALID_KEY_LENGTHS = new int[] {128, 192, 256};
         public static int VALID_MESSAGE_LENGTH_MIN = 0;
         public static int VALID_MESSAGE_LENGTH_MAX = 1 << 19;
         public static int VALID_MAC_LENGTH_MIN = 1;
@@ -21,6 +23,7 @@ namespace NIST.CVP.Generation.CMAC.AES
             ValidateDirection(parameters, errorResults);
             ValidateMessageLength(parameters, errorResults);
             ValidateMacLength(parameters, errorResults);
+            ValidateKeyLens(parameters, errorResults);
 
             if (errorResults.Count > 0)
             {
@@ -29,14 +32,10 @@ namespace NIST.CVP.Generation.CMAC.AES
 
             return new ParameterValidateResponse();
         }
-
+        
         private void ValidateAlgorithm(Parameters parameters, List<string> errorResults)
         {
-            var validAlgorithmValues = AlgorithmSpecificationMapping.Map
-                .Select(s => s.algoSpecification)
-                .ToArray();
-
-            var algoCheck = ValidateValue(parameters.Algorithm, validAlgorithmValues, "Algorithm");
+            var algoCheck = ValidateValue(parameters.Algorithm, new string[] {VALID_ALGORITHM}, "Algorithm");
             errorResults.AddIfNotNullOrEmpty(algoCheck);
         }
 
@@ -85,6 +84,12 @@ namespace NIST.CVP.Generation.CMAC.AES
                 "MacLen Range"
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
+        }
+
+        private void ValidateKeyLens(Parameters parameters, List<string> errorResults)
+        {
+            var keyLenCheck = ValidateArray(parameters.KeyLen, VALID_KEY_LENGTHS, "KeyLen");
+            errorResults.AddIfNotNullOrEmpty(keyLenCheck);
         }
     }
 }

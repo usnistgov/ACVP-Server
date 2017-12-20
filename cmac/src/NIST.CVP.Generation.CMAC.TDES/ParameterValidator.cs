@@ -7,6 +7,7 @@ namespace NIST.CVP.Generation.CMAC.TDES
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
+        public static string AlgorithmName = "CMAC-AES";
         public static string[] VALID_DIRECTIONS = new string[] { "gen", "ver" };
         public static int VALID_MESSAGE_LENGTH_MIN = 0;
         public static int VALID_MESSAGE_LENGTH_MAX = 1 << 19;

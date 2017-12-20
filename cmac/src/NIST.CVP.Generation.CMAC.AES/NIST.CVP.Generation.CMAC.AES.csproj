@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.MAC\NIST.CVP.Crypto.MAC.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.CMAC\NIST.CVP.Generation.CMAC.csproj" />
   </ItemGroup>
   
