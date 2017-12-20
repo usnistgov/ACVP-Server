@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Parsers
         private List<ITestCase> CreateTestCases(string input, bool isPtAndCtHex, bool isMCT)
         {
             var testCases = new List<ITestCase>();
-            var resultsArray = new List<AlgoArrayResponseCfbp>();
+            var resultsArray = new List<AlgoArrayResponseWithIvs>();
 
             //var testCaseRegex = new Regex(@"COUNT = (?<count>\d*)(?:\n" +
             //        @"(?:KEY1 = (?<key1>[0-9acbdefABCDEF]*)\n" +
@@ -165,7 +165,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Parsers
                 }
                 if (isMCT)
                 {
-                    resultsArray.Add(new AlgoArrayResponseCfbp()
+                    resultsArray.Add(new AlgoArrayResponseWithIvs()
                     {
                         Keys = propertiesMap["KEYs"],
                         IV1 = propertiesMap["IV1"],

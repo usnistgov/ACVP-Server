@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase seedCase)
         {
-            MCTResult<AlgoArrayResponseCfbp> decryptionResult = null;
+            MCTResult<AlgoArrayResponseWithIvs> decryptionResult = null;
             try
             {
                 decryptionResult = _mode.MCTDecrypt(seedCase.Keys, seedCase.IV1, seedCase.CipherText);

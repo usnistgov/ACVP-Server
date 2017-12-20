@@ -10,7 +10,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP
 
         Algo Algo { get; set; }
 
-        MCTResult<AlgoArrayResponseCfbp> MCTEncrypt(BitString keyBits, BitString iv, BitString data);
-        MCTResult<AlgoArrayResponseCfbp> MCTDecrypt(BitString keyBits, BitString iv, BitString data);
+        MCTResult<AlgoArrayResponseWithIvs> MCTEncrypt(BitString keyBits, BitString iv, BitString data);
+        MCTResult<AlgoArrayResponseWithIvs> MCTDecrypt(BitString keyBits, BitString iv, BitString data);
     }
 }

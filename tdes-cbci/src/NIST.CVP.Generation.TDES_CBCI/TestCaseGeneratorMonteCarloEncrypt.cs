@@ -1,0 +1,67 @@
+﻿using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Crypto.TDES_CBCI;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NLog;
+using System;
+
+namespace NIST.CVP.Generation.TDES_CBCI
+{
+    public class TestCaseGeneratorMonteCarloEncrypt : ITestCaseGenerator<TestGroup, TestCase>
+    {
+        private const int BLOCK_SIZE_BITS = 64;
+
+        private readonly IRandom800_90 _random800_90;
+        private readonly ITDES_CBCI_MCT _algo;
+
+        public TestCaseGeneratorMonteCarloEncrypt(IRandom800_90 random800_90, ITDES_CBCI_MCT algo)
+        {
+            _random800_90 = random800_90;
+            _algo = algo;
+        }
+
+        public int NumberOfTestCasesToGenerate => 1;
+
+        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        {
+            var seedCase = GetSeedCase(@group);
+
+            return Generate(@group, seedCase);
+        }
+
+        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase seedCase)
+        {
+            MCTResult<AlgoArrayResponseWithIvs> encryptionResult = null;
+            try
+            {
+                encryptionResult = _algo.MCTEncrypt(seedCase.Keys, seedCase.IV1, seedCase.PlainText);
+                if (!encryptionResult.Success)
+                {
+                    ThisLogger.Warn(encryptionResult.ErrorMessage);
+                    {
+                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error(ex);
+                {
+                    return new TestCaseGenerateResponse(ex.Message);
+                }
+            }
+            seedCase.ResultsArray = encryptionResult.Response;
+            return new TestCaseGenerateResponse(seedCase);
+        }
+
+        private TestCase GetSeedCase(TestGroup @group)
+        {
+            var key = TdesHelpers.GenerateTdesKey(group.KeyingOption); 
+            var plainText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * 3);
+            var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
+            return new TestCase { Keys = key, PlainText = plainText, IV1 = iv };
+        }
+
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+    }
+}

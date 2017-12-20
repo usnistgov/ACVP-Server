@@ -126,7 +126,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         
 
-        public List<AlgoArrayResponseCfbp> ResultsArray { get; set; } = new List<AlgoArrayResponseCfbp>();
+        public List<AlgoArrayResponseWithIvs> ResultsArray { get; set; } = new List<AlgoArrayResponseWithIvs>();
 
         //public TDESKeys Keys
         //{
@@ -205,13 +205,13 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         }
 
-        private List<AlgoArrayResponseCfbp> ResultsArrayToObject(dynamic resultsArray)
+        private List<AlgoArrayResponseWithIvs> ResultsArrayToObject(dynamic resultsArray)
         {
-            var list = new List<AlgoArrayResponseCfbp>();
+            var list = new List<AlgoArrayResponseWithIvs>();
 
             foreach (dynamic item in resultsArray)
             {
-                var response = new AlgoArrayResponseCfbp();
+                var response = new AlgoArrayResponseWithIvs();
 
                 var key1 = BitStringFromObject("key1", (ExpandoObject)item);
                 var key2 = BitStringFromObject("key2", (ExpandoObject)item);

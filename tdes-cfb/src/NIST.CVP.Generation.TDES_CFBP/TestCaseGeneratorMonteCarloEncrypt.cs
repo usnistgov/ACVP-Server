@@ -54,7 +54,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase seedCase)
         {
-            MCTResult<AlgoArrayResponseCfbp> encryptionResult = null;
+            MCTResult<AlgoArrayResponseWithIvs> encryptionResult = null;
             try
             {
                 encryptionResult = _mode.MCTEncrypt(seedCase.Keys, seedCase.IV1, seedCase.PlainText);

@@ -167,9 +167,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         {
             var testCase = new TestCase
             {
-                ResultsArray = new List<AlgoArrayResponseCfbp>()
+                ResultsArray = new List<AlgoArrayResponseWithIvs>()
                 {
-                    new AlgoArrayResponseCfbp()
+                    new AlgoArrayResponseWithIvs()
                     {
                         CipherText = new BitString("1234567890"),
                         Keys = new BitString("ABCDEF0ABCDEF0ABCDEF0ABCDEF0"),

@@ -43,10 +43,10 @@ namespace NIST.CVP.Crypto.TDES_CFBP
             _cfbpMode = cfbpMode;
         }
 
-        public MCTResult<AlgoArrayResponseCfbp> MCTEncrypt(BitString keyBits, BitString iv, BitString data)
+        public MCTResult<AlgoArrayResponseWithIvs> MCTEncrypt(BitString keyBits, BitString iv, BitString data)
         {
-            var responses = new List<AlgoArrayResponseCfbp>{
-                new AlgoArrayResponseCfbp {
+            var responses = new List<AlgoArrayResponseWithIvs>{
+                new AlgoArrayResponseWithIvs {
                     IV1 = iv,
                     IV2 = iv.AddWithModulo(new BitString("5555555555555555"), 64),
                     IV3 = iv.AddWithModulo(new BitString("AAAAAAAAAAAAAAAA"), 64),
@@ -99,7 +99,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP
                 responses[i].CipherText = output;
 
                 var newIv = iv.MSBSubstring(Shift, 64 - Shift).ConcatenateBits(output);
-                responses.Add(new AlgoArrayResponseCfbp()
+                responses.Add(new AlgoArrayResponseWithIvs()
                 {
                     Keys = _keyMaker.MixKeys(new TDESKeys(responses[i].Keys.GetDeepCopy()), lastCipherTexts.ToList())
                         .ToOddParityBitString(),
@@ -110,13 +110,13 @@ namespace NIST.CVP.Crypto.TDES_CFBP
                 });
             }
             responses.RemoveAt(responses.Count - 1);
-            return new MCTResult<AlgoArrayResponseCfbp>(responses);
+            return new MCTResult<AlgoArrayResponseWithIvs>(responses);
         }
 
-        public MCTResult<AlgoArrayResponseCfbp> MCTDecrypt(BitString keyBits, BitString iv, BitString data)
+        public MCTResult<AlgoArrayResponseWithIvs> MCTDecrypt(BitString keyBits, BitString iv, BitString data)
         {
-            var responses = new List<AlgoArrayResponseCfbp>{
-                new AlgoArrayResponseCfbp {
+            var responses = new List<AlgoArrayResponseWithIvs>{
+                new AlgoArrayResponseWithIvs {
                     IV1 = iv,
                     IV2 = iv.AddWithModulo(new BitString("5555555555555555"), 64),
                     IV3 = iv.AddWithModulo(new BitString("AAAAAAAAAAAAAAAA"), 64),
@@ -169,7 +169,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP
                 responses[i].PlainText = output;
 
                 var newIv = iv.MSBSubstring(Shift, 64 - Shift).ConcatenateBits(data.XOR(output));
-                responses.Add(new AlgoArrayResponseCfbp()
+                responses.Add(new AlgoArrayResponseWithIvs()
                 {
                     Keys = _keyMaker.MixKeys(new TDESKeys(responses[i].Keys.GetDeepCopy()), lastPlainTexts.ToList())
                         .ToOddParityBitString(),
@@ -180,7 +180,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP
                 });
             }
             responses.RemoveAt(responses.Count - 1);
-            return new MCTResult<AlgoArrayResponseCfbp>(responses);
+            return new MCTResult<AlgoArrayResponseWithIvs>(responses);
         }
 
     }

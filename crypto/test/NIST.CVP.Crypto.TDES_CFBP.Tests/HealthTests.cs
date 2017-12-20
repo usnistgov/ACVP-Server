@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 using NUnit.Framework;
 using NIST.CVP.Crypto.TDES_CFB;

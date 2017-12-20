@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         {
             string errorMessage = "something bad happened!";
             _mockMCT.Setup(s => s.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new MCTResult<AlgoArrayResponseCfbp>(errorMessage));
+                .Returns(new MCTResult<AlgoArrayResponseWithIvs>(errorMessage));
 
             TestGroup testGroup = new TestGroup()
             {

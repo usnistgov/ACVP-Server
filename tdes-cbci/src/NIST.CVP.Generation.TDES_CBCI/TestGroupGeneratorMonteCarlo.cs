@@ -1,0 +1,36 @@
+﻿using NIST.CVP.Generation.Core;
+using System.Collections.Generic;
+
+namespace NIST.CVP.Generation.TDES_CBCI
+{
+    public class TestGroupGeneratorMonteCarlo : ITestGroupGenerator<Parameters>
+    {
+        private const string TEST_TYPE = "MCT";
+
+        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        {
+            var testGroups = new List<ITestGroup>();
+            foreach (var function in parameters.Direction)
+            {
+                foreach (var keyingOption in parameters.KeyingOption)
+                {
+                    // Encrypt Keying Option 2 is not valid, skip test groups
+                    if (function.ToLower() == "encrypt" && keyingOption == 2)
+                    {
+                        continue;
+                    }
+
+                    TestGroup tg = new TestGroup()
+                    {
+                        Function = function,
+                        KeyingOption = keyingOption,
+                        TestType = TEST_TYPE
+                    };
+
+                    testGroups.Add(tg);
+                }
+            }
+            return testGroups;
+        }
+    }
+}
