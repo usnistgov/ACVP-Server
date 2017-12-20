@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.KDF.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KDF
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        // TODO reduce repeated data, this already appears in the KdfModes enum (top 3 VALID variables here come from enums)
-        public static string[] VALID_KDF_MODES = {"counter", "feedback", "double pipeline iteration"};
-        public static string[] VALID_MAC_MODES =
-        {
-            "cmac-aes128", "cmac-aes192", "cmac-aes256", "cmac-tdes",
-            "hmac-sha1", "hmac-sha224", "hmac-sha256","hmac-sha384", "hmac-sha512"
-        };
-        public static string[] VALID_DATA_ORDERS = {"none", "before fixed data", "middle fixed data", "after fixed data", "before iterator"};
+        public static string[] VALID_KDF_MODES = EnumHelpers.GetEnumDescriptions<KdfModes>().ToArray();
+        public static string[] VALID_MAC_MODES = EnumHelpers.GetEnumDescriptions<MacModes>().ToArray();
+        public static string[] VALID_DATA_ORDERS = EnumHelpers.GetEnumDescriptions<CounterLocations>().ToArray();
         public static int[] VALID_COUNTER_LENGTHS = {0, 8, 16, 24, 32};
         public static int MAX_DATA_LENGTH = 4096;
         public static int MIN_DATA_LENGTH = 1;
@@ -34,7 +31,7 @@ namespace NIST.CVP.Generation.KDF
                 result = ValidateArray(capability.MacMode, VALID_MAC_MODES, "MAC Modes");
                 errors.AddIfNotNullOrEmpty(result);
 
-                result = ValidateArray(capability.CounterLength, VALID_COUNTER_LENGTHS, "Counter Lenghts");
+                result = ValidateArray(capability.CounterLength, VALID_COUNTER_LENGTHS, "Counter Lengths");
                 errors.AddIfNotNullOrEmpty(result);
 
                 ValidateFixedDataOrder(capability, errors);

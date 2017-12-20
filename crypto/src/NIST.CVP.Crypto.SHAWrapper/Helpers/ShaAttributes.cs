@@ -52,5 +52,11 @@ namespace NIST.CVP.Crypto.SHAWrapper.Helpers
 
             return result;
         }
+
+        public static HashFunction GetHashFunctionFromName(string name)
+        {
+            var attributes = GetShaAttributes(name);
+            return new HashFunction(attributes.mode, attributes.digestSize);
+        }
     }
 }

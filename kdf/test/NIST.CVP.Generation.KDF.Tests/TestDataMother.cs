@@ -8,7 +8,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KDF.Tests
 {
-public class TestDataMother
+    public class TestDataMother
     {
         public List<TestGroup> GetTestGroups(int groups = 1, string kdfMode = "counter", string counterLocation = "middle fixed data")
         {
