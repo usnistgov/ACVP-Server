@@ -407,23 +407,5 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
             return CreateRegistration(targetFolder, p);
         }
-
-        private static string CreateRegistration(string targetFolder, Parameters parameters)
-        {
-            var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings()
-            {
-                Converters = new List<JsonConverter>()
-                {
-                    new BitstringConverter(),
-                    new DomainConverter()
-                },
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
-            });
-            string fileName = $"{targetFolder}\\registration.json";
-            File.WriteAllText(fileName, json);
-
-            return fileName;
-        }
     }
 }

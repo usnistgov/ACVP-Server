@@ -330,7 +330,8 @@ namespace NIST.CVP.Generation.Core.Tests
                     new BigIntegerConverter(),
                     new DomainConverter()
                 },
-                Formatting = Formatting.Indented
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore
             });
             var fileName = $@"{targetFolder}\registration.json";
             File.WriteAllText(fileName, json);
