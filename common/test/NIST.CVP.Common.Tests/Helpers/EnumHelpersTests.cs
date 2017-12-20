@@ -51,5 +51,15 @@ namespace NIST.CVP.Common.Tests.Helpers
         {
             Assert.Throws(typeof(InvalidOperationException), () => EnumHelpers.GetEnumFromEnumDescription<FakeEnum>("bad description"));
         }
+
+        [Test]
+        public void ShouldReturnEnumDescriptions()
+        {
+            var descriptions = EnumHelpers.GetEnumDescriptions<FakeEnum>();
+
+            Assert.Contains(FakeEnum.First.ToString(), descriptions, "first, no description");
+            Assert.Contains(FakeEnum.Second.ToString(), descriptions, "second, no description");
+            Assert.Contains(TestDescription, descriptions, "third, description");
+        }
     }
 }
