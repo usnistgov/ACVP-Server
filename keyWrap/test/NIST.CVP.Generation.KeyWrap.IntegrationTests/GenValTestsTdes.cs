@@ -1,19 +1,12 @@
 ﻿using Autofac;
 using KeyWrap;
-using Newtonsoft.Json;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.KeyWrap.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
-using NIST.CVP.Tests.Core;
-using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 using AutofacConfig = KeyWrap.AutofacConfig;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests

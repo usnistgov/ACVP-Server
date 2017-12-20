@@ -1,10 +1,9 @@
 ﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System.ComponentModel;
-using NIST.CVP.Generation.Core.Helpers;
 using System;
+using NIST.CVP.Common.Helpers;
 
-namespace NIST.CVP.Generation.Core.Tests.Helpers
+namespace NIST.CVP.Common.Tests.Helpers
 {
     [TestFixture, UnitTest]
     public class EnumHelpersTests

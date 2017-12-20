@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using Castle.Components.DictionaryAdapter;
 using Moq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NuGet.Common;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CBC.Tests

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS

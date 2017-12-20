@@ -4,11 +4,11 @@ using System.Dynamic;
 using System.Numerics;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.ExtensionMethods;
-using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.DSA.ECC.KeyVer.Enums;
 using NIST.CVP.Math;
 

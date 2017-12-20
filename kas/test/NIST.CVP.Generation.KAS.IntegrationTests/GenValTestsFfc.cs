@@ -1,16 +1,14 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Autofac;
 using KAS;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
-
 using NIST.CVP.Math;
-using NIST.CVP.Tests.Core;
-using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Generation.KAS.FFC;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Crypto.SHA3;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Crypto.SHAWrapper
 {

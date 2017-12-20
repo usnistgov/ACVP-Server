@@ -2,12 +2,8 @@
 using System;
 using NLog;
 using Autofac;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.TDES_CFB;
-using NIST.CVP.Generation.Core.Helpers;
-using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Generation.TDES_CFB;
-using NIST.CVP.Math;
 
 namespace tdes_cfb
 {

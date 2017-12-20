@@ -11,8 +11,8 @@ using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using FakeTestCase = NIST.CVP.Tests.Core.Fakes.FakeTestCase;
-using FakeTestVectorSet = NIST.CVP.Tests.Core.Fakes.FakeTestVectorSet;
+using FakeTestCase = NIST.CVP.Generation.Core.Tests.Fakes.FakeTestCase;
+using FakeTestVectorSet = NIST.CVP.Generation.Core.Tests.Fakes.FakeTestVectorSet;
 
 namespace NIST.CVP.Generation.Core.Tests
 {

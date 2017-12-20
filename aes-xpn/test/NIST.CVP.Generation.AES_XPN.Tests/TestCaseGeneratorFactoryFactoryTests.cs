@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Moq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

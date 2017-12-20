@@ -1,10 +1,10 @@
 ﻿using Autofac;
-using NIST.CVP.Tests.Core;
-using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
 {

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.SHA2;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.SHAWrapper

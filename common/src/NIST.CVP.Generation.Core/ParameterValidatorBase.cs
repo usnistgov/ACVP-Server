@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.Core

@@ -1,7 +1,6 @@
 ﻿using Moq;
 using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -9,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
+using NIST.CVP.Common.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {

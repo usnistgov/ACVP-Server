@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NIST.CVP.Crypto.DSA.ECC.Enums;
+﻿using System.Linq;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.DSA.ECC.Helpers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

@@ -1,11 +1,10 @@
 ﻿using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using NIST.CVP.Common.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA_SigGen.Tests
 {

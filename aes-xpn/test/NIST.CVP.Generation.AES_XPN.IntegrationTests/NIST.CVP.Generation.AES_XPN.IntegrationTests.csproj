@@ -17,6 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />
     <ProjectReference Include="..\..\src\AES_XPN\AES_XPN.csproj" />
     <ProjectReference Include="..\..\src\AES_XPN_Val\AES_XPN_Val.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.AES_XPN\NIST.CVP.Generation.AES_XPN.csproj" />

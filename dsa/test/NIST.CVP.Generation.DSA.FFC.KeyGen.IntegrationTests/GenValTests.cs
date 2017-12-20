@@ -3,7 +3,8 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using DSA_KeyGen;
 using Autofac;
-using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests

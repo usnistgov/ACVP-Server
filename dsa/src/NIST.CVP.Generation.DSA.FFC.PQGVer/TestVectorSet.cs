@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using System.Dynamic;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Crypto.DSA.FFC.Enums;
-using NIST.CVP.Crypto.DSA.FFC.Helpers;
-using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.DSA.ECC.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.DSA.ECC.KeyVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer

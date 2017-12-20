@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
-namespace NIST.CVP.Tests.Core.Fakes
+namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
     public class FakeExceptionDynamicParser : IDynamicParser
     {

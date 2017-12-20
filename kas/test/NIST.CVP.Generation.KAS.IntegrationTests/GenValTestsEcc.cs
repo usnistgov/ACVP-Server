@@ -5,12 +5,11 @@ using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.FFC;
 using NIST.CVP.Math;
-using NIST.CVP.Tests.Core;
-using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using KAS;
-using NIST.CVP.Crypto.DSA.ECC.Enums;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {

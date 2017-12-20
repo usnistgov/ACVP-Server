@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Generation.Core;
-
-namespace NIST.CVP.Tests.Core.Fakes
+﻿namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
     public class FakeFailingTestCaseGenerator<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
         where TTestGroup : ITestGroup

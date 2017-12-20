@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.KDF.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.KDF.Parsers
 {
     public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
     {
-public ParseResponse<TestVectorSet> Parse(string path)
+        public ParseResponse<TestVectorSet> Parse(string path)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -100,7 +99,7 @@ public ParseResponse<TestVectorSet> Parse(string path)
 
                 inCases = true;
                 var valueParts = workingLine.Split("=".ToCharArray());
-                
+
                 // Empty IV case
                 if (valueParts.Length == 1)
                 {

@@ -1,8 +1,7 @@
 ﻿using System;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
-namespace NIST.CVP.Tests.Core.Fakes
+namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
     public class FakeExceptionParameterParser<TParameters> : IParameterParser<TParameters>
             where TParameters : IParameters

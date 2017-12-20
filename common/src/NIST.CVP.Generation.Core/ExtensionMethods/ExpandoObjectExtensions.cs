@@ -13,6 +13,18 @@ namespace NIST.CVP.Generation.Core.ExtensionMethods
     public static class ExpandoObjectExtensions
     {
         /// <summary>
+        /// Determines if the expando object contains a property
+        /// </summary>
+        /// <param name="source">The expando object to check against</param>
+        /// <param name="propertyName">The property to check for</param>
+        /// <returns></returns>
+        public static bool ContainsProperty(this ExpandoObject source, string propertyName)
+        {
+            var dict = (IDictionary<string, object>)source;
+            return dict.ContainsKey(propertyName);
+        }
+
+        /// <summary>
         /// Gets a <see cref="BitString"/> from <see cref="source"/>, if not successfully parsed, returns null.
         /// </summary>
         /// <param name="source">The <see cref="ExpandoObject"/> to parse for <see cref="sourcePropertyName"/></param>

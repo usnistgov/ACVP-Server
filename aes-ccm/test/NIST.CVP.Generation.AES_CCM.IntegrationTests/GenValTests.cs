@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using AES_CCM;
 using Autofac;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
-using NIST.CVP.Tests.Core;
-using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common;
-using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.TDES_CFBP

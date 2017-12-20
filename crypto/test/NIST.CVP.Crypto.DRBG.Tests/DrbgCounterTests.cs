@@ -1,7 +1,6 @@
 ﻿using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Crypto.DRBG.Enums;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -15,7 +14,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
         [SetUp]
         public void Setup()
         {
-            LoggingHelper.ConfigureLogging("DRBGTests", "DRBGCtr");
+            
         }
 
         [Test]

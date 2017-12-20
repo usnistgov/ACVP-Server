@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Moq;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using FakeTestVectorSet = NIST.CVP.Tests.Core.Fakes.FakeTestVectorSet;
+using FakeParameters = NIST.CVP.Generation.Core.Tests.Fakes.FakeParameters;
+using FakeTestVectorSet = NIST.CVP.Generation.Core.Tests.Fakes.FakeTestVectorSet;
 
 namespace NIST.CVP.Generation.Core.Tests
 {

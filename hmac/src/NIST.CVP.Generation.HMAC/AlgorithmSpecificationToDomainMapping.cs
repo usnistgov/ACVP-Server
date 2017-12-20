@@ -1,5 +1,5 @@
-﻿using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+﻿using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.SHAWrapper;
 using System;
 using System.Collections.Generic;
 using System.Text;

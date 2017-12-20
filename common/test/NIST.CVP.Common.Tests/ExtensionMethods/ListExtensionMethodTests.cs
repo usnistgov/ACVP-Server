@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Castle.Components.DictionaryAdapter;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.Core.Tests.ExtensionMethods
+namespace NIST.CVP.Common.Tests.ExtensionMethods
 {
     [TestFixture, UnitTest]
     public class ListExtensionMethodTests

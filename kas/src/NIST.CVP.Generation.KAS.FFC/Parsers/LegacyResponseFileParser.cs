@@ -5,7 +5,7 @@ using System.Linq;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 

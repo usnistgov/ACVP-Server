@@ -3,17 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
-using NLog.LayoutRenderers.Wrappers;
-using NIST.CVP.Crypto.TDES_CFB;
 using NIST.CVP.Crypto.TDES_CFBP;
-using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.TDES_CFBP.Parsers
 {

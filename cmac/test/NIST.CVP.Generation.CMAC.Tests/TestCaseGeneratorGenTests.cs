@@ -2,7 +2,6 @@
 using Moq;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.MAC;
-using NIST.CVP.Generation.CMAC;
 using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;

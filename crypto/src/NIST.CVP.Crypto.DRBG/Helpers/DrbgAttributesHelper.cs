@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.DRBG.Enums;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Crypto.DRBG.Helpers
 {

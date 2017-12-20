@@ -5,7 +5,6 @@ using System.Text;
 using NIST.CVP.Crypto.DSA.ECC.Enums;
 using NIST.CVP.Crypto.DSA.ECC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

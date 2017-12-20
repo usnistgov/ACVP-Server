@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.DSA.ECC.Enums;
 using NIST.CVP.Crypto.DSA.ECC.Helpers;
 using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
-using NIST.CVP.Generation.Core.ExtensionMethods;
-using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {

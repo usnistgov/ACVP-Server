@@ -1,10 +1,8 @@
 ﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using System;
 using System.ComponentModel;
 using NIST.CVP.Crypto.Common;
 using NUnit.Framework;
-using NIST.CVP.Crypto.TDES_CFB;
-using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Crypto.Core.Tests
 {

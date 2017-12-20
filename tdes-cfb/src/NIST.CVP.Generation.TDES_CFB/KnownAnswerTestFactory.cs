@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
-using NIST.CVP.Crypto.TDES_CFB;
 using NIST.CVP.Crypto.Common;
-using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {

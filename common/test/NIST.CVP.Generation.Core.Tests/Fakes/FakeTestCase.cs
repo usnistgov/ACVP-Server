@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace NIST.CVP.Generation.Core.Tests.Fakes
+﻿namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
     public class FakeTestCase : ITestCase
     {
@@ -12,7 +7,7 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
         public bool Deferred { get; set; }
         public bool Merge(ITestCase otherTest)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

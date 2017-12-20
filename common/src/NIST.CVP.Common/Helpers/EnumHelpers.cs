@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace NIST.CVP.Generation.Core.Helpers
+namespace NIST.CVP.Common.Helpers
 {
     public static class EnumHelpers
     {

@@ -1,8 +1,8 @@
 ﻿using Autofac;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.Helpers;
-using NIST.CVP.Tests.Core;
-using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

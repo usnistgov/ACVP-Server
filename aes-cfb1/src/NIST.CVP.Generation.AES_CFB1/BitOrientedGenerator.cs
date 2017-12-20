@@ -1,8 +1,9 @@
 ﻿using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
-namespace NIST.CVP.Crypto.AES_CFB1
+namespace NIST.CVP.Generation.AES_CFB1
 {
     public class BitOrientedGenerator<TParameters, TTestVectorSet> : Generator<TParameters,TTestVectorSet>
         where TParameters : IParameters

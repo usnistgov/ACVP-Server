@@ -7,8 +7,9 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using AES_CTR;
 using Autofac;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
-using NIST.CVP.Tests.Core.Fakes;
 
 namespace NIST.CVP.Generation.AES_CTR.IntegrationTests
 {

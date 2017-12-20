@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common;
-using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

@@ -1,19 +1,9 @@
 ﻿using Autofac;
-using Newtonsoft.Json;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.Helpers;
-using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Math;
-using NIST.CVP.Tests.Core;
-using NIST.CVP.Tests.Core.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using RSA_SigVer;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 
 namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NIST.CVP.Generation.Core.ExtensionMethods
+namespace NIST.CVP.Common.ExtensionMethods
 {
     /// <summary>
     /// Extension methods for <see cref="IEnumerable{T}"/>

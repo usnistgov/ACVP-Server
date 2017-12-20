@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\src\ECDSA-SigGen\ECDSA-SigGen.csproj" />
     <ProjectReference Include="..\..\src\ECDSA-SigGen_Val\ECDSA-SigGen_Val.csproj" />

@@ -3,8 +3,8 @@ using NUnit.Framework;
 using System.Linq;
 using AES_GCM;
 using Autofac;
-using NIST.CVP.Tests.Core;
-using NIST.CVP.Tests.Core.Fakes;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests

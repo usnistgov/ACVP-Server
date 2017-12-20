@@ -12,8 +12,10 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Tests.Core;
 
-namespace NIST.CVP.Tests.Core
+namespace NIST.CVP.Generation.Core.Tests
 {
     [TestFixture]
     public abstract class GenValTestsBase

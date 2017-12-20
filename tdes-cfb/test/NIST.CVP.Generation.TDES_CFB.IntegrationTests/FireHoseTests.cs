@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.TDES_CFB;
-using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.TDES_CFB.Parsers;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;

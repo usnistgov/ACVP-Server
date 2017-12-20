@@ -2,12 +2,13 @@
 using Autofac;
 using CMAC;
 using NIST.CVP.Generation.CMAC.AES;
+using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using NIST.CVP.Tests.Core;
-using NIST.CVP.Tests.Core.Fakes;
+
 using AutofacConfig = CMAC.AutofacConfig;
 
 namespace NIST.CVP.Generation.CMAC.IntegrationTests

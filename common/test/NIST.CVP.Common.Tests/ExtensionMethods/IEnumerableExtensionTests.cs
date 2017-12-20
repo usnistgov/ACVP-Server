@@ -2,10 +2,9 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Common.ExtensionMethods;
 
-namespace NIST.CVP.Generation.Core.Tests.ExtensionMethods
+namespace NIST.CVP.Common.Tests.ExtensionMethods
 {
     [TestFixture, UnitTest]
     public class IEnumerableExtensionTests

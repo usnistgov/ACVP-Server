@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Crypto.DSA.ECC.Helpers
 {
