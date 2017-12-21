@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Math;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.TDES_CBCI.Tests

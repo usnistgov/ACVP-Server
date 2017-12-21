@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System;
 using System.IO;
 using System.Linq;
+using NIST.CVP.Crypto.TDES;
 
 namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
 {

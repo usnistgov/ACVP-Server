@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.TDES;
+﻿using System.Collections.Generic;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.TDES_CBCI
+namespace NIST.CVP.Crypto.TDES
 {
     public interface IMonteCarloKeyMaker
     {

@@ -1,9 +1,8 @@
-﻿using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Math;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.TDES_CBCI
+namespace NIST.CVP.Crypto.TDES
 {
     public class MonteCarloKeyMaker : IMonteCarloKeyMaker
     {

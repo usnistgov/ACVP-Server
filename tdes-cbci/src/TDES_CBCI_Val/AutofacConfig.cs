@@ -5,6 +5,7 @@ using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.TDES_CBCI;
 using NIST.CVP.Math;
 using System;
+using NIST.CVP.Crypto.TDES;
 
 namespace TDES_CBCI_Val
 {

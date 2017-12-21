@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CBCI;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
