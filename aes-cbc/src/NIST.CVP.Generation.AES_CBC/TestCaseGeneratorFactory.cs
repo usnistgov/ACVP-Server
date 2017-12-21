@@ -22,30 +22,33 @@ namespace NIST.CVP.Generation.AES_CBC
             var direction = testGroup.Function.ToLower();
             var testType = testGroup.TestType.ToLower();
 
-            if (testType == "mct")
+            switch (testType)
             {
-                if (direction == "encrypt")
-                {
-                    return new TestCaseGeneratorMCTEncrypt(_random800_90, _aesCbcMct);
-                }
-
-                if (direction == "decrypt")
-                {
-                    return new TestCaseGeneratorMCTDecrypt(_random800_90, _aesCbcMct);
-                }
+                case "gfsbox":
+                case "keysbox":
+                case "vartxt":
+                case "varkey":
+                    return new TestCaseGeneratorKnownAnswer(testGroup.KeyLength, testType);
+                case "mct":
+                    switch (direction)
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorMCTEncrypt(_random800_90, _aesCbcMct);
+                        case "decrypt":
+                            return new TestCaseGeneratorMCTDecrypt(_random800_90, _aesCbcMct);
+                    }
+                    break;
+                case "mmt":
+                    switch (direction)
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorMMTEncrypt(_random800_90, _aesCbc);
+                        case "decrypt":
+                            return new TestCaseGeneratorMMTDecrypt(_random800_90, _aesCbc);
+                    }
+                    break;
             }
-            else
-            {
-                if (direction == "encrypt")
-                {
-                    return new TestCaseGeneratorMMTEncrypt(_random800_90, _aesCbc);
-                }
 
-                if (direction == "decrypt")
-                {
-                    return new TestCaseGeneratorMMTDecrypt(_random800_90, _aesCbc);
-                }
-            }
             return new TestCaseGeneratorNull();
         }
     }

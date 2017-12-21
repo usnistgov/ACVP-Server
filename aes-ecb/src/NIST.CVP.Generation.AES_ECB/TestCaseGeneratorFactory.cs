@@ -9,7 +9,6 @@ namespace NIST.CVP.Generation.AES_ECB
         private readonly IRandom800_90 _random800_90;
         private readonly IAES_ECB _algo;
         private readonly IAES_ECB_MCT _mctAlgo;
-        public const int _DEFAULT_NUMBER_TEST_CASES = 15; // @@@ TODO Make configurable?
 
         public TestCaseGeneratorFactory(IRandom800_90 random800_90, IAES_ECB algo, IAES_ECB_MCT mctAlgo)
         {

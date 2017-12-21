@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Castle.Components.DictionaryAdapter;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
+namespace NIST.CVP.Generation.AES_CBC.Tests
 {
     [TestFixture, UnitTest]
     public class TestCaseGeneratorKnownAnswerTests
@@ -36,7 +35,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
             var result = _subject.Generate(testGroup, false);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(keyLength, ((TestCase) result.TestCase).Key.BitLength, nameof(keyLength));
+            Assert.AreEqual(keyLength, ((TestCase)result.TestCase).Key.BitLength, nameof(keyLength));
         }
 
         [Test]
