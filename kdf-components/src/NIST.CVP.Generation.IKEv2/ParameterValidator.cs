@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.IKEv1.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
-namespace NIST.CVP.Generation.IKEv1
+namespace NIST.CVP.Generation.IKEv2
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_AUTH_METHODS = EnumHelpers.GetEnumDescriptions<AuthenticationMethods>().ToArray();
         public static string[] VALID_HASH_ALGS = {"sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512"};
         public static int MIN_NONCE = 64;
         public static int MAX_NONCE = 2048;
-        public static int MIN_PRESHARED_KEY = 8;
-        public static int MAX_PRESHARED_KEY = 8192;
+        public static int MIN_DKM = 160;
+        public static int MAX_DKM = 1048576;
         public static int MIN_DH = 224;
         public static int MAX_DH = 8192;
 
@@ -29,29 +26,19 @@ namespace NIST.CVP.Generation.IKEv1
                 errors.Add("Incorrect algorithm");
             }
 
-            if (!parameters.Mode.Equals("ikev1", StringComparison.OrdinalIgnoreCase))
+            if (!parameters.Mode.Equals("ikev2", StringComparison.OrdinalIgnoreCase))
             {
                 errors.Add("Incorrect mode");
             }
 
-            foreach (var capability in parameters.Capabilities)
-            {
-                string result;
-                result = ValidateValue(capability.AuthenticationMethod, VALID_AUTH_METHODS, "Authentication Method");
-                errors.AddIfNotNullOrEmpty(result);
+            string result;
+            result = ValidateArray(parameters.HashAlg, VALID_HASH_ALGS, "Hash Algs");
+            errors.AddIfNotNullOrEmpty(result);
 
-                result = ValidateArray(capability.HashAlg, VALID_HASH_ALGS, "Hash Algs");
-                errors.AddIfNotNullOrEmpty(result);
-
-                ValidateDomain(capability.InitiatorNonceLength, errors, "NInit", MIN_NONCE, MAX_NONCE);
-                ValidateDomain(capability.ResponderNonceLength, errors, "NResp", MIN_NONCE, MAX_NONCE);
-                ValidateDomain(capability.DiffieHellmanSharedSecretLength, errors, "DH", MIN_DH, MAX_DH);
-
-                if (capability.AuthenticationMethod.Equals("psk", StringComparison.OrdinalIgnoreCase))
-                {
-                    ValidateDomain(capability.PreSharedKeyLength, errors, "PreSharedKey", MIN_PRESHARED_KEY, MAX_PRESHARED_KEY);
-                }
-            }
+            ValidateDomain(parameters.InitiatorNonceLength, errors, "NInit", MIN_NONCE, MAX_NONCE);
+            ValidateDomain(parameters.ResponderNonceLength, errors, "NResp", MIN_NONCE, MAX_NONCE);
+            ValidateDomain(parameters.DiffieHellmanSharedSecretLength, errors, "DH", MIN_DH, MAX_DH);
+            ValidateDomain(parameters.DerivedKeyingMaterialLength, errors, "DKM", MIN_DKM, MAX_DKM);
 
             if (errors.Count > 0)
             {

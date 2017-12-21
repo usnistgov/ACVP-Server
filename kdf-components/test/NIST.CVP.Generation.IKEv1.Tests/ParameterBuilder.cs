@@ -107,7 +107,7 @@ namespace NIST.CVP.Generation.IKEv1.Tests
             return new Capability
             {
                 AuthenticationMethod = _authMode,
-                HashAlgs = _hashAlgs,
+                HashAlg = _hashAlgs,
                 InitiatorNonceLength = _initNonceLengths,
                 ResponderNonceLength = _respNonceLengths,
                 DiffieHellmanSharedSecretLength = _dhLengths,

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.IKEv1.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
@@ -33,6 +34,25 @@ namespace NIST.CVP.Generation.IKEv1.Parsers
                 return new ParseResponse<TestVectorSet>(ex.Message);
             }
 
+            string ikeMode;
+            var fileName = Path.GetFileName(path).ToLower();
+            if (fileName.Contains("pke"))
+            {
+                ikeMode = "pke";
+            }
+            else if (fileName.Contains("dsa"))
+            {
+                ikeMode = "dsa";
+            }
+            else if (fileName.Contains("psk"))
+            {
+                ikeMode = "psk";
+            }
+            else
+            {
+                throw new Exception();
+            }
+
             var groups = new List<TestGroup>();
             TestGroup currentGroup = null;
             TestCase currentTestCase = null;
@@ -55,7 +75,11 @@ namespace NIST.CVP.Generation.IKEv1.Parsers
                     if (currentGroup == null || inCases)
                     {
                         inCases = false;
-                        currentGroup = new TestGroup();
+                        currentGroup = new TestGroup
+                        {
+                            AuthenticationMethod =
+                                EnumHelpers.GetEnumFromEnumDescription<AuthenticationMethods>(ikeMode)
+                        };
                         groups.Add(currentGroup);
                     }
 

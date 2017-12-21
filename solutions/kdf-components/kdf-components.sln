@@ -41,15 +41,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common", "..\..\co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common.Tests", "..\..\common\test\NIST.CVP.Common.Tests\NIST.CVP.Common.Tests.csproj", "{6FCBD619-632D-49B2-AE7E-74B468045B9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.IKEv1.Tests", "..\..\crypto\test\NIST.CVP.Crypto.IKEv1.Tests\NIST.CVP.Crypto.IKEv1.Tests.csproj", "{A929F492-7DC2-40FC-BB9F-F4021A75F141}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.IKEv1.Tests", "..\..\crypto\test\NIST.CVP.Crypto.IKEv1.Tests\NIST.CVP.Crypto.IKEv1.Tests.csproj", "{A929F492-7DC2-40FC-BB9F-F4021A75F141}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.IKEv1", "..\..\kdf-components\src\NIST.CVP.Generation.IKEv1\NIST.CVP.Generation.IKEv1.csproj", "{913FC4FD-BD89-4C05-8603-C0864F010B2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.IKEv1", "..\..\kdf-components\src\NIST.CVP.Generation.IKEv1\NIST.CVP.Generation.IKEv1.csproj", "{913FC4FD-BD89-4C05-8603-C0864F010B2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.IKEv1.Tests", "..\..\kdf-components\test\NIST.CVP.Generation.IKEv1.Tests\NIST.CVP.Generation.IKEv1.Tests.csproj", "{DC48E48B-FA7F-460E-8753-9F11F39D6DAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.IKEv1.Tests", "..\..\kdf-components\test\NIST.CVP.Generation.IKEv1.Tests\NIST.CVP.Generation.IKEv1.Tests.csproj", "{DC48E48B-FA7F-460E-8753-9F11F39D6DAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.IKEv1.IntegrationTests", "..\..\kdf-components\test\NIST.CVP.Generation.IKEv1.IntegrationTests\NIST.CVP.Generation.IKEv1.IntegrationTests.csproj", "{F363E283-8F56-47A4-BFB1-3FBF692DDB6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.IKEv1.IntegrationTests", "..\..\kdf-components\test\NIST.CVP.Generation.IKEv1.IntegrationTests\NIST.CVP.Generation.IKEv1.IntegrationTests.csproj", "{F363E283-8F56-47A4-BFB1-3FBF692DDB6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.IKEv2", "..\..\crypto\src\NIST.CVP.Crypto.IKEv2\NIST.CVP.Crypto.IKEv2.csproj", "{C9090F26-6D2C-4022-A851-2E0DA0C16EB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.IKEv2", "..\..\crypto\src\NIST.CVP.Crypto.IKEv2\NIST.CVP.Crypto.IKEv2.csproj", "{C9090F26-6D2C-4022-A851-2E0DA0C16EB5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.IKEv2.Tests", "..\..\crypto\test\NIST.CVP.Crypto.IKEv2.Tests\NIST.CVP.Crypto.IKEv2.Tests.csproj", "{EECBE3AA-ED12-4A5B-A611-BA5F77AFAC60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.IKEv2", "..\..\kdf-components\src\NIST.CVP.Generation.IKEv2\NIST.CVP.Generation.IKEv2.csproj", "{3664DFB3-87D7-4027-BB2E-1A16EFB7AD34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.IKEv2.Tests", "..\..\kdf-components\test\NIST.CVP.Generation.IKEv2.Tests\NIST.CVP.Generation.IKEv2.Tests.csproj", "{05A57261-4523-45F0-AB42-890E95EB65E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -145,6 +151,18 @@ Global
 		{C9090F26-6D2C-4022-A851-2E0DA0C16EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9090F26-6D2C-4022-A851-2E0DA0C16EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9090F26-6D2C-4022-A851-2E0DA0C16EB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EECBE3AA-ED12-4A5B-A611-BA5F77AFAC60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EECBE3AA-ED12-4A5B-A611-BA5F77AFAC60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EECBE3AA-ED12-4A5B-A611-BA5F77AFAC60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EECBE3AA-ED12-4A5B-A611-BA5F77AFAC60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3664DFB3-87D7-4027-BB2E-1A16EFB7AD34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3664DFB3-87D7-4027-BB2E-1A16EFB7AD34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3664DFB3-87D7-4027-BB2E-1A16EFB7AD34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3664DFB3-87D7-4027-BB2E-1A16EFB7AD34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05A57261-4523-45F0-AB42-890E95EB65E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05A57261-4523-45F0-AB42-890E95EB65E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05A57261-4523-45F0-AB42-890E95EB65E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05A57261-4523-45F0-AB42-890E95EB65E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,6 +190,9 @@ Global
 		{DC48E48B-FA7F-460E-8753-9F11F39D6DAC} = {F7C3601A-5AC2-4556-85A7-8A5797724D98}
 		{F363E283-8F56-47A4-BFB1-3FBF692DDB6F} = {F7C3601A-5AC2-4556-85A7-8A5797724D98}
 		{C9090F26-6D2C-4022-A851-2E0DA0C16EB5} = {133D77C3-A543-490F-8516-591A46AD3873}
+		{EECBE3AA-ED12-4A5B-A611-BA5F77AFAC60} = {F7C3601A-5AC2-4556-85A7-8A5797724D98}
+		{3664DFB3-87D7-4027-BB2E-1A16EFB7AD34} = {133D77C3-A543-490F-8516-591A46AD3873}
+		{05A57261-4523-45F0-AB42-890E95EB65E6} = {F7C3601A-5AC2-4556-85A7-8A5797724D98}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {759BFB51-B15A-47AB-A226-E9995D7D723B}

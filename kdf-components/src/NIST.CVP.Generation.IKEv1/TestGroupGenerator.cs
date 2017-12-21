@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.IKEv1
             {
                 var authMode = EnumHelpers.GetEnumFromEnumDescription<AuthenticationMethods>(capability.AuthenticationMethod);
 
-                foreach (var hashAlg in capability.HashAlgs)
+                foreach (var hashAlg in capability.HashAlg)
                 {
                     var hashFunction = ShaAttributes.GetHashFunctionFromName(hashAlg);
 
