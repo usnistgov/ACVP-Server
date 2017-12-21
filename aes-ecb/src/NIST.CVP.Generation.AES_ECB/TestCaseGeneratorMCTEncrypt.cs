@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.AES_ECB
         private readonly IRandom800_90 _iRandom80090;
         private readonly IAES_ECB_MCT _iAesEcbMct;
 
-        public int NumberOfTestCasesToGenerate { get { return 1; } }
+        public int NumberOfTestCasesToGenerate => 1;
 
         public TestCaseGeneratorMCTEncrypt(IRandom800_90 iRandom80090, IAES_ECB_MCT iAesEcbMct)
         {

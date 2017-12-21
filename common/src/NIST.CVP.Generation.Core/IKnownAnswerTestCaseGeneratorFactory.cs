@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core;
+﻿using System;
 
 namespace NIST.CVP.Generation.Core
 {
+    [Obsolete("use ITestCaseGeneratorFactory instead")]
     public interface IKnownAnswerTestCaseGeneratorFactory<in TTestGroup, TTestCase>
         where TTestGroup : ITestGroup
         where TTestCase : ITestCase

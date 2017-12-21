@@ -25,8 +25,6 @@ namespace NIST.CVP.Generation.AES_ECB
 
         }
 
-        public bool StaticGroupOfTests { get; set; }
-
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; } = "MMT";
         [JsonProperty(PropertyName = "direction")]

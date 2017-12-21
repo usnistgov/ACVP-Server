@@ -25,6 +25,11 @@ namespace NIST.CVP.Generation.AES_ECB
 
             switch (testType)
             {
+                case "gfsbox":
+                case "keysbox":
+                case "vartxt":
+                case "varkey":
+                    return new TestCaseGeneratorKnownAnswer(testGroup.KeyLength, testType);
                 case "mct":
                     switch (direction)
                     {
@@ -47,7 +52,5 @@ namespace NIST.CVP.Generation.AES_ECB
 
             return new TestCaseGeneratorNull();
         }
-
-        public int NumberOfTestCases { get; private set; } = _DEFAULT_NUMBER_TEST_CASES;
     }
 }

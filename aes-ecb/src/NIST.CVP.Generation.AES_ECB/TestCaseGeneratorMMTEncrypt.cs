@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.AES_ECB
 
         private int _ptLenGenIteration = 1;
 
-        public int NumberOfTestCasesToGenerate { get { return 10; } }
+        public int NumberOfTestCasesToGenerate => 10;
 
         public TestCaseGeneratorMMTEncrypt(IRandom800_90 random800_90, IAES_ECB algo)
         {
