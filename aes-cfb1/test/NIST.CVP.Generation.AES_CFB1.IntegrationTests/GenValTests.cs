@@ -210,7 +210,6 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             {
                 Function = "encrypt",
                 KeyLength = 128,
-                StaticGroupOfTests = false,
                 TestType = "MMT",
                 Tests = new List<ITestCase>()
             };

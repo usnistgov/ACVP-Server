@@ -7,14 +7,14 @@ namespace NIST.CVP.Generation.AES_CFB1
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly IAES_CFB1 _aesOfb;
-        private readonly IAES_CFB1_MCT _aesOfbMct;
+        private readonly IAES_CFB1 _algo;
+        private readonly IAES_CFB1_MCT _algoMct;
 
-        public TestCaseGeneratorFactory(IRandom800_90 random800_90, IAES_CFB1 aesOfb, IAES_CFB1_MCT aesOfbMct)
+        public TestCaseGeneratorFactory(IRandom800_90 random800_90, IAES_CFB1 algo, IAES_CFB1_MCT algoMct)
         {
             _random800_90 = random800_90;
-            _aesOfb = aesOfb;
-            _aesOfbMct = aesOfbMct;
+            _algo = algo;
+            _algoMct = algoMct;
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
@@ -22,30 +22,33 @@ namespace NIST.CVP.Generation.AES_CFB1
             var direction = testGroup.Function.ToLower();
             var testType = testGroup.TestType.ToLower();
 
-            if (testType == "mct")
+            switch (testType)
             {
-                if (direction == "encrypt")
-                {
-                    return new TestCaseGeneratorMCTEncrypt(_random800_90, _aesOfbMct);
-                }
-
-                if (direction == "decrypt")
-                {
-                    return new TestCaseGeneratorMCTDecrypt(_random800_90, _aesOfbMct);
-                }
+                case "gfsbox":
+                case "keysbox":
+                case "vartxt":
+                case "varkey":
+                    return new TestCaseGeneratorKnownAnswer(testGroup.KeyLength, testType);
+                case "mct":
+                    switch (direction)
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorMCTEncrypt(_random800_90, _algoMct);
+                        case "decrypt":
+                            return new TestCaseGeneratorMCTDecrypt(_random800_90, _algoMct);
+                    }
+                    break;
+                case "mmt":
+                    switch (direction)
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorMMTEncrypt(_random800_90, _algo);
+                        case "decrypt":
+                            return new TestCaseGeneratorMMTDecrypt(_random800_90, _algo);
+                    }
+                    break;
             }
-            else
-            {
-                if (direction == "encrypt")
-                {
-                    return new TestCaseGeneratorMMTEncrypt(_random800_90, _aesOfb);
-                }
 
-                if (direction == "decrypt")
-                {
-                    return new TestCaseGeneratorMMTDecrypt(_random800_90, _aesOfb);
-                }
-            }
             return new TestCaseGeneratorNull();
         }
     }
