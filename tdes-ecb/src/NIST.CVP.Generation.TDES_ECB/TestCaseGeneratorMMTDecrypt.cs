@@ -28,8 +28,8 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
-            
-            var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * @group.NumberOfKeys).ToOddParityBitString();
+            var numberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(group.KeyingOption);
+            var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * numberOfKeys).ToOddParityBitString();
             var cipherText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * (_currentCase + 1));
             var testCase = new TestCase
             {

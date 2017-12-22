@@ -92,7 +92,11 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
                                 testCase.ResultsArray.First().CipherText,
                                 testCase.ResultsArray.First().IV
                             );
-
+                            if (testCase.ResultsArray.Count != result.Response.Count)
+                            {
+                                throw new IndexOutOfRangeException(
+                                    $"Array sizes do not match {nameof(testCase)}-{testCase.ResultsArray.Count} {nameof(result)}-{result.Response.Count}");
+                            }
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {

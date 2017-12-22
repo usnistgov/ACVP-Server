@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
             {
                 //int testId = 1;
-                if (group.NumberOfKeys == 1)
+                if (group.KeyingOption == 3)
                 {
                     //known answer test -- just grab 'em, add a test case Id and move along
                     var kats = _iKnownAnswerTestFactory.GetKATTestCases(@group.TestType, @group.Function);

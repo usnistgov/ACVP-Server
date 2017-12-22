@@ -75,7 +75,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
 
             var result = _subject.BuildTestGroups(p).ToList().Select(s => (TestGroup)s);
             
-            Assert.IsFalse(result.Any(a => a.Function.ToLower() == "encrypt" && a.NumberOfKeys == 2));
+            Assert.IsFalse(result.Any(a => a.Function.ToLower() == "encrypt" && a.KeyingOption == 2));
         }
     }
 }

@@ -21,12 +21,10 @@ namespace NIST.CVP.Generation.TDES_ECB
                         continue;
                     }
 
-                    var translatedKeyingOptionToNumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption);
-
-                    TestGroup tg = new TestGroup()
+                    var tg = new TestGroup()
                     {
                         Function = function,
-                        NumberOfKeys = translatedKeyingOptionToNumberOfKeys,
+                        KeyingOption = keyingOption,
                         TestType = TEST_TYPE
                     };
 

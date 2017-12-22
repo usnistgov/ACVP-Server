@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                     TestGroup tg = new TestGroup()
                     {
                         Function = function,
-                        NumberOfKeys = translatedKeyingOptionToNumberOfKeys,
+                        KeyingOption = keyingOption,
                         TestType = TEST_TYPE
                     };
                     

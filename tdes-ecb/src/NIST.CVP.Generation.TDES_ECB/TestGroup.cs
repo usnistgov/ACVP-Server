@@ -22,9 +22,9 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         public TestGroup(dynamic source)
         {
-            if (((ExpandoObject)source).ContainsProperty("numberOfKeys"))
+            if (((ExpandoObject)source).ContainsProperty("keyingOption"))
             {
-                NumberOfKeys = (int)source.numberOfKeys;
+                KeyingOption = (int)source.keyingOption;
             }
            
             TestType = source.testType;
@@ -46,8 +46,8 @@ namespace NIST.CVP.Generation.TDES_ECB
         public string Function { get; set; }
         [JsonProperty(PropertyName = "testType")]
         public string TestType{ get; set; }
-        [JsonProperty(PropertyName = "numberOfKeys")]
-        public int NumberOfKeys { get; set; }
+        [JsonProperty(PropertyName = "keyingOption")]
+        public int KeyingOption { get; set; }
         public List<ITestCase> Tests { get; set; }
 
       
@@ -56,11 +56,12 @@ namespace NIST.CVP.Generation.TDES_ECB
         {
             foreach (var test in Tests)
             {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
+                //var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
+                if (testsToMerge.Count(t => t.TestCaseId == test.TestCaseId) != 1)
                 {
                     return false;
                 }
+                var matchingTest = testsToMerge.Single(t => t.TestCaseId == test.TestCaseId);
                 if (!test.Merge(matchingTest))
                 {
                     return false;
@@ -72,7 +73,7 @@ namespace NIST.CVP.Generation.TDES_ECB
         public override int GetHashCode()
         {
             return
-                $"{Function}|{TestType}|{NumberOfKeys}"
+                $"{Function}|{TestType}|{KeyingOption}"
                     .GetHashCode();
         }
 
@@ -108,8 +109,8 @@ namespace NIST.CVP.Generation.TDES_ECB
 
             switch (name.ToLower())
             {
-                case "numberofkeys":
-                    NumberOfKeys = intVal;
+                case "keyingoption":
+                    KeyingOption = intVal;
                     return true;
             }
             return false;

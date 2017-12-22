@@ -47,9 +47,9 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         }
 
         [Test]
-        [TestCase("NumberOfKeys", "13")]
+        [TestCase("KeyingOption", "13")]
         [TestCase("testType", "Monte Carlo")]
-        [TestCase("NumberOfKEYs", "130")]
+        [TestCase("KeyingOPtion", "130")]
         public void ShouldReturnSetStringName(string name, string value)
         {
             var subject = new TestGroup();

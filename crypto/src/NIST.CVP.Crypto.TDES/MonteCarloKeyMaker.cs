@@ -14,6 +14,7 @@ namespace NIST.CVP.Crypto.TDES
             }
 
             if (previousOutputs == null ||
+                previousOutputs.Count == 0 ||
                 (previousOutputs.Count * previousOutputs[0].BitLength) < 192)
             {
                 throw new ArgumentException("Need 192 bits of previous outputs", nameof(previousOutputs));

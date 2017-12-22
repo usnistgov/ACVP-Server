@@ -22,9 +22,9 @@ namespace NIST.CVP.Generation.TDES_CBC
 
         public TestGroup(dynamic source)
         {
-            if (((ExpandoObject)source).ContainsProperty("numberOfKeys"))
+            if (((ExpandoObject)source).ContainsProperty("keyingOption"))
             {
-                NumberOfKeys = (int)source.numberOfKeys;
+                KeyingOption = (int)source.keyingOption;
             }
 
             TestType = source.testType;
@@ -46,8 +46,8 @@ namespace NIST.CVP.Generation.TDES_CBC
         public string Function { get; set; }
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; }
-        [JsonProperty(PropertyName = "numberOfKeys")]
-        public int NumberOfKeys { get; set; }
+        [JsonProperty(PropertyName = "keyingOption")]
+        public int KeyingOption { get; set; }
         public List<ITestCase> Tests { get; set; }
 
 
@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.TDES_CBC
 
         public override int GetHashCode()
         {
-            return $"{Function}|{TestType}|{NumberOfKeys}".GetHashCode();
+            return $"{Function}|{TestType}|{KeyingOption}".GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -106,8 +106,8 @@ namespace NIST.CVP.Generation.TDES_CBC
 
             switch (name.ToLower())
             {
-                case "numberofkeys":
-                    NumberOfKeys = intVal;
+                case "keyingoption":
+                    KeyingOption = intVal;
                     return true;
             }
             return false;

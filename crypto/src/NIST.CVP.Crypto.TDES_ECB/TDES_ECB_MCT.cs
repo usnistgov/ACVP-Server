@@ -11,6 +11,7 @@ namespace NIST.CVP.Crypto.TDES_ECB
         private readonly IMonteCarloKeyMaker _keyMaker;
 
         private const int NUMBER_OF_CASES = 400;
+        //private const int NUMBER_OF_CASES = 5;
         private const int NUMBER_OF_ITERATIONS = 10000;
         private const int NUMBER_OF_OUTPUTS_TO_SAVE = 3;
 

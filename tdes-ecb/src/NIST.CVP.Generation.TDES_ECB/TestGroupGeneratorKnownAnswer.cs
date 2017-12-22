@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                     TestGroup tg = new TestGroup()
                     {
                         Function = function,
-                        NumberOfKeys = 1,
+                        KeyingOption = 3,
                         TestType = katTest
                     };
 

@@ -42,15 +42,15 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
-        public void ShouldCallRandomTwiceOnceForKeyOnceForCipherText(int numberOfKeys)
+        public void ShouldCallRandomTwiceOnceForKeyOnceForCipherText(int keyingOption)
         {
             TestGroup testGroup = new TestGroup()
             {
-                NumberOfKeys = numberOfKeys
+                KeyingOption = keyingOption
             };
             _subject.Generate(testGroup, false);
-
-            _mockRandom.Verify(v => v.GetRandomBitString(64 * numberOfKeys), nameof(numberOfKeys));
+            var numberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption);
+            _mockRandom.Verify(v => v.GetRandomBitString(64 * numberOfKeys), nameof(keyingOption));
             _mockRandom.Verify(v => v.GetRandomBitString(64));
         }
 
@@ -59,7 +59,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             TestGroup testGroup = new TestGroup()
             {
-                NumberOfKeys = 3
+                KeyingOption = 1
             };
             _subject.Generate(testGroup, false);
 
@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             TestGroup testGroup = new TestGroup()
             {
-                NumberOfKeys = 3
+                KeyingOption = 1
             };
             TestCase testCase = new TestCase();
             _subject.Generate(testGroup, testCase);
@@ -88,7 +88,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
 
             TestGroup testGroup = new TestGroup()
             {
-                NumberOfKeys = 3
+                KeyingOption = 1
             };
             TestCase testCase = new TestCase();
             var result = _subject.Generate(testGroup, testCase);
@@ -106,7 +106,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
 
             TestGroup testGroup = new TestGroup()
             {
-                NumberOfKeys = 3
+                KeyingOption = 1
             };
             TestCase testCase = new TestCase();
             var result = _subject.Generate(testGroup, testCase);

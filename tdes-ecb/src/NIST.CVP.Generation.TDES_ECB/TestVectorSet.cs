@@ -28,7 +28,8 @@ namespace NIST.CVP.Generation.TDES_ECB
             foreach (var prompt in prompts.testGroups)
             {
                 var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
+                //var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
+                var matchingAnswerGroup = TestGroups.Single(g => g.Equals(promptGroup));
                 if (matchingAnswerGroup != null)
                 {
                     if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
@@ -62,7 +63,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
 
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    //((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
+                    ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
@@ -145,7 +146,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                   // ((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
+                    ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))

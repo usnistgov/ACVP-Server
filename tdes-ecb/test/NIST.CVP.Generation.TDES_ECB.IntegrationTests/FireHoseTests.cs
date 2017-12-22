@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Testing.Abstractions;
+using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Generation.TDES_ECB.Parsers;
 using NIST.CVP.Tests.Core;
@@ -86,7 +89,11 @@ namespace NIST.CVP.Generation.TDES_ECB.IntegrationTests
                                 testCase.ResultsArray.First().Keys,
                                 testCase.ResultsArray.First().CipherText
                             );
-
+                            if (testCase.ResultsArray.Count != result.Response.Count)
+                            {
+                                throw new IndexOutOfRangeException(
+                                    $"Array sizes do not match {nameof(testCase)}-{testCase.ResultsArray.Count} {nameof(result)}-{result.Response.Count}");
+                            }
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {

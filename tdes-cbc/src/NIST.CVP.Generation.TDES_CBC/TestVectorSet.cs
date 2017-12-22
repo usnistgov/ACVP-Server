@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
 
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    //((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
+                    ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
@@ -146,7 +146,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    //((IDictionary<string, object>)updateObject).Add("numberOfKeys", group.NumberOfKeys);
+                    ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))

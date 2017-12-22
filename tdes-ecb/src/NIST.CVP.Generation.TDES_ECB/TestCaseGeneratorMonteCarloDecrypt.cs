@@ -60,7 +60,8 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         private TestCase GetSeedCase(TestGroup @group)
         {
-            var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * @group.NumberOfKeys).ToOddParityBitString();
+            var numberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(group.KeyingOption);
+            var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * numberOfKeys).ToOddParityBitString();
             var cipherText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
             return new TestCase { Key = key, CipherText = cipherText };
         }

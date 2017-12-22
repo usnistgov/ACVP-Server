@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         public void ShouldSuccessfullyGenerate()
         {
             var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new Crypto.TDES_ECB.TDES_ECB());
-            var result = subject.Generate(new TestGroup {Function = "encrypt", NumberOfKeys = 3}, false);
+            var result = subject.Generate(new TestGroup {Function = "encrypt", KeyingOption = 1}, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new Crypto.TDES_ECB.TDES_ECB());
             for (int caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
-                var result = subject.Generate(new TestGroup { Function = "encrypt", NumberOfKeys = 3 }, false);
+                var result = subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
                 Assume.That(result != null);
                 Assume.That(result.Success);
                 var testCase = (TestCase) result.TestCase;
@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             algo.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
                .Returns(new EncryptionResult("I Failed to encrypt"));
             var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), algo.Object);
-            var result = subject.Generate(new TestGroup { Function = "encrypt", NumberOfKeys = 3 }, false);
+            var result = subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
             Assert.IsFalse(result.Success);
 
 

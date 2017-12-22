@@ -9,6 +9,8 @@
     <Compile Remove="ConfidentialityModeMCT.cs" />
     <Compile Remove="IModeOfOperation.cs" />
     <Compile Remove="IModeOfOperationMCT.cs" />
+    <Compile Remove="IMonteCarloKeyMaker.cs" />
+    <Compile Remove="MonteCarloKeyMaker.cs" />
   </ItemGroup>
 
   <ItemGroup>
