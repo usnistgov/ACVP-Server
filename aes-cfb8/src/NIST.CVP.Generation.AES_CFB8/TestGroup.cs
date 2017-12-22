@@ -25,8 +25,6 @@ namespace NIST.CVP.Generation.AES_CFB8
 
         }
 
-        public bool StaticGroupOfTests { get; set; }
-
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; } = "KAT";
         [JsonProperty(PropertyName = "direction")]
