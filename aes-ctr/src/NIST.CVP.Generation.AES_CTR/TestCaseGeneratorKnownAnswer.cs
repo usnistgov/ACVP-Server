@@ -41,7 +41,6 @@ namespace NIST.CVP.Generation.AES_CTR
             }
 
             _kats = result.Value;
-            _kats.ForEach(fe => fe.IV = new BitString(128));
         }
 
         public int NumberOfTestCasesToGenerate => _kats.Count;
