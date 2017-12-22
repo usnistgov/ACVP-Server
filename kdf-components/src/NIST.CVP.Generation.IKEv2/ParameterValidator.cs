@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
@@ -13,7 +14,7 @@ namespace NIST.CVP.Generation.IKEv2
         public static int MIN_NONCE = 64;
         public static int MAX_NONCE = 2048;
         public static int MIN_DKM = 160;
-        public static int MAX_DKM = 1048576;
+        public static int MAX_DKM = 16384;
         public static int MIN_DH = 224;
         public static int MAX_DH = 8192;
 
@@ -35,10 +36,16 @@ namespace NIST.CVP.Generation.IKEv2
             result = ValidateArray(parameters.HashAlg, VALID_HASH_ALGS, "Hash Algs");
             errors.AddIfNotNullOrEmpty(result);
 
+            if (errors.Count > 0)
+            {
+                return new ParameterValidateResponse(string.Join(";", errors));
+            }
+
             ValidateDomain(parameters.InitiatorNonceLength, errors, "NInit", MIN_NONCE, MAX_NONCE);
             ValidateDomain(parameters.ResponderNonceLength, errors, "NResp", MIN_NONCE, MAX_NONCE);
             ValidateDomain(parameters.DiffieHellmanSharedSecretLength, errors, "DH", MIN_DH, MAX_DH);
             ValidateDomain(parameters.DerivedKeyingMaterialLength, errors, "DKM", MIN_DKM, MAX_DKM);
+            ValidateDKM(parameters.DerivedKeyingMaterialLength, parameters.HashAlg, errors, "DKM");
 
             if (errors.Count > 0)
             {
@@ -65,6 +72,20 @@ namespace NIST.CVP.Generation.IKEv2
             if (domain.GetDomainMinMax().Maximum > max)
             {
                 errors.Add($"Maximum {errorTag} must be less than or equal to {max}");
+            }
+        }
+
+        private void ValidateDKM(MathDomain dkm, string[] hashAlgs, List<string> errors, string errorTag)
+        {
+            var dkmMax = dkm.GetDomainMinMax().Maximum;
+            foreach (var hash in hashAlgs)
+            {
+                var hashOutLen = ShaAttributes.GetHashFunctionFromName(hash).OutputLen;
+
+                if (dkmMax < hashOutLen)
+                {
+                    errors.Add("Largest DKM value must be greater than or equal to the length of the hashes");
+                }
             }
         }
     }

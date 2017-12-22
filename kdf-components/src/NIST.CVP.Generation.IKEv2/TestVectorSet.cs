@@ -55,7 +55,8 @@ namespace NIST.CVP.Generation.IKEv2
                     ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
                     ((IDictionary<string, object>)updateObject).Add("nInitLength", group.NInitLength);
                     ((IDictionary<string, object>)updateObject).Add("nRespLength", group.NRespLength);
-                    // gir and dkm
+                    ((IDictionary<string, object>)updateObject).Add("dhLength", group.GirLength);
+                    ((IDictionary<string, object>)updateObject).Add("derivedKeyingMaterialLength", group.DerivedKeyingMaterialLength);
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
@@ -63,7 +64,18 @@ namespace NIST.CVP.Generation.IKEv2
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("nInit", test.NInit);
+                        ((IDictionary<string, object>)testObject).Add("nResp", test.NResp);
+                        ((IDictionary<string, object>)testObject).Add("spiInit", test.SpiInit);
+                        ((IDictionary<string, object>)testObject).Add("spiResp", test.SpiResp);
+                        ((IDictionary<string, object>)testObject).Add("gir", test.Gir);
+                        ((IDictionary<string, object>)testObject).Add("girNew", test.GirNew);
 
+                        ((IDictionary<string, object>)testObject).Add("sKeySeed", test.SKeySeed);
+                        ((IDictionary<string, object>)testObject).Add("derivedKeyingMaterial", test.DerivedKeyingMaterial);
+                        ((IDictionary<string, object>)testObject).Add("derivedKeyingMaterialChild", test.DerivedKeyingMaterialChild);
+                        ((IDictionary<string, object>)testObject).Add("derivedKeyingMaterialDh", test.DerivedKeyingMaterialDh);
+                        ((IDictionary<string, object>)testObject).Add("sKeySeedReKey", test.SKeySeedReKey);
 
                         tests.Add(testObject);
                     }
@@ -88,7 +100,7 @@ namespace NIST.CVP.Generation.IKEv2
                     ((IDictionary<string, object>)updateObject).Add("nInitLength", group.NInitLength);
                     ((IDictionary<string, object>)updateObject).Add("nRespLength", group.NRespLength);
                     ((IDictionary<string, object>)updateObject).Add("dhLength", group.GirLength);
-                    // dkm length
+                    ((IDictionary<string, object>)updateObject).Add("derivedKeyingMaterialLength", group.DerivedKeyingMaterialLength);
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
@@ -96,6 +108,12 @@ namespace NIST.CVP.Generation.IKEv2
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("nInit", test.NInit);
+                        ((IDictionary<string, object>)testObject).Add("nResp", test.NResp);
+                        ((IDictionary<string, object>)testObject).Add("spiInit", test.SpiInit);
+                        ((IDictionary<string, object>)testObject).Add("spiResp", test.SpiResp);
+                        ((IDictionary<string, object>)testObject).Add("gir", test.Gir);
+                        ((IDictionary<string, object>)testObject).Add("girNew", test.GirNew);
 
                         tests.Add(testObject);
                     }
@@ -119,6 +137,11 @@ namespace NIST.CVP.Generation.IKEv2
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>) testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("sKeySeed", test.SKeySeed);
+                        ((IDictionary<string, object>)testObject).Add("derivedKeyingMaterial", test.DerivedKeyingMaterial);
+                        ((IDictionary<string, object>)testObject).Add("derivedKeyingMaterialChild", test.DerivedKeyingMaterialChild);
+                        ((IDictionary<string, object>)testObject).Add("derivedKeyingMaterialDh", test.DerivedKeyingMaterialDh);
+                        ((IDictionary<string, object>)testObject).Add("sKeySeedReKey", test.SKeySeedReKey);
 
                         tests.Add(testObject);
                     }

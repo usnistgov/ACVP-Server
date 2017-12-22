@@ -1,10 +1,163 @@
-﻿using System;
+﻿using NIST.CVP.Generation.Core.Tests;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using Autofac;
+using NUnit.Framework;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using KDFComponent;
+using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.IKEv1.IntegrationTests
 {
-    public class GenValTests
+    [TestFixture, LongRunningIntegrationTest]
+    public class GenValTests : GenValTestsBase
     {
+        public override string Algorithm => "kdf-components";
+        public override string Mode => "IKEv1";
+
+        public override Executable Generator => Program.Main;
+        public override Executable Validator => KDFComponent_Val.Program.Main;
+
+        [SetUp]
+        public override void SetUp()
+        {
+            AdditionalParameters = new[] {Mode};
+            KDFComponent.AutofacConfig.OverrideRegistrations = null;
+            KDFComponent_Val.AutofacConfig.OverrideRegistrations = null;
+        }
+
+        protected override void OverrideRegistrationGenFakeFailure()
+        {
+            KDFComponent.AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
+            };
+        }
+
+        protected override void OverrideRegistrationValFakeFailure()
+        {
+            KDFComponent_Val.AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
+            };
+        }
+
+        protected override void OverrideRegistrationValFakeException()
+        {
+            KDFComponent_Val.AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+            };
+        }
+
+        protected override void ModifyTestCaseToFail(dynamic testCase)
+        {
+            var rand = new Random800_90();
+
+            if (testCase.sKeyId != null)
+            {
+                var bs = new BitString(testCase.sKeyId.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                testCase.sKeyId = bs.ToHex();
+            }
+        }
+
+        protected override string GetTestFileMinimalTestCases(string folderName)
+        {
+            var p = new Parameters
+            {
+                Algorithm = Algorithm,
+                Mode = Mode,
+                Capabilities = new []
+                {
+                    new Capability
+                    {
+                        AuthenticationMethod = "dsa",
+                        HashAlg = new [] {"sha-1"},
+                        InitiatorNonceLength = new MathDomain().AddSegment(new ValueDomainSegment(256)),
+                        ResponderNonceLength = new MathDomain().AddSegment(new ValueDomainSegment(256)),
+                        DiffieHellmanSharedSecretLength = new MathDomain().AddSegment(new ValueDomainSegment(256)),
+                    }
+                }
+            };
+
+            return CreateRegistration(folderName, p);
+        }
+
+        protected override string GetTestFileFewTestCases(string folderName)
+        {
+            var rand = new Random800_90();
+            var p = new Parameters
+            {
+                Algorithm = Algorithm,
+                Mode = Mode,
+                Capabilities = new []
+                {
+                    new Capability
+                    {
+                        AuthenticationMethod = "dsa",
+                        HashAlg = new [] {"sha-1", "sha2-224", "sha2-512"},
+                        InitiatorNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 64, 256, 8)),
+                        ResponderNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 64, 256, 8)),
+                        DiffieHellmanSharedSecretLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 224, 512, 8)),
+                    },
+                    new Capability
+                    {
+                        AuthenticationMethod = "psk",
+                        HashAlg = new [] {"sha-1", "sha2-384"},
+                        InitiatorNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 64, 256)),
+                        ResponderNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 64, 256)),
+                        DiffieHellmanSharedSecretLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 224, 512)),
+                        PreSharedKeyLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 128, 512))
+                    },
+                }
+            };
+
+            return CreateRegistration(folderName, p);
+        }
+
+        protected override string GetTestFileLotsOfTestCases(string folderName)
+        {
+            var rand = new Random800_90();
+            var p = new Parameters
+            {
+                Algorithm = Algorithm,
+                Mode = Mode,
+                Capabilities = new []
+                {
+                    new Capability
+                    {
+                        AuthenticationMethod = "dsa",
+                        HashAlg = ParameterValidator.VALID_HASH_ALGS,
+                        InitiatorNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_NONCE, ParameterValidator.MAX_NONCE)),
+                        ResponderNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_NONCE, ParameterValidator.MAX_NONCE)),
+                        DiffieHellmanSharedSecretLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_DH, ParameterValidator.MAX_DH)),
+                    },
+                    new Capability
+                    {
+                        AuthenticationMethod = "psk",
+                        HashAlg = ParameterValidator.VALID_HASH_ALGS,
+                        InitiatorNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_NONCE, ParameterValidator.MAX_NONCE)),
+                        ResponderNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_NONCE, ParameterValidator.MAX_NONCE)),
+                        DiffieHellmanSharedSecretLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_DH, ParameterValidator.MAX_DH)),
+                        PreSharedKeyLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_PRESHARED_KEY, ParameterValidator.MAX_PRESHARED_KEY))
+                    },
+                    new Capability
+                    {
+                        AuthenticationMethod = "pke",
+                        HashAlg = ParameterValidator.VALID_HASH_ALGS,
+                        InitiatorNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_NONCE, ParameterValidator.MAX_NONCE)),
+                        ResponderNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_NONCE, ParameterValidator.MAX_NONCE)),
+                        DiffieHellmanSharedSecretLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_DH, ParameterValidator.MAX_DH)),
+                    }
+                }
+            };
+
+            return CreateRegistration(folderName, p);
+        }
     }
 }

@@ -10,5 +10,9 @@
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.IKEv1\NIST.CVP.Crypto.IKEv1.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.SHAWrapper\NIST.CVP.Crypto.SHAWrapper.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.1" />
+  </ItemGroup>
 
 </Project>

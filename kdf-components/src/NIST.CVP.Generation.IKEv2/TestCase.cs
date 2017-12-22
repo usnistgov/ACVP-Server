@@ -54,9 +54,9 @@ namespace NIST.CVP.Generation.IKEv2
             SpiResp = expandoSource.GetBitStringFromProperty("spiResp");
             
             SKeySeed = expandoSource.GetBitStringFromProperty("sKeySeed");
-            DerivedKeyingMaterial = expandoSource.GetBitStringFromProperty("dkm");
-            DerivedKeyingMaterialChild = expandoSource.GetBitStringFromProperty("dkmChild");
-            DerivedKeyingMaterialDh = expandoSource.GetBitStringFromProperty("dkmChildDh");
+            DerivedKeyingMaterial = expandoSource.GetBitStringFromProperty("derivedKeyingMaterial");
+            DerivedKeyingMaterialChild = expandoSource.GetBitStringFromProperty("derivedKeyingMaterialChild");
+            DerivedKeyingMaterialDh = expandoSource.GetBitStringFromProperty("derivedKeyingMaterialDh");
             SKeySeedReKey = expandoSource.GetBitStringFromProperty("sKeySeedReKey");
         }
 
@@ -88,6 +88,42 @@ namespace NIST.CVP.Generation.IKEv2
                 case "nresp":
                 case "nr":
                     NResp = new BitString(value);
+                    return true;
+
+                case "g^ir":
+                    Gir = new BitString(value);
+                    return true;
+
+                case "g^ir (new)":
+                    GirNew = new BitString(value);
+                    return true;
+
+                case "spii":
+                    SpiInit = new BitString(value);
+                    return true;
+
+                case "spir":
+                    SpiResp = new BitString(value);
+                    return true;
+
+                case "skeyseed":
+                    SKeySeed = new BitString(value);
+                    return true;
+
+                case "dkm":
+                    DerivedKeyingMaterial = new BitString(value);
+                    return true;
+
+                case "dkm(child sa)":
+                    DerivedKeyingMaterialChild = new BitString(value);
+                    return true;
+
+                case "dkm(child sa d-h)":
+                    DerivedKeyingMaterialDh = new BitString(value);
+                    return true;
+
+                case "skeyseed(rekey)":
+                    SKeySeedReKey = new BitString(value);
                     return true;
             }
 

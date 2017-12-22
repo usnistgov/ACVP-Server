@@ -28,6 +28,12 @@ namespace NIST.CVP.Generation.IKEv2
                 // Safe assumption that these will all have exactly 3 values
                 for (var i = 0; i < 3; i++)
                 {
+                    // If the dkmValue is too low, make sure it is at least equal to the hash function
+                    if (dkmValues[i] < hashFunction.OutputLen)
+                    {
+                        dkmValues[i] = hashFunction.OutputLen;
+                    }
+
                     var testGroup = new TestGroup
                     {
                         HashAlg = hashFunction,
