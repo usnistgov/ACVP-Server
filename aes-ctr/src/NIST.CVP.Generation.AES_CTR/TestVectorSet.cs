@@ -68,7 +68,14 @@ namespace NIST.CVP.Generation.AES_CTR
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("key", test.Key);
-                        ((IDictionary<string, object>)testObject).Add("dataLen", test.Length);
+
+                        if (!(group.TestType.ToLower().Equals("gfsbox") ||
+                              group.TestType.ToLower().Equals("keysbox") ||
+                              group.TestType.ToLower().Equals("vartxt") ||
+                              group.TestType.ToLower().Equals("varkey")))
+                        {
+                            ((IDictionary<string, object>)testObject).Add("dataLen", test.Length);
+                        }
 
                         if (group.TestType.ToLower().Equals("counter"))
                         {
@@ -124,7 +131,15 @@ namespace NIST.CVP.Generation.AES_CTR
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("key", test.Key);
-                        ((IDictionary<string, object>)testObject).Add("dataLen", test.Length);
+
+                        if (!(group.TestType.ToLower().Equals("gfsbox") ||
+                              group.TestType.ToLower().Equals("keysbox") ||
+                              group.TestType.ToLower().Equals("vartxt") ||
+                              group.TestType.ToLower().Equals("varkey")))
+                        {
+                            ((IDictionary<string, object>)testObject).Add("dataLen", test.Length);
+                        }
+
                         ((IDictionary<string, object>)testObject).Add("iv", test.IV);
 
                         if (group.Direction.ToLower().Equals("encrypt"))
