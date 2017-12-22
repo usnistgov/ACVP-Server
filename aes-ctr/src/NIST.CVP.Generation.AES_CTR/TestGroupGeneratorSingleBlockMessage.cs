@@ -23,7 +23,6 @@ namespace NIST.CVP.Generation.AES_CTR
                         Direction = direction,
                         KeyLength = keyLength,
 
-                        StaticGroupOfTests = false,
                         TestType = LABEL
                     };
 

@@ -18,7 +18,6 @@ namespace NIST.CVP.Generation.AES_CTR
 
         // Properties for specific groups
         public MathDomain DataLength { get; set; }
-        public bool StaticGroupOfTests { get; set; }
 
         // This is a vectorset / IUT property but it needs to be defined somewhere other than Parameter.cs
         public bool IncrementalCounter { get; set; }

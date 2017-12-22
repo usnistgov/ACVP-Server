@@ -10,6 +10,10 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
     public class TestCaseGeneratorFactoryTests
     {
         [Test]
+        [TestCase("not relevant", "gfsbox", typeof(TestCaseGeneratorKnownAnswer))]
+        [TestCase("not relevant", "keysbox", typeof(TestCaseGeneratorKnownAnswer))]
+        [TestCase("not relevant", "vartxt", typeof(TestCaseGeneratorKnownAnswer))]
+        [TestCase("not relevant", "varkey", typeof(TestCaseGeneratorKnownAnswer))]
         [TestCase("encrypt", "singleblock", typeof(TestCaseGeneratorSingleBlockEncrypt))]
         [TestCase("Encrypt", "sInGlEbLoCk", typeof(TestCaseGeneratorSingleBlockEncrypt))]
         [TestCase("DEcrypt", "SINGLEBLOCK", typeof(TestCaseGeneratorSingleBlockDecrypt))]
@@ -29,7 +33,8 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var testGroup = new TestGroup
             {
                 Direction = direction,
-                TestType = testType
+                TestType = testType,
+                KeyLength = 128
             };
 
             var subject = new TestCaseGeneratorFactory(null, null);

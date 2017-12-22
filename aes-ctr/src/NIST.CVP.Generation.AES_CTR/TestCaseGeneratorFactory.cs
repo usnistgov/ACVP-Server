@@ -23,38 +23,43 @@ namespace NIST.CVP.Generation.AES_CTR
             var direction = group.Direction.ToLower();
             var testType = group.TestType.ToLower();
 
-            if (testType == "singleblock")
+            switch (testType)
             {
-                if (direction == "encrypt")
-                {
-                    return new TestCaseGeneratorSingleBlockEncrypt(_rand, _algo);
-                }
-                else if (direction == "decrypt")
-                {
-                    return new TestCaseGeneratorSingleBlockDecrypt(_rand, _algo);
-                }
-            }
-            else if (testType == "partialblock")
-            {
-                if (direction == "encrypt")
-                {
-                    return new TestCaseGeneratorPartialBlockEncrypt(_rand, _algo);
-                }
-                else if (direction == "decrypt")
-                {
-                    return new TestCaseGeneratorPartialBlockDecrypt(_rand, _algo);
-                }
-            }
-            else if (testType == "counter")
-            {
-                if (direction == "encrypt")
-                {
-                    return new TestCaseGeneratorCounterEncrypt(_rand, _algo);
-                }
-                else if (direction == "decrypt")
-                {
-                    return new TestCaseGeneratorCounterDecrypt(_rand, _algo);
-                }
+                case "gfsbox":
+                case "keysbox":
+                case "vartxt":
+                case "varkey":
+                    return new TestCaseGeneratorKnownAnswer(group.KeyLength, testType);
+                case "singleblock":
+                    switch (direction)
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorSingleBlockEncrypt(_rand, _algo);
+                        case "decrypt":
+                            return new TestCaseGeneratorSingleBlockDecrypt(_rand, _algo);
+                    }
+
+                    break;
+                case "partialblock":
+                    switch (direction)
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorPartialBlockEncrypt(_rand, _algo);
+                        case "decrypt":
+                            return new TestCaseGeneratorPartialBlockDecrypt(_rand, _algo);
+                    }
+
+                    break;
+                case "counter":
+                    switch (direction)
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorCounterEncrypt(_rand, _algo);
+                        case "decrypt":
+                            return new TestCaseGeneratorCounterDecrypt(_rand, _algo);
+                    }
+
+                    break;
             }
 
             return new TestCaseGeneratorNull();

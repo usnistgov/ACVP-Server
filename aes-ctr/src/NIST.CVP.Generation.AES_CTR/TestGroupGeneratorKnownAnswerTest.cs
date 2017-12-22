@@ -30,7 +30,6 @@ namespace NIST.CVP.Generation.AES_CTR
                             Direction = direction,
                             KeyLength = keyLength,
 
-                            StaticGroupOfTests = true,
                             TestType = katTest
                         };
 

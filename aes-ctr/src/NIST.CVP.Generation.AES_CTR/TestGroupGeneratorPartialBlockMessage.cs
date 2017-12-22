@@ -28,7 +28,6 @@ namespace NIST.CVP.Generation.AES_CTR
                             // Only test case generator that cares about this information
                             DataLength = parameters.DataLength,
 
-                            StaticGroupOfTests = false,
                             TestType = LABEL
                         };
 
