@@ -32,7 +32,7 @@ namespace tdes_ecb
             builder.RegisterType<TDES_ECB>().AsImplementedInterfaces();
             builder.RegisterType<TDES_ECB_MCT>().AsImplementedInterfaces();
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
-            builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorKnownAnswer>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

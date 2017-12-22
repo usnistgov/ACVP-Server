@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Components.DictionaryAdapter;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_ECB.Tests
 {
     [TestFixture, UnitTest]
-    public class KnownAnswerFactoryTests
+    public class TestCaseGeneratorKnownAnswerTests
     {
 
 
@@ -17,28 +19,21 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [TestCase("", "Decrypt")]
         [TestCase("permutation", "")]
         [TestCase("SubstitutiontablE", null)]
-        public void ShouldReturnEmptyListIfNoTestTypeSupplied(string testType, string direction)
-        {
-            var subject = new KnownAnswerTestFactory();
-            var result = subject.GetKATTestCases(testType, direction);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(0, result.Count);
-        }
-
-
-        [Test]
         [TestCase("fredo", "decrypt")]
         [TestCase("Julie", "decrypt")]
         [TestCase("permutation", "dodo")]
         [TestCase("SubstitutiontablE", "dreamweaver")]
-        public void ShouldReturnEmptyListIfBadTestTypeSupplied(string testType, string direction)
+        public void ShouldThrowIfInvalidTestTypeOrDirection(string testType, string direction)
         {
-            var subject = new KnownAnswerTestFactory();
-            var result = subject.GetKATTestCases(testType, direction);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(0, result.Count);
-        }
+            TestGroup testGroup = new TestGroup()
+            {
+                TestType = testType,
+                Function = direction
+            };
 
+            Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKnownAnswer(testGroup));
+            
+        }
 
         [Test]
         [TestCase("InversePermutation", "decrypt")]
@@ -48,12 +43,18 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [TestCase("VariableTExt", "ENcryPt")]
         [TestCase("VariableKey", "ENCRYPT")]
 
-        public void ShouldReturnFilledList(string testType, string direction)
+        public void ShouldReturnKat(string testType, string direction)
         {
-            var subject = new KnownAnswerTestFactory();
-            var result = subject.GetKATTestCases(testType, direction);
+            TestGroup testGroup = new TestGroup()
+            {
+                TestType = testType,
+                Function = direction
+            };
+
+            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            var result = subject.Generate(testGroup, false);
             Assert.IsNotNull(result);
-            Assert.Greater(result.Count, 0);
+            Assert.IsTrue(result.Success);
         }
 
         [Test]
@@ -65,10 +66,19 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
 
         public void ShouldReturnExpectedListCount(string testType, int count, string direction)
         {
-            var subject = new KnownAnswerTestFactory();
-            var result = subject.GetKATTestCases(testType, direction);
-            Assume.That(result != null);
-            Assert.AreEqual(count, result.Count);
+            TestGroup testGroup = new TestGroup()
+            {
+                TestType = testType,
+                Function = direction
+            };
+
+            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            List<TestCaseGenerateResponse> results = new EditableList<TestCaseGenerateResponse>();
+            for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            {
+                results.Add(subject.Generate(testGroup, false));
+            }
+            Assert.AreEqual(count, results.Count);
         }
 
         [Test]
@@ -84,21 +94,22 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [TestCase("SubstitutionTable", 18, "63fac0d034d9f793", "encrypt")]
         public void ShouldReturnExpectedElement(string testType, int elementId, string expectedCipherHex, string direction)
         {
-            var subject = new KnownAnswerTestFactory();
-            var result = subject.GetKATTestCases(testType, direction);
-            Assume.That(result != null);
-            Assume.That(result.Count > elementId);
-            var testCase = result[elementId];
-            Assert.AreEqual(expectedCipherHex.ToUpper(), testCase.CipherText.ToHex());
-        }
+            TestGroup testGroup = new TestGroup()
+            {
+                TestType = testType,
+                Function = direction
+            };
 
-        [Test]
-        public void ShouldReturnSeparateEncryptDecryptTestCases()
-        {
-            var subject = new KnownAnswerTestFactory();
-            var result1 = subject.GetKATTestCases("InversePermutation", "decrypt");
-            var result2 = subject.GetKATTestCases("InversePermutation", "encrypt");
-            Assert.AreNotEqual(result1, result2);
+            var subject = new TestCaseGeneratorKnownAnswer(testGroup);
+            List<TestCaseGenerateResponse> results = new EditableList<TestCaseGenerateResponse>();
+            for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            {
+                results.Add(subject.Generate(testGroup, false));
+            }
+            
+            Assume.That(results.Count > elementId);
+            var testCase = (TestCase) results[elementId].TestCase;
+            Assert.AreEqual(expectedCipherHex.ToUpper(), testCase.CipherText.ToHex());
         }
     }
 }
