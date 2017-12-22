@@ -25,30 +25,36 @@ namespace NIST.CVP.Generation.TDES_CBC
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group)
         {
 
-            if (@group.TestType.ToLower() == "multiblockmessage")
+            switch (@group.TestType.ToLower())
             {
-                if (@group.Function.ToLower() == "encrypt")
-                {
-                    return new TestCaseGeneratorMMTEncrypt(_random800_90, _algo);
-                }
+                case "permutation":
+                case "inversepermutation":
+                case "substitutiontable":
+                case "variablekey":
+                case "variabletext":
+                    return new TestCaseGeneratorKnownAnswer(group);
+                case "multiblockmessage":
+                    switch (@group.Function.ToLower())
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorMMTEncrypt(_random800_90, _algo);
+                        case "decrypt":
+                            return new TestCaseGeneratorMMTDecrypt(_random800_90, _algo);
+                    }
 
-                if (@group.Function.ToLower() == "decrypt")
-                {
-                    return new TestCaseGeneratorMMTDecrypt(_random800_90, _algo);
-                }
-            }
-            if (@group.TestType.ToLower() == "mct")
-            {
-                if (@group.Function.ToLower() == "encrypt")
-                {
-                    return new TestCaseGeneratorMonteCarloEncrypt(_random800_90, _mctAlgo);
-                }
+                    break;
+                case "mct":
+                    switch (@group.Function.ToLower())
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorMonteCarloEncrypt(_random800_90, _mctAlgo);
+                        case "decrypt":
+                            return new TestCaseGeneratorMonteCarloDecrypt(_random800_90, _mctAlgo);
+                    }
 
-                if (@group.Function.ToLower() == "decrypt")
-                {
-                    return new TestCaseGeneratorMonteCarloDecrypt(_random800_90, _mctAlgo);
-                }
+                    break;
             }
+
             return new TestCaseGeneratorNull();
         }
     }
