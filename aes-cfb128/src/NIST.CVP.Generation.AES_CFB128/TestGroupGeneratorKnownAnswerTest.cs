@@ -27,8 +27,7 @@ namespace NIST.CVP.Generation.AES_CFB128
                         {
                             Function = direction,
                             KeyLength = keyLength,
-                            TestType = katTest,
-                            StaticGroupOfTests = true
+                            TestType = katTest
                         };
                         testGroups.Add(testGroup);
                     }
