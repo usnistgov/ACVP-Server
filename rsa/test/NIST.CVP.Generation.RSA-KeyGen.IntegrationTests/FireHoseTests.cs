@@ -120,29 +120,28 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest)
             };
 
-            var katGen = new KnownAnswerTestCaseGeneratorB33();
-            var kats = katGen.Generate(group);
-
-            if (!kats.Success)
-            {
-                Assert.Fail("Can't find KATs");
-            }
-
             var count = 1;
-            foreach(var kat in kats.TestCases)
+            var katGen = new KnownAnswerTestCaseGeneratorB33(group);
+            for (int i = 0; i < katGen.NumberOfTestCasesToGenerate; i++)
             {
-                kat.TestCaseId = count;
-                count++;
+                var kat = katGen.Generate(group, false);
+
+                if (!kat.Success)
+                {
+                    Assert.Fail("Can't find KATs");
+                }
+
+                var katTestCase = (TestCase) kat.TestCase;
+                katTestCase.TestCaseId = count++;
 
                 var algo = new RandomProbablePrimeGenerator(EntropyProviderTypes.Testable);
-                algo.AddEntropy(new BitString(kat.Key.PrivKey.P, group.Modulo / 2));
-                algo.AddEntropy(new BitString(kat.Key.PrivKey.Q, group.Modulo / 2));
-                var result = algo.GeneratePrimes(group.Modulo, kat.Key.PubKey.E, null);
+                algo.AddEntropy(new BitString(katTestCase.Key.PrivKey.P, group.Modulo / 2));
+                algo.AddEntropy(new BitString(katTestCase.Key.PrivKey.Q, group.Modulo / 2));
+                var result = algo.GeneratePrimes(group.Modulo, katTestCase.Key.PubKey.E, null);
                 
-
-                if(kat.FailureTest == result.Success)
+                if (katTestCase.FailureTest == result.Success)
                 {
-                    Assert.Fail($"Failed KAT: {kat.TestCaseId}");
+                    Assert.Fail($"Failed KAT: {katTestCase.TestCaseId}");
                 }
             }
         }

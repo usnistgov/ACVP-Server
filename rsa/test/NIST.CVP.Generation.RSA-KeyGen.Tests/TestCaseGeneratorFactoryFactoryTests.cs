@@ -10,7 +10,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
     [TestFixture, UnitTest]
     public class TestCaseGeneratorFactoryFactoryTests
     {
-        private Mock<IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase>> _staticTestCaseGeneratorFactory;
         private Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>> _testCaseGeneratorFactory;
         private Mock<ITestCaseGenerator<TestGroup, TestCase>> _testCaseGenerator;
         private TestCaseGeneratorFactoryFactory _subject;
@@ -19,11 +18,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [SetUp]
         public void Setup()
         {
-            _staticTestCaseGeneratorFactory = new Mock<IKnownAnswerTestCaseGeneratorFactory<TestGroup, TestCase>>();
             _testCaseGeneratorFactory = new Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>>();
             _testCaseGenerator = new Mock<ITestCaseGenerator<TestGroup, TestCase>>();
-            _subject = new TestCaseGeneratorFactoryFactory(_testCaseGeneratorFactory.Object,
-                _staticTestCaseGeneratorFactory.Object);
+            _subject = new TestCaseGeneratorFactoryFactory(_testCaseGeneratorFactory.Object);
 
             _testVectorSet = new TestVectorSet
             {
@@ -48,24 +45,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 }
             };
 
-            _staticTestCaseGeneratorFactory
-                .Setup(s => s.GetStaticCaseGenerator(It.IsAny<TestGroup>()))
-                .Returns(new FakeStaticTestCaseGenerator<TestGroup, TestCase>());
             _testCaseGeneratorFactory.Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(new FakeTestCaseGenerator<TestGroup, TestCase>());
-        }
-
-        [Test]
-        public void ShouldReturnErrorMessageWithinGenerateResponseWhenStaticFails()
-        {
-            _staticTestCaseGeneratorFactory
-                .Setup(s => s.GetStaticCaseGenerator(It.IsAny<TestGroup>()))
-                .Returns(new KnownAnswerTestCaseGeneratorNull());
-
-            var result = _subject.BuildTestCases(_testVectorSet);
-
-            Assert.IsFalse(result.Success, nameof(result.Success));
-            Assert.IsTrue(!string.IsNullOrEmpty(result.ErrorMessage), nameof(result.ErrorMessage));
         }
 
         [Test]
@@ -74,12 +55,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var results = _subject.BuildTestCases(_testVectorSet);
 
             Assert.IsTrue(results.Success);
-            _staticTestCaseGeneratorFactory
-                .Verify(v => v.GetStaticCaseGenerator(
-                        It.IsAny<TestGroup>()),
-                    Times.AtLeastOnce(),
-                    nameof(_staticTestCaseGeneratorFactory.Object.GetStaticCaseGenerator)
-                );
             _testCaseGeneratorFactory
                 .Verify(v => v.GetCaseGenerator(
                         It.IsAny<TestGroup>()),
@@ -111,8 +86,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(_testCaseGenerator.Object);
 
-            _subject = new TestCaseGeneratorFactoryFactory(_testCaseGeneratorFactory.Object,
-                _staticTestCaseGeneratorFactory.Object);
+            _subject = new TestCaseGeneratorFactoryFactory(_testCaseGeneratorFactory.Object);
 
             var results = _subject.BuildTestCases(_testVectorSet);
 

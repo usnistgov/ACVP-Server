@@ -24,11 +24,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 PrimeTest = ptMode
             };
 
-            var subject = new KnownAnswerTestCaseGeneratorB33();
-            var result = subject.Generate(testGroup);
+            var subject = new KnownAnswerTestCaseGeneratorB33(testGroup);
+            var result = subject.Generate(testGroup, false);
 
             Assert.IsTrue(result.Success);
-            Assert.IsNotNull(result.TestCases);
+            Assert.IsNotNull(result.TestCase);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [TestCase(4096, PrimeTestModes.C3)]
         [TestCase(1234, PrimeTestModes.C2)]
         [TestCase(4321, PrimeTestModes.C3)]
-        public void ShouldReturnNullResponseWithBadData(int modulo, PrimeTestModes ptMode)
+        public void ShouldThrowWithBadData(int modulo, PrimeTestModes ptMode)
         {
             var testGroup = new TestGroup
             {
@@ -44,11 +44,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 PrimeTest = ptMode
             };
 
-            var subject = new KnownAnswerTestCaseGeneratorB33();
-            var result = subject.Generate(testGroup);
-
-            Assert.IsFalse(result.Success);
-            Assert.IsNull(result.TestCases);
+            Assert.Throws(typeof(ArgumentException), () => new KnownAnswerTestCaseGeneratorB33(testGroup));
         }
     }
 }

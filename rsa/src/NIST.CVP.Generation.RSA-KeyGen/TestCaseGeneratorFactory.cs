@@ -26,7 +26,13 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     return new TestCaseGeneratorAFT_B32(_random800_90, new RandomProvablePrimeGenerator());
 
                 case KeyGenModes.B33:
-                    return new TestCaseGeneratorGDT_B33(_random800_90, new RandomProbablePrimeGenerator());
+                    switch (testGroup.TestType.ToLower())
+                    {
+                        case "kat":
+                            return new KnownAnswerTestCaseGeneratorB33(testGroup);
+                        default:
+                            return new TestCaseGeneratorGDT_B33(_random800_90, new RandomProbablePrimeGenerator());
+                    }
 
                 case KeyGenModes.B34:
                     return new TestCaseGeneratorAFT_B34(_random800_90, new AllProvablePrimesWithConditionsGenerator());

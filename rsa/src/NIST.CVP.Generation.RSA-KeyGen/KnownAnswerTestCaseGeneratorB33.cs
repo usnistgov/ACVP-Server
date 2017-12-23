@@ -7,25 +7,46 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class KnownAnswerTestCaseGeneratorB33 : IKnownAnswerTestCaseGenerator<TestGroup, TestCase>
+    public class KnownAnswerTestCaseGeneratorB33 : ITestCaseGenerator<TestGroup, TestCase>
     {
-        public MultipleTestCaseGenerateResponse<TestCase> Generate(TestGroup testGroup)
+        private readonly List<AlgoArrayResponse> _kats = new List<AlgoArrayResponse>();
+        private int _katsIndex = 0;
+
+        public KnownAnswerTestCaseGeneratorB33(TestGroup testGroup)
         {
-            var data = KATData.GetKATsForProperties(testGroup.Modulo, testGroup.PrimeTest);
-            if (data == null)
+            _kats = KATData.GetKATsForProperties(testGroup.Modulo, testGroup.PrimeTest);
+
+            if (_kats == null)
             {
-                return
-                    new MultipleTestCaseGenerateResponse<TestCase>(
-                        $"Invalid {nameof(testGroup.Modulo)} of {testGroup.Modulo} or {nameof(testGroup.PrimeTest)} of {testGroup.PrimeTest})");
+                throw new ArgumentException($"Invalid {nameof(testGroup.Modulo)} of {testGroup.Modulo} or {nameof(testGroup.PrimeTest)} of {testGroup.PrimeTest})");
+            }
+        }
+
+        public int NumberOfTestCasesToGenerate => _kats.Count;
+
+        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        {
+            TestCase testCase = new TestCase();
+            return Generate(group, testCase);
+        }
+
+        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        {
+            if (_katsIndex + 1 > _kats.Count)
+            {
+                return new TestCaseGenerateResponse("No additional KATs exist.");
             }
 
-            var testCases = data.Select(s => new TestCase
-            {
-                Key = new KeyPair(s.P.ToPositiveBigInteger(), s.Q.ToPositiveBigInteger(), s.E.ToPositiveBigInteger()),
-                FailureTest = s.FailureTest
-            }).ToList();
+            var currentKat = _kats[_katsIndex++];
 
-            return new MultipleTestCaseGenerateResponse<TestCase>(testCases);
+            testCase.Key = new KeyPair(
+                currentKat.P.ToPositiveBigInteger(), 
+                currentKat.Q.ToPositiveBigInteger(),
+                currentKat.E.ToPositiveBigInteger()
+            );
+            testCase.FailureTest = currentKat.FailureTest;
+            
+            return new TestCaseGenerateResponse(testCase);
         }
     }
 }

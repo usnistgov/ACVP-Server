@@ -173,7 +173,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 caps[i] = new Capability
                 {
                     Modulo = ParameterValidator.VALID_MODULI[i],
-                    HashAlgs = ParameterValidator.VALID_HASH_ALGS,
+                    HashAlgs = new string[] { "sha-224" },
                     PrimeTests = ParameterValidator.VALID_PRIME_TESTS
                 };
             }
