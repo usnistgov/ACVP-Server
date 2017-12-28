@@ -57,15 +57,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.IKEv2",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.IKEv2.Tests", "..\..\kdf-components\test\NIST.CVP.Generation.IKEv2.Tests\NIST.CVP.Generation.IKEv2.Tests.csproj", "{05A57261-4523-45F0-AB42-890E95EB65E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.IKEv2.IntegrationTests", "..\..\kdf-components\test\NIST.CVP.Generation.IKEv2.IntegrationTests\NIST.CVP.Generation.IKEv2.IntegrationTests.csproj", "{84377435-96CE-439D-8677-4B7510AEB31B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.IKEv2.IntegrationTests", "..\..\kdf-components\test\NIST.CVP.Generation.IKEv2.IntegrationTests\NIST.CVP.Generation.IKEv2.IntegrationTests.csproj", "{84377435-96CE-439D-8677-4B7510AEB31B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KDFComponent", "..\..\kdf-components\src\KDFComponent\KDFComponent.csproj", "{A7F17F05-5F6B-4F01-A17A-60B1B25726DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KDFComponent", "..\..\kdf-components\src\KDFComponent\KDFComponent.csproj", "{A7F17F05-5F6B-4F01-A17A-60B1B25726DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KDFComponent_Val", "..\..\kdf-components\src\KDFComponent_Val\KDFComponent_Val.csproj", "{F7ECC0FF-54EA-4F7E-89F9-7818D0753AAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KDFComponent_Val", "..\..\kdf-components\src\KDFComponent_Val\KDFComponent_Val.csproj", "{F7ECC0FF-54EA-4F7E-89F9-7818D0753AAE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", "..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj", "{4396CDB2-8BA5-4FD4-891E-B98D122775E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.TLS", "..\..\crypto\src\NIST.CVP.Crypto.TLS\NIST.CVP.Crypto.TLS.csproj", "{69D59BC5-25E4-4E35-BDF4-A06C7C8C258A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.TLS", "..\..\crypto\src\NIST.CVP.Crypto.TLS\NIST.CVP.Crypto.TLS.csproj", "{69D59BC5-25E4-4E35-BDF4-A06C7C8C258A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.MD5", "..\..\crypto\src\NIST.CVP.Crypto.MD5\NIST.CVP.Crypto.MD5.csproj", "{F3F43D67-1896-4FE3-A67F-155D92CBC94E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.MD5.Tests", "..\..\crypto\test\NIST.CVP.Crypto.MD5.Tests\NIST.CVP.Crypto.MD5.Tests.csproj", "{0A76361F-F212-4401-8CED-EA0DD6C8CAAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -193,6 +197,14 @@ Global
 		{69D59BC5-25E4-4E35-BDF4-A06C7C8C258A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69D59BC5-25E4-4E35-BDF4-A06C7C8C258A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69D59BC5-25E4-4E35-BDF4-A06C7C8C258A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3F43D67-1896-4FE3-A67F-155D92CBC94E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3F43D67-1896-4FE3-A67F-155D92CBC94E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3F43D67-1896-4FE3-A67F-155D92CBC94E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3F43D67-1896-4FE3-A67F-155D92CBC94E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A76361F-F212-4401-8CED-EA0DD6C8CAAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A76361F-F212-4401-8CED-EA0DD6C8CAAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A76361F-F212-4401-8CED-EA0DD6C8CAAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A76361F-F212-4401-8CED-EA0DD6C8CAAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,6 +240,8 @@ Global
 		{F7ECC0FF-54EA-4F7E-89F9-7818D0753AAE} = {133D77C3-A543-490F-8516-591A46AD3873}
 		{4396CDB2-8BA5-4FD4-891E-B98D122775E6} = {133D77C3-A543-490F-8516-591A46AD3873}
 		{69D59BC5-25E4-4E35-BDF4-A06C7C8C258A} = {133D77C3-A543-490F-8516-591A46AD3873}
+		{F3F43D67-1896-4FE3-A67F-155D92CBC94E} = {133D77C3-A543-490F-8516-591A46AD3873}
+		{0A76361F-F212-4401-8CED-EA0DD6C8CAAB} = {F7C3601A-5AC2-4556-85A7-8A5797724D98}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {759BFB51-B15A-47AB-A226-E9995D7D723B}
