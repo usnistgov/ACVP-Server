@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NIST.CVP.Crypto.HMAC\NIST.CVP.Crypto.HMAC.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.MD5\NIST.CVP.Crypto.MD5.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.SHAWrapper\NIST.CVP.Crypto.SHAWrapper.csproj" />
   </ItemGroup>
 
