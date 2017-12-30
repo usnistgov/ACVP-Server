@@ -24,41 +24,44 @@ namespace NIST.CVP.Generation.TDES_CTR
             var testType = group.TestType.ToLower();
             var direction = group.Direction.ToLower();
 
-            if (testType == "singleblock")
+            switch (testType)
             {
-                if (direction == "encrypt")
-                {
-                    return new TestCaseGeneratorSingleBlockEncrypt(_random800_90, _algo);
-                }
+                case "permutation":
+                case "inversepermutation":
+                case "substitutiontable":
+                case "variablekey":
+                case "variabletext":
+                    return new TestCaseGeneratorKnownAnswer(group);
+                case "singleblock":
+                    switch (direction)
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorSingleBlockEncrypt(_random800_90, _algo);
+                        case "decrypt":
+                            return new TestCaseGeneratorSingleBlockDecrypt(_random800_90, _algo);
+                    }
 
-                if (direction == "decrypt")
-                { 
-                    return new TestCaseGeneratorSingleBlockDecrypt(_random800_90, _algo);
-                }
-            }
-            else if (testType == "partialblock")
-            {
-                if (direction == "encrypt")
-                {
-                    return new TestCaseGeneratorPartialBlockEncrypt(_random800_90, _algo);
-                }
+                    break;
+                case "partialblock":
+                    switch (direction)
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorPartialBlockEncrypt(_random800_90, _algo);
+                        case "decrypt":
+                            return new TestCaseGeneratorPartialBlockDecrypt(_random800_90, _algo);
+                    }
 
-                if (direction == "decrypt")
-                {
-                    return new TestCaseGeneratorPartialBlockDecrypt(_random800_90, _algo);
-                }
-            }   
-            else if (testType == "counter")
-            {
-                if (direction == "encrypt")
-                {
-                    return new TestCaseGeneratorCounterEncrypt(_random800_90, _algo);
-                }
+                    break;
+                case "counter":
+                    switch (direction)
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorCounterEncrypt(_random800_90, _algo);
+                        case "decrypt":
+                            return new TestCaseGeneratorCounterDecrypt(_random800_90, _algo);
+                    }
 
-                if (direction == "decrypt")
-                {
-                    return new TestCaseGeneratorCounterDecrypt(_random800_90, _algo);
-                }
+                    break;
             }
 
             return new TestCaseGeneratorNull();

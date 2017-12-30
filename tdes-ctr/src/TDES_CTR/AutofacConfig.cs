@@ -25,7 +25,7 @@ namespace TDES_CTR
             builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
 
             builder.RegisterType<TdesCtr>().AsImplementedInterfaces();
-            builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorKnownAnswer>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
 

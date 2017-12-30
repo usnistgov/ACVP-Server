@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -11,7 +12,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
     public class KATs
     {
         private readonly ITdesCtr _subject = new TdesCtr();
-        private readonly IKnownAnswerTestFactory _katFactory = new KnownAnswerTestFactory();
+        private ITestCaseGenerator<TestGroup, TestCase> _katTestCaseGenerator;
 
         private readonly string[] _katTypes = { "permutation", "substitutiontable", "variablekey", "variabletext", "inversepermutation"};
         private readonly string _encryptLabel = "encrypt";
@@ -22,7 +23,20 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
         {
             foreach (var testType in _katTypes)
             {
-                var tests = _katFactory.GetKATTestCases(testType, _encryptLabel);
+                TestGroup tg = new TestGroup()
+                {
+                    TestType = testType,
+                    Direction = _encryptLabel
+                };
+
+                _katTestCaseGenerator = new TestCaseGeneratorKnownAnswer(tg);
+
+                List<TestCase> tests = new List<TestCase>();
+                for (int i = 0; i < _katTestCaseGenerator.NumberOfTestCasesToGenerate; i++)
+                {
+                    tests.Add((TestCase)_katTestCaseGenerator.Generate(tg, false).TestCase);
+                }
+
                 foreach (var test in tests)
                 {
                     var result = _subject.EncryptBlock(test.Key, test.PlainText, test.Iv);
@@ -38,7 +52,20 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
         {
             foreach (var testType in _katTypes)
             {
-                var tests = _katFactory.GetKATTestCases(testType, _decryptLabel);
+                TestGroup tg = new TestGroup()
+                {
+                    TestType = testType,
+                    Direction = _encryptLabel
+                };
+
+                _katTestCaseGenerator = new TestCaseGeneratorKnownAnswer(tg);
+
+                List<TestCase> tests = new List<TestCase>();
+                for (int i = 0; i < _katTestCaseGenerator.NumberOfTestCasesToGenerate; i++)
+                {
+                    tests.Add((TestCase)_katTestCaseGenerator.Generate(tg, false).TestCase);
+                }
+
                 foreach (var test in tests)
                 {
                     var result = _subject.DecryptBlock(test.Key, test.CipherText, test.Iv);
