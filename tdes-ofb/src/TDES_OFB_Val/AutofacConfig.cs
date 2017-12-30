@@ -32,7 +32,7 @@ namespace TDES_OFB_Val
             builder.RegisterType<TdesOfb>().AsImplementedInterfaces();
             builder.RegisterType<TDES_OFB_MCT>().AsImplementedInterfaces();
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
-            builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorKnownAnswer>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
