@@ -21,28 +21,34 @@ namespace NIST.CVP.Generation.TDES_CFBP
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group)
         {
 
-            if (@group.TestType.ToLower() == "multiblockmessage")
+            switch (@group.TestType.ToLower())
             {
-                if (@group.Function.ToLower() == "encrypt")
-                {
-                    return new TestCaseGeneratorMMTEncrypt(_random800_90, _modeOfOperation);
-                }
+                case "permutation":
+                case "inversepermutation":
+                case "substitutiontable":
+                case "variablekey":
+                case "variabletext":
+                    return new TestCaseGeneratorKnownAnswer(group, _modeOfOperation.Algo);
+                case "multiblockmessage":
+                    switch (@group.Function.ToLower())
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorMMTEncrypt(_random800_90, _modeOfOperation);
+                        case "decrypt":
+                            return new TestCaseGeneratorMMTDecrypt(_random800_90, _modeOfOperation);
+                    }
 
-                if (@group.Function.ToLower() == "decrypt")
-                {
-                    return new TestCaseGeneratorMMTDecrypt(_random800_90, _modeOfOperation);
-                }
-            }
-            if (@group.TestType.ToLower() == "mct")
-            {
-                if (@group.Function.ToLower() == "encrypt")
-                {
-                    return new TestCaseGeneratorMonteCarloEncrypt(_random800_90, _modeOfOperationMCT);
-                }
-                if (@group.Function.ToLower() == "decrypt") 
-                {
-                    return new TestCaseGeneratorMonteCarloDecrypt(_random800_90, _modeOfOperationMCT);
-                }
+                    break;
+                case "mct":
+                    switch (@group.Function.ToLower())
+                    {
+                        case "encrypt":
+                            return new TestCaseGeneratorMonteCarloEncrypt(_random800_90, _modeOfOperationMCT);
+                        case "decrypt":
+                            return new TestCaseGeneratorMonteCarloDecrypt(_random800_90, _modeOfOperationMCT);
+                    }
+
+                    break;
             }
 
             return new TestCaseGeneratorNull();

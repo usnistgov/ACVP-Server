@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using System;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using System.ComponentModel;
 using NIST.CVP.Crypto.Common;
 using NUnit.Framework;
@@ -13,15 +14,15 @@ namespace NIST.CVP.Crypto.Core.Tests
         [TestCase(Algo.TDES_CFB1, "TDES-CFB1")]
         [TestCase(Algo.TDES_CFB8, "TDES-CFB8")]
         [TestCase(Algo.TDES_CFB64, "TDES-CFB64")]
-        public void CanCreateEnumFromDescription<T>(T _enum, string Description) where T : struct
+        public void CanCreateEnumFromDescription<T>(T value, string description) where T : struct
         {
-            Assert.AreEqual(_enum, EnumHelpers.GetEnumFromEnumDescription<T>(Description));
+            Assert.AreEqual(value, EnumHelpers.GetEnumFromEnumDescription<T>(description));
         }
 
         [TestCase(Algo.TDES_CFB1, "BadEnumDescription")]
-        public void ThrowsExceptionForIncorrectDescription<T>(T _enum, string BadDescription) where T : struct
+        public void ThrowsExceptionForIncorrectDescription<T>(T value, string badDescription) where T : struct
         {
-            Assert.Throws<InvalidEnumArgumentException>(() => EnumHelpers.GetEnumFromEnumDescription<T>(BadDescription));
+            Assert.Throws(typeof(InvalidOperationException), () => EnumHelpers.GetEnumFromEnumDescription<T>(badDescription));
         }
     }
 }
