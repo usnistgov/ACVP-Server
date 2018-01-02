@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.IKEv2.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseGeneratorSingleBlockEncryptTests
+    public class TestCaseGeneratorTests
     {
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()

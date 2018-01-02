@@ -21,5 +21,5 @@ namespace NIST.CVP.Generation.TLS
             }
             return list;
         }
-    }s
+    }
 }

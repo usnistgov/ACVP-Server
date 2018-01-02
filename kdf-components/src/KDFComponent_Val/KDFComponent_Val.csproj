@@ -11,6 +11,7 @@
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.IKEv1\NIST.CVP.Generation.IKEv1.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.IKEv2\NIST.CVP.Generation.IKEv2.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Generation.TLS\NIST.CVP.Generation.TLS.csproj" />
   </ItemGroup>
 
   <ItemGroup>

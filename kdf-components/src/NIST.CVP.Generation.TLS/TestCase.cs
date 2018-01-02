@@ -48,8 +48,8 @@ namespace NIST.CVP.Generation.TLS
             ClientRandom = expandoSource.GetBitStringFromProperty("clientRandom");
             ServerRandom = expandoSource.GetBitStringFromProperty("serverRandom");
             
-            MasterSecret = expandoSource.GetBitStringFromProperty("spiResp");
-            KeyBlock = expandoSource.GetBitStringFromProperty("sKeySeed");
+            MasterSecret = expandoSource.GetBitStringFromProperty("masterSecret");
+            KeyBlock = expandoSource.GetBitStringFromProperty("keyBlock");
         }
 
         public bool Merge(ITestCase otherTest)
@@ -72,7 +72,35 @@ namespace NIST.CVP.Generation.TLS
 
             switch (name.ToLower())
             {
+                case "serverrandom":
+                case "server_random":
+                    ServerRandom = new BitString(value);
+                    return true;
 
+                case "clientrandom":
+                case "client_random":
+                    ClientRandom = new BitString(value);
+                    return true;
+
+                case "clienthello_random":
+                    ClientHelloRandom = new BitString(value);
+                    return true;
+
+                case "serverhello_random":
+                    ServerHelloRandom = new BitString(value);
+                    return true;
+
+                case "pre_master_secret":
+                    PreMasterSecret = new BitString(value);
+                    return true;
+
+                case "master_secret":
+                    MasterSecret = new BitString(value);
+                    return true;
+
+                case "key_block":
+                    KeyBlock = new BitString(value);
+                    return true;
             }
 
             return false;

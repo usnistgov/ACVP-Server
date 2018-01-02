@@ -88,7 +88,21 @@ namespace NIST.CVP.Generation.TLS
 
             switch (name.ToLower())
             {
+                case "hashalg":
+                    HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+                    return true;
 
+                case "pre-master secret length":
+                    PreMasterSecretLength = int.Parse(value);
+                    return true;
+
+                case "key block length":
+                    KeyBlockLength = int.Parse(value);
+                    return true;
+
+                case "tlsversion":
+                    TlsMode = EnumHelpers.GetEnumFromEnumDescription<TlsModes>(value);
+                    return true;
             }
 
             return false;

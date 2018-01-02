@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
@@ -42,9 +43,9 @@ namespace NIST.CVP.Generation.TLS
                         });
                     }
                 }
-
-                return list;
             }
+
+            return list;
         }
     }
 }

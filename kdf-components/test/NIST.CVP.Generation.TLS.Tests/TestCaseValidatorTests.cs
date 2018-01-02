@@ -5,7 +5,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.IKEv2.Tests
+namespace NIST.CVP.Generation.TLS.Tests
 {
     [TestFixture, UnitTest]
     public class TestCaseValidatorTests
@@ -28,13 +28,13 @@ namespace NIST.CVP.Generation.IKEv2.Tests
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.DerivedKeyingMaterialChild = new BitString("D00000");
+            suppliedResult.KeyBlock = new BitString("D00000");
 
             var result = subject.Validate(suppliedResult);
 
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains(nameof(suppliedResult.DerivedKeyingMaterialChild)));
+            Assert.IsTrue(result.Reason.Contains(nameof(suppliedResult.KeyBlock)));
         }
 
         [Test]
@@ -43,13 +43,13 @@ namespace NIST.CVP.Generation.IKEv2.Tests
             var testCase = GetTestCase();
             var subject = new TestCaseValidator(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.DerivedKeyingMaterial = new BitString("D00000");
+            suppliedResult.MasterSecret = new BitString("D00000");
 
             var result = subject.Validate(suppliedResult);
 
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains(nameof(suppliedResult.DerivedKeyingMaterial)));
+            Assert.IsTrue(result.Reason.Contains(nameof(suppliedResult.MasterSecret)));
         }
 
         [Test]
@@ -59,24 +59,21 @@ namespace NIST.CVP.Generation.IKEv2.Tests
             var subject = new TestCaseValidator(testCase);
             var suppliedResult = GetTestCase();
 
-            suppliedResult.SKeySeed = null;
+            suppliedResult.KeyBlock = null;
 
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.SKeySeed)} was not present in the {nameof(TestCase)}"));
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.KeyBlock)} was not present in the {nameof(TestCase)}"));
         }
 
         private TestCase GetTestCase()
         {
             var testCase = new TestCase
             {
-                SKeySeed = new BitString("01ABCDEF0123456789ABCDEF0123456789"),
-                SKeySeedReKey = new BitString("02ABCDEF0123456789ABCDEF0123456789"),
-                DerivedKeyingMaterial = new BitString("03ABCDEF0123456789ABCDEF0123456789"),
-                DerivedKeyingMaterialChild = new BitString("04ABCDEF0123456789ABCDEF0123456789"),
-                DerivedKeyingMaterialDh = new BitString("05ABCDEF0123456789ABCDEF0123456789"),
+                KeyBlock = new BitString("01ABCDEF0123456789ABCDEF012345678901"),
+                MasterSecret = new BitString("02ABCDEF0123456789ABCDEF0123456789"),
                 TestCaseId = 1
             };
             return testCase;

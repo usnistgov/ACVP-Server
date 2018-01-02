@@ -4,6 +4,8 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TLS
@@ -43,13 +45,102 @@ namespace NIST.CVP.Generation.TLS
             }
         }
 
-        public List<dynamic> AnswerProjection => throw new NotImplementedException();
+        public List<dynamic> AnswerProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup) g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("tlsVersion", EnumHelpers.GetEnumDescriptionFromEnum(group.TlsMode));
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                    ((IDictionary<string, object>)updateObject).Add("preMasterSecretLength", group.PreMasterSecretLength);
+                    ((IDictionary<string, object>)updateObject).Add("keyBlockLength", group.KeyBlockLength);
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase) t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("clientHelloRandom", test.ClientHelloRandom);
+                        ((IDictionary<string, object>)testObject).Add("serverHelloRandom", test.ServerHelloRandom);
+                        ((IDictionary<string, object>)testObject).Add("clientRandom", test.ClientRandom);
+                        ((IDictionary<string, object>)testObject).Add("serverRandom", test.ServerRandom);
+                        ((IDictionary<string, object>)testObject).Add("preMasterSecret", test.PreMasterSecret);
+                        
+                        ((IDictionary<string, object>)testObject).Add("masterSecret", test.MasterSecret);
+                        ((IDictionary<string, object>)testObject).Add("keyBlock", test.KeyBlock);
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
 
         [JsonProperty(PropertyName = "testGroups")]
-        public List<dynamic> PromptProjection => throw new NotImplementedException();
+        public List<dynamic> PromptProjection
+        {
+            get
+            {
+                var list = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup) g))
+                {
+                    dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("tlsVersion", EnumHelpers.GetEnumDescriptionFromEnum(group.TlsMode));
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                    ((IDictionary<string, object>)updateObject).Add("preMasterSecretLength", group.PreMasterSecretLength);
+                    ((IDictionary<string, object>)updateObject).Add("keyBlockLength", group.KeyBlockLength);
+
+                    var tests = new List<dynamic>();
+                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase) t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("clientHelloRandom", test.ClientHelloRandom);
+                        ((IDictionary<string, object>)testObject).Add("serverHelloRandom", test.ServerHelloRandom);
+                        ((IDictionary<string, object>)testObject).Add("clientRandom", test.ClientRandom);
+                        ((IDictionary<string, object>)testObject).Add("serverRandom", test.ServerRandom);
+                        ((IDictionary<string, object>)testObject).Add("preMasterSecret", test.PreMasterSecret);
+
+                        tests.Add(testObject);
+                    }
+
+                    list.Add(updateObject);
+                }
+
+                return list;
+            }
+        }
 
         [JsonProperty(PropertyName = "testResults")]
-        public List<dynamic> ResultProjection => throw new NotImplementedException();
+        public List<dynamic> ResultProjection
+        {
+            get
+            {
+                var tests = new List<dynamic>();
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
+                {
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
+                    {
+                        dynamic testObject = new ExpandoObject();
+                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        ((IDictionary<string, object>)testObject).Add("masterSecret", test.MasterSecret);
+                        ((IDictionary<string, object>)testObject).Add("keyBlock", test.KeyBlock);
+
+                        tests.Add(testObject);
+                    }
+                }
+
+                return tests;
+            }
+        }
 
         public dynamic ToDynamic()
         {

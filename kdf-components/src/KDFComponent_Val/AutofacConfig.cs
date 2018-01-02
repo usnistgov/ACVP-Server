@@ -21,14 +21,18 @@ namespace KDFComponent_Val
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
 
-            switch (algo)
+            switch (algo.ToLower())
             {
-                case "IKEv1":
+                case "ikev1":
                     NIST.CVP.Generation.IKEv1.AutofacConfig.RegisterTypes(builder);
                     break;
 
-                case "IKEv2":
+                case "ikev2":
                     NIST.CVP.Generation.IKEv2.AutofacConfig.RegisterTypes(builder);
+                    break;
+
+                case "tls":
+                    NIST.CVP.Generation.TLS.AutofacConfig.RegisterTypes(builder);
                     break;
 
                 default:
