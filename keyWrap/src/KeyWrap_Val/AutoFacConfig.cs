@@ -40,7 +40,7 @@ namespace KeyWrap_Val
                     break;
 
                 default:
-                    throw new NotImplementedException("Type not supported");
+                    throw new NotImplementedException($"Type {algo} not supported");
             }
 
             OverrideRegistrations?.Invoke(builder);
