@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TLS.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestGroupGeneratorFactoryTests
     {
         private TestGroupGeneratorFactory _subject;

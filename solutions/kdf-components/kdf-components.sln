@@ -77,13 +77,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TLS", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TLS.Tests", "..\..\kdf-components\test\NIST.CVP.Generation.TLS.Tests\NIST.CVP.Generation.TLS.Tests.csproj", "{B6193FD0-5731-4129-B074-9B9809DF72F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.TLS.IntegrationTests", "..\..\kdf-components\test\NIST.CVP.Generation.TLS.IntegrationTests\NIST.CVP.Generation.TLS.IntegrationTests.csproj", "{98645ACE-1300-4A6D-90EA-E546E6F6EF0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.TLS.IntegrationTests", "..\..\kdf-components\test\NIST.CVP.Generation.TLS.IntegrationTests\NIST.CVP.Generation.TLS.IntegrationTests.csproj", "{98645ACE-1300-4A6D-90EA-E546E6F6EF0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.SSH", "..\..\crypto\src\NIST.CVP.Crypto.SSH\NIST.CVP.Crypto.SSH.csproj", "{BA908732-7DFC-44D7-A4A1-5326AF044028}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SSH", "..\..\crypto\src\NIST.CVP.Crypto.SSH\NIST.CVP.Crypto.SSH.csproj", "{BA908732-7DFC-44D7-A4A1-5326AF044028}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.SSH.Tests", "..\..\crypto\test\NIST.CVP.Crypto.SSH.Tests\NIST.CVP.Crypto.SSH.Tests.csproj", "{AF7C7AFF-AB3C-446F-8D04-6D030F1AA3B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.SSH.Tests", "..\..\crypto\test\NIST.CVP.Crypto.SSH.Tests\NIST.CVP.Crypto.SSH.Tests.csproj", "{AF7C7AFF-AB3C-446F-8D04-6D030F1AA3B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.SSH", "..\..\kdf-components\src\NIST.CVP.Generation.SSH\NIST.CVP.Generation.SSH.csproj", "{D89BF41D-1CBB-4178-A232-2BD705F6DFD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.SSH", "..\..\kdf-components\src\NIST.CVP.Generation.SSH\NIST.CVP.Generation.SSH.csproj", "{D89BF41D-1CBB-4178-A232-2BD705F6DFD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.SSH.Tests", "..\..\kdf-components\test\NIST.CVP.Generation.SSH.Tests\NIST.CVP.Generation.SSH.Tests.csproj", "{CE0CCF86-7750-4974-8BA1-D24FBF301200}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.SSH.IntegrationTests", "..\..\kdf-components\test\NIST.CVP.Generation.SSH.IntegrationTests\NIST.CVP.Generation.SSH.IntegrationTests.csproj", "{BAE77FEC-0A87-4608-A227-1F9C021E981B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -247,6 +251,14 @@ Global
 		{D89BF41D-1CBB-4178-A232-2BD705F6DFD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D89BF41D-1CBB-4178-A232-2BD705F6DFD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D89BF41D-1CBB-4178-A232-2BD705F6DFD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE0CCF86-7750-4974-8BA1-D24FBF301200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE0CCF86-7750-4974-8BA1-D24FBF301200}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE0CCF86-7750-4974-8BA1-D24FBF301200}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE0CCF86-7750-4974-8BA1-D24FBF301200}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAE77FEC-0A87-4608-A227-1F9C021E981B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAE77FEC-0A87-4608-A227-1F9C021E981B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAE77FEC-0A87-4608-A227-1F9C021E981B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAE77FEC-0A87-4608-A227-1F9C021E981B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -291,6 +303,8 @@ Global
 		{BA908732-7DFC-44D7-A4A1-5326AF044028} = {133D77C3-A543-490F-8516-591A46AD3873}
 		{AF7C7AFF-AB3C-446F-8D04-6D030F1AA3B6} = {F7C3601A-5AC2-4556-85A7-8A5797724D98}
 		{D89BF41D-1CBB-4178-A232-2BD705F6DFD6} = {133D77C3-A543-490F-8516-591A46AD3873}
+		{CE0CCF86-7750-4974-8BA1-D24FBF301200} = {F7C3601A-5AC2-4556-85A7-8A5797724D98}
+		{BAE77FEC-0A87-4608-A227-1F9C021E981B} = {F7C3601A-5AC2-4556-85A7-8A5797724D98}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {759BFB51-B15A-47AB-A226-E9995D7D723B}

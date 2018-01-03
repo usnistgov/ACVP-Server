@@ -11,8 +11,8 @@ namespace NIST.CVP.Generation.SSH
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public string[] VALID_HASH_ALGS = {"sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512"};
-        public string[] VALID_CIPHERS = EnumHelpers.GetEnumDescriptions<Cipher>().ToArray();
+        public static string[] VALID_HASH_ALGS = {"sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512"};
+        public static string[] VALID_CIPHERS = EnumHelpers.GetEnumDescriptions<Cipher>().ToArray();
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
