@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Collections;
+using System.Text.RegularExpressions;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Math.Tests
@@ -118,5 +119,18 @@ namespace NIST.CVP.Math.Tests
             }
         }
 
+        [Test]
+        [TestCase(1)]
+        [TestCase(100)]
+        [TestCase(1000)]
+        public void ShouldReturnCorrectNumberOfAlphaCharacters(int length)
+        {
+            var subject = new Random800_90();
+
+            var result = subject.GetRandomAlphaCharacters(length);
+
+            Assert.IsTrue(Regex.IsMatch(result, @"^[a-zA-Z]+$"));
+            Assert.AreEqual(length, result.Length);
+        }
     }
 }

@@ -158,14 +158,13 @@ namespace NIST.CVP.Math
                 bytes[i] = bytesToConcatenate[i % bytesToConcatenate.Length];
             }
 
-            var shortenedBits = new BitString(bytes);
-
-            if (shortenedBits.BitLength > bitLengthToHit)
+            var shortenedBits = Helper.MostSignificantByteArrayToLeastSignificantBitArray(bytes);
+            if (shortenedBits.Length > bitLengthToHit)
             {
-                shortenedBits = shortenedBits.GetMostSignificantBits(bitLengthToHit);
+                shortenedBits = shortenedBits.SubArray(0, bitLengthToHit);
             }
 
-            _bits = shortenedBits.Bits;
+            _bits = shortenedBits;
         }
         #endregion Constructors
 

@@ -69,5 +69,18 @@ namespace NIST.CVP.Math
         {
             return GetRandomBigInteger(maxInclusive - minInclusive) + minInclusive;
         }
+
+        private const string VALID_ALPHA_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        public string GetRandomAlphaCharacters(int length)
+        {
+            var result = "";
+            for (var i = 0; i < length; i++)
+            {
+                result += VALID_ALPHA_CHARACTERS[_randy.Next(VALID_ALPHA_CHARACTERS.Length)];
+            }
+
+            return result;
+        }
     }
 }
