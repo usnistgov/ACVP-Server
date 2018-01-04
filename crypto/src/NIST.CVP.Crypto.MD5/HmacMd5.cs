@@ -11,9 +11,8 @@ namespace NIST.CVP.Crypto.MD5
     {
         private readonly IMd5 _hash;
 
-        // TODO find that method for repeating bitstring from bytes
-        private readonly BitString _opad = new BitString("5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c");
-        private readonly BitString _ipad = new BitString("36363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636");
+        private readonly BitString _opad = new BitString(new byte[]{0x5C}, 512);
+        private readonly BitString _ipad = new BitString(new byte[]{0x36}, 512);
 
         public int OutputLength => 128;
 

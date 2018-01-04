@@ -146,6 +146,27 @@ namespace NIST.CVP.Math
                 _bits = Helper.ReverseBitArrayBits(truncatedBits);
             }
         }
+
+        // TODO this is a bit slow, can it be sped up?
+        public BitString(byte[] bytesToConcatenate, int bitLengthToHit)
+        {
+            var maxBytes = bitLengthToHit.CeilingDivide(BITSINBYTE);
+            var bytes = new byte[maxBytes];
+
+            for (var i = 0; i < maxBytes; i++)
+            {
+                bytes[i] = bytesToConcatenate[i % bytesToConcatenate.Length];
+            }
+
+            var shortenedBits = new BitString(bytes);
+
+            if (shortenedBits.BitLength > bitLengthToHit)
+            {
+                shortenedBits = shortenedBits.GetMostSignificantBits(bitLengthToHit);
+            }
+
+            _bits = shortenedBits.Bits;
+        }
         #endregion Constructors
 
         #region Conversions
