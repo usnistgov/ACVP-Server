@@ -97,6 +97,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.SNMP", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.SNMP.Tests", "..\..\kdf-components\test\NIST.CVP.Generation.SNMP.Tests\NIST.CVP.Generation.SNMP.Tests.csproj", "{A0B4F317-00F7-4707-A49B-B90C7A0F7605}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.SNMP.IntegrationTests", "..\..\kdf-components\test\NIST.CVP.Generation.SNMP.IntegrationTests\NIST.CVP.Generation.SNMP.IntegrationTests.csproj", "{B691F652-C829-4A75-99FC-2D2418CCE162}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -283,6 +285,10 @@ Global
 		{A0B4F317-00F7-4707-A49B-B90C7A0F7605}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0B4F317-00F7-4707-A49B-B90C7A0F7605}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0B4F317-00F7-4707-A49B-B90C7A0F7605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B691F652-C829-4A75-99FC-2D2418CCE162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B691F652-C829-4A75-99FC-2D2418CCE162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B691F652-C829-4A75-99FC-2D2418CCE162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B691F652-C829-4A75-99FC-2D2418CCE162}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -333,6 +339,7 @@ Global
 		{C2475B8F-9F63-4954-9A79-A7BD5EFD0614} = {F7C3601A-5AC2-4556-85A7-8A5797724D98}
 		{38C9C52C-EA8B-4338-88BD-E54D40CA6851} = {133D77C3-A543-490F-8516-591A46AD3873}
 		{A0B4F317-00F7-4707-A49B-B90C7A0F7605} = {F7C3601A-5AC2-4556-85A7-8A5797724D98}
+		{B691F652-C829-4A75-99FC-2D2418CCE162} = {F7C3601A-5AC2-4556-85A7-8A5797724D98}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {759BFB51-B15A-47AB-A226-E9995D7D723B}

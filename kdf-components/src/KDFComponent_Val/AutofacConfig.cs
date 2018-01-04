@@ -39,6 +39,10 @@ namespace KDFComponent_Val
                     NIST.CVP.Generation.SSH.AutofacConfig.RegisterTypes(builder);
                     break;
 
+                case "snmp":
+                    NIST.CVP.Generation.SNMP.AutofacConfig.RegisterTypes(builder);
+                    break;
+
                 default:
                     throw new NotImplementedException("Type not supported");
             }

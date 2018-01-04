@@ -1,0 +1,813 @@
+# CAVS 21.4
+# 'SNMP' information for drbg-tests
+# SHA-1
+# Generated on Wed Dec 13 15:54:57 2017
+
+
+[engineID = 000002b87766554433221100]
+[passwordLen = 8]
+
+COUNT = 0
+password = rWXOgGzq
+Shared_key = e1c900949caac3c2029279f21e8294ec0df4a757
+
+COUNT = 1
+password = GcOeLIib
+Shared_key = e126c54a146ff8f33136aa627a9310fc5898d53c
+
+COUNT = 2
+password = bNPkupOh
+Shared_key = 3ba07fab90761a49129cb600d1de1bbcf8b8882d
+
+COUNT = 3
+password = QEBlIcLy
+Shared_key = 352b565eefa338eacbde5365acb212cd891cfcc0
+
+COUNT = 4
+password = hucwltdP
+Shared_key = 321f64c5a3549fdfacee0d3ad4702dd1bad64ac0
+
+COUNT = 5
+password = hzLvtvCg
+Shared_key = 6769dbfdf136b7c6005cb4635abdf1ab27bee3fe
+
+COUNT = 6
+password = SNfkfdNA
+Shared_key = 29d580910b9394ec7438d507dc768142fc756d10
+
+COUNT = 7
+password = DPUWGzTN
+Shared_key = 177373dc2b32caa9260ec8d59e5c08507d7c89cf
+
+COUNT = 8
+password = pduTfCkX
+Shared_key = a1fec8a36254ac22049058781119efd22c070822
+
+COUNT = 9
+password = FqkwuGvz
+Shared_key = fdc877025c9146df7199f77dd4d4966b1efb3480
+
+COUNT = 10
+password = JnKFRBKR
+Shared_key = 62230367298077ab91b0c61948376d67fcd9d67a
+
+COUNT = 11
+password = bCruDryT
+Shared_key = 7f22e6d539abe64afc471129c06ed4de0848d71e
+
+COUNT = 12
+password = zRvjgjjT
+Shared_key = ad8e88841992d4d0c75ea2a16f740b58227d9cff
+
+COUNT = 13
+password = PXxgTdWa
+Shared_key = b9bc36957dbdd55e409e24882e656867615bf3ab
+
+COUNT = 14
+password = kDEeezXx
+Shared_key = 57c21c0110d0f6ed2dbb9d911259a1516d3b1939
+
+COUNT = 15
+password = pvOTRgNJ
+Shared_key = dc45ca21b3e697077f00c46aebf69032ccfa9c4c
+
+COUNT = 16
+password = RopUlgHH
+Shared_key = 74ddaa4240564e90cdeadd37e9066a26250ce81f
+
+COUNT = 17
+password = pCZzZUqw
+Shared_key = c96ce07ce24479dc3cc4cc8746e49b0d2ddccf47
+
+COUNT = 18
+password = HKOFAkkE
+Shared_key = 529a714082ec632f7da8a778de952512cbc1ec55
+
+COUNT = 19
+password = HtsTsykk
+Shared_key = 495bcad07f204a1c11ce606de41aefe3c27ba784
+
+COUNT = 20
+password = vFUtHcMr
+Shared_key = 2641ecb56235471f76f08bf5926bce02275ccfdc
+
+COUNT = 21
+password = aJKnnoHX
+Shared_key = 0ba38f14bce3820a5ed84971d00a5062a633881e
+
+COUNT = 22
+password = uPHjHQJa
+Shared_key = 1efaf09276f06b08526cedc24da80e16389596c5
+
+COUNT = 23
+password = gVlysPAF
+Shared_key = c80317fce21aa4ca9ec4fa66eb5923a6becf2074
+
+COUNT = 24
+password = LPzyFblH
+Shared_key = 28da1f86ff99490e9cb1040b0e6445cd3ddf9fe6
+
+COUNT = 25
+password = SavzahSy
+Shared_key = 4115e9fb1d25ba5593206c45ee87238586d92140
+
+COUNT = 26
+password = TtMPlwEx
+Shared_key = 179f8579a0142b5abf336fa54087aa5d96c98dfb
+
+COUNT = 27
+password = pWxmycGe
+Shared_key = ca01a2c64402971fd1af812c3e5334724b0cbfba
+
+COUNT = 28
+password = oKwcrOZe
+Shared_key = fc1839956bc951669b65a1bb93a0665a0e7e9b21
+
+COUNT = 29
+password = sjNBBMhA
+Shared_key = d128a3a261c7e16d633a3a11ffd2761ba39dc125
+
+COUNT = 30
+password = HWvHBMvr
+Shared_key = 68f0c3b4d86ac6498c8bcc664b2a3b3b07437de6
+
+COUNT = 31
+password = gvPjuhvW
+Shared_key = ca153a8f24d05d92db3715579b216fdb08002a93
+
+COUNT = 32
+password = FSjcNYuo
+Shared_key = 5498125989b75aa49860d8bf9921e0accbcc9336
+
+COUNT = 33
+password = LCBlKYQz
+Shared_key = 957a0d2887100d40367b9c848e14dbee1428f0c8
+
+COUNT = 34
+password = tqCBzddw
+Shared_key = 6017a297e86d19c23a339218a596090960c7abbe
+
+COUNT = 35
+password = CwYIQzXv
+Shared_key = 79c17336bd245be538e1f4aeedbf7100cc9d11b3
+
+COUNT = 36
+password = gtSmxPjC
+Shared_key = 2748f6fb24fd7ec162af0e22481d4f6edd3df241
+
+COUNT = 37
+password = buhJAXbJ
+Shared_key = adcede1c6d819a6a3e4ff5863bf1fb4d01183f15
+
+COUNT = 38
+password = cwwgWGah
+Shared_key = 4a0e6340ccf788328b2b72064c085e562d5c9070
+
+COUNT = 39
+password = VHowccLh
+Shared_key = 326c6fe7c820d317c8bc8825a7504ec321dddd63
+
+COUNT = 40
+password = QGAsiMma
+Shared_key = d9a2d187e03091377c4c63ffd34549bd22b5c897
+
+COUNT = 41
+password = EgtIzHiu
+Shared_key = df782f8a63719d3620a78ed3502c3ed9ed73b949
+
+COUNT = 42
+password = WHFVpEON
+Shared_key = 85529b34eaab8de9e8f3d05beb6366127ec78393
+
+COUNT = 43
+password = fAWXdFBe
+Shared_key = ce98f4dbd7cb740318c09ed1e029472c4eef51ac
+
+COUNT = 44
+password = epnnBdcR
+Shared_key = 2e6424d5753c7bb833b0ddb21ed550f99606b78f
+
+COUNT = 45
+password = QVDBwGWc
+Shared_key = 60615bdb775346146ae779882f9aedf257e3e983
+
+COUNT = 46
+password = RhinRTyc
+Shared_key = b6aab9642e9b8c782d76f9607e45962aefc8480b
+
+COUNT = 47
+password = fwPqfsPu
+Shared_key = e1be208ae3b299d9ebedb11fa581e4dff5b3a357
+
+COUNT = 48
+password = jIEXwuEJ
+Shared_key = b2f2b87573c8c8b83996b82d0a3ac0b66bc9f41b
+
+COUNT = 49
+password = LjXQcKbh
+Shared_key = 64f9f415302e19519ea97c4d734de8c7ad9cee50
+
+COUNT = 50
+password = RAxKdydf
+Shared_key = a8fc60bb2731bcd45714788c53001cdf5dad550a
+
+COUNT = 51
+password = eRcGMTKI
+Shared_key = e283684bca123f757efcf58feb8c0ee3b3b4bf44
+
+COUNT = 52
+password = LavpTzJP
+Shared_key = 59a905cc29b0a2147725dbc55240b771c4bb9079
+
+COUNT = 53
+password = hpgqrcEL
+Shared_key = 0c65c5833907e291a512602d47eeb0dbf2fd3cbe
+
+COUNT = 54
+password = CcumFEOi
+Shared_key = 0e0ff7182835e38443473f7780f9ac3d20385ee6
+
+COUNT = 55
+password = YGUgxNCO
+Shared_key = 7184465c37b4dcf204c6edf9f35b8dc2c7e5a88b
+
+COUNT = 56
+password = owbApfyD
+Shared_key = 205d7ee374d868b555fd2a35a86f2ff350dafcfc
+
+COUNT = 57
+password = JFoWkbpj
+Shared_key = 9e00573adc37f1280345e7f2c862a79bce3bd37c
+
+COUNT = 58
+password = sdwFkByQ
+Shared_key = 6559457b81c873367020ccca2f19b6f18509a965
+
+COUNT = 59
+password = DGTErlrf
+Shared_key = 76ba78b62d6f67f0463e519b6f16fc0a10887d62
+
+COUNT = 60
+password = AjuYpqVG
+Shared_key = a55c8278fb3b173b4f28ea907c5ca37cf9324608
+
+COUNT = 61
+password = MDcpHpYb
+Shared_key = 6b4b6a01cfa693c66070be7c81aec69820dd0f63
+
+COUNT = 62
+password = IWKMMxYZ
+Shared_key = 824415225bb0dca66cbf7c13a4fa345a3a64f248
+
+COUNT = 63
+password = mLhvBPzl
+Shared_key = 682943291590f0cbc4fe7cb07b1ac98765a89e84
+
+COUNT = 64
+password = ummuPqZC
+Shared_key = 7dae4599f856c01f10c1b56f8d62be13c0dd9735
+
+COUNT = 65
+password = YwWyyvEC
+Shared_key = a078abeaf393af994a5562894d588779cb032f29
+
+COUNT = 66
+password = FofqQSwT
+Shared_key = 86af5ac89098640fbcda8c85f3f6f90d8345d803
+
+COUNT = 67
+password = pkNFfHVd
+Shared_key = 4b151e8f182db13dcd257690b68b7d1b6aa2aac6
+
+COUNT = 68
+password = fgkCmCAK
+Shared_key = fd0fe1869da6baea460359318cd5f7b01a588fb4
+
+COUNT = 69
+password = ZtPZsICY
+Shared_key = e0a1aa9c70a0921f337d8d7cb94557a5dd032747
+
+COUNT = 70
+password = meSqVKVY
+Shared_key = fa9835e849fc95e8add4bc956373707d61f756ef
+
+COUNT = 71
+password = nQNMCpyK
+Shared_key = d9ad110e93fea6c926b4ea296e71554b9688da70
+
+COUNT = 72
+password = ttqkCddA
+Shared_key = 2e0f7ca31bf60b3e987c0af540127e84f195ea4e
+
+COUNT = 73
+password = FhdOrPoT
+Shared_key = eb64333913159253838d05d6c6ccd1b288b26d85
+
+COUNT = 74
+password = geOpHpKg
+Shared_key = dd0e2e8a7744b621941d695333b0871bcced3d6c
+
+COUNT = 75
+password = thCwRbfP
+Shared_key = f4ae8f1ec8e40da864e901ab6769845e96ab7a4f
+
+COUNT = 76
+password = YpIvbHJT
+Shared_key = 06ec8c298986b67efe0ac2d26943f458f9bf6b65
+
+COUNT = 77
+password = lsvTOClA
+Shared_key = ec147ae8f2b18183e068c4dfbbea94e5264e3d6a
+
+COUNT = 78
+password = iFThSTGA
+Shared_key = 7c5e41235b21385ed4e30498d589f0f9fadf105e
+
+COUNT = 79
+password = ooykUvET
+Shared_key = e7345b91d1e32caa6c28ab05787e0755e167a7a5
+
+COUNT = 80
+password = hWvbczXe
+Shared_key = e1d7a283ed72722e8c81a35221ca7e5ff281d80e
+
+COUNT = 81
+password = HCpRhcpH
+Shared_key = e035c152adf0d1a13725671a1b329b73fc39305c
+
+COUNT = 82
+password = NoRKPHxc
+Shared_key = 20025265f323e196c345dc9b1e37b0c58a7df2bf
+
+COUNT = 83
+password = UTuUZuBD
+Shared_key = a0459ec244d8fcedf32213e6530eed6c69f61952
+
+COUNT = 84
+password = YTOIrLOp
+Shared_key = bf01013b915c64767407f3b5e742007d4c581c02
+
+COUNT = 85
+password = gbGAydZu
+Shared_key = 2c9f3b84c28133691bd6a2cf6583a80b40746d9f
+
+COUNT = 86
+password = EagDHEOL
+Shared_key = be6ba32d20498d8dd47bbd08050b31a3e48866bb
+
+COUNT = 87
+password = lAMYCbze
+Shared_key = 8c6939837c31dd672ed7a304a6fb6c51208a6212
+
+COUNT = 88
+password = ycoyjzlm
+Shared_key = cee10572db2dd5bc06b0a8932ebc9126f1964f65
+
+COUNT = 89
+password = ELDEMXKt
+Shared_key = 73d4ece3d58e037f2e9fdd916bc2f9a5892cebdc
+
+COUNT = 90
+password = GMqfmTfD
+Shared_key = a8b6a01afa99ee36552a7f286ca6d09c9e4da980
+
+COUNT = 91
+password = SCXFHzCl
+Shared_key = b2bf56e80bd58919c1b311ec87817439b863d852
+
+COUNT = 92
+password = fGopPsgg
+Shared_key = 02a96cc23b50316bfdd4e613308bf12daa076a28
+
+COUNT = 93
+password = ChZUzvyf
+Shared_key = f50e4e5ec80a62458b3b7cd3a9fb9811bd036a62
+
+COUNT = 94
+password = LopCFmfl
+Shared_key = 43773b785996bf37faa9bf615fe4e56247d1673f
+
+COUNT = 95
+password = ALAMyqDP
+Shared_key = ad1807fad6e84f79c20f5babffa35d182a1ccb45
+
+COUNT = 96
+password = FPuzNODi
+Shared_key = 059617f9f62667da4ba940ab57d87042f06c0fc2
+
+COUNT = 97
+password = qzUXmHMc
+Shared_key = 9468aad42f9738aafa816f1385a71215c088e8cc
+
+COUNT = 98
+password = CqrDWavX
+Shared_key = e8969bd61b633b1bd2539688f257e31185c94e9b
+
+COUNT = 99
+password = zSaIsRJc
+Shared_key = 1e0c901bd83a3db477e913c9250569763e96ffeb
+
+
+[engineID = 800002b805123456789abcdef0123456789abcdef0123456789abcdef0123456]
+[passwordLen = 16]
+
+COUNT = 0
+password = rQrFXAOAtRLoaaoW
+Shared_key = e590a974337f88f110822ded986aad4bd7286697
+
+COUNT = 1
+password = CwnQMkHmkbncdCZZ
+Shared_key = 7455667086e059be5a5a7ecf2ddeeac2fec90861
+
+COUNT = 2
+password = OYYNlgfkwbxkAswC
+Shared_key = 92c6133f0d743bc34df28bf5cf2b8bcb9531f522
+
+COUNT = 3
+password = UxQmjGeWnKEFzvpT
+Shared_key = 38f5226f76282eafeff2a41e8bdb5ed7d68dec67
+
+COUNT = 4
+password = kivvAGfkeXOBwuTS
+Shared_key = ab9aeb4384f0ff1f8bed45a6a902fea4fb827f2f
+
+COUNT = 5
+password = hPiTXGdxPuxJSkZQ
+Shared_key = 8e580eca8253d6971daa755135f8ab85f8c6fd63
+
+COUNT = 6
+password = YEMooTpGoXJeQwGR
+Shared_key = 0c2bdd3c27a4d7a5e41234eecc1c2ece0f9198a9
+
+COUNT = 7
+password = OwTElwVqfTZNduHZ
+Shared_key = 87a40b23354b72a766778ae6e61417203e6f7614
+
+COUNT = 8
+password = gniKflXehrhVjWzU
+Shared_key = 341bca4da1f581d37853451f554600a61a5ded0d
+
+COUNT = 9
+password = rdQmGJFlHriuOuSx
+Shared_key = 5f67a6d114a3add882fb74b8349e3d42b635d728
+
+COUNT = 10
+password = HVZhuToPXUENgiXE
+Shared_key = 8e3345dbf40e75a32fb7f27c1ecf2caf39899cb2
+
+COUNT = 11
+password = gvCherELzIrPHHdd
+Shared_key = b9342dc207b6a3cb17bcc28483f1d7c9b02e8b7a
+
+COUNT = 12
+password = BFxlydXGXsROAEsU
+Shared_key = ea96429258ad19257ba784888fbd818389bc3566
+
+COUNT = 13
+password = pWfLotkZbcfGUNOf
+Shared_key = aef491a47ac03ffbf5b660b2cfb4b315167c92c7
+
+COUNT = 14
+password = RSWZGdbNgEybaFJy
+Shared_key = 867841173e865c0442bcf44333f06453ec8671ed
+
+COUNT = 15
+password = IOnOMFJiLyNXHFjg
+Shared_key = 35da5669a7c6bc30efc1b48ca095d296c0cb6677
+
+COUNT = 16
+password = lqNplkMhdWuwyCqV
+Shared_key = f00c64f09e1431e6c665dbc05d8c331e75a0d3ec
+
+COUNT = 17
+password = cnottAhWSxtJYdzl
+Shared_key = 8598830dffba89534fd2bd12799dc8aa31b375e1
+
+COUNT = 18
+password = gZqWElmFxYRSmiov
+Shared_key = 9ed127825532167e6774d7943755c26e3595ac4f
+
+COUNT = 19
+password = hgljHwGgrmiWXvCJ
+Shared_key = 94f02cd0614b4c3a983b74e036261d6b971c285a
+
+COUNT = 20
+password = aDRdbHhdbpjuwICN
+Shared_key = 24a5c65240b6d8613ffa23337d1be606da5f347b
+
+COUNT = 21
+password = eAQvdYbysAfKIHAs
+Shared_key = 1ec533806e7c02b7609796162ae849a794aa17d8
+
+COUNT = 22
+password = KiBDeDwcwXSdGLaO
+Shared_key = eabec4c38964ca0bf010ab1ebaf9d79e78fb07b3
+
+COUNT = 23
+password = EfhSenElRAMJPsii
+Shared_key = 01d82cdbd8202bc0fddff38e8aac94aa8dc6bc3b
+
+COUNT = 24
+password = zVYRITkmuCvfdkWv
+Shared_key = 153443da8c453a48ea44ffdd9b4ac1fecbbdcc76
+
+COUNT = 25
+password = ySABAAFItYYLluKD
+Shared_key = c77b9820743e5e0e534e4d680c61a0985503be37
+
+COUNT = 26
+password = SElbDFLRTZEivNRq
+Shared_key = 731c73f5d0a755c2771480bc9e6f09d545b7a91a
+
+COUNT = 27
+password = kcWNoUPiGOkzxsXC
+Shared_key = 286a52bf9eaee863713cb0a522af7d522f480e31
+
+COUNT = 28
+password = WaVtdpxsZSCluFDB
+Shared_key = 097a97c27a53b00eea84434121cc8d67f13b7776
+
+COUNT = 29
+password = uIHiGfvMdIGCgXbE
+Shared_key = e51f7e5baef2ffe93744d291d4f7f79a1ac9493f
+
+COUNT = 30
+password = dtuLJkSJNPBFtSBr
+Shared_key = b2469dccdb8e52eda9160e043cbd2ab888191fa6
+
+COUNT = 31
+password = PXRUBZCjvYUTxqEU
+Shared_key = e390836a798f711856f413caf1ac199a93160e94
+
+COUNT = 32
+password = CJYxpxPtbBNqiNPj
+Shared_key = f81df7e3c1d288d9bf0ea04084358d0abc729576
+
+COUNT = 33
+password = fReALApslRHwKyvB
+Shared_key = 266da64ff4d5b1dc083c083aa9d1f1d5d7c8edf6
+
+COUNT = 34
+password = uzjFuLikTFtnLPcI
+Shared_key = 14b37e583bdc0b4cf74c7f02886eb992e4b8a568
+
+COUNT = 35
+password = vbmMNqtsUqbOLMIf
+Shared_key = 326cab8f2bc00ce6dce742dabc4b04664c1ebdeb
+
+COUNT = 36
+password = fheTrZeBhaDnSHUm
+Shared_key = 3541ca416f805cc9448cf19de0267e727681990d
+
+COUNT = 37
+password = rsNFUOXfjHtIttnx
+Shared_key = 0f73eeb958ffdc5532554e5f84a17cf626372cf5
+
+COUNT = 38
+password = tPQBnpmVCdWhfoCu
+Shared_key = 59b878ae4de3e03661f8fc879af9b7456f657ebd
+
+COUNT = 39
+password = rbohByDnFzAIlikI
+Shared_key = 5345f3c61bc3136f377a81513460dae15df28a09
+
+COUNT = 40
+password = OshVFfsMpYPWBuPZ
+Shared_key = 964c4d348a825ddd70965250d0617359b340d38f
+
+COUNT = 41
+password = hStAjjcsACdQJutA
+Shared_key = af7f9e8e186e6891870b4da01a35578ba7c6a31a
+
+COUNT = 42
+password = bhjfgOAqTSRmEgnW
+Shared_key = 1b9054175ca0aa5ee63dd766d88d6aba33d9bd74
+
+COUNT = 43
+password = ctAFbGcrBJnZoTNH
+Shared_key = f8af7032f831476dee4b3a1a635b9c6ca2f3158f
+
+COUNT = 44
+password = YHGePNQkkPbUvDOp
+Shared_key = 67b23a60c8d417e86ad85896a7863bd902249dc4
+
+COUNT = 45
+password = IdhPQAUlSjxAvyLc
+Shared_key = e0645be206e0b2dee5e4a20afbbcb767878c6834
+
+COUNT = 46
+password = DoejoIslCIBSpmcM
+Shared_key = 11cdd1a83b720d6ede488b960be1650ab0a11bd0
+
+COUNT = 47
+password = IQNxEaaQxQDhlqIS
+Shared_key = 2ad2e3089562f1f4cec0bdfd20008d7ca7892f5f
+
+COUNT = 48
+password = HwnPaMucnqPvIlay
+Shared_key = 27e744124da08c9d80671c2d00aab30f27b1e965
+
+COUNT = 49
+password = rPTLxkuToevOgPFN
+Shared_key = 0452270e6bfdce256f74c23bfeb5ae92f620b900
+
+COUNT = 50
+password = WiXrSiFiWRvfQdwX
+Shared_key = 7fce196c0bcc10a98eef4b2dec5368f89b779b86
+
+COUNT = 51
+password = FYThxgsLsWDRgSsB
+Shared_key = 23129225a3136f629d356d74510880b4b97dbb80
+
+COUNT = 52
+password = mGQHalILTHejTTRK
+Shared_key = e7f533782d5253b0343951b5f16d690c7e34b6e2
+
+COUNT = 53
+password = XBmlSknSzXovASBK
+Shared_key = 6f80544c7680921496c9f2f52fe76d59955bf848
+
+COUNT = 54
+password = ZnTDlRlfcQtNNSzr
+Shared_key = 73ac52c475171ed58babf7a387bae082dcc70258
+
+COUNT = 55
+password = sqrpxjYzDKnWfDqf
+Shared_key = 7f544380e26394d29838b9734167f54189508138
+
+COUNT = 56
+password = oiLOrEOOHdPEwGrr
+Shared_key = 401a253721a2a6ddccabd5db35f0faf1bbb622cd
+
+COUNT = 57
+password = DgjOqjSnLJktkmVl
+Shared_key = 9c41af87c61517245c716ecac5c7f04194b36c24
+
+COUNT = 58
+password = nkaqcjEluAfovxzm
+Shared_key = 75176335c6bd739f197a0d4f45b748ff4fe6fbfe
+
+COUNT = 59
+password = YIePqykfKjKyHqSV
+Shared_key = d7bc0aa121769d805716009500199a421ef10e0e
+
+COUNT = 60
+password = DFLCAPjwxatUhxwW
+Shared_key = 7ddc2e794c1ba2512058eaa92d75f7cf74ffc12f
+
+COUNT = 61
+password = goPCDOXcXKycJebX
+Shared_key = 42b584229c0f94b294ff5900b13632c50011f630
+
+COUNT = 62
+password = UhGaNeXZNqdLrOCD
+Shared_key = 64fc76c80dbac1f10c325a8c946d484df68629b2
+
+COUNT = 63
+password = eMopyhsRfRHQEapC
+Shared_key = 37931873ed3113860c41b3da80d550c084cb6bdd
+
+COUNT = 64
+password = qSDRAWLQqDDQzAfI
+Shared_key = c551d67fa53107e1349044bc03f2fe7064c8e149
+
+COUNT = 65
+password = fshrEdORCqTbYLeW
+Shared_key = ecb0cef173b42e2aca777039c1e571e0ceba4901
+
+COUNT = 66
+password = GOstLvQSemQTddlM
+Shared_key = 8e7d663ea41aa68b98c79eeee9d55a947ef87ff6
+
+COUNT = 67
+password = dVFFlZNJelkVsCSw
+Shared_key = e9964d782d1e27e81e8ea381489e4155d2e63dbd
+
+COUNT = 68
+password = gRgeYREbzQBSROii
+Shared_key = e1e44a22e5e1c199da8efee75cb3daa209ec35bf
+
+COUNT = 69
+password = LIPJqVJwhtesBYrb
+Shared_key = 83e618cad020ee6d5aafcd13b2364ca900de44fd
+
+COUNT = 70
+password = UBDqFDemSbFHXuyS
+Shared_key = 3a9654606f571e5ac3a24bd929de6fdba1b14d35
+
+COUNT = 71
+password = fYcGEwPGQhSnxLnI
+Shared_key = 52a1478b64bf80022841eeae456ee7e93317ed86
+
+COUNT = 72
+password = FeDJcDbEEpCIqsnI
+Shared_key = 4edf1c6ececb2711363b5b6c799671f713ead097
+
+COUNT = 73
+password = LjYjXoCLLcKFiGAC
+Shared_key = 43aac9f4ff9f8417c518f3066a6d15e490912ccf
+
+COUNT = 74
+password = aNtkNmfFpaHQNKbR
+Shared_key = 5f38442959668e83e0f0a393df3106f0ec055d1e
+
+COUNT = 75
+password = mIPptINlSWsVzVWJ
+Shared_key = 7cd2ccfaa3e92d5e309bc5ca27ad97f1d936910b
+
+COUNT = 76
+password = dNednidtRaLsENQN
+Shared_key = 9cf5205d9d1deffa94b32d2f28457dae2936c282
+
+COUNT = 77
+password = VgXKEDogSDWqjyhh
+Shared_key = e9a1a099f6d870f59c39c66651852f98bd5b449b
+
+COUNT = 78
+password = iHGJZqluaaZiHEop
+Shared_key = 762bcd1924de5e43085f62d43ee9d13a533e7443
+
+COUNT = 79
+password = vHesZbWHZtIhQpYF
+Shared_key = c7dfdf4792849f4469e9ec5fc5f08773020894b3
+
+COUNT = 80
+password = CdyIFEWkUkcBrHeu
+Shared_key = 1d4d8e0ee84429d1ffafdaf82c48282a59067f65
+
+COUNT = 81
+password = INVedzxXFKniDbyG
+Shared_key = 1d2e2f2648e65958ddd9cf9438c452ca19fb2740
+
+COUNT = 82
+password = pnERBBAFFSYEGUuQ
+Shared_key = aaf5effe936549e54d81dd6af69e5f911159ae3f
+
+COUNT = 83
+password = pNSvLXhkJbaSiRrS
+Shared_key = 772d4a00edcda2cf3d2803f30f0e2635f4804abf
+
+COUNT = 84
+password = STRmNDgZNHSDNNmo
+Shared_key = 8502949b366b2521ba21c2e82f90036b4127ad2e
+
+COUNT = 85
+password = WaXFHJfkiQESIJuY
+Shared_key = dae31844c2bfdad73bc8346933b4ff3b31daf396
+
+COUNT = 86
+password = zwhsxaSCVdmaVqqY
+Shared_key = 6fdd594e124494517e9657786bb7e0c2844a66ba
+
+COUNT = 87
+password = cFfPDggdVJAERdYQ
+Shared_key = d8ab31c55f9a33e91fb8425bc1dfcf23e3656450
+
+COUNT = 88
+password = jHryWEDjiurrmGXT
+Shared_key = b253c8f7643b335209d10d17e2e4bc182bb962b2
+
+COUNT = 89
+password = vaNLbTYzwkQEGNOQ
+Shared_key = 692cdd43a41d95162b4c8eac4d323770a89571d2
+
+COUNT = 90
+password = fPgBsPAtZHMwnAls
+Shared_key = f1acf0b5127bed039515597c754047863d5896ce
+
+COUNT = 91
+password = ZFyiLxAFbDbsnPlD
+Shared_key = f4a2c8296fad73232fca9359d2fb8290234d1981
+
+COUNT = 92
+password = qTXzvDfhmzzKalzq
+Shared_key = 3c5b2d26a87572413d19241195e510aff9ad529e
+
+COUNT = 93
+password = atWQyDNEuxgZcBSV
+Shared_key = ddffc0e451bc500bf123d2a6254b4d43746bee9b
+
+COUNT = 94
+password = mBoemNnZflPqQjkV
+Shared_key = 73e4a4a3ff2910ba42d161bd9742dffb6b2c095c
+
+COUNT = 95
+password = QpJydlXjecuMORir
+Shared_key = a6f461499d0b15698c01527ec4e7d41e52cc9174
+
+COUNT = 96
+password = jdVmjmDhHPMMLlcf
+Shared_key = 81d6da10ae65f0c429b333c4c3da2624bbb04b31
+
+COUNT = 97
+password = nQsNQKCUjPBPNBLq
+Shared_key = 3d2b94957c66aa1720b2aaadc4ff18033ef204e6
+
+COUNT = 98
+password = GSUhAAxiyQobFxYO
+Shared_key = 1f1bb916ceec8e62fc7b689dc8490665605f42a9
+
+COUNT = 99
+password = CbtzwQuNzxgqYiPS
+Shared_key = 9fa3fa0d9aa67fd5182c4d6c39a100d1b6a1b27e
+
