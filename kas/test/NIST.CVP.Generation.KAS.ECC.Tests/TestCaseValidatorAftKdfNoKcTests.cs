@@ -24,11 +24,23 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         }
 
         [Test]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
 
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.ResponderPartyV)]
 
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
@@ -57,14 +69,23 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         }
 
         [Test]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(EccScheme.OnePassUnified, KeyAgreementRole.ResponderPartyV)]
 
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
         //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
 
-        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
-        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(EccScheme.OnePassDh, KeyAgreementRole.ResponderPartyV)]
         public void ShouldFailWhenIutDoesNotProvideEphemeralKeyPair(EccScheme scheme, KeyAgreementRole kasRole)
         {
             var testGroup = GetData(scheme, kasRole);
@@ -80,11 +101,23 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         }
 
         [Test]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.ResponderPartyV)]
+
         //[TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         //[TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
 
-        [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(EccScheme.OnePassUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.ResponderPartyV)]
+
+        //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
+
+        //[TestCase(EccScheme.OnePassDh, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.ResponderPartyV)]
 
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
@@ -103,11 +136,59 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         }
 
         [Test]
+        //[TestCase(EccScheme.FullUnified, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(EccScheme.FullUnified, KeyAgreementRole.ResponderPartyV)]
+
+        //[TestCase(EccScheme.FullMqv, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(EccScheme.FullMqv, KeyAgreementRole.ResponderPartyV)]
+
+        //[TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
+
+        //[TestCase(EccScheme.OnePassUnified, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(EccScheme.OnePassUnified, KeyAgreementRole.ResponderPartyV)]
+
+        //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
+
+        //[TestCase(EccScheme.OnePassDh, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(EccScheme.OnePassDh, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
+        //[TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
+
+        public void ShouldFailWhenIutDoesNotProvideDkmNonce(EccScheme scheme, KeyAgreementRole kasRole)
+        {
+            var testGroup = GetData(scheme, kasRole);
+            var testCase = (TestCase)testGroup.Tests[0];
+
+            testCase.DkmNonceIut = null;
+
+            _subject = new TestCaseValidatorAftKdfNoKc(testCase, testGroup, _deferredResolver.Object);
+
+            var result = _subject.Validate(testCase);
+
+            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
+        }
+
+        [Test]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
 
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.ResponderPartyV)]
 
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
@@ -126,11 +207,23 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         }
         
         [Test]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
 
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.ResponderPartyV)]
 
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]

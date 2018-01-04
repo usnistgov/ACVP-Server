@@ -97,11 +97,23 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         }
 
         [Test]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV)]
 
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.ResponderPartyV)]
+
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV)]
+
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.InitiatorPartyU)]
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.ResponderPartyV)]
 
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU)]
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV)]
@@ -191,6 +203,25 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
             #endregion KeyCheck
         }
 
+        [Test]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(EccScheme.FullUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(EccScheme.FullMqv, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
@@ -200,6 +231,15 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
         [TestCase(EccScheme.EphemeralUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
 
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)] // server doesn't generate ephem key when party v
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(EccScheme.OnePassUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)] // server doesn't generate ephem key when party v
@@ -208,6 +248,15 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
         [TestCase(EccScheme.OnePassMqv, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
+
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, false)] // server doesn't generate ephem key when party v
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, true)]
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedTag, true)]
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.FailChangedZ, true)]
+        [TestCase(EccScheme.OnePassDh, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.FailChangedZ, true)]
 
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.InitiatorPartyU, TestCaseDispositionOption.Success, false)]
         [TestCase(EccScheme.StaticUnified, KeyAgreementRole.ResponderPartyV, TestCaseDispositionOption.Success, false)]

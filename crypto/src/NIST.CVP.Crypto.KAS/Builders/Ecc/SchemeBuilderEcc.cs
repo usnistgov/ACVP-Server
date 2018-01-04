@@ -81,8 +81,23 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
 
             switch (schemeParameters.KasDsaAlgoAttributes.Scheme)
             {
+                case EccScheme.FullUnified:
+                    scheme = new SchemeEccFullUnified(dsa, _eccCurveFactory, _withKdfFactory,
+                        _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
+                    break;
+                case EccScheme.FullMqv:
+                    scheme = new SchemeEccFullMqv(dsa, _eccCurveFactory, _withKdfFactory,
+                        _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withMqv);
+                    break;
                 case EccScheme.EphemeralUnified:
                     scheme = new SchemeEccEphemeralUnified(dsa, _eccCurveFactory, _withKdfFactory,
+                        _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
+                    break;
+                case EccScheme.OnePassUnified:
+                    scheme = new SchemeEccOnePassUnified(dsa, _eccCurveFactory, _withKdfFactory,
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
@@ -91,17 +106,16 @@ namespace NIST.CVP.Crypto.KAS.Builders.Ecc
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withMqv);
                     break;
+                case EccScheme.OnePassDh:
+                    scheme = new SchemeEccOnePassDh(dsa, _eccCurveFactory, _withKdfFactory,
+                        _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
+                        _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
+                    break;
                 case EccScheme.StaticUnified:
                     scheme = new SchemeEccStaticUnified(dsa, _eccCurveFactory, _withKdfFactory,
                         _withKeyConfirmationFactory, _withNoKeyConfirmationFactory, _withOtherInfoFactory,
                         _withEntropyProvider, schemeParameters, kdfParameters, macParameters, _withDiffieHellman);
                     break;
-                case EccScheme.FullUnified:
-                case EccScheme.OnePassDh:
-                case EccScheme.OnePassUnified:
-                case EccScheme.FullMqv:
-                    // TODO coming soon to a KAS near you!
-                    throw new NotImplementedException();
                 default:
                     throw new ArgumentException(nameof(schemeParameters.KasDsaAlgoAttributes.Scheme));
             }

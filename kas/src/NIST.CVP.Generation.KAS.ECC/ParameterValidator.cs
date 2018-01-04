@@ -96,8 +96,8 @@ namespace NIST.CVP.Generation.KAS.ECC
                 return;
             }
 
-            // kdfKc is invalid for dhEphem
-            if (scheme.KdfKc != null && scheme is FfcDhEphem)
+            // kdfKc is invalid for EphemeralUnified
+            if (scheme.KdfKc != null && scheme is EccEphemeralUnified)
             {
                 errorResults.Add("Key Confirmation not possible with ephemeralUnified.");
                 return;

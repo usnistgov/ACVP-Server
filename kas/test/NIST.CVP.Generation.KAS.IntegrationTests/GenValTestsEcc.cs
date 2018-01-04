@@ -172,6 +172,184 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Function = new string[] { "dpGen", "dpVal", "keyPairGen", "partialVal", "keyRegen" },
                 Scheme = new Schemes()
                 {
+                    EccFullUnified = new EccFullUnified()
+                    {
+                        Role = new string[] { "initiator", "responder" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                        KdfNoKc = new KdfNoKc()
+                        {
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                        KdfKc = new KdfKc()
+                        {
+                            KcOption = new KcOptions()
+                            {
+                                KcRole = new string[] { "provider", "recipient" },
+                                KcType = new string[] { "unilateral", "bilateral" },
+                                NonceType = new string[] { "randomNonce" }
+                            },
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                    },
+                    EccFullMqv = new EccFullMqv()
+                    {
+                        Role = new string[] { "initiator", "responder" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                        KdfNoKc = new KdfNoKc()
+                        {
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                        KdfKc = new KdfKc()
+                        {
+                            KcOption = new KcOptions()
+                            {
+                                KcRole = new string[] { "provider", "recipient" },
+                                KcType = new string[] { "unilateral", "bilateral" },
+                                NonceType = new string[] { "randomNonce" }
+                            },
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                    },
                     EccEphemeralUnified = new EccEphemeralUnified()
                     {
                         Role = new string[] { "initiator", "responder" },
@@ -221,7 +399,185 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             }
                         }
                     },
+                    EccOnePassUnified = new EccOnePassUnified()
+                    {
+                        Role = new string[] { "initiator", "responder" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                        KdfNoKc = new KdfNoKc()
+                        {
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                        KdfKc = new KdfKc()
+                        {
+                            KcOption = new KcOptions()
+                            {
+                                KcRole = new string[] { "provider", "recipient" },
+                                KcType = new string[] { "unilateral", "bilateral" },
+                                NonceType = new string[] { "randomNonce" }
+                            },
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                    },
                     EccOnePassMqv = new EccOnePassMqv()
+                    {
+                        Role = new string[] { "initiator", "responder" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                        KdfNoKc = new KdfNoKc()
+                        {
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                        KdfKc = new KdfKc()
+                        {
+                            KcOption = new KcOptions()
+                            {
+                                KcRole = new string[] { "provider", "recipient" },
+                                KcType = new string[] { "unilateral", "bilateral" },
+                                NonceType = new string[] { "randomNonce" }
+                            },
+                            KdfOption = new KdfOptions()
+                            {
+                                Asn1 = "uPartyInfo||vPartyInfo||literal[cafecafe]"
+                            },
+                            ParameterSet = new ParameterSets()
+                            {
+                                Eb = new Eb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" },
+                                    MacOption = new MacOptions()
+                                    {
+                                        AesCcm = new MacOptionAesCcm()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128,
+                                            NonceLen = 64
+                                        },
+                                        Cmac = new MacOptionCmac()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        },
+                                        HmacSha2_D224 = new MacOptionHmacSha2_d224()
+                                        {
+                                            KeyLen = new int[] { 128 },
+                                            MacLen = 128
+                                        }
+                                    },
+                                    CurveName = "P-224"
+                                }
+                            }
+                        },
+                    },
+                    EccOnePassDh = new EccOnePassDh()
                     {
                         Role = new string[] { "initiator", "responder" },
                         NoKdfNoKc = new NoKdfNoKc()
