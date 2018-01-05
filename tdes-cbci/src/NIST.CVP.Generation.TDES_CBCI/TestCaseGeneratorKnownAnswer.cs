@@ -1,31 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.TDES_CBCI
 {
-    public class KnownAnswerTestFactory : IKnownAnswerTestFactory
+    public class TestCaseGeneratorKnownAnswer : ITestCaseGenerator<TestGroup, TestCase>
     {
-        public List<TestCase> GetKATTestCases(string testType, string direction)
+        private readonly List<TestCase> _katTestCases = new List<TestCase>();
+        private int _katsIndex = 0;
+
+        public TestCaseGeneratorKnownAnswer(TestGroup group)
         {
-            if (string.IsNullOrEmpty(testType) || string.IsNullOrEmpty(direction))
+            var testType = group.TestType?.ToLower();
+            var direction = group.Function?.ToLower();
+            var concatTestType = string.Concat(testType, direction);
+
+            if (!_kats.ContainsKey(concatTestType))
             {
-                return new List<TestCase>();
+                throw new ArgumentException($"No KATs found with {nameof(testType)} and {nameof(direction)}");
             }
 
+            _katTestCases = _kats[concatTestType];
+        }
 
-            testType = testType.ToLower();
-            direction = direction.ToLower();
-            testType = string.Concat(testType, direction);
+        public int NumberOfTestCasesToGenerate => _katTestCases.Count;
 
-            if (_kats.ContainsKey(testType))
+        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        {
+            TestCase testCase = new TestCase();
+            return Generate(group, testCase);
+        }
+
+        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        {
+            if (_katsIndex + 1 > _katTestCases.Count)
             {
-                return _kats[testType];
+                return new TestCaseGenerateResponse("No additional KATs exist.");
             }
 
-            return new List<TestCase>();
-
+            return new TestCaseGenerateResponse(_katTestCases[_katsIndex++]);
         }
 
         private readonly Dictionary<string, List<TestCase>> _kats =

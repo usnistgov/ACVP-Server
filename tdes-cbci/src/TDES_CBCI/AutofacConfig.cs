@@ -33,7 +33,7 @@ namespace TDES_CBCI
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorKnownAnswer>().AsImplementedInterfaces();
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();

@@ -25,7 +25,7 @@ namespace TDES_CBCI_Val
             builder.RegisterType<TdesCbci>().AsImplementedInterfaces();
             builder.RegisterType<TdesCbciMCT>().AsImplementedInterfaces();
             builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
-            builder.RegisterType<KnownAnswerTestFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorKnownAnswer>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
