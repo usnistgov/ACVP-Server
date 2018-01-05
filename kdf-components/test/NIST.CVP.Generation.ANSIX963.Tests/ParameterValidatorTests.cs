@@ -165,5 +165,19 @@ namespace NIST.CVP.Generation.ANSIX963.Tests
 
             Assert.IsFalse(result.Success, testCaseLabel);
         }
+
+        [Test]
+        public void ShouldReturnErrorWithInvalidCombinationOfFieldSizeAndHashAlg()
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithFieldSize(new[] {521})
+                    .WithHashAlg(new[] {"sha2-224"})
+                    .Build()
+                );
+
+            Assert.IsFalse(result.Success);
+        }
     }
 }

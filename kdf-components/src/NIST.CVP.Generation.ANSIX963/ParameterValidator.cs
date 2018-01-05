@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
@@ -42,6 +43,13 @@ namespace NIST.CVP.Generation.ANSIX963
             result = ValidateArray(parameters.FieldSize, VALID_FIELD_SIZE, "Field Size");
             errors.AddIfNotNullOrEmpty(result);
 
+            if (errors.Count > 0)
+            {
+                return new ParameterValidateResponse(string.Join(";", errors));
+            }
+
+            ValidateGroups(parameters.FieldSize, parameters.HashAlg, errors);
+
             ValidateDomain(parameters.KeyDataLength, errors, "KeyDataLength", KEY_LENGTH_MINIMUM, KEY_LENGTH_MAXIMUM);
             ValidateDomain(parameters.SharedInfoLength, errors, "SharedInfo", SHARED_INFO_MINIMUM, SHARED_INFO_MAXIMUM);
 
@@ -70,6 +78,27 @@ namespace NIST.CVP.Generation.ANSIX963
             if (domain.GetDomainMinMax().Maximum > max)
             {
                 errors.Add($"Maximum {errorTag} must be less than or equal to {max}");
+            }
+        }
+
+        private void ValidateGroups(int[] fieldSize, string[] hashAlgs, List<string> errors)
+        {
+            foreach (var field in fieldSize)
+            {
+                var validGroups = 0;
+                foreach (var hashAlg in hashAlgs)
+                {
+                    var hash = ShaAttributes.GetHashFunctionFromName(hashAlg);
+                    if (TestGroupGenerator.IsValidGroup(field, hash.OutputLen))
+                    {
+                        validGroups++;
+                    }
+                }
+
+                if (validGroups == 0)
+                {
+                    errors.Add($"Unable to create any groups for field size {field}. Be sure that the hash functions are supported on the specified field sizes");
+                }
             }
         }
     }

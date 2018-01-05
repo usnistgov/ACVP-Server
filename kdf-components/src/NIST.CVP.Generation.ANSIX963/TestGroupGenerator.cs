@@ -21,36 +21,44 @@ namespace NIST.CVP.Generation.ANSIX963
                     {
                         foreach (var fieldSize in parameters.FieldSize)
                         {
-                            // Only allow combinations such that the hash function matches (or exceeds) the security of the field size
-                            // So for field size 283, you can use SHA2-256, SHA2-384 and SHA2-512 but not SHA2-224
-                            if (fieldSize > 512)
+                            if (IsValidGroup(fieldSize, hashFunction.OutputLen))
                             {
-                                if (hashFunction.OutputLen != 512)
+                                testGroups.Add(new TestGroup
                                 {
-                                    continue;
-                                }
+                                    HashAlg = hashFunction,
+                                    SharedInfoLength = sharedInfo,
+                                    KeyDataLength = keyDataLength,
+                                    FieldSize = fieldSize
+                                });
                             }
-                            else
-                            {
-                                if (hashFunction.OutputLen < fieldSize)
-                                {
-                                    continue;
-                                }
-                            }
-
-                            testGroups.Add(new TestGroup
-                            {
-                                HashAlg = hashFunction,
-                                SharedInfoLength = sharedInfo,
-                                KeyDataLength = keyDataLength,
-                                FieldSize = fieldSize
-                            });
                         }
                     }
                 }
             }
             
             return testGroups;
+        }
+
+        public static bool IsValidGroup(int fieldSize, int hashOutputLength)
+        {
+            // Only allow combinations such that the hash function matches (or exceeds) the security of the field size
+            // So for field size 283, you can use SHA2-256, SHA2-384 and SHA2-512 but not SHA2-224
+            if (fieldSize > 512)
+            {
+                if (hashOutputLength != 512)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (hashOutputLength < fieldSize)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
