@@ -3,7 +3,7 @@ using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
+namespace NIST.CVP.Generation.AES_ECB.Tests
 {
     public class TestDataMother
     {

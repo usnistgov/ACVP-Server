@@ -2,67 +2,68 @@
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
+namespace NIST.CVP.Generation.AES_ECB.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseValidatorEncryptTests
+    public class TestCaseValidatorDecryptTests
     {
         [Test]
         public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             var result = subject.Validate(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
-        public void ShouldFailIfCipherTextDoesNotMatch()
+        public void ShouldFailIfPlainTextDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.CipherText = new BitString("D00000");
+            suppliedResult.PlainText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
-        public void ShouldShowCipherTextAsReasonIfItDoesNotMatch()
+        public void ShouldShowPlainTextAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.CipherText = new BitString("D00000");
+            suppliedResult.PlainText = new BitString("D00000");
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains("Cipher Text"));
+            Assert.IsTrue(result.Reason.Contains("Plain Text"));
         }
 
         [Test]
-        public void ShouldFailIfCipherTextNotPresent()
+        public void ShouldFailIfPlainTextNotPresent()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorEncrypt(testCase);
+            var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
 
-            suppliedResult.CipherText = null;
+            suppliedResult.PlainText = null;
 
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}"));
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}"));
         }
 
-        private TestCase GetTestCase()
+        private TestCase GetTestCase(bool failureTest = false)
         {
             var testCase = new TestCase
             {
-                CipherText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
+                FailureTest = failureTest,
+                PlainText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
                 TestCaseId = 1
             };
             return testCase;

@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
-using System.Collections;
+﻿using System.Collections;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
+namespace NIST.CVP.Crypto.AES_ECB.Tests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class KATs
     {
         Crypto.AES_ECB.AES_ECB _subject = new Crypto.AES_ECB.AES_ECB(

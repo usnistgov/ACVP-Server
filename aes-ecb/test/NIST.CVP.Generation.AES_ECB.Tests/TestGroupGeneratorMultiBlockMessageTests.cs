@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Moq;
-using NIST.CVP.Generation.Core;
+﻿using System.Linq;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
+namespace NIST.CVP.Generation.AES_ECB.Tests
 {
     [TestFixture, UnitTest]
     public class TestGroupGeneratorMultiBlockMessageTests

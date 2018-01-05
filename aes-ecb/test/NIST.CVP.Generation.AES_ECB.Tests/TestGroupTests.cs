@@ -5,7 +5,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
+namespace NIST.CVP.Generation.AES_ECB.Tests
 {
     [TestFixture, UnitTest]
     public class TestGroupTests

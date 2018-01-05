@@ -4,17 +4,17 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
+namespace NIST.CVP.Generation.AES_ECB.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseValidatorMCTDecryptTests
+    public class TestCaseValidatorMCTEncryptTests
     {
         [Test]
         public void ShouldReturnPassWithAllMatches()
         {
             var expected = GetTestCase();
             var supplied = GetTestCase();
-            TestCaseValidatorMCTDecrypt subject = new TestCaseValidatorMCTDecrypt(expected);
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -27,10 +27,10 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
             Random800_90 rand = new Random800_90();
             var expected = GetTestCase();
             var supplied = GetTestCase();
-            supplied.ResultsArray[0].CipherText = 
+            supplied.ResultsArray[0].CipherText =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].CipherText).ToBytes());
 
-            TestCaseValidatorMCTDecrypt subject = new TestCaseValidatorMCTDecrypt(expected);
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
             supplied.ResultsArray[0].PlainText =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].PlainText).ToBytes());
 
-            TestCaseValidatorMCTDecrypt subject = new TestCaseValidatorMCTDecrypt(expected);
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
             supplied.ResultsArray[0].Key =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Key).ToBytes());
 
-            TestCaseValidatorMCTDecrypt subject = new TestCaseValidatorMCTDecrypt(expected);
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -90,14 +90,81 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].PlainText).ToBytes());
             supplied.ResultsArray[0].Key =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Key).ToBytes());
-
-            TestCaseValidatorMCTDecrypt subject = new TestCaseValidatorMCTDecrypt(expected);
+            
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
             var result = subject.Validate(supplied);
-            
+
             Assert.IsTrue(result.Reason.ToLower().Contains("cipher text"), "Reason does not contain the expected value Cipher Text");
             Assert.IsTrue(result.Reason.ToLower().Contains("plain text"), "Reason does not contain the expected value Plain Text");
             Assert.IsTrue(result.Reason.ToLower().Contains("key"), "Reason does not contain the expected value Key");
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray = null;
+
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
+
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingKeyInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.Key = null);
+
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
+
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.IsTrue(result.Reason
+                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Key)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingPlainTextInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.PlainText = null);
+
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
+
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.IsTrue(result.Reason
+                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.PlainText)}"));
+        }
+
+        [Test]
+        public void ShouldFailDueToMissingCipherTextInResultsArray()
+        {
+            var expected = GetTestCase();
+            var suppliedResult = GetTestCase();
+
+            suppliedResult.ResultsArray.ForEach(fe => fe.CipherText = null);
+
+            TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
+
+            var result = subject.Validate(suppliedResult);
+
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.IsTrue(result.Reason
+                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}"));
         }
 
         private TestCase GetTestCase()

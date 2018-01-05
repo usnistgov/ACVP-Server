@@ -3,13 +3,13 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
+namespace NIST.CVP.Crypto.AES_ECB.Tests
 {
     [TestFixture, FastIntegrationTest]
     public class CAVS_HealthCheckTests
     {
 
-        private Crypto.AES_ECB.AES_ECB _subject = new Crypto.AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
+        private readonly AES_ECB _subject = new AES_ECB(new RijndaelFactory(new RijndaelInternals()));
 
         [Test]
         public void ShouldEncryptWith128BitKey()

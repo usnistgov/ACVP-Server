@@ -6,16 +6,16 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
+namespace NIST.CVP.Generation.AES_ECB.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseGeneratorMMTDecryptTests
+    public class TestCaseGeneratorMMTEncryptTests
     {
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
-            TestCaseGeneratorMMTDecrypt subject =
-                new TestCaseGeneratorMMTDecrypt(GetRandomMock().Object, GetAESMock().Object);
+            TestCaseGeneratorMMTEncrypt subject =
+                new TestCaseGeneratorMMTEncrypt(GetRandomMock().Object, GetAESMock().Object);
 
             var result = subject.Generate(new TestGroup(), false);
 
@@ -31,8 +31,8 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
                 .Returns(new EncryptionResult("Fail"));
 
-            TestCaseGeneratorMMTDecrypt subject =
-                new TestCaseGeneratorMMTDecrypt(GetRandomMock().Object, aes.Object);
+            TestCaseGeneratorMMTEncrypt subject =
+                new TestCaseGeneratorMMTEncrypt(GetRandomMock().Object, aes.Object);
 
             var result = subject.Generate(new TestGroup(), false);
 
@@ -48,8 +48,8 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
                 .Throws(new Exception());
 
-            TestCaseGeneratorMMTDecrypt subject =
-                new TestCaseGeneratorMMTDecrypt(GetRandomMock().Object, aes.Object);
+            TestCaseGeneratorMMTEncrypt subject =
+                new TestCaseGeneratorMMTEncrypt(GetRandomMock().Object, aes.Object);
 
             var result = subject.Generate(new TestGroup(), false);
 
@@ -62,8 +62,8 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
         {
             var aes = GetAESMock();
 
-            TestCaseGeneratorMMTDecrypt subject =
-                new TestCaseGeneratorMMTDecrypt(GetRandomMock().Object, aes.Object);
+            TestCaseGeneratorMMTEncrypt subject =
+                new TestCaseGeneratorMMTEncrypt(GetRandomMock().Object, aes.Object);
 
             var result = subject.Generate(new TestGroup(), true);
 
@@ -86,20 +86,19 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
                 .Returns(new EncryptionResult(fakeCipher));
 
-            TestCaseGeneratorMMTDecrypt subject =
-                new TestCaseGeneratorMMTDecrypt(random.Object, aes.Object);
+            TestCaseGeneratorMMTEncrypt subject =
+                new TestCaseGeneratorMMTEncrypt(random.Object, aes.Object);
 
             var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
+
             Assert.IsNotEmpty(((TestCase)result.TestCase).CipherText.ToString(), "CipherText");
             Assert.IsNotEmpty(((TestCase)result.TestCase).Key.ToString(), "Key");
             Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");
             Assert.IsFalse(result.TestCase.Deferred, "Deferred");
         }
-
-       
 
         private Mock<IRandom800_90> GetRandomMock()
         {

@@ -6,21 +6,21 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
+namespace NIST.CVP.Generation.AES_ECB.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseGeneratorMCTEncryptTests
+    public class TestCaseGeneratorMCTDecryptTests
     {
         private Mock<IRandom800_90> _mockRandom;
         private Mock<IAES_ECB_MCT> _mockMCT;
-        private TestCaseGeneratorMCTEncrypt _subject;
+        private TestCaseGeneratorMCTDecrypt _subject;
 
         [SetUp]
         public void Setup()
         {
             _mockRandom = new Mock<IRandom800_90>();
             _mockMCT = new Mock<IAES_ECB_MCT>();
-            _subject = new TestCaseGeneratorMCTEncrypt(_mockRandom.Object, _mockMCT.Object);
+            _subject = new TestCaseGeneratorMCTDecrypt(_mockRandom.Object, _mockMCT.Object);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
         }
 
         [Test]
-        public void ShouldCallAlgoEncryptFromIsSampleMethod()
+        public void ShouldCallAlgoDecryptFromIsSampleMethod()
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -46,11 +46,11 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
             };
             _subject.Generate(testGroup, false);
 
-            _mockMCT.Verify(v => v.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()));
+            _mockMCT.Verify(v => v.MCTDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>()));
         }
 
         [Test]
-        public void ShouldCallAlgoEncryptFromTestCaseMethod()
+        public void ShouldCallAlgoDecryptFromTestCaseMethod()
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -59,14 +59,14 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
             TestCase testCase = new TestCase();
             _subject.Generate(testGroup, testCase);
 
-            _mockMCT.Verify(v => v.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()));
+            _mockMCT.Verify(v => v.MCTDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>()));
         }
 
         [Test]
         public void ShouldReturnErrorMessageIfAlgoNotSuccessful()
         {
             string errorMessage = "something bad happened!";
-            _mockMCT.Setup(s => s.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
+            _mockMCT.Setup(s => s.MCTDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Returns(new MCTResult<AlgoArrayResponse>(errorMessage));
 
             TestGroup testGroup = new TestGroup()
@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.AES_ECB.GenVal.Tests
         public void ShouldReturnErrorMessageIfAlgoFailsWithException()
         {
             string errorMessage = "something bad happened! oh noes!";
-            _mockMCT.Setup(s => s.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
+            _mockMCT.Setup(s => s.MCTDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Throws(new Exception(errorMessage));
 
             TestGroup testGroup = new TestGroup()
