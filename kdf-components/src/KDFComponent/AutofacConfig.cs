@@ -41,6 +41,10 @@ namespace KDFComponent
                     NIST.CVP.Generation.SNMP.AutofacConfig.RegisterTypes(builder);
                     break;
 
+                case "srtp":
+                    NIST.CVP.Generation.SRTP.AutofacConfig.RegisterTypes(builder);
+                    break;
+
                 default:
                     throw new NotImplementedException("Type not supported");
             }
