@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.SHAWrapper\NIST.CVP.Crypto.SHAWrapper.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.SSH\NIST.CVP.Crypto.SSH.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.TLS\NIST.CVP.Crypto.TLS.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Generation.ANSIX963\NIST.CVP.Generation.ANSIX963.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.IKEv1\NIST.CVP.Generation.IKEv1.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.IKEv2\NIST.CVP.Generation.IKEv2.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.SNMP\NIST.CVP.Generation.SNMP.csproj" />

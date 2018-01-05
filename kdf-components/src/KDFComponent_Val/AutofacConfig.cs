@@ -47,6 +47,10 @@ namespace KDFComponent_Val
                     NIST.CVP.Generation.SRTP.AutofacConfig.RegisterTypes(builder);
                     break;
 
+                case "ansix9.63":
+                    NIST.CVP.Generation.ANSIX963.AutofacConfig.RegisterTypes(builder);
+                    break;
+
                 default:
                     throw new NotImplementedException("Type not supported");
             }
