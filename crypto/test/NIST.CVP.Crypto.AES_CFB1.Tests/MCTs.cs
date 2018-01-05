@@ -1,50 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_CFB8;
+﻿using NIST.CVP.Crypto.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
+namespace NIST.CVP.Crypto.AES_CFB1.Tests
 {
-    [TestFixture, LongRunningIntegrationTest]
+    [TestFixture, LongCryptoTest]
     public class MCTs
     {
-        AES_CFB8_MCT _subject = new AES_CFB8_MCT(
-            new Crypto.AES_CFB8.AES_CFB8(
-                new RijndaelFactory(
-                    new RijndaelInternals()
-                )
-            )
-        );
+        private AES_CFB1_MCT _subject = new AES_CFB1_MCT(new Crypto.AES_CFB1.AES_CFB1(new RijndaelFactory(new RijndaelInternals())));
 
         #region Encrypt
         [Test]
         public void ShouldMonteCarloTestEncrypt128BitKey()
         {
-            string keyString = "be2742df6d0139a45eb0e9a1822eef4a";
-            string ivString = "3d3d13c3096535cfd1889e592308f9f2";
+            string keyString = "19c27cdff233706c4c6176eb63a4568e";
+            string ivString = "30c6e45842a35240331669e7bd3ee1f3";
 
             var key = new BitString(keyString);
             var iv = new BitString(ivString);
 
             var sanityCheckFirstKey = new BitString(keyString);
             var sanityCheckFirstIv = new BitString(ivString);
-            var plainText = new BitString("8d");
-            var firstExpectedCipherText = new BitString("8a");
+            var plainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var firstExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
 
-            var secondExpectedKey = new BitString("0078ef5381ec8f98b21ff995e1f058c0");
-            var secondExpectedIv = new BitString("be5fad8cecedb63cecaf103463deb78a");
-            var secondExpectedPlainText = new BitString("26");
-            var secondExpectedCipherText = new BitString("ff");
-
-            var lastExpectedKey = new BitString("2ba452ed17c06b9602fd6a80f3112c38");
-            var lastExpectedIv = new BitString("b0b335f8827ecd6e2afe15b5b87a8185");
-            var lastExpectedPlainText = new BitString("6f");
-            var lastExpectedCipherText = new BitString("77");
+            var secondExpectedKey = new BitString("d00433b558d5e5b504620846ea9335d9");
+            var secondExpectedIv = new BitString("c9c64f6aaae695d948037ead89376357");
+            var secondExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var secondExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            
+            var lastExpectedKey = new BitString("0b677b274bde90ae72844bff9eb0d0b3");
+            var lastExpectedIv = new BitString("337584c1b9d72ddb72b0a544b0f41dbf");
+            var lastExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var lastExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
 
 
             var result = _subject.MCTEncrypt(iv, key, plainText);
@@ -54,7 +43,7 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
             Assert.AreEqual(iv, sanityCheckFirstIv, nameof(sanityCheckFirstIv));
             var firstCipherText = result.Response[0].CipherText;
             Assert.AreEqual(firstExpectedCipherText, firstCipherText, nameof(firstCipherText));
-
+            
             var secondKey = result.Response[1].Key;
             var secondIv = result.Response[1].IV;
             var secondPlainText = result.Response[1].PlainText;
@@ -81,24 +70,24 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
         [Test]
         public void ShouldMonteCarloTestEncrypt192BitKey()
         {
-            string keyString = "71e5ad1af5ae95d5a63575177b22a6e43ab9a6d0f454bd14";
-            string ivString = "233aef115929ac7c6e225ddb4509a159";
+            string keyString = "5f21cf99ae456ed8d65cbc72c0b89759e20cb1091bc69376";
+            string ivString = "6e26057d460762ac302a9a64272a2944";
 
             var key = new BitString(keyString);
             var iv = new BitString(ivString);
 
             var sanityCheckFirstKey = new BitString(keyString);
             var sanityCheckFirstIv = new BitString(ivString);
-            var plainText = new BitString("72");
-            var firstExpectedCipherText = new BitString("e7");
+            var plainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var firstExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
 
-            var secondExpectedKey = new BitString("ae29cd48bda44fa12f887dda1d75f769b7665d53329da0f3");
-            var secondExpectedIv = new BitString("89bd08cd6657518d8ddffb83c6c91de7");
+            var secondExpectedKey = new BitString("579fd63a9d329fa44285e3f834a94747d56c1278a9fc3c3d");
+            var secondExpectedIv = new BitString("94d95f8af411d01e3760a371b23aaf4b");
 
-            var lastExpectedKey = new BitString("cda2456926db47a89dde7652df96a1f4752ad6f5db5bd5ad");
-            var lastExpectedIv = new BitString("5fb0d1b4a9b886e627013bec9a9debd6");
-            var lastExpectedPlainText = new BitString("2f");
-            var lastExpectedCipherText = new BitString("df");
+            var lastExpectedKey = new BitString("ffa875bfb283d86a75801112b048bdd4d2f6e5caafbd9994");
+            var lastExpectedIv = new BitString("3f597d5af4d9b1a3980cea2b4f60118e");
+            var lastExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var lastExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
 
 
             var result = _subject.MCTEncrypt(iv, key, plainText);
@@ -131,24 +120,24 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
         [Test]
         public void ShouldMonteCarloTestEncrypt256BitKey()
         {
-            string keyString = "33f9810a019abf3031639e28cd441e7f7d54c92cab68f2c5e6e43bf384d15a24";
-            string ivString = "47b2e9ceb89bbde5f0b65e6a6c604a2d";
+            string keyString = "299182240c5ff67364c6b1aac2e3f06858f290650c12c359cb47071920c55903";
+            string ivString = "5323e8ab1eba7a3212846dabf1493549";
 
             var key = new BitString(keyString);
             var iv = new BitString(ivString);
 
             var sanityCheckFirstKey = new BitString(keyString);
             var sanityCheckFirstIv = new BitString(ivString);
-            var plainText = new BitString("b0");
-            var firstExpectedCipherText = new BitString("f8");
+            var plainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var firstExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
 
-            var secondExpectedKey = new BitString("29f81b5019fcf708c4228fbdd990b3e1d96018d539910169b5562c2781ffbadc");
-            var secondExpectedIv = new BitString("a434d1f992f9f3ac53b217d4052ee0f8");
+            var secondExpectedKey = new BitString("ebd07fe190d02504be720ebaf56c963e6375cb3ea01105c9fdfe112f826c9b75");
+            var secondExpectedIv = new BitString("3b875b5bac03c69036b91636a2a9c276");
 
-            var lastExpectedKey = new BitString("07abdfa3ef9c70115f653f858f121501b1f7612544659461d2b85ba7567f035b");
-            var lastExpectedIv = new BitString("978a1ec1ad1b1ab6fafd531e56709f57");
-            var lastExpectedPlainText = new BitString("77");
-            var lastExpectedCipherText = new BitString("c3");
+            var lastExpectedKey = new BitString("101dd780875c359a7a4327fe2951e70939db234e72b09c579c12abb01c0f8c1b");
+            var lastExpectedIv = new BitString("23028f02b4adc4a5d35ed0e120b142bc");
+            var lastExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var lastExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
 
 
             var result = _subject.MCTEncrypt(iv, key, plainText);
@@ -183,24 +172,26 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
         [Test]
         public void ShouldMonteCarloTestDecrypt128BitKey()
         {
-            string keyString = "b8aa42a5a808ddefb65f9da4f7bb69e0";
-            string ivString = "0d5efe13e859a98483027fc5acfd6cac";
+            string keyString = "d3057c24774e4420c5dd6d66eeb04912";
+            string ivString = "cdb7d2e7a5e85f2b5e6a08d89b2c9bdd";
 
             var key = new BitString(keyString);
             var iv = new BitString(ivString);
 
             var sanityCheckFirstKey = new BitString(keyString);
             var sanityCheckFirstIv = new BitString(ivString);
-            var cipherText = new BitString("aa");
-            var firstExpectedPlainText = new BitString("81");
+            var cipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var firstExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
 
-            var secondExpectedKey = new BitString("b8f6c6ffe1d3f522cda5246349d23a61");
-            var secondExpectedIv = new BitString("005c845a49db28cd7bfab9c7be695381");
+            var secondExpectedKey = new BitString("0679aba4f75ae4e820fd2d2caa297854");
+            var secondExpectedIv = new BitString("d57cd7808014a0c8e520404a44993146");
+            var secondExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var secondExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
 
-            var lastExpectedKey = new BitString("665f12932939fb8c20c9a13e7384a0c3");
-            var lastExpectedIv = new BitString("47dd8c14ce80295cbb0d52ad055ea3e7");
-            var lastExpectedCipherText = new BitString("bb");
-            var lastExpectedPlainText = new BitString("87");
+            var lastExpectedKey = new BitString("d5f29f0400854d31f2ddcdd5c32ce3ba");
+            var lastExpectedIv = new BitString("89b57c371d635d67a83aa3ebb4f4a03d");
+            var lastExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var lastExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
 
 
             var result = _subject.MCTDecrypt(iv, key, cipherText);
@@ -213,9 +204,13 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
 
             var secondKey = result.Response[1].Key;
             var secondIv = result.Response[1].IV;
+            var secondCipherText = result.Response[1].CipherText;
+            var secondPlainText = result.Response[1].PlainText;
 
             Assert.AreEqual(secondExpectedKey, secondKey, nameof(secondExpectedKey));
             Assert.AreEqual(secondExpectedIv, secondIv, nameof(secondExpectedIv));
+            Assert.AreEqual(secondExpectedCipherText, secondCipherText, nameof(secondExpectedCipherText));
+            Assert.AreEqual(secondExpectedPlainText, secondPlainText, nameof(secondExpectedPlainText));
 
             var lastKey = result.Response[result.Response.Count - 1].Key;
             var lastIv = result.Response[result.Response.Count - 1].IV;
@@ -233,24 +228,26 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
         [Test]
         public void ShouldMonteCarloTestDecrypt192BitKey()
         {
-            string keyString = "7f1d2d31bbcb3cf9c4cd26b07e4412345ca5372e797693f1";
-            string ivString = "870450cf1c083d5fa7f7039a90a6f025";
+            string keyString = "81e26656c1be3dc9b7275ba3d224bac3fd42c4ba1637688d";
+            string ivString = "ebe322635745494100c2b0bbcafc7a33";
 
             var key = new BitString(keyString);
             var iv = new BitString(ivString);
 
             var sanityCheckFirstKey = new BitString(keyString);
             var sanityCheckFirstIv = new BitString(ivString);
-            var cipherText = new BitString("9e");
-            var firstExpectedPlainText = new BitString("05");
+            var cipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var firstExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
 
-            var secondExpectedKey = new BitString("c93e5a2905c61bbfef4ce757a599f5738b859132bdbc03f4");
-            var secondExpectedIv = new BitString("2b81c1e7dbdde747d720a61cc4ca9005");
+            var secondExpectedKey = new BitString("e98067eb3a70d4e54fbe0fbd36aa282e41ab0af9a96d2db9");
+            var secondExpectedIv = new BitString("f899541ee48e92edbce9ce43bf5a4534");
+            var secondExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var secondExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
 
-            var lastExpectedKey = new BitString("6c6dc9583bd02e3ae69e61a7c1c2ccd6929fbe0c4d5047be");
-            var lastExpectedIv = new BitString("24eb41d5dcf09dd4e88a84f521f89b8d");
-            var lastExpectedCipherText = new BitString("dd");
-            var lastExpectedPlainText = new BitString("b7");
+            var lastExpectedKey = new BitString("481dac4354c7a602f31d9fd33119cd834f69277fabba5c5f");
+            var lastExpectedIv = new BitString("40648ac18d340bf6f83887de83cb28db");
+            var lastExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var lastExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
 
 
             var result = _subject.MCTDecrypt(iv, key, cipherText);
@@ -263,9 +260,13 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
 
             var secondKey = result.Response[1].Key;
             var secondIv = result.Response[1].IV;
+            var secondCipherText = result.Response[1].CipherText;
+            var secondPlainText = result.Response[1].PlainText;
 
             Assert.AreEqual(secondExpectedKey, secondKey, nameof(secondExpectedKey));
             Assert.AreEqual(secondExpectedIv, secondIv, nameof(secondExpectedIv));
+            Assert.AreEqual(secondExpectedCipherText, secondCipherText, nameof(secondExpectedCipherText));
+            Assert.AreEqual(secondExpectedPlainText, secondPlainText, nameof(secondExpectedPlainText));
 
             var lastKey = result.Response[result.Response.Count - 1].Key;
             var lastIv = result.Response[result.Response.Count - 1].IV;
@@ -283,24 +284,26 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
         [Test]
         public void ShouldMonteCarloTestDecrypt256BitKey()
         {
-            string keyString = "18c80d340c0d1f96571395e0b87137076162e4bd4ac98694cb7245656a9bfbf3";
-            string ivString = "f44586998c1d5658fffa686c25998f2b";
+            string keyString = "63a8a289c2f89f0246e2c42f264ea27013b51e24bf9416c0a01a481ef2246f17";
+            string ivString = "6ec27ed42082fb5fb84c27829b03226d";
 
             var key = new BitString(keyString);
             var iv = new BitString(ivString);
 
             var sanityCheckFirstKey = new BitString(keyString);
             var sanityCheckFirstIv = new BitString(ivString);
-            var cipherText = new BitString("02");
-            var firstExpectedPlainText = new BitString("30");
+            var cipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var firstExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
 
-            var secondExpectedKey = new BitString("118fd22241f56fdab7ce59c06660a2f9fcd5071842b4fea1add02ca2308f42c3");
-            var secondExpectedIv = new BitString("9db7e3a5087d783566a269c75a14b930");
+            var secondExpectedKey = new BitString("4c1189c6218791ceba937ff30c4c4bee86b03c7569edf1604cd4a816aa8dbaf7");
+            var secondExpectedIv = new BitString("95052251d679e7a0eccee00858a9d5e0");
+            var secondExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var secondExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
 
-            var lastExpectedKey = new BitString("0ed49def9a58dab52c2804dad5677fc94e0ef456650bceb1a562146f91c41654");
-            var lastExpectedIv = new BitString("4b1d66e0c04522c80b048307dcc89dda");
-            var lastExpectedCipherText = new BitString("94");
-            var lastExpectedPlainText = new BitString("51");
+            var lastExpectedKey = new BitString("9ccc8ef62058690c1265f314c752bdcb6c90e7ceaa9ca313a55ff48862005491");
+            var lastExpectedIv = new BitString("f2037905c418ed80780ffccdb650bf3c");
+            var lastExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var lastExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
 
 
             var result = _subject.MCTDecrypt(iv, key, cipherText);
@@ -313,9 +316,13 @@ namespace NIST.CVP.Generation.AES_CFB8.IntegrationTests
 
             var secondKey = result.Response[1].Key;
             var secondIv = result.Response[1].IV;
+            var secondCipherText = result.Response[1].CipherText;
+            var secondPlainText = result.Response[1].PlainText;
 
             Assert.AreEqual(secondExpectedKey, secondKey, nameof(secondExpectedKey));
             Assert.AreEqual(secondExpectedIv, secondIv, nameof(secondExpectedIv));
+            Assert.AreEqual(secondExpectedCipherText, secondCipherText, nameof(secondExpectedCipherText));
+            Assert.AreEqual(secondExpectedPlainText, secondPlainText, nameof(secondExpectedPlainText));
 
             var lastKey = result.Response[result.Response.Count - 1].Key;
             var lastIv = result.Response[result.Response.Count - 1].IV;

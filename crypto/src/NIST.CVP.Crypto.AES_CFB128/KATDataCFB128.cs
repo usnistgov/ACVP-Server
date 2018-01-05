@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Helpers;
 
-namespace NIST.CVP.Generation.AES_CFB8
+namespace NIST.CVP.Crypto.AES_CFB128
 {
-    public class KATDataCFB8
+    public class KATDataCFB128
     {
         #region GFSBox
         public static List<AlgoArrayResponse> GetGFSBox128BitKey()
@@ -142,11 +140,9 @@ namespace NIST.CVP.Generation.AES_CFB8
 
         private static void AllTransform(List<AlgoArrayResponse> results)
         {
-            // CFB8 - PT is always "0" (hex), CT is the most significant bit of the normal KAT.
             results.ForEach(fe =>
             {
-                fe.PlainText = new BitString(8);
-                fe.CipherText = new BitString(new byte[] { fe.CipherText[0] });
+                fe.PlainText = new BitString(16*8);
             });
         }
     }

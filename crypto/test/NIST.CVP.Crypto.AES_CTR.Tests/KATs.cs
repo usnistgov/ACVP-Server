@@ -1,10 +1,9 @@
-﻿using NIST.CVP.Crypto.AES_CTR;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_CTR.IntegrationTests
+namespace NIST.CVP.Crypto.AES_CTR.Tests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class KATs
     {
         private readonly IAesCtr _subject = new AesCtr();

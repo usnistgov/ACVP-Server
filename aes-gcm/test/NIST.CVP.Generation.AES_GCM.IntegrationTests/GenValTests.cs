@@ -153,13 +153,17 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             {
                 Algorithm = "AES-GCM",
                 Direction = ParameterValidator.VALID_DIRECTIONS,
-                KeyLen = ParameterValidator.VALID_KEY_SIZES,
-                PtLen = new int[] { 128, 120, 256 },
+                KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
+                PtLen = new int[] { 0, 120, 256 },
                 ivLen = new int[] { 96, 128 },
                 ivGen = ParameterValidator.VALID_IV_GEN[1],
                 ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
-                aadLen = new int[] { 128, 120 },
-                TagLen = ParameterValidator.VALID_TAG_LENGTHS,
+                aadLen = new int[] { 0, 128, 120 },
+                TagLen = new int[]
+                {
+                    ParameterValidator.VALID_TAG_LENGTHS.First(),
+                    ParameterValidator.VALID_TAG_LENGTHS.Last()
+                },
                 IsSample = false
             };
 

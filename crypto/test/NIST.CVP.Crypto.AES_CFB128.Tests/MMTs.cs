@@ -3,9 +3,9 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_CFB128.IntegrationTests
+namespace NIST.CVP.Crypto.AES_CFB128.Tests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class MMTs
     {
         private Crypto.AES_CFB128.AES_CFB128 _subject = new Crypto.AES_CFB128.AES_CFB128(new RijndaelFactory(new RijndaelInternals()));

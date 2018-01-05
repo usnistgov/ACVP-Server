@@ -3,12 +3,12 @@ using NIST.CVP.Crypto.AES;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
+namespace NIST.CVP.Crypto.AES_OFB.Tests
 {
-    [TestFixture, FastIntegrationTest]
+    [TestFixture, FastCryptoTest]
     public class KATs
     {
-        Crypto.AES_CBC.AES_CBC _subject = new Crypto.AES_CBC.AES_CBC(
+        Crypto.AES_OFB.AES_OFB _subject = new Crypto.AES_OFB.AES_OFB(
                     new RijndaelFactory(
                         new RijndaelInternals()
                     )
@@ -17,84 +17,84 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
         #region TestData
         static IEnumerable _GetGFSBox128BitKey()
         {
-            foreach (var item in KATData.GetGFSBox128BitKey())
+            foreach (var item in KATDataOFB.GetGFSBox128BitKey())
             {
                 yield return new TestCaseData(item.CipherText.ToHex(), item);
             }
         }
         static IEnumerable _GetGFSBox192BitKey()
         {
-            foreach (var item in KATData.GetGFSBox192BitKey())
+            foreach (var item in KATDataOFB.GetGFSBox192BitKey())
             {
                 yield return new TestCaseData(item.CipherText.ToHex(), item);
             }
         }
         static IEnumerable _GetGFSBox256BitKey()
         {
-            foreach (var item in KATData.GetGFSBox256BitKey())
+            foreach (var item in KATDataOFB.GetGFSBox256BitKey())
             {
                 yield return new TestCaseData(item.CipherText.ToHex(), item);
             }
         }
         static IEnumerable _GetKeySBox128BitKey()
         {
-            foreach (var item in KATData.GetKeySBox128BitKey())
+            foreach (var item in KATDataOFB.GetKeySBox128BitKey())
             {
                 yield return new TestCaseData(item.CipherText.ToHex(), item);
             }
         }
         static IEnumerable _GetKeySBox192BitKey()
         {
-            foreach (var item in KATData.GetKeySBox192BitKey())
+            foreach (var item in KATDataOFB.GetKeySBox192BitKey())
             {
                 yield return new TestCaseData(item.CipherText.ToHex(), item);
             }
         }
         static IEnumerable _GetKeySBox256BitKey()
         {
-            foreach (var item in KATData.GetKeySBox256BitKey())
+            foreach (var item in KATDataOFB.GetKeySBox256BitKey())
             {
                 yield return new TestCaseData(item.CipherText.ToHex(), item);
             }
         }
         static IEnumerable _GetVarTxt128BitKey()
         {
-            foreach (var item in KATData.GetVarTxt128BitKey())
+            foreach (var item in KATDataOFB.GetVarTxt128BitKey())
             {
                 yield return new TestCaseData(item.CipherText.ToHex(), item);
             }
         }
         static IEnumerable _GetVarTxt192BitKey()
         {
-            foreach (var item in KATData.GetVarTxt192BitKey())
+            foreach (var item in KATDataOFB.GetVarTxt192BitKey())
             {
                 yield return new TestCaseData(item.CipherText.ToHex(), item);
             }
         }
         static IEnumerable _GetVarTxt256BitKey()
         {
-            foreach (var item in KATData.GetVarTxt256BitKey())
+            foreach (var item in KATDataOFB.GetVarTxt256BitKey())
             {
                 yield return new TestCaseData(item.CipherText.ToHex(), item);
             }
         }
         static IEnumerable _GetVarKey128BitKey()
         {
-            foreach (var item in KATData.GetVarKey128BitKey())
+            foreach (var item in KATDataOFB.GetVarKey128BitKey())
             {
                 yield return new TestCaseData(item.CipherText.ToHex(), item);
             }
         }
         static IEnumerable _GetVarKey192BitKey()
         {
-            foreach (var item in KATData.GetVarKey192BitKey())
+            foreach (var item in KATDataOFB.GetVarKey192BitKey())
             {
                 yield return new TestCaseData(item.CipherText.ToHex(), item);
             }
         }
         static IEnumerable _GetVarKey256BitKey()
         {
-            foreach (var item in KATData.GetVarKey256BitKey())
+            foreach (var item in KATDataOFB.GetVarKey256BitKey())
             {
                 yield return new TestCaseData(item.CipherText.ToHex(), item);
             }
@@ -175,7 +175,7 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, nameof(algoArrayResponse.CipherText));
         }
-
+        
         [Test]
         [TestCaseSource(nameof(_GetVarTxt192BitKey))]
         public void ShouldVarTxtCorrectlyWith192BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)

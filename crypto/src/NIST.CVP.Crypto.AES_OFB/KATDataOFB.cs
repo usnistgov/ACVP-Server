@@ -3,7 +3,7 @@ using System.Linq;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.AES_OFB
+namespace NIST.CVP.Crypto.AES_OFB
 {
     public class KATDataOFB
     {

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NIST.CVP.Crypto.AES;
-using AlgoArrayResponse = NIST.CVP.Crypto.AES.AlgoArrayResponse;
 
-namespace NIST.CVP.Generation.AES_CTR
+namespace NIST.CVP.Crypto.AES_CTR
 {
     public class KatDataCtr
     {
