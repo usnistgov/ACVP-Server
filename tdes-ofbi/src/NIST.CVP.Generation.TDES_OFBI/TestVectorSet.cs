@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 
-namespace NIST.CVP.Generation.TDES_CBCI
+namespace NIST.CVP.Generation.TDES_OFBI
 {
     public class TestVectorSet : ITestVectorSet
     {
@@ -186,14 +186,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
 
                             AddToObjectIfNotNull(testObject, "ct", test.CipherText);
                         }
-
-
-
-
                         AddToObjectIfNotNull(testObject, "iv", test.IV1);
-                        //AddToObjectIfNotNull(testObject, "iv2", test.IV2);
-                        //AddToObjectIfNotNull(testObject, "iv3", test.IV3);
-
                         tests.Add(testObject);
                     }
                     list.Add(updateObject);
