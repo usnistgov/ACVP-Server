@@ -57,7 +57,15 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     Bitlens = bitlens,
                     Deferred = !group.InfoGeneratedByServer
                 };
-                return Generate(group, testCase);
+
+                // Generation can fail, recursive call until success
+                var generateResponse = Generate(group, testCase);
+                if (generateResponse.Success)
+                {
+                    return generateResponse;
+                }
+
+                return Generate(group, isSample);
             }
             else
             {
