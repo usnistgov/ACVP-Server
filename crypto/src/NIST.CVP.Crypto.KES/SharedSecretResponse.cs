@@ -1,8 +1,9 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.Common;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KES
 {
-    public class SharedSecretResponse
+    public class SharedSecretResponse : ICryptoResult
     {
         /// <summary>
         /// The computed shared secret Z

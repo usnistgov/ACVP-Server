@@ -52,6 +52,9 @@ namespace KAS
                 case "kas-ecc":
                     NIST.CVP.Generation.KAS.ECC.AutoFacConfig.RegisterTypes(builder);
                     break;
+                case "kas-ecccomponent":
+                    NIST.CVP.Generation.KAS.EccComponent.AutoFacConfig.RegisterTypes(builder);
+                    break;
 
                 default:
                     throw new NotImplementedException("Type not supported");

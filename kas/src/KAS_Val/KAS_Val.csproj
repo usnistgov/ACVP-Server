@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NIST.CVP.Generation.KAS.EccComponent\NIST.CVP.Generation.KAS.EccComponent.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.KAS.ECC\NIST.CVP.Generation.KAS.ECC.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.KAS.FFC\NIST.CVP.Generation.KAS.FFC.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.KAS\NIST.CVP.Generation.KAS.csproj" />
