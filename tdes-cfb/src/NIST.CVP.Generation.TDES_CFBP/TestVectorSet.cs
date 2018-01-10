@@ -27,7 +27,6 @@ namespace NIST.CVP.Generation.TDES_CFBP
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
-
                 TestGroups.Add(group);
             }
 
@@ -62,10 +61,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 var list = new List<dynamic>();
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
-                    dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
+                    var updateObject = BuildGroupInformation(group);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
 
@@ -144,6 +140,15 @@ namespace NIST.CVP.Generation.TDES_CFBP
             }
         }
 
+        private dynamic BuildGroupInformation(TestGroup group)
+        {
+            dynamic updateObject = new ExpandoObject();
+            ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
+            ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+            ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
+            return updateObject;
+        }
+
         private void AddToObjectIfNotNull(dynamic obj, string propertyName, object propertyValue)
         {
             if (propertyValue != null)
@@ -172,10 +177,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 var list = new List<dynamic>();
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
-                    dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
+                    var updateObject = BuildGroupInformation(group);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
 
@@ -204,12 +206,10 @@ namespace NIST.CVP.Generation.TDES_CFBP
                             AddToObjectIfNotNull(testObject, "ctLen", test.CipherTextLength);
                         }
 
-
-
-
-                        AddToObjectIfNotNull(testObject, "iv1", test.IV1);
-                        AddToObjectIfNotNull(testObject, "iv2", test.IV2);
-                        AddToObjectIfNotNull(testObject, "iv3", test.IV3);
+                        AddToObjectIfNotNull(testObject, "iv", test.IV1);
+                        //AddToObjectIfNotNull(testObject, "iv1", test.IV1);
+                        //AddToObjectIfNotNull(testObject, "iv2", test.IV2);
+                        //AddToObjectIfNotNull(testObject, "iv3", test.IV3);
 
                         tests.Add(testObject);
                     }

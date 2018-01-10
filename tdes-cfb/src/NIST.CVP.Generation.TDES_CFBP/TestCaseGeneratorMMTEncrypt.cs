@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            EncryptionResult encryptionResult = null;
+            EncryptionResultWithIv encryptionResult = null;
             try
             {
                 encryptionResult = _modeOfOperation.BlockEncrypt(testCase.Keys, testCase.IV1, testCase.PlainText);
@@ -77,6 +77,8 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 }
             }
             testCase.CipherText = encryptionResult.CipherText;
+            testCase.IV2 = encryptionResult.IVs[1];
+            testCase.IV3 = encryptionResult.IVs[2];
             return new TestCaseGenerateResponse(testCase);
         }
 
