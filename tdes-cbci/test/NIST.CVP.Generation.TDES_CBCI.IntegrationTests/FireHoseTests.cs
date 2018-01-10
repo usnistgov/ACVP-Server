@@ -106,7 +106,10 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     testCase.PlainText
                                 );
 
-                                if (testCase.CipherText.ToString() == result.CipherText.ToString())
+                                if (testCase.CipherText.ToString() == result.CipherText.ToString() &&
+                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
+                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
+                                    testCase.IV3.ToString() == result.IVs[2].ToString())
                                 {
                                     passes++;
                                 }
@@ -127,7 +130,10 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     testCase.PlainText
                                 );
 
-                                if (testCase.CipherText.ToString() == result.CipherText.ToString())
+                                if (testCase.CipherText.ToString() == result.CipherText.ToString() && 
+                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
+                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
+                                    testCase.IV3.ToString() == result.IVs[2].ToString())
                                 {
                                     passes++;
                                 }
@@ -150,7 +156,10 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     testCase.PlainText
                                 );
 
-                                if (testCase.CipherText.ToString() == result.CipherText.ToString() )
+                                if (testCase.CipherText.ToString() == result.CipherText.ToString() &&
+                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
+                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
+                                    testCase.IV3.ToString() == result.IVs[2].ToString())
                                 {
                                     passes++;
                                 }
@@ -179,7 +188,10 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     testCase.CipherText
                                 );
 
-                                if (testCase.PlainText.ToString() == result.PlainText.ToString())
+                                if (testCase.PlainText.ToString() == result.PlainText.ToString() &&
+                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
+                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
+                                    testCase.IV3.ToString() == result.IVs[2].ToString())
                                 {
                                     passes++;
                                 }
@@ -200,7 +212,10 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     testCase.CipherText
                                 );
 
-                                if (testCase.PlainText.ToString() == result.PlainText.ToString())
+                                if (testCase.PlainText.ToString() == result.PlainText.ToString() &&
+                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
+                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
+                                    testCase.IV3.ToString() == result.IVs[2].ToString())
                                 {
                                     passes++;
                                 }
@@ -223,7 +238,10 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     testCase.CipherText
                                 );
 
-                                if (testCase.PlainText.ToString() == result.PlainText.ToString())
+                                if (testCase.PlainText.ToString() == result.PlainText.ToString() &&
+                                    testCase.IV1.ToString() == result.IVs[0].ToString() &&
+                                    testCase.IV2.ToString() == result.IVs[1].ToString() &&
+                                    testCase.IV3.ToString() == result.IVs[2].ToString())
                                 {
                                     passes++;
                                 }

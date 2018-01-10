@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            EncryptionResult encryptionResult = null;
+            EncryptionResultWithIv encryptionResult = null;
             try
             {
                 encryptionResult = _algo.BlockEncrypt(testCase.Keys, testCase.IV1, testCase.PlainText);
@@ -62,6 +62,8 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 }
             }
             testCase.CipherText = encryptionResult.CipherText;
+            testCase.IV2 = encryptionResult.IVs[1];
+            testCase.IV3 = encryptionResult.IVs[2];
             return new TestCaseGenerateResponse(testCase);
         }
 
