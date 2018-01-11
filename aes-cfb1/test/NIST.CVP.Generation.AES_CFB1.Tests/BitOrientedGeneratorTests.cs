@@ -14,9 +14,9 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
     [TestFixture,  FastCryptoTest]
     public class BitOrientedGeneratorTests
     {
-        public class FakeBitOrientedGenerator : BitOrientedGenerator<FakeParameters, FakeTestVectorSet>
+        public class FakeBitOrientedGenerator : BitOrientedGenerator<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>
         {
-            public FakeBitOrientedGenerator(ITestVectorFactory<FakeParameters> testVectorFactory, IParameterParser<FakeParameters> parameterParser, IParameterValidator<FakeParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<FakeTestVectorSet> iTestCaseGeneratorFactoryFactory) : base(testVectorFactory, parameterParser, parameterValidator, iTestCaseGeneratorFactoryFactory)
+            public FakeBitOrientedGenerator(ITestVectorFactory<FakeParameters> testVectorFactory, IParameterParser<FakeParameters> parameterParser, IParameterValidator<FakeParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase> iTestCaseGeneratorFactoryFactory) : base(testVectorFactory, parameterParser, parameterValidator, iTestCaseGeneratorFactoryFactory)
             {
             }
 
@@ -26,9 +26,9 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             }
         }
 
-        public class FakeBGenerator : Generator<FakeParameters, FakeTestVectorSet>
+        public class FakeBGenerator : Generator<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>
         {
-            public FakeBGenerator(ITestVectorFactory<FakeParameters> testVectorFactory, IParameterParser<FakeParameters> parameterParser, IParameterValidator<FakeParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<FakeTestVectorSet> iTestCaseGeneratorFactoryFactory) : base(testVectorFactory, parameterParser, parameterValidator, iTestCaseGeneratorFactoryFactory)
+            public FakeBGenerator(ITestVectorFactory<FakeParameters> testVectorFactory, IParameterParser<FakeParameters> parameterParser, IParameterValidator<FakeParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase> iTestCaseGeneratorFactoryFactory) : base(testVectorFactory, parameterParser, parameterValidator, iTestCaseGeneratorFactoryFactory)
             {
             }
 

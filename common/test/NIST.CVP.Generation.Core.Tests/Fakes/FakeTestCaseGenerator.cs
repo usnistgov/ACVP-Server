@@ -4,7 +4,7 @@
         where TTestGroup : ITestGroup
         where TTestCase : ITestCase, new()
     {
-        public int NumberOfTestCasesToGenerate { get { return 1; } }
+        public int NumberOfTestCasesToGenerate => 1;
         public TestCaseGenerateResponse Generate(TTestGroup @group, bool isSample)
         {
             TTestCase testCase = new TTestCase();

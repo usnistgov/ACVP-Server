@@ -111,13 +111,17 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         /// The issue came down to <see cref="BitOrientedBitString"/> was written in the reverse order to the json files.
         /// This test class is used to mock up some of the things the generator does in order to test the failing/passing behavior.
         /// </summary>
-        private class TestGenerator : BitOrientedGenerator<Parameters, TestVectorSet>
+        private class TestGenerator : BitOrientedGenerator<Parameters, TestVectorSet, FakeTestGroup, FakeTestCase>
         {
             private readonly TestVectorSet _injectedTestVectorSet;
             
             public TestGenerator(
                 TestVectorSet injectedTestVectorSet,
-                ITestVectorFactory<Parameters> testVectorFactory, IParameterParser<Parameters> parameterParser, IParameterValidator<Parameters> parameterValidator, ITestCaseGeneratorFactoryFactory<TestVectorSet> iTestCaseGeneratorFactoryFactory) : base(testVectorFactory, parameterParser, parameterValidator, iTestCaseGeneratorFactoryFactory)
+                ITestVectorFactory<Parameters> testVectorFactory, 
+                IParameterParser<Parameters> parameterParser, 
+                IParameterValidator<Parameters> parameterValidator, 
+                ITestCaseGeneratorFactoryFactory<TestVectorSet, FakeTestGroup, FakeTestCase> iTestCaseGeneratorFactoryFactory
+            ) : base(testVectorFactory, parameterParser, parameterValidator, iTestCaseGeneratorFactoryFactory)
             {
                 _injectedTestVectorSet = injectedTestVectorSet;
             }

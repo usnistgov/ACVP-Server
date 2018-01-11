@@ -25,7 +25,7 @@ namespace AES_XTS_Val
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<AesXtsInternals>().AsImplementedInterfaces();
             builder.RegisterType<AesXts>().AsImplementedInterfaces();

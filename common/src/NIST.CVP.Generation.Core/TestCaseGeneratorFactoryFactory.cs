@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.Core;
+﻿using System.Linq;
 
-namespace NIST.CVP.Generation.AES_GCM
+namespace NIST.CVP.Generation.Core
 {
-    public class TestCaseGeneratorFactoryFactory : ITestCaseGeneratorFactoryFactory<TestVectorSet>
+    public class TestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> : ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase>
+        where TTestVectorSet : ITestVectorSet
+        where TTestGroup : ITestGroup
+        where TTestCase : ITestCase
     {
-        private readonly ITestCaseGeneratorFactory<TestGroup, TestCase> _testCaseGeneratorFactory;
+        private readonly ITestCaseGeneratorFactory<TTestGroup, TTestCase> _testCaseGeneratorFactory;
 
-        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactory<TestGroup, TestCase> iTestCaseGeneratorFactory)
+        public TestCaseGeneratorFactoryFactory(ITestCaseGeneratorFactory<TTestGroup, TTestCase> iTestCaseGeneratorFactory)
         {
             _testCaseGeneratorFactory = iTestCaseGeneratorFactory;
         }
 
-        public GenerateResponse BuildTestCases(TestVectorSet testVector)
+        public GenerateResponse BuildTestCases(TTestVectorSet testVector)
         {
             int testId = 1;
-            foreach (var group in testVector.TestGroups.Select(g => (TestGroup)g))
+            foreach (var group in testVector.TestGroups.Select(g => (TTestGroup)g))
             {
                 var generator = _testCaseGeneratorFactory.GetCaseGenerator(group);
                 for (int caseNo = 0; caseNo < generator.NumberOfTestCasesToGenerate; ++caseNo)
@@ -28,7 +27,7 @@ namespace NIST.CVP.Generation.AES_GCM
                     {
                         return new GenerateResponse(testCaseResponse.ErrorMessage);
                     }
-                    var testCase = (TestCase)testCaseResponse.TestCase;
+                    var testCase = (TTestCase)testCaseResponse.TestCase;
                     testCase.TestCaseId = testId;
                     group.Tests.Add(testCase);
                     testId++;

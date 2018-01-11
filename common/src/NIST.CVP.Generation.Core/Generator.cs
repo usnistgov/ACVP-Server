@@ -3,16 +3,23 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.Core
 {
-    public class Generator<TParameters, TTestVectorSet> : GeneratorBase, IGenerator
+    public class Generator<TParameters, TTestVectorSet, TTestGroup, TTestCase> : GeneratorBase, IGenerator
         where TParameters : IParameters
         where TTestVectorSet : ITestVectorSet
+        where TTestGroup : ITestGroup
+        where TTestCase : ITestCase
     {
         protected readonly ITestVectorFactory<TParameters> _testVectorFactory;
         protected readonly IParameterParser<TParameters> _parameterParser;
         protected readonly IParameterValidator<TParameters> _parameterValidator;
-        protected readonly ITestCaseGeneratorFactoryFactory<TTestVectorSet> _testCaseGeneratorFactoryFactory;
+        protected readonly ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> _testCaseGeneratorFactoryFactory;
 
-        public Generator(ITestVectorFactory<TParameters> testVectorFactory, IParameterParser<TParameters> parameterParser, IParameterValidator<TParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<TTestVectorSet> iTestCaseGeneratorFactoryFactory)
+        public Generator(
+            ITestVectorFactory<TParameters> testVectorFactory, 
+            IParameterParser<TParameters> parameterParser, 
+            IParameterValidator<TParameters> parameterValidator, 
+            ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> iTestCaseGeneratorFactoryFactory
+        )
         {
             _testVectorFactory = testVectorFactory;
             _parameterParser = parameterParser;

@@ -23,7 +23,7 @@ namespace CMAC_Val
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-            //builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            //builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             
             builder.RegisterType<CmacFactory>().AsImplementedInterfaces();
             //builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

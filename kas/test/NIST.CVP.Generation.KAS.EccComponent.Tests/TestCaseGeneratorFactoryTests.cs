@@ -20,10 +20,10 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
             curveFactory
                 .Setup(s => s.GetCurve(It.IsAny<Curve>()))
                 .Returns(It.IsAny<IEccCurve>());
-            Mock<IDsaEcc> dsa = new Mock<IDsaEcc>();
+            Mock<IDsaEccFactory> dsaFactory = new Mock<IDsaEccFactory>();
             Mock<IEccDhComponent> dh = new Mock<IEccDhComponent>();
 
-            _subject = new TestCaseGeneratorFactory(curveFactory.Object, dsa.Object, dh.Object);
+            _subject = new TestCaseGeneratorFactory(curveFactory.Object, dsaFactory.Object, dh.Object);
         }
 
         [Test]

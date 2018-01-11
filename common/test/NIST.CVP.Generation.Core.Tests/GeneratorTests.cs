@@ -137,12 +137,17 @@ namespace NIST.CVP.Generation.Core.Tests
             Assert.IsTrue(result.Success);
         }
 
-        private Generator<FakeParameters,FakeTestVectorSet> GetSystem(ITestVectorFactory<FakeParameters> testVectorFactory, IParameterParser<FakeParameters> parameterParser, IParameterValidator<FakeParameters> parameterValidator, ITestCaseGeneratorFactoryFactory<FakeTestVectorSet> testCaseGeneratorFactoryFactory)
+        private Generator<FakeParameters,FakeTestVectorSet, FakeTestGroup, FakeTestCase> GetSystem(
+            ITestVectorFactory<FakeParameters> testVectorFactory, 
+            IParameterParser<FakeParameters> parameterParser, 
+            IParameterValidator<FakeParameters> parameterValidator, 
+            ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase> testCaseGeneratorFactoryFactory
+        )
         {
-            return new Generator<FakeParameters, FakeTestVectorSet>(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactoryFactory);
+            return new Generator<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactoryFactory);
         }
 
-        private Generator<FakeParameters, FakeTestVectorSet> GetSystem(MockedSystemDependencies mocks)
+        private Generator<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase> GetSystem(MockedSystemDependencies mocks)
         {
             return GetSystem(
                 mocks.MockITestVectorFactory.Object,
@@ -155,7 +160,7 @@ namespace NIST.CVP.Generation.Core.Tests
         private class MockedSystemDependencies
         {
             public Mock<ITestVectorFactory<FakeParameters>> MockITestVectorFactory { get; set; } = new Mock<ITestVectorFactory<FakeParameters>>();
-            public Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet>> MockITestCaseGeneratorFactoryFactory { get; set; } = new Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet>>();
+            public Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase>> MockITestCaseGeneratorFactoryFactory { get; set; } = new Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase>>();
             public Mock<IParameterParser<FakeParameters>> MockIParameterParser { get; set; } = new Mock<IParameterParser<FakeParameters>>();
             public Mock<IParameterValidator<FakeParameters>> MockIParameterValidator { get; set; } = new Mock<IParameterValidator<FakeParameters>>();
         }

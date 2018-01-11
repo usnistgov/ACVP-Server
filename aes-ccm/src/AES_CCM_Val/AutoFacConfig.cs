@@ -23,7 +23,7 @@ namespace AES_CCM_Val
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-            builder.RegisterType<Generator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<AES_CCMInternals>().AsImplementedInterfaces();
             builder.RegisterType<AES_CCM>().AsImplementedInterfaces();

@@ -2,7 +2,7 @@
 {
     public interface ITestCase
     {
-        int TestCaseId { get;}
+        int TestCaseId { get; set; }
         bool FailureTest { get; }
         bool Deferred { get; }
         bool Merge(ITestCase otherTest);

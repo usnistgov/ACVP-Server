@@ -24,10 +24,10 @@ namespace AES_CFB1
             var builder = new ContainerBuilder();
 
 
-            builder.RegisterType<BitOrientedGenerator<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<BitOrientedGenerator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<NIST.CVP.Crypto.AES_CFB1.AES_CFB1>().AsImplementedInterfaces();
             builder.RegisterType<AES_CFB1_MCT>().AsImplementedInterfaces();
-            builder.RegisterType<TestCaseGeneratorFactoryFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory<Parameters,TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
