@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Linq;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 
@@ -33,7 +35,7 @@ namespace NIST.CVP.Crypto.TDES_CFB
             }
         }
 
-        public EncryptionResult BlockEncrypt(BitString key, BitString iv, BitString plainText)
+        public SymmetricCipherResult BlockEncrypt(BitString key, BitString iv, BitString plainText)
         {
             if (plainText.BitLength % Shift != 0)
             {
@@ -68,9 +70,9 @@ namespace NIST.CVP.Crypto.TDES_CFB
                     output[(subSegments - i) * Shift - bitIndex - 1] = Convert.ToBoolean(previousCipherSegment.Bits[Shift - 1 - bitIndex]);
                 }
             }
-            return new EncryptionResult(new BitString(new BitArray(output.ToArray())));
+            return new SymmetricCipherResult(new BitString(new BitArray(output.ToArray())));
         }
-        public DecryptionResult BlockDecrypt(BitString key, BitString iv, BitString cipherText)
+        public SymmetricCipherResult BlockDecrypt(BitString key, BitString iv, BitString cipherText)
         {
             
             var output = new bool[cipherText.BitLength];
@@ -105,7 +107,7 @@ namespace NIST.CVP.Crypto.TDES_CFB
                     output[(subSegments - i) * Shift - bitIndex - 1] = Convert.ToBoolean(plainTextSegment.Bits[Shift - 1 - bitIndex]);
                 }
             }
-            return new DecryptionResult(new BitString(new BitArray(output.ToArray())));
+            return new SymmetricCipherResult(new BitString(new BitArray(output.ToArray())));
         }
 
 

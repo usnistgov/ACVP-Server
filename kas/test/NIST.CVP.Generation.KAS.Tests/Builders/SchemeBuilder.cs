@@ -1,5 +1,4 @@
 ﻿using System;
-using NIST.CVP.Crypto.KAS.Enums;
 
 namespace NIST.CVP.Generation.KAS.Tests.Builders
 {

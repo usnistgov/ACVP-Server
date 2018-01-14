@@ -1,7 +1,7 @@
 ﻿using System;
 using Moq;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.KAS;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

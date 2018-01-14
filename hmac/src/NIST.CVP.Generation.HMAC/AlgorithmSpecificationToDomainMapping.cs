@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.SHAWrapper;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 
 namespace NIST.CVP.Generation.HMAC
 {

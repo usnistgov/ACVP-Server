@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Enums;
 
 namespace NIST.CVP.Crypto.KAS.Helpers
 {

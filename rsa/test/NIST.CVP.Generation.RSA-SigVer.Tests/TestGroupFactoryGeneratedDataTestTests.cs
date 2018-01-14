@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {

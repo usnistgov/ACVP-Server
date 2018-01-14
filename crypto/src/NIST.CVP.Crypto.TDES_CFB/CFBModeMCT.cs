@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Crypto.TDES_CFB
 {
@@ -68,7 +69,7 @@ namespace NIST.CVP.Crypto.TDES_CFB
                 for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
                 {
                     prevTempIv = tempIv;
-                    output = _cfbMode.BlockEncrypt(keysForThisRound, tempIv, tempText).CipherText;
+                    output = _cfbMode.BlockEncrypt(keysForThisRound, tempIv, tempText).Result;
                     tempText = tempIv.MSBSubstring(0, Shift);
                     tempIv = tempIv.Substring(0, 64 - Shift).ConcatenateBits(output);
                     //tempIv = Shift < 64 ?
@@ -114,7 +115,7 @@ namespace NIST.CVP.Crypto.TDES_CFB
                 var keysForThisRound = responses[i].Keys;
                 for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
                 {
-                    output = _cfbMode.BlockDecrypt(keysForThisRound, tempIv, tempText).PlainText;
+                    output = _cfbMode.BlockDecrypt(keysForThisRound, tempIv, tempText).Result;
                     tempIv = tempIv.Substring(0, 64 - Shift).ConcatenateBits(tempText);
                     //tempIv = Shift < 64 ?
                     //    tempIv.MSBSubstring(0, 64 - Shift).ConcatenateBits(output) :

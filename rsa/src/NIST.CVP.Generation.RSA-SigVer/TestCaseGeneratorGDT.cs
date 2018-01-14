@@ -9,6 +9,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {

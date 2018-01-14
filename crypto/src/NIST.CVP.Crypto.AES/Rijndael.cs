@@ -1,8 +1,9 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.AES
 {
-    public abstract class Rijndael
+    public abstract class Rijndael : IRijndael
     {
         protected readonly IRijndaelInternals _iRijndaelInternals;
 
@@ -34,8 +35,7 @@ namespace NIST.CVP.Crypto.AES
 
         public BitString BlockEncrypt(Cipher cipher, Key key, byte[] plainText, int outputLengthInBits)
         {
-            int numBlocks;
-            numBlocks = SetNumberOfBlocks(ref cipher, outputLengthInBits);
+            int numBlocks = SetNumberOfBlocks(ref cipher, outputLengthInBits);
 
             byte[,] block = new byte[4, 8];
             byte[] outBuffer = SetOutputBufferLength(outputLengthInBits);

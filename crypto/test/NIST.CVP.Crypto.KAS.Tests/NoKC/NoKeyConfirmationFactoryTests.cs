@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Moq;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.CTR;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
@@ -62,7 +63,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterDecryptionResult("fail"));
+                .Returns(new SymmetricCounterResult("fail"));
 
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
             var result = subject.Validate(GetTestCase());
@@ -81,7 +82,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterDecryptionResult(GetTestCase().PlainText, GetTestCase().Ivs));
+                .Returns(new SymmetricCounterResult(GetTestCase().PlainText, GetTestCase().Ivs));
 
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
             var result = subject.Validate(suppliedResult);
@@ -97,7 +98,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterDecryptionResult(GetTestCase().PlainText, GetTestCase().Ivs));
+                .Returns(new SymmetricCounterResult(GetTestCase().PlainText, GetTestCase().Ivs));
 
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
             var result = subject.Validate(GetTestCase());
@@ -127,7 +128,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterDecryptionResult(suppliedTestCase.PlainText, suppliedTestCase.Ivs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, suppliedTestCase.Ivs));
 
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -162,7 +163,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterDecryptionResult(suppliedTestCase.PlainText, suppliedTestCase.Ivs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, suppliedTestCase.Ivs));
 
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -197,7 +198,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterDecryptionResult(suppliedTestCase.PlainText, suppliedTestCase.Ivs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, suppliedTestCase.Ivs));
 
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -232,7 +233,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterDecryptionResult(suppliedTestCase.PlainText, suppliedTestCase.Ivs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, suppliedTestCase.Ivs));
 
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -269,7 +270,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterDecryptionResult(suppliedTestCase.PlainText, suppliedTestCase.Ivs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, suppliedTestCase.Ivs));
 
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -308,7 +309,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterDecryptionResult(suppliedTestCase.PlainText, suppliedTestCase.Ivs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.PlainText, suppliedTestCase.Ivs));
 
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -325,7 +326,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterDecryptionResult(goodTestCase.PlainText, goodTestCase.Ivs));
+                .Returns(new SymmetricCounterResult(goodTestCase.PlainText, goodTestCase.Ivs));
 
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), goodTestCase, deferredMock.Object);
             var result = subject.Validate(goodTestCase);
@@ -349,9 +350,9 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             };
         }
 
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, CounterDecryptionResult>> GetDeferredResolver()
+        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult>> GetDeferredResolver()
         {
-            return new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, CounterDecryptionResult>>();
+            return new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult>>();
         }
 
         private TestGroup GetTestGroup()

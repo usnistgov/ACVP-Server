@@ -1,25 +1,20 @@
 ﻿using System;
 using Moq;
-using NIST.CVP.Crypto.DSA;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.KAS.Builders;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.Hash;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KC;
+using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.NoKC;
+using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.KAS.Builders.Ffc;
-using NIST.CVP.Crypto.KAS.Enums;
-using NIST.CVP.Crypto.KAS.KC;
-using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KAS.Scheme.Ffc;
-using NIST.CVP.Crypto.KES;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using DigestSizes = NIST.CVP.Crypto.SHAWrapper.DigestSizes;
-using HashFunction = NIST.CVP.Crypto.SHAWrapper.HashFunction;
-using HashResult = NIST.CVP.Crypto.SHAWrapper.HashResult;
-using ModeValues = NIST.CVP.Crypto.SHAWrapper.ModeValues;
 
 namespace NIST.CVP.Crypto.KAS.Tests.Builders
 {

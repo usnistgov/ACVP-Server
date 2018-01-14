@@ -1,4 +1,6 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Hash;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;

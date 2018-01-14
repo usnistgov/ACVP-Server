@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.Common.Hash.SHA3;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

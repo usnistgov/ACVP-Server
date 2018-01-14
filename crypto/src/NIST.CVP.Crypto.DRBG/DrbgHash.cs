@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Spatial;
 using System.Text;
-using NIST.CVP.Crypto.DRBG.Enums;
+using NIST.CVP.Crypto.Common.DRBG;
+using NIST.CVP.Crypto.Common.DRBG.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DRBG.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;

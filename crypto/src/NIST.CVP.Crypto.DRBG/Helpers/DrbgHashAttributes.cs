@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.DRBG.Enums;
+using NIST.CVP.Crypto.Common.DRBG.Enums;
 
 namespace NIST.CVP.Crypto.DRBG.Helpers
 {

@@ -2,6 +2,8 @@
 using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Crypto.TDES_CBCI
 {
@@ -12,7 +14,7 @@ namespace NIST.CVP.Crypto.TDES_CBCI
 
 
 
-        public EncryptionResultWithIv BlockEncrypt(BitString key, BitString iv, BitString plainText)
+        public SymmetricCipherWithIvResult BlockEncrypt(BitString key, BitString iv, BitString plainText)
         {
             if (plainText.BitLength / BLOCK_SIZE < PARTITIONS)
             {
@@ -38,12 +40,12 @@ namespace NIST.CVP.Crypto.TDES_CBCI
                 }
             }
 
-            return new EncryptionResultWithIv(new BitString(cipherText), ivs);
+            return new SymmetricCipherWithIvResult(new BitString(cipherText), ivs);
 
         }
 
 
-        public DecryptionResultWithIv BlockDecrypt(BitString key, BitString iv, BitString cipherText)
+        public SymmetricCipherWithIvResult BlockDecrypt(BitString key, BitString iv, BitString cipherText)
         {
             if (cipherText.BitLength / BLOCK_SIZE < PARTITIONS)
             {
@@ -69,7 +71,7 @@ namespace NIST.CVP.Crypto.TDES_CBCI
             }
 
 
-            return new DecryptionResultWithIv(new BitString(plainText), ivs);
+            return new SymmetricCipherWithIvResult(new BitString(plainText), ivs);
             
         }
 

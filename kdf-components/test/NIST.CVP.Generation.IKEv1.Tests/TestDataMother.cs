@@ -1,11 +1,9 @@
 ﻿using NIST.CVP.Generation.Core;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.IKEv1.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
 
 namespace NIST.CVP.Generation.IKEv1.Tests
 {

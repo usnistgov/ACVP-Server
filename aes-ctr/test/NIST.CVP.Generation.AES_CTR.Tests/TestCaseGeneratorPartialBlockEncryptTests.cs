@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Moq;
 using NIST.CVP.Crypto.AES_CTR;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -31,7 +33,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.EncryptBlock(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult("Fail"));
+                .Returns(new SymmetricCipherResult("Fail"));
 
             var subject = new TestCaseGeneratorPartialBlockEncrypt(GetRandomMock().Object, aes.Object);
 
@@ -87,7 +89,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.EncryptBlock(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult(fakeCipher));
+                .Returns(new SymmetricCipherResult(fakeCipher));
 
             var subject = new TestCaseGeneratorPartialBlockEncrypt(random.Object, aes.Object);
 
@@ -120,7 +122,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             foreach (TestCase testCase in testGroup.Tests)
             {
                 var decryptResult = aes_ctr.DecryptBlock(testCase.Key, testCase.CipherText, testCase.IV);
-                Assert.AreEqual(testCase.PlainText, decryptResult.PlainText);
+                Assert.AreEqual(testCase.PlainText, decryptResult.Result);
             }
         }
 

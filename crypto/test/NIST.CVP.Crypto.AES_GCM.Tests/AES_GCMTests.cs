@@ -2,6 +2,8 @@
 using System.IO;
 using Moq;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
@@ -73,7 +75,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
 
             var dResults = subject.BlockDecrypt(key, results.CipherText, iv, aad, results.Tag);
             Assert.IsTrue(dResults.Success);
-            Assert.AreEqual(plainText, dResults.PlainText);
+            Assert.AreEqual(plainText, dResults.Result);
             Assert.AreEqual(new BitString("4D5C2AF3 27CD64A6 2CF35ABD 2BA6FAB4"), results.Tag);
         }
 
@@ -98,7 +100,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             );
 
             Assert.IsFalse(results.Success, nameof(results));
-            Assert.IsInstanceOf<DecryptionResult>(results, $"{nameof(results)} type");
+            Assert.IsInstanceOf<SymmetricCipherResult>(results, $"{nameof(results)} type");
             Assert.AreEqual(exceptionMessage, results.ErrorMessage, nameof(exceptionMessage));
         }
 
@@ -123,7 +125,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             );
 
             Assert.IsFalse(results.Success, nameof(results));
-            Assert.IsInstanceOf<EncryptionResult>(results, $"{nameof(results)} type");
+            Assert.IsInstanceOf<SymmetricCipherAeadResult>(results, $"{nameof(results)} type");
             Assert.AreEqual(exceptionMessage, results.ErrorMessage, nameof(exceptionMessage));
         }
 

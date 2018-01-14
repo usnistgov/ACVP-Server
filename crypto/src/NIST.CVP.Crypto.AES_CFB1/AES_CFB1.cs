@@ -1,5 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NLog;
 
@@ -14,7 +16,7 @@ namespace NIST.CVP.Crypto.AES_CFB1
             _iRijndaelFactory = iRijndaelFactory;
         }
 
-        public DecryptionResult BlockDecrypt(BitString iv, BitString keyBits, BitString data)
+        public SymmetricCipherResult BlockDecrypt(BitString iv, BitString keyBits, BitString data)
         {
             try
             {
@@ -27,17 +29,17 @@ namespace NIST.CVP.Crypto.AES_CFB1
                 var paddedData = BitString.PadToNextByteBoundry(data);
 
                 var decryptedBits = rijn.BlockEncrypt(cipher, key, paddedData.ToBytes(), data.BitLength);
-                return new DecryptionResult(BitOrientedBitString.GetDerivedFromBase(decryptedBits.GetMostSignificantBits(data.BitLength)));
+                return new SymmetricCipherResult(BitOrientedBitString.GetDerivedFromBase(decryptedBits.GetMostSignificantBits(data.BitLength)));
             }
             catch (Exception ex)
             {
                 ThisLogger.Debug($"keyLen:{keyBits.BitLength}; cipherTextLen:{data.BitLength}");
                 ThisLogger.Error(ex);
-                return new DecryptionResult(ex.Message);
+                return new SymmetricCipherResult(ex.Message);
             }
         }
 
-        public EncryptionResult BlockEncrypt(BitString iv, BitString keyBits, BitString data)
+        public SymmetricCipherResult BlockEncrypt(BitString iv, BitString keyBits, BitString data)
         {
             try
             {
@@ -50,13 +52,13 @@ namespace NIST.CVP.Crypto.AES_CFB1
                 var paddedData = BitString.PadToNextByteBoundry(data);
 
                 var encryptedBits = rijn.BlockEncrypt(cipher, key, paddedData.ToBytes(), data.BitLength);
-                return new EncryptionResult(BitOrientedBitString.GetDerivedFromBase(encryptedBits.GetMostSignificantBits(data.BitLength)));
+                return new SymmetricCipherResult(BitOrientedBitString.GetDerivedFromBase(encryptedBits.GetMostSignificantBits(data.BitLength)));
             }
             catch (Exception ex)
             {
                 ThisLogger.Debug($"keyLen:{keyBits.BitLength}; dataLen:{data.BitLength}");
                 ThisLogger.Error(ex);
-                return new EncryptionResult(ex.Message);
+                return new SymmetricCipherResult(ex.Message);
             }
         }
 

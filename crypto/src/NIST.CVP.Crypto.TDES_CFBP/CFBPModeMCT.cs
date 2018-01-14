@@ -4,6 +4,7 @@ using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Crypto.TDES_CFBP
 {
@@ -82,7 +83,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP
                     }
 
 
-                    output = _cfbpMode.BlockEncrypt(keysForThisRound, iv, data).CipherText;
+                    output = _cfbpMode.BlockEncrypt(keysForThisRound, iv, data).Result;
 
                     holdouts[2] = holdouts[1];
                     holdouts[1] = holdouts[0];
@@ -152,7 +153,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP
                     }
 
 
-                    output = _cfbpMode.BlockDecrypt(keysForThisRound, iv, data).PlainText;
+                    output = _cfbpMode.BlockDecrypt(keysForThisRound, iv, data).Result;
 
                     holdouts[2] = holdouts[1];
                     holdouts[1] = holdouts[0];

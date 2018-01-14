@@ -1,7 +1,7 @@
 ﻿using System;
 using Moq;
-using NIST.CVP.Crypto.HMAC;
-using NIST.CVP.Crypto.MAC;
+using NIST.CVP.Crypto.Common.MAC;
+using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

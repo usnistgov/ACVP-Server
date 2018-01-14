@@ -1,4 +1,6 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.AES_XTS
@@ -7,7 +9,7 @@ namespace NIST.CVP.Crypto.AES_XTS
     {
         private readonly IAesXtsInternals _internals = new AesXtsInternals();
 
-        public EncryptionResult Encrypt(XtsKey key, BitString plainText, BitString i)
+        public SymmetricCipherResult Encrypt(XtsKey key, BitString plainText, BitString i)
         {
             // 1
             var P = Chunkify(plainText);
@@ -39,10 +41,10 @@ namespace NIST.CVP.Crypto.AES_XTS
             }
 
             // 5
-            return new EncryptionResult(BuildResult(C));
+            return new SymmetricCipherResult(BuildResult(C));
         }
 
-        public DecryptionResult Decrypt(XtsKey key, BitString cipherText, BitString i)
+        public SymmetricCipherResult Decrypt(XtsKey key, BitString cipherText, BitString i)
         {
             // 1
             var C = Chunkify(cipherText);
@@ -73,7 +75,7 @@ namespace NIST.CVP.Crypto.AES_XTS
                 P[m - 1] = DecryptBlock(key, CC, i, m - 1);
             }
 
-            return new DecryptionResult(BuildResult(P));
+            return new SymmetricCipherResult(BuildResult(P));
         }
 
         public BitString GetIFromInteger(int dataUnitSeqNumber)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CFB1;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 

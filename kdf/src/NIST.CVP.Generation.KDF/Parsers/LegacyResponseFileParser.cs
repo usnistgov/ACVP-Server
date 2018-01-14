@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.KDF.Enums;
+using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 

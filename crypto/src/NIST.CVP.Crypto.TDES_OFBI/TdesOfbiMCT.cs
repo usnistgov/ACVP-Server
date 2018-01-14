@@ -2,6 +2,7 @@
 using NIST.CVP.Math;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Crypto.TDES_OFBI
 {

@@ -86,8 +86,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = Algorithm,
-                Mode = "1",
+                Algorithm = $"{Algorithm}1",
                 DigestSizes = new[] {"160"},
                 BitOriented = true,
                 IncludeNull = true,
@@ -103,8 +102,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = Algorithm,
-                Mode = Mode,
+                Algorithm = $"{Algorithm}2",
                 DigestSizes = new[] {"224"},
                 BitOriented = false,
                 IncludeNull = false,
@@ -118,8 +116,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         {
             var parameters = new Parameters
             {
-                Algorithm = Algorithm,
-                Mode = Mode,
+                Algorithm = $"{Algorithm}2",
                 DigestSizes = new[] { "224", "256", "384", "512", "512/224", "512/256" },
                 BitOriented = true,
                 IncludeNull = true,

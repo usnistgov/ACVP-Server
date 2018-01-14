@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 using NUnit.Framework;
@@ -71,9 +72,8 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
                     throw new InvalidCastException()).ToArray()));
             }
 
-            //todo figure out how to get rid of the cast
-            var result = (EncryptionResultWithIv)mode.BlockEncrypt(key, iv1, plainText);
-            Assert.AreEqual(cipherText.ToHex(), result.CipherText.ToHex());
+            var result = mode.BlockEncrypt(key, iv1, plainText);
+            Assert.AreEqual(cipherText.ToHex(), result.Result.ToHex());
             Assert.AreEqual(iv2, result.IVs[1]);
             Assert.AreEqual(iv3, result.IVs[2]);
 
@@ -139,9 +139,8 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
                     throw new InvalidCastException()).ToArray()));
             }
 
-            //todo figure out how to get rid of the cast
-            var result = (DecryptionResultWithIv)mode.BlockDecrypt(key, iv1, cipherText);
-            Assert.AreEqual(plainText.ToHex(), result.PlainText.ToHex());
+            var result = mode.BlockDecrypt(key, iv1, cipherText);
+            Assert.AreEqual(plainText.ToHex(), result.Result.ToHex());
             Assert.AreEqual(iv2, result.IVs[1]);
             Assert.AreEqual(iv3, result.IVs[2]);
         }

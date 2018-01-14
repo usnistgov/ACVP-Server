@@ -2,12 +2,11 @@
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 using NIST.CVP.Math.Entropy;
-using System;
-using NIST.CVP.Crypto.Math;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 
 namespace NIST.CVP.Crypto.DSA.FFC
 {

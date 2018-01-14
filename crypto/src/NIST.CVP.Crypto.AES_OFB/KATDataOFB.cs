@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.AES_OFB

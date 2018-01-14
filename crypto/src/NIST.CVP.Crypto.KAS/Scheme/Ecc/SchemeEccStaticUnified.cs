@@ -1,10 +1,11 @@
-﻿using NIST.CVP.Crypto.DSA.ECC;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KC;
+using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.NoKC;
+using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.DSA.ECC.Helpers;
-using NIST.CVP.Crypto.KAS.Enums;
-using NIST.CVP.Crypto.KAS.KC;
-using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 

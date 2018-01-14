@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Moq;
 using NIST.CVP.Crypto.AES_CTR;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.CTR;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
@@ -63,7 +64,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterEncryptionResult("fail"));
+                .Returns(new SymmetricCounterResult("fail"));
 
             var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
             var result = subject.Validate(GetTestCase());
@@ -82,7 +83,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterEncryptionResult(GetTestCase().CipherText, GetTestCase().IVs));
+                .Returns(new SymmetricCounterResult(GetTestCase().CipherText, GetTestCase().IVs));
 
             var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
             var result = subject.Validate(suppliedResult);
@@ -98,7 +99,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterEncryptionResult(GetTestCase().CipherText, GetTestCase().IVs));
+                .Returns(new SymmetricCounterResult(GetTestCase().CipherText, GetTestCase().IVs));
 
             var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
             var result = subject.Validate(GetTestCase());
@@ -128,7 +129,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterEncryptionResult(suppliedTestCase.CipherText, suppliedTestCase.IVs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.CipherText, suppliedTestCase.IVs));
 
             var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -163,7 +164,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterEncryptionResult(suppliedTestCase.CipherText, suppliedTestCase.IVs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.CipherText, suppliedTestCase.IVs));
 
             var subject = new TestCaseValidatorCounterEncrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -198,7 +199,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterEncryptionResult(suppliedTestCase.CipherText, suppliedTestCase.IVs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.CipherText, suppliedTestCase.IVs));
 
             var subject = new TestCaseValidatorCounterEncrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -233,7 +234,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterEncryptionResult(suppliedTestCase.CipherText, suppliedTestCase.IVs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.CipherText, suppliedTestCase.IVs));
 
             var subject = new TestCaseValidatorCounterEncrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -270,7 +271,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterEncryptionResult(suppliedTestCase.CipherText, suppliedTestCase.IVs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.CipherText, suppliedTestCase.IVs));
 
             var subject = new TestCaseValidatorCounterEncrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -309,7 +310,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterEncryptionResult(suppliedTestCase.CipherText, suppliedTestCase.IVs));
+                .Returns(new SymmetricCounterResult(suppliedTestCase.CipherText, suppliedTestCase.IVs));
 
             var subject = new TestCaseValidatorCounterEncrypt(group, suppliedTestCase, deferredMock.Object);
             var result = subject.Validate(suppliedTestCase);
@@ -326,7 +327,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var deferredMock = GetDeferredResolver();
             deferredMock
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new CounterEncryptionResult(goodTestCase.CipherText, goodTestCase.IVs));
+                .Returns(new SymmetricCounterResult(goodTestCase.CipherText, goodTestCase.IVs));
 
             var subject = new TestCaseValidatorCounterEncrypt(GetTestGroup(), goodTestCase, deferredMock.Object);
             var result = subject.Validate(goodTestCase);
@@ -350,9 +351,9 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             };
         }
 
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, CounterEncryptionResult>> GetDeferredResolver()
+        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult>> GetDeferredResolver()
         {
-            return new Mock<IDeferredTestCaseResolver<TestGroup,TestCase,CounterEncryptionResult>>();
+            return new Mock<IDeferredTestCaseResolver<TestGroup,TestCase, SymmetricCounterResult>>();
         }
 
         private TestGroup GetTestGroup()

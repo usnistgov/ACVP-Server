@@ -5,10 +5,11 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NLog;
-using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {

@@ -2,12 +2,18 @@
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KC;
+using NIST.CVP.Crypto.Common.MAC.CMAC;
+using NIST.CVP.Crypto.Common.MAC.HMAC;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.HMAC;
-using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
+using ModeValues = NIST.CVP.Crypto.Common.Hash.ShaWrapper.ModeValues;
 
 namespace NIST.CVP.Generation.KAS.Fakes
 {
@@ -26,7 +32,7 @@ namespace NIST.CVP.Generation.KAS.Fakes
                 case KeyAgreementMacType.HmacSha2D384:
                 case KeyAgreementMacType.HmacSha2D512:
                     HmacFactory hmacFactory = new HmacFactory(new ShaFactory());
-                    Crypto.SHAWrapper.ModeValues modeValue = Crypto.SHAWrapper.ModeValues.SHA2;
+                    ModeValues modeValue = ModeValues.SHA2;
                     DigestSizes digestSize = DigestSizes.NONE;
                     EnumMapping.GetHashFunctionOptions(parameters.MacType, ref modeValue, ref digestSize);
                     return new FakeKeyConfirmationHmac_BadMacData(parameters, hmacFactory.GetHmacInstance(new HashFunction(modeValue, digestSize)));

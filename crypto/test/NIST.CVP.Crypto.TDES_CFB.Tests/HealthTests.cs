@@ -70,7 +70,7 @@ namespace NIST.CVP.Crypto.TDES_CFB.Tests
 
             }
             var result = mode.BlockEncrypt(key, iv, plainText);
-            Assert.AreEqual(cipherText, result.CipherText);
+            Assert.AreEqual(cipherText, result.Result);
         }
 
         [TestCase("TDES-CFB1", "ba70d09252f87ff78f5267fbfe2f9276e3b054e3b9f286b0", "86a5624fd0629b94", "0", "1", false)]
@@ -138,7 +138,7 @@ namespace NIST.CVP.Crypto.TDES_CFB.Tests
 
             }
             var result = mode.BlockDecrypt(key, iv, cipherText);
-            Assert.AreEqual(plainText.ToHex(), result.PlainText.ToHex());
+            Assert.AreEqual(plainText.ToHex(), result.Result.ToHex());
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Crypto.AES
+﻿using NIST.CVP.Crypto.Common.Symmetric.AES;
+
+namespace NIST.CVP.Crypto.AES
 {
     public class RijndaelCMAC : Rijndael
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 
 namespace NIST.CVP.Crypto.AES
 {
@@ -9,7 +10,7 @@ namespace NIST.CVP.Crypto.AES
 
         protected override void BlockEncryptWorker(Cipher cipher, Key key, byte[] plainText, int numBlocks, byte[,] block, byte[] outBuffer)
         {
-            throw new NotImplementedException("This class is purely here as a testing facade for the underlying Rijndael implementation methods. It should never be used for encryption");
+            throw new NotImplementedException("This class is purely here as a testing facade for the underlying Rijndael implementation methods. It should not be used for encryption");
         }
 
         public new void KeyAddition(byte[,] block, byte[,] roundKey, int blockCount)

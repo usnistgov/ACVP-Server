@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using NIST.CVP.Crypto.KDF;
-using NIST.CVP.Crypto.KDF.Enums;
 using NIST.CVP.Generation.KDF.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

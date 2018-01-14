@@ -1,6 +1,6 @@
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.KAS.Enums;
-using NIST.CVP.Crypto.KAS.Scheme;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.KAS.Builders;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 
 namespace NIST.CVP.Crypto.KAS.Builders.Ffc

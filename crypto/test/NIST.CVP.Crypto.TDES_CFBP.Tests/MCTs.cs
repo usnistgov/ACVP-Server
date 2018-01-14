@@ -7,6 +7,7 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES_CFB;
 
 namespace NIST.CVP.Crypto.TDES_CFBP.Tests

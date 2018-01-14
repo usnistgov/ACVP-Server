@@ -1,9 +1,8 @@
-﻿using System;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Numerics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;

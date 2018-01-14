@@ -2,6 +2,7 @@
 using System.Dynamic;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;

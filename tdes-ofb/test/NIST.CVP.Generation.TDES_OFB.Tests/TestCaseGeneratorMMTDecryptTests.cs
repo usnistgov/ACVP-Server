@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_OFB;
 using NIST.CVP.Math;
@@ -49,7 +51,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         {
             var algo = new Mock<ITDES_OFB>();
             algo.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult("I Failed to decrypt"));
+                .Returns(new SymmetricCipherResult("I Failed to decrypt"));
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), algo.Object);
             var result = subject.Generate(new TestGroup {Function = "decrypt", NumberOfKeys = 3}, false);
             Assert.IsFalse(result.Success);
@@ -82,7 +84,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             {
                 var result = algo.BlockDecrypt(testCase.Key, testCase.CipherText, testCase.Iv);
 
-                Assert.AreEqual(testCase.PlainText, result.PlainText);
+                Assert.AreEqual(testCase.PlainText, result.Result);
             }
         }
     }

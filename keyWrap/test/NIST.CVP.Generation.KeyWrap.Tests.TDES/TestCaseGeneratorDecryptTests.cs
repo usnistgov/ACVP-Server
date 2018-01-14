@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NIST.CVP.Crypto.KeyWrap;
-using NIST.CVP.Crypto.KeyWrap.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KeyWrap.TDES;
 using NIST.CVP.Math;
@@ -49,7 +51,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
         {
             _iKeyWrap
                 .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                .Returns(new KeyWrapResult("Fail"));
+                .Returns(new SymmetricCipherResult("Fail"));
 
             var result = _subject.Generate(GetTestGroup(), false);
 
@@ -93,7 +95,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                 .Returns(4);
             _iKeyWrap
                 .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                .Returns(new KeyWrapResult(fakeCipher));
+                .Returns(new SymmetricCipherResult(fakeCipher));
 
             var result = _subject.Generate(GetTestGroup(), false);
 
@@ -117,7 +119,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                 .Returns(mangledCipher);
             _iKeyWrap
                 .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                .Returns(new KeyWrapResult(fakeCipher));
+                .Returns(new SymmetricCipherResult(fakeCipher));
 
             bool originalFakeCipherHit = false;
             bool mangledCipherHit = false;

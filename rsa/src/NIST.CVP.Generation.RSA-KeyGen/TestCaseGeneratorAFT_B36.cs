@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Generation.Core;

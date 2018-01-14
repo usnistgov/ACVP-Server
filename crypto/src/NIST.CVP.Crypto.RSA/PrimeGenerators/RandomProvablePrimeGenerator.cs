@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
-using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Math;
 using NIST.CVP.Crypto.Math;
 

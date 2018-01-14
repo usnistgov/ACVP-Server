@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Numerics;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Crypto.Common.Hash;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.SHAWrapper
@@ -10,23 +12,23 @@ namespace NIST.CVP.Crypto.SHAWrapper
     public class Sha2Wrapper : ISha
     {
         private readonly ISHAFactory _shaFactory;
-        private readonly SHA2.HashFunction _mappedHashFunction;
+        private readonly Common.Hash.SHA2.HashFunction _mappedHashFunction;
         private
-            List<(string algo, SHAWrapper.ModeValues wrapperMode, SHA2.ModeValues mappedMode, SHAWrapper.DigestSizes wrapperSizes, SHA2.DigestSizes mappedDigestSize)> Sha2Mappings =
-                new List<(string algo, SHAWrapper.ModeValues wrapperMode, SHA2.ModeValues mappedMode, SHAWrapper.DigestSizes wrapperSizes, SHA2.DigestSizes mappedDigestSize)>()
+            List<(string algo, Common.Hash.ShaWrapper.ModeValues wrapperMode, Common.Hash.SHA2.ModeValues mappedMode, Common.Hash.ShaWrapper.DigestSizes wrapperSizes, Common.Hash.SHA2.DigestSizes mappedDigestSize)> Sha2Mappings =
+                new List<(string algo, Common.Hash.ShaWrapper.ModeValues wrapperMode, Common.Hash.SHA2.ModeValues mappedMode, Common.Hash.ShaWrapper.DigestSizes wrapperSizes, Common.Hash.SHA2.DigestSizes mappedDigestSize)>()
                 {
-                    ("SHA1", ModeValues.SHA1, SHA2.ModeValues.SHA1, DigestSizes.d160, SHA2.DigestSizes.d160),
-                    ("SHA2-224", ModeValues.SHA2, SHA2.ModeValues.SHA2, DigestSizes.d224, SHA2.DigestSizes.d224),
-                    ("SHA2-256", ModeValues.SHA2, SHA2.ModeValues.SHA2, DigestSizes.d256, SHA2.DigestSizes.d256),
-                    ("SHA2-384", ModeValues.SHA2, SHA2.ModeValues.SHA2, DigestSizes.d384, SHA2.DigestSizes.d384),
-                    ("SHA2-512", ModeValues.SHA2, SHA2.ModeValues.SHA2, DigestSizes.d512, SHA2.DigestSizes.d512),
-                    ("SHA2-512/224", ModeValues.SHA2, SHA2.ModeValues.SHA2, DigestSizes.d512t224, SHA2.DigestSizes.d512t224),
-                    ("SHA2-512/256", ModeValues.SHA2, SHA2.ModeValues.SHA2, DigestSizes.d512t256, SHA2.DigestSizes.d512t256),
+                    ("SHA1", Common.Hash.ShaWrapper.ModeValues.SHA1, Common.Hash.SHA2.ModeValues.SHA1, Common.Hash.ShaWrapper.DigestSizes.d160, Common.Hash.SHA2.DigestSizes.d160),
+                    ("SHA2-224", Common.Hash.ShaWrapper.ModeValues.SHA2, Common.Hash.SHA2.ModeValues.SHA2, Common.Hash.ShaWrapper.DigestSizes.d224, Common.Hash.SHA2.DigestSizes.d224),
+                    ("SHA2-256", Common.Hash.ShaWrapper.ModeValues.SHA2, Common.Hash.SHA2.ModeValues.SHA2, Common.Hash.ShaWrapper.DigestSizes.d256, Common.Hash.SHA2.DigestSizes.d256),
+                    ("SHA2-384", Common.Hash.ShaWrapper.ModeValues.SHA2, Common.Hash.SHA2.ModeValues.SHA2, Common.Hash.ShaWrapper.DigestSizes.d384, Common.Hash.SHA2.DigestSizes.d384),
+                    ("SHA2-512", Common.Hash.ShaWrapper.ModeValues.SHA2, Common.Hash.SHA2.ModeValues.SHA2, Common.Hash.ShaWrapper.DigestSizes.d512, Common.Hash.SHA2.DigestSizes.d512),
+                    ("SHA2-512/224", Common.Hash.ShaWrapper.ModeValues.SHA2, Common.Hash.SHA2.ModeValues.SHA2, Common.Hash.ShaWrapper.DigestSizes.d512t224, Common.Hash.SHA2.DigestSizes.d512t224),
+                    ("SHA2-512/256", Common.Hash.ShaWrapper.ModeValues.SHA2, Common.Hash.SHA2.ModeValues.SHA2, Common.Hash.ShaWrapper.DigestSizes.d512t256, Common.Hash.SHA2.DigestSizes.d512t256),
                 };
 
-        public HashFunction HashFunction { get; }
+        public Common.Hash.ShaWrapper.HashFunction HashFunction { get; }
         
-        public Sha2Wrapper(ISHAFactory shaFactory, HashFunction hashFunction)
+        public Sha2Wrapper(ISHAFactory shaFactory, Common.Hash.ShaWrapper.HashFunction hashFunction)
         {
             _shaFactory = shaFactory;
             _mappedHashFunction = ToSha2HashFunction(hashFunction);
@@ -64,7 +66,7 @@ namespace NIST.CVP.Crypto.SHAWrapper
             return HashMessage(bs);
         }
 
-        private SHA2.HashFunction ToSha2HashFunction(HashFunction wrapperHashFunction)
+        private Common.Hash.SHA2.HashFunction ToSha2HashFunction(Common.Hash.ShaWrapper.HashFunction wrapperHashFunction)
         {
             if (!Sha2Mappings
                 .TryFirst(
@@ -74,7 +76,7 @@ namespace NIST.CVP.Crypto.SHAWrapper
                 throw new ArgumentException($"Invalid {nameof(wrapperHashFunction)}.");
             }
 
-            SHA2.HashFunction hashFunction = new SHA2.HashFunction()
+            Common.Hash.SHA2.HashFunction hashFunction = new Common.Hash.SHA2.HashFunction()
             {
                 DigestSize = result.mappedDigestSize,
                 Mode = result.mappedMode

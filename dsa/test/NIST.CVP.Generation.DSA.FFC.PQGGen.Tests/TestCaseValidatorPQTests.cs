@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using Moq;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

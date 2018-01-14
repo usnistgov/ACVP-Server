@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.KAS.Enums;
-using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KAS.Enums;
 
 namespace NIST.CVP.Crypto.KAS.Helpers
 {

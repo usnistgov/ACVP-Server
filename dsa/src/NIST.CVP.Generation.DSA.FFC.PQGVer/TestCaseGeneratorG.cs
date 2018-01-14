@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Numerics;
-using NIST.CVP.Crypto.DSA.FFC.Enums;
-using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
-using NIST.CVP.Crypto.DSA.FFC.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;

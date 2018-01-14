@@ -285,7 +285,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             var decryptResult = _subject.BlockDecrypt(key, encryptResult.CipherText, iv, aad, encryptResult.Tag);
             Assert.IsTrue(decryptResult.Success, nameof(_subject.BlockDecrypt));
 
-            Assert.AreEqual(plainText, decryptResult.PlainText, nameof(plainText));
+            Assert.AreEqual(plainText, decryptResult.Result, nameof(plainText));
         }
 
         [Test]
@@ -353,7 +353,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
 
             var decryptResult = _subject.BlockDecrypt(key, encryptResult.CipherText, iv, aad, xoredTag);
 
-            Assert.AreNotEqual(plainText, decryptResult.PlainText, nameof(plainText));
+            Assert.AreNotEqual(plainText, decryptResult.Result, nameof(plainText));
         }
 
         private BitString GetBitStringOfLengthWithAll1s(int length)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Castle.Components.DictionaryAdapter;
 using Moq;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES_CBC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;

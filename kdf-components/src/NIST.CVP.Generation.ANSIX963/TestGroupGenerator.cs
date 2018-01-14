@@ -1,8 +1,6 @@
 ﻿using NIST.CVP.Generation.Core;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.SHAWrapper.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 
 namespace NIST.CVP.Generation.ANSIX963
 {

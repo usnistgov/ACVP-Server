@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NIST.CVP.Crypto.IKEv1;
-using NIST.CVP.Crypto.IKEv1.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

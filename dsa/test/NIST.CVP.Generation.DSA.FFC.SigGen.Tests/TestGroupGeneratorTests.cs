@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Moq;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

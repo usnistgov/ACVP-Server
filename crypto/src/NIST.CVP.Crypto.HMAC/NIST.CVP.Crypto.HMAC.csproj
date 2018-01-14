@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
-    <ProjectReference Include="..\NIST.CVP.Crypto.MAC\NIST.CVP.Crypto.MAC.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.SHA2\NIST.CVP.Crypto.SHA2.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.SHA3\NIST.CVP.Crypto.SHA3.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.SHAWrapper\NIST.CVP.Crypto.SHAWrapper.csproj" />

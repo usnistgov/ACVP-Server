@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.KAS.Enums;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.Scheme;
-using NIST.CVP.Crypto.KAS.Tests.KC;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

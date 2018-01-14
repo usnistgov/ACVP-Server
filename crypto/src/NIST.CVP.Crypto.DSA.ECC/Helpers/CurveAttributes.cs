@@ -1,4 +1,4 @@
-using NIST.CVP.Crypto.DSA.ECC.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 
 namespace NIST.CVP.Crypto.DSA.ECC.Helpers
 {

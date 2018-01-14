@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using NIST.CVP.Crypto.CMAC.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 

@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common.KAS;
+using NIST.CVP.Crypto.Common.KAS.NoKC;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.NoKC

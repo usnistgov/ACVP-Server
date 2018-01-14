@@ -6,6 +6,7 @@ using NIST.CVP.Tests.Core;
 using NLog;
 using NUnit.Framework;
 using System;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_OFBI.Tests
 {

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_ECB;
+﻿using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.KDF.Components.SRTP;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 
@@ -66,7 +64,7 @@ namespace NIST.CVP.Crypto.SRTP
             for (short i = 0; i < m; i++)
             {
                 var inBlock = x.ConcatenateBits(BitString.To16BitString(i));
-                derivedKey = derivedKey.ConcatenateBits(_aes.BlockEncrypt(key, inBlock).CipherText);
+                derivedKey = derivedKey.ConcatenateBits(_aes.BlockEncrypt(key, inBlock).Result);
             }
 
             return derivedKey.GetMostSignificantBits(length);

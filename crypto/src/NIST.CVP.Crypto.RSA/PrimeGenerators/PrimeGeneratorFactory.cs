@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.SHA2;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
-    public class PrimeGeneratorFactory
+    public class PrimeGeneratorFactory : IPrimeGeneratorFactory
     {
         private readonly HashFunction _hashFunction;
         private readonly EntropyProviderTypes _entropyType;
@@ -34,7 +31,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             _entropyType = entropyType;
         }
 
-        public PrimeGeneratorBase GetPrimeGenerator(string type)
+        public IPrimeGeneratorBase GetPrimeGenerator(string type)
         {
             switch (type)
             {

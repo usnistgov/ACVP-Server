@@ -1,5 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 
@@ -32,7 +34,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP
             }
         }
 
-        public EncryptionResultWithIv BlockEncrypt(BitString key, BitString iv, BitString plainText, bool includeAuxValues = false)
+        public SymmetricCipherWithIvResult BlockEncrypt(BitString key, BitString iv, BitString plainText, bool includeAuxValues = false)
         {
 
             if (plainText.BitLength % Shift != 0)
@@ -82,11 +84,11 @@ namespace NIST.CVP.Crypto.TDES_CFBP
 
                 var ct2 = new BitString(EncryptWorker(key, tdesIvs[1].ToBytes())).XOR(plainText).MSBSubstring(0, plainText.BitLength);
                 var ct3 = new BitString(EncryptWorker(key, tdesIvs[2].ToBytes())).XOR(plainText).MSBSubstring(0, plainText.BitLength);
-                return new EncryptionResultWithIv(null, tdesIvs, new[] { cipherText, ct2, ct3 });
+                return new SymmetricCipherWithIvResult(null, tdesIvs, new[] { cipherText, ct2, ct3 });
             }
             else
             {
-                return new EncryptionResultWithIv(cipherText, tdesIvs);
+                return new SymmetricCipherWithIvResult(cipherText, tdesIvs);
             }
 
             
@@ -94,15 +96,15 @@ namespace NIST.CVP.Crypto.TDES_CFBP
 
         }
 
-        public EncryptionResultWithIv BlockEncrypt(BitString key, BitString iv, BitString plainText1, BitString plainText2, BitString plainText3)
+        public SymmetricCipherWithIvResult BlockEncrypt(BitString key, BitString iv, BitString plainText1, BitString plainText2, BitString plainText3)
         {
             var result = BlockEncrypt(key, iv, plainText1);
-            var encryptionOutput2 = new BitString(EncryptWorker(key, result.IVs[1].ToBytes())).MSBSubstring(0, result.CipherText.BitLength).XOR(plainText2);
-            var encryptionOutput1 = new BitString(EncryptWorker(key, result.IVs[2].ToBytes())).MSBSubstring(0, result.CipherText.BitLength).XOR(plainText3);
-            return new EncryptionResultWithIv(null, result.IVs, new[] { result.CipherText, encryptionOutput1, encryptionOutput2 });
+            var encryptionOutput2 = new BitString(EncryptWorker(key, result.IVs[1].ToBytes())).MSBSubstring(0, result.Result.BitLength).XOR(plainText2);
+            var encryptionOutput1 = new BitString(EncryptWorker(key, result.IVs[2].ToBytes())).MSBSubstring(0, result.Result.BitLength).XOR(plainText3);
+            return new SymmetricCipherWithIvResult(null, result.IVs, new[] { result.Result, encryptionOutput1, encryptionOutput2 });
         }
 
-        public DecryptionResultWithIv BlockDecrypt(BitString key, BitString iv, BitString cipherText, bool includeAuxValues = false)
+        public SymmetricCipherWithIvResult BlockDecrypt(BitString key, BitString iv, BitString cipherText, bool includeAuxValues = false)
         {
             var tdesIvs = new BitString[3]; 
             tdesIvs[0] = iv;
@@ -149,21 +151,21 @@ namespace NIST.CVP.Crypto.TDES_CFBP
 
                 var pt2 = new BitString(EncryptWorker(key, tdesIvs[1].ToBytes())).XOR(cipherText).MSBSubstring(0, cipherText.BitLength);
                 var pt3 = new BitString(EncryptWorker(key, tdesIvs[2].ToBytes())).XOR(cipherText).MSBSubstring(0, cipherText.BitLength);
-                return new DecryptionResultWithIv(null, tdesIvs, new[] { plainText, pt2, pt3 });
+                return new SymmetricCipherWithIvResult(null, tdesIvs, new[] { plainText, pt2, pt3 });
             }
             else
             {
-                return new DecryptionResultWithIv(plainText, tdesIvs);
+                return new SymmetricCipherWithIvResult(plainText, tdesIvs);
             }
             
         }
 
-        public DecryptionResultWithIv BlockDecrypt(BitString key, BitString iv, BitString cipherText1, BitString cipherText2, BitString cipherText3)
+        public SymmetricCipherWithIvResult BlockDecrypt(BitString key, BitString iv, BitString cipherText1, BitString cipherText2, BitString cipherText3)
         {
             var result = BlockDecrypt(key, iv, cipherText1);
-            var encryptionOutput2 = new BitString(EncryptWorker(key, result.IVs[1].ToBytes())).MSBSubstring(0, result.PlainText.BitLength).XOR(cipherText2);
-            var encryptionOutput1 = new BitString(EncryptWorker(key, result.IVs[2].ToBytes())).MSBSubstring(0, result.PlainText.BitLength).XOR(cipherText3);
-            return new DecryptionResultWithIv(null, result.IVs, new[] { result.PlainText, encryptionOutput1, encryptionOutput2 });
+            var encryptionOutput2 = new BitString(EncryptWorker(key, result.IVs[1].ToBytes())).MSBSubstring(0, result.Result.BitLength).XOR(cipherText2);
+            var encryptionOutput1 = new BitString(EncryptWorker(key, result.IVs[2].ToBytes())).MSBSubstring(0, result.Result.BitLength).XOR(cipherText3);
+            return new SymmetricCipherWithIvResult(null, result.IVs, new[] { result.Result, encryptionOutput1, encryptionOutput2 });
         }
         private byte[] EncryptWorker(BitString keyBits, byte[] input)
         {

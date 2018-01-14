@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Numerics;
-using NIST.CVP.Crypto.SHA2;
-using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Crypto.SHA2;
 
 namespace NIST.CVP.Crypto.Math
 {
@@ -472,7 +471,7 @@ namespace NIST.CVP.Crypto.Math
         }
         #endregion structs
 
-        public static BigInteger Hash(SHA2.HashFunction hashFunction, BigInteger message)
+        public static BigInteger Hash(Common.Hash.SHA2.HashFunction hashFunction, BigInteger message)
         {
             var bs = new BitString(message);
 
@@ -502,7 +501,7 @@ namespace NIST.CVP.Crypto.Math
         /// <param name="inputSeed"></param>
         /// <param name="hashFunction"></param>
         /// <returns></returns>
-        public static STRandomPrimeResult ShaweTaylorRandomPrime(int length, BigInteger inputSeed, SHA2.HashFunction hashFunction)
+        public static STRandomPrimeResult ShaweTaylorRandomPrime(int length, BigInteger inputSeed, Common.Hash.SHA2.HashFunction hashFunction)
         {
             BigInteger prime, primeSeed;
             int primeGenCounter;

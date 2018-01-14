@@ -1,5 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -39,7 +41,7 @@ namespace NIST.CVP.Generation.AES_GCM
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            EncryptionResult encryptionResult = null;
+            SymmetricCipherAeadResult encryptionResult = null;
             try
             {
                 encryptionResult = _aesGcm.BlockEncrypt(testCase.Key, testCase.PlainText, testCase.IV, testCase.AAD, @group.TagLength);

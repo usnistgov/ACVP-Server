@@ -1,4 +1,6 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap;
 using NIST.CVP.Crypto.KeyWrap;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -35,7 +37,7 @@ namespace NIST.CVP.Generation.KeyWrap
 
         public TestCaseGenerateResponse Generate(TTestGroup @group, TTestCase testCase)
         {
-            KeyWrapResult wrapResult = null;
+            SymmetricCipherResult wrapResult = null;
             try
             {
                 var keyWrap = _iKeyWrapFactory.GetKeyWrapInstance(group.KeyWrapType);
@@ -56,7 +58,7 @@ namespace NIST.CVP.Generation.KeyWrap
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
-            testCase.CipherText = wrapResult.ResultingBitString;
+            testCase.CipherText = wrapResult.Result;
             return new TestCaseGenerateResponse(testCase);
         }
 

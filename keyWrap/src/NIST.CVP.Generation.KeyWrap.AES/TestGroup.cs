@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using NIST.CVP.Crypto.KeyWrap.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KeyWrap.AES

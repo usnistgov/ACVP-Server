@@ -1,5 +1,7 @@
 ﻿using System;
 using Moq;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -31,7 +33,7 @@ namespace NIST.CVP.Crypto.AES_CBC.Tests
             BitString plainText = new BitString(128);
             _aesEcb
                 .Setup(s => s.BlockEncrypt(iv, key, plainText))
-                .Returns(new EncryptionResult(new BitString(128)));
+                .Returns(new SymmetricCipherResult(new BitString(128)));
 
             var result = _subject.MCTEncrypt(iv, key, plainText);
 
@@ -50,7 +52,7 @@ namespace NIST.CVP.Crypto.AES_CBC.Tests
             BitString plainText = new BitString(128);
             _aesEcb
                 .Setup(s => s.BlockEncrypt(iv, key, plainText))
-                .Returns(new EncryptionResult(new BitString(128)));
+                .Returns(new SymmetricCipherResult(new BitString(128)));
 
             var result = _subject.MCTEncrypt(iv, key, plainText);
 
@@ -88,7 +90,7 @@ namespace NIST.CVP.Crypto.AES_CBC.Tests
             BitString cipherText = new BitString(128);
             _aesEcb
                 .Setup(s => s.BlockDecrypt(iv, key, cipherText))
-                .Returns(new DecryptionResult(new BitString(128)));
+                .Returns(new SymmetricCipherResult(new BitString(128)));
 
             var result = _subject.MCTDecrypt(iv, key, cipherText);
 
@@ -107,7 +109,7 @@ namespace NIST.CVP.Crypto.AES_CBC.Tests
             BitString cipherText = new BitString(128);
             _aesEcb
                 .Setup(s => s.BlockDecrypt(iv, key, cipherText))
-                .Returns(new DecryptionResult(new BitString(128)));
+                .Returns(new SymmetricCipherResult(new BitString(128)));
 
             var result = _subject.MCTDecrypt(iv, key, cipherText);
 

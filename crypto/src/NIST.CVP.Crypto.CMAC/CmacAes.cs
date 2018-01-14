@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.MAC;
+using NIST.CVP.Crypto.Common.MAC;
+using NIST.CVP.Crypto.Common.MAC.CMAC;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NLog;
 

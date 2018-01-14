@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Castle.Components.DictionaryAdapter;
 using Moq;
 using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -16,12 +17,12 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
     public class TestCaseValidatorInternalEncryptTests
     {
         private TestCaseValidatorInternalEncrypt _subject;
-        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, EncryptionResult>> _deferredResolver;
+        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCipherAeadResult>> _deferredResolver;
 
         [SetUp]
         public void Setup()
         {
-            _deferredResolver = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, EncryptionResult>>();
+            _deferredResolver = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCipherAeadResult>>();
         }
 
         [Test]
@@ -34,7 +35,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
 
             _deferredResolver
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new EncryptionResult(suppliedResult.CipherText, suppliedResult.Tag));
+                .Returns(new SymmetricCipherAeadResult(suppliedResult.CipherText, suppliedResult.Tag));
 
             var result = _subject.Validate((TestCase)testGroup.Tests[0]);
             Assume.That(result != null);
@@ -50,7 +51,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
 
             _deferredResolver
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new EncryptionResult(suppliedResult.CipherText, suppliedResult.Tag));
+                .Returns(new SymmetricCipherAeadResult(suppliedResult.CipherText, suppliedResult.Tag));
 
             suppliedResult.CipherText = new BitString("D00000");
 
@@ -68,7 +69,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
 
             _deferredResolver
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new EncryptionResult(suppliedResult.CipherText, suppliedResult.Tag));
+                .Returns(new SymmetricCipherAeadResult(suppliedResult.CipherText, suppliedResult.Tag));
 
             suppliedResult.CipherText = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
@@ -86,7 +87,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
 
             _deferredResolver
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new EncryptionResult(suppliedResult.CipherText, suppliedResult.Tag));
+                .Returns(new SymmetricCipherAeadResult(suppliedResult.CipherText, suppliedResult.Tag));
 
             suppliedResult.Tag = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);
@@ -103,7 +104,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
 
             _deferredResolver
                 .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
-                .Returns(new EncryptionResult(suppliedResult.CipherText, suppliedResult.Tag));
+                .Returns(new SymmetricCipherAeadResult(suppliedResult.CipherText, suppliedResult.Tag));
 
             suppliedResult.Tag = new BitString("D00000");
             var result = _subject.Validate(suppliedResult);

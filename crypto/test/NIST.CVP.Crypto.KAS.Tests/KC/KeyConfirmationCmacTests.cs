@@ -1,8 +1,7 @@
 ﻿using NIST.CVP.Crypto.CMAC;
-using NIST.CVP.Crypto.CMAC.Enums;
-using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Crypto.KAS.KC;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

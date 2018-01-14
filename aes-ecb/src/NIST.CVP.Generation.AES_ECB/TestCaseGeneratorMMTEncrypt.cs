@@ -1,5 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.AES_ECB;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -40,7 +42,7 @@ namespace NIST.CVP.Generation.AES_ECB
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            EncryptionResult encryptionResult = null;
+            SymmetricCipherResult encryptionResult = null;
             try
             {
                 encryptionResult = _algo.BlockEncrypt(testCase.Key, testCase.PlainText);
@@ -59,7 +61,7 @@ namespace NIST.CVP.Generation.AES_ECB
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
-            testCase.CipherText = encryptionResult.CipherText;
+            testCase.CipherText = encryptionResult.Result;
             return new TestCaseGenerateResponse(testCase);
         }
 

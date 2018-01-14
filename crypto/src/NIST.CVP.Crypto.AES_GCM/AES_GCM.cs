@@ -1,5 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NLog;
 
@@ -17,7 +19,7 @@ namespace NIST.CVP.Crypto.AES_GCM
             _iRijndaelFactory = iRijndaelFactory;
         }
 
-        public DecryptionResult BlockDecrypt(BitString keyBits, BitString cipherText, BitString iv, BitString aad, BitString tag)
+        public SymmetricCipherResult BlockDecrypt(BitString keyBits, BitString cipherText, BitString iv, BitString aad, BitString tag)
         {
             try
             {
@@ -48,21 +50,21 @@ namespace NIST.CVP.Crypto.AES_GCM
                     ThisLogger.Debug(plainText.ToHex());
                     ThisLogger.Debug($"tag :{tag}");
                     ThisLogger.Debug($"tag':{tagPrime}");
-                    return new DecryptionResult("Tags do not match");
+                    return new SymmetricCipherResult("Tags do not match");
                 }
 
-                return new DecryptionResult(plainText);
+                return new SymmetricCipherResult(plainText);
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
                 {
-                    return new DecryptionResult(ex.Message);
+                    return new SymmetricCipherResult(ex.Message);
                 }
             }
         }
 
-        public EncryptionResult BlockEncrypt(BitString keyBits, BitString data, BitString iv, BitString aad, int tagLength)
+        public SymmetricCipherAeadResult BlockEncrypt(BitString keyBits, BitString data, BitString iv, BitString aad, int tagLength)
         {
             try
             {
@@ -96,13 +98,13 @@ namespace NIST.CVP.Crypto.AES_GCM
                 ThisLogger.Debug($"s: {s.ToHex()}");
                 var tag = BitString.GetMostSignificantBits(tagLength, GCTR(j0, s, key));
                 ThisLogger.Debug($"Tag: {tag.ToHex()}");
-                return new EncryptionResult(cipherText, tag);
+                return new SymmetricCipherAeadResult(cipherText, tag);
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
                 {
-                    return new EncryptionResult(ex.Message);
+                    return new SymmetricCipherAeadResult(ex.Message);
                 }
             }
         }

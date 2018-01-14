@@ -5,6 +5,8 @@ using System.Text;
 using NUnit.Framework;
 using NIST.CVP.Crypto.RSA.Signatures;
 using Moq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.Math;
 using NIST.CVP.Crypto.RSA;
 

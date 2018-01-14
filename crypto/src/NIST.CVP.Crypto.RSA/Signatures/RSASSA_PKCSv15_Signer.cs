@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
-using System.Numerics;
-using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA.Signatures
 {
@@ -60,7 +59,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             return EM;
         }
 
-        public override SignatureResult Sign(int nlen, BitString message, KeyPair key)
+        public override SignatureResult Sign(int nlen, BitString message, IKeyPair key)
         {
             // 1. Apply EMSA-PKCS1-v1.5 Encoding
             var EM = EMSA_PKCS_Encoding(message, nlen);
@@ -76,7 +75,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             return new SignatureResult(new BitString(signature, nlen));
         }
 
-        public override VerifyResult Verify(int nlen, BitString signature, KeyPair key, BitString message)
+        public override VerifyResult Verify(int nlen, BitString signature, IKeyPair key, BitString message)
         {
             // 1. Length Checking
             if(signature.BitLength != nlen)
@@ -106,7 +105,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             }
         }
 
-        public override SignatureResult ModifyIRTrailerSign(int nlen, BitString message, KeyPair key)
+        public override SignatureResult ModifyIRTrailerSign(int nlen, BitString message, IKeyPair key)
         {
             // 1. Encode Message
             var H = Hash(message);
@@ -133,7 +132,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             return new SignatureResult(new BitString(signature));
         }
 
-        public override SignatureResult MoveIRSign(int nlen, BitString message, KeyPair key)
+        public override SignatureResult MoveIRSign(int nlen, BitString message, IKeyPair key)
         {
             var _rand = new Random800_90();
 

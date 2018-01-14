@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
 
             var result = _subject.BlockEncrypt(iv, key, plainText);
 
-            Assert.AreEqual(expectedCipherText, result.CipherText);
+            Assert.AreEqual(expectedCipherText, result.Result);
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
 
             var result = _subject.BlockEncrypt(iv, key, plainText);
 
-            Assert.AreEqual(expectedCipherText, result.CipherText);
+            Assert.AreEqual(expectedCipherText, result.Result);
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
 
             var result = _subject.BlockEncrypt(iv, key, plainText);
 
-            Assert.AreEqual(expectedCipherText, result.CipherText);
+            Assert.AreEqual(expectedCipherText, result.Result);
         }
         #endregion Encrypt
 
@@ -62,7 +62,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
             
             var result = _subject.BlockDecrypt(iv, key, cipherText);
 
-            Assert.AreEqual(expectedPlainText, result.PlainText);
+            Assert.AreEqual(expectedPlainText, result.Result);
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
             
             var result = _subject.BlockDecrypt(iv, key, cipherText);
 
-            Assert.AreEqual(expectedPlainText, result.PlainText);
+            Assert.AreEqual(expectedPlainText, result.Result);
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
             
             var result = _subject.BlockDecrypt(iv, key, cipherText);
 
-            Assert.AreEqual(expectedPlainText, result.PlainText);
+            Assert.AreEqual(expectedPlainText, result.Result);
         }
         #endregion Decrypt
 

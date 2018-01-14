@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Math;
 
@@ -61,7 +62,7 @@ namespace NIST.CVP.Crypto.KeyWrap
 
 
 
-                BitString block_t = _tdes.BlockEncrypt(K2, A.ConcatenateBits(R2), wrapWithInverseCipher).CipherText;
+                BitString block_t = _tdes.BlockEncrypt(K2, A.ConcatenateBits(R2), wrapWithInverseCipher).Result;
                 A = block_t.GetMostSignificantBits(32).XOR(t32);
                 // b) For i=2,...,n: Ri^t = Ri+1^t-1
                 // c) Rn^t = LSB32(CIPH_K(CIPH_K(A^t-1 || R2^t-1)))
@@ -121,7 +122,7 @@ namespace NIST.CVP.Crypto.KeyWrap
                 // a) A^t-1 = MSB(CIPH^-1K((A^t xor [t]32) || Rn^t))
                 BitString t32 = BitString.To64BitString(t).GetLeastSignificantBits(32);
                 BitString Rn = R2n.GetLeastSignificantBits(32);
-                BitString block_t = _tdes.BlockDecrypt(K2, A.XOR(t32).ConcatenateBits(Rn), wrappedWithInverseCipher).PlainText;
+                BitString block_t = _tdes.BlockDecrypt(K2, A.XOR(t32).ConcatenateBits(Rn), wrappedWithInverseCipher).Result;
                 A = block_t.GetMostSignificantBits(32);
                 // b) R2^t-1 = LSB(CIPH^-1K((A^t xor [t]32) || Rn^t))
                 // c) For i=2,...,n-1, Ri+1^t-1 = Ri^t

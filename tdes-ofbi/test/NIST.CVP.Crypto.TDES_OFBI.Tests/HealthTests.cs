@@ -33,7 +33,7 @@ namespace NIST.CVP.Crypto.TDES_OFBI.Tests
             var cipherText = new BitString(_ct);
 
             var result = algo.BlockEncrypt(key, iv1, plainText);
-            Assert.AreEqual(cipherText.ToHex(), result.CipherText.ToHex());
+            Assert.AreEqual(cipherText.ToHex(), result.Result.ToHex());
             Assert.AreEqual(iv2, result.IVs[1]);
             Assert.AreEqual(iv3, result.IVs[2]);
 
@@ -61,7 +61,7 @@ namespace NIST.CVP.Crypto.TDES_OFBI.Tests
             var cipherText = new BitString(_ct);
 
             var result = algo.BlockDecrypt(key, iv1, cipherText);
-            Assert.AreEqual(plainText.ToHex(), result.PlainText.ToHex());
+            Assert.AreEqual(plainText.ToHex(), result.Result.ToHex());
             Assert.AreEqual(iv2, result.IVs[1]);
             Assert.AreEqual(iv3, result.IVs[2]);
 

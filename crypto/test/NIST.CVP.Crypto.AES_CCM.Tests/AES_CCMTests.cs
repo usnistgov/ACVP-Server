@@ -1,6 +1,8 @@
 ﻿using System;
 using Moq;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
@@ -29,14 +31,14 @@ namespace NIST.CVP.Crypto.AES_CCM.Tests
                 128);
 
             Assert.IsTrue(encryptionResult.Success, $"{nameof(encryptionResult.Success)} Encrypt");
-            Assert.AreEqual(testData.CipherText, encryptionResult.CipherText, nameof(testData.CipherText));
+            Assert.AreEqual(testData.CipherText, encryptionResult.Result, nameof(testData.CipherText));
 
             // Validate the decryption operation / tag
-            var decryptionResult = _subject.Decrypt(testData.Key, testData.Nonce, encryptionResult.CipherText,
+            var decryptionResult = _subject.Decrypt(testData.Key, testData.Nonce, encryptionResult.Result,
                 testData.AssocData, 128);
 
             Assert.IsTrue(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
-            Assert.AreEqual(testData.Payload, decryptionResult.PlainText);
+            Assert.AreEqual(testData.Payload, decryptionResult.Result);
         }
 
         [Test]
@@ -54,10 +56,10 @@ namespace NIST.CVP.Crypto.AES_CCM.Tests
                 128);
 
             Assert.IsTrue(encryptionResult.Success, $"{nameof(encryptionResult.Success)} Encrypt");
-            Assert.AreEqual(testData.CipherText, encryptionResult.CipherText, nameof(testData.CipherText));
+            Assert.AreEqual(testData.CipherText, encryptionResult.Result, nameof(testData.CipherText));
 
             // Change a byte value to invalidate the decryption
-            var encryptionResultBytes = encryptionResult.CipherText.ToBytes();
+            var encryptionResultBytes = encryptionResult.Result.ToBytes();
             if (encryptionResultBytes.Length >= indexToChange)
             {
                 if (encryptionResultBytes[indexToChange] == 255)
@@ -196,7 +198,7 @@ namespace NIST.CVP.Crypto.AES_CCM.Tests
             );
 
             Assert.IsFalse(results.Success, nameof(results));
-            Assert.IsInstanceOf<DecryptionResult>(results, $"{nameof(results)} type");
+            Assert.IsInstanceOf<SymmetricCipherResult>(results, $"{nameof(results)} type");
             Assert.AreEqual(exceptionMessage, results.ErrorMessage, nameof(exceptionMessage));
         }
 
@@ -221,7 +223,7 @@ namespace NIST.CVP.Crypto.AES_CCM.Tests
             );
 
             Assert.IsFalse(results.Success, nameof(results));
-            Assert.IsInstanceOf<EncryptionResult>(results, $"{nameof(results)} type");
+            Assert.IsInstanceOf<SymmetricCipherResult>(results, $"{nameof(results)} type");
             Assert.AreEqual(exceptionMessage, results.ErrorMessage, nameof(exceptionMessage));
         }
 

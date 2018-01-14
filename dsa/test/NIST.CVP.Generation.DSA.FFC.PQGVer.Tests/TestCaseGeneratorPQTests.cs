@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using Moq;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
-using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.FFC.PQGVer.TestCaseExpectations;
 using NIST.CVP.Math;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NLog;
 
@@ -57,7 +58,7 @@ namespace NIST.CVP.Crypto.AES_ECB
                     for (j = 0; j < 1000; j++)
                     {
                         var jResult = _iAES_ECB.BlockEncrypt(key, plainText);
-                        jCipherText = jResult.CipherText;
+                        jCipherText = jResult.Result;
                         previousCipherText = plainText;
                         plainText = jCipherText;
                     }
@@ -120,7 +121,7 @@ namespace NIST.CVP.Crypto.AES_ECB
                     for (j = 0; j < 1000; j++)
                     {
                         var jResult = _iAES_ECB.BlockDecrypt(key, cipherText);
-                        jPlainText = jResult.PlainText;
+                        jPlainText = jResult.Result;
                         previousPlainText = cipherText;
                         cipherText = jPlainText;
                     }

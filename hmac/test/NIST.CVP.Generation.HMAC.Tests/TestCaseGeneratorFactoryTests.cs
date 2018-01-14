@@ -1,5 +1,7 @@
 ﻿using System;
 using Moq;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;

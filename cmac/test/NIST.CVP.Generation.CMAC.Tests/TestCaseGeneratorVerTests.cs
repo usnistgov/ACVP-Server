@@ -1,8 +1,7 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
 using Moq;
-using NIST.CVP.Crypto.CMAC;
-using NIST.CVP.Crypto.MAC;
+using NIST.CVP.Crypto.Common.MAC;
+using NIST.CVP.Crypto.Common.MAC.CMAC;
 using NIST.CVP.Generation.CMAC;
 using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Generation.Core;

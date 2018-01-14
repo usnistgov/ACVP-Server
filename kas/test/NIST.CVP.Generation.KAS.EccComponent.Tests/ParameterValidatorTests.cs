@@ -1,6 +1,5 @@
-﻿using System;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.DSA.ECC.Enums;
+﻿using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

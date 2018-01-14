@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_ECB;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Crypto.CTR.Helpers;
 using NIST.CVP.Crypto.CTR;
@@ -22,20 +24,20 @@ namespace NIST.CVP.Crypto.AES_CTR
         /// <param name="plainText"></param>
         /// <param name="iv"></param>
         /// <returns></returns>
-        public EncryptionResult EncryptBlock(BitString key, BitString plainText, BitString iv)
+        public SymmetricCipherResult EncryptBlock(BitString key, BitString plainText, BitString iv)
         {
             var encryption = _aesEcb.BlockEncrypt(key, iv);
             if (encryption.Success)
             {
                 var completeBlockPlainText = plainText.ConcatenateBits(BitString.Zeroes(_blockSize - plainText.BitLength));
-                var cipherText = BitString.XOR(completeBlockPlainText, encryption.CipherText);
+                var cipherText = BitString.XOR(completeBlockPlainText, encryption.Result);
 
                 var partialCipherText = cipherText.MSBSubstring(0, plainText.BitLength);
 
-                return new EncryptionResult(partialCipherText);
+                return new SymmetricCipherResult(partialCipherText);
             }
 
-            return new EncryptionResult(encryption.ErrorMessage);
+            return new SymmetricCipherResult(encryption.ErrorMessage);
         }
 
         /// <summary>
@@ -45,17 +47,17 @@ namespace NIST.CVP.Crypto.AES_CTR
         /// <param name="cipherText"></param>
         /// <param name="iv"></param>
         /// <returns></returns>
-        public DecryptionResult DecryptBlock(BitString key, BitString cipherText, BitString iv)
+        public SymmetricCipherResult DecryptBlock(BitString key, BitString cipherText, BitString iv)
         {
             // Use the same encryption process and wrap the result in a DecryptionResult
             var encryptionResult = EncryptBlock(key, cipherText, iv);
             if (encryptionResult.Success)
             {
-                return new DecryptionResult(encryptionResult.CipherText);
+                return new SymmetricCipherResult(encryptionResult.Result);
             }
             else
             {
-                return new DecryptionResult(encryptionResult.ErrorMessage);
+                return new SymmetricCipherResult(encryptionResult.ErrorMessage);
             }
         }
 
@@ -66,7 +68,7 @@ namespace NIST.CVP.Crypto.AES_CTR
         /// <param name="plainText"></param>
         /// <param name="counter"></param>
         /// <returns></returns>
-        public CounterEncryptionResult Encrypt(BitString key, BitString plainText, ICounter counter)
+        public SymmetricCounterResult Encrypt(BitString key, BitString plainText, ICounter counter)
         {
             var numCompleteBlocks = plainText.BitLength / _blockSize;
             var cipherText = new BitString(0);
@@ -81,10 +83,10 @@ namespace NIST.CVP.Crypto.AES_CTR
                 var result = EncryptBlock(key, blockPt, iv);
                 if (!result.Success)
                 {
-                    return new CounterEncryptionResult(result.ErrorMessage);
+                    return new SymmetricCounterResult(result.ErrorMessage);
                 }
 
-                cipherText = cipherText.ConcatenateBits(result.CipherText);
+                cipherText = cipherText.ConcatenateBits(result.Result);
             }
 
             var numIncompleteBlock = plainText.BitLength % _blockSize == 0 ? 0 : 1;
@@ -97,13 +99,13 @@ namespace NIST.CVP.Crypto.AES_CTR
                 var result = EncryptBlock(key, lastBlockPt, iv);
                 if (!result.Success)
                 {
-                    return new CounterEncryptionResult(result.ErrorMessage);
+                    return new SymmetricCounterResult(result.ErrorMessage);
                 }
 
-                cipherText = cipherText.ConcatenateBits(result.CipherText);
+                cipherText = cipherText.ConcatenateBits(result.Result);
             }
 
-            return new CounterEncryptionResult(cipherText, ivs);
+            return new SymmetricCounterResult(cipherText, ivs);
         }
 
         /// <summary>
@@ -113,7 +115,7 @@ namespace NIST.CVP.Crypto.AES_CTR
         /// <param name="cipherText"></param>
         /// <param name="counter"></param>
         /// <returns></returns>
-        public CounterDecryptionResult Decrypt(BitString key, BitString cipherText, ICounter counter)
+        public SymmetricCounterResult Decrypt(BitString key, BitString cipherText, ICounter counter)
         {
             var numCompleteBlocks = cipherText.BitLength / _blockSize;
             var plainText = new BitString(0);
@@ -128,10 +130,10 @@ namespace NIST.CVP.Crypto.AES_CTR
                 var result = DecryptBlock(key, blockCt, iv);
                 if (!result.Success)
                 {
-                    return new CounterDecryptionResult(result.ErrorMessage);
+                    return new SymmetricCounterResult(result.ErrorMessage);
                 }
 
-                plainText = plainText.ConcatenateBits(result.PlainText);
+                plainText = plainText.ConcatenateBits(result.Result);
             }
 
             var numIncompleteBlock = cipherText.BitLength % _blockSize == 0 ? 0 : 1;
@@ -144,13 +146,13 @@ namespace NIST.CVP.Crypto.AES_CTR
                 var result = DecryptBlock(key, lastBlockCt, iv);
                 if (!result.Success)
                 {
-                    return new CounterDecryptionResult(result.ErrorMessage);
+                    return new SymmetricCounterResult(result.ErrorMessage);
                 }
 
-                plainText = plainText.ConcatenateBits(result.PlainText);
+                plainText = plainText.ConcatenateBits(result.Result);
             }
 
-            return new CounterDecryptionResult(plainText, ivs);
+            return new SymmetricCounterResult(plainText, ivs);
         }
     }
 }

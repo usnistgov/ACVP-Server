@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.KeyWrap.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NIST.CVP.Generation.KeyWrap.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;

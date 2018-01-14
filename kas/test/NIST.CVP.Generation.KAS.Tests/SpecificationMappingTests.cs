@@ -1,6 +1,5 @@
 ﻿using System;
-using NIST.CVP.Crypto.KAS.Enums;
-using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

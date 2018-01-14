@@ -1,4 +1,6 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 
@@ -9,11 +11,11 @@ namespace NIST.CVP.Crypto.TDES_CBC
         public const int EXPECTED_BLOCK_SIZE = 64;
 
 
-        public EncryptionResult BlockEncrypt(BitString keyBits, BitString data, BitString iv)
+        public SymmetricCipherResult BlockEncrypt(BitString keyBits, BitString data, BitString iv)
         {
             if (data.BitLength % EXPECTED_BLOCK_SIZE != 0)
             {
-                return new EncryptionResult($"Supplied data size {data.BitLength} is not in the proper block size {EXPECTED_BLOCK_SIZE}");
+                return new SymmetricCipherResult($"Supplied data size {data.BitLength} is not in the proper block size {EXPECTED_BLOCK_SIZE}");
             }
             var plainTextBytes = data.ToBytes();
             byte[] output = new byte[plainTextBytes.Length];
@@ -32,7 +34,7 @@ namespace NIST.CVP.Crypto.TDES_CBC
                 Array.Copy(blockOutput, 0, output, blockIdx * 8, 8);
                 vector = new BitString(blockOutput);
             }
-            return new EncryptionResult(new BitString(output));
+            return new SymmetricCipherResult(new BitString(output));
 
         }
 
@@ -46,11 +48,11 @@ namespace NIST.CVP.Crypto.TDES_CBC
             return output;
         }
 
-        public DecryptionResult BlockDecrypt(BitString keyBits, BitString cipherText, BitString iv)
+        public SymmetricCipherResult BlockDecrypt(BitString keyBits, BitString cipherText, BitString iv)
         {
             if (cipherText.BitLength % EXPECTED_BLOCK_SIZE != 0)
             {
-                return new DecryptionResult($"Supplied data size {cipherText.BitLength} is not in the proper block size {EXPECTED_BLOCK_SIZE}");
+                return new SymmetricCipherResult($"Supplied data size {cipherText.BitLength} is not in the proper block size {EXPECTED_BLOCK_SIZE}");
             }
             var cipherTextBytes = cipherText.ToBytes();
             byte[] output = new byte[cipherTextBytes.Length];
@@ -69,7 +71,7 @@ namespace NIST.CVP.Crypto.TDES_CBC
                 Array.Copy(blockOutput, 0, output, blockIdx * 8, 8);
                 vector = new BitString(input);
             }
-            return new DecryptionResult(new BitString(output));
+            return new SymmetricCipherResult(new BitString(output));
         }
 
         private byte[] DecryptWorker(BitString keyBits, byte[] input)

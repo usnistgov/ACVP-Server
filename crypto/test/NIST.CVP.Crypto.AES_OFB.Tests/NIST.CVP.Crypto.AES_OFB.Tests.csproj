@@ -8,6 +8,7 @@
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Crypto.AES_OFB\NIST.CVP.Crypto.AES_OFB.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

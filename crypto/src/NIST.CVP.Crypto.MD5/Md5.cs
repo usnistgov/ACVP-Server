@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
+using NIST.CVP.Crypto.Common.Hash;
+using NIST.CVP.Crypto.Common.Hash.MD5;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 

@@ -18,7 +18,7 @@ namespace NIST.CVP.Crypto.TDES_CBC.Tests
             var subject = new TdesCbc();
             var result = subject.BlockEncrypt(new BitString(keyBytes), new BitString(plainTextBytes), new BitString(iv));
             Assert.IsTrue((bool) result.Success);
-            var actual = result.CipherText.ToBytes();
+            var actual = result.Result.ToBytes();
             Assert.AreEqual(expectedBytes, actual);
         }
 
@@ -32,7 +32,7 @@ namespace NIST.CVP.Crypto.TDES_CBC.Tests
             var subject = new TdesCbc();
             var result = subject.BlockDecrypt(new BitString(keyBytes), new BitString(CipherTextBytes), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
-            var actual = result.PlainText.ToBytes();
+            var actual = result.Result.ToBytes();
             Assert.AreEqual(expectedBytes, actual);
         }
 

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.SHAWrapper;
+﻿using System.Text;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KDF.Components.SSH;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 

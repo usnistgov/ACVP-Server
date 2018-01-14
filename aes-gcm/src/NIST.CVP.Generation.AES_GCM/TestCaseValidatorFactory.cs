@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM

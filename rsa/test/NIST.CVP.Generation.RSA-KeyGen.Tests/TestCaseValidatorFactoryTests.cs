@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Moq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;

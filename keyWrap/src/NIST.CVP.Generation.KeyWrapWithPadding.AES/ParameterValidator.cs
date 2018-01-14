@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Crypto.KeyWrap.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KeyWrap;
 using NIST.CVP.Generation.KeyWrap.AES;

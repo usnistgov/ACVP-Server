@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_CTR.Tests
@@ -18,7 +19,7 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
                 var result = _subject.EncryptBlock(test.Key, test.PlainText, test.IV);
 
                 Assert.IsTrue(result.Success, nameof(result.Success));
-                Assert.AreEqual(test.CipherText, result.CipherText, test.CipherText.ToHex());
+                Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
             }
         }
 
@@ -31,7 +32,7 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
                 var result = _subject.EncryptBlock(test.Key, test.PlainText, test.IV);
 
                 Assert.IsTrue(result.Success, nameof(result.Success));
-                Assert.AreEqual(test.CipherText, result.CipherText, test.CipherText.ToHex());
+                Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
             }
         }
 
@@ -44,7 +45,7 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
                 var result = _subject.EncryptBlock(test.Key, test.PlainText, test.IV);
 
                 Assert.IsTrue(result.Success, nameof(result.Success));
-                Assert.AreEqual(test.CipherText, result.CipherText, test.CipherText.ToHex());
+                Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
             }
         }
 
@@ -57,7 +58,7 @@ namespace NIST.CVP.Crypto.AES_CTR.Tests
                 var result = _subject.EncryptBlock(test.Key, test.PlainText, test.IV);
 
                 Assert.IsTrue(result.Success, nameof(result.Success));
-                Assert.AreEqual(test.CipherText, result.CipherText, test.CipherText.ToHex());
+                Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
             }
         }
     }

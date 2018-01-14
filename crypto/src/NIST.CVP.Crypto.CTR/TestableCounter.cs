@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.CTR.Enums;
 using NIST.CVP.Crypto.CTR.Helpers;
 using NIST.CVP.Math;

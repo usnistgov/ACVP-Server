@@ -5,6 +5,8 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
@@ -57,7 +59,7 @@ namespace NIST.CVP.Generation.TDES_CFB
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            EncryptionResult encryptionResult = null;
+            SymmetricCipherResult encryptionResult = null;
             try
             {
                 encryptionResult = _modeOfOperation.BlockEncrypt(testCase.Keys, testCase.Iv, testCase.PlainText);
@@ -76,7 +78,7 @@ namespace NIST.CVP.Generation.TDES_CFB
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
-            testCase.CipherText = encryptionResult.CipherText;
+            testCase.CipherText = encryptionResult.Result;
             return new TestCaseGenerateResponse(testCase);
         }
 

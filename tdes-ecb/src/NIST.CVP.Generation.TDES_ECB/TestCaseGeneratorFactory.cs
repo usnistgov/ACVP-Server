@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Math;

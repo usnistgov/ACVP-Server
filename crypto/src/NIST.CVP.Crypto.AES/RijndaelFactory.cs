@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 
 namespace NIST.CVP.Crypto.AES
 {
@@ -11,7 +12,7 @@ namespace NIST.CVP.Crypto.AES
             _iRijndaelInternals = iRijndaelInternals;
         }
 
-        public Rijndael GetRijndael(ModeValues mode)
+        public IRijndael GetRijndael(ModeValues mode)
         {
             switch (mode)
             {

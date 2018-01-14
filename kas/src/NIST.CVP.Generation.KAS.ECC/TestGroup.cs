@@ -1,11 +1,11 @@
 ﻿using System.Dynamic;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.DSA.ECC.Enums;
-using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
+using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Scheme.Ecc;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.KAS.ECC

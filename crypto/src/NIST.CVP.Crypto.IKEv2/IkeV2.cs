@@ -1,9 +1,6 @@
-﻿using NIST.CVP.Crypto.HMAC;
-using NIST.CVP.Math;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Razor.Language.Intermediate;
+﻿using NIST.CVP.Math;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv2;
+using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.IKEv2

@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.SHA2.SHAProperties;
+﻿using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Crypto.SHA2.SHAProperties;
 using NIST.CVP.Math;
 using NLog;
 

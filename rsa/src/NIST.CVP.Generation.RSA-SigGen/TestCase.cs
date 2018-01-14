@@ -7,6 +7,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.CMAC.Enums;
+using NIST.CVP.Crypto.Common.MAC.CMAC;
+using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 
 namespace NIST.CVP.Crypto.CMAC
 {

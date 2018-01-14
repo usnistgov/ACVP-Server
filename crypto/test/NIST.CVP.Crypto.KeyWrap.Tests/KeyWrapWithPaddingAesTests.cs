@@ -4,6 +4,8 @@ using System.Text;
 using Moq;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_ECB;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -22,10 +24,10 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
             _algo = new Mock<IAES_ECB>();
             _algo
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                .Returns(new EncryptionResult(new BitString(128)));
+                .Returns(new SymmetricCipherResult(new BitString(128)));
             _algo
                 .Setup(s => s.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                .Returns(new DecryptionResult(new BitString(128)));
+                .Returns(new SymmetricCipherResult(new BitString(128)));
             _subject = new KeyWrapWithPaddingAes(_algo.Object);
         }
 
@@ -104,10 +106,10 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
             if (!successfulAuthenticate)
             {
                 var rand = new Random800_90();
-                resultCiphertext = new KeyWrapResult(rand.GetDifferentBitStringOfSameSize(resultCiphertext.ResultingBitString));
+                resultCiphertext = new SymmetricCipherResult(rand.GetDifferentBitStringOfSameSize(resultCiphertext.Result));
             }
 
-            var decrypt = _subject.Decrypt(key, resultCiphertext.ResultingBitString, useInverseCipher);
+            var decrypt = _subject.Decrypt(key, resultCiphertext.Result, useInverseCipher);
 
             if (!successfulAuthenticate)
             {
@@ -115,8 +117,8 @@ namespace NIST.CVP.Crypto.KeyWrap.Tests
                 return;
             }
 
-            Assert.AreEqual(expectedCiphertext.ToHex(), resultCiphertext.ResultingBitString.ToHex(), "encrypt compare");
-            Assert.AreEqual(plaintext.ToHex(), decrypt.ResultingBitString.ToHex(), "decrypt compare");
+            Assert.AreEqual(expectedCiphertext.ToHex(), resultCiphertext.Result.ToHex(), "encrypt compare");
+            Assert.AreEqual(plaintext.ToHex(), decrypt.Result.ToHex(), "decrypt compare");
         }
     }
 }

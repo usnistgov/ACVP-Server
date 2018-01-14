@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Moq;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.CTR;
 using NIST.CVP.Crypto.CTR.Enums;
 using NIST.CVP.Crypto.TDES_CTR;
@@ -35,7 +37,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var tdes = GetTDESMock();
             tdes
                 .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<ICounter>()))
-                .Returns(new CounterEncryptionResult("Fail"));
+                .Returns(new SymmetricCounterResult("Fail"));
 
             var subject = new TestCaseGeneratorCounterEncrypt(GetRandomMock().Object, tdes.Object);
 
@@ -100,7 +102,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var tdes = GetTDESMock();
             tdes
                 .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<ICounter>()))
-                .Returns(new CounterEncryptionResult(fakeCipher, fakeIvs));
+                .Returns(new SymmetricCounterResult(fakeCipher, fakeIvs));
 
             var subject = new TestCaseGeneratorCounterEncrypt(GetRandomMock().Object, tdes.Object);
 
@@ -134,7 +136,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
 
             var testCase = (TestCase)testGroup.Tests.First();
             var decryptResult = tdes_ctr.Decrypt(testCase.Key, testCase.CipherText, new TestableCounter(Cipher.TDES, testCase.Ivs));
-            Assert.AreEqual(testCase.PlainText, decryptResult.PlainText);
+            Assert.AreEqual(testCase.PlainText, decryptResult.Result);
         }
 
         private Mock<IRandom800_90> GetRandomMock()

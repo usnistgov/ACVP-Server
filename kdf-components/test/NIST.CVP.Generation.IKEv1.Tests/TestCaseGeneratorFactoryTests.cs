@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Moq;
+﻿using Moq;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv1;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
 using NIST.CVP.Crypto.IKEv1;
-using NIST.CVP.Crypto.IKEv1.Enums;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

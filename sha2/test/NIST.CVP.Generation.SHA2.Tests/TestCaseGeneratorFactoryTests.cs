@@ -1,5 +1,7 @@
 ﻿using System;
 using Moq;
+using NIST.CVP.Crypto.Common.Hash;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Hash;
+using NIST.CVP.Crypto.Common.Hash.SHA3;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NLog;

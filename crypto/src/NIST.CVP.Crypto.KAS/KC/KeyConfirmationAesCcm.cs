@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.AES_CCM;
+using NIST.CVP.Crypto.Common.KAS.KC;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.KC
@@ -31,7 +30,7 @@ namespace NIST.CVP.Crypto.KAS.KC
                 throw new Exception(result.ErrorMessage);
             }
 
-            return result.CipherText;
+            return result.Result;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.CTR;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -11,12 +12,15 @@ namespace NIST.CVP.Generation.TDES_CTR
 {
     public class TestCaseValidatorCounterEncrypt : ITestCaseValidator<TestCase>
     {
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, CounterEncryptionResult> _deferredTestCaseResolver;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult> _deferredTestCaseResolver;
         private readonly TestCase _serverTestCase;
         private readonly TestGroup _group;
         public int TestCaseId => _serverTestCase.TestCaseId;
 
-        public TestCaseValidatorCounterEncrypt(TestGroup group, TestCase testCase, IDeferredTestCaseResolver<TestGroup, TestCase, CounterEncryptionResult> resolver)
+        public TestCaseValidatorCounterEncrypt(
+            TestGroup group, 
+            TestCase testCase, 
+            IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult> resolver)
         {
             _serverTestCase = testCase;
             _deferredTestCaseResolver = resolver;
@@ -70,7 +74,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                 return;
             }
 
-            if (!serverResult.CipherText.Equals(suppliedResult.CipherText))
+            if (!serverResult.Result.Equals(suppliedResult.CipherText))
             {
                 errors.Add("Cipher Text does not match");
             }

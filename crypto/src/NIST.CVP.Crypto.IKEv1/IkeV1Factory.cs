@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv1;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
 using NIST.CVP.Crypto.HMAC;
-using NIST.CVP.Crypto.IKEv1.Enums;
 using NIST.CVP.Crypto.SHAWrapper;
 
 namespace NIST.CVP.Crypto.IKEv1

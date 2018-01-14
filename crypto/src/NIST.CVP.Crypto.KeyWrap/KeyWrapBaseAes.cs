@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.AES_ECB;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KeyWrap
@@ -47,7 +48,7 @@ namespace NIST.CVP.Crypto.KeyWrap
                 // a) A^t = MSB64(CIPH_K(A^t-1 || R2^t-1)) xor [t]64
                 BitString R2 = R2n.GetMostSignificantBits(64);
                 BitString t64 = BitString.To64BitString(t);
-                BitString block_t = _aes.BlockEncrypt(K, A.ConcatenateBits(R2), wrapWithInverseCipher).CipherText;
+                BitString block_t = _aes.BlockEncrypt(K, A.ConcatenateBits(R2), wrapWithInverseCipher).Result;
 
                 A = block_t.GetMostSignificantBits(64).XOR(t64);
                 // b) For i=2,...,n: Ri^t = Ri+1^t-1
@@ -94,7 +95,7 @@ namespace NIST.CVP.Crypto.KeyWrap
                 // a) A^t-1 = MSB(CIPH^-1K((A^t xor [t]64) || Rn^t))
                 BitString t64 = BitString.To64BitString(t);
                 BitString Rn = R2n.GetLeastSignificantBits(64);
-                BitString block_t = _aes.BlockDecrypt(K, A.XOR(t64).ConcatenateBits(Rn), wrappedWithInverseCipher).PlainText;
+                BitString block_t = _aes.BlockDecrypt(K, A.XOR(t64).ConcatenateBits(Rn), wrappedWithInverseCipher).Result;
                 A = block_t.GetMostSignificantBits(64);
                 // b) R2^t-1 = LSB(CIPH^-1K((A^t xor [t]64) || Rn^t))
                 // c) For i=2,...,n-1, Ri+1^t-1 = Ri^t

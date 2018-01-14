@@ -1,6 +1,8 @@
 ﻿using System;
 using Moq;
 using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -31,7 +33,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new EncryptionResult("Fail"));
+                .Returns(new SymmetricCipherAeadResult("Fail"));
             var random = GetRandomMock();
             random
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
@@ -99,7 +101,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new EncryptionResult(fakeCipher, fakeTag));
+                .Returns(new SymmetricCipherAeadResult(fakeCipher, fakeTag));
 
             _subject =
                 new TestCaseGeneratorExternalEncrypt(random.Object, aes.Object);

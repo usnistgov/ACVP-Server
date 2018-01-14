@@ -16,7 +16,6 @@
     <ProjectReference Include="..\..\src\NIST.CVP.Crypto.CMAC\NIST.CVP.Crypto.CMAC.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Crypto.HMAC\NIST.CVP.Crypto.HMAC.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Crypto.KDF\NIST.CVP.Crypto.KDF.csproj" />
-    <ProjectReference Include="..\..\src\NIST.CVP.Crypto.MAC\NIST.CVP.Crypto.MAC.csproj" />
   </ItemGroup>
 
 </Project>

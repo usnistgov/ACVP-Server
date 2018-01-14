@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-using NIST.CVP.Crypto.Math;
+﻿using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.DSA.ECC

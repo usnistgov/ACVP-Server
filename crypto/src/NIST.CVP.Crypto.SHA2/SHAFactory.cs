@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 
 namespace NIST.CVP.Crypto.SHA2
 {

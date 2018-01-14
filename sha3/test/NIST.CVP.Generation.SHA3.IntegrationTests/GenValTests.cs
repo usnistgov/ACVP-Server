@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         {
             var parameters = new Parameters
             {
-                Algorithm = Algorithm,
+                Algorithm = $"{Algorithm}3",
                 Mode = Mode,
                 DigestSizes = new[] { 224 },
                 BitOrientedInput = false,
@@ -100,7 +100,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         {
             var parameters = new Parameters
             {
-                Algorithm = Algorithm,
+                Algorithm = $"{Algorithm}3",
                 Mode = Mode,
                 DigestSizes = new [] {224, 256, 384, 512},
                 BitOrientedInput = true,

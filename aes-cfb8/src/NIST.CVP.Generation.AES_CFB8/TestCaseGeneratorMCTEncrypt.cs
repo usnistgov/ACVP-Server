@@ -1,6 +1,8 @@
 ﻿using System;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CFB8;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -12,7 +14,7 @@ namespace NIST.CVP.Generation.AES_CFB8
         private readonly IRandom800_90 _iRandom80090;
         private readonly IAES_CFB8_MCT _algo;
 
-        public int NumberOfTestCasesToGenerate { get { return 1; } }
+        public int NumberOfTestCasesToGenerate => 1;
 
         public TestCaseGeneratorMCTEncrypt(IRandom800_90 iRandom80090, IAES_CFB8_MCT iAlgo)
         {

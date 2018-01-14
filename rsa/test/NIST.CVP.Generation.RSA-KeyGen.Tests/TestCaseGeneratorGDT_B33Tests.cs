@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.SHA2;

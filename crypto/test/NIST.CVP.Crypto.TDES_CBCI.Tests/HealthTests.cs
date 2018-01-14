@@ -36,7 +36,7 @@ namespace NIST.CVP.Crypto.TDES_CBCI.Tests
             var tdesCbi = new TdesCbci();
 
             var result = tdesCbi.BlockEncrypt(key, iv1, plainText);
-            Assert.AreEqual(cipherText.ToHex(), result.CipherText.ToHex());
+            Assert.AreEqual(cipherText.ToHex(), result.Result.ToHex());
             Assert.AreEqual(iv2, result.IVs[1]);
             Assert.AreEqual(iv3, result.IVs[2]);
         }
@@ -66,12 +66,12 @@ namespace NIST.CVP.Crypto.TDES_CBCI.Tests
             var tdesCbi = new TdesCbci();
 
             var result = tdesCbi.BlockDecrypt(key, iv1, cipherText);
-            Assert.AreEqual(plainText.ToHex(), result.PlainText.ToHex());
+            Assert.AreEqual(plainText.ToHex(), result.Result.ToHex());
             Assert.AreEqual(iv2, result.IVs[1]);
             Assert.AreEqual(iv3, result.IVs[2]);
         }
 
-
+        // TODO better name?
         [Test]
         [TestCase("1046913489980131", "0000000000000000", "5555555555555555", "aaaaaaaaaaaaaaaa", "000000000000000000000000000000000000000000000000", "88d55e54f54c97b423c25ab3e19b6b94e5b490db69b0f2ec")]
         public void MonkeyEncrypt(string _key, string _iv1, string _iv2, string _iv3, string _pt, string _ct)
@@ -90,10 +90,11 @@ namespace NIST.CVP.Crypto.TDES_CBCI.Tests
 
             Assert.AreEqual(result.IVs[1], expectedIv2);
             Assert.AreEqual(result.IVs[2], expectedIv3);
-            Assert.AreEqual(result.CipherText, expectedCipherText);
+            Assert.AreEqual(result.Result, expectedCipherText);
 
         }
 
+        // TODO better name?
         public void MonkeyDecrypt(string _key, string _iv1, string _iv2, string _iv3, string _pt, string _ct)
         {
             var key = new BitString(_key);
@@ -109,7 +110,7 @@ namespace NIST.CVP.Crypto.TDES_CBCI.Tests
 
             Assert.AreEqual(result.IVs[1], expectedIv2);
             Assert.AreEqual(result.IVs[2], expectedIv3);
-            Assert.AreEqual(result.PlainText, expectedPlainText);
+            Assert.AreEqual(result.Result, expectedPlainText);
 
         }
 

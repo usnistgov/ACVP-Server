@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
+﻿using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Math;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
-using NIST.CVP.Crypto.Math;
 
 namespace NIST.CVP.Crypto.RSA
 {
-    public class KeyPair
+    public class KeyPair : IKeyPair
     {
         public PublicKey PubKey { get; set; }
         public PrivateKey PrivKey { get; set; }
@@ -67,31 +64,6 @@ namespace NIST.CVP.Crypto.RSA
                 DMQ1 = dmq1.ToPositiveBigInteger(),
                 IQMP = iqmp.ToPositiveBigInteger()
             };
-        }
-    }
-
-    public class PublicKey
-    {
-        public BigInteger E { get; set; }
-        public BigInteger N { get; set; }
-    }
-
-    public class PrivateKey
-    {
-        public BigInteger P { get; set; }
-        public BigInteger Q { get; set; }
-        public BigInteger D { get; set; }
-        public BigInteger Phi_N { get { return (P - 1) * (Q - 1); } }
-
-        public BigInteger DMP1 { get; set; }
-        public BigInteger DMQ1 { get; set; }
-        public BigInteger IQMP { get; set; }
-
-        public void ComputeCRT()
-        {
-            DMP1 = D % (P - 1);
-            DMQ1 = D % (Q - 1);
-            IQMP = Q.ModularInverse(P);
         }
     }
 }

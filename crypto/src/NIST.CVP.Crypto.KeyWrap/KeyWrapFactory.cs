@@ -1,6 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.KeyWrap.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 
 namespace NIST.CVP.Crypto.KeyWrap
 {

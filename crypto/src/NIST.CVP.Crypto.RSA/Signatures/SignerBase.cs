@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NIST.CVP.Math;
 using NIST.CVP.Crypto.SHA2;
 using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA.Signatures
 {
-    public abstract class SignerBase : ISigner
+    public abstract class SignerBase : ISignerBase
     {
         protected int _saltLen;
         protected HashFunction _hashFunction;
@@ -66,7 +67,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             return BigInteger.ModPow(plaintext, e, n);
         }
 
-        public SignatureResult SignWithErrors(int nlen, BitString message, KeyPair key, FailureReasons reason)
+        public SignatureResult SignWithErrors(int nlen, BitString message, IKeyPair key, FailureReasons reason)
         {
             switch (reason)
             {
@@ -100,9 +101,9 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             }
         }
 
-        public abstract SignatureResult Sign(int nlen, BitString message, KeyPair key);
-        public abstract VerifyResult Verify(int nlen, BitString signature, KeyPair key, BitString message);
-        public abstract SignatureResult MoveIRSign(int nlen, BitString message, KeyPair key);
-        public abstract SignatureResult ModifyIRTrailerSign(int nlen, BitString message, KeyPair key);
+        public abstract SignatureResult Sign(int nlen, BitString message, IKeyPair key);
+        public abstract VerifyResult Verify(int nlen, BitString signature, IKeyPair key, BitString message);
+        public abstract SignatureResult MoveIRSign(int nlen, BitString message, IKeyPair key);
+        public abstract SignatureResult ModifyIRTrailerSign(int nlen, BitString message, IKeyPair key);
     }
 }

@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.AES
 {

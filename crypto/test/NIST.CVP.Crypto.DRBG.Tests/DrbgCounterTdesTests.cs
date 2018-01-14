@@ -1,4 +1,7 @@
 ﻿using Moq;
+using NIST.CVP.Crypto.Common.DRBG;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.DRBG.Tests.Fakes;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_ECB;
@@ -31,7 +34,7 @@ namespace NIST.CVP.Crypto.DRBG.Tests
 
             _mockTdes
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                .Returns(new EncryptionResult(new BitString(0)));
+                .Returns(new SymmetricCipherResult(new BitString(0)));
 
             _subject.PublicBlockEncrypt(k, x);
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NIST.CVP.Crypto.Common.KDF;
 using NIST.CVP.Crypto.KDF;
 using NIST.CVP.Generation.Core;
 

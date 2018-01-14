@@ -8,7 +8,6 @@
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.CMAC\NIST.CVP.Crypto.CMAC.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.HMAC\NIST.CVP.Crypto.HMAC.csproj" />
-    <ProjectReference Include="..\NIST.CVP.Crypto.MAC\NIST.CVP.Crypto.MAC.csproj" />
     <ProjectReference Include="..\NIST.CVP.Crypto.Math\NIST.CVP.Crypto.Math.csproj" />
   </ItemGroup>
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NIST.CVP.Crypto.DRBG.Enums;
+using NIST.CVP.Crypto.Common.DRBG;
+using NIST.CVP.Crypto.Common.DRBG.Enums;
+using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Crypto.DRBG.Helpers;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Math;

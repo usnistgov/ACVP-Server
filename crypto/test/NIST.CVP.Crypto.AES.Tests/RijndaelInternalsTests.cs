@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Moq;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

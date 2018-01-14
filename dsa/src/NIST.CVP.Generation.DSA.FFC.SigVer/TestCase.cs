@@ -2,6 +2,7 @@
 using System.Numerics;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;

@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NIST.CVP.Crypto.AES_CTR;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.CTR;
-using NIST.CVP.Crypto.CTR.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using Cipher = NIST.CVP.Crypto.CTR.Enums.Cipher;
 
 namespace NIST.CVP.Generation.AES_CTR.Tests
 {
@@ -35,7 +37,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.Decrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<ICounter>()))
-                .Returns(new CounterDecryptionResult("Fail"));
+                .Returns(new SymmetricCounterResult("Fail"));
 
             var subject = new TestCaseGeneratorCounterDecrypt(GetRandomMock().Object, aes.Object);
 
@@ -100,7 +102,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.Decrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<ICounter>()))
-                .Returns(new CounterDecryptionResult(fakeCipher, fakeIvs));
+                .Returns(new SymmetricCounterResult(fakeCipher, fakeIvs));
 
             var subject = new TestCaseGeneratorCounterDecrypt(GetRandomMock().Object, aes.Object);
 
@@ -134,7 +136,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
 
             var testCase = (TestCase)testGroup.Tests.First();
             var encryptResult = aes_ctr.Encrypt(testCase.Key, testCase.PlainText, new TestableCounter(Cipher.AES, testCase.IVs));
-            Assert.AreEqual(testCase.CipherText, encryptResult.CipherText);
+            Assert.AreEqual(testCase.CipherText, encryptResult.Result);
         }
 
         private Mock<IRandom800_90> GetRandomMock()

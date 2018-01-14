@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.SHAWrapper;
 
 namespace NIST.CVP.Crypto.DSA.FFC.Helpers

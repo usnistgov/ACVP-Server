@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.DSA.FFC.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen

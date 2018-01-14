@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NIST.CVP.Crypto.MAC;
-using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.MAC;
+using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.HMAC

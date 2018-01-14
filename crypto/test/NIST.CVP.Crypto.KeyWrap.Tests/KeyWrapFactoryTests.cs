@@ -1,5 +1,5 @@
 ﻿using System;
-using NIST.CVP.Crypto.KeyWrap.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using NIST.CVP.Crypto.CMAC.Enums;
+using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Generation.CMAC.Parsers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;

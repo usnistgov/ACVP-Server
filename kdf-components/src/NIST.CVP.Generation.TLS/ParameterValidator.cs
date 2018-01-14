@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.TLS.Enums;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TLS

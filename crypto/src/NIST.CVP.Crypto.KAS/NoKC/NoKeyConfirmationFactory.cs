@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.NoKC;
 using NIST.CVP.Crypto.HMAC;
-using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Helpers;
-using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Math;
-using ModeValues = NIST.CVP.Crypto.SHAWrapper.ModeValues;
 
 namespace NIST.CVP.Crypto.KAS.NoKC
 {

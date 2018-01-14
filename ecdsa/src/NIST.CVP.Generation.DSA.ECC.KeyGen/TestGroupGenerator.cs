@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen

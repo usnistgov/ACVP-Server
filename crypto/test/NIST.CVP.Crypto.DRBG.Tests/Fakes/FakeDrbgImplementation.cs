@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.Crypto.DRBG.Enums;
+using NIST.CVP.Crypto.Common.DRBG;
+using NIST.CVP.Crypto.Common.DRBG.Enums;
 using NIST.CVP.Crypto.DRBG.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;

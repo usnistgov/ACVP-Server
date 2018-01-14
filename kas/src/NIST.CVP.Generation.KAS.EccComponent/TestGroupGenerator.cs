@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.DSA.ECC.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.EccComponent

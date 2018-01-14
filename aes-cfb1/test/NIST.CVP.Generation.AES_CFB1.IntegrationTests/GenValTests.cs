@@ -5,6 +5,8 @@ using AES_CFB1;
 using Autofac;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CFB1;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests;
@@ -178,7 +180,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             Crypto.AES_CFB1.AES_CFB1 algo = new Crypto.AES_CFB1.AES_CFB1(new RijndaelFactory(new RijndaelInternals()));
             var actualCipherText = algo.BlockEncrypt(iv, key, plainText);
 
-            Assert.AreEqual(expectedCipherText, actualCipherText.CipherText, "Algo check pre serialization");
+            Assert.AreEqual(expectedCipherText, actualCipherText.Result, "Algo check pre serialization");
 
             var tv = SetupVectorSet(key, iv, plainText, actualCipherText);
             
@@ -200,14 +202,14 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             Assert.AreEqual(((TestCase)tv.TestGroups[0].Tests[0]).CipherText, ((TestCase)parsedTestVectorSet.TestGroups[0].Tests[0]).CipherText, "Ciphertext");
         }
 
-        private TestVectorSet SetupVectorSet(BitString key, BitString iv, BitOrientedBitString plainText, EncryptionResult actualCipherText)
+        private TestVectorSet SetupVectorSet(BitString key, BitString iv, BitOrientedBitString plainText, SymmetricCipherResult actualCipherText)
         {
             TestCase tc = new TestCase()
             {
                 Key = key,
                 IV = iv.GetDeepCopy(),
                 PlainText = plainText,
-                CipherText = actualCipherText.CipherText
+                CipherText = BitOrientedBitString.GetDerivedFromBase(actualCipherText.Result)
             };
 
             TestGroup tg = new TestGroup()

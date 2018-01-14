@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KDF.Components.SSH;
+using NIST.CVP.Crypto.Common.KDF.Components.SSH.Enums;
 using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Crypto.SSH.Enums;
 
 namespace NIST.CVP.Crypto.SSH
 {
-    public class SshFactory
+    public class SshFactory : ISshFactory
     {
         public ISsh GetSshInstance(HashFunction hash, Cipher cipher)
         {

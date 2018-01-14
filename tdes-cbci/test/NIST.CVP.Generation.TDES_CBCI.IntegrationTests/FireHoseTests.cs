@@ -106,7 +106,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     testCase.PlainText
                                 );
 
-                                if (testCase.CipherText.ToString() == result.CipherText.ToString() &&
+                                if (testCase.CipherText.ToString() == result.Result.ToString() &&
                                     testCase.IV1.ToString() == result.IVs[0].ToString() &&
                                     testCase.IV2.ToString() == result.IVs[1].ToString() &&
                                     testCase.IV3.ToString() == result.IVs[2].ToString())
@@ -118,8 +118,8 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.CipherText.ToString(), result.CipherText.ToString(), 
-                                    $"Failed on count {count} expected CT {testCase.CipherText}, got { result.CipherText}");
+                                Assert.AreEqual(testCase.CipherText.ToString(), result.Result.ToString(), 
+                                    $"Failed on count {count} expected CT {testCase.CipherText}, got { result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "multiblockmessage")
@@ -130,7 +130,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     testCase.PlainText
                                 );
 
-                                if (testCase.CipherText.ToString() == result.CipherText.ToString() && 
+                                if (testCase.CipherText.ToString() == result.Result.ToString() && 
                                     testCase.IV1.ToString() == result.IVs[0].ToString() &&
                                     testCase.IV2.ToString() == result.IVs[1].ToString() &&
                                     testCase.IV3.ToString() == result.IVs[2].ToString())
@@ -142,7 +142,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.CipherText.ToString(), result.CipherText.ToString(), $"Failed on count {count} expected CT {testCase.CipherText}, got { result.CipherText}");
+                                Assert.AreEqual(testCase.CipherText.ToString(), result.Result.ToString(), $"Failed on count {count} expected CT {testCase.CipherText}, got { result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "permutation" ||
@@ -156,7 +156,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     testCase.PlainText
                                 );
 
-                                if (testCase.CipherText.ToString() == result.CipherText.ToString() &&
+                                if (testCase.CipherText.ToString() == result.Result.ToString() &&
                                     testCase.IV1.ToString() == result.IVs[0].ToString() &&
                                     testCase.IV2.ToString() == result.IVs[1].ToString() &&
                                     testCase.IV3.ToString() == result.IVs[2].ToString())
@@ -168,8 +168,8 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.CipherText.ToString(), result.CipherText.ToString(), 
-                                    $"Failed on count {count} expected CT {testCase.CipherText}, got { result.CipherText}");
+                                Assert.AreEqual(testCase.CipherText.ToString(), result.Result.ToString(), 
+                                    $"Failed on count {count} expected CT {testCase.CipherText}, got { result.Result}");
                                 continue;
                             }
                             else
@@ -188,7 +188,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     testCase.CipherText
                                 );
 
-                                if (testCase.PlainText.ToString() == result.PlainText.ToString() &&
+                                if (testCase.PlainText.ToString() == result.Result.ToString() &&
                                     testCase.IV1.ToString() == result.IVs[0].ToString() &&
                                     testCase.IV2.ToString() == result.IVs[1].ToString() &&
                                     testCase.IV3.ToString() == result.IVs[2].ToString())
@@ -200,8 +200,8 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.PlainText.ToString(), result.PlainText.ToString(), 
-                                    $"Failed on count {count} expected CT {testCase.PlainText}, got {result.PlainText}");
+                                Assert.AreEqual(testCase.PlainText.ToString(), result.Result.ToString(), 
+                                    $"Failed on count {count} expected CT {testCase.PlainText}, got {result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "multiblockmessage")
@@ -212,7 +212,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     testCase.CipherText
                                 );
 
-                                if (testCase.PlainText.ToString() == result.PlainText.ToString() &&
+                                if (testCase.PlainText.ToString() == result.Result.ToString() &&
                                     testCase.IV1.ToString() == result.IVs[0].ToString() &&
                                     testCase.IV2.ToString() == result.IVs[1].ToString() &&
                                     testCase.IV3.ToString() == result.IVs[2].ToString())
@@ -224,7 +224,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.PlainText.ToString(), result.PlainText.ToString(), $"Failed on count {count} expected CT {testCase.PlainText}, got {result.PlainText}");
+                                Assert.AreEqual(testCase.PlainText.ToString(), result.Result.ToString(), $"Failed on count {count} expected CT {testCase.PlainText}, got {result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "permutation" ||
@@ -238,7 +238,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     testCase.CipherText
                                 );
 
-                                if (testCase.PlainText.ToString() == result.PlainText.ToString() &&
+                                if (testCase.PlainText.ToString() == result.Result.ToString() &&
                                     testCase.IV1.ToString() == result.IVs[0].ToString() &&
                                     testCase.IV2.ToString() == result.IVs[1].ToString() &&
                                     testCase.IV3.ToString() == result.IVs[2].ToString())
@@ -250,8 +250,8 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.PlainText.ToString(), result.PlainText.ToString(), 
-                                    $"Failed on count {count} expected CT {testCase.PlainText}, got { result.PlainText}");
+                                Assert.AreEqual(testCase.PlainText.ToString(), result.Result.ToString(), 
+                                    $"Failed on count {count} expected CT {testCase.PlainText}, got { result.Result}");
                                 continue;
                             }
                             else

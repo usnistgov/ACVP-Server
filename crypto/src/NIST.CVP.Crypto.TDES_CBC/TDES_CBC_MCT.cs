@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 using NLog;
+using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
 //using System.Diagnostics;
 
@@ -25,7 +28,7 @@ namespace NIST.CVP.Crypto.TDES_CBC
             _keyMaker = keyMaker;
         }
 
-        public MCTResult<AlgoArrayResponse> MCTEncrypt(BitString keyBits, BitString data, BitString iv)
+        public Common.Symmetric.TDES.MCTResult<AlgoArrayResponse> MCTEncrypt(BitString keyBits, BitString data, BitString iv)
         {
             List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
 
@@ -57,8 +60,8 @@ namespace NIST.CVP.Crypto.TDES_CBC
                 {
                     cv = iv.GetDeepCopy(); //For the first outerloop interation, set CV0 to IV.
                 }
-                
-                EncryptionResult encryptionResult = null;
+
+                SymmetricCipherResult encryptionResult = null;
 
 
                 for (int innerLoop = 0; innerLoop < NUMBER_OF_ITERATIONS; innerLoop++)
@@ -68,11 +71,11 @@ namespace NIST.CVP.Crypto.TDES_CBC
                     {
                         ThisLogger.Warn(encryptionResult.ErrorMessage);
                         {
-                            return new MCTResult<AlgoArrayResponse>(encryptionResult.ErrorMessage);
+                            return new Common.Symmetric.TDES.MCTResult<AlgoArrayResponse>(encryptionResult.ErrorMessage);
                         }
                     }
 
-                    SaveOutputForKeyMixing(encryptionResult.CipherText.GetDeepCopy(), lastCipherTexts);
+                    SaveOutputForKeyMixing(encryptionResult.Result.GetDeepCopy(), lastCipherTexts);
 
                     if (innerLoop == 0)
                     {
@@ -85,8 +88,8 @@ namespace NIST.CVP.Crypto.TDES_CBC
                         copyOfPreviousCipherText = previousCipherText;
                     }
 
-                    previousCipherText = encryptionResult.CipherText;
-                    cv = encryptionResult.CipherText.GetDeepCopy(); //CVj+1 = Cj
+                    previousCipherText = encryptionResult.Result;
+                    cv = encryptionResult.Result.GetDeepCopy(); //CVj+1 = Cj
                 }
 
                 // Inner loop complete, save response
@@ -95,7 +98,7 @@ namespace NIST.CVP.Crypto.TDES_CBC
                     {
                         Keys = tempAlgoArrayResponse.Keys.GetDeepCopy(),
                         PlainText = originalPlainTextForOutput.GetDeepCopy(),
-                        CipherText = encryptionResult.CipherText.GetDeepCopy(),
+                        CipherText = encryptionResult.Result.GetDeepCopy(),
                         IV = originalIVForOutput.GetDeepCopy()
                     });
 
@@ -108,13 +111,13 @@ namespace NIST.CVP.Crypto.TDES_CBC
                     _keyMaker.MixKeys(new TDESKeys(tempAlgoArrayResponse.Keys.GetDeepCopy()), lastCipherTexts)
                         .ToOddParityBitString();
                 tempAlgoArrayResponse.PlainText = copyOfPreviousCipherText.GetDeepCopy(); //P0 = Cj-1
-                cv = encryptionResult.CipherText.GetDeepCopy();    
+                cv = encryptionResult.Result.GetDeepCopy();    
             }
 
-            return new MCTResult<AlgoArrayResponse>(responses);
+            return new Common.Symmetric.TDES.MCTResult<AlgoArrayResponse>(responses);
         }
 
-        public MCTResult<AlgoArrayResponse> MCTDecrypt(BitString keyBits, BitString data, BitString iv)
+        public Common.Symmetric.TDES.MCTResult<AlgoArrayResponse> MCTDecrypt(BitString keyBits, BitString data, BitString iv)
         {
             List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
 
@@ -146,7 +149,7 @@ namespace NIST.CVP.Crypto.TDES_CBC
                 {
                     cv = iv.GetDeepCopy(); //For the first outerloop interation, set CV0 to IV.
                 }
-                DecryptionResult decryptionResult = null;
+                SymmetricCipherResult decryptionResult = null;
                 for (int innerLoop = 0; innerLoop < NUMBER_OF_ITERATIONS; innerLoop++)
                 {
                     decryptionResult = _algo.BlockDecrypt(tempAlgoArrayResponse.Keys, tempAlgoArrayResponse.CipherText, cv);
@@ -154,15 +157,15 @@ namespace NIST.CVP.Crypto.TDES_CBC
                     {
                         ThisLogger.Warn(decryptionResult.ErrorMessage);
                         {
-                            return new MCTResult<AlgoArrayResponse>(decryptionResult.ErrorMessage);
+                            return new Common.Symmetric.TDES.MCTResult<AlgoArrayResponse>(decryptionResult.ErrorMessage);
                         }
                     }
 
-                    SaveOutputForKeyMixing(decryptionResult.PlainText.GetDeepCopy(), lastPlainTexts);
+                    SaveOutputForKeyMixing(decryptionResult.Result.GetDeepCopy(), lastPlainTexts);
                     copyOfPreviousCipherText = tempAlgoArrayResponse.CipherText;
 
                     cv = tempAlgoArrayResponse.CipherText.GetDeepCopy(); //CVj+1 = Cj;
-                    tempAlgoArrayResponse.CipherText = decryptionResult.PlainText.GetDeepCopy();
+                    tempAlgoArrayResponse.CipherText = decryptionResult.Result.GetDeepCopy();
                 }
 
                 // Inner loop complete, save response
@@ -170,7 +173,7 @@ namespace NIST.CVP.Crypto.TDES_CBC
                     new AlgoArrayResponse()
                     {
                         Keys = tempAlgoArrayResponse.Keys.GetDeepCopy(),
-                        PlainText = decryptionResult.PlainText.GetDeepCopy(),
+                        PlainText = decryptionResult.Result.GetDeepCopy(),
                         CipherText = originalCipherTextForOutput.GetDeepCopy(),
                         IV = originalIVForOutput.GetDeepCopy() 
                     });
@@ -185,10 +188,10 @@ namespace NIST.CVP.Crypto.TDES_CBC
                         .ToOddParityBitString();
 
                 cv = copyOfPreviousCipherText.GetDeepCopy();
-                tempAlgoArrayResponse.CipherText = decryptionResult.PlainText.GetDeepCopy();
+                tempAlgoArrayResponse.CipherText = decryptionResult.Result.GetDeepCopy();
             }
 
-            return new MCTResult<AlgoArrayResponse>(responses);
+            return new Common.Symmetric.TDES.MCTResult<AlgoArrayResponse>(responses);
         }
 
         private void SaveOutputForKeyMixing(BitString output, List<BitString> lastAlgoOutputs)

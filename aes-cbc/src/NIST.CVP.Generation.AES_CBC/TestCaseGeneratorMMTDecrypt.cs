@@ -1,6 +1,8 @@
 ﻿using System;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CBC;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -43,7 +45,7 @@ namespace NIST.CVP.Generation.AES_CBC
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            DecryptionResult decryptionResult = null;
+            SymmetricCipherResult decryptionResult = null;
             try
             {
                 decryptionResult = _algo.BlockDecrypt(testCase.IV.GetDeepCopy(), testCase.Key, testCase.CipherText);
@@ -63,7 +65,7 @@ namespace NIST.CVP.Generation.AES_CBC
                 }
             }
 
-            testCase.PlainText = decryptionResult.PlainText;
+            testCase.PlainText = decryptionResult.Result;
             return new TestCaseGenerateResponse(testCase);
         }
      

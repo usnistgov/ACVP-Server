@@ -1,6 +1,4 @@
-﻿using NIST.CVP.Crypto.KAS.Enums;
-
-namespace NIST.CVP.Generation.KAS.Tests.Builders
+﻿namespace NIST.CVP.Generation.KAS.Tests.Builders
 {
     public class SchemesBuilder
     {

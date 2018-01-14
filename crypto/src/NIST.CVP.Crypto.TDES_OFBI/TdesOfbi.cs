@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 
@@ -9,7 +11,7 @@ namespace NIST.CVP.Crypto.TDES_OFBI
     {
         private int BLOCK_SIZE = 64;
 
-        public EncryptionResultWithIv BlockEncrypt(BitString key, BitString iv, BitString plainText)
+        public SymmetricCipherWithIvResult BlockEncrypt(BitString key, BitString iv, BitString plainText)
         {
             var ivs = SetupIvs(iv);
             var subSegments = plainText.BitLength / BLOCK_SIZE;
@@ -29,7 +31,7 @@ namespace NIST.CVP.Crypto.TDES_OFBI
                 cipherText = cipherText.ConcatenateBits(cipherTextSegment);
             }
 
-            return new EncryptionResultWithIv(cipherText, ivs);
+            return new SymmetricCipherWithIvResult(cipherText, ivs);
 
         }
 
@@ -52,7 +54,7 @@ namespace NIST.CVP.Crypto.TDES_OFBI
             return output;
         }
 
-        public DecryptionResultWithIv BlockDecrypt(BitString key, BitString iv, BitString cipherText)
+        public SymmetricCipherWithIvResult BlockDecrypt(BitString key, BitString iv, BitString cipherText)
         {
             var ivs = SetupIvs(iv);
             var subSegments = cipherText.BitLength / BLOCK_SIZE;
@@ -72,7 +74,7 @@ namespace NIST.CVP.Crypto.TDES_OFBI
                 plainText = plainText.ConcatenateBits(plainTextSegment);
             }
 
-            return new DecryptionResultWithIv(plainText, ivs);
+            return new SymmetricCipherWithIvResult(plainText, ivs);
         }
     }
 }

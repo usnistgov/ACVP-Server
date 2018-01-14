@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var subject = new TdesOfb();
             var result = subject.BlockEncrypt(new BitString(keyBytes), new BitString(iv), new BitString(plainTextBytes));
             Assert.IsTrue((bool)result.Success);
-            var actual = result.CipherText.ToBytes();
+            var actual = result.Result.ToBytes();
             Assert.AreEqual(expectedBytes, actual);
         }
 
@@ -94,7 +94,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreEqual(new BitString(cipherText).ToHex(), result.CipherText.ToHex());
+            Assert.AreEqual(new BitString(cipherText).ToHex(), result.Result.ToHex());
         }
 
         [Test]
@@ -137,7 +137,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreEqual(new BitString(cipherText).ToHex(), result.CipherText.ToHex());
+            Assert.AreEqual(new BitString(cipherText).ToHex(), result.Result.ToHex());
         }
 
         [Test]
@@ -167,7 +167,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreEqual(new BitString(cipherText).ToHex(), result.CipherText.ToHex());
+            Assert.AreEqual(new BitString(cipherText).ToHex(), result.Result.ToHex());
         }
 
         [Test]
@@ -235,7 +235,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreEqual((new BitString(cipherText)).ToHex(), result.CipherText.ToHex());
+            Assert.AreEqual((new BitString(cipherText)).ToHex(), result.Result.ToHex());
         }
 
         [Test]
@@ -311,7 +311,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreEqual(new BitString(cipherText).ToHex(), result.CipherText.ToHex());
+            Assert.AreEqual(new BitString(cipherText).ToHex(), result.Result.ToHex());
         }
 
         [Test]
@@ -354,7 +354,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreEqual(new BitString(plaintext).ToHex(), result.PlainText.ToHex());
+            Assert.AreEqual(new BitString(plaintext).ToHex(), result.Result.ToHex());
         }
 
         [Test]
@@ -429,7 +429,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreEqual(new BitString(plaintext).ToHex(), result.PlainText.ToHex());
+            Assert.AreEqual(new BitString(plaintext).ToHex(), result.Result.ToHex());
         }
 
         [Test]
@@ -460,7 +460,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             Assert.IsTrue((bool)result.Success);
 
 
-            Assert.AreEqual(new BitString(plaintext).ToHex(), result.PlainText.ToHex());
+            Assert.AreEqual(new BitString(plaintext).ToHex(), result.Result.ToHex());
         }
 
 
@@ -529,7 +529,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreEqual(new BitString(plaintext).ToHex(), result.PlainText.ToHex());
+            Assert.AreEqual(new BitString(plaintext).ToHex(), result.Result.ToHex());
         }
 
         [Test]
@@ -605,7 +605,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreEqual(new BitString(plaintext).ToHex(), result.PlainText.ToHex());
+            Assert.AreEqual(new BitString(plaintext).ToHex(), result.Result.ToHex());
         }
 
         [Test]
@@ -617,7 +617,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockEncrypt(new BitString(key), new BitString(plaintext), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreEqual(new BitString(cipherText).ToHex(), result.CipherText.ToHex());
+            Assert.AreEqual(new BitString(cipherText).ToHex(), result.Result.ToHex());
         }
 
         [Test]
@@ -630,7 +630,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockEncrypt(new BitString(key), new BitString(iv), new BitString(plaintext));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreNotEqual(new BitString(cipherText), result.CipherText);
+            Assert.AreNotEqual(new BitString(cipherText), result.Result);
         }
 
         [Test]
@@ -642,7 +642,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockDecrypt(new BitString(key), new BitString(cipherText), new BitString(iv));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreEqual(new BitString(plaintext).ToHex(), result.PlainText.ToHex());
+            Assert.AreEqual(new BitString(plaintext).ToHex(), result.Result.ToHex());
         }
 
 
@@ -658,7 +658,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockDecrypt(new BitString(key), new BitString(iv), new BitString(cipherText));
             Assert.IsTrue((bool)result.Success);
 
-            Assert.AreNotEqual(new BitString(plaintext), result.PlainText);
+            Assert.AreNotEqual(new BitString(plaintext), result.Result);
         }
 
     }

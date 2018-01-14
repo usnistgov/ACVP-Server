@@ -1,5 +1,7 @@
 ﻿using Moq;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CFBP;
 using NIST.CVP.Math;
@@ -67,7 +69,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
 
             var mockModeOfOperation = new Mock<ICFBPMode>();
             mockModeOfOperation.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                            .Returns(new EncryptionResultWithIv("I Failed to decrypt"));
+                            .Returns(new SymmetricCipherWithIvResult("I Failed to decrypt"));
             mockModeOfOperation.SetupProperty(x => x.Algo, Algo.TDES_CFBP1);
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), mockModeOfOperation.Object);
             var result = subject.Generate(new TestGroup { Function = "decrypt", KeyingOption = 1 }, false);
@@ -105,7 +107,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             {
                 var result = modeOfOperation.BlockDecrypt(testCase.Keys, testCase.IV1, testCase.CipherText);
 
-                Assert.AreEqual(testCase.PlainText, result.PlainText);
+                Assert.AreEqual(testCase.PlainText, result.Result);
             }
         }
     }

@@ -12,7 +12,6 @@
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.HMAC\NIST.CVP.Crypto.HMAC.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.IKEv1\NIST.CVP.Crypto.IKEv1.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.IKEv2\NIST.CVP.Crypto.IKEv2.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.MAC\NIST.CVP.Crypto.MAC.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.SHAWrapper\NIST.CVP.Crypto.SHAWrapper.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.SSH\NIST.CVP.Crypto.SSH.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.TLS\NIST.CVP.Crypto.TLS.csproj" />

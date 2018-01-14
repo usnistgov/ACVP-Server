@@ -4,6 +4,8 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_CBCI
 {
@@ -42,7 +44,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            EncryptionResultWithIv encryptionResult = null;
+            SymmetricCipherWithIvResult encryptionResult = null;
             try
             {
                 encryptionResult = _algo.BlockEncrypt(testCase.Keys, testCase.IV1, testCase.PlainText);
@@ -61,7 +63,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
-            testCase.CipherText = encryptionResult.CipherText;
+            testCase.CipherText = encryptionResult.Result;
             testCase.IV2 = encryptionResult.IVs[1];
             testCase.IV3 = encryptionResult.IVs[2];
             return new TestCaseGenerateResponse(testCase);

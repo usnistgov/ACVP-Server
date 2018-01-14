@@ -41,7 +41,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
 
             var encryptOperation = _subject.BlockEncrypt(keyBits, plainTextBits);
             Assert.IsTrue(encryptOperation.Success, nameof(encryptOperation));
-            var ct = encryptOperation.CipherText.ToBytes();
+            var ct = encryptOperation.Result.ToBytes();
             if ((ct[0] != 0x03) || (ct[1] != 0x36) || (ct[2] != 0x76) || (ct[3] != 0x3e) ||
                 (ct[4] != 0x96) || (ct[5] != 0x6d) || (ct[6] != 0x92) || (ct[7] != 0x59) ||
                 (ct[8] != 0x5a) || (ct[9] != 0x56) || (ct[10] != 0x7c) || (ct[11] != 0xc9) ||
@@ -49,8 +49,8 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
                 Assert.Fail("Invalid cipher");
 
             // Do the decryption to ensure we arrive back at plain text
-            var decryptOperation = _subject.BlockDecrypt(keyBits, encryptOperation.CipherText);
-            var pt = decryptOperation.PlainText.ToBytes();
+            var decryptOperation = _subject.BlockDecrypt(keyBits, encryptOperation.Result);
+            var pt = decryptOperation.Result.ToBytes();
             for (int i = 0; i < pt.Length; i++)
             {
                 Assert.AreEqual(plainText[i], pt[i], $"Failed on index {i}");
@@ -92,7 +92,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
 
             Assert.IsTrue(encryptOperation.Success, nameof(encryptOperation));
 
-            var ct = encryptOperation.CipherText.ToBytes();
+            var ct = encryptOperation.Result.ToBytes();
 
             if ((ct[0] != 0x27) || (ct[1] != 0x5c) || (ct[2] != 0xfc) || (ct[3] != 0x04) ||
                 (ct[4] != 0x13) || (ct[5] != 0xd8) || (ct[6] != 0xcc) || (ct[7] != 0xb7) ||
@@ -101,8 +101,8 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
                 Assert.Fail("Invalid cipher");
 
             // Do the decryption to ensure we arrive back at plain text
-            var decryptOperation = _subject.BlockDecrypt(keyBits, encryptOperation.CipherText);
-            var pt = decryptOperation.PlainText.ToBytes();
+            var decryptOperation = _subject.BlockDecrypt(keyBits, encryptOperation.Result);
+            var pt = decryptOperation.Result.ToBytes();
             for (int i = 0; i < pt.Length; i++)
             {
                 Assert.AreEqual(plainText[i], pt[i], $"Failed on index {i}");
@@ -143,7 +143,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
 
             Assert.IsTrue(encryptOperation.Success, nameof(encryptOperation));
 
-            var ct = encryptOperation.CipherText.ToBytes();
+            var ct = encryptOperation.Result.ToBytes();
 
             if ((ct[0] != 0x5c) || (ct[1] != 0x9d) || (ct[2] != 0x84) || (ct[3] != 0x4e) ||
                 (ct[4] != 0xd4) || (ct[5] != 0x6f) || (ct[6] != 0x98) || (ct[7] != 0x85) ||
@@ -152,8 +152,8 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
                 Assert.Fail("Invalid cipher");
 
             // Do the decryption to ensure we arrive back at plain text
-            var decryptOperation = _subject.BlockDecrypt(keyBits, encryptOperation.CipherText);
-            var pt = decryptOperation.PlainText.ToBytes();
+            var decryptOperation = _subject.BlockDecrypt(keyBits, encryptOperation.Result);
+            var pt = decryptOperation.Result.ToBytes();
             for (int i = 0; i < pt.Length; i++)
             {
                 Assert.AreEqual(plainText[i], pt[i], $"Failed on index {i}");

@@ -122,13 +122,13 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
                                 testCase.PlainText
                             );
 
-                            if (testCase.CipherText.ToHex() == result.CipherText.ToHex())
+                            if (testCase.CipherText.ToHex() == result.Result.ToHex())
                                 passes++;
                             else
                                 fails++;
 
-                            Assert.AreEqual(testCase.CipherText.ToHex(), result.CipherText.ToHex(),
-                                $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.CipherText.ToHex()}");
+                            Assert.AreEqual(testCase.CipherText.ToHex(), result.Result.ToHex(),
+                                $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.Result.ToHex()}");
                             continue;
                         }
 
@@ -140,13 +140,13 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
                                 testCase.CipherText
                             );
 
-                            if (testCase.PlainText.ToHex() == result.PlainText.ToHex())
+                            if (testCase.PlainText.ToHex() == result.Result.ToHex())
                                 passes++;
                             else
                                 fails++;
 
-                            Assert.AreEqual(testCase.PlainText.ToHex(), result.PlainText.ToHex(),
-                                $"Failed on {testGroup.Function}-{testGroup.TestType}-{testGroup.KeyingOption} count {count} expected PT {testCase.PlainText.ToHex()}, got {result.PlainText.ToHex()}");
+                            Assert.AreEqual(testCase.PlainText.ToHex(), result.Result.ToHex(),
+                                $"Failed on {testGroup.Function}-{testGroup.TestType}-{testGroup.KeyingOption} count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
                             continue;
                         }
                     }

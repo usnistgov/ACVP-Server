@@ -6,6 +6,7 @@ using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_OFBI
 {

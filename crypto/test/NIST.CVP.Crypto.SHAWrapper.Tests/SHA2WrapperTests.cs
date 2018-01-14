@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Moq;
-using NIST.CVP.Crypto.SHA2;
+﻿using Moq;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using DigestSizes = NIST.CVP.Crypto.Common.Hash.ShaWrapper.DigestSizes;
+using HashFunction = NIST.CVP.Crypto.Common.Hash.ShaWrapper.HashFunction;
+using ModeValues = NIST.CVP.Crypto.Common.Hash.ShaWrapper.ModeValues;
 
 namespace NIST.CVP.Crypto.SHAWrapper.Tests
 {
@@ -14,7 +14,7 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
     {
         private Mock<ISHAFactory> _shaFactory;
         private Mock<ISHABase> _shaBase;
-        private HashFunction _hashFunction;
+        private Common.Hash.ShaWrapper.HashFunction _hashFunction;
         private Sha2Wrapper _subject;
 
         [SetUp]
@@ -22,10 +22,10 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
         {
             _shaFactory = new Mock<ISHAFactory>();
             _shaBase = new Mock<ISHABase>();
-            _hashFunction = new HashFunction(ModeValues.SHA2, DigestSizes.d224);
+            _hashFunction = new Common.Hash.ShaWrapper.HashFunction(ModeValues.SHA2, DigestSizes.d224);
 
             _shaFactory
-                .Setup(s => s.GetSHA(It.IsAny<SHA2.HashFunction>()))
+                .Setup(s => s.GetSHA(It.IsAny<Common.Hash.SHA2.HashFunction>()))
                 .Returns(_shaBase.Object);
             _shaBase
                 .Setup(s => s.HashMessage(It.IsAny<BitString>()))
@@ -39,7 +39,7 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
         {
             _subject.HashMessage(It.IsAny<BitString>());
             
-            _shaFactory.Verify(v => v.GetSHA(It.IsAny<SHA2.HashFunction>()), 
+            _shaFactory.Verify(v => v.GetSHA(It.IsAny<Common.Hash.SHA2.HashFunction>()), 
                 Times.Once(), 
                 nameof(_shaFactory.Object.GetSHA)
             );

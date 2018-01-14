@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Crypto.KeyWrap.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KeyWrap.AES

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Crypto.Math;

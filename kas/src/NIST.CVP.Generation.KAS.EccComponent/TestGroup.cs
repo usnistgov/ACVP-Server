@@ -3,7 +3,7 @@ using System.Dynamic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.DSA.ECC.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 

@@ -103,7 +103,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
                         }
 
                         testPasses++;
-                        Assert.AreEqual(testCase.CipherText.ToHex(), result.CipherText.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.CipherText.ToHex()}");
+                        Assert.AreEqual(testCase.CipherText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.Result.ToHex()}");
                         continue;
                     }
 
@@ -135,7 +135,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
                         testPasses++;
                         
                         //ThisLogger.Debug(testCase.CipherText.ToHex());
-                        Assert.AreEqual(testCase.PlainText.ToHex(), result.PlainText.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.PlainText.ToHex()}");
+                        Assert.AreEqual(testCase.PlainText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
                         continue;
                     }
 

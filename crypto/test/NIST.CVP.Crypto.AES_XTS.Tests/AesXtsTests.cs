@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -54,12 +55,12 @@ namespace NIST.CVP.Crypto.AES_XTS.Tests
             var encryptResult = subject.Encrypt(key, pt, i);
 
             Assert.IsTrue(encryptResult.Success, $"encryption failed, {encryptResult.ErrorMessage}");
-            Assert.AreEqual(ct.ToHex(), encryptResult.CipherText.ToHex(), "encrypt comparison");
+            Assert.AreEqual(ct.ToHex(), encryptResult.Result.ToHex(), "encrypt comparison");
 
             var decryptResult = subject.Decrypt(key, ct, i);
 
             Assert.IsTrue(decryptResult.Success, $"decryption failed, {decryptResult.ErrorMessage}");
-            Assert.AreEqual(pt.ToHex(), decryptResult.PlainText.ToHex(), "decrypt comparison");
+            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex(), "decrypt comparison");
         }
 
         [Test]
@@ -106,12 +107,12 @@ namespace NIST.CVP.Crypto.AES_XTS.Tests
             var encryptResult = subject.Encrypt(key, pt, i);
 
             Assert.IsTrue(encryptResult.Success, $"encryption failed, {encryptResult.ErrorMessage}");
-            Assert.AreEqual(ct.ToHex(), encryptResult.CipherText.ToHex(), "encrypt comparison");
+            Assert.AreEqual(ct.ToHex(), encryptResult.Result.ToHex(), "encrypt comparison");
 
             var decryptResult = subject.Decrypt(key, ct, i);
 
             Assert.IsTrue(decryptResult.Success, $"decryption failed, {decryptResult.ErrorMessage}");
-            Assert.AreEqual(pt.ToHex(), decryptResult.PlainText.ToHex(), "decrypt comparison");
+            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex(), "decrypt comparison");
         }
 
         [Test]
@@ -168,12 +169,12 @@ namespace NIST.CVP.Crypto.AES_XTS.Tests
             var encryptResult = subject.Encrypt(key, pt, i);
 
             Assert.IsTrue(encryptResult.Success, $"encryption failed, {encryptResult.ErrorMessage}");
-            Assert.AreEqual(ct.ToHex(), encryptResult.CipherText.ToHex(), "encrypt comparison");
+            Assert.AreEqual(ct.ToHex(), encryptResult.Result.ToHex(), "encrypt comparison");
 
             var decryptResult = subject.Decrypt(key, ct, i);
 
             Assert.IsTrue(decryptResult.Success, $"decryption failed, {decryptResult.ErrorMessage}");
-            Assert.AreEqual(pt.ToHex(), decryptResult.PlainText.ToHex(), "decrypt comparison");
+            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex(), "decrypt comparison");
         }
 
         [Test]
@@ -209,7 +210,7 @@ namespace NIST.CVP.Crypto.AES_XTS.Tests
             var result = subject.Encrypt(key, pt, i);
 
             Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(ct, result.CipherText);
+            Assert.AreEqual(ct, result.Result);
         }
     }
 }

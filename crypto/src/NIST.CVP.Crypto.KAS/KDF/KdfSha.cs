@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.KDF

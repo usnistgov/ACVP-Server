@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_OFB;
 using NIST.CVP.Generation.Core;
@@ -24,10 +26,7 @@ namespace NIST.CVP.Generation.TDES_OFB
             _algo = algo;
         }
 
-        public int NumberOfTestCasesToGenerate
-        {
-            get { return NUMBER_OF_CASES; }
-        }
+        public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {
@@ -48,7 +47,7 @@ namespace NIST.CVP.Generation.TDES_OFB
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            DecryptionResult decryptionResult = null;
+            SymmetricCipherResult decryptionResult = null;
             try
             {
                 decryptionResult = _algo.BlockDecrypt(testCase.Key, testCase.CipherText, testCase.Iv);
@@ -67,7 +66,7 @@ namespace NIST.CVP.Generation.TDES_OFB
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
-            testCase.PlainText = decryptionResult.PlainText;
+            testCase.PlainText = decryptionResult.Result;
             return new TestCaseGenerateResponse(testCase);
         }
 

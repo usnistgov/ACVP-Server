@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math.Entropy;
@@ -9,8 +6,7 @@ using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.DSA.ECC.SigGen.Parsers;
-using System.Linq;
-using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
 {

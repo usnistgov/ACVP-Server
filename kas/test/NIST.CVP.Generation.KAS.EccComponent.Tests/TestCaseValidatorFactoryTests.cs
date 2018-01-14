@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Moq;
+using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.KES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;

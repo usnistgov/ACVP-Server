@@ -1,8 +1,8 @@
 ﻿using System;
-using NIST.CVP.Crypto.KAS;
-using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.Fakes

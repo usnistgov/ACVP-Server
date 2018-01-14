@@ -1,12 +1,12 @@
 ﻿using System.Dynamic;
 using System.Numerics;
 using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.KAS.Enums;
 using NIST.CVP.Crypto.KAS.Scheme.Ffc;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Crypto.SHAWrapper.Helpers;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
+using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.FFC

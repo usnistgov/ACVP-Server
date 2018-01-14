@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Moq;
-using NIST.CVP.Crypto.KAS;
-using NIST.CVP.Crypto.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS;
+using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;

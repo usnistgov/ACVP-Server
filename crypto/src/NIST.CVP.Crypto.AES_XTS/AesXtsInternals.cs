@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_ECB;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.AES_XTS
@@ -41,7 +42,7 @@ namespace NIST.CVP.Crypto.AES_XTS
                 throw new Exception("Failed to encrypt in ECB in XTS");
             }
 
-            return encryptResult.CipherText;
+            return encryptResult.Result;
         }
 
         public BitString DecryptEcb(BitString key, BitString cipherText)
@@ -52,7 +53,7 @@ namespace NIST.CVP.Crypto.AES_XTS
                 throw new Exception("Failed to decrypt in ECB in XTS");
             }
 
-            return decryptResult.PlainText;
+            return decryptResult.Result;
         }
     }
 }

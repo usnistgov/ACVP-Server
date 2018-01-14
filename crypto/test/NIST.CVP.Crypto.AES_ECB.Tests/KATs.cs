@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -109,7 +110,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, expectedCipherText);
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, expectedCipherText);
         }
 
         [Test]
@@ -119,7 +120,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, nameof(algoArrayResponse.CipherText));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
 
         [Test]
@@ -129,7 +130,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, nameof(algoArrayResponse.CipherText));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
         #endregion GFSbox
 
@@ -141,7 +142,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, nameof(algoArrayResponse.CipherText));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
 
         [Test]
@@ -151,7 +152,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, nameof(algoArrayResponse.CipherText));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
 
         [Test]
@@ -161,7 +162,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, nameof(algoArrayResponse.CipherText));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
         #endregion KeySBox
 
@@ -173,7 +174,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, nameof(algoArrayResponse.CipherText));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
 
         [Test]
@@ -183,7 +184,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, nameof(algoArrayResponse.CipherText));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
 
         [Test]
@@ -193,7 +194,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, nameof(algoArrayResponse.CipherText));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
         #endregion VarTxt
 
@@ -205,7 +206,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, nameof(algoArrayResponse.CipherText));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
 
         [Test]
@@ -215,7 +216,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, nameof(algoArrayResponse.CipherText));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
 
         [Test]
@@ -225,7 +226,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.CipherText, nameof(algoArrayResponse.CipherText));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
         #endregion VarKey
     }

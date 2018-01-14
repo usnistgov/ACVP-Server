@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.HMAC;
+﻿using System.Text;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS;
+using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 

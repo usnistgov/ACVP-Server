@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using Castle.Components.DictionaryAdapter;
-using NIST.CVP.Crypto.DSA.ECC.Enums;
-using NIST.CVP.Crypto.KAS.Enums;
-using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -12,7 +11,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
     {
         public List<TestGroup> GetTestGroups(int groups = 1)
         {
-            List<TestGroup> list = new EditableList<TestGroup>();
+            List<TestGroup> list = new List<TestGroup>();
 
             for (int i = 0; i < groups; i++)
             {

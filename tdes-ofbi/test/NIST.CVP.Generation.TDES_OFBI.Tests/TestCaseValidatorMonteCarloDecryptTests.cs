@@ -2,6 +2,7 @@
 using NIST.CVP.Math;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_OFBI.Tests
 {

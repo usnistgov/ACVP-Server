@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Moq;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CTR;
 using NIST.CVP.Generation.Core;
@@ -32,7 +34,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var tdes = GetTDESMock();
             tdes
                 .Setup(s => s.EncryptBlock(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult("Fail"));
+                .Returns(new SymmetricCipherResult("Fail"));
 
             var subject = new TestCaseGeneratorPartialBlockEncrypt(GetRandomMock().Object, tdes.Object);
 
@@ -88,7 +90,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var tdes = GetTDESMock();
             tdes
                 .Setup(s => s.EncryptBlock(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult(fakeCipher));
+                .Returns(new SymmetricCipherResult(fakeCipher));
 
             var subject = new TestCaseGeneratorPartialBlockEncrypt(random.Object, tdes.Object);
 
@@ -121,7 +123,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             foreach (TestCase testCase in testGroup.Tests)
             {
                 var decryptResult = tdes_ctr.DecryptBlock(testCase.Key, testCase.CipherText, testCase.Iv);
-                Assert.AreEqual(testCase.PlainText, decryptResult.PlainText);
+                Assert.AreEqual(testCase.PlainText, decryptResult.Result);
             }
         }
 

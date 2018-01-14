@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Moq;
+﻿using Moq;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.SHA3;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using HashFunction = NIST.CVP.Crypto.Common.Hash.ShaWrapper.HashFunction;
 
 namespace NIST.CVP.Crypto.SHAWrapper.Tests
 {
@@ -25,7 +25,7 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
             _hashFunction = new HashFunction(ModeValues.SHA3, DigestSizes.d224);
 
             _shaFactory
-                .Setup(s => s.GetSHA(It.IsAny<SHA3.HashFunction>()))
+                .Setup(s => s.GetSHA(It.IsAny<Common.Hash.SHA3.HashFunction>()))
                 .Returns(_shaWrapper.Object);
             _shaWrapper
                 .Setup(s => s.HashMessage(It.IsAny<BitString>(), It.IsAny<int>(), It.IsAny<int>(), false))
@@ -39,7 +39,7 @@ namespace NIST.CVP.Crypto.SHAWrapper.Tests
         {
             _subject.HashMessage(It.IsAny<BitString>());
 
-            _shaFactory.Verify(v => v.GetSHA(It.IsAny<SHA3.HashFunction>()), 
+            _shaFactory.Verify(v => v.GetSHA(It.IsAny<Common.Hash.SHA3.HashFunction>()), 
                 Times.Once(), 
                 nameof(_shaFactory.Object.GetSHA)
             );

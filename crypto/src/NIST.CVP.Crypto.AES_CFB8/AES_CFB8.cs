@@ -1,5 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NLog;
 
@@ -14,7 +16,7 @@ namespace NIST.CVP.Crypto.AES_CFB8
             _iRijndaelFactory = iRijndaelFactory;
         }
 
-        public DecryptionResult BlockDecrypt(BitString iv, BitString keyBits, BitString cipherText)
+        public SymmetricCipherResult BlockDecrypt(BitString iv, BitString keyBits, BitString cipherText)
         {
             try
             {
@@ -24,17 +26,17 @@ namespace NIST.CVP.Crypto.AES_CFB8
                 var key = rijn.MakeKey(keyBytes, DirectionValues.Decrypt);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode, IV = iv, SegmentLength = 8};
                 var decryptBits = rijn.BlockEncrypt(cipher, key, cipherText.ToBytes(), cipherText.BitLength);
-                return new DecryptionResult(decryptBits);
+                return new SymmetricCipherResult(decryptBits);
             }
             catch (Exception ex)
             {
                 ThisLogger.Debug($"keyLen:{keyBits.BitLength}; cipherTextLen:{cipherText.BitLength}");
                 ThisLogger.Error(ex);
-                return new DecryptionResult(ex.Message);
+                return new SymmetricCipherResult(ex.Message);
             }
         }
 
-        public EncryptionResult BlockEncrypt(BitString iv, BitString keyBits, BitString data)
+        public SymmetricCipherResult BlockEncrypt(BitString iv, BitString keyBits, BitString data)
         {
             try
             {
@@ -44,19 +46,16 @@ namespace NIST.CVP.Crypto.AES_CFB8
                 var key = rijn.MakeKey(keyBytes, DirectionValues.Encrypt);
                 var cipher = new Cipher { BlockLength = 128, Mode = mode, IV = iv, SegmentLength = 8};
                 var encryptedBits = rijn.BlockEncrypt(cipher, key, data.ToBytes(), data.BitLength);
-                return new EncryptionResult(encryptedBits);
+                return new SymmetricCipherResult(encryptedBits);
             }
             catch (Exception ex)
             {
                 ThisLogger.Debug($"keyLen:{keyBits.BitLength}; dataLen:{data.BitLength}");
                 ThisLogger.Error(ex);
-                return new EncryptionResult(ex.Message);
+                return new SymmetricCipherResult(ex.Message);
             }
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

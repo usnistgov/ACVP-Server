@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.MAC;
+﻿using NIST.CVP.Crypto.Common.MAC;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KDF

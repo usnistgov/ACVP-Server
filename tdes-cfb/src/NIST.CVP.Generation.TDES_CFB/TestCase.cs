@@ -5,6 +5,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System.Collections.Generic;
 using System.Dynamic;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.TDES_CFB

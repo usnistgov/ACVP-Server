@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Moq;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC.Enums;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

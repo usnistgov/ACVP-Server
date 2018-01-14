@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.AES

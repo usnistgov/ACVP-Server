@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.HMAC;
+﻿using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.IKEv1

@@ -1,4 +1,6 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_ECB;
@@ -45,7 +47,7 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            EncryptionResult encryptionResult = null;
+            SymmetricCipherResult encryptionResult = null;
             try
             {
                 encryptionResult = _algo.BlockEncrypt(testCase.Key, testCase.PlainText);
@@ -64,7 +66,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
-            testCase.CipherText = encryptionResult.CipherText;
+            testCase.CipherText = encryptionResult.Result;
             return new TestCaseGenerateResponse(testCase);
         }
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using Moq;
 using NIST.CVP.Crypto.AES_CCM;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -29,7 +31,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new EncryptionResult("Fail"));
+                .Returns(new SymmetricCipherResult("Fail"));
 
             TestCaseGeneratorEncrypt subject =
                 new TestCaseGeneratorEncrypt(GetRandomMock().Object, aes.Object);
@@ -84,7 +86,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new EncryptionResult(fakeCipher));
+                .Returns(new SymmetricCipherResult(fakeCipher));
 
             TestCaseGeneratorEncrypt subject =
                 new TestCaseGeneratorEncrypt(random.Object, aes.Object);
@@ -151,7 +153,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                         It.IsAny<int>()
                     )
                )
-               .Returns(new EncryptionResult(new BitString(1)));
+               .Returns(new SymmetricCipherResult(new BitString(1)));
 
             TestCaseGeneratorEncrypt subject = new TestCaseGeneratorEncrypt(new Random800_90(), aesMock.Object);
             var test1 = subject.Generate(tg, true);
@@ -194,7 +196,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                         It.IsAny<int>()
                     )
                )
-               .Returns(new EncryptionResult(new BitString(1)));
+               .Returns(new SymmetricCipherResult(new BitString(1)));
 
             TestCaseGeneratorEncrypt subject = new TestCaseGeneratorEncrypt(new Random800_90(), aesMock.Object);
             var test1 = subject.Generate(tg, true);

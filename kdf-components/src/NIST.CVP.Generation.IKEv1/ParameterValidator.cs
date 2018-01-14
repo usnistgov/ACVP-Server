@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.IKEv1.Enums;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 

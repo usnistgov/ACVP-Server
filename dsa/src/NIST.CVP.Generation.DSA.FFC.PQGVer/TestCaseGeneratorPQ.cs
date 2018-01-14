@@ -1,5 +1,6 @@
 ﻿using System;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.Math;

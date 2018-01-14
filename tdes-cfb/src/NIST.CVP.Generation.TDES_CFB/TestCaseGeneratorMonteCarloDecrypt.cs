@@ -4,6 +4,7 @@ using NIST.CVP.Math;
 using NLog;
 using System;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES_CFB;
 
 namespace NIST.CVP.Generation.TDES_CFB

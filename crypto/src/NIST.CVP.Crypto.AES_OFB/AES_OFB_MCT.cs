@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NLog;
 
@@ -68,7 +70,7 @@ namespace NIST.CVP.Crypto.AES_OFB
                     for (j = 0; j < 1000; j++)
                     {
                         var jResult = _iAES_OFB.BlockEncrypt(iv, key, plainText);
-                        jCipherText = jResult.CipherText;
+                        jCipherText = jResult.Result;
 
                         if (j == 0)
                         {
@@ -142,7 +144,7 @@ namespace NIST.CVP.Crypto.AES_OFB
                     for (j = 0; j < 1000; j++)
                     {
                         var jResult = _iAES_OFB.BlockDecrypt(iv, key, cipherText);
-                        jPlainText = jResult.PlainText;
+                        jPlainText = jResult.Result;
 
                         if (j == 0)
                         {

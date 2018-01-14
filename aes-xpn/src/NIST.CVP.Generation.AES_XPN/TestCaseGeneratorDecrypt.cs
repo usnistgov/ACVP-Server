@@ -1,5 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -11,7 +13,7 @@ namespace NIST.CVP.Generation.AES_XPN
         private readonly IAES_GCM _aesGcm;
         private readonly IRandom800_90 _random800_90;
 
-        public int NumberOfTestCasesToGenerate { get { return 15; } }
+        public int NumberOfTestCasesToGenerate => 15;
 
         public TestCaseGeneratorDecrypt(IRandom800_90 random800_90, IAES_GCM aesGcm)
         {
@@ -41,7 +43,7 @@ namespace NIST.CVP.Generation.AES_XPN
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            EncryptionResult encryptionResult = null;
+            SymmetricCipherAeadResult encryptionResult = null;
             try
             {
                 var ivXorSalt = testCase.Salt.XOR(testCase.IV);
@@ -81,9 +83,6 @@ namespace NIST.CVP.Generation.AES_XPN
             }
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

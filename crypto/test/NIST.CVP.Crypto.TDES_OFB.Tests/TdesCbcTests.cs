@@ -23,7 +23,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockEncrypt(key, plainText, iv);
 
             Assert.IsTrue((bool)result.Success);
-            Assert.AreEqual(expectedCipherText.ToHex(), result.CipherText.ToHex());
+            Assert.AreEqual(expectedCipherText.ToHex(), result.Result.ToHex());
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             var result = subject.BlockDecrypt(key, cipherText, iv);
 
             Assert.IsTrue((bool)result.Success);
-            Assert.AreEqual(expectedPlainText.ToHex(), result.PlainText.ToHex());
+            Assert.AreEqual(expectedPlainText.ToHex(), result.Result.ToHex());
         }
 
         [Test]

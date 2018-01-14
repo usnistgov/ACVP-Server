@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Crypto.KES;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.KES;
 
 namespace NIST.CVP.Generation.KAS.EccComponent
 {

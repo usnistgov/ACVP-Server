@@ -1,9 +1,11 @@
 ﻿using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class DeferredEncryptResolver : IDeferredTestCaseResolver<TestGroup, TestCase, EncryptionResult>
+    public class DeferredEncryptResolver : IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCipherAeadResult>
     {
         private readonly IAES_GCM _algo;
 
@@ -12,7 +14,7 @@ namespace NIST.CVP.Generation.AES_GCM
             _algo = algo;
         }
 
-        public EncryptionResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public SymmetricCipherAeadResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
             return _algo.BlockEncrypt(
                 serverTestCase.Key, 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -42,7 +43,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
                     var result = _subject.EncryptBlock(test.Key, test.PlainText, test.Iv);
 
                     Assert.IsTrue(result.Success, nameof(result.Success));
-                    Assert.AreEqual(test.CipherText, result.CipherText, test.CipherText.ToHex());
+                    Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
                 }
             }
         }
@@ -71,7 +72,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
                     var result = _subject.DecryptBlock(test.Key, test.CipherText, test.Iv);
 
                     Assert.IsTrue(result.Success, nameof(result.Success));
-                    Assert.AreEqual(test.PlainText, result.PlainText, test.PlainText.ToHex());
+                    Assert.AreEqual(test.PlainText, result.Result, test.PlainText.ToHex());
                 }
             }
         }

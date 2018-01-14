@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 
 namespace NIST.CVP.Crypto.AES_CCM
 {

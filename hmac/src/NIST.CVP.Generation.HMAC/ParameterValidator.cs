@@ -4,6 +4,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Crypto.SHAWrapper;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 
 namespace NIST.CVP.Generation.HMAC
 {

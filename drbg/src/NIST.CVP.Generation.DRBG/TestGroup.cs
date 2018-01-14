@@ -2,8 +2,9 @@
 using System.Linq;
 using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.DRBG;
+using NIST.CVP.Crypto.Common.DRBG.Enums;
 using NIST.CVP.Crypto.DRBG;
-using NIST.CVP.Crypto.DRBG.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DRBG

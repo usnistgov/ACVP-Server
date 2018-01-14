@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NLog;
 
 namespace NIST.CVP.Crypto.AES
 {
-    public class RijndaelKeySchedule
+    public class RijndaelKeySchedule : IRijndaelKeySchedule
     {
-        public int Rounds { get; private set; }
-        public int KeyCount { get; private set; }
-        public int BlockCount { get; private set; }
+        public int Rounds { get; }
+        public int KeyCount { get; }
+        public int BlockCount { get; }
         public string ErrorMessage { get; private set; }
         public byte[,,] Schedule { get; private set; }
 
-        public bool IsValid
-        {
-            get { return string.IsNullOrEmpty(ErrorMessage); }
-        }
+        public bool IsValid => string.IsNullOrEmpty(ErrorMessage);
 
         public Dictionary<int, int> BitCountMap = new Dictionary<int, int> {{128, 4}, {192, 6}, {256, 8}};
 
@@ -125,8 +123,6 @@ namespace NIST.CVP.Crypto.AES
                 ThisLogger.Error(ex);
                 ErrorMessage = ex.Message;
             }
-         
-
         }
 
         public int GetCount(int size)
@@ -138,9 +134,6 @@ namespace NIST.CVP.Crypto.AES
             return -1;
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

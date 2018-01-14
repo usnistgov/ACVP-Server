@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.KAS;
-using NIST.CVP.Crypto.KAS.Builders;
-using NIST.CVP.Crypto.KAS.Enums;
-using NIST.CVP.Crypto.KAS.KC;
-using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.NoKC;
-using NIST.CVP.Crypto.KAS.Scheme;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KAS;
+using NIST.CVP.Crypto.Common.KAS.Builders;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KC;
+using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.NoKC;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Crypto.KAS.Scheme.Ffc;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Enums;
-using NIST.CVP.Generation.KAS.FFC.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Crypto.SHAWrapper.Helpers;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 

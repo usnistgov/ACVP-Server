@@ -1,17 +1,15 @@
-﻿using NIST.CVP.Crypto.SHA2;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.Math.Entropy;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 
 namespace NIST.CVP.Crypto.RSA.Signatures
 {
-    public class SignerFactory
+    public class SignerFactory : ISignerFactory
     {
         private HashFunction _hashFunction = new HashFunction { Mode = ModeValues.NONE, DigestSize = DigestSizes.NONE };
         private int _saltLen = 0;
 
-        public SignerBase GetSigner(string type)
+        public ISignerBase GetSigner(string type)
         {
             switch (type)
             {

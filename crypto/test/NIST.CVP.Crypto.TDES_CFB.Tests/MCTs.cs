@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES;
 
 namespace NIST.CVP.Crypto.TDES_CFB.Tests

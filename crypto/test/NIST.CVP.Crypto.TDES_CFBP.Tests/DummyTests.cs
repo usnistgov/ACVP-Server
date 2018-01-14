@@ -26,7 +26,8 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             var iv = new BitString(_iv);
             var data = new BitString(_data);
 
-            var result = (EncryptionResultWithIv)mode.BlockEncrypt(key, iv, data);
+            var result = mode.BlockEncrypt(key, iv, data);
+            Assert.IsTrue(result.Success);
         }
     }
 }

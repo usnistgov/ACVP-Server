@@ -28,7 +28,7 @@ namespace NIST.CVP.Crypto.TDES_CTR.Tests
             var result = subject.EncryptBlock(key, pt, iv);
 
             Assert.IsTrue(result.Success);
-            Assert.AreEqual(ct, result.CipherText);
+            Assert.AreEqual(ct, result.Result);
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace NIST.CVP.Crypto.TDES_CTR.Tests
             var result = subject.EncryptBlock(key, pt, iv);
 
             Assert.IsTrue(result.Success);
-            Assert.AreEqual(ct, result.CipherText);
+            Assert.AreEqual(ct, result.Result);
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace NIST.CVP.Crypto.TDES_CTR.Tests
             var result = subject.DecryptBlock(key, ct, iv);
 
             Assert.IsTrue(result.Success);
-            Assert.AreEqual(pt, result.PlainText);
+            Assert.AreEqual(pt, result.Result);
         }
     }
 }

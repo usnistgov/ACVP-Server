@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NLog;
 
@@ -73,7 +75,7 @@ namespace NIST.CVP.Crypto.AES_CFB8
                     for (j = 0; j < _INNER_ITERATIONS_PER_OUTPUT; j++)
                     {
                         var jResult = _algo.BlockEncrypt(iv, key, plainText);
-                        var jCipherText = jResult.CipherText.GetDeepCopy();
+                        var jCipherText = jResult.Result.GetDeepCopy();
                         previousCipherTexts.Add(jCipherText);
                         iIterationResponse.CipherText = jCipherText;
 
@@ -125,7 +127,7 @@ namespace NIST.CVP.Crypto.AES_CFB8
                     for (j = 0; j < _INNER_ITERATIONS_PER_OUTPUT; j++)
                     {
                         var jResult = _algo.BlockDecrypt(iv, key, cipherText);
-                        var jPlainText = jResult.PlainText.GetDeepCopy();
+                        var jPlainText = jResult.Result.GetDeepCopy();
                         previousPlainTexts.Add(jPlainText);
                         iIterationResponse.PlainText = jPlainText;
 

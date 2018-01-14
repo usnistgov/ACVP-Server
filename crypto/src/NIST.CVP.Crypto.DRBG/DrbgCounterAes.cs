@@ -1,4 +1,6 @@
 ﻿using NIST.CVP.Crypto.AES_ECB;
+using NIST.CVP.Crypto.Common.DRBG;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
@@ -16,7 +18,7 @@ namespace NIST.CVP.Crypto.DRBG
 
         protected override BitString BlockEncrypt(BitString k, BitString x)
         {
-            return AesEcb.BlockEncrypt(k, x).CipherText;
+            return AesEcb.BlockEncrypt(k, x).Result;
         }
     }
 }

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Numerics;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Crypto.SHA3;
+using NIST.CVP.Crypto.Common.Hash;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.SHA3;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.SHAWrapper
@@ -10,10 +12,10 @@ namespace NIST.CVP.Crypto.SHAWrapper
     public class Sha3Wrapper : ISha
     {
         private readonly ISHA3Factory _iSha3Factory;
-        private readonly SHA3.HashFunction _mappedHashFunction;
+        private readonly Common.Hash.SHA3.HashFunction _mappedHashFunction;
         private
-            List<(string algo, SHAWrapper.ModeValues wrapperMode, SHAWrapper.DigestSizes wrapperSizes, int mappedDigestSize)> Sha3Mappings =
-                new List<(string algo, SHAWrapper.ModeValues wrapperMode, SHAWrapper.DigestSizes wrapperSizes, int mappedDigestSize)>()
+            List<(string algo, ModeValues wrapperMode, DigestSizes wrapperSizes, int mappedDigestSize)> Sha3Mappings =
+                new List<(string algo, ModeValues wrapperMode, DigestSizes wrapperSizes, int mappedDigestSize)>()
                 {
                     ("SHA3-224", ModeValues.SHA3, DigestSizes.d224, 224),
                     ("SHA3-256", ModeValues.SHA3, DigestSizes.d256, 256),
@@ -21,9 +23,9 @@ namespace NIST.CVP.Crypto.SHAWrapper
                     ("SHA3-512", ModeValues.SHA3, DigestSizes.d512, 512),
                 };
         
-        public HashFunction HashFunction { get; }
+        public Common.Hash.ShaWrapper.HashFunction HashFunction { get; }
 
-        public Sha3Wrapper(ISHA3Factory iSha3Factory, HashFunction hashFunction)
+        public Sha3Wrapper(ISHA3Factory iSha3Factory, Common.Hash.ShaWrapper.HashFunction hashFunction)
         {
             _iSha3Factory = iSha3Factory;
             _mappedHashFunction = ToSha3HashFunction(hashFunction);
@@ -68,7 +70,7 @@ namespace NIST.CVP.Crypto.SHAWrapper
             return HashMessage(bs);
         }
 
-        private SHA3.HashFunction ToSha3HashFunction(HashFunction wrapperHashFunction)
+        private Common.Hash.SHA3.HashFunction ToSha3HashFunction(Common.Hash.ShaWrapper.HashFunction wrapperHashFunction)
         {
             if (!Sha3Mappings
                 .TryFirst(
@@ -78,7 +80,7 @@ namespace NIST.CVP.Crypto.SHAWrapper
                 throw new ArgumentException($"Invalid {nameof(wrapperHashFunction)}.");
             }
 
-            SHA3.HashFunction hashFunction = new SHA3.HashFunction()
+            Common.Hash.SHA3.HashFunction hashFunction = new Common.Hash.SHA3.HashFunction()
             {
                 DigestSize = result.mappedDigestSize,
                 Capacity = result.mappedDigestSize * 2,

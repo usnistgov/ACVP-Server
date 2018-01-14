@@ -1,5 +1,7 @@
 ﻿using System;
-using NIST.CVP.Crypto.MAC;
+using NIST.CVP.Crypto.Common.MAC;
+using NIST.CVP.Crypto.Common.MAC.CMAC;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Math;
 using NLog;
 using NIST.CVP.Crypto.TDES_ECB;
@@ -37,7 +39,7 @@ namespace NIST.CVP.Crypto.CMAC
 
             //Steps:
             //    1.Let L = CIPHK(0^b).
-            var L = _tdes.BlockEncrypt(key, new BitString(BlockSize)).CipherText; 
+            var L = _tdes.BlockEncrypt(key, new BitString(BlockSize)).Result; 
             BitString K1, K2;
             //    2.If MSB1(L) = 0, then K1 = L << 1;
             if (!L.GetMostSignificantBits(1).Bits[0])
@@ -118,7 +120,7 @@ namespace NIST.CVP.Crypto.CMAC
             for (var i = 0; i < numOfBlocks; i++)
             {
                 var block = message.MSBSubstring(i * BlockSize, BlockSize);
-                currC = _tdes.BlockEncrypt(key, (prevC.XOR(block))).CipherText;
+                currC = _tdes.BlockEncrypt(key, (prevC.XOR(block))).Result;
                 prevC = currC;
             }
 

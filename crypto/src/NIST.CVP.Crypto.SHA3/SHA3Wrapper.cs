@@ -1,8 +1,9 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.Common.Hash.SHA3;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.SHA3
 {
-    public class SHA3Wrapper
+    public class SHA3Wrapper : ISHA3Wrapper
     {
         private BitString _message;
 

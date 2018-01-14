@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NLog;
 
@@ -19,7 +21,7 @@ namespace NIST.CVP.Crypto.AES_CCM
             _iRijndaelFactory = iRijndaelFactory;
         }
 
-        public EncryptionResult Encrypt(BitString keyBits, BitString nonce, BitString payload, BitString associatedData, int tagLength)
+        public SymmetricCipherResult Encrypt(BitString keyBits, BitString nonce, BitString payload, BitString associatedData, int tagLength)
         {
             try
             {
@@ -79,16 +81,16 @@ namespace NIST.CVP.Crypto.AES_CCM
                     new BitString(0);
                
                 // final return is made up of the CT contatenated with  T
-                return new EncryptionResult(ct.ConcatenateBits(T));
+                return new SymmetricCipherResult(ct.ConcatenateBits(T));
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new EncryptionResult(ex.Message);
+                return new SymmetricCipherResult(ex.Message);
             }
         }
 
-        public DecryptionResult Decrypt(BitString key, BitString nonce, BitString cipherText, BitString associatedData, int tagLength)
+        public SymmetricCipherResult Decrypt(BitString key, BitString nonce, BitString cipherText, BitString associatedData, int tagLength)
         {
             try
             {
@@ -150,22 +152,19 @@ namespace NIST.CVP.Crypto.AES_CCM
 
                 if (!mac.GetMostSignificantBits(tagLength).Equals(T.GetMostSignificantBits(tagLength)))
                 {
-                    return new DecryptionResult(INVALID_TAG_MESSAGE);
+                    return new SymmetricCipherResult(INVALID_TAG_MESSAGE);
                 }
 
-                return new DecryptionResult(payload);
+                return new SymmetricCipherResult(payload);
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new DecryptionResult(ex.Message);
+                return new SymmetricCipherResult(ex.Message);
             }
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
  

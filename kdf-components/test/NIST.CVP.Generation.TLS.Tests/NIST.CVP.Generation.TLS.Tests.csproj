@@ -18,7 +18,6 @@
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.HMAC\NIST.CVP.Crypto.HMAC.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.MAC\NIST.CVP.Crypto.MAC.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.MD5\NIST.CVP.Crypto.MD5.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.SHAWrapper\NIST.CVP.Crypto.SHAWrapper.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.TLS\NIST.CVP.Crypto.TLS.csproj" />

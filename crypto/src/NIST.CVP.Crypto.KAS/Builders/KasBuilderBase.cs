@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.DSA;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.KAS.Enums;
-using NIST.CVP.Crypto.KAS.Scheme;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA;
+using NIST.CVP.Crypto.Common.KAS.Builders;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders

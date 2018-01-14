@@ -1,4 +1,7 @@
 ﻿using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -7,7 +10,7 @@ using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
-    public abstract class PrimeGeneratorBase : IPrimeGenerator
+    public abstract partial class PrimeGeneratorBase : IPrimeGeneratorBase
     {
         protected readonly BigInteger _root2Mult2Pow512Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768").ToPositiveBigInteger();
         protected readonly BigInteger _root2Mult2Pow1024Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768D2202E8742AF1F4E53059C6011BC337BCAB1BC911688458A460ABC722F7C4E33C6D5A8A38BB7E9DCCB2A634331F3C84DF52F120F836E582EEAA4A0899040CA4A").ToPositiveBigInteger();
@@ -22,55 +25,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         protected HashFunction _hashFunction;
         private PrimeTestModes _primeTestMode;
         protected int[] _bitlens = new int[4];
-
-        #region Structs
-        public struct PPCResult
-        {
-            public bool Success;
-            public BigInteger P, P1, P2, PSeed;
-            public string ErrorMessage;
-
-            public PPCResult(string fail)
-            {
-                ErrorMessage = fail;
-                Success = false;
-                P = P1 = P2 = PSeed = 0;
-            }
-
-            public PPCResult(BigInteger p, BigInteger p1, BigInteger p2, BigInteger pSeed)
-            {
-                Success = true;
-                P = p;
-                P1 = p1;
-                P2 = p2;
-                PSeed = pSeed;
-                ErrorMessage = "";
-            }
-        }
-
-        public struct PPFResult
-        {
-            public bool Success;
-            public BigInteger P, XP;
-            public string ErrorMessage;
-
-            public PPFResult(string fail)
-            {
-                ErrorMessage = fail;
-                Success = false;
-                P = XP = 0;
-            }
-
-            public PPFResult(BigInteger p, BigInteger xp)
-            {
-                Success = true;
-                P = p;
-                XP = xp;
-                ErrorMessage = "";
-            }
-        }
-        #endregion Structs
-
+        
         #region Constructors
         protected PrimeGeneratorBase()
         {

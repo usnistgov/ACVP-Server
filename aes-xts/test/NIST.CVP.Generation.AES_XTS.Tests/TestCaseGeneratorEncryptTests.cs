@@ -4,6 +4,8 @@ using System.Text;
 using Moq;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_XTS;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -28,7 +30,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.Encrypt(It.IsAny<XtsKey>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult(new BitString("ABCD")));
+                .Returns(new SymmetricCipherResult(new BitString("ABCD")));
 
             aes
                 .Setup(s => s.GetIFromInteger(It.IsAny<int>()))
@@ -56,7 +58,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.Encrypt(It.IsAny<XtsKey>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult("Fail"));
+                .Returns(new SymmetricCipherResult("Fail"));
 
             var subject = new TestCaseGeneratorEncrypt(random.Object, aes.Object);
 
@@ -96,7 +98,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.Encrypt(It.IsAny<XtsKey>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult(new BitString("ABCD")));
+                .Returns(new SymmetricCipherResult(new BitString("ABCD")));
 
             var random = GetRandomMock();
             random
@@ -131,7 +133,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.Encrypt(It.IsAny<XtsKey>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new EncryptionResult(new BitString("ABCD")));
+                .Returns(new SymmetricCipherResult(new BitString("ABCD")));
 
             aes
                 .Setup(s => s.GetIFromInteger(It.IsAny<int>()))

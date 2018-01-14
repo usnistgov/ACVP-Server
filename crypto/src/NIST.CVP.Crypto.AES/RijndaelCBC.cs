@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NLog;
 
 namespace NIST.CVP.Crypto.AES
@@ -128,9 +129,6 @@ namespace NIST.CVP.Crypto.AES
             }
         }
 
-        private static Logger ThisLogger
-        {
-            get { return LogManager.GetLogger("Generate"); }
-        }
+        private static Logger ThisLogger => LogManager.GetLogger("Generate");
     }
 }

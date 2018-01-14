@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.AES_XPN
@@ -9,9 +10,9 @@ namespace NIST.CVP.Generation.AES_XPN
     {
         private readonly TestGroup _testGroup;
         private readonly TestCase _serverTestCase;
-        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, EncryptionResult> _testCaseResolver;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCipherAeadResult> _testCaseResolver;
 
-        public TestCaseValidatorInternalEncrypt(TestGroup testGroup, TestCase serverTestCase, IDeferredTestCaseResolver<TestGroup, TestCase, EncryptionResult> testCaseResolver)
+        public TestCaseValidatorInternalEncrypt(TestGroup testGroup, TestCase serverTestCase, IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCipherAeadResult> testCaseResolver)
         {
             _serverTestCase = serverTestCase;
             _testGroup = testGroup;

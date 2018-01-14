@@ -130,9 +130,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     testCase.PlainText3
                                 );
 
-                                if (testCase.CipherText1.ToString() == result.CipherTexts[0].ToString() &&
-                                    testCase.CipherText2.ToString() == result.CipherTexts[1].ToString() &&
-                                    testCase.CipherText3.ToString() == result.CipherTexts[2].ToString())
+                                if (testCase.CipherText1.ToString() == result.Results[0].ToString() &&
+                                    testCase.CipherText2.ToString() == result.Results[1].ToString() &&
+                                    testCase.CipherText3.ToString() == result.Results[2].ToString())
                                 {
                                     passes++;
                                 }
@@ -141,9 +141,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.CipherText1.ToString(), result.CipherTexts[0].ToString(), $"Failed on count {count} expected CT {testCase.CipherText1}, got { result.CipherTexts[0]}");
-                                Assert.AreEqual(testCase.CipherText2.ToString(), result.CipherTexts[1].ToString(), $"Failed on count {count} expected CT {testCase.CipherText2}, got { result.CipherTexts[1]}");
-                                Assert.AreEqual(testCase.CipherText3.ToString(), result.CipherTexts[2].ToString(), $"Failed on count {count} expected CT {testCase.CipherText3}, got { result.CipherTexts[2]}");
+                                Assert.AreEqual(testCase.CipherText1.ToString(), result.Results[0].ToString(), $"Failed on count {count} expected CT {testCase.CipherText1}, got { result.Results[0]}");
+                                Assert.AreEqual(testCase.CipherText2.ToString(), result.Results[1].ToString(), $"Failed on count {count} expected CT {testCase.CipherText2}, got { result.Results[1]}");
+                                Assert.AreEqual(testCase.CipherText3.ToString(), result.Results[2].ToString(), $"Failed on count {count} expected CT {testCase.CipherText3}, got { result.Results[2]}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "multiblockmessage")
@@ -154,7 +154,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     testCase.PlainText
                                 );
 
-                                if (testCase.CipherText.ToString() == result.CipherText.ToString())
+                                if (testCase.CipherText.ToString() == result.Result.ToString())
                                 {
                                     passes++;
                                 }
@@ -163,7 +163,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.CipherText.ToString(), result.CipherText.ToString(), $"Failed on count {count} expected CT {testCase.CipherText}, got { result.CipherText}");
+                                Assert.AreEqual(testCase.CipherText.ToString(), result.Result.ToString(), $"Failed on count {count} expected CT {testCase.CipherText}, got { result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "permutation" ||
@@ -178,9 +178,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     true
                                 );
 
-                                if (testCase.CipherText1.ToString() == result.CipherTexts[0].ToString() &&
-                                    testCase.CipherText2.ToString() == result.CipherTexts[1].ToString() &&
-                                    testCase.CipherText3.ToString() == result.CipherTexts[2].ToString())
+                                if (testCase.CipherText1.ToString() == result.Results[0].ToString() &&
+                                    testCase.CipherText2.ToString() == result.Results[1].ToString() &&
+                                    testCase.CipherText3.ToString() == result.Results[2].ToString())
                                 {
                                     passes++;
                                 }
@@ -189,9 +189,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.CipherText1.ToString(), result.CipherTexts[0].ToString(), $"Failed on count {count} expected CT {testCase.CipherText1}, got { result.CipherTexts[0]}");
-                                Assert.AreEqual(testCase.CipherText2.ToString(), result.CipherTexts[1].ToString(), $"Failed on count {count} expected CT {testCase.CipherText2}, got { result.CipherTexts[1]}");
-                                Assert.AreEqual(testCase.CipherText3.ToString(), result.CipherTexts[2].ToString(), $"Failed on count {count} expected CT {testCase.CipherText3}, got { result.CipherTexts[2]}");
+                                Assert.AreEqual(testCase.CipherText1.ToString(), result.Results[0].ToString(), $"Failed on count {count} expected CT {testCase.CipherText1}, got { result.Results[0]}");
+                                Assert.AreEqual(testCase.CipherText2.ToString(), result.Results[1].ToString(), $"Failed on count {count} expected CT {testCase.CipherText2}, got { result.Results[1]}");
+                                Assert.AreEqual(testCase.CipherText3.ToString(), result.Results[2].ToString(), $"Failed on count {count} expected CT {testCase.CipherText3}, got { result.Results[2]}");
                                 continue;
                             }
                             else
@@ -217,9 +217,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     testCase.CipherText3
                                 );
 
-                                if (testCase.PlainText1.ToString() == result.PlainTexts[0].ToString() &&
-                                    testCase.PlainText2.ToString() == result.PlainTexts[1].ToString() &&
-                                    testCase.PlainText3.ToString() == result.PlainTexts[2].ToString())
+                                if (testCase.PlainText1.ToString() == result.Results[0].ToString() &&
+                                    testCase.PlainText2.ToString() == result.Results[1].ToString() &&
+                                    testCase.PlainText3.ToString() == result.Results[2].ToString())
                                 {
                                     passes++;
                                 }
@@ -228,9 +228,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.PlainText1.ToString(), result.PlainTexts[0].ToString(), $"Failed on count {count} expected CT {testCase.PlainText1}, got {result.PlainTexts[0]}");
-                                Assert.AreEqual(testCase.PlainText2.ToString(), result.PlainTexts[1].ToString(), $"Failed on count {count} expected CT {testCase.PlainText2}, got {result.PlainTexts[1]}");
-                                Assert.AreEqual(testCase.PlainText3.ToString(), result.PlainTexts[2].ToString(), $"Failed on count {count} expected CT {testCase.PlainText3}, got {result.PlainTexts[2]}");
+                                Assert.AreEqual(testCase.PlainText1.ToString(), result.Results[0].ToString(), $"Failed on count {count} expected CT {testCase.PlainText1}, got {result.Results[0]}");
+                                Assert.AreEqual(testCase.PlainText2.ToString(), result.Results[1].ToString(), $"Failed on count {count} expected CT {testCase.PlainText2}, got {result.Results[1]}");
+                                Assert.AreEqual(testCase.PlainText3.ToString(), result.Results[2].ToString(), $"Failed on count {count} expected CT {testCase.PlainText3}, got {result.Results[2]}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "multiblockmessage")
@@ -241,7 +241,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     testCase.CipherText
                                 );
 
-                                if (testCase.PlainText.ToString() == result.PlainText.ToString())
+                                if (testCase.PlainText.ToString() == result.Result.ToString())
                                 {
                                     passes++;
                                 }
@@ -250,7 +250,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.PlainText.ToString(), result.PlainText.ToString(), $"Failed on count {count} expected CT {testCase.PlainText}, got {result.PlainText}");
+                                Assert.AreEqual(testCase.PlainText.ToString(), result.Result.ToString(), $"Failed on count {count} expected CT {testCase.PlainText}, got {result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "permutation" ||
@@ -265,9 +265,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     true
                                 );
 
-                                if (testCase.PlainText1.ToString() == result.PlainTexts[0].ToString() &&
-                                    testCase.PlainText2.ToString() == result.PlainTexts[1].ToString() &&
-                                    testCase.PlainText3.ToString() == result.PlainTexts[2].ToString())
+                                if (testCase.PlainText1.ToString() == result.Results[0].ToString() &&
+                                    testCase.PlainText2.ToString() == result.Results[1].ToString() &&
+                                    testCase.PlainText3.ToString() == result.Results[2].ToString())
                                 {
                                     passes++;
                                 }
@@ -276,9 +276,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.PlainText1.ToString(), result.PlainTexts[0].ToString(), $"Failed on count {count} expected CT {testCase.PlainText1}, got { result.PlainTexts[0]}");
-                                Assert.AreEqual(testCase.PlainText2.ToString(), result.PlainTexts[1].ToString(), $"Failed on count {count} expected CT {testCase.PlainText2}, got { result.PlainTexts[1]}");
-                                Assert.AreEqual(testCase.PlainText3.ToString(), result.PlainTexts[2].ToString(), $"Failed on count {count} expected CT {testCase.PlainText3}, got { result.PlainTexts[2]}");
+                                Assert.AreEqual(testCase.PlainText1.ToString(), result.Results[0].ToString(), $"Failed on count {count} expected CT {testCase.PlainText1}, got { result.Results[0]}");
+                                Assert.AreEqual(testCase.PlainText2.ToString(), result.Results[1].ToString(), $"Failed on count {count} expected CT {testCase.PlainText2}, got { result.Results[1]}");
+                                Assert.AreEqual(testCase.PlainText3.ToString(), result.Results[2].ToString(), $"Failed on count {count} expected CT {testCase.PlainText3}, got { result.Results[2]}");
                                 continue;
                             }
                             else

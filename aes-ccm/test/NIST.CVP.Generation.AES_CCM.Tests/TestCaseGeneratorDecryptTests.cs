@@ -1,6 +1,8 @@
 ﻿using System;
 using Moq;
 using NIST.CVP.Crypto.AES_CCM;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -29,7 +31,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new EncryptionResult("Fail"));
+                .Returns(new SymmetricCipherResult("Fail"));
 
             TestCaseGeneratorDecrypt subject =
                 new TestCaseGeneratorDecrypt(GetRandomMock().Object, aes.Object);
@@ -86,7 +88,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new EncryptionResult(fakeCipher));
+                .Returns(new SymmetricCipherResult(fakeCipher));
 
             TestCaseGeneratorDecrypt subject =
                 new TestCaseGeneratorDecrypt(random.Object, aes.Object);
@@ -117,7 +119,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.Encrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new EncryptionResult(fakeCipher));
+                .Returns(new SymmetricCipherResult(fakeCipher));
 
             TestCaseGeneratorDecrypt subject =
                 new TestCaseGeneratorDecrypt(random.Object, aes.Object);

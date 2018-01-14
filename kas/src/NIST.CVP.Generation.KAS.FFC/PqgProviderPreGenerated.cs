@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC.Enums;
-using NIST.CVP.Crypto.KAS;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Crypto.SHAWrapper.Helpers;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Math;
-using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {

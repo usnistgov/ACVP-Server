@@ -1,7 +1,7 @@
-﻿using NIST.CVP.Crypto.KAS.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.KAS.Enums;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {

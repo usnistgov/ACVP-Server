@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Math.Entropy;
-using NIST.CVP.Crypto.Math;
 
 namespace NIST.CVP.Crypto.RSA.Signatures
 {
@@ -143,7 +143,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             }
         }
 
-        public override SignatureResult Sign(int nlen, BitString message, KeyPair key)
+        public override SignatureResult Sign(int nlen, BitString message, IKeyPair key)
         {
             // 1. EMSA_PSS_Encode
             var EM = EMSA_PSS_Encode(message, nlen - 1);
@@ -153,7 +153,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             return new SignatureResult(new BitString(signature, nlen));
         }
 
-        public override VerifyResult Verify(int nlen, BitString signature, KeyPair key, BitString message)
+        public override VerifyResult Verify(int nlen, BitString signature, IKeyPair key, BitString message)
         {
             // 1. Length Check
             if (signature.BitLength != nlen)
@@ -169,7 +169,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             return EMSA_PSS_Verify(message, EM, nlen - 1);
         }
 
-        public override SignatureResult ModifyIRTrailerSign(int nlen, BitString message, KeyPair key)
+        public override SignatureResult ModifyIRTrailerSign(int nlen, BitString message, IKeyPair key)
         {
             var emBits = nlen - 1;
             var mHash = Hash(message);
@@ -214,7 +214,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             return new SignatureResult(new BitString(signature));
         }
 
-        public override SignatureResult MoveIRSign(int nlen, BitString message, KeyPair key)
+        public override SignatureResult MoveIRSign(int nlen, BitString message, IKeyPair key)
         {
             var _rand = new Random800_90();
             var emBits = nlen - 1;

@@ -124,7 +124,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 
                         testPasses++;
 
-                        Assert.AreEqual(expectedPlainText.ToHex(), result.ResultingBitString.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.ResultingBitString.ToHex()}");
+                        Assert.AreEqual(expectedPlainText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
                         continue;
                     }
                     

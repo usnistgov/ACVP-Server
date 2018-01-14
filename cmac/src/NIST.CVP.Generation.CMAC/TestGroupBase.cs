@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using NIST.CVP.Crypto.CMAC.Enums;
+using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.CMAC

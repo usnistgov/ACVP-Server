@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS;
 using NIST.CVP.Crypto.TLS;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;

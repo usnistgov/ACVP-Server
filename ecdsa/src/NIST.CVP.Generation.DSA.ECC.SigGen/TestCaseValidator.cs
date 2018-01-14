@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;

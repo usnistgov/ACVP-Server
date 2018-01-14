@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.AES_XTS;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -52,7 +54,7 @@ namespace NIST.CVP.Generation.AES_XTS
 
         public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
         {
-            DecryptionResult decryptionResult = null;
+            SymmetricCipherResult decryptionResult = null;
             try
             {
                 decryptionResult = _algo.Decrypt(testCase.Key, testCase.CipherText, testCase.I);
@@ -72,7 +74,7 @@ namespace NIST.CVP.Generation.AES_XTS
                 }
             }
 
-            testCase.PlainText = decryptionResult.PlainText;
+            testCase.PlainText = decryptionResult.Result;
             return new TestCaseGenerateResponse(testCase);
         }
 

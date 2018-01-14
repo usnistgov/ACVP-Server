@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Hash.SHA3;
 
 namespace NIST.CVP.Crypto.SHA3
 {
     public class SHA3Factory : ISHA3Factory
     {
-        public SHA3Wrapper GetSHA(HashFunction hashFunction)
+        public ISHA3Wrapper GetSHA(HashFunction hashFunction)
         {
             var errors = IsValidHashFunction(hashFunction);
             if (!string.IsNullOrEmpty(errors))

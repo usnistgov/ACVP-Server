@@ -25,38 +25,4 @@ namespace NIST.CVP.Crypto.Common
         TDES_CFBP64
 
     }
-
-    //public static class EnumEx  //TODO find in CORE
-    //{
-    //    public static T FromDescription<T>(string description)
-    //    {
-    //        var type = typeof(T);
-    //        if (!type.IsEnum) throw new InvalidOperationException();
-    //        foreach (var field in type.GetFields())
-    //        {
-    //            if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute &&
-    //                attribute.Description.ToLower() == description.ToLower())
-    //            {
-    //                return (T)field.GetValue(null);
-    //            }
-    //        }
-    //        throw new InvalidEnumArgumentException($"Unable to return a {typeof(T)} from {description}");
-    //    }
-
-    //    public static string GetDescription(this Enum enumerationValue)
-    //    {
-    //        var type = enumerationValue.GetType();
-    //        var memberInfo = type.GetMember(enumerationValue.ToString());
-    //        if (memberInfo.Length > 0)
-    //        {
-    //            var attrs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-    //            if (attrs.Length > 0)
-    //            {
-    //                return ((DescriptionAttribute)attrs[0]).Description;
-    //            }
-    //        }
-    //        return enumerationValue.ToString();
-    //    }
-    //}
 }

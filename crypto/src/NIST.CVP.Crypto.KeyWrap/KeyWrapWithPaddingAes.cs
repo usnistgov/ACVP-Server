@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.AES_ECB;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KeyWrap
@@ -12,7 +14,7 @@ namespace NIST.CVP.Crypto.KeyWrap
 
         public KeyWrapWithPaddingAes(IAES_ECB aes) : base(aes) { }
 
-        public override KeyWrapResult Encrypt(BitString key, BitString plainText, bool wrapWithInverseCipher)
+        public override SymmetricCipherResult Encrypt(BitString key, BitString plainText, bool wrapWithInverseCipher)
         {
             // 1. Let ICV2 = 0xA65959A6
             // 2. Let padlen = 8 * ceil(len(P)/64) - len(P)/8
@@ -31,21 +33,21 @@ namespace NIST.CVP.Crypto.KeyWrap
             if (plainText.BitLength <= 64)
             {
                 var aesResult = _aes.BlockEncrypt(key, S, wrapWithInverseCipher);
-                return aesResult.Success ? new KeyWrapResult(aesResult.CipherText) : new KeyWrapResult(aesResult.ErrorMessage);
+                return aesResult.Success ? new SymmetricCipherResult(aesResult.Result) : new SymmetricCipherResult(aesResult.ErrorMessage);
             }
             else
             {
                 var c = Wrap(key, S, wrapWithInverseCipher);
-                return new KeyWrapResult(c);
+                return new SymmetricCipherResult(c);
             }
         }
 
-        public override KeyWrapResult Decrypt(BitString key, BitString cipherText, bool wrappedWithInverseCipher)
+        public override SymmetricCipherResult Decrypt(BitString key, BitString cipherText, bool wrappedWithInverseCipher)
         {
             // 0. Check for valid bitlength ciphertext
             if (cipherText.BitLength < 128 || cipherText.BitLength % 64 != 0)
             {
-                return new KeyWrapResult("Invalid length for ciphertext");
+                return new SymmetricCipherResult("Invalid length for ciphertext");
             }
             
             // 1. Let n = number of semi-blocks in C (number of half-blocks, where a block is 128-bits)
@@ -59,10 +61,10 @@ namespace NIST.CVP.Crypto.KeyWrap
                 var aesResult =  _aes.BlockDecrypt(key, cipherText, wrappedWithInverseCipher);
                 if (!aesResult.Success)
                 {
-                    return new KeyWrapResult(aesResult.ErrorMessage);
+                    return new SymmetricCipherResult(aesResult.ErrorMessage);
                 }
 
-                S = aesResult.PlainText;
+                S = aesResult.Result;
             }
             else if (n > 2)
             {
@@ -72,7 +74,7 @@ namespace NIST.CVP.Crypto.KeyWrap
             // 4. Check MSB(S, 32) to be equal to ICV2
             if (!S.MSBSubstring(0, 32).Equals(Icv2))
             {
-                return new KeyWrapResult("ICV2 not found as most significant bits of S");
+                return new SymmetricCipherResult("ICV2 not found as most significant bits of S");
             }
 
             // 5. pLen = int(LSB(MSB(S, 64), 32))
@@ -84,18 +86,18 @@ namespace NIST.CVP.Crypto.KeyWrap
             // 7. Make sure 0 < padLen < 7
             if (padLen < 0 || padLen > 7)
             {
-                return new KeyWrapResult("Invalid padLen");
+                return new SymmetricCipherResult("Invalid padLen");
             }
 
             // 8. If the padding isn't 0s, then fail
             if (!S.Substring(0, 8 * padLen).Equals(BitString.Zeroes(8 * padLen)))
             {
-                return new KeyWrapResult("Padding is not all 0s");
+                return new SymmetricCipherResult("Padding is not all 0s");
             }
 
             // 9. Return p = MSB(LSB(S, 64*(n-1)), 8*pLen)
             var p = S.Substring(0, 64 * (n - 1)).MSBSubstring(0, 8 * pLen);
-            return new KeyWrapResult(p);
+            return new SymmetricCipherResult(p);
         }
     }
 }

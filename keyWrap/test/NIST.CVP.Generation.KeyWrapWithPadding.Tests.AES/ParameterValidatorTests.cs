@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NUnit.Framework;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NIST.CVP.Crypto.KeyWrap.Enums;
 using NIST.CVP.Generation.KeyWrap.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;

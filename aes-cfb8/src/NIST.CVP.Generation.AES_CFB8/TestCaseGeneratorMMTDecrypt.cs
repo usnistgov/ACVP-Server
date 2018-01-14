@@ -1,6 +1,8 @@
 ﻿using System;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CFB8;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -16,7 +18,7 @@ namespace NIST.CVP.Generation.AES_CFB8
 
         private int _ctLenGenIteration = 1;
 
-        public int NumberOfTestCasesToGenerate { get { return 10; } }
+        public int NumberOfTestCasesToGenerate => 10;
 
         public TestCaseGeneratorMMTDecrypt(IRandom800_90 random800_90, IAES_CFB8 algo)
         {
@@ -42,7 +44,7 @@ namespace NIST.CVP.Generation.AES_CFB8
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            DecryptionResult decryptionResult = null;
+            SymmetricCipherResult decryptionResult = null;
             try
             {
                 decryptionResult = _algo.BlockDecrypt(testCase.IV.GetDeepCopy(), testCase.Key, testCase.CipherText);
@@ -62,7 +64,7 @@ namespace NIST.CVP.Generation.AES_CFB8
                 }
             }
 
-            testCase.PlainText = decryptionResult.PlainText;
+            testCase.PlainText = decryptionResult.Result;
             return new TestCaseGenerateResponse(testCase);
         }
 

@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

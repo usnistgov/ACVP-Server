@@ -1,11 +1,8 @@
 ﻿using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Entropy;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
@@ -24,7 +21,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
         public TestGroupGeneratorFactory()
         {
             _primeGen = new RandomProbablePrimeGenerator(EntropyProviderTypes.Random);
-            _smallPrimeGen = new AllProvablePrimesWithConditionsGenerator(new Crypto.SHA2.HashFunction { Mode = Crypto.SHA2.ModeValues.SHA2, DigestSize = Crypto.SHA2.DigestSizes.d256 });
+            _smallPrimeGen = new AllProvablePrimesWithConditionsGenerator(new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d256 });
         }
 
         public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()

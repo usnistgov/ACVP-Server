@@ -5,6 +5,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {

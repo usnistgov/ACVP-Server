@@ -11,6 +11,7 @@ using NIST.CVP.Crypto.RSA;
 using System.Linq;
 using NIST.CVP.Math.Entropy;
 using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests

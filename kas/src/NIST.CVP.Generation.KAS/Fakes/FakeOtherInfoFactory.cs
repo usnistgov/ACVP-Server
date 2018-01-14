@@ -1,7 +1,5 @@
-﻿using NIST.CVP.Crypto.DSA;
-using NIST.CVP.Crypto.KAS.Enums;
-using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.Scheme;
+﻿using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.Fakes

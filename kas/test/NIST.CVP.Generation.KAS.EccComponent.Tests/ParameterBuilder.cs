@@ -1,5 +1,5 @@
 ﻿using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.DSA.ECC.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 
 namespace NIST.CVP.Generation.KAS.EccComponent.Tests
 {

@@ -1,11 +1,12 @@
 ﻿using System;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_ECB;
-using NIST.CVP.Crypto.DRBG.Enums;
+using NIST.CVP.Crypto.Common.DRBG;
+using NIST.CVP.Crypto.Common.DRBG.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math.Entropy;
-using ModeValues = NIST.CVP.Crypto.SHAWrapper.ModeValues;
 
 namespace NIST.CVP.Crypto.DRBG
 {

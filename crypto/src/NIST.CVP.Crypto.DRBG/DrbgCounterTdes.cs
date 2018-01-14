@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using NIST.CVP.Crypto.Common.DRBG;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Crypto.TDES_ECB;
@@ -19,7 +21,7 @@ namespace NIST.CVP.Crypto.DRBG
 
         protected override BitString BlockEncrypt(BitString K, BitString X)
         {
-            return TdesEcb.BlockEncrypt(Convert168BitKeyTo192BitKey(K), X).CipherText;
+            return TdesEcb.BlockEncrypt(Convert168BitKeyTo192BitKey(K), X).Result;
         }
 
         protected BitString Convert168BitKeyTo192BitKey(BitString origKey)

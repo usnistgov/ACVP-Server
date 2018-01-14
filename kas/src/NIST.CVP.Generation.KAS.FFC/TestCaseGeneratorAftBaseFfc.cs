@@ -1,12 +1,11 @@
-﻿using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.KAS;
-using NIST.CVP.Crypto.KAS.Builders;
-using NIST.CVP.Crypto.KAS.Enums;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.KAS;
+using NIST.CVP.Crypto.Common.KAS.Builders;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Crypto.KAS.Helpers;
-using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 using NIST.CVP.Generation.KAS.FFC.Helpers;
-using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KAS.FFC

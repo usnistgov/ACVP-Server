@@ -2,6 +2,8 @@
 using Moq;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_OFB;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -30,7 +32,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new DecryptionResult("Fail"));
+                .Returns(new SymmetricCipherResult("Fail"));
 
             TestCaseGeneratorMMTDecrypt subject =
                 new TestCaseGeneratorMMTDecrypt(GetRandomMock().Object, aes.Object);
@@ -89,7 +91,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new DecryptionResult(fakePlain));
+                .Returns(new SymmetricCipherResult(fakePlain));
 
             TestCaseGeneratorMMTDecrypt subject =
                 new TestCaseGeneratorMMTDecrypt(random.Object, aes.Object);
@@ -123,7 +125,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
             foreach (TestCase testCase in testGroup.Tests)
             {
                 var encryptResult = aes_ofb.BlockEncrypt(testCase.IV, testCase.Key, testCase.PlainText);
-                Assert.AreEqual(testCase.CipherText, encryptResult.CipherText);
+                Assert.AreEqual(testCase.CipherText, encryptResult.Result);
             }
         }
 

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.SHA2;
+﻿using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Crypto.Math;
 
@@ -50,7 +50,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             return trailer;
         }
 
-        public override SignatureResult Sign(int nlen, BitString message, KeyPair key)
+        public override SignatureResult Sign(int nlen, BitString message, IKeyPair key)
         {
             // 1. Message Hashing
             var hashedMessage = Hash(message);
@@ -93,7 +93,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             }
         }
 
-        public override VerifyResult Verify(int nlen, BitString signature, KeyPair key, BitString message)
+        public override VerifyResult Verify(int nlen, BitString signature, IKeyPair key, BitString message)
         {
             // 1. Signature Opening
             var rrPrime = Encrypt(key.PubKey.N, key.PubKey.E, signature.ToPositiveBigInteger());
@@ -172,7 +172,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             }
         }
 
-        public override SignatureResult ModifyIRTrailerSign(int nlen, BitString message, KeyPair key)
+        public override SignatureResult ModifyIRTrailerSign(int nlen, BitString message, IKeyPair key)
         {
             _entropy = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
 
@@ -208,7 +208,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
             return new SignatureResult(bsSignature);
         }
 
-        public override SignatureResult MoveIRSign(int nlen, BitString message, KeyPair key)
+        public override SignatureResult MoveIRSign(int nlen, BitString message, IKeyPair key)
         {
             _entropy = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
 

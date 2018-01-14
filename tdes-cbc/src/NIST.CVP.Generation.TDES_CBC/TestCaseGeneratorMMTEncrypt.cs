@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CBC;
@@ -48,7 +50,7 @@ namespace NIST.CVP.Generation.TDES_CBC
 
         public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
         {
-            EncryptionResult encryptionResult = null;
+            SymmetricCipherResult encryptionResult = null;
             try
             {
                 encryptionResult = _algo.BlockEncrypt(testCase.Key, testCase.PlainText, testCase.Iv);
@@ -67,7 +69,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                     return new TestCaseGenerateResponse(ex.Message);
                 }
             }
-            testCase.CipherText = encryptionResult.CipherText;
+            testCase.CipherText = encryptionResult.Result;
             return new TestCaseGenerateResponse(testCase);
         }
 

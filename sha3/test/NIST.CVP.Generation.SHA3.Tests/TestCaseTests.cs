@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json.Linq;
+using NIST.CVP.Crypto.Common.Hash.SHA3;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;

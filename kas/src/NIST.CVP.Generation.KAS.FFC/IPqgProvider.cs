@@ -1,4 +1,6 @@
-﻿using NIST.CVP.Crypto.DSA.FFC;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.SHAWrapper;
 
 namespace NIST.CVP.Generation.KAS.FFC

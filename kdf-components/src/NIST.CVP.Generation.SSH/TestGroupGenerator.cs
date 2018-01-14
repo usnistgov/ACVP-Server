@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.SHAWrapper.Helpers;
-using NIST.CVP.Crypto.SSH.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
+using NIST.CVP.Crypto.Common.KDF.Components.SSH.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SSH

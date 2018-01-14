@@ -1,9 +1,10 @@
-﻿using System;
-using NIST.CVP.Crypto.DSA;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.KAS.Enums;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA;
+using NIST.CVP.Crypto.Common.KAS;
+using NIST.CVP.Crypto.Common.KAS.Builders;
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Crypto.KAS.KDF;
-using NIST.CVP.Crypto.KAS.Scheme;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.KAS.Builders
@@ -40,7 +41,7 @@ namespace NIST.CVP.Crypto.KAS.Builders
         }
 
         /// <summary>
-        /// Sets the keyLength for the <see cref="IKdf"/> options in the <see cref="IKas"/>
+        /// Sets the keyLength for the <see cref="IKdf"/> options in the <see cref="IKas{TKasDsaAlgoAttributes,TOtherPartySharedInfo,TDomainParameters,TKeyPair}"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>

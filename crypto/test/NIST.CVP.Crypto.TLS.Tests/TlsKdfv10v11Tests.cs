@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.MD5;
 using NIST.CVP.Crypto.SHAWrapper;

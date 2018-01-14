@@ -7,6 +7,7 @@ using NIST.CVP.Math.Entropy;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {

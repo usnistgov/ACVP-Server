@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
@@ -32,7 +34,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             var aes = GetAESMock();
             aes
                 .Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
-                .Returns(new EncryptionResult("Fail"));
+                .Returns(new SymmetricCipherAeadResult("Fail"));
 
             TestCaseGeneratorInternalEncrypt subject =
                 new TestCaseGeneratorInternalEncrypt(GetRandomMock().Object, aes.Object);
@@ -99,7 +101,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             aes.
                 Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<int>()))
                 .Returns(
-                    new EncryptionResult(
+                    new SymmetricCipherAeadResult(
                         new BitString(new byte[] { 1 }), 
                         new BitString(new byte[] { 2 })
                     )

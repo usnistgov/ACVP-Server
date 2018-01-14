@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.CMAC;
-using NIST.CVP.Crypto.CMAC.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KDF;
+using NIST.CVP.Crypto.Common.KDF.Enums;
+using NIST.CVP.Crypto.Common.MAC;
+using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Crypto.HMAC;
-using NIST.CVP.Crypto.KDF.Enums;
-using NIST.CVP.Crypto.MAC;
 using NIST.CVP.Crypto.SHAWrapper;
-using ModeValues = NIST.CVP.Crypto.SHAWrapper.ModeValues;
 
 namespace NIST.CVP.Crypto.KDF
 {

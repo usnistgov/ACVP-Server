@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.IKEv1.Enums;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Crypto.SHAWrapper.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
+using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 

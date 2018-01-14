@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Crypto.SHAWrapper.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS

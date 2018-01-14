@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 
 namespace NIST.CVP.Crypto.KAS.Helpers
 {
@@ -32,7 +32,6 @@ namespace NIST.CVP.Crypto.KAS.Helpers
 
         public static bool PerformEccPublicKeyValidation(IEccCurve curve, EccPoint publicKey, bool shouldThrow = false)
         {
-            // TODO double check
             var q = curve.FieldSizeQ;
             var nQ = curve.Multiply(publicKey, q);
             

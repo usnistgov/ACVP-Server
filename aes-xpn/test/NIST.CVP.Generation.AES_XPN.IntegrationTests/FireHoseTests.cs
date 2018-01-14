@@ -125,7 +125,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                                 continue;
                             }
 
-                            if (testCase.PlainText.ToHex() == result.PlainText.ToHex())
+                            if (testCase.PlainText.ToHex() == result.Result.ToHex())
                             {
                                 passes++;
                             }
@@ -134,7 +134,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                                 fails++;
                             }
 
-                            Assert.AreEqual(testCase.PlainText.ToHex(), result.PlainText.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.PlainText.ToHex()}");
+                            Assert.AreEqual(testCase.PlainText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
                             continue;
                         }
 
