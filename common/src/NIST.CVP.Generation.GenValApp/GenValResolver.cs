@@ -14,10 +14,11 @@ namespace NIST.CVP.Generation.GenValApp
             new Dictionary<(Algorithm Algorithm, string Mode), (string genVals, HashSet<string> additionalDependencies)>
         {
             {
-                (Algorithm.AesEcb, string.Empty),
+                (Algorithm.Aes, "ecb"),
                 ("NIST.CVP.Generation.AES_ECB.dll", new HashSet<string>()
                 {
-                    "NIST.CVP.Crypto.AES.dll"
+                    "NIST.CVP.Crypto.AES.dll",
+                    "NIST.CVP.Crypto.AES_ECB.dll",
                 })
             }
         };
@@ -27,8 +28,8 @@ namespace NIST.CVP.Generation.GenValApp
             var iTypeToDiscover = typeof(IRegisterInjections);
 
             if (!Map.TryFirst(t => 
-                t.Key.Algorithm == algorithm 
-                && t.Key.Mode == mode, 
+                t.Key.Algorithm == algorithm
+                && t.Key.Mode.Equals(mode, StringComparison.OrdinalIgnoreCase), 
                 out var mappingResult)
             )
             {
@@ -47,9 +48,12 @@ namespace NIST.CVP.Generation.GenValApp
             var concrete = (IRegisterInjections)Activator.CreateInstance(concreteType);
 
             // Load additional dependant assemblies
-            foreach (var assemblyLocation in mappingResult.Value.additionalDependencies)
+            if (mappingResult.Value.additionalDependencies != null)
             {
-                AssemblyLoadContext.Default.LoadFromAssemblyPath($@"{dllLocation}{assemblyLocation}");
+                foreach (var assemblyLocation in mappingResult.Value.additionalDependencies)
+                {
+                    AssemblyLoadContext.Default.LoadFromAssemblyPath($@"{dllLocation}{assemblyLocation}");
+                }
             }
 
             return concrete;

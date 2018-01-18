@@ -2,6 +2,6 @@
 {
     public enum Algorithm
     {
-        AesEcb
+        Aes
     }
 }

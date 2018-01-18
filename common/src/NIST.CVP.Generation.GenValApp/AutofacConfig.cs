@@ -1,6 +1,5 @@
 ﻿using System;
 using Autofac;
-using NIST.CVP.Common;
 
 namespace NIST.CVP.Generation.GenValApp
 {

@@ -12,12 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.AES\NIST.CVP.Crypto.AES.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.AES_ECB\NIST.CVP.Crypto.AES_ECB.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
     <ProjectReference Include="..\NIST.CVP.Common\NIST.CVP.Common.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
-    <ProjectReference Include="..\NIST.CVP.Math\NIST.CVP.Math.csproj" />
   </ItemGroup>
 
 </Project>
