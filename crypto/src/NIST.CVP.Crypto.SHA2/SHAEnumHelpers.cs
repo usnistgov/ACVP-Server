@@ -27,8 +27,9 @@ namespace NIST.CVP.Crypto.SHA2
                     return ModeValues.SHA1;
                 case "sha2":
                     return ModeValues.SHA2;
+
                 default:
-                    return ModeValues.NONE;
+                    throw new Exception("Bad mode for SHA");
             }
         }
 
