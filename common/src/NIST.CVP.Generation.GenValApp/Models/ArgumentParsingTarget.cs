@@ -2,15 +2,15 @@
 using CommandLineParser.Arguments;
 using CommandLineParser.Validation;
 
-namespace NIST.CVP.Generation.GenValApp
+namespace NIST.CVP.Generation.GenValApp.Models
 {
     [DistinctGroupsCertification("g", "n,p,r", 
         Description = "(g) - used to indicate generation, (n,p,r) - used to indicate validation")]
     public class ArgumentParsingTarget
     {
-        [ValueArgument(typeof(Algorithm), 'a', "algorithm", Optional = false, 
+        [ValueArgument(typeof(string), 'a', "algorithm", Optional = false, 
             Description = "The algorithm to in which to generate/validate test vectors")]
-        public Algorithm Algorithm { get; set; }
+        public string Algorithm { get; set; }
 
         [ValueArgument(typeof(string), 'm', "mode", Optional = true, DefaultValue = "",
             Description = "The algorithm mode in which to generate/validate test vectors (does not apply to all algorithms)")]

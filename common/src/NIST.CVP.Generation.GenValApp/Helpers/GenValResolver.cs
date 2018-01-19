@@ -6,15 +6,15 @@ using System.Runtime.Loader;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 
-namespace NIST.CVP.Generation.GenValApp
+namespace NIST.CVP.Generation.GenValApp.Helpers
 {
     public static class GenValResolver
     {
-        public static Dictionary<(Algorithm Algorithm, string Mode), (string genVals, HashSet<string> additionalDependencies)> Map = 
-            new Dictionary<(Algorithm Algorithm, string Mode), (string genVals, HashSet<string> additionalDependencies)>
+        public static Dictionary<(string Algorithm, string Mode), (string genVals, HashSet<string> additionalDependencies)> Map = 
+            new Dictionary<(string Algorithm, string Mode), (string genVals, HashSet<string> additionalDependencies)>
         {
             {
-                (Algorithm.Aes, "ecb"),
+                ("aes", "ecb"),
                 ("NIST.CVP.Generation.AES_ECB.dll", new HashSet<string>()
                 {
                     "NIST.CVP.Crypto.AES.dll",
@@ -23,13 +23,13 @@ namespace NIST.CVP.Generation.GenValApp
             }
         };
 
-        public static IRegisterInjections ResolveIocInjectables(Algorithm algorithm, string mode, string dllLocation)
+        public static IRegisterInjections ResolveIocInjectables(string algorithm, string mode, string dllLocation)
         {
             var iTypeToDiscover = typeof(IRegisterInjections);
 
             if (!Map.TryFirst(t => 
-                t.Key.Algorithm == algorithm
-                && t.Key.Mode.Equals(mode, StringComparison.OrdinalIgnoreCase), 
+                t.Key.Algorithm.Equals(algorithm, StringComparison.OrdinalIgnoreCase) 
+                && t.Key.Mode.Equals(mode, StringComparison.OrdinalIgnoreCase),
                 out var mappingResult)
             )
             {

@@ -8,6 +8,10 @@ namespace NIST.CVP.Common
     /// </summary>
     public interface IRegisterInjections
     {
+        /// <summary>
+        /// Register types onto the provided <see cref="ContainerBuilder"/>
+        /// </summary>
+        /// <param name="builder">The builder to register injectable components onto</param>
         void RegisterTypes(ContainerBuilder builder);
     }
 }

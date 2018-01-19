@@ -2,6 +2,8 @@
 using System;
 using Autofac;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.GenValApp.Helpers;
+using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
 
 namespace NIST.CVP.Generation.GenValApp
@@ -68,7 +70,7 @@ namespace NIST.CVP.Generation.GenValApp
             return args;
         }
 
-        private static int RunGenVals(ArgumentParsingTarget parsedParameters, ILifetimeScope scope)
+        private static int RunGenVals(ArgumentParsingTarget parsedParameters, IComponentContext scope)
         {
             // Generation
             if (parsedParameters.RegistrationFile != null)
@@ -80,7 +82,7 @@ namespace NIST.CVP.Generation.GenValApp
             return RunValidation(parsedParameters, scope);
         }
 
-        private static int RunGeneration(ArgumentParsingTarget parsedParameters, ILifetimeScope scope)
+        private static int RunGeneration(ArgumentParsingTarget parsedParameters, IComponentContext scope)
         {
             var registrationFile = parsedParameters.RegistrationFile.FullName;
 
@@ -96,7 +98,7 @@ namespace NIST.CVP.Generation.GenValApp
             return 1;
         }
 
-        private static int RunValidation(ArgumentParsingTarget parsedParameters, ILifetimeScope scope)
+        private static int RunValidation(ArgumentParsingTarget parsedParameters, IComponentContext scope)
         {
             var responseFile = parsedParameters.ResponseFile.FullName;
             var answerFile = parsedParameters.AnswerFile.FullName;
