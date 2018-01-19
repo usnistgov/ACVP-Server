@@ -12,19 +12,7 @@ namespace NIST.CVP.Crypto.SHA2.SHAProperties
         public abstract int WordSize { get; }
         public abstract int[,] SumShifts { get; }
         public abstract int[,] SigmaShifts { get; }
-        public abstract BitString[] KValues { get; }
-        public abstract BitString[] HValues { get; }
-
-        public BitString[] PrepareValues(string[] values)
-        {
-            var valuesBS = new BitString[values.Count()];
-
-            for(var i = 0; i < values.Count(); i++)
-            {
-                valuesBS[i] = new BitString(values[i]);
-            }
-
-            return valuesBS;
-        }
+        public abstract string[] KValues { get; }
+        public abstract string[] HValues { get; }
     }
 }

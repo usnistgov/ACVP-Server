@@ -17,38 +17,18 @@ namespace NIST.CVP.Crypto.SHA2
         }
 
         /// <summary>
-        /// Processes and adds padding to a message to be valid for SHA1 or SHA2
-        /// </summary>
-        /// <param name="message">Message to be padded</param>
-        /// <returns>BitString paddedMessage</returns>
-        public BitString PreProcessing(BitString message)
-        {
-            var messageLength = message.BitLength;
-            message = BitString.ConcatenateBits(message, new BitString("80", 1));
-
-            var bitsNeeded = ((((SHAProperties.BlockSize - SHAProperties.AppendedLength) - message.BitLength) % SHAProperties.BlockSize) + SHAProperties.BlockSize) % SHAProperties.BlockSize;
-            message = BitString.ConcatenateBits(message, new BitString(bitsNeeded));
-
-            var messageLengthBS = new BitString(new BigInteger(messageLength), SHAProperties.AppendedLength);
-            message = BitString.ConcatenateBits(message, messageLengthBS);
-
-            return message;
-        }
-
-        /// <summary>
         /// Divides the padded message into specified length chunks, either 512 or 1024 bits
         /// </summary>
         /// <param name="paddedMessage">Padded message to be broken up into chunks</param>
         /// <returns>BitString[] of evenly sized chunks</returns>
-        public BitString[] Chunkify(BitString paddedMessage)
+        public BitString[] Chunkify(BitString message)
         {
-            // Split padded message into 512 or 1024-bit chunks
-            var numChunks = paddedMessage.BitLength / SHAProperties.BlockSize;
+            var numChunks = message.BitLength / SHAProperties.BlockSize;
             var chunks = new BitString[numChunks];
 
             for (var i = 0; i < numChunks; i++)
             {
-                chunks[i] = paddedMessage.MSBSubstring(i * SHAProperties.BlockSize, SHAProperties.BlockSize);
+                chunks[i] = message.MSBSubstring(i * SHAProperties.BlockSize, SHAProperties.BlockSize);
             }
 
             return chunks;

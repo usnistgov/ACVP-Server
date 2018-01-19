@@ -69,6 +69,16 @@ namespace NIST.CVP.Crypto.SHA2.Tests
                 },
                 "0928d4a8d1d6f9ea3d40f1a271cc1712bb5d53cf6cd49268e7d77348f7d143de66392cfbcb18a97ba3c53d27a3f365da4deecbe3c222bcabd7dddc986a561930f7eddd8266b488c1272f1d3381583b4927e650100dcf09c8790c0dd15d9ceacfe4cb4f064bb47d06f205f88db30282a972cd491df5e46006f6eb6cbe77aca001565ceb4e211f6f902bcf36fee0f92040552920d32468a8ae76026226618d210f752617",
                 "264136193256ba5e7c17b16722ad618ada6e7e83684f7e1dc043f85674390705"
+            },
+            new object[]
+            {
+                new HashFunction
+                {
+                    DigestSize = DigestSizes.d256,
+                    Mode = ModeValues.SHA2
+                },
+                "616263",
+                "BA7816BF 8F01CFEA 414140DE 5DAE2223 B00361A3 96177A9C B410FF61 F20015AD"
             }
         };
 
@@ -131,6 +141,15 @@ namespace NIST.CVP.Crypto.SHA2.Tests
                 },
                 "95046894b35d7b41403d8858841a37af8c1b2b332135902dfb94f3c4313c57c3f4f0859d7d52a3af444d08c473b04fde9a1baa34a41f79770aa11c59467f05508b771197b34418777909c3c4e8f39daa131a6daa07a9c4dffe3fd286d5957dbdc060b58b3d790121463b5e5fcb2c4a9a5fe01c9d321b96ed3f36bd52c6c4e892fd751880033a873515a9849e04a47d37e6355e150cbd1a2a354e86c501556e58a97ce37eecced23c4d1cdb877ba05f0711e1db1b7fd6751d484ed5e76f9036962b3ebd8ee27f09be555c0b25196b189446ab3cb673b0d24fe10051c1f6bc69d4ed834f",
                 "715c1acf3ca335d258641413cefe130a45846b78b6c167e7d9f6ed8a1208ed47b68c425940c77fbb7f10e5eaaed1647cd9413588f3f7e3a9068ba121a9c662fb"
+            },
+            new object[]
+            {
+                new HashFunction {
+                    DigestSize = DigestSizes.d512,
+                    Mode = ModeValues.SHA2
+                },
+                "616263",
+                "DDAF35A1 93617ABA CC417349 AE204131 12E6FA4E 89A97EA2 0A9EEEE6 4B55D39A 2192992A 274FC1A8 36BA3C23 A3FEEBBD 454D4423 643CE80E 2A9AC94F A54CA49F"
             }
         };
 
@@ -207,11 +226,11 @@ namespace NIST.CVP.Crypto.SHA2.Tests
         [TestCaseSource(nameof(hashTests512t256))]
         public void ShouldSHA2HashCorrectly(HashFunction hashFunction, string messageHex, string digestHex)
         {
-            var sha2 = new SHA2(new SHAInternals(hashFunction));
+            var sha = new SHA();
             var message = new BitString(messageHex);
             var expectedDigest = new BitString(digestHex);
 
-            var result = sha2.HashMessage(message);
+            var result = sha.HashMessage(hashFunction, message).Digest;
 
             Assert.AreEqual(expectedDigest, result);
         }
@@ -254,11 +273,12 @@ namespace NIST.CVP.Crypto.SHA2.Tests
         [TestCase("512t256", 2014, "f1c85d82d73dcc0cf6ecddbb7ed3e79e14974d9bd276a2078f7d107461fbfaca6135e09aae5b83aeb5bb4ae5af35e53e6aef30324d4a5a47971446e2e7ff315c01519659cfde4e55a633fc80cb15a8cc362aaa4495f5ca9f9408a5155c7453715985466841ac752952bdba35db5a7971fdaf8379b3613a3810c0f5b6c844a630f237ba6e0caf405140bf4eace5eea05449e8837bae74f13992a6fe6c345673c253d1b81439cdf7f6f8a37e8cf4b8659fa13c71ef8e1839cba32187e0a792014f04b90902cff0e13f03cf137d0da010778e1317805c345816ca995ab929e09afe8e5975dfd6ff4755e8add5293a8ee80697d63bd41faf97418f763da0", "a5e0679f13242f45a9f5f1dd6711613b7dc4f9ae28fd679ac05a963d7a6af17b")]
         public void ShouldSHA2HashCorrectlyWithBits(string digestSize, int len, string messageHex, string digestHex)
         {
-            var sha2 = new SHA2(new SHAInternals(GetHashFunction(digestSize)));
+            var sha = new SHA();
+
             var message = new BitString(messageHex, len);
             var expectedDigest = new BitString(digestHex);
 
-            var result = sha2.HashMessage(message);
+            var result = sha.HashMessage(GetHashFunction(digestSize), message).Digest;
 
             Assume.That(message.BitLength == len);
             Assert.AreEqual(expectedDigest.ToHex(), result.ToHex());

@@ -4,28 +4,18 @@ namespace NIST.CVP.Crypto.SHA2.SHAProperties
 {
     public class SHA512Properties : SHAPropertiesBase
     {
-        public override int AppendedLength { get { return 128; } }
-        public override int BlockSize { get { return 1024; } }
-        public override int DigestBitSize { get { return 512; } }
-        public override int Rounds { get { return 80; } }
-        public override int WordSize { get { return 64; } }
-        public override int[,] SumShifts { get { return new int[,] { { 28, 34, 39 }, { 14, 18, 41 } }; } }
-        public override int[,] SigmaShifts { get { return new int[,] { { 1, 8, 7 }, { 19, 61, 6 } }; } }
+        public override int AppendedLength => 128;
+        public override int BlockSize => 1024;
+        public override int DigestBitSize => 512;
+        public override int Rounds => 80;
+        public override int WordSize => 64;
+        public override int[,] SumShifts => new int[,] {{28, 34, 39}, {14, 18, 41}};
+        public override int[,] SigmaShifts => new int[,] {{1, 8, 7}, {19, 61, 6}};
 
-        public override BitString[] HValues
-        {
-            get
-            {
-                return PrepareValues(new string[] { "6a09e667f3bcc908", "bb67ae8584caa73b", "3c6ef372fe94f82b", "a54ff53a5f1d36f1",
-                                                    "510e527fade682d1", "9b05688c2b3e6c1f", "1f83d9abfb41bd6b", "5be0cd19137e2179" });
-            }
-        }
+        public override string[] HValues => new [] { "6a09e667f3bcc908", "bb67ae8584caa73b", "3c6ef372fe94f82b", "a54ff53a5f1d36f1",
+                                                    "510e527fade682d1", "9b05688c2b3e6c1f", "1f83d9abfb41bd6b", "5be0cd19137e2179" };
 
-        public override BitString[] KValues
-        {
-            get
-            {
-                return PrepareValues(new string[] { "428a2f98d728ae22", "7137449123ef65cd", "b5c0fbcfec4d3b2f", "e9b5dba58189dbbc", "3956c25bf348b538",
+        public override string[] KValues => new [] { "428a2f98d728ae22", "7137449123ef65cd", "b5c0fbcfec4d3b2f", "e9b5dba58189dbbc", "3956c25bf348b538",
                                                     "59f111f1b605d019", "923f82a4af194f9b", "ab1c5ed5da6d8118", "d807aa98a3030242", "12835b0145706fbe",
                                                     "243185be4ee4b28c", "550c7dc3d5ffb4e2", "72be5d74f27b896f", "80deb1fe3b1696b1", "9bdc06a725c71235",
                                                     "c19bf174cf692694", "e49b69c19ef14ad2", "efbe4786384f25e3", "0fc19dc68b8cd5b5", "240ca1cc77ac9c65",
@@ -40,8 +30,6 @@ namespace NIST.CVP.Crypto.SHA2.SHAProperties
                                                     "90befffa23631e28", "a4506cebde82bde9", "bef9a3f7b2c67915", "c67178f2e372532b", "ca273eceea26619c",
                                                     "d186b8c721c0c207", "eada7dd6cde0eb1e", "f57d4f7fee6ed178", "06f067aa72176fba", "0a637dc5a2c898a6",
                                                     "113f9804bef90dae", "1b710b35131c471b", "28db77f523047d84", "32caab7b40c72493", "3c9ebe0a15c9bebc",
-                                                    "431d67c49c100d4c", "4cc5d4becb3e42b6", "597f299cfc657e2a", "5fcb6fab3ad6faec", "6c44198c4a475817" });
-            }
-        }
+                                                    "431d67c49c100d4c", "4cc5d4becb3e42b6", "597f299cfc657e2a", "5fcb6fab3ad6faec", "6c44198c4a475817" };
     }
 }

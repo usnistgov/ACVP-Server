@@ -46,22 +46,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         }
 
         [Test]
-        public void GenerateShouldReturnNullTestCaseOnExceptionKeyGen()
-        {
-            var keyGen = GetPrimeGenMock();
-            keyGen
-                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
-                .Throws(new Exception());
-
-            var subject = new TestCaseGeneratorAFT_B35(GetRandomMock().Object, keyGen.Object);
-
-            var result = subject.Generate(GetTestGroup(), false);
-
-            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
-            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
-        }
-
-        [Test]
         public void GenerateShouldInvokeKeyGenOperation()
         {
             var keyGen = GetPrimeGenMock();

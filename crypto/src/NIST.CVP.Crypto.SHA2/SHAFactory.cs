@@ -14,14 +14,24 @@ namespace NIST.CVP.Crypto.SHA2
                 throw new ArgumentException($"Invalid hash function. Cannot combine {hashFunction.Mode} and {hashFunction.DigestSize}.");
             }
 
-            switch (hashFunction.Mode)
+            if (hashFunction.Mode == ModeValues.SHA1)
             {
-                case ModeValues.SHA1:
-                    return new SHA1(shaInternals);
-                case ModeValues.SHA2:
-                    return new SHA2(shaInternals);
-                default:
-                    throw new ArgumentException($"Invalid value for {nameof(hashFunction.Mode)}");
+                return new SHA1(shaInternals);
+            }
+            else if (hashFunction.Mode == ModeValues.SHA2)
+            {
+                if (hashFunction.DigestSize == DigestSizes.d224 || hashFunction.DigestSize == DigestSizes.d256)
+                {
+                    return new SHA2Small(shaInternals);
+                }
+                else
+                {
+                    return new SHA2Large(shaInternals);
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid value for {nameof(hashFunction.Mode)}");
             }
         }
 
