@@ -1,6 +1,10 @@
 ﻿using CommandLineParser.Exceptions;
 using System;
+using System.IO;
 using Autofac;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
@@ -10,8 +14,23 @@ namespace NIST.CVP.Generation.GenValApp
 {
     class Program
     {
-        private static readonly string _DLL_DIRECTORY = AppDomain.CurrentDomain.BaseDirectory;
+        private const string _SETTINGS_FILE = "appSettings.json";
+        private static readonly string DllDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        private static readonly AlgorithmConfig Config;
 
+        static Program()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            IConfigurationRoot configuration = builder.Build();
+
+            Config = new AlgorithmConfig();
+            configuration.Bind(Config);
+        }
+        
         static int Main(string[] args)
         {
             var parser = new CommandLineParser.CommandLineParser();
@@ -24,14 +43,14 @@ namespace NIST.CVP.Generation.GenValApp
             {
                 parser.ParseCommandLine(args);
 
-                var dllLocation = _DLL_DIRECTORY;
+                var dllLocation = DllDirectory;
                 if (parsedParameters.DllLocation != null)
                 {
                     dllLocation = parsedParameters.DllLocation.FullName;
                 }
 
                 // Get the IOC container for the algo
-                AutofacConfig.IoCConfiguration(parsedParameters.Algorithm, parsedParameters.Mode, dllLocation);
+                AutofacConfig.IoCConfiguration(Config, parsedParameters.Algorithm, parsedParameters.Mode, dllLocation);
                 using (var scope = AutofacConfig.GetContainer().BeginLifetimeScope())
                 {
                     return RunGenVals(parsedParameters, scope);

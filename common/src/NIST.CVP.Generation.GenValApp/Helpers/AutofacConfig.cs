@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using NIST.CVP.Generation.GenValApp.Models;
 
 namespace NIST.CVP.Generation.GenValApp.Helpers
 {
@@ -14,11 +15,11 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             return _container;
         }
 
-        public static void IoCConfiguration(string algorithm, string mode, string dllLocation)
+        public static void IoCConfiguration(AlgorithmConfig algorithmConfig, string algorithm, string mode, string dllLocation)
         {
             var builder = new ContainerBuilder();
 
-            var genValInjectables = GenValResolver.ResolveIocInjectables(algorithm, mode, dllLocation);
+            var genValInjectables = GenValResolver.ResolveIocInjectables(algorithmConfig, algorithm, mode, dllLocation);
             genValInjectables.RegisterTypes(builder);
 
             OverrideRegistrations?.Invoke(builder);
