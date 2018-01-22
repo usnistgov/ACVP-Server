@@ -23,7 +23,7 @@ namespace SHA2_Val
             var builder = new ContainerBuilder();
 
             builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<SHA2>().AsImplementedInterfaces();
+            builder.RegisterType<SHA>().AsImplementedInterfaces();
             builder.RegisterType<SHA_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
