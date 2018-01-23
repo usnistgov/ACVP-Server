@@ -15,13 +15,13 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         {
             var dsaMock = GetDsaMock();
             dsaMock
-                .Setup(s => s.Verify(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<FfcSignature>()))
+                .Setup(s => s.Verify(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<FfcSignature>(), It.IsAny<bool>()))
                 .Returns(new FfcVerificationResult());
 
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), dsaMock.Object);
             var result = subject.Validate(GetResultTestCase());
 
-            dsaMock.Verify(v => v.Verify(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<FfcSignature>()), Times.Once);
+            dsaMock.Verify(v => v.Verify(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<FfcSignature>(), It.IsAny<bool>()), Times.Once);
 
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
@@ -31,13 +31,13 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         {
             var dsaMock = GetDsaMock();
             dsaMock
-                .Setup(s => s.Verify(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<FfcSignature>()))
+                .Setup(s => s.Verify(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<FfcSignature>(), It.IsAny<bool>()))
                 .Returns(new FfcVerificationResult("Fail"));
 
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), dsaMock.Object);
             var result = subject.Validate(GetResultTestCase());
 
-            dsaMock.Verify(v => v.Verify(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<FfcSignature>()), Times.Once);
+            dsaMock.Verify(v => v.Verify(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<FfcSignature>(), It.IsAny<bool>()), Times.Once);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }

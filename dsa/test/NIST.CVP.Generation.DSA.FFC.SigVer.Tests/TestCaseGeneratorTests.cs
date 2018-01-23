@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
                 .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(1, 2)));
 
             dsaMock
-                .Setup(s => s.Sign(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>()))
+                .Setup(s => s.Sign(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()))
                 .Returns(new FfcSignatureResult(new FfcSignature(1, 2)));
 
             var subject = new TestCaseGenerator(randMock.Object, dsaMock.Object);
@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
                 .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(1, 2)));
 
             dsaMock
-                .Setup(s => s.Sign(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>()))
+                .Setup(s => s.Sign(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()))
                 .Returns(new FfcSignatureResult(new FfcSignature(1, 2)));
 
             var subject = new TestCaseGenerator(randMock.Object, dsaMock.Object);
@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
             var result = subject.Generate(GetTestGroup(), true);
 
             dsaMock.Verify(v => v.GenerateKeyPair(It.IsAny<FfcDomainParameters>()), Times.Once, "Call KeyGen Generate once");
-            dsaMock.Verify(v => v.Sign(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>()), Times.Once, "Call Sign once");
+            dsaMock.Verify(v => v.Sign(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()), Times.Once, "Call Sign once");
 
             Assert.IsTrue(result.Success);
             var testCase = (TestCase)result.TestCase;
@@ -88,7 +88,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
                 .Returns(new FfcKeyPairGenerateResult(new FfcKeyPair(1, 2)));
 
             dsaMock
-                .Setup(s => s.Sign(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>()))
+                .Setup(s => s.Sign(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()))
                 .Returns(new FfcSignatureResult(new FfcSignature(1, 2)));
 
             var subject = new TestCaseGenerator(randMock.Object, dsaMock.Object);
