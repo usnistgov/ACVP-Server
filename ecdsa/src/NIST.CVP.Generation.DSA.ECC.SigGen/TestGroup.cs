@@ -20,6 +20,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
     {
         public EccDomainParameters DomainParameters { get; set; }
         public HashFunction HashAlg { get; set; }
+        public bool ComponentTest { get; set; }
 
         public string TestType { get; set; }
         public List<ITestCase> Tests { get; set; }
@@ -35,6 +36,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
         {
             ParseDomainParams((ExpandoObject)source);
             ParseHashAlg((ExpandoObject)source);
+            ComponentTest = source.componentTest;
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)

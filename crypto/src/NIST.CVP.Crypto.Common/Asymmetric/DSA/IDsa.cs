@@ -73,8 +73,9 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA
         /// <param name="domainParameters"></param>
         /// <param name="keyPair"></param>
         /// <param name="message"></param>
+        /// <param name="skipHash"></param>
         /// <returns></returns>
-        TDsaSignatureResult Sign(TDsaDomainParameters domainParameters, TDsaKeyPair keyPair, BitString message);
+        TDsaSignatureResult Sign(TDsaDomainParameters domainParameters, TDsaKeyPair keyPair, BitString message, bool skipHash = false);
 
         /// <summary>
         /// Verifies a signature
@@ -83,7 +84,8 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA
         /// <param name="keyPair"></param>
         /// <param name="message"></param>
         /// <param name="signature"></param>
+        /// <param name="skipHash"></param>
         /// <returns></returns>
-        TDsaVerificationResult Verify(TDsaDomainParameters domainParameters, TDsaKeyPair keyPair, BitString message, TDsaSignature signature);
+        TDsaVerificationResult Verify(TDsaDomainParameters domainParameters, TDsaKeyPair keyPair, BitString message, TDsaSignature signature, bool skipHash = false);
     }
 }

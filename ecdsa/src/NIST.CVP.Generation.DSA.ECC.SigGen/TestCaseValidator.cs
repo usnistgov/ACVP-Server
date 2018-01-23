@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             }
             else
             {
-                var verifyResult = _eccDsa.Verify(_group.DomainParameters, suppliedResult.KeyPair, _expectedResult.Message, suppliedResult.Signature);
+                var verifyResult = _eccDsa.Verify(_group.DomainParameters, suppliedResult.KeyPair, _expectedResult.Message, suppliedResult.Signature, _group.ComponentTest);
                 if (!verifyResult.Success)
                 {
                     errors.Add($"Validation failed: {verifyResult.ErrorMessage}");

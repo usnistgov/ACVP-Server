@@ -12,6 +12,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
         public bool IsSample { get; set; }
 
         public Capability[] Capabilities { get; set; }
+        public bool ComponentTest { get; set; } = false;
     }
 
     public class Capability

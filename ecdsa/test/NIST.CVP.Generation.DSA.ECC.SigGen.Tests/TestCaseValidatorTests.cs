@@ -18,13 +18,13 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         {
             var eccMock = GetDsaMock();
             eccMock
-                .Setup(s => s.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>()))
+                .Setup(s => s.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()))
                 .Returns(new EccVerificationResult());
 
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), eccMock.Object);
             var result = subject.Validate(GetResultTestCase());
 
-            eccMock.Verify(v => v.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>()), Times.Once);
+            eccMock.Verify(v => v.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()), Times.Once);
 
             Assert.AreEqual(Disposition.Passed, result.Result);
         }
@@ -34,13 +34,13 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         {
             var eccMock = GetDsaMock();
             eccMock
-                .Setup(s => s.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>()))
+                .Setup(s => s.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()))
                 .Returns(new EccVerificationResult("Fail"));
 
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), eccMock.Object);
             var result = subject.Validate(GetResultTestCase());
 
-            eccMock.Verify(v => v.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>()), Times.Once);
+            eccMock.Verify(v => v.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()), Times.Once);
 
             Assert.AreEqual(Disposition.Failed, result.Result);
         }

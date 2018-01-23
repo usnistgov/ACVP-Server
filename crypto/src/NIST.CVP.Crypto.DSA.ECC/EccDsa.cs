@@ -12,8 +12,8 @@ namespace NIST.CVP.Crypto.DSA.ECC
     {
         public ISha Sha { get; }
 
-        private IEntropyProviderFactory _entropyFactory = new EntropyProviderFactory();
-        private IEntropyProvider _entropyProvider;
+        private readonly IEntropyProviderFactory _entropyFactory = new EntropyProviderFactory();
+        private readonly IEntropyProvider _entropyProvider;
 
         public EccDsa(ISha sha, EntropyProviderTypes entropyType = EntropyProviderTypes.Random)
         {
@@ -84,7 +84,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
             return new EccKeyPairValidateResult("n * Q must equal infinity");
         }
 
-        public EccSignatureResult Sign(EccDomainParameters domainParameters, EccKeyPair keyPair, BitString message)
+        public EccSignatureResult Sign(EccDomainParameters domainParameters, EccKeyPair keyPair, BitString message, bool skipHash = false)
         {
             // Generate random number k [1, n-1]
             var k = _entropyProvider.GetEntropy(1, domainParameters.CurveE.OrderN - 1);
@@ -102,7 +102,10 @@ namespace NIST.CVP.Crypto.DSA.ECC
             var kInverse = k.ModularInverse(domainParameters.CurveE.OrderN);
 
             var bitsOfDigestNeeded = System.Math.Min(domainParameters.CurveE.OrderN.ExactBitLength(), Sha.HashFunction.OutputLen);
-            var hashDigest = Sha.HashMessage(message).Digest;
+
+            // Determine whether to hash or skip the hash step for component test
+            var hashDigest = skipHash ? message : Sha.HashMessage(message).Digest;
+            
             var e = hashDigest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
 
             var s = (kInverse * (e + keyPair.PrivateD * r)).PosMod(domainParameters.CurveE.OrderN);
@@ -111,7 +114,7 @@ namespace NIST.CVP.Crypto.DSA.ECC
             return new EccSignatureResult(new EccSignature(r, s));
         }
 
-        public EccVerificationResult Verify(EccDomainParameters domainParameters, EccKeyPair keyPair, BitString message, EccSignature signature)
+        public EccVerificationResult Verify(EccDomainParameters domainParameters, EccKeyPair keyPair, BitString message, EccSignature signature, bool skipHash = false)
         {
             // Check r and s to be within the interval [1, n-1]
             if (signature.R < 1 || signature.R > domainParameters.CurveE.OrderN - 1 || signature.S < 1 || signature.S > domainParameters.CurveE.OrderN)
@@ -121,7 +124,11 @@ namespace NIST.CVP.Crypto.DSA.ECC
 
             // Hash message e = H(m)
             var bitsOfDigestNeeded = System.Math.Min(domainParameters.CurveE.OrderN.ExactBitLength(), Sha.HashFunction.OutputLen);
-            var e = Sha.HashMessage(message).Digest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
+
+            // Determine whether to hash or skip the hash step for component test
+            var hashDigest = skipHash ? message : Sha.HashMessage(message).Digest;
+
+            var e = hashDigest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
 
             // Compute u1 = e * s^-1 (mod n)
             var sInverse = signature.S.ModularInverse(domainParameters.CurveE.OrderN);
@@ -153,8 +160,8 @@ namespace NIST.CVP.Crypto.DSA.ECC
         }
 
         // Both secret generation methods exist, but we don't have a reason to use them. No need to worry about them.
-        // These won't work well when the d value is provided instead of randomly generated because what comes out
-        // of the entropy provider is modified before becoming d
+        // These won't work well when the d value is provided via entropy provider instead of randomly generated because 
+        // what comes out of the entropy provider is modified before becoming d
         private BigInteger GetSecretViaExtraRandomBits(BigInteger N)
         {
             var bitLength = N.ExactBitLength();

@@ -24,9 +24,10 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {
+            // For component test, get a post-hash message (just random value of hash output length)
             var testCase = new TestCase
             {
-                Message = _random.GetRandomBitString(1024)
+                Message = _random.GetRandomBitString(group.ComponentTest ? group.HashAlg.OutputLen : 1024)
             };
 
             if (isSample)
@@ -64,7 +65,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             EccSignatureResult sigResult = null;
             try
             {
-                sigResult = _eccDsa.Sign(group.DomainParameters, testCase.KeyPair, testCase.Message);
+                sigResult = _eccDsa.Sign(group.DomainParameters, testCase.KeyPair, testCase.Message, group.ComponentTest);
                 if (!sigResult.Success)
                 {
                     ThisLogger.Warn($"Error generating signature: {sigResult.ErrorMessage}");

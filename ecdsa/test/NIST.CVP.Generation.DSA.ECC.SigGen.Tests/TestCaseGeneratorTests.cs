@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
                 .Returns(new EccKeyPairGenerateResult(new EccKeyPair(new EccPoint(1, 2))));
 
             eccMock
-                .Setup(s => s.Sign(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>()))
+                .Setup(s => s.Sign(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()))
                 .Returns(new EccSignatureResult(new EccSignature(3, 4)));
 
             var subject = new TestCaseGenerator(randMock.Object, eccMock.Object);
@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
             var result = subject.Generate(GetTestGroup(), true);
 
             eccMock.Verify(v => v.GenerateKeyPair(It.IsAny<EccDomainParameters>()), Times.Once, "Call KeyGen Generate once");
-            eccMock.Verify(v => v.Sign(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>()), Times.Once, "Call Sign once");
+            eccMock.Verify(v => v.Sign(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()), Times.Once, "Call Sign once");
 
             Assert.IsTrue(result.Success);
             var testCase = (TestCase)result.TestCase;

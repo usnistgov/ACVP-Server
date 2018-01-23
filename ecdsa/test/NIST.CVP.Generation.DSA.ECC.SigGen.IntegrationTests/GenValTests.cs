@@ -62,6 +62,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                ComponentTest = true,
                 IsSample = true,
                 Capabilities = caps,
             };

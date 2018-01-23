@@ -37,7 +37,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
                         var testGroup = new TestGroup
                         {
                             DomainParameters = new EccDomainParameters(curve),
-                            HashAlg = sha
+                            HashAlg = sha,
+                            ComponentTest = parameters.ComponentTest
                         };
 
                         testGroups.Add(testGroup);

@@ -53,6 +53,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
                     ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                    ((IDictionary<string, object>)updateObject).Add("componentTest", group.ComponentTest);
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
@@ -82,6 +83,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
                     dynamic updateObject = new ExpandoObject();
                     ((IDictionary<string, object>)updateObject).Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
                     ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                    ((IDictionary<string, object>)updateObject).Add("componentTest", group.ComponentTest);
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
