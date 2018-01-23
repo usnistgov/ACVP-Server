@@ -117,7 +117,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
             }
         }
 
-        public FfcSignatureResult Sign(FfcDomainParameters domainParameters, FfcKeyPair keyPair, BitString message)
+        public FfcSignatureResult Sign(FfcDomainParameters domainParameters, FfcKeyPair keyPair, BitString message, bool skipHash = false)
         {
             BigInteger r, s;
             do
@@ -137,7 +137,7 @@ namespace NIST.CVP.Crypto.DSA.FFC
             return new FfcSignatureResult(new FfcSignature(r, s));
         }
 
-        public FfcVerificationResult Verify(FfcDomainParameters domainParameters, FfcKeyPair keyPair, BitString message, FfcSignature signature)
+        public FfcVerificationResult Verify(FfcDomainParameters domainParameters, FfcKeyPair keyPair, BitString message, FfcSignature signature, bool skipHash = false)
         {
             // 1
             if(signature.R < 0 || signature.R > domainParameters.Q)
