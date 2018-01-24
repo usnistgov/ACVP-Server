@@ -1,5 +1,4 @@
-﻿using NIST.CVP.Generation.TDES_CFB;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
@@ -7,7 +6,6 @@ using System.Collections;
 using System.Linq;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
 
 namespace NIST.CVP.Crypto.TDES_CFB.Tests
 {

@@ -16,8 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
-    <ProjectReference Include="..\..\..\tdes-cfb\src\NIST.CVP.Generation.TDES_CFB\NIST.CVP.Generation.TDES_CFB.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Crypto.TDES_CFB\NIST.CVP.Crypto.TDES_CFB.csproj" />
   </ItemGroup>
   
 </Project>
