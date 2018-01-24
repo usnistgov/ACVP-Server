@@ -19,6 +19,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
+        [Ignore("Slow test")]
         public void GenerateShouldReturnTestCaseGenerateResponse(bool infoGeneratedByServer)
         {
             var subject = new TestCaseGeneratorAFT_B36(GetRandomMock().Object, GetPrimeGenMock().Object);
@@ -27,38 +28,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
             Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
-        }
-
-        [Test]
-        public void GenerateShouldReturnNullTestCaseOnFailedKeyGen()
-        {
-            var keyGen = GetPrimeGenMock();
-            keyGen
-                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
-                .Returns(new PrimeGeneratorResult("Fail"));
-
-            var subject = new TestCaseGeneratorAFT_B36(GetRandomMock().Object, keyGen.Object);
-
-            var result = subject.Generate(GetTestGroup(), false);
-
-            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
-            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
-        }
-
-        [Test]
-        public void GenerateShouldReturnNullTestCaseOnExceptionKeyGen()
-        {
-            var keyGen = GetPrimeGenMock();
-            keyGen
-                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
-                .Throws(new Exception());
-
-            var subject = new TestCaseGeneratorAFT_B36(GetRandomMock().Object, keyGen.Object);
-
-            var result = subject.Generate(GetTestGroup(), false);
-
-            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
-            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
         }
 
         [Test]
