@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\aes-xts\src\NIST.CVP.Generation.AES_XTS\NIST.CVP.Generation.AES_XTS.csproj" />
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Crypto.AES_XTS\NIST.CVP.Crypto.AES_XTS.csproj" />

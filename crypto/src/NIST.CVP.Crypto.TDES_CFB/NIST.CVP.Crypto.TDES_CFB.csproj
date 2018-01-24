@@ -29,4 +29,8 @@
     <ProjectReference Include="..\NIST.CVP.Crypto.TDES_CFBP\NIST.CVP.Crypto.TDES_CFBP.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20171009-10" />
+  </ItemGroup>
+
 </Project>
