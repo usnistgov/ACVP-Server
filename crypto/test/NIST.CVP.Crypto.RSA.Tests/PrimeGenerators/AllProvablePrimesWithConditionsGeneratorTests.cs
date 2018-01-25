@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
 {
-    [TestFixture, FastCryptoTest]
+    [TestFixture, LongCryptoTest]
     public class AllProvablePrimesWithConditionsGeneratorTests
     {
         [Test]

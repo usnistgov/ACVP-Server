@@ -14,7 +14,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
 {
 
 
-    [TestFixture, FastCryptoTest]
+    [TestFixture, LongCryptoTest]
     public class MCTs
     {
 

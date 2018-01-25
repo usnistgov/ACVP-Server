@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.TDES_CBCI.Tests
 {
+    [TestFixture, LongCryptoTest]
     public class MCTs
     {
         private class TestTDesCbciMct : TdesCbciMCT

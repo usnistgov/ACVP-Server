@@ -9,7 +9,7 @@ using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Crypto.TDES_CFB.Tests
 {
-    [TestFixture, FastCryptoTest]
+    [TestFixture, LongCryptoTest]
     public class MCTs
     {
 

@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.SHA3.Tests
 {
-    [TestFixture, FastCryptoTest]
+    [TestFixture, LongCryptoTest]
     public class SHA3Tests
     {
         #region ByteOriented SHA3

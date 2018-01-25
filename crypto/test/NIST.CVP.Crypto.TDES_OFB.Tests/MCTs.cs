@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.TDES_OFB.Tests
 {
-    [TestFixture, FastCryptoTest]
+    [TestFixture, LongCryptoTest]
     public class MCTs
     {
 
