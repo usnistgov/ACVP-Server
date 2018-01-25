@@ -76,7 +76,7 @@ namespace NIST.CVP.Crypto.RSA.Signatures
 
                 case FailureReasons.E:
                     var newKey = new KeyPair(key.PrivKey.P, key.PrivKey.Q, key.PubKey.E + 2);
-                    return Sign(nlen, message, key);
+                    return Sign(nlen, message, newKey);
 
                 case FailureReasons.MESSAGE:
                     var newMessage = message.ToPositiveBigInteger() + 2;
