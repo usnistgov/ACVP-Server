@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.SRTP
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         public static int[] VALID_AES_KEY_LENGTHS = {128, 192, 256};
-        public static int[] VALID_KDR_EXPONENTS = Enumerable.Range(1, 25).ToArray();    // 1-24
+        public static int[] VALID_KDR_EXPONENTS = Enumerable.Range(1, 24).ToArray();    // 1-24
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
