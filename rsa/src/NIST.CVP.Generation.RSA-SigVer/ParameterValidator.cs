@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Math;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {

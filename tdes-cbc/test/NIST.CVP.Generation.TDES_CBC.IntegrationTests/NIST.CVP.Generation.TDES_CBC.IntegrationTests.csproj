@@ -19,8 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.TDES\NIST.CVP.Crypto.TDES.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.TDES_CBC\NIST.CVP.Crypto.TDES_CBC.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.TDES_CBC\NIST.CVP.Generation.TDES_CBC.csproj" />
     <ProjectReference Include="..\..\src\TDES_CBC\TDES_CBC.csproj" />
     <ProjectReference Include="..\..\src\TDES_CBC_Val\TDES_CBC_Val.csproj" />

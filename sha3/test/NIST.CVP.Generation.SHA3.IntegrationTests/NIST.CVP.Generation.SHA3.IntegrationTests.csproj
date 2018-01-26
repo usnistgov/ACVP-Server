@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\src\SHA3\SHA3.csproj" />
     <ProjectReference Include="..\..\src\SHA3_Val\SHA3_Val.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
   </ItemGroup>
 
   <ItemGroup>

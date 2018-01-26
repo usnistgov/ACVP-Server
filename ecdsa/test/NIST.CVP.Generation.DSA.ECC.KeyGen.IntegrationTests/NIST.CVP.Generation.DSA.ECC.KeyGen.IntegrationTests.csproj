@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\src\ECDSA-KeyGen\ECDSA-KeyGen.csproj" />
     <ProjectReference Include="..\..\src\ECDSA-KeyGen_Val\ECDSA-KeyGen_Val.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.DSA.ECC.KeyGen\NIST.CVP.Generation.DSA.ECC.KeyGen.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
   </ItemGroup>
 
 </Project>

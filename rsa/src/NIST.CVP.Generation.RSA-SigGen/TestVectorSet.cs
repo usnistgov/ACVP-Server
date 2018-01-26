@@ -9,6 +9,7 @@ using System.Dynamic;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Crypto.Common.Hash.SHA2;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {

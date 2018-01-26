@@ -11,6 +11,7 @@
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.TDES_CBC\NIST.CVP.Generation.TDES_CBC.csproj" />
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
     <ProjectReference Include="..\..\src\TDES_CBC\TDES_CBC.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
   </ItemGroup>
 
   <ItemGroup>

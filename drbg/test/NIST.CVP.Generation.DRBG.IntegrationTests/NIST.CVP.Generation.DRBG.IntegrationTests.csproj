@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\src\DRBG\DRBG.csproj" />
     <ProjectReference Include="..\..\src\DRBG_Val\DRBG_Val.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
   </ItemGroup>
 
   <ItemGroup>

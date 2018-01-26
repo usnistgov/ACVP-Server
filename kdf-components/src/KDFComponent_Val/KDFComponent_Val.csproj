@@ -16,6 +16,7 @@
     <ProjectReference Include="..\NIST.CVP.Generation.SRTP\NIST.CVP.Generation.SRTP.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.SSH\NIST.CVP.Generation.SSH.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.TLS\NIST.CVP.Generation.TLS.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
   </ItemGroup>
 
   <ItemGroup>

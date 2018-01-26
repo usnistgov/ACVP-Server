@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\src\ECDSA-SigGen\ECDSA-SigGen.csproj" />
     <ProjectReference Include="..\..\src\ECDSA-SigGen_Val\ECDSA-SigGen_Val.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.DSA.ECC.SigGen\NIST.CVP.Generation.DSA.ECC.SigGen.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
   </ItemGroup>
 
 </Project>

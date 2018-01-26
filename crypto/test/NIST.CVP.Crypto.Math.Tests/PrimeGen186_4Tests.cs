@@ -2,12 +2,16 @@
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NIST.CVP.Math;
 using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.SHA2;
 
 namespace NIST.CVP.Crypto.Math.Tests
 {
     [TestFixture, LongCryptoTest]
     public class PrimeGen186_4Tests
     {
+
+        private readonly SHA _sha = new SHA();
+
         // From ProvableProbablePrimesWithConditions (B35)
         [Test]
         [TestCase("00c43e35054d734394b4448eeaeb8724173aa0955357af8545ce24411f62cf7e", 392,
@@ -30,7 +34,7 @@ namespace NIST.CVP.Crypto.Math.Tests
             var hf = new Common.Hash.SHA2.HashFunction { Mode = mode, DigestSize = dig };
             var seed = new BitString(seedHex).ToPositiveBigInteger();
 
-            var result = PrimeGen186_4.ShaweTaylorRandomPrime(len, seed, hf);
+            var result = PrimeGen186_4.ShaweTaylorRandomPrime(len, seed, _sha, hf);
 
             var prime = new BitString(primeHex).ToPositiveBigInteger();
             var primeseed = new BitString(primeSeedHex).ToPositiveBigInteger();
@@ -87,7 +91,7 @@ namespace NIST.CVP.Crypto.Math.Tests
             var hf = new Common.Hash.SHA2.HashFunction { Mode = Common.Hash.SHA2.ModeValues.SHA1, DigestSize = Common.Hash.SHA2.DigestSizes.d160 };
             var seed = new BitString(seedHex).ToPositiveBigInteger();
 
-            var result = PrimeGen186_4.ShaweTaylorRandomPrime(len, seed, hf);
+            var result = PrimeGen186_4.ShaweTaylorRandomPrime(len, seed, _sha, hf);
 
             var prime = new BitString(primeHex).ToPositiveBigInteger();
 
@@ -125,7 +129,7 @@ namespace NIST.CVP.Crypto.Math.Tests
             var hf = new Common.Hash.SHA2.HashFunction { Mode = mode, DigestSize = dig };
             var primeSeed = new BitString(primeSeedHex).ToPositiveBigInteger();
 
-            var result = PrimeGen186_4.Hash(hf, primeSeed) ^ PrimeGen186_4.Hash(hf, primeSeed + 1);
+            var result = PrimeGen186_4.Hash(_sha, hf, primeSeed) ^ PrimeGen186_4.Hash(_sha, hf, primeSeed + 1);
 
             var expectedResult = new BitString(expectedHex).ToPositiveBigInteger();
             Assert.AreEqual(expectedResult, result);

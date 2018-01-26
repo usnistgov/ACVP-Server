@@ -13,7 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.KeyWrap\NIST.CVP.Crypto.KeyWrap.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.KeyWrapWithPadding.AES\NIST.CVP.Generation.KeyWrapWithPadding.AES.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.KeyWrap.Tests.AES\NIST.CVP.Generation.KeyWrap.Tests.AES.csproj" />
   </ItemGroup>

@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.AES_GCM\NIST.CVP.Crypto.AES_GCM.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
     <ProjectReference Include="..\..\src\AES_GCM\AES_GCM.csproj" />
     <ProjectReference Include="..\..\src\AES_GCM_Val\AES_GCM_Val.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.AES_GCM\NIST.CVP.Generation.AES_GCM.csproj" />

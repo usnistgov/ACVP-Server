@@ -35,6 +35,7 @@
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.TDES_OFB\NIST.CVP.Generation.TDES_OFB.csproj" />
     <ProjectReference Include="..\..\src\TDES_OFB\TDES_OFB.csproj" />
     <ProjectReference Include="..\..\src\TDES_OFB_Val\TDES_OFB_Val.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
   </ItemGroup>
 
   <ItemGroup>

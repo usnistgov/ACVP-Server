@@ -14,8 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.AES_ECB\NIST.CVP.Crypto.AES_ECB.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.TDES_ECB\NIST.CVP.Crypto.TDES_ECB.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.KeyWrap.AES\NIST.CVP.Generation.KeyWrap.AES.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.KeyWrap.TDES\NIST.CVP.Generation.KeyWrap.TDES.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.KeyWrapWithPadding.AES\NIST.CVP.Generation.KeyWrapWithPadding.AES.csproj" />

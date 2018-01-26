@@ -4,14 +4,11 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
-using NIST.CVP.Crypto.SHA2;
 
 namespace NIST.CVP.Crypto.Math
 {
     public static class PrimeGen186_4
     {
-        private static readonly ISHA _hash = new SHA(new SHAFactory());
-
         #region primes
         private static readonly int[] _primes =
         {
@@ -471,7 +468,7 @@ namespace NIST.CVP.Crypto.Math
         }
         #endregion structs
 
-        public static BigInteger Hash(Common.Hash.SHA2.HashFunction hashFunction, BigInteger message)
+        public static BigInteger Hash(ISHA hash, Common.Hash.SHA2.HashFunction hashFunction, BigInteger message)
         {
             var bs = new BitString(message);
 
@@ -486,7 +483,7 @@ namespace NIST.CVP.Crypto.Math
                 bs = BitString.ConcatenateBits(BitString.Zeroes(32 - bs.BitLength % 32), bs);
             }
 
-            var result = _hash.HashMessage(hashFunction, bs);
+            var result = hash.HashMessage(hashFunction, bs);
             if (!result.Success)
             {
                 throw new Exception("Bad Hash in PrimeGen186_4");
@@ -501,7 +498,7 @@ namespace NIST.CVP.Crypto.Math
         /// <param name="inputSeed"></param>
         /// <param name="hashFunction"></param>
         /// <returns></returns>
-        public static STRandomPrimeResult ShaweTaylorRandomPrime(int length, BigInteger inputSeed, Common.Hash.SHA2.HashFunction hashFunction)
+        public static STRandomPrimeResult ShaweTaylorRandomPrime(int length, BigInteger inputSeed, ISHA hash, Common.Hash.SHA2.HashFunction hashFunction)
         {
             BigInteger prime, primeSeed;
             int primeGenCounter;
@@ -523,7 +520,7 @@ namespace NIST.CVP.Crypto.Math
                 while (true)
                 {
                     // 5, 6, 7
-                    prime = Hash(hashFunction, primeSeed) ^ Hash(hashFunction, primeSeed + 1);
+                    prime = Hash(hash, hashFunction, primeSeed) ^ Hash(hash, hashFunction, primeSeed + 1);
                     prime = NumberTheory.Pow2(length - 1) + prime % NumberTheory.Pow2(length - 1);
                     prime = 2 * (prime / 2) + 1;
 
@@ -549,7 +546,7 @@ namespace NIST.CVP.Crypto.Math
             }
 
             // 14
-            var result = ShaweTaylorRandomPrime((int)System.Math.Ceiling(length / 2.0) + 1, inputSeed, hashFunction);
+            var result = ShaweTaylorRandomPrime((int)System.Math.Ceiling(length / 2.0) + 1, inputSeed, hash, hashFunction);
             var prime0 = result.Prime;
             primeSeed = result.PrimeSeed;
             primeGenCounter = result.PrimeGenCounter;
@@ -568,7 +565,7 @@ namespace NIST.CVP.Crypto.Math
             BigInteger x = 0;
             for (var i = 0; i <= iterations; i++)
             {
-                x += Hash(hashFunction, primeSeed + i) * NumberTheory.Pow2(i * outLen);
+                x += Hash(hash, hashFunction, primeSeed + i) * NumberTheory.Pow2(i * outLen);
             }
 
             // 20, 21, 22
@@ -592,7 +589,7 @@ namespace NIST.CVP.Crypto.Math
                 BigInteger a = 0;
                 for (var i = 0; i <= iterations; i++)
                 {
-                    a += Hash(hashFunction, primeSeed + i) * NumberTheory.Pow2(i * outLen);
+                    a += Hash(hash, hashFunction, primeSeed + i) * NumberTheory.Pow2(i * outLen);
                 }
 
                 // 28, 29

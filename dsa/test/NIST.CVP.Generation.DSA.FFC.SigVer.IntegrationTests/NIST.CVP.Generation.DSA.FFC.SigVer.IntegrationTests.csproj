@@ -14,8 +14,7 @@
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.DSA.FFC\NIST.CVP.Crypto.DSA.FFC.csproj" />
-    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto.SHAWrapper\NIST.CVP.Crypto.SHAWrapper.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
     <ProjectReference Include="..\..\src\DSA-SigVer\DSA-SigVer.csproj" />
     <ProjectReference Include="..\..\src\DSA-SigVer_Val\DSA-SigVer_Val.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.DSA.FFC.SigVer\NIST.CVP.Generation.DSA.FFC.SigVer.csproj" />

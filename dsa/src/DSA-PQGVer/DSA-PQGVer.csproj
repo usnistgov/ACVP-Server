@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
     <ProjectReference Include="..\NIST.CVP.Generation.DSA.FFC.PQGVer\NIST.CVP.Generation.DSA.FFC.PQGVer.csproj" />
   </ItemGroup>
 

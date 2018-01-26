@@ -2,15 +2,15 @@
 using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
-using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Crypto.Math;
+using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 {
-    public abstract partial class PrimeGeneratorBase : IPrimeGeneratorBase
+    public abstract class PrimeGeneratorBase : IPrimeGeneratorBase
     {
         protected readonly BigInteger _root2Mult2Pow512Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768").ToPositiveBigInteger();
         protected readonly BigInteger _root2Mult2Pow1024Minus1 = new BitString("B504F333F9DE6484597D89B3754ABE9F1D6F60BA893BA84CED17AC85833399154AFC83043AB8A2C3A8B1FE6FDC83DB390F74A85E439C7B4A780487363DFA2768D2202E8742AF1F4E53059C6011BC337BCAB1BC911688458A460ABC722F7C4E33C6D5A8A38BB7E9DCCB2A634331F3C84DF52F120F836E582EEAA4A0899040CA4A").ToPositiveBigInteger();
@@ -196,6 +196,8 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         /// <returns></returns>
         public PPCResult ProvablePrimeConstruction(int L, int N1, int N2, BigInteger firstSeed, BigInteger e)
         {
+            SHA sha = new SHA();
+
             // 1
             if (N1 + N2 > L - System.Math.Ceiling(L / 2.0) - 4)
             {
@@ -215,7 +217,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             // 3
             if (N1 >= 2)
             {
-                var stResult = PrimeGen186_4.ShaweTaylorRandomPrime(N1, firstSeed, _hashFunction);
+                var stResult = PrimeGen186_4.ShaweTaylorRandomPrime(N1, firstSeed, sha, _hashFunction);
                 if (!stResult.Success)
                 {
                     return new PPCResult("PPC: fail ST p1 gen");
@@ -235,7 +237,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             // 5
             if (N2 >= 2)
             {
-                var stResult = PrimeGen186_4.ShaweTaylorRandomPrime(N2, p2Seed, _hashFunction);
+                var stResult = PrimeGen186_4.ShaweTaylorRandomPrime(N2, p2Seed, sha, _hashFunction);
                 if (!stResult.Success)
                 {
                     return new PPCResult("PPC: fail ST p2 gen");
@@ -246,7 +248,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             }
 
             // 6
-            var result = PrimeGen186_4.ShaweTaylorRandomPrime((int)System.Math.Ceiling(L / 2.0) + 1, p0Seed, _hashFunction);
+            var result = PrimeGen186_4.ShaweTaylorRandomPrime((int)System.Math.Ceiling(L / 2.0) + 1, p0Seed, sha, _hashFunction);
             if (!result.Success)
             {
                 return new PPCResult("PPC: fail ST p0 gen");
@@ -264,7 +266,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             // 10
             for (var i = 0; i <= iterations; i++)
             {
-                x += PrimeGen186_4.Hash(_hashFunction, pSeed + i) * NumberTheory.Pow2(i * outLen);
+                x += PrimeGen186_4.Hash(sha, _hashFunction, pSeed + i) * NumberTheory.Pow2(i * outLen);
             }
 
             // 11
@@ -327,7 +329,7 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
                     BigInteger a = 0;
                     for (var i = 0; i <= iterations; i++)
                     {
-                        a += PrimeGen186_4.Hash(_hashFunction, pSeed + i) * NumberTheory.Pow2(i * outLen);
+                        a += PrimeGen186_4.Hash(sha, _hashFunction, pSeed + i) * NumberTheory.Pow2(i * outLen);
                     }
 
                     pSeed += iterations + 1;
