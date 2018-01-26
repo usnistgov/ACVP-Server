@@ -18,4 +18,10 @@
     <ProjectReference Include="..\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
