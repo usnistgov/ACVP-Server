@@ -88,7 +88,8 @@ namespace NIST.CVP.Generation.KDF.Tests
             return new TestGroup
             {
                 KdfMode = KdfModes.Counter,
-                MacMode = MacModes.HMAC_SHA384
+                MacMode = MacModes.HMAC_SHA384,
+                KeyOutLength = 128
             };
         }
 

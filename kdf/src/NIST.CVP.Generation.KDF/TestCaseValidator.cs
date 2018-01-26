@@ -75,7 +75,14 @@ namespace NIST.CVP.Generation.KDF
                 return;
             }
 
-            if (!serverResult.DerivedKey.Equals(suppliedResult.KeyOut))
+            // Check the less than so 'GetMostSignificantBits' doesn't cause an error
+            if (suppliedResult.KeyOut.BitLength < _group.KeyOutLength)
+            {
+                errors.Add("KeyOut does not match");
+                return;
+            }
+
+            if (!serverResult.DerivedKey.Equals(suppliedResult.KeyOut.GetMostSignificantBits(_group.KeyOutLength)))
             {
                 errors.Add("KeyOut does not match");
             }
