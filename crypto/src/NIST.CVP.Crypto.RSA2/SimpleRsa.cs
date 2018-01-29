@@ -8,14 +8,14 @@ namespace NIST.CVP.Crypto.RSA2
 {
     public class SimpleRsa : IRsa<PrivateKey>
     {
-        public BigInteger Encrypt(BigInteger plainText, PublicKey pubKey, PrivateKey privKey)
+        public BigInteger Encrypt(BigInteger plainText, PublicKey pubKey)
         {
-            throw new NotImplementedException();
+            return BigInteger.ModPow(plainText, pubKey.E, pubKey.N);
         }
 
         public BigInteger Decrypt(BigInteger cipherText, PublicKey pubKey, PrivateKey privKey)
         {
-            throw new NotImplementedException();
+            return BigInteger.ModPow(cipherText, privKey.D, pubKey.N);
         }
     }
 }

@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-KeyGen", "..\..\rsa\src\NIST.CVP.Generation.RSA-KeyGen\NIST.CVP.Generation.RSA-KeyGen.csproj", "{20933D7A-B864-408D-95D5-871C6E75BE32}"
 EndProject
@@ -69,6 +69,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.RSA2", "..\..\crypto\src\NIST.CVP.Crypto.RSA2\NIST.CVP.Crypto.RSA2.csproj", "{2089F54A-233D-4D41-96A2-72A09208031E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto", "..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj", "{4444FACD-8CE3-4244-B5B7-717C93DBC37E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Crypto.RSA2.Tests", "..\..\crypto\test\NIST.CVP.Crypto.RSA2.Tests\NIST.CVP.Crypto.RSA2.Tests.csproj", "{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -464,6 +466,18 @@ Global
 		{4444FACD-8CE3-4244-B5B7-717C93DBC37E}.Release|x64.Build.0 = Release|Any CPU
 		{4444FACD-8CE3-4244-B5B7-717C93DBC37E}.Release|x86.ActiveCfg = Release|Any CPU
 		{4444FACD-8CE3-4244-B5B7-717C93DBC37E}.Release|x86.Build.0 = Release|Any CPU
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}.Debug|x64.Build.0 = Debug|Any CPU
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}.Debug|x86.Build.0 = Debug|Any CPU
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}.Release|x64.ActiveCfg = Release|Any CPU
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}.Release|x64.Build.0 = Release|Any CPU
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}.Release|x86.ActiveCfg = Release|Any CPU
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -501,6 +515,7 @@ Global
 		{0BD3415C-E53C-4563-8BDF-DDE4AA39B342} = {05A83241-08C3-48EC-81E0-20D7F7812078}
 		{2089F54A-233D-4D41-96A2-72A09208031E} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
 		{4444FACD-8CE3-4244-B5B7-717C93DBC37E} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
+		{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A} = {05A83241-08C3-48EC-81E0-20D7F7812078}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81006EE6-52E0-4C5A-8A4B-94A560EAC8D6}

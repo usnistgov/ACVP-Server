@@ -31,4 +31,16 @@ namespace NIST.CVP.Crypto.RSA2.Enums
         [Description("C.3")]
         C3
     }
+
+    public enum SignatureSchemes
+    {
+        [Description("ansx9.31")]
+        Ansx931,
+
+        [Description("pkcs1v15")]
+        Pkcs1v15,
+
+        [Description("pss")]
+        Pss
+    }
 }

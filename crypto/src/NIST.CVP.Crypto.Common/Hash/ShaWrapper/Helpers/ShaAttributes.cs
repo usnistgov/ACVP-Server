@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers
 {
@@ -57,6 +58,29 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers
         {
             var attributes = GetShaAttributes(name);
             return new HashFunction(attributes.mode, attributes.digestSize);
+        }
+
+        public static BitString HashFunctionToBits(DigestSizes digestSize)
+        {
+            switch (digestSize)
+            {
+                case DigestSizes.d160:
+                    return new BitString("33");
+                case DigestSizes.d224:
+                    return new BitString("38");
+                case DigestSizes.d256:
+                    return new BitString("34");
+                case DigestSizes.d384:
+                    return new BitString("36");
+                case DigestSizes.d512:
+                    return new BitString("35");
+                case DigestSizes.d512t224:
+                    return new BitString("39");
+                case DigestSizes.d512t256:
+                    return new BitString("3a");     // Value taken from CAVS was previously 0x40, should be 0x3a
+                default:
+                    throw new Exception("Bad digest size");
+            }
         }
     }
 }
