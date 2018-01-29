@@ -7,6 +7,6 @@ namespace NIST.CVP.Crypto.RSA2.Keys
     public class KeyPair
     {
         public PublicKey PubKey { get; set; }
-        public IRsaPrivateKey PrivKey { get; set; }
+        public PrivateKeyBase PrivKey { get; set; }
     }
 }

@@ -1,12 +1,14 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Collections.Generic;
+using System.Numerics;
+using System.Text;
 using NIST.CVP.Crypto.RSA2.Keys;
 
 namespace NIST.CVP.Crypto.RSA2
 {
-    public interface IRsa<in TPrivateKey>
-        where TPrivateKey : IRsaPrivateKey
+    public interface IRsa
     {
         BigInteger Encrypt(BigInteger plainText, PublicKey pubKey);
-        BigInteger Decrypt(BigInteger cipherText, PublicKey pubKey, TPrivateKey privKey);
+        BigInteger Decrypt(BigInteger cipherText, PrivateKeyBase privKey, PublicKey pubKey);
     }
 }

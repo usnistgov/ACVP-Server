@@ -6,16 +6,23 @@ using NIST.CVP.Crypto.RSA2.Keys;
 
 namespace NIST.CVP.Crypto.RSA2
 {
-    public class SimpleRsa : IRsa<PrivateKey>
+    public class Rsa : IRsa
     {
+        private readonly IRsaVisitor _visitor;
+
+        public Rsa(IRsaVisitor visitor)
+        {
+            _visitor = visitor;
+        }
+
         public BigInteger Encrypt(BigInteger plainText, PublicKey pubKey)
         {
             return BigInteger.ModPow(plainText, pubKey.E, pubKey.N);
         }
 
-        public BigInteger Decrypt(BigInteger cipherText, PublicKey pubKey, PrivateKey privKey)
+        public BigInteger Decrypt(BigInteger cipherText, PrivateKeyBase privKey, PublicKey pubKey)
         {
-            return BigInteger.ModPow(cipherText, privKey.D, pubKey.N);
+            return privKey.AcceptDecrypt(_visitor, cipherText, pubKey);
         }
     }
 }

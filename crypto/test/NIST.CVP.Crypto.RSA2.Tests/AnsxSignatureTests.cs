@@ -103,7 +103,7 @@ namespace NIST.CVP.Crypto.RSA2.Tests
         {
             var shaFactory = new ShaFactory();
             var sha = shaFactory.GetShaInstance(new HashFunction(mode, dig));
-            var signatureBuilder = new SignatureBuilder<PrivateKey>();
+            var signatureBuilder = new SignatureBuilder();
             var ansxPaddingScheme = new AnsxPadder(sha);
 
             var msg = new BitString(msgHex);
@@ -111,7 +111,7 @@ namespace NIST.CVP.Crypto.RSA2.Tests
             var n = new BitString(nHex).ToPositiveBigInteger();
             var pubKey = new PublicKey {N = n};
             var privKey = new PrivateKey {D = d};
-            var rsa = new SimpleRsa();
+            var rsa = new Rsa(new RsaVisitor());
 
             var result = signatureBuilder
                 .WithMessage(msg)
