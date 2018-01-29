@@ -24,4 +24,12 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="dlls\" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="@echo off&#xD;&#xA;IF exist $(TargetDir)dlls\ ( echo $(TargetDir)dlls\ exists ) ELSE ( mkdir $(TargetDir)dlls\ &amp;&amp; echo $(TargetDir)dlls\ created)&#xD;&#xA;copy $(ProjectDir)dlls\*.dll $(TargetDir)dlls\" />
+  </Target>
+
 </Project>

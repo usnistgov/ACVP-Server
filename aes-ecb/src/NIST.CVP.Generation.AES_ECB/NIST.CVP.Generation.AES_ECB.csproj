@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
@@ -14,5 +18,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20171009-10" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy $(TargetPath) $(TargetDir)\..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\dlls /Y" />
+  </Target>
 
 </Project>

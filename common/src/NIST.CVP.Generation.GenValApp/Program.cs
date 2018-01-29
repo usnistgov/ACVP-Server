@@ -3,8 +3,6 @@ using System;
 using System.IO;
 using Autofac;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
@@ -22,7 +20,7 @@ namespace NIST.CVP.Generation.GenValApp
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile(_SETTINGS_FILE, optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
             IConfigurationRoot configuration = builder.Build();
