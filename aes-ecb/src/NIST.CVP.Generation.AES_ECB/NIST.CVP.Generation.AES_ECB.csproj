@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,7 +21,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="SET dropLocation=dlls\aes-ecb\&#xD;&#xA;&#xD;&#xA;REM Crypto copy&#xD;&#xA;xcopy &quot;$(TargetDir)..\..\..\..\..\..\crypto\src\NIST.CVP.Crypto\$(OutDir)NIST.CVP.Crypto.dll&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;REM Crypto.Math copy&#xD;&#xA;xcopy &quot;$(TargetDir)..\..\..\..\..\..\crypto\src\NIST.CVP.Crypto.Math\$(OutDir)NIST.CVP.Crypto.Math.dll&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;REM copy this assembly to dropLocation&#xD;&#xA;xcopy &quot;$(TargetPath)&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;REM copy dlls to app runner&#xD;&#xA;xcopy &quot;$(TargetDir)%dropLocation%*.dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\%dropLocation%&quot; /y /d /i" />
+    <Exec Command="SET dropLocation=dlls\aes-ecb\&#xD;&#xA;&#xD;&#xA;echo Copy Crypto to drop location %dropLocation%&#xD;&#xA;xcopy &quot;$(TargetDir)..\..\..\..\..\..\crypto\src\NIST.CVP.Crypto\$(OutDir)NIST.CVP.Crypto.dll&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;echo Copy Crypto.Math to drop location %dropLocation%&#xD;&#xA;xcopy &quot;$(TargetDir)..\..\..\..\..\..\crypto\src\NIST.CVP.Crypto.Math\$(OutDir)NIST.CVP.Crypto.Math.dll&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;echo Copy Generation assembly to drop location %dropLocation%&#xD;&#xA;xcopy &quot;$(TargetPath)&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;echo Copy %dropLocation% assemblies to GenValApp runner&#xD;&#xA;xcopy &quot;$(TargetDir)%dropLocation%*.dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\%dropLocation%&quot; /y /d /i" />
   </Target>
 
 </Project>
