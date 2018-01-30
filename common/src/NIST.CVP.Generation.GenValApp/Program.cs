@@ -10,7 +10,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.GenValApp
 {
-    class Program
+    public static class Program
     {
         private const string _SETTINGS_FILE = "appSettings.json";
         private static readonly string DllDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.GenValApp
             configuration.Bind(Config);
         }
         
-        static int Main(string[] args)
+        public static int Main(string[] args)
         {
             var parser = new CommandLineParser.CommandLineParser();
             var parsedParameters = new ArgumentParsingTarget();

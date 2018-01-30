@@ -40,4 +40,8 @@
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy $(TargetDir)..\..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\dlls $(TargetDir)dlls\ /y /d" />
+  </Target>
+
 </Project>

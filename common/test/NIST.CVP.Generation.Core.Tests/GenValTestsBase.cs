@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.Helpers;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Math;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Generation.Core.Tests.Enums;
 using NIST.CVP.Tests.Core;
 
 namespace NIST.CVP.Generation.Core.Tests
@@ -65,14 +59,14 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void GenShouldReturn1OnNoArgumentsSupplied()
         {
-            var result = Generator.Invoke(GetParameters(new string[] { }));
+            var result = Generator.Invoke(GetParameters(new string[] { }, GenValMode.Generate));
             Assert.AreEqual(1, result);
         }
 
         [Test]
         public void GenShouldReturn1OnInvalidFileName()
         {
-            var result = Generator.Invoke(GetParameters(new[] { $"{Guid.NewGuid()}.json" }));
+            var result = Generator.Invoke(GetParameters(new[] { $"{Guid.NewGuid()}.json" }, GenValMode.Generate));
             Assert.AreEqual(1, result);
         }
 
@@ -84,7 +78,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var targetFolder = GetTestFolder("GenShouldFail");
             var fileName = GetTestFileMinimalTestCases(targetFolder);
 
-            var result = Generator.Invoke(GetParameters(new string[] {fileName}));
+            var result = Generator.Invoke(GetParameters(new string[] {fileName}, GenValMode.Generate));
             Assert.AreEqual(1, result);
         }
 
@@ -110,7 +104,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var fileName = GetTestFileMinimalTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
-            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames)));
+            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames), GenValMode.Validate));
 
             Assert.AreEqual(1, result);
         }
@@ -124,7 +118,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var fileName = GetTestFileMinimalTestCases(targetFolder);
 
             RunGeneration(targetFolder, fileName);
-            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames)));
+            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames), GenValMode.Validate));
 
             Assert.AreEqual(1, result);
         }
@@ -225,7 +219,7 @@ namespace NIST.CVP.Generation.Core.Tests
             }
         }
 
-        private string[] GetParameters(string[] parameters)
+        protected virtual string[] GetParameters(string[] parameters, GenValMode mode)
         {
             // Copy the parameters over to a new array with the AdditionalParameters coming first
             var fullParameters = new string[parameters.Length + AdditionalParameters.Length];
@@ -270,7 +264,7 @@ namespace NIST.CVP.Generation.Core.Tests
         protected void RunGeneration(string targetFolder, string fileName)
         {
             // Run test vector generation
-            var result = Generator.Invoke(GetParameters(new[] { fileName }));
+            var result = Generator.Invoke(GetParameters(new[] { fileName }, GenValMode.Generate));
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[0]}"), $"{targetFolder}{TestVectorFileNames[0]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[1]}"), $"{targetFolder}{TestVectorFileNames[1]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[2]}"), $"{targetFolder}{TestVectorFileNames[2]}");
@@ -280,7 +274,7 @@ namespace NIST.CVP.Generation.Core.Tests
         protected void RunValidation(string targetFolder)
         {
             // Run test vector validation
-            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames)));
+            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames), GenValMode.Validate));
             Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder} validation");
             Assert.IsTrue(result == 0);
         }

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy $(TargetPath) $(TargetDir)\..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\dlls /Y" />
+    <Exec Command="xcopy $(TargetPath) $(TargetDir)\..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\dlls /y /d" />
   </Target>
 
 </Project>
