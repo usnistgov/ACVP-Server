@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace NIST.CVP.Generation.Core
+﻿namespace NIST.CVP.Generation.Core
 {
     public class ParseResponse<T> 
     {
-        public T ParsedObject { get; private set; }
-        public string ErrorMessage { get; private set; }
+        public T ParsedObject { get; }
+        public string ErrorMessage { get; }
 
         public ParseResponse(T parsedObject)
         {
@@ -18,7 +13,7 @@ namespace NIST.CVP.Generation.Core
         {
             ErrorMessage = errorMessage;
         }
-        public bool Success { get { return string.IsNullOrEmpty(ErrorMessage); } }
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
 
     }
 }

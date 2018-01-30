@@ -42,10 +42,7 @@ namespace NIST.CVP.Generation.Core.Parsers
             }
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
 
     }
 }

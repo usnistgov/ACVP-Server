@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 {
-    [TestFixture, LongRunningIntegrationTest]
+    [TestFixture, FastIntegrationTest]
     public class FireHoseTests
     {
         string _testPath;

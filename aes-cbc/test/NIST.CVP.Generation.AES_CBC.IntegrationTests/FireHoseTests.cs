@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CBC;
 using NIST.CVP.Generation.AES_CBC.Parsers;
@@ -12,7 +9,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
 {
-    [TestFixture, LongRunningIntegrationTest]
+    [TestFixture, FastIntegrationTest]
     public class FireHoseTests
     {
         private string _testPath;

@@ -8,18 +8,15 @@ namespace NIST.CVP.Generation.Core
     public class ParameterValidateResponse
     {
         
-        public string ErrorMessage { get; private set; }
-        public ParameterValidateResponse()
-        { }
+        public ParameterValidateResponse() { }
 
         public ParameterValidateResponse(string errorMessage)
         {
             ErrorMessage = errorMessage;
         }
 
-        public bool Success
-        {
-            get { return string.IsNullOrEmpty(ErrorMessage); }
-        }
+        public string ErrorMessage { get; }
+
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
     }
 }

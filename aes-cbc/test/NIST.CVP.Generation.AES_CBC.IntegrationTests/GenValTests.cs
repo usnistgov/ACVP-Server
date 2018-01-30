@@ -4,52 +4,17 @@ using AES_CBC;
 using Autofac;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
 {
-    [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    [TestFixture, FastIntegrationTest]
+    public class GenValTests : GenValTestsSingleRunnerBase<Parameters>
     {
         public override string Algorithm { get; } = "AES";
         public override string Mode { get; } = "CBC";
-
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => AES_CBC_Val.Program.Main;
-
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-            AES_CBC_Val.AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AES_CBC_Val.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AES_CBC_Val.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
