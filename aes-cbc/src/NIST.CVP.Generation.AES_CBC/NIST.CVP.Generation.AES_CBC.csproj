@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy $(TargetPath) $(TargetDir)\..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\dlls /y /d" />
+    <Exec Command="SET dropLocation=dlls\aes-cbc\&#xD;&#xA;&#xD;&#xA;REM Crypto copy&#xD;&#xA;xcopy &quot;$(TargetDir)..\..\..\..\..\..\crypto\src\NIST.CVP.Crypto\$(OutDir)NIST.CVP.Crypto.dll&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;REM Crypto.Math copy&#xD;&#xA;xcopy &quot;$(TargetDir)..\..\..\..\..\..\crypto\src\NIST.CVP.Crypto.Math\$(OutDir)NIST.CVP.Crypto.Math.dll&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;REM copy this assembly to dropLocation&#xD;&#xA;xcopy &quot;$(TargetPath)&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;REM copy dlls to app runner&#xD;&#xA;xcopy &quot;$(TargetDir)%dropLocation%*.dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\%dropLocation%&quot; /y /d /i" />
   </Target>
 
 </Project>

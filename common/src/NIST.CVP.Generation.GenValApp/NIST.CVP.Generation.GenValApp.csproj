@@ -3,11 +3,14 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
+    <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CommandLineArgumentsParser" Version="3.0.13" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20171009-10" />
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
     <PackageReference Include="Autofac" Version="4.6.1" />
   </ItemGroup>
@@ -25,11 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="dlls\" />
+    <Content Include="dlls\**\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="IF exist $(TargetDir)dlls\ ( echo $(TargetDir)dlls\ exists ) ELSE ( mkdir $(TargetDir)dlls\ &amp;&amp; echo $(TargetDir)dlls\ created)&#xD;&#xA;xcopy $(ProjectDir)dlls\*.dll $(TargetDir)dlls\ /y /d" />
-  </Target>
 
 </Project>

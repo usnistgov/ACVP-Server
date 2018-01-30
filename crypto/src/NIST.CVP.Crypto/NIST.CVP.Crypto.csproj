@@ -13,8 +13,4 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20171009-10" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy $(TargetPath) $(TargetDir)\..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\dlls /y /d" />
-  </Target>
-
 </Project>

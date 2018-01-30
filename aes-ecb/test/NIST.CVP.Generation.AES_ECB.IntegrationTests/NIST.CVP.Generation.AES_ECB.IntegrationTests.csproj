@@ -21,8 +21,6 @@
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.AES_ECB\NIST.CVP.Generation.AES_ECB.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
-    <ProjectReference Include="..\..\src\AES_ECB\AES_ECB.csproj" />
-    <ProjectReference Include="..\..\src\AES_ECB_Val\AES_ECB_Val.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,9 +37,5 @@
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy $(TargetDir)..\..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\dlls $(TargetDir)dlls\ /y /d" />
-  </Target>
 
 </Project>
