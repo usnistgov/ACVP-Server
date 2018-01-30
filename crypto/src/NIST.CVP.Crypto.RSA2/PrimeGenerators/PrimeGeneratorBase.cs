@@ -20,13 +20,18 @@ namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
         protected readonly ISha _sha;
         protected IEntropyProvider _entropyProvider;
         private readonly PrimeTestModes _primeTestMode;
-        protected int[] _bitlens;
+        protected int[] _bitlens = {0, 0, 0, 0};
 
         public PrimeGeneratorBase(ISha sha = null, IEntropyProvider entropyProvider = null, PrimeTestModes primeTestMode = PrimeTestModes.C2)
         {
             _sha = sha;
             _entropyProvider = entropyProvider;
             _primeTestMode = primeTestMode;
+        }
+
+        public void SetBitlens(int b1, int b2, int b3, int b4)
+        {
+            _bitlens = new[] {b1, b2, b3, b4};
         }
 
         /// <summary>

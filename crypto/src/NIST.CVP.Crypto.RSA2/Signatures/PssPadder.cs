@@ -31,6 +31,97 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             return EmsaPssEncode(message, nlen - 1);
         }
 
+        public PaddingResult PadWithModifiedTrailer(int nlen, BitString message)
+        {
+            var emBits = nlen - 1;
+            var mHash = _sha.HashMessage(message).Digest;
+            var emLen = emBits.CeilingDivide(8);
+
+            // All byte values
+            if (emLen < mHash.BitLength / 8 + _saltLength + 2)
+            {
+                return new PaddingResult("Encoding error");
+            }
+
+            var salt = _entropyProvider.GetEntropy(_saltLength * 8);
+            var mPrime = BitString.Zeroes(64);
+            mPrime = BitString.ConcatenateBits(mPrime, mHash);
+            mPrime = BitString.ConcatenateBits(mPrime, salt);
+
+            var H = _sha.HashMessage(mPrime).Digest;
+
+            // All bit values
+            var PS = BitString.Zeroes(emLen * 8 - _saltLength * 8 - H.BitLength - 2 * 8);
+
+            var DB = PS.GetDeepCopy();
+            DB = BitString.ConcatenateBits(DB, _01);
+            DB = BitString.ConcatenateBits(DB, salt);
+
+            // All bit values
+            var dbMask = Mgf(H, emLen * 8 - H.BitLength - 1 * 8);
+            var maskedDB = BitString.XOR(DB, dbMask);
+
+            // Set leftmost bits to 0
+            for (var i = 0; i < 8 * emLen - emBits; i++)
+            {
+                maskedDB.Set(maskedDB.BitLength - i - 1, false);
+            }
+
+            var EM = maskedDB.GetDeepCopy();
+            EM = BitString.ConcatenateBits(EM, H);
+            EM = BitString.ConcatenateBits(EM, new BitString("4C"));        // ERROR: should be 'BC'
+
+            return new PaddingResult(EM);
+        }
+
+        public PaddingResult PadWithMovedIr(int nlen, BitString message)
+        {
+            var emBits = nlen - 1;
+            var mHash = _sha.HashMessage(message).Digest;
+            var emLen = emBits.CeilingDivide(8);
+
+            // All byte values
+            if (emLen < mHash.BitLength / 8 + _saltLength + 2)
+            {
+                return new PaddingResult("Encoding error");
+            }
+
+            var salt = _entropyProvider.GetEntropy(_saltLength * 8);
+            var mPrime = BitString.Zeroes(64);
+            mPrime = BitString.ConcatenateBits(mPrime, mHash);
+            mPrime = BitString.ConcatenateBits(mPrime, salt);
+
+            var H = _sha.HashMessage(mPrime).Digest;
+
+            // All bit values
+            var PS = BitString.Zeroes(emLen * 8 - _saltLength * 8 - H.BitLength - 2 * 8);
+
+            var DB = PS.GetDeepCopy();
+            DB = BitString.ConcatenateBits(DB, _01);
+            DB = BitString.ConcatenateBits(DB, salt);
+
+            // All bit values
+            var dbMask = Mgf(H, emLen * 8 - H.BitLength - 1 * 8);
+            var maskedDB = BitString.XOR(DB, dbMask);
+
+            // Set leftmost bits to 0
+            for (var i = 0; i < 8 * emLen - emBits; i++)
+            {
+                maskedDB.Set(maskedDB.BitLength - i - 1, false);
+            }
+
+            // ERROR: split maskedDB into two chunks and insert hashed message in the middle
+            var firstChunkMask = maskedDB.GetMostSignificantBits(maskedDB.BitLength - 8);
+            var secondChunkMask = maskedDB.GetLeastSignificantBits(8);
+
+            var EM = firstChunkMask.GetDeepCopy();
+            EM = BitString.ConcatenateBits(EM, H);
+            EM = BitString.ConcatenateBits(EM, secondChunkMask);
+            EM = BitString.ConcatenateBits(EM, _bc);
+
+            return new PaddingResult(EM);
+        }
+
         public VerifyResult VerifyPadding(int nlen, BitString message, BigInteger embededMessage, PublicKey pubKey)
         {
             return EmsaPssVerify(message, new BitString(embededMessage, nlen), nlen - 1);

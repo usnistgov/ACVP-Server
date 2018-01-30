@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
+using NIST.CVP.Crypto.Math;
 using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Math.Helpers;
 
@@ -12,7 +13,7 @@ namespace NIST.CVP.Crypto.RSA2.Keys
         public KeyPair ComposeKey(BigInteger e, PrimePair primes)
         {
             var n = primes.P * primes.Q;
-            var d = e.ModularInverse(n);
+            var d = e.ModularInverse(NumberTheory.LCM(primes.P - 1, primes.Q - 1));
 
             return new KeyPair
             {

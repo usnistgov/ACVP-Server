@@ -35,13 +35,69 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
 
             // 2. Hash Encapsulation
             var trailer = GetTrailer();
+
             // Header is always 4, trailer is always 16
-            int paddingLen = nlen - _header.BitLength - _sha.HashFunction.OutputLen - trailer.BitLength;
+            var paddingLen = nlen - _header.BitLength - _sha.HashFunction.OutputLen - trailer.BitLength;
             var padding = GetPadding(paddingLen);
 
             var IR = _header.GetDeepCopy();
             IR = BitString.ConcatenateBits(IR, padding);
             IR = BitString.ConcatenateBits(IR, hashedMessage);
+            IR = BitString.ConcatenateBits(IR, trailer);
+
+            if(IR.BitLength != nlen)
+            {
+                return new PaddingResult("Improper length for IR");
+            }
+
+            return new PaddingResult(IR);
+        }
+
+        public PaddingResult PadWithModifiedTrailer(int nlen, BitString message)
+        {
+            // 1. Message Hashing
+            var hashedMessage = _sha.HashMessage(message).Digest;
+
+            // 2. Hash Encapsulation
+            var trailer = new BitString("66CC");    // ERROR: The first byte of the trailer is unexpected
+
+            // Header is always 4, trailer is always 16
+            var paddingLen = nlen - _header.BitLength - _sha.HashFunction.OutputLen - trailer.BitLength;
+            var padding = GetPadding(paddingLen);
+
+            var IR = _header.GetDeepCopy();
+            IR = BitString.ConcatenateBits(IR, padding);
+            IR = BitString.ConcatenateBits(IR, hashedMessage);
+            IR = BitString.ConcatenateBits(IR, trailer);      // ERROR: Change the trailer to something else
+
+            if (IR.BitLength != nlen)
+            {
+                return new PaddingResult("Improper length for IR");
+            }
+
+            return new PaddingResult(IR);
+        }
+
+        public PaddingResult PadWithMovedIr(int nlen, BitString message)
+        {
+            // 1. Message Hashing
+            var hashedMessage = _sha.HashMessage(message).Digest;
+
+            // 2. Hash Encapsulation
+            var trailer = GetTrailer();
+
+            // Header is always 4, trailer is always 16
+            var paddingLen = nlen - _header.BitLength - _sha.HashFunction.OutputLen - trailer.BitLength;
+            var padding = GetPadding(paddingLen);
+
+            // ERROR: Split the padding into two chunks and put the hashed message in the middle
+            var firstChunkPadding = padding.GetMostSignificantBits(paddingLen - 8);
+            var secondChunkPadding = padding.GetLeastSignificantBits(8);
+
+            var IR = _header.GetDeepCopy();
+            IR = BitString.ConcatenateBits(IR, firstChunkPadding);
+            IR = BitString.ConcatenateBits(IR, hashedMessage);
+            IR = BitString.ConcatenateBits(IR, secondChunkPadding);
             IR = BitString.ConcatenateBits(IR, trailer);
 
             if(IR.BitLength != nlen)

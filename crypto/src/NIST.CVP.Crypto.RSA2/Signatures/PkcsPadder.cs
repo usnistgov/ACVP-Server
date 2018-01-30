@@ -76,6 +76,51 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             return new PaddingResult(embeddedMessage);
         }
 
+        public PaddingResult PadWithModifiedTrailer(int nlen, BitString message)
+        {
+            if (message.BitLength < GetHashAlgId().BitLength + 11 * 8)
+            {
+                return new PaddingResult("Message length too short");
+            }
+
+            var H = _sha.HashMessage(message).Digest;
+            var T = BitString.ConcatenateBits(GetHashAlgId(), H);
+
+            var psLen = nlen - (GetHashAlgId().BitLength + _sha.HashFunction.OutputLen) - 24;
+            var PS = BitString.Ones(psLen);
+
+            var EM = new BitString("00");
+            EM = BitString.ConcatenateBits(EM, new BitString("01"));
+            EM = BitString.ConcatenateBits(EM, PS);
+            EM = BitString.ConcatenateBits(EM, new BitString("44"));        // ERROR: Should be 00
+            EM = BitString.ConcatenateBits(EM, T);
+
+            return new PaddingResult(EM);
+        }
+
+        public PaddingResult PadWithMovedIr(int nlen, BitString message)
+        {
+            if (message.BitLength < GetHashAlgId().BitLength + 11 * 8)
+            {
+                return new PaddingResult("Message length too short");
+            }
+
+            var H = _sha.HashMessage(message).Digest;
+            var T = BitString.ConcatenateBits(GetHashAlgId(), H);
+
+            var psLen = nlen - (GetHashAlgId().BitLength + _sha.HashFunction.OutputLen) - 24;
+            var PS = BitString.Ones(psLen - 8);
+
+            var EM = new BitString("00");
+            EM = BitString.ConcatenateBits(EM, new BitString("01"));
+            EM = BitString.ConcatenateBits(EM, PS);
+            EM = BitString.ConcatenateBits(EM, new BitString("FE"));    // ERROR: Should be FF, but is missing a bit
+            EM = BitString.ConcatenateBits(EM, new BitString("00"));
+            EM = BitString.ConcatenateBits(EM, T);
+
+            return new PaddingResult(EM);
+        }
+
         public BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
         {
             return signature;
