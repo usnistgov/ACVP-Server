@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AES_CFB1;
 using Autofac;
 using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -18,19 +17,18 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "AES";
         public override string Mode { get; } = "CFB1";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => AES_CFB1_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            AES_CFB1_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
@@ -43,7 +41,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            AES_CFB1_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -51,7 +49,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            AES_CFB1_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
