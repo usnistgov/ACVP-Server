@@ -22,13 +22,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="appSettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Content Include="appSettings.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="dlls\**\*" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
+    <Folder Include="dlls\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include=".\dlls\**\*.dll" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
   </ItemGroup>
 
 </Project>

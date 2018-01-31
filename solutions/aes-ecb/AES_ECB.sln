@@ -11,6 +11,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core", "..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj", "{84794187-F0F4-49E0-850C-3E3EFE97C279}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.AES_ECB", "..\..\aes-ecb\src\NIST.CVP.Generation.AES_ECB\NIST.CVP.Generation.AES_ECB.csproj", "{F0BE5870-141D-481C-9541-CB5892C93044}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33D7BED4-CD3B-421C-9A0C-C4D735C4EF08} = {33D7BED4-CD3B-421C-9A0C-C4D735C4EF08}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1A10CAF5-041E-4404-89FB-306D6263F42E}"
 EndProject
