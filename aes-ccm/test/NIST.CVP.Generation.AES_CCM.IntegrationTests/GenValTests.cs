@@ -1,8 +1,9 @@
 ﻿using System.Linq;
-using AES_CCM;
 using Autofac;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -10,20 +11,19 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 {
-    [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    [TestFixture, FastIntegrationTest]
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "AES";
         public override string Mode { get; } = "CCM";
 
         public override Executable Generator => Program.Main;
-        public override Executable Validator => AES_CCM_Val.Program.Main;
+        public override Executable Validator => Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            AES_CCM_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            AES_CCM_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            AES_CCM_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };

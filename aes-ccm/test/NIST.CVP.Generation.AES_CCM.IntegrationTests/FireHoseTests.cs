@@ -1,31 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Testing.Abstractions;
+﻿using System.IO;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CCM;
-using NIST.CVP.Math;
 using NUnit.Framework;
-
 using NIST.CVP.Generation.AES_CCM.Parsers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Tests.Core;
-using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
 
 namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 {
-    [TestFixture, LongRunningIntegrationTest]
+    [TestFixture, FastIntegrationTest]
     public class FireHoseTests
     {
-        string _testPath;
-
-        Crypto.AES_CCM.AES_CCM _subject = new Crypto.AES_CCM.AES_CCM(
+        private string _testPath;
+        private readonly Crypto.AES_CCM.AES_CCM _subject = new Crypto.AES_CCM.AES_CCM(
             new AES_CCMInternals(),
             new RijndaelFactory(
                 new RijndaelInternals()
