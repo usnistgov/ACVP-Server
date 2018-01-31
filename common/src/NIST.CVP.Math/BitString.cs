@@ -868,6 +868,11 @@ namespace NIST.CVP.Math
             return Ones(1);
         }
 
+        public static BitString Two()
+        {
+            return new BitString("02", 2);
+        }
+
         public static BitString Ones(int length)
         {
             var bits = new BitArray(length);

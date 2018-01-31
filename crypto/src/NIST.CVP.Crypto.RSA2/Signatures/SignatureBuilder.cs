@@ -17,7 +17,6 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
         private PrivateKeyBase _privateKey;
         private IPaddingScheme _paddingScheme;
         private IRsa _rsa;
-        private SignatureModifications _modification = SignatureModifications.None;
 
         public SignatureBuilder WithMessage(BitString message)
         {
@@ -62,12 +61,6 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             return this;
         }
 
-        public SignatureBuilder WithModification(SignatureModifications modification)
-        {
-            _modification = modification;
-            return this;
-        }
-
         public VerifyResult BuildVerify()
         {
             // Check for empty values that prevent building
@@ -91,33 +84,8 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
                 return new SignatureResult("Improper signature build");
             }
 
-            // Add one to the message for a different signature
-            if (_modification == SignatureModifications.Message)
-            {
-                _message.BitStringAddition(BitString.One());
-            }
-
-            // Add two to the public exponenet value for a different signature
-            if (_modification == SignatureModifications.E)
-            {
-                _publicKey.E += 2;
-            }
-
-            PaddingResult paddedResult = null;
-            if (_modification == SignatureModifications.MoveIr)
-            {
-                // Do different padding method
-            }
-            else if (_modification == SignatureModifications.ModifyTrailer)
-            {
-                // Do different padding method
-            }
-            else
-            {
-                // Do normal padding method
-                paddedResult = _paddingScheme.Pad(_publicKey.N.ExactBitLength(), _message);
-            }
-
+            // Do provided padding method either correct or incorrect
+            var paddedResult = _paddingScheme.Pad(_publicKey.N.ExactBitLength(), _message);
             if (!paddedResult.Success)
             {
                 return new SignatureResult(paddedResult.ErrorMessage);
@@ -128,12 +96,6 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             
             // Perform the Post-Check depending on the padding scheme
             var postCheck = _paddingScheme.PostSignCheck(signature, _publicKey);
-
-            // Add two to the signature for a different signature
-            if (_modification == SignatureModifications.Signature)
-            {
-                postCheck += 2;
-            }
 
             return new SignatureResult(postCheck);
         }

@@ -6,13 +6,13 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.RSA2.Signatures
+namespace NIST.CVP.Crypto.RSA2.Signatures.Pkcs
 {
     public class PkcsPadder : IPaddingScheme
     {
-        private readonly ISha _sha;
+        protected readonly ISha Sha;
         
-        private readonly BitString _sha1AlgId =      new BitString("30 21 30       09 06 05 2b 0e 03 02 1a       05 00 04 14");
+        private readonly BitString _sha1AlgId =      new BitString("30 21 30 09 06 05 2b 0e 03 02 1a 05 00 04 14");
         private readonly BitString _sha224AlgId =    new BitString("30 2d 30 0d 06 09 60 86 48 01 65 03 04 02 04 05 00 04 1c");
         private readonly BitString _sha256AlgId =    new BitString("30 31 30 0d 06 09 60 86 48 01 65 03 04 02 01 05 00 04 20");
         private readonly BitString _sha384AlgId =    new BitString("30 41 30 0d 06 09 60 86 48 01 65 03 04 02 02 05 00 04 30");
@@ -20,9 +20,9 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
         private readonly BitString _sha512224AlgId = new BitString("30 2d 30 0d 06 09 60 86 48 01 65 03 04 02 05 05 00 04 1c");
         private readonly BitString _sha512256AlgId = new BitString("30 31 30 0d 06 09 60 86 48 01 65 03 04 02 06 05 00 04 20");
 
-        private BitString GetHashAlgId()
+        protected BitString GetHashAlgId()
         {
-            switch (_sha.HashFunction.DigestSize)
+            switch (Sha.HashFunction.DigestSize)
             {
                 case DigestSizes.d160:
                     return _sha1AlgId;
@@ -45,15 +45,15 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
 
         public PkcsPadder(ISha sha)
         {
-            _sha = sha;
+            Sha = sha;
         }
 
         private BitString EmsaPkcsEncoding(BitString message, int nlen)
         {
-            var H = _sha.HashMessage(message).Digest;
+            var H = Sha.HashMessage(message).Digest;
             var T = BitString.ConcatenateBits(GetHashAlgId(), H);
 
-            var psLen = nlen - (GetHashAlgId().BitLength + _sha.HashFunction.OutputLen) - 24;
+            var psLen = nlen - (GetHashAlgId().BitLength + Sha.HashFunction.OutputLen) - 24;
             var PS = BitString.Ones(psLen);
 
             var EM = new BitString("00");
@@ -76,51 +76,6 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             return new PaddingResult(embeddedMessage);
         }
 
-        public PaddingResult PadWithModifiedTrailer(int nlen, BitString message)
-        {
-            if (message.BitLength < GetHashAlgId().BitLength + 11 * 8)
-            {
-                return new PaddingResult("Message length too short");
-            }
-
-            var H = _sha.HashMessage(message).Digest;
-            var T = BitString.ConcatenateBits(GetHashAlgId(), H);
-
-            var psLen = nlen - (GetHashAlgId().BitLength + _sha.HashFunction.OutputLen) - 24;
-            var PS = BitString.Ones(psLen);
-
-            var EM = new BitString("00");
-            EM = BitString.ConcatenateBits(EM, new BitString("01"));
-            EM = BitString.ConcatenateBits(EM, PS);
-            EM = BitString.ConcatenateBits(EM, new BitString("44"));        // ERROR: Should be 00
-            EM = BitString.ConcatenateBits(EM, T);
-
-            return new PaddingResult(EM);
-        }
-
-        public PaddingResult PadWithMovedIr(int nlen, BitString message)
-        {
-            if (message.BitLength < GetHashAlgId().BitLength + 11 * 8)
-            {
-                return new PaddingResult("Message length too short");
-            }
-
-            var H = _sha.HashMessage(message).Digest;
-            var T = BitString.ConcatenateBits(GetHashAlgId(), H);
-
-            var psLen = nlen - (GetHashAlgId().BitLength + _sha.HashFunction.OutputLen) - 24;
-            var PS = BitString.Ones(psLen - 8);
-
-            var EM = new BitString("00");
-            EM = BitString.ConcatenateBits(EM, new BitString("01"));
-            EM = BitString.ConcatenateBits(EM, PS);
-            EM = BitString.ConcatenateBits(EM, new BitString("FE"));    // ERROR: Should be FF, but is missing a bit
-            EM = BitString.ConcatenateBits(EM, new BitString("00"));
-            EM = BitString.ConcatenateBits(EM, T);
-
-            return new PaddingResult(EM);
-        }
-
         public BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
         {
             return signature;
@@ -140,6 +95,11 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             {
                 return new VerifyResult("Encoded messages do not match");
             }
+        }
+
+        public (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
+        {
+            return (key, message, nlen);
         }
     }
 }

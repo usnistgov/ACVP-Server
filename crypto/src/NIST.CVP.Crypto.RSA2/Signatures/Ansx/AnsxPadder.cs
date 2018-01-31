@@ -8,39 +8,40 @@ using NIST.CVP.Crypto.Math;
 using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.RSA2.Signatures
+namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
 {
     public class AnsxPadder : IPaddingScheme
     {
-        private readonly ISha _sha;
+        protected readonly ISha Sha;
 
         // 4 bits, 0110
-        private readonly BitString _header = new BitString("60", 4);
+        protected readonly BitString Header = new BitString("60", 4);
 
         // 8 bits, 1100 1100
-        private readonly BitString _tail = new BitString("CC");
+        protected readonly BitString Tail = new BitString("CC");
 
-        private readonly BitString _a = new BitString("A0", 4);
-        private readonly BitString _b = new BitString("B0", 4);
+        protected readonly BitString A = new BitString("A0", 4);
+        protected readonly BitString B = new BitString("B0", 4);
 
         public AnsxPadder(ISha sha)
         {
-            _sha = sha;
+            Sha = sha;
         }
 
+        // Override with good or bad padding methods
         public PaddingResult Pad(int nlen, BitString message)
         {
             // 1. Message Hashing
-            var hashedMessage = _sha.HashMessage(message).Digest;
+            var hashedMessage = Sha.HashMessage(message).Digest;
 
             // 2. Hash Encapsulation
             var trailer = GetTrailer();
 
             // Header is always 4, trailer is always 16
-            var paddingLen = nlen - _header.BitLength - _sha.HashFunction.OutputLen - trailer.BitLength;
+            var paddingLen = nlen - Header.BitLength - Sha.HashFunction.OutputLen - trailer.BitLength;
             var padding = GetPadding(paddingLen);
 
-            var IR = _header.GetDeepCopy();
+            var IR = Header.GetDeepCopy();
             IR = BitString.ConcatenateBits(IR, padding);
             IR = BitString.ConcatenateBits(IR, hashedMessage);
             IR = BitString.ConcatenateBits(IR, trailer);
@@ -51,66 +52,6 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             }
 
             return new PaddingResult(IR);
-        }
-
-        public PaddingResult PadWithModifiedTrailer(int nlen, BitString message)
-        {
-            // 1. Message Hashing
-            var hashedMessage = _sha.HashMessage(message).Digest;
-
-            // 2. Hash Encapsulation
-            var trailer = new BitString("66CC");    // ERROR: The first byte of the trailer is unexpected
-
-            // Header is always 4, trailer is always 16
-            var paddingLen = nlen - _header.BitLength - _sha.HashFunction.OutputLen - trailer.BitLength;
-            var padding = GetPadding(paddingLen);
-
-            var IR = _header.GetDeepCopy();
-            IR = BitString.ConcatenateBits(IR, padding);
-            IR = BitString.ConcatenateBits(IR, hashedMessage);
-            IR = BitString.ConcatenateBits(IR, trailer);      // ERROR: Change the trailer to something else
-
-            if (IR.BitLength != nlen)
-            {
-                return new PaddingResult("Improper length for IR");
-            }
-
-            return new PaddingResult(IR);
-        }
-
-        public PaddingResult PadWithMovedIr(int nlen, BitString message)
-        {
-            // 1. Message Hashing
-            var hashedMessage = _sha.HashMessage(message).Digest;
-
-            // 2. Hash Encapsulation
-            var trailer = GetTrailer();
-
-            // Header is always 4, trailer is always 16
-            var paddingLen = nlen - _header.BitLength - _sha.HashFunction.OutputLen - trailer.BitLength;
-            var padding = GetPadding(paddingLen);
-
-            // ERROR: Split the padding into two chunks and put the hashed message in the middle
-            var firstChunkPadding = padding.GetMostSignificantBits(paddingLen - 8);
-            var secondChunkPadding = padding.GetLeastSignificantBits(8);
-
-            var IR = _header.GetDeepCopy();
-            IR = BitString.ConcatenateBits(IR, firstChunkPadding);
-            IR = BitString.ConcatenateBits(IR, hashedMessage);
-            IR = BitString.ConcatenateBits(IR, secondChunkPadding);
-            IR = BitString.ConcatenateBits(IR, trailer);
-
-            if(IR.BitLength != nlen)
-            {
-                return new PaddingResult("Improper length for IR");
-            }
-
-            return new PaddingResult(IR);
-        }
-
-        public BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
-        {
-            return BigInteger.Min(signature, pubKey.N - signature);
         }
 
         public VerifyResult VerifyPadding(int nlen, BitString message, BigInteger embededMessage, PublicKey pubKey)
@@ -142,18 +83,18 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
                 return new VerifyResult("Bad bitlength for irPrime");
             }
 
-            if(!bsIrPrime.GetMostSignificantBits(4).Equals(_header))
+            if(!bsIrPrime.GetMostSignificantBits(4).Equals(Header))
             {
                 return new VerifyResult("Header not found within first 4 bits");
             }
 
-            if(!bsIrPrime.GetLeastSignificantBits(8).Equals(_tail))
+            if(!bsIrPrime.GetLeastSignificantBits(8).Equals(Tail))
             {
                 return new VerifyResult("Tail not found within last 8 bits");
             }
 
             // check nibbles for Bs and A
-            var expectedPaddingLen = nlen - _header.BitLength - _sha.HashFunction.OutputLen - GetTrailer().BitLength;
+            var expectedPaddingLen = nlen - Header.BitLength - Sha.HashFunction.OutputLen - GetTrailer().BitLength;
             var expectedPadding = GetPadding(expectedPaddingLen);
             var padding = bsIrPrime.MSBSubstring(4, expectedPaddingLen);
 
@@ -165,10 +106,10 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             var beginOfHashIndex = expectedPaddingLen + 4;
 
             // 3. Hash Recovery
-            var hashDigest = bsIrPrime.MSBSubstring(beginOfHashIndex, _sha.HashFunction.OutputLen);
+            var hashDigest = bsIrPrime.MSBSubstring(beginOfHashIndex, Sha.HashFunction.OutputLen);
 
             // 4. Message Hashing and Comparison
-            var expectedHash = _sha.HashMessage(message).Digest;
+            var expectedHash = Sha.HashMessage(message).Digest;
 
             // check trailer for accuracy, including hash function
             var expectedTrailer = GetTrailer();
@@ -189,31 +130,42 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             }
         }
 
-        private BitString GetPadding(int len)
+        public BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
+        {
+            return BigInteger.Min(signature, pubKey.N - signature);
+        }
+
+        public (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
+        {
+            // TODO maybe use this to check N bitlength on nlen
+            return (key, message, nlen);
+        }
+
+        protected BitString GetPadding(int len)
         {
             var padding = new BitString(0);
 
             // Need a bunch of 'b'
             for(var i = 0; i < len - 4; i += 4)
             {
-                padding = BitString.ConcatenateBits(padding, _b);
+                padding = BitString.ConcatenateBits(padding, B);
             }
 
             // Just a single 'a'
-            padding = BitString.ConcatenateBits(padding, _a);
+            padding = BitString.ConcatenateBits(padding, A);
 
             return padding;
         }
 
-        private BitString GetTrailer()
+        protected BitString GetTrailer()
         {
             // 1 bit, "0"
             // 3 bits, part number of ISO/IEC 10118 from HashFunction
             // 4 bits, part number of ISO/IEC 10118 from HashFunction
-            var trailer = ShaAttributes.HashFunctionToBits(_sha.HashFunction.DigestSize);
+            var trailer = ShaAttributes.HashFunctionToBits(Sha.HashFunction.DigestSize);
 
             // 8 bits, "CC"
-            trailer = BitString.ConcatenateBits(trailer, _tail);
+            trailer = BitString.ConcatenateBits(trailer, Tail);
             return trailer;
         }
     }
