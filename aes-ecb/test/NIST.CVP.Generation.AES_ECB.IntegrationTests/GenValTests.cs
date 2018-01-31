@@ -3,6 +3,8 @@ using System.Linq;
 using Autofac;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
+using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -10,10 +12,43 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.AES_ECB.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public class GenValTests : GenValTestsSingleRunnerBase<Parameters>
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "AES";
         public override string Mode { get; } = "ECB";
+
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
+
+        [SetUp]
+        public override void SetUp()
+        {
+            AutofacConfig.OverrideRegistrations = null;
+        }
+
+        protected override void OverrideRegistrationGenFakeFailure()
+        {
+            AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
+            };
+        }
+
+        protected override void OverrideRegistrationValFakeFailure()
+        {
+            AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
+            };
+        }
+
+        protected override void OverrideRegistrationValFakeException()
+        {
+            AutofacConfig.OverrideRegistrations = builder =>
+            {
+                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+            };
+        }
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

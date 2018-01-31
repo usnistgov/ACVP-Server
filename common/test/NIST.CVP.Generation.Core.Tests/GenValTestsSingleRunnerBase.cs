@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
-using Autofac;
 using NIST.CVP.Generation.Core.Tests.Enums;
-using NIST.CVP.Generation.Core.Tests.Fakes;
-using NUnit.Framework;
+using NIST.CVP.Tests.Core;
 
 namespace NIST.CVP.Generation.Core.Tests
 {
     /// <summary>
     /// Used as a base gen/val integration test class for algorithms implementing single app runner
     /// </summary>
-    public abstract class GenValTestsSingleRunnerBase<TParameters> : GenValTestsBase
-        where TParameters : IParameters
+    public abstract class GenValTestsSingleRunnerBase : GenValTestsBase
     {
         /// <summary>
         /// The algorithm to pass into the runner.  Default value is <see cref="GenValTestsBase.Algorithm"/>
@@ -22,37 +19,14 @@ namespace NIST.CVP.Generation.Core.Tests
         /// </summary>
         public virtual string RunnerMode => Mode;
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public string DllDropLocation { get; private set; }
 
-        [SetUp]
-        public override void SetUp()
+        public override void OneTimeSetUp()
         {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<TParameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
+            base.OneTimeSetUp();
+            DllDropLocation =
+                Utilities.GetConsistentTestingStartPath(GetType(),
+                    @"..\..\..\common\src\NIST.CVP.Generation.GenValApp\");
         }
 
         protected override string[] GetParameters(string[] parameters, GenValMode mode)
@@ -62,8 +36,10 @@ namespace NIST.CVP.Generation.Core.Tests
                 "-a",
                 RunnerAlgorithm,
                 "-m",
-                RunnerMode
-            };
+                RunnerMode,
+                "-d",
+                DllDropLocation
+        };
 
             if (parameters.Length == 0)
             {

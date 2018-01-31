@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public bool SaveJson = false;
 
         [OneTimeSetUp]
-        public void OneTimeSetUp()
+        public virtual void OneTimeSetUp()
         {
             TestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
             JsonSavePath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\..\..\..\json-files\");
