@@ -1,28 +1,27 @@
 ﻿using NIST.CVP.Math;
 using NUnit.Framework;
 using System.Linq;
-using AES_GCM;
 using Autofac;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "AES";
         public override string Mode { get; } = "GCM";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => AES_GCM_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            AES_GCM_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
@@ -35,7 +34,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            AES_GCM_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -43,7 +42,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            AES_GCM_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
