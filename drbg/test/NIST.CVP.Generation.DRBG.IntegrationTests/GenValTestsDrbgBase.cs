@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Autofac;
-using DRBG;
+﻿using Autofac;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core;
@@ -13,13 +10,13 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Generation.DRBG.IntegrationTests
 {
-    public abstract class GenValTestsDrbgBase : GenValTestsBase
+    public abstract class GenValTestsDrbgBase : GenValTestsSingleRunnerBase
     {
         public abstract override string Algorithm { get; }
-        public override string Mode { get; } = "";
+        public override string Mode { get; } = string.Empty;
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => DRBG_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         public abstract string[] Modes { get; }
         public abstract int[] SeedLength { get; }
@@ -28,7 +25,6 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            DRBG_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
@@ -41,7 +37,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            DRBG_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -49,7 +45,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            DRBG_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };

@@ -9,9 +9,10 @@
         /// The algorithm name
         /// </summary>
         public string Algorithm { get; set; }
+
         /// <summary>
         /// The algorithm mode
         /// </summary>
-        public string Mode { get; set; }
+        public string Mode { get; set; } = string.Empty;
     }
 }
