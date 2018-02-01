@@ -8,13 +8,23 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
 {
-    public class AllProvablePrimesWithConditionsGenerator : PrimeGeneratorBase, IPrimeGenerator
+    public class AllProvablePrimesWithConditionsGenerator : PrimeGeneratorBase
     {
         public AllProvablePrimesWithConditionsGenerator(ISha sha) : base(sha) { }
 
-        public PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             BigInteger p, p1, p2, q, q1, q2;
+
+            if (_bitlens.Length != 4)
+            {
+                return new PrimeGeneratorResult("Needs exactly 4 bitlen values");
+            }
+
+            if (_bitlens[0] == 0 || _bitlens[1] == 0 || _bitlens[2] == 0 || _bitlens[3] == 0)
+            {
+                return new PrimeGeneratorResult("Empty bitlens, must be assigned outside of GeneratePrimes()");
+            }
 
             // 1 -- redundant by (3)
             // 2

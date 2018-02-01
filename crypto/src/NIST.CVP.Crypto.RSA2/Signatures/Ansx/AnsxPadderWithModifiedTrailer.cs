@@ -6,9 +6,9 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
 {
-    public class AnsxPadderModifiedTrailer : AnsxPadder
+    public class AnsxPadderWithModifiedTrailer : AnsxPadder
     {
-        public AnsxPadderModifiedTrailer(ISha sha) : base(sha) { }
+        public AnsxPadderWithModifiedTrailer(ISha sha) : base(sha) { }
 
         public new PaddingResult Pad(int nlen, BitString message)
         {

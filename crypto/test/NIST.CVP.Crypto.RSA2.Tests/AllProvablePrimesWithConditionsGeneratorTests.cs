@@ -15,12 +15,15 @@ namespace NIST.CVP.Crypto.RSA2.Tests
     public class AllProvablePrimesWithConditionsGeneratorTests
     {
         [Test]
-        [TestCase(0, "010001", "ABCD")]
-        [TestCase(2048, "03", "ABCD")]
-        public void ShouldFailWithBadParameters(int nlen, string e, string seed)
+        [TestCase(0, "010001", "ABCD", new[] {200, 200, 200, 200})]
+        [TestCase(2048, "03", "ABCD", new[] {200, 200, 200, 200})]
+        [TestCase(2048, "010001", "ABCD", new[] {0, 200, 200, 200})]
+        [TestCase(2048, "010001", "ABCD", new[] {200, 200, 200})]
+        public void ShouldFailWithBadParameters(int nlen, string e, string seed, int[] bitlens)
         {
             var sha = new ShaFactory().GetShaInstance(new HashFunction(ModeValues.SHA1, DigestSizes.d160));
             var subject = new AllProvablePrimesWithConditionsGenerator(sha);
+            subject.SetBitlens(bitlens);
             var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), new BitString(seed));
             Assert.IsFalse(result.Success);
         }
@@ -49,6 +52,7 @@ namespace NIST.CVP.Crypto.RSA2.Tests
         public void ShouldPassWithGoodParameters(int nlen, ModeValues mode, DigestSizes dig, int bitlen1, int bitlen2, int bitlen3, int bitlen4, string e, string seed, string p, string q)
         {
             var sha = new ShaFactory().GetShaInstance(new HashFunction(mode, dig));
+
             var subject = new AllProvablePrimesWithConditionsGenerator(sha);
             subject.SetBitlens(bitlen1, bitlen2, bitlen3, bitlen4);
 

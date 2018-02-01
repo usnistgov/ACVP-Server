@@ -1,17 +1,24 @@
 ﻿using System.Numerics;
 using NIST.CVP.Crypto.Math;
+using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
 {
-    public class AllProbablePrimesWithConditionsGenerator : PrimeGeneratorBase, IPrimeGenerator
+    public class AllProbablePrimesWithConditionsGenerator : PrimeGeneratorBase
     {
-        public AllProbablePrimesWithConditionsGenerator(IEntropyProvider entropyProvider) : base(entropyProvider: entropyProvider) { }
+        public AllProbablePrimesWithConditionsGenerator(IEntropyProvider entropyProvider, PrimeTestModes primeTestMode) : 
+            base(entropyProvider: entropyProvider, primeTestMode: primeTestMode) { }
 
-        public PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             BigInteger p, p1, p2, q, q1, q2, xp, xq, xp1, xp2, xq1, xq2;
+
+            if (_bitlens.Length != 4)
+            {
+                return new PrimeGeneratorResult("Needs exactly 4 bitlen values");
+            }
 
             if (_bitlens[0] == 0 || _bitlens[1] == 0 || _bitlens[2] == 0 || _bitlens[3] == 0)
             {

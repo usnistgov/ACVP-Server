@@ -6,6 +6,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.RSA2.Enums;
 
 namespace NIST.CVP.Crypto.RSA2.Tests
 {
@@ -14,12 +15,15 @@ namespace NIST.CVP.Crypto.RSA2.Tests
     public class AllProbablePrimesWithConditionsGeneratorTests
     {
         [Test]
-        [TestCase(0, "010001", "ABCD")]
-        [TestCase(2048, "03", "ABCD")]
-        public void ShouldFailWithBadParameters(int nlen, string e, string seed)
+        [TestCase(0, "010001", "ABCD", new[] {200, 200, 200, 200})]
+        [TestCase(2048, "03", "ABCD", new[] {200, 200, 200, 200})]
+        [TestCase(2048, "010001", "ABCD", new[] {0, 200, 200, 200})]
+        [TestCase(2048, "010001", "ABCD", new[] {200, 200, 200})]
+        public void ShouldFailWithBadParameters(int nlen, string e, string seed, int[] bitlens)
         {
             var entropyProvider = new EntropyProvider(new Random800_90());
-            var subject = new AllProbablePrimesWithConditionsGenerator(entropyProvider);
+            var subject = new AllProbablePrimesWithConditionsGenerator(entropyProvider, PrimeTestModes.C2);
+            subject.SetBitlens(bitlens);
             var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), new BitString(seed));
             Assert.IsFalse(result.Success);
         }
@@ -34,8 +38,9 @@ namespace NIST.CVP.Crypto.RSA2.Tests
         public void ShouldPassWithGoodParameters(int nlen, string e, string seed)
         {
             var entropyProvider = new EntropyProvider(new Random800_90());
-            var subject = new AllProbablePrimesWithConditionsGenerator(entropyProvider);
-            subject.SetBitlens(208, 231, 144, 244);
+            var bitlens = new[] {208, 231, 144, 244};
+            var subject = new AllProbablePrimesWithConditionsGenerator(entropyProvider, PrimeTestModes.C2);
+            subject.SetBitlens(bitlens);
             var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), new BitString(seed));
             Assert.IsTrue(result.Success, result.ErrorMessage);
         }
@@ -97,9 +102,10 @@ namespace NIST.CVP.Crypto.RSA2.Tests
             entropyProvider.AddEntropy(new BitString(xq1, bitlen3));
             entropyProvider.AddEntropy(new BitString(xq2, bitlen4));
             entropyProvider.AddEntropy(new BitString(xq).ToPositiveBigInteger());
-            
-            var subject = new AllProbablePrimesWithConditionsGenerator(entropyProvider);
-            subject.SetBitlens(bitlen1, bitlen2, bitlen3, bitlen4);
+
+            var bitlens = new[] {bitlen1, bitlen2, bitlen3, bitlen4};
+            var subject = new AllProbablePrimesWithConditionsGenerator(entropyProvider, PrimeTestModes.C2);
+            subject.SetBitlens(bitlens);
 
             var result = subject.GeneratePrimes(nlen, eBS, null);
 

@@ -16,13 +16,16 @@ namespace NIST.CVP.Crypto.RSA2.Tests
     public class ProvableProbablePrimesWithConditionsGeneratorTests
     {
         [Test]
-        [TestCase(0, "010001", "ABCD")]
-        [TestCase(2048, "03", "ABCD")]
-        public void ShouldFailWithBadParameters(int nlen, string e, string seed)
+        [TestCase(0, "010001", "ABCD", new[] {200, 200, 200, 200})]
+        [TestCase(2048, "03", "ABCD", new[] {200, 200, 200, 200})]
+        [TestCase(2048, "010001", "ABCD", new[] {0, 200, 200, 200})]
+        [TestCase(2048, "010001", "ABCD", new[] {200, 200, 200})]
+        public void ShouldFailWithBadParameters(int nlen, string e, string seed, int[] bitlens)
         {
             var sha = new ShaFactory().GetShaInstance(new HashFunction(ModeValues.SHA1, DigestSizes.d160));
             var subject = new ProvableProbablePrimesWithConditionsGenerator(sha, new EntropyProvider(new Random800_90()));
             var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), new BitString(seed));
+            subject.SetBitlens(bitlens);
             Assert.IsFalse(result.Success);
         }
 

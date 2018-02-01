@@ -8,11 +8,11 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
 {
-    public class RandomProvablePrimeGenerator : PrimeGeneratorBase, IPrimeGenerator
+    public class RandomProvablePrimeGenerator : PrimeGeneratorBase
     {
         public RandomProvablePrimeGenerator(ISha sha) : base(sha) { }
 
-        public PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             // 1 -- redundant by (3)
             // 2

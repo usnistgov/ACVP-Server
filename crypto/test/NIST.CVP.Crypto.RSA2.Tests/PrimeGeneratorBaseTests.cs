@@ -23,7 +23,7 @@ namespace NIST.CVP.Crypto.RSA2.Tests
         public void ShouldProvablePrimeConstructionCorrectly(int L, int N1, int N2, string seed, string e, string prime)
         {
             var sha = new ShaFactory().GetShaInstance(new HashFunction(ModeValues.SHA1, DigestSizes.d160));
-            var subject = new PrimeGeneratorBase(sha);
+            var subject = new FakePrimeGenerator(sha);
 
             var result = subject.ProvablePrimeConstruction(L, N1, N2, new BitString(seed).ToPositiveBigInteger(), new BitString(e).ToPositiveBigInteger());
             Assert.AreEqual(result.Prime, new BitString(prime).ToPositiveBigInteger());

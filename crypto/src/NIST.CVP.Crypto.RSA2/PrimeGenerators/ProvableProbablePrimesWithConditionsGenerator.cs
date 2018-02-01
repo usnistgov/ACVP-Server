@@ -10,13 +10,19 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
 {
-    public class ProvableProbablePrimesWithConditionsGenerator : PrimeGeneratorBase, IPrimeGenerator
+    public class ProvableProbablePrimesWithConditionsGenerator : PrimeGeneratorBase
     {
-        public ProvableProbablePrimesWithConditionsGenerator(ISha sha, IEntropyProvider entropyProvider) : base(sha, entropyProvider) { }
+        public ProvableProbablePrimesWithConditionsGenerator(ISha sha, IEntropyProvider entropyProvider)
+            : base(sha, entropyProvider) { }
 
-        public PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             BigInteger p, p1, p2, q, q1, q2, xp, xq;
+
+            if (_bitlens.Length != 4)
+            {
+                return new PrimeGeneratorResult("Needs exactly 4 bitlen values");
+            }
 
             if (_bitlens[0] == 0 || _bitlens[1] == 0 || _bitlens[2] == 0 || _bitlens[3] == 0)
             {

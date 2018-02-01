@@ -9,6 +9,6 @@ namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
 {
     public interface IPrimeGeneratorFactory
     {
-        IPrimeGenerator GetPrimeGenerator(PrimeGenModes primeGen, ISha sha, EntropyProviderTypes entropyType, PrimeTestModes primeTest);
+        IPrimeGenerator GetPrimeGenerator(PrimeGenModes primeGen, ISha sha, IEntropyProvider entropyProvider, PrimeTestModes primeTest);
     }
 }

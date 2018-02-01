@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -9,7 +10,7 @@ using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.RSA2.Tests
 {
-    // About 35 seconds for all of them
+    // Based on random calls, could take any amount of time. Usually about 50 seconds.
     [TestFixture, LongCryptoTest]
     public class RandomProbablePrimeGeneratorTests
     {
@@ -18,7 +19,7 @@ namespace NIST.CVP.Crypto.RSA2.Tests
         [TestCase(2048, "03")]
         public void ShouldFailWithBadParameters(int nlen, string e)
         {
-            var subject = new RandomProbablePrimeGenerator(new EntropyProvider(new Random800_90()));
+            var subject = new RandomProbablePrimeGenerator(new EntropyProvider(new Random800_90()), PrimeTestModes.C2);
             var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), null);
             Assert.IsFalse(result.Success);
         }
@@ -32,7 +33,7 @@ namespace NIST.CVP.Crypto.RSA2.Tests
         [TestCase(3072, "e66d81")]
         public void ShouldPassWithGoodParameters(int nlen, string e)
         {
-            var subject = new RandomProbablePrimeGenerator(new EntropyProvider(new Random800_90()));
+            var subject = new RandomProbablePrimeGenerator(new EntropyProvider(new Random800_90()), PrimeTestModes.C2);
             var result = subject.GeneratePrimes(nlen, new BitString(e).ToPositiveBigInteger(), null);
             Assert.IsTrue(result.Success, result.ErrorMessage);
         }
@@ -71,7 +72,7 @@ namespace NIST.CVP.Crypto.RSA2.Tests
             entropyProvider.AddEntropy(new BitString(pRand));
             entropyProvider.AddEntropy(new BitString(qRand));
 
-            var subject = new RandomProbablePrimeGenerator(entropyProvider);
+            var subject = new RandomProbablePrimeGenerator(entropyProvider, PrimeTestModes.C2);
 
             var result = subject.GeneratePrimes(nlen, eBS, null);
             Assert.AreEqual(expectedResult, result.Success, expectedMessage);

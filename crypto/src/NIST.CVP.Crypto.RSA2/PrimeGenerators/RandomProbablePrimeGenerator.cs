@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using NIST.CVP.Crypto.Math;
+using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
 {
-    public class RandomProbablePrimeGenerator : PrimeGeneratorBase, IPrimeGenerator
+    public class RandomProbablePrimeGenerator : PrimeGeneratorBase
     {
-        public RandomProbablePrimeGenerator(IEntropyProvider entropyProvider) : base(entropyProvider: entropyProvider) { }
+        public RandomProbablePrimeGenerator(IEntropyProvider entropyProvider, PrimeTestModes primeTestMode)
+            : base(entropyProvider: entropyProvider, primeTestMode: primeTestMode) { }
 
-        public PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
+        public override PrimeGeneratorResult GeneratePrimes(int nlen, BigInteger e, BitString seed)
         {
             var kat = _entropyProvider.GetType() == typeof(TestableEntropyProvider);
 
