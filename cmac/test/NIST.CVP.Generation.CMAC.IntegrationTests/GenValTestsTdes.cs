@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Autofac;
-using CMAC;
+﻿using Autofac;
 using NIST.CVP.Generation.CMAC.TDES;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
@@ -8,30 +6,28 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using AutofacConfig = CMAC.AutofacConfig;
 
 namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsTdes : GenValTestsBase
+    public class GenValTestsTdes : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "CMAC";
         public override string Mode { get; } = "TDES";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => CMAC_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AdditionalParameters = new[] { "CMAC-TDES" };
-            AutofacConfig.OverrideRegistrations = null;
-            CMAC_Val.AutofacConfig.OverrideRegistrations = null;
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
         {
-            AutofacConfig.OverrideRegistrations = builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
             };
@@ -39,7 +35,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            CMAC_Val.AutofacConfig.OverrideRegistrations = builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -47,7 +43,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            CMAC_Val.AutofacConfig.OverrideRegistrations = builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
