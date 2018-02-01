@@ -2,28 +2,26 @@
 using Autofac;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using AutofacConfig = AES_XPN.AutofacConfig;
-using Program = AES_XPN.Program;
 
 namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "AES";
         public override string Mode { get; } = "XPN";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => AES_XPN_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            AES_XPN_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
@@ -36,7 +34,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            AES_XPN_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -44,7 +42,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            AES_XPN_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
