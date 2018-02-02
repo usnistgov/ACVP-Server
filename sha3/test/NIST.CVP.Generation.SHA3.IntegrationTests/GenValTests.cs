@@ -3,28 +3,27 @@ using Autofac;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using SHA3;
 
 namespace NIST.CVP.Generation.SHA3.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "SHA";
-        public override string Mode { get; } = "3";
+        public override string Algorithm { get; } = "SHA3";
+        public override string Mode { get; } = string.Empty;
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => SHA3_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            SHA3_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
@@ -37,7 +36,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            SHA3_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -45,7 +44,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            SHA3_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
@@ -100,7 +99,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         {
             var parameters = new Parameters
             {
-                Algorithm = $"{Algorithm}3",
+                Algorithm = Algorithm,
                 Mode = Mode,
                 DigestSizes = new [] {224, 256, 384, 512},
                 BitOrientedInput = true,

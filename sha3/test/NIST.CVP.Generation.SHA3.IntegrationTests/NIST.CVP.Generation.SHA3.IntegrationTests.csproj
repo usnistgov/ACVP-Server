@@ -17,10 +17,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.GenValApp\NIST.CVP.Generation.GenValApp.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.SHA3\NIST.CVP.Generation.SHA3.csproj" />
-    <ProjectReference Include="..\..\src\SHA3\SHA3.csproj" />
-    <ProjectReference Include="..\..\src\SHA3_Val\SHA3_Val.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
   </ItemGroup>
