@@ -3,35 +3,33 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using KeyWrap;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Generation.KeyWrap.AES;
-using AutofacConfig = KeyWrap.AutofacConfig;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
-    public class GenValTestsAesKwp : GenValTestsBase
+    public class GenValTestsAesKwp : GenValTestsSingleRunnerBase
     {
         // ParameterValidator expects the algorithm to be "AES-KWP"
         public override string Algorithm { get; } = "AES-KWP";
         public override string Mode { get; } = "KeyWrap";
+        public override string RunnerMode => string.Empty;
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => KeyWrap_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AdditionalParameters = new [] { "AES-KWP"};
-            AutofacConfig.OverrideRegistrations = null;
-            KeyWrap_Val.AutofacConfig.OverrideRegistrations = null;
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
         {
-            AutofacConfig.OverrideRegistrations = builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
             };
@@ -39,7 +37,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            KeyWrap_Val.AutofacConfig.OverrideRegistrations = builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -47,7 +45,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            KeyWrap_Val.AutofacConfig.OverrideRegistrations = builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
