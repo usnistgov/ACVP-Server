@@ -1,26 +1,24 @@
-﻿using System.IO;
-using Autofac;
-using KAS;
-using Newtonsoft.Json;
-using NIST.CVP.Generation.Core;
+﻿using Autofac;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System.Collections.Generic;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.KAS.FFC;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTestsFfc : GenValTestsBase
+    public class GenValTestsFfc : GenValTestsSingleRunnerBase
     {
         public override string Algorithm => "KAS-FFC";
         public override string Mode => string.Empty;
+        public override string RunnerAlgorithm => "KAS";
+        public override string RunnerMode => "FFC";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => KAS_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
@@ -28,7 +26,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             AdditionalParameters = new[] { Algorithm };
 
             AutofacConfig.OverrideRegistrations = null;
-            KAS_Val.AutofacConfig.OverrideRegistrations = null;
 
             AutofacConfig.OverrideRegistrations = builder =>
             {
@@ -46,7 +43,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            KAS_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
@@ -54,7 +51,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            KAS_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };

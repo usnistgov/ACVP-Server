@@ -1,0 +1,63 @@
+﻿using Autofac;
+using NIST.CVP.Common;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_CCM;
+using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.HMAC;
+using NIST.CVP.Crypto.KAS;
+using NIST.CVP.Crypto.KAS.Builders;
+using NIST.CVP.Crypto.KAS.KC;
+using NIST.CVP.Crypto.KAS.KDF;
+using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.KES;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
+
+namespace NIST.CVP.Generation.KAS.EccComponent
+{
+    public class RegisterInjections : IRegisterInjections
+    {
+        public void RegisterTypes(ContainerBuilder builder)
+        {
+            builder.RegisterType<Random800_90>().AsImplementedInterfaces();
+            builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
+            builder.RegisterType<EntropyProvider>().AsImplementedInterfaces();
+            builder.RegisterType<HmacFactory>().AsImplementedInterfaces();
+            builder.RegisterType<ShaFactory>().AsImplementedInterfaces();
+            builder.RegisterType<CmacFactory>().AsImplementedInterfaces();
+            builder.RegisterType<AES_CCMInternals>().AsImplementedInterfaces();
+            builder.RegisterType<AES_CCM>().AsImplementedInterfaces();
+
+            builder.RegisterType<MacParametersBuilder>().AsImplementedInterfaces();
+            builder.RegisterType<KeyConfirmationFactory>().AsImplementedInterfaces();
+            builder.RegisterType<NoKeyConfirmationFactory>().AsImplementedInterfaces();
+            builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
+            builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
+            builder.RegisterType<KdfFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
+
+            builder.RegisterType<DiffieHellmanEcc>().AsImplementedInterfaces();
+            builder.RegisterType<DsaEccFactory>().AsImplementedInterfaces();
+            builder.RegisterType<EccCurveFactory>().AsImplementedInterfaces();
+            builder.RegisterType<EccDhComponent>().AsImplementedInterfaces();
+            builder.RegisterType<DeferredTestCaseResolver>().AsImplementedInterfaces();
+
+            builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
+            builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
+        }
+    }
+}

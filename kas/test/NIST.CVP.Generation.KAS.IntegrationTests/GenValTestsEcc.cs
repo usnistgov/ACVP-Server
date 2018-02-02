@@ -1,26 +1,23 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Autofac;
-using Newtonsoft.Json;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KAS.FFC;
+﻿using Autofac;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using KAS;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTestsEcc : GenValTestsBase
+    public class GenValTestsEcc : GenValTestsSingleRunnerBase
     {
         public override string Algorithm => "KAS-ECC";
         public override string Mode => string.Empty;
+        public override string RunnerAlgorithm => "KAS";
+        public override string RunnerMode => "ECC";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => KAS_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
@@ -28,12 +25,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             AdditionalParameters = new[] { Algorithm };
 
             AutofacConfig.OverrideRegistrations = null;
-            KAS_Val.AutofacConfig.OverrideRegistrations = null;
-
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<PqgProviderPreGenerated>().AsImplementedInterfaces();
-            };
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
@@ -46,7 +37,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            KAS_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
@@ -54,7 +45,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            KAS_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
