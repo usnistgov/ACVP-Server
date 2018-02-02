@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20171009-10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,7 +14,9 @@
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20171009-10" />
-  </ItemGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="SET dropLocation=dlls\kdf-components\&#xD;&#xA;&#xD;&#xA;echo Copy Crypto to drop location %dropLocation%&#xD;&#xA;xcopy &quot;$(TargetDir)..\..\..\..\..\..\crypto\src\NIST.CVP.Crypto\$(OutDir)NIST.CVP.Crypto.dll&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;echo Copy Crypto.Math to drop location %dropLocation%&#xD;&#xA;xcopy &quot;$(TargetDir)..\..\..\..\..\..\crypto\src\NIST.CVP.Crypto.Math\$(OutDir)NIST.CVP.Crypto.Math.dll&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;echo Copy Generation assembly to drop location %dropLocation%&#xD;&#xA;xcopy &quot;$(TargetPath)&quot; &quot;$(TargetDir)%dropLocation%&quot; /y /d&#xD;&#xA;&#xD;&#xA;echo Copy %dropLocation% assemblies to GenValApp runner&#xD;&#xA;xcopy &quot;$(TargetDir)%dropLocation%*.dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\common\src\NIST.CVP.Generation.GenValApp\%dropLocation%&quot; /y /d /i" />
+  </Target>
+
 </Project>

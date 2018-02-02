@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Autofac;
-using KDFComponent;
+﻿using Autofac;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
@@ -13,25 +9,24 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.SNMP.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm => "kdf-components";
         public override string Mode => "snmp";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => KDFComponent_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AdditionalParameters = new[] {Mode};
-            KDFComponent.AutofacConfig.OverrideRegistrations = null;
-            KDFComponent_Val.AutofacConfig.OverrideRegistrations = null;
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
         {
-            KDFComponent.AutofacConfig.OverrideRegistrations = builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
             };
@@ -39,7 +34,7 @@ namespace NIST.CVP.Generation.SNMP.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            KDFComponent_Val.AutofacConfig.OverrideRegistrations = builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -47,7 +42,7 @@ namespace NIST.CVP.Generation.SNMP.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            KDFComponent_Val.AutofacConfig.OverrideRegistrations = builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
