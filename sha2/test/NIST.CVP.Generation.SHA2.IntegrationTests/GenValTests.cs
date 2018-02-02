@@ -3,27 +3,26 @@ using Autofac;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using SHA2;
 
 namespace NIST.CVP.Generation.SHA2.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "SHA";
-        public override string Mode { get; } = "2";
+        public override string Algorithm { get; } = "SHA2";
+        public override string Mode { get; } = string.Empty;
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => SHA2_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            SHA2_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
@@ -36,7 +35,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            SHA2_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -44,7 +43,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            SHA2_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
@@ -86,7 +85,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = $"{Algorithm}1",
+                Algorithm = "SHA1",
                 DigestSizes = new[] {"160"},
                 BitOriented = true,
                 IncludeNull = true,
@@ -102,7 +101,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
 
             var parameters = new Parameters
             {
-                Algorithm = $"{Algorithm}2",
+                Algorithm = Algorithm,
                 DigestSizes = new[] {"224"},
                 BitOriented = false,
                 IncludeNull = false,
@@ -116,7 +115,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         {
             var parameters = new Parameters
             {
-                Algorithm = $"{Algorithm}2",
+                Algorithm = Algorithm,
                 DigestSizes = new[] { "224", "256", "384", "512", "512/224", "512/256" },
                 BitOriented = true,
                 IncludeNull = true,
