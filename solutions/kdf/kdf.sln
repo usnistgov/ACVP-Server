@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9B16A7C9-676D-4256-B2F4-A9BDD2CA2090}"
 EndProject
@@ -55,6 +55,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.KDF.IntegrationTests", "..\..\kdf\test\NIST.CVP.Generation.KDF.IntegrationTests\NIST.CVP.Generation.KDF.IntegrationTests.csproj", "{B71155B1-35FD-4A10-AE15-EC036201BD8D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto", "..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj", "{86D26E34-B7A6-4C42-A018-1711B02D158D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.GenValApp", "..\..\common\src\NIST.CVP.Generation.GenValApp\NIST.CVP.Generation.GenValApp.csproj", "{085B06D8-0024-483D-BCE2-B7F3F7E0343B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{313B460A-0FEF-480A-8CFF-084B96B46675} = {313B460A-0FEF-480A-8CFF-084B96B46675}
+		{86D26E34-B7A6-4C42-A018-1711B02D158D} = {86D26E34-B7A6-4C42-A018-1711B02D158D}
+		{0A26A370-753C-492F-A647-F765476D611D} = {0A26A370-753C-492F-A647-F765476D611D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -366,6 +373,18 @@ Global
 		{86D26E34-B7A6-4C42-A018-1711B02D158D}.Release|x64.Build.0 = Release|Any CPU
 		{86D26E34-B7A6-4C42-A018-1711B02D158D}.Release|x86.ActiveCfg = Release|Any CPU
 		{86D26E34-B7A6-4C42-A018-1711B02D158D}.Release|x86.Build.0 = Release|Any CPU
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B}.Debug|x64.Build.0 = Debug|Any CPU
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B}.Debug|x86.Build.0 = Debug|Any CPU
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B}.Release|x64.ActiveCfg = Release|Any CPU
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B}.Release|x64.Build.0 = Release|Any CPU
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B}.Release|x86.ActiveCfg = Release|Any CPU
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -396,6 +415,7 @@ Global
 		{55E83A00-7AEC-4EF5-8107-2BE528E84C21} = {9B16A7C9-676D-4256-B2F4-A9BDD2CA2090}
 		{B71155B1-35FD-4A10-AE15-EC036201BD8D} = {82F64F75-198F-4A9B-95EA-741008BFBAAF}
 		{86D26E34-B7A6-4C42-A018-1711B02D158D} = {9B16A7C9-676D-4256-B2F4-A9BDD2CA2090}
+		{085B06D8-0024-483D-BCE2-B7F3F7E0343B} = {9B16A7C9-676D-4256-B2F4-A9BDD2CA2090}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F681F93-1510-496D-A1C4-5A7BAA754D90}
