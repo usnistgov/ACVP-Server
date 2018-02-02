@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Autofac;
-using HMAC;
-using Newtonsoft.Json;
-using NIST.CVP.Crypto.SHAWrapper;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.Helpers;
-using NIST.CVP.Generation.Core.Parsers;
+﻿using Autofac;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NUnit.Framework;
@@ -18,19 +9,18 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.HMAC.IntegrationTests
 {
     [TestFixture]
-    public abstract class GenValHmacBase : GenValTestsBase
+    public abstract class GenValHmacBase : GenValTestsSingleRunnerBase
     {
         public abstract override string Algorithm { get; }
         public override string Mode { get; } = "";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => HMAC_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            HMAC_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
@@ -43,7 +33,7 @@ namespace NIST.CVP.Generation.HMAC.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            HMAC_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -51,7 +41,7 @@ namespace NIST.CVP.Generation.HMAC.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            HMAC_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
