@@ -5,28 +5,28 @@ using NUnit.Framework;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "ECDSA";
         public override string Mode { get; } = "SigVer";
 
-        public override Executable Generator => ECDSA_SigVer.Program.Main;
-        public override Executable Validator => ECDSA_SigVer_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
-            ECDSA_SigVer.AutofacConfig.OverrideRegistrations = null;
-            ECDSA_SigVer_Val.AutofacConfig.OverrideRegistrations = null;
+            AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
         {
-            ECDSA_SigVer.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
             };
@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            ECDSA_SigVer_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            ECDSA_SigVer_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };

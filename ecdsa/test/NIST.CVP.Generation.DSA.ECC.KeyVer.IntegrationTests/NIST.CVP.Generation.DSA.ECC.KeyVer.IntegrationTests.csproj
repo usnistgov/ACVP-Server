@@ -12,11 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.GenValApp\NIST.CVP.Generation.GenValApp.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
-    <ProjectReference Include="..\..\src\ECDSA-KeyVer\ECDSA-KeyVer.csproj" />
-    <ProjectReference Include="..\..\src\ECDSA-KeyVer_Val\ECDSA-KeyVer_Val.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.DSA.ECC.KeyVer\NIST.CVP.Generation.DSA.ECC.KeyVer.csproj" />
   </ItemGroup>
 
