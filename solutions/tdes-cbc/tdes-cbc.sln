@@ -41,6 +41,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Math", "..\..\crypto\src\NIST.CVP.Crypto.Math\NIST.CVP.Crypto.Math.csproj", "{5991CC04-5A50-4688-89C6-6670884866E4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.GenValApp", "..\..\common\src\NIST.CVP.Generation.GenValApp\NIST.CVP.Generation.GenValApp.csproj", "{067B119E-FFFD-433C-94B8-DBB00A38F847}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5991CC04-5A50-4688-89C6-6670884866E4} = {5991CC04-5A50-4688-89C6-6670884866E4}
+		{74A8BF70-7F7B-4FA0-A61F-61AFC4283964} = {74A8BF70-7F7B-4FA0-A61F-61AFC4283964}
+		{EEFE59A3-B654-48FA-AE70-A3B60F38A7D9} = {EEFE59A3-B654-48FA-AE70-A3B60F38A7D9}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
