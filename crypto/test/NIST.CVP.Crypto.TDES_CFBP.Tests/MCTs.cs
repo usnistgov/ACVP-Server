@@ -20,7 +20,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
 
         private class TestCFBPModeMCT : CFBPModeMCT
         {
-            public TestCFBPModeMCT(IMonteCarloKeyMaker keyMaker, ICFBPMode modeOfOperation, Algo algo)
+            public TestCFBPModeMCT(IMonteCarloKeyMaker keyMaker, ICFBPMode modeOfOperation, AlgoMode algo)
                 : base(keyMaker, modeOfOperation, algo)
             {
             }
@@ -57,7 +57,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "418f21e6544c4a8e",  //expected iv3
             "0",                 //expected plainText
             "1",                 //expected cipherText
-            Algo.TDES_CFBP1,     //algo
+            AlgoMode.TDES_CFBP1,     //algo
             false,               //isPtAndCtHex
             TestName = "Encrypt TDES CFBP1 (001 round)")]
 
@@ -76,7 +76,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "768519b2c874219b",  //expected iv3
             "0",                 //expected plainText
             "1",                 //expected cipherText
-            Algo.TDES_CFBP1,     //algo
+            AlgoMode.TDES_CFBP1,     //algo
             false,               //isPtAndCtHex
             TestName = "Encrypt TDES CFBP1 (002 round)")]
 
@@ -96,7 +96,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "4c3cb1736dbe7de1",  //expected iv3
             "0",                 //expected plainText
             "1",                 //expected cipherText
-            Algo.TDES_CFBP1,     //algo
+            AlgoMode.TDES_CFBP1,     //algo
             false,               //isPtAndCtHex
             TestName = "Encrypt TDES CFBP1 (010 round)")]
 
@@ -134,7 +134,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "752c343fa7079397",  //expected iv3
             "88",                //expected plainText
             "cd",                //expected cipherText
-            Algo.TDES_CFBP8,     //algo
+            AlgoMode.TDES_CFBP8,     //algo
             TestName = "Encrypt TDES CFBP8 (001 round)")]
 
         [TestCase(
@@ -152,7 +152,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "ff9ce22ed43bf377",  //expected iv3
             "8c",                //expected plainText
             "30",                //expected cipherText
-            Algo.TDES_CFBP8,     //algo
+            AlgoMode.TDES_CFBP8,     //algo
             TestName = "Encrypt TDES CFBP8 (002 round)")]
 
         [TestCase(
@@ -170,7 +170,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "fecd6fa6783d4df7",  //expected iv3
             "5b",                //expected plainText
             "e8",                //expected cipherText
-            Algo.TDES_CFBP8,     //algo
+            AlgoMode.TDES_CFBP8,     //algo
             TestName = "Encrypt TDES CFBP8 (010 round)")]
 
         //[TestCase(
@@ -207,7 +207,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "04217fadf4a344bd",  //expected iv3
             "bc205af012edc861",  //expected plainText
             "c66cb978e10d8d32",  //expected cipherText
-            Algo.TDES_CFBP64,     //algo
+            AlgoMode.TDES_CFBP64,     //algo
             TestName = "Encrypt TDES CFBP64 (001 round)")]
 
         [TestCase(
@@ -225,7 +225,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "711764238bb837dc",  //expected iv3
             "6f369bfb78804490",  //expected plainText
             "12d1d4ec330f4103",  //expected cipherText
-            Algo.TDES_CFBP64,     //algo
+            AlgoMode.TDES_CFBP64,     //algo
             TestName = "Encrypt TDES CFBP64 (002 round)")]
 
         [TestCase(
@@ -243,7 +243,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "6367ec12c8e77b14",  //expected iv3
             "ddbfa0458125ade1",  //expected plainText
             "0fb6547e303690d9",  //expected cipherText
-            Algo.TDES_CFBP64,     //algo
+            AlgoMode.TDES_CFBP64,     //algo
             TestName = "Encrypt TDES CFBP64 (010 round)")]
 
         //[TestCase(
@@ -269,7 +269,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             string expectedKey1, string expectedKey2, string expectedKey3,
             string expectedIv1, string expectedIv2, string expectedIv3,
             string expectedPlainText, string expectedCipherText,
-            Algo algo, bool isPtAndCtHex = true)
+            AlgoMode algo, bool isPtAndCtHex = true)
         {
             var mode = ModeFactory.GetMode(algo);
             var _subject = new TestCFBPModeMCT(new MonteCarloKeyMaker(), mode, algo);
@@ -341,7 +341,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "e3bc580c88b6eb05",  //expected iv3
             "1",                 //expected cipherText
             "1",                 //expected plainText
-            Algo.TDES_CFBP1,     //algo
+            AlgoMode.TDES_CFBP1,     //algo
             false,
             TestName = "Decrypt TDES CFBP1 (001 round)")]
 
@@ -360,7 +360,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "659a18e48c92787d",  //expected iv3
             "0",                 //expected cipherText
             "0",                 //expected plainText
-            Algo.TDES_CFBP1,     //algo
+            AlgoMode.TDES_CFBP1,     //algo
             false,
             TestName = "Decrypt TDES CFBP1 (002 round)")]
 
@@ -379,7 +379,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "7d9884d05dd983be",  //expected iv3
             "1",                 //expected cipherText
             "0",                 //expected plainText
-            Algo.TDES_CFBP1,     //algo
+            AlgoMode.TDES_CFBP1,     //algo
             false,
             TestName = "Decrypt TDES CFBP1 (010 round)")]
 
@@ -417,7 +417,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "3aa7f9676c21a84e",  //expected iv3
             "8a",                //expected cipherText
             "ec",                //expected plainText
-            Algo.TDES_CFBP8,    //algo
+            AlgoMode.TDES_CFBP8,    //algo
             TestName = "Decrypt TDES CFBP8 (001 round)")]
 
         [TestCase(
@@ -435,7 +435,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "912c0b747f35647f",  //expected iv3
             "39",                //expected cipherText
             "e2",                //expected plainText
-            Algo.TDES_CFBP8,    //algo
+            AlgoMode.TDES_CFBP8,    //algo
             TestName = "Decrypt TDES CFBP8 (002 round)")]
 
         [TestCase(
@@ -453,7 +453,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "adce182c81f55d8b",  //expected iv3
             "53",                //expected cipherText
             "4f",                //expected plainText
-            Algo.TDES_CFBP8,    //algo
+            AlgoMode.TDES_CFBP8,    //algo
             TestName = "Decrypt TDES CFBP8 (010 round)")]
 
         //[TestCase(
@@ -489,7 +489,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "76433d5b503620b7",  //expected iv3
             "977b0343a9f1dd40",  //expected cipherText
             "b820a65e8143011d",  //expected plainText
-            Algo.TDES_CFBP64,   //algo
+            AlgoMode.TDES_CFBP64,   //algo
             TestName = "Decrypt TDES CFBP64 (001 round)")]
 
         [TestCase(
@@ -507,7 +507,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "79b378b87f94b522",  //expected iv3
             "7728685355a90b65",  //expected cipherText
             "d970178d24891f75",  //expected plainText
-            Algo.TDES_CFBP64,   //algo
+            AlgoMode.TDES_CFBP64,   //algo
             TestName = "Decrypt TDES CFBP64 (002 round)")]
 
         [TestCase(
@@ -525,7 +525,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             "4fd093e7e5d1cb7e",  //expected iv3
             "fe2a6fcc403326f0",  //expected cipherText
             "2d60a0682c95e7df",  //expected plainText
-            Algo.TDES_CFBP64,   //algo
+            AlgoMode.TDES_CFBP64,   //algo
             TestName = "Decrypt TDES CFBP64 (010 round)")]
 
         //[TestCase(
@@ -552,7 +552,7 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
             string expectedKey1, string expectedKey2, string expectedKey3,
             string expectedIv1, string expectedIv2, string expectedIv3,
             string expectedCipherText, string expectedPlainText,
-            Algo algo, bool isPtAndCtHex = true)
+            AlgoMode algo, bool isPtAndCtHex = true)
         {
             var mode = ModeFactory.GetMode(algo);
             var _subject = new TestCFBPModeMCT(new MonteCarloKeyMaker(), mode, algo);

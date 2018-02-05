@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
     {
         public static Action<ContainerBuilder> OverrideRegistrations;
 
-        public static void RegisterTypes(ContainerBuilder builder, Algo algo)
+        public static void RegisterTypes(ContainerBuilder builder, AlgoMode algo)
         {
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();

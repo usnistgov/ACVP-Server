@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
         private readonly List<TestCase> _katTestCases = new List<TestCase>();
         private int _katsIndex = 0;
 
-        public TestCaseGeneratorKnownAnswer(TestGroup group, Algo algo)
+        public TestCaseGeneratorKnownAnswer(TestGroup group, AlgoMode algo)
         {
             var testType = group.TestType?.ToLower();
             var direction = group.Function?.ToLower();
@@ -43,57 +43,57 @@ namespace NIST.CVP.Generation.TDES_CFBP
             return new TestCaseGenerateResponse(_katTestCases[_katsIndex++]);
         }
 
-        private readonly Dictionary<Algo, Dictionary<string, List<TestCase>>> _kats =
-            new Dictionary<Algo, Dictionary<string, List<TestCase>>>
+        private readonly Dictionary<AlgoMode, Dictionary<string, List<TestCase>>> _kats =
+            new Dictionary<AlgoMode, Dictionary<string, List<TestCase>>>
             {
                 {
-                    Algo.TDES_CFBP1,
+                    AlgoMode.TDES_CFBP1,
                     new Dictionary<string, List<TestCase>>
                     {
-                        { "permutationdecrypt", PermutationTests(Algo.TDES_CFBP1)},
-                        { "permutationencrypt", PermutationTests(Algo.TDES_CFBP1)},
-                        { "substitutiontabledecrypt", SubstitutionTableTests(Algo.TDES_CFBP1)},
-                        { "substitutiontableencrypt", SubstitutionTableTests(Algo.TDES_CFBP1)},
-                        { "variablekeydecrypt", VariableKeyTests(Algo.TDES_CFBP1)},
-                        { "variablekeyencrypt", VariableKeyTests(Algo.TDES_CFBP1)},
-                        { "variabletextdecrypt", VariablePlainTextTests(Algo.TDES_CFBP1)},
-                        { "variabletextencrypt", VariablePlainTextTests(Algo.TDES_CFBP1)},
-                        { "inversepermutationdecrypt", InversPermutationTest(Algo.TDES_CFBP1)},
-                        { "inversepermutationencrypt", InversPermutationTest(Algo.TDES_CFBP1)}
+                        { "permutationdecrypt", PermutationTests(AlgoMode.TDES_CFBP1)},
+                        { "permutationencrypt", PermutationTests(AlgoMode.TDES_CFBP1)},
+                        { "substitutiontabledecrypt", SubstitutionTableTests(AlgoMode.TDES_CFBP1)},
+                        { "substitutiontableencrypt", SubstitutionTableTests(AlgoMode.TDES_CFBP1)},
+                        { "variablekeydecrypt", VariableKeyTests(AlgoMode.TDES_CFBP1)},
+                        { "variablekeyencrypt", VariableKeyTests(AlgoMode.TDES_CFBP1)},
+                        { "variabletextdecrypt", VariablePlainTextTests(AlgoMode.TDES_CFBP1)},
+                        { "variabletextencrypt", VariablePlainTextTests(AlgoMode.TDES_CFBP1)},
+                        { "inversepermutationdecrypt", InversPermutationTest(AlgoMode.TDES_CFBP1)},
+                        { "inversepermutationencrypt", InversPermutationTest(AlgoMode.TDES_CFBP1)}
                     }
                 },
 
                 {
-                    Algo.TDES_CFBP8,
+                    AlgoMode.TDES_CFBP8,
                     new Dictionary<string, List<TestCase>>
                     {
-                        { "permutationdecrypt", PermutationTests(Algo.TDES_CFBP8)},
-                        { "permutationencrypt", PermutationTests(Algo.TDES_CFBP8)},
-                        { "substitutiontabledecrypt", SubstitutionTableTests(Algo.TDES_CFBP8)},
-                        { "substitutiontableencrypt", SubstitutionTableTests(Algo.TDES_CFBP8)},
-                        { "variablekeydecrypt", VariableKeyTests(Algo.TDES_CFBP8)},
-                        { "variablekeyencrypt", VariableKeyTests(Algo.TDES_CFBP8)},
-                        { "variabletextdecrypt", VariablePlainTextTests(Algo.TDES_CFBP8)},
-                        { "variabletextencrypt", VariablePlainTextTests(Algo.TDES_CFBP8)},
-                        { "inversepermutationdecrypt", InversPermutationTest(Algo.TDES_CFBP8)},
-                        { "inversepermutationencrypt", InversPermutationTest(Algo.TDES_CFBP8)}
+                        { "permutationdecrypt", PermutationTests(AlgoMode.TDES_CFBP8)},
+                        { "permutationencrypt", PermutationTests(AlgoMode.TDES_CFBP8)},
+                        { "substitutiontabledecrypt", SubstitutionTableTests(AlgoMode.TDES_CFBP8)},
+                        { "substitutiontableencrypt", SubstitutionTableTests(AlgoMode.TDES_CFBP8)},
+                        { "variablekeydecrypt", VariableKeyTests(AlgoMode.TDES_CFBP8)},
+                        { "variablekeyencrypt", VariableKeyTests(AlgoMode.TDES_CFBP8)},
+                        { "variabletextdecrypt", VariablePlainTextTests(AlgoMode.TDES_CFBP8)},
+                        { "variabletextencrypt", VariablePlainTextTests(AlgoMode.TDES_CFBP8)},
+                        { "inversepermutationdecrypt", InversPermutationTest(AlgoMode.TDES_CFBP8)},
+                        { "inversepermutationencrypt", InversPermutationTest(AlgoMode.TDES_CFBP8)}
                     }
                 },
 
                 {
-                    Algo.TDES_CFBP64,
+                    AlgoMode.TDES_CFBP64,
                     new Dictionary<string, List<TestCase>>
                     {
-                        { "permutationdecrypt", PermutationTests(Algo.TDES_CFBP64)},
-                        { "permutationencrypt", PermutationTests(Algo.TDES_CFBP64)},
-                        { "substitutiontabledecrypt", SubstitutionTableTests(Algo.TDES_CFBP64)},
-                        { "substitutiontableencrypt", SubstitutionTableTests(Algo.TDES_CFBP64)},
-                        { "variablekeydecrypt", VariableKeyTests(Algo.TDES_CFBP64)},
-                        { "variablekeyencrypt", VariableKeyTests(Algo.TDES_CFBP64)},
-                        { "variabletextdecrypt", VariablePlainTextTests(Algo.TDES_CFBP64)},
-                        { "variabletextencrypt", VariablePlainTextTests(Algo.TDES_CFBP64)},
-                        { "inversepermutationdecrypt", InversPermutationTest(Algo.TDES_CFBP64)},
-                        { "inversepermutationencrypt", InversPermutationTest(Algo.TDES_CFBP64)}
+                        { "permutationdecrypt", PermutationTests(AlgoMode.TDES_CFBP64)},
+                        { "permutationencrypt", PermutationTests(AlgoMode.TDES_CFBP64)},
+                        { "substitutiontabledecrypt", SubstitutionTableTests(AlgoMode.TDES_CFBP64)},
+                        { "substitutiontableencrypt", SubstitutionTableTests(AlgoMode.TDES_CFBP64)},
+                        { "variablekeydecrypt", VariableKeyTests(AlgoMode.TDES_CFBP64)},
+                        { "variablekeyencrypt", VariableKeyTests(AlgoMode.TDES_CFBP64)},
+                        { "variabletextdecrypt", VariablePlainTextTests(AlgoMode.TDES_CFBP64)},
+                        { "variabletextencrypt", VariablePlainTextTests(AlgoMode.TDES_CFBP64)},
+                        { "inversepermutationdecrypt", InversPermutationTest(AlgoMode.TDES_CFBP64)},
+                        { "inversepermutationencrypt", InversPermutationTest(AlgoMode.TDES_CFBP64)}
                     }
                 }
             };
@@ -101,11 +101,11 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
 
 
-        private static List<TestCase> InversPermutationTest(Algo algo)
+        private static List<TestCase> InversPermutationTest(AlgoMode algo)
         {
             switch (algo)
             {
-                case Algo.TDES_CFBP1:
+                case AlgoMode.TDES_CFBP1:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("8000000000000000"), iv2: new BitString("d555555555555555"), iv3: new BitString("2aaaaaaaaaaaaaaa"), plainText1: new BitString("80").MSBSubstring(0, 1), plainText2: new BitString("80").MSBSubstring(0, 1), plainText3: new BitString("00").MSBSubstring(0, 1), cipherText1: new BitString("00").MSBSubstring(0, 1), cipherText2: new BitString("00").MSBSubstring(0, 1), cipherText3: new BitString("00").MSBSubstring(0, 1)),
@@ -238,7 +238,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                         new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("0000000000000002"), iv2: new BitString("5555555555555557"), iv3: new BitString("aaaaaaaaaaaaaaac"), plainText1: new BitString("00").MSBSubstring(0, 1), plainText2: new BitString("00").MSBSubstring(0, 1), plainText3: new BitString("00").MSBSubstring(0, 1), cipherText1: new BitString("00").MSBSubstring(0, 1), cipherText2: new BitString("80").MSBSubstring(0, 1), cipherText3: new BitString("00").MSBSubstring(0, 1)),
                         new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("0000000000000001"), iv2: new BitString("5555555555555556"), iv3: new BitString("aaaaaaaaaaaaaaab"), plainText1: new BitString("00").MSBSubstring(0, 1), plainText2: new BitString("00").MSBSubstring(0, 1), plainText3: new BitString("00").MSBSubstring(0, 1), cipherText1: new BitString("00").MSBSubstring(0, 1), cipherText2: new BitString("00").MSBSubstring(0, 1), cipherText3: new BitString("00").MSBSubstring(0, 1)),
                     };
-                case Algo.TDES_CFBP8:
+                case AlgoMode.TDES_CFBP8:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("8000000000000000"), iv2: new BitString("d555555555555555"), iv3: new BitString("2aaaaaaaaaaaaaaa"), plainText1: new BitString("95"), plainText2: new BitString("f7"), plainText3: new BitString("5a"), cipherText1: new BitString("00"), cipherText2: new BitString("00"), cipherText3: new BitString("00")),
@@ -371,7 +371,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                         new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("0000000000000002"), iv2: new BitString("5555555555555557"), iv3: new BitString("aaaaaaaaaaaaaaac"), plainText1: new BitString("00"), plainText2: new BitString("00"), plainText3: new BitString("00"), cipherText1: new BitString("06"), cipherText2: new BitString("f3"), cipherText3: new BitString("3d")),
                         new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("0000000000000001"), iv2: new BitString("5555555555555556"), iv3: new BitString("aaaaaaaaaaaaaaab"), plainText1: new BitString("00"), plainText2: new BitString("00"), plainText3: new BitString("00"), cipherText1: new BitString("16"), cipherText2: new BitString("00"), cipherText3: new BitString("17")),
                     };
-                case Algo.TDES_CFBP64:
+                case AlgoMode.TDES_CFBP64:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("8000000000000000"), iv2: new BitString("d555555555555555"), iv3: new BitString("2aaaaaaaaaaaaaaa"), plainText1: new BitString("95f8a5e5dd31d900"), plainText2: new BitString("f7552ab6cb21e2bc"), plainText3: new BitString("5a48d3de869557fd"), cipherText1: new BitString("0000000000000000"), cipherText2: new BitString("0000000000000000"), cipherText3: new BitString("0000000000000000")),
@@ -510,11 +510,11 @@ namespace NIST.CVP.Generation.TDES_CFBP
             }
         }
 
-        private static List<TestCase> PermutationTests(Algo algo)
+        private static List<TestCase> PermutationTests(AlgoMode algo)
         {
             switch (algo)
             {
-                case Algo.TDES_CFBP1:
+                case AlgoMode.TDES_CFBP1:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("1046913489980131"), iv1: new BitString("0000000000000000"), iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), plainText: new BitString("00").MSBSubstring(0, 1), cipherText1: new BitString("80").MSBSubstring(0, 1), cipherText2: new BitString("00").MSBSubstring(0, 1), cipherText3: new BitString("80").MSBSubstring(0, 1)),
@@ -584,7 +584,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                         new TestCase(keys: new BitString("1002911698100101"), iv1: new BitString("0000000000000000"), iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), plainText1: new BitString("00").MSBSubstring(0, 1), plainText2: new BitString("00").MSBSubstring(0, 1), plainText3: new BitString("80").MSBSubstring(0, 1), cipherText: new BitString("00").MSBSubstring(0, 1)),
 
                     };
-                case Algo.TDES_CFBP8:
+                case AlgoMode.TDES_CFBP8:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("1046913489980131"), iv1: new BitString("0000000000000000"), iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), plainText: new BitString("00"), cipherText1: new BitString("88"), cipherText2: new BitString("23"), cipherText3: new BitString("e5")),
@@ -654,7 +654,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                         new TestCase(keys: new BitString("1002911698100101"), iv1: new BitString("0000000000000000"), iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), plainText1: new BitString("1a"), plainText2: new BitString("31"), plainText3: new BitString("dc"), cipherText: new BitString("00")),
 
                     };
-                case Algo.TDES_CFBP64:
+                case AlgoMode.TDES_CFBP64:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("1046913489980131"), iv1: new BitString("0000000000000000"), iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), plainText: new BitString("0000000000000000"), cipherText1: new BitString("88d55e54f54c97b4"), cipherText2: new BitString("23c25ab3e19b6b94"), cipherText3: new BitString("e5b490db69b0f2ec")),
@@ -729,11 +729,11 @@ namespace NIST.CVP.Generation.TDES_CFBP
             }
         }
 
-        private static List<TestCase> SubstitutionTableTests(Algo algo)
+        private static List<TestCase> SubstitutionTableTests(AlgoMode algo)
         {
             switch (algo)
             {
-                case Algo.TDES_CFBP1:
+                case AlgoMode.TDES_CFBP1:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("7ca110454a1a6e57"), iv1: new BitString("01a1d6d039776742"), iv2: new BitString("56f72c258eccbc97"), iv3: new BitString("ac4c817ae42211ec"), plainText: new BitString("00").MSBSubstring(0, 1), cipherText1: new BitString("00").MSBSubstring(0, 1), cipherText2: new BitString("80").MSBSubstring(0, 1), cipherText3: new BitString("80").MSBSubstring(0, 1)),
@@ -776,7 +776,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                         new TestCase(keys: new BitString("018310dc409b26d6"), iv1: new BitString("1d9d5c5018f728c2"), iv2: new BitString("72f2b1a56e4c7e17"), iv3: new BitString("c84806fac3a1d36c"), cipherText: new BitString("00").MSBSubstring(0, 1), plainText1: new BitString("00").MSBSubstring(0, 1), plainText2: new BitString("80").MSBSubstring(0, 1), plainText3: new BitString("80").MSBSubstring(0, 1)),
                         new TestCase(keys: new BitString("1c587f1c13924fef"), iv1: new BitString("305532286d6f295a"), iv2: new BitString("85aa877dc2c47eaf"), iv3: new BitString("daffdcd31819d404"), cipherText: new BitString("00").MSBSubstring(0, 1), plainText1: new BitString("00").MSBSubstring(0, 1), plainText2: new BitString("80").MSBSubstring(0, 1), plainText3: new BitString("00").MSBSubstring(0, 1)),
                     };
-                case Algo.TDES_CFBP8:
+                case AlgoMode.TDES_CFBP8:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("7ca110454a1a6e57"), iv1: new BitString("01a1d6d039776742"), iv2: new BitString("56f72c258eccbc97"), iv3: new BitString("ac4c817ae42211ec"), plainText: new BitString("00"), cipherText1: new BitString("69"), cipherText2: new BitString("97"), cipherText3: new BitString("e9")),
@@ -819,7 +819,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                         new TestCase(keys: new BitString("018310dc409b26d6"), iv1: new BitString("1d9d5c5018f728c2"), iv2: new BitString("72f2b1a56e4c7e17"), iv3: new BitString("c84806fac3a1d36c"), cipherText: new BitString("00"), plainText1: new BitString("5f"), plainText2: new BitString("de"), plainText3: new BitString("9c")),
                         new TestCase(keys: new BitString("1c587f1c13924fef"), iv1: new BitString("305532286d6f295a"), iv2: new BitString("85aa877dc2c47eaf"), iv3: new BitString("daffdcd31819d404"), cipherText: new BitString("00"), plainText1: new BitString("63"), plainText2: new BitString("98"), plainText3: new BitString("1c")),
                     };
-                case Algo.TDES_CFBP64:
+                case AlgoMode.TDES_CFBP64:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("7ca110454a1a6e57"), iv1: new BitString("01a1d6d039776742"), iv2: new BitString("56f72c258eccbc97"), iv3: new BitString("ac4c817ae42211ec"), plainText: new BitString("0000000000000000"), cipherText1: new BitString("690f5b0d9a26939b"), cipherText2: new BitString("97fc1b9381f05ffa"), cipherText3: new BitString("e90a658ca212b240")),
@@ -867,11 +867,11 @@ namespace NIST.CVP.Generation.TDES_CFBP
             }
         }
 
-        private static List<TestCase> VariableKeyTests(Algo algo)
+        private static List<TestCase> VariableKeyTests(AlgoMode algo)
         {
             switch (algo)
             {
-                case Algo.TDES_CFBP1:
+                case AlgoMode.TDES_CFBP1:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("8001010101010101"), iv1: new BitString("0000000000000000"), iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), plainText: new BitString("00").MSBSubstring(0, 1), cipherText1: new BitString("80").MSBSubstring(0, 1), cipherText2: new BitString("80").MSBSubstring(0, 1), cipherText3: new BitString("00").MSBSubstring(0, 1)),
@@ -989,7 +989,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                         new TestCase(keys: new BitString("0101010101010102"), iv1: new BitString("0000000000000000"), iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), cipherText: new BitString("00").MSBSubstring(0, 1), plainText1: new BitString("80").MSBSubstring(0, 1), plainText2: new BitString("00").MSBSubstring(0, 1), plainText3: new BitString("00").MSBSubstring(0, 1)),
 
                     };
-                case Algo.TDES_CFBP8:
+                case AlgoMode.TDES_CFBP8:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("8001010101010101"), iv1: new BitString("0000000000000000"), iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), plainText: new BitString("00"), cipherText1: new BitString("95"), cipherText2: new BitString("b8"), cipherText3: new BitString("1e")),
@@ -1107,7 +1107,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                         new TestCase(keys: new BitString("0101010101010102"), iv1: new BitString("0000000000000000"), iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), cipherText: new BitString("00"), plainText1: new BitString("86"), plainText2: new BitString("45"), plainText3: new BitString("2b")),
 
                     };
-                case Algo.TDES_CFBP64:
+                case AlgoMode.TDES_CFBP64:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("8001010101010101"), iv1: new BitString("0000000000000000"), iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), plainText: new BitString("0000000000000000"), cipherText1: new BitString("95a8d72813daa94d"), cipherText2: new BitString("b8bc8dbc0b24cfa9"), cipherText3: new BitString("1e08a515c11e0de1")),
@@ -1230,11 +1230,11 @@ namespace NIST.CVP.Generation.TDES_CFBP
             }
         }
 
-        private static List<TestCase> VariablePlainTextTests(Algo algo)
+        private static List<TestCase> VariablePlainTextTests(AlgoMode algo)
         {
             switch (algo)
             {
-                case Algo.TDES_CFBP1:
+                case AlgoMode.TDES_CFBP1:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("8000000000000000"), iv2: new BitString("d555555555555555"), iv3: new BitString("2aaaaaaaaaaaaaaa"), plainText: new BitString("00").MSBSubstring(0, 1), cipherText1: new BitString("80").MSBSubstring(0, 1), cipherText2: new BitString("80").MSBSubstring(0, 1), cipherText3: new BitString("00").MSBSubstring(0, 1)),
@@ -1368,7 +1368,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                         new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("0000000000000001"), iv2: new BitString("5555555555555556"), iv3: new BitString("aaaaaaaaaaaaaaab"), cipherText: new BitString("00").MSBSubstring(0, 1), plainText1: new BitString("00").MSBSubstring(0, 1), plainText2: new BitString("00").MSBSubstring(0, 1), plainText3: new BitString("00").MSBSubstring(0, 1)),
 
                     };
-                case Algo.TDES_CFBP8:
+                case AlgoMode.TDES_CFBP8:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("8000000000000000"), iv2: new BitString("d555555555555555"), iv3: new BitString("2aaaaaaaaaaaaaaa"), plainText: new BitString("00"), cipherText1: new BitString("95"), cipherText2: new BitString("f7"), cipherText3: new BitString("5a")),
@@ -1502,7 +1502,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                         new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("0000000000000001"), iv2: new BitString("5555555555555556"), iv3: new BitString("aaaaaaaaaaaaaaab"), cipherText: new BitString("00"), plainText1: new BitString("16"), plainText2: new BitString("00"), plainText3: new BitString("17")),
 
                     };
-                case Algo.TDES_CFBP64:
+                case AlgoMode.TDES_CFBP64:
                     return new List<TestCase>
                     {
                         new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("8000000000000000"), iv2: new BitString("d555555555555555"), iv3: new BitString("2aaaaaaaaaaaaaaa"), plainText: new BitString("0000000000000000"), cipherText1: new BitString("95f8a5e5dd31d900"), cipherText2: new BitString("f7552ab6cb21e2bc"), cipherText3: new BitString("5a48d3de869557fd")),

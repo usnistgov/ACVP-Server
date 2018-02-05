@@ -68,9 +68,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         {
             var randy = new Mock<IRandom800_90>().Object;
             var algo = new Mock<ICFBPMode>();
-            algo.SetupGet(s => s.Algo).Returns(Algo.TDES_CFBP1);
+            algo.SetupGet(s => s.Algo).Returns(AlgoMode.TDES_CFBP1);
             var algoMct = new Mock<ICFBPModeMCT>();
-            algoMct.SetupGet(s => s.Algo).Returns(Algo.TDES_CFBP1);
+            algoMct.SetupGet(s => s.Algo).Returns(AlgoMode.TDES_CFBP1);
             return new TestCaseGeneratorFactory(randy, algo.Object, algoMct.Object);
         }
     }

@@ -5,14 +5,14 @@ namespace NIST.CVP.Crypto.TDES_CFBP
 {
     public static class ModeFactory
     {
-        public static ICFBPMode GetMode(Algo algo)
+        public static ICFBPMode GetMode(AlgoMode algo)
         {
             ICFBPMode mode;
             switch (algo)
             {
-                case Algo.TDES_CFBP1:
-                case Algo.TDES_CFBP8:
-                case Algo.TDES_CFBP64:
+                case AlgoMode.TDES_CFBP1:
+                case AlgoMode.TDES_CFBP8:
+                case AlgoMode.TDES_CFBP64:
                     mode = new CFBPMode(algo);
                     break;
                 default:

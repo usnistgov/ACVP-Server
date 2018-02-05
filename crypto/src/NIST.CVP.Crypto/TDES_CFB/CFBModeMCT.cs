@@ -22,19 +22,19 @@ namespace NIST.CVP.Crypto.TDES_CFB
         protected virtual int NumberOfCases { get { return NUMBER_OF_CASES; } }
         public int Shift { get; set; }
         public ICFBMode ModeOfOperation { get; set; }
-        public Algo Algo { get; set; }
+        public AlgoMode Algo { get; set; }
 
-        public CFBModeMCT(IMonteCarloKeyMaker keyMaker, ICFBMode cfbMode, Algo algo)
+        public CFBModeMCT(IMonteCarloKeyMaker keyMaker, ICFBMode cfbMode, AlgoMode algo)
         {
             switch (algo)
             {
-                case Algo.TDES_CFB1:
+                case AlgoMode.TDES_CFB1:
                     Shift = 1;
                     break;
-                case Algo.TDES_CFB8:
+                case AlgoMode.TDES_CFB8:
                     Shift = 8;
                     break;
-                case Algo.TDES_CFB64:
+                case AlgoMode.TDES_CFB64:
                     Shift = 64;
                     break;
                 default:

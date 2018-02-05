@@ -21,7 +21,7 @@ namespace tdes_cfb
             LoggingHelper.ConfigureLogging(requestFile, algoStr);
             Logger.Info($"Generating Test Vectors for {requestFile}");
 
-            var algo = EnumHelpers.GetEnumFromEnumDescription<Algo>(algoStr);
+            var algo = EnumHelpers.GetEnumFromEnumDescription<AlgoMode>(algoStr);
             //get generator and call it
             Logger.Debug("Generating");
 

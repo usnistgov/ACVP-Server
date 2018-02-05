@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
                 Function = direction
             };
 
-            Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKnownAnswer(testGroup, Algo.TDES_CFB1));
+            Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKnownAnswer(testGroup, AlgoMode.TDES_CFB1));
 
         }
 
@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
                 Function = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup, Algo.TDES_CFB1);
+            var subject = new TestCaseGeneratorKnownAnswer(testGroup, AlgoMode.TDES_CFB1);
             var result = subject.Generate(testGroup, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
                 Function = direction
             };
 
-            var subject = new TestCaseGeneratorKnownAnswer(testGroup, Algo.TDES_CFB1);
+            var subject = new TestCaseGeneratorKnownAnswer(testGroup, AlgoMode.TDES_CFB1);
             List<TestCaseGenerateResponse> results = new EditableList<TestCaseGenerateResponse>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {

@@ -13,13 +13,13 @@ namespace NIST.CVP.Crypto.TDES_CFBP.Tests
     {
         [Test]
         [TestCase(
-            Algo.TDES_CFBP64, // _algo, 
+            AlgoMode.TDES_CFBP64, // _algo, 
             "010101010101010101010101010101010101010101010101", // _key, 
             "8000000000000000", // _iv, 
             "95f8a5e5dd31d900",  // _data, 
             TestName = "dummy1"
         )]
-        public void ShouldEncryptSuccessfully(Algo _algo, string _key, string _iv, string _data)
+        public void ShouldEncryptSuccessfully(AlgoMode _algo, string _key, string _iv, string _data)
         {
             var mode = ModeFactory.GetMode(_algo);
             var key = new BitString(_key);

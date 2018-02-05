@@ -6,7 +6,7 @@ namespace NIST.CVP.Crypto.Common.Symmetric.TDES
     {
         ICFBPMode ModeOfOperation { get; set; }
 
-        Algo Algo { get; set; }
+        AlgoMode Algo { get; set; }
 
         MCTResult<AlgoArrayResponseWithIvs> MCTEncrypt(BitString keyBits, BitString iv, BitString data);
         MCTResult<AlgoArrayResponseWithIvs> MCTDecrypt(BitString keyBits, BitString iv, BitString data);

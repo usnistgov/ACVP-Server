@@ -12,21 +12,21 @@ namespace NIST.CVP.Crypto.TDES_CFB
     public class CFBMode : ICFBMode
     {
         private int Shift { get; set; }
-        public Algo Algo { get; set;}
-        public CFBMode(Algo algo)
+        public AlgoMode Algo { get; set;}
+        public CFBMode(AlgoMode algo)
         {
             Algo = algo;
             switch (algo)
             {
-                case Algo.TDES_CFB1:
+                case AlgoMode.TDES_CFB1:
                     Shift = 1;
                     //BlockCipher = new TdesCipher();
                     break;
-                case Algo.TDES_CFB8:
+                case AlgoMode.TDES_CFB8:
                     Shift = 8;
                     //BlockCipher = new TdesCipher();
                     break;
-                case Algo.TDES_CFB64:
+                case AlgoMode.TDES_CFB64:
                     Shift = 64;
                     //BlockCipher = new TdesCipher();
                     break;

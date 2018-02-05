@@ -16,7 +16,7 @@ namespace tdes_cfb
         {
             get { return _container; }
         }
-        public static void IoCConfiguration(Algo algo)
+        public static void IoCConfiguration(AlgoMode algo)
         {
             ContainerBuilder builder = new ContainerBuilder();
 
@@ -26,14 +26,14 @@ namespace tdes_cfb
 
             switch (algo)
             {
-                case Algo.TDES_CFB1:
-                case Algo.TDES_CFB8:
-                case Algo.TDES_CFB64:
+                case AlgoMode.TDES_CFB1:
+                case AlgoMode.TDES_CFB8:
+                case AlgoMode.TDES_CFB64:
                     NIST.CVP.Generation.TDES_CFB.AutofacConfig.RegisterTypes(builder, algo);
                     break;
-                case Algo.TDES_CFBP1:
-                case Algo.TDES_CFBP8:
-                case Algo.TDES_CFBP64:
+                case AlgoMode.TDES_CFBP1:
+                case AlgoMode.TDES_CFBP8:
+                case AlgoMode.TDES_CFBP64:
                     NIST.CVP.Generation.TDES_CFBP.AutofacConfig.RegisterTypes(builder, algo);
                     break;
 

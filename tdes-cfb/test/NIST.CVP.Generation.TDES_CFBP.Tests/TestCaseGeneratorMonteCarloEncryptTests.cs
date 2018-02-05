@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             _mockRandom = new Mock<IRandom800_90>();
             _mockRandom.Setup(s => s.GetRandomBitString(It.IsAny<int>())).Returns(new BitString(1));
             _mockMCT = new Mock<ICFBPModeMCT>();
-            _mockMCT.SetupProperty(x => x.Algo, Algo.TDES_CFBP1);
+            _mockMCT.SetupProperty(x => x.Algo, AlgoMode.TDES_CFBP1);
             _subject = new TestCaseGeneratorMonteCarloEncrypt(_mockRandom.Object, _mockMCT.Object);
         }
 

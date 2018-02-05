@@ -15,10 +15,10 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
 
 
         [Test]
-        [TestCase(Algo.TDES_CFBP1)]
-        [TestCase(Algo.TDES_CFBP8)]
-        [TestCase(Algo.TDES_CFBP64)]
-        public void ShouldSuccessfullyGenerate(Algo algo)
+        [TestCase(AlgoMode.TDES_CFBP1)]
+        [TestCase(AlgoMode.TDES_CFBP8)]
+        [TestCase(AlgoMode.TDES_CFBP64)]
+        public void ShouldSuccessfullyGenerate(AlgoMode algo)
         {
             var modeOfOperation = ModeFactory.GetMode(algo);
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), modeOfOperation);
@@ -28,10 +28,10 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         }
 
         [Test]
-        [TestCase(Algo.TDES_CFBP1)]
-        [TestCase(Algo.TDES_CFBP8)]
-        [TestCase(Algo.TDES_CFBP64)]
-        public void ShouldHaveProperNumberOfTestCasesToGenerate(Algo algo)
+        [TestCase(AlgoMode.TDES_CFBP1)]
+        [TestCase(AlgoMode.TDES_CFBP8)]
+        [TestCase(AlgoMode.TDES_CFBP64)]
+        public void ShouldHaveProperNumberOfTestCasesToGenerate(AlgoMode algo)
         {
             var modeOfOperation = ModeFactory.GetMode(algo);
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), modeOfOperation);
@@ -39,10 +39,10 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         }
 
         [Test]
-        [TestCase(Algo.TDES_CFBP1, 1)]
-        [TestCase(Algo.TDES_CFBP8, 8)]
-        [TestCase(Algo.TDES_CFBP64, 64)]
-        public void ShouldGenerateProperlySizedCipherTextForEachGenerateCall(Algo algo, int shift)
+        [TestCase(AlgoMode.TDES_CFBP1, 1)]
+        [TestCase(AlgoMode.TDES_CFBP8, 8)]
+        [TestCase(AlgoMode.TDES_CFBP64, 64)]
+        public void ShouldGenerateProperlySizedCipherTextForEachGenerateCall(AlgoMode algo, int shift)
         {
             var modeOfOperation = ModeFactory.GetMode(algo);
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), modeOfOperation);
@@ -58,10 +58,10 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         }
 
         [Test]
-        [TestCase(Algo.TDES_CFBP1)]
-        [TestCase(Algo.TDES_CFBP8)]
-        [TestCase(Algo.TDES_CFBP64)]
-        public void ShouldReturnAnErrorIfAnDecryptionFails(Algo algo)
+        [TestCase(AlgoMode.TDES_CFBP1)]
+        [TestCase(AlgoMode.TDES_CFBP8)]
+        [TestCase(AlgoMode.TDES_CFBP64)]
+        public void ShouldReturnAnErrorIfAnDecryptionFails(AlgoMode algo)
         {
             //var mockAlgo = new Mock<ITDES_CFB>();
             //mockAlgo.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             var mockModeOfOperation = new Mock<ICFBPMode>();
             mockModeOfOperation.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), false))
                             .Returns(new SymmetricCipherWithIvResult("I Failed to decrypt"));
-            mockModeOfOperation.SetupProperty(x => x.Algo, Algo.TDES_CFBP1);
+            mockModeOfOperation.SetupProperty(x => x.Algo, AlgoMode.TDES_CFBP1);
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), mockModeOfOperation.Object);
             var result = subject.Generate(new TestGroup { Function = "decrypt", KeyingOption = 1 }, false);
             Assert.IsFalse(result.Success);
@@ -80,10 +80,10 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
 
 
         [Test]
-        [TestCase(Algo.TDES_CFBP1)]
-        [TestCase(Algo.TDES_CFBP8)]
-        [TestCase(Algo.TDES_CFBP64)]
-        public void GeneratedPlainTextShouldDecryptBackToPlainText(Algo algo)
+        [TestCase(AlgoMode.TDES_CFBP1)]
+        [TestCase(AlgoMode.TDES_CFBP8)]
+        [TestCase(AlgoMode.TDES_CFBP64)]
+        public void GeneratedPlainTextShouldDecryptBackToPlainText(AlgoMode algo)
         {
             var modeOfOperation = ModeFactory.GetMode(algo);
 

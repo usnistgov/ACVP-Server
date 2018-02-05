@@ -21,13 +21,13 @@ namespace NIST.CVP.Generation.TDES_CFB
         {
             switch (mode.Algo)
             {
-                case Algo.TDES_CFB1:
+                case AlgoMode.TDES_CFB1:
                     _shift = 1;
                     break;
-                case Algo.TDES_CFB8:
+                case AlgoMode.TDES_CFB8:
                     _shift = 8;
                     break;
-                case Algo.TDES_CFB64:
+                case AlgoMode.TDES_CFB64:
                     _shift = 64;
                     break;
                 default:

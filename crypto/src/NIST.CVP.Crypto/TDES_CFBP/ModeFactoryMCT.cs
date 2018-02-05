@@ -5,22 +5,22 @@ namespace NIST.CVP.Crypto.TDES_CFBP
 {
     public static class ModeFactoryMCT
     {
-        public static ICFBPModeMCT GetMode(Algo algo)
+        public static ICFBPModeMCT GetMode(AlgoMode algo)
         {
             var mode = ModeFactory.GetMode(algo);
 
             ICFBPModeMCT modeMCT;
             switch (algo)
             {
-                case Algo.TDES_CFBP1:
+                case AlgoMode.TDES_CFBP1:
                     modeMCT = new CFBPModeMCT(new MonteCarloKeyMaker(), mode, algo);
                     break;
 
-                case Algo.TDES_CFBP8:
+                case AlgoMode.TDES_CFBP8:
                     modeMCT = new CFBPModeMCT(new MonteCarloKeyMaker(), mode, algo);
                     break;
 
-                case Algo.TDES_CFBP64:
+                case AlgoMode.TDES_CFBP64:
                     modeMCT = new CFBPModeMCT(new MonteCarloKeyMaker(), mode, algo);
                     break;
 

@@ -28,7 +28,7 @@ namespace TDES_CFB_Val
             Logger.Info($"Validating test results for {resultFile}");
             try
             {
-                var algo = EnumHelpers.GetEnumFromEnumDescription<Algo>(algoStr);
+                var algo = EnumHelpers.GetEnumFromEnumDescription<AlgoMode>(algoStr);
                 AutofacConfig.IoCConfiguration(algo);
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {

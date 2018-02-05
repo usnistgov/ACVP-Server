@@ -30,11 +30,11 @@ namespace NIST.CVP.Generation.TDES_CFB.Parsers
                 return new ParseResponse<TestVectorSet>($"Could not find path {path}");
             }
 
-            var algo = EnumHelpers.GetEnumFromEnumDescription<Algo>(Path.GetFileName(path));
+            var algo = EnumHelpers.GetEnumFromEnumDescription<AlgoMode>(Path.GetFileName(path));
 
             // these are the only algorithms this parse will support
 
-            if (!new[] { Algo.TDES_CFB1, Algo.TDES_CFB8, Algo.TDES_CFB64 }.Contains(algo))
+            if (!new[] { AlgoMode.TDES_CFB1, AlgoMode.TDES_CFB8, AlgoMode.TDES_CFB64 }.Contains(algo))
             {
                 throw new ArgumentException("Unsupported algorithm.");
             }
@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Parsers
                 foreach (Match match in encryptDecryptRegEx.Matches(fileContent))
                 {
                     var testGroup = GetTestGroupFromFileName(file);
-                    var tests = CreateTestCases(match.Groups["tests"].Value, algo != Algo.TDES_CFB1, testGroup.TestType == "MCT");
+                    var tests = CreateTestCases(match.Groups["tests"].Value, algo != AlgoMode.TDES_CFB1, testGroup.TestType == "MCT");
 
                     if (tests.Any())
                     {

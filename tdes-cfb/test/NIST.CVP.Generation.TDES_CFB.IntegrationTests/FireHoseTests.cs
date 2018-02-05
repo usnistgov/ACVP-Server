@@ -28,10 +28,10 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
         //}
 
         [Test]
-        [TestCase(Algo.TDES_CFB1)]
-        [TestCase(Algo.TDES_CFB8)]
-        [TestCase(Algo.TDES_CFB64)]
-        public void ShouldParseAndRunCAVSFiles(Algo algo)
+        [TestCase(AlgoMode.TDES_CFB1)]
+        [TestCase(AlgoMode.TDES_CFB8)]
+        [TestCase(AlgoMode.TDES_CFB64)]
+        public void ShouldParseAndRunCAVSFiles(AlgoMode algo)
         {
             var _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $@"..\..\TestFiles\LegacyParserFiles\{EnumHelpers.GetEnumDescriptionFromEnum(algo)}");
             if (!Directory.Exists(_testPath))
