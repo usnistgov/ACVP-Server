@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
@@ -33,6 +34,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             _mockRandom = new Mock<IRandom800_90>();
             _mockRandom.Setup(s => s.GetRandomBitString(It.IsAny<int>())).Returns((int i) => new BitString(i));
             _mockMCT = new Mock<ICFBModeMCT>();
+            _mockMCT.SetupGet(s => s.Algo).Returns(AlgoMode.TDES_CFB1);
             _subject = new TestCaseGeneratorMonteCarloDecrypt(_mockRandom.Object, _mockMCT.Object);
         }
 

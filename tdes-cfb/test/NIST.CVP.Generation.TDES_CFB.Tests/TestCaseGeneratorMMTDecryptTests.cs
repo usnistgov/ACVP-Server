@@ -64,13 +64,10 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         [TestCase(AlgoMode.TDES_CFB64)]
         public void ShouldReturnAnErrorIfAnDecryptionFails(AlgoMode algo)
         {
-            //var mockAlgo = new Mock<ITDES_CFB>();
-            //mockAlgo.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-            //    .Returns(new EncryptionResult("I Failed to decrypt"));
-
             var mockModeOfOperation = new Mock<ICFBMode>();
             mockModeOfOperation.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
                             .Returns(new SymmetricCipherResult("I Failed to decrypt"));
+            mockModeOfOperation.SetupGet(s => s.Algo).Returns(algo);
 
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), mockModeOfOperation.Object);
             var result = subject.Generate(new TestGroup { Function = "decrypt", KeyingOption = 1 }, false);

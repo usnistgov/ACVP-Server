@@ -70,8 +70,9 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var algo = new Mock<ICFBMode>();
             algo.SetupGet(s => s.Algo).Returns(AlgoMode.TDES_CFB1);
 
-            var algoMct = new Mock<ICFBModeMCT>().Object;
-            return new TestCaseGeneratorFactory(randy, algo.Object, algoMct);
+            var algoMct = new Mock<ICFBModeMCT>();
+            algoMct.SetupGet(s => s.Algo).Returns(AlgoMode.TDES_CFB1);
+            return new TestCaseGeneratorFactory(randy, algo.Object, algoMct.Object);
         }
     }
 }
