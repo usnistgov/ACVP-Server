@@ -3,27 +3,26 @@ using Autofac;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using tdes_ofb;
 
 namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "TDES";
         public override string Mode { get; } = "OFB";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => TDES_OFB_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            TDES_OFB_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
@@ -36,7 +35,7 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            TDES_OFB_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -44,7 +43,7 @@ namespace NIST.CVP.Generation.TDES_OFB.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            TDES_OFB_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
