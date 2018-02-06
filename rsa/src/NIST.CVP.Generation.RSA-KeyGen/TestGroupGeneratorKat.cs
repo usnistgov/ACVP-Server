@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.RSA;
+﻿using System.Collections.Generic;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestGroupGeneratorKnownAnswerTests : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorKat : ITestGroupGenerator<Parameters>
     {
         private const string TEST_TYPE = "KAT";
 
@@ -15,16 +13,17 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         {
             var testGroups = new List<TestGroup>();
 
-            var pubExpMode = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode);
-            if (pubExpMode == PubExpModes.FIXED)
+            var keyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(parameters.KeyFormat);
+            var pubExpMode = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(parameters.PubExpMode);
+            if (pubExpMode == PublicExponentModes.Fixed)
             {
                 return testGroups;
             }
 
             foreach (var algSpec in parameters.AlgSpecs)
             {
-                var mode = RSAEnumHelpers.StringToKeyGenMode(algSpec.RandPQ);
-                if (mode != KeyGenModes.B33)
+                var mode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(algSpec.RandPQ);
+                if (mode != PrimeGenModes.B33)
                 {
                     continue;
                 }
@@ -35,10 +34,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     {
                         var testGroup = new TestGroup
                         {
-                            Mode = mode,
+                            PrimeGenMode = mode,
                             Modulo = capability.Modulo,
-                            PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest),
+                            PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(primeTest),
                             PubExp = pubExpMode,
+                            KeyFormat = keyFormat,
                             TestType = TEST_TYPE
                         };
 

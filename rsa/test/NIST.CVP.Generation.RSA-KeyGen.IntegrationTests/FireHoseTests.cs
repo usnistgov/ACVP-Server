@@ -2,16 +2,14 @@
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using NIST.CVP.Generation.RSA_KeyGen.Parsers;
-using System.Text;
-using NIST.CVP.Crypto.RSA.PrimeGenerators;
-using NIST.CVP.Crypto.RSA;
 using System.Linq;
 using NIST.CVP.Math.Entropy;
-using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Crypto.RSA2.PrimeGenerators;
+using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
@@ -41,7 +39,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
             var folderPath = new DirectoryInfo(Path.Combine(_testPath, keyGenMode));
             var parser = new LegacyResponseFileParser();
-            var genFactory = new PrimeGeneratorFactory();
+            var shaFactory = new ShaFactory();
 
             foreach(var testFilePath in folderPath.EnumerateFiles())
             {
@@ -74,31 +72,37 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                     {
                         var testCase = (TestCase)iTestCase;
 
-                        var algo = genFactory.GetPrimeGenerator(keyGenMode);
-
-                        // Set properties
-                        algo.SetBitlens(testCase.Bitlens);
-                        algo.SetHashFunction(testGroup.HashAlg);
-                        algo.SetPrimeTestMode(testGroup.PrimeTest);
-                        algo.SetEntropyProviderType(EntropyProviderTypes.Testable);
-                        algo.AddEntropy(testCase.XP1);
-                        algo.AddEntropy(testCase.XP2);
-                        algo.AddEntropy(testCase.XQ1);
-                        algo.AddEntropy(testCase.XQ2);
-                        if(testCase.XP != null)
+                        var algo = new KeyBuilder(new PrimeGeneratorFactory());
+                        
+                        var entropyProvider = new TestableEntropyProvider();
+                        entropyProvider.AddEntropy(testCase.XP1);
+                        entropyProvider.AddEntropy(testCase.XP2);
+                        entropyProvider.AddEntropy(testCase.XQ1);
+                        entropyProvider.AddEntropy(testCase.XQ2);
+                        if (testCase.XP != null)
                         {
-                            algo.AddEntropy(testCase.XP.ToPositiveBigInteger());
-                            algo.AddEntropy(testCase.XQ.ToPositiveBigInteger());
+                            entropyProvider.AddEntropy(testCase.XP.ToPositiveBigInteger());
+                            entropyProvider.AddEntropy(testCase.XQ.ToPositiveBigInteger());
                         }
 
-                        var result = algo.GeneratePrimes(testGroup.Modulo, testCase.Key.PubKey.E, testCase.Seed);
+                        var sha = shaFactory.GetShaInstance(testGroup.HashAlg);
+
+                        var result = algo
+                            .WithBitlens(testCase.Bitlens)
+                            .WithHashFunction(sha)
+                            .WithPrimeTestMode(testGroup.PrimeTest)
+                            .WithEntropyProvider(entropyProvider)
+                            .WithNlen(testGroup.Modulo)
+                            .WithPublicExponent(testCase.Key.PubKey.E)
+                            .WithSeed(testCase.Seed)
+                            .Build();
+
                         if (!result.Success)
                         {
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
                         }
 
-                        var resultKey = new KeyPair(result.P, result.Q, testCase.Key.PubKey.E);
-                        if(!CompareKeys(testCase.Key, resultKey))
+                        if(!CompareKeys(testCase.Key, result.Key))
                         {
                             Assert.Fail($"Failed KeyPair comparison on TestCase: {testCase.TestCaseId}");
                         }
@@ -108,21 +112,22 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         }
 
         [Test]
-        [TestCase(2048, "C.2")]
-        [TestCase(2048, "C.3")]
-        [TestCase(3072, "C.2")]
-        [TestCase(3072, "C.3")]
-        public void ShouldRunThroughKATsAndValidate(int modulo, string primeTest)
+        [TestCase(2048, PrimeTestModes.C2)]
+        [TestCase(2048, PrimeTestModes.C3)]
+        [TestCase(3072, PrimeTestModes.C2)]
+        [TestCase(3072, PrimeTestModes.C3)]
+        public void ShouldRunThroughKatsAndValidate(int modulo, PrimeTestModes primeTest)
         {
             var group = new TestGroup
             {
-                Mode = KeyGenModes.B33,
+                PrimeGenMode = PrimeGenModes.B33,
                 Modulo = modulo,
-                PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest)
+                PrimeTest = primeTest,
+                KeyFormat = PrivateKeyModes.Standard
             };
 
             var count = 1;
-            var katGen = new KnownAnswerTestCaseGeneratorB33(group);
+            var katGen = new TestCaseGeneratorKat(group, new KeyComposerFactory());
             for (int i = 0; i < katGen.NumberOfTestCasesToGenerate; i++)
             {
                 var kat = katGen.Generate(group, false);
@@ -135,10 +140,19 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 var katTestCase = (TestCase) kat.TestCase;
                 katTestCase.TestCaseId = count++;
 
-                var algo = new RandomProbablePrimeGenerator(EntropyProviderTypes.Testable);
-                algo.AddEntropy(new BitString(katTestCase.Key.PrivKey.P, group.Modulo / 2));
-                algo.AddEntropy(new BitString(katTestCase.Key.PrivKey.Q, group.Modulo / 2));
-                var result = algo.GeneratePrimes(group.Modulo, katTestCase.Key.PubKey.E, null);
+                var algo = new KeyBuilder(new PrimeGeneratorFactory());
+                var entropyProvider = new TestableEntropyProvider();
+                entropyProvider.AddEntropy(new BitString(katTestCase.Key.PrivKey.P, group.Modulo / 2));
+                entropyProvider.AddEntropy(new BitString(katTestCase.Key.PrivKey.Q, group.Modulo / 2));
+
+                var result = algo
+                    .WithPrimeGenMode(group.PrimeGenMode)
+                    .WithPrimeTestMode(primeTest)
+                    .WithPublicExponent(katTestCase.Key.PubKey.E)
+                    .WithEntropyProvider(entropyProvider)
+                    .WithNlen(group.Modulo)
+                    .WithKeyComposer(new RsaKeyComposer())
+                    .Build();
                 
                 if (katTestCase.FailureTest == result.Success)
                 {
@@ -149,12 +163,15 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
         private bool CompareKeys(KeyPair expected, KeyPair actual)
         {
-            return
-                expected.PubKey.E == actual.PubKey.E &&
-                expected.PubKey.N == actual.PubKey.N &&
-                expected.PrivKey.D == actual.PrivKey.D &&
-                expected.PrivKey.P == actual.PrivKey.P &&
-                expected.PrivKey.Q == actual.PrivKey.Q;
+            var pub1 = expected.PubKey;
+            var pub2 = actual.PubKey;
+
+            if (!(expected.PrivKey is PrivateKey priv1) || !(actual.PrivKey is PrivateKey priv2)) return false;
+
+            if (pub1.E != pub2.E || pub1.N != pub2.N) return false;
+            if (priv1.P != priv2.P || priv1.Q != priv2.Q || priv1.D != priv2.D) return false;
+            
+            return true;
         }
     }
 }

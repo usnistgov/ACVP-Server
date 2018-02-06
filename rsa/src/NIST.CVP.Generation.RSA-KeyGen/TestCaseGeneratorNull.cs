@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestCaseGeneratorNull : ITestCaseGenerator<TestGroup, TestCase>
     {
-        public int NumberOfTestCasesToGenerate { get { return 1; } }
+        public int NumberOfTestCasesToGenerate => 1;
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {

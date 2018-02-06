@@ -1,14 +1,13 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.RSA;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestGroupGeneratorGeneratedDataTest : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorGdt : ITestGroupGenerator<Parameters>
     {
         public const string TEST_TYPE = "GDT";
 
@@ -18,8 +17,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             foreach (var algSpec in parameters.AlgSpecs)
             {
-                var mode = RSAEnumHelpers.StringToKeyGenMode(algSpec.RandPQ);
-                if (mode != KeyGenModes.B33)
+                var keyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(parameters.KeyFormat);
+                var mode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(algSpec.RandPQ);
+                if (mode != PrimeGenModes.B33)
                 {
                     continue;
                 }
@@ -30,11 +30,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     {
                         var testGroup = new TestGroup
                         {
-                            Mode = mode,
+                            PrimeGenMode = mode,
                             Modulo = capability.Modulo,
-                            PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest),
-                            PubExp = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode),
+                            PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(primeTest),
+                            PubExp = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(parameters.PubExpMode),
                             FixedPubExp = new BitString(parameters.FixedPubExp),
+                            KeyFormat = keyFormat,
                             TestType = TEST_TYPE
                         };
 

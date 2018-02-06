@@ -20,6 +20,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 PubExpMode = "random",
                 IsSample = false,
                 InfoGeneratedByServer = false,
+                KeyFormat = "standard",
                 AlgSpecs = BuildCapabilities()
             };
 
@@ -36,6 +37,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 InfoGeneratedByServer = true,
                 IsSample = false,
                 PubExpMode = "fixed",
+                KeyFormat = "standard",
                 FixedPubExp = "010001",
                 AlgSpecs = BuildCapabilities()
             };

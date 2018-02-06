@@ -2,10 +2,10 @@
 using System.Dynamic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
-using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
+using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -15,14 +15,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
     public class TestGroup : ITestGroup
     {
         public bool InfoGeneratedByServer { get; set; }
-        public KeyGenModes Mode { get; set; }
         public int Modulo { get; set; }
-        public HashFunction HashAlg { get; set; }
-        public PrimeTestModes PrimeTest { get; set; }
-        public PubExpModes PubExp { get; set; }
         public BitString FixedPubExp { get; set; }
         public List<ITestCase> Tests { get; set; }
         public string TestType { get; set; }
+
+        public HashFunction HashAlg { get; set; }
+        public PrivateKeyModes KeyFormat { get; set; }
+        public PrimeTestModes PrimeTest { get; set; }
+        public PrimeGenModes PrimeGenMode { get; set; }
+        public PublicExponentModes PubExp { get; set; }
 
         public TestGroup()
         {
@@ -35,17 +37,15 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         {
             TestType = source.testType;
 
-            Modulo = IntFromObject("modulo", source);
-            InfoGeneratedByServer = SetBoolValue(source, "infoGeneratedByServer");
-            Mode = RSAEnumHelpers.StringToKeyGenMode(source.randPQ);
-            HashAlg = SHAEnumHelpers.StringToHashFunction(SetStringValue(source, "hashAlg"));
-            PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(SetStringValue(source, "primeTest"));
-            PubExp = RSAEnumHelpers.StringToPubExpMode(source.pubExp);
+            var expandoSource = (ExpandoObject) source;
 
-            if (PubExp == PubExpModes.FIXED)
-            {
-                FixedPubExp = new BitString(source.fixedPubExp);
-            }
+            Modulo = expandoSource.GetTypeFromProperty<int>("modulo");
+            InfoGeneratedByServer = expandoSource.GetTypeFromProperty<bool>("infoGeneratedByServer");
+            PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(expandoSource.GetTypeFromProperty<string>("randPQ"));
+            HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
+            PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(expandoSource.GetTypeFromProperty<string>("primeTest"));
+            PubExp = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(expandoSource.GetTypeFromProperty<string>("pubExp"));
+            FixedPubExp = expandoSource.GetBitStringFromProperty("fixedPubExp");
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
@@ -73,9 +73,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
         public override int GetHashCode()
         {
-            return ($"{TestType}|{InfoGeneratedByServer}|{RSAEnumHelpers.KeyGenModeToString(Mode)}|" +
-                    $"{Modulo}|{SHAEnumHelpers.HashFunctionToString(HashAlg)}|{RSAEnumHelpers.PrimeTestModeToString(PrimeTest)}|" +
-                    $"{RSAEnumHelpers.PubExpModeToString(PubExp)}").GetHashCode();
+            return ($"{TestType}|{InfoGeneratedByServer}|{EnumHelpers.GetEnumDescriptionFromEnum(PrimeGenMode)}|" +
+                    $"{Modulo}|{HashAlg.Name}|{EnumHelpers.GetEnumDescriptionFromEnum(PrimeTest)}|" +
+                    $"{EnumHelpers.GetEnumDescriptionFromEnum(PubExp)}").GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -100,16 +100,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 switch (name.ToLower())
                 {
                     case "primemethod":
-                        Mode = RSAEnumHelpers.StringToKeyGenMode(value);
+                        PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(value);
                         return true;
                     case "mod":
                         Modulo = int.Parse(value);
                         return true;
                     case "hash":
-                        HashAlg = SHAEnumHelpers.StringToHashFunction(value);
+                        HashAlg = ShaAttributes.GetHashFunctionFromName(value);
                         return true;
                     case "table for m-t test":
-                        PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(value);
+                        PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(value);
                         return true;
                 }
 
@@ -119,58 +119,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             {
                 return false;
             }
-        }
-
-        private int SetIntValue(IDictionary<string, object> source, string label)
-        {
-            if (source.ContainsKey(label))
-            {
-                return (int) source[label];
-            }
-
-            return 0;
-        }
-
-        private string SetStringValue(IDictionary<string, object> source, string label)
-        {
-            if (source.ContainsKey(label))
-            {
-                return (string) source[label];
-            }
-
-            return "";
-        }
-
-        private bool SetBoolValue(IDictionary<string, object> source, string label)
-        {
-            if (source.ContainsKey(label))
-            {
-                return (bool) source[label];
-            }
-
-            return default(bool);
-        }
-
-        private int IntFromObject(string sourcePropertyName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return 0;
-            }
-
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return 0;
-            }
-
-            var valueAsBitString = sourcePropertyValue as long?;
-            if (valueAsBitString != null)
-            {
-                return (int)valueAsBitString;
-            }
-
-            return (int)sourcePropertyValue;
         }
     }
 }

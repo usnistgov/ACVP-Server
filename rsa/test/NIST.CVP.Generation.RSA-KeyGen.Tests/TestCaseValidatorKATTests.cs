@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseValidatorKATTests
+    public class TestCaseValidatorKatTests
     {
         [Test]
         [TestCase(true)]
@@ -16,7 +12,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         public void ShouldValidateIfExpectedAndSuppliedResultsMatch(bool failureTest)
         {
             var testCase = GetTestCase(failureTest);
-            var subject = new TestCaseValidatorKAT(testCase);
+            var subject = new TestCaseValidatorKat(testCase);
 
             var result = subject.Validate(testCase);
 
@@ -30,7 +26,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         public void ShouldNotValidateIfExpectedAndSuppliedDoNotMatch(bool failureTest)
         {
             var testCase = GetTestCase(failureTest);
-            var subject = new TestCaseValidatorKAT(GetTestCase(!failureTest));
+            var subject = new TestCaseValidatorKat(GetTestCase(!failureTest));
 
             var result = subject.Validate(testCase);
 

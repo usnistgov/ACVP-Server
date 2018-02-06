@@ -4,8 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.RSA2.Enums;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Parsers
 {
@@ -57,7 +56,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Parsers
                     if(curGroup == null || inCases)
                     {
                         inCases = false;
-                        curGroup = new TestGroup { PubExp = PubExpModes.RANDOM };
+                        curGroup = new TestGroup { PubExp = PublicExponentModes.Random };
                         groups.Add(curGroup);
                     }
 

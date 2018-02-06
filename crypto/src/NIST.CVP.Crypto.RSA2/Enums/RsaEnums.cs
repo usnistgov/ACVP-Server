@@ -7,28 +7,28 @@ namespace NIST.CVP.Crypto.RSA2.Enums
 {
     public enum PrimeGenModes
     {
-        [Description("B.3.2")]
+        [Description("b.3.2")]
         B32,
 
-        [Description("B.3.3")]
+        [Description("b.3.3")]
         B33,
 
-        [Description("B.3.4")]
+        [Description("b.3.4")]
         B34,
 
-        [Description("B.3.5")]
+        [Description("b.3.5")]
         B35,
 
-        [Description("B.3.6")]
+        [Description("b.3.6")]
         B36
     }
 
     public enum PrimeTestModes
     {
-        [Description("C.2")]
+        [Description("tblc2")]
         C2,
 
-        [Description("C.3")]
+        [Description("tblc3")]
         C3
     }
 
@@ -63,5 +63,23 @@ namespace NIST.CVP.Crypto.RSA2.Enums
 
         [Description("IR trailer modified from expected value")]
         ModifyTrailer
+    }
+
+    public enum PrivateKeyModes
+    {
+        [Description("standard")]
+        Standard,
+
+        [Description("crt")]
+        Crt
+    }
+
+    public enum PublicExponentModes
+    {
+        [Description("fixed")]
+        Fixed,
+
+        [Description("random")]
+        Random
     }
 }

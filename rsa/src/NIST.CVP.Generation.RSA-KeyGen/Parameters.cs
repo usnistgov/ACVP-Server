@@ -16,14 +16,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public bool InfoGeneratedByServer { get; set; } = true;
         public string PubExpMode { get; set; }
         public string FixedPubExp { get; set; } = "";
+        public string KeyFormat { get; set; }
 
         [JsonProperty(PropertyName = "algSpecs")]
         public AlgSpec[] AlgSpecs;
-
-        //public string[] KeyGenModes { get; set; }
-        //public int[] Moduli { get; set; }
-        //public string[] HashAlgs { get; set; }
-        //public string[] PrimeTests { get; set; }
     }
 
     public class AlgSpec

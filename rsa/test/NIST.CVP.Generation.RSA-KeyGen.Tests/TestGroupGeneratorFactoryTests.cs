@@ -20,9 +20,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         }
 
         [Test]
-        [TestCase(typeof(TestGroupGeneratorAlgorithmFunctionalTest))]
-        [TestCase(typeof(TestGroupGeneratorGeneratedDataTest))]
-        [TestCase(typeof(TestGroupGeneratorKnownAnswerTests))]
+        [TestCase(typeof(TestGroupGeneratorAft))]
+        [TestCase(typeof(TestGroupGeneratorGdt))]
+        [TestCase(typeof(TestGroupGeneratorKat))]
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
             var result = _subject.GetTestGroupGenerators();
@@ -42,18 +42,19 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         public void ShouldReturnTestGroups()
         {
             var result = _subject.GetTestGroupGenerators();
-            Parameters p = new Parameters
-                {
-                    Algorithm = "RSA",
-                    Mode = "KeyGen",
-                    FixedPubExp = "010001",
-                    InfoGeneratedByServer = true,
-                    IsSample = false,
-                    PubExpMode = "fixed",
-                    AlgSpecs = BuildCapabilities()
-                };
+            var p = new Parameters
+            {
+                Algorithm = "RSA",
+                Mode = "KeyGen",
+                FixedPubExp = "010001",
+                InfoGeneratedByServer = true,
+                IsSample = false,
+                PubExpMode = "fixed",
+                KeyFormat = "standard",
+                AlgSpecs = BuildCapabilities()
+            };
 
-            List<ITestGroup> groups = new List<ITestGroup>();
+            var groups = new List<ITestGroup>();
 
             foreach (var genny in result)
             {
@@ -68,17 +69,18 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
 
             var result = _subject.GetTestGroupGenerators();
-            Parameters p = new Parameters
+            var p = new Parameters
             {
                 Algorithm = "RSA",
                 Mode = "KeyGen",
                 InfoGeneratedByServer = true,
                 IsSample = false,
                 PubExpMode = "random",
+                KeyFormat = "crt",
                 AlgSpecs = BuildCapabilities()
             };
 
-            List<ITestGroup> groups = new List<ITestGroup>();
+            var groups = new List<ITestGroup>();
 
             foreach (var genny in result)
             {

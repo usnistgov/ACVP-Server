@@ -3,8 +3,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Numerics;
 using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.RSA;
+using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -28,6 +27,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public BitString XQ1 { get; set; }
         public BitString XQ2 { get; set; }
         public BitString XQ { get; set; }
+
+        private BigInteger _p;
+        private BigInteger _q;
 
         public TestCase() { }
 
@@ -74,12 +76,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 retVal = true;
             }
 
-            //if (Key.PubKey.E == 0 && otherTypedTest.Key.PubKey.E != 0)
-            //{
-            //    Key.PubKey.E = otherTypedTest.Key.PubKey.E;
-            //    retVal = true;
-            //}
-
             if (Seed == null && otherTypedTest.Seed != null)
             {
                 Seed = otherTypedTest.Seed.GetDeepCopy();
@@ -99,40 +95,65 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             switch (name.ToLower())
             {
                 case "e":
-                    if (Key == null) { Key = new KeyPair(); }
+                    // Assume that E is the first value of the key
+                    if (Key == null)
+                    {
+                        Key = new Crypto.RSA2.Keys.KeyPair
+                        {
+                            PrivKey = new Crypto.RSA2.Keys.PrivateKey(),
+                            PubKey = new Crypto.RSA2.Keys.PublicKey()
+                        };
+                    }
                     Key.PubKey.E = new BitString(value).ToPositiveBigInteger();
                     return true;
+
                 case "n":
                     Key.PubKey.N = new BitString(value).ToPositiveBigInteger();
                     return true;
+                
                 case "p":
-                    Key.PrivKey.P = new BitString(value).ToPositiveBigInteger();
+                    _p = new BitString(value).ToPositiveBigInteger();
                     return true;
+                
                 case "q":
-                    Key.PrivKey.Q = new BitString(value).ToPositiveBigInteger();
+                    _q = new BitString(value).ToPositiveBigInteger();
                     return true;
+                
                 case "d":
-                    Key.PrivKey.D = new BitString(value).ToPositiveBigInteger();
+                    // Assume that D is the last value of the private key
+                    Key.PrivKey = new Crypto.RSA2.Keys.PrivateKey
+                    {
+                        D = new BitString(value).ToPositiveBigInteger(),
+                        P = _p,
+                        Q = _q
+                    };
                     return true;
+                
                 case "seed":
                     Seed = new BitString(value);
                     return true;
+                
                 case "bitlen1":
                     Bitlens = new int[4];
                     Bitlens[0] = int.Parse(value);
                     return true;
+                
                 case "bitlen2":
                     Bitlens[1] = int.Parse(value);
                     return true;
+                
                 case "bitlen3":
                     Bitlens[2] = int.Parse(value);
                     return true;
+                
                 case "bitlen4":
                     Bitlens[3] = int.Parse(value);
                     return true;
+                
                 case "xp":
                     XP = new BitString(value);
                     return true;
+                
                 case "xq":
                     XQ = new BitString(value);
                     return true;
@@ -145,14 +166,17 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     XP1 = new BitString(value);
                     XP1 = XP1.GetLeastSignificantBits(Bitlens[0]);
                     return true;
+                
                 case "xp2":
                     XP2 = new BitString(value);
                     XP2 = XP2.GetLeastSignificantBits(Bitlens[1]);
                     return true;
+                
                 case "xq1":
                     XQ1 = new BitString(value);
                     XQ1 = XQ1.GetLeastSignificantBits(Bitlens[2]);
                     return true;
+                
                 case "xq2":
                     XQ2 = new BitString(value);
                     XQ2 = XQ2.GetLeastSignificantBits(Bitlens[3]);
@@ -165,77 +189,66 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int) source.tcId;
-            if (((ExpandoObject) source).ContainsProperty("deferred"))
-            {
-                Deferred = source.deferred;
-            }
+            var expandoSource = (ExpandoObject) source;
 
-            if (((ExpandoObject) source).ContainsProperty("seed"))
-            {
-                Seed = BitStringFromObject("seed", (ExpandoObject)source);
-            }
+            Deferred = expandoSource.GetTypeFromProperty<bool>("deferred");
+            FailureTest = expandoSource.GetTypeFromProperty<bool>("result");
 
-            if (((ExpandoObject)source).ContainsProperty("bitlens"))
-            {
-                Bitlens = IntArrayFromObject("bitlens", source);
-            }
+            Bitlens = IntArrayFromObject("bitlens", expandoSource);
+            Key = KeyPairFromObject(expandoSource);
 
-            if (((ExpandoObject) source).ContainsProperty("p"))
-            {
-                Key = new KeyPair { PubKey = new PublicKey(), PrivKey = new PrivateKey() };
-                Key = KeyPairFromObject(source);
-            }
+            Seed = expandoSource.GetBitStringFromProperty("seed");
 
-            //if (((ExpandoObject) source).ContainsProperty("p"))
-            //{
-            //    Key = KeyPairFromObject((ExpandoObject)source);
-            //}
-
-            if (((ExpandoObject) source).ContainsProperty("result"))
-            {
-                FailureTest = source.result == "failed";
-            }
-
-            if (((ExpandoObject) source).ContainsProperty("xp"))
-            {
-                XP = BitStringFromObject("xp", source);
-                XQ = BitStringFromObject("xq", source);
-            }
-
-            if (((ExpandoObject) source).ContainsProperty("xp1"))
-            {
-                // Don't always have bitlens here... 
-                //XP1 = ((BitString)BitStringFromObject("xp1", source)).Substring(0, Bitlens[0]);
-                //XP2 = ((BitString)BitStringFromObject("xp2", source)).Substring(0, Bitlens[1]);
-                //XQ1 = ((BitString)BitStringFromObject("xq1", source)).Substring(0, Bitlens[2]);
-                //XQ2 = ((BitString)BitStringFromObject("xq2", source)).Substring(0, Bitlens[3]);
-                XP1 = ((BitString)BitStringFromObject("xp1", source));
-                XP2 = ((BitString)BitStringFromObject("xp2", source));
-                XQ1 = ((BitString)BitStringFromObject("xq1", source));
-                XQ2 = ((BitString)BitStringFromObject("xq2", source));
-            }
+            XP = expandoSource.GetBitStringFromProperty("xp");
+            XQ = expandoSource.GetBitStringFromProperty("xq");
+            XP1 = expandoSource.GetBitStringFromProperty("xp1");
+            XQ1 = expandoSource.GetBitStringFromProperty("xq1");
+            XP2 = expandoSource.GetBitStringFromProperty("xp2");
+            XQ2 = expandoSource.GetBitStringFromProperty("xq2");
         }
 
         private KeyPair KeyPairFromObject(ExpandoObject source)
         {
-            var e = BigIntegerFromObject("e", source);
-            var p = BigIntegerFromObject("p", source);
-            var q = BigIntegerFromObject("q", source);
-            var n = BigIntegerFromObject("n", source);
+            var e = source.GetBigIntegerFromProperty("e");
+            var n = source.GetBigIntegerFromProperty("n");
+            
+            var p = source.GetBigIntegerFromProperty("p");
+            var q = source.GetBigIntegerFromProperty("q");
 
-            var d = BigIntegerFromObject("d", source);
-            var dmp1 = BigIntegerFromObject("dmp1", source);
-            var dmq1 = BigIntegerFromObject("dmq1", source);
-            var iqmp = BigIntegerFromObject("iqmp", source);
+            var d = source.GetBigIntegerFromProperty("d");
+            var dmp1 = source.GetBigIntegerFromProperty("dmp1");
+            var dmq1 = source.GetBigIntegerFromProperty("dmq1");
+            var iqmp = source.GetBigIntegerFromProperty("iqmp");
+            
+            var pubKey = new Crypto.RSA2.Keys.PublicKey
+            {
+                N = n,
+                E = e
+            };
 
+            PrivateKeyBase privKey;
             if (d == 0)
             {
-                return new KeyPair(p, q, n, e, dmp1, dmq1, iqmp);
+                privKey = new CrtPrivateKey
+                {
+                    DMP1 = dmp1,
+                    DMQ1 = dmq1,
+                    IQMP = iqmp,
+                    P = p,
+                    Q = q
+                };
             }
             else
             {
-                return new KeyPair(p, q, n, e, d);
+                privKey = new Crypto.RSA2.Keys.PrivateKey
+                {
+                    P = p,
+                    Q = q,
+                    D = d
+                };
             }
+
+            return new KeyPair {PrivKey = privKey, PubKey = pubKey};
         }
 
         private int[] IntArrayFromObject(string sourcePropertyName, ExpandoObject source)
@@ -260,67 +273,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
 
             return intArr;
-        }
-
-        private BigInteger BigIntegerFromObject(string sourcePropertyName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return 0;
-            }
-
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return 0;
-            }
-
-            if(sourcePropertyValue.GetType() == typeof(string))
-            {
-                return new BitString(sourcePropertyValue.ToString()).ToPositiveBigInteger();
-            }
-
-            var valueAsBigInteger = (BigInteger)sourcePropertyValue;
-            if(valueAsBigInteger != 0)
-            {
-                return valueAsBigInteger;
-            }
-
-            return 0;
-        }
-
-        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source, int length = -1)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return null;
-            }
-
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-
-            var valueAsBitString = sourcePropertyValue as BitString;
-            if (valueAsBitString != null)
-            {
-                return valueAsBitString;
-            }
-
-            return new BitString(sourcePropertyValue.ToString(), length);
-        }
-
-        public static TestCase GetEmptyTestCase(TestGroup group)
-        {
-            var testCase = new TestCase();
-            if (group.PubExp == PubExpModes.FIXED)
-            {
-                testCase.Key = new KeyPair { PubKey = new PublicKey { E = group.FixedPubExp.ToPositiveBigInteger() } };
-            }
-
-            testCase.Deferred = true;
-            return testCase;
         }
     }
 }

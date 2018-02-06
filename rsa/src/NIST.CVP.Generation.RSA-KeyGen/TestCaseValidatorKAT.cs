@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseValidatorKAT : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorKat : ITestCaseValidator<TestCase>
     {
         private readonly TestCase _expectedResult;
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidatorKAT(TestCase expectedResult)
+        public TestCaseValidatorKat(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }

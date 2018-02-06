@@ -45,8 +45,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [TestCase("null", new object[] { null })]
         [TestCase("empty", new object[] { })]
         [TestCase("Invalid", new object[] { "notValid" })]
-        [TestCase("Partially valid", new object[] { "sha-224", "notValid" })]
-        [TestCase("Partially valid with null", new object[] { "HA-512/256", null })]
+        [TestCase("Partially valid", new object[] { "sha2-224", "notValid" })]
+        [TestCase("Partially valid with null", new object[] { "HA2-512/256", null })]
         public void ShouldReturnErrorWithInvalidHashAlgorithm(string label, object[] hashAlg)
         {
             var strAlgs = hashAlg.Select(v => (string)v).ToArray();
@@ -98,7 +98,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithHashAlgs(new [] {"sha-384", "sha-512"})
+                    .WithHashAlgs(new [] {"sha2-384", "sha2-512"})
                     .Build()
             );
 
@@ -162,6 +162,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             private string[] _primeTests;
             private string _pubExpMode;
             private string _fixedPubExp;
+            private string _keyFormat;
 
             public ParameterBuilder()
             {
@@ -169,10 +170,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 _mode = "KeyGen";
                 _keyGenModes = new[] {"b.3.4", "b.3.6"};
                 _moduli = new[] {2048};
-                _hashAlgs = new[] {"sha-1", "sha-256"};
+                _hashAlgs = new[] {"sha-1", "sha2-256"};
                 _primeTests = new[] {"tblc2", "tblc3"};
                 _pubExpMode = "random";
                 _fixedPubExp = "";
+                _keyFormat = "standard";
             }
 
             public ParameterBuilder WithKeyGenModes(string[] value)
@@ -240,7 +242,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                     Mode = _mode,
                     PubExpMode = _pubExpMode,
                     FixedPubExp = _fixedPubExp,
-                    AlgSpecs = algSpecs
+                    AlgSpecs = algSpecs,
+                    KeyFormat = _keyFormat
                 };
             }
         }

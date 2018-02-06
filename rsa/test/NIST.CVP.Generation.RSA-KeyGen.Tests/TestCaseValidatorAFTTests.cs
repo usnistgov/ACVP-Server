@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.RSA;
+﻿using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
     [TestFixture, UnitTest]
-    public class TestCaseValidatorAFTTests
+    public class TestCaseValidatorAftTests
     {
         [Test]
         [TestCase(true)]
@@ -19,7 +15,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         public void ShouldValidateIfExpectedAndSuppliedResultsMatch(bool crtForm)
         {
             var testCase = GetTestCase(crtForm);
-            var subject = new TestCaseValidatorAFT(testCase);
+            var testGroup = GetTestGroup(crtForm);
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
 
             var result = subject.Validate(testCase);
 
@@ -33,7 +30,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         public void ShouldFailIfNDoesNotMatch(bool crtForm)
         {
             var testCase = GetTestCase(crtForm);
-            var subject = new TestCaseValidatorAFT(testCase);
+            var testGroup = GetTestGroup(crtForm);
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
 
             var suppliedResult = GetTestCase(crtForm);
             suppliedResult.Key.PubKey.N = 9001;
@@ -50,7 +48,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         public void ShouldFailIfPDoesNotMatch(bool crtForm)
         {
             var testCase = GetTestCase(crtForm);
-            var subject = new TestCaseValidatorAFT(testCase);
+            var testGroup = GetTestGroup(crtForm);
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
 
             var suppliedResult = GetTestCase(crtForm);
             suppliedResult.Key.PrivKey.P = 9001;
@@ -67,7 +66,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         public void ShouldFailIfQDoesNotMatch(bool crtForm)
         {
             var testCase = GetTestCase(crtForm);
-            var subject = new TestCaseValidatorAFT(testCase);
+            var testGroup = GetTestGroup(crtForm);
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
 
             var suppliedResult = GetTestCase(crtForm);
             suppliedResult.Key.PrivKey.Q = 9001;
@@ -83,15 +83,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             var crtForm = false;
             var testCase = GetTestCase(crtForm);
-            var subject = new TestCaseValidatorAFT(testCase);
+            var testGroup = GetTestGroup(crtForm);
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
 
             var suppliedResult = GetTestCase(crtForm);
-            suppliedResult.Key.PrivKey.D = 9001;
+            ((PrivateKey)suppliedResult.Key.PrivKey).D = 9001;
 
             var result = subject.Validate(suppliedResult);
 
             Assume.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result, testCase.Key.PrivKey.D.ToString());
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
         [Test]
@@ -99,10 +100,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             var crtForm = true;
             var testCase = GetTestCase(crtForm);
-            var subject = new TestCaseValidatorAFT(testCase);
+            var testGroup = GetTestGroup(crtForm);
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
 
             var suppliedResult = GetTestCase(crtForm);
-            suppliedResult.Key.PrivKey.DMP1 = 9001;
+            ((CrtPrivateKey)suppliedResult.Key.PrivKey).DMP1 = 9001;
 
             var result = subject.Validate(suppliedResult);
 
@@ -115,10 +117,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             var crtForm = true;
             var testCase = GetTestCase(crtForm);
-            var subject = new TestCaseValidatorAFT(testCase);
+            var testGroup = GetTestGroup(crtForm);
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
 
             var suppliedResult = GetTestCase(crtForm);
-            suppliedResult.Key.PrivKey.DMQ1 = 9001;
+            ((CrtPrivateKey)suppliedResult.Key.PrivKey).DMQ1 = 9001;
 
             var result = subject.Validate(suppliedResult);
 
@@ -131,10 +134,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         {
             var crtForm = true;
             var testCase = GetTestCase(crtForm);
-            var subject = new TestCaseValidatorAFT(testCase);
+            var testGroup = GetTestGroup(crtForm);
+            var subject = new TestCaseValidatorAft(testCase, testGroup, new DeferredTestCaseResolver(null, null, null));
 
             var suppliedResult = GetTestCase(crtForm);
-            suppliedResult.Key.PrivKey.IQMP = 9001;
+            ((CrtPrivateKey)suppliedResult.Key.PrivKey).IQMP = 9001;
 
             var result = subject.Validate(suppliedResult);
 
@@ -144,40 +148,51 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 
         private TestCase GetTestCase(bool crtForm = false)
         {
-            PrivateKey privateKey;
+            var pubKey = new PublicKey
+            {
+                E = 1,
+                N = 2
+            };
+
+            PrivateKeyBase privateKey;
             if (crtForm)
             {
-                privateKey = new PrivateKey
+                privateKey = new CrtPrivateKey
                 {
-                    DMP1 = 2,
-                    DMQ1 = 3,
-                    IQMP = 4,
-                    P = 5,
-                    Q = 6
+                    DMP1 = 3,
+                    DMQ1 = 4,
+                    IQMP = 5,
+                    P = 6,
+                    Q = 7
                 };
             }
             else
             {
                 privateKey = new PrivateKey
                 {
-                    D = 4,
-                    P = 5,
-                    Q = 6
+                    D = 8,
+                    P = 9,
+                    Q = 10
                 };
             }
 
             return new TestCase
             {
                 TestCaseId = 1,
+                Deferred = false,
                 Key = new KeyPair
                 {
                     PrivKey = privateKey,
-                    PubKey = new PublicKey
-                    {
-                        E = 7,
-                        N = 8
-                    }
+                    PubKey = pubKey
                 }
+            };
+        }
+
+        private TestGroup GetTestGroup(bool crtForm)
+        {
+            return new TestGroup
+            {
+                KeyFormat = crtForm ? PrivateKeyModes.Crt : PrivateKeyModes.Standard
             };
         }
     }

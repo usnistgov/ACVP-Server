@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.RSA;
+using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
     [TestFixture, UnitTest]
-    public class KnownAnswerTestCaseGeneratorB33Tests
+    public class TestCaseGeneratorKatTests
     {
         [Test]
         [TestCase(2048, PrimeTestModes.C2)]
@@ -25,7 +22,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 PrimeTest = ptMode
             };
 
-            var subject = new KnownAnswerTestCaseGeneratorB33(testGroup);
+            var subject = new TestCaseGeneratorKat(testGroup, new KeyComposerFactory());
             var result = subject.Generate(testGroup, false);
 
             Assert.IsTrue(result.Success);
@@ -45,7 +42,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 PrimeTest = ptMode
             };
 
-            Assert.Throws(typeof(ArgumentException), () => new KnownAnswerTestCaseGeneratorB33(testGroup));
+            Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKat(testGroup, new KeyComposerFactory()));
         }
     }
 }

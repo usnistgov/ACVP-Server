@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
     [TestFixture, UnitTest]
-    public class TestGroupFactoryGeneratedDataTestTests
+    public class TestGroupGeneratorKatTests
     {
         private static object[] parameters =
         {
@@ -16,9 +16,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             {
                 0,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithKeyGenModes(new[] {"B.3.2"})       // Wrong mode
-                    .WithModuli(new[] {2048, 4096})
-                    .WithPrimeTests(new[] {"tblC2"})
+                    .WithKeyGenModes(new[] {"B.3.3"})
+                    .WithPubExpMode("fixed")            // Wrong mode
+                    .WithModuli(new[] {2048})
+                    .WithPrimeTests(new[] {"tblC3"})
                     .Build()
             },
             new object[]
@@ -54,7 +55,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [TestCaseSource(nameof(parameters))]
         public void ShouldCreate1TestGroupForEachCombinationOfModuliAndPrimeTest(int expectedGroups, Parameters parameters)
         {
-            var subject = new TestGroupGeneratorGeneratedDataTest();
+            var subject = new TestGroupGeneratorKat();
             var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }

@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
-using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestGroupGeneratorAlgorithmFunctionalTest : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorAft : ITestGroupGenerator<Parameters>
     {
         public const string TEST_TYPE = "AFT";
 
@@ -18,16 +17,17 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             foreach (var algSpec in parameters.AlgSpecs)
             {
-                var mode = RSAEnumHelpers.StringToKeyGenMode(algSpec.RandPQ);
-                var pubExpMode = RSAEnumHelpers.StringToPubExpMode(parameters.PubExpMode);
+                var mode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(algSpec.RandPQ);
+                var pubExpMode = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(parameters.PubExpMode);
+                var keyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(parameters.KeyFormat);
 
-                BitString pubExpVal = new BitString(0);
-                if (pubExpMode == PubExpModes.FIXED)
+                var pubExpVal = new BitString(0);
+                if (pubExpMode == PublicExponentModes.Fixed)
                 {
                     pubExpVal = new BitString(parameters.FixedPubExp);
                 }
 
-                if (mode == KeyGenModes.B33)
+                if (mode == PrimeGenModes.B33)
                 {
                     continue;
                 }
@@ -35,18 +35,19 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 foreach (var capability in algSpec.Capabilities)
                 {
                     // All provable
-                    if (mode == KeyGenModes.B32 || mode == KeyGenModes.B34)
+                    if (mode == PrimeGenModes.B32 || mode == PrimeGenModes.B34)
                     {
                         foreach (var hashAlg in capability.HashAlgs)
                         {
                             var testGroup = new TestGroup
                             {
-                                Mode = mode,
+                                PrimeGenMode = mode,
                                 Modulo = capability.Modulo,
-                                HashAlg = SHAEnumHelpers.StringToHashFunction(hashAlg),
+                                HashAlg = ShaAttributes.GetHashFunctionFromName(hashAlg),
                                 PubExp = pubExpMode,
                                 FixedPubExp = pubExpVal,
                                 InfoGeneratedByServer = parameters.InfoGeneratedByServer,
+                                KeyFormat = keyFormat,
                                 TestType = TEST_TYPE
                             };
 
@@ -55,7 +56,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     }
 
                     // Both probable and provable
-                    if (mode == KeyGenModes.B35)
+                    if (mode == PrimeGenModes.B35)
                     {
                         foreach (var hashAlg in capability.HashAlgs)
                         {
@@ -63,13 +64,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                             {
                                 var testGroup = new TestGroup
                                 {
-                                    Mode = mode,
+                                    PrimeGenMode = mode,
                                     Modulo = capability.Modulo,
-                                    PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest),
-                                    HashAlg = SHAEnumHelpers.StringToHashFunction(hashAlg),
+                                    PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(primeTest),
+                                    HashAlg = ShaAttributes.GetHashFunctionFromName(hashAlg),
                                     PubExp = pubExpMode,
                                     FixedPubExp = pubExpVal,
                                     InfoGeneratedByServer = parameters.InfoGeneratedByServer,
+                                    KeyFormat = keyFormat,
                                     TestType = TEST_TYPE
                                 };
 
@@ -79,18 +81,19 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     }
 
                     // All probable
-                    if (mode == KeyGenModes.B36)
+                    if (mode == PrimeGenModes.B36)
                     {
                         foreach (var primeTest in capability.PrimeTests)
                         {
                             var testGroup = new TestGroup
                             {
-                                Mode = mode,
+                                PrimeGenMode = mode,
                                 Modulo = capability.Modulo,
-                                PrimeTest = RSAEnumHelpers.StringToPrimeTestMode(primeTest),
+                                PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(primeTest),
                                 PubExp = pubExpMode,
                                 FixedPubExp = pubExpVal,
                                 InfoGeneratedByServer = parameters.InfoGeneratedByServer,
+                                KeyFormat = keyFormat,
                                 TestType = TEST_TYPE
                             };
 

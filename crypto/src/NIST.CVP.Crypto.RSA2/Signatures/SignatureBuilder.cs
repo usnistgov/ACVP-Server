@@ -9,7 +9,7 @@ using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.RSA2.Signatures
 {
-    public class SignatureBuilder
+    public class SignatureBuilder : ISignatureBuilder
     {
         private BitString _message;
         private BitString _signature;

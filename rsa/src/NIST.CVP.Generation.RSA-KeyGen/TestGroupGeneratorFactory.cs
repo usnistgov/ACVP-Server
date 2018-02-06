@@ -9,9 +9,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         {
             var list = new HashSet<ITestGroupGenerator<Parameters>>
             {
-                new TestGroupGeneratorAlgorithmFunctionalTest(),
-                new TestGroupGeneratorKnownAnswerTests(),
-                new TestGroupGeneratorGeneratedDataTest()
+                new TestGroupGeneratorAft(),
+                new TestGroupGeneratorKat(),
+                new TestGroupGeneratorGdt()
             };
 
             return list;

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
-using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Crypto.SHA2;
+﻿using System.Linq;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -40,7 +34,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var sourceAnswer = GetSourceAnswer();
             var subject = new TestGroup(sourceAnswer);
             Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.randPQ, RSAEnumHelpers.KeyGenModeToString(subject.Mode));
+            Assert.AreEqual(sourceAnswer.randPQ, EnumHelpers.GetEnumDescriptionFromEnum(subject.PrimeGenMode));
         }
 
         [Test]
@@ -49,7 +43,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var sourceAnswer = GetSourceAnswer();
             var subject = new TestGroup(sourceAnswer);
             Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.hashAlg, SHAEnumHelpers.HashFunctionToString(subject.HashAlg));
+            Assert.AreEqual(sourceAnswer.hashAlg, subject.HashAlg.Name);
         }
 
         [Test]
@@ -70,14 +64,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             Assert.AreEqual(sourceAnswer.modulo, subject.Modulo);
         }
 
-        // Won't work because B.3.2 does not have this field
-        //[Test]
+        // Won't work because B.3.2 does not have this field ???
+        [Test]
         public void ShouldSetProperPrimeTestFromDynamicAnswer()
         {
             var sourceAnswer = GetSourceAnswer();
             var subject = new TestGroup(sourceAnswer);
             Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.primeTest, subject.PrimeTest);
+            Assert.AreEqual(sourceAnswer.primeTest, EnumHelpers.GetEnumDescriptionFromEnum(subject.PrimeTest));
         }
 
         private dynamic GetSourceAnswer()

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
-using NIST.CVP.Crypto.RSA;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -19,7 +19,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 {
                     tests.Add(new TestCase
                     {
-                        Key = new KeyPair(31, 39, 7),
+                        Key = new KeyPair
+                        {
+                            PubKey = new PublicKey{E = 1, N = 2},
+                            PrivKey = new PrivateKey{D = 3, P = 4, Q = 5}
+                        },
                         Seed = new BitString("BEEFFACE"),
                         TestCaseId = testId
                     });
@@ -27,12 +31,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 
                 testGroups.Add(new TestGroup
                 {
-                    HashAlg = new HashFunction { DigestSize = DigestSizes.d224, Mode = ModeValues.SHA2},
+                    HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d224),
                     InfoGeneratedByServer = true,
-                    Mode = KeyGenModes.B32,
+                    PrimeGenMode = PrimeGenModes.B35,
                     Modulo = 1 + groupIdx,
                     TestType = "aft",
-                    PubExp = PubExpModes.RANDOM,
+                    PubExp = PublicExponentModes.Random,
                     Tests = tests
                 });
             }
