@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.TDES_CTR;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.TDES_CTR
 {
     public class RegisterInjections : IRegisterInjections
     {
-        public void RegisterTypes(ContainerBuilder builder)
+        public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 

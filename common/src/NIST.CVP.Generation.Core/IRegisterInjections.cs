@@ -1,6 +1,7 @@
 ﻿using Autofac;
+using NIST.CVP.Crypto.Common;
 
-namespace NIST.CVP.Common
+namespace NIST.CVP.Generation.Core
 {
     /// <summary>
     /// Used to register concretions to the <see cref="ContainerBuilder"/> 
@@ -12,6 +13,6 @@ namespace NIST.CVP.Common
         /// Register types onto the provided <see cref="ContainerBuilder"/>
         /// </summary>
         /// <param name="builder">The builder to register injectable components onto</param>
-        void RegisterTypes(ContainerBuilder builder);
+        void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode);
     }
 }

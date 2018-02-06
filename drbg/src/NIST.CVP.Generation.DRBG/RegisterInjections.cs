@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.DRBG;
@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.DRBG
 {
     public class RegisterInjections : IRegisterInjections
     {
-        public void RegisterTypes(ContainerBuilder builder)
+        public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();

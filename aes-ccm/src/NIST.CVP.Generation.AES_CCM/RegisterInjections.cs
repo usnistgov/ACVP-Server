@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using NIST.CVP.Common;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CCM;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.AES_CCM
 {
     public class RegisterInjections : IRegisterInjections
     {
-        public void RegisterTypes(ContainerBuilder builder)
+        public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();

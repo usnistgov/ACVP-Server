@@ -6,23 +6,21 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using tdes_cfb;
-
 
 namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public abstract class GenValTestsCfbpBase : GenValTestsBase
+    public abstract class GenValTestsCfbpBase : GenValTestsSingleRunnerBase
     {
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => TDES_CFB_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
 
 
         protected override void OverrideRegistrationGenFakeFailure()
         {
-            AutofacConfig.OverrideRegistrations = builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
             };
@@ -30,7 +28,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            TDES_CFB_Val.AutofacConfig.OverrideRegistrations = builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -38,7 +36,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            TDES_CFB_Val.AutofacConfig.OverrideRegistrations = builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
@@ -132,7 +130,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
 
         private void RemoveMCTAndKATTestGroupFactories()
         {
-            AutofacConfig.OverrideRegistrations += builder =>
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations += builder =>
             {
                 builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
             };

@@ -10,12 +10,14 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
         public override string Algorithm { get; } = "TDES-CFBP1";
         public override string Mode { get; } = "CFBP1";
 
+        public override string RunnerAlgorithm => "TDES";
+        public override string RunnerMode => "CFBP1";
+
         [SetUp]
         public override void SetUp()
         {
             AdditionalParameters = new[] { "TDES-CFBP1" }; 
-            AutofacConfig.OverrideRegistrations = null;
-            TDES_CFB_Val.AutofacConfig.OverrideRegistrations = null;
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
         }
     }
 }

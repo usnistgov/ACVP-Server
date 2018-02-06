@@ -1,33 +1,36 @@
 ﻿using Autofac;
 using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.TDES_CFBP;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.SHA2
+namespace NIST.CVP.Generation.TDES_CFBP
 {
     public class RegisterInjections : IRegisterInjections
     {
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
+            builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-
-            builder.RegisterType<SHA>().AsImplementedInterfaces();
-            builder.RegisterType<SHA_MCT>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
+            builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
+            builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
-            builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
-            builder.RegisterType<Random800_90>().AsImplementedInterfaces();
-
+            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorKnownAnswer>().AsImplementedInterfaces();
+            builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
+
+            builder.Register(c => ModeFactory.GetMode(algoMode)).As<ICFBPMode>();
+            builder.Register(c => ModeFactoryMCT.GetMode(algoMode)).As<ICFBPModeMCT>();
         }
     }
 }

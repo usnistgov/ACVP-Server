@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
     public class RegisterInjections : IRegisterInjections
     {
-        public void RegisterTypes(ContainerBuilder builder)
+        public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();

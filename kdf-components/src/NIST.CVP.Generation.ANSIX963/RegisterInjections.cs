@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.ANSIX963;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.ANSIX963
 {
     public class RegisterInjections : IRegisterInjections
     {
-        public void RegisterTypes(ContainerBuilder builder)
+        public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();

@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using NIST.CVP.Generation.Core.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
 
 namespace NIST.CVP.Generation.GenValApp.Helpers
@@ -19,8 +20,10 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
         {
             var builder = new ContainerBuilder();
 
+            var algoMode = AlgoModeLookupHelper.GetAlgoModeFromStrings(algorithm, mode);
+
             var genValInjectables = GenValResolver.ResolveIocInjectables(algorithmConfig, algorithm, mode, dllLocation);
-            genValInjectables.RegisterTypes(builder);
+            genValInjectables.RegisterTypes(builder, algoMode);
 
             OverrideRegistrations?.Invoke(builder);
 

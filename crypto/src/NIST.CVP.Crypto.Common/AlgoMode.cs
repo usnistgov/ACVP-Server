@@ -38,10 +38,8 @@ namespace NIST.CVP.Crypto.Common
         CMAC_AES,
         [Description("CMAC-TDES")]
         CMAC_TDES,
-        [Description("ctrDRBG-AES")]
-        DRBG_AES,
-        [Description("ctrDRBG-TDES")]
-        DRBG_TDES,
+        [Description("ctrDRBG")]
+        DRBG_CTR,
         [Description("hashDRBG")]
         DRBG_Hash,
         [Description("hmacDRBG")]

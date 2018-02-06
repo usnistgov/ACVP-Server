@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Common;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.GenValApp.Models
 {

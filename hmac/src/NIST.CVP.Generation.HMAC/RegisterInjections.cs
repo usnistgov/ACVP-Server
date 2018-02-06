@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
@@ -10,7 +10,7 @@ namespace NIST.CVP.Generation.HMAC
 {
     public class RegisterInjections : IRegisterInjections
     {
-        public void RegisterTypes(ContainerBuilder builder)
+        public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<HmacFactory>().AsImplementedInterfaces();

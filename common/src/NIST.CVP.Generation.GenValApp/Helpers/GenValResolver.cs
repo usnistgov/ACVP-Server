@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Loader;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.GenValApp.Models;
 
 namespace NIST.CVP.Generation.GenValApp.Helpers
@@ -21,7 +22,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 out var mappingResult)
             )
             {
-                throw new ArgumentException($"Unable to find dll mapping for {algorithm} and {mode}");
+                throw new ArgumentException($"Unable to find dll mapping for {algorithm} ({algorithm}) and {mode} ({mode})");
             }
 
             var genValDll = mappingResult.EntryDll;

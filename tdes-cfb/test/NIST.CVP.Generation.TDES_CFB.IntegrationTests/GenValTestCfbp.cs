@@ -10,12 +10,14 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
         public override string Algorithm { get; } = "TDES-CFB8";
         public override string Mode { get; } = "CFB8";
 
+        public override string RunnerAlgorithm => "TDES";
+        public override string RunnerMode => "CFB64";
+
         [SetUp]
         public override void SetUp()
         {
             AdditionalParameters = new[] { "TDES-CFB8" }; 
-            AutofacConfig.OverrideRegistrations = null;
-            TDES_CFB_Val.AutofacConfig.OverrideRegistrations = null;
+            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
         }
     }
 }

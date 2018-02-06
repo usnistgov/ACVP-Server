@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Crypto.TLS;
@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.TLS
 {
     public class RegisterInjections : IRegisterInjections
     {
-        public void RegisterTypes(ContainerBuilder builder)
+        public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();

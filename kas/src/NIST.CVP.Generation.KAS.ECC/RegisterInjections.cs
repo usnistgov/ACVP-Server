@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Crypto.CMAC;
@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KAS.ECC
 {
     public class RegisterInjections : IRegisterInjections
     {
-        public void RegisterTypes(ContainerBuilder builder)
+        public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
