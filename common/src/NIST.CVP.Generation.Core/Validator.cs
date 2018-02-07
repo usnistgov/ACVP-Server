@@ -25,8 +25,8 @@ namespace NIST.CVP.Generation.Core
                 .GetTestVectorSetExpectationFromResponse(answerParseResponse.ParsedObject, promptParseResponse.ParsedObject);
             var results = testResultParseResponse.ParsedObject;
             var suppliedResults = _testReconstitutor.GetTestCasesFromResultResponse(results.testResults);
-            var testCases = _testCaseValidatorFactory.GetValidators(testVectorSet, suppliedResults);
-            var response = _resultValidator.ValidateResults(testCases, suppliedResults);
+            var testCaseValidators = _testCaseValidatorFactory.GetValidators(testVectorSet, suppliedResults);
+            var response = _resultValidator.ValidateResults(testCaseValidators, suppliedResults);
             return response;
         }
     }
