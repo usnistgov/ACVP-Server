@@ -15,7 +15,8 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         // ParameterValidator expects the algorithm to be "TDES-KW"
         public override string Algorithm { get; } = "TDES-KW";
         public override string Mode { get; } = "KeyWrap";
-        public override string RunnerMode => string.Empty;
+        public override string RunnerAlgorithm => "TDES";
+        public override string RunnerMode => "KW";
 
         public override Executable Generator => GenValApp.Program.Main;
         public override Executable Validator => GenValApp.Program.Main;

@@ -15,7 +15,8 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         // ParameterValidator expects the algorithm to be "AES-KWP"
         public override string Algorithm { get; } = "AES-KWP";
         public override string Mode { get; } = "KeyWrap";
-        public override string RunnerMode => string.Empty;
+        public override string RunnerAlgorithm => "AES";
+        public override string RunnerMode => "KWP";
 
         public override Executable Generator => GenValApp.Program.Main;
         public override Executable Validator => GenValApp.Program.Main;

@@ -118,6 +118,8 @@ namespace NIST.CVP.Crypto.Common
         TDES_CTR,
         [Description("TDES-ECB")]
         TDES_ECB,
+        [Description("TDES-KW")]
+        TDES_KW,
         [Description("TDES-OFB")]
         TDES_OFB,
         [Description("TDES-OFBI")]
