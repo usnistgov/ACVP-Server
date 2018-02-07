@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         //[TestCase("null", new object[] { null })]
         [TestCase("empty", new object[] { })]
         [TestCase("Invalid", new object[] { "notValid" })]
-        [TestCase("Partially valid", new object[] { "SHA-224", "notValid" })]
+        [TestCase("Partially valid", new object[] { "SHA2-224", "notValid" })]
         //[TestCase("Partially valid with null", new object[] { "HA-512/256", null })]
         public void ShouldReturnErrorWithInvalidHashAlgorithm(string label, object[] hashAlg)
         {
@@ -99,7 +99,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithHashAlgs(new[] { "sha-384", "sha-512" })
+                    .WithHashAlgs(new[] { "sha2-384", "sha2-512" })
                     .Build()
             );
 
@@ -132,7 +132,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 _algorithm = "RSA";
                 _mode = "SigGen";
                 _sigGenModes = new[] { "ansx9.31", "pss" };
-                _hashAlgs = new[] { "sha-1", "sha-256" };
+                _hashAlgs = new[] { "sha-1", "sha2-256" };
                 _moduli = new[] { 2048 };
             }
 

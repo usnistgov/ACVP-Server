@@ -1,5 +1,4 @@
-﻿using NIST.CVP.Crypto.RSA.Signatures;
-using NIST.CVP.Generation.RSA_SigGen.Parsers;
+﻿using NIST.CVP.Generation.RSA_SigGen.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -7,6 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NIST.CVP.Crypto.RSA2;
+using NIST.CVP.Crypto.RSA2.Signatures;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
 {
@@ -34,7 +37,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
 
             var folderPath = new DirectoryInfo(Path.Combine(_testPath, sigGenMode));
             var parser = new LegacyResponseFileParser();
-            var signerFactory = new SignerFactory();
+            var signer = new SignatureBuilder();
 
             foreach(var testFilePath in folderPath.EnumerateFiles())
             {
@@ -62,21 +65,27 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
                     foreach(var iTestCase in testGroup.Tests)
                     {
                         var testCase = (TestCase)iTestCase;
-                        var algo = signerFactory.GetSigner(sigGenMode);
 
-                        algo.SetHashFunction(testGroup.HashAlg);
-                        algo.SetSaltLen(testGroup.SaltLen);
+                        var entropyProvider = new TestableEntropyProvider();
+                        entropyProvider.AddEntropy(testCase.Salt);
 
-                        // Add entropy
-                        algo.AddEntropy(testCase.Salt);
+                        var sha = new ShaFactory().GetShaInstance(testGroup.HashAlg);
 
-                        var result = algo.Sign(testGroup.Modulo, testCase.Message, testGroup.Key);
+                        var paddingScheme = new PaddingFactory().GetPaddingScheme(testGroup.Mode, sha, entropyProvider, testGroup.SaltLen);
+
+                        var result = signer
+                            .WithMessage(testCase.Message)
+                            .WithKey(testGroup.Key)
+                            .WithDecryptionScheme(new Rsa(new RsaVisitor()))
+                            .WithPaddingScheme(paddingScheme)
+                            .BuildSign();
+
                         if (!result.Success)
                         {
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
                         }
 
-                        if (!testCase.Signature.ToPositiveBigInteger().Equals(result.Signature.ToPositiveBigInteger()))
+                        if (!testCase.Signature.ToPositiveBigInteger().Equals(result.Signature))
                         {
                             Assert.Fail($"Failed SigGen comparison on TestCase: {testCase.TestCaseId}");
                         }

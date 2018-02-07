@@ -1,14 +1,8 @@
-﻿using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Crypto.SHA2;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Generation.RSA_SigGen.Tests
 {
@@ -40,7 +34,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             var sourceAnswer = GetSourceAnswer();
             var subject = new TestGroup(sourceAnswer);
             Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.sigType, RSAEnumHelpers.SigGenModeToString(subject.Mode));
+            Assert.AreEqual(sourceAnswer.sigType, EnumHelpers.GetEnumDescriptionFromEnum(subject.Mode));
         }
 
         [Test]
@@ -49,7 +43,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             var sourceAnswer = GetSourceAnswer();
             var subject = new TestGroup(sourceAnswer);
             Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.hashAlg, SHAEnumHelpers.HashFunctionToString(subject.HashAlg));
+            Assert.AreEqual(sourceAnswer.hashAlg, subject.HashAlg.Name);
         }
 
         [Test]

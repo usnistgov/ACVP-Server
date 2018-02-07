@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common;
 
 namespace NIST.CVP.Crypto.RSA2.Signatures
 {
-    public class VerifyResult
+    public class VerifyResult : ICryptoResult
     {
         public string ErrorMessage { get; }
 

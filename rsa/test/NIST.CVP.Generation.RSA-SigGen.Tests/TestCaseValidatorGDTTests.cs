@@ -1,14 +1,11 @@
 ﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using NIST.CVP.Crypto.RSA.Signatures;
 using Moq;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
+using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Math;
-using NIST.CVP.Crypto.RSA;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Crypto.RSA2.Signatures;
 
 namespace NIST.CVP.Generation.RSA_SigGen.Tests
 {
@@ -18,31 +15,36 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [Test]
         public void ShouldRunVerifyMethodAndSucceedWithGoodSignature()
         {
-            var mockSigner = new Mock<SignerBase>();
+            var mockSigner = GetResolverMock();
             mockSigner
-                .Setup(s => s.Verify(It.IsAny<int>(), It.IsAny<BitString>(), It.IsAny<KeyPair>(), It.IsAny<BitString>()))
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
                 .Returns(new VerifyResult());
 
             var subject = new TestCaseValidatorGDT(GetTestCase(), GetTestGroup(), mockSigner.Object);
             var result = subject.Validate(GetResultTestCase());
 
-            mockSigner.Verify(v => v.Verify(It.IsAny<int>(), It.IsAny<BitString>(), It.IsAny<KeyPair>(), It.IsAny<BitString>()), Times.Once);
+            mockSigner.Verify(v => v.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
         public void ShouldRunVerifyMethodAndFailWithBadSignature()
         {
-            var mockSigner = new Mock<SignerBase>();
+            var mockSigner = GetResolverMock();
             mockSigner
-                .Setup(s => s.Verify(It.IsAny<int>(), It.IsAny<BitString>(), It.IsAny<KeyPair>(), It.IsAny<BitString>()))
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
                 .Returns(new VerifyResult("Fail"));
 
             var subject = new TestCaseValidatorGDT(GetTestCase(), GetTestGroup(), mockSigner.Object);
             var result = subject.Validate(GetResultTestCase());
 
-            mockSigner.Verify(v => v.Verify(It.IsAny<int>(), It.IsAny<BitString>(), It.IsAny<KeyPair>(), It.IsAny<BitString>()), Times.Once);
+            mockSigner.Verify(v => v.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+        }
+
+        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult>> GetResolverMock()
+        {
+            return new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult>>();
         }
 
         private TestCase GetTestCase()
@@ -58,9 +60,9 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         {
             return new TestGroup
             {
-                Mode = SigGenModes.ANS_931,
+                Mode = SignatureSchemes.Ansx931,
                 Modulo = 2048,
-                Key = new KeyPair(5, 7, 3)
+                Key = new KeyPair()
             };
         }
 

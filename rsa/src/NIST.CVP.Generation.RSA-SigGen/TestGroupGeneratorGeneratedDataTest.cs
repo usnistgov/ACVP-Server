@@ -1,13 +1,8 @@
-﻿using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Crypto.SHA2;
-using NIST.CVP.Generation.Core;
-using System;
+﻿using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
+using NIST.CVP.Crypto.RSA2.Enums;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
@@ -31,9 +26,9 @@ namespace NIST.CVP.Generation.RSA_SigGen
                     {
                         var testGroup = new TestGroup
                         {
-                            Mode = RSAEnumHelpers.StringToSigGenMode(sigType),
+                            Mode = EnumHelpers.GetEnumFromEnumDescription<SignatureSchemes>(sigType),
                             Modulo = modulo,
-                            HashAlg = SHAEnumHelpers.StringToHashFunction(hashPair.HashAlg),
+                            HashAlg = ShaAttributes.GetHashFunctionFromName(hashPair.HashAlg),
                             SaltLen = hashPair.SaltLen,
 
                             TestType = TEST_TYPE

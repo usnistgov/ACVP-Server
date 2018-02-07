@@ -1,17 +1,16 @@
 ﻿using NIST.CVP.Generation.Core;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.SHA2;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
+using NIST.CVP.Crypto.RSA2.Enums;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         public static int[] VALID_MODULI = { 2048, 3072 };
-        public static string[] VALID_HASH_ALGS = { "sha-1", "sha-224", "sha-256", "sha-384", "sha-512", "sha-512/224", "sha-512/256" };
-        public static string[] VALID_SIG_GEN_MODES = { "ansx9.31", "pkcs1v1.5", "pss" };
+        public static string[] VALID_HASH_ALGS = { "sha-1", "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" };
+        public static string[] VALID_SIG_GEN_MODES = EnumHelpers.GetEnumDescriptions<SignatureSchemes>().ToArray();
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
@@ -91,8 +90,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
             }
 
             // Use hash function to compute max allowed salt length
-            var hashFunction = SHAEnumHelpers.StringToHashFunction(hashAlg);
-            var digestSize = SHAEnumHelpers.DigestSizeToInt(hashFunction.DigestSize);
+            var digestSize = ShaAttributes.GetHashFunctionFromName(hashAlg).OutputLen;
             var maxSaltLen = digestSize / 8;
 
             if (saltLen > maxSaltLen)

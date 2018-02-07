@@ -1,43 +1,35 @@
-﻿using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Crypto.RSA.Signatures;
-using NIST.CVP.Generation.Core;
-using System;
+﻿using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.RSA2.Signatures;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
     public class TestCaseValidatorGDT : ITestCaseValidator<TestCase>
     {
         private readonly TestGroup _group;
-        private readonly SignerBase _signer;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult> _deferredTestCaseResolver;
         private readonly TestCase _expectedResult;
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
 
-        public TestCaseValidatorGDT(TestCase expectedResult, TestGroup group, SignerBase signer)
+        public int TestCaseId => _expectedResult.TestCaseId;
+
+        public TestCaseValidatorGDT(TestCase expectedResult, TestGroup group, IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult> resolver)
         {
             _group = group;
-            _signer = signer;
+            _deferredTestCaseResolver = resolver;
             _expectedResult = expectedResult;
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
-
-            if(_group.Mode == SigGenModes.PSS)
-            {
-                _signer.AddEntropy(suppliedResult.Salt);
-            }
-
+            
             if(_expectedResult.Message == null || suppliedResult.Signature == null)
             {
                 errors.Add($"Could not find message or signature");
             }
             else
             {
-                var result = _signer.Verify(_group.Modulo, suppliedResult.Signature, suppliedResult.Key, _expectedResult.Message);
+                var result = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
                 if (!result.Success)
                 {
                     errors.Add($"Could not verify signature: {result.ErrorMessage}");

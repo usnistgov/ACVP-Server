@@ -1,14 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
-using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.RSA;
+using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA_SigGen
@@ -41,32 +36,16 @@ namespace NIST.CVP.Generation.RSA_SigGen
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
+            var expandoSource = (ExpandoObject) source;
 
-            if(((ExpandoObject)source).ContainsProperty("message"))
-            {
-                Message = BitStringFromObject("message", (ExpandoObject)source);
-            }
+            Message = expandoSource.GetBitStringFromProperty("message");
+            Signature = expandoSource.GetBitStringFromProperty("signature");
+            Salt = expandoSource.GetBitStringFromProperty("salt");
 
-            if (((ExpandoObject)source).ContainsProperty("signature"))
-            {
-                Signature = BitStringFromObject("signature", (ExpandoObject)source);
-            }
+            var e = expandoSource.GetBigIntegerFromProperty("e");
+            var n = expandoSource.GetBigIntegerFromProperty("n");
 
-            if (((ExpandoObject)source).ContainsProperty("salt"))
-            {
-                Salt = BitStringFromObject("salt", (ExpandoObject)source);
-            }
-
-            Key = new KeyPair { PubKey = new PublicKey() };
-            if (((ExpandoObject)source).ContainsProperty("e"))
-            {
-                Key.PubKey.E = ((ExpandoObject)source).GetBigIntegerFromProperty("e");
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("n"))
-            {
-                Key.PubKey.N = ((ExpandoObject)source).GetBigIntegerFromProperty("n");
-            }
+            Key = new KeyPair {PubKey = new PublicKey {E = e, N = n}};
         }
 
         public bool Merge(ITestCase otherTest)
@@ -113,28 +92,6 @@ namespace NIST.CVP.Generation.RSA_SigGen
             }
 
             return false;
-        }
-
-        private BitString BitStringFromObject(string propName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(propName))
-            {
-                return null;
-            }
-
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[propName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-
-            var valueAsBitString = sourcePropertyValue as BitString;
-            if (valueAsBitString != null)
-            {
-                return valueAsBitString;
-            }
-
-            return new BitString(sourcePropertyValue.ToString());
         }
     }
 }

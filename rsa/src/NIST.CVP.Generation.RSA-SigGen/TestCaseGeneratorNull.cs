@@ -1,13 +1,10 @@
 ﻿using NIST.CVP.Generation.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
     public class TestCaseGeneratorNull : ITestCaseGenerator<TestGroup, TestCase>
     {
-        public int NumberOfTestCasesToGenerate { get { return 1; } }
+        public int NumberOfTestCasesToGenerate => 1;
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {

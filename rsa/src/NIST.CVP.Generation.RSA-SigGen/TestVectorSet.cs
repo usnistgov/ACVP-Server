@@ -2,14 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Dynamic;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Crypto.SHA2;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.RSA2.Enums;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
@@ -55,12 +51,12 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("sigType", RSAEnumHelpers.SigGenModeToString(group.Mode));
+                    ((IDictionary<string, object>)updateObject).Add("sigType", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
                     ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", SHAEnumHelpers.HashFunctionToString(group.HashAlg));
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
 
-                    if (group.Mode == SigGenModes.PSS)
+                    if (group.Mode == SignatureSchemes.Pss)
                     {
                         ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
                     }
@@ -91,12 +87,12 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("sigType", RSAEnumHelpers.SigGenModeToString(group.Mode));
+                    ((IDictionary<string, object>)updateObject).Add("sigType", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
                     ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", SHAEnumHelpers.HashFunctionToString(group.HashAlg));
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
 
-                    if (group.Mode == SigGenModes.PSS)
+                    if (group.Mode == SignatureSchemes.Pss)
                     {
                         ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
                     }
@@ -138,7 +134,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
                             ((IDictionary<string, object>)testObject).Add("e", group.Key.PubKey.E);
                             ((IDictionary<string, object>)testObject).Add("signature", test.Signature);
 
-                            if (group.Mode == SigGenModes.PSS)
+                            if (group.Mode == SignatureSchemes.Pss)
                             {
                                 ((IDictionary<string, object>)testObject).Add("salt", test.Salt);
                             }

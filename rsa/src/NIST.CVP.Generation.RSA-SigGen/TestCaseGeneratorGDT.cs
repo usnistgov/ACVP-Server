@@ -1,62 +1,64 @@
-﻿using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Crypto.RSA.Signatures;
-using NIST.CVP.Crypto.RSA.PrimeGenerators;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.RSA2;
+using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Crypto.RSA2.Signatures;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
     public class TestCaseGeneratorGDT : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly SignerBase _signer;
-        private readonly PrimeGeneratorBase _primeGen;
+        private readonly ISignatureBuilder _signatureBuilder;
+        private readonly IKeyBuilder _keyBuilder;
+        private readonly IPaddingFactory _paddingFactory;
+        private readonly IShaFactory _shaFactory;
+        private readonly IKeyComposerFactory _keyComposerFactory;
 
-        private int _numCases = 10;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 10;
 
-        public int NumberOfTestCasesToGenerate { get { return _numCases; } }
-
-        public TestCaseGeneratorGDT(IRandom800_90 random800_90, SignerBase signer, PrimeGeneratorBase primeGen = null)
+        public TestCaseGeneratorGDT(IRandom800_90 random800_90, ISignatureBuilder signatureBuilder,
+            IKeyBuilder keyBuilder, IPaddingFactory paddingFactory, IShaFactory shaFactory,
+            IKeyComposerFactory keyComposerFactory)
         {
             _random800_90 = random800_90;
-            _signer = signer;
-            _primeGen = primeGen;
-
-            if(_primeGen == null)
-            {
-                _primeGen = new RandomProbablePrimeGenerator(Math.Entropy.EntropyProviderTypes.Random);
-            }
+            _signatureBuilder = signatureBuilder;
+            _keyBuilder = keyBuilder;
+            _paddingFactory = paddingFactory;
+            _shaFactory = shaFactory;
+            _keyComposerFactory = keyComposerFactory;
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
-                _numCases = 3;
+                NumberOfTestCasesToGenerate = 3;
             }
 
-            // Only make one key per group
-            if(group.Key == null && isSample)
+            // Make a single key for the group
+            if (group.Key == null && isSample)
             {
-                BigInteger E = 3;
-                PrimeGeneratorResult primeResult = null;
-
+                KeyResult keyResult;
                 do
                 {
-                    //ThisLogger.Debug($"Computing key for {group.Modulo}");
-                    E = RSAEnumHelpers.GetEValue();
-                    primeResult = _primeGen.GeneratePrimes(group.Modulo, E, RSAEnumHelpers.GetSeed(group.Modulo));
-                } while (!primeResult.Success);
+                    keyResult = _keyBuilder
+                        .WithPrimeTestMode(PrimeTestModes.C2)
+                        .WithEntropyProvider(new EntropyProvider(_random800_90))
+                        .WithNlen(group.Modulo)
+                        .WithPrimeGenMode(PrimeGenModes.B33)
+                        .WithPublicExponent(GetEValue(32, 64))
+                        .WithKeyComposer(_keyComposerFactory.GetKeyComposer(PrivateKeyModes.Standard))
+                        .Build();
+                } while (!keyResult.Success);
 
-                group.Key = new KeyPair(primeResult.P, primeResult.Q, E);
+                group.Key = keyResult.Key;
             }
 
             var testCase = new TestCase
@@ -65,43 +67,73 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 IsSample = isSample
             };
 
-            return Generate(group, testCase);
+            return isSample ? Generate(group, testCase) : new TestCaseGenerateResponse(testCase);
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
         {
-            if (testCase.IsSample)
+            SignatureResult sigResult = null;
+            try
             {
-                SignatureResult sigResult = null;
-                try
+                var entropyProvider = new TestableEntropyProvider();
+                testCase.Salt = _random800_90.GetRandomBitString(group.SaltLen * 8);
+                entropyProvider.AddEntropy(testCase.Salt);
+
+                var sha = _shaFactory.GetShaInstance(group.HashAlg);
+
+                var paddingScheme = _paddingFactory.GetPaddingScheme(group.Mode, sha, entropyProvider, group.SaltLen);
+
+                sigResult = _signatureBuilder
+                    .WithKey(testCase.Key)
+                    .WithMessage(testCase.Message)
+                    .WithPaddingScheme(paddingScheme)
+                    .WithDecryptionScheme(new Rsa(new RsaVisitor()))    // TODO: Can these be injected?
+                    .BuildSign();
+
+                if (!sigResult.Success)
                 {
-                    _signer.SetHashFunction(group.HashAlg);
-
-                    if (group.Mode == SigGenModes.PSS)
-                    {
-                        testCase.Salt = _random800_90.GetRandomBitString(group.SaltLen * 8);
-                        _signer.AddEntropy(testCase.Salt);
-                    }
-
-                    sigResult = _signer.Sign(group.Modulo, testCase.Message, group.Key);
-                    if (!sigResult.Success)
-                    {
-                        ThisLogger.Warn($"Error generating sample signature: {sigResult.ErrorMessage}");
-                        return new TestCaseGenerateResponse($"Error generating sample signature: {sigResult.ErrorMessage}");
-                    }
+                    ThisLogger.Warn($"Error generating sample signature: {sigResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse($"Error generating sample signature: {sigResult.ErrorMessage}");
                 }
-                catch (Exception ex)
-                {
-                    ThisLogger.Error($"Exception generating sample signature: {sigResult.ErrorMessage}; {ex.StackTrace}");
-                    return new TestCaseGenerateResponse($"Exception generating sample signature: {sigResult.ErrorMessage}");
-                }
-
-                testCase.Signature = sigResult.Signature;
             }
+            catch (Exception ex)
+            {
+                ThisLogger.Error($"Exception generating sample signature: {sigResult.ErrorMessage}; {ex.StackTrace}");
+                return new TestCaseGenerateResponse($"Exception generating sample signature: {sigResult.ErrorMessage}");
+            }
+
+            testCase.Signature = new BitString(sigResult.Signature, group.Modulo);
 
             return new TestCaseGenerateResponse(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
+
+        private BigInteger GetEValue(int minLen, int maxLen)
+        {
+            BigInteger e;
+            BitString e_bs;
+            do
+            {
+                var min = minLen / 2;
+                var max = maxLen / 2;
+
+                e = GetRandomBigIntegerOfBitLength(_random800_90.GetRandomInt(min, max) * 2);
+                if (e.IsEven)
+                {
+                    e++;
+                }
+
+                e_bs = new BitString(e);
+            } while (e_bs.BitLength >= maxLen || e_bs.BitLength < minLen);
+
+            return e;
+        }
+
+        private BigInteger GetRandomBigIntegerOfBitLength(int len)
+        {
+            var bs = _random800_90.GetRandomBitString(len);
+            return bs.ToPositiveBigInteger();
+        }
     }
 }

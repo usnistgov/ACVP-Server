@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithSigGenModes(new [] {"pss", "ansx9.31"})
                     .WithModuli(new [] {2048, 3072})
-                    .WithHashAlgs(new [] {"SHA-1", "SHA-224"})
+                    .WithHashAlgs(new [] {"SHA-1", "SHA2-224"})
                     .Build()
             },
             new object[]
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithSigGenModes(new [] {"pkcs1v15"})
                     .WithModuli(new [] {2048, 3072, 4096})
-                    .WithHashAlgs(new [] {"SHA-1", "SHA-256", "SHA-512/224", "SHA-512/256"})
+                    .WithHashAlgs(new [] {"SHA-1", "SHA2-256", "SHA2-512/224", "SHA2-512/256"})
                     .Build()
             },
             new object[]
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithSigGenModes(new [] {"pss", "pkcs1v15", "ansx9.31"})
                     .WithModuli(new [] {2048, 3072, 4096})
-                    .WithHashAlgs(new [] {"SHA-1", "SHA-224", "SHA-256", "SHA-384", "SHA-512", "SHA-512/224", "SHA-512/256"})
+                    .WithHashAlgs(new [] {"SHA-1", "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512", "SHA2-512/224", "SHA2-512/256"})
                     .Build()
             },
         };

@@ -1,16 +1,14 @@
 ﻿using Moq;
-using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Crypto.RSA.PrimeGenerators;
-using NIST.CVP.Crypto.RSA.Signatures;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Numerics;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Crypto.RSA2.PrimeGenerators;
+using NIST.CVP.Crypto.RSA2.Signatures;
 
 namespace NIST.CVP.Generation.RSA_SigGen.Tests
 {
@@ -20,7 +18,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
-            var subject = new TestCaseGeneratorGDT(GetRandomMock().Object, GetSignerMock().Object);
+            var subject = new TestCaseGeneratorGDT(GetRandomMock().Object, GetSignatureBuilderMock().Object, GetKeyBuilderMock().Object, GetPaddingFactoryMock().Object, GetShaFactoryMock().Object, GetKeyComposerFactoryMock().Object);
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
@@ -30,28 +28,28 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [Test]
         public void GenerateShouldGenerateSignatureIfIsSample()
         {
-            var signer = GetSignerMock();
+            var signer = GetSignatureBuilderMock();
             signer
-                .Setup(s => s.Sign(It.IsAny<int>(), It.IsAny<BitString>(), It.IsAny<KeyPair>()))
-                .Returns(new SignatureResult(new BitString("ABCD")));
+                .Setup(s => s.BuildSign())
+                .Returns(new SignatureResult(1));
 
             var rand = GetRandomMock();
             rand
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
                 .Returns(new BitString("BEEFFACE"));
 
-            var primeGen = GetPrimeGenMock();
-            primeGen
-                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
-                .Returns(new PrimeGeneratorResult(3, 5));
+            var keyBuilder = GetKeyBuilderMock();
+            keyBuilder
+                .Setup(s => s.Build())
+                .Returns(new KeyResult(new KeyPair()));
 
-            var subject = new TestCaseGeneratorGDT(rand.Object, signer.Object, primeGen.Object);
+            var subject = new TestCaseGeneratorGDT(rand.Object, signer.Object, keyBuilder.Object, GetPaddingFactoryMock().Object, GetShaFactoryMock().Object, GetKeyComposerFactoryMock().Object);
 
             var result = subject.Generate(GetTestGroup(), true);
 
             Assert.IsTrue(result.Success);
 
-            signer.Verify(v => v.Sign(It.IsAny<int>(), It.IsAny<BitString>(), It.IsAny<KeyPair>()), Times.Once, "Call Sign once");
+            signer.Verify(v => v.BuildSign(), Times.Once, "Call Sign once");
         }
 
         private Mock<IRandom800_90> GetRandomMock()
@@ -59,14 +57,29 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             return new Mock<IRandom800_90>();
         }
 
-        private Mock<SignerBase> GetSignerMock()
+        private Mock<ISignatureBuilder> GetSignatureBuilderMock()
         {
-            return new Mock<SignerBase>();
+            return new Mock<ISignatureBuilder>();
         }
 
-        private Mock<PrimeGeneratorBase> GetPrimeGenMock()
+        private Mock<IKeyBuilder> GetKeyBuilderMock()
         {
-            return new Mock<PrimeGeneratorBase>();
+            return new Mock<IKeyBuilder>();
+        }
+
+        private Mock<IPaddingFactory> GetPaddingFactoryMock()
+        {
+            return new Mock<IPaddingFactory>();
+        }
+
+        private Mock<IShaFactory> GetShaFactoryMock()
+        {
+            return new Mock<IShaFactory>();
+        }
+
+        private Mock<IKeyComposerFactory> GetKeyComposerFactoryMock()
+        {
+            return new Mock<IKeyComposerFactory>();
         }
 
         private TestGroup GetTestGroup()
@@ -74,8 +87,8 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             return new TestGroup
             {
                 Modulo = 2048,
-                Mode = SigGenModes.PSS,
-                HashAlg = new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224},
+                Mode = SignatureSchemes.Pss,
+                HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d224),
                 SaltLen = 40
             };
         }
