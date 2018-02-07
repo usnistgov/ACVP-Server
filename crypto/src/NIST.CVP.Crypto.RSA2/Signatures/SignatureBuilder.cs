@@ -18,44 +18,44 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
         private IPaddingScheme _paddingScheme;
         private IRsa _rsa;
 
-        public SignatureBuilder WithMessage(BitString message)
+        public ISignatureBuilder WithMessage(BitString message)
         {
             _message = message;
             return this;
         }
 
-        public SignatureBuilder WithSignature(BitString signature)
+        public ISignatureBuilder WithSignature(BitString signature)
         {
             _signature = signature;
             return this;
         }
 
-        public SignatureBuilder WithPrivateKey(PrivateKeyBase privKey)
+        public ISignatureBuilder WithPrivateKey(PrivateKeyBase privKey)
         {
             _privateKey = privKey;
             return this;
         }
 
-        public SignatureBuilder WithPublicKey(PublicKey pubKey)
+        public ISignatureBuilder WithPublicKey(PublicKey pubKey)
         {
             _publicKey = pubKey;
             return this;
         }
 
-        public SignatureBuilder WithKey(KeyPair key)
+        public ISignatureBuilder WithKey(KeyPair key)
         {
             _publicKey = key.PubKey;
             _privateKey = key.PrivKey;
             return this;
         }
 
-        public SignatureBuilder WithPaddingScheme(IPaddingScheme paddingScheme)
+        public ISignatureBuilder WithPaddingScheme(IPaddingScheme paddingScheme)
         {
             _paddingScheme = paddingScheme;
             return this;
         }
 
-        public SignatureBuilder WithDecryptionScheme(IRsa rsa)
+        public ISignatureBuilder WithDecryptionScheme(IRsa rsa)
         {
             _rsa = rsa;
             return this;

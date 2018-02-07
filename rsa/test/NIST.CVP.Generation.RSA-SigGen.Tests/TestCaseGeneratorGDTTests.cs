@@ -59,12 +59,16 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
 
         private Mock<ISignatureBuilder> GetSignatureBuilderMock()
         {
-            return new Mock<ISignatureBuilder>();
+            var mock = new Mock<ISignatureBuilder>();
+            mock.SetReturnsDefault(mock.Object);
+            return mock;
         }
 
         private Mock<IKeyBuilder> GetKeyBuilderMock()
         {
-            return new Mock<IKeyBuilder>();
+            var mock = new Mock<IKeyBuilder>();
+            mock.SetReturnsDefault(mock.Object);
+            return mock;
         }
 
         private Mock<IPaddingFactory> GetPaddingFactoryMock()

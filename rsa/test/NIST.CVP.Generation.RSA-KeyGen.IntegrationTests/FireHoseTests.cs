@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using NIST.CVP.Generation.RSA_KeyGen.Parsers;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Crypto.RSA2.Keys;
@@ -66,8 +67,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
                     // Let's not run all of them because that'll take too long
                     // Pick 2 from each group and run those 
-                    var shuffledTests = testGroup.Tests.OrderBy(a => Guid.NewGuid()).ToList().GetRange(0, 2);
-                    //var shuffledTests = testGroup.Tests;
+                    //var shuffledTests = testGroup.Tests.OrderBy(a => Guid.NewGuid()).ToList().GetRange(0, 2);
+                    var shuffledTests = testGroup.Tests;
                     foreach (var iTestCase in shuffledTests)
                     {
                         var testCase = (TestCase)iTestCase;
@@ -85,7 +86,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                             entropyProvider.AddEntropy(testCase.XQ.ToPositiveBigInteger());
                         }
 
-                        var sha = shaFactory.GetShaInstance(testGroup.HashAlg);
+                        // TODO not all groups need a SHA but the factory wants it to be there
+                        ISha sha = null;
+                        if (testGroup.HashAlg != null)
+                        {
+                            sha = shaFactory.GetShaInstance(testGroup.HashAlg);
+                        }
 
                         var result = algo
                             .WithBitlens(testCase.Bitlens)
@@ -95,11 +101,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                             .WithNlen(testGroup.Modulo)
                             .WithPublicExponent(testCase.Key.PubKey.E)
                             .WithSeed(testCase.Seed)
+                            .WithKeyComposer(new RsaKeyComposer())
                             .Build();
 
                         if (!result.Success)
                         {
-                            Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
+                            Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}, with error: {result.ErrorMessage}");
                         }
 
                         if(!CompareKeys(testCase.Key, result.Key))

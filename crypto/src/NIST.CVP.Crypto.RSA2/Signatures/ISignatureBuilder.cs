@@ -7,12 +7,12 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
     {
         SignatureResult BuildSign();
         VerifyResult BuildVerify();
-        SignatureBuilder WithDecryptionScheme(IRsa rsa);
-        SignatureBuilder WithKey(KeyPair key);
-        SignatureBuilder WithMessage(BitString message);
-        SignatureBuilder WithPaddingScheme(IPaddingScheme paddingScheme);
-        SignatureBuilder WithPrivateKey(PrivateKeyBase privKey);
-        SignatureBuilder WithPublicKey(PublicKey pubKey);
-        SignatureBuilder WithSignature(BitString signature);
+        ISignatureBuilder WithDecryptionScheme(IRsa rsa);
+        ISignatureBuilder WithKey(KeyPair key);
+        ISignatureBuilder WithMessage(BitString message);
+        ISignatureBuilder WithPaddingScheme(IPaddingScheme paddingScheme);
+        ISignatureBuilder WithPrivateKey(PrivateKeyBase privKey);
+        ISignatureBuilder WithPublicKey(PublicKey pubKey);
+        ISignatureBuilder WithSignature(BitString signature);
     }
 }
