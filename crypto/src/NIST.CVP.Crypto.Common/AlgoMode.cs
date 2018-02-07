@@ -62,8 +62,28 @@ namespace NIST.CVP.Crypto.Common
         ECDSA_SigGen,
         [Description("ECDSA-SigVer")]
         ECDSA_SigVer,
-        [Description("HMAC")]
-        HMAC,
+        [Description("HMAC-SHA1")]
+        HMAC_SHA1,
+        [Description("HMAC-SHA2-224")]
+        HMAC_SHA2_224,
+        [Description("HMAC-SHA2-256")]
+        HMAC_SHA2_256,
+        [Description("HMAC-SHA2-384")]
+        HMAC_SHA2_384,
+        [Description("HMAC-SHA2-512")]
+        HMAC_SHA2_512,
+        [Description("HMAC-SHA2-512/224")]
+        HMAC_SHA2_512_224,
+        [Description("HMAC-SHA2-512/256")]
+        HMAC_SHA2_512_256,
+        [Description("HMAC-SHA3-224")]
+        HMAC_SHA3_224,        
+        [Description("HMAC-SHA3-256")]
+        HMAC_SHA3_256,        
+        [Description("HMAC-SHA3-384")]
+        HMAC_SHA3_384,        
+        [Description("HMAC-SHA3-512")]
+        HMAC_SHA3_512,
         [Description("KAS-ECC")]
         KAS_ECC,
         [Description("KAS-EccComponent")]
