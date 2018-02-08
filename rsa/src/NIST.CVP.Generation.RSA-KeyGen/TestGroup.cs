@@ -42,8 +42,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             Modulo = expandoSource.GetTypeFromProperty<int>("modulo");
             InfoGeneratedByServer = expandoSource.GetTypeFromProperty<bool>("infoGeneratedByServer");
             PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(expandoSource.GetTypeFromProperty<string>("randPQ"));
-            HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
-            PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(expandoSource.GetTypeFromProperty<string>("primeTest"));
+
+            var hashAlgName = expandoSource.GetTypeFromProperty<string>("hashAlg");
+            if (!string.IsNullOrEmpty(hashAlgName))
+            {
+                HashAlg = ShaAttributes.GetHashFunctionFromName(hashAlgName);
+            }
+
+            PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(expandoSource.GetTypeFromProperty<string>("primeTest"), false);
             PubExp = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(expandoSource.GetTypeFromProperty<string>("pubExp"));
             FixedPubExp = expandoSource.GetBitStringFromProperty("fixedPubExp");
 
@@ -73,8 +79,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
         public override int GetHashCode()
         {
+            var hashAlgName = "";
+            if (HashAlg != null)
+            {
+                hashAlgName = HashAlg.Name;
+            }
+
             return ($"{TestType}|{InfoGeneratedByServer}|{EnumHelpers.GetEnumDescriptionFromEnum(PrimeGenMode)}|" +
-                    $"{Modulo}|{HashAlg.Name}|{EnumHelpers.GetEnumDescriptionFromEnum(PrimeTest)}|" +
+                    $"{Modulo}|{hashAlgName}|{EnumHelpers.GetEnumDescriptionFromEnum(PrimeTest)}|" +
                     $"{EnumHelpers.GetEnumDescriptionFromEnum(PubExp)}").GetHashCode();
         }
 

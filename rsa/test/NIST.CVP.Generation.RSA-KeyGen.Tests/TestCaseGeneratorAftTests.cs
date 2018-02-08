@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var keyBuilder = GetKeyBuilderMock();
             keyBuilder
                 .Setup(s => s.Build())
-                .Returns(new KeyResult(new KeyPair()));
+                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
 
             var subject = new TestCaseGeneratorAft(GetRandomMock().Object, keyBuilder.Object, _keyComposerFactory, _shaFactory);
 
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var keyBuilder = GetKeyBuilderMock();
             keyBuilder
                 .Setup(s => s.Build())
-                .Returns(new KeyResult(new KeyPair()));
+                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
 
             var subject = new TestCaseGeneratorAft(GetRandomMock().Object, keyBuilder.Object, _keyComposerFactory, _shaFactory);
 
@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var keyBuilder = GetKeyBuilderMock();
             keyBuilder
                 .Setup(s => s.Build())
-                .Returns(new KeyResult(new KeyPair()));
+                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
 
             var subject = new TestCaseGeneratorAft(GetRandomMock().Object, keyBuilder.Object, _keyComposerFactory, _shaFactory);
 

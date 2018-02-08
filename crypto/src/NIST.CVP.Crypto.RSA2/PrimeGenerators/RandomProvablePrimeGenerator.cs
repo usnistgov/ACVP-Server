@@ -71,8 +71,9 @@ namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
             } while (BigInteger.Abs(p - q) <= NumberTheory.Pow2(nlen / 2 - 100));
 
             // 9, 10
+            var auxValues = new AuxiliaryResult();
             var primePair = new PrimePair {P = p, Q = q};
-            return new PrimeGeneratorResult(primePair);
+            return new PrimeGeneratorResult(primePair, auxValues);
         }
     }
 }

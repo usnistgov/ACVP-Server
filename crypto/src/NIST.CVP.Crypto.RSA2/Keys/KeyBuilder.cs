@@ -101,7 +101,7 @@ namespace NIST.CVP.Crypto.RSA2.Keys
             }
 
             var key = _keyComposer.ComposeKey(_e, primeResult.Primes);
-            return new KeyResult(key);
+            return new KeyResult(key, primeResult.AuxValues);
         }
     }
 }

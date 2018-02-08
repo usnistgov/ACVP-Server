@@ -125,8 +125,9 @@ namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
                 }
             } while (!kat);
 
+            var auxValues = new AuxiliaryResult();
             var primePair = new PrimePair {P = p, Q = q};
-            return new PrimeGeneratorResult(primePair);
+            return new PrimeGeneratorResult(primePair, auxValues);
         }
     }
 }

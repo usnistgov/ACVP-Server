@@ -86,7 +86,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
                     return true;
 
                 case "n":
-                    if (Key == null) { Key = new KeyPair(); }
+                    if (Key == null) { Key = new KeyPair {PubKey = new PublicKey()}; }
                     Key.PubKey.N = new BitString(value).ToPositiveBigInteger();
                     return true;
 

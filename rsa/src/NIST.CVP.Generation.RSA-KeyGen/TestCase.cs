@@ -56,6 +56,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             {
                 return true;
             }
+
+            // KATs have nothing to merge
+            if (Key.PubKey.N == 0)
+            {
+                return true;
+            }
             
             var otherTypedTest = (TestCase) otherTest;
             var retVal = false;
@@ -98,10 +104,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     // Assume that E is the first value of the key
                     if (Key == null)
                     {
-                        Key = new Crypto.RSA2.Keys.KeyPair
+                        Key = new KeyPair
                         {
-                            PrivKey = new Crypto.RSA2.Keys.PrivateKey(),
-                            PubKey = new Crypto.RSA2.Keys.PublicKey()
+                            PrivKey = new PrivateKey(),
+                            PubKey = new PublicKey()
                         };
                     }
                     Key.PubKey.E = new BitString(value).ToPositiveBigInteger();
@@ -121,7 +127,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 
                 case "d":
                     // Assume that D is the last value of the private key
-                    Key.PrivKey = new Crypto.RSA2.Keys.PrivateKey
+                    Key.PrivKey = new PrivateKey
                     {
                         D = new BitString(value).ToPositiveBigInteger(),
                         P = _p,
@@ -220,7 +226,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             var dmq1 = source.GetBigIntegerFromProperty("dmq1");
             var iqmp = source.GetBigIntegerFromProperty("iqmp");
             
-            var pubKey = new Crypto.RSA2.Keys.PublicKey
+            var pubKey = new PublicKey
             {
                 N = n,
                 E = e
@@ -240,7 +246,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
             else
             {
-                privKey = new Crypto.RSA2.Keys.PrivateKey
+                privKey = new PrivateKey
                 {
                     P = p,
                     Q = q,

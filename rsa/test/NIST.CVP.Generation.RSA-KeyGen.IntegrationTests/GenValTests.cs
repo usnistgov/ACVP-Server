@@ -89,7 +89,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             caps[0] = new Capability
             {
                 Modulo = 2048,
-                HashAlgs = new[] { "sha-224" },
+                HashAlgs = new[] { "sha2-224" },
                 PrimeTests = new[] { "tblc2" }
             };
 
@@ -110,6 +110,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 InfoGeneratedByServer = true,
                 IsSample = true,
                 PubExpMode = "random",
+                KeyFormat = "standard",
                 AlgSpecs = algSpecs
             };
 
@@ -122,7 +123,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             caps[0] = new Capability
             {
                 Modulo = 2048,
-                HashAlgs = new[] { "sha-224" },
+                HashAlgs = new[] { "sha2-224" },
                 PrimeTests = new[] { "tblc2" }
             };
 
@@ -159,6 +160,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 IsSample = true,
                 PubExpMode = "fixed",
                 FixedPubExp = "010001",
+                KeyFormat = "standard",
                 AlgSpecs = algSpecs
             };
 
@@ -173,7 +175,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 caps[i] = new Capability
                 {
                     Modulo = ParameterValidator.VALID_MODULI[i],
-                    HashAlgs = new string[] { "sha-224" },
+                    HashAlgs = new string[] { "sha2-224" },
                     PrimeTests = ParameterValidator.VALID_PRIME_TESTS
                 };
             }
@@ -195,7 +197,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 InfoGeneratedByServer = false,
                 IsSample = true,
                 PubExpMode = "random",
-                AlgSpecs = algSpecs
+                AlgSpecs = algSpecs,
+                KeyFormat = "crt"
             };
 
             return CreateRegistration(targetFolder, p);

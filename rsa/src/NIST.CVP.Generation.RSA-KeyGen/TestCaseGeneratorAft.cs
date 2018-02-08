@@ -38,18 +38,25 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (group.InfoGeneratedByServer || isSample)
             {
-                var seed = GetSeed(group.Modulo);
-                var e = group.PubExp == PublicExponentModes.Fixed ? group.FixedPubExp.ToPositiveBigInteger() : GetEValue(32, 64);
-                var bitlens = GetBitlens(group.Modulo, group.PrimeGenMode);
-
-                var testCase = new TestCase
+                var response = new TestCaseGenerateResponse("fail");
+                do
                 {
-                    Bitlens = bitlens,
-                    Seed = seed,
-                    Key = new KeyPair { PubKey = new PublicKey { E = e }}
-                };
+                    var seed = GetSeed(group.Modulo);
+                    var e = group.PubExp == PublicExponentModes.Fixed ? group.FixedPubExp.ToPositiveBigInteger() : GetEValue(32, 64);
+                    var bitlens = GetBitlens(group.Modulo, group.PrimeGenMode);
 
-                return Generate(group, testCase);
+                    var testCase = new TestCase
+                    {
+                        Bitlens = bitlens,
+                        Seed = seed,
+                        Key = new KeyPair { PubKey = new PublicKey { E = e }}
+                    };
+
+                    response = Generate(group, testCase);
+
+                } while (!response.Success);
+
+                return response;
             }
             else
             {
@@ -91,6 +98,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     .WithPrimeTestMode(group.PrimeTest)
                     .WithPublicExponent(testCase.Key.PubKey.E)
                     .WithKeyComposer(keyComposer)
+                    .WithSeed(testCase.Seed)
                     .Build();
 
                 if (!keyResult.Success)
@@ -106,6 +114,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
 
             testCase.Key = keyResult.Key;
+
+            testCase.XP = new BitString(keyResult.AuxValues.XP);
+            testCase.XP1 = new BitString(keyResult.AuxValues.XP1);
+            testCase.XP2 = new BitString(keyResult.AuxValues.XP2);
+            testCase.XQ = new BitString(keyResult.AuxValues.XQ);
+            testCase.XQ1 = new BitString(keyResult.AuxValues.XQ1);
+            testCase.XQ2 = new BitString(keyResult.AuxValues.XQ2);
+            
             return new TestCaseGenerateResponse(testCase);
         }
 
