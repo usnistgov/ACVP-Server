@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 var paddingScheme = _paddingFactory.GetPaddingScheme(group.Mode, sha, entropyProvider, group.SaltLen);
 
                 sigResult = _signatureBuilder
-                    .WithKey(testCase.Key)
+                    .WithKey(group.Key)
                     .WithMessage(testCase.Message)
                     .WithPaddingScheme(paddingScheme)
                     .WithDecryptionScheme(new Rsa(new RsaVisitor()))    // TODO: Can these be injected?
@@ -98,8 +98,8 @@ namespace NIST.CVP.Generation.RSA_SigGen
             }
             catch (Exception ex)
             {
-                ThisLogger.Error($"Exception generating sample signature: {sigResult.ErrorMessage}; {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating sample signature: {sigResult.ErrorMessage}");
+                ThisLogger.Error($"Exception generating sample signature: {ex.StackTrace}");
+                return new TestCaseGenerateResponse($"Exception generating sample signature: {ex.StackTrace}");
             }
 
             testCase.Signature = new BitString(sigResult.Signature, group.Modulo);
