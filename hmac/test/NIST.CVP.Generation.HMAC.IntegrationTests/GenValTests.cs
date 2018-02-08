@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.HMAC.IntegrationTests
     {
         public override string Algorithm => "HMAC-SHA-1";
         public override string RunnerAlgorithm => "HMAC";
-        public override string RunnerMode => "SHA1";
+        public override string RunnerMode => "SHA-1";
     }
 
     [TestFixture, FastIntegrationTest]
