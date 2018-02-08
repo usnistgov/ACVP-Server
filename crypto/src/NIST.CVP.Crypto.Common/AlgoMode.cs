@@ -62,7 +62,7 @@ namespace NIST.CVP.Crypto.Common
         ECDSA_SigGen,
         [Description("ECDSA-SigVer")]
         ECDSA_SigVer,
-        [Description("HMAC-SHA1")]
+        [Description("HMAC-SHA-1")]
         HMAC_SHA1,
         [Description("HMAC-SHA2-224")]
         HMAC_SHA2_224,
