@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 
@@ -25,6 +24,7 @@ namespace NIST.CVP.Generation.AES_CBC
 
         }
 
+        public int TestGroupId { get; set; }
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; } = "KAT";
         [JsonProperty(PropertyName = "direction")]
@@ -33,40 +33,6 @@ namespace NIST.CVP.Generation.AES_CBC
         public int KeyLength { get; set; }
 
         public List<ITestCase> Tests { get; set; }
-
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            return
-                $"{Function}|{TestType}|{KeyLength}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
 
         public bool SetString(string name, string value)
         {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Castle.Components.DictionaryAdapter;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Parsers;
 
@@ -16,8 +12,10 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
             _dynamicParser = iDynamicParser;
         }
 
-        public override TestVectorValidation ValidateWorker(ParseResponse<object> answerParseResponse, ParseResponse<object> promptParseResponse,
-            ParseResponse<object> testResultParseResponse)
+        public override TestVectorValidation ValidateWorker(
+            ParseResponse<object> answerParseResponse, 
+            ParseResponse<object> testResultParseResponse
+        )
         {
             return new TestVectorValidation()
             {

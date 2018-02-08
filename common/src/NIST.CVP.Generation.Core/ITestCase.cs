@@ -18,11 +18,5 @@
         /// When false, all crypto is performed from the generators.
         /// </summary>
         bool Deferred { get; }
-        /// <summary>
-        /// Attempts to merge this test case with the IUT test case.
-        /// </summary>
-        /// <param name="otherTest">The IUT test case</param>
-        /// <returns></returns>
-        bool Merge(ITestCase otherTest);
     }
 }

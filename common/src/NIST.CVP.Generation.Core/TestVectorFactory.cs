@@ -25,6 +25,12 @@ namespace NIST.CVP.Generation.Core
                 groups.AddRangeIfNotNullOrEmpty(groupGenerator.BuildTestGroups(parameters));
             }
 
+            int testGroupId = 1;
+            foreach (var group in groups)
+            {
+                group.TestGroupId = testGroupId++;
+            }
+
             var testVector = new TTestVectorSet
             {
                 TestGroups = groups,

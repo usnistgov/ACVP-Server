@@ -10,8 +10,7 @@
         /// </summary>
         /// <param name="resultPath">Results file (from IUT)</param>
         /// <param name="answerPath">Answer file (server generated)</param>
-        /// <param name="promptPath">Prompt file (server generated)</param>
         /// <returns></returns>
-        ValidateResponse Validate(string resultPath, string answerPath, string promptPath);
+        ValidateResponse Validate(string resultPath, string answerPath);
     }
 }

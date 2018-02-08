@@ -12,13 +12,12 @@ namespace NIST.CVP.Generation.Core.Tests
     [TestFixture, UnitTest]
     public class ValidatorBaseTests
     {
-        Mock<IDynamicParser> _mockDynamicParser;
-        string _testPath;
-        string[] _testVectorFileNames = new string[]
+        private Mock<IDynamicParser> _mockDynamicParser;
+        private string _testPath;
+        private readonly string[] _testVectorFileNames = new string[]
         {
                 @"\testResults.json",
-                @"\answer.json",
-                @"\prompt.json"
+                @"\answer.json"
         };
 
         [OneTimeSetUp]
@@ -52,8 +51,7 @@ namespace NIST.CVP.Generation.Core.Tests
             subject
                 .Validate(
                 $"{localTestPath}{_testVectorFileNames[0]}", 
-                $"{localTestPath}{_testVectorFileNames[1]}", 
-                $"{localTestPath}{_testVectorFileNames[2]}");
+                $"{localTestPath}{_testVectorFileNames[1]}");
 
             var expectedFile = $@"{localTestPath}\validation.json";
             Assert.IsTrue(File.Exists(expectedFile));
@@ -62,7 +60,6 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         [TestCase(0)]
         [TestCase(1)]
-        [TestCase(2)]
         public void ShouldHandleFailedFileParse(int failFileIndex)
         {
             var subject = new FakeSuccessValidatorBase(_mockDynamicParser.Object);
@@ -80,8 +77,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var result = subject
                 .Validate(
                     $"{localTestPath}{_testVectorFileNames[0]}",
-                    $"{localTestPath}{_testVectorFileNames[1]}",
-                    $"{localTestPath}{_testVectorFileNames[2]}"
+                    $"{localTestPath}{_testVectorFileNames[1]}"
                 );
 
             Assert.AreEqual(failFile, result.ErrorMessage);
@@ -105,8 +101,7 @@ namespace NIST.CVP.Generation.Core.Tests
                 var result = subject
                     .Validate(
                         $"{localTestPath}{_testVectorFileNames[0]}",
-                        $"{localTestPath}{_testVectorFileNames[1]}",
-                        $"{localTestPath}{_testVectorFileNames[2]}"
+                        $"{localTestPath}{_testVectorFileNames[1]}"
                     );
 
                 Assert.AreEqual(expectedMessage, result.ErrorMessage);

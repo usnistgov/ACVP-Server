@@ -55,10 +55,8 @@ namespace NIST.CVP.Generation.Core.Tests
             {
                 listParams.Add("-r");
                 listParams.Add(parameters[0]);
-                listParams.Add("-p");
-                listParams.Add(parameters[1]);
                 listParams.Add("-n");
-                listParams.Add(parameters[2]);
+                listParams.Add(parameters[1]);
             }
 
             return listParams.ToArray();

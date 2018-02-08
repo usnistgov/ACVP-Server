@@ -4,14 +4,6 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
     public class FakeTestGroup : ITestGroup
     {
-        public List<ITestCase> Tests { get; }
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public int KeyLength { get; }
-
         public FakeTestGroup()
         {
             Tests = new List<ITestCase>();
@@ -26,6 +18,10 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
             KeyLength = 1;
         }
 
+        public int TestGroupId { get; set; }
         public string TestType { get; }
+        public List<ITestCase> Tests { get; }
+
+        public int KeyLength { get; }
     }
 }

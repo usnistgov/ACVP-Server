@@ -19,10 +19,10 @@ namespace NIST.CVP.Generation.Core
             _testReconstitutor = testReconstitutor;
         }
 
-        public override TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse, ParseResponse<dynamic> promptParseResponse, ParseResponse<dynamic> testResultParseResponse)
+        public override TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse, ParseResponse<dynamic> testResultParseResponse)
         {
             var testVectorSet = _testReconstitutor
-                .GetTestVectorSetExpectationFromResponse(answerParseResponse.ParsedObject, promptParseResponse.ParsedObject);
+                .GetTestVectorSetExpectationFromResponse(answerParseResponse.ParsedObject);
             var results = testResultParseResponse.ParsedObject;
             var suppliedResults = _testReconstitutor.GetTestCasesFromResultResponse(results.testResults);
             var testCaseValidators = _testCaseValidatorFactory.GetValidators(testVectorSet, suppliedResults);

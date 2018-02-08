@@ -8,6 +8,7 @@ namespace NIST.CVP.Generation.Core
     /// </summary>
     public interface ITestGroup
     {
+        int TestGroupId { get; set; }
         /// <summary>
         /// The test type (AFT, KAT, VOT, etc)
         /// </summary>
@@ -16,11 +17,5 @@ namespace NIST.CVP.Generation.Core
         /// The <see cref="ITestCase"/>s belonging to the group
         /// </summary>
         List<ITestCase> Tests { get; }
-        /// <summary>
-        /// Attempts to merge together the server's <see cref="Tests"/> with the IUTs <see cref="testsToMerge"/>
-        /// </summary>
-        /// <param name="testsToMerge">Tests to consolidate against <see cref="Tests"/></param>
-        /// <returns></returns>
-        bool MergeTests(List<ITestCase> testsToMerge);
     }
 }

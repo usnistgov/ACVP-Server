@@ -12,31 +12,23 @@ namespace NIST.CVP.Generation.Core
     {
         protected IDynamicParser _dynamicParser;
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
 
-        public ValidateResponse Validate(string resultPath, string answerPath, string promptPath)
+        public ValidateResponse Validate(string resultPath, string answerPath)
         {
             var answerParseResponse = _dynamicParser.Parse(answerPath);
             if (!answerParseResponse.Success)
             {
                 return new ValidateResponse(answerParseResponse.ErrorMessage);
             }
-            var promptParseResponse = _dynamicParser.Parse(promptPath);
-            if (!promptParseResponse.Success)
-            {
-                return new ValidateResponse(promptParseResponse.ErrorMessage);
-            }
-
+            
             var testResultParseResponse = _dynamicParser.Parse(resultPath);
             if (!testResultParseResponse.Success)
             {
                 return new ValidateResponse(testResultParseResponse.ErrorMessage);
             }
 
-            var response = ValidateWorker(answerParseResponse, promptParseResponse, testResultParseResponse);
+            var response = ValidateWorker(answerParseResponse, testResultParseResponse);
 
             var validationJson = JsonConvert.SerializeObject(response, Formatting.Indented,
                 new JsonSerializerSettings
@@ -54,7 +46,7 @@ namespace NIST.CVP.Generation.Core
             return new ValidateResponse();
         }
 
-        public abstract TestVectorValidation ValidateWorker(ParseResponse<object> answerParseResponse, ParseResponse<object> promptParseResponse, ParseResponse<object> testResultParseResponse);
+        public abstract TestVectorValidation ValidateWorker(ParseResponse<object> answerParseResponse, ParseResponse<object> testResultParseResponse);
 
         private string SaveToFile(string fileRoot, string fileName, string json)
         {

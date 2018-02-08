@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public abstract Executable Generator { get; }
         public abstract Executable Validator { get; }
 
-        public string[] TestVectorFileNames = { @"\testResults.json", @"\prompt.json", @"\answer.json" };
+        public string[] TestVectorFileNames = { @"\testResults.json", @"\answer.json", @"\prompt.json"};
 
         protected abstract void OverrideRegistrationGenFakeFailure();
         protected abstract void OverrideRegistrationValFakeException();
@@ -91,8 +91,8 @@ namespace NIST.CVP.Generation.Core.Tests
             RunGeneration(targetFolder, fileName);
 
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[0]}"), "testResults");
-            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[1]}"), "prompt");
-            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[2]}"), "answer");
+            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[1]}"), "answer");
+            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[2]}"), "prompt");
         }
 
         [Test]

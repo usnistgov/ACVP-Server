@@ -4,15 +4,11 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using Moq;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using FakeTestCase = NIST.CVP.Generation.Core.Tests.Fakes.FakeTestCase;
-using FakeTestVectorSet = NIST.CVP.Generation.Core.Tests.Fakes.FakeTestVectorSet;
 
 namespace NIST.CVP.Generation.Core.Tests
 {
@@ -57,7 +53,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public void ShouldReturnErrorForNonExistentPath()
         {
             var subject = GetSubject(true, false);
-            var result = subject.Validate($"C:\\{Guid.NewGuid()}\\result.json", $"C:\\{Guid.NewGuid()}\\answer.json", $"C:\\{Guid.NewGuid()}\\prompt.json");
+            var result = subject.Validate($"C:\\{Guid.NewGuid()}\\result.json", $"C:\\{Guid.NewGuid()}\\answer.json");
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Success);
         }
@@ -68,7 +64,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public void ShouldReturnErrorForNullOrEmptyPath(string path)
         {
             var subject = GetSubject(true, false);
-            var result = subject.Validate(path, path, path);
+            var result = subject.Validate(path, path);
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Success);
         }
@@ -79,7 +75,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var subject = GetSubject(false, false);
             var testPath = GetTestPath();
 
-            var result = subject.Validate(Path.Combine(testPath, "result.json"), Path.Combine(testPath, "answer.json"), Path.Combine(testPath, "prompt.json"));
+            var result = subject.Validate(Path.Combine(testPath, "result.json"), Path.Combine(testPath, "answer.json"));
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -90,7 +86,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var subject = GetSubject(false, true);
             var testPath = GetTestPath();
 
-            var result = subject.Validate(Path.Combine(testPath, "result.json"), Path.Combine(testPath, "answer.json"), Path.Combine(testPath, "prompt.json"));
+            var result = subject.Validate(Path.Combine(testPath, "result.json"), Path.Combine(testPath, "answer.json"));
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
