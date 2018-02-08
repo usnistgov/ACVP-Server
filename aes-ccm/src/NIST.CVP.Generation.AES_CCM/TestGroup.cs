@@ -14,6 +14,7 @@ namespace NIST.CVP.Generation.AES_CCM
 
         public TestGroup(dynamic source)
         {
+            TestGroupId = source.tgId;
             AADLength = source.aadLen;
             PTLength = source.ptLen;
             IVLength = source.ivLen;
@@ -29,6 +30,7 @@ namespace NIST.CVP.Generation.AES_CCM
 
         }
 
+        public int TestGroupId { get; set; }
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; } = "AFT";
         [JsonProperty(PropertyName = "direction")]
@@ -48,40 +50,6 @@ namespace NIST.CVP.Generation.AES_CCM
         public bool GroupReusesKeyForTestCases { get; set; }
         public bool GroupReusesNonceForTestCases { get; set; }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            return
-                $"{Function}|{TestType}|{KeyLength}|{IVLength}|{PTLength}|{AADLength}|{TagLength}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
-
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -89,8 +57,7 @@ namespace NIST.CVP.Generation.AES_CCM
                 return false;
             }
 
-            int intVal = 0;
-            if (!int.TryParse(value, out intVal))
+            if (!int.TryParse(value, out int intVal))
             {
                 return false;
             }

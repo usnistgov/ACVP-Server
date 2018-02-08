@@ -20,49 +20,6 @@ namespace NIST.CVP.Generation.AES_CCM
             MapToProperties(source);
         }
 
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-            if (((ExpandoObject)source).ContainsProperty("decryptFail"))
-            {
-                FailureTest = source.decryptFail;
-            }
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
-            {
-                FailureTest = source.failureTest;
-            }
-            if (((ExpandoObject) source).ContainsProperty("deferred"))
-            {
-                Deferred = source.deferred;
-            }
-            
-            Key = BitStringFromObject("key", (ExpandoObject) source);
-            IV = BitStringFromObject("iv", (ExpandoObject)source);
-            AAD = BitStringFromObject("aad", (ExpandoObject)source);
-            CipherText = BitStringFromObject("cipherText", (ExpandoObject)source);
-            PlainText = BitStringFromObject("plainText", (ExpandoObject)source);
-        }
-
-        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return null;
-            }
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-            var valueAsBitString = sourcePropertyValue as BitString;
-            if (valueAsBitString != null)
-            {
-                return valueAsBitString;
-                
-            }
-            return new BitString(sourcePropertyValue.ToString());
-        }
-
         public TestCase(JObject source)
         {
             var data = source.ToObject<ExpandoObject>();
@@ -77,28 +34,6 @@ namespace NIST.CVP.Generation.AES_CCM
         public BitString IV { get; set; }
         public BitString CipherText { get; set; }
         
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-            var otherTypedTest = (TestCase) otherTest;
-
-            if (PlainText == null && otherTypedTest.PlainText != null)
-            {
-                PlainText = otherTypedTest.PlainText;
-                return true;
-            }
-
-            if (CipherText == null && otherTypedTest.CipherText != null)
-            {
-                CipherText = otherTypedTest.CipherText;
-                return true;
-            }
-            return false;
-        }
-
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -132,5 +67,28 @@ namespace NIST.CVP.Generation.AES_CCM
             return false;
         }
 
+        private void MapToProperties(dynamic source)
+        {
+            TestCaseId = (int)source.tcId;
+            ExpandoObject expandoSource = source;
+            if (expandoSource.ContainsProperty("decryptFail"))
+            {
+                FailureTest = source.decryptFail;
+            }
+            if (expandoSource.ContainsProperty("failureTest"))
+            {
+                FailureTest = source.failureTest;
+            }
+            if (expandoSource.ContainsProperty("deferred"))
+            {
+                Deferred = source.deferred;
+            }
+
+            Key = expandoSource.GetBitStringFromProperty("key");
+            IV = expandoSource.GetBitStringFromProperty("iv");
+            AAD = expandoSource.GetBitStringFromProperty("aad");
+            PlainText = expandoSource.GetBitStringFromProperty("plainText");
+            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
+        }
     }
 }

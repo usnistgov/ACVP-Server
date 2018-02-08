@@ -13,6 +13,7 @@ namespace NIST.CVP.Generation.AES_CBC
 
         public TestGroup(dynamic source)
         {
+            TestGroupId = source.tgId;
             TestType = source.testType;
             KeyLength = source.keyLen;
             Function = source.direction;
