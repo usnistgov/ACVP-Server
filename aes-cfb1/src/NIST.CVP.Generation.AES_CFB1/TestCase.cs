@@ -22,75 +22,6 @@ namespace NIST.CVP.Generation.AES_CFB1
             MapToProperties(source);
         }
 
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-            if (((ExpandoObject)source).ContainsProperty("decryptFail"))
-            {
-                FailureTest = source.decryptFail;
-            }
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
-            {
-                FailureTest = source.failureTest;
-            }
-            if (((ExpandoObject) source).ContainsProperty("deferred"))
-            {
-                Deferred = source.deferred;
-            }
-            if (((ExpandoObject)source).ContainsProperty("resultsArray"))
-            {
-                ResultsArray = ResultsArrayToObject(source.resultsArray);
-            }
-
-            IV = BitStringFromObject("iv", (ExpandoObject) source, false);
-            Key = BitStringFromObject("key", (ExpandoObject) source, false);
-            CipherText = BitOrientedBitString.GetDerivedFromBase(BitStringFromObject("cipherText", (ExpandoObject)source, true));
-            PlainText = BitOrientedBitString.GetDerivedFromBase(BitStringFromObject("plainText", (ExpandoObject)source, true));
-        }
-
-        private List<BitOrientedAlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
-        {
-            List<BitOrientedAlgoArrayResponse> list = new List<BitOrientedAlgoArrayResponse>();
-
-            foreach (dynamic item in resultsArray)
-            {
-                BitOrientedAlgoArrayResponse response = new BitOrientedAlgoArrayResponse();
-                response.IV = BitStringFromObject("iv", (ExpandoObject)item, false);
-                response.Key = BitStringFromObject("key", (ExpandoObject)item, false);
-                response.PlainText = BitOrientedBitString.GetDerivedFromBase(BitStringFromObject("plainText", (ExpandoObject)item, true));
-                response.CipherText = BitOrientedBitString.GetDerivedFromBase(BitStringFromObject("cipherText", (ExpandoObject)item, true));
-
-                list.Add(response);
-            }
-
-            return list;
-        }
-
-        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source, bool isBitsModeBitString)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return null;
-            }
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-            var valueAsBitString = sourcePropertyValue as BitString;
-            if (valueAsBitString != null)
-            {
-                return valueAsBitString;
-            }
-
-            if (isBitsModeBitString)
-            {
-                return BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(sourcePropertyValue.ToString());
-            }
-
-            return new BitString(sourcePropertyValue.ToString());
-        }
-
         public TestCase(JObject source)
         {
             var data = source.ToObject<ExpandoObject>();
@@ -104,35 +35,6 @@ namespace NIST.CVP.Generation.AES_CFB1
         public BitString Key { get; set; }
         public BitOrientedBitString CipherText { get; set; }
         public List<BitOrientedAlgoArrayResponse> ResultsArray { get; set; } = new List<BitOrientedAlgoArrayResponse>();
-
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-            var otherTypedTest = (TestCase) otherTest;
-
-            if (PlainText == null && otherTypedTest.PlainText != null)
-            {
-                PlainText = otherTypedTest.PlainText;
-                return true;
-            }
-
-            if (CipherText == null && otherTypedTest.CipherText != null)
-            {
-                CipherText = otherTypedTest.CipherText;
-                return true;
-            }
-
-            if (ResultsArray.Count != 0 && otherTypedTest.ResultsArray.Count != 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
 
         public bool SetResultsArrayString(int index, string name, string value)
         {
@@ -194,5 +96,74 @@ namespace NIST.CVP.Generation.AES_CFB1
             return false;
         }
 
+        private void MapToProperties(dynamic source)
+        {
+            TestCaseId = (int)source.tcId;
+            ExpandoObject expandoSource = source;
+            if (expandoSource.ContainsProperty("decryptFail"))
+            {
+                FailureTest = source.decryptFail;
+            }
+            if (expandoSource.ContainsProperty("failureTest"))
+            {
+                FailureTest = source.failureTest;
+            }
+            if (expandoSource.ContainsProperty("deferred"))
+            {
+                Deferred = source.deferred;
+            }
+            if (expandoSource.ContainsProperty("resultsArray"))
+            {
+                ResultsArray = ResultsArrayToObject(source.resultsArray);
+            }
+
+            IV = expandoSource.GetBitStringFromProperty("iv");
+            Key = expandoSource.GetBitStringFromProperty("key");
+            CipherText = BitOrientedBitString.GetDerivedFromBase(BitStringFromObject("cipherText", (ExpandoObject)source, true));
+            PlainText = BitOrientedBitString.GetDerivedFromBase(BitStringFromObject("plainText", (ExpandoObject)source, true));
+        }
+
+        private List<BitOrientedAlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
+        {
+            List<BitOrientedAlgoArrayResponse> list = new List<BitOrientedAlgoArrayResponse>();
+
+            foreach (dynamic item in resultsArray)
+            {
+                BitOrientedAlgoArrayResponse response = new BitOrientedAlgoArrayResponse();
+                response.IV = BitStringFromObject("iv", (ExpandoObject)item, false);
+                response.Key = BitStringFromObject("key", (ExpandoObject)item, false);
+                response.PlainText = BitOrientedBitString.GetDerivedFromBase(BitStringFromObject("plainText", (ExpandoObject)item, true));
+                response.CipherText = BitOrientedBitString.GetDerivedFromBase(BitStringFromObject("cipherText", (ExpandoObject)item, true));
+
+                list.Add(response);
+            }
+
+            return list;
+        }
+
+        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source, bool isBitsModeBitString)
+        {
+            if (!source.ContainsProperty(sourcePropertyName))
+            {
+                return null;
+            }
+            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
+            if (sourcePropertyValue == null)
+            {
+                return null;
+            }
+            var valueAsBitString = sourcePropertyValue as BitString;
+            if (valueAsBitString != null)
+            {
+                return valueAsBitString;
+            }
+
+            if (isBitsModeBitString)
+            {
+                return BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(sourcePropertyValue.ToString());
+            }
+
+            return new BitString(sourcePropertyValue.ToString());
+        }
     }
 }

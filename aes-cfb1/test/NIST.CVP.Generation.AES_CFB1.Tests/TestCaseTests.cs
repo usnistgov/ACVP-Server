@@ -150,45 +150,6 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             Assert.AreEqual(expected, subject.PlainText);
         }
 
-        [Test]
-        public void ShouldNotMergeTestsWithMismatchedIds()
-        {
-            var testCase = new TestCase {TestCaseId = 1};
-            var otherTestCase = new TestCase { TestCaseId = 2 };
-            var mergeResult = testCase.Merge(otherTestCase);
-            Assert.IsFalse(mergeResult);
-        }
-
-        [Test]
-        [TestCase(null, null, null, null, false)]
-        [TestCase(null, "1", null, null, true)]
-        [TestCase("1", "1", null, null, false)]
-        [TestCase(null, null, "1", "1", false)]
-        [TestCase("1", "1", "1", "1", false)]
-        [TestCase(null, null, null, "1", true)]
-        [TestCase(null, "1", null, "1", true)]
-        [TestCase("1", null, "1", null, false)]
-        public void ShouldOnlyMergeWhenOriginalCipherTextOrPlaintextIsNullAndIsSuppliedByOther(string originalPlain, string suppliedPlain, string originalCipher, string suppliedCipher, bool expectedResult)
-        {
-            var testCase = new TestCase { TestCaseId = 1 };
-            SetBitString(testCase, "ct", originalCipher);
-            SetBitString(testCase, "pt", originalPlain);
-            var suppliedTestCase = new TestCase { TestCaseId = 1 };
-            SetBitString(suppliedTestCase, "ct", suppliedCipher);
-            SetBitString(suppliedTestCase, "pt", suppliedPlain);
-            var mergeResult = testCase.Merge(suppliedTestCase);
-            Assert.AreEqual(expectedResult, mergeResult);
-        }
-
-        private void SetBitString(TestCase testCase, string name, string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return;
-            }
-            testCase.SetString(name, value);
-        }
-
         private dynamic GetSourceAnswerTest()
         {
             var sourceVector = new TestVectorSet() {TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup) g).ToList()};
