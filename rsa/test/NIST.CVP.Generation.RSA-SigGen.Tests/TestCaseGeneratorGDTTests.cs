@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             var keyBuilder = GetKeyBuilderMock();
             keyBuilder
                 .Setup(s => s.Build())
-                .Returns(new KeyResult(new KeyPair()));
+                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
 
             var subject = new TestCaseGeneratorGDT(rand.Object, signer.Object, keyBuilder.Object, GetPaddingFactoryMock().Object, GetShaFactoryMock().Object, GetKeyComposerFactoryMock().Object);
 
