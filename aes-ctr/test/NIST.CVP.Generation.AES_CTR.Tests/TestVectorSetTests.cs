@@ -48,27 +48,8 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         public void ShouldReconstituteTestVectorFromAnswerAndPrompt()
         {
             var source = GetSubject(2).ToDynamic();
-            var subject = new TestVectorSet(source, source);
+            var subject = new TestVectorSet(source);
             Assert.AreEqual(2, subject.TestGroups.Count);
-        }
-
-        [Test]
-        public void ShouldFailToReconstituteTestVectorSetWhenNotMatched()
-        {
-            var answers = GetSubject();
-            var prompts = GetSubject();
-
-            Random800_90 rand = new Random800_90();
-
-            foreach (var testGroup in prompts.TestGroups)
-            {
-                testGroup.Tests.Clear();
-            }
-
-            Assert.Throws(
-                Is.TypeOf<Exception>()
-                    .And.Message.EqualTo("Could not reconstitute TestVectorSet from supplied answers and prompts"),
-                () => new TestVectorSet(answers.ToDynamic(), prompts.ToDynamic()));
         }
 
         [Test]
@@ -154,19 +135,6 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void EncryptShouldExcludePlainTextInAnswerProjection()
-        {
-            var subject = GetSubject(1);
-            var results = subject.AnswerProjection;
-            var group = results[0];
-            var tests = group.tests;
-            foreach (var test in tests)
-            {
-                Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
-            }
-        }
-
-        [Test]
         public void EncryptShouldExcludeCipherTextInPromptProjection()
         {
             var subject = GetSubject(1);
@@ -224,19 +192,6 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             foreach (var item in results)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(item.plainText.ToString()));
-            }
-        }
-
-        [Test]
-        public void DecryptShouldExcludeCipherTextInAnswerProjection()
-        {
-            var subject = GetSubject(1, "decrypt");
-            var results = subject.AnswerProjection;
-            var group = results[0];
-            var tests = group.tests;
-            foreach (var test in tests)
-            {
-                Assert.Throws(typeof(RuntimeBinderException), () => test.cipherText.ToString());
             }
         }
 

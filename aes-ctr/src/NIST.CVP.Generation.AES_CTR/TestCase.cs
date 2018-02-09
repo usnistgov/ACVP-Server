@@ -11,17 +11,6 @@ namespace NIST.CVP.Generation.AES_CTR
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public BitString PlainText { get; set; }
-        public int Length { get; set; }
-        public BitString CipherText { get; set; }
-        public BitString IV { get; set; }
-        public List<BitString> IVs { get; set; }
-        public BitString Key { get; set; }
-
         public TestCase() { }
 
         public TestCase(dynamic source)
@@ -35,52 +24,16 @@ namespace NIST.CVP.Generation.AES_CTR
             MapToProperties(data);
         }
 
-        public void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
 
-            var expandoSource = (ExpandoObject)source;
-
-            Length = expandoSource.GetTypeFromProperty<int>("dataLength");
-
-            IV = expandoSource.GetBitStringFromProperty("iv");
-            PlainText = expandoSource.GetBitStringFromProperty("plainText");
-            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
-            Key = expandoSource.GetBitStringFromProperty("key");
-
-            if (expandoSource.ContainsProperty("ivs"))
-            {
-                IVs = new List<BitString>();
-                foreach (var iv in source.ivs)
-                {
-                    IVs.Add(new BitString(iv));
-                }
-            }
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            var otherTypedTest = (TestCase)otherTest;
-
-            if (PlainText == null && otherTypedTest.PlainText != null)
-            {
-                PlainText = otherTypedTest.PlainText;
-                return true;
-            }
-
-            if (CipherText == null && otherTypedTest.CipherText != null)
-            {
-                CipherText = otherTypedTest.CipherText;
-                return true;
-            }
-
-            return false;
-        }
+        public BitString PlainText { get; set; }
+        public int Length { get; set; }
+        public BitString CipherText { get; set; }
+        public BitString IV { get; set; }
+        public List<BitString> IVs { get; set; }
+        public BitString Key { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -112,6 +65,29 @@ namespace NIST.CVP.Generation.AES_CTR
                     return true;
             }
             return false;
+        }
+
+        private void MapToProperties(dynamic source)
+        {
+            TestCaseId = (int)source.tcId;
+
+            var expandoSource = (ExpandoObject)source;
+
+            Length = expandoSource.GetTypeFromProperty<int>("dataLength");
+
+            IV = expandoSource.GetBitStringFromProperty("iv");
+            PlainText = expandoSource.GetBitStringFromProperty("plainText");
+            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
+            Key = expandoSource.GetBitStringFromProperty("key");
+
+            if (expandoSource.ContainsProperty("ivs"))
+            {
+                IVs = new List<BitString>();
+                foreach (var iv in source.ivs)
+                {
+                    IVs.Add(new BitString(iv));
+                }
+            }
         }
     }
 }
