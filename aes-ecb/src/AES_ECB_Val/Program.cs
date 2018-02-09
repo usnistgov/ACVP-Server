@@ -4,8 +4,6 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using Autofac;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Generation.AES_ECB;
 using NIST.CVP.Generation.Core;
 
 namespace AES_ECB_Val
@@ -30,7 +28,7 @@ namespace AES_ECB_Val
                 using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                 {
                     var validator = scope.Resolve<IValidator>();
-                    var result = validator.Validate(resultFile, answerFile, promptFile);
+                    var result = validator.Validate(resultFile, answerFile);
                     if (!result.Success)
                     {
                         Console.Error.WriteLine($"ERROR! Validating Test Vectors for {resultFile}: {result.ErrorMessage}");
