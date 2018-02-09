@@ -4,8 +4,10 @@ using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.RSA_SigVer;
 using NIST.CVP.Math;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Crypto.RSA2.PrimeGenerators;
+using NIST.CVP.Crypto.RSA2.Signatures;
+using NIST.CVP.Crypto.SHAWrapper;
 
 namespace RSA_SigVer
 {
@@ -18,6 +20,13 @@ namespace RSA_SigVer
         public static void IoCConfiguration()
         {
             var builder = new ContainerBuilder();
+
+            builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
+            builder.RegisterType<KeyComposerFactory>().AsImplementedInterfaces();
+            builder.RegisterType<PrimeGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<SignatureBuilder>().AsImplementedInterfaces();
+            builder.RegisterType<PaddingFactory>().AsImplementedInterfaces();
+            builder.RegisterType<ShaFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();

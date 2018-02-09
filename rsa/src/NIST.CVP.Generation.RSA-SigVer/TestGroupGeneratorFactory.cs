@@ -1,34 +1,31 @@
-﻿using NIST.CVP.Crypto.RSA.PrimeGenerators;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Entropy;
+﻿using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
     {
-        RandomProbablePrimeGenerator _primeGen;
-        AllProvablePrimesWithConditionsGenerator _smallPrimeGen;
+        private readonly IRandom800_90 _rand;
+        private readonly IKeyBuilder _keyBuilder;
+        private readonly IKeyComposerFactory _keyComposerFactory;
+        private readonly IShaFactory _shaFactory;
 
-        // For Moq
-        public TestGroupGeneratorFactory(RandomProbablePrimeGenerator primeGen, AllProvablePrimesWithConditionsGenerator smallPrimeGen)
+        public TestGroupGeneratorFactory(IRandom800_90 rand, IKeyBuilder keyBuilder, IKeyComposerFactory keyComposerFactory, IShaFactory shaFactory)
         {
-            _primeGen = primeGen;
-            _smallPrimeGen = smallPrimeGen;
-        }
-
-        public TestGroupGeneratorFactory()
-        {
-            _primeGen = new RandomProbablePrimeGenerator(EntropyProviderTypes.Random);
-            _smallPrimeGen = new AllProvablePrimesWithConditionsGenerator(new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d256 });
+            _rand = rand;
+            _keyBuilder = keyBuilder;
+            _keyComposerFactory = keyComposerFactory;
+            _shaFactory = shaFactory;
         }
 
         public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
         {
             var list = new HashSet<ITestGroupGenerator<Parameters>>
             {
-                new TestGroupGeneratorGeneratedDataTest(_primeGen, _smallPrimeGen)
+                new TestGroupGeneratorGeneratedDataTest(_rand, _keyBuilder, _keyComposerFactory, _shaFactory)
             };
 
             return list;

@@ -1,9 +1,5 @@
 ﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NIST.CVP.Generation.RSA_SigVer;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {
@@ -20,7 +16,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 IsSample = false,
                 Capabilities = BuildCapabilities(),
                 PubExpMode = "fixed",
-                FixedPubExpValue = "010001"
+                FixedPubExpValue = "010001",
+                KeyFormat = "standard"
             };
 
             Assert.IsNotNull(parameters);
@@ -36,7 +33,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 IsSample = false,
                 Capabilities = BuildCapabilities(),
                 PubExpMode = "fixed",
-                FixedPubExpValue = "010001"
+                FixedPubExpValue = "010001",
+                KeyFormat = "crt"
             };
 
             Assert.AreEqual("RSA", parameters.Algorithm);

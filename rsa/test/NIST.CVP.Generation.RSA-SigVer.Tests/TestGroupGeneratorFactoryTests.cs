@@ -1,5 +1,4 @@
 ﻿using Moq;
-using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -7,9 +6,10 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {
@@ -21,17 +21,22 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         [SetUp]
         public void SetUp()
         {
-            var primeMock = new Mock<RandomProbablePrimeGenerator>();
-            primeMock
-                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
-                .Returns(new PrimeGeneratorResult(3, 5));
+            var randMock = new Mock<IRandom800_90>();
+            randMock
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString("ABCDEFABCDEF"));            // Needs to be between 32/64 bits
 
-            var smallPrimeMock = new Mock<AllProvablePrimesWithConditionsGenerator>();
-            smallPrimeMock
-                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
-                .Returns(new PrimeGeneratorResult(3, 5));
+            var keyBuilderMock = new Mock<IKeyBuilder>();
+            keyBuilderMock
+                .Setup(s => s.Build())
+                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
+            keyBuilderMock.SetReturnsDefault(keyBuilderMock.Object);
 
-            _subject = new TestGroupGeneratorFactory(primeMock.Object, smallPrimeMock.Object);
+            var keyComposerFactoryMock = new Mock<IKeyComposerFactory>();
+
+            var shaFactoryMock = new Mock<IShaFactory>();
+
+            _subject = new TestGroupGeneratorFactory(randMock.Object, keyBuilderMock.Object, keyComposerFactoryMock.Object, shaFactoryMock.Object);
         }
 
         [Test]
@@ -60,7 +65,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 Mode = "SigVer",
                 IsSample = false,
                 Capabilities = BuildFullSpecs(),
-                PubExpMode = "random"
+                PubExpMode = "random",
+                KeyFormat = "standard"
             };
 
             var groups = new List<ITestGroup>();
@@ -84,10 +90,11 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 Mode = "SigVer",
                 IsSample = false,
                 Capabilities = BuildFullSpecs(),
-                PubExpMode = "random"
+                PubExpMode = "random",
+                KeyFormat = "standard"
             };
 
-            List<ITestGroup> groups = new List<ITestGroup>();
+            var groups = new List<ITestGroup>();
 
             foreach (var genny in result)
             {

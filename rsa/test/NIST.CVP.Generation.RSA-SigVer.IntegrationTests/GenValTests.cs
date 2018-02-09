@@ -92,7 +92,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 Capabilities = algSpec,
                 IsSample = false,
                 PubExpMode = "fixed",
-                FixedPubExpValue = "010001"
+                FixedPubExpValue = "010001",
+                KeyFormat = "standard"
             };
 
             return CreateRegistration(targetFolder, p);
@@ -134,7 +135,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 IsSample = false,
                 Capabilities = algSpecs,
                 PubExpMode = "fixed",
-                FixedPubExpValue = "010001"
+                FixedPubExpValue = "010001",
+                KeyFormat = "standard"
             };
 
             return CreateRegistration(targetFolder, p);
@@ -178,7 +180,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 Mode = Mode,
                 IsSample = false,
                 Capabilities = algSpecs,
-                PubExpMode = "random"
+                PubExpMode = "random",
+                KeyFormat = "crt"
             };
 
             return CreateRegistration(targetFolder, p);

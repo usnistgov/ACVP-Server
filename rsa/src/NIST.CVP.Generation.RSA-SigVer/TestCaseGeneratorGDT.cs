@@ -1,45 +1,41 @@
-﻿using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Crypto.RSA.PrimeGenerators;
-using NIST.CVP.Crypto.RSA.Signatures;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Signatures;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.RSA2;
+using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.RSA2.Signatures;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
     public class TestCaseGeneratorGDT : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly SignerBase _signer;
+        private readonly ISignatureBuilder _signatureBuilder;
+        private readonly IPaddingFactory _paddingFactory;
+        private readonly IShaFactory _shaFactory;
 
-        private int _numCases = 6;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 6;
 
-        public int NumberOfTestCasesToGenerate { get { return _numCases; } }
-
-        public TestCaseGeneratorGDT(IRandom800_90 random800_90, SignerBase signer)
+        public TestCaseGeneratorGDT(IRandom800_90 random800_90, ISignatureBuilder sigBuilder, IPaddingFactory padFactory, IShaFactory shaFactory)
         {
             _random800_90 = random800_90;
-            _signer = signer;
+            _signatureBuilder = sigBuilder;
+            _paddingFactory = padFactory;
+            _shaFactory = shaFactory;
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {
-            var shuffledReasons = group.Covered.OrderBy(a => Guid.NewGuid()).ToList();
-            var reason = shuffledReasons[0];
-            group.Covered.Remove(reason);
+            var reason = group.TestCaseExpectationProvider.GetRandomReason();
 
             var testCase = new TestCase
             {
                 Message = _random800_90.GetRandomBitString(group.Modulo / 2),
                 Reason = reason,
-                FailureTest = (reason != FailureReasons.NONE)
+                FailureTest = reason.GetReason() != SignatureModifications.None
             };
 
             return Generate(group, testCase);
@@ -50,15 +46,18 @@ namespace NIST.CVP.Generation.RSA_SigVer
             SignatureResult sigResult = null;
             try
             {
-                _signer.SetHashFunction(group.HashAlg);
+                var sha = _shaFactory.GetShaInstance(group.HashAlg);
+                var entropyProvider = new EntropyProvider(_random800_90);
 
-                if(group.Mode == SigGenModes.PSS)
-                {
-                    testCase.Salt = _random800_90.GetRandomBitString(group.SaltLen * 8);
-                    _signer.AddEntropy(testCase.Salt);
-                }
+                var paddingScheme = _paddingFactory.GetSigningPaddingScheme(group.Mode, sha, testCase.Reason.GetReason(), entropyProvider, group.SaltLen);
 
-                sigResult = _signer.SignWithErrors(group.Modulo, testCase.Message, group.Key, testCase.Reason);
+                sigResult = _signatureBuilder
+                    .WithDecryptionScheme(new Rsa(new RsaVisitor()))
+                    .WithMessage(testCase.Message)
+                    .WithPaddingScheme(paddingScheme)
+                    .WithKey(group.Key)
+                    .BuildSign();
+
                 if (!sigResult.Success)
                 {
                     ThisLogger.Warn($"Error generating signature with intentional errors: {sigResult.ErrorMessage}");
@@ -67,14 +66,14 @@ namespace NIST.CVP.Generation.RSA_SigVer
             }
             catch (Exception ex)
             {
-                ThisLogger.Warn($"Exception generating signature with intentional errors: {sigResult.ErrorMessage}, {ex.Source}");
-                return new TestCaseGenerateResponse($"Exception generating signature with intentional errors: {sigResult.ErrorMessage}");
+                ThisLogger.Warn($"Exception generating signature with intentional errors: {ex.Source}");
+                return new TestCaseGenerateResponse($"Exception generating signature with intentional errors: {ex.Source}");
             }
 
-            testCase.Signature = sigResult.Signature;
+            testCase.Signature = new BitString(sigResult.Signature);
             return new TestCaseGenerateResponse(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

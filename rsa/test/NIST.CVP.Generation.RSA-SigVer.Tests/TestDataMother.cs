@@ -1,9 +1,10 @@
-﻿using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Generation.RSA_SigVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {
@@ -22,15 +23,16 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                         Message = new BitString("ABCD"),
                         Salt = new BitString("ABCD"),
                         Signature = new BitString("ABCD"),
+                        Reason = new TestCaseExpectationReason(SignatureModifications.None),
                         TestCaseId = testId
                     });
                 }
 
                 testGroups.Add(new TestGroup
                 {
-                    HashAlg = new HashFunction { Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224 },
-                    Key = new KeyPair(31, 29, 7),
-                    Mode = SigGenModes.ANS_931,
+                    HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d224),
+                    Key = new KeyPair { PrivKey = new PrivateKey {D = 1, P = 2, Q = 3}, PubKey = new PublicKey {E = 4, N = 5}},
+                    Mode = SignatureSchemes.Ansx931,
                     Modulo = 2048 + groupIdx,
                     TestType = "gdt",
                     SaltLen = 16,

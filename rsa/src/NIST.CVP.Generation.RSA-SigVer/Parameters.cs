@@ -1,8 +1,4 @@
 ﻿using NIST.CVP.Generation.Core;
-using NIST.CVP.Crypto.RSA;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
@@ -15,6 +11,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
         public AlgSpecs[] Capabilities { get; set; }
         public string PubExpMode { get; set; }
         public string FixedPubExpValue { get; set; } = "";
+        public string KeyFormat { get; set; }
     }
 
     public class AlgSpecs

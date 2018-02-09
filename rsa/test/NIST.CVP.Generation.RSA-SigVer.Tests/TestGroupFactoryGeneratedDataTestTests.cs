@@ -1,15 +1,12 @@
 ﻿using Moq;
-using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Crypto.RSA.PrimeGenerators;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {
@@ -33,7 +30,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithSigVerModes(new [] {"pss", "ansx9.31"})
                     .WithModuli(new [] {2048, 3072})
-                    .WithHashAlgs(new [] {"SHA-1", "SHA-224"})
+                    .WithHashAlgs(new [] {"SHA-1", "SHA2-224"})
                     .Build()
             },
             new object[]
@@ -42,7 +39,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithSigVerModes(new [] {"pkcs1v15"})
                     .WithModuli(new [] {2048, 3072})
-                    .WithHashAlgs(new [] {"SHA-1", "SHA-256", "SHA-512/224", "SHA-512/256"})
+                    .WithHashAlgs(new [] {"SHA-1", "SHA2-256", "SHA2-512/224", "SHA2-512/256"})
                     .Build()
             },
             new object[]
@@ -51,7 +48,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 new ParameterValidatorTests.ParameterBuilder()
                     .WithSigVerModes(new [] {"pss", "pkcs1v15", "ansx9.31"})
                     .WithModuli(new [] {1024, 2048, 3072})
-                    .WithHashAlgs(new [] {"SHA-1", "SHA-224", "SHA-256", "SHA-384", "SHA-512", "SHA-512/224", "SHA-512/256"})
+                    .WithHashAlgs(new [] {"SHA-1", "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512", "SHA2-512/224", "SHA2-512/256"})
                     .Build()
             },
         };
@@ -60,49 +57,24 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         [TestCaseSource(nameof(parameters))]
         public void ShouldCreate3TestGroupsForEachCombinationOfModeModuloAndHashAlg(int expectedGroups, Parameters parameters)
         {
-            var primeMock = new Mock<RandomProbablePrimeGenerator>();
-            primeMock
-                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
-                .Returns(new PrimeGeneratorResult(3, 5));
+            var randMock = new Mock<IRandom800_90>();
+            randMock
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString("ABCDEFABCDEF"));            // Needs to be between 32/64 bits
 
-            var smallPrimeMock = new Mock<AllProvablePrimesWithConditionsGenerator>();
-            smallPrimeMock
-                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
-                .Returns(new PrimeGeneratorResult(3, 5));
+            var keyBuilderMock = new Mock<IKeyBuilder>();
+            keyBuilderMock
+                .Setup(s => s.Build())
+                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
+            keyBuilderMock.SetReturnsDefault(keyBuilderMock.Object);
 
-            var subject = new TestGroupGeneratorGeneratedDataTest(primeMock.Object, smallPrimeMock.Object);
+            var keyComposerFactoryMock = new Mock<IKeyComposerFactory>();
+
+            var shaFactoryMock = new Mock<IShaFactory>();
+
+            var subject = new TestGroupGeneratorGeneratedDataTest(randMock.Object, keyBuilderMock.Object, keyComposerFactoryMock.Object, shaFactoryMock.Object);
             var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups * 3, result.Count());
-        }
-
-        [Test]
-        public void AllTestGroupsCreatedShouldHaveProvidedFixedEValue()
-        {
-            var eValue = "01234567";
-            var parameters = new ParameterValidatorTests.ParameterBuilder()
-                .WithSigVerModes(new[] { "ansx9.31", "pss" })
-                .WithModuli(new[] { 1024, 2048, 3072 })
-                .WithHashAlgs(new[] { "SHA-256", "SHA-512" })
-                .WithEValue(eValue)
-                .Build();
-
-            var primeMock = new Mock<RandomProbablePrimeGenerator>();
-            primeMock
-                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
-                .Returns(new PrimeGeneratorResult(3, 5));
-
-            var smallPrimeMock = new Mock<AllProvablePrimesWithConditionsGenerator>();
-            smallPrimeMock
-                .Setup(s => s.GeneratePrimes(It.IsAny<int>(), It.IsAny<BigInteger>(), It.IsAny<BitString>()))
-                .Returns(new PrimeGeneratorResult(3, 5));
-
-            var subject = new TestGroupGeneratorGeneratedDataTest(primeMock.Object, smallPrimeMock.Object);
-            var result = subject.BuildTestGroups(parameters);
-
-            foreach(var group in result.Select(s => (TestGroup)s).ToList())
-            {
-                Assert.AreEqual(eValue, new BitString(group.Key.PubKey.E).ToHex());
-            }
         }
     }
 }
