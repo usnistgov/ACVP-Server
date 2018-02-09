@@ -22,6 +22,12 @@ namespace NIST.CVP.Crypto.RSA2
 
         public BigInteger Decrypt(BigInteger cipherText, PrivateKeyBase privKey, PublicKey pubKey)
         {
+            // For SP-Component mainly, but this shouldn't really happen anywhere else
+            if (cipherText >= pubKey.N)
+            {
+                return 0;
+            }
+
             return privKey.AcceptDecrypt(_visitor, cipherText, pubKey);
         }
     }
