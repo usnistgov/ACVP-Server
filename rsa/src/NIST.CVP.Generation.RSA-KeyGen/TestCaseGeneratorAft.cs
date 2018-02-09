@@ -52,6 +52,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         Key = new KeyPair { PubKey = new PublicKey { E = e }}
                     };
 
+                    if (isSample)
+                    {
+                        testCase.Deferred = true;
+                    }
+
                     response = Generate(group, testCase);
 
                 } while (!response.Success);
@@ -121,7 +126,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             testCase.XQ = new BitString(keyResult.AuxValues.XQ);
             testCase.XQ1 = new BitString(keyResult.AuxValues.XQ1);
             testCase.XQ2 = new BitString(keyResult.AuxValues.XQ2);
-            
+
+            // TODO this really sucks, these bitstring values need slight modification because they don't always match the bitlens if they start with some 0s
+            if (group.PrimeGenMode == PrimeGenModes.B36)
+            {
+                testCase.XP1 = new BitString(keyResult.AuxValues.XP1, testCase.Bitlens[0] % 8 == 0 ? testCase.Bitlens[0] : testCase.Bitlens[0] + 8 - testCase.Bitlens[0] % 8, false);
+                testCase.XP2 = new BitString(keyResult.AuxValues.XP2, testCase.Bitlens[1] % 8 == 0 ? testCase.Bitlens[1] : testCase.Bitlens[1] + 8 - testCase.Bitlens[1] % 8, false);
+                testCase.XQ1 = new BitString(keyResult.AuxValues.XQ1, testCase.Bitlens[2] % 8 == 0 ? testCase.Bitlens[2] : testCase.Bitlens[2] + 8 - testCase.Bitlens[2] % 8, false);
+                testCase.XQ2 = new BitString(keyResult.AuxValues.XQ2, testCase.Bitlens[3] % 8 == 0 ? testCase.Bitlens[3] : testCase.Bitlens[3] + 8 - testCase.Bitlens[3] % 8, false);
+            }
+
             return new TestCaseGenerateResponse(testCase);
         }
 

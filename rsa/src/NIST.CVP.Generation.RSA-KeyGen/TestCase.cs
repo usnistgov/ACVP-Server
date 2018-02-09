@@ -211,6 +211,15 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             XQ1 = expandoSource.GetBitStringFromProperty("xq1");
             XP2 = expandoSource.GetBitStringFromProperty("xp2");
             XQ2 = expandoSource.GetBitStringFromProperty("xq2");
+
+            // TODO Some hard assumptions being made all up in here
+            if (Bitlens != null && XP1 != null)
+            {
+                XP1 = XP1.GetLeastSignificantBits(Bitlens[0]);
+                XP2 = XP2.GetLeastSignificantBits(Bitlens[1]);
+                XQ1 = XQ1.GetLeastSignificantBits(Bitlens[2]);
+                XQ2 = XQ2.GetLeastSignificantBits(Bitlens[3]);
+            }
         }
 
         private KeyPair KeyPairFromObject(ExpandoObject source)

@@ -52,6 +52,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(expandoSource.GetTypeFromProperty<string>("primeTest"), false);
             PubExp = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(expandoSource.GetTypeFromProperty<string>("pubExp"));
             FixedPubExp = expandoSource.GetBitStringFromProperty("fixedPubExp");
+            KeyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(expandoSource.GetTypeFromProperty<string>("keyFormat"));
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)

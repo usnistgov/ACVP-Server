@@ -1,4 +1,8 @@
-﻿using Autofac;
+﻿using System.IO;
+using Autofac;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
@@ -23,6 +27,18 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             AutofacConfig.OverrideRegistrations = null;
             RSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = null;
         }
+
+        //[Test]
+        //public void QuickStartUpLots()
+        //{
+        //    var targetFolder = Path.Combine(TestPath, "QuickStart");
+        //    RunValidation(targetFolder);
+
+        //    // Get object for the validation.json
+        //    var dp = new DynamicParser();
+        //    var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+        //    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString(), "disposition");
+        //}
 
         protected override void OverrideRegistrationGenFakeFailure()
         {
