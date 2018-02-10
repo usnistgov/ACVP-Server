@@ -20,56 +20,12 @@ namespace NIST.CVP.Generation.AES_XPN
             MapToProperties(source);
         }
 
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-            if (((ExpandoObject)source).ContainsProperty("decryptFail"))
-            {
-                FailureTest = source.decryptFail;
-            }
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
-            {
-                FailureTest = source.failureTest;
-            }
-            if (((ExpandoObject) source).ContainsProperty("deferred"))
-            {
-                Deferred = source.deferred;
-            }
-
-            Key = BitStringFromObject("key", (ExpandoObject) source);
-            IV = BitStringFromObject("iv", (ExpandoObject)source);
-            Salt = BitStringFromObject("salt", (ExpandoObject)source);
-            Tag = BitStringFromObject("tag", (ExpandoObject)source);
-            AAD = BitStringFromObject("aad", (ExpandoObject)source);
-            CipherText = BitStringFromObject("cipherText", (ExpandoObject)source);
-            PlainText = BitStringFromObject("plainText", (ExpandoObject)source);
-        }
-
-        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return null;
-            }
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-            var valueAsBitString = sourcePropertyValue as BitString;
-            if (valueAsBitString != null)
-            {
-                return valueAsBitString;
-                
-            }
-            return new BitString(sourcePropertyValue.ToString());
-        }
-
         public TestCase(JObject source)
         {
             var data = source.ToObject<ExpandoObject>();
             MapToProperties(data);
         }
+
         public int TestCaseId { get; set; }
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
@@ -80,29 +36,6 @@ namespace NIST.CVP.Generation.AES_XPN
         public BitString Salt { get; set; }
         public BitString CipherText { get; set; }
         public BitString Tag { get; set; }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-            var otherTypedTest = (TestCase) otherTest;
-
-            if (PlainText == null && otherTypedTest.PlainText != null)
-            {
-                PlainText = otherTypedTest.PlainText;
-                return true;
-            }
-
-            if (CipherText == null && otherTypedTest.CipherText != null)
-            {
-                Tag = otherTypedTest.Tag;
-                CipherText = otherTypedTest.CipherText;
-                return true;
-            }
-            return false;
-        }
 
         public bool SetString(string name, string value)
         {
@@ -140,5 +73,31 @@ namespace NIST.CVP.Generation.AES_XPN
             return false;
         }
 
+        private void MapToProperties(dynamic source)
+        {
+            TestCaseId = (int)source.tcId;
+            var expandoSource = (ExpandoObject) source;
+            if (expandoSource.ContainsProperty("decryptFail"))
+            {
+                FailureTest = source.decryptFail;
+            }
+            if (expandoSource.ContainsProperty("failureTest"))
+            {
+                FailureTest = source.failureTest;
+            }
+            if (expandoSource.ContainsProperty("deferred"))
+            {
+                Deferred = source.deferred;
+            }
+
+            Key = expandoSource.GetBitStringFromProperty("key");
+            IV = expandoSource.GetBitStringFromProperty("iv");
+            Salt = expandoSource.GetBitStringFromProperty("salt");
+            Tag = expandoSource.GetBitStringFromProperty("tag");
+            AAD = expandoSource.GetBitStringFromProperty("aad");
+            PlainText = expandoSource.GetBitStringFromProperty("plainText");
+            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
+            
+        }
     }
 }
