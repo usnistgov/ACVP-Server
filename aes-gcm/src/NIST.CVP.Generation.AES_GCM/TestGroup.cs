@@ -17,6 +17,7 @@ namespace NIST.CVP.Generation.AES_GCM
 
         public TestGroup(dynamic source)
         {
+            TestGroupId = source.tgId;
             TestType = source.testType;
             IVGeneration = source.ivGen;
             IVGenerationMode = source.ivGenMode;
@@ -34,6 +35,7 @@ namespace NIST.CVP.Generation.AES_GCM
 
         }
 
+        public int TestGroupId { get; set; }
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; } = "AFT";
         [JsonProperty(PropertyName = "direction")]
@@ -53,40 +55,6 @@ namespace NIST.CVP.Generation.AES_GCM
         [JsonProperty(PropertyName = "taglen")]
         public int TagLength { get; set; }
         public List<ITestCase> Tests { get; set; }
-
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            return
-                $"{Function}|{TestType}|{KeyLength}|{IVLength}|{IVGeneration}|{IVGenerationMode}|{PTLength}|{AADLength}|{TagLength}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
 
         public bool SetString(string name, string value)
         {
