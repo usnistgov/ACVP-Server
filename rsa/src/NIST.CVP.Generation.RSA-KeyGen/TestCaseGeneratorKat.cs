@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
 using NIST.CVP.Crypto.RSA2;
 using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Crypto.RSA2.PrimeGenerators;

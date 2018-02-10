@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common;
-
-namespace NIST.CVP.Crypto.RSA2.Signatures
+﻿namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures
 {
     public class VerifyResult : ICryptoResult
     {

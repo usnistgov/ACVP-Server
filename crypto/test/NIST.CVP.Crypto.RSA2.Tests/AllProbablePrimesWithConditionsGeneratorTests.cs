@@ -6,7 +6,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 
 namespace NIST.CVP.Crypto.RSA2.Tests
 {

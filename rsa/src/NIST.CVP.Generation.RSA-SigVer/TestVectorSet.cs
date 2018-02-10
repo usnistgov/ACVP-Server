@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {

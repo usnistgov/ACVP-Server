@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 
-namespace NIST.CVP.Crypto.RSA2.Signatures
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures
 {
     public class SignatureResult
     {

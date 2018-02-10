@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.RSA2.Signatures;
 using NIST.CVP.Crypto.RSA2.Signatures.Ansx;
 using NIST.CVP.Crypto.RSA2.Signatures.Pkcs;

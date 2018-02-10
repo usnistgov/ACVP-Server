@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
+﻿namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators
 {
     public class PrimeGeneratorResult
     {

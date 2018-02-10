@@ -1,32 +1,33 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Math;
+using PrimeTestModes = NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums.PrimeTestModes;
 
 namespace NIST.CVP.Crypto.RSA2
 {
     public static class KatData
     {
         #region B33
-        public static List<AlgoArrayResponse> GetKatsForProperties(int modulo, Enums.PrimeTestModes ptMode)
+        public static List<AlgoArrayResponse> GetKatsForProperties(int modulo, PrimeTestModes ptMode)
         {
             if (modulo == 2048)
             {
-                if (ptMode == Enums.PrimeTestModes.C2)
+                if (ptMode == PrimeTestModes.C2)
                 {
                     return GetB33Mod2048TblC2();
                 }
-                else if (ptMode == Enums.PrimeTestModes.C3)
+                else if (ptMode == PrimeTestModes.C3)
                 {
                     return GetB33Mod2048TblC3();
                 }
             }
             else if (modulo == 3072)
             {
-                if (ptMode == Enums.PrimeTestModes.C2)
+                if (ptMode == PrimeTestModes.C2)
                 {
                     return GetB33Mod3072TblC2();
                 }
-                else if (ptMode == Enums.PrimeTestModes.C3)
+                else if (ptMode == PrimeTestModes.C3)
                 {
                     return GetB33Mod3072TblC3();
                 }

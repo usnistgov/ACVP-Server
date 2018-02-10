@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators
 {
     public interface IPrimeGenerator
     {

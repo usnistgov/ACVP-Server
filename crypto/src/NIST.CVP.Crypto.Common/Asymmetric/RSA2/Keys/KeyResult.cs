@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
+﻿using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
 
-namespace NIST.CVP.Crypto.RSA2.Keys
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys
 {
     public class KeyResult : ICryptoResult
     {

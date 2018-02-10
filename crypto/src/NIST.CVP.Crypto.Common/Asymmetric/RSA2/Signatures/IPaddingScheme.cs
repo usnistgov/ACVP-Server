@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-using NIST.CVP.Crypto.RSA2.Keys;
+﻿using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.RSA2.Signatures
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures
 {
     public interface IPaddingScheme
     {

@@ -1,6 +1,6 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NIST.CVP.Crypto.RSA2.Enums;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests

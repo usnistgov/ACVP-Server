@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace NIST.CVP.Crypto.RSA2.Keys
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys
 {
     public class PrivateKey : PrivateKeyBase
     {

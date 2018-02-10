@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
 using NIST.CVP.Crypto.Math;
-using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
