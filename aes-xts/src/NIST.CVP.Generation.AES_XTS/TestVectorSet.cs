@@ -20,26 +20,13 @@ namespace NIST.CVP.Generation.AES_XTS
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
 
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -51,36 +38,33 @@ namespace NIST.CVP.Generation.AES_XTS
                 foreach (var group in TestGroups.Select(g => (TestGroup) g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("direction", group.Direction);
-                    ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLen);
-                    ((IDictionary<string, object>)updateObject).Add("tweakMode", group.TweakMode);
-                    ((IDictionary<string, object>)updateObject).Add("ptLen", group.PtLen);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("direction", group.Direction);
+                    updateDict.Add("keyLen", group.KeyLen);
+                    updateDict.Add("tweakMode", group.TweakMode);
+                    updateDict.Add("ptLen", group.PtLen);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase) t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("key", test.Key.ToHex());     // Needs to be here because Key is an XtsKey
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("key", test.Key.ToHex());     // Needs to be here because Key is an XtsKey
 
                         if (group.TweakMode.Equals("hex", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("i", test.I);
+                            testDict.Add("i", test.I);
                         }
                         else if (group.TweakMode.Equals("number", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("sequenceNumber", test.SequenceNumber);
+                            testDict.Add("sequenceNumber", test.SequenceNumber);
                         }
 
-                        if (group.Direction.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
-                        }
-                        else if (group.Direction.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
-                        }
+                        testDict.Add("plainText", test.PlainText);
+                        testDict.Add("cipherText", test.CipherText);
 
                         tests.Add(testObject);
                     }
@@ -101,35 +85,38 @@ namespace NIST.CVP.Generation.AES_XTS
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("direction", group.Direction);
-                    ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLen);
-                    ((IDictionary<string, object>)updateObject).Add("tweakMode", group.TweakMode);
-                    ((IDictionary<string, object>)updateObject).Add("ptLen", group.PtLen);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("direction", group.Direction);
+                    updateDict.Add("keyLen", group.KeyLen);
+                    updateDict.Add("tweakMode", group.TweakMode);
+                    updateDict.Add("ptLen", group.PtLen);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("key", test.Key.ToHex());     // Needs to be here because Key is an XtsKey
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("key", test.Key.ToHex());     // Needs to be here because Key is an XtsKey
 
                         if (group.TweakMode.Equals("hex", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("i", test.I);
+                            testDict.Add("i", test.I);
                         }
                         else if (group.TweakMode.Equals("number", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("sequenceNumber", test.SequenceNumber);
+                            testDict.Add("sequenceNumber", test.SequenceNumber);
                         }
 
                         if (group.Direction.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            testDict.Add("plainText", test.PlainText);
                         }
                         else if (group.Direction.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            testDict.Add("cipherText", test.CipherText);
                         }
 
                         tests.Add(testObject);
@@ -153,15 +140,16 @@ namespace NIST.CVP.Generation.AES_XTS
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (group.Direction.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            testDict.Add("cipherText", test.CipherText);
                         }
                         else if (group.Direction.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            testDict.Add("plainText", test.PlainText);
                         }
 
                         tests.Add(testObject);
