@@ -22,26 +22,13 @@ namespace NIST.CVP.Generation.DRBG
         {
         }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -64,12 +51,13 @@ namespace NIST.CVP.Generation.DRBG
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = BuildGroupInformation(group);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
-                        dynamic testObject = BuildSharedTestCaseInformation(updateObject, group, test);
+                        dynamic testObject = BuildSharedTestCaseInformation(group, test);
                         _bitStringPrinter.AddToDynamic(testObject, "returnedBits", test.ReturnedBits);
                         tests.Add(testObject);
                     }
@@ -93,12 +81,13 @@ namespace NIST.CVP.Generation.DRBG
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = BuildGroupInformation(group);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
-                        dynamic testObject = BuildSharedTestCaseInformation(updateObject, group, test);
+                        dynamic testObject = BuildSharedTestCaseInformation(group, test);
                         tests.Add(testObject);
                     }
 
@@ -123,7 +112,8 @@ namespace NIST.CVP.Generation.DRBG
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
                         _bitStringPrinter.AddToDynamic(testObject, "returnedBits", test.ReturnedBits);
 
                         tests.Add(testObject);
@@ -145,20 +135,22 @@ namespace NIST.CVP.Generation.DRBG
         private dynamic BuildGroupInformation(TestGroup group)
         {
             dynamic updateObject = new ExpandoObject();
-            ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-            ((IDictionary<string, object>)updateObject).Add("mode", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
-            ((IDictionary<string, object>)updateObject).Add("derFunc", group.DerFunc);
-            ((IDictionary<string, object>)updateObject).Add("predResistance", group.PredResistance);
-            ((IDictionary<string, object>)updateObject).Add("entropyInputLen", group.EntropyInputLen);
-            ((IDictionary<string, object>)updateObject).Add("reSeed", group.ReSeed);
-            ((IDictionary<string, object>)updateObject).Add("nonceLen", group.NonceLen);
-            ((IDictionary<string, object>)updateObject).Add("persoStringLen", group.PersoStringLen);
-            ((IDictionary<string, object>)updateObject).Add("additionalInputLen", group.AdditionalInputLen);
-            ((IDictionary<string, object>)updateObject).Add("returnedBitsLen", group.ReturnedBitsLen);
+            var updateDict = ((IDictionary<string, object>) updateObject);
+            updateDict.Add("tgId", group.TestGroupId);
+            updateDict.Add("testType", group.TestType);
+            updateDict.Add("mode", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
+            updateDict.Add("derFunc", group.DerFunc);
+            updateDict.Add("predResistance", group.PredResistance);
+            updateDict.Add("entropyInputLen", group.EntropyInputLen);
+            updateDict.Add("reSeed", group.ReSeed);
+            updateDict.Add("nonceLen", group.NonceLen);
+            updateDict.Add("persoStringLen", group.PersoStringLen);
+            updateDict.Add("additionalInputLen", group.AdditionalInputLen);
+            updateDict.Add("returnedBitsLen", group.ReturnedBitsLen);
             return updateObject;
         }
 
-        private dynamic BuildSharedTestCaseInformation(dynamic updateObject, TestGroup group, TestCase test)
+        private dynamic BuildSharedTestCaseInformation(TestGroup group, TestCase test)
         {
             dynamic testObject = new ExpandoObject();
             ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);

@@ -113,15 +113,6 @@ namespace NIST.CVP.Generation.DRBG.Tests
             Assert.AreEqual("00AA", subject.PersoString.ToHex());
         }
 
-        [Test]
-        public void ShouldNotMergeTestsWithMismatchedIds()
-        {
-            var testCase = new TestCase {TestCaseId = 1};
-            var otherTestCase = new TestCase { TestCaseId = 2 };
-            var mergeResult = testCase.Merge(otherTestCase);
-            Assert.IsFalse(mergeResult);
-        }
-
         private dynamic GetSourceAnswerTest()
         {
             var sourceVector = new TestVectorSet() {TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup) g).ToList()};

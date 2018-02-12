@@ -11,18 +11,6 @@ namespace NIST.CVP.Generation.DRBG
     public class TestCase : ITestCase
     {
 
-        public int TestCaseId { get; set; }
-
-        public BitString EntropyInput { get; set; }
-        public BitString Nonce { get; set; }
-        public BitString PersoString { get; set; }
-        public List<OtherInput> OtherInput { get; set; } = new List<OtherInput>();
-
-        public BitString ReturnedBits { get; set; }
-
-        public bool FailureTest => false;
-        public bool Deferred => false;
-
         public TestCase()
         {
             
@@ -39,15 +27,14 @@ namespace NIST.CVP.Generation.DRBG
             MapToProperties(data);
         }
 
-        public bool Merge(ITestCase promptTestCase)
-        {
-            if (TestCaseId == promptTestCase.TestCaseId)
-            {
-                return true;
-            }
-
-            return false;
-        }
+        public int TestCaseId { get; set; }
+        public bool FailureTest => false;
+        public bool Deferred => false;
+        public BitString EntropyInput { get; set; }
+        public BitString Nonce { get; set; }
+        public BitString PersoString { get; set; }
+        public List<OtherInput> OtherInput { get; set; } = new List<OtherInput>();
+        public BitString ReturnedBits { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -84,7 +71,7 @@ namespace NIST.CVP.Generation.DRBG
             Nonce = expandoSource.GetBitStringFromProperty("nonce");
             PersoString = expandoSource.GetBitStringFromProperty("persoString");
 
-            if (((ExpandoObject)source).ContainsProperty("otherInput"))
+            if (expandoSource.ContainsProperty("otherInput"))
             {
                 OtherInput = OtherInputToObject(source.otherInput);
             }
@@ -100,9 +87,11 @@ namespace NIST.CVP.Generation.DRBG
             {
                 ExpandoObject expandoItem = (ExpandoObject) item;
 
-                OtherInput response = new OtherInput();
-                response.AdditionalInput = expandoItem.GetBitStringFromProperty("additionalInput");
-                response.EntropyInput = expandoItem.GetBitStringFromProperty("entropyInput");
+                OtherInput response = new OtherInput
+                {
+                    AdditionalInput = expandoItem.GetBitStringFromProperty("additionalInput"),
+                    EntropyInput = expandoItem.GetBitStringFromProperty("entropyInput")
+                };
 
                 list.Add(response);
             }
