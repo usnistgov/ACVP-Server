@@ -1,28 +1,39 @@
 ﻿using Autofac;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using RSA_KeyGen;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "RSA";
         public override string Mode { get; } = "KeyGen";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => RSA_KeyGen_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            RSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = null;
         }
+
+        //[Test]
+        //public void QuickStartUpLots()
+        //{
+        //    var targetFolder = Path.Combine(TestPath, "QuickStart");
+        //    RunValidation(targetFolder);
+
+        //    // Get object for the validation.json
+        //    var dp = new DynamicParser();
+        //    var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
+        //    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString(), "disposition");
+        //}
 
         protected override void OverrideRegistrationGenFakeFailure()
         {
@@ -34,7 +45,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            RSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -42,7 +53,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            RSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
@@ -89,7 +100,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             caps[0] = new Capability
             {
                 Modulo = 2048,
-                HashAlgs = new[] { "sha-224" },
+                HashAlgs = new[] { "sha2-224" },
                 PrimeTests = new[] { "tblc2" }
             };
 
@@ -110,6 +121,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 InfoGeneratedByServer = true,
                 IsSample = true,
                 PubExpMode = "random",
+                KeyFormat = "standard",
                 AlgSpecs = algSpecs
             };
 
@@ -122,7 +134,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             caps[0] = new Capability
             {
                 Modulo = 2048,
-                HashAlgs = new[] { "sha-224" },
+                HashAlgs = new[] { "sha2-224" },
                 PrimeTests = new[] { "tblc2" }
             };
 
@@ -159,6 +171,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 IsSample = true,
                 PubExpMode = "fixed",
                 FixedPubExp = "010001",
+                KeyFormat = "standard",
                 AlgSpecs = algSpecs
             };
 
@@ -173,7 +186,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 caps[i] = new Capability
                 {
                     Modulo = ParameterValidator.VALID_MODULI[i],
-                    HashAlgs = new string[] { "sha-224" },
+                    HashAlgs = new string[] { "sha2-224" },
                     PrimeTests = ParameterValidator.VALID_PRIME_TESTS
                 };
             }
@@ -195,7 +208,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 InfoGeneratedByServer = false,
                 IsSample = true,
                 PubExpMode = "random",
-                AlgSpecs = algSpecs
+                AlgSpecs = algSpecs,
+                KeyFormat = "crt"
             };
 
             return CreateRegistration(targetFolder, p);

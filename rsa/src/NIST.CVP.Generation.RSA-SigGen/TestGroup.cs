@@ -6,9 +6,10 @@ using System.Dynamic;
 using System.Linq;
 using System.Numerics;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
-using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Crypto.RSA2.Keys;
 
@@ -86,7 +87,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
                     return true;
 
                 case "n":
-                    if (Key == null) { Key = new KeyPair(); }
+                    if (Key == null) { Key = new KeyPair {PubKey = new PublicKey()}; }
                     Key.PubKey.N = new BitString(value).ToPositiveBigInteger();
                     return true;
 

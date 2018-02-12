@@ -1,16 +1,11 @@
-﻿using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Generation.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+﻿using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
     public class TestCaseValidatorGDT : ITestCaseValidator<TestCase>
     {
         private readonly TestCase _expectedResult;
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidatorGDT(TestCase expectedResult)
         {
@@ -25,7 +20,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
             }
             else
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = RSAEnumHelpers.FailureReasonToString(_expectedResult.Reason) };
+                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = _expectedResult.Reason.GetName() };
             }
         }
     }

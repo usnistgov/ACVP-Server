@@ -1,14 +1,11 @@
 ﻿using Newtonsoft.Json;
-using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
@@ -54,12 +51,12 @@ namespace NIST.CVP.Generation.RSA_SigVer
                 foreach(var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("sigType", RSAEnumHelpers.SigGenModeToString(group.Mode));
+                    ((IDictionary<string, object>)updateObject).Add("sigType", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
                     ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", SHAEnumHelpers.HashFunctionToString(group.HashAlg));
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
 
-                    if (group.Mode == SigGenModes.PSS)
+                    if (group.Mode == SignatureSchemes.Pss)
                     {
                         ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
                     }
@@ -74,7 +71,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("result", !test.FailureTest);
-                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason);
+                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason.GetName());
 
                         tests.Add(testObject);
                     }
@@ -95,12 +92,12 @@ namespace NIST.CVP.Generation.RSA_SigVer
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("sigType", RSAEnumHelpers.SigGenModeToString(group.Mode));
+                    ((IDictionary<string, object>)updateObject).Add("sigType", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
                     ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", SHAEnumHelpers.HashFunctionToString(group.HashAlg));
+                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
 
-                    if (group.Mode == SigGenModes.PSS)
+                    if (group.Mode == SignatureSchemes.Pss)
                     {
                         ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
                     }
@@ -117,7 +114,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
                         ((IDictionary<string, object>)testObject).Add("message", test.Message);
                         ((IDictionary<string, object>)testObject).Add("signature", test.Signature);
 
-                        if (group.Mode == SigGenModes.PSS)
+                        if (group.Mode == SignatureSchemes.Pss)
                         {
                             ((IDictionary<string, object>)testObject).Add("salt", test.Salt);
                         }
@@ -145,7 +142,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
                         ((IDictionary<string, object>)testObject).Add("result", !test.FailureTest);
-                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason);
+                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason.GetName());
 
                         tests.Add(testObject);
                     }

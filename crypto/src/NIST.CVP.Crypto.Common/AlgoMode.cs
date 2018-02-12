@@ -112,6 +112,8 @@ namespace NIST.CVP.Crypto.Common
         RSA_SigGen,
         [Description("RSA-SigVer")]
         RSA_SigVer,
+        [Description("RSA-SignaturePrimitive")]
+        RSA_SignaturePrimitive,
         [Description("SHA2")]
         SHA2,
         [Description("SHA3")]

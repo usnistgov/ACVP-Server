@@ -1,12 +1,14 @@
-﻿using NIST.CVP.Crypto.RSA.Signatures;
-using NIST.CVP.Generation.RSA_SigVer.Parsers;
+﻿using NIST.CVP.Generation.RSA_SigVer.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.RSA2;
+using NIST.CVP.Crypto.RSA2.Signatures;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
 {
@@ -34,7 +36,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
 
             var folderPath = new DirectoryInfo(Path.Combine(_testPath, sigVerMode));
             var parser = new LegacyResponseFileParser();
-            var signerFactory = new SignerFactory();
+            var signerBuilder = new SignatureBuilder();
 
             foreach(var testFilePath in folderPath.EnumerateFiles())
             {
@@ -53,6 +55,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 foreach(var iTestGroup in testVector.TestGroups)
                 {
                     var testGroup = (TestGroup)iTestGroup;
+                    testGroup.Mode = EnumHelpers.GetEnumFromEnumDescription<SignatureSchemes>(sigVerMode);
 
                     if(testGroup.Tests.Count == 0)
                     {
@@ -62,15 +65,25 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                     foreach(var iTestCase in testGroup.Tests)
                     {
                         var testCase = (TestCase)iTestCase;
-                        var algo = signerFactory.GetSigner(sigVerMode);
 
-                        algo.SetHashFunction(testGroup.HashAlg);
-                        algo.SetSaltLen(testGroup.SaltLen);
+                        var entropyProvider = new TestableEntropyProvider();
+                        entropyProvider.AddEntropy(testCase.Salt);
 
-                        var result = algo.Verify(testGroup.Modulo, testCase.Signature, testGroup.Key, testCase.Message);
+                        var sha = new ShaFactory().GetShaInstance(testGroup.HashAlg);
+
+                        var paddingScheme = new PaddingFactory().GetPaddingScheme(testGroup.Mode, sha, entropyProvider, testGroup.SaltLen);
+
+                        var result = signerBuilder
+                            .WithMessage(testCase.Message)
+                            .WithSignature(testCase.Signature)
+                            .WithKey(testGroup.Key)
+                            .WithPaddingScheme(paddingScheme)
+                            .WithDecryptionScheme(new Rsa(new RsaVisitor()))
+                            .BuildVerify();
+
                         if (result.Success != testCase.Result)
                         {
-                            Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
+                            Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}.\nTestCase expected to {(testCase.Result ? "pass" : "fail")}.\nTestCase actually {(result.Success ? "pass" : "fail")}\nTestCase actual fail reason: {(result.Success ? "none" : result.ErrorMessage)}");
                         }
                     }
                 }

@@ -1,9 +1,6 @@
 ﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {
@@ -46,7 +43,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
         //[TestCase("null", new object[] { null })]
         [TestCase("empty", new object[] { })]
         [TestCase("Invalid", new object[] { "notValid" })]
-        [TestCase("Partially valid", new object[] { "SHA-224", "notValid" })]
+        [TestCase("Partially valid", new object[] { "SHA2-224", "notValid" })]
         //[TestCase("Partially valid with null", new object[] { "HA-512/256", null })]
         public void ShouldReturnErrorWithInvalidHashAlgorithm(string label, object[] hashAlg)
         {
@@ -116,7 +113,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithHashAlgs(new[] { "sha-384", "sha-512" })
+                    .WithHashAlgs(new[] { "sha2-384", "sha2-512" })
                     .Build()
             );
 
@@ -150,7 +147,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 _algorithm = "RSA";
                 _mode = "SigVer";
                 _sigVerModes = new[] { "ansx9.31", "pss" };
-                _hashAlgs = new[] { "sha-1", "sha-256" };
+                _hashAlgs = new[] { "sha-1", "sha2-256" };
                 _moduli = new[] { 2048 };
                 _eValue = "010001";
             }
@@ -223,7 +220,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                     Mode = _mode,
                     Capabilities = algSpecs,
                     PubExpMode = "fixed",
-                    FixedPubExpValue = _eValue
+                    FixedPubExpValue = _eValue,
+                    KeyFormat = "standard"
                 };
             }
         }

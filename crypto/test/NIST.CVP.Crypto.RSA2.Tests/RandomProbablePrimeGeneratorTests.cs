@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;

@@ -1,7 +1,9 @@
 ﻿using System.Numerics;
 using Moq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Crypto.SHAWrapper;
@@ -26,7 +28,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var keyBuilder = GetKeyBuilderMock();
             keyBuilder
                 .Setup(s => s.Build())
-                .Returns(new KeyResult(new KeyPair()));
+                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
 
             var subject = new TestCaseGeneratorAft(GetRandomMock().Object, keyBuilder.Object, _keyComposerFactory, _shaFactory);
 
@@ -42,7 +44,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var keyBuilder = GetKeyBuilderMock();
             keyBuilder
                 .Setup(s => s.Build())
-                .Returns(new KeyResult(new KeyPair()));
+                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
 
             var subject = new TestCaseGeneratorAft(GetRandomMock().Object, keyBuilder.Object, _keyComposerFactory, _shaFactory);
 
@@ -61,7 +63,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var keyBuilder = GetKeyBuilderMock();
             keyBuilder
                 .Setup(s => s.Build())
-                .Returns(new KeyResult(new KeyPair()));
+                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
 
             var subject = new TestCaseGeneratorAft(GetRandomMock().Object, keyBuilder.Object, _keyComposerFactory, _shaFactory);
 

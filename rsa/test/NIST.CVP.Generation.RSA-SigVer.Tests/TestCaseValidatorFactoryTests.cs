@@ -1,13 +1,12 @@
-﻿using NIST.CVP.Crypto.RSA;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.Crypto.Common.Hash.SHA2;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {
@@ -50,8 +49,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                     {
                         TestType = testType,
                         Modulo = 2048,
-                        Mode = SigGenModes.PSS,
-                        HashAlg = new HashFunction{ Mode = ModeValues.SHA2, DigestSize = DigestSizes.d224 },
+                        Mode = SignatureSchemes.Pss,
+                        HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d224),
                         Tests = new List<ITestCase>
                         {
                             new TestCase

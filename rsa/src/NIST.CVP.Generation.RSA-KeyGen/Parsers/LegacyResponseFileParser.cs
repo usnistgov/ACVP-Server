@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NIST.CVP.Crypto.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Parsers
 {

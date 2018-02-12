@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures;
 using NIST.CVP.Crypto.RSA2.Signatures;
 
 namespace NIST.CVP.Generation.RSA_SigGen

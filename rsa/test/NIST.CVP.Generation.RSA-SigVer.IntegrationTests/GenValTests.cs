@@ -1,26 +1,25 @@
 ﻿using Autofac;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using RSA_SigVer;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 
 namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "RSA";
         public override string Mode { get; } = "SigVer";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => RSA_SigVer_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            RSA_SigVer_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override void OverrideRegistrationGenFakeFailure()
@@ -33,7 +32,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            RSA_SigVer_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -41,7 +40,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            RSA_SigVer_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
@@ -92,7 +91,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 Capabilities = algSpec,
                 IsSample = false,
                 PubExpMode = "fixed",
-                FixedPubExpValue = "010001"
+                FixedPubExpValue = "010001",
+                KeyFormat = "standard"
             };
 
             return CreateRegistration(targetFolder, p);
@@ -134,7 +134,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 IsSample = false,
                 Capabilities = algSpecs,
                 PubExpMode = "fixed",
-                FixedPubExpValue = "010001"
+                FixedPubExpValue = "010001",
+                KeyFormat = "standard"
             };
 
             return CreateRegistration(targetFolder, p);
@@ -178,7 +179,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                 Mode = Mode,
                 IsSample = false,
                 Capabilities = algSpecs,
-                PubExpMode = "random"
+                PubExpMode = "random",
+                KeyFormat = "crt"
             };
 
             return CreateRegistration(targetFolder, p);

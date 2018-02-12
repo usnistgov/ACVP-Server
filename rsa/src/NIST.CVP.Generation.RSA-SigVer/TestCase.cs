@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.RSA;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
-using System.Collections.Generic;
-using System.Dynamic;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Math;
+using System.Dynamic;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Generation.RSA_SigVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
         public BitString Signature { get; set; }
         public BitString Salt { get; set; }
         public bool Result { get; set; }
-        public FailureReasons Reason { get; set; }      // Tells us what value was modified leading to the failure
+        public ITestCaseExpectationReason<SignatureModifications> Reason { get; set; }      // Tells us what value was modified leading to the failure
 
         public TestCase() { }
 
@@ -38,25 +38,16 @@ namespace NIST.CVP.Generation.RSA_SigVer
         {
             TestCaseId = (int)source.tcId;
 
-            if (((ExpandoObject)source).ContainsProperty("message"))
-            {
-                Message = BitStringFromObject("message", (ExpandoObject)source);
-            }
+            var expandoSource = (ExpandoObject) source;
 
-            if (((ExpandoObject)source).ContainsProperty("signature"))
-            {
-                Signature = BitStringFromObject("signature", (ExpandoObject)source);
-            }
+            Message = expandoSource.GetBitStringFromProperty("message");
+            Signature = expandoSource.GetBitStringFromProperty("signature");
+            Salt = expandoSource.GetBitStringFromProperty("salt");
+            Result = expandoSource.GetTypeFromProperty<bool>("result");
 
-            if (((ExpandoObject)source).ContainsProperty("salt"))
-            {
-                Salt = BitStringFromObject("salt", (ExpandoObject)source);
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("result"))
-            {
-                Result = BoolFromObject("result", (ExpandoObject)source);
-            }
+            var reasonValue = expandoSource.GetTypeFromProperty<string>("reason");
+            var reasonEnum = EnumHelpers.GetEnumFromEnumDescription<SignatureModifications>(reasonValue, false);
+            Reason = new TestCaseExpectationReason(reasonEnum);
         }
 
         public bool Merge(ITestCase otherTest)
@@ -109,50 +100,6 @@ namespace NIST.CVP.Generation.RSA_SigVer
             }
 
             return false;
-        }
-
-        private BitString BitStringFromObject(string propName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(propName))
-            {
-                return null;
-            }
-
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[propName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-
-            var valueAsBitString = sourcePropertyValue as BitString;
-            if (valueAsBitString != null)
-            {
-                return valueAsBitString;
-            }
-
-            return new BitString(sourcePropertyValue.ToString());
-        }
-
-        private bool BoolFromObject(string propName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(propName))
-            {
-                return false;
-            }
-
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[propName];
-            if (sourcePropertyValue == null)
-            {
-                return false;
-            }
-
-            var valueAsString = sourcePropertyValue as string;
-            if(valueAsString != null)
-            {
-                return (valueAsString.ToLower() == "f");
-            }
-
-            return (bool)sourcePropertyValue;
         }
     }
 }

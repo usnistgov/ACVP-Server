@@ -5,9 +5,11 @@ using System;
 using System.IO;
 using NIST.CVP.Generation.RSA_KeyGen.Parsers;
 using System.Linq;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Math.Entropy;
-using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Crypto.SHAWrapper;
@@ -59,6 +61,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 foreach(var iTestGroup in testVector.TestGroups)
                 {
                     var testGroup = (TestGroup)iTestGroup;
+                    testGroup.PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>("b." + keyGenMode);
 
                     if(testGroup.Tests.Count == 0)
                     {
@@ -94,6 +97,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                         }
 
                         var result = algo
+                            .WithPrimeGenMode(testGroup.PrimeGenMode)
                             .WithBitlens(testCase.Bitlens)
                             .WithHashFunction(sha)
                             .WithPrimeTestMode(testGroup.PrimeTest)

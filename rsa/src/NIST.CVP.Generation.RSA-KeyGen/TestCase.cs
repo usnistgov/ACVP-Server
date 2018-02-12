@@ -3,6 +3,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Numerics;
 using Newtonsoft.Json.Linq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -56,6 +57,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             {
                 return true;
             }
+
+            // KATs have nothing to merge
+            if (Key.PubKey.N == 0)
+            {
+                return true;
+            }
             
             var otherTypedTest = (TestCase) otherTest;
             var retVal = false;
@@ -98,10 +105,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     // Assume that E is the first value of the key
                     if (Key == null)
                     {
-                        Key = new Crypto.RSA2.Keys.KeyPair
+                        Key = new KeyPair
                         {
-                            PrivKey = new Crypto.RSA2.Keys.PrivateKey(),
-                            PubKey = new Crypto.RSA2.Keys.PublicKey()
+                            PrivKey = new PrivateKey(),
+                            PubKey = new PublicKey()
                         };
                     }
                     Key.PubKey.E = new BitString(value).ToPositiveBigInteger();
@@ -121,7 +128,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 
                 case "d":
                     // Assume that D is the last value of the private key
-                    Key.PrivKey = new Crypto.RSA2.Keys.PrivateKey
+                    Key.PrivKey = new PrivateKey
                     {
                         D = new BitString(value).ToPositiveBigInteger(),
                         P = _p,
@@ -205,6 +212,15 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             XQ1 = expandoSource.GetBitStringFromProperty("xq1");
             XP2 = expandoSource.GetBitStringFromProperty("xp2");
             XQ2 = expandoSource.GetBitStringFromProperty("xq2");
+
+            // TODO Some hard assumptions being made all up in here
+            if (Bitlens != null && XP1 != null)
+            {
+                XP1 = XP1.GetLeastSignificantBits(Bitlens[0]);
+                XP2 = XP2.GetLeastSignificantBits(Bitlens[1]);
+                XQ1 = XQ1.GetLeastSignificantBits(Bitlens[2]);
+                XQ2 = XQ2.GetLeastSignificantBits(Bitlens[3]);
+            }
         }
 
         private KeyPair KeyPairFromObject(ExpandoObject source)
@@ -220,7 +236,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             var dmq1 = source.GetBigIntegerFromProperty("dmq1");
             var iqmp = source.GetBigIntegerFromProperty("iqmp");
             
-            var pubKey = new Crypto.RSA2.Keys.PublicKey
+            var pubKey = new PublicKey
             {
                 N = n,
                 E = e
@@ -240,7 +256,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
             else
             {
-                privKey = new Crypto.RSA2.Keys.PrivateKey
+                privKey = new PrivateKey
                 {
                     P = p,
                     Q = q,

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -38,18 +39,30 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (group.InfoGeneratedByServer || isSample)
             {
-                var seed = GetSeed(group.Modulo);
-                var e = group.PubExp == PublicExponentModes.Fixed ? group.FixedPubExp.ToPositiveBigInteger() : GetEValue(32, 64);
-                var bitlens = GetBitlens(group.Modulo, group.PrimeGenMode);
-
-                var testCase = new TestCase
+                var response = new TestCaseGenerateResponse("fail");
+                do
                 {
-                    Bitlens = bitlens,
-                    Seed = seed,
-                    Key = new KeyPair { PubKey = new PublicKey { E = e }}
-                };
+                    var seed = GetSeed(group.Modulo);
+                    var e = group.PubExp == PublicExponentModes.Fixed ? group.FixedPubExp.ToPositiveBigInteger() : GetEValue(32, 64);
+                    var bitlens = GetBitlens(group.Modulo, group.PrimeGenMode);
 
-                return Generate(group, testCase);
+                    var testCase = new TestCase
+                    {
+                        Bitlens = bitlens,
+                        Seed = seed,
+                        Key = new KeyPair { PubKey = new PublicKey { E = e }}
+                    };
+
+                    if (isSample)
+                    {
+                        testCase.Deferred = true;
+                    }
+
+                    response = Generate(group, testCase);
+
+                } while (!response.Success);
+
+                return response;
             }
             else
             {
@@ -91,6 +104,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     .WithPrimeTestMode(group.PrimeTest)
                     .WithPublicExponent(testCase.Key.PubKey.E)
                     .WithKeyComposer(keyComposer)
+                    .WithSeed(testCase.Seed)
                     .Build();
 
                 if (!keyResult.Success)
@@ -106,6 +120,23 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
 
             testCase.Key = keyResult.Key;
+
+            testCase.XP = new BitString(keyResult.AuxValues.XP);
+            testCase.XP1 = new BitString(keyResult.AuxValues.XP1);
+            testCase.XP2 = new BitString(keyResult.AuxValues.XP2);
+            testCase.XQ = new BitString(keyResult.AuxValues.XQ);
+            testCase.XQ1 = new BitString(keyResult.AuxValues.XQ1);
+            testCase.XQ2 = new BitString(keyResult.AuxValues.XQ2);
+
+            // TODO this really sucks, these bitstring values need slight modification because they don't always match the bitlens if they start with some 0s
+            if (group.PrimeGenMode == PrimeGenModes.B36)
+            {
+                testCase.XP1 = new BitString(keyResult.AuxValues.XP1, testCase.Bitlens[0] % 8 == 0 ? testCase.Bitlens[0] : testCase.Bitlens[0] + 8 - testCase.Bitlens[0] % 8, false);
+                testCase.XP2 = new BitString(keyResult.AuxValues.XP2, testCase.Bitlens[1] % 8 == 0 ? testCase.Bitlens[1] : testCase.Bitlens[1] + 8 - testCase.Bitlens[1] % 8, false);
+                testCase.XQ1 = new BitString(keyResult.AuxValues.XQ1, testCase.Bitlens[2] % 8 == 0 ? testCase.Bitlens[2] : testCase.Bitlens[2] + 8 - testCase.Bitlens[2] % 8, false);
+                testCase.XQ2 = new BitString(keyResult.AuxValues.XQ2, testCase.Bitlens[3] % 8 == 0 ? testCase.Bitlens[3] : testCase.Bitlens[3] + 8 - testCase.Bitlens[3] % 8, false);
+            }
+
             return new TestCaseGenerateResponse(testCase);
         }
 

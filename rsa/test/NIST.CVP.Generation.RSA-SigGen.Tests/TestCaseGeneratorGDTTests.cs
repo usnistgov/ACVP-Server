@@ -4,8 +4,11 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2.Enums;
 using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Crypto.RSA2.Signatures;
@@ -41,7 +44,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             var keyBuilder = GetKeyBuilderMock();
             keyBuilder
                 .Setup(s => s.Build())
-                .Returns(new KeyResult(new KeyPair()));
+                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
 
             var subject = new TestCaseGeneratorGDT(rand.Object, signer.Object, keyBuilder.Object, GetPaddingFactoryMock().Object, GetShaFactoryMock().Object, GetKeyComposerFactoryMock().Object);
 

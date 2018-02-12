@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.RSA2;
 using NIST.CVP.Crypto.RSA2.Signatures;
 using NIST.CVP.Crypto.SHAWrapper;
@@ -56,6 +58,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
                 foreach(var iTestGroup in testVector.TestGroups)
                 {
                     var testGroup = (TestGroup)iTestGroup;
+                    testGroup.Mode = EnumHelpers.GetEnumFromEnumDescription<SignatureSchemes>(sigGenMode);
 
                     if(testGroup.Tests.Count == 0)
                     {

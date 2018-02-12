@@ -1,8 +1,8 @@
 ﻿using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
-using NIST.CVP.Crypto.RSA2.Enums;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
