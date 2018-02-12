@@ -1,31 +1,26 @@
-﻿using System.IO;
-using Autofac;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.Parsers;
+﻿using Autofac;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using RSA_KeyGen;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "RSA";
         public override string Mode { get; } = "KeyGen";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => RSA_KeyGen_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            RSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         //[Test]
@@ -50,7 +45,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            RSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };
@@ -58,7 +53,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            RSA_KeyGen_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };

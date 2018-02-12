@@ -1,27 +1,25 @@
 ﻿using NIST.CVP.Generation.Core.Tests;
-using System;
 using Autofac;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using RSA_SP_Component;
 
 namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTests : GenValTestsBase
+    public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm => "RSA";
         public override string Mode => "SignaturePrimitive";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => RSA_SP_Component_Val.Program.Main;
+        public override Executable Generator => GenValApp.Program.Main;
+        public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
             AutofacConfig.OverrideRegistrations = null;
-            RSA_SP_Component_Val.AutofacConfig.OverrideRegistrations = null;
         }
 
         protected override string GetTestFileFewTestCases(string folderName)
@@ -74,7 +72,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
 
         protected override void OverrideRegistrationValFakeException()
         {
-            RSA_SP_Component_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
             };
@@ -82,7 +80,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
 
         protected override void OverrideRegistrationValFakeFailure()
         {
-            RSA_SP_Component_Val.AutofacConfig.OverrideRegistrations = builder =>
+            AutofacConfig.OverrideRegistrations = builder =>
             {
                 builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
             };

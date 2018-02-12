@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 out var mappingResult)
             )
             {
-                throw new ArgumentException($"Unable to find dll mapping for {algorithm} ({algorithm}) and {mode} ({mode})");
+                throw new ArgumentException($"Unable to find dll mapping for {nameof(algorithm)} ({algorithm}) and {nameof(mode)} ({mode})");
             }
 
             var genValDll = mappingResult.EntryDll;

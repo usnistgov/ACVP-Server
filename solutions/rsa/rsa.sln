@@ -66,15 +66,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto", "..\..\cr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.RSA2.Tests", "..\..\crypto\test\NIST.CVP.Crypto.RSA2.Tests\NIST.CVP.Crypto.RSA2.Tests.csproj", "{C7A08F91-1ACA-4990-8ABF-9F8EB5238C7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.RSA-SPComponent", "..\..\rsa\src\NIST.CVP.Generation.RSA-SPComponent\NIST.CVP.Generation.RSA-SPComponent.csproj", "{C5A1436C-F263-40A7-92D4-83634416D0BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-SPComponent", "..\..\rsa\src\NIST.CVP.Generation.RSA-SPComponent\NIST.CVP.Generation.RSA-SPComponent.csproj", "{C5A1436C-F263-40A7-92D4-83634416D0BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.RSA-SPComponent.Tests", "..\..\rsa\test\NIST.CVP.Generation.RSA-SPComponent.Tests\NIST.CVP.Generation.RSA-SPComponent.Tests.csproj", "{D2033105-4695-4FC7-B98E-57250566AEB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-SPComponent.Tests", "..\..\rsa\test\NIST.CVP.Generation.RSA-SPComponent.Tests\NIST.CVP.Generation.RSA-SPComponent.Tests.csproj", "{D2033105-4695-4FC7-B98E-57250566AEB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.RSA-SPComponent.IntegrationTests", "..\..\rsa\test\NIST.CVP.Generation.RSA-SPComponent.IntegrationTests\NIST.CVP.Generation.RSA-SPComponent.IntegrationTests.csproj", "{AD59A4F2-6EC0-47FC-9757-245A205960A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-SPComponent.IntegrationTests", "..\..\rsa\test\NIST.CVP.Generation.RSA-SPComponent.IntegrationTests\NIST.CVP.Generation.RSA-SPComponent.IntegrationTests.csproj", "{AD59A4F2-6EC0-47FC-9757-245A205960A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSA-SP-Component", "..\..\rsa\src\RSA-SP-Component\RSA-SP-Component.csproj", "{F00A8055-18DF-49A1-B21C-351FE73A2FC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSA-SP-Component", "..\..\rsa\src\RSA-SP-Component\RSA-SP-Component.csproj", "{F00A8055-18DF-49A1-B21C-351FE73A2FC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSA-SP-Component_Val", "..\..\rsa\src\RSA-SP-Component_Val\RSA-SP-Component_Val.csproj", "{74D4268C-A73F-4AF3-B9CD-7F01CA726520}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSA-SP-Component_Val", "..\..\rsa\src\RSA-SP-Component_Val\RSA-SP-Component_Val.csproj", "{74D4268C-A73F-4AF3-B9CD-7F01CA726520}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.GenValApp", "..\..\common\src\NIST.CVP.Generation.GenValApp\NIST.CVP.Generation.GenValApp.csproj", "{286E0AE8-3F18-4E30-A32F-744A26B8904F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0EE91C5F-79EF-4A4D-BC17-0468575C664A} = {0EE91C5F-79EF-4A4D-BC17-0468575C664A}
+		{C5A1436C-F263-40A7-92D4-83634416D0BD} = {C5A1436C-F263-40A7-92D4-83634416D0BD}
+		{20933D7A-B864-408D-95D5-871C6E75BE32} = {20933D7A-B864-408D-95D5-871C6E75BE32}
+		{1905A085-C04D-4B78-8480-1615D6C22844} = {1905A085-C04D-4B78-8480-1615D6C22844}
+		{4444FACD-8CE3-4244-B5B7-717C93DBC37E} = {4444FACD-8CE3-4244-B5B7-717C93DBC37E}
+		{D52EE7E7-F0E8-414A-B863-4473954AD9EF} = {D52EE7E7-F0E8-414A-B863-4473954AD9EF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -506,6 +516,18 @@ Global
 		{74D4268C-A73F-4AF3-B9CD-7F01CA726520}.Release|x64.Build.0 = Release|Any CPU
 		{74D4268C-A73F-4AF3-B9CD-7F01CA726520}.Release|x86.ActiveCfg = Release|Any CPU
 		{74D4268C-A73F-4AF3-B9CD-7F01CA726520}.Release|x86.Build.0 = Release|Any CPU
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F}.Debug|x64.Build.0 = Debug|Any CPU
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F}.Debug|x86.Build.0 = Debug|Any CPU
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F}.Release|x64.ActiveCfg = Release|Any CPU
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F}.Release|x64.Build.0 = Release|Any CPU
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F}.Release|x86.ActiveCfg = Release|Any CPU
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -546,6 +568,7 @@ Global
 		{AD59A4F2-6EC0-47FC-9757-245A205960A1} = {05A83241-08C3-48EC-81E0-20D7F7812078}
 		{F00A8055-18DF-49A1-B21C-351FE73A2FC4} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
 		{74D4268C-A73F-4AF3-B9CD-7F01CA726520} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
+		{286E0AE8-3F18-4E30-A32F-744A26B8904F} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81006EE6-52E0-4C5A-8A4B-94A560EAC8D6}

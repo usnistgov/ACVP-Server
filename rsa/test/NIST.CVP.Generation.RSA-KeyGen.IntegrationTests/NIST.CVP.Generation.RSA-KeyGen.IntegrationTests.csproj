@@ -18,11 +18,10 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.GenValApp\NIST.CVP.Generation.GenValApp.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />
-    <ProjectReference Include="..\..\src\RSA-KeyGen\RSA-KeyGen.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.RSA-KeyGen\NIST.CVP.Generation.RSA-KeyGen.csproj" />
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
-    <ProjectReference Include="..\..\src\RSA-KeyGen_Val\RSA-KeyGen_Val.csproj" />
     <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
   </ItemGroup>
 
