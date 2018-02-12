@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         [JsonProperty(PropertyName = "randPQ")]
         public string RandPQ;
 
-        [JsonProperty(PropertyName = "caps")]
+        [JsonProperty(PropertyName = "capabilities")]
         public Capability[] Capabilities;
     }
 

@@ -2,6 +2,7 @@
 using Autofac;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Generation.GenValApp.Helpers;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -59,6 +60,13 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
             if (testCase.isSuccess != null)
             {
                 testCase.isSuccess = !((bool)testCase.isSuccess);
+            }
+
+            var rand = new Random800_90();
+
+            if (testCase.signature != null)
+            {
+                testCase.signature = rand.GetDifferentBitStringOfSameSize(new BitString((string)testCase.signature)).ToHex();
             }
         }
 
