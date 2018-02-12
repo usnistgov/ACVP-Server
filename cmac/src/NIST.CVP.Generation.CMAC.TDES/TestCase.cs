@@ -11,6 +11,19 @@ namespace NIST.CVP.Generation.CMAC.TDES
 {
     public class TestCase : TestCaseBase
     {
+        public TestCase() { }
+
+        public TestCase(dynamic source)
+        {
+            MapToProperties(source);
+        }
+
+        public TestCase(JObject source)
+        {
+            var data = source.ToObject<ExpandoObject>();
+            MapToProperties(data);
+        }
+
         public BitString Key1
         {
             get => Key?.MSBSubstring(0, 64);
@@ -26,31 +39,6 @@ namespace NIST.CVP.Generation.CMAC.TDES
         {
             get => Key?.MSBSubstring(128, 64);
             set => Key = Key?.Substring(0, 128).ConcatenateBits(value);
-        }
-
-        public TestCase()
-        {
-
-        }
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public override bool Merge(ITestCase promptTestCase)
-        {
-            if (TestCaseId == promptTestCase.TestCaseId)
-            {
-                return true;
-            }
-
-            return false;
         }
 
         public override bool SetString(string name, string value)
@@ -97,11 +85,11 @@ namespace NIST.CVP.Generation.CMAC.TDES
 
             ExpandoObject expandoSource = (ExpandoObject)source;
 
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
+            if (expandoSource.ContainsProperty("failureTest"))
             {
                 FailureTest = source.failureTest;
             }
-            if (((ExpandoObject)source).ContainsProperty("result"))
+            if (expandoSource.ContainsProperty("result"))
             {
                 Result = source.result;
             }
@@ -109,7 +97,6 @@ namespace NIST.CVP.Generation.CMAC.TDES
             Key = expandoSource.GetBitStringFromProperty("key");
             Message = expandoSource.GetBitStringFromProperty("msg");
             Mac = expandoSource.GetBitStringFromProperty("mac");
-
         }
     }
 }

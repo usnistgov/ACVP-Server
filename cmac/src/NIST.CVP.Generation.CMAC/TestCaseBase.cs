@@ -1,7 +1,4 @@
-﻿using System.Dynamic;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.CMAC
@@ -20,11 +17,7 @@ namespace NIST.CVP.Generation.CMAC
         {
             
         }
-
-        public abstract bool Merge(ITestCase promptTestCase);
         public abstract bool SetString(string name, string value);
         protected abstract void MapToProperties(dynamic data);
-
-
     }
 }

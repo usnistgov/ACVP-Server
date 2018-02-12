@@ -24,23 +24,6 @@ namespace NIST.CVP.Generation.CMAC.AES
         [JsonProperty(PropertyName = "keyLen")]
         public override int KeyLength { get; set; }
 
-        public override int GetHashCode()
-        {
-            return
-                $"{Function}|{TestType}|{KeyLength}|{MessageLength}|{MacLength}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
-
         public override bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -73,6 +56,7 @@ namespace NIST.CVP.Generation.CMAC.AES
 
         protected override void LoadSource(dynamic source)
         {
+            TestGroupId = source.tgId;
             TestType = source.testType;
             Function = source.direction;
             KeyLength = source.keyLen;

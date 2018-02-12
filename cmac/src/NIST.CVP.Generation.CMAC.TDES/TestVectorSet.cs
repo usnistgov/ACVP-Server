@@ -14,9 +14,9 @@ namespace NIST.CVP.Generation.CMAC.TDES
         {
         }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
-            SetAnswerAndPrompts(answers, prompts);
+            SetAnswers(answers);
         }
 
 
@@ -32,15 +32,17 @@ namespace NIST.CVP.Generation.CMAC.TDES
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
+                    var updateDict = ((IDictionary<string, object>)updateObject);
 
                     SharedProjectionTestGroupInfo(group, updateObject);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>)testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         SharedProjectionTestCaseInfo(test, testObject);
 
@@ -48,10 +50,10 @@ namespace NIST.CVP.Generation.CMAC.TDES
                         _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "mac", test.Mac);
                         if (test.Result != null)
                         {
-                            ((IDictionary<string, object>) testObject).Add("result", test.Result);
+                            testDict.Add("result", test.Result);
                         }
-                        ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
-                        ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
+                        testDict.Add("deferred", test.Deferred);
+                        testDict.Add("failureTest", test.FailureTest);
 
                         tests.Add(testObject);
                     }
@@ -75,15 +77,17 @@ namespace NIST.CVP.Generation.CMAC.TDES
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
+                    var updateDict = ((IDictionary<string, object>)updateObject);
 
                     SharedProjectionTestGroupInfo(group, updateObject);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>)testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         SharedProjectionTestCaseInfo(test, testObject);
 
@@ -117,7 +121,8 @@ namespace NIST.CVP.Generation.CMAC.TDES
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>)testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (group.Function.Equals("gen", StringComparison.OrdinalIgnoreCase))
                         {
@@ -126,7 +131,7 @@ namespace NIST.CVP.Generation.CMAC.TDES
 
                         if (group.Function.Equals("ver", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("result", test.Result);
+                            testDict.Add("result", test.Result);
                         }
 
                         tests.Add(testObject);
@@ -147,16 +152,17 @@ namespace NIST.CVP.Generation.CMAC.TDES
 
         private void SharedProjectionTestGroupInfo(TestGroup group, dynamic updateObject)
         {
-            ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
-            ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-            ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
-            ((IDictionary<string, object>)updateObject).Add("msgLen", group.MessageLength);
-            ((IDictionary<string, object>)updateObject).Add("macLen", group.MacLength);
+            var updateDict = ((IDictionary<string, object>)updateObject);
+            updateDict.Add("tgId", group.TestGroupId);
+            updateDict.Add("direction", group.Function);
+            updateDict.Add("testType", group.TestType);
+            updateDict.Add("keyingOption", group.KeyingOption);
+            updateDict.Add("msgLen", group.MessageLength);
+            updateDict.Add("macLen", group.MacLength);
         }
 
         private void SharedProjectionTestCaseInfo(TestCase test, dynamic testObject)
         {
-            //_dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key", test.Key);
             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key1", test.Key1);
             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key2", test.Key2);
             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key3", test.Key3);
