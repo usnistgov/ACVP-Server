@@ -58,12 +58,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
                         var testCase = (TestCase)iTestCase;
 
                         var result = rsa.Decrypt(testCase.Message.ToPositiveBigInteger(), testCase.Key.PrivKey, testCase.Key.PubKey);
-                        
-                        // Let's slow down on the boolean logic a bit...
-                        //      Result = 0 when the decryption fails
-                        //      FailureTest is true when the decryption should fail
-                        //      So this is asking, "Did actual decryption fail differently than the expected decryption?"
-                        if ((result == 0) != testCase.FailureTest)
+                        if (result.Success == testCase.FailureTest)
                         {
                             Assert.Fail($"TestCase {testCase.TestCaseId} was incorrect. Expected {testCase.FailureTest}");
                         }

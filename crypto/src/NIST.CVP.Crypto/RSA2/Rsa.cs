@@ -17,21 +17,26 @@ namespace NIST.CVP.Crypto.RSA2
             _visitor = visitor;
         }
 
-        public BigInteger Encrypt(BigInteger plainText, PublicKey pubKey)
+        public EncryptionResult Encrypt(BigInteger plainText, PublicKey pubKey)
         {
-            return BigInteger.ModPow(plainText, pubKey.E, pubKey.N);
+            if (plainText >= pubKey.N)
+            {
+                return new EncryptionResult("Plaintext too long");
+            }
+
+            return new EncryptionResult(BigInteger.ModPow(plainText, pubKey.E, pubKey.N));
         }
 
-        public BigInteger Decrypt(BigInteger cipherText, PrivateKeyBase privKey, PublicKey pubKey)
+        public DecryptionResult Decrypt(BigInteger cipherText, PrivateKeyBase privKey, PublicKey pubKey)
         {
             // For SP-Component mainly, but this shouldn't really happen anywhere else
             // TODO does null check on pub key make sense?  Was getting NRE when pubKey null
-            if (cipherText >= pubKey?.N)
+            if (cipherText >= pubKey.N)
             {
-                return 0;
+                return new DecryptionResult("Ciphertext too long");
             }
 
-            return privKey.AcceptDecrypt(_visitor, cipherText, pubKey);
+            return new DecryptionResult(privKey.AcceptDecrypt(_visitor, cipherText, pubKey));
         }
     }
 }

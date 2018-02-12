@@ -5,7 +5,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2
 {
     public interface IRsa
     {
-        BigInteger Encrypt(BigInteger plainText, PublicKey pubKey);
-        BigInteger Decrypt(BigInteger cipherText, PrivateKeyBase privKey, PublicKey pubKey);
+        EncryptionResult Encrypt(BigInteger plainText, PublicKey pubKey);
+        DecryptionResult Decrypt(BigInteger cipherText, PrivateKeyBase privKey, PublicKey pubKey);
     }
 }
