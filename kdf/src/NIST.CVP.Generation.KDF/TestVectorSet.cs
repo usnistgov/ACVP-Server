@@ -22,26 +22,13 @@ namespace NIST.CVP.Generation.KDF
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
 
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -53,19 +40,21 @@ namespace NIST.CVP.Generation.KDF
                 foreach (var group in TestGroups.Select(g => (TestGroup) g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("kdfMode", EnumHelpers.GetEnumDescriptionFromEnum(group.KdfMode));
-                    ((IDictionary<string, object>)updateObject).Add("macMode", EnumHelpers.GetEnumDescriptionFromEnum(group.MacMode));
-                    ((IDictionary<string, object>)updateObject).Add("counterLocation", EnumHelpers.GetEnumDescriptionFromEnum(group.CounterLocation));
-                    ((IDictionary<string, object>)updateObject).Add("keyOutLength", group.KeyOutLength);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("kdfMode", EnumHelpers.GetEnumDescriptionFromEnum(group.KdfMode));
+                    updateDict.Add("macMode", EnumHelpers.GetEnumDescriptionFromEnum(group.MacMode));
+                    updateDict.Add("counterLocation", EnumHelpers.GetEnumDescriptionFromEnum(group.CounterLocation));
+                    updateDict.Add("keyOutLength", group.KeyOutLength);
 
                     if (group.KdfMode == KdfModes.Feedback)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("zeroLengthIv", group.ZeroLengthIv);
+                        updateDict.Add("zeroLengthIv", group.ZeroLengthIv);
                     }
 
                     if (group.CounterLocation != CounterLocations.None)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("counterLength", group.CounterLength);
+                        updateDict.Add("counterLength", group.CounterLength);
                     }
 
                     var tests = new List<dynamic>();
@@ -73,15 +62,16 @@ namespace NIST.CVP.Generation.KDF
                     foreach (var test in group.Tests.Select(t => (TestCase) t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>) testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>) testObject).Add("keyIn", test.KeyIn);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("keyIn", test.KeyIn);
 
                         if (group.KdfMode == KdfModes.Feedback)
                         {
-                            ((IDictionary<string, object>) testObject).Add("iv", test.IV);
+                            testDict.Add("iv", test.IV);
                         }
 
-                        ((IDictionary<string, object>) testObject).Add("deferred", test.Deferred);
+                        testDict.Add("deferred", test.Deferred);
 
                         tests.Add(testObject);
                     }
@@ -102,19 +92,21 @@ namespace NIST.CVP.Generation.KDF
                 foreach (var group in TestGroups.Select(g => (TestGroup) g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("kdfMode", EnumHelpers.GetEnumDescriptionFromEnum(group.KdfMode));
-                    ((IDictionary<string, object>)updateObject).Add("macMode", EnumHelpers.GetEnumDescriptionFromEnum(group.MacMode));
-                    ((IDictionary<string, object>)updateObject).Add("counterLocation", EnumHelpers.GetEnumDescriptionFromEnum(group.CounterLocation));
-                    ((IDictionary<string, object>)updateObject).Add("keyOutLength", group.KeyOutLength);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("kdfMode", EnumHelpers.GetEnumDescriptionFromEnum(group.KdfMode));
+                    updateDict.Add("macMode", EnumHelpers.GetEnumDescriptionFromEnum(group.MacMode));
+                    updateDict.Add("counterLocation", EnumHelpers.GetEnumDescriptionFromEnum(group.CounterLocation));
+                    updateDict.Add("keyOutLength", group.KeyOutLength);
 
                     if (group.KdfMode == KdfModes.Feedback)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("zeroLengthIv", group.ZeroLengthIv);
+                        updateDict.Add("zeroLengthIv", group.ZeroLengthIv);
                     }
 
                     if (group.CounterLocation != CounterLocations.None)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("counterLength", group.CounterLength);
+                        updateDict.Add("counterLength", group.CounterLength);
                     }
 
                     var tests = new List<dynamic>();
@@ -122,15 +114,16 @@ namespace NIST.CVP.Generation.KDF
                     foreach (var test in group.Tests.Select(t => (TestCase) t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>) testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>) testObject).Add("keyIn", test.KeyIn);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("keyIn", test.KeyIn);
 
                         if (group.KdfMode == KdfModes.Feedback)
                         {
-                            ((IDictionary<string, object>) testObject).Add("iv", test.IV);
+                            testDict.Add("iv", test.IV);
                         }
 
-                        ((IDictionary<string, object>) testObject).Add("deferred", test.Deferred);
+                        testDict.Add("deferred", test.Deferred);
 
                         tests.Add(testObject);
                     }
@@ -153,16 +146,17 @@ namespace NIST.CVP.Generation.KDF
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>) testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (IsSample)
                         {
-                            ((IDictionary<string, object>) testObject).Add("keyOut", test.KeyOut);
-                            ((IDictionary<string, object>) testObject).Add("fixedData", test.FixedData);
+                            testDict.Add("keyOut", test.KeyOut);
+                            testDict.Add("fixedData", test.FixedData);
 
                             if (group.KdfMode == KdfModes.Counter && group.CounterLocation == CounterLocations.MiddleFixedData)
                             {
-                                ((IDictionary<string, object>) testObject).Add("breakLocation", test.BreakLocation);
+                                testDict.Add("breakLocation", test.BreakLocation);
                             }
                         }
                         

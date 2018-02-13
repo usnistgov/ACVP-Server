@@ -97,24 +97,6 @@ namespace NIST.CVP.Generation.KDF.Tests
             Assert.AreEqual("00AA", subject.KeyIn.ToHex());
         }
 
-        [Test]
-        public void ShouldNotMergeTestsWithMismatchedIds()
-        {
-            var testCase = new TestCase { TestCaseId = 1 };
-            var otherTestCase = new TestCase { TestCaseId = 2 };
-            var mergeResult = testCase.Merge(otherTestCase);
-            Assert.IsFalse(mergeResult);
-        }
-
-        private void SetBitString(TestCase testCase, string name, string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return;
-            }
-            testCase.SetString(name, value);
-        }
-
         private dynamic GetSourceAnswerTest()
         {
             var sourceVector = new TestVectorSet { TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup)g).ToList() };
