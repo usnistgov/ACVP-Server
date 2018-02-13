@@ -14,12 +14,6 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public EccKeyPair KeyPair { get; set; }
-
         private BigInteger _setStringD;
         private BigInteger _setStringQx;
         private BigInteger _setStringQy;
@@ -37,21 +31,16 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
             MapToProperties(source);
         }
 
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public EccKeyPair KeyPair { get; set; }
+
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
             ParseKey((ExpandoObject)source);
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            // Nothing to merge from prompt into answers
-            return true;
         }
 
         public bool SetString(string name, string value)

@@ -17,16 +17,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public bool Result { get; set; }
-        public SigFailureReasons Reason { get; set; }
-        public EccKeyPair KeyPair { get; set; }
-        public BitString Message { get; set; }
-        public EccSignature Signature { get; set; }
-
         private BigInteger _rSetString;
         private BigInteger _sSetString;
         private BigInteger _qxSetString;
@@ -45,6 +35,16 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
             MapToProperties(source);
         }
 
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public bool Result { get; set; }
+        public SigFailureReasons Reason { get; set; }
+        public EccKeyPair KeyPair { get; set; }
+        public BitString Message { get; set; }
+        public EccSignature Signature { get; set; }
+
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
@@ -62,12 +62,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
             {
                 Reason = EnumHelpers.GetEnumFromEnumDescription<SigFailureReasons>(expandoSource.GetTypeFromProperty<string>("reason"));
             }
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            // We don't need any properties from the prompt...
-            return (TestCaseId == otherTest.TestCaseId);
         }
 
         public bool SetString(string name, string value)

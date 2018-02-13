@@ -21,25 +21,12 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -51,16 +38,20 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
-                    ((IDictionary<string, object>)updateObject).Add("componentTest", group.ComponentTest);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("componentTest", group.ComponentTest);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("message", test.Message);
 
                         tests.Add(testObject);
                     }
@@ -81,17 +72,20 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
-                    ((IDictionary<string, object>)updateObject).Add("componentTest", group.ComponentTest);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("componentTest", group.ComponentTest);
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("message", test.Message);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("message", test.Message);
 
                         tests.Add(testObject);
                     }
@@ -114,14 +108,15 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (IsSample)
                         {
-                            ((IDictionary<string, object>)testObject).Add("qx", test.KeyPair.PublicQ.X);
-                            ((IDictionary<string, object>)testObject).Add("qy", test.KeyPair.PublicQ.Y);
-                            ((IDictionary<string, object>)testObject).Add("r", test.Signature.R);
-                            ((IDictionary<string, object>)testObject).Add("s", test.Signature.S);
+                            testDict.Add("qx", test.KeyPair.PublicQ.X);
+                            testDict.Add("qy", test.KeyPair.PublicQ.Y);
+                            testDict.Add("r", test.Signature.R);
+                            testDict.Add("s", test.Signature.S);
                         }
 
                         tests.Add(testObject);
