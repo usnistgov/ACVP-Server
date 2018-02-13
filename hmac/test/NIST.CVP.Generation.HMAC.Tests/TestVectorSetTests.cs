@@ -46,27 +46,10 @@ namespace NIST.CVP.Generation.HMAC.Tests
         public void ShouldReconstituteTestVectorFromAnswerAndPrompt()
         {
             var source = GetSubject(2).ToDynamic();
-            var subject = new TestVectorSet(source, source);
+            var subject = new TestVectorSet(source);
             Assert.AreEqual(2, subject.TestGroups.Count);
         }
 
-        [Test]
-        public void ShouldFailToReconstituteTestVectorSetWhenNotMatched()
-        {
-            var answers = GetSubject();
-            var prompts = GetSubject();
-
-            foreach (var testGroup in prompts.TestGroups)
-            {
-                testGroup.Tests.Clear();
-            }
-
-            Assert.Throws(
-                Is.TypeOf<Exception>()
-                    .And.Message.EqualTo("Could not reconstitute TestVectorSet from supplied answers and prompts"),
-                () => new TestVectorSet(answers.ToDynamic(), prompts.ToDynamic()));
-        }
-        
         [Test]
         public void ShouldContainElementsWithinAnswerProjection()
         {

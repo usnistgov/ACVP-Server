@@ -17,26 +17,13 @@ namespace NIST.CVP.Generation.HMAC
         {
         }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -60,23 +47,25 @@ namespace NIST.CVP.Generation.HMAC
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
+                    var updateDict = ((IDictionary<string, object>) updateObject);
 
                     SharedProjectionTestGroupInfo(group, updateObject);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         SharedProjectionTestCaseInfo(test, testObject);
 
                         _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "msg", test.Message);
                         _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "mac", test.Mac);
 
-                        ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
-                        ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
+                        testDict.Add("deferred", test.Deferred);
+                        testDict.Add("failureTest", test.FailureTest);
 
                         tests.Add(testObject);
                     }
@@ -100,15 +89,17 @@ namespace NIST.CVP.Generation.HMAC
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
+                    var updateDict = ((IDictionary<string, object>) updateObject);
 
                     SharedProjectionTestGroupInfo(group, updateObject);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         SharedProjectionTestCaseInfo(test, testObject);
 
@@ -137,7 +128,8 @@ namespace NIST.CVP.Generation.HMAC
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "mac", test.Mac);
 
@@ -159,10 +151,12 @@ namespace NIST.CVP.Generation.HMAC
 
         private void SharedProjectionTestGroupInfo(TestGroup group, dynamic updateObject)
         {
-            ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-            ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
-            ((IDictionary<string, object>)updateObject).Add("msgLen", group.MessageLength);
-            ((IDictionary<string, object>)updateObject).Add("macLen", group.MacLength);
+            var updateDict = ((IDictionary<string, object>) updateObject);
+            updateDict.Add("tgId", group.TestGroupId);
+            updateDict.Add("testType", group.TestType);
+            updateDict.Add("keyLen", group.KeyLength);
+            updateDict.Add("msgLen", group.MessageLength);
+            updateDict.Add("macLen", group.MacLength);
         }
 
         private void SharedProjectionTestCaseInfo(TestCase test, dynamic testObject)
