@@ -17,16 +17,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
     public class TestGroup : ITestGroup
     {
-        public int L { get; set; }
-        public int N { get; set; }
-        public FfcDomainParameters DomainParams { get; set; }
-        public HashFunction HashAlg { get; set; }
-
-        public ITestCaseExpectationProvider<SigFailureReasons> TestCaseExpectationProvider { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
         private BigInteger p;
         private BigInteger q;
         private BigInteger g;
@@ -40,20 +30,23 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
 
         public TestGroup(dynamic source)
         {
-            L = (int)source.l;
-            N = (int)source.n;
+            var expandoSource = (ExpandoObject) source;
 
-            if (((ExpandoObject)source).ContainsProperty("hashAlg"))
+            TestGroupId = (int) source.tgId;
+            L = (int) source.l;
+            N = (int) source.n;
+
+            if (expandoSource.ContainsProperty("hashAlg"))
             {
                 var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm((string)source.hashAlg);
                 HashAlg = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
             }
 
-            if (((ExpandoObject)source).ContainsProperty("p"))
+            if (expandoSource.ContainsProperty("p"))
             {
-                var p = ((ExpandoObject)source).GetBigIntegerFromProperty("p");
-                var q = ((ExpandoObject)source).GetBigIntegerFromProperty("q");
-                var g = ((ExpandoObject)source).GetBigIntegerFromProperty("g");
+                var p = expandoSource.GetBigIntegerFromProperty("p");
+                var q = expandoSource.GetBigIntegerFromProperty("q");
+                var g = expandoSource.GetBigIntegerFromProperty("g");
 
                 DomainParams = new FfcDomainParameters(p, q, g);
             }
@@ -65,22 +58,16 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public int TestGroupId { get; set; }
+        public int L { get; set; }
+        public int N { get; set; }
+        public FfcDomainParameters DomainParams { get; set; }
+        public HashFunction HashAlg { get; set; }
+
+        public ITestCaseExpectationProvider<SigFailureReasons> TestCaseExpectationProvider { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -119,21 +106,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             }
 
             return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return ($"{L}{N}{HashAlg.Name}").GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
         }
     }
 }

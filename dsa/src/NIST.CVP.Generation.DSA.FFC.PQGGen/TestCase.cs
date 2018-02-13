@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Numerics;
-using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -14,17 +11,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public BigInteger P { get; set; }
-        public BigInteger Q { get; set; }
-        public BigInteger G { get; set; }
-        public DomainSeed Seed { get; set; }
-        public Counter Counter { get; set; }
-        public BitString Index { get; set; }
-
         // Used for SetString only
         private BigInteger firstSeed;
         private BigInteger pSeed;
@@ -45,90 +31,67 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             MapToProperties(source);
         }
 
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public BigInteger P { get; set; }
+        public BigInteger Q { get; set; }
+        public BigInteger G { get; set; }
+        public DomainSeed Seed { get; set; }
+        public Counter Counter { get; set; }
+        public BitString Index { get; set; }
+
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
+            var expandoSource = (ExpandoObject) source;
 
-            if (((ExpandoObject)source).ContainsProperty("p"))
+            if (expandoSource.ContainsProperty("p"))
             {
-                P = BigIntegerFromObject("p", (ExpandoObject)source);
+                P = expandoSource.GetBigIntegerFromProperty("p");
             }
 
-            if (((ExpandoObject)source).ContainsProperty("q"))
+            if (expandoSource.ContainsProperty("q"))
             {
-                Q = BigIntegerFromObject("q", (ExpandoObject)source);
+                Q = expandoSource.GetBigIntegerFromProperty("q");
             }
 
-            if (((ExpandoObject)source).ContainsProperty("g"))
+            if (expandoSource.ContainsProperty("g"))
             {
-                G = BigIntegerFromObject("g", (ExpandoObject)source);
+                G = expandoSource.GetBigIntegerFromProperty("g");
             }
 
-            if (((ExpandoObject)source).ContainsProperty("domainSeed"))
+            if (expandoSource.ContainsProperty("domainSeed"))
             {
-                if (((ExpandoObject)source).ContainsProperty("pSeed") && ((ExpandoObject)source).ContainsProperty("qSeed"))
+                if (expandoSource.ContainsProperty("pSeed") && expandoSource.ContainsProperty("qSeed"))
                 {
-                    var firstSeed = BigIntegerFromObject("domainSeed", (ExpandoObject)source);
-                    var pSeed = BigIntegerFromObject("pSeed", (ExpandoObject)source);
-                    var qSeed = BigIntegerFromObject("qSeed", (ExpandoObject)source);
+                    var firstSeed = expandoSource.GetBigIntegerFromProperty("domainSeed");
+                    var pSeed = expandoSource.GetBigIntegerFromProperty("pSeed");
+                    var qSeed = expandoSource.GetBigIntegerFromProperty("qSeed");
 
                     Seed = new DomainSeed(firstSeed, pSeed, qSeed);
                 }
                 else
                 {
-                    Seed = new DomainSeed(BigIntegerFromObject("domainSeed", (ExpandoObject)source));
+                    Seed = new DomainSeed(expandoSource.GetBigIntegerFromProperty("domainSeed"));
                 }
             }
 
-            if (((ExpandoObject)source).ContainsProperty("counter"))
+            if (expandoSource.ContainsProperty("counter"))
             {
                 Counter = new Counter((int)source.counter);
             }
 
-            if (((ExpandoObject)source).ContainsProperty("pCounter") && ((ExpandoObject)source).ContainsProperty("qCounter"))
+            if (expandoSource.ContainsProperty("pCounter") && expandoSource.ContainsProperty("qCounter"))
             {
                 Counter = new Counter((int)source.pCounter, (int)source.qCounter);
             }
 
             if (((ExpandoObject)source).ContainsProperty("index"))
             {
-                Index = BitStringFromObject("index", (ExpandoObject)source);
+                Index = expandoSource.GetBitStringFromProperty("index");
             }
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            var otherTypedTest = (TestCase)otherTest;
-
-            if (P != 0 && otherTypedTest.P == 0)
-            {
-                // Nothing to merge
-                //P = otherTypedTest.P;
-                //Q = otherTypedTest.Q;
-                //Seed = otherTypedTest.Seed;
-                //Counter = otherTypedTest.Counter;
-
-                return true;
-            }
-
-            if (G != 0 && otherTypedTest.G == 0)
-            {
-                P = otherTypedTest.P;
-                Q = otherTypedTest.Q;
-                Seed = otherTypedTest.Seed;
-                Counter = otherTypedTest.Counter;
-                Index = otherTypedTest.Index;
-                //G = otherTypedTest.G;
-
-                return true;
-            }
-
-            return false;
         }
 
         public bool SetString(string name, string value)
@@ -188,54 +151,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             }
 
             return false;
-        }
-
-        private BitString BitStringFromObject(string propName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(propName))
-            {
-                return null;
-            }
-
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[propName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-
-            if (sourcePropertyValue is BitString valueAsBitString)
-            {
-                return valueAsBitString;
-            }
-
-            return new BitString(sourcePropertyValue.ToString());
-        }
-
-        private BigInteger BigIntegerFromObject(string sourcePropertyName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return 0;
-            }
-
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return 0;
-            }
-
-            if (sourcePropertyValue.GetType() == typeof(string))
-            {
-                return new BitString(sourcePropertyValue.ToString()).ToPositiveBigInteger();
-            }
-
-            var valueAsBigInteger = (BigInteger)sourcePropertyValue;
-            if (valueAsBigInteger != 0)
-            {
-                return valueAsBigInteger;
-            }
-
-            return 0;
         }
     }
 }

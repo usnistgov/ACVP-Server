@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Numerics;
-using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -14,13 +10,6 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public FfcDomainParameters DomainParams { get; set; }
-        public FfcKeyPair Key { get; set; }
-
         // Needed for SetString, FireHoseTests
         private BigInteger x;
         private BigInteger y;
@@ -38,24 +27,12 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             MapToProperties(source);
         }
 
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
 
-            ParseKey((ExpandoObject)source);
-            ParseDomainParams((ExpandoObject)source);
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            // Nothing to merge from prompt into answers
-            return true;
-        }
+        public FfcDomainParameters DomainParams { get; set; }
+        public FfcKeyPair Key { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -78,6 +55,16 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 
             return false;
         }
+
+        private void MapToProperties(dynamic source)
+        {
+            TestCaseId = (int)source.tcId;
+
+            ParseKey((ExpandoObject)source);
+            ParseDomainParams((ExpandoObject)source);
+        }
+
+        
 
         private void ParseDomainParams(ExpandoObject source)
         {

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Numerics;
-using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -14,18 +10,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public FfcDomainParameters DomainParams { get; set; }
-        public FfcKeyPair Key { get; set; }
-        public BitString Message { get; set; }
-        public FfcSignature Signature { get; set; }
-
-        // Needed for FireHoseTests
-        public BigInteger K;
-
         // Needed for SetString, FireHoseTests
         private BigInteger _xSetString;
         private BigInteger _ySetString;
@@ -45,35 +29,31 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             MapToProperties(source);
         }
 
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public FfcDomainParameters DomainParams { get; set; }
+        public FfcKeyPair Key { get; set; }
+        public BitString Message { get; set; }
+        public FfcSignature Signature { get; set; }
+
+        // Needed for FireHoseTests
+        public BigInteger K;
+
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
-            ParseKey((ExpandoObject)source);
-            ParseDomainParams((ExpandoObject)source);
-            ParseSignature((ExpandoObject)source);
+            var expandoSource = (ExpandoObject) source;
 
-            if (((ExpandoObject)source).ContainsProperty("message"))
+            ParseKey(expandoSource);
+            ParseDomainParams(expandoSource);
+            ParseSignature(expandoSource);
+
+            if (expandoSource.ContainsProperty("message"))
             {
-                Message = ((ExpandoObject)source).GetBitStringFromProperty("message");
+                Message = expandoSource.GetBitStringFromProperty("message");
             }
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            var otherTypedTest = (TestCase)otherTest;
-
-            if (Message == null && otherTypedTest.Message != null)
-            {
-                Message = otherTypedTest.Message.GetDeepCopy();
-                return true;
-            }
-
-            return false;
         }
 
         public bool SetString(string name, string value)

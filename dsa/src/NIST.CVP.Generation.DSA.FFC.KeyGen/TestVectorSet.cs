@@ -20,25 +20,12 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -50,15 +37,18 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("l", group.L);
-                    ((IDictionary<string, object>)updateObject).Add("n", group.N);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("l", group.L);
+                    updateDict.Add("n", group.N);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         tests.Add(testObject);
                     }
@@ -79,15 +69,18 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("l", group.L);
-                    ((IDictionary<string, object>)updateObject).Add("n", group.N);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("l", group.L);
+                    updateDict.Add("n", group.N);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         tests.Add(testObject);
                     }
@@ -110,17 +103,18 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (IsSample)
                         {
-                            ((IDictionary<string, object>)testObject).Add("p", test.DomainParams.P);
-                            ((IDictionary<string, object>)testObject).Add("q", test.DomainParams.Q);
-                            ((IDictionary<string, object>)testObject).Add("g", test.DomainParams.G);
+                            testDict.Add("p", test.DomainParams.P);
+                            testDict.Add("q", test.DomainParams.Q);
+                            testDict.Add("g", test.DomainParams.G);
                         }
 
-                        ((IDictionary<string, object>)testObject).Add("x", test.Key.PrivateKeyX);
-                        ((IDictionary<string, object>)testObject).Add("y", test.Key.PublicKeyY);
+                        testDict.Add("x", test.Key.PrivateKeyX);
+                        testDict.Add("y", test.Key.PublicKeyY);
 
                         tests.Add(testObject);
                     }
