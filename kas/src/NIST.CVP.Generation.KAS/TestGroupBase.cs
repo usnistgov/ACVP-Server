@@ -12,6 +12,7 @@ namespace NIST.CVP.Generation.KAS
     public abstract class TestGroupBase<TKasDsaAlgoAttributes> : ITestGroup
         where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
     {
+        public int TestGroupId { get; set; }
         public KasAssurance Function { get; set; }
         public string TestType { get; set; }
         public KeyAgreementRole KasRole { get; set; }
@@ -35,24 +36,6 @@ namespace NIST.CVP.Generation.KAS
         public abstract TKasDsaAlgoAttributes KasDsaAlgoAttributes { get; }
 
         public List<ITestCase> Tests { get; set; } = new List<ITestCase>();
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public abstract override int GetHashCode();
-        public abstract override bool Equals(object obj);
+        
     }
 }

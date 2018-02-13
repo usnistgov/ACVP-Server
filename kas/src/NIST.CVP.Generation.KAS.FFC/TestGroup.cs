@@ -35,22 +35,6 @@ namespace NIST.CVP.Generation.KAS.FFC
         public override KasDsaAlgoAttributesFfc KasDsaAlgoAttributes => 
             new KasDsaAlgoAttributesFfc(Scheme, ParmSet);
 
-        public override int GetHashCode()
-        {
-            return (
-                $"{Scheme.ToString()}|{TestType}|{KasRole}|{KasMode}|{HashAlg.Name}|{MacType}|{KeyLen}|{AesCcmNonceLen}|{MacLen}|{KdfType}|{IdServerLen}|{IdServer}|{IdIutLen}|{IdIut}|{OiPattern}|{KcRole.ToString()}|{KcType.ToString()}|{NonceType}|{ParmSet}|{P}|{Q}|{G}"
-            ).GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (!(obj is TestGroupBase<KasDsaAlgoAttributesFfc> otherGroup))
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
-
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -77,7 +61,8 @@ namespace NIST.CVP.Generation.KAS.FFC
         {
             ExpandoObject expandoSource = (ExpandoObject)source;
 
-            //Function = SpecificationMapping.FunctionArrayToFlags(source.function);
+            TestGroupId = (int) source.tgId;
+
             Scheme = EnumHelpers.GetEnumFromEnumDescription<FfcScheme>(expandoSource.GetTypeFromProperty<string>("scheme"));
             TestType = expandoSource.GetTypeFromProperty<string>("testType");
             KasRole = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementRole>(expandoSource.GetTypeFromProperty<string>("kasRole")); 
