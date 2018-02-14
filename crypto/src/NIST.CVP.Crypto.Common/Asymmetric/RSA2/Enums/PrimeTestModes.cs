@@ -4,10 +4,10 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums
 {
     public enum PrimeTestModes
     {
-        [Description("tblc2")]
+        [Description("tblC2")]
         C2,
 
-        [Description("tblc3")]
+        [Description("tblC3")]
         C3
     }
 }
