@@ -92,7 +92,7 @@ namespace NIST.CVP.Crypto.Common
         KAS_FFC,
         [Description("KDF")]
         KDF,
-        [Description("KDF-Components-ANSIX9.64")]
+        [Description("KDF-Components-ANSIX9.63")]
         KDFComponents_ANSIX963,
         [Description("KDF-Components-IKEv1")]
         KDFComponents_IKEv1,
