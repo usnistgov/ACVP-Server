@@ -14,17 +14,17 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers
         private static List<(ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, string name)> shaAttributes =
             new List<(ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, string name)>()
             {
-                (ModeValues.SHA1, DigestSizes.d160, 160, 512, ((BigInteger)1 << 64) - 1, "sha-1"),
-                (ModeValues.SHA2, DigestSizes.d224, 224, 512, ((BigInteger)1 << 64) - 1, "sha2-224"),
-                (ModeValues.SHA2, DigestSizes.d256, 256, 512, ((BigInteger)1 << 64) - 1, "sha2-256"),
-                (ModeValues.SHA2, DigestSizes.d384, 384, 1024, ((BigInteger)1 << 128) - 1, "sha2-384"),
-                (ModeValues.SHA2, DigestSizes.d512, 512, 1024, ((BigInteger)1 << 128) - 1, "sha2-512"),
-                (ModeValues.SHA2, DigestSizes.d512t224, 224, 1024, ((BigInteger)1 << 128) - 1, "sha2-512/224"),
-                (ModeValues.SHA2, DigestSizes.d512t256, 256, 1024, ((BigInteger)1 << 128) - 1, "sha2-512/256"),
-                (ModeValues.SHA3, DigestSizes.d224, 224, 1152, -1, "sha3-224"), // no limit
-                (ModeValues.SHA3, DigestSizes.d256, 256, 1088, -1, "sha3-256"), // no limit
-                (ModeValues.SHA3, DigestSizes.d384, 384, 832, -1, "sha3-384"), // no limit
-                (ModeValues.SHA3, DigestSizes.d512, 512, 576, -1, "sha3-512") // no limit
+                (ModeValues.SHA1, DigestSizes.d160, 160, 512, ((BigInteger)1 << 64) - 1, "SHA-1"),
+                (ModeValues.SHA2, DigestSizes.d224, 224, 512, ((BigInteger)1 << 64) - 1, "SHA2-224"),
+                (ModeValues.SHA2, DigestSizes.d256, 256, 512, ((BigInteger)1 << 64) - 1, "SHA2-256"),
+                (ModeValues.SHA2, DigestSizes.d384, 384, 1024, ((BigInteger)1 << 128) - 1, "SHA2-384"),
+                (ModeValues.SHA2, DigestSizes.d512, 512, 1024, ((BigInteger)1 << 128) - 1, "SHA2-512"),
+                (ModeValues.SHA2, DigestSizes.d512t224, 224, 1024, ((BigInteger)1 << 128) - 1, "SHA2-512/224"),
+                (ModeValues.SHA2, DigestSizes.d512t256, 256, 1024, ((BigInteger)1 << 128) - 1, "SHA2-512/256"),
+                (ModeValues.SHA3, DigestSizes.d224, 224, 1152, -1, "SHA3-224"), // no limit
+                (ModeValues.SHA3, DigestSizes.d256, 256, 1088, -1, "SHA3-256"), // no limit
+                (ModeValues.SHA3, DigestSizes.d384, 384, 832, -1, "SHA3-384"), // no limit
+                (ModeValues.SHA3, DigestSizes.d512, 512, 576, -1, "SHA3-512") // no limit
             };
 
         public static List<(ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, string name)> GetShaAttributes()
