@@ -3,9 +3,11 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Crypto.DRBG;
 using System;
 using System.Linq;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Crypto.DRBG.Helpers;
 using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.DRBG
 {
@@ -37,13 +39,18 @@ namespace NIST.CVP.Generation.DRBG
                     capability.PersoStringLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
                     capability.AdditionalInputLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
 
-                    foreach (var entropyLen in capability.EntropyInputLen.GetDomainMinMaxAsEnumerable())
+                    var testEntropyInputLens = GetTestableValuesFromCapability(capability.EntropyInputLen.GetDeepCopy());
+                    var testNonceLens = GetTestableValuesFromCapability(capability.NonceLen.GetDeepCopy());
+                    var testPersoStringLens = GetTestableValuesFromCapability(capability.PersoStringLen.GetDeepCopy());
+                    var testAdditionalInputLens = GetTestableValuesFromCapability(capability.AdditionalInputLen.GetDeepCopy());
+
+                    foreach (var entropyLen in testEntropyInputLens)
                     {
-                        foreach (var nonceLen in capability.NonceLen.GetDomainMinMaxAsEnumerable())
+                        foreach (var nonceLen in testNonceLens)
                         {
-                            foreach (var persoStringLen in capability.PersoStringLen.GetDomainMinMaxAsEnumerable())
+                            foreach (var persoStringLen in testPersoStringLens)
                             {
-                                foreach (var additionalInputLen in capability.AdditionalInputLen.GetDomainMinMaxAsEnumerable())
+                                foreach (var additionalInputLen in testAdditionalInputLens)
                                 {
                                     var dp = new DrbgParameters
                                     {
@@ -75,6 +82,23 @@ namespace NIST.CVP.Generation.DRBG
                     }
                 }
             }
+        }
+
+        private List<int> GetTestableValuesFromCapability(MathDomain capability)
+        {
+            var minMaxDomain = capability.GetDomainMinMaxAsEnumerable();
+            var randomCandidates = capability.GetValues(10).ToList();
+            var testValues = new List<int>();
+            testValues.AddRangeIfNotNullOrEmpty(minMaxDomain);
+            testValues
+                .AddRangeIfNotNullOrEmpty(
+                    randomCandidates
+                        .Except(testValues)
+                        .OrderBy(ob => Guid.NewGuid())
+                        .Take(2)
+                );
+
+            return testValues;
         }
     }
 }

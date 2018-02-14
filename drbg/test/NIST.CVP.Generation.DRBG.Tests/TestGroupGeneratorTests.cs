@@ -41,16 +41,6 @@ namespace NIST.CVP.Generation.DRBG.Tests
         }
 
         [Test]
-        public void ShouldCreateTwoGroupsForEachLengthParameterWhenMinAndMaxAreDifferent()
-        {
-            var p = GetParametersDomainsAsRange();
-
-            var result = _subject.BuildTestGroups(p).ToList();
-
-            Assert.AreEqual(16, result.Count);
-        }
-
-        [Test]
         public void ShouldCreateOneGroupPerLengthParamterWhenMinAndMaxAreSame()
         {
             var p = GetParametersDomainsAsValue();
