@@ -11,18 +11,6 @@ namespace NIST.CVP.Generation.TLS
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public BitString PreMasterSecret { get; set; }
-        public BitString ClientHelloRandom { get; set; }
-        public BitString ServerHelloRandom { get; set; }
-        public BitString ClientRandom { get; set; }
-        public BitString ServerRandom { get; set; }
-        public BitString MasterSecret { get; set; }
-        public BitString KeyBlock { get; set; }
-
         public TestCase() { }
         
         public TestCase(dynamic source)
@@ -36,7 +24,19 @@ namespace NIST.CVP.Generation.TLS
             MapToProperties(data);
         }
 
-        public void MapToProperties(dynamic source)
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public BitString PreMasterSecret { get; set; }
+        public BitString ClientHelloRandom { get; set; }
+        public BitString ServerHelloRandom { get; set; }
+        public BitString ClientRandom { get; set; }
+        public BitString ServerRandom { get; set; }
+        public BitString MasterSecret { get; set; }
+        public BitString KeyBlock { get; set; }
+
+        private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
 
@@ -50,17 +50,6 @@ namespace NIST.CVP.Generation.TLS
             
             MasterSecret = expandoSource.GetBitStringFromProperty("masterSecret");
             KeyBlock = expandoSource.GetBitStringFromProperty("keyBlock");
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            // Nothing to merge, put everything in answer.json
-            return true;
         }
 
         public bool SetString(string name, string value)

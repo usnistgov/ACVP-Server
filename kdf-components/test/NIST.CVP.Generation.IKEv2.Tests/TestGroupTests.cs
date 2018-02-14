@@ -43,33 +43,6 @@ namespace NIST.CVP.Generation.IKEv2.Tests
         }
 
         [Test]
-        public void ShouldReturnFalseIfMergeFails()
-        {
-            var testCases = new List<ITestCase>
-            {
-                new TestCase
-                {
-                    TestCaseId = 1,
-                }
-            };
-
-            var tg = new TestGroup
-            {
-                Tests = new List<ITestCase>
-                {
-                    new TestCase
-                    {
-                        TestCaseId = 2,
-                    }
-                }
-            };
-
-            var result = tg.MergeTests(testCases);
-
-            Assert.IsFalse(result);
-        }
-
-        [Test]
         public void ShouldReturnFalseIfPassObjectCannotCast()
         {
             var subject = new TestGroup();

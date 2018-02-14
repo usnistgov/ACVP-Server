@@ -11,6 +11,19 @@ namespace NIST.CVP.Generation.IKEv1
 {
     public class TestCase : ITestCase
     {
+        public TestCase() { }
+        
+        public TestCase(dynamic source)
+        {
+            MapToProperties(source);
+        }
+
+        public TestCase(JObject source)
+        {
+            var data = source.ToObject<ExpandoObject>();
+            MapToProperties(data);
+        }
+
         public int TestCaseId { get; set; }
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
@@ -26,20 +39,7 @@ namespace NIST.CVP.Generation.IKEv1
         public BitString SKeyIdA { get; set; }
         public BitString SKeyIdE { get; set; }
 
-        public TestCase() { }
-        
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public void MapToProperties(dynamic source)
+        private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
 
@@ -54,17 +54,6 @@ namespace NIST.CVP.Generation.IKEv1
             SKeyIdD = expandoSource.GetBitStringFromProperty("sKeyIdD");
             SKeyIdA = expandoSource.GetBitStringFromProperty("sKeyIdA");
             SKeyIdE = expandoSource.GetBitStringFromProperty("sKeyIdE");
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            // Nothing to merge, put everything in answer.json
-            return true;
         }
 
         public bool SetString(string name, string value)

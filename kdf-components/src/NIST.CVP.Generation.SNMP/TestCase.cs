@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Text;
+﻿using System.Dynamic;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -11,13 +8,6 @@ namespace NIST.CVP.Generation.SNMP
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public string Password { get; set; }
-        public BitString SharedKey { get;set; }
-
         public TestCase() { }
         
         public TestCase(dynamic source)
@@ -31,7 +21,14 @@ namespace NIST.CVP.Generation.SNMP
             MapToProperties(data);
         }
 
-        public void MapToProperties(dynamic source)
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public string Password { get; set; }
+        public BitString SharedKey { get; set; }
+
+        private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
 
@@ -39,17 +36,6 @@ namespace NIST.CVP.Generation.SNMP
             
             Password = expandoSource.GetTypeFromProperty<string>("password");
             SharedKey = expandoSource.GetBitStringFromProperty("sharedKey");
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            // Nothing to merge, put everything in answer.json
-            return true;
         }
 
         public bool SetString(string name, string value)

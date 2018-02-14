@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SSH
 {
     public class TestReconstitutor : ITestReconstitutor<TestVectorSet, TestCase>
     {
-        public TestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse, dynamic promptResponse)
+        public TestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse)
         {
-            return new TestVectorSet(answerResponse, promptResponse);
+            return new TestVectorSet(answerResponse);
         }
 
         public IEnumerable<TestCase> GetTestCasesFromResultResponse(dynamic resultResponse)

@@ -20,26 +20,13 @@ namespace NIST.CVP.Generation.SNMP
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
 
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -51,17 +38,20 @@ namespace NIST.CVP.Generation.SNMP
                 foreach (var group in TestGroups.Select(g => (TestGroup) g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("engineId", group.EngineId);
-                    ((IDictionary<string, object>)updateObject).Add("passwordLength", group.PasswordLength);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("engineId", group.EngineId);
+                    updateDict.Add("passwordLength", group.PasswordLength);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase) t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("password", test.Password);
-                        ((IDictionary<string, object>)testObject).Add("sharedKey", test.SharedKey);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("password", test.Password);
+                        testDict.Add("sharedKey", test.SharedKey);
 
                         tests.Add(testObject);
                     }
@@ -82,6 +72,7 @@ namespace NIST.CVP.Generation.SNMP
                 foreach (var group in TestGroups.Select(g => (TestGroup) g))
                 {
                     dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>)updateObject).Add("tgId", group.TestGroupId);
                     ((IDictionary<string, object>)updateObject).Add("engineId", group.EngineId);
                     ((IDictionary<string, object>)updateObject).Add("passwordLength", group.PasswordLength);
 
