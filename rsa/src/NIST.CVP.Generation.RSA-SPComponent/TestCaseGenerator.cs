@@ -83,10 +83,16 @@ namespace NIST.CVP.Generation.RSA_SPComponent
         {
             if (!testCase.FailureTest)
             {
-                BigInteger result;
+                DecryptionResult result;
                 try
                 {
                     result = _rsa.Decrypt(testCase.Message.ToPositiveBigInteger(), testCase.Key.PrivKey, testCase.Key.PubKey);
+
+                    if (!result.Success)
+                    {
+                        ThisLogger.Error($"Error generating signature: {result.ErrorMessage}");
+                        return new TestCaseGenerateResponse(result.ErrorMessage);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -94,7 +100,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent
                     return new TestCaseGenerateResponse($"Exception generating signature: {ex.StackTrace}");
                 }
 
-                testCase.Signature = new BitString(result, 2048);
+                testCase.Signature = new BitString(result.PlainText, 2048);
             }
             
             return new TestCaseGenerateResponse(testCase);

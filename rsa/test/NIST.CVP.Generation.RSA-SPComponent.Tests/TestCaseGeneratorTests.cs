@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Tests
             var rsa = GetRsaMock();
             rsa
                 .Setup(s => s.Decrypt(It.IsAny<BigInteger>(), It.IsAny<PrivateKeyBase>(), It.IsAny<PublicKey>()))
-                .Returns(7);
+                .Returns(new DecryptionResult(7));
 
             var subject = new TestCaseGenerator(GetRandomMock().Object, GetKeyBuilderMock().Object, rsa.Object, GetKeyComposerFactoryMock().Object);
 
@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Tests
             var rsa = GetRsaMock();
             rsa
                 .Setup(s => s.Decrypt(It.IsAny<BigInteger>(), It.IsAny<PrivateKeyBase>(), It.IsAny<PublicKey>()))
-                .Returns(7);
+                .Returns(new DecryptionResult(7));
 
             var subject = new TestCaseGenerator(GetRandomMock().Object, GetKeyBuilderMock().Object, rsa.Object, GetKeyComposerFactoryMock().Object);
 

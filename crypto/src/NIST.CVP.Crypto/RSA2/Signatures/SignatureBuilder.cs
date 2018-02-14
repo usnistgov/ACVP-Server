@@ -72,10 +72,15 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             }
 
             // Encrypt with the public key to open the signature
-            var embeddedMessage = _rsa.Encrypt(_signature.ToPositiveBigInteger(), _publicKey);
+            var encryptionResult = _rsa.Encrypt(_signature.ToPositiveBigInteger(), _publicKey);
+
+            if (!encryptionResult.Success)
+            {
+                return new VerifyResult(encryptionResult.ErrorMessage);
+            }
 
             // Verify the padding
-            return _paddingScheme.VerifyPadding(_publicKey.N.ExactBitLength(), _message, embeddedMessage, _publicKey);
+            return _paddingScheme.VerifyPadding(_publicKey.N.ExactBitLength(), _message, encryptionResult.CipherText, _publicKey);
         }
 
         public SignatureResult BuildSign()
@@ -94,10 +99,15 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             }
 
             // Perform the RSA Decryption
-            var signature = _rsa.Decrypt(paddedResult.PaddedMessage.ToPositiveBigInteger(), _privateKey, _publicKey);
-            
+            var decryptionResult = _rsa.Decrypt(paddedResult.PaddedMessage.ToPositiveBigInteger(), _privateKey, _publicKey);
+
+            if (!decryptionResult.Success)
+            {
+                return new SignatureResult(decryptionResult.ErrorMessage);
+            }
+
             // Perform the Post-Check depending on the padding scheme
-            var postCheck = _paddingScheme.PostSignCheck(signature, _publicKey);
+            var postCheck = _paddingScheme.PostSignCheck(decryptionResult.PlainText, _publicKey);
 
             return new SignatureResult(postCheck);
         }

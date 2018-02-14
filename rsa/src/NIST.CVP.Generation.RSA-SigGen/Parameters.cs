@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
@@ -8,18 +9,23 @@ namespace NIST.CVP.Generation.RSA_SigGen
         public string Mode { get; set; }
         public bool IsSample { get; set; }
 
+        [JsonProperty(PropertyName = "algSpecs")]
         public AlgSpecs[] Capabilities { get; set; }
     }
-
+    
     public class AlgSpecs
     {
         public string SigType { get; set; }
+
+        [JsonProperty(PropertyName = "sigTypeCapabilities")]
         public CapSigType[] ModuloCapabilities { get; set; }
     }
 
     public class CapSigType
     {
         public int Modulo { get; set; }
+
+        [JsonProperty(PropertyName = "hashPair")]
         public HashPair[] HashPairs { get; set; }
     }
 
