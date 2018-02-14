@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -16,9 +17,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
 
-        public KeyPair Key { get; set; }
-        public BitString CipherText { get; set; }
-        public BitString PlainText { get; set; }
+        public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
 
         public TestCase() { }
 
@@ -38,14 +37,33 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             TestCaseId = (int)source.tcId;
 
             var expandoSource = (ExpandoObject) source;
-            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
-            PlainText = expandoSource.GetBitStringFromProperty("plainText");
+            if (expandoSource.ContainsProperty("resultsArray") || expandoSource.ContainsProperty("promptArray"))
+            {
+                var n = expandoSource.GetBigIntegerFromProperty("n");
+                var e = expandoSource.GetBigIntegerFromProperty("e");
+                var key = new KeyPair{PubKey = new PublicKey {E = e, N = n}};
+                bool failureTest;
 
-            var n = expandoSource.GetBigIntegerFromProperty("n");
-            var e = expandoSource.GetBigIntegerFromProperty("e");
-            Key = new KeyPair{PubKey = new PublicKey {E = e, N = n}};
+                if (expandoSource.ContainsProperty("isSuccess"))
+                {
+                    // Negate it for 'FailureTest'
+                    failureTest = !expandoSource.GetTypeFromProperty<bool>("isSuccess");
+                }
+                else
+                {
+                    failureTest = false;
+                }
 
-            FailureTest = !expandoSource.GetTypeFromProperty<bool>("result");
+                var algoArray = new AlgoArrayResponse
+                {
+                    CipherText = expandoSource.GetBitStringFromProperty("cipherText"),
+                    PlainText = expandoSource.GetBitStringFromProperty("plainText"),
+                    Key = key,
+                    FailureTest = failureTest
+                };
+
+                ResultsArray.Add(algoArray);
+            }
         }
 
         public bool Merge(ITestCase otherTest)

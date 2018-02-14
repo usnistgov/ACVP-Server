@@ -58,8 +58,16 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>) testObject).Add("cipherText", test.CipherText);
 
+                        var resultsArray = new List<dynamic>();
+                        foreach (var result in test.ResultsArray)
+                        {
+                            dynamic resultObject = new ExpandoObject();
+                            ((IDictionary<string, object>) resultObject).Add("cipherText", result.CipherText);
+                            resultsArray.Add(resultObject);
+                        }
+
+                        ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
                         tests.Add(testObject);
                     }
 
@@ -86,7 +94,16 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>) testObject).Add("cipherText", test.CipherText);
+
+                        var resultsArray = new List<dynamic>();
+                        foreach (var result in test.ResultsArray)
+                        {
+                            dynamic resultObject = new ExpandoObject();
+                            ((IDictionary<string, object>) resultObject).Add("cipherText", result.CipherText);
+                            resultsArray.Add(resultObject);
+                        }
+
+                        ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
                         tests.Add(testObject);
                     }
 
@@ -112,17 +129,26 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 
                         if (IsSample)
                         {
-                            ((IDictionary<string, object>)testObject).Add("n", test.Key.PubKey.N);
-                            ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
+                            var resultsArray = new List<dynamic>();
+                            foreach (var result in test.ResultsArray)
+                            {
+                                dynamic resultObject = new ExpandoObject();
+                                ((IDictionary<string, object>)testObject).Add("n", result.Key.PubKey.N);
+                                ((IDictionary<string, object>)testObject).Add("e", result.Key.PubKey.E);
 
-                            if (test.FailureTest)
-                            {
-                                ((IDictionary<string, object>)testObject).Add("failureTest", !test.FailureTest);
+                                if (result.FailureTest)
+                                {
+                                    ((IDictionary<string, object>)testObject).Add("failureTest", !result.FailureTest);
+                                }
+                                else
+                                {
+                                    ((IDictionary<string, object>) testObject).Add("plainText", result.PlainText);
+                                }
+
+                                resultsArray.Add(resultObject);
                             }
-                            else
-                            {
-                                ((IDictionary<string, object>) testObject).Add("plainText", test.PlainText);
-                            }
+
+                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
                         }
 
                         tests.Add(testObject);

@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20171009-10" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
     <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
