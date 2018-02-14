@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.Core
                 return $"No {friendlyName} supplied.";
             }
 
-            if (!validValues.Contains(supplied))
+            if (!validValues.Contains(supplied, StringComparer.OrdinalIgnoreCase))
             {
                 return $"Invalid {friendlyName} supplied: {supplied}";
             }

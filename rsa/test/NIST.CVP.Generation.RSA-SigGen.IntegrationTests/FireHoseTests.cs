@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
 
         [Test]
         [TestCase("ansx9.31")]
-        [TestCase("pkcs1v15")]
+        [TestCase("pkcs1v1.5")]
         [TestCase("pss")]
         public void ShouldRunThroughAllTestFilesAndValidate(string sigGenMode)
         {
