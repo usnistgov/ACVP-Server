@@ -83,10 +83,13 @@ namespace NIST.CVP.Generation.SSH.Tests
         [TestCase("HASHALG")]
         public void ShouldSetHashAlg(string name)
         {
+            const string shaValue = "sha2-256";
+
             var subject = new TestGroup();
-            var result = subject.SetString(name, "sha2-256");
-            Assert.IsTrue(result);
-            Assert.AreEqual("sha2-256", subject.HashAlg.Name);
+            
+            var result = subject.SetString(name, shaValue);
+            Assert.IsTrue(result, nameof(result));
+            Assert.IsTrue(shaValue.Equals(subject.HashAlg.Name, StringComparison.OrdinalIgnoreCase), nameof(subject.HashAlg.Name));
         }
 
         private dynamic GetSourceAnswer()
