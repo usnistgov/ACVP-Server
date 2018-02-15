@@ -22,25 +22,12 @@ namespace NIST.CVP.Generation.SHA2
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach(var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 TestGroups.Add(group);
-            }
-
-            foreach(var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -55,22 +42,19 @@ namespace NIST.CVP.Generation.SHA2
                 foreach(var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("function", SHAEnumHelpers.ModeToString(group.Function));
-                    ((IDictionary<string, object>)updateObject).Add("digestSize", SHAEnumHelpers.DigestToString(group.DigestSize));
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType.ToUpper());
-
-                    if (group.TestType.ToLower() != "mct")
-                    {
-                        //((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
-                        //((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
-                    }
-
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("function", SHAEnumHelpers.ModeToString(group.Function));
+                    updateDict.Add("digestSize", SHAEnumHelpers.DigestToString(group.DigestSize));
+                    updateDict.Add("testType", group.TestType.ToUpper());
+                    
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach(var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (group.TestType.ToLower() == "mct")
                         {
@@ -78,17 +62,18 @@ namespace NIST.CVP.Generation.SHA2
                             foreach (var result in test.ResultsArray)
                             {
                                 dynamic resultObject = new ExpandoObject();
-                                ((IDictionary<string, object>) resultObject).Add("msg", result.Message);
-                                ((IDictionary<string, object>) resultObject).Add("md", result.Digest);
+                                var resultDict = ((IDictionary<string, object>) resultObject);
+                                resultDict.Add("msg", result.Message);
+                                resultDict.Add("md", result.Digest);
 
                                 resultsArray.Add(resultObject);
                             }
 
-                            ((IDictionary<string, object>) testObject).Add("resultsArray", resultsArray);
+                            testDict.Add("resultsArray", resultsArray);
                         }
                         else
                         {
-                            ((IDictionary<string, object>)testObject).Add("md", test.Digest);
+                            testDict.Add("md", test.Digest);
                         }
 
                         tests.Add(testObject);
@@ -113,46 +98,25 @@ namespace NIST.CVP.Generation.SHA2
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("function", SHAEnumHelpers.ModeToString(group.Function));
-                    ((IDictionary<string, object>)updateObject).Add("digestSize", SHAEnumHelpers.DigestToString(group.DigestSize));
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType.ToUpper());
-
-                    if (group.TestType.ToLower() != "mct")
-                    {
-                        //((IDictionary<string, object>)updateObject).Add("bitOriented", group.BitOriented);
-                        //((IDictionary<string, object>)updateObject).Add("includeNull", group.IncludeNull);
-                    }
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("function", SHAEnumHelpers.ModeToString(group.Function));
+                    updateDict.Add("digestSize", SHAEnumHelpers.DigestToString(group.DigestSize));
+                    updateDict.Add("testType", group.TestType.ToUpper());
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("msg", test.Message);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("msg", test.Message);
 
                         if (group.TestType.ToLower() != "mct")
                         {
-                            ((IDictionary<string, object>)testObject).Add("len", test.Message.BitLength);
+                            testDict.Add("len", test.Message.BitLength);
                         }
-
-                        //if (group.TestType.ToLower() == "mct")
-                        //{
-                        //    var resultsArray = new List<dynamic>();
-
-                        //    // Add two messages to MCT file for simple checking
-                        //    var resultOne = test.ResultsArray[0];
-                        //    dynamic resultObjectOne = new ExpandoObject();
-                        //    ((IDictionary<string, object>)resultObjectOne).Add("message", resultOne.Message);
-
-                        //    var resultTwo = test.ResultsArray[1];
-                        //    dynamic resultObjectTwo = new ExpandoObject();
-                        //    ((IDictionary<string, object>)resultObjectTwo).Add("message", resultTwo.Message);
-
-                        //    resultsArray.Add(resultObjectOne);
-                        //    resultsArray.Add(resultObjectTwo);
-                        //    ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
-                        //}
 
                         tests.Add(testObject);
                     }
@@ -178,7 +142,8 @@ namespace NIST.CVP.Generation.SHA2
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (group.TestType.ToLower() == "mct")
                         {
@@ -186,17 +151,18 @@ namespace NIST.CVP.Generation.SHA2
                             foreach (var result in test.ResultsArray)
                             {
                                 dynamic resultObject = new ExpandoObject();
-                                ((IDictionary<string, object>)resultObject).Add("msg", result.Message);
-                                ((IDictionary<string, object>)resultObject).Add("md", result.Digest);
+                                var resultDict = ((IDictionary<string, object>) resultObject);
+                                resultDict.Add("msg", result.Message);
+                                resultDict.Add("md", result.Digest);
 
                                 resultsArray.Add(resultObject);
                             }
 
-                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
+                            testDict.Add("resultsArray", resultsArray);
                         }
                         else
                         {
-                            ((IDictionary<string, object>)testObject).Add("md", test.Digest);
+                            testDict.Add("md", test.Digest);
                         }
 
                         list.Add(testObject);

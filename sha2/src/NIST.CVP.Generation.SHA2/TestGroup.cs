@@ -1,17 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
-using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA2
 {
     public class TestGroup : ITestGroup
     {
+        public TestGroup()
+        {
+            Tests = new List<ITestCase>();
+        }
+
+        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
+
+        public TestGroup(dynamic source)
+        {
+            TestGroupId = (int) source.tgId;
+            TestType = source.testType;
+            Function = SHAEnumHelpers.StringToMode(source.function);
+            DigestSize = SHAEnumHelpers.StringToDigest(source.digestSize);
+            BitOriented = SetBoolValue(source, "inBit");
+            IncludeNull = SetBoolValue(source, "inEmpty");
+
+            Tests = new List<ITestCase>();
+            foreach(var test in source.tests)
+            {
+                Tests.Add(new TestCase(test));
+            }
+        }
+
+        public int TestGroupId { get; set; }
         [JsonProperty(PropertyName = "function")]
         public ModeValues Function { get; set; }
 
@@ -28,62 +50,6 @@ namespace NIST.CVP.Generation.SHA2
         public bool IncludeNull { get; set; }
 
         public List<ITestCase> Tests { get; set; }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            TestType = source.testType;
-            Function = SHAEnumHelpers.StringToMode(source.function);
-            DigestSize = SHAEnumHelpers.StringToDigest(source.digestSize);
-            BitOriented = SetBoolValue(source, "inBit");
-            IncludeNull = SetBoolValue(source, "inEmpty");
-
-            Tests = new List<ITestCase>();
-            foreach(var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
-
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            return
-                $"{Function}|{DigestSize}|{TestType}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
 
         public bool SetString(string name, string value)
         {
