@@ -10,7 +10,17 @@ namespace NIST.CVP.Generation.KeyWrap
     public abstract class TestGroupBase<TTestCase> : ITestGroup
         where TTestCase : TestCaseBase, new()
     {
-       
+        protected TestGroupBase()
+        {
+            Tests = new List<ITestCase>();
+        }
+
+        protected TestGroupBase(dynamic source)
+        {
+            LoadSource(source);
+        }
+
+        public int TestGroupId { get; set; }
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; } = "AFT";
 
@@ -44,37 +54,8 @@ namespace NIST.CVP.Generation.KeyWrap
 
         public List<ITestCase> Tests { get; set; }
 
-        public TestGroupBase()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroupBase(dynamic source)
-        {
-            LoadSource(source);
-        }
-
         protected abstract void LoadSource(dynamic source);
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public abstract override int GetHashCode();
-        public abstract override bool Equals(object obj);
         public abstract bool SetString(string name, string value);
 
     }

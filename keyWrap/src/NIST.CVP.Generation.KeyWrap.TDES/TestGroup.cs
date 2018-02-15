@@ -19,13 +19,13 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
         [JsonProperty(PropertyName = "keyLen")]
         public override int KeyLength
         {
-            get { return 192; }
+            get => 192;
             set { }
         }
 
         public override KeyWrapType KeyWrapType
         {
-            get { return KeyWrapType.TDES_KW; }
+            get => KeyWrapType.TDES_KW;
             set { }
         }
 
@@ -33,28 +33,6 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
         public int NumberOfKeys { get; set; }
 
         public int KeyingOption { get; set; }
-
-        public override int GetHashCode()
-        {
-            return
-                $"{KeyWrapType}|{TestType}|{Direction}|{KwCipher}|{KeyingOption}|{PtLen}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
-
-        //public TestGroupTdes(JObject source) : this(source.ToObject<ExpandoObject>())
-        //{
-
-        //}
 
         public override bool SetString(string name, string value)
         {
@@ -89,11 +67,12 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
 
         protected override void LoadSource(dynamic source)
         {
+            TestGroupId = (int) source.tgId;
             TestType = source.testType;
             Direction = source.direction;
             KwCipher = source.kwCipher;
             KeyingOption = source.keyingOption;
-            //KeyLength = source.keyLen;
+            
             PtLen = source.ptLen;
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)

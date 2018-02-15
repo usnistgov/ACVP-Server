@@ -17,14 +17,6 @@ namespace NIST.CVP.Generation.KeyWrap
         public BitString PlainText { get; set; }
         public BitString CipherText { get; set; }
 
-        public TestCaseBase()
-        {
-
-        }
-
-
-
-        public abstract bool Merge(ITestCase promptTestCase);
         public abstract bool SetString(string name, string value);
         protected abstract void MapToProperties(dynamic data);
     }

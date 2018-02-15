@@ -20,47 +20,22 @@ namespace NIST.CVP.Generation.KeyWrap
                 PrintOptionBitStringEmpty.PrintAsEmptyString
             );
 
-        public TestVectorSetBase()
+        protected TestVectorSetBase()
         {
         }
-
-        public TestVectorSetBase(dynamic answers, dynamic prompts)
+        
+        protected TestVectorSetBase(dynamic answers)
         {
-            SetAnswerAndPrompts(answers, prompts);
+            SetAnswers(answers);
         }
 
-        public void SetAnswerAndPrompts(dynamic answers, dynamic prompts)
+        public void SetAnswers(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = (TTestGroup) Activator.CreateInstance(typeof(TTestGroup), answer);
-                //var group = new TTestGroup(answer);
 
                 TestGroups.Add(@group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = (TTestGroup) Activator.CreateInstance(typeof(TTestGroup), prompt);
-                //var promptGroup = new TTestGroup(prompt);
-                //ITestGroup matchingAnswerGroup = null;
-                //try
-                //{
-                //    matchingAnswerGroup = TestGroups.Single(g => g.Equals(promptGroup));
-                //    matchingAnswerGroup.MergeTests(promptGroup.Tests);
-                //}
-                //catch (Exception e)
-                //{
-                //    throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts", e);
-                //}
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
