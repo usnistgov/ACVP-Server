@@ -35,7 +35,7 @@ namespace TDES_CBC_Val
                     using (var scope = AutofacConfig.Container.BeginLifetimeScope())
                     {
                         var validator = scope.Resolve<IValidator>();
-                        var result = validator.Validate(resultFile, answerFile, promptFile);
+                        var result = validator.Validate(resultFile, answerFile);
                         if (!result.Success)
                         {
                             Console.Error.WriteLine($"ERROR! Validating Test Vectors for {resultFile}: {result.ErrorMessage}");

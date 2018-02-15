@@ -22,7 +22,10 @@ namespace NIST.CVP.Generation.TDES_CBC
 
         public TestGroup(dynamic source)
         {
-            if (((ExpandoObject)source).ContainsProperty("keyingOption"))
+            var expandoSource = (ExpandoObject) source;
+
+            TestGroupId = (int) source.tgId;
+            if (expandoSource.ContainsProperty("keyingOption"))
             {
                 KeyingOption = (int)source.keyingOption;
             }
@@ -36,12 +39,8 @@ namespace NIST.CVP.Generation.TDES_CBC
             }
 
         }
-
-        public int KeyLength
-        {
-            get { return 64; }
-        }
-
+        
+        public int TestGroupId { get; set; }
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "testType")]
@@ -49,40 +48,6 @@ namespace NIST.CVP.Generation.TDES_CBC
         [JsonProperty(PropertyName = "keyingOption")]
         public int KeyingOption { get; set; }
         public List<ITestCase> Tests { get; set; }
-
-
-
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            return $"{Function}|{TestType}|{KeyingOption}".GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
 
         public bool SetString(string name, string value)
         {
