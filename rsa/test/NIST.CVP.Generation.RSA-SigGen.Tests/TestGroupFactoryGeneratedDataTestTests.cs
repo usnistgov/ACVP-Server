@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             {
                 12,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithSigGenModes(new [] {"pkcs1v15"})
+                    .WithSigGenModes(new [] {"pkcs1v1.5"})
                     .WithModuli(new [] {2048, 3072, 4096})
                     .WithHashAlgs(new [] {"SHA-1", "SHA2-256", "SHA2-512/224", "SHA2-512/256"})
                     .Build()
@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             {
                 63,
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithSigGenModes(new [] {"pss", "pkcs1v15", "ansx9.31"})
+                    .WithSigGenModes(new [] {"pss", "pkcs1v1.5", "ansx9.31"})
                     .WithModuli(new [] {2048, 3072, 4096})
                     .WithHashAlgs(new [] {"SHA-1", "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512", "SHA2-512/224", "SHA2-512/256"})
                     .Build()
