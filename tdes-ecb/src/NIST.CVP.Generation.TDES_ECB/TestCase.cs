@@ -31,27 +31,29 @@ namespace NIST.CVP.Generation.TDES_ECB
 
         private void MapToProperties(dynamic source)
         {
+            var expandoSource = (ExpandoObject) source;
+
             TestCaseId = (int)source.tcId;
-            if (((ExpandoObject)source).ContainsProperty("decryptFail"))
+            if (expandoSource.ContainsProperty("decryptFail"))
             {
                 FailureTest = source.decryptFail;
             }
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
+            if (expandoSource.ContainsProperty("failureTest"))
             {
                 FailureTest = source.failureTest;
             }
-            if (((ExpandoObject) source).ContainsProperty("deferred"))
+            if (expandoSource.ContainsProperty("deferred"))
             {
                 Deferred = source.deferred;
             }
-            if (((ExpandoObject)source).ContainsProperty("resultsArray"))
+            if (expandoSource.ContainsProperty("resultsArray"))
             {
                 ResultsArray = ResultsArrayToObject(source.resultsArray);
             }
 
-            Key = BitStringFromObject("key", (ExpandoObject) source);
-            CipherText = BitStringFromObject("cipherText", (ExpandoObject)source);
-            PlainText = BitStringFromObject("plainText", (ExpandoObject)source);
+            Key = expandoSource.GetBitStringFromProperty("key");
+            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
+            PlainText = expandoSource.GetBitStringFromProperty("plainText");
         }
 
         private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
@@ -61,14 +63,15 @@ namespace NIST.CVP.Generation.TDES_ECB
             foreach (dynamic item in resultsArray)
             {
                 AlgoArrayResponse response = new AlgoArrayResponse();
+                var expandoItem = (ExpandoObject) item;
 
-                var key1 = BitStringFromObject("key1", (ExpandoObject)item);
-                var key2 = BitStringFromObject("key2", (ExpandoObject)item);
-                var key3 = BitStringFromObject("key3", (ExpandoObject)item);
+                var key1 = expandoItem.GetBitStringFromProperty("key1");
+                var key2 = expandoItem.GetBitStringFromProperty("key2");
+                var key3 = expandoItem.GetBitStringFromProperty("key3");
 
                 response.Keys = key1.ConcatenateBits(key2.ConcatenateBits(key3));
-                response.PlainText = BitStringFromObject("plainText", (ExpandoObject)item);
-                response.CipherText = BitStringFromObject("cipherText", (ExpandoObject)item);
+                response.PlainText = expandoItem.GetBitStringFromProperty("plainText");
+                response.CipherText = expandoItem.GetBitStringFromProperty("cipherText");
 
                 list.Add(response);
             }
@@ -76,31 +79,12 @@ namespace NIST.CVP.Generation.TDES_ECB
             return list;
         }
 
-        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return null;
-            }
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-            var valueAsBitString = sourcePropertyValue as BitString;
-            if (valueAsBitString != null)
-            {
-                return valueAsBitString;
-                
-            }
-            return new BitString(sourcePropertyValue.ToString());
-        }
-
         public TestCase(JObject source)
         {
             var data = source.ToObject<ExpandoObject>();
             MapToProperties(data);
         }
+
         public int TestCaseId { get; set; }
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
@@ -122,33 +106,6 @@ namespace NIST.CVP.Generation.TDES_ECB
                 }
                 return new TDESKeys(Key1.ConcatenateBits(Key2.ConcatenateBits(Key3)));
             }
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-            var otherTypedTest = (TestCase) otherTest;
-
-            if (PlainText == null && otherTypedTest.PlainText != null)
-            {
-                PlainText = otherTypedTest.PlainText;
-                return true;
-            }
-
-            if (CipherText == null && otherTypedTest.CipherText != null)
-            {
-                CipherText = otherTypedTest.CipherText;
-                return true;
-            }
-
-            if (ResultsArray.Count != 0 && otherTypedTest.ResultsArray.Count != 0)
-            {
-                return true;
-            }
-            return false;
         }
 
         public bool SetResultsArrayString(int index, string name, string value)
