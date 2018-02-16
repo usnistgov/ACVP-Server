@@ -22,11 +22,14 @@ namespace NIST.CVP.Generation.TDES_OFB
 
         public TestGroup(dynamic source)
         {
-            if (((ExpandoObject)source).ContainsProperty("numberOfKeys"))
+            var expandoSource = ((ExpandoObject) source);
+
+            if (expandoSource.ContainsProperty("numberOfKeys"))
             {
                 NumberOfKeys = (int)source.numberOfKeys;
             }
 
+            TestGroupId = (int) source.tgId;
             TestType = source.testType;
             Function = source.direction;
             Tests = new List<ITestCase>();
@@ -37,11 +40,7 @@ namespace NIST.CVP.Generation.TDES_OFB
 
         }
 
-        public int KeyLength
-        {
-            get { return 64; }
-        }
-
+        public int TestGroupId { get; set; }
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "testType")]
@@ -49,40 +48,6 @@ namespace NIST.CVP.Generation.TDES_OFB
         [JsonProperty(PropertyName = "numberOfKeys")]
         public int NumberOfKeys { get; set; }
         public List<ITestCase> Tests { get; set; }
-
-
-
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            return $"{Function}|{TestType}|{NumberOfKeys}".GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
 
         public bool SetString(string name, string value)
         {
