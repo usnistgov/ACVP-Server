@@ -47,6 +47,8 @@ namespace NIST.CVP.Generation.GenValApp
                     dllLocation = parsedParameters.DllLocation.FullName;
                 }
 
+                ConfigureLogging(parsedParameters);
+
                 // Get the IOC container for the algo
                 AutofacConfig.IoCConfiguration(Config, parsedParameters.Algorithm, parsedParameters.Mode, dllLocation);
                 using (var scope = AutofacConfig.GetContainer().BeginLifetimeScope())
@@ -70,6 +72,28 @@ namespace NIST.CVP.Generation.GenValApp
                 Logger.Error(errorMessage);
                 return 1;
             }
+        }
+
+        private static void ConfigureLogging(ArgumentParsingTarget parsedParameters)
+        {
+            string filePath;
+            string genValMode;
+
+            if (parsedParameters.RegistrationFile != null)
+            {
+                filePath = parsedParameters.RegistrationFile.FullName;
+                genValMode = "Gen";
+            }
+            else
+            { 
+                filePath = parsedParameters.AnswerFile.FullName;
+                genValMode = "Val";
+            }
+
+            string logName = $"{parsedParameters.Algorithm}-{parsedParameters.Mode}_{genValMode}";
+
+            LoggingHelper.ConfigureLogging(filePath, logName);
+            Logger.Info($"{genValMode} Test Vectors");
         }
 
         private static string[] GetArgsWhenNotProvided(string[] args, CommandLineParser.CommandLineParser parser)
