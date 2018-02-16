@@ -66,34 +66,6 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         }
 
         [Test]
-        public void ShouldReturnFalseIfMergeFails()
-        {
-            Random800_90 rand = new Random800_90();
-            var testCase = new TestCase()
-            {
-
-                Keys = rand.GetRandomBitString(64),
-                CipherText = null,
-                PlainText = null,
-                TestCaseId = 42
-            };
-
-            List<ITestCase> testCases = new List<ITestCase>
-            {
-                testCase
-            };
-
-            TestGroup tg = new TestGroup()
-            {
-                Tests = testCases
-            };
-
-            var result = tg.MergeTests(testCases);
-
-            Assert.IsFalse(result);
-        }
-
-        [Test]
         public void ShouldReturnFalseIfPassObjectCannotCast()
         {
             var subject = new TestGroup();
