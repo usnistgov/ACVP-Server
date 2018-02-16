@@ -66,7 +66,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent
 
                         if (test.FailureTest)
                         {
-                            ((IDictionary<string, object>)testObject).Add("isSuccess", !test.FailureTest);
+                            ((IDictionary<string, object>)testObject).Add("sigResult", !test.FailureTest);
                         }
                         else
                         {
@@ -103,15 +103,6 @@ namespace NIST.CVP.Generation.RSA_SPComponent
                         ((IDictionary<string, object>) testObject).Add("message", test.Message);
                         AddKeyToDynamic(testObject, test.Key);
 
-                        if (test.FailureTest)
-                        {
-                            ((IDictionary<string, object>)testObject).Add("isSuccess", !test.FailureTest);
-                        }
-                        else
-                        {
-                            ((IDictionary<string, object>) testObject).Add("signature", test.Signature);
-                        }
-
                         tests.Add(testObject);
                     }
 
@@ -137,7 +128,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent
 
                         if (test.FailureTest)
                         {
-                            ((IDictionary<string, object>)testObject).Add("isSuccess", !test.FailureTest);
+                            ((IDictionary<string, object>)testObject).Add("sigResult", !test.FailureTest);
                         }
                         else
                         {
@@ -165,19 +156,20 @@ namespace NIST.CVP.Generation.RSA_SPComponent
         {
             ((IDictionary<string, object>)jsonObject).Add("n", key.PubKey.N);
 
-            if (key.PrivKey is PrivateKey standardKey)
+            switch (key.PrivKey)
             {
-                ((IDictionary<string, object>)jsonObject).Add("d", standardKey.D);
-            }
-            else if (key.PrivKey is CrtPrivateKey crtKey)
-            {
-                ((IDictionary<string, object>)jsonObject).Add("dmp1", crtKey.DMP1);
-                ((IDictionary<string, object>)jsonObject).Add("dmq1", crtKey.DMQ1);
-                ((IDictionary<string, object>)jsonObject).Add("iqmp", crtKey.IQMP);
-            }
-            else
-            {
-                throw new Exception("Invalid private key is not in a supported format");
+                case PrivateKey standardKey:
+                    ((IDictionary<string, object>)jsonObject).Add("d", standardKey.D);
+                    break;
+
+                case CrtPrivateKey crtKey:
+                    ((IDictionary<string, object>)jsonObject).Add("dmp1", crtKey.DMP1);
+                    ((IDictionary<string, object>)jsonObject).Add("dmq1", crtKey.DMQ1);
+                    ((IDictionary<string, object>)jsonObject).Add("iqmp", crtKey.IQMP);
+                    break;
+
+                default:
+                    throw new Exception("Invalid private key is not in a supported format");
             }
         }
     }

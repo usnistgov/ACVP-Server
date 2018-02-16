@@ -28,7 +28,8 @@ namespace NIST.CVP.Crypto.RSA2.Tests
             var rsa = new Rsa(new RsaVisitor());
             var result = rsa.Encrypt(plainText, pubKey);
 
-            Assert.AreEqual(expectedCipherText, result);
+            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.AreEqual(expectedCipherText, result.CipherText);
         }
 
         [Test]
@@ -54,7 +55,8 @@ namespace NIST.CVP.Crypto.RSA2.Tests
             var rsa = new Rsa(new RsaVisitor());
             var result = rsa.Decrypt(cipherText, privKey, pubKey);
 
-            Assert.AreEqual(expectedPlainText, result);
+            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.AreEqual(expectedPlainText, result.PlainText);
         }
 
         [Test]
@@ -71,11 +73,13 @@ namespace NIST.CVP.Crypto.RSA2.Tests
             var expectedPlainText = new BitString(expectedPlainTextHex).ToPositiveBigInteger();
 
             var privKey = new CrtPrivateKey {DMP1 = dmp1, DMQ1 = dmq1, IQMP = iqmp, P = p, Q = q};
+            var pubKey = new PublicKey {N = p * q};
 
             var rsa = new Rsa(new RsaVisitor());
-            var result = rsa.Decrypt(cipherText, privKey, null);
+            var result = rsa.Decrypt(cipherText, privKey, pubKey);
 
-            Assert.AreEqual(expectedPlainText, result);
+            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.AreEqual(expectedPlainText, result.PlainText);
         }
     }
 }

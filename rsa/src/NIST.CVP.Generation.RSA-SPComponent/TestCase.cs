@@ -40,10 +40,10 @@ namespace NIST.CVP.Generation.RSA_SPComponent
 
             var expandoSource = (ExpandoObject) source;
 
-            if (expandoSource.ContainsProperty("isSuccess"))
+            if (expandoSource.ContainsProperty("sigResult"))
             {
                 // Negate it for 'FailureTest'
-                FailureTest = !expandoSource.GetTypeFromProperty<bool>("isSuccess");
+                FailureTest = !expandoSource.GetTypeFromProperty<bool>("sigResult");
             }
             else
             {

@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
@@ -70,7 +71,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("result", !test.FailureTest);
+                        ((IDictionary<string, object>)testObject).Add("sigResult", EnumHelpers.GetEnumDescriptionFromEnum(test.FailureTest ? Disposition.Failed : Disposition.Passed));
                         ((IDictionary<string, object>)testObject).Add("reason", test.Reason.GetName());
 
                         tests.Add(testObject);
@@ -141,7 +142,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
                     {
                         dynamic testObject = new ExpandoObject();
                         ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("result", !test.FailureTest);
+                        ((IDictionary<string, object>)testObject).Add("sigResult", EnumHelpers.GetEnumDescriptionFromEnum(test.FailureTest ? Disposition.Failed : Disposition.Passed));
                         ((IDictionary<string, object>)testObject).Add("reason", test.Reason.GetName());
 
                         tests.Add(testObject);

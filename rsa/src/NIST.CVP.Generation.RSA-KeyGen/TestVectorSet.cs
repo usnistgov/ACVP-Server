@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType.ToLower());
                     ((IDictionary<string, object>)updateObject).Add("randPQ", EnumHelpers.GetEnumDescriptionFromEnum(group.PrimeGenMode));
-                    ((IDictionary<string, object>)updateObject).Add("pubExp", EnumHelpers.GetEnumDescriptionFromEnum(group.PubExp));
+                    ((IDictionary<string, object>)updateObject).Add("pubExpMode", EnumHelpers.GetEnumDescriptionFromEnum(group.PubExp));
                     ((IDictionary<string, object>)updateObject).Add("keyFormat", EnumHelpers.GetEnumDescriptionFromEnum(group.KeyFormat));
 
                     if (group.PubExp == PublicExponentModes.Fixed)
@@ -126,7 +126,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
                     ((IDictionary<string, object>)updateObject).Add("testType", group.TestType.ToLower());
                     ((IDictionary<string, object>)updateObject).Add("randPQ", EnumHelpers.GetEnumDescriptionFromEnum(group.PrimeGenMode));
-                    ((IDictionary<string, object>)updateObject).Add("pubExp", EnumHelpers.GetEnumDescriptionFromEnum(group.PubExp));
+                    ((IDictionary<string, object>)updateObject).Add("pubExpMode", EnumHelpers.GetEnumDescriptionFromEnum(group.PubExp));
                     ((IDictionary<string, object>)updateObject).Add("keyFormat", EnumHelpers.GetEnumDescriptionFromEnum(group.KeyFormat));
 
                     if (group.PubExp == PublicExponentModes.Fixed)

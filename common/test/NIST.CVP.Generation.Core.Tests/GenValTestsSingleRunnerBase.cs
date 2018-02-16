@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.Core.Tests
                 RunnerMode,
                 "-d",
                 DllDropLocation
-        };
+            };
 
             if (parameters.Length == 0)
             {

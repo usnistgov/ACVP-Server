@@ -12,6 +12,8 @@ namespace NIST.CVP.Generation.RSA_SigVer
         [JsonProperty(PropertyName = "algSpecs")]
         public AlgSpecs[] Capabilities { get; set; }
         public string PubExpMode { get; set; }
+
+        [JsonProperty(PropertyName = "fixedPubExp")]
         public string FixedPubExpValue { get; set; } = "";
 
         [JsonIgnore]

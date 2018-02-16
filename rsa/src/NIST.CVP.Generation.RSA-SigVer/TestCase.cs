@@ -5,6 +5,7 @@ using NIST.CVP.Math;
 using System.Dynamic;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.RSA_SigVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.RSA_SigVer
@@ -43,7 +44,10 @@ namespace NIST.CVP.Generation.RSA_SigVer
             Message = expandoSource.GetBitStringFromProperty("message");
             Signature = expandoSource.GetBitStringFromProperty("signature");
             Salt = expandoSource.GetBitStringFromProperty("salt");
-            Result = expandoSource.GetTypeFromProperty<bool>("result");
+
+            var resultValue = expandoSource.GetTypeFromProperty<string>("sigResult");
+            var resultEnum = EnumHelpers.GetEnumFromEnumDescription<Disposition>(resultValue, false);
+            Result = (resultEnum == Disposition.Passed);
 
             var reasonValue = expandoSource.GetTypeFromProperty<string>("reason");
             var reasonEnum = EnumHelpers.GetEnumFromEnumDescription<SignatureModifications>(reasonValue, false);
