@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
@@ -106,38 +103,6 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var result = subject.SetString(name, "00AA");
             Assert.IsTrue(result);
             Assert.AreEqual("00AA", subject.PlainText.ToHex());
-        }
-
-        [Test]
-        public void ShouldNotMergeTestsWithMismatchedIds()
-        {
-            var testCase = new TestCase { TestCaseId = 1 };
-            var otherTestCase = new TestCase { TestCaseId = 2 };
-            var mergeResult = testCase.Merge(otherTestCase);
-            Assert.IsFalse(mergeResult);
-        }
-
-        [Test]
-        [TestCase(null, null, null, null, false)]
-        [TestCase(null, "00BB", null, null, true)]
-        [TestCase("00BB", "00BB", null, null, false)]
-        [TestCase(null, null, "00BB", "00BB", false)]
-        [TestCase("00BB", "00BB", "00BB", "00BB", false)]
-        [TestCase(null, null, null, "00BB", true)]
-        [TestCase(null, "00BB", null, "00BB", true)]
-        [TestCase("00BB", null, "00BB", null, false)]
-        public void ShouldOnlyMergeWhenOriginalCipherTextOrPlaintextIsNullAndIsSuppliedByOther(string originalPlain, string suppliedPlain, string originalCipher, string suppliedCipher, bool expectedResult)
-        {
-            var testCase = new TestCase { TestCaseId = 1 };
-            SetBitString(testCase, "ct", originalCipher);
-            SetBitString(testCase, "pt", originalPlain);
-
-            var suppliedTestCase = new TestCase { TestCaseId = 1 };
-            SetBitString(suppliedTestCase, "ct", suppliedCipher);
-            SetBitString(suppliedTestCase, "pt", suppliedPlain);
-
-            var mergeResult = testCase.Merge(suppliedTestCase);
-            Assert.AreEqual(expectedResult, mergeResult);
         }
 
         [Test]

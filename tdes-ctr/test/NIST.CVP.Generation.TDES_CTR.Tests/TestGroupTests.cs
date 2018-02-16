@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -52,33 +48,6 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         {
             var subject = new TestGroup();
             var result = subject.SetString("ivlen", value);
-            Assert.IsFalse(result);
-        }
-
-        [Test]
-        public void ShouldReturnFalseIfMergeFails()
-        {
-            var rand = new Random800_90();
-            var testCase = new TestCase
-            {
-                Key = rand.GetRandomBitString(8),
-                CipherText = null,
-                PlainText = null,
-                TestCaseId = 42
-            };
-
-            var testCases = new List<ITestCase>
-            {
-                testCase
-            };
-
-            var tg = new TestGroup
-            {
-                Tests = testCases
-            };
-
-            var result = tg.MergeTests(testCases);
-
             Assert.IsFalse(result);
         }
 

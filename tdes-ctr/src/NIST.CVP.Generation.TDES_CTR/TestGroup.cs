@@ -13,20 +13,6 @@ namespace NIST.CVP.Generation.TDES_CTR
 {
     public class TestGroup : ITestGroup
     {
-        public string Direction { get; set; }
-        public int NumberOfKeys { get; set; }
-
-        // Properties for specific groups
-        public MathDomain DataLength { get; set; }
-        public bool StaticGroupOfTests { get; set; }
-
-        // This is a vectorset / IUT property but it needs to be defined somewhere other than Parameter.cs
-        public bool IncrementalCounter { get; set; }
-        public bool OverflowCounter { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
         public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
 
         public TestGroup()
@@ -38,6 +24,7 @@ namespace NIST.CVP.Generation.TDES_CTR
         {
             var expandoSource = (ExpandoObject)source;
 
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
             Direction = expandoSource.GetTypeFromProperty<string>("direction");
 
             var keyingOption = expandoSource.GetTypeFromProperty<int>("keyingOption");
@@ -53,39 +40,20 @@ namespace NIST.CVP.Generation.TDES_CTR
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public int TestGroupId { get; set; }
+        public string Direction { get; set; }
+        public int NumberOfKeys { get; set; }
 
-        public override int GetHashCode()
-        {
-            return
-                $"{Direction}|{NumberOfKeys}|{TestType}|{OverflowCounter}|{IncrementalCounter}"
-                    .GetHashCode();
-        }
+        // Properties for specific groups
+        public MathDomain DataLength { get; set; }
+        public bool StaticGroupOfTests { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
+        // This is a vectorset / IUT property but it needs to be defined somewhere other than Parameter.cs
+        public bool IncrementalCounter { get; set; }
+        public bool OverflowCounter { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {
