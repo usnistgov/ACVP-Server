@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Tests;
@@ -48,10 +50,20 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
+            var passed = EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed);
+            var failed = EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed);
+
             // If TC has a result, change it
-            if (testCase.result != null)
+            if (testCase.sigResult != null)
             {
-                testCase.result = !((bool)testCase.result);
+                if (testCase.sigResult.ToString() == passed)
+                {
+                    testCase.sigResult = failed;
+                }
+                else if (testCase.sigResult.ToString() == failed)
+                {
+                    testCase.sigResult = passed;
+                }
             }
         }
 

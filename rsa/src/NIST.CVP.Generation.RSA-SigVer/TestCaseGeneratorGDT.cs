@@ -45,10 +45,13 @@ namespace NIST.CVP.Generation.RSA_SigVer
         public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
         {
             SignatureResult sigResult = null;
+            BitString salt;
             try
             {
                 var sha = _shaFactory.GetShaInstance(group.HashAlg);
-                var entropyProvider = new EntropyProvider(_random800_90);
+                salt = _random800_90.GetRandomBitString(group.SaltLen * 8);
+                var entropyProvider = new TestableEntropyProvider();
+                entropyProvider.AddEntropy(salt);
 
                 var paddingScheme = _paddingFactory.GetSigningPaddingScheme(group.Mode, sha, testCase.Reason.GetReason(), entropyProvider, group.SaltLen);
 
@@ -69,6 +72,11 @@ namespace NIST.CVP.Generation.RSA_SigVer
             {
                 ThisLogger.Warn($"Exception generating signature with intentional errors: {ex.Source}");
                 return new TestCaseGenerateResponse($"Exception generating signature with intentional errors: {ex.Source}");
+            }
+
+            if (group.Mode == SignatureSchemes.Pss)
+            {
+                testCase.Salt = salt;
             }
 
             testCase.Signature = new BitString(sigResult.Signature);
