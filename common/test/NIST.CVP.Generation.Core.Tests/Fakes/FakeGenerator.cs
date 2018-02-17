@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core.Resolvers;
-
-namespace NIST.CVP.Generation.Core.Tests.Fakes
+﻿namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
-    public class FakeGeneratorBase : GeneratorBase
+    public class FakeGenerator : Generator<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>
     {
-        public FakeGeneratorBase() {  }
+        public FakeGenerator() : base (null, null, null, null) {  }
 
         // Need an accessor for the protected method inside of GeneratorBase
         public GenerateResponse SaveOutputsTester(string requestFilePath, ITestVectorSet testVector)
