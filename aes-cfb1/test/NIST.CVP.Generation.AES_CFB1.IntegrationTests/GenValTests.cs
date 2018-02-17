@@ -147,7 +147,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             {
             }
 
-            public override TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse,
+            protected override TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse,
                 ParseResponse<dynamic> testResultParseResponse)
             {
                 var testVectorSet = _testReconstitutor
