@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Generation.Core.Tests.Enums;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Tests.Core;
 
 namespace NIST.CVP.Generation.Core.Tests
