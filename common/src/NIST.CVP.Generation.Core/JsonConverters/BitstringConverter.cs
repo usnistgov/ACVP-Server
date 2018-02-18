@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.Core
+namespace NIST.CVP.Generation.Core.JsonConverters
 {
     public class BitstringConverter : JsonConverter
     {

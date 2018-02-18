@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core.Enums;
 
-namespace NIST.CVP.Generation.Core
+namespace NIST.CVP.Generation.Core.JsonConverters
 {
     public class DispositionConverter : JsonConverter
     {

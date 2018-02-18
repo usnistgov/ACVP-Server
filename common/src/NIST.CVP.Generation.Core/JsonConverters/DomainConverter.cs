@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 
-namespace NIST.CVP.Generation.Core
+namespace NIST.CVP.Generation.Core.JsonConverters
 {
     /// <summary>
     /// Used to properly serialize/deserialize the <see cref="MathDomain"/> object.

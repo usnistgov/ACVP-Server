@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Helpers;
+using NIST.CVP.Generation.Core.JsonConverters;
 
 namespace NIST.CVP.Generation.Core.Resolvers
 {

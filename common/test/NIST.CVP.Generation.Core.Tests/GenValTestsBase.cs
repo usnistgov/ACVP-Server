@@ -6,6 +6,7 @@ using NIST.CVP.Generation.Core.Enums;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Tests.Enums;
 using NIST.CVP.Tests.Core;
 
