@@ -4,6 +4,7 @@ using System.IO;
 using Autofac;
 using Microsoft.Extensions.Configuration;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
@@ -15,7 +16,11 @@ namespace NIST.CVP.Generation.GenValApp
         private const string _SETTINGS_FILE = "appSettings.json";
         private static readonly string DllDirectory = AppDomain.CurrentDomain.BaseDirectory;
         private static readonly AlgorithmConfig Config;
+        private static GenValMode _genValMode;
 
+        /// <summary>
+        /// Static constructor - bootstraps and sets configuration
+        /// </summary>
         static Program()
         {
             var builder = new ConfigurationBuilder()
@@ -28,7 +33,20 @@ namespace NIST.CVP.Generation.GenValApp
             Config = new AlgorithmConfig();
             configuration.Bind(Config);
         }
-        
+
+        /// <summary>
+        /// The logger to utilize throughout the application run
+        /// </summary>
+        private static Logger Logger => LogManager.GetLogger("GenValApp");
+
+        /// <summary>
+        /// Entry point into application
+        /// </summary>
+        /// <param name="args">
+        ///     Arguments used within app run, 
+        ///     see <see cref="ArgumentParsingTarget"/> for details.
+        /// </param>
+        /// <returns></returns>
         public static int Main(string[] args)
         {
             var parser = new CommandLineParser.CommandLineParser();
@@ -46,6 +64,8 @@ namespace NIST.CVP.Generation.GenValApp
                 {
                     dllLocation = parsedParameters.DllLocation.FullName;
                 }
+
+                SetRunningMode(parsedParameters);
 
                 ConfigureLogging(parsedParameters);
 
@@ -74,28 +94,60 @@ namespace NIST.CVP.Generation.GenValApp
             }
         }
 
+        /// <summary>
+        /// Determines if the runner is running for generation or validation, 
+        /// determined via parsed command arguments.
+        /// </summary>
+        /// <param name="parsedParameters"></param>
+        private static void SetRunningMode(ArgumentParsingTarget parsedParameters)
+        {
+            if (parsedParameters.RegistrationFile != null)
+            {
+                _genValMode = GenValMode.Generate;
+            }
+            else
+            {
+                _genValMode = GenValMode.Validate;
+            }
+        }
+
+        /// <summary>
+        /// Configure logging for the app run.
+        /// </summary>
+        /// <param name="parsedParameters">The parsed arguments into the app</param>
         private static void ConfigureLogging(ArgumentParsingTarget parsedParameters)
         {
             string filePath;
-            string genValMode;
 
-            if (parsedParameters.RegistrationFile != null)
+            switch (_genValMode)
             {
-                filePath = parsedParameters.RegistrationFile.FullName;
-                genValMode = "Gen";
-            }
-            else
-            { 
-                filePath = parsedParameters.AnswerFile.FullName;
-                genValMode = "Val";
+                case GenValMode.Generate:
+                    filePath = parsedParameters.RegistrationFile.FullName;
+                    break;
+                case GenValMode.Validate:
+                    filePath = parsedParameters.AnswerFile.FullName;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException($"Invalid {nameof(_genValMode)}");
             }
 
-            string logName = $"{parsedParameters.Algorithm}-{parsedParameters.Mode}_{genValMode}";
+            string logName = $"{parsedParameters.Algorithm}-{parsedParameters.Mode}_{_genValMode}";
 
             LoggingHelper.ConfigureLogging(filePath, logName);
-            Logger.Info($"{genValMode} Test Vectors");
+            Logger.Info($"{_genValMode} Test Vectors");
         }
 
+        /// <summary>
+        /// Allows input of arguments when not provided at invocation.
+        /// Note this is not "exactly" the same as the entry, as the parsing it done by
+        /// splitting on " ". Will not work as expected on(as example)
+        /// files with spaces in the name
+        /// 
+        /// Using this shouldn't be the "normal flow" of application use.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="parser"></param>
+        /// <returns></returns>
         private static string[] GetArgsWhenNotProvided(string[] args, CommandLineParser.CommandLineParser parser)
         {
             if (args.Length != 0)
@@ -111,18 +163,28 @@ namespace NIST.CVP.Generation.GenValApp
             return args;
         }
 
+        /// <summary>
+        /// Run Generation or Validation, dependant on determined run mode..
+        /// </summary>
+        /// <param name="parsedParameters"></param>
+        /// <param name="scope"></param>
+        /// <returns></returns>
         private static int RunGenVals(ArgumentParsingTarget parsedParameters, IComponentContext scope)
         {
-            // Generation
-            if (parsedParameters.RegistrationFile != null)
+            if (_genValMode == GenValMode.Generate)
             {
                 return RunGeneration(parsedParameters, scope);
             }
 
-            // Validation
             return RunValidation(parsedParameters, scope);
         }
 
+        /// <summary>
+        /// Run Generation of test vectors for an algorithm.
+        /// </summary>
+        /// <param name="parsedParameters">The parsed command line arguments.</param>
+        /// <param name="scope">The DI scope.</param>
+        /// <returns></returns>
         private static int RunGeneration(ArgumentParsingTarget parsedParameters, IComponentContext scope)
         {
             var registrationFile = parsedParameters.RegistrationFile.FullName;
@@ -139,6 +201,12 @@ namespace NIST.CVP.Generation.GenValApp
             return 1;
         }
 
+        /// <summary>
+        /// Run Validation of test vectors for an algorithm.
+        /// </summary>
+        /// <param name="parsedParameters">The parsed command line arguments.</param>
+        /// <param name="scope">The DI scope.</param>
+        /// <returns></returns>
         private static int RunValidation(ArgumentParsingTarget parsedParameters, IComponentContext scope)
         {
             var responseFile = parsedParameters.ResponseFile.FullName;
@@ -155,7 +223,5 @@ namespace NIST.CVP.Generation.GenValApp
             Logger.Error(errorMessage);
             return 1;
         }
-
-        private static Logger Logger => LogManager.GetLogger("GenValApp");
     }
 }

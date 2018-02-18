@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Generation.Core.Tests.Enums
+﻿namespace NIST.CVP.Generation.Core.Enums
 {
     public enum GenValMode
     {
