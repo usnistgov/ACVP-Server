@@ -10,12 +10,14 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 {
     public class TestCaseValidator : ITestCaseValidator<TestCase>
     {
+        private readonly TestGroup _group;
         private readonly TestCase _expectedResult;
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, ManyEncryptionResult> _deferredTestCaseResolver;
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidator(TestCase expectedResult, IDeferredTestCaseResolver<TestGroup, TestCase, ManyEncryptionResult> resolver)
+        public TestCaseValidator(TestGroup group, TestCase expectedResult, IDeferredTestCaseResolver<TestGroup, TestCase, ManyEncryptionResult> resolver)
         {
+            _group = group;
             _expectedResult = expectedResult;
             _deferredTestCaseResolver = resolver;
         }
@@ -28,59 +30,42 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             {
                 errors.Add("Improper number of replies received");
             }
-            else if (suppliedResult.ResultsArray.Count(ra => ra.FailureTest) < _expectedResult.ResultsArray.Count / 3)
+            else if (suppliedResult.ResultsArray.Count(ra => ra.FailureTest) != _group.TotalFailingCases)
             {
-                errors.Add("Not enough failures detected");
+                errors.Add("Incorrect number of failures detected");
             }
             else
             {
-                var computedResults = _deferredTestCaseResolver.CompleteDeferredCrypto(null, _expectedResult, suppliedResult);
+                var computedResults = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
 
                 for (var i = 0; i < computedResults.AlgoArrayResponses.Count; i++)
                 {
                     var computedResult = computedResults.AlgoArrayResponses[i];
-                    var cipherText = _expectedResult.ResultsArray[i].CipherText.ToPositiveBigInteger();
-                    var n = suppliedResult.ResultsArray[i].Key.PubKey.N;
-
-                    // Should the test case pass
-                    var expectedPass = (cipherText < n - 1);
+                    var iutResult = suppliedResult.ResultsArray[i];
+                    var serverPrompt = _expectedResult.ResultsArray[i];
 
                     if (computedResult.FailureTest)
                     {
-                        // IUT says the test case should fail, verify that
-                        if (expectedPass)
+                        // IUT Failure Test must equal computed Failure Test if it's a failure case
+                        if (iutResult.FailureTest)
                         {
-                            // Should not have failed
-                            errors.Add($"Test should not have failed, cipherText < n - 1 on iteration {i}");
+                            // Good, Pass
                         }
                         else
                         {
-                            // IUT and Server agree the test case should fail
+                            errors.Add($"Test case should have failed, 1 < cipherText < n - 1 not satisfied on iteration {i}");
                         }
                     }
                     else
                     {
-                        // IUT says the test case should pass (generate a plaintext), verify that, then verify correctness
-                        if (expectedPass)
+                        // Prompt CT, must equal computed CT if it's not a failure case
+                        if (serverPrompt.CipherText.Equals(computedResult.CipherText))
                         {
-                            if (suppliedResult.ResultsArray[i].PlainText == null)
-                            {
-                                errors.Add($"Could not find plaintext for test on iteration {i}");
-                            }
-                            else
-                            {
-                                var iutPlainText = suppliedResult.ResultsArray[i].PlainText.ToPositiveBigInteger();
-                                var computedPlainText = computedResult.PlainText.ToPositiveBigInteger();
-
-                                if (iutPlainText == computedPlainText)
-                                {
-                                    // IUT and server agree on the plaintext
-                                }
-                                else
-                                {
-                                    errors.Add($"Incorrect plaintext computed for test on iteration {i}");
-                                }
-                            }
+                            // Good, pass
+                        }
+                        else
+                        {
+                            errors.Add($"Computed cipherText from encryption does not match IUT value on iteration {i}");
                         }
                     }
                 }

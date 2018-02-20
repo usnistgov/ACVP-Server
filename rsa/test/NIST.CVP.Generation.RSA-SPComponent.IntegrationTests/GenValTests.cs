@@ -57,9 +57,9 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             // If TC has a result, change it
-            if (testCase.isSuccess != null)
+            if (testCase.sigResult != null)
             {
-                testCase.isSuccess = !((bool)testCase.isSuccess);
+                testCase.sigResult = !((bool)testCase.sigResult);
             }
 
             var rand = new Random800_90();

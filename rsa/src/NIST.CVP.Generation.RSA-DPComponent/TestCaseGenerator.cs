@@ -21,10 +21,6 @@ namespace NIST.CVP.Generation.RSA_DPComponent
         private readonly IKeyComposerFactory _keyComposerFactory;
         private readonly IRsa _rsa;
 
-        // We want at least 1/3 of the total test cases to fail
-        private int _numberOfCasesInATestCase = 30;
-        private bool _isSample = false;
-
         public int NumberOfTestCasesToGenerate { get; } = 1;
 
         public TestCaseGenerator(IRandom800_90 rand, IKeyBuilder keyBuilder, IKeyComposerFactory keyComposerFactory, IRsa rsa)
@@ -37,52 +33,70 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {
-            if (isSample)
-            {
-                _numberOfCasesInATestCase = 6;
-                _isSample = true;
-            }
-
-            var failureTestIndexes = GetFailureIndexes();
+            var failureTestIndexes = GetFailureIndexes(group.TotalTestCases, group.TotalFailingCases);
             var testCase = new TestCase();
 
-            for (var i = 0; i < _numberOfCasesInATestCase; i++)
+            for (var i = 0; i < group.TotalTestCases; i++)
             {
                 var algoArrayResponse = new AlgoArrayResponse();
 
-                if (_isSample)
+                if (isSample)
                 {
-                    KeyResult keyResult;
-                    do
+                    if (failureTestIndexes.Contains(i))
                     {
+                        // Failure tests
+
+                        // Pick a random ciphertext and force a leading '1' (so that it MUST be 2048 bits)
+                        var cipherText = BitString.One().ConcatenateBits(_rand.GetRandomBitString(group.Modulo - 1));
+
+                        // Pick a random n that is 2048 bits and less than the ciphertext
+                        var n = _rand.GetRandomBigInteger(NumberTheory.Pow2(group.Modulo - 1), cipherText.ToPositiveBigInteger());
                         var e = GetEValue(32, 64);
-                        keyResult = _keyBuilder
-                            .WithPrimeGenMode(PrimeGenModes.B33)
-                            .WithEntropyProvider(new EntropyProvider(_rand))
-                            .WithNlen(group.Modulo)
-                            .WithPublicExponent(e)
-                            .WithPrimeTestMode(PrimeTestModes.C2)
-                            .WithKeyComposer(_keyComposerFactory.GetKeyComposer(PrivateKeyModes.Standard))
-                            .Build();
 
-                    } while (!keyResult.Success);
+                        algoArrayResponse.Key = new KeyPair {PubKey = new PublicKey {E = e, N = n}};
+                        algoArrayResponse.CipherText = cipherText;
+                        algoArrayResponse.FailureTest = true;
+                    }
+                    else
+                    {
+                        // Correct tests
+                        KeyResult keyResult;
+                        do
+                        {
+                            var e = GetEValue(32, 64);
+                            keyResult = _keyBuilder
+                                .WithPrimeGenMode(PrimeGenModes.B33)
+                                .WithEntropyProvider(new EntropyProvider(_rand))
+                                .WithNlen(group.Modulo)
+                                .WithPublicExponent(e)
+                                .WithPrimeTestMode(PrimeTestModes.C2)
+                                .WithKeyComposer(_keyComposerFactory.GetKeyComposer(PrivateKeyModes.Standard))
+                                .Build();
 
-                    algoArrayResponse.Key = keyResult.Key;
-                }
+                        } while (!keyResult.Success);
 
-                BitString cipherText;
-                if (failureTestIndexes.Contains(i))
-                {
-                    // Try to force the value high by forcing the first few bits to be 1
-                    cipherText = BitString.Ones(2).ConcatenateBits(_rand.GetRandomBitString(2046));
+                        algoArrayResponse.Key = keyResult.Key;
+                        algoArrayResponse.CipherText = new BitString(_rand.GetRandomBigInteger(1, algoArrayResponse.Key.PubKey.N - 1));
+                    }
                 }
                 else
                 {
-                    // Normal random value
-                    cipherText = _rand.GetRandomBitString(2048);
+                    BitString cipherText;
+                    if (failureTestIndexes.Contains(i))
+                    {
+                        // Try to force the value high by forcing the first few bits to be 1
+                        cipherText = BitString.Ones(2).ConcatenateBits(_rand.GetRandomBitString(group.Modulo - 2));
+                    }
+                    else
+                    {
+                        // Normal random value
+                        cipherText = _rand.GetRandomBitString(group.Modulo);
+                    }
+
+                    algoArrayResponse.CipherText = cipherText;
+                    algoArrayResponse.FailureTest = false;
                 }
 
-                algoArrayResponse.CipherText = cipherText;
                 testCase.ResultsArray.Add(algoArrayResponse);
             }
 
@@ -91,23 +105,22 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 
         public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
         {
-            if (_isSample)
+            foreach (var algoArrayResponse in testCase.ResultsArray)
             {
-                foreach (var algoArrayResponse in testCase.ResultsArray)
+                // Only samples have a key
+                if (algoArrayResponse.Key != null)
                 {
-                    if (algoArrayResponse.CipherText.ToPositiveBigInteger() < algoArrayResponse.Key.PubKey.N - 1)
+                    // Only run decryption if it's not a failure test
+                    if (!algoArrayResponse.FailureTest)
                     {
+                        DecryptionResult decryptionResult = null;
                         try
                         {
-                            var decryptionResult = _rsa.Decrypt(algoArrayResponse.CipherText.ToPositiveBigInteger(), algoArrayResponse.Key.PrivKey, algoArrayResponse.Key.PubKey);
-                            if (decryptionResult.Success)
+                            decryptionResult = _rsa.Decrypt(algoArrayResponse.CipherText.ToPositiveBigInteger(), algoArrayResponse.Key.PrivKey, algoArrayResponse.Key.PubKey);
+                            if (!decryptionResult.Success)
                             {
-                                algoArrayResponse.PlainText = new BitString(decryptionResult.PlainText);
-                            }
-                            else
-                            {
-                                // This should never happen, the above check prevents it, but if it does, let's call it a failure test
-                                algoArrayResponse.FailureTest = true;
+                                ThisLogger.Error($"Error decrypting: {decryptionResult.ErrorMessage}");
+                                return new TestCaseGenerateResponse($"Error decrypting: {decryptionResult.ErrorMessage}");
                             }
                         }
                         catch (Exception ex)
@@ -115,17 +128,9 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                             ThisLogger.Error($"Exception decrypting: {ex.StackTrace}");
                             return new TestCaseGenerateResponse($"Exception decrypting: {ex.StackTrace}");
                         }
-                    }
-                    else
-                    {
-                        algoArrayResponse.FailureTest = true;
-                    }
-                }
 
-                if (testCase.ResultsArray.Count(ra => ra.FailureTest) < _numberOfCasesInATestCase / 3)
-                {
-                    return Generate(group, _isSample);
-                    //return new TestCaseGenerateResponse("Didn't create enough failures");
+                        algoArrayResponse.PlainText = new BitString(decryptionResult.PlainText);
+                    }
                 }
             }
 
@@ -134,9 +139,9 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();
 
-        private int[] GetFailureIndexes()
+        private int[] GetFailureIndexes(int total, int failing)
         {
-            return Enumerable.Range(0, _numberOfCasesInATestCase).OrderBy(a => Guid.NewGuid()).Take(_numberOfCasesInATestCase / 2).ToArray();
+            return Enumerable.Range(0, total).OrderBy(a => Guid.NewGuid()).Take(failing).ToArray();
         }
 
         private BigInteger GetEValue(int minLen, int maxLen)
