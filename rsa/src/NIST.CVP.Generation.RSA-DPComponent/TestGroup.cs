@@ -5,6 +5,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA_DPComponent
 {
@@ -26,6 +27,12 @@ namespace NIST.CVP.Generation.RSA_DPComponent
         public TestGroup(dynamic source)
         {
             Tests = new List<ITestCase>();
+
+            var expandoSource = (ExpandoObject) source;
+
+            TotalTestCases = expandoSource.GetTypeFromProperty<int>("totalTests");
+            TotalFailingCases = expandoSource.GetTypeFromProperty<int>("totalFailingTests");
+
             foreach (var test in source.tests)
             {
                 Tests.Add(new TestCase(test));

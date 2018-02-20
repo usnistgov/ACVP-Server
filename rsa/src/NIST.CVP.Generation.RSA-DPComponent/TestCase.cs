@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
@@ -37,32 +38,36 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             TestCaseId = (int)source.tcId;
 
             var expandoSource = (ExpandoObject) source;
-            if (expandoSource.ContainsProperty("resultsArray") || expandoSource.ContainsProperty("promptArray"))
+            if (expandoSource.ContainsProperty("resultsArray"))
             {
-                var n = expandoSource.GetBigIntegerFromProperty("n");
-                var e = expandoSource.GetBigIntegerFromProperty("e");
-                var key = new KeyPair{PubKey = new PublicKey {E = e, N = n}};
-                bool failureTest;
-
-                if (expandoSource.ContainsProperty("isSuccess"))
+                foreach (var item in source.resultsArray)
                 {
-                    // Negate it for 'FailureTest'
-                    failureTest = !expandoSource.GetTypeFromProperty<bool>("isSuccess");
+                    var expandoItem = (ExpandoObject) item;
+                    var n = expandoItem.GetBigIntegerFromProperty("n");
+                    var e = expandoItem.GetBigIntegerFromProperty("e");
+                    var key = new KeyPair{PubKey = new PublicKey {E = e, N = n}};
+                    bool failureTest;
+
+                    if (expandoItem.ContainsProperty("isSuccess"))
+                    {
+                        // Negate it for 'FailureTest'
+                        failureTest = !expandoItem.GetTypeFromProperty<bool>("isSuccess");
+                    }
+                    else
+                    {
+                        failureTest = false;
+                    }
+
+                    var algoArray = new AlgoArrayResponse
+                    {
+                        CipherText = expandoItem.GetBitStringFromProperty("cipherText"),
+                        PlainText = expandoItem.GetBitStringFromProperty("plainText"),
+                        Key = key,
+                        FailureTest = failureTest
+                    };
+
+                    ResultsArray.Add(algoArray);
                 }
-                else
-                {
-                    failureTest = false;
-                }
-
-                var algoArray = new AlgoArrayResponse
-                {
-                    CipherText = expandoSource.GetBitStringFromProperty("cipherText"),
-                    PlainText = expandoSource.GetBitStringFromProperty("plainText"),
-                    Key = key,
-                    FailureTest = failureTest
-                };
-
-                ResultsArray.Add(algoArray);
             }
         }
 
@@ -74,6 +79,47 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             }
 
             return true;
+        }
+
+        public bool SetString(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            if (ResultsArray == null)
+            {
+                return false;
+            }
+
+            var latest = ResultsArray.Last();
+
+            switch (name.ToLower())
+            {
+                case "c":
+                    latest.CipherText = new BitString(value);
+                    return true;
+
+                case "k":
+                    latest.PlainText = new BitString(value);
+                    return true;
+
+                case "n":
+                    latest.Key = new KeyPair {PrivKey = new PrivateKey(), PubKey = new PublicKey()};
+                    latest.Key.PubKey.N = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "e":
+                    latest.Key.PubKey.E = new BitString(value).ToPositiveBigInteger();
+                    return true;
+
+                case "result":
+                    latest.FailureTest = (value == "fail");
+                    return true;
+            }
+
+            return false;
         }
     }
 }
