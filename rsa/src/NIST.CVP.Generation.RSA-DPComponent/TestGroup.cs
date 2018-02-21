@@ -5,12 +5,15 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA_DPComponent
 {
     public class TestGroup : ITestGroup
     {
-        public int Modulo { get; set; } = 2048;
+        public int Modulo { get; set; }
+        public int TotalTestCases { get; set; }
+        public int TotalFailingCases { get; set; }
         public string TestType { get; set; }
         public List<ITestCase> Tests { get; set; }
 
@@ -19,13 +22,17 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             Tests = new List<ITestCase>();
         }
 
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>())
-        {
-        }
+        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
 
         public TestGroup(dynamic source)
         {
             Tests = new List<ITestCase>();
+
+            var expandoSource = (ExpandoObject) source;
+
+            TotalTestCases = expandoSource.GetTypeFromProperty<int>("totalTests");
+            TotalFailingCases = expandoSource.GetTypeFromProperty<int>("totalFailingTests");
+
             foreach (var test in source.tests)
             {
                 Tests.Add(new TestCase(test));
@@ -53,7 +60,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 
         public override int GetHashCode()
         {
-            return $"{Modulo}".GetHashCode();
+            return $"{Modulo}|{TotalFailingCases}|{TotalTestCases}".GetHashCode();
         }
 
         public override bool Equals(object obj)

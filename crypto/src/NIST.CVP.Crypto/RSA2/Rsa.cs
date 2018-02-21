@@ -19,7 +19,7 @@ namespace NIST.CVP.Crypto.RSA2
 
         public EncryptionResult Encrypt(BigInteger plainText, PublicKey pubKey)
         {
-            if (plainText >= pubKey.N)
+            if (plainText <= 1 || plainText >= pubKey.N - 1)
             {
                 return new EncryptionResult("Plaintext too long");
             }
@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.RSA2
         {
             // For SP-Component mainly, but this shouldn't really happen anywhere else
             // TODO does null check on pub key make sense?  Was getting NRE when pubKey null
-            if (cipherText >= pubKey.N)
+            if (cipherText <= 1 || cipherText >= pubKey.N - 1)
             {
                 return new DecryptionResult("Ciphertext too long");
             }

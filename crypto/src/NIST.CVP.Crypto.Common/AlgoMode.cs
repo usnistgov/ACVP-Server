@@ -106,6 +106,8 @@ namespace NIST.CVP.Crypto.Common
         KDFComponents_SSH,
         [Description("KDF-Components-TLS")]
         KDFComponents_TLS,
+        [Description("RSA-DecryptionPrimitive")]
+        RSA_DecryptionPrimitive,
         [Description("RSA-KeyGen")]
         RSA_KeyGen,
         [Description("RSA-SigGen")]

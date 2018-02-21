@@ -51,6 +51,8 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>) updateObject).Add("totalTests", group.TotalTestCases);
+                    ((IDictionary<string, object>) updateObject).Add("totalFailingTests", group.TotalFailingCases);
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
@@ -87,6 +89,8 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
+                    ((IDictionary<string, object>) updateObject).Add("totalTests", group.TotalTestCases);
+                    ((IDictionary<string, object>) updateObject).Add("totalFailingTests", group.TotalFailingCases);
 
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
@@ -133,16 +137,16 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                             foreach (var result in test.ResultsArray)
                             {
                                 dynamic resultObject = new ExpandoObject();
-                                ((IDictionary<string, object>)testObject).Add("n", result.Key.PubKey.N);
-                                ((IDictionary<string, object>)testObject).Add("e", result.Key.PubKey.E);
+                                ((IDictionary<string, object>)resultObject).Add("n", result.Key.PubKey.N);
+                                ((IDictionary<string, object>)resultObject).Add("e", result.Key.PubKey.E);
 
                                 if (result.FailureTest)
                                 {
-                                    ((IDictionary<string, object>)testObject).Add("failureTest", !result.FailureTest);
+                                    ((IDictionary<string, object>)resultObject).Add("isSuccess", !result.FailureTest);
                                 }
                                 else
                                 {
-                                    ((IDictionary<string, object>) testObject).Add("plainText", result.PlainText);
+                                    ((IDictionary<string, object>)resultObject).Add("plainText", result.PlainText);
                                 }
 
                                 resultsArray.Add(resultObject);

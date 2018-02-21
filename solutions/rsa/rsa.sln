@@ -89,9 +89,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.GenValA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-DPComponent", "..\..\rsa\src\NIST.CVP.Generation.RSA-DPComponent\NIST.CVP.Generation.RSA-DPComponent.csproj", "{99D51B3C-F39F-44A3-BC12-5CEA44EC8CA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.RSA-DPComponent.Tests", "..\..\rsa\test\NIST.CVP.Generation.RSA-DPComponent.Tests\NIST.CVP.Generation.RSA-DPComponent.Tests.csproj", "{0800CFB9-8900-4E55-90BB-C954BFFC23C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-DPComponent.Tests", "..\..\rsa\test\NIST.CVP.Generation.RSA-DPComponent.Tests\NIST.CVP.Generation.RSA-DPComponent.Tests.csproj", "{0800CFB9-8900-4E55-90BB-C954BFFC23C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.RSA-DPComponent.IntegrationTests", "..\..\rsa\test\NIST.CVP.Generation.RSA-DPComponent.IntegrationTests\NIST.CVP.Generation.RSA-DPComponent.IntegrationTests.csproj", "{3D0E7248-1F52-4387-9972-946251830FFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-DPComponent.IntegrationTests", "..\..\rsa\test\NIST.CVP.Generation.RSA-DPComponent.IntegrationTests\NIST.CVP.Generation.RSA-DPComponent.IntegrationTests.csproj", "{3D0E7248-1F52-4387-9972-946251830FFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSA-DP-Component", "..\..\rsa\src\RSA-DP-Component\RSA-DP-Component.csproj", "{EFC542EE-2328-408C-B968-13F1F08DC2B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSA-DP-Component_Val", "..\..\rsa\src\RSA-DP-Component_Val\RSA-DP-Component_Val.csproj", "{5329C46B-82EA-4033-B3A1-1C24040AA3E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -571,6 +575,30 @@ Global
 		{3D0E7248-1F52-4387-9972-946251830FFB}.Release|x64.Build.0 = Release|Any CPU
 		{3D0E7248-1F52-4387-9972-946251830FFB}.Release|x86.ActiveCfg = Release|Any CPU
 		{3D0E7248-1F52-4387-9972-946251830FFB}.Release|x86.Build.0 = Release|Any CPU
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8}.Debug|x64.Build.0 = Debug|Any CPU
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8}.Debug|x86.Build.0 = Debug|Any CPU
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8}.Release|x64.ActiveCfg = Release|Any CPU
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8}.Release|x64.Build.0 = Release|Any CPU
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8}.Release|x86.ActiveCfg = Release|Any CPU
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8}.Release|x86.Build.0 = Release|Any CPU
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1}.Debug|x64.Build.0 = Debug|Any CPU
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1}.Debug|x86.Build.0 = Debug|Any CPU
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1}.Release|x64.ActiveCfg = Release|Any CPU
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1}.Release|x64.Build.0 = Release|Any CPU
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1}.Release|x86.ActiveCfg = Release|Any CPU
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -615,6 +643,8 @@ Global
 		{99D51B3C-F39F-44A3-BC12-5CEA44EC8CA7} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
 		{0800CFB9-8900-4E55-90BB-C954BFFC23C3} = {05A83241-08C3-48EC-81E0-20D7F7812078}
 		{3D0E7248-1F52-4387-9972-946251830FFB} = {05A83241-08C3-48EC-81E0-20D7F7812078}
+		{EFC542EE-2328-408C-B968-13F1F08DC2B8} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
+		{5329C46B-82EA-4033-B3A1-1C24040AA3E1} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81006EE6-52E0-4C5A-8A4B-94A560EAC8D6}

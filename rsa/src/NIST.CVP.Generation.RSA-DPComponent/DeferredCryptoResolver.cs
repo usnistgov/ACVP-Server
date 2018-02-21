@@ -22,24 +22,38 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 
             for (var i = 0; i < serverTestCase.ResultsArray.Count; i++)
             {
-                var serverResponse = new AlgoArrayResponse();
-                if (iutTestCase.ResultsArray[i].FailureTest)
+                var iutCase = iutTestCase.ResultsArray[i];          // Has key, PT, FailureTest
+                var serverCase = serverTestCase.ResultsArray[i];    // Has CT
+
+                var serverResponse = new AlgoArrayResponse
                 {
-                    serverResponse.FailureTest = true;
-                }
-                else
+                    CipherText = serverCase.CipherText,
+                    Key = iutCase.Key,
+                    FailureTest = iutCase.FailureTest,
+                    PlainText = iutCase.PlainText
+                };
+
+                if (!serverResponse.FailureTest)
                 {
-                    var result = _rsa.Encrypt(iutTestCase.ResultsArray[i].PlainText.ToPositiveBigInteger(), iutTestCase.ResultsArray[i].Key.PubKey);
-                    if (result.Success)
-                    {
-                        serverResponse.CipherText = new BitString(result.CipherText);
-                    }
-                    else
+                    // Should have a PT
+                    if (serverResponse.PlainText == null)
                     {
                         serverResponse.FailureTest = true;
                     }
+                    else
+                    {
+                        var result = _rsa.Encrypt(serverResponse.PlainText.ToPositiveBigInteger(), serverResponse.Key.PubKey);
+                        if (result.Success)
+                        {
+                            serverResponse.CipherText = new BitString(result.CipherText);
+                        }
+                        else
+                        {
+                            serverResponse.FailureTest = true;
+                        }
+                    }
                 }
-
+                
                 responses.Add(serverResponse);
             }
 

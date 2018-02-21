@@ -1,12 +1,16 @@
-﻿using System;
-using Autofac;
-using NIST.CVP.Crypto.RSA2.Keys;
+﻿using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Generation.Core;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using NIST.CVP.Crypto.RSA2;
+using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Generation.RSA_SPComponent;
+using NIST.CVP.Generation.RSA_DPComponent;
 using NIST.CVP.Math;
+using Autofac;
 
-namespace RSA_SP_Component_Val
+namespace RSA_DP_Component_Val
 {
     public class AutofacConfig
     {
@@ -20,18 +24,18 @@ namespace RSA_SP_Component_Val
 
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
             builder.RegisterType<KeyComposerFactory>().AsImplementedInterfaces();
+            builder.RegisterType<PrimeGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<Rsa>().AsImplementedInterfaces();
+            builder.RegisterType<RsaVisitor>().AsImplementedInterfaces();
 
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
-            builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
-            builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
-            builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
 
             OverrideRegistrations?.Invoke(builder);
             _container = builder.Build();

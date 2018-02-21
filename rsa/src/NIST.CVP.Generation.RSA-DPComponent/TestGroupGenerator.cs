@@ -11,7 +11,12 @@ namespace NIST.CVP.Generation.RSA_DPComponent
         {
             return new List<TestGroup>
             {
-                new TestGroup()
+                new TestGroup
+                {
+                    Modulo = 2048,
+                    TotalTestCases = parameters.IsSample ? 6 : 30,
+                    TotalFailingCases = parameters.IsSample ? 2 : 10
+                }
             };
         }
     }

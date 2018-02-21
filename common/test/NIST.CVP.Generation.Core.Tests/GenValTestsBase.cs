@@ -50,7 +50,6 @@ namespace NIST.CVP.Generation.Core.Tests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            SaveJson = true;
             if (!SaveJson)
             {
                 Directory.Delete(TestPath, true);

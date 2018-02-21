@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             {
                 foreach (var test in group.Tests.Select(t => (TestCase) t))
                 {
-                    list.Add(new TestCaseValidator(test, new DeferredCryptoResolver(_rsa)));
+                    list.Add(new TestCaseValidator(group, test, new DeferredCryptoResolver(_rsa)));
                 }
             }
 
