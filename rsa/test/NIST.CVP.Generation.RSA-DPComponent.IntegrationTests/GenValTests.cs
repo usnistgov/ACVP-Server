@@ -50,26 +50,31 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
-            // If TC has a result, change it
-            if (testCase.isSuccess != null)
-            {
-                testCase.isSuccess = !((bool)testCase.isSuccess);
-            }
-
             var rand = new Random800_90();
-            // If TC has a pt, change it
-            if (testCase.plainText != null)
-            {
-                var bs = new BitString(testCase.plainText.ToString());
-                bs = rand.GetDifferentBitStringOfSameSize(bs);
 
-                // Can't get something "different" of empty bitstring of the same length
-                if (bs == null)
+            // If TC has a resultsArray, change some of the elements
+            if (testCase.resultsArray != null)
+            {
+                // If TC has a result, change it
+                if (testCase.resultsArray[0].isSuccess != null)
                 {
-                    bs = new BitString("01");
+                    testCase.resultsArray[0].isSuccess = !((bool)testCase.resultsArray[0].isSuccess);
                 }
 
-                testCase.plainText = bs.ToHex();
+                // If TC has a pt, change it
+                if (testCase.resultsArray[0].plainText != null)
+                {
+                    var bs = new BitString(testCase.resultsArray[0].plainText.ToString());
+                    bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                    // Can't get something "different" of empty bitstring of the same length
+                    if (bs == null)
+                    {
+                        bs = new BitString("01");
+                    }
+
+                    testCase.resultsArray[0].plainText = bs.ToHex();
+                }
             }
         }
 

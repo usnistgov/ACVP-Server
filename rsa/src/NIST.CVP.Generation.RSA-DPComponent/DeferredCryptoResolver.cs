@@ -36,14 +36,21 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                 if (!serverResponse.FailureTest)
                 {
                     // Should have a PT
-                    var result = _rsa.Encrypt(serverResponse.PlainText.ToPositiveBigInteger(), serverResponse.Key.PubKey);
-                    if (result.Success)
+                    if (serverResponse.PlainText == null)
                     {
-                        serverResponse.CipherText = new BitString(result.CipherText);
+                        serverResponse.FailureTest = true;
                     }
                     else
                     {
-                        serverResponse.FailureTest = true;
+                        var result = _rsa.Encrypt(serverResponse.PlainText.ToPositiveBigInteger(), serverResponse.Key.PubKey);
+                        if (result.Success)
+                        {
+                            serverResponse.CipherText = new BitString(result.CipherText);
+                        }
+                        else
+                        {
+                            serverResponse.FailureTest = true;
+                        }
                     }
                 }
                 
