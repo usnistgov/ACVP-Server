@@ -58,11 +58,13 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
                 if (testCase[prop] != null)
                 {
                     var bs = new BitString(testCase[prop].ToString());
-                    bs = rand.GetDifferentBitStringOfSameSize(bs);
-
-                    if (bs == null)
+                    if (bs.BitLength == 0)
                     {
                         bs = new BitString("FF");
+                    }
+                    else
+                    {
+                        bs = bs.NOT();
                     }
 
                     testCase[prop] = bs.ToHex();
@@ -78,11 +80,13 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
                     if (testCase.resultsArray[0][prop] != null)
                     {
                         var bs = new BitString(testCase.resultsArray[0][prop].ToString());
-                        bs = rand.GetDifferentBitStringOfSameSize(bs);
-
-                        if (bs == null)
+                        if (bs.BitLength == 0)
                         {
                             bs = new BitString("FF");
+                        }
+                        else
+                        {
+                            bs = bs.NOT();
                         }
 
                         testCase.resultsArray[0][prop] = bs.ToHex();
