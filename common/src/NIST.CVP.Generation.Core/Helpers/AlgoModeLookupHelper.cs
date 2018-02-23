@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common;
+using NLog;
 
 namespace NIST.CVP.Generation.Core.Helpers
 {
@@ -11,6 +11,8 @@ namespace NIST.CVP.Generation.Core.Helpers
     /// </summary>
     public static class AlgoModeLookupHelper
     {
+        private static Logger Logger => LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// Gets an <see cref="AlgoMode"/> from the provided <see cref="algo"/> and <see cref="mode"/>
         /// </summary>
@@ -25,7 +27,10 @@ namespace NIST.CVP.Generation.Core.Helpers
 
             if (string.IsNullOrEmpty(algo))
             {
-                throw new ArgumentNullException($"{nameof(algo)} must be provided and not empty");
+                string errorMsg =
+                    $"{nameof(algo)} must be provided and not empty";
+                Logger.Error(errorMsg);
+                throw new ArgumentNullException(errorMsg);
             }
 
             StringBuilder sb = new StringBuilder();
@@ -45,8 +50,10 @@ namespace NIST.CVP.Generation.Core.Helpers
             }
             catch (InvalidOperationException)
             {
-                throw new InvalidOperationException(
-                    $"Unable to map {nameof(algo)} ({algo}) and {nameof(mode)} ({mode}) to {nameof(AlgoMode)}");
+                string errorMsg =
+                    $"Unable to map {nameof(algo)} ({algo}) and {nameof(mode)} ({mode}) to {nameof(AlgoMode)}";
+                Logger.Error(errorMsg);
+                throw new InvalidOperationException(errorMsg);
             }
         }
     }
