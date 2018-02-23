@@ -265,18 +265,18 @@ namespace NIST.CVP.Generation.Core.Tests
         {
             // Run test vector generation
             var result = Generator.Invoke(GetParameters(new[] { fileName }, GenValMode.Generate));
+            Assert.IsTrue(result == 0, "Generator failed to complete");
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[0]}"), $"{targetFolder}{TestVectorFileNames[0]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[1]}"), $"{targetFolder}{TestVectorFileNames[1]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[2]}"), $"{targetFolder}{TestVectorFileNames[2]}");
-            Assert.IsTrue(result == 0);
         }
 
         protected void RunValidation(string targetFolder)
         {
             // Run test vector validation
             var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames), GenValMode.Validate));
+            Assert.IsTrue(result == 0, "Validator failed to complete");
             Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder} validation");
-            Assert.IsTrue(result == 0);
         }
 
         private void GetFailureTestCases(string targetFolder, ref List<int> failureTcIds)
