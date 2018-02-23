@@ -77,15 +77,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             Assert.AreEqual(new BitString("00AA"), subject.Seed);
         }
 
-        [Test]
-        public void ShouldNotMergeTestWithMismatchedIds()
-        {
-            var testCase = new TestCase {TestCaseId = 1};
-            var otherTestCase = new TestCase {TestCaseId = 2};
-            var mergeResult = testCase.Merge(otherTestCase);
-            Assert.IsFalse(mergeResult);
-        }
-
         private dynamic GetSourceAnswerTest()
         {
             var sourceVector = new TestVectorSet { TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup)g).ToList()};

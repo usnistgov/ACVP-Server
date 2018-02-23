@@ -14,18 +14,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestGroup : ITestGroup
     {
-        public bool InfoGeneratedByServer { get; set; }
-        public int Modulo { get; set; }
-        public BitString FixedPubExp { get; set; }
-        public List<ITestCase> Tests { get; set; }
-        public string TestType { get; set; }
-
-        public HashFunction HashAlg { get; set; }
-        public PrivateKeyModes KeyFormat { get; set; }
-        public PrimeTestModes PrimeTest { get; set; }
-        public PrimeGenModes PrimeGenMode { get; set; }
-        public PublicExponentModes PubExp { get; set; }
-
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -39,6 +27,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             var expandoSource = (ExpandoObject) source;
 
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
             Modulo = expandoSource.GetTypeFromProperty<int>("modulo");
             InfoGeneratedByServer = expandoSource.GetTypeFromProperty<bool>("infoGeneratedByServer");
             PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(expandoSource.GetTypeFromProperty<string>("randPQ"));
@@ -61,45 +50,18 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public int TestGroupId { get; set; }
+        public bool InfoGeneratedByServer { get; set; }
+        public int Modulo { get; set; }
+        public BitString FixedPubExp { get; set; }
+        public List<ITestCase> Tests { get; set; }
+        public string TestType { get; set; }
 
-        public override int GetHashCode()
-        {
-            var hashAlgName = "";
-            if (HashAlg != null)
-            {
-                hashAlgName = HashAlg.Name;
-            }
-
-            return ($"{TestType}|{InfoGeneratedByServer}|{EnumHelpers.GetEnumDescriptionFromEnum(PrimeGenMode)}|" +
-                    $"{Modulo}|{hashAlgName}|{EnumHelpers.GetEnumDescriptionFromEnum(PrimeTest)}|" +
-                    $"{EnumHelpers.GetEnumDescriptionFromEnum(PubExp)}").GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
+        public HashFunction HashAlg { get; set; }
+        public PrivateKeyModes KeyFormat { get; set; }
+        public PrimeTestModes PrimeTest { get; set; }
+        public PrimeGenModes PrimeGenMode { get; set; }
+        public PublicExponentModes PubExp { get; set; }
 
         public bool SetString(string name, string value)
         {

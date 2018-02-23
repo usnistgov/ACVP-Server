@@ -23,25 +23,12 @@ namespace NIST.CVP.Generation.RSA_SPComponent
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach(var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 TestGroups.Add(group);
-            }
-
-            foreach(var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if(matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -53,24 +40,27 @@ namespace NIST.CVP.Generation.RSA_SPComponent
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("keyFormat", EnumHelpers.GetEnumDescriptionFromEnum(group.KeyFormat));
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("keyFormat", EnumHelpers.GetEnumDescriptionFromEnum(group.KeyFormat));
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>) testObject).Add("message", test.Message);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("message", test.Message);
                         AddKeyToDynamic(testObject, test.Key);
 
                         if (test.FailureTest)
                         {
-                            ((IDictionary<string, object>)testObject).Add("sigResult", !test.FailureTest);
+                            testDict.Add("sigResult", !test.FailureTest);
                         }
                         else
                         {
-                            ((IDictionary<string, object>) testObject).Add("signature", test.Signature);
+                            testDict.Add("signature", test.Signature);
                         }
 
                         tests.Add(testObject);
@@ -92,15 +82,18 @@ namespace NIST.CVP.Generation.RSA_SPComponent
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("keyFormat", EnumHelpers.GetEnumDescriptionFromEnum(group.KeyFormat));
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("keyFormat", EnumHelpers.GetEnumDescriptionFromEnum(group.KeyFormat));
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>) testObject).Add("message", test.Message);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("message", test.Message);
                         AddKeyToDynamic(testObject, test.Key);
 
                         tests.Add(testObject);
@@ -124,15 +117,16 @@ namespace NIST.CVP.Generation.RSA_SPComponent
                     foreach(var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (test.FailureTest)
                         {
-                            ((IDictionary<string, object>)testObject).Add("sigResult", !test.FailureTest);
+                            testDict.Add("sigResult", !test.FailureTest);
                         }
                         else
                         {
-                            ((IDictionary<string, object>)testObject).Add("signature", test.Signature);
+                            testDict.Add("signature", test.Signature);
                         }
 
                         tests.Add(testObject);
@@ -154,18 +148,19 @@ namespace NIST.CVP.Generation.RSA_SPComponent
 
         private void AddKeyToDynamic(ExpandoObject jsonObject, KeyPair key)
         {
-            ((IDictionary<string, object>)jsonObject).Add("n", key.PubKey.N);
+            var jsonDict = ((IDictionary<string, object>) jsonObject);
+            jsonDict.Add("n", key.PubKey.N);
 
             switch (key.PrivKey)
             {
                 case PrivateKey standardKey:
-                    ((IDictionary<string, object>)jsonObject).Add("d", standardKey.D);
+                    jsonDict.Add("d", standardKey.D);
                     break;
 
                 case CrtPrivateKey crtKey:
-                    ((IDictionary<string, object>)jsonObject).Add("dmp1", crtKey.DMP1);
-                    ((IDictionary<string, object>)jsonObject).Add("dmq1", crtKey.DMQ1);
-                    ((IDictionary<string, object>)jsonObject).Add("iqmp", crtKey.IQMP);
+                    jsonDict.Add("dmp1", crtKey.DMP1);
+                    jsonDict.Add("dmq1", crtKey.DMQ1);
+                    jsonDict.Add("iqmp", crtKey.IQMP);
                     break;
 
                 default:

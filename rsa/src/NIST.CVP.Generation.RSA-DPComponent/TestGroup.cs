@@ -1,9 +1,7 @@
 ﻿using NIST.CVP.Generation.Core;
-using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
@@ -11,12 +9,6 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 {
     public class TestGroup : ITestGroup
     {
-        public int Modulo { get; set; }
-        public int TotalTestCases { get; set; }
-        public int TotalFailingCases { get; set; }
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -30,6 +22,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 
             var expandoSource = (ExpandoObject) source;
 
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
             TotalTestCases = expandoSource.GetTypeFromProperty<int>("totalTests");
             TotalFailingCases = expandoSource.GetTypeFromProperty<int>("totalFailingTests");
 
@@ -39,39 +32,11 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            return $"{Modulo}|{TotalFailingCases}|{TotalTestCases}".GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
+        public int TestGroupId { get; set; }
+        public int Modulo { get; set; }
+        public int TotalTestCases { get; set; }
+        public int TotalFailingCases { get; set; }
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
     }
 }

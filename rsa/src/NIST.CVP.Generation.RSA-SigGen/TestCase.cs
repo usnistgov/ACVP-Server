@@ -1,26 +1,14 @@
 ﻿using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
-using System.Collections.Generic;
 using System.Dynamic;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-        public bool IsSample { get; set; }      // Internal only
-
-        public KeyPair Key { get; set; }        // Only needed for Validation
-        public BitString Message { get; set; }
-        public BitString Signature { get; set; }
-        public BitString Salt { get; set; }
-
         public TestCase() { }
 
         public TestCase(JObject source)
@@ -33,6 +21,16 @@ namespace NIST.CVP.Generation.RSA_SigGen
         {
             MapToProperties(source);
         }
+
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+        public bool IsSample { get; set; }      // Internal only
+
+        public KeyPair Key { get; set; }        // Only needed for Validation
+        public BitString Message { get; set; }
+        public BitString Signature { get; set; }
+        public BitString Salt { get; set; }
 
         private void MapToProperties(dynamic source)
         {
@@ -47,28 +45,6 @@ namespace NIST.CVP.Generation.RSA_SigGen
             var n = expandoSource.GetBigIntegerFromProperty("n");
 
             Key = new KeyPair {PubKey = new PublicKey {E = e, N = n}};
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            var otherTypedTest = (TestCase)otherTest;
-            if (Salt == null && otherTypedTest.Salt != null)
-            {
-                Salt = otherTypedTest.Salt.GetDeepCopy();
-            }
-
-            if (Message == null && otherTypedTest.Message != null)
-            {
-                Message = otherTypedTest.Message.GetDeepCopy();
-                return true;
-            }
-
-            return false;
         }
 
         public bool SetString(string name, string value)

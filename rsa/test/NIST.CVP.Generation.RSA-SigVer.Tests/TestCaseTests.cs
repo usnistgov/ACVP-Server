@@ -3,10 +3,7 @@ using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace NIST.CVP.Generation.RSA_SigVer.Tests
 {
@@ -38,15 +35,6 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
             var subject = new TestCase(sourceTest);
             Assume.That(subject != null);
             Assert.AreEqual(sourceTest.tcId, subject.TestCaseId);
-        }
-
-        [Test]
-        public void ShouldNotMergeTestWithMismatchedIds()
-        {
-            var testCase = new TestCase { TestCaseId = 1 };
-            var otherTestCase = new TestCase { TestCaseId = 2 };
-            var mergeResult = testCase.Merge(otherTestCase);
-            Assert.IsFalse(mergeResult);
         }
 
         private dynamic GetSourceAnswerTest()

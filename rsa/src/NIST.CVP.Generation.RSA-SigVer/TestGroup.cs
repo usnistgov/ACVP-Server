@@ -16,17 +16,6 @@ namespace NIST.CVP.Generation.RSA_SigVer
 {
     public class TestGroup : ITestGroup
     {
-        public SignatureSchemes Mode { get; set; }
-        public int Modulo { get; set; }
-        public HashFunction HashAlg { get; set; }
-        public int SaltLen { get; set; }
-        public KeyPair Key { get; set; }
-
-        public ITestCaseExpectationProvider<SignatureModifications> TestCaseExpectationProvider { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -40,6 +29,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
 
             var expandoSource = (ExpandoObject) source;
 
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
             Mode = EnumHelpers.GetEnumFromEnumDescription<SignatureSchemes>(expandoSource.GetTypeFromProperty<string>("sigType"));
             Modulo = expandoSource.GetTypeFromProperty<int>("modulo");
             HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
@@ -57,22 +47,17 @@ namespace NIST.CVP.Generation.RSA_SigVer
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public int TestGroupId { get; set; }
+        public SignatureSchemes Mode { get; set; }
+        public int Modulo { get; set; }
+        public HashFunction HashAlg { get; set; }
+        public int SaltLen { get; set; }
+        public KeyPair Key { get; set; }
+
+        public ITestCaseExpectationProvider<SignatureModifications> TestCaseExpectationProvider { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -106,24 +91,6 @@ namespace NIST.CVP.Generation.RSA_SigVer
             }
 
             return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return ($"{TestType}|{EnumHelpers.GetEnumDescriptionFromEnum(Mode)}|" +
-                    $"{Modulo}|{HashAlg.Name}" +
-                    $"{Key.PubKey.E.ToString()}" +
-                    $"{Key.PubKey.N.ToString()}").GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
         }
     }
 }
