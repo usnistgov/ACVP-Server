@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.Tests
 
         [Test]
         [TestCase("empty", "")]
-        [TestCase("small", "03")]
+        [TestCase("small", "02")]
         [TestCase("even", "ABCDEF02")]
         [TestCase("not hex", "BEEFFACEX")]
         public void ShouldReturnErrorWithInvalidEValue(string label, string value)

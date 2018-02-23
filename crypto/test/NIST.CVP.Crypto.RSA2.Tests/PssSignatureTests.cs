@@ -177,6 +177,13 @@ namespace NIST.CVP.Crypto.RSA2.Tests
 
         [Test]
         #region VerifyTests
+        [TestCase(ModeValues.SHA2, DigestSizes.d512, 1024, 1,
+            "ab",
+            "010001",
+            "debb3156ac07b75a3cb0429a81ebaeecbd3996927619b9bde029cfbc2b91fd99d9bf24eee2445c97c211c516005ce00b2f5c1a6c8bc0fa2a354c500998652e051d93cfcf4a6005b898deffbd88de7dadc9a56bc046fb1c556a9705fea22cecca494aa8fff9b8ea68f04f74f3e4842d83d5882bb90865ed5bc799864e83c8ac97",
+            "a1d31a212aa7950c9130fd093d8c0ac1ba66cad8af1a392c1019115c9490e3886a44675828c0114004b3e40246948b74fd87a683f1846278dab64c7acf21675401887b79a98eb1453f1b5d86ed011b3b43e01d9c2c47c35a211b6c279c3d8d79d067008b97579ea5ac300f9e1a1de19ff437d82947a9855a4d111a6ce32a7d7e",
+            "13956c9ecdb8765e7ba7b0ff8b91125174bf6d5f89d404712c6754542a7e7b5520250c5395eaf97d95260d0f2c8ef0c5ae60ce311f9e1bbd667c2f3645e40d1f1708f768b38a5dd36b38edbb756145090c3978339496245ae2a43831fe39c9c4133deb74fcc4206524b404ff8eeabd7a6beca4b94f0ea87287dab1ebf008714f",
+            TestName = "PSS Verify - 1024 - FirehoseTest")]
         [TestCase(ModeValues.SHA1, DigestSizes.d160, 1024, 20,
     /*sal*/ "f360c1d564071c0e190602f4e0844d060b1d76ed",
     /* e */ "b413fb",

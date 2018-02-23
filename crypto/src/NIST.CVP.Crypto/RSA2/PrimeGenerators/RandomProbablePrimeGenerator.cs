@@ -19,17 +19,18 @@ namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
         {
             var kat = _entropyProvider.GetType() == typeof(TestableEntropyProvider);
 
-            // 1
-            if (nlen != 2048 && nlen != 3072)
-            {
-                return new PrimeGeneratorResult("Incorrect nlen, must be 2048, 3072");
-            }
+            // Remove these because we need this to support 1536-bit, 4096-bit and some smaller e values (3, 17)
+            //// 1
+            //if (nlen != 2048 && nlen != 3072)
+            //{
+            //    return new PrimeGeneratorResult("Incorrect nlen, must be 2048, 3072");
+            //}
 
-            // 2
-            if (e <= BigInteger.Pow(2, 16) || e >= BigInteger.Pow(2, 256) || e.IsEven)
-            {
-                return new PrimeGeneratorResult("Incorrect e, must be greater than 2^16, less than 2^256, odd");
-            }
+            //// 2
+            //if (e <= BigInteger.Pow(2, 16) || e >= BigInteger.Pow(2, 256) || e.IsEven)
+            //{
+            //    return new PrimeGeneratorResult("Incorrect e, must be greater than 2^16, less than 2^256, odd");
+            //}
 
             // 3
             // security_strength doesn't matter
@@ -37,7 +38,7 @@ namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
             // 4, 4.1
             var i = 0;
             BigInteger p = 0;
-            var bound = nlen == 3072 ? _root2Mult2Pow1536Minus1 : _root2Mult2Pow1024Minus1;
+            var bound = GetBound(nlen);
             do
             {
                 do
@@ -129,6 +130,25 @@ namespace NIST.CVP.Crypto.RSA2.PrimeGenerators
             var auxValues = new AuxiliaryResult();
             var primePair = new PrimePair {P = p, Q = q};
             return new PrimeGeneratorResult(primePair, auxValues);
+        }
+
+        private BigInteger GetBound(int nlen)
+        {
+            switch (nlen)
+            {
+                case 1024:
+                    return _root2Mult2Pow512Minus1;
+                case 1536:
+                    return _root2Mult2Pow768Minus1;
+                case 2048:
+                    return _root2Mult2Pow1024Minus1;
+                case 3072:
+                    return _root2Mult2Pow1536Minus1;
+                case 4096:
+                    return _root2Mult2Pow2048Minus1;
+                default:
+                    throw new ArgumentException("Invalid nlen");
+            }
         }
     }
 }
