@@ -113,9 +113,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}, with error: {result.ErrorMessage}");
                         }
 
-                        if(!CompareKeys(testCase.Key, result.Key))
+                        var compareResult = CompareKeys(testCase.Key, result.Key);
+                        if(!compareResult.result)
                         {
-                            Assert.Fail($"Failed KeyPair comparison on TestCase: {testCase.TestCaseId}");
+                            Assert.Fail($"Failed KeyPair comparison on TestCase: {testCase.TestCaseId}, Reason: {compareResult.reason}");
                         }
                     }
                 }
@@ -172,17 +173,42 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             }
         }
 
-        private bool CompareKeys(KeyPair expected, KeyPair actual)
+        private (bool result, string reason) CompareKeys(KeyPair expected, KeyPair actual)
         {
             var pub1 = expected.PubKey;
             var pub2 = actual.PubKey;
 
-            if (!(expected.PrivKey is PrivateKey priv1) || !(actual.PrivKey is PrivateKey priv2)) return false;
+            if (!(expected.PrivKey is PrivateKey priv1) || !(actual.PrivKey is PrivateKey priv2))
+            {
+                return (false, "Key type mismatch");
+            }
 
-            if (pub1.E != pub2.E || pub1.N != pub2.N) return false;
-            if (priv1.P != priv2.P || priv1.Q != priv2.Q || priv1.D != priv2.D) return false;
-            
-            return true;
+            if (pub1.E != pub2.E)
+            {
+                return (false, "E mismatch");
+            }
+
+            if (pub1.N != pub2.N)
+            {
+                return (false, "N mismatch");
+            }
+
+            if (priv1.P != priv2.P)
+            {
+                return (false, "P mismatch");
+            }
+
+            if (priv1.Q != priv2.Q)
+            {
+                return (false, "Q mismatch");
+            }
+
+            if (priv1.D != priv2.D)
+            {
+                return (false, "D mismatch");
+            }
+
+            return (true, "");
         }
     }
 }
