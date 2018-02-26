@@ -51,20 +51,9 @@ namespace NIST.CVP.Generation.RSA_SigVer
                         {
                             // Get a key for the group
                             KeyResult keyResult = null;
+                            var primeGenMode = PrimeGenModes.B33;
                             do
                             {
-                                // Use a tested PrimeGen for 1024-bit RSA
-                                PrimeGenModes primeGenMode;
-                                if (modulo == 1024)
-                                {
-                                    primeGenMode = PrimeGenModes.B34;
-                                }
-                                // Use a fast PrimeGen for other RSA
-                                else
-                                {
-                                    primeGenMode = PrimeGenModes.B33;
-                                }
-
                                 BigInteger e;
                                 if (pubExpMode == PublicExponentModes.Fixed)
                                 {
@@ -78,9 +67,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
                                 keyResult = _keyBuilder
                                     .WithSeed(GetSeed(modulo))
                                     .WithNlen(modulo)
-                                    .WithBitlens(GetBitlens(modulo, primeGenMode))
                                     .WithEntropyProvider(new EntropyProvider(_rand))
-                                    .WithHashFunction(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256)))
                                     .WithKeyComposer(_keyComposerFactory.GetKeyComposer(keyFormat))
                                     .WithPublicExponent(e)
                                     .WithPrimeGenMode(primeGenMode)

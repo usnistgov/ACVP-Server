@@ -48,7 +48,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
             IR = BitString.ConcatenateBits(IR, hashedMessage);
             IR = BitString.ConcatenateBits(IR, trailer);
 
-            if(IR.BitLength != nlen)
+            if (IR.BitLength != nlen)
             {
                 return new PaddingResult("Improper length for IR");
             }
@@ -64,7 +64,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
             {
                 irPrime = embededMessage;
             }
-            else if((pubKey.N - embededMessage) % 16 == 12)
+            else if ((pubKey.N - embededMessage) % 16 == 12)
             {
                 irPrime = pubKey.N - embededMessage;
             }
@@ -73,14 +73,14 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
                 return new VerifyResult("Reject signature, failing modulo check");
             }
 
-            if(irPrime < NumberTheory.Pow2(nlen - 2) || irPrime > NumberTheory.Pow2(nlen - 1) - 1)
+            if (irPrime < NumberTheory.Pow2(nlen - 2) || irPrime > NumberTheory.Pow2(nlen - 1) - 1)
             {
                 return new VerifyResult("irPrime not within required range");
             }
 
             // 2. Encapsulated Hash Verification
             var bsIrPrime = new BitString(irPrime, nlen);
-            if(bsIrPrime.BitLength != nlen)
+            if (bsIrPrime.BitLength != nlen)
             {
                 return new VerifyResult("Bad bitlength for irPrime");
             }
@@ -90,7 +90,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
                 return new VerifyResult("Header not found within first 4 bits");
             }
 
-            if(!bsIrPrime.GetLeastSignificantBits(8).Equals(Tail))
+            if (!bsIrPrime.GetLeastSignificantBits(8).Equals(Tail))
             {
                 return new VerifyResult("Tail not found within last 8 bits");
             }
@@ -100,7 +100,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
             var expectedPadding = GetPadding(expectedPaddingLen);
             var padding = bsIrPrime.MSBSubstring(4, expectedPaddingLen);
 
-            if(!padding.Equals(expectedPadding))
+            if (!padding.Equals(expectedPadding))
             {
                 return new VerifyResult("Improper padding, must be 'B's followed by 'A'");
             }

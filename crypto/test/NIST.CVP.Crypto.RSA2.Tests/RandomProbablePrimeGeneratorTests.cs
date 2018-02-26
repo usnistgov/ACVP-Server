@@ -15,6 +15,7 @@ namespace NIST.CVP.Crypto.RSA2.Tests
     public class RandomProbablePrimeGeneratorTests
     {
         [Test]
+        [Ignore("These won't fail as expected. Checks were removed.")]
         [TestCase(0, "010001")]
         [TestCase(2048, "03")]
         public void ShouldFailWithBadParameters(int nlen, string e)
@@ -27,10 +28,13 @@ namespace NIST.CVP.Crypto.RSA2.Tests
         // This doesn't exactly test this way...
         // It is RANDOM... Can't even ensure that these will return result.Success, but I can make sure it runs at all
         [Test]
+        [TestCase(1024, "03")]
+        [TestCase(1536, "11")]
         [TestCase(2048, "df28ab")]
         [TestCase(2048, "e66d81")]
         [TestCase(3072, "df28ab")]
         [TestCase(3072, "e66d81")]
+        [TestCase(4096, "03")]
         public void ShouldPassWithGoodParameters(int nlen, string e)
         {
             var subject = new RandomProbablePrimeGenerator(new EntropyProvider(new Random800_90()), PrimeTestModes.C2);
