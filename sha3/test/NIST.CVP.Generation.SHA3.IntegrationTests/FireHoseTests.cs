@@ -122,9 +122,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
             foreach (var iTestGroup in parsedTestVectorSet.ParsedObject.TestGroups)
             {
                 var testGroup = (TestGroup)iTestGroup;
-                var shuffledTests = testGroup.Tests.OrderBy(a => Guid.NewGuid()).ToList().GetRange(0, 20);
-
-                foreach (var iTestCase in shuffledTests)
+                foreach (var iTestCase in testGroup.Tests)
                 {
                     count++;
                     var testCase = (TestCase)iTestCase;
