@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -21,49 +22,15 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         }
 
         [Test]
-        // 0
         [TestCase(
-            "test1 - 0",
-            new string[] { },
-            new int[] { },
-            new int[] { },
+            "test",
+            new string[] { "encrypt", "decrypt" },
+            new int[] { 128, 256 },
+            new int[] { 0, 128, 256, 120 },
             "",
             "",
-            new int[] { },
-            new int[] { }
-        )]
-        // 0
-        [TestCase(
-            "test2 - 0",
-            new string[] { },
-            new int[] { 1 },
-            new int[] { 1, 2 },
-            "",
-            "",
-            new int[] { },
-            new int[] { }
-        )]
-        // 3 (3*1*1*1*1)
-        [TestCase(
-            "test3 - 3",
-            new string[] { "", "", "" },
-            new int[] { 1 },
-            new int[] { 1 },
-            "",
-            "",
-            new int[] { 1 },
-            new int[] { 1 }
-        )]
-        // 540 (3*3*3*4*5)
-        [TestCase(
-            "test4 - 1620",
-            new string[] { "", "", "" },
-            new int[] { 1, 2, 3 },
-            new int[] { 1, 2, 3 },
-            "",
-            "",
-            new int[] { 1, 2, 3, 4 },
-            new int[] { 1, 2, 3, 4, 5 }
+            new int[] { 0, 128 },
+            new int[] { 64, 128 }
         )]
         public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
             string label,
@@ -76,16 +43,21 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             int[] tagLen
         )
         {
+
+            MathDomain mdPt = GetMathDomainFromArray(ptLen);
+            MathDomain mdAad = GetMathDomainFromArray(aadLen);
+            MathDomain mdTag = GetMathDomainFromArray(tagLen);
+
             Parameters p = new Parameters()
             {
-                aadLen = aadLen,
+                aadLen = mdAad,
                 Algorithm = "AES-XPN",
                 ivGen = ivGen,
                 ivGenMode = ivGenMode,
                 KeyLen = keyLen,
                 Direction = mode,
-                PtLen = ptLen,
-                TagLen = tagLen
+                PtLen = mdPt,
+                TagLen = mdTag
             };
             int expectedResultCount = aadLen.Length * keyLen.Length * mode.Length * ptLen.Length * tagLen.Length;
 
@@ -101,7 +73,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             
             var result = _subject.BuildTestGroups(p).ToList();
 
-            Assert.AreEqual(p.aadLen[0], ((TestGroup)result[0]).AADLength);
+            Assert.AreEqual(p.aadLen.GetDomainMinMax().Minimum, ((TestGroup)result[0]).AADLength);
         }
         
         [Test]
@@ -141,7 +113,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             
             var result = _subject.BuildTestGroups(p).ToList();
 
-            Assert.AreEqual(p.PtLen[0], ((TestGroup)result[0]).PTLength);
+            Assert.AreEqual(p.PtLen.GetDomainMinMax().Minimum, ((TestGroup)result[0]).PTLength);
         }
 
         [Test]
@@ -151,7 +123,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             
             var result = _subject.BuildTestGroups(p).ToList();
 
-            Assert.AreEqual(p.TagLen[0], ((TestGroup)result[0]).TagLength);
+            Assert.AreEqual(p.TagLen.GetDomainMinMax().Minimum, ((TestGroup)result[0]).TagLength);
         }
 
         [Test]
@@ -168,17 +140,29 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         {
             return new Parameters()
             {
-                aadLen = new int[] { 1 },
+                aadLen = new MathDomain().AddSegment(new ValueDomainSegment(1)),
                 Algorithm = "test0",
                 ivGen = "test",
                 ivGenMode = "test2",
                 KeyLen = new int[] { 2 },
                 Direction = new[] { "test3" },
-                PtLen = new int[] { 3 },
-                TagLen = new int[] { 4 },
+                PtLen = new MathDomain().AddSegment(new ValueDomainSegment(3)),
+                TagLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),
                 IsSample = false,
                 SaltGen = "test4"
             };
+        }
+
+        private MathDomain GetMathDomainFromArray(int[] values)
+        {
+            MathDomain md = new MathDomain();
+
+            foreach (var value in values)
+            {
+                md.AddSegment(new ValueDomainSegment(value));
+            }
+
+            return md;
         }
     }
 }

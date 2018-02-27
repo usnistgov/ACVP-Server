@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_XPN
@@ -40,16 +41,24 @@ namespace NIST.CVP.Generation.AES_XPN
 
         private void ValidatePlainText(Parameters parameters,  List<string> errorResults)
         {
-            var result = ValidateRange(parameters.PtLen, VALID_MIN_PT, VALID_MAX_PT, "Plaintext length (range check)");
-            if (!string.IsNullOrEmpty(result))
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.PtLen, "PtLen Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
             {
-                errorResults.Add(result);
+                return;
             }
-            result = ValidateMultipleOf(parameters.PtLen, 8, "Plaintext length (multiples check)");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
+
+            var fullDomain = parameters.PtLen.GetDomainMinMax();
+            var rangeCheck = ValidateRange(
+                new long[] { fullDomain.Minimum, fullDomain.Maximum },
+                VALID_MIN_PT,
+                VALID_MAX_PT,
+                "PtLen Range"
+            );
+            errorResults.AddIfNotNullOrEmpty(rangeCheck);
+
+            var modCheck = ValidateMultipleOf(parameters.PtLen, 8, "PtLen Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
         }
         
         private void ValidateKeySizes(Parameters parameters,  List<string> errorResults)
@@ -72,25 +81,53 @@ namespace NIST.CVP.Generation.AES_XPN
 
         private void ValidateTagSizes(Parameters parameters,  List<string> errorResults)
         {
-            var result = ValidateArray(parameters.TagLen, VALID_TAG_LENGTHS, "Tag Sizes");
-            if (!string.IsNullOrEmpty(result))
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.TagLen, "TagLen Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
             {
-                errorResults.Add(result);
+                return;
             }
+
+            // specific values valid for tag
+            bool validTagFound = false;
+            foreach (var validTagLength in VALID_TAG_LENGTHS)
+            {
+                if (parameters.TagLen.IsWithinDomain(validTagLength))
+                {
+                    validTagFound = true;
+                    break;
+                }
+            }
+
+            if (!validTagFound)
+            {
+                errorResults.AddIfNotNullOrEmpty("No valid tagLengths provided.");
+            }
+
+            var modCheck = ValidateMultipleOf(parameters.TagLen, 8, "TagLen Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
         private void ValidateAAD(Parameters parameters,  List<string> errorResults)
         {
-            var result = ValidateRange(parameters.aadLen, VALID_MIN_AAD, VALID_MAX_AAD, "AAD length (range check)");
-            if (!string.IsNullOrEmpty(result))
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.aadLen, "AadLen Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
             {
-                errorResults.Add(result);
+                return;
             }
-            result = ValidateMultipleOf(parameters.aadLen, 8, "AAD length (multiples check)");
-            if (!string.IsNullOrEmpty(result))
-            {
-                errorResults.Add(result);
-            }
+
+            var fullDomain = parameters.aadLen.GetDomainMinMax();
+            var rangeCheck = ValidateRange(
+                new long[] { fullDomain.Minimum, fullDomain.Maximum },
+                VALID_MIN_AAD,
+                VALID_MAX_AAD,
+                "AadLen Range"
+            );
+            errorResults.AddIfNotNullOrEmpty(rangeCheck);
+
+            var modCheck = ValidateMultipleOf(parameters.aadLen, 8, "AadLen Modulus");
+            errorResults.AddIfNotNullOrEmpty(modCheck);
         }
 
         private void ValidateIV(Parameters parameters,  List<string> errorResults)

@@ -4,6 +4,7 @@ using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -97,12 +98,12 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                 Mode = Mode,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new int[] { 0 },
+                PtLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
                 ivGen = ParameterValidator.VALID_IV_GEN[1],
                 ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
                 SaltGen = ParameterValidator.VALID_SALT_GEN[1],
-                aadLen = new int[] { 0 },
-                TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
+                aadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                TagLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),
                 IsSample = false
             };
 
@@ -111,22 +112,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            Parameters p = new Parameters()
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                Direction = new string[] { "encrypt", "decrypt" },
-                KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new int[] { 128, 0 },
-                ivGen = ParameterValidator.VALID_IV_GEN[0],
-                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],
-                SaltGen = ParameterValidator.VALID_SALT_GEN[1],
-                aadLen = new int[] { 128 },
-                TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
-                IsSample = true
-            };
-
-            return CreateRegistration(targetFolder, p);
+            return GetTestFileMinimalTestCases(targetFolder);
         }
 
         //private string GetTestFileInternalIvNotSample(string targetFolder)
@@ -156,12 +142,18 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                 Algorithm = "AES-XPN",
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
-                PtLen = new int[] { 128, 256 },
+                PtLen = new MathDomain()
+                    .AddSegment(new ValueDomainSegment(128))
+                    .AddSegment(new ValueDomainSegment(256)),
                 ivGen = ParameterValidator.VALID_IV_GEN[1],
                 ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
                 SaltGen = ParameterValidator.VALID_SALT_GEN[1],
-                aadLen = new int[] { 128, 120 },
-                TagLen = ParameterValidator.VALID_TAG_LENGTHS,
+                aadLen = new MathDomain()
+                    .AddSegment(new ValueDomainSegment(128))
+                    .AddSegment(new ValueDomainSegment(120)),
+                TagLen = new MathDomain()
+                    .AddSegment(new ValueDomainSegment(64))
+                    .AddSegment(new ValueDomainSegment(128)),
                 IsSample = false
             };
 
