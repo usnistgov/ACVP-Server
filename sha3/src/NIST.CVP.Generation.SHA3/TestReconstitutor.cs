@@ -5,19 +5,19 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA3
 {
-    public class TestReconstitutor : ITestReconstitutor<TestVectorSet, TestCase>
+    public class TestReconstitutor : ITestReconstitutor<TestVectorSet, TestGroup>
     {
         public TestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse)
         {
             return new TestVectorSet(answerResponse);
         }
 
-        public IEnumerable<TestCase> GetTestCasesFromResultResponse(dynamic resultResponse)
+        public IEnumerable<TestGroup> GetTestGroupsFromResultResponse(dynamic resultResponse)
         {
-            var list = new List<TestCase>();
+            var list = new List<TestGroup>();
             foreach (var result in resultResponse)
             {
-                list.Add(new TestCase(result));
+                list.Add(new TestGroup(result));
             }
             return list;
         }

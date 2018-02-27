@@ -4,36 +4,13 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.SHA3
 {
     public class TestGroup : ITestGroup
     {
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            TestType = source.testType;
-            Function = source.function;
-            DigestSize = (int)source.digestSize;
-
-            BitOrientedInput = SetBoolValue(source, "inBit");
-            BitOrientedOutput = SetBoolValue(source, "outBit");
-            IncludeNull = SetBoolValue(source, "inEmpty");
-            
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
-
         public int TestGroupId { get; set; }
         public List<ITestCase> Tests { get; set; }
 
@@ -58,6 +35,32 @@ namespace NIST.CVP.Generation.SHA3
         [JsonProperty(PropertyName = "outputLength")]
         public MathDomain OutputLength { get; set; }
 
+        public TestGroup()
+        {
+            Tests = new List<ITestCase>();
+        }
+
+        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
+
+        public TestGroup(dynamic source)
+        {
+            var expandoSource = (ExpandoObject) source;
+
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            TestType = expandoSource.GetTypeFromProperty<string>("testType");
+            Function = expandoSource.GetTypeFromProperty<string>("function");
+            DigestSize = expandoSource.GetTypeFromProperty<int>("digestSize");
+            BitOrientedInput = expandoSource.GetTypeFromProperty<bool>("inBit");
+            BitOrientedOutput = expandoSource.GetTypeFromProperty<bool>("outBit");
+            IncludeNull = expandoSource.GetTypeFromProperty<bool>("inEmpty");
+            
+            Tests = new List<ITestCase>();
+            foreach (var test in source.tests)
+            {
+                Tests.Add(new TestCase(test));
+            }
+        }
+
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(value))
@@ -78,16 +81,6 @@ namespace NIST.CVP.Generation.SHA3
             }
 
             return false;
-        }
-
-        private bool SetBoolValue(IDictionary<string, object> source, string label)
-        {
-            if (source.ContainsKey(label))
-            {
-                return (bool)source[label];
-            }
-
-            return default(bool);
         }
     }
 }
