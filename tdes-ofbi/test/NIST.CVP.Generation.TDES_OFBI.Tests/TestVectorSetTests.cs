@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             var subject = GetSubject(2);
             var results = subject.ResultProjection;
             Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
+            Assert.AreEqual(2, results.Count);
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.tcId.ToString()), nameof(item.tcId));
+                Assert.IsTrue(!string.IsNullOrEmpty(item.tgId.ToString()), nameof(item.tgId));
             }
         }
 
@@ -128,9 +128,12 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.ct.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.ct.ToString()));
+                }
             }
         }
 
@@ -202,9 +205,12 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         {
             var subject = GetSubject(1, "decrypt", null, false);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.pt.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.pt.ToString()));
+                }
             }
         }
 
@@ -213,10 +219,13 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         {
             var subject = GetSubject(1, "decrypt", null, true);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assume.That(item.decryptFail);
-                Assert.Throws(typeof(RuntimeBinderException), () => item.plainText.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assume.That(test.decryptFail);
+                    Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
+                }
             }
         }
 
