@@ -356,6 +356,68 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             Assert.AreNotEqual(plainText, decryptResult.Result, nameof(plainText));
         }
 
+        private static object[] _testDataNon96BitIvs = new object[]
+        {
+            new object[]
+            {
+                $"{nameof(_testDataNon96BitIvs)}_1",
+                // key
+                new BitString("7c7a7a0bc1bc3f051cfdaeff51483c14165cc7a7eaa33dcf"),
+                // iv
+                new BitString("3252c144a15fb2c3c0c2b2e7f879f2"),
+                // pt
+                new BitString("0fd15eed3fd2226051234fdc6334cb90"),
+                // aad
+                new BitString("8216f8d68932987cd7c8bef4c8c8b424"),
+                // expectedCt
+                new BitString("6eba9f926e261f304809507f55a3feed"),
+                // expectedTag
+                new BitString("be538d8ad94a387855e17991b2335e06")
+            },
+            new object[]
+            {
+                $"{nameof(_testDataNon96BitIvs)}_2",
+                // key
+                new BitString("3b96842bbccdd5219b65fa0febaac3ad6b0aaa5b5e6d5ef7"),
+                // iv
+                new BitString("6ce9ce453c0bc6e849162d15244149"),
+                // pt
+                new BitString(""),
+                // aad
+                new BitString("0d2c403e33844e4f2ba5aed57713723b"),
+                // expectedCt
+                new BitString(""),
+                // expectedTag
+                new BitString("6cbb25c4379b415f0d435d4fd7abc7cc")
+            },
+            new object[]
+            {
+                $"{nameof(_testDataNon96BitIvs)}_3",
+                // key
+                new BitString("6b504be7374c95abe3714099490c463bbf02bbcbe8c63fdd"),
+                // iv
+                new BitString("ae2d3c4ddd7ebb91341899c0bc32fa54d0"),
+                // pt
+                new BitString(""),
+                // aad
+                new BitString("8fa3c89482c345226a102af0f3bd5043"),
+                // expectedCt
+                new BitString(""),
+                // expectedTag
+                new BitString("872d99f52264fb0f49230e8fd5f23584")
+            }
+        };
+
+        [Test]
+        [TestCaseSource(nameof(_testDataNon96BitIvs))]
+        public void ShouldEncryptNon96BitIvsCorrectly(string testLabel, BitString key, BitString iv, BitString pt, BitString aad, BitString expectedCt, BitString expectedTag)
+        {
+            var result = _subject.BlockEncrypt(key, pt, iv, aad, expectedTag.BitLength);
+
+            Assert.AreEqual(result.CipherText.ToHex(), expectedCt.ToHex(), nameof(expectedCt));
+            Assert.AreEqual(result.Tag.ToHex(), expectedTag.ToHex(), nameof(expectedTag));
+        }
+
         private BitString GetBitStringOfLengthWithAll1s(int length)
         {
             BitString bs = new BitString(length);
@@ -369,3 +431,4 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
         }
     }
 }
+

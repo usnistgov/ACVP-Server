@@ -59,11 +59,6 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
 
             Assert.AreEqual(expectedJ0, result, nameof(expectedJ0));
             _mockSubject.Verify(
-                v => v.Ceiling(It.IsAny<int>(), It.IsAny<int>()),
-                Times.Never,
-                nameof(_mockSubject.Object.Ceiling)
-            );
-            _mockSubject.Verify(
                 v => v.GHash(It.IsAny<BitString>(), It.IsAny<BitString>()),
                 Times.Never,
                 nameof(_mockSubject.Object.GHash)
@@ -77,10 +72,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             BitString h = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(hString));
             BitString iv = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(ivString));
             BitString fakeGHashReturn = new BitString(5);
-
-            _mockSubject
-                .Setup(s => s.Ceiling(It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(96);
+            
             _mockSubject
                 .Setup(s => s.GHash(It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Returns(fakeGHashReturn);
@@ -92,29 +84,12 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
 
             Assert.AreEqual(fakeGHashReturn, result, nameof(result));
             _mockSubject.Verify(
-                v => v.Ceiling(iv.BitLength, 128),
-                Times.Once,
-                nameof(_mockSubject.Object.Ceiling)
-            );
-            _mockSubject.Verify(
-                v => v.GHash(h, iv.ConcatenateBits(expectedX)),
+                v => v.GHash(It.IsAny<BitString>(), It.IsAny<BitString>()),
                 Times.Once,
                 nameof(_mockSubject.Object.GHash)
             );
         }
         #endregion GetJ0
-
-        #region Ceiling
-        [Test]
-        [TestCase(1, 5, 1)] // 1 / 5 = 0 (.2), 1 mod 5 = 1, 0+1 = 1
-        [TestCase(200, 13, 16)] // 200 / 13 = 15 (15.38), 200 mod 13 = 5, 15+1 = 16
-        public void ShouldReturnCeiling(int numerator, int denominator, int expectedCeiling)
-        {
-            var result = _subject.Ceiling(numerator, denominator);
-
-            Assert.AreEqual(expectedCeiling, result);
-        }
-        #endregion Ceiling
 
         #region GHash
         [Test]
@@ -211,18 +186,9 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 Direction = DirectionValues.Encrypt,
                 KeySchedule = new RijndaelKeySchedule(128, 128, new byte[4,8])
             };
-
-            _mockSubject
-                .Setup(s => s.Ceiling(It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(mockedCeiling);
-
+            
             var result = _mockSubject.Object.GCTR(icb, x, key);
-
-            _mockSubject.Verify(
-                v => v.Ceiling(x.BitLength, 128),
-                Times.Once,
-                nameof(_mockSubject.Object.Ceiling)
-            );
+            
             _mockSubject.Verify(
                 v => v.inc_s(It.IsAny<int>(), It.IsAny<BitString>()), 
                 Times.Exactly(mockedCeiling), 
@@ -248,17 +214,8 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 KeySchedule = new RijndaelKeySchedule(128, 128, new byte[4, 8])
             };
 
-            _mockSubject
-                .Setup(s => s.Ceiling(It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(mockedCeiling);
-
             var result = _mockSubject.Object.GCTR(icb, x, key);
-
-            _mockSubject.Verify(
-                v => v.Ceiling(x.BitLength, 128),
-                Times.Once,
-                nameof(_mockSubject.Object.Ceiling)
-            );
+            
             _mockSubject.Verify(
                 v => v.inc_s(It.IsAny<int>(), It.IsAny<BitString>()),
                 Times.Exactly(mockedCeiling - 1),
@@ -352,47 +309,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             Assert.AreEqual(expectation, result);
         }
         #endregion inc_s
-
-        #region LSB
-        [Test]
-        [TestCase(new bool[] { false, false, false, false, true, true, true, true }, 
-            4,
-            new bool[] { false, false, false, false }
-        )]
-        [TestCase(new bool[] { false, true, false, false, true, true, true, true },
-            3,
-            new bool[] { false, true, false }
-        )]
-        public void ShouldReturnLeastSignificantBits(bool[] bitsInLSb, int numberOfBits, bool[] expectedBits)
-        {
-            BitString bs = new BitString(new BitArray(bitsInLSb));
-            BitString expectation = new BitString(new BitArray(expectedBits));
-            var result = _subject.LSB(numberOfBits, bs);
-
-            Assert.AreEqual(expectation, result);
-        }
-        #endregion LSB
-
-        #region MSB
-        [Test]
-        [TestCase(new bool[] { false, false, false, false, true, true, true, true },
-            4,
-            new bool[] { true, true, true, true }
-        )]
-        [TestCase(new bool[] { false, true, false, false, true, false, true, true },
-            3,
-            new bool[] { false, true, true }
-        )]
-        public void ShouldReturnMostSignificantBits(bool[] bitsInLSb, int numberOfBits, bool[] expectedBits)
-        {
-            BitString bs = new BitString(new BitArray(bitsInLSb));
-            BitString expectation = new BitString(new BitArray(expectedBits));
-            var result = _subject.MSB(numberOfBits, bs);
-
-            Assert.AreEqual(expectation, result);
-        }
-        #endregion MSB
-
+        
         #region BlockProduct
         [Test]
         [TestCase(0, 0, true)]

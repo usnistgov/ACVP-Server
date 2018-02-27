@@ -145,7 +145,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                     .AddSegment(new ValueDomainSegment(120)),
                 ivLen = new MathDomain()
                     .AddSegment(new ValueDomainSegment(96))
-                    .AddSegment(new ValueDomainSegment(128)),
+                    .AddSegment(new ValueDomainSegment(120)),
                 ivGen = ParameterValidator.VALID_IV_GEN[1],
                 ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
                 aadLen = new MathDomain()
