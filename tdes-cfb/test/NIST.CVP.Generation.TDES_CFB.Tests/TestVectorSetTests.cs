@@ -39,7 +39,12 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var subject = GetSubject(2);
             var results = subject.ResultProjection;
             Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
+            Assert.AreEqual(2, results.Count);
+
+            foreach (var group in results)
+            {
+                Assert.AreEqual(15, group.tests.Count);
+            }
         }
 
         [Test]
@@ -49,8 +54,6 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var subject = new TestVectorSet(source);
             Assert.AreEqual(2, subject.TestGroups.Count);
         }
-
-        // @@@ possible to get strong typing out of projection?
 
         [Test]
         public void ShouldContainElementsWithinAnswerProjection()
@@ -93,9 +96,9 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.tcId.ToString()), nameof(item.tcId));
+                Assert.IsTrue(!string.IsNullOrEmpty(group.tgId.ToString()), nameof(group.tgId));
             }
         }
 
@@ -130,9 +133,12 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.ct.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.ct.ToString()));
+                }
             }
         }
 
@@ -154,9 +160,12 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => item.pt.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assert.Throws(typeof(RuntimeBinderException), () => test.pt.ToString());
+                }
             }
         }
 
@@ -191,9 +200,12 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             var subject = GetSubject(1, "decrypt", null, false);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.pt.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.pt.ToString()));
+                }
             }
         }
 
@@ -202,10 +214,13 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             var subject = GetSubject(1, "decrypt", null, true);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assume.That(item.decryptFail);
-                Assert.Throws(typeof(RuntimeBinderException), () => item.pt.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assume.That(test.decryptFail);
+                    Assert.Throws(typeof(RuntimeBinderException), () => test.pt.ToString());
+                }
             }
         }
 
@@ -227,9 +242,12 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             var subject = GetSubject(1, "decrypt");
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => item.ct.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assert.Throws(typeof(RuntimeBinderException), () => test.ct.ToString());
+                }
             }
         }
 
