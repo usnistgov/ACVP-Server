@@ -38,6 +38,11 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             var results = subject.ResultProjection;
             Assert.IsNotNull(results);
             Assert.AreEqual(2, results.Count);
+
+            foreach (var group in results)
+            {
+                Assert.AreEqual(15, group.tests.Count);
+            }
         }
 
         [Test]
@@ -48,8 +53,6 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             Assert.AreEqual(2, subject.TestGroups.Count);
         }
         
-        // @@@ possible to get strong typing out of projection?
-
         [Test]
         public void ShouldContainElementsWithinAnswerProjection()
         {
@@ -168,9 +171,12 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => item.plainText.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
+                }
             }
         }
 
@@ -260,9 +266,12 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         {
             var subject = GetSubject(1, "decrypt");
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => item.cipherText.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assert.Throws(typeof(RuntimeBinderException), () => test.cipherText.ToString());
+                }
             }
         }
 
