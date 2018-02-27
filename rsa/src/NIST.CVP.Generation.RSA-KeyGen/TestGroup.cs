@@ -14,6 +14,19 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public bool InfoGeneratedByServer { get; set; }
+        public int Modulo { get; set; }
+        public BitString FixedPubExp { get; set; }
+        public List<ITestCase> Tests { get; set; }
+        public string TestType { get; set; }
+
+        public HashFunction HashAlg { get; set; }
+        public PrivateKeyModes KeyFormat { get; set; }
+        public PrimeTestModes PrimeTest { get; set; }
+        public PrimeGenModes PrimeGenMode { get; set; }
+        public PublicExponentModes PubExp { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -30,7 +43,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
             Modulo = expandoSource.GetTypeFromProperty<int>("modulo");
             InfoGeneratedByServer = expandoSource.GetTypeFromProperty<bool>("infoGeneratedByServer");
-            PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(expandoSource.GetTypeFromProperty<string>("randPQ"));
+            PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(expandoSource.GetTypeFromProperty<string>("randPQ"), false);
 
             var hashAlgName = expandoSource.GetTypeFromProperty<string>("hashAlg");
             if (!string.IsNullOrEmpty(hashAlgName))
@@ -39,9 +52,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
 
             PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(expandoSource.GetTypeFromProperty<string>("primeTest"), false);
-            PubExp = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(expandoSource.GetTypeFromProperty<string>("pubExpMode"));
+            PubExp = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(expandoSource.GetTypeFromProperty<string>("pubExpMode"), false);
             FixedPubExp = expandoSource.GetBitStringFromProperty("fixedPubExp");
-            KeyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(expandoSource.GetTypeFromProperty<string>("keyFormat"));
+            KeyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(expandoSource.GetTypeFromProperty<string>("keyFormat"), false);
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
@@ -49,19 +62,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public bool InfoGeneratedByServer { get; set; }
-        public int Modulo { get; set; }
-        public BitString FixedPubExp { get; set; }
-        public List<ITestCase> Tests { get; set; }
-        public string TestType { get; set; }
-
-        public HashFunction HashAlg { get; set; }
-        public PrivateKeyModes KeyFormat { get; set; }
-        public PrimeTestModes PrimeTest { get; set; }
-        public PrimeGenModes PrimeGenMode { get; set; }
-        public PublicExponentModes PubExp { get; set; }
 
         public bool SetString(string name, string value)
         {

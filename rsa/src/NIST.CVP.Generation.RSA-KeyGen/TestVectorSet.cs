@@ -240,9 +240,15 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         {
             get
             {
-                var tests = new List<dynamic>();
+                var groups = new List<dynamic>();
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
+                    dynamic groupObject = new ExpandoObject();
+                    var groupDict = (IDictionary<string, object>) groupObject;
+                    groupDict.Add("tgId", group.TestGroupId);
+
+                    var tests = new List<dynamic>();
+                    groupDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
@@ -297,9 +303,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
                         tests.Add(testObject);
                     }
+
+                    groups.Add(groupObject);
                 }
 
-                return tests;
+                return groups;
             }
         }
 

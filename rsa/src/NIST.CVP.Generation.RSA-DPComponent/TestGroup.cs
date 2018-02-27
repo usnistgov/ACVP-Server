@@ -9,6 +9,13 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public int Modulo { get; set; }
+        public int TotalTestCases { get; set; }
+        public int TotalFailingCases { get; set; }
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -31,12 +38,5 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public int Modulo { get; set; }
-        public int TotalTestCases { get; set; }
-        public int TotalFailingCases { get; set; }
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
     }
 }

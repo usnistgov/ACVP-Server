@@ -15,6 +15,16 @@ namespace NIST.CVP.Generation.RSA_SigGen
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public SignatureSchemes Mode { get; set; }
+        public int Modulo { get; set; }
+        public HashFunction HashAlg { get; set; }
+        public int SaltLen { get; set; }
+        public KeyPair Key { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -24,11 +34,11 @@ namespace NIST.CVP.Generation.RSA_SigGen
 
         public TestGroup(dynamic source)
         {
-            TestType = source.testType;
             var expandoSource = (ExpandoObject) source;
 
             TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            Mode = EnumHelpers.GetEnumFromEnumDescription<SignatureSchemes>(expandoSource.GetTypeFromProperty<string>("sigType"));
+            TestType = expandoSource.GetTypeFromProperty<string>("testType");
+            Mode = EnumHelpers.GetEnumFromEnumDescription<SignatureSchemes>(expandoSource.GetTypeFromProperty<string>("sigType"), false);
             Modulo = expandoSource.GetTypeFromProperty<int>("modulo");
             HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
             SaltLen = expandoSource.GetTypeFromProperty<int>("saltLen");
@@ -45,16 +55,6 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public SignatureSchemes Mode { get; set; }
-        public int Modulo { get; set; }
-        public HashFunction HashAlg { get; set; }
-        public int SaltLen { get; set; }
-        public KeyPair Key { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

@@ -30,9 +30,9 @@ namespace NIST.CVP.Generation.RSA_SigGen
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
 
-            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
-            builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ResultValidator<TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
         }
