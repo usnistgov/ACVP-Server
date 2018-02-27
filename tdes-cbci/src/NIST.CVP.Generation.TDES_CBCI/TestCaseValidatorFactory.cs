@@ -30,7 +30,6 @@ namespace NIST.CVP.Generation.TDES_CBCI
                     }
                     else
                     {
-
                         if (group.Function == "encrypt")
                         {
                             list.Add(new TestCaseValidatorEncrypt(workingTest));
@@ -44,11 +43,6 @@ namespace NIST.CVP.Generation.TDES_CBCI
             }
 
             return list;
-        }
-
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
-        {
-            return GetValidators(testVectorSet);
         }
     }
 }

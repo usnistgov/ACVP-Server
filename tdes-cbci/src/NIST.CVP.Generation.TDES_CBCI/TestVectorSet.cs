@@ -17,9 +17,15 @@ namespace NIST.CVP.Generation.TDES_CBCI
                 PrintOptionBitStringNull.DoNotPrintProperty,
                 PrintOptionBitStringEmpty.PrintAsEmptyString);
 
-        public TestVectorSet()
-        {
-        }
+        public string Algorithm { get; set; }
+        public string Mode { get; set; } = string.Empty;
+        public bool IsSample { get; set; }
+        
+        [JsonIgnore]
+        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
+        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
+
+        public TestVectorSet() { }
 
         public TestVectorSet(dynamic answers)
         {
@@ -30,13 +36,6 @@ namespace NIST.CVP.Generation.TDES_CBCI
                 TestGroups.Add(group);
             }
         }
-
-        public string Algorithm { get; set; }
-        public string Mode { get; set; } = string.Empty;
-        public bool IsSample { get; set; }
-        [JsonIgnore]
-        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
-        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
 
         /// <summary>
         /// Expected answers (not sent to client)
@@ -178,9 +177,16 @@ namespace NIST.CVP.Generation.TDES_CBCI
         {
             get
             {
-                var tests = new List<dynamic>();
+                var groups = new List<dynamic>();
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
+                    dynamic groupObject = new ExpandoObject();
+                    var groupDict = (IDictionary<string, object>) groupObject;
+                    groupDict.Add("tgId", group.TestGroupId);
+
+                    var tests = new List<dynamic>();
+                    groupDict.Add("tests", tests);
+
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
@@ -213,8 +219,6 @@ namespace NIST.CVP.Generation.TDES_CBCI
                         }
                         else
                         {
-
-
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
                                 _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct", test.CipherText);
@@ -237,8 +241,11 @@ namespace NIST.CVP.Generation.TDES_CBCI
 
                         tests.Add(testObject);
                     }
+
+                    groups.Add(groupObject);
                 }
-                return tests;
+
+                return groups;
             }
         }
 
