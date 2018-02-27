@@ -12,9 +12,17 @@ namespace NIST.CVP.Generation.TDES_CBC
 {
     public class TestVectorSet : ITestVectorSet
     {
-        public TestVectorSet()
-        {
-        }
+        public string Algorithm { get; set; }
+        
+        [JsonIgnore]
+        public string Mode { get; set; } = string.Empty;
+        public bool IsSample { get; set; }
+
+        [JsonIgnore]
+        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
+        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
+
+        public TestVectorSet() { }
 
         public TestVectorSet(dynamic answers)
         {
@@ -25,15 +33,6 @@ namespace NIST.CVP.Generation.TDES_CBC
                 TestGroups.Add(group);
             }
         }
-
-        public string Algorithm { get; set; }
-        [JsonIgnore]
-        public string Mode { get; set; } = string.Empty;
-        public bool IsSample { get; set; }
-
-        [JsonIgnore]
-        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
-        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
 
         /// <summary>
         /// Expected answers (not sent to client)
@@ -170,9 +169,16 @@ namespace NIST.CVP.Generation.TDES_CBC
         {
             get
             {
-                var tests = new List<dynamic>();
+                var groups = new List<dynamic>();
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
+                    dynamic groupObject = new ExpandoObject();
+                    var groupDict = (IDictionary<string, object>) groupObject;
+                    groupDict.Add("tgId", group.TestGroupId);
+
+                    var tests = new List<dynamic>();
+                    groupDict.Add("tests", tests);
+
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
@@ -204,14 +210,14 @@ namespace NIST.CVP.Generation.TDES_CBC
                                     resultDict.Add("plainText", result.PlainText);
                                     resultDict.Add("iv", result.IV);
                                 }
+
                                 resultsArray.Add(resultObject);
                             }
+
                             testDict.Add("resultsArray", resultsArray);
                         }
                         else
                         {
-
-
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
                                 testDict.Add("cipherText", test.CipherText);
@@ -232,8 +238,11 @@ namespace NIST.CVP.Generation.TDES_CBC
 
                         tests.Add(testObject);
                     }
+
+                    groups.Add(groupObject);
                 }
-                return tests;
+
+                return groups;
             }
         }
 
