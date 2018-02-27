@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.CSharp.RuntimeBinder;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
-using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -40,7 +39,12 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var subject = GetSubject(2);
             var results = subject.ResultProjection;
             Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
+            Assert.AreEqual(2, results.Count);
+
+            foreach (var group in results)
+            {
+                Assert.AreEqual(15, group.tests.Count);
+            }
         }
 
         [Test]
@@ -57,10 +61,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var subject = GetSubject(1);
             var results = subject.AnswerProjection;
             var group = results[0];
-            //Assert.IsTrue(!string.IsNullOrEmpty(group.function.ToString()), nameof(group.function));
             Assert.IsTrue(!string.IsNullOrEmpty(group.digestSize.ToString()), nameof(group.digestSize));
-            //Assert.IsTrue(!string.IsNullOrEmpty(group.bitOriented.ToString()), nameof(group.bitOriented));
-            //Assert.IsTrue(!string.IsNullOrEmpty(group.includeNull.ToString()), nameof(group.includeNull));
 
             var tests = group.tests;
             foreach (var test in tests)
@@ -76,7 +77,6 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var subject = GetSubject(1);
             var results = subject.PromptProjection;
             var group = results[0];
-            //Assert.IsTrue(!string.IsNullOrEmpty(group.function.ToString()), nameof(group.function));
 
             var tests = group.tests;
             foreach (var test in tests)
@@ -91,9 +91,9 @@ namespace NIST.CVP.Generation.SHA2.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.tcId.ToString()), nameof(item.tcId));
+                Assert.IsTrue(!string.IsNullOrEmpty(group.tgId.ToString()), nameof(group.tgId));
             }
         }
 
@@ -128,22 +128,12 @@ namespace NIST.CVP.Generation.SHA2.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.md.ToString()));
-            }
-        }
-
-        //[Test]
-        public void HashShouldExcludeMessageInAnswerProjection()
-        {
-            var subject = GetSubject(1);
-            var results = subject.AnswerProjection;
-            var group = results[0];
-            var tests = group.tests;
-            foreach (var test in tests)
-            {
-                Assert.Throws(typeof(RuntimeBinderException), () => test.msg.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.md.ToString()));
+                }
             }
         }
 
@@ -160,21 +150,24 @@ namespace NIST.CVP.Generation.SHA2.Tests
             }
         }
 
-        //[Test]
+        [Test]
         public void HashShouldExcludeMessageInResultProjection()
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => item.msg.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assert.Throws(typeof(RuntimeBinderException), () => test.msg.ToString());
+                }
             }
         }
 
         [Test]
-        public void MCTHashShouldIncludeMessageAndDigestInResultArrayWithinAnswerProjection()
+        public void MctHashShouldIncludeMessageAndDigestInResultArrayWithinAnswerProjection()
         {
-            var subject = GetMCTSubject(1);
+            var subject = GetMctSubject(1);
             var results = subject.AnswerProjection;
             var group = results[0];
             var tests = group.tests;
@@ -188,54 +181,25 @@ namespace NIST.CVP.Generation.SHA2.Tests
             }
         }
 
-        //[Test]
-        //public void MCTHashShouldIncludeMessageInResultArrayWithinPromptProjection()
-        //{
-        //    var subject = GetMCTSubject(1);
-        //    var results = subject.PromptProjection;
-        //    var group = results[0];
-        //    var tests = group.tests;
-        //    foreach (var test in tests)
-        //    {
-        //        foreach (var result in test.resultsArray)
-        //        {
-        //            Assert.IsTrue(!string.IsNullOrEmpty(result.message.ToString()));
-        //        }
-        //    }
-        //}
-
-        //[Test]
-        //public void MCTHashShouldExcludeDigestInResultArrayWithinPromptProjection()
-        //{
-        //    var subject = GetMCTSubject(1);
-        //    var results = subject.PromptProjection;
-        //    var group = results[0];
-        //    var tests = group.tests;
-        //    foreach (var test in tests)
-        //    {
-        //        foreach (var result in test.resultsArray)
-        //        {
-        //            Assert.Throws(typeof(RuntimeBinderException), () => result.digest.ToString());
-        //        }
-        //    }
-        //}
-
         [Test]
-        public void MCTHashShouldIncludeMessageAndDigestInResultProjection()
+        public void MctHashShouldIncludeMessageAndDigestInResultProjection()
         {
-            var subject = GetMCTSubject(1);
+            var subject = GetMctSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                foreach (var result in item.resultsArray)
+                foreach (var test in group.tests)
                 {
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.msg.ToString()));
-                    Assert.IsTrue(!string.IsNullOrEmpty(result.md.ToString()));
+                    foreach (var result in test.resultsArray)
+                    {
+                        Assert.IsTrue(!string.IsNullOrEmpty(result.msg.ToString()));
+                        Assert.IsTrue(!string.IsNullOrEmpty(result.md.ToString()));
+                    }
                 }
             }
         }
 
-        private TestVectorSet GetMCTSubject(int groups = 1)
+        private TestVectorSet GetMctSubject(int groups = 1)
         {
             var subject = new TestVectorSet {Algorithm = "SHA"};
             var testGroups = _tdm.GetMCTTestGroups(groups);
