@@ -10,44 +10,41 @@ namespace NIST.CVP.Generation.TDES_OFB
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        
+        [JsonProperty(PropertyName = "direction")]
+        public string Function { get; set; }
+        
+        [JsonProperty(PropertyName = "testType")]
+        public string TestType { get; set; }
+        
+        [JsonProperty(PropertyName = "numberOfKeys")]
+        public int NumberOfKeys { get; set; }
+        
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
         }
 
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>())
-        {
-
-        }
+        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
 
         public TestGroup(dynamic source)
         {
-            var expandoSource = ((ExpandoObject) source);
+            var expandoSource = (ExpandoObject) source;
 
-            if (expandoSource.ContainsProperty("numberOfKeys"))
-            {
-                NumberOfKeys = (int)source.numberOfKeys;
-            }
-
-            TestGroupId = (int) source.tgId;
-            TestType = source.testType;
-            Function = source.direction;
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            TestType = expandoSource.GetTypeFromProperty<string>("testType");
+            Function = expandoSource.GetTypeFromProperty<string>("direction");
+            NumberOfKeys = expandoSource.GetTypeFromProperty<int>("numberOfKeys");
+            
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {
                 Tests.Add(new TestCase(test));
             }
-
         }
-
-        public int TestGroupId { get; set; }
-        [JsonProperty(PropertyName = "direction")]
-        public string Function { get; set; }
-        [JsonProperty(PropertyName = "testType")]
-        public string TestType { get; set; }
-        [JsonProperty(PropertyName = "numberOfKeys")]
-        public int NumberOfKeys { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -63,8 +60,7 @@ namespace NIST.CVP.Generation.TDES_OFB
                     return true;
             }
 
-            int intVal = 0;
-            if (!int.TryParse(value, out intVal))
+            if (!int.TryParse(value, out var intVal))
             {
                 return false;
             }
@@ -75,6 +71,7 @@ namespace NIST.CVP.Generation.TDES_OFB
                     NumberOfKeys = intVal;
                     return true;
             }
+
             return false;
         }
     }
