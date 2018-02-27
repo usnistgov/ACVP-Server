@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
@@ -88,18 +89,22 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         }
 
         [Test]
-        [TestCase(null, 0)]
-        [TestCase(new int[] { }, 0)]
         [TestCase(new int[] { -1 }, 0)]
         [TestCase(new int[] { 128, -1 }, 0)]
         [TestCase(new int[] { 128, -1, -2 }, 1)]
         [TestCase(new int[] { 128, -1, -2, -3 }, 2)]
         public void ShouldReturnErrorWithInvalidTagLength(int[] tagLengths, int errorsExpected)
         {
+            MathDomain md = new MathDomain();
+            foreach (var value in tagLengths)
+            {
+                md.AddSegment(new ValueDomainSegment(value));
+            }
+
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithTagLen(tagLengths)
+                    .WithTagLen(md)
                     .Build()
             );
 
@@ -118,10 +123,16 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase(new int[] { 128, 1, 2, 3 }, 2)]
         public void ShouldReturnErrorWithInvalidPtLength(int[] ptLengths, int errorsExpected)
         {
+            MathDomain md = new MathDomain();
+            foreach (var value in ptLengths)
+            {
+                md.AddSegment(new ValueDomainSegment(value));
+            }
+
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithPtLen(ptLengths)
+                    .WithPtLen(md)
                     .Build()
             );
 
@@ -140,10 +151,16 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase(new int[] { 128, 1, 2, 3 }, 2)]
         public void ShouldReturnErrorWithInvalidAadLength(int[] aadLengths, int errorsExpected)
         {
+            MathDomain md = new MathDomain();
+            foreach (var value in aadLengths)
+            {
+                md.AddSegment(new ValueDomainSegment(value));
+            }
+
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAadLen(aadLengths)
+                    .WithAadLen(md)
                     .Build()
             );
 
@@ -163,10 +180,16 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         [TestCase(new int[] { 128, 9, 10, 11 }, 2)]
         public void ShouldReturnErrorWithInvalidIvLength(int[] ivLengths, int errorsExpected)
         {
+            MathDomain md = new MathDomain();
+            foreach (var value in ivLengths)
+            {
+                md.AddSegment(new ValueDomainSegment(value));
+            }
+
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithIvLen(ivLengths)
+                    .WithIvLen(md)
                     .Build()
             );
 
@@ -216,12 +239,12 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             private string _algorithm;
             private string[] _mode;
             private int[] _keyLen;
-            private int[] _ptLen;
-            private int[] _ivLen;
+            private MathDomain _ptLen;
+            private MathDomain _ivLen;
             private string _ivGen;
             private string _ivGenMode;
-            private int[] _aadLen;
-            private int[] _tagLen;
+            private MathDomain _aadLen;
+            private MathDomain _tagLen;
 
             public ParameterBuilder()
             {
@@ -229,12 +252,12 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 _algorithm = "AES-GCM";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
                 _keyLen = ParameterValidator.VALID_KEY_SIZES;
-                _ptLen = new int[] { 128 };
-                _ivLen = new int[] { 96 };
+                _ptLen = new MathDomain().AddSegment(new ValueDomainSegment(128));
+                _ivLen = new MathDomain().AddSegment(new ValueDomainSegment(96));
                 _ivGen = ParameterValidator.VALID_IV_GEN[0];
                 _ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0];
-                _aadLen = new int[] { 128 };
-                _tagLen = ParameterValidator.VALID_TAG_LENGTHS;
+                _aadLen = new MathDomain().AddSegment(new ValueDomainSegment(128));
+                _tagLen = new MathDomain().AddSegment(new ValueDomainSegment(128));
             }
 
             public ParameterBuilder WithAlgorithm(string value)
@@ -255,13 +278,13 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 return this;
             }
 
-            public ParameterBuilder WithPtLen(int[] value)
+            public ParameterBuilder WithPtLen(MathDomain value)
             {
                 _ptLen = value;
                 return this;
             }
 
-            public ParameterBuilder WithIvLen(int[] value)
+            public ParameterBuilder WithIvLen(MathDomain value)
             {
                 _ivLen = value;
                 return this;
@@ -279,13 +302,13 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 return this;
             }
 
-            public ParameterBuilder WithAadLen(int[] value)
+            public ParameterBuilder WithAadLen(MathDomain value)
             {
                 _aadLen = value;
                 return this;
             }
 
-            public ParameterBuilder WithTagLen(int[] value)
+            public ParameterBuilder WithTagLen(MathDomain value)
             {
                 _tagLen = value;
                 return this;

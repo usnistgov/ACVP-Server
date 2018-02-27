@@ -6,6 +6,7 @@ using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
@@ -96,12 +97,12 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 Algorithm = "AES-GCM",
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new int[] { 0 },
-                ivLen = new int[] { 96 },
+                PtLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                ivLen = new MathDomain().AddSegment(new ValueDomainSegment(96)),
                 ivGen = ParameterValidator.VALID_IV_GEN[1],
                 ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
-                aadLen = new int[] { 0 },
-                TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
+                aadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                TagLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),
                 IsSample = false
             };
 
@@ -110,21 +111,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            Parameters p = new Parameters()
-            {
-                Algorithm = "AES-GCM",
-                Direction = new string[] { "encrypt", "decrypt" },
-                KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new int[] { 128, 0 },
-                ivLen = new int[] { 96 },
-                ivGen = ParameterValidator.VALID_IV_GEN[0],
-                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],
-                aadLen = new int[] { 128 },
-                TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
-                IsSample = true
-            };
-
-            return CreateRegistration(targetFolder, p);
+            return GetTestFileMinimalTestCases(targetFolder);
         }
 
         //private string GetTestFileInternalIvNotSample(string targetFolder)
@@ -153,16 +140,20 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 Algorithm = "AES-GCM",
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = new int[] { 0, 120, 256 },
-                ivLen = new int[] { 96, 128 },
+                PtLen = new MathDomain()
+                    .AddSegment(new ValueDomainSegment(0))
+                    .AddSegment(new ValueDomainSegment(120)),
+                ivLen = new MathDomain()
+                    .AddSegment(new ValueDomainSegment(96))
+                    .AddSegment(new ValueDomainSegment(128)),
                 ivGen = ParameterValidator.VALID_IV_GEN[1],
                 ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
-                aadLen = new int[] { 0, 128, 120 },
-                TagLen = new int[]
-                {
-                    ParameterValidator.VALID_TAG_LENGTHS.First(),
-                    ParameterValidator.VALID_TAG_LENGTHS.Last()
-                },
+                aadLen = new MathDomain()
+                    .AddSegment(new ValueDomainSegment(0))
+                    .AddSegment(new ValueDomainSegment(120)),
+                TagLen = new MathDomain()
+                    .AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First()))
+                    .AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.Last())),
                 IsSample = false
             };
 
