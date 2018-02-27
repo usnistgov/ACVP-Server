@@ -39,7 +39,12 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             var subject = GetSubject(2);
             var results = subject.ResultProjection;
             Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
+            Assert.AreEqual(2, results.Count);
+
+            foreach (var group in results)
+            {
+                Assert.AreEqual(15, group.tests.Count);
+            }
         }
 
         [Test]
@@ -93,9 +98,9 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.tcId.ToString()), nameof(item.tcId));
+                Assert.IsTrue(!string.IsNullOrEmpty(group.tgId.ToString()), nameof(group.tgId));
             }
         }
 
@@ -130,9 +135,12 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.cipherText.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
+                }
             }
         }
 
@@ -154,9 +162,12 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => item.plainText.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
+                }
             }
         }
 
@@ -191,9 +202,12 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         {
             var subject = GetSubject(1, "decrypt");
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.plainText.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
+                }
             }
         }
 
@@ -215,9 +229,12 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         {
             var subject = GetSubject(1, "decrypt");
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => item.cipherText.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assert.Throws(typeof(RuntimeBinderException), () => test.cipherText.ToString());
+                }
             }
         }
 
@@ -314,10 +331,13 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         {
             var subject = GetCounterSubject();
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.ivs.ToString()));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.cipherText.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.ivs.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
+                }
             }
         }
 
@@ -326,10 +346,13 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         {
             var subject = GetCounterSubject(1, "decrypt");
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.ivs.ToString()));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.plainText.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.ivs.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
+                }
             }
         }
 

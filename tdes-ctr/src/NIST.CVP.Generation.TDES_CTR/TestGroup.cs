@@ -13,6 +13,20 @@ namespace NIST.CVP.Generation.TDES_CTR
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public string Direction { get; set; }
+        public int NumberOfKeys { get; set; }
+
+        // Properties for specific groups
+        public MathDomain DataLength { get; set; }
+        public bool StaticGroupOfTests { get; set; }
+
+        // This is a vectorset / IUT property but it needs to be defined somewhere other than Parameter.cs
+        public bool IncrementalCounter { get; set; }
+        public bool OverflowCounter { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
         public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
 
         public TestGroup()
@@ -28,7 +42,10 @@ namespace NIST.CVP.Generation.TDES_CTR
             Direction = expandoSource.GetTypeFromProperty<string>("direction");
 
             var keyingOption = expandoSource.GetTypeFromProperty<int>("keyingOption");
-            NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption);
+            if (keyingOption != 0)
+            {
+                NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption);
+            }
 
             TestType = expandoSource.GetTypeFromProperty<string>("testType");
             OverflowCounter = expandoSource.GetTypeFromProperty<bool>("overflow");
@@ -39,21 +56,6 @@ namespace NIST.CVP.Generation.TDES_CTR
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public string Direction { get; set; }
-        public int NumberOfKeys { get; set; }
-
-        // Properties for specific groups
-        public MathDomain DataLength { get; set; }
-        public bool StaticGroupOfTests { get; set; }
-
-        // This is a vectorset / IUT property but it needs to be defined somewhere other than Parameter.cs
-        public bool IncrementalCounter { get; set; }
-        public bool OverflowCounter { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -69,8 +71,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     return true;
             }
 
-            int intVal = 0;
-            if (!int.TryParse(value, out intVal))
+            if (!int.TryParse(value, out var intVal))
             {
                 return false;
             }
@@ -82,6 +83,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     NumberOfKeys = intVal;
                     return true;
             }
+
             return false;
         }
     }
