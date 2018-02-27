@@ -197,7 +197,7 @@ namespace NIST.CVP.Generation.Core.Tests
             Assert.IsTrue(result.Success);
         }
 
-        private Validator<FakeTestVectorSet, FakeTestCase> GetSubject(bool parserFail, bool validationFail)
+        private Validator<FakeTestVectorSet, FakeTestGroup, FakeTestCase> GetSubject(bool parserFail, bool validationFail)
         {
             var mocks = new MockedSystemDependencies();
             if (parserFail)
@@ -220,17 +220,17 @@ namespace NIST.CVP.Generation.Core.Tests
             if (validationFail)
             {
                 mocks.MockIResultValidator
-                    .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<FakeTestCase>>>(), It.IsAny<List<FakeTestCase>>()))
+                    .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<FakeTestCase>>>(), It.IsAny<List<FakeTestGroup>>()))
                     .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> {new TestCaseValidation { Result = Disposition.Failed } } });
             }
             else
             {
                 mocks.MockIResultValidator
-                   .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<FakeTestCase>>>(), It.IsAny<List<FakeTestCase>>()))
+                   .Setup(s => s.ValidateResults(It.IsAny<List<ITestCaseValidator<FakeTestCase>>>(), It.IsAny<List<FakeTestGroup>>()))
                    .Returns(new TestVectorValidation { Validations = new List<TestCaseValidation> { new TestCaseValidation { Result = Disposition.Passed } } });
             }
 
-            return new Validator<FakeTestVectorSet, FakeTestCase>(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object, mocks.MockITestCaseValidatorFactory.Object, mocks.MockITestReconstitutor.Object);
+            return new Validator<FakeTestVectorSet, FakeTestGroup, FakeTestCase>(mocks.MockIDynamicParser.Object, mocks.MockIResultValidator.Object, mocks.MockITestCaseValidatorFactory.Object, mocks.MockITestReconstitutor.Object);
         }
 
         private dynamic GetTestResults(int groups = 2)
@@ -260,11 +260,10 @@ namespace NIST.CVP.Generation.Core.Tests
 
         private class MockedSystemDependencies
         {
-            public Mock<IResultValidator<FakeTestCase>> MockIResultValidator { get; set; } = new Mock<IResultValidator<FakeTestCase>>();
-            public Mock<IDynamicParser> MockIDynamicParser { get; set; } = new Mock<IDynamicParser>();
-            public Mock<ITestCaseValidatorFactory<FakeTestVectorSet, FakeTestCase>> MockITestCaseValidatorFactory { get; set; } = new Mock<ITestCaseValidatorFactory<FakeTestVectorSet, FakeTestCase>>();
-            public Mock<ITestReconstitutor<FakeTestVectorSet, FakeTestCase>> MockITestReconstitutor { get; set; } = new Mock<ITestReconstitutor<FakeTestVectorSet, FakeTestCase>>();
-
+            public Mock<IResultValidator<FakeTestGroup, FakeTestCase>> MockIResultValidator { get; } = new Mock<IResultValidator<FakeTestGroup, FakeTestCase>>();
+            public Mock<IDynamicParser> MockIDynamicParser { get; } = new Mock<IDynamicParser>();
+            public Mock<ITestCaseValidatorFactory<FakeTestVectorSet, FakeTestCase>> MockITestCaseValidatorFactory { get; } = new Mock<ITestCaseValidatorFactory<FakeTestVectorSet, FakeTestCase>>();
+            public Mock<ITestReconstitutor<FakeTestVectorSet, FakeTestGroup>> MockITestReconstitutor { get; } = new Mock<ITestReconstitutor<FakeTestVectorSet, FakeTestGroup>>();
         }
     }
 }

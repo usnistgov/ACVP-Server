@@ -7,16 +7,17 @@ using NLog;
 
 namespace NIST.CVP.Generation.Core
 {
-    public class Validator<TTestVectorSet, TTestCase> : IValidator
+    public class Validator<TTestVectorSet, TTestGroup, TTestCase> : IValidator
         where TTestVectorSet : ITestVectorSet
+        where TTestGroup : ITestGroup
         where TTestCase : ITestCase
     {
         protected IDynamicParser _dynamicParser;
-        protected readonly IResultValidator<TTestCase> _resultValidator;
+        protected readonly IResultValidator<TTestGroup, TTestCase> _resultValidator;
         protected readonly ITestCaseValidatorFactory<TTestVectorSet, TTestCase> _testCaseValidatorFactory;
-        protected readonly ITestReconstitutor<TTestVectorSet, TTestCase> _testReconstitutor;
+        protected readonly ITestReconstitutor<TTestVectorSet, TTestGroup> _testReconstitutor;
 
-        public Validator(IDynamicParser dynamicParser, IResultValidator<TTestCase> resultValidator, ITestCaseValidatorFactory<TTestVectorSet, TTestCase> testCaseValidatorFactory, ITestReconstitutor<TTestVectorSet, TTestCase> testReconstitutor)
+        public Validator(IDynamicParser dynamicParser, IResultValidator<TTestGroup, TTestCase> resultValidator, ITestCaseValidatorFactory<TTestVectorSet, TTestCase> testCaseValidatorFactory, ITestReconstitutor<TTestVectorSet, TTestGroup> testReconstitutor)
         {
             _dynamicParser = dynamicParser;
             _resultValidator = resultValidator;
@@ -57,11 +58,10 @@ namespace NIST.CVP.Generation.Core
 
         protected virtual TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse, ParseResponse<dynamic> testResultParseResponse)
         {
-            var testVectorSet = _testReconstitutor
-                .GetTestVectorSetExpectationFromResponse(answerParseResponse.ParsedObject);
+            var testVectorSet = _testReconstitutor.GetTestVectorSetExpectationFromResponse(answerParseResponse.ParsedObject);
             var results = testResultParseResponse.ParsedObject;
-            var suppliedResults = _testReconstitutor.GetTestCasesFromResultResponse(results.testResults);
-            var testCaseValidators = _testCaseValidatorFactory.GetValidators(testVectorSet, suppliedResults);
+            var suppliedResults = _testReconstitutor.GetTestGroupsFromResultResponse(results.testResults);
+            var testCaseValidators = _testCaseValidatorFactory.GetValidators(testVectorSet);
             var response = _resultValidator.ValidateResults(testCaseValidators, suppliedResults);
             return response;
         }

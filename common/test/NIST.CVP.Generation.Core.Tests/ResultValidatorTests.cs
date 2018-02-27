@@ -13,8 +13,8 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldReturnValidation()
         {
-            var subject = new ResultValidator<ITestCase>();
-            var valdiation = subject.ValidateResults(new List<ITestCaseValidator<ITestCase>>(), new List<ITestCase>());
+            var subject = new ResultValidator<ITestGroup, ITestCase>();
+            var valdiation = subject.ValidateResults(new List<ITestCaseValidator<ITestCase>>(), new List<ITestGroup>());
             Assert.IsNotNull(valdiation);
         }
 
@@ -24,13 +24,14 @@ namespace NIST.CVP.Generation.Core.Tests
         public void ShouldReturnOnResultValidationPerSuppliedValidator(int count)
         {
             var validators = new List<ITestCaseValidator<ITestCase>>();
-            for (int idx = 0; idx < count; idx++)
+            for (var idx = 0; idx < count; idx++)
             {
                 validators.Add(new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = idx+1});
             }
 
-            var subject = new ResultValidator<ITestCase>();
-            var validation = subject.ValidateResults(validators, new List<ITestCase>());
+            var subject = new ResultValidator<ITestGroup, ITestCase>();
+            var validation = subject.ValidateResults(validators, new List<ITestGroup>());
+
             Assume.That(validation != null);
             Assert.AreEqual(count, validation.Validations.Count);
         }
@@ -38,61 +39,76 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldMarkMissingIfNoMatchingResultPresent()
         {
-            var subject = new ResultValidator<ITestCase>();
+            var subject = new ResultValidator<ITestGroup, ITestCase>();
             var validation =
                 subject.ValidateResults(
                     new List<ITestCaseValidator<ITestCase>>
                     {
                         new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = 1}
                     },
-                    new List<ITestCase>() {new FakeTestCase() {TestCaseId = 2}});
+                    new List<ITestGroup>
+                    {
+                        new FakeTestGroup {TestGroupId = 2, Tests = new List<ITestCase>{new FakeTestCase {TestCaseId = 2}}}
+                    });
+
             Assume.That(validation != null);
+
             var firstResultValidation = validation.Validations.FirstOrDefault();
+
             Assume.That(firstResultValidation != null);
             Assert.AreEqual(Disposition.Missing, firstResultValidation.Result);
-
         }
 
         [Test]
         public void ShouldMarkPassedForValidResult()
         {
-            var subject = new ResultValidator<ITestCase>();
+            var subject = new ResultValidator<ITestGroup, ITestCase>();
             var validation =
                 subject.ValidateResults(
                     new List<ITestCaseValidator<ITestCase>>
                     {
                         new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = 1}
                     },
-                    new List<ITestCase> {new FakeTestCase() {TestCaseId = 1}});
+                    new List<ITestGroup>
+                    {
+                        new FakeTestGroup {TestGroupId = 2, Tests = new List<ITestCase>{new FakeTestCase {TestCaseId = 1}}}
+                    });
+
             Assume.That(validation != null);
+
             var firstResultValidation = validation.Validations.FirstOrDefault();
+
             Assume.That(firstResultValidation != null);
             Assert.AreEqual(Disposition.Passed, firstResultValidation.Result);
-
         }
 
         [Test]
         public void ShouldMarkFailedForInvalidResult()
         {
-            var subject = new ResultValidator<ITestCase>();
+            var subject = new ResultValidator<ITestGroup, ITestCase>();
             var validation =
                 subject.ValidateResults(
                     new List<ITestCaseValidator<ITestCase>>
                     {
                         new FakeTestCaseValidator<ITestCase>(Disposition.Failed) {TestCaseId = 1}
                     },
-                    new List<ITestCase> {new FakeTestCase() {TestCaseId = 1}});
+                    new List<ITestGroup>
+                    {
+                        new FakeTestGroup {TestGroupId = 2, Tests = new List<ITestCase>{new FakeTestCase {TestCaseId = 1}}}
+                    });
+
             Assume.That(validation != null);
+
             var firstResultValidation = validation.Validations.FirstOrDefault();
+
             Assume.That(firstResultValidation != null);
             Assert.AreEqual(Disposition.Failed, firstResultValidation.Result);
-
         }
 
         [Test]
         public void ShouldMarkAllResultsProperly()
         {
-            var subject = new ResultValidator<ITestCase>();
+            var subject = new ResultValidator<ITestGroup, ITestCase>();
             var validation =
                 subject.ValidateResults(
                     new List<ITestCaseValidator<ITestCase>>
@@ -101,12 +117,23 @@ namespace NIST.CVP.Generation.Core.Tests
                         new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = 2},
                         new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = 3}
                     },
-                    new List<ITestCase> {new FakeTestCase() {TestCaseId = 1}, new FakeTestCase {TestCaseId = 2}});
+                    new List<ITestGroup>
+                    {
+                        new FakeTestGroup
+                        {
+                            TestGroupId = 2, 
+                            Tests = new List<ITestCase>{new FakeTestCase {TestCaseId = 1}, new FakeTestCase {TestCaseId = 2}}
+                        }
+                    });
+
             Assume.That(validation != null);
+
             var firstResultValidation = validation.Validations.FirstOrDefault(v => v.TestCaseId == 1);
             Assert.AreEqual(Disposition.Failed, firstResultValidation.Result);
+            
             var secondResultValidation = validation.Validations.FirstOrDefault(v => v.TestCaseId == 2);
             Assert.AreEqual(Disposition.Passed, secondResultValidation.Result);
+            
             var thirdResultValidation = validation.Validations.FirstOrDefault(v => v.TestCaseId == 3);
             Assert.AreEqual(Disposition.Missing, thirdResultValidation.Result);
         }

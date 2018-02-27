@@ -5,20 +5,21 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_OFBI
 {
-    public class TestReconstitutor : ITestReconstitutor<TestVectorSet, TestCase>
+    public class TestReconstitutor : ITestReconstitutor<TestVectorSet, TestGroup>
     {
         public TestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse)
         {
             return new TestVectorSet(answerResponse);
         }
 
-        public IEnumerable<TestCase> GetTestCasesFromResultResponse(dynamic resultResponse)
+        public IEnumerable<TestGroup> GetTestGroupsFromResultResponse(dynamic resultResponse)
         {
-            var list = new List<TestCase>();
-            foreach (var result in resultResponse)
+            var list = new List<TestGroup>();
+            foreach (var resultGroup in resultResponse)
             {
-                list.Add(new TestCase(result));
+                list.Add(new TestGroup(resultGroup));
             }
+
             return list;
         }
     }

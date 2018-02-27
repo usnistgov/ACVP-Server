@@ -298,12 +298,15 @@ namespace NIST.CVP.Generation.Core.Tests
             Assume.That(parsedValidation.Success);
 
             var failedTestCases = new List<int>();
-            foreach (var testCase in parsedValidation.ParsedObject.testResults)
+            foreach (var testGroup in parsedValidation.ParsedObject.testResults)
             {
-                if ((int)testCase.tcId % 2 == 0 || testCase.resultsArray != null)
+                foreach (var testCase in testGroup.tests)
                 {
-                    failedTestCases.Add((int)testCase.tcId);
-                    ModifyTestCaseToFail(testCase);
+                    if ((int)testCase.tcId % 2 == 0 || testCase.resultsArray != null)
+                    {
+                        failedTestCases.Add((int)testCase.tcId);
+                        ModifyTestCaseToFail(testCase);
+                    }
                 }
             }
 

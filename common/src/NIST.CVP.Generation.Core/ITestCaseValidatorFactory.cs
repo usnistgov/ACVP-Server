@@ -17,10 +17,7 @@ namespace NIST.CVP.Generation.Core
         /// based on the provided <see cref="TTestVectorSet"/>.
         /// </summary>
         /// <param name="testVectorSet">The test vector set to retrieve validators for each test case</param>
-        /// <param name="suppliedResults">
-        /// TODO this may be obsolete since implementing <see cref="IDeferredTestCaseResolver{TTestGroup,TTestCase,TCryptoResult}"/>, confirm?
-        /// </param>
         /// <returns></returns>
-        IEnumerable<ITestCaseValidator<TTestCase>> GetValidators(TTestVectorSet testVectorSet, IEnumerable<TTestCase> suppliedResults);
+        IEnumerable<ITestCaseValidator<TTestCase>> GetValidators(TTestVectorSet testVectorSet);
     }
 }

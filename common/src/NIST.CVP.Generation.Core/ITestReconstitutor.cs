@@ -8,10 +8,10 @@ namespace NIST.CVP.Generation.Core
     /// prompt, and result files "back together"
     /// </summary>
     /// <typeparam name="TTestVectorSet">The test vector set type.</typeparam>
-    /// <typeparam name="TTestCase">The test case type.</typeparam>
-    public interface ITestReconstitutor<out TTestVectorSet, out TTestCase>
+    /// <typeparam name="TTestGroup">The test group type.</typeparam>
+    public interface ITestReconstitutor<out TTestVectorSet, out TTestGroup>
         where TTestVectorSet : ITestVectorSet
-        where TTestCase : ITestCase
+        where TTestGroup : ITestGroup
     {
         /// <summary>
         /// Merges the answer and prompt files back into a <see cref="TTestVectorSet"/>
@@ -20,10 +20,10 @@ namespace NIST.CVP.Generation.Core
         /// <returns></returns>
         TTestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse);
         /// <summary>
-        /// Retrieves <see cref="TTestCase"/>s from the <see cref="resultResponse"/>
+        /// Retrieves <see cref="TTestGroup"/>s from the <see cref="resultResponse"/>
         /// </summary>
         /// <param name="resultResponse">The dynamic representation of the IUT supplied results.</param>
         /// <returns></returns>
-        IEnumerable<TTestCase> GetTestCasesFromResultResponse(dynamic resultResponse);
+        IEnumerable<TTestGroup> GetTestGroupsFromResultResponse(dynamic resultResponse);
     }
 }

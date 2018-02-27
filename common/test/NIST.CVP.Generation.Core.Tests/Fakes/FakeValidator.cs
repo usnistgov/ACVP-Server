@@ -5,13 +5,13 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
-    public class FakeSuccessValidator : Validator<FakeTestVectorSet, FakeTestCase>
+    public class FakeSuccessValidator : Validator<FakeTestVectorSet, FakeTestGroup, FakeTestCase>
     {
         public FakeSuccessValidator(
             IDynamicParser dynamicParser, 
-            IResultValidator<FakeTestCase> resultValidator, 
+            IResultValidator<FakeTestGroup, FakeTestCase> resultValidator, 
             ITestCaseValidatorFactory<FakeTestVectorSet, FakeTestCase> testCaseValidatorFactory, 
-            ITestReconstitutor<FakeTestVectorSet, FakeTestCase> testReconstitutor) : 
+            ITestReconstitutor<FakeTestVectorSet, FakeTestGroup> testReconstitutor) : 
             base(dynamicParser, resultValidator, testCaseValidatorFactory, testReconstitutor) { }
 
         protected override TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse, ParseResponse<dynamic> testResultParseResponse)

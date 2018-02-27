@@ -45,10 +45,5 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
             return list;
         }
-
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
-        {
-            return GetValidators(testVectorSet);
-        }
     }
 }
