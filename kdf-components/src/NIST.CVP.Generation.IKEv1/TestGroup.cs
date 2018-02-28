@@ -14,6 +14,17 @@ namespace NIST.CVP.Generation.IKEv1
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public HashFunction HashAlg { get; set; }
+        public AuthenticationMethods AuthenticationMethod { get; set; }
+        public int GxyLength { get; set; }
+        public int NInitLength { get; set; }
+        public int NRespLength { get; set; }
+        public int PreSharedKeyLength { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -25,8 +36,14 @@ namespace NIST.CVP.Generation.IKEv1
         {
             var expandoSource = (ExpandoObject) source;
             TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
-            AuthenticationMethod = EnumHelpers.GetEnumFromEnumDescription<AuthenticationMethods>(expandoSource.GetTypeFromProperty<string>("authenticationMethod"));
+            
+            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
+            if (!string.IsNullOrEmpty(hashValue))
+            {
+                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
+            }
+            
+            AuthenticationMethod = EnumHelpers.GetEnumFromEnumDescription<AuthenticationMethods>(expandoSource.GetTypeFromProperty<string>("authenticationMethod"), false);
             GxyLength = expandoSource.GetTypeFromProperty<int>("dhLength");
             NInitLength = expandoSource.GetTypeFromProperty<int>("nInitLength");
             NRespLength = expandoSource.GetTypeFromProperty<int>("nRespLength");
@@ -38,17 +55,6 @@ namespace NIST.CVP.Generation.IKEv1
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public HashFunction HashAlg { get; set; }
-        public AuthenticationMethods AuthenticationMethod { get; set; }
-        public int GxyLength { get; set; }
-        public int NInitLength { get; set; }
-        public int NRespLength { get; set; }
-        public int PreSharedKeyLength { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

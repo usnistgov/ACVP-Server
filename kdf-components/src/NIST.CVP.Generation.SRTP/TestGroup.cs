@@ -12,6 +12,13 @@ namespace NIST.CVP.Generation.SRTP
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public int AesKeyLength { get; set; }
+        public BitString Kdr { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -32,13 +39,6 @@ namespace NIST.CVP.Generation.SRTP
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public int AesKeyLength { get; set; }
-        public BitString Kdr { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

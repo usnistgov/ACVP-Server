@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.TLS.Tests
                 }
             };
 
-            var result = _subject.GetValidators(testVectorSet, null);
+            var result = _subject.GetValidators(testVectorSet);
 
             Assert.AreEqual(1, result.Count());
             Assert.IsInstanceOf(typeof(TestCaseValidator), result.First());

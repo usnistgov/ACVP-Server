@@ -39,7 +39,11 @@ namespace NIST.CVP.Generation.SRTP.Tests
             var subject = GetSubject(2);
             var results = subject.ResultProjection;
             Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
+            Assert.AreEqual(2, results.Count);
+            foreach (var groups in results)
+            {
+                Assert.AreEqual(15, groups.tests.Count);
+            }
         }
 
         [Test]
@@ -114,15 +118,19 @@ namespace NIST.CVP.Generation.SRTP.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.srtpKe.ToString()));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.srtpKa.ToString()));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.srtpKs.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.srtpKe.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.srtpKa.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.srtpKs.ToString()));
 
-                Assert.IsTrue(!string.IsNullOrEmpty(item.srtcpKe.ToString()));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.srtcpKa.ToString()));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.srtcpKs.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.srtcpKe.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.srtcpKa.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.srtcpKs.ToString()));
+
+                }
             }
         }
 

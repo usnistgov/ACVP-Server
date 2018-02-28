@@ -11,6 +11,17 @@ namespace NIST.CVP.Generation.KDF
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public int KeyOutLength { get; set; }
+        public KdfModes KdfMode { get; set; }
+        public MacModes MacMode { get; set; }
+        public int CounterLength { get; set; }
+        public CounterLocations CounterLocation { get; set; }
+        public bool ZeroLengthIv { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -23,9 +34,9 @@ namespace NIST.CVP.Generation.KDF
             var expandoSource = (ExpandoObject) source;
             TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
             KeyOutLength = expandoSource.GetTypeFromProperty<int>("keyOutLength");
-            KdfMode = EnumHelpers.GetEnumFromEnumDescription<KdfModes>(expandoSource.GetTypeFromProperty<string>("kdfMode"));
-            MacMode = EnumHelpers.GetEnumFromEnumDescription<MacModes>(expandoSource.GetTypeFromProperty<string>("macMode"));
-            CounterLocation = EnumHelpers.GetEnumFromEnumDescription<CounterLocations>(expandoSource.GetTypeFromProperty<string>("counterLocation"));
+            KdfMode = EnumHelpers.GetEnumFromEnumDescription<KdfModes>(expandoSource.GetTypeFromProperty<string>("kdfMode"), false);
+            MacMode = EnumHelpers.GetEnumFromEnumDescription<MacModes>(expandoSource.GetTypeFromProperty<string>("macMode"), false);
+            CounterLocation = EnumHelpers.GetEnumFromEnumDescription<CounterLocations>(expandoSource.GetTypeFromProperty<string>("counterLocation"), false);
             CounterLength = expandoSource.GetTypeFromProperty<int>("counterLength");
             ZeroLengthIv = expandoSource.GetTypeFromProperty<bool>("zeroLengthIv");
 
@@ -35,17 +46,6 @@ namespace NIST.CVP.Generation.KDF
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public int KeyOutLength { get; set; }
-        public KdfModes KdfMode { get; set; }
-        public MacModes MacMode { get; set; }
-        public int CounterLength { get; set; }
-        public CounterLocations CounterLocation { get; set; }
-        public bool ZeroLengthIv { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

@@ -39,7 +39,12 @@ namespace NIST.CVP.Generation.ANSIX963.Tests
             var subject = GetSubject(2);
             var results = subject.ResultProjection;
             Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
+            Assert.AreEqual(2, results.Count);
+
+            foreach (var group in results)
+            {
+                Assert.AreEqual(15, group.tests.Count);
+            }
         }
 
         [Test]
@@ -106,9 +111,12 @@ namespace NIST.CVP.Generation.ANSIX963.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.keyData.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.keyData.ToString()));
+                }
             }
         }
 

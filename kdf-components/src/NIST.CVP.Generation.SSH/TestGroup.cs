@@ -12,6 +12,13 @@ namespace NIST.CVP.Generation.SSH
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public Cipher Cipher { get; set; }
+        public HashFunction HashAlg { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         private int _ivLength;
         private int _keyLength;
 
@@ -26,8 +33,13 @@ namespace NIST.CVP.Generation.SSH
         {
             var expandoSource = (ExpandoObject) source;
             TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            Cipher = EnumHelpers.GetEnumFromEnumDescription<Cipher>(expandoSource.GetTypeFromProperty<string>("cipher"));
-            HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
+            Cipher = EnumHelpers.GetEnumFromEnumDescription<Cipher>(expandoSource.GetTypeFromProperty<string>("cipher"), false);
+            
+            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
+            if (!string.IsNullOrEmpty(hashValue))
+            {
+                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
+            }
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
@@ -35,13 +47,6 @@ namespace NIST.CVP.Generation.SSH
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public Cipher Cipher { get; set; }
-        public HashFunction HashAlg { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

@@ -17,14 +17,12 @@ namespace NIST.CVP.Generation.KDF
             _factory = factory;
         }
 
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
+        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidator<TestCase>>();
-            var kdfFactory = new KdfFactory();
-
             foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup) g))
             {
-                var algo = kdfFactory.GetKdfInstance(group.KdfMode, group.MacMode, group.CounterLocation, group.CounterLength);
+                var algo = _factory.GetKdfInstance(group.KdfMode, group.MacMode, group.CounterLocation, group.CounterLength);
 
                 foreach (var test in group.Tests.Select(t => (TestCase) t))
                 {

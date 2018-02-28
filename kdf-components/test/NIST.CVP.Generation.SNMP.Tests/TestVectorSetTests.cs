@@ -39,7 +39,11 @@ namespace NIST.CVP.Generation.SNMP.Tests
             var subject = GetSubject(2);
             var results = subject.ResultProjection;
             Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
+            Assert.AreEqual(2, results.Count);
+            foreach (var groups in results)
+            {
+                Assert.AreEqual(15, groups.tests.Count);
+            }
         }
 
         [Test]
@@ -101,9 +105,12 @@ namespace NIST.CVP.Generation.SNMP.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.sharedKey.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.sharedKey.ToString()));
+                }
             }
         }
 

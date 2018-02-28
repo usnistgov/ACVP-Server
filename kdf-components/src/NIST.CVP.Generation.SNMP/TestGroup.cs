@@ -10,6 +10,13 @@ namespace NIST.CVP.Generation.SNMP
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public BitString EngineId { get; set; }
+        public int PasswordLength { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -31,13 +38,6 @@ namespace NIST.CVP.Generation.SNMP
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public BitString EngineId { get; set; }
-        public int PasswordLength { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

@@ -11,6 +11,16 @@ namespace NIST.CVP.Generation.IKEv2
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public HashFunction HashAlg { get; set; }
+        public int GirLength { get; set; }
+        public int NInitLength { get; set; }
+        public int NRespLength { get; set; }
+        public int DerivedKeyingMaterialLength { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -22,7 +32,13 @@ namespace NIST.CVP.Generation.IKEv2
         {
             var expandoSource = (ExpandoObject) source;
             TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
+
+            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
+            if (!string.IsNullOrEmpty(hashValue))
+            {
+                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
+            }
+
             GirLength = expandoSource.GetTypeFromProperty<int>("dhLength");
             NInitLength = expandoSource.GetTypeFromProperty<int>("nInitLength");
             NRespLength = expandoSource.GetTypeFromProperty<int>("nRespLength");
@@ -34,16 +50,6 @@ namespace NIST.CVP.Generation.IKEv2
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public HashFunction HashAlg { get; set; }
-        public int GirLength { get; set; }
-        public int NInitLength { get; set; }
-        public int NRespLength { get; set; }
-        public int DerivedKeyingMaterialLength { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
         
         public bool SetString(string name, string value)
         {

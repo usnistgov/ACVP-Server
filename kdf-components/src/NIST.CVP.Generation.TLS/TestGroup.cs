@@ -13,6 +13,15 @@ namespace NIST.CVP.Generation.TLS
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public HashFunction HashAlg { get; set; }
+        public TlsModes TlsMode { get; set; }
+        public int KeyBlockLength { get; set; }
+        public int PreMasterSecretLength { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -24,8 +33,14 @@ namespace NIST.CVP.Generation.TLS
         {
             var expandoSource = (ExpandoObject) source;
             TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TlsMode = EnumHelpers.GetEnumFromEnumDescription<TlsModes>(expandoSource.GetTypeFromProperty<string>("tlsVersion"));
-            HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
+            TlsMode = EnumHelpers.GetEnumFromEnumDescription<TlsModes>(expandoSource.GetTypeFromProperty<string>("tlsVersion"), false);
+
+            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
+            if (!string.IsNullOrEmpty(hashValue))
+            {
+                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
+            }
+
             KeyBlockLength = expandoSource.GetTypeFromProperty<int>("keyBlockLength");
             PreMasterSecretLength = expandoSource.GetTypeFromProperty<int>("preMasterSecretLength");
 
@@ -35,15 +50,6 @@ namespace NIST.CVP.Generation.TLS
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public HashFunction HashAlg { get; set; }
-        public TlsModes TlsMode { get; set; }
-        public int KeyBlockLength { get; set; }
-        public int PreMasterSecretLength { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

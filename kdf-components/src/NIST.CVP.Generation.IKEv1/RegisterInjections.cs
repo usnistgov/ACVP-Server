@@ -21,11 +21,11 @@ namespace NIST.CVP.Generation.IKEv1
             builder.RegisterType<IkeV1Factory>().AsImplementedInterfaces();
             builder.RegisterType<HmacFactory>().AsImplementedInterfaces();
             builder.RegisterType<SHAFactory>().AsImplementedInterfaces();
-            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
-            builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ResultValidator<TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();

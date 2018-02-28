@@ -39,7 +39,11 @@ namespace NIST.CVP.Generation.IKEv1.Tests
             var subject = GetSubject(2);
             var results = subject.ResultProjection;
             Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
+            Assert.AreEqual(2, results.Count);
+            foreach (var groups in results)
+            {
+                Assert.AreEqual(15, groups.tests.Count);
+            }
         }
 
         [Test]
@@ -100,13 +104,18 @@ namespace NIST.CVP.Generation.IKEv1.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.tcId.ToString()), nameof(item.tcId));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.sKeyId.ToString()), nameof(item.sKeyId));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.sKeyIdA.ToString()), nameof(item.sKeyIdA));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.sKeyIdD.ToString()), nameof(item.sKeyIdD));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.sKeyIdE.ToString()), nameof(item.sKeyIdE));
+                Assert.IsTrue(!string.IsNullOrEmpty(group.tgId.ToString()), nameof(group.tgId));
+
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.sKeyId.ToString()), nameof(test.sKeyId));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.sKeyIdA.ToString()), nameof(test.sKeyIdA));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.sKeyIdD.ToString()), nameof(test.sKeyIdD));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.sKeyIdE.ToString()), nameof(test.sKeyIdE));
+                }
             }
         }
 
@@ -141,9 +150,12 @@ namespace NIST.CVP.Generation.IKEv1.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.sKeyIdA.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.sKeyIdA.ToString()));
+                }
             }
         }
 

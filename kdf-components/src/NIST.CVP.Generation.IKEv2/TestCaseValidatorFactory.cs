@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.IKEv2
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
     {
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
+        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidator<TestCase>>();
 

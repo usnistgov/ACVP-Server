@@ -11,6 +11,15 @@ namespace NIST.CVP.Generation.ANSIX963
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public HashFunction HashAlg { get; set; }
+        public int SharedInfoLength { get; set; }
+        public int KeyDataLength { get; set; }
+        public int FieldSize { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -22,7 +31,13 @@ namespace NIST.CVP.Generation.ANSIX963
         {
             var expandoSource = (ExpandoObject) source;
             TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
+
+            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
+            if (!string.IsNullOrEmpty(hashValue))
+            {
+                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
+            }
+
             SharedInfoLength = expandoSource.GetTypeFromProperty<int>("sharedInfoLength");
             KeyDataLength = expandoSource.GetTypeFromProperty<int>("keyDataLength");
             FieldSize = expandoSource.GetTypeFromProperty<int>("fieldSize");
@@ -33,15 +48,6 @@ namespace NIST.CVP.Generation.ANSIX963
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public HashFunction HashAlg { get; set; }
-        public int SharedInfoLength { get; set; }
-        public int KeyDataLength { get; set; }
-        public int FieldSize { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

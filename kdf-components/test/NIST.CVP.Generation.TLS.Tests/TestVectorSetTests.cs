@@ -39,8 +39,11 @@ namespace NIST.CVP.Generation.TLS.Tests
             var subject = GetSubject(2);
             var results = subject.ResultProjection;
             Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
-        }
+            Assert.AreEqual(2, results.Count);
+            foreach (var groups in results)
+            {
+                Assert.AreEqual(15, groups.tests.Count);
+            }        }
 
         [Test]
         public void ShouldReconstituteTestVectorFromAnswerAndPrompt()
@@ -92,11 +95,17 @@ namespace NIST.CVP.Generation.TLS.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.tcId.ToString()), nameof(item.tcId));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.masterSecret.ToString()), nameof(item.masterSecret));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.keyBlock.ToString()), nameof(item.keyBlock));
+                Assert.IsTrue(!string.IsNullOrEmpty(group.tgId.ToString()), nameof(group.tgId));
+
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.masterSecret.ToString()), nameof(test.masterSecret));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.keyBlock.ToString()), nameof(test.keyBlock));
+                }
             }
         }
 
@@ -132,10 +141,13 @@ namespace NIST.CVP.Generation.TLS.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.masterSecret.ToString()));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.keyBlock.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.masterSecret.ToString()));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.keyBlock.ToString()));
+                }
             }
         }
 
