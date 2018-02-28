@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -43,13 +44,13 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         }
 
         [Test]
-        [TestCase(null, 0)]
-        [TestCase(new int[] { }, 0)]
-        [TestCase(new int[] { -1 }, 0)]
-        [TestCase(new int[] { 128, -1 }, 0)]
-        [TestCase(new int[] { 128, -1, -2 }, 1)]
-        [TestCase(new int[] { 128, -1, -2, -3 }, 2)]
-        public void ShouldReturnErrorWithInvalidKeyLength(int[] keyLengths, int errorsExpected)
+        [TestCase("1", null, 0)]
+        [TestCase("2", new int[] { }, 0)]
+        [TestCase("3", new int[] { -1 }, 0)]
+        [TestCase("4", new int[] { 128, -1 }, 0)]
+        [TestCase("5", new int[] { 128, -1, -2 }, 1)]
+        [TestCase("6", new int[] { 128, -1, -2, -3 }, 2)]
+        public void ShouldReturnErrorWithInvalidKeyLength(string label, int[] keyLengths, int errorsExpected)
         {
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(
@@ -85,67 +86,80 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         }
 
         [Test]
-        [TestCase(null, 0)]
-        [TestCase(new int[] { }, 0)]
-        [TestCase(new int[] { -1 }, 0)]
-        [TestCase(new int[] { 128, -1 }, 0)]
-        [TestCase(new int[] { 128, -1, -2 }, 1)]
-        [TestCase(new int[] { 128, -1, -2, -3 }, 2)]
-        public void ShouldReturnErrorWithInvalidTagLength(int[] tagLengths, int errorsExpected)
+        [TestCase("1", new int[] { -1 })]
+        [TestCase("2", new int[] { 128, -1 })]
+        [TestCase("3", new int[] { 128, -1, -2 })]
+        [TestCase("4", new int[] { 128, -1, -2, -3 })]
+        public void ShouldReturnErrorWithInvalidTagLength(string label, int[] tagLengths)
         {
+            MathDomain md = new MathDomain();
+            foreach (var value in tagLengths)
+            {
+                md.AddSegment(new ValueDomainSegment(value));
+            }
+
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithTagLen(tagLengths)
+                    .WithTagLen(md)
                     .Build()
             );
 
             Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','));
         }
 
         [Test]
         // invalid range
-        [TestCase(new int[] { -128 }, 0)]
-        [TestCase(new int[] { 128, -128 }, 0)]
-        [TestCase(new int[] { 128, -128, -256 }, 1)]
-        [TestCase(new int[] { 128, -128, -256, -384 }, 2)] 
+        [TestCase("1", new int[] { -128 })]
+        [TestCase("2", new int[] { 128, -128 })]
+        [TestCase("3", new int[] { 128, -128, -256 })]
+        [TestCase("4", new int[] { 128, -128, -256, -384 })] 
         // invalid multiple
-        [TestCase(new int[] { 128, 1, 2 }, 1)]
-        [TestCase(new int[] { 128, 1, 2, 3 }, 2)]
-        public void ShouldReturnErrorWithInvalidPtLength(int[] ptLengths, int errorsExpected)
+        [TestCase("5", new int[] { 128, 1, 2 })]
+        [TestCase("6", new int[] { 128, 1, 2, 3 })]
+        public void ShouldReturnErrorWithInvalidPtLength(string label, int[] ptLengths)
         {
+            MathDomain md = new MathDomain();
+            foreach (var value in ptLengths)
+            {
+                md.AddSegment(new ValueDomainSegment(value));
+            }
+
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithPtLen(ptLengths)
+                    .WithPtLen(md)
                     .Build()
             );
 
             Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','));
         }
 
         [Test]
         // invalid range
-        [TestCase(new int[] { -128 }, 0)]
-        [TestCase(new int[] { 128, -128 }, 0)]
-        [TestCase(new int[] { 128, -128, -256 }, 1)]
-        [TestCase(new int[] { 128, -128, -256, -384 }, 2)]
+        [TestCase("1", new int[] { -128 })]
+        [TestCase("2", new int[] { 128, -128 })]
+        [TestCase("3", new int[] { 128, -128, -256 })]
+        [TestCase("4", new int[] { 128, -128, -256, -384 })]
         // invalid multiple
-        [TestCase(new int[] { 128, 1, 2 }, 1)]
-        [TestCase(new int[] { 128, 1, 2, 3 }, 2)]
-        public void ShouldReturnErrorWithInvalidAadLength(int[] aadLengths, int errorsExpected)
+        [TestCase("5", new int[] { 128, 1, 2 })]
+        [TestCase("6", new int[] { 128, 1, 2, 3 })]
+        public void ShouldReturnErrorWithInvalidAadLength(string label, int[] aadLengths)
         {
+            MathDomain md = new MathDomain();
+            foreach (var value in aadLengths)
+            {
+                md.AddSegment(new ValueDomainSegment(value));
+            }
+
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAadLen(aadLengths)
+                    .WithAadLen(md)
                     .Build()
             );
 
             Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','));
         }
 
         [Test]
@@ -208,12 +222,12 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             private string _algorithm;
             private string[] _mode;
             private int[] _keyLen;
-            private int[] _ptLen;
+            private MathDomain _ptLen;
             private string _ivGen;
             private string _ivGenMode;
             private string _saltGen;
-            private int[] _aadLen;
-            private int[] _tagLen;
+            private MathDomain _aadLen;
+            private MathDomain _tagLen;
 
             public ParameterBuilder()
             {
@@ -221,12 +235,12 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
                 _algorithm = "AES-XPN";
                 _mode = ParameterValidator.VALID_DIRECTIONS;
                 _keyLen = ParameterValidator.VALID_KEY_SIZES;
-                _ptLen = new int[] { 128 };
+                _ptLen = new MathDomain().AddSegment(new ValueDomainSegment(128));
                 _ivGen = ParameterValidator.VALID_IV_GEN[0];
                 _ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0];
                 _saltGen = "external";
-                _aadLen = new int[] { 128 };
-                _tagLen = ParameterValidator.VALID_TAG_LENGTHS;
+                _aadLen = new MathDomain().AddSegment(new ValueDomainSegment(128));
+                _tagLen = new MathDomain().AddSegment(new ValueDomainSegment(128));
             }
 
             public ParameterBuilder WithAlgorithm(string value)
@@ -247,7 +261,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
                 return this;
             }
 
-            public ParameterBuilder WithPtLen(int[] value)
+            public ParameterBuilder WithPtLen(MathDomain value)
             {
                 _ptLen = value;
                 return this;
@@ -271,13 +285,13 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
                 return this;
             }
 
-            public ParameterBuilder WithAadLen(int[] value)
+            public ParameterBuilder WithAadLen(MathDomain value)
             {
                 _aadLen = value;
                 return this;
             }
 
-            public ParameterBuilder WithTagLen(int[] value)
+            public ParameterBuilder WithTagLen(MathDomain value)
             {
                 _tagLen = value;
                 return this;

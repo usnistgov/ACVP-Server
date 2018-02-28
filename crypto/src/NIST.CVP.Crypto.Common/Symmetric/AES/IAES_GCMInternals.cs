@@ -5,7 +5,6 @@ namespace NIST.CVP.Crypto.Common.Symmetric.AES
     public interface IAES_GCMInternals
     {
         BitString Getj0(BitString h, BitString iv);
-        int Ceiling(int numerator, int denominator);
         BitString GHash(BitString h, BitString x);
         BitString GCTR(BitString icb, BitString x, Key key);
         /// <summary>
@@ -22,8 +21,6 @@ namespace NIST.CVP.Crypto.Common.Symmetric.AES
         /// <param name="X"></param>
         /// <returns></returns>
         BitString inc_s(int s, BitString X);
-        BitString LSB(int numBits, BitString x);
-        BitString MSB(int numBits, BitString x);
         BitString BlockProduct(BitString x, BitString y);
     }
 }

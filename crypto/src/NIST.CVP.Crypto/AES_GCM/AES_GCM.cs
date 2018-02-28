@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using NLog;
 
 namespace NIST.CVP.Crypto.AES_GCM
@@ -33,8 +34,8 @@ namespace NIST.CVP.Crypto.AES_GCM
 
                 var plainText = GCTR(inc_s(32, j0), cipherText, key);//rework Block to deal with only key or key bitstring
 
-                int u = 128 * Ceiling(plainText.BitLength, 128) - plainText.BitLength;
-                int v = 128 * Ceiling(aad.BitLength, 128) - aad.BitLength;
+                int u = 128 * plainText.BitLength.CeilingDivide(128) - plainText.BitLength;
+                int v = 128 * aad.BitLength.CeilingDivide(128) - aad.BitLength;
 
                 var decryptedBits =
                     aad.ConcatenateBits(new BitString(v))
@@ -44,7 +45,7 @@ namespace NIST.CVP.Crypto.AES_GCM
                         .ConcatenateBits(BitString.To64BitString(cipherText.BitLength));
 
                 var s = GHash(h,decryptedBits);
-                var tagPrime = BitString.GetMostSignificantBits(tag.BitLength, GCTR(j0, s, key));
+                var tagPrime = GCTR(j0, s, key).GetMostSignificantBits(tag.BitLength);
                 if (!tag.Equals(tagPrime))
                 {
                     ThisLogger.Debug(plainText.ToHex());
@@ -84,8 +85,8 @@ namespace NIST.CVP.Crypto.AES_GCM
                 var cipherText = GCTR(inc_s(32, j0), data, key);//rework Block to deal with only key or key bitstring
                 ThisLogger.Debug($"cipherLen: {cipherText.BitLength}");
                 ThisLogger.Debug($"aadLen: {aad.BitLength}");
-                int u = 128 * Ceiling(cipherText.BitLength, 128) - cipherText.BitLength;
-                int v = 128 * Ceiling(aad.BitLength, 128) - aad.BitLength;
+                int u = 128 * cipherText.BitLength.CeilingDivide(128) - cipherText.BitLength;
+                int v = 128 * aad.BitLength.CeilingDivide(128) - aad.BitLength;
                 ThisLogger.Debug($"u: {u}, v: {v}");
                 var encryptedBits =
                     aad.ConcatenateBits(new BitString(v))
@@ -96,7 +97,7 @@ namespace NIST.CVP.Crypto.AES_GCM
                 ThisLogger.Debug($"encrBits: {encryptedBits.ToHex()}");
                 var s = GHash(h, encryptedBits);
                 ThisLogger.Debug($"s: {s.ToHex()}");
-                var tag = BitString.GetMostSignificantBits(tagLength, GCTR(j0, s, key));
+                var tag = GCTR(j0, s, key).GetMostSignificantBits(tagLength);
                 ThisLogger.Debug($"Tag: {tag.ToHex()}");
                 return new SymmetricCipherAeadResult(cipherText, tag);
             }
@@ -113,12 +114,7 @@ namespace NIST.CVP.Crypto.AES_GCM
         {
             return _iAES_GCMInternals.Getj0(h, iv);
         }
-
-        private int Ceiling(int numerator, int denominator)
-        {
-            return _iAES_GCMInternals.Ceiling(numerator, denominator);
-        }
-
+        
         private BitString GHash(BitString h, BitString x)
         {
             return _iAES_GCMInternals.GHash(h, x);

@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Numerics;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using NLog;
 
 namespace NIST.CVP.Crypto.AES_GCM
@@ -22,32 +22,21 @@ namespace NIST.CVP.Crypto.AES_GCM
             //ThisLogger.Debug("Getj0");
             if (iv.BitLength == 96)
             {
-                j0 = iv.ConcatenateBits(new BitString(new BitArray(32)));
+                j0 = iv.ConcatenateBits(BitString.Zeroes(32));
                 j0.Set(0, true);
             }
             //	If len(IV) != 96, then let s = 128 * ceil(len(IV)/128) - len(IV)
             //  and let J0 = GHASH_H(IV || 0^(s + 64) || [len(IV)]_64)
             else
             {
-                int s = 128 * Ceiling(iv.BitLength, 128) - iv.BitLength;
-                var x = iv.ConcatenateBits(new BitString(new BitArray(s + 64))).ConcatenateBits(BitString.To64BitString(iv.BitLength));
-                j0 = GHash(h, iv.ConcatenateBits(x));
+                int s = 128 * iv.BitLength.CeilingDivide(128) - iv.BitLength;
+                var x = iv
+                    .ConcatenateBits(BitString.Zeroes(s + 64))
+                    .ConcatenateBits(BitString.To64BitString(iv.BitLength));
+                j0 = GHash(h, x);
             }
 
             return j0;
-        }
-
-        public virtual int Ceiling(int numerator, int denominator)
-        {
-
-            int c = numerator / denominator;
-            if ((numerator % denominator) > 0)
-            {
-                ++c;
-            }
-
-            return c;
-            //return (int) System.Math.Ceiling((double) numerator/denominator);
         }
 
         public virtual BitString GHash(BitString h, BitString x)
@@ -68,7 +57,7 @@ namespace NIST.CVP.Crypto.AES_GCM
             int m = x.BitLength / 128;
 
             // Step 2: Let Y0 be the "zero block" 0^128
-            var y = new BitString(new BitArray(128));
+            var y = BitString.Zeroes(128);
 
             // Step 3: For i = 1,...,m let Yi = (Yi-1 xor Xi) dot H
             for (int i = 0; i < m; ++i)
@@ -98,9 +87,8 @@ namespace NIST.CVP.Crypto.AES_GCM
             }
 
             // Step 2: Let n = ceil[ len(X)/128 ]
-            int n = Ceiling(x.BitLength, 128);
-
-
+            int n = x.BitLength.CeilingDivide(128);
+            
             // Step 3: Let X1,X2,...,Xn-1,Xn denote the unique sequence of bit
             // strings such that X = X1 || X2 || ... || Xn-1 || Xn*
             // X1, X2,...,Xn-1 are complete blocks
@@ -137,7 +125,7 @@ namespace NIST.CVP.Crypto.AES_GCM
             var xn = x.Substring(0, 128 + sx);
             var h1 = rijn.BlockEncrypt(cipher, key, cbi.ToBytes(), 128);//@@@ or k?
 
-            var yn = BitString.XOR(xn, MSB(xn.BitLength, h1));
+            var yn = BitString.XOR(xn, h1.GetMostSignificantBits(xn.BitLength));
             Y = Y.ConcatenateBits(yn); // This is part of Step 8
 
             // Step 8: Let Y = Y1 || ... || Yn*
@@ -162,7 +150,7 @@ namespace NIST.CVP.Crypto.AES_GCM
             {
                 return null;
             }
-            BigInteger lsp1 = LSB(s, X).ToBigInteger() + new BigInteger(1);
+            BigInteger lsp1 = X.GetLeastSignificantBits(s).ToBigInteger() + new BigInteger(1);
             //ThisLogger.Debug($"lsp1: {lsp1}");
             lsp1 = lsp1 % (new BigInteger(1) << s);
             //ThisLogger.Debug($"lsp2: {lsp1}");
@@ -170,16 +158,6 @@ namespace NIST.CVP.Crypto.AES_GCM
             var bitsToAppend = new BitString(lsp1, s);
             //ThisLogger.Debug($"BitsToAppendLength: {bitsToAppend.Length}");
             return X.GetMostSignificantBits(X.BitLength - s).ConcatenateBits(bitsToAppend);
-        }
-
-        public virtual BitString LSB(int numBits, BitString x)
-        {
-            return x.GetLeastSignificantBits(numBits);
-        }
-
-        public virtual BitString MSB(int numBits, BitString x)
-        {
-            return x.GetMostSignificantBits(numBits);
         }
 
         public virtual BitString BlockProduct(BitString x, BitString y)

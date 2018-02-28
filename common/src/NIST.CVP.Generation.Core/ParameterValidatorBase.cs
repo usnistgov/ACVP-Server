@@ -119,6 +119,11 @@ namespace NIST.CVP.Generation.Core
 
         protected string ValidateSegmentCountGreaterThanZero(MathDomain supplied, string friendlyName)
         {
+            if (supplied == null)
+            {
+                return $"{friendlyName} was not provided.";
+            }
+
             if (!supplied.DomainSegments.Any())
             {
                 return $"Invalid {friendlyName} supplied.  Domain must contain literals, or ranges of values.";

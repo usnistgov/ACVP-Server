@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
@@ -10,11 +11,11 @@ namespace NIST.CVP.Generation.AES_XPN
         public bool IsSample { get; set; }
         public string[] Direction { get; set; }
         public int[] KeyLen { get; set; }
-        public int[] PtLen { get; set; }
+        public MathDomain PtLen { get; set; }
         public string ivGen { get; set; }
         public string ivGenMode { get; set; }
         public string SaltGen { get; set; }
-        public int[] aadLen { get; set; }
-        public int[] TagLen { get; set; }
+        public MathDomain aadLen { get; set; }
+        public MathDomain TagLen { get; set; }
     }
 }
