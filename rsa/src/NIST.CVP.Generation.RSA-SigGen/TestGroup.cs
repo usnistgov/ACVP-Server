@@ -40,7 +40,13 @@ namespace NIST.CVP.Generation.RSA_SigGen
             TestType = expandoSource.GetTypeFromProperty<string>("testType");
             Mode = EnumHelpers.GetEnumFromEnumDescription<SignatureSchemes>(expandoSource.GetTypeFromProperty<string>("sigType"), false);
             Modulo = expandoSource.GetTypeFromProperty<int>("modulo");
-            HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
+
+            var hashAlgName = expandoSource.GetTypeFromProperty<string>("hashAlg");
+            if (!string.IsNullOrEmpty(hashAlgName))
+            {
+                HashAlg = ShaAttributes.GetHashFunctionFromName(hashAlgName);
+            }
+            
             SaltLen = expandoSource.GetTypeFromProperty<int>("saltLen");
 
             var e = expandoSource.GetBigIntegerFromProperty("e");

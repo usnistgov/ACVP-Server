@@ -36,11 +36,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
         public TestGroup(dynamic source)
         {
-            TestType = source.testType;
-
             var expandoSource = (ExpandoObject) source;
 
             TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            TestType = expandoSource.GetTypeFromProperty<string>("testType");
             Modulo = expandoSource.GetTypeFromProperty<int>("modulo");
             InfoGeneratedByServer = expandoSource.GetTypeFromProperty<bool>("infoGeneratedByServer");
             PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(expandoSource.GetTypeFromProperty<string>("randPQ"), false);
