@@ -13,6 +13,20 @@ namespace NIST.CVP.Generation.AES_CTR
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public string Direction { get; set; }
+        public int KeyLength { get; set; }
+
+        // Properties for specific groups
+        public MathDomain DataLength { get; set; }
+
+        // This is a vectorset / IUT property but it needs to be defined somewhere other than Parameter.cs
+        public bool IncrementalCounter { get; set; }
+        public bool OverflowCounter { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
 
         public TestGroup()
@@ -37,20 +51,6 @@ namespace NIST.CVP.Generation.AES_CTR
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public string Direction { get; set; }
-        public int KeyLength { get; set; }
-
-        // Properties for specific groups
-        public MathDomain DataLength { get; set; }
-
-        // This is a vectorset / IUT property but it needs to be defined somewhere other than Parameter.cs
-        public bool IncrementalCounter { get; set; }
-        public bool OverflowCounter { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {
