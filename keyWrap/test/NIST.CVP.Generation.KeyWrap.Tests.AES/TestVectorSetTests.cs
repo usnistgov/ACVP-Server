@@ -40,7 +40,12 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
             var subject = GetSubject(2);
             var results = subject.ResultProjection;
             Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
+            Assert.AreEqual(2, results.Count);
+
+            foreach (var group in results)
+            {
+                Assert.AreEqual(15, group.tests.Count);
+            }
         }
 
         [Test]
@@ -50,8 +55,6 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
             var subject = new TestVectorSet(source);
             Assert.AreEqual(2, subject.TestGroups.Count);
         }
-
-        // @@@ possible to get strong typing out of projection?
 
         [Test]
         public void ShouldContainElementsWithinAnswerProjection()
@@ -91,9 +94,9 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.tcId.ToString()), nameof(item.tcId));
+                Assert.IsTrue(!string.IsNullOrEmpty(group.tgId.ToString()), nameof(group.tgId));
             }
         }
 
@@ -128,9 +131,12 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.cipherText.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
+                }
             }
         }
 
@@ -152,9 +158,12 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => item.plainText.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
+                }
             }
         }
 
@@ -189,9 +198,12 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
         {
             var subject = GetSubject(1, "decrypt", false);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.plainText.ToString()));
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
+                }
             }
         }
 
@@ -200,10 +212,13 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
         {
             var subject = GetSubject(1, "decrypt", true);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assume.That(item.decryptFail);
-                Assert.Throws(typeof(RuntimeBinderException), () => item.plainText.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assume.That(test.decryptFail);
+                    Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
+                }
             }
         }
 
@@ -225,13 +240,16 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
         {
             var subject = GetSubject(1, "decrypt");
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => item.cipherText.ToString());
+                foreach (var test in group.tests)
+                {
+                    Assert.Throws(typeof(RuntimeBinderException), () => test.cipherText.ToString());
+                }
             }
         }
         
-        private TestVectorSetBase<TestGroup, TestCase> GetSubject(int groups = 1, string direction = "encrypt", bool failureTest = false)
+        private TestVectorSetBase<TestGroup> GetSubject(int groups = 1, string direction = "encrypt", bool failureTest = false)
         {
             var subject = new TestVectorSet { Algorithm = "KeyWrap" };
             var testGroups = _tdm.GetTestGroups(groups, direction, failureTest);

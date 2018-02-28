@@ -13,8 +13,8 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
     public abstract class FireHoseTestsBase<TTestVectorSet, TTestGroup, TTestCase>
-        where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>, new()
-        where TTestGroup : TestGroupBase<TTestCase>, new()
+        where TTestVectorSet : TestVectorSetBase<TTestGroup>, new()
+        where TTestGroup : TestGroupBase, new()
         where TTestCase : TestCaseBase, new()
     {
         string _testPath;
@@ -36,7 +36,8 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $"..\\..\\TestFiles\\LegacyParserFiles\\{FolderName}");
         }
  
-        //[Test]
+        [Test]
+        [Ignore("Virtual test method, not used directly")]
         public virtual void ShouldRunThroughAllTestFilesAndValidate()
         {
             if (!Directory.Exists(_testPath))

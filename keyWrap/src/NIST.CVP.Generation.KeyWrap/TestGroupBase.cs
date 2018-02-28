@@ -7,20 +7,10 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public abstract class TestGroupBase<TTestCase> : ITestGroup
-        where TTestCase : TestCaseBase, new()
+    public abstract class TestGroupBase : ITestGroup
     {
-        protected TestGroupBase()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        protected TestGroupBase(dynamic source)
-        {
-            LoadSource(source);
-        }
-
         public int TestGroupId { get; set; }
+
         [JsonProperty(PropertyName = "testType")]
         public string TestType { get; set; } = "AFT";
 
@@ -35,9 +25,20 @@ namespace NIST.CVP.Generation.KeyWrap
 
         public abstract KeyWrapType KeyWrapType { get; set; }
 
-
         [JsonProperty(PropertyName = "keyLen")]
         public abstract int KeyLength { get; set; }
+
+        public List<ITestCase> Tests { get; set; }
+
+        protected TestGroupBase()
+        {
+            Tests = new List<ITestCase>();
+        }
+
+        protected TestGroupBase(dynamic source)
+        {
+            LoadSource(source);
+        }
 
         public bool UseInverseCipher
         {
@@ -52,11 +53,8 @@ namespace NIST.CVP.Generation.KeyWrap
             }
         }
 
-        public List<ITestCase> Tests { get; set; }
-
         protected abstract void LoadSource(dynamic source);
 
         public abstract bool SetString(string name, string value);
-
     }
 }

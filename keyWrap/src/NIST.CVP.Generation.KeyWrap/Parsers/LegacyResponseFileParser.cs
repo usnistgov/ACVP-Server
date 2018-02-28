@@ -9,8 +9,8 @@ using NIST.CVP.Generation.Core.Parsers;
 namespace NIST.CVP.Generation.KeyWrap.Parsers
 {
     public class LegacyResponseFileParser<TTestVectorSet, TTestGroup, TTestCase> : ILegacyResponseFileParser<TTestVectorSet>
-        where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>, new()
-        where TTestGroup : TestGroupBase<TTestCase>, new()
+        where TTestVectorSet : TestVectorSetBase<TTestGroup>, new()
+        where TTestGroup : TestGroupBase, new()
         where TTestCase : TestCaseBase, new()
 
     {

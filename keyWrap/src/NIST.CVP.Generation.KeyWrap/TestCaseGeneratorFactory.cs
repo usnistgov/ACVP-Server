@@ -6,7 +6,7 @@ using NIST.CVP.Math;
 namespace NIST.CVP.Generation.KeyWrap
 {
     public class TestCaseGeneratorFactory<TTestGroup, TTestCase> : ITestCaseGeneratorFactory<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestCase>
+        where TTestGroup : TestGroupBase
         where TTestCase : TestCaseBase, new()
 
     {

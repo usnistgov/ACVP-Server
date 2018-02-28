@@ -9,20 +9,26 @@ using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public abstract class TestVectorSetBase<TTestGroup, TTestCase> : ITestVectorSet
-        where TTestGroup : TestGroupBase<TTestCase>, new()
-        where TTestCase : TestCaseBase, new()
+    public abstract class TestVectorSetBase<TTestGroup> : ITestVectorSet
+        where TTestGroup : TestGroupBase, new()
     {
-
         protected readonly DynamicBitStringPrintWithOptions _bitStringPrinter =
             new DynamicBitStringPrintWithOptions(
                 PrintOptionBitStringNull.DoNotPrintProperty,
                 PrintOptionBitStringEmpty.PrintAsEmptyString
             );
 
-        protected TestVectorSetBase()
-        {
-        }
+        public string Algorithm { get; set; }
+        
+        [JsonIgnore]
+        public string Mode { get; set; }
+        public bool IsSample { get; set; }
+
+        [JsonIgnore]
+        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
+        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
+
+        protected TestVectorSetBase() { }
         
         protected TestVectorSetBase(dynamic answers)
         {
@@ -35,18 +41,9 @@ namespace NIST.CVP.Generation.KeyWrap
             {
                 var group = (TTestGroup) Activator.CreateInstance(typeof(TTestGroup), answer);
 
-                TestGroups.Add(@group);
+                TestGroups.Add(group);
             }
         }
-
-        public string Algorithm { get; set; }
-        [JsonIgnore]
-        public string Mode { get; set; }
-        public bool IsSample { get; set; }
-
-        [JsonIgnore]
-        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
-        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
 
         /// <summary>
         /// Expected answers (not sent to client)

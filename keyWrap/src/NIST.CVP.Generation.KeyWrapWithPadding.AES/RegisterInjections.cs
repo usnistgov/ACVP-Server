@@ -23,14 +23,14 @@ namespace NIST.CVP.Generation.KeyWrapWithPadding.AES
             builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<AES_ECB>().AsImplementedInterfaces();
-            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<TestReconstitutor<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<TestReconstitutor<TestVectorSet, TestGroup>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 
             // This implementation comes from the current project KWP
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
 
-            builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ResultValidator<TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();

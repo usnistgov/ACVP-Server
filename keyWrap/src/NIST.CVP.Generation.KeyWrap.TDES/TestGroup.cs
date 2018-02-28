@@ -1,21 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.KeyWrap.TDES
 {
-    public class TestGroup : TestGroupBase<TestCase>
+    public class TestGroup : TestGroupBase
     {
-        public TestGroup()
-        {
-
-        }
-        public TestGroup(dynamic source)
-        {
-            LoadSource(source);
-        }
-
         [JsonProperty(PropertyName = "keyLen")]
         public override int KeyLength
         {
@@ -33,6 +27,15 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
         public int NumberOfKeys { get; set; }
 
         public int KeyingOption { get; set; }
+
+        public TestGroup() { }
+
+        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
+
+        public TestGroup(dynamic source)
+        {
+            LoadSource(source);
+        }
 
         public override bool SetString(string name, string value)
         {
@@ -67,13 +70,15 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
 
         protected override void LoadSource(dynamic source)
         {
-            TestGroupId = (int) source.tgId;
-            TestType = source.testType;
-            Direction = source.direction;
-            KwCipher = source.kwCipher;
-            KeyingOption = source.keyingOption;
+            var expandoSource = (ExpandoObject) source;
+
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            TestType = expandoSource.GetTypeFromProperty<string>("testType");
+            Direction = expandoSource.GetTypeFromProperty<string>("direction");
+            KwCipher = expandoSource.GetTypeFromProperty<string>("kwCipher");
+            KeyingOption = expandoSource.GetTypeFromProperty<int>("keyingOption");
+            PtLen = expandoSource.GetTypeFromProperty<int>("ptLen");
             
-            PtLen = source.ptLen;
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {

@@ -4,16 +4,15 @@ using System.Linq;
 
 namespace NIST.CVP.Generation.KeyWrap.AES
 {
-    public class TestVectorSet : TestVectorSetBase<TestGroup, TestCase>
+    public class TestVectorSet : TestVectorSetBase<TestGroup>
     {
-        public TestVectorSet()
-        {
-        }
+        public TestVectorSet() { }
 
         public TestVectorSet(dynamic answers)
         {
             SetAnswers(answers);
         }
+
         public override List<dynamic> AnswerProjection
         {
             get
@@ -90,9 +89,16 @@ namespace NIST.CVP.Generation.KeyWrap.AES
         {
             get
             {
-                var tests = new List<dynamic>();
+                var groups = new List<dynamic>();
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
+                    dynamic groupObject = new ExpandoObject();
+                    var groupDict = (IDictionary<string, object>) groupObject;
+                    groupDict.Add("tgId", group.TestGroupId);
+
+                    var tests = new List<dynamic>();
+                    groupDict.Add("tests", tests);
+
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
@@ -118,8 +124,11 @@ namespace NIST.CVP.Generation.KeyWrap.AES
 
                         tests.Add(testObject);
                     }
+
+                    groups.Add(groupObject);
                 }
-                return tests;
+
+                return groups;
             }
         }
 

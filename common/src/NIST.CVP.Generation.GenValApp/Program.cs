@@ -90,6 +90,7 @@ namespace NIST.CVP.Generation.GenValApp
                 var errorMessage = $"ERROR: {ex.Message}";
                 Console.WriteLine(errorMessage);
                 Logger.Error(errorMessage);
+                Logger.Error(ex.StackTrace);
                 return 1;
             }
         }

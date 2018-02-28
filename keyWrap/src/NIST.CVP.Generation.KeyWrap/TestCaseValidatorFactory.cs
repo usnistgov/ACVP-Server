@@ -6,11 +6,11 @@ using NIST.CVP.Generation.Core;
 namespace NIST.CVP.Generation.KeyWrap
 {
     public class TestCaseValidatorFactory<TTestVectorSet, TTestGroup, TTestCase> : ITestCaseValidatorFactory<TTestVectorSet, TTestCase>
-        where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestCase>, new()
+        where TTestVectorSet : TestVectorSetBase<TTestGroup>
+        where TTestGroup : TestGroupBase, new()
         where TTestCase : TestCaseBase, new()
     {
-        public IEnumerable<ITestCaseValidator<TTestCase>> GetValidators(TTestVectorSet testVectorSet, IEnumerable<TTestCase> suppliedResults)
+        public IEnumerable<ITestCaseValidator<TTestCase>> GetValidators(TTestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidator<TTestCase>>();
 

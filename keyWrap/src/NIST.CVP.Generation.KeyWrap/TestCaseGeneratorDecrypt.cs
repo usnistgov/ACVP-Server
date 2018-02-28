@@ -8,7 +8,7 @@ using NLog;
 namespace NIST.CVP.Generation.KeyWrap
 {
     public class TestCaseGeneratorDecrypt<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestCase>
+        where TTestGroup : TestGroupBase
         where TTestCase : TestCaseBase, new()
     {
         protected readonly IKeyWrapFactory _iKeyWrapFactory;
