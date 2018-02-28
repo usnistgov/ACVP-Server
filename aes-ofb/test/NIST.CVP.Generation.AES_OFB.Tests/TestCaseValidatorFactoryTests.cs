@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         public void ShouldReturnCorrectValidatorType(string direction, string testType, Type expectedType)
         {
             var testVectorSet = GetTestGroup(direction, testType);
-            var result = _subject.GetValidators(testVectorSet, null);
+            var result = _subject.GetValidators(testVectorSet);
 
             Assert.AreEqual(1, result.Count());
             Assert.IsInstanceOf(expectedType, result.First());

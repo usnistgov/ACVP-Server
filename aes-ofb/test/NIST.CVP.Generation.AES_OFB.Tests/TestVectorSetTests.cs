@@ -34,15 +34,6 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         }
 
         [Test]
-        public void ShouldHaveTheExpectedResultProjection()
-        {
-            var subject = GetSubject(2);
-            var results = subject.ResultProjection;
-            Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
-        }
-
-        [Test]
         public void ShouldReconstituteTestVectorFromAnswerAndPrompt()
         {
             var source = GetSubject(2).ToDynamic();
@@ -93,9 +84,11 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.tcId.ToString()), nameof(item.tcId));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
             }
         }
 
@@ -130,9 +123,11 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.cipherText.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
             }
         }
 
@@ -191,9 +186,11 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         {
             var subject = GetSubject(1, "decrypt", false);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.plainText.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
             }
         }
         
@@ -202,10 +199,12 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         {
             var subject = GetSubject(1, "decrypt", true);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
             {
-                Assume.That(item.decryptFail);
-                Assert.Throws(typeof(RuntimeBinderException), () => item.plainText.ToString());
+                Assume.That(test.decryptFail);
+                Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
             }
         }
 
@@ -332,9 +331,11 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         {
             var subject = GetMCTSubject(1, "encrypt");
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
             {
-                foreach (var result in item.resultsArray)
+                foreach (var result in test.resultsArray)
                 {
                     Assert.IsTrue(!string.IsNullOrEmpty(result.iv.ToString()));
                     Assert.IsTrue(!string.IsNullOrEmpty(result.key.ToString()));
@@ -349,9 +350,11 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
         {
             var subject = GetMCTSubject(1, "decrypt");
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
             {
-                foreach (var result in item.resultsArray)
+                foreach (var result in test.resultsArray)
                 {
                     Assert.IsTrue(!string.IsNullOrEmpty(result.iv.ToString()));
                     Assert.IsTrue(!string.IsNullOrEmpty(result.key.ToString()));
