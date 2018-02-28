@@ -38,17 +38,16 @@ namespace NIST.CVP.Generation.HMAC.Tests
         public void ShouldReturnCorrectValidatorTypeDependantOnFunction(Type expectedType)
         {
             TestVectorSet testVectorSet = null;
-            List<TestCase> suppliedResults = null;
 
-            GetData(ref testVectorSet, ref suppliedResults);
+            GetData(ref testVectorSet);
 
-            var results = _subject.GetValidators(testVectorSet, suppliedResults);
+            var results = _subject.GetValidators(testVectorSet);
 
             Assert.IsTrue(results.Count() == 1, "Expected 1 validator");
             Assert.IsInstanceOf(expectedType, results.First());
         }
 
-        private void GetData(ref TestVectorSet testVectorSet, ref List<TestCase> suppliedResults)
+        private void GetData(ref TestVectorSet testVectorSet)
         {
             testVectorSet = new TestVectorSet()
             {
@@ -73,14 +72,6 @@ namespace NIST.CVP.Generation.HMAC.Tests
                             }
                         }
                     }
-                }
-            };
-
-            suppliedResults = new List<TestCase>()
-            {
-                new TestCase()
-                {
-                    TestCaseId = 1
                 }
             };
         }
