@@ -125,7 +125,7 @@ namespace NIST.CVP.Crypto.AES_GCM
             var xn = x.Substring(0, 128 + sx);
             var h1 = rijn.BlockEncrypt(cipher, key, cbi.ToBytes(), 128);//@@@ or k?
 
-            var yn = BitString.XOR(xn, h1.GetMostSignificantBits(xn.BitLength));
+            var yn = xn.XOR(h1.GetMostSignificantBits(xn.BitLength));
             Y = Y.ConcatenateBits(yn); // This is part of Step 8
 
             // Step 8: Let Y = Y1 || ... || Yn*
@@ -150,7 +150,7 @@ namespace NIST.CVP.Crypto.AES_GCM
             {
                 return null;
             }
-            BigInteger lsp1 = X.GetLeastSignificantBits(s).ToBigInteger() + new BigInteger(1);
+            BigInteger lsp1 = X.GetLeastSignificantBits(s).ToPositiveBigInteger() + new BigInteger(1);
             //ThisLogger.Debug($"lsp1: {lsp1}");
             lsp1 = lsp1 % (new BigInteger(1) << s);
             //ThisLogger.Debug($"lsp2: {lsp1}");
