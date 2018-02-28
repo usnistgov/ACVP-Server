@@ -47,13 +47,13 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         }
 
         [Test]
-        [TestCase(null, 0)]
-        [TestCase(new int[] { }, 0)]
-        [TestCase(new int[] { -1 }, 0)]
-        [TestCase(new int[] { 128, -1 }, 0)]
-        [TestCase(new int[] { 128, -1, -2 }, 1)]
-        [TestCase(new int[] { 128, -1, -2, -3 }, 2)]
-        public void ShouldReturnErrorWithInvalidKeyLength(int[] keyLengths, int errorsExpected)
+        [TestCase("1", null, 0)]
+        [TestCase("2", new int[] { }, 0)]
+        [TestCase("3", new int[] { -1 }, 0)]
+        [TestCase("4", new int[] { 128, -1 }, 0)]
+        [TestCase("5", new int[] { 128, -1, -2 }, 1)]
+        [TestCase("6", new int[] { 128, -1, -2, -3 }, 2)]
+        public void ShouldReturnErrorWithInvalidKeyLength(string label, int[] keyLengths, int errorsExpected)
         {
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(
@@ -89,11 +89,11 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         }
 
         [Test]
-        [TestCase(new int[] { -1 }, 0)]
-        [TestCase(new int[] { 128, -1 }, 0)]
-        [TestCase(new int[] { 128, -1, -2 }, 1)]
-        [TestCase(new int[] { 128, -1, -2, -3 }, 2)]
-        public void ShouldReturnErrorWithInvalidTagLength(int[] tagLengths, int errorsExpected)
+        [TestCase("1", new int[] { -1 }, 0)]
+        [TestCase("2", new int[] { 128, -1 }, 0)]
+        [TestCase("3", new int[] { 128, -1, -2 }, 1)]
+        [TestCase("4", new int[] { 128, -1, -2, -3 }, 2)]
+        public void ShouldReturnErrorWithInvalidTagLength(string label, int[] tagLengths, int errorsExpected)
         {
             MathDomain md = new MathDomain();
             foreach (var value in tagLengths)
@@ -114,14 +114,14 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
         [Test]
         // invalid range
-        [TestCase(new int[] { -128 }, 0)]
-        [TestCase(new int[] { 128, -128 }, 0)]
-        [TestCase(new int[] { 128, -128, -256 }, 1)]
-        [TestCase(new int[] { 128, -128, -256, -384 }, 2)] 
+        [TestCase("1", new int[] { -128 })]
+        [TestCase("2", new int[] { 128, -128 })]
+        [TestCase("3", new int[] { 128, -128, -256 })]
+        [TestCase("4", new int[] { 128, -128, -256, -384 })] 
         // invalid multiple
-        [TestCase(new int[] { 128, 1, 2 }, 1)]
-        [TestCase(new int[] { 128, 1, 2, 3 }, 2)]
-        public void ShouldReturnErrorWithInvalidPtLength(int[] ptLengths, int errorsExpected)
+        [TestCase("5", new int[] { 128, 1, 2 })]
+        [TestCase("6", new int[] { 128, 1, 2, 3 })]
+        public void ShouldReturnErrorWithInvalidPtLength(string label, int[] ptLengths)
         {
             MathDomain md = new MathDomain();
             foreach (var value in ptLengths)
@@ -137,19 +137,18 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             );
 
             Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','));
         }
 
         [Test]
         // invalid range
-        [TestCase(new int[] { -128 }, 0)]
-        [TestCase(new int[] { 128, -128 }, 0)]
-        [TestCase(new int[] { 128, -128, -256 }, 1)]
-        [TestCase(new int[] { 128, -128, -256, -384 }, 2)]
-        // invalid multiple
-        [TestCase(new int[] { 128, 1, 2 }, 1)]
-        [TestCase(new int[] { 128, 1, 2, 3 }, 2)]
-        public void ShouldReturnErrorWithInvalidAadLength(int[] aadLengths, int errorsExpected)
+        [TestCase("1", new int[] { -128 })]
+        [TestCase("2", new int[] { 128, -128 })]
+        [TestCase("3", new int[] { 128, -128, -256 })]
+        [TestCase("4", new int[] { 128, -128, -256, -384 })]
+        // invalid,  multiple
+        [TestCase("5", new int[] { 128, 1, 2 })]
+        [TestCase("6", new int[] { 128, 1, 2, 3 })]
+        public void ShouldReturnErrorWithInvalidAadLength(string label, int[] aadLengths)
         {
             MathDomain md = new MathDomain();
             foreach (var value in aadLengths)
@@ -165,20 +164,19 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             );
 
             Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','));
         }
 
         [Test]
         // invalid range
-        [TestCase(new int[] { -128 }, 0)]
-        [TestCase(new int[] { 0 }, 0)]
-        [TestCase(new int[] { 128, -128 }, 0)]
-        [TestCase(new int[] { 128, -128, -256 }, 1)]
-        [TestCase(new int[] { 128, -128, -256, -384 }, 2)]
+        [TestCase("1", new int[] { -128 })]
+        [TestCase("2", new int[] { 0 })]
+        [TestCase("3", new int[] { 128, -128 })]
+        [TestCase("4", new int[] { 128, -128, -256 })]
+        [TestCase("5", new int[] { 128, -128, -256, -384 })]
         // invalid multiple
-        [TestCase(new int[] { 128, 9, 10 }, 1)]
-        [TestCase(new int[] { 128, 9, 10, 11 }, 2)]
-        public void ShouldReturnErrorWithInvalidIvLength(int[] ivLengths, int errorsExpected)
+        [TestCase("6", new int[] { 128, 9, 10 })]
+        [TestCase("7", new int[] { 128, 9, 10, 11 })]
+        public void ShouldReturnErrorWithInvalidIvLength(string label, int[] ivLengths)
         {
             MathDomain md = new MathDomain();
             foreach (var value in ivLengths)
@@ -194,7 +192,6 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             );
 
             Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','));
         }
 
         [Test]
