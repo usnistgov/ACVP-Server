@@ -9,10 +9,10 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
     public abstract class FireHoseTestsBase<TLegacyResponseFileParser, TTestCaseGeneratorGen, TTestVectorSet, TTestGroup, TTestCase>
-        where TLegacyResponseFileParser : LegacyResponseFileParserBase<TTestVectorSet, TTestGroup, TTestCase>, new()
+        where TLegacyResponseFileParser : LegacyResponseFileParserBase<TTestVectorSet, TTestGroup>, new()
         where TTestCaseGeneratorGen : TestCaseGeneratorGenBase<TTestGroup, TTestCase>
-        where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>, new()
-        where TTestGroup : TestGroupBase<TTestCase>, new()
+        where TTestVectorSet : TestVectorSetBase<TTestGroup>, new()
+        where TTestGroup : TestGroupBase, new()
         where TTestCase : TestCaseBase, new()
     {
         string _testPath;
@@ -27,7 +27,8 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $@"..\..\TestFiles\LegacyParserFiles\{FolderName}");
         }
  
-        //[Test]
+        [Test]
+        [Ignore("Overwritten elsewhere, should be made virtual")]
         public void ShouldRunThroughAllTestFilesAndValidate()
         {
             var parser = new TLegacyResponseFileParser();

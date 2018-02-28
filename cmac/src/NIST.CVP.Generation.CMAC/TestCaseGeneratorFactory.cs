@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.CMAC
 {
     public class TestCaseGeneratorFactory<TTestCaseGeneratorGen, TTestGroup, TTestCase> : ITestCaseGeneratorFactory<TTestGroup, TTestCase>
         where TTestCaseGeneratorGen : TestCaseGeneratorGenBase<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestCase>
+        where TTestGroup : TestGroupBase
         where TTestCase : TestCaseBase, new()
     {
         private readonly IRandom800_90 _random800_90;

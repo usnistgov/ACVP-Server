@@ -5,6 +5,7 @@ using System.Numerics;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -14,6 +15,15 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public int L { get; set; }
+        public int N { get; set; }
+        public FfcDomainParameters DomainParams { get; set; }       // Mainly for private use to make sure all test cases have same value
+        public HashFunction HashAlg { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         // Needed for SetString, FireHoseTests
         private BigInteger p;
         private BigInteger q;
@@ -30,14 +40,15 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
         {
             var expandoSource = (ExpandoObject) source;
 
-            TestGroupId = (int) source.tgId;
-            L = (int) source.l;
-            N = (int) source.n;
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            TestType = expandoSource.GetTypeFromProperty<string>("testType");
+            L = expandoSource.GetTypeFromProperty<int>("l");
+            N = expandoSource.GetTypeFromProperty<int>("n");
 
-            if (expandoSource.ContainsProperty("hashAlg"))
+            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
+            if (!string.IsNullOrEmpty(hashValue))
             {
-                var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm((string)source.hashAlg);
-                HashAlg = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
+                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
             }
 
             Tests = new List<ITestCase>();
@@ -46,15 +57,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public int L { get; set; }
-        public int N { get; set; }
-        public FfcDomainParameters DomainParams { get; set; }       // Mainly for private use to make sure all test cases have same value
-        public HashFunction HashAlg { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

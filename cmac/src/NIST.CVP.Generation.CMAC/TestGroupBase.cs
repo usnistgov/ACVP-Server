@@ -1,22 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.CMAC
 {
-    public abstract class TestGroupBase<TTestCase> : ITestGroup
-        where TTestCase : TestCaseBase, new()
+    public abstract class TestGroupBase : ITestGroup
     {
-        public TestGroupBase()
+        protected TestGroupBase()
         {
             Tests = new List<ITestCase>();
         }
 
-        public TestGroupBase(dynamic source)
+        protected TestGroupBase(JObject source) : this(source.ToObject<ExpandoObject>()) { }
+
+        protected TestGroupBase(dynamic source)
         {
             LoadSource(source);
-
         }
 
         public int TestGroupId { get; set; }

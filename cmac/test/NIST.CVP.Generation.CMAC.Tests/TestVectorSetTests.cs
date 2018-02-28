@@ -40,7 +40,11 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             var subject = GetSubject(2);
             var results = subject.ResultProjection;
             Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
+            Assert.AreEqual(2, results.Count);
+            foreach (var group in results)
+            {
+                Assert.AreEqual(15, group.tests.Count);
+            }
         }
 
         [Test]
@@ -99,9 +103,14 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.tcId.ToString()), nameof(item.tcId));
+                Assert.IsTrue(!string.IsNullOrEmpty(group.tgId.ToString()));
+
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.mac.ToString()));
+                }
             }
         }
 
@@ -128,17 +137,6 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             foreach (var test in tests)
             {
                 Assert.IsTrue((bool) !string.IsNullOrEmpty(test.msg.ToString()));
-            }
-        }
-
-        [Test]
-        public void GenShouldIncludeMacInResultProjection()
-        {
-            var subject = GetSubject(1);
-            var results = subject.ResultProjection;
-            foreach (var item in results)
-            {
-                Assert.IsTrue((bool) !string.IsNullOrEmpty(item.mac.ToString()));
             }
         }
         
@@ -177,3 +175,4 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         }
     }
 }
+

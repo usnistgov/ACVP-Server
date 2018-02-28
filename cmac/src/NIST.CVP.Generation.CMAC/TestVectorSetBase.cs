@@ -7,9 +7,8 @@ using NIST.CVP.Generation.Core.Helpers;
 
 namespace NIST.CVP.Generation.CMAC
 {
-    public abstract class TestVectorSetBase<TTestGroup, TTestCase> : ITestVectorSet
-        where TTestGroup : TestGroupBase<TTestCase>, new()
-        where TTestCase : TestCaseBase, new()
+    public abstract class TestVectorSetBase<TTestGroup> : ITestVectorSet
+        where TTestGroup : TestGroupBase, new()
     {
         protected readonly DynamicBitStringPrintWithOptions _dynamicBitStringPrintWithOptions =
             new DynamicBitStringPrintWithOptions(
@@ -42,11 +41,9 @@ namespace NIST.CVP.Generation.CMAC
         [JsonProperty(PropertyName = "testResults")]
         public abstract List<dynamic> ResultProjection { get; }
 
-        public TestVectorSetBase()
-        {
-        }
+        protected TestVectorSetBase() { }
 
-        public TestVectorSetBase(dynamic answers)
+        protected TestVectorSetBase(dynamic answers)
         {
             SetAnswers(answers);
         }
@@ -56,7 +53,6 @@ namespace NIST.CVP.Generation.CMAC
             foreach (var answer in answers.answerProjection)
             {
                 var group = (TTestGroup)Activator.CreateInstance(typeof(TTestGroup), answer);
-                //var group = new TTestGroup(answer);
 
                 TestGroups.Add(group);
             }

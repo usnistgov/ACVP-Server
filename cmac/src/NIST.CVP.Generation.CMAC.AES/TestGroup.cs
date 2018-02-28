@@ -1,28 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.CMAC.AES
 {
-    public class TestGroup : TestGroupBase<TestCase>
+    public class TestGroup : TestGroupBase
     {
+        [JsonProperty(PropertyName = "keyLen")]
+        public override int KeyLength { get; set; }
 
         public TestGroup()
         {
             Tests = new List<ITestCase>();
         }
 
+        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
+
         public TestGroup(dynamic source)
         {
             LoadSource(source);
         }
-
-        [JsonProperty(PropertyName = "keyLen")]
-        public override int KeyLength { get; set; }
 
         public override bool SetString(string name, string value)
         {
@@ -56,12 +60,15 @@ namespace NIST.CVP.Generation.CMAC.AES
 
         protected override void LoadSource(dynamic source)
         {
-            TestGroupId = source.tgId;
-            TestType = source.testType;
-            Function = source.direction;
-            KeyLength = source.keyLen;
-            MessageLength = source.msgLen;
-            MacLength = source.macLen;
+            var expandoSource = (ExpandoObject) source;
+
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            TestType = expandoSource.GetTypeFromProperty<string>("testType");
+            Function = expandoSource.GetTypeFromProperty<string>("direction");
+            KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");
+            MessageLength = expandoSource.GetTypeFromProperty<int>("msgLen");
+            MacLength = expandoSource.GetTypeFromProperty<int>("macLen");
+
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {

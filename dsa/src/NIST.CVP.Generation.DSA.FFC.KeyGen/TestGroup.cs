@@ -4,6 +4,7 @@ using System.Numerics;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
@@ -15,6 +16,13 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
         private BigInteger q;
         private BigInteger g;
 
+        public int TestGroupId { get; set; }
+        public int L { get; set; }
+        public int N { get; set; }
+        public FfcDomainParameters DomainParams { get; set; }       // Used to make sure all test cases share a PQG
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -24,25 +32,18 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 
         public TestGroup(dynamic source)
         {
-            TestGroupId = (int) source.tgId;
-            L = (int) source.l;
-            N = (int) source.n;
+            var expandoSource = (ExpandoObject) source;
 
-            // ParseDomainParams((ExpandoObject)source);
-
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            L = expandoSource.GetTypeFromProperty<int>("l");
+            N = expandoSource.GetTypeFromProperty<int>("n");
+            
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public int L { get; set; }
-        public int N { get; set; }
-        public FfcDomainParameters DomainParams { get; set; }       // Used to make sure all test cases share a PQG
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

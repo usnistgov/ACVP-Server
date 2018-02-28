@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -13,6 +14,16 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public GeneratorGenMode GGenMode { get; set; }
+        public PrimeGenMode PQGenMode { get; set; }
+        public int L { get; set; }
+        public int N { get; set; }
+        public HashFunction HashAlg { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -22,16 +33,18 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
         public TestGroup(dynamic source)
         {
-            TestType = source.testType;
-
             var expandoSource = (ExpandoObject)source;
 
             TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            TestType = expandoSource.GetTypeFromProperty<string>("testType");
             L = expandoSource.GetTypeFromProperty<int>("l");
             N = expandoSource.GetTypeFromProperty<int>("n");
 
-            var attributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(expandoSource.GetTypeFromProperty<string>("hashAlg"));
-            HashAlg = new HashFunction(attributes.shaMode, attributes.shaDigestSize);
+            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
+            if (!string.IsNullOrEmpty(hashValue))
+            {
+                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
+            }
 
             PQGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenMode>(expandoSource.GetTypeFromProperty<string>("pqMode"), false);
             GGenMode = EnumHelpers.GetEnumFromEnumDescription<GeneratorGenMode>(expandoSource.GetTypeFromProperty<string>("gMode"), false);
@@ -42,16 +55,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public GeneratorGenMode GGenMode { get; set; }
-        public PrimeGenMode PQGenMode { get; set; }
-        public int L { get; set; }
-        public int N { get; set; }
-        public HashFunction HashAlg { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

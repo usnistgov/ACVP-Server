@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
     {
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
+        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidator<TestCase>>();
 

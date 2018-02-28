@@ -6,19 +6,14 @@ using Newtonsoft.Json;
 
 namespace NIST.CVP.Generation.CMAC.AES
 {
-    public class TestVectorSet :  TestVectorSetBase<TestGroup, TestCase>
+    public class TestVectorSet :  TestVectorSetBase<TestGroup>
     {
-
-        public TestVectorSet()
-        {
-        }
+        public TestVectorSet() { }
 
         public TestVectorSet(dynamic answers)
         {
             SetAnswers(answers);
         }
-
-
 
         /// <summary>
         /// Expected answers (not sent to client)
@@ -114,9 +109,16 @@ namespace NIST.CVP.Generation.CMAC.AES
         {
             get
             {
-                var tests = new List<dynamic>();
+                var groups = new List<dynamic>();
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
+                    dynamic groupObject = new ExpandoObject();
+                    var groupDict = (IDictionary<string, object>) groupObject;
+                    groupDict.Add("tgId", group.TestGroupId);
+
+                    var tests = new List<dynamic>();
+                    groupDict.Add("tests", tests);
+                    
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
@@ -135,8 +137,11 @@ namespace NIST.CVP.Generation.CMAC.AES
 
                         tests.Add(testObject);
                     }
+
+                    groups.Add(groupObject);
                 }
-                return tests;
+
+                return groups;
             }
         }
 

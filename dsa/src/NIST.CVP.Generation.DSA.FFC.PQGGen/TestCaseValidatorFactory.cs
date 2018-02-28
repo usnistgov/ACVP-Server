@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
         private IPQGeneratorValidator _pqGen;
         private IGGeneratorValidator _gGen;
 
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
+        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidator<TestCase>>();
 

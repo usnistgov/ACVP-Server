@@ -3,7 +3,7 @@
 namespace NIST.CVP.Generation.CMAC
 {
     public class TestCaseGeneratorNull<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestCase>
+        where TTestGroup : TestGroupBase
         where TTestCase : TestCaseBase, new()
     {
         public int NumberOfTestCasesToGenerate { get { return 0; } }

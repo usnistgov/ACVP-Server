@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.CMAC.TDES
 {
-    public class TestGroup : TestGroupBase<TestCase>
+    public class TestGroup : TestGroupBase
     {
         public TestGroup()
         {
             Tests = new List<ITestCase>();
         }
+
+        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
 
         public TestGroup(dynamic source)
         {
@@ -63,12 +68,15 @@ namespace NIST.CVP.Generation.CMAC.TDES
 
         protected override void LoadSource(dynamic source)
         {
-            TestGroupId = source.tgId;
-            TestType = source.testType;
-            Function = source.direction;
-            KeyingOption = source.keyingOption;
-            MessageLength = source.msgLen;
-            MacLength = source.macLen;
+            var expandoSource = (ExpandoObject) source;
+
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            TestType = expandoSource.GetTypeFromProperty<string>("testType");
+            Function = expandoSource.GetTypeFromProperty<string>("direction");
+            KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");
+            MessageLength = expandoSource.GetTypeFromProperty<int>("msgLen");
+            MacLength = expandoSource.GetTypeFromProperty<int>("macLen");
+
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {

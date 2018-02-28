@@ -11,7 +11,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.CMAC.AES.Parsers
 {
-    public class LegacyResponseFileParser : LegacyResponseFileParserBase<TestVectorSet, TestGroup, TestCase>
+    public class LegacyResponseFileParser : LegacyResponseFileParserBase<TestVectorSet, TestGroup>
     {
         public override ParseResponse<TestVectorSet> Parse(string path)
         {

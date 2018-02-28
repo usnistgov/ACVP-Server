@@ -36,24 +36,23 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         }
 
         [Test]
-        [TestCase("gen", false, typeof(TestCaseValidatorGen<TestCase>))]
-        [TestCase("GeN", false, typeof(TestCaseValidatorGen<TestCase>))]
-        [TestCase("ver", false, typeof(TestCaseValidatorVer<TestCase>))]
-        [TestCase("vEr", false, typeof(TestCaseValidatorVer<TestCase>))]
-        public void ShouldReturnCorrectValidatorTypeDependantOnFunction(string function, bool isDeferred, Type expectedType)
+        [TestCase("gen", typeof(TestCaseValidatorGen<TestCase>))]
+        [TestCase("GeN", typeof(TestCaseValidatorGen<TestCase>))]
+        [TestCase("ver", typeof(TestCaseValidatorVer<TestCase>))]
+        [TestCase("vEr", typeof(TestCaseValidatorVer<TestCase>))]
+        public void ShouldReturnCorrectValidatorTypeDependantOnFunction(string function, Type expectedType)
         {
             TestVectorSet testVectorSet = null;
-            List<TestCase> suppliedResults = null;
 
-            GetData(ref testVectorSet, ref suppliedResults, function, isDeferred);
+            GetData(ref testVectorSet, function);
 
-            var results = _subject.GetValidators(testVectorSet, suppliedResults);
+            var results = _subject.GetValidators(testVectorSet);
 
             Assert.IsTrue(results.Count() == 1, "Expected 1 validator");
             Assert.IsInstanceOf(expectedType, results.First());
         }
 
-        private void GetData(ref TestVectorSet testVectorSet, ref List<TestCase> suppliedResults, string function, bool isDeferred)
+        private void GetData(ref TestVectorSet testVectorSet, string function)
         {
             testVectorSet = new TestVectorSet()
             {
@@ -79,14 +78,6 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
                             }
                         }
                     }
-                }
-            };
-
-            suppliedResults = new List<TestCase>()
-            {
-                new TestCase()
-                {
-                    TestCaseId = 1
                 }
             };
         }

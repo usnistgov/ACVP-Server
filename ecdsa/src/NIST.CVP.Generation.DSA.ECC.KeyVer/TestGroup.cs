@@ -14,6 +14,15 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public EccDomainParameters DomainParameters { get; set; }
+
+        // Used internally to build test cases with particular error cases
+        public ITestCaseExpectationProvider<TestCaseExpectationEnum> TestCaseExpectationProvider { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -23,8 +32,15 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
 
         public TestGroup(dynamic source)
         {
-            TestGroupId = (int) source.tgId;
-            ParseDomainParameters((ExpandoObject)source);
+            var expandoSource = (ExpandoObject) source;
+
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            var curveName = expandoSource.GetTypeFromProperty<string>("curve");
+
+            var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName, false);
+            var curveFactory = new EccCurveFactory();
+
+            DomainParameters = new EccDomainParameters(curveFactory.GetCurve(curve));
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
@@ -32,15 +48,6 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public EccDomainParameters DomainParameters { get; set; }
-
-        // Used internally to build test cases with particular error cases
-        public ITestCaseExpectationProvider<TestCaseExpectationEnum> TestCaseExpectationProvider { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -59,21 +66,6 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
             }
 
             return false;
-        }
-
-        private void ParseDomainParameters(ExpandoObject source)
-        {
-            var curveName = "";
-
-            if (source.ContainsProperty("curve"))
-            {
-                curveName = source.GetTypeFromProperty<string>("curve");
-            }
-
-            var curveFactory = new EccCurveFactory();
-            var curve = curveFactory.GetCurve(EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName, false));
-
-            DomainParameters = new EccDomainParameters(curve);
         }
     }
 }

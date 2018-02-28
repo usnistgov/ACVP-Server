@@ -12,15 +12,20 @@ namespace NIST.CVP.Generation.DRBG
 {
     public class TestVectorSet : ITestVectorSet
     {
-
         private readonly DynamicBitStringPrintWithOptions _bitStringPrinter =
             new DynamicBitStringPrintWithOptions(PrintOptionBitStringNull.DoNotPrintProperty,
                 PrintOptionBitStringEmpty.PrintAsEmptyString
             );
 
-        public TestVectorSet()
-        {
-        }
+        public string Algorithm { get; set; }
+        public string Mode { get; set; }
+        public bool IsSample { get; set; }
+
+        [JsonIgnore]
+        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
+        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
+
+        public TestVectorSet() { }
 
         public TestVectorSet(dynamic answers)
         {
@@ -31,14 +36,6 @@ namespace NIST.CVP.Generation.DRBG
                 TestGroups.Add(group);
             }
         }
-
-        public string Algorithm { get; set; }
-        public string Mode { get; set; }
-        public bool IsSample { get; set; }
-
-        [JsonIgnore]
-        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
-        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
 
         /// <summary>
         /// Expected answers (not sent to client)
@@ -106,9 +103,15 @@ namespace NIST.CVP.Generation.DRBG
         {
             get
             {
-                var tests = new List<dynamic>();
+                var groups = new List<dynamic>();
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
+                    dynamic groupObject = new ExpandoObject();
+                    var groupDict = (IDictionary<string, object>) groupObject;
+                    groupDict.Add("tgId", group.TestGroupId);
+
+                    var tests = new List<dynamic>();
+                    groupDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
@@ -118,8 +121,11 @@ namespace NIST.CVP.Generation.DRBG
 
                         tests.Add(testObject);
                     }
+
+                    groups.Add(groupObject);
                 }
-                return tests;
+
+                return groups;
             }
         }
 

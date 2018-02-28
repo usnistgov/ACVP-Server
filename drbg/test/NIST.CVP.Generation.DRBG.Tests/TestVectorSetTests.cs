@@ -49,8 +49,6 @@ namespace NIST.CVP.Generation.DRBG.Tests
             Assert.AreEqual(2, subject.TestGroups.Count);
         }
         
-        // @@@ possible to get strong typing out of projection?
-
         [Test]
         public void ShouldContainElementsWithinAnswerProjection()
         {
@@ -108,10 +106,15 @@ namespace NIST.CVP.Generation.DRBG.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            foreach (var group in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.tcId.ToString()), nameof(item.tcId));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.returnedBits.ToString()), nameof(item.returnedBits));
+                Assert.IsTrue(!string.IsNullOrEmpty(group.tgId.ToString()));
+
+                foreach (var test in group.tests)
+                {
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
+                    Assert.IsTrue(!string.IsNullOrEmpty(test.returnedBits.ToString()), nameof(test.returnedBits));
+                }
             }
         }
         
@@ -128,9 +131,9 @@ namespace NIST.CVP.Generation.DRBG.Tests
             }
         }
         
-        private TestVectorSet GetSubject(int groups = 1, string direction = "encrypt", bool failureTest = false)
+        private TestVectorSet GetSubject(int groups = 1)
         {
-            var subject = new TestVectorSet {Algorithm = "AES-ECB"};
+            var subject = new TestVectorSet {Algorithm = "DRBG"};
             var testGroups = _tdm.GetTestGroups(groups);
             subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return subject;

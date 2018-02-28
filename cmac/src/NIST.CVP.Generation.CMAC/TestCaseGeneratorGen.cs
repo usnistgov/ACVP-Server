@@ -9,7 +9,7 @@ using NLog;
 namespace NIST.CVP.Generation.CMAC
 {
     public class TestCaseGeneratorGen<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestCase>
+        where TTestGroup : TestGroupBase
         where TTestCase : TestCaseBase, new()
     {
         private readonly ICmac _algo;

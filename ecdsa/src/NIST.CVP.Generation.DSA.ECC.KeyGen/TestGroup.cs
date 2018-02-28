@@ -13,6 +13,12 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
+        public EccDomainParameters DomainParameters { get; set; }
+
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -22,21 +28,25 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 
         public TestGroup(dynamic source)
         {
-            TestGroupId = (int) source.tgId;
-            ParseDomainParameters((ExpandoObject)source);
+            var expandoSource = (ExpandoObject) source;
 
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            var curveName = expandoSource.GetTypeFromProperty<string>("curve");
+            var secretGenerationMode = expandoSource.GetTypeFromProperty<string>("secretGenerationMode");
+
+            var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName, false);
+            var curveFactory = new EccCurveFactory();
+
+            var secretGeneration = EnumHelpers.GetEnumFromEnumDescription<SecretGenerationMode>(secretGenerationMode, false);
+
+            DomainParameters = new EccDomainParameters(curveFactory.GetCurve(curve), secretGeneration);
+            
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
-        public EccDomainParameters DomainParameters { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -55,29 +65,6 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
             }
 
             return false;
-        }
-
-        private void ParseDomainParameters(ExpandoObject source)
-        {
-            var curveName = "";
-            var secretGenerationMode = "";
-
-            if (source.ContainsProperty("curve"))
-            {
-                curveName = source.GetTypeFromProperty<string>("curve");
-            }
-
-            if (source.ContainsProperty("secretGenerationMode"))
-            {
-                secretGenerationMode = source.GetTypeFromProperty<string>("secretGenerationMode");
-            }
-
-            var curveFactory = new EccCurveFactory();
-            var curve = curveFactory.GetCurve(EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName, false));
-
-            var secretGeneration = EnumHelpers.GetEnumFromEnumDescription<SecretGenerationMode>(secretGenerationMode, false);
-
-            DomainParameters = new EccDomainParameters(curve, secretGeneration);
         }
     }
 }

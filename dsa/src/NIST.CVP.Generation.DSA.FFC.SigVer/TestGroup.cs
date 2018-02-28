@@ -5,6 +5,7 @@ using System.Numerics;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.SHAWrapper;
@@ -17,6 +18,17 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
     public class TestGroup : ITestGroup
     {
+        public int TestGroupId { get; set; }
+        public int L { get; set; }
+        public int N { get; set; }
+        public FfcDomainParameters DomainParams { get; set; }
+        public HashFunction HashAlg { get; set; }
+
+        public ITestCaseExpectationProvider<SigFailureReasons> TestCaseExpectationProvider { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+
         private BigInteger p;
         private BigInteger q;
         private BigInteger g;
@@ -32,24 +44,22 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         {
             var expandoSource = (ExpandoObject) source;
 
-            TestGroupId = (int) source.tgId;
-            L = (int) source.l;
-            N = (int) source.n;
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            TestType = expandoSource.GetTypeFromProperty<string>("testType");
+            L = expandoSource.GetTypeFromProperty<int>("l");
+            N = expandoSource.GetTypeFromProperty<int>("n");
 
-            if (expandoSource.ContainsProperty("hashAlg"))
+            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
+            if (!string.IsNullOrEmpty(hashValue))
             {
-                var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm((string)source.hashAlg);
-                HashAlg = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
+                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
             }
 
-            if (expandoSource.ContainsProperty("p"))
-            {
-                var p = expandoSource.GetBigIntegerFromProperty("p");
-                var q = expandoSource.GetBigIntegerFromProperty("q");
-                var g = expandoSource.GetBigIntegerFromProperty("g");
+            p = expandoSource.GetBigIntegerFromProperty("p");
+            q = expandoSource.GetBigIntegerFromProperty("q");
+            g = expandoSource.GetBigIntegerFromProperty("g");
 
-                DomainParams = new FfcDomainParameters(p, q, g);
-            }
+            DomainParams = new FfcDomainParameters(p, q, g);
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
@@ -57,17 +67,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                 Tests.Add(new TestCase(test));
             }
         }
-
-        public int TestGroupId { get; set; }
-        public int L { get; set; }
-        public int N { get; set; }
-        public FfcDomainParameters DomainParams { get; set; }
-        public HashFunction HashAlg { get; set; }
-
-        public ITestCaseExpectationProvider<SigFailureReasons> TestCaseExpectationProvider { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {
