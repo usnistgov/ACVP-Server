@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
         public void ShouldReturnCorrectValidatorType(string direction, Type expectedType)
         {
             var testVectorSet = GetTestGroup(direction);
-            var result = _subject.GetValidators(testVectorSet, null);
+            var result = _subject.GetValidators(testVectorSet);
 
             Assert.AreEqual(1, result.Count());
             Assert.IsInstanceOf(expectedType, result.First());
