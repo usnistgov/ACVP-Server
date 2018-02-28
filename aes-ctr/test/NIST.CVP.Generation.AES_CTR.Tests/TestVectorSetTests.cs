@@ -36,15 +36,6 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void ShouldHaveTheExpectedResultProjection()
-        {
-            var subject = GetSubject(2);
-            var results = subject.ResultProjection;
-            Assert.IsNotNull(results);
-            Assert.AreEqual(30, results.Count);
-        }
-
-        [Test]
         public void ShouldReconstituteTestVectorFromAnswerAndPrompt()
         {
             var source = GetSubject(2).ToDynamic();
@@ -91,9 +82,11 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.tcId.ToString()), nameof(item.tcId));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.tcId.ToString()), nameof(test.tcId));
             }
         }
 
@@ -128,9 +121,11 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         {
             var subject = GetSubject(1);
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.cipherText.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
             }
         }
 
@@ -189,9 +184,11 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         {
             var subject = GetSubject(1, "decrypt");
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.plainText.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
             }
         }
 
@@ -304,10 +301,12 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         {
             var subject = GetCounterSubject();
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.ivs.ToString()));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.cipherText.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.ivs.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
             }
         }
 
@@ -316,10 +315,12 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         {
             var subject = GetCounterSubject(1, "decrypt");
             var results = subject.ResultProjection;
-            foreach (var item in results)
+            var group = results[0];
+            var tests = group.tests;
+            foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.ivs.ToString()));
-                Assert.IsTrue(!string.IsNullOrEmpty(item.plainText.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.ivs.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
             }
         }
 
