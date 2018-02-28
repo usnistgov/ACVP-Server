@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 
             GetData(ref testVectorSet, ref suppliedResults, function, isDeferred);
 
-            var results = _subject.GetValidators(testVectorSet, suppliedResults);
+            var results = _subject.GetValidators(testVectorSet);
 
             Assert.IsTrue(results.Count() == 1, "Expected 1 validator");
             Assert.IsInstanceOf(expectedType, results.First());
