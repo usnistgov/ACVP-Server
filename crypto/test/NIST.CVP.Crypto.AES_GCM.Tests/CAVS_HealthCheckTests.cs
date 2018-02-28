@@ -405,6 +405,38 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 new BitString(""),
                 // expectedTag
                 new BitString("872d99f52264fb0f49230e8fd5f23584")
+            },
+            new object[]
+            {
+                $"{nameof(_testDataNon96BitIvs)}_4",
+                // key
+                new BitString("5bea93e24c3739f1fac976b37adcc557c4fd0425149031f5"),
+                // iv
+                new BitString("b08537ef51d443316eddf0dacc4f99"),
+                // pt
+                new BitString("2e4ea15ff942dba26209cc48e92e3dab"),
+                // aad
+                new BitString("dd578cd4a8b2cc89aa188987f68f"),
+                // expectedCt
+                new BitString("501225f3e7c40c857e36c8c6d123a5e0"),
+                // expectedTag
+                new BitString("0f7301bcf0b02a20660366c1fde9b356")
+            },
+            new object[]
+            {
+                $"{nameof(_testDataNon96BitIvs)}_5",
+                // key
+                new BitString("92a00e445caede92c1e96f8b592657ddc8841e8ec98f7ce2"),
+                // iv
+                new BitString("84cfd2c7df58713ceb480dd1ae659b"),
+                // pt
+                new BitString("ec5abbafeca25ea6649c0d5a7b383413"),
+                // aad
+                new BitString("4b6a7b16b1b2c4ab0cae75064b54"),
+                // expectedCt
+                new BitString("e6bce18c2984dcb825d6fba359f22807"),
+                // expectedTag
+                new BitString("835d30b8e640b824d83674d9e0043d48")
             }
         };
 
