@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
