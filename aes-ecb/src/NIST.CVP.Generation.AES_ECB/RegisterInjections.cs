@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.AES_ECB
             builder.RegisterType<AES_ECB_MCT>().AsImplementedInterfaces();
 
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.AES_ECB
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
-            builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ResultValidator<TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
         }
