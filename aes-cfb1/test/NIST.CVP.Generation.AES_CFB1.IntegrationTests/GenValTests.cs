@@ -138,12 +138,12 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         /// The issue came down to <see cref="BitOrientedBitString"/> was written in the reverse order to the json files.
         /// This test class is used to publicly expose the parsed <see cref="TestVectorSet"/> to compare to expactations.
         /// </summary>
-        private class TestValidator : Validator<TestVectorSet, TestCase>
+        private class TestValidator : Validator<TestVectorSet, TestGroup, TestCase>
         {
             
             public TestVectorSet ParsedTestVectorSet { get; private set; }
             
-            public TestValidator(IDynamicParser dynamicParser, IResultValidator<TestCase> resultValidator, ITestCaseValidatorFactory<TestVectorSet, TestCase> testCaseValidatorFactory, ITestReconstitutor<TestVectorSet, TestCase> testReconstitutor) : base(dynamicParser, resultValidator, testCaseValidatorFactory, testReconstitutor)
+            public TestValidator(IDynamicParser dynamicParser, IResultValidator<TestGroup, TestCase> resultValidator, ITestCaseValidatorFactory<TestVectorSet, TestCase> testCaseValidatorFactory, ITestReconstitutor<TestVectorSet, TestGroup> testReconstitutor) : base(dynamicParser, resultValidator, testCaseValidatorFactory, testReconstitutor)
             {
             }
 
@@ -156,8 +156,8 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
                 ParsedTestVectorSet = testVectorSet;
 
                 var results = testResultParseResponse.ParsedObject;
-                var suppliedResults = _testReconstitutor.GetTestCasesFromResultResponse(results.testResults);
-                var testCases = _testCaseValidatorFactory.GetValidators(testVectorSet, suppliedResults);
+                var suppliedResults = _testReconstitutor.GetTestGroupsFromResultResponse(results.testResults);
+                var testCases = _testCaseValidatorFactory.GetValidators(testVectorSet);
                 var response = _resultValidator.ValidateResults(testCases, suppliedResults);
                 return response;
             }
@@ -188,7 +188,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             var result = $"{targetFolder}{TestVectorFileNames[0]}";
             var answer = $"{targetFolder}{TestVectorFileNames[1]}";
 
-            TestValidator testValidator = new TestValidator(new DynamicParser(), new ResultValidator<TestCase>(), new TestCaseValidatorFactory(), new TestReconstitutor());
+            TestValidator testValidator = new TestValidator(new DynamicParser(), new ResultValidator<TestGroup, TestCase>(), new TestCaseValidatorFactory(), new TestReconstitutor());
             testValidator.Validate(result, answer);
 
             var parsedTestVectorSet = testValidator.ParsedTestVectorSet;
