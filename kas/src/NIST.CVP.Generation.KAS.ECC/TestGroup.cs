@@ -12,10 +12,14 @@ namespace NIST.CVP.Generation.KAS.ECC
 {
     public class TestGroup : TestGroupBase<KasDsaAlgoAttributesEcc>
     {
-        public TestGroup()
-        {
+        public EccScheme Scheme { get; set; }
+        public EccParameterSet ParmSet { get; set; }
+        public Curve CurveName { get; set; }
+        
+        public override KasDsaAlgoAttributesEcc KasDsaAlgoAttributes =>
+            new KasDsaAlgoAttributesEcc(Scheme, ParmSet, CurveName);
 
-        }
+        public TestGroup() { }
 
         public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
 
@@ -24,26 +28,22 @@ namespace NIST.CVP.Generation.KAS.ECC
             MapToProperties(source);
         }
 
-        public EccScheme Scheme { get; set; }
-        public EccParameterSet ParmSet { get; set; }
-        public Curve CurveName { get; set; }
-        
-        public override KasDsaAlgoAttributesEcc KasDsaAlgoAttributes =>
-            new KasDsaAlgoAttributesEcc(Scheme, ParmSet, CurveName);
-
         private void MapToProperties(dynamic source)
         {
             ExpandoObject expandoSource = (ExpandoObject)source;
 
             TestGroupId = (int) source.tgId;
-            Scheme = EnumHelpers.GetEnumFromEnumDescription<EccScheme>(expandoSource.GetTypeFromProperty<string>("scheme"));
+            Scheme = EnumHelpers.GetEnumFromEnumDescription<EccScheme>(expandoSource.GetTypeFromProperty<string>("scheme"), false);
 
             TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            KasRole = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementRole>(expandoSource.GetTypeFromProperty<string>("kasRole"));
-            KasMode = EnumHelpers.GetEnumFromEnumDescription<KasMode>(expandoSource.GetTypeFromProperty<string>("kasMode"));
+            KasRole = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementRole>(expandoSource.GetTypeFromProperty<string>("kasRole"), false);
+            KasMode = EnumHelpers.GetEnumFromEnumDescription<KasMode>(expandoSource.GetTypeFromProperty<string>("kasMode"), false);
 
-            var hashAttributes = ShaAttributes.GetShaAttributes(expandoSource.GetTypeFromProperty<string>("hashAlg"));
-            HashAlg = new HashFunction(hashAttributes.mode, hashAttributes.digestSize);
+            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
+            if (!string.IsNullOrEmpty(hashValue))
+            {
+                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
+            }
 
             MacType = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementMacType>(expandoSource.GetTypeFromProperty<string>("macType"), false);
 
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             KcType = EnumHelpers.GetEnumFromEnumDescription<KeyConfirmationDirection>(expandoSource.GetTypeFromProperty<string>("kcType"), false);
             NonceType = expandoSource.GetTypeFromProperty<string>("nonceType");
 
-            CurveName = EnumHelpers.GetEnumFromEnumDescription<Curve>(expandoSource.GetTypeFromProperty<string>("curveName"));
+            CurveName = EnumHelpers.GetEnumFromEnumDescription<Curve>(expandoSource.GetTypeFromProperty<string>("curveName"), false);
 
             foreach (var test in source.tests)
             {

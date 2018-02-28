@@ -13,18 +13,6 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestGroup : TestGroupBase<KasDsaAlgoAttributesFfc>
     {
-        public TestGroup()
-        {
-            
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
         public FfcScheme Scheme { get; set; }
         public FfcParameterSet ParmSet { get; set; }
 
@@ -34,6 +22,15 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         public override KasDsaAlgoAttributesFfc KasDsaAlgoAttributes => 
             new KasDsaAlgoAttributesFfc(Scheme, ParmSet);
+
+        public TestGroup() { }
+
+        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
+
+        public TestGroup(dynamic source)
+        {
+            MapToProperties(source);
+        }
 
         public bool SetString(string name, string value)
         {
@@ -63,13 +60,16 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             TestGroupId = (int) source.tgId;
 
-            Scheme = EnumHelpers.GetEnumFromEnumDescription<FfcScheme>(expandoSource.GetTypeFromProperty<string>("scheme"));
+            Scheme = EnumHelpers.GetEnumFromEnumDescription<FfcScheme>(expandoSource.GetTypeFromProperty<string>("scheme"), false);
             TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            KasRole = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementRole>(expandoSource.GetTypeFromProperty<string>("kasRole")); 
-            KasMode = EnumHelpers.GetEnumFromEnumDescription<KasMode>(expandoSource.GetTypeFromProperty<string>("kasMode"));
+            KasRole = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementRole>(expandoSource.GetTypeFromProperty<string>("kasRole"), false); 
+            KasMode = EnumHelpers.GetEnumFromEnumDescription<KasMode>(expandoSource.GetTypeFromProperty<string>("kasMode"), false);
 
-            var hashAttributes = ShaAttributes.GetShaAttributes(expandoSource.GetTypeFromProperty<string>("hashAlg"));
-            HashAlg = new HashFunction(hashAttributes.mode, hashAttributes.digestSize);
+            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
+            if (!string.IsNullOrEmpty(hashValue))
+            {
+                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
+            }
 
             MacType = EnumHelpers.GetEnumFromEnumDescription<KeyAgreementMacType>(expandoSource.GetTypeFromProperty<string>("macType"), false);
 

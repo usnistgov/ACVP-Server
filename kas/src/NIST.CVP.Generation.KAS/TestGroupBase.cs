@@ -36,6 +36,5 @@ namespace NIST.CVP.Generation.KAS
         public abstract TKasDsaAlgoAttributes KasDsaAlgoAttributes { get; }
 
         public List<ITestCase> Tests { get; set; } = new List<ITestCase>();
-        
     }
 }

@@ -12,10 +12,7 @@ namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestVectorSet : TestVectorSetBase<TestGroup, TestCase, KasDsaAlgoAttributesFfc>
     {
-
-        public TestVectorSet()
-        {
-        }
+        public TestVectorSet() { }
 
         public TestVectorSet(dynamic answers)
         {
@@ -175,9 +172,15 @@ namespace NIST.CVP.Generation.KAS.FFC
         {
             get
             {
-                var list = new List<dynamic>();
+                var groups = new List<dynamic>();
                 foreach (var group in TestGroups.Select(g => (TestGroup) g))
                 {
+                    dynamic groupObject = new ExpandoObject();
+                    var groupDict = (IDictionary<string, object>) groupObject;
+                    groupDict.Add("tgId", group.TestGroupId);
+
+                    var tests = new List<dynamic>();
+                    groupDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase) t))
                     {
                         ExpandoObject testObject = new ExpandoObject();
@@ -223,10 +226,13 @@ namespace NIST.CVP.Generation.KAS.FFC
                                 test.FailureTest ? "fail" : "pass");
                         }
 
-                        list.Add(testObject);
+                        tests.Add(testObject);
                     }
+
+                    groups.Add(groupObject);
                 }
-                return list;
+
+                return groups;
             }
         }
 

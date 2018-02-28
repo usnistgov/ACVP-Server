@@ -11,10 +11,12 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 {
     public class TestGroup : ITestGroup
     {
-        public TestGroup()
-        {
+        public int TestGroupId { get; set; }
+        public string TestType => "AFT";
+        public Curve CurveName { get; set; }
+        public List<ITestCase> Tests { get; set; } = new List<ITestCase>();
 
-        }
+        public TestGroup() { }
 
         public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
 
@@ -23,22 +25,12 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             MapToProperties(source);
         }
 
-        public int TestGroupId { get; set; }
-        public string TestType => "AFT";
-
-        public List<ITestCase> Tests { get; set; } = new List<ITestCase>();
-
-        public Curve CurveName { get; set; }
-
         private void MapToProperties(dynamic source)
         {
-            ExpandoObject expandoSource = (ExpandoObject)source;
+            var expandoSource = (ExpandoObject) source;
 
-            TestGroupId = (int) source.tgId;
-
-            CurveName = EnumHelpers.GetEnumFromEnumDescription<Curve>(
-                expandoSource.GetTypeFromProperty<string>("curveName")
-            );
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+            CurveName = EnumHelpers.GetEnumFromEnumDescription<Curve>(expandoSource.GetTypeFromProperty<string>("curveName"), false);
 
             foreach (var test in source.tests)
             {

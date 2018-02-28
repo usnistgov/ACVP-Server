@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             _deferredTestCaseResolver = deferredTestCaseResolver;
         }
 
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
+        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidator<TestCase>>();
 

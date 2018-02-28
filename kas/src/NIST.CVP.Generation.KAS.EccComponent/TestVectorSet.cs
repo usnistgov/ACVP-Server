@@ -15,15 +15,6 @@ namespace NIST.CVP.Generation.KAS.EccComponent
     {
         protected readonly DynamicBitStringPrintWithOptions DynamicBitStringPrintWithOptions = new DynamicBitStringPrintWithOptions(PrintOptionBitStringNull.DoNotPrintProperty, PrintOptionBitStringEmpty.PrintAsEmptyString);
 
-        public TestVectorSet()
-        {
-        }
-
-        public TestVectorSet(dynamic answers)
-        {
-            SetAnswers(answers);
-        }
-
         public string Algorithm { get; set; } = "KAS-ECC";
         public string Mode { get; set; } = "Component";
         public bool IsSample { get; set; }
@@ -31,6 +22,13 @@ namespace NIST.CVP.Generation.KAS.EccComponent
         [JsonIgnore]
         [JsonProperty(PropertyName = "testGroupsNotSerialized")]
         public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
+
+        public TestVectorSet() { }
+
+        public TestVectorSet(dynamic answers)
+        {
+            SetAnswers(answers);
+        }
 
         public List<dynamic> AnswerProjection
         {
@@ -111,9 +109,15 @@ namespace NIST.CVP.Generation.KAS.EccComponent
         {
             get
             {
-                var list = new List<dynamic>();
+                var groups = new List<dynamic>();
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
+                    dynamic groupObject = new ExpandoObject();
+                    var groupDict = (IDictionary<string, object>) groupObject;
+                    groupDict.Add("tgId", group.TestGroupId);
+
+                    var tests = new List<dynamic>();
+                    groupDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         ExpandoObject testObject = new ExpandoObject();
@@ -125,10 +129,13 @@ namespace NIST.CVP.Generation.KAS.EccComponent
                         
                         DynamicBitStringPrintWithOptions.AddToDynamic(testObject, "z", test.Z);
                             
-                        list.Add(testObject);
+                        tests.Add(testObject);
                     }
+
+                    groups.Add(groupObject);
                 }
-                return list;
+
+                return groups;
             }
         }
 

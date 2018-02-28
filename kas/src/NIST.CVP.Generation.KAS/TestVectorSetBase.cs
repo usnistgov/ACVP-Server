@@ -15,13 +15,14 @@ namespace NIST.CVP.Generation.KAS
         where TTestCase : TestCaseBase, new()
         where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
     {
-
         protected readonly DynamicBitStringPrintWithOptions DynamicBitStringPrintWithOptions = new DynamicBitStringPrintWithOptions(PrintOptionBitStringNull.DoNotPrintProperty, PrintOptionBitStringEmpty.PrintAsEmptyString);
         
         public string Algorithm { get; set; }
+
         [JsonIgnore]
         public string Mode { get; set; }
         public bool IsSample { get; set; }
+
         [JsonIgnore]
         [JsonProperty(PropertyName = "testGroupsNotSerialized")]
         public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
@@ -36,8 +37,10 @@ namespace NIST.CVP.Generation.KAS
         }
 
         public abstract List<dynamic> AnswerProjection { get; }
+
         [JsonProperty(PropertyName = "testGroups")]
         public abstract List<dynamic> PromptProjection { get; }
+
         [JsonProperty(PropertyName = "testResults")]
         public abstract List<dynamic> ResultProjection { get; }
 

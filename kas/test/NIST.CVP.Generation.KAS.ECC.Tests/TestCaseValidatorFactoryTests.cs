@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
             TestVectorSet testVectorSet = null;
             GetData(testType, scheme, kasMode, kcRole, kcType, ref testVectorSet);
 
-            var result = _subject.GetValidators(testVectorSet, null).ToList();
+            var result = _subject.GetValidators(testVectorSet).ToList();
 
             Assume.That(result.Count == 1);
             Assert.IsInstanceOf(expectedValidatorType, result[0]);
