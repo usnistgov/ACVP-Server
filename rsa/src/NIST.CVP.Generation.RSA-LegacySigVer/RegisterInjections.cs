@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Autofac;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
-using NIST.CVP.Crypto.RSA2.Signatures;
-using NIST.CVP.Crypto.SHAWrapper;
+﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.RSA_SigVer;
@@ -18,13 +11,6 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer
     {
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
-            builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
-            builder.RegisterType<KeyComposerFactory>().AsImplementedInterfaces();
-            builder.RegisterType<PrimeGeneratorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<SignatureBuilder>().AsImplementedInterfaces();
-            builder.RegisterType<PaddingFactory>().AsImplementedInterfaces();
-            builder.RegisterType<ShaFactory>().AsImplementedInterfaces();
-
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

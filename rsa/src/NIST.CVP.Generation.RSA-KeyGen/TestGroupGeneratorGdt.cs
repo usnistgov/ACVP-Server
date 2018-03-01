@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Generation.Core;

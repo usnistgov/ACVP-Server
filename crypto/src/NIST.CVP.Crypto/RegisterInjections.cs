@@ -9,6 +9,11 @@ using NIST.CVP.Crypto.AES_CFB8;
 using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Crypto.AES_XTS;
+using NIST.CVP.Crypto.RSA2;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Crypto.RSA2.PrimeGenerators;
+using NIST.CVP.Crypto.RSA2.Signatures;
+using NIST.CVP.Crypto.SHAWrapper;
 
 namespace NIST.CVP.Crypto
 {
@@ -48,6 +53,15 @@ namespace NIST.CVP.Crypto
             // Russ Algos
 
             // Chris Algos
+            builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
+            builder.RegisterType<KeyComposerFactory>().AsImplementedInterfaces();
+            builder.RegisterType<PrimeGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<Rsa>().AsImplementedInterfaces();
+            builder.RegisterType<RsaVisitor>().AsImplementedInterfaces();
+
+            builder.RegisterType<SignatureBuilder>().AsImplementedInterfaces();
+            builder.RegisterType<PaddingFactory>().AsImplementedInterfaces();
+            builder.RegisterType<ShaFactory>().AsImplementedInterfaces();
         }
     }
 }

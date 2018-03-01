@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         {
                             if (group.InfoGeneratedByServer)
                             {
-                                AddKeyToDynamic(testObject, test.Key);
+                                AddKeyToDynamic(testObject, test.Key, group.PubExp == PublicExponentModes.Fixed);
 
                                 if (group.PrimeGenMode == PrimeGenModes.B34 || group.PrimeGenMode == PrimeGenModes.B35 || group.PrimeGenMode == PrimeGenModes.B36)
                                 {
@@ -110,6 +110,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         }
                         else if (group.TestType.ToLower() == "kat")
                         {
+                            // "e" can stay here because this is only defined when PubExpMode == Random
                             testDict.Add("e", test.Key.PubKey.E);
                             testDict.Add("pRand", test.Key.PrivKey.P);
                             testDict.Add("qRand", test.Key.PrivKey.Q);
@@ -215,6 +216,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         }
                         else if (group.TestType.ToLower() == "kat")
                         {
+                            // "e" can stay here because this is only defined when PubExpMode == Random
                             testDict.Add("e", test.Key.PubKey.E);
                             testDict.Add("pRand", test.Key.PrivKey.P);
                             testDict.Add("qRand", test.Key.PrivKey.Q);
@@ -286,7 +288,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                                     testDict.Add("xq2", test.XQ2);
                                 }
 
-                                AddKeyToDynamic(testObject, test.Key);
+                                AddKeyToDynamic(testObject, test.Key, group.PubExp == PublicExponentModes.Fixed);
                             }
                         }
                         else if (group.TestType.ToLower() == "kat")
@@ -297,7 +299,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         {
                             if (IsSample)
                             {
-                                AddKeyToDynamic(testObject, test.Key);
+                                AddKeyToDynamic(testObject, test.Key, group.PubExp == PublicExponentModes.Fixed);
                             }
                         }
 
@@ -320,10 +322,16 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             return vectorSetObject;
         }
 
-        private void AddKeyToDynamic(ExpandoObject jsonObject, KeyPair key)
+        private void AddKeyToDynamic(ExpandoObject jsonObject, KeyPair key, bool fixedE)
         {
             var jsonDict = ((IDictionary<string, object>) jsonObject);
-            jsonDict.Add("e", key.PubKey.E);
+
+            if (!fixedE)
+            {
+                // Only add the public exponent to the test case if it isn't fixed (otherwise it's already in the group)
+                jsonDict.Add("e", key.PubKey.E);
+            }
+
             jsonDict.Add("n", key.PubKey.N);
             jsonDict.Add("p", key.PrivKey.P);
             jsonDict.Add("q", key.PrivKey.Q);

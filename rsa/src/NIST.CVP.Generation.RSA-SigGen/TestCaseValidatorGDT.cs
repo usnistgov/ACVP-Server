@@ -1,21 +1,20 @@
 ﻿using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures;
-using NIST.CVP.Crypto.RSA2.Signatures;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
     public class TestCaseValidatorGDT : ITestCaseValidator<TestCase>
     {
-        private readonly TestGroup _group;
+        private readonly TestGroup _serverGroup;
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult> _deferredTestCaseResolver;
         private readonly TestCase _expectedResult;
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidatorGDT(TestCase expectedResult, TestGroup group, IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult> resolver)
+        public TestCaseValidatorGDT(TestCase expectedResult, TestGroup serverGroup, IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult> resolver)
         {
-            _group = group;
+            _serverGroup = serverGroup;
             _deferredTestCaseResolver = resolver;
             _expectedResult = expectedResult;
         }
@@ -30,7 +29,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
             }
             else
             {
-                var result = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
+                var result = _deferredTestCaseResolver.CompleteDeferredCrypto(_serverGroup, _expectedResult, suppliedResult);
                 if (!result.Success)
                 {
                     errors.Add($"Could not verify signature: {result.ErrorMessage}");

@@ -58,7 +58,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {
-                Tests.Add(new TestCase(test));
+                var tc = new TestCase(test)
+                {
+                    Parent = this
+                };
+                Tests.Add(tc);
             }
         }
 

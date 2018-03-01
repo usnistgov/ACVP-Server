@@ -2,13 +2,23 @@
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System.Dynamic;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
     public class TestCase : ITestCase
     {
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+        public bool IsSample { get; set; }      // Internal only
+
+        public BitString Message { get; set; }
+        public BitString Signature { get; set; }
+        public BitString Salt { get; set; }
+
+        public ITestGroup Parent { get; set; }
+
         public TestCase() { }
 
         public TestCase(JObject source)
@@ -22,16 +32,6 @@ namespace NIST.CVP.Generation.RSA_SigGen
             MapToProperties(source);
         }
 
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-        public bool IsSample { get; set; }      // Internal only
-
-        public KeyPair Key { get; set; }        // Only needed for Validation
-        public BitString Message { get; set; }
-        public BitString Signature { get; set; }
-        public BitString Salt { get; set; }
-
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
             var e = expandoSource.GetBigIntegerFromProperty("e");
             var n = expandoSource.GetBigIntegerFromProperty("n");
 
-            Key = new KeyPair {PubKey = new PublicKey {E = e, N = n}};
+            //Key = new KeyPair {PubKey = new PublicKey {E = e, N = n}};
         }
 
         public bool SetString(string name, string value)

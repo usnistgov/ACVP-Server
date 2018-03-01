@@ -52,13 +52,16 @@ namespace NIST.CVP.Generation.RSA_SigGen
             var e = expandoSource.GetBigIntegerFromProperty("e");
             var n = expandoSource.GetBigIntegerFromProperty("n");
 
-            // TODO: do we need d here?
             Key = new KeyPair {PubKey = new PublicKey {E = e, N = n}};
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {
-                Tests.Add(new TestCase(test));
+                var tc = new TestCase(test)
+                {
+                    Parent = this
+                };
+                Tests.Add(tc);
             }
         }
 

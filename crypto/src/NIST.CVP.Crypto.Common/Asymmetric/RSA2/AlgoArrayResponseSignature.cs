@@ -6,7 +6,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2
 {
-    public class AlgoArrayResponse
+    public class AlgoArrayResponseSignature
     {
         public BitString PlainText { get; set; }
         public BitString CipherText { get; set; }

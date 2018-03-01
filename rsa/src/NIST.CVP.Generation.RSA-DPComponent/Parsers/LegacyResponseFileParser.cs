@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Parsers
             var groups = new List<TestGroup>();
             TestGroup curGroup = null;
             TestCase curTestCase = null;
-            AlgoArrayResponse curArrayResponse = null;
+            AlgoArrayResponseSignature curArrayResponse = null;
             var inCases = false;
             var caseId = 1;
 
@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Parsers
 
                 if (workingLine.StartsWith("count"))
                 {
-                    curArrayResponse = new AlgoArrayResponse();
+                    curArrayResponse = new AlgoArrayResponseSignature();
                     curTestCase.ResultsArray.Add(curArrayResponse);
                 }
 

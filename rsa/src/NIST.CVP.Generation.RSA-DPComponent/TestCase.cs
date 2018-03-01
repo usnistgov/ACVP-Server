@@ -12,6 +12,13 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 {
     public class TestCase : ITestCase
     {
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public ITestGroup Parent { get; set; }
+        public List<AlgoArrayResponseSignature> ResultsArray { get; set; } = new List<AlgoArrayResponseSignature>();
+
         public TestCase() { }
 
         public TestCase(JObject source)
@@ -50,7 +57,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                         failureTest = false;
                     }
 
-                    var algoArray = new AlgoArrayResponse
+                    var algoArray = new AlgoArrayResponseSignature
                     {
                         CipherText = expandoItem.GetBitStringFromProperty("cipherText"),
                         PlainText = expandoItem.GetBitStringFromProperty("plainText"),
@@ -62,12 +69,6 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                 }
             }
         }
-
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
 
         public bool SetString(string name, string value)
         {

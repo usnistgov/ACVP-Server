@@ -1,8 +1,8 @@
 ﻿using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.Common.Asymmetric.RSA
+namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2
 {
-    public class AlgoArrayResponse
+    public class AlgoArrayResponseKey
     {
         public BitString E { get; set; }
         public BitString P { get; set; }

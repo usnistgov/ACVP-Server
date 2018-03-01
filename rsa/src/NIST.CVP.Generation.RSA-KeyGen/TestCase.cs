@@ -12,22 +12,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestCase : ITestCase
     {
-        private BigInteger _p;
-        private BigInteger _q;
-
-        public TestCase() { }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
         public int TestCaseId { get; set; }
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
@@ -43,6 +27,24 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         public BitString XQ1 { get; set; }
         public BitString XQ2 { get; set; }
         public BitString XQ { get; set; }
+
+        public ITestGroup Parent { get; set; }
+
+        private BigInteger _p;
+        private BigInteger _q;
+
+        public TestCase() { }
+
+        public TestCase(JObject source)
+        {
+            var data = source.ToObject<ExpandoObject>();
+            MapToProperties(data);
+        }
+
+        public TestCase(dynamic source)
+        {
+            MapToProperties(source);
+        }
 
         public bool SetString(string name, string value)
         {

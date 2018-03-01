@@ -6,9 +6,9 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2
 {
     public class ManyEncryptionResult : ICryptoResult
     {
-        public List<AlgoArrayResponse> AlgoArrayResponses { get; }
+        public List<AlgoArrayResponseSignature> AlgoArrayResponses { get; }
 
-        public ManyEncryptionResult(List<AlgoArrayResponse> list)
+        public ManyEncryptionResult(List<AlgoArrayResponseSignature> list)
         {
             AlgoArrayResponses = list;
         }

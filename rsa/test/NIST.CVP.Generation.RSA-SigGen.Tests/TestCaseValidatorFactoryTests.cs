@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [SetUp]
         public void SetUp()
         {
-            _subject = new TestCaseValidatorFactory(null, null, null);
+            _subject = new TestCaseValidatorFactory(null, null, null, null);
         }
 
         [Test]

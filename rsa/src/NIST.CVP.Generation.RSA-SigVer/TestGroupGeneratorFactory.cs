@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_SigVer

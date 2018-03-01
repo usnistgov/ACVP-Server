@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
-using NIST.CVP.Crypto.RSA2;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestCaseGeneratorKat : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly List<AlgoArrayResponse> _kats;
+        private readonly List<AlgoArrayResponseKey> _kats;
         private readonly IKeyComposerFactory _keyComposerFactory;
         private int _katsIndex;
 

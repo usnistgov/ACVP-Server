@@ -121,6 +121,12 @@ namespace NIST.CVP.Generation.RSA_SigGen
                     var groupDict = (IDictionary<string, object>) groupObject;
                     groupDict.Add("tgId", group.TestGroupId);
 
+                    if (IsSample)
+                    {
+                        groupDict.Add("n", group.Key.PubKey.N);
+                        groupDict.Add("e", group.Key.PubKey.E);
+                    }
+
                     var tests = new List<dynamic>();
                     groupDict.Add("tests", tests);
                     foreach(var test in group.Tests.Select(t => (TestCase)t))
@@ -131,8 +137,6 @@ namespace NIST.CVP.Generation.RSA_SigGen
 
                         if (IsSample)
                         {
-                            testDict.Add("n", group.Key.PubKey.N);
-                            testDict.Add("e", group.Key.PubKey.E);
                             testDict.Add("signature", test.Signature);
 
                             if (group.Mode == SignatureSchemes.Pss)

@@ -3,15 +3,12 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
-using NIST.CVP.Crypto.RSA2.Signatures;
 
 namespace NIST.CVP.Generation.RSA_SigGen.Tests
 {
@@ -21,7 +18,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
-            var subject = new TestCaseGeneratorGDT(GetRandomMock().Object, GetSignatureBuilderMock().Object, GetKeyBuilderMock().Object, GetPaddingFactoryMock().Object, GetShaFactoryMock().Object, GetKeyComposerFactoryMock().Object);
+            var subject = new TestCaseGeneratorGDT(GetRandomMock().Object, GetSignatureBuilderMock().Object, GetKeyBuilderMock().Object, GetPaddingFactoryMock().Object, GetShaFactoryMock().Object, GetKeyComposerFactoryMock().Object, GetRsaMock().Object);
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
@@ -46,7 +43,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 .Setup(s => s.Build())
                 .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
 
-            var subject = new TestCaseGeneratorGDT(rand.Object, signer.Object, keyBuilder.Object, GetPaddingFactoryMock().Object, GetShaFactoryMock().Object, GetKeyComposerFactoryMock().Object);
+            var subject = new TestCaseGeneratorGDT(rand.Object, signer.Object, keyBuilder.Object, GetPaddingFactoryMock().Object, GetShaFactoryMock().Object, GetKeyComposerFactoryMock().Object, GetRsaMock().Object);
 
             var result = subject.Generate(GetTestGroup(), true);
 
@@ -87,6 +84,11 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         private Mock<IKeyComposerFactory> GetKeyComposerFactoryMock()
         {
             return new Mock<IKeyComposerFactory>();
+        }
+
+        private Mock<IRsa> GetRsaMock()
+        {
+            return new Mock<IRsa>();
         }
 
         private TestGroup GetTestGroup()

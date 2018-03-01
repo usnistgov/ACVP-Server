@@ -77,7 +77,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                 Modulo = modulo,
                 PrimeTest = primeTest,
                 PrimeGenMode = PrimeGenModes.B33,
-                KeyFormat = PrivateKeyModes.Standard
+                KeyFormat = PrivateKeyModes.Standard,
+                PubExp = PublicExponentModes.Random
             };
         }
     }

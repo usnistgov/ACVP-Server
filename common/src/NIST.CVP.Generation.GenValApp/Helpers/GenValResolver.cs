@@ -43,10 +43,6 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
 
             List<IRegisterInjections> iocRegistrations = new List<IRegisterInjections>();
 
-            var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(fullgenValDllPath);
-            var concreteType = assembly.GetTypes().Single(x => iTypeToDiscover.IsAssignableFrom(x));
-            iocRegistrations.Add((IRegisterInjections)Activator.CreateInstance(concreteType));
-
             // Load additional dependant assemblies
             if (mappingResult.AdditionalDependencies != null)
             {
@@ -68,6 +64,11 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                     }
                 }
             }
+
+            // Load test assemblies last so they take priority
+            var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(fullgenValDllPath);
+            var concreteType = assembly.GetTypes().Single(x => iTypeToDiscover.IsAssignableFrom(x));
+            iocRegistrations.Add((IRegisterInjections)Activator.CreateInstance(concreteType));
 
             return iocRegistrations;
         }

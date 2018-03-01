@@ -3,13 +3,11 @@ using NIST.CVP.Math;
 using NLog;
 using System;
 using System.Numerics;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.Signatures;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.RSA_SigGen
@@ -22,12 +20,13 @@ namespace NIST.CVP.Generation.RSA_SigGen
         private readonly IPaddingFactory _paddingFactory;
         private readonly IShaFactory _shaFactory;
         private readonly IKeyComposerFactory _keyComposerFactory;
+        private readonly IRsa _rsa;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 10;
 
         public TestCaseGeneratorGDT(IRandom800_90 random800_90, ISignatureBuilder signatureBuilder,
             IKeyBuilder keyBuilder, IPaddingFactory paddingFactory, IShaFactory shaFactory,
-            IKeyComposerFactory keyComposerFactory)
+            IKeyComposerFactory keyComposerFactory, IRsa rsa)
         {
             _random800_90 = random800_90;
             _signatureBuilder = signatureBuilder;
@@ -35,6 +34,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
             _paddingFactory = paddingFactory;
             _shaFactory = shaFactory;
             _keyComposerFactory = keyComposerFactory;
+            _rsa = rsa;
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
@@ -89,7 +89,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
                     .WithKey(group.Key)
                     .WithMessage(testCase.Message)
                     .WithPaddingScheme(paddingScheme)
-                    .WithDecryptionScheme(new Rsa(new RsaVisitor()))    // TODO: Can these be injected?
+                    .WithDecryptionScheme(_rsa)
                     .BuildSign();
 
                 if (!sigResult.Success)

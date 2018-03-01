@@ -2,11 +2,10 @@
 using NIST.CVP.Math;
 using NLog;
 using System;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2;
-using NIST.CVP.Crypto.RSA2.Signatures;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.RSA_SigVer
@@ -17,15 +16,17 @@ namespace NIST.CVP.Generation.RSA_SigVer
         private readonly ISignatureBuilder _signatureBuilder;
         private readonly IPaddingFactory _paddingFactory;
         private readonly IShaFactory _shaFactory;
+        private readonly IRsa _rsa;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 6;
 
-        public TestCaseGeneratorGDT(IRandom800_90 random800_90, ISignatureBuilder sigBuilder, IPaddingFactory padFactory, IShaFactory shaFactory)
+        public TestCaseGeneratorGDT(IRandom800_90 random800_90, ISignatureBuilder sigBuilder, IPaddingFactory padFactory, IShaFactory shaFactory, IRsa rsa)
         {
             _random800_90 = random800_90;
             _signatureBuilder = sigBuilder;
             _paddingFactory = padFactory;
             _shaFactory = shaFactory;
+            _rsa = rsa;
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
@@ -56,7 +57,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
                 var paddingScheme = _paddingFactory.GetSigningPaddingScheme(group.Mode, sha, testCase.Reason.GetReason(), entropyProvider, group.SaltLen);
 
                 sigResult = _signatureBuilder
-                    .WithDecryptionScheme(new Rsa(new RsaVisitor()))
+                    .WithDecryptionScheme(_rsa)
                     .WithMessage(testCase.Message)
                     .WithPaddingScheme(paddingScheme)
                     .WithKey(group.Key)

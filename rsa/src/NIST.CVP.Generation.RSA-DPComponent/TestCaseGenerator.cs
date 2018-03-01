@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
 
             for (var i = 0; i < group.TotalTestCases; i++)
             {
-                var algoArrayResponse = new AlgoArrayResponse();
+                var algoArrayResponse = new AlgoArrayResponseSignature();
 
                 if (isSample)
                 {

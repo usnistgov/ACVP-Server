@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Autofac;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.RSA2;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
+﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -16,12 +10,6 @@ namespace NIST.CVP.Generation.RSA_DPComponent
     {
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
-            builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
-            builder.RegisterType<KeyComposerFactory>().AsImplementedInterfaces();
-            builder.RegisterType<PrimeGeneratorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<Rsa>().AsImplementedInterfaces();
-            builder.RegisterType<RsaVisitor>().AsImplementedInterfaces();
-
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();

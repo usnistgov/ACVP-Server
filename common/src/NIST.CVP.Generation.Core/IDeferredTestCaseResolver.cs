@@ -14,16 +14,16 @@ namespace NIST.CVP.Generation.Core
         where TCryptoResult : ICryptoResult
     {
         /// <summary>
-        /// Using the provided <see cref="testGroup"/>, <see cref="serverTestCase"/>, 
+        /// Using the provided <see cref="serverTestGroup"/>, <see cref="serverTestCase"/>, 
         /// and <see cref="iutTestCase"/>, complete and return a <see cref="ICryptoResult"/>
         /// </summary>
-        /// <param name="testGroup">Group information to be utilized in the crypto</param>
+        /// <param name="serverTestGroup">Group information to be utilized in the crypto</param>
         /// <param name="serverTestCase">The pre-generated server information to use in the crypto operation</param>
         /// <param name="iutTestCase">The IUTs provided information necessary to complete the crypto.</param>
         /// <returns>The completed crypto result</returns>
         TCryptoResult CompleteDeferredCrypto(
-            TTestGroup testGroup, 
-            TTestCase serverTestCase, 
+            TTestGroup serverTestGroup, 
+            TTestCase serverTestCase,
             TTestCase iutTestCase
         );
     }

@@ -17,11 +17,11 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
                 var tests = new List<ITestCase>();
-                var list = new List<AlgoArrayResponse>();
+                var list = new List<AlgoArrayResponseSignature>();
 
                 for(var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
-                    var algoArrayResponse = new AlgoArrayResponse
+                    var algoArrayResponse = new AlgoArrayResponseSignature
                     {
                         CipherText = new BitString("ABCD"),
                         Key = new KeyPair {PubKey = new PublicKey {E = 1, N = 2}, PrivKey = new PrivateKey{D = 3, P = 4, Q = 5}},
