@@ -3,7 +3,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 
-namespace NIST.CVP.Crypto.AES_CFB1
+namespace NIST.CVP.Generation.AES_CFB1
 {
     public class BitOrientedBitStringConverter : JsonConverter
     {

@@ -1,6 +1,4 @@
 ﻿using System;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
@@ -16,7 +14,7 @@ namespace NIST.CVP.Generation.AES_CFB1
 
         private int _ptLenGenIteration = 1;
 
-        public int NumberOfTestCasesToGenerate { get { return 10; } }
+        public int NumberOfTestCasesToGenerate => 10;
 
         public TestCaseGeneratorMMTEncrypt(IRandom800_90 random800_90, IAES_CFB1 algo)
         {

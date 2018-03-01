@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
