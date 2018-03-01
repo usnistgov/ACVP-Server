@@ -1,7 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_CBC;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -13,11 +11,7 @@ namespace NIST.CVP.Generation.AES_CBC
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
-            builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
-            builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
-            builder.RegisterType<Crypto.AES_CBC.AES_CBC>().AsImplementedInterfaces();
-            builder.RegisterType<AES_CBC_MCT>().AsImplementedInterfaces();
-
+            
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 

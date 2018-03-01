@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace NIST.CVP.Crypto.Common
+namespace NIST.CVP.Common
 {
     /// <summary>
     /// Algorithm and Mode enum, algorithm and mode are 

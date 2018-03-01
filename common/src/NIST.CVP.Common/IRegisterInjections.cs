@@ -1,7 +1,6 @@
 ﻿using Autofac;
-using NIST.CVP.Crypto.Common;
 
-namespace NIST.CVP.Generation.Core
+namespace NIST.CVP.Common
 {
     /// <summary>
     /// Used to register concretions to the <see cref="ContainerBuilder"/> 

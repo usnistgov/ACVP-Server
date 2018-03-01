@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.Common;
+﻿using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Crypto.TDES_CFB

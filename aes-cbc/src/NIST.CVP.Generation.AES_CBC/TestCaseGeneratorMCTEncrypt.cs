@@ -1,7 +1,5 @@
 ﻿using NIST.CVP.Generation.Core;
 using System;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_CBC;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.AES
+namespace NIST.CVP.Crypto.Common.Symmetric.AES.KATs
 {
     /// <summary>
     /// KAT Data for use in KAT tests.
