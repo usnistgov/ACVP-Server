@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Helpers;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.CTR.Enums;
-using NIST.CVP.Crypto.CTR.Helpers;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.TDES_CTR

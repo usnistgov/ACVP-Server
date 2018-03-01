@@ -6,16 +6,16 @@ using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Helpers;
 using NIST.CVP.Math;
-using NIST.CVP.Crypto.CTR.Helpers;
-using NIST.CVP.Crypto.CTR;
+using Cipher = NIST.CVP.Crypto.Common.Symmetric.CTR.Enums.Cipher;
 
 namespace NIST.CVP.Crypto.AES_CTR
 {
     public class AesCtr : IAesCtr
     {
         private readonly IAES_ECB _aesEcb = new AES_ECB.AES_ECB(new RijndaelFactory(new RijndaelInternals()));
-        private readonly int _blockSize = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(CTR.Enums.Cipher.AES).blockSize;
+        private readonly int _blockSize = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(Cipher.AES).blockSize;
 
         /// <summary>
         /// Only operates on a single block at a time.

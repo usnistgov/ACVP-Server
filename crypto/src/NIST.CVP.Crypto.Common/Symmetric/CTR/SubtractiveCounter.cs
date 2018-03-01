@@ -1,9 +1,8 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.CTR.Enums;
-using NIST.CVP.Crypto.CTR.Helpers;
+﻿using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Helpers;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.CTR
+namespace NIST.CVP.Crypto.Common.Symmetric.CTR
 {
     /// <summary>
     /// A simple <see cref="ICounter"/> with wrapping. Starts at FFF...F by default and decreases by 1 each request

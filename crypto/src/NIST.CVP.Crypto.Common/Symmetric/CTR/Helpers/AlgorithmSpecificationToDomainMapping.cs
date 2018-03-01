@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.CTR.Enums;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 
-namespace NIST.CVP.Crypto.CTR.Helpers
+namespace NIST.CVP.Crypto.Common.Symmetric.CTR.Helpers
 {
     public static class AlgorithmSpecificationToDomainMapping
     {

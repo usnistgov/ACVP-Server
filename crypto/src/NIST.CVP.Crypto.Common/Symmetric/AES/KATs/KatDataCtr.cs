@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES.KATs;
 
-namespace NIST.CVP.Crypto.AES_CTR
+namespace NIST.CVP.Crypto.Common.Symmetric.AES.KATs
 {
     public class KatDataCtr
     {

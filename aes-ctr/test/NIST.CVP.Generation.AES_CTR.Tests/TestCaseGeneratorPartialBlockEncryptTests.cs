@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Moq;
 using NIST.CVP.Crypto.AES_CTR;
 using NIST.CVP.Crypto.Common.Symmetric;

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
 using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.AES_CTR;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
