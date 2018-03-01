@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES.KATs;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.AES_CFB8
+namespace NIST.CVP.Crypto.Common.Symmetric.AES.KATs
 {
     public class KATDataCFB8
     {
