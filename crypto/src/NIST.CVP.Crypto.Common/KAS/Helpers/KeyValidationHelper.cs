@@ -2,7 +2,7 @@
 using System.Numerics;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 
-namespace NIST.CVP.Crypto.KAS.Helpers
+namespace NIST.CVP.Crypto.Common.KAS.Helpers
 {
     public static class KeyValidationHelper
     {

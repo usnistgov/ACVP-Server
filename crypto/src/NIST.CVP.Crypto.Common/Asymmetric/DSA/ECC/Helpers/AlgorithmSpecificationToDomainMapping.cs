@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 
-namespace NIST.CVP.Crypto.DSA.ECC.Helpers
+namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Helpers
 {
     public static class AlgorithmSpecificationToDomainMapping
     {

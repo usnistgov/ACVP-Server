@@ -1,8 +1,7 @@
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.Schema;
 
-namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
+namespace NIST.CVP.Crypto.Common.KAS.Schema
 {
     public class KasDsaAlgoAttributesEcc : IKasDsaAlgoAttributes
     {

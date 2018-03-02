@@ -2,7 +2,7 @@
 using System.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 
-namespace NIST.CVP.Crypto.DSA.ECC.Helpers
+namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Helpers
 {
     public static class CurveAttributesHelper
     {

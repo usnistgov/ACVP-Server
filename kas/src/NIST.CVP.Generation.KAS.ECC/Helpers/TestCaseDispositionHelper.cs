@@ -2,9 +2,8 @@
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Crypto.KAS.Helpers;
-using NIST.CVP.Crypto.KAS.Scheme.Ecc;
 using NIST.CVP.Generation.KAS.Enums;
 
 namespace NIST.CVP.Generation.KAS.ECC.Helpers

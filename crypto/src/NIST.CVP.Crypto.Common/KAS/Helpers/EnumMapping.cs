@@ -2,7 +2,7 @@
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 
-namespace NIST.CVP.Crypto.KAS.Helpers
+namespace NIST.CVP.Crypto.Common.KAS.Helpers
 {
     public static class EnumMapping
     {

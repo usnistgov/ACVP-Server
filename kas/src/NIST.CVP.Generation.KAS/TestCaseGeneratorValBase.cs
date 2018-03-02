@@ -4,11 +4,11 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Generation.KAS.Fakes;
@@ -114,24 +114,24 @@ namespace NIST.CVP.Generation.KAS
             if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedZ)
             {
                 testCase.FailureTest = true;
-                kdfFactory = new FakeKdfFactory_BadZ(_shaFactory);
+                kdfFactory = new FakeKdfFactory_BadZ(_kdfFactory);
             }
             if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedDkm)
             {
                 testCase.FailureTest = true;
-                kdfFactory = new FakeKdfFactory_BadDkm(_shaFactory);
+                kdfFactory = new FakeKdfFactory_BadDkm(_kdfFactory);
             }
             INoKeyConfirmationFactory noKeyConfirmationFactory = _noKeyConfirmationFactory;
             if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedMacData)
             {
                 testCase.FailureTest = true;
-                noKeyConfirmationFactory = new FakeNoKeyConfirmationFactory_BadMacData();
+                noKeyConfirmationFactory = new FakeNoKeyConfirmationFactory_BadMacData(_noKeyConfirmationFactory);
             }
             IKeyConfirmationFactory keyConfirmationFactory = _keyConfirmationFactory;
             if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedMacData)
             {
                 testCase.FailureTest = true;
-                keyConfirmationFactory = new FakeKeyConfirmationFactory_BadMacData();
+                keyConfirmationFactory = new FakeKeyConfirmationFactory_BadMacData(_keyConfirmationFactory);
             }
 
             var uParty = GetKasInstance(

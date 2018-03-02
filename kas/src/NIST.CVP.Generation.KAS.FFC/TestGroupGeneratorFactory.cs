@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.SHAWrapper;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.FFC

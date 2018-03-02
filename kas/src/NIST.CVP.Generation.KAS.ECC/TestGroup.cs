@@ -5,7 +5,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.KAS.Scheme.Ecc;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.KAS.ECC

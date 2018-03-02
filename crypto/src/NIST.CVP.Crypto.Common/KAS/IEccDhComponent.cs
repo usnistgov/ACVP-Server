@@ -1,9 +1,7 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KES;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.KES;
 
-namespace NIST.CVP.Crypto.KAS
+namespace NIST.CVP.Crypto.Common.KAS
 {
     /// <summary>
     /// Interface used to perform a ECC DH component test, using two <see cref="EccKeyPair"/>s

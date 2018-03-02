@@ -1,7 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 
-namespace NIST.CVP.Crypto.KAS.Helpers
+namespace NIST.CVP.Crypto.Common.KAS.Helpers
 {
     public class SchemeKeyNonceGenRequirement<TScheme>
         where TScheme : struct, IComparable

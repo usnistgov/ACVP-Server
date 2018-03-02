@@ -12,8 +12,16 @@ using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Crypto.AES_XTS;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.DRBG;
-using NIST.CVP.Crypto.RSA2;
+using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.HMAC;
+using NIST.CVP.Crypto.KAS;
+using NIST.CVP.Crypto.KAS.Builders;
+using NIST.CVP.Crypto.KAS.Builders.Ecc;
+using NIST.CVP.Crypto.KAS.Builders.Ffc;
+using NIST.CVP.Crypto.KAS.KC;
+using NIST.CVP.Crypto.KAS.KDF;
+using NIST.CVP.Crypto.KAS.NoKC;
+using NIST.CVP.Crypto.KES;
 // ^^^ russ ^^^
 
 // vvv chris vvv
@@ -69,6 +77,27 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<HmacFactory>().AsImplementedInterfaces();
 
+            builder.RegisterType<MacParametersBuilder>().AsImplementedInterfaces();
+            builder.RegisterType<KeyConfirmationFactory>().AsImplementedInterfaces();
+            builder.RegisterType<NoKeyConfirmationFactory>().AsImplementedInterfaces();
+            builder.RegisterType<Crypto.KAS.KDF.KdfFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<DiffieHellmanFfc>().AsImplementedInterfaces();
+            builder.RegisterType<MqvFfc>().AsImplementedInterfaces();
+            builder.RegisterType<SchemeBuilderFfc>().AsImplementedInterfaces();
+            builder.RegisterType<KasBuilderFfc>().AsImplementedInterfaces();
+            builder.RegisterType<OtherInfoFactory>().AsImplementedInterfaces();
+            builder.RegisterType<DsaFfcFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<DiffieHellmanEcc>().AsImplementedInterfaces();
+            builder.RegisterType<MqvEcc>().AsImplementedInterfaces();
+            builder.RegisterType<SchemeBuilderEcc>().AsImplementedInterfaces();
+            builder.RegisterType<KasBuilderEcc>().AsImplementedInterfaces();
+            builder.RegisterType<OtherInfoFactory>().AsImplementedInterfaces();
+            builder.RegisterType<DsaEccFactory>().AsImplementedInterfaces();
+            builder.RegisterType<EccCurveFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<EccDhComponent>().AsImplementedInterfaces();
 
             // Chris Algos
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();

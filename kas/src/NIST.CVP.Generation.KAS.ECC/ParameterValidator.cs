@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.DSA.ECC.Helpers;
-using NIST.CVP.Crypto.KAS.Helpers;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
