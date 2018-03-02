@@ -11,6 +11,7 @@ using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Crypto.AES_XTS;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.DRBG;
+using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.RSA2;
 using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Crypto.RSA2.PrimeGenerators;
@@ -57,6 +58,9 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<CmacFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<DrbgFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<HmacFactory>().AsImplementedInterfaces();
+
 
             // Chris Algos
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
