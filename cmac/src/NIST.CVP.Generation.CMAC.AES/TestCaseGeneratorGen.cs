@@ -1,5 +1,4 @@
-﻿using NIST.CVP.Crypto.CMAC;
-using NIST.CVP.Crypto.Common.MAC.CMAC;
+﻿using NIST.CVP.Crypto.Common.MAC.CMAC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
