@@ -44,6 +44,7 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<AES_ECB_MCT>().AsImplementedInterfaces();
 
             builder.RegisterType<AES_GCM.AES_GCM>().AsImplementedInterfaces();
+            builder.RegisterType<AES_GCM.AES_GCMInternals>().AsImplementedInterfaces();
 
             builder.RegisterType<AES_OFB.AES_OFB>().AsImplementedInterfaces();
             builder.RegisterType<AES_OFB_MCT>().AsImplementedInterfaces();
