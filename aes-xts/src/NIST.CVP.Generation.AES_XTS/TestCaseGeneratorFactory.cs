@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.AES_XTS;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+﻿using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
