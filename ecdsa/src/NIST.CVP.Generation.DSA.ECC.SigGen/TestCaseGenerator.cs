@@ -12,17 +12,16 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
     public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random;
-        private readonly IDsaEcc _eccDsa;
-        private readonly IShaFactory _shaFactory;
+        private readonly IDsaEccFactory _eccDsaFactory;
+        private IDsaEcc _eccDsa;
         private readonly IEccCurveFactory _curveFactory;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 10;
 
-        public TestCaseGenerator(IRandom800_90 rand, IDsaEcc eccDsa, IShaFactory shaFactory, IEccCurveFactory curveFactory)
+        public TestCaseGenerator(IRandom800_90 rand, IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
         {
             _random = rand;
-            _eccDsa = eccDsa;
-            _shaFactory = shaFactory;
+            _eccDsaFactory = eccDsaFactory;
             _curveFactory = curveFactory;
         }
 
@@ -50,7 +49,9 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             EccKeyPairGenerateResult keyResult = null;
             try
             {
-                keyResult = _eccDsa.GenerateKeyPair(new EccDomainParameters(_curveFactory.GetCurve(group.Curve)));
+                _eccDsa = _eccDsaFactory.GetInstance(group.HashAlg);
+                var domainParams = new EccDomainParameters(_curveFactory.GetCurve(group.Curve));
+                keyResult = _eccDsa.GenerateKeyPair(domainParams);
                 if (!keyResult.Success)
                 {
                     ThisLogger.Warn($"Error generating key: {keyResult.ErrorMessage}");

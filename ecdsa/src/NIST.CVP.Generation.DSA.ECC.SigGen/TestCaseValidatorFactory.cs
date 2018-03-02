@@ -8,12 +8,12 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
     {
-        private readonly IDsaEcc _eccDsa;
+        private readonly IDsaEccFactory _eccDsaFactory;
         private readonly IEccCurveFactory _curveFactory;
 
-        public TestCaseValidatorFactory(IDsaEcc eccDsa, IEccCurveFactory curveFactory)
+        public TestCaseValidatorFactory(IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
         {
-            _eccDsa = eccDsa;
+            _eccDsaFactory = eccDsaFactory;
             _curveFactory = curveFactory;
         }
 
@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             {
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
-                    list.Add(new TestCaseValidator(test, group, _eccDsa, _curveFactory));
+                    list.Add(new TestCaseValidator(test, group, _eccDsaFactory, _curveFactory));
                 }
             }
 

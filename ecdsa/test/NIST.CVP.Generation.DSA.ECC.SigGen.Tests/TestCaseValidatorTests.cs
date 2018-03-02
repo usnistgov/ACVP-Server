@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -16,15 +17,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         [Test]
         public void ShouldRunVerifyMethodAndSucceedWithGoodSignature()
         {
-            var eccMock = GetDsaMock();
-            eccMock
-                .Setup(s => s.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()))
-                .Returns(new EccVerificationResult());
-
-            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), eccMock.Object, GetCurveFactoryMock().Object);
+            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetEccFactoryMock(true).Object, GetCurveFactoryMock().Object);
             var result = subject.Validate(GetResultTestCase());
-
-            eccMock.Verify(v => v.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()), Times.Once);
 
             Assert.AreEqual(Disposition.Passed, result.Result);
         }
@@ -32,15 +26,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         [Test]
         public void ShouldRunVerifyMethodAndFailWithBadSignature()
         {
-            var eccMock = GetDsaMock();
-            eccMock
-                .Setup(s => s.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()))
-                .Returns(new EccVerificationResult("Fail"));
-
-            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), eccMock.Object, GetCurveFactoryMock().Object);
+            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetEccFactoryMock(false).Object, GetCurveFactoryMock().Object);
             var result = subject.Validate(GetResultTestCase());
-
-            eccMock.Verify(v => v.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()), Times.Once);
 
             Assert.AreEqual(Disposition.Failed, result.Result);
         }
@@ -73,9 +60,22 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
             };
         }
 
-        private Mock<IDsaEcc> GetDsaMock()
+        private Mock<IDsaEccFactory> GetEccFactoryMock(bool success)
         {
-            return new Mock<IDsaEcc>();
+            var mock = new Mock<IDsaEccFactory>();
+            mock
+                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
+                .Returns(GetDsaMock(success).Object);
+            return mock;
+        }
+
+        private Mock<IDsaEcc> GetDsaMock(bool success)
+        {
+            var eccMock = new Mock<IDsaEcc>();
+            eccMock
+                .Setup(s => s.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()))
+                .Returns(success ? new EccVerificationResult() : new EccVerificationResult("fail"));
+            return eccMock;
         }
 
         private Mock<IEccCurveFactory> GetCurveFactoryMock()

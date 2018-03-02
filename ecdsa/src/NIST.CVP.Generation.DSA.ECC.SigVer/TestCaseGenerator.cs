@@ -13,17 +13,16 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
     public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _rand;
-        private readonly IDsaEcc _eccDsa;
-        private readonly IShaFactory _shaFactory;
+        private readonly IDsaEccFactory _eccDsaFactory;
+        private IDsaEcc _eccDsa;
         private readonly IEccCurveFactory _curveFactory;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 15;
 
-        public TestCaseGenerator(IRandom800_90 rand, IDsaEcc eccDsa, IShaFactory shaFactory, IEccCurveFactory curveFactory)
+        public TestCaseGenerator(IRandom800_90 rand, IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
         {
             _rand = rand;
-            _eccDsa = eccDsa;
-            _shaFactory = shaFactory;
+            _eccDsaFactory = eccDsaFactory;
             _curveFactory = curveFactory;
         }
 
@@ -34,7 +33,10 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                 NumberOfTestCasesToGenerate = 5;
             }
 
-            var keyResult = _eccDsa.GenerateKeyPair(new EccDomainParameters(_curveFactory.GetCurve(group.Curve)));
+            _eccDsa = _eccDsaFactory.GetInstance(group.HashAlg);
+            var curve = _curveFactory.GetCurve(group.Curve);
+            var domainParams = new EccDomainParameters(curve);
+            var keyResult = _eccDsa.GenerateKeyPair(domainParams);
             if (!keyResult.Success)
             {
                 return new TestCaseGenerateResponse(keyResult.ErrorMessage);
@@ -58,7 +60,9 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
             EccSignatureResult sigResult = null;
             try
             {
-                sigResult = _eccDsa.Sign(new EccDomainParameters(_curveFactory.GetCurve(group.Curve)), testCase.KeyPair, testCase.Message);
+                var curve = _curveFactory.GetCurve(group.Curve);
+                var domainParams = new EccDomainParameters(curve);
+                sigResult = _eccDsa.Sign(domainParams, testCase.KeyPair, testCase.Message);
                 if (!sigResult.Success)
                 {
                     ThisLogger.Warn($"Error generating g: {sigResult.ErrorMessage}");

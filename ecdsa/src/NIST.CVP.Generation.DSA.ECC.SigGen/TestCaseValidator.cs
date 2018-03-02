@@ -11,16 +11,17 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _group;
-        private readonly IDsaEcc _eccDsa;
+        private readonly IDsaEccFactory _eccDsaFactory;
+        private IDsaEcc _eccDsa;
         private readonly IEccCurveFactory _curveFactory;
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDsaEcc eccDsa, IEccCurveFactory curveFactory)
+        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
         {
             _expectedResult = expectedResult;
             _group = group;
-            _eccDsa = eccDsa;
+            _eccDsaFactory = eccDsaFactory;
             _curveFactory = curveFactory;
         }
 
@@ -39,6 +40,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             else
             {
                 // TODO move to deferred
+                _eccDsa = _eccDsaFactory.GetInstance(_group.HashAlg);
                 var verifyResult = _eccDsa.Verify(new EccDomainParameters(_curveFactory.GetCurve(_group.Curve)), suppliedResult.KeyPair, _expectedResult.Message, suppliedResult.Signature, _group.ComponentTest);
                 if (!verifyResult.Success)
                 {
