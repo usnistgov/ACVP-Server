@@ -10,6 +10,7 @@ using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Crypto.AES_XTS;
 using NIST.CVP.Crypto.CMAC;
+using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Crypto.RSA2;
 using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Crypto.RSA2.PrimeGenerators;
@@ -54,6 +55,8 @@ namespace NIST.CVP.Crypto
 
             // Russ Algos
             builder.RegisterType<CmacFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<DrbgFactory>().AsImplementedInterfaces();
 
             // Chris Algos
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
 
-namespace NIST.CVP.Crypto.DRBG.Helpers
+namespace NIST.CVP.Crypto.Common.DRBG.Helpers
 {
     public static class DrbgAttributesHelper
     {

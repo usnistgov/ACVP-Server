@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Crypto.DRBG;
 using System;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.DRBG;
-using NIST.CVP.Crypto.DRBG.Helpers;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Crypto.Common.DRBG.Helpers;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.DRBG
