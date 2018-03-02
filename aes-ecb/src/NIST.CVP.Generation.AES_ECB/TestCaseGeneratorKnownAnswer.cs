@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.AES.KATs;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_ECB
