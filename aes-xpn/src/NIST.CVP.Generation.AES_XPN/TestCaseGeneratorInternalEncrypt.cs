@@ -1,5 +1,4 @@
 ﻿using System;
-using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
@@ -13,7 +12,7 @@ namespace NIST.CVP.Generation.AES_XPN
         private readonly IRandom800_90 _random800_90;
         private readonly IAES_GCM _aes_gcm;
 
-        public int NumberOfTestCasesToGenerate { get { return 15; } }
+        public int NumberOfTestCasesToGenerate => 15;
 
         public TestCaseGeneratorInternalEncrypt(IRandom800_90 random800_90, IAES_GCM aes_gcm)
         {

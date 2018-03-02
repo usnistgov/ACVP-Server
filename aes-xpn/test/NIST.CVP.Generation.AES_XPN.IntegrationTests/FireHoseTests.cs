@@ -23,13 +23,12 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
         public void ShouldRunThroughAllTestFilesAndValidate()
         {
             if (!Directory.Exists(_testPath))
-
             {
                 Assert.Fail("Test File Directory does not exist");
             }
             var testDir = new DirectoryInfo(_testPath);
             var parser = new LegacyResponseFileParser();
-            var algo = new Crypto.AES_GCM.AES_GCM(
+            var algo = new AES_GCM(
                 new AES_GCMInternals(
                     new RijndaelFactory(
                         new RijndaelInternals()

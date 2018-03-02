@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
-using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
