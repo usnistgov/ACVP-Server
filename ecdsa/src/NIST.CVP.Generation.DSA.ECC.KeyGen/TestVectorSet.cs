@@ -41,8 +41,8 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
                     dynamic updateObject = new ExpandoObject();
                     var updateDict = ((IDictionary<string, object>) updateObject);
                     updateDict.Add("tgId", group.TestGroupId);
-                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
-                    updateDict.Add("secretGenerationMode", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.SecretGeneration));
+                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
+                    updateDict.Add("secretGenerationMode", EnumHelpers.GetEnumDescriptionFromEnum(group.SecretGenerationMode));
 
                     var tests = new List<dynamic>();
                     updateDict.Add("tests", tests);
@@ -73,8 +73,8 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
                     dynamic updateObject = new ExpandoObject();
                     var updateDict = ((IDictionary<string, object>) updateObject);
                     updateDict.Add("tgId", group.TestGroupId);
-                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
-                    updateDict.Add("secretGenerationMode", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.SecretGeneration));
+                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
+                    updateDict.Add("secretGenerationMode", EnumHelpers.GetEnumDescriptionFromEnum(group.SecretGenerationMode));
 
                     var tests = new List<dynamic>();
                     updateDict.Add("tests", tests);

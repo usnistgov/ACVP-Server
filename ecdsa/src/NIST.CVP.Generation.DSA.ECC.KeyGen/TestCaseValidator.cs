@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
@@ -12,15 +13,18 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _group;
-        private readonly IDsaEcc _eccDsa;
+        private readonly IDsaEccFactory _dsaEccFactory;
+        private IDsaEcc _eccDsa;
+        private readonly IEccCurveFactory _curveFactory;
 
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDsaEcc dsaEcc)
+        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDsaEccFactory dsaEccFactory, IEccCurveFactory curveFactory)
         {
             _expectedResult = expectedResult;
             _group = group;
-            _eccDsa = dsaEcc;
+            _dsaEccFactory = dsaEccFactory;
+            _curveFactory = curveFactory;
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
@@ -33,8 +37,11 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
             }
             else
             {
+                // TODO move to deferred
+                // No hash function
+                _eccDsa = _dsaEccFactory.GetInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256), EntropyProviderTypes.Testable);
                 _eccDsa.AddEntropy(suppliedResult.KeyPair.PrivateD);
-                var generateResult = _eccDsa.GenerateKeyPair(_group.DomainParameters);
+                var generateResult = _eccDsa.GenerateKeyPair(new EccDomainParameters(_curveFactory.GetCurve(_group.Curve)));
                 if (!generateResult.Success)
                 {
                     errors.Add($"Unable to generate public key from private key d value");

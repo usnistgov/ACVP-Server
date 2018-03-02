@@ -5,7 +5,6 @@ using System.Numerics;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -14,6 +13,14 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
     public class TestCase : ITestCase
     {
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public EccKeyPair KeyPair { get; set; }
+
+        public ITestGroup Parent { get; set; }
+
         private BigInteger _setStringD;
         private BigInteger _setStringQx;
         private BigInteger _setStringQy;
@@ -30,12 +37,6 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
         {
             MapToProperties(source);
         }
-
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public EccKeyPair KeyPair { get; set; }
 
         private void MapToProperties(dynamic source)
         {

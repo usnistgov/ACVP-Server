@@ -12,11 +12,13 @@ using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Crypto.AES_XTS;
 using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.DRBG;
+using NIST.CVP.Crypto.RSA2;
 using NIST.CVP.Crypto.HMAC;
 // ^^^ russ ^^^
 
 // vvv chris vvv
 using NIST.CVP.Crypto.RSA2;
+using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Crypto.RSA2.Signatures;
@@ -78,6 +80,10 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<SignatureBuilder>().AsImplementedInterfaces();
             builder.RegisterType<PaddingFactory>().AsImplementedInterfaces();
             builder.RegisterType<ShaFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<EccCurveFactory>().AsImplementedInterfaces();
+            builder.RegisterType<EccDsa>().AsImplementedInterfaces();
+            builder.RegisterType<DsaEccFactory>().AsImplementedInterfaces();
         }
     }
 }

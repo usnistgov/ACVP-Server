@@ -6,7 +6,6 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -17,6 +16,16 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
     public class TestCase : ITestCase
     {
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public bool Result { get; set; }
+        public SigFailureReasons Reason { get; set; }
+        public EccKeyPair KeyPair { get; set; }
+        public BitString Message { get; set; }
+        public EccSignature Signature { get; set; }
+
         private BigInteger _rSetString;
         private BigInteger _sSetString;
         private BigInteger _qxSetString;
@@ -34,16 +43,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
         {
             MapToProperties(source);
         }
-
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public bool Result { get; set; }
-        public SigFailureReasons Reason { get; set; }
-        public EccKeyPair KeyPair { get; set; }
-        public BitString Message { get; set; }
-        public EccSignature Signature { get; set; }
 
         private void MapToProperties(dynamic source)
         {

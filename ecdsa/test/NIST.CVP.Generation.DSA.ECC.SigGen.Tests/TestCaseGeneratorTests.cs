@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
                 .Returns(new BitString("BEEFFACE"));
 
-            var subject = new TestCaseGenerator(randMock.Object, GetDsaMock().Object);
+            var subject = new TestCaseGenerator(randMock.Object, GetDsaMock().Object, GetShaFactoryMock().Object, GetCurveFactoryMock().Object);
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
                 .Setup(s => s.Sign(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()))
                 .Returns(new EccSignatureResult(new EccSignature(3, 4)));
 
-            var subject = new TestCaseGenerator(randMock.Object, eccMock.Object);
+            var subject = new TestCaseGenerator(randMock.Object, eccMock.Object, GetShaFactoryMock().Object, GetCurveFactoryMock().Object);
 
             var result = subject.Generate(GetTestGroup(), true);
 
@@ -71,11 +71,21 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
             return new Mock<IDsaEcc>();
         }
 
+        private Mock<IEccCurveFactory> GetCurveFactoryMock()
+        {
+            return new Mock<IEccCurveFactory>();
+        }
+
+        private Mock<IShaFactory> GetShaFactoryMock()
+        {
+            return new Mock<IShaFactory>();
+        }
+
         private TestGroup GetTestGroup()
         {
             return new TestGroup
             {
-                DomainParameters = new EccDomainParameters(new PrimeCurve(Curve.P192, 0, 0, new EccPoint(0, 0), 0)),
+                Curve = Curve.P192,
                 HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256)
             };
         }

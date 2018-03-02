@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
 
                 testGroups.Add(new TestGroup
                 {
-                    DomainParameters = new EccDomainParameters(new PrimeCurve(Curve.P192, 0, 0, new EccPoint(0, 0), 0)),
+                    Curve = Curve.P192,
                     HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
                     Tests = tests
                 });

@@ -10,6 +10,16 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
     public class TestCase : ITestCase
     {
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public BitString Message { get; set; }
+        public EccKeyPair KeyPair { get; set; }
+        public EccSignature Signature { get; set; }
+
+        public ITestGroup Parent { get; set; }
+
         // Needed for FireHoseTests
         public BigInteger K;
         public BigInteger _rSetString;
@@ -27,14 +37,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
         {
             MapToProperties(source);
         }
-
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public BitString Message { get; set; }
-        public EccKeyPair KeyPair { get; set; }
-        public EccSignature Signature { get; set; }
 
         private void MapToProperties(dynamic source)
         {

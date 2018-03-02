@@ -3,12 +3,9 @@ using System.Dynamic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Generation.DSA.ECC.SigVer.Enums;
@@ -18,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
     public class TestGroup : ITestGroup
     {
         public int TestGroupId { get; set; }
-        public EccDomainParameters DomainParameters { get; set; }
+        public Curve Curve { get; set; }
         public HashFunction HashAlg { get; set; }
 
         public ITestCaseExpectationProvider<SigFailureReasons> TestCaseExpectationProvider { get; set; }
@@ -38,12 +35,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
             var expandoSource = (ExpandoObject) source;
 
             TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            var curveName = expandoSource.GetTypeFromProperty<string>("curve");
-
-            var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName, false);
-            var curveFactory = new EccCurveFactory();
-
-            DomainParameters = new EccDomainParameters(curveFactory.GetCurve(curve));
+            Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(expandoSource.GetTypeFromProperty<string>("curve"), false);
 
             var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
             if (!string.IsNullOrEmpty(hashValue))
@@ -68,14 +60,11 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
             switch (name.ToLower())
             {
                 case "curve":
-                    var factory = new EccCurveFactory();
-                    var curve = factory.GetCurve(EnumHelpers.GetEnumFromEnumDescription<Curve>(value));
-                    DomainParameters = new EccDomainParameters(curve);
+                    Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(value);
                     return true;
 
                 case "hashalg":
-                    var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(value);
-                    HashAlg = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
+                    HashAlg = ShaAttributes.GetHashFunctionFromName(value);
                     return true;
             }
 
@@ -84,17 +73,17 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
 
         public override int GetHashCode()
         {
-            return ($"{EnumHelpers.GetEnumDescriptionFromEnum(DomainParameters.CurveE.CurveName)}{HashAlg.Name}").GetHashCode();
+            return $"{EnumHelpers.GetEnumDescriptionFromEnum(Curve)}{HashAlg.Name}".GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
+            if (obj is TestGroup otherGroup)
             {
-                return false;
+                return GetHashCode() == otherGroup.GetHashCode();
             }
-            return this.GetHashCode() == otherGroup.GetHashCode();
+
+            return false;
         }
     }
 }

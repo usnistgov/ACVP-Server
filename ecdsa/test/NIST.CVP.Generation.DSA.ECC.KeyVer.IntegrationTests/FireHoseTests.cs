@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.DSA.ECC.KeyVer.Parsers;
 using NIST.CVP.Tests.Core;
@@ -32,6 +33,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
             var folderPath = new DirectoryInfo(Path.Combine(_testPath));
             var parser = new LegacyResponseFileParser();
             var algo = new EccDsa(null);
+            var curveFactory = new EccCurveFactory();
 
             foreach (var testFilePath in folderPath.EnumerateFiles())
             {
@@ -60,7 +62,8 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
                     {
                         var testCase = (TestCase)iTestCase;
 
-                        var result = algo.ValidateKeyPair(testGroup.DomainParameters, testCase.KeyPair);
+                        var domainParams = new EccDomainParameters(curveFactory.GetCurve(testGroup.Curve));
+                        var result = algo.ValidateKeyPair(domainParams, testCase.KeyPair);
                         if (result.Success != testCase.Result)
                         {
                             Assert.Fail($"Incorrect response for TestCase: {testCase.TestCaseId}");

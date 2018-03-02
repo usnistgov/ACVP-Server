@@ -27,7 +27,8 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
 
                 testGroups.Add(new TestGroup
                 {
-                    DomainParameters = new EccDomainParameters(new PrimeCurve(Curve.P224, groupIdx, 0, new EccPoint(0, 0), 0), SecretGenerationMode.TestingCandidates),
+                    Curve = Curve.P224,
+                    SecretGenerationMode = SecretGenerationMode.TestingCandidates,
                     Tests = tests
                 });
             }

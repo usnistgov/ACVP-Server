@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
                 testGroups.Add(new TestGroup
                 {
                     HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                    DomainParameters = new EccDomainParameters(new PrimeCurve(Curve.P192, 0, 0, new EccPoint(0, 0), 0)),
+                    Curve = Curve.P192,
                     Tests = tests
                 });
             }

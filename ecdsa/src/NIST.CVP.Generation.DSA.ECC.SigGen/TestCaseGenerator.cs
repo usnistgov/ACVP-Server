@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -13,13 +13,17 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
     {
         private readonly IRandom800_90 _random;
         private readonly IDsaEcc _eccDsa;
+        private readonly IShaFactory _shaFactory;
+        private readonly IEccCurveFactory _curveFactory;
 
-        public int NumberOfTestCasesToGenerate { get { return 10; } }
+        public int NumberOfTestCasesToGenerate { get; private set; } = 10;
 
-        public TestCaseGenerator(IRandom800_90 rand, IDsaEcc eccDsa)
+        public TestCaseGenerator(IRandom800_90 rand, IDsaEcc eccDsa, IShaFactory shaFactory, IEccCurveFactory curveFactory)
         {
             _random = rand;
             _eccDsa = eccDsa;
+            _shaFactory = shaFactory;
+            _curveFactory = curveFactory;
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
@@ -46,7 +50,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             EccKeyPairGenerateResult keyResult = null;
             try
             {
-                keyResult = _eccDsa.GenerateKeyPair(group.DomainParameters);
+                keyResult = _eccDsa.GenerateKeyPair(new EccDomainParameters(_curveFactory.GetCurve(group.Curve)));
                 if (!keyResult.Success)
                 {
                     ThisLogger.Warn($"Error generating key: {keyResult.ErrorMessage}");
@@ -65,7 +69,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             EccSignatureResult sigResult = null;
             try
             {
-                sigResult = _eccDsa.Sign(group.DomainParameters, testCase.KeyPair, testCase.Message, group.ComponentTest);
+                sigResult = _eccDsa.Sign(new EccDomainParameters(_curveFactory.GetCurve(group.Curve)), testCase.KeyPair, testCase.Message, group.ComponentTest);
                 if (!sigResult.Success)
                 {
                     ThisLogger.Warn($"Error generating signature: {sigResult.ErrorMessage}");
@@ -82,6 +86,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             return new TestCaseGenerateResponse(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

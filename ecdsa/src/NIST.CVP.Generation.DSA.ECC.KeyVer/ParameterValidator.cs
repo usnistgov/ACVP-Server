@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_CURVES = { "p-192", "p-224", "p-256", "p-384", "p-521", "b-163", "b-233", "b-283", "b-409", "b-571", "k-163", "k-233", "k-283", "k-409", "k-571" };
+        public static string[] VALID_CURVES = EnumHelpers.GetEnumDescriptions<Curve>().ToArray();
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {

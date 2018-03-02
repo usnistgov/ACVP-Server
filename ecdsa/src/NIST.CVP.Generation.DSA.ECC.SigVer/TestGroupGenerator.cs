@@ -3,9 +3,7 @@ using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC.Helpers;
-using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.ECC.SigVer.TestCaseExpectations;
 
@@ -13,9 +11,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters>
     {
-        private IShaFactory _shaFactory = new ShaFactory();
-        private readonly EccCurveFactory _curveFactory = new EccCurveFactory();
-
         public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
@@ -27,18 +22,14 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
             {
                 foreach (var curveName in capability.Curve)
                 {
-                    var curveEnum = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
-                    var curve = _curveFactory.GetCurve(curveEnum);
-
                     foreach (var hashAlg in capability.HashAlg)
                     {
-                        var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(hashAlg);
-                        var sha = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
+                        var sha = ShaAttributes.GetHashFunctionFromName(hashAlg);
 
                         var testGroup = new TestGroup
                         {
                             TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
-                            DomainParameters = new EccDomainParameters(curve),
+                            Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName),
                             HashAlg = sha
                         };
 

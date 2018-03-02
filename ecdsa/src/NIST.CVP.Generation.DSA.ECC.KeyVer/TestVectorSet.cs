@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
                     dynamic updateObject = new ExpandoObject();
                     var updateDict = ((IDictionary<string, object>) updateObject);
                     updateDict.Add("tgId", group.TestGroupId);
-                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
+                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
 
                     var tests = new List<dynamic>();
                     updateDict.Add("tests", tests);
@@ -76,7 +76,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
                     dynamic updateObject = new ExpandoObject();
                     var updateDict = ((IDictionary<string, object>) updateObject);
                     updateDict.Add("tgId", group.TestGroupId);
-                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
+                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
 
                     var tests = new List<dynamic>();
                     updateDict.Add("tests", tests);

@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
                 .Setup(s => s.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()))
                 .Returns(new EccVerificationResult());
 
-            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), eccMock.Object);
+            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), eccMock.Object, GetCurveFactoryMock().Object);
             var result = subject.Validate(GetResultTestCase());
 
             eccMock.Verify(v => v.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()), Times.Once);
@@ -37,7 +37,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
                 .Setup(s => s.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()))
                 .Returns(new EccVerificationResult("Fail"));
 
-            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), eccMock.Object);
+            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), eccMock.Object, GetCurveFactoryMock().Object);
             var result = subject.Validate(GetResultTestCase());
 
             eccMock.Verify(v => v.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()), Times.Once);
@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         {
             return new TestGroup
             {
-                DomainParameters = new EccDomainParameters(new PrimeCurve(Curve.P192, 0, 0, new EccPoint(0, 0), 0)),
+                Curve = Curve.P192,
                 HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
             };
         }
@@ -76,6 +76,11 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         private Mock<IDsaEcc> GetDsaMock()
         {
             return new Mock<IDsaEcc>();
+        }
+
+        private Mock<IEccCurveFactory> GetCurveFactoryMock()
+        {
+            return new Mock<IEccCurveFactory>();
         }
     }
 }

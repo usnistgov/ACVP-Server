@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
 using NIST.CVP.Math;
-using PrimeTestModes = NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums.PrimeTestModes;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 
 namespace NIST.CVP.Crypto.RSA2
 {

@@ -1,15 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
     {
-        private IShaFactory _shaFactory = new ShaFactory();
+        private readonly IDsaEcc _eccDsa;
+        private readonly IEccCurveFactory _curveFactory;
+
+        public TestCaseValidatorFactory(IDsaEcc eccDsa, IEccCurveFactory curveFactory)
+        {
+            _eccDsa = eccDsa;
+            _curveFactory = curveFactory;
+        }
 
         public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
@@ -19,7 +25,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             {
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
-                    list.Add(new TestCaseValidator(test, group, new EccDsa(_shaFactory.GetShaInstance(group.HashAlg))));
+                    list.Add(new TestCaseValidator(test, group, _eccDsa, _curveFactory));
                 }
             }
 

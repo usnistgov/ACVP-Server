@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                     dynamic updateObject = new ExpandoObject();
                     var updateDict = ((IDictionary<string, object>) updateObject);
                     updateDict.Add("tgId", group.TestGroupId);
-                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
+                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
                     updateDict.Add("hashAlg", group.HashAlg.Name);
 
                     var tests = new List<dynamic>();
@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                     dynamic updateObject = new ExpandoObject();
                     var updateDIct = ((IDictionary<string, object>) updateObject);
                     updateDIct.Add("tgId", group.TestGroupId);
-                    updateDIct.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
+                    updateDIct.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
                     updateDIct.Add("hashAlg", group.HashAlg.Name);
 
                     var tests = new List<dynamic>();

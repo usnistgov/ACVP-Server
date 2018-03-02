@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.SHAWrapper;
@@ -12,14 +13,16 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class FireHoseTests
     {
-        string _testPath;
-        IShaFactory _shaFactory;
+        private string _testPath;
+        private IShaFactory _shaFactory;
+        private IEccCurveFactory _curveFactory;
 
         [SetUp]
         public void SetUp()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\sigver\");
             _shaFactory = new ShaFactory();
+            _curveFactory = new EccCurveFactory();
         }
 
         [Test]
@@ -63,7 +66,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
                     {
                         var testCase = (TestCase)iTestCase;
 
-                        var result = algo.Verify(testGroup.DomainParameters, testCase.KeyPair, testCase.Message, testCase.Signature);
+                        var domainParams = new EccDomainParameters(_curveFactory.GetCurve(testGroup.Curve));
+                        var result = algo.Verify(domainParams, testCase.KeyPair, testCase.Message, testCase.Signature);
                         if (result.Success != testCase.Result)
                         {
                             Assert.Fail($"Could not validate TestCase: {testCase.TestCaseId}, with values: \nR: {testCase.Signature.R}\nS: {testCase.Signature.S}");

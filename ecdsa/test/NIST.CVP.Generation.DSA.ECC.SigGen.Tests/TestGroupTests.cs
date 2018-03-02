@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
             var sourceAnswer = GetSourceAnswer();
             var subject = new TestGroup(sourceAnswer);
             Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.curve, EnumHelpers.GetEnumDescriptionFromEnum(subject.DomainParameters.CurveE.CurveName));
+            Assert.AreEqual(sourceAnswer.curve, EnumHelpers.GetEnumDescriptionFromEnum(subject.Curve));
         }
 
         [Test]

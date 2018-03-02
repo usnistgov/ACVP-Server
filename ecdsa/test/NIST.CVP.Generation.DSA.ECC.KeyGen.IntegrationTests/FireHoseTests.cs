@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core;
@@ -33,6 +34,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.IntegrationTests
             var folderPath = new DirectoryInfo(Path.Combine(_testPath));
             var parser = new LegacyResponseFileParser();
             var algo = new EccDsa(EntropyProviderTypes.Testable);
+            var curveFactory = new EccCurveFactory();
 
             foreach (var testFilePath in folderPath.EnumerateFiles())
             {
@@ -62,7 +64,9 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.IntegrationTests
                         var testCase = (TestCase)iTestCase;
 
                         algo.AddEntropy(testCase.KeyPair.PrivateD);
-                        var result = algo.GenerateKeyPair(testGroup.DomainParameters);
+
+                        var domainParams = new EccDomainParameters(curveFactory.GetCurve(testGroup.Curve));
+                        var result = algo.GenerateKeyPair(domainParams);
                         if (!result.Success)
                         {
                             Assert.Fail($"Could not regenerate TestCase: {testCase.TestCaseId}");

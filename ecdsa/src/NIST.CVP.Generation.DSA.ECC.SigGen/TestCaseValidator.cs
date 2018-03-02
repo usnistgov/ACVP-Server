@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 
@@ -13,14 +12,16 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
         private readonly TestCase _expectedResult;
         private readonly TestGroup _group;
         private readonly IDsaEcc _eccDsa;
+        private readonly IEccCurveFactory _curveFactory;
 
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDsaEcc eccDsa)
+        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDsaEcc eccDsa, IEccCurveFactory curveFactory)
         {
             _expectedResult = expectedResult;
             _group = group;
             _eccDsa = eccDsa;
+            _curveFactory = curveFactory;
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
@@ -37,7 +38,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             }
             else
             {
-                var verifyResult = _eccDsa.Verify(_group.DomainParameters, suppliedResult.KeyPair, _expectedResult.Message, suppliedResult.Signature, _group.ComponentTest);
+                // TODO move to deferred
+                var verifyResult = _eccDsa.Verify(new EccDomainParameters(_curveFactory.GetCurve(_group.Curve)), suppliedResult.KeyPair, _expectedResult.Message, suppliedResult.Signature, _group.ComponentTest);
                 if (!verifyResult.Success)
                 {
                     errors.Add($"Validation failed: {verifyResult.ErrorMessage}");

@@ -9,8 +9,8 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
 {
     public class TestCaseValidator : ITestCaseValidator<TestCase>
     {
-        private TestCase _expectedResult;
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
+        private readonly TestCase _expectedResult;
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidator(TestCase expectedResult)
         {
