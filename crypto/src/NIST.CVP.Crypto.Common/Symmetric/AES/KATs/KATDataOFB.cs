@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES.KATs;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.AES_OFB
+namespace NIST.CVP.Crypto.Common.Symmetric.AES.KATs
 {
     public class KATDataOFB
     {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_OFB
