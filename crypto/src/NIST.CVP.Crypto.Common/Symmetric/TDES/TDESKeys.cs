@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Symmetric.TDES.Enums;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.TDES
+namespace NIST.CVP.Crypto.Common.Symmetric.TDES
 {
     public class TDESKeys
     {
@@ -29,7 +30,6 @@ namespace NIST.CVP.Crypto.TDES
                 throw new Exception("Invalid key length, expected 64, 128, 192 bits");
             }
 
-            //MakeKeys(bitString);
             MakeKeySimple(bitString);
         }
 
@@ -87,40 +87,5 @@ namespace NIST.CVP.Crypto.TDES
                 return KeyOptionValues.ThreeKey;
             }
         }
-
-        //private void MakeKeys(BitString bitString)
-        //{
-        //    var rawBytes = bitString.ToBytes();
-            
-        //    Keys = new List<byte[]>();
-        //    for (int keyIdx = 0; keyIdx < 3; keyIdx++)
-        //    {
-        //        byte[] keyBytes = new byte[7];
-        //        Array.Copy(rawBytes, 0, keyBytes, 0, 7); //see if we need to split bytes kyIdx * 7
-        //        var key64 = Key56to64(keyBytes);
-        //        var withParityKey = key64.SetOddParityBitInSuppliedBytes();
-        //        Keys.Add(withParityKey);
-        //    }
-        //}
-
-        //public byte[] Key56to64(byte[] input)
-        //{
-        //    byte[] output = new byte[8];
-        //    for (int i = 7; i >= 0; i--)
-        //    {
-        //        output[i] = (byte)(input[6] << 1);
-        //        for (int j = 0; j < 7; j++)
-        //        {
-        //            var inputBitArray = new BitArray(input);
-        //            inputBitArray = inputBitArray.BitShiftRight();
-        //            input = inputBitArray.ToBytes();
-        //        }
-        //    }
-        //    return output;
-        //}
-
-
-
-        
     }
 }

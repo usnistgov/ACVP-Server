@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.TDES
+namespace NIST.CVP.Crypto.Common.Symmetric.TDES
 {
     /// <summary>
     /// Helper methods for TDES.

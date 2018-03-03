@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.TDES;
+﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CBC
@@ -22,8 +20,6 @@ namespace NIST.CVP.Generation.TDES_CBC
                     {
                         continue;
                     }
-
-                    var translatedKeyingOptionToNumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption);
 
                     TestGroup tg = new TestGroup()
                     {

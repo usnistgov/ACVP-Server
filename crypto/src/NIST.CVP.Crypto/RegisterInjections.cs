@@ -32,6 +32,7 @@ using NIST.CVP.Crypto.TLS;
 using NIST.CVP.Crypto.KeyWrap;
 using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Crypto.SHA3;
+using NIST.CVP.Crypto.TDES_CBC;
 // ^^^ russ ^^^
 
 // vvv chris vvv
@@ -126,6 +127,10 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<SHA3.SHA3>().AsImplementedInterfaces();
             builder.RegisterType<SHA3_MCT>().AsImplementedInterfaces();
+
+            builder.RegisterType<TdesCbc>().AsImplementedInterfaces();
+            builder.RegisterType<TDES_CBC_MCT>().AsImplementedInterfaces();
+            builder.RegisterType<TDES_CBC.MonteCarloKeyMaker>().AsImplementedInterfaces();
 
             // Chris Algos
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();

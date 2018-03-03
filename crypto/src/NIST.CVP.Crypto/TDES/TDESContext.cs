@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.Common.Symmetric.TDES.Enums;
 
 namespace NIST.CVP.Crypto.TDES
 {

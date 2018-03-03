@@ -5,6 +5,7 @@ using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.Common.Symmetric.TDES.Enums;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 

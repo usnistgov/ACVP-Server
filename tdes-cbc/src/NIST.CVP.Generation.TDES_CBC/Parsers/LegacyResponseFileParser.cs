@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Generation.TDES_CBC;
 
 namespace NIST.CVP.Generation.TDES_CBC.Parsers
 {
