@@ -30,6 +30,7 @@ using NIST.CVP.Crypto.SRTP;
 using NIST.CVP.Crypto.SSH;
 using NIST.CVP.Crypto.TLS;
 using NIST.CVP.Crypto.KeyWrap;
+using NIST.CVP.Crypto.SHA2;
 // ^^^ russ ^^^
 
 // vvv chris vvv
@@ -118,6 +119,10 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<TlsKdfFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<KeyWrapFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<SHA>().AsImplementedInterfaces();
+            builder.RegisterType<SHA_MCT>().AsImplementedInterfaces();
+
 
             // Chris Algos
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();

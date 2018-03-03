@@ -1,7 +1,6 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
-using NIST.CVP.Crypto.SHA2;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -16,7 +15,7 @@ namespace NIST.CVP.Generation.SHA2
         public bool IsSample { get; set; } = false;
         private TestCase _seedCaseForTest = null;
 
-        public int NumberOfTestCasesToGenerate { get { return 1; } }
+        public int NumberOfTestCasesToGenerate => 1;
 
         public TestCaseGeneratorMCTHash(IRandom800_90 random800_90, ISHA_MCT algo)
         {
@@ -99,7 +98,7 @@ namespace NIST.CVP.Generation.SHA2
             return new TestCase { Message = seed };
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
 
