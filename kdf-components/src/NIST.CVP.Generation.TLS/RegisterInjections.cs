@@ -1,8 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.HMAC;
-using NIST.CVP.Crypto.SHA2;
-using NIST.CVP.Crypto.TLS;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -18,9 +15,6 @@ namespace NIST.CVP.Generation.TLS
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
 
-            builder.RegisterType<TlsKdfFactory>().AsImplementedInterfaces();
-            builder.RegisterType<HmacFactory>().AsImplementedInterfaces();
-            builder.RegisterType<SHAFactory>().AsImplementedInterfaces();
             builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();

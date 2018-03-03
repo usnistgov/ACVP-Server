@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.ANSIX963;
+using NIST.CVP.Crypto.Common.KDF.Components.AnsiX963;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;

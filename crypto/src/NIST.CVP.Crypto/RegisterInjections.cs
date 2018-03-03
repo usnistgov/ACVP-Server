@@ -22,6 +22,13 @@ using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
 using NIST.CVP.Crypto.KES;
+using NIST.CVP.Crypto.ANSIX963;
+using NIST.CVP.Crypto.IKEv1;
+using NIST.CVP.Crypto.IKEv2;
+using NIST.CVP.Crypto.SNMP;
+using NIST.CVP.Crypto.SRTP;
+using NIST.CVP.Crypto.SSH;
+using NIST.CVP.Crypto.TLS;
 // ^^^ russ ^^^
 
 // vvv chris vvv
@@ -101,6 +108,13 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<Crypto.KDF.KdfFactory>().AsImplementedInterfaces();
 
+            builder.RegisterType<AnsiX963Factory>().AsImplementedInterfaces();
+            builder.RegisterType<IkeV1Factory>().AsImplementedInterfaces();
+            builder.RegisterType<IkeV2Factory>().AsImplementedInterfaces();
+            builder.RegisterType<SnmpFactory>().AsImplementedInterfaces();
+            builder.RegisterType<SrtpFactory>().AsImplementedInterfaces();
+            builder.RegisterType<SshFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TlsKdfFactory>().AsImplementedInterfaces();
 
             // Chris Algos
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();

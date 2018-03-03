@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Math;
+﻿using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.ANSIX963
+namespace NIST.CVP.Crypto.Common.KDF.Components.AnsiX963
 {
     public class KdfResult
     {

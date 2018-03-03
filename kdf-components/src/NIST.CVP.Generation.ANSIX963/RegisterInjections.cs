@@ -1,7 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.ANSIX963;
-using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -17,8 +15,6 @@ namespace NIST.CVP.Generation.ANSIX963
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
 
-            builder.RegisterType<AnsiX963>().AsImplementedInterfaces();
-            builder.RegisterType<ShaFactory>().AsImplementedInterfaces();
             builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
