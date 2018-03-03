@@ -99,6 +99,9 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<EccDhComponent>().AsImplementedInterfaces();
 
+            builder.RegisterType<Crypto.KDF.KdfFactory>().AsImplementedInterfaces();
+
+
             // Chris Algos
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
             builder.RegisterType<KeyComposerFactory>().AsImplementedInterfaces();
