@@ -1,8 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_ECB;
-using NIST.CVP.Crypto.KeyWrap;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.KeyWrap;
@@ -17,12 +14,8 @@ namespace NIST.CVP.Generation.KeyWrapWithPadding.AES
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
             builder.RegisterType<EntropyProviderFactory>().AsImplementedInterfaces();
-            builder.RegisterType<KeyWrapFactory>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
-            builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
-            builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
 
-            builder.RegisterType<AES_ECB>().AsImplementedInterfaces();
             builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor<TestVectorSet, TestGroup>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();

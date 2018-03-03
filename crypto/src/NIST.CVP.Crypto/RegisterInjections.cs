@@ -29,6 +29,7 @@ using NIST.CVP.Crypto.SNMP;
 using NIST.CVP.Crypto.SRTP;
 using NIST.CVP.Crypto.SSH;
 using NIST.CVP.Crypto.TLS;
+using NIST.CVP.Crypto.KeyWrap;
 // ^^^ russ ^^^
 
 // vvv chris vvv
@@ -115,6 +116,8 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<SrtpFactory>().AsImplementedInterfaces();
             builder.RegisterType<SshFactory>().AsImplementedInterfaces();
             builder.RegisterType<TlsKdfFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<KeyWrapFactory>().AsImplementedInterfaces();
 
             // Chris Algos
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
