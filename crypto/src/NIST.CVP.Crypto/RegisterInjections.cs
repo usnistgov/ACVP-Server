@@ -31,6 +31,7 @@ using NIST.CVP.Crypto.SSH;
 using NIST.CVP.Crypto.TLS;
 using NIST.CVP.Crypto.KeyWrap;
 using NIST.CVP.Crypto.SHA2;
+using NIST.CVP.Crypto.SHA3;
 // ^^^ russ ^^^
 
 // vvv chris vvv
@@ -123,6 +124,8 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<SHA>().AsImplementedInterfaces();
             builder.RegisterType<SHA_MCT>().AsImplementedInterfaces();
 
+            builder.RegisterType<SHA3.SHA3>().AsImplementedInterfaces();
+            builder.RegisterType<SHA3_MCT>().AsImplementedInterfaces();
 
             // Chris Algos
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();

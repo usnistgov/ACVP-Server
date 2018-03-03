@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash;
-using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA3
