@@ -1,6 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.TDES_OFB;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -13,9 +12,6 @@ namespace NIST.CVP.Generation.TDES_OFB
         {
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 
-            builder.RegisterType<TdesOfb>().AsImplementedInterfaces();
-            builder.RegisterType<TDES_OFB_MCT>().AsImplementedInterfaces();
-            builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorKnownAnswer>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();

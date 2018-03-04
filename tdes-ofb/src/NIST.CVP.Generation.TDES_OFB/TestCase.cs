@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.TDES_OFB
