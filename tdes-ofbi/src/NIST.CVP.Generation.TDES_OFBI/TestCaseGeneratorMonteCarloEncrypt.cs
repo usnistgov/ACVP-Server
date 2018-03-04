@@ -1,6 +1,4 @@
-﻿using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Crypto.TDES_OFBI;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;

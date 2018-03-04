@@ -39,6 +39,7 @@ using NIST.CVP.Crypto.TDES_CFBP;
 using NIST.CVP.Crypto.TDES_CTR;
 using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Crypto.TDES_OFB;
+using NIST.CVP.Crypto.TDES_OFBI;
 // ^^^ russ ^^^
 
 // vvv chris vvv
@@ -160,6 +161,9 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<TDES_OFB_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TDES_OFB.MonteCarloKeyMaker>().AsImplementedInterfaces();
 
+            builder.RegisterType<TdesOfbi>().AsImplementedInterfaces();
+            builder.RegisterType<TdesOfbiMCT>().AsImplementedInterfaces();
+            builder.RegisterType<TDES_OFBI.MonteCarloKeyMaker>().AsImplementedInterfaces();
 
             // Chris Algos
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
