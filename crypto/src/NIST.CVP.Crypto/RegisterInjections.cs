@@ -36,6 +36,7 @@ using NIST.CVP.Crypto.TDES_CBC;
 using NIST.CVP.Crypto.TDES_CBCI;
 using NIST.CVP.Crypto.TDES_CFB;
 using NIST.CVP.Crypto.TDES_CFBP;
+using NIST.CVP.Crypto.TDES_CTR;
 // ^^^ russ ^^^
 
 // vvv chris vvv
@@ -146,6 +147,9 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<TDES_CFBP.MonteCarloKeyMaker>().AsImplementedInterfaces();
             builder.Register(c => TDES_CFBP.ModeFactory.GetMode(algoMode)).AsImplementedInterfaces();
             builder.Register(c => TDES_CFBP.ModeFactoryMCT.GetMode(algoMode)).AsImplementedInterfaces();
+
+            builder.RegisterType<TdesCtr>().AsImplementedInterfaces();
+
 
             // Chris Algos
             builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();

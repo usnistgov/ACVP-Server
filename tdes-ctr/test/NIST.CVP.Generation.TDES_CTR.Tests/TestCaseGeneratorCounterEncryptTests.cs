@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Moq;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Fakes;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.CTR;
-using NIST.CVP.Crypto.CTR.Enums;
 using NIST.CVP.Crypto.TDES_CTR;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -135,7 +134,8 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             Assert.AreEqual(1, testGroup.Tests.Count);
 
             var testCase = (TestCase)testGroup.Tests.First();
-            var decryptResult = tdes_ctr.Decrypt(testCase.Key, testCase.CipherText, new TestableCounter(Cipher.TDES, testCase.Ivs));
+            var decryptResult = tdes_ctr.Decrypt(testCase.Key, testCase.CipherText,
+                new TestableCounter(Cipher.TDES, testCase.Ivs));
             Assert.AreEqual(testCase.PlainText, decryptResult.Result);
         }
 
