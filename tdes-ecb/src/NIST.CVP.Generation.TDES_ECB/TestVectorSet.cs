@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
-using System.Collections;
-using NIST.CVP.Crypto.TDES;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {

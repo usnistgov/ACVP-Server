@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_ECB
