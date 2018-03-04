@@ -1,14 +1,10 @@
 ﻿using Moq;
-using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Crypto.TDES_CFB;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
 using NLog;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
@@ -37,22 +33,6 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             _mockMCT.SetupGet(s => s.Algo).Returns(AlgoMode.TDES_CFB1);
             _subject = new TestCaseGeneratorMonteCarloDecrypt(_mockRandom.Object, _mockMCT.Object);
         }
-
-        //[Test]
-        //[TestCase(1)]
-        //[TestCase(2)]
-
-        //public void ShouldCallRandomTwiceOnceForKeyOnceForCipherText(int keyingOption)
-        //{
-        //    TestGroup testGroup = new TestGroup()
-        //    {
-        //        KeyingOption = keyingOption
-        //    };
-        //    _subject.Generate(testGroup, false);
-
-        //    _mockRandom.Verify(v => v.GetRandomBitString(64 * keyingOption), nameof(keyingOption));
-        //    _mockRandom.Verify(v => v.GetRandomBitString(64));
-        //}
 
         [Test]
         public void ShouldCallAlgoEncryptFromIsSampleMethod()

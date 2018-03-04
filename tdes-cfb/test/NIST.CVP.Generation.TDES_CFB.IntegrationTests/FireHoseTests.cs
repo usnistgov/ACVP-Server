@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
+using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common;
 using NIST.CVP.Crypto.TDES_CFB;
 using NIST.CVP.Generation.TDES_CFB.Parsers;
 using NIST.CVP.Tests.Core;
@@ -11,22 +11,7 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
 {
     public class FireHoseTests
     {
-        //private string _testPath;
-        //private TdesCfb _algo;
-        //private TDES_CFB_MCT _algoMct;
-        //private MonteCarloKeyMaker _keyMaker;
-
-        //[SetUp]
-        //public void Setup()
-        //{
-        //    _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-        //    //_algo = new TdesCfb();
-        //    //_keyMaker = new MonteCarloKeyMaker();
-        //    //var modeFactory = new ModeFactory();
-        //    //_modeOfOperation = modeFactory.GetMode(algo);
-        //    _algoMct = new TDES_CFB_MCT(_algo, _keyMaker, _modeOfOperation);
-        //}
-
+        
         [Test]
         [TestCase(AlgoMode.TDES_CFB1)]
         [TestCase(AlgoMode.TDES_CFB8)]

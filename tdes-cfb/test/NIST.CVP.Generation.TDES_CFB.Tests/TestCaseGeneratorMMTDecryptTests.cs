@@ -1,8 +1,7 @@
 ﻿using Moq;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CFB;
 using NIST.CVP.Math;
 using NUnit.Framework;

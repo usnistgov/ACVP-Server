@@ -1,12 +1,10 @@
-﻿using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES_CFBP;
 
 namespace NIST.CVP.Generation.TDES_CFBP
 {

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.Math;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Common;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {

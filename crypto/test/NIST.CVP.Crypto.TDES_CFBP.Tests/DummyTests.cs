@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Crypto.TDES_CFBP;
+using NIST.CVP.Common;
 using NIST.CVP.Math;
 using NUnit.Framework;
 

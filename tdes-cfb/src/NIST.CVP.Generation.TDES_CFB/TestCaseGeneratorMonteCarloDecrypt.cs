@@ -1,11 +1,9 @@
-﻿using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES_CFB;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
@@ -37,10 +35,7 @@ namespace NIST.CVP.Generation.TDES_CFB
             _mode = mode;
         }
 
-        public int NumberOfTestCasesToGenerate
-        {
-            get { return 1; }
-        }
+        public int NumberOfTestCasesToGenerate => 1;
 
         public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
         {

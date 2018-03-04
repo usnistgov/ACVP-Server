@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Helpers;
 using System;
 using System.Linq;
-using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {

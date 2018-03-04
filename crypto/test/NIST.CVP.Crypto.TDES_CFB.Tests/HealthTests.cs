@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -49,7 +49,6 @@ namespace NIST.CVP.Crypto.TDES_CFB.Tests
         public void ShouldEncryptSuccessfully(string algo, string _key, string _iv, string _plainText, string _cipherText, bool isPtCtHex)
         {
             var mode = ModeFactory.GetMode(EnumHelpers.GetEnumFromEnumDescription<AlgoMode>(algo)); 
-            //var mode = ModeFactory.GetMode(EnumEx.FromDescription<Algo>(algo));
             BitString key, iv, plainText, cipherText;
             key = new BitString(_key);
             iv = new BitString(_iv);

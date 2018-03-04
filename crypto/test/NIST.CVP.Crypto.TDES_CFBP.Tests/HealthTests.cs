@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Common;
 using NIST.CVP.Math;
 using NUnit.Framework;
-using NIST.CVP.Crypto.TDES_CFB;
 
 namespace NIST.CVP.Crypto.TDES_CFBP.Tests
 {

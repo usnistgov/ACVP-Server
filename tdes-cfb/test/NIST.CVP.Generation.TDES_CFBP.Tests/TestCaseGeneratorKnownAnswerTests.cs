@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Castle.Components.DictionaryAdapter;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

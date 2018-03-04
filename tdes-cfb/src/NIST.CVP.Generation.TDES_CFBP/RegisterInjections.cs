@@ -1,7 +1,5 @@
 ﻿using Autofac;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES_CFBP;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
@@ -23,13 +21,9 @@ namespace NIST.CVP.Generation.TDES_CFBP
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
             builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorKnownAnswer>().AsImplementedInterfaces();
-            builder.RegisterType<MonteCarloKeyMaker>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
-
-            builder.Register(c => ModeFactory.GetMode(algoMode)).As<ICFBPMode>();
-            builder.Register(c => ModeFactoryMCT.GetMode(algoMode)).As<ICFBPModeMCT>();
         }
     }
 }
