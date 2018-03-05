@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         {
             var sourceTest = new JObject
             {
-                { "r", new JValue("00AA") }
+                { "message", new JValue("00AA") }
             };
             Assert.That(() => new TestCase(sourceTest), Throws.InstanceOf<RuntimeBinderException>());
         }

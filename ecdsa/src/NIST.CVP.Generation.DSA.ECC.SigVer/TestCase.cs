@@ -22,10 +22,11 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
 
         public bool Result { get; set; }
         public SigFailureReasons Reason { get; set; }
-        public EccKeyPair KeyPair { get; set; }
         public BitString Message { get; set; }
         public EccSignature Signature { get; set; }
 
+        // For FireHoseTests
+        public EccKeyPair KeyPair;
         private BigInteger _rSetString;
         private BigInteger _sSetString;
         private BigInteger _qxSetString;

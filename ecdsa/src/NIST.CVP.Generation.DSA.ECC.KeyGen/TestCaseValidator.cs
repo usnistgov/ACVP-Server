@@ -13,18 +13,15 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _group;
-        private readonly IDsaEccFactory _dsaEccFactory;
-        private IDsaEcc _eccDsa;
-        private readonly IEccCurveFactory _curveFactory;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, EccKeyPairGenerateResult> _deferredResolver;
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDsaEccFactory dsaEccFactory, IEccCurveFactory curveFactory)
+        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDeferredTestCaseResolver<TestGroup, TestCase, EccKeyPairGenerateResult> deferredResolver)
         {
             _expectedResult = expectedResult;
             _group = group;
-            _dsaEccFactory = dsaEccFactory;
-            _curveFactory = curveFactory;
+            _deferredResolver = deferredResolver;
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
@@ -37,23 +34,19 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
             }
             else
             {
-                // TODO move to deferred
-                // No hash function
-                _eccDsa = _dsaEccFactory.GetInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256), EntropyProviderTypes.Testable);
-                _eccDsa.AddEntropy(suppliedResult.KeyPair.PrivateD);
-                var generateResult = _eccDsa.GenerateKeyPair(new EccDomainParameters(_curveFactory.GetCurve(_group.Curve)));
-                if (!generateResult.Success)
+                var deferredResult = _deferredResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
+                if (!deferredResult.Success)
                 {
                     errors.Add($"Unable to generate public key from private key d value");
                 }
                 else
                 {
-                    if (generateResult.KeyPair.PublicQ.X != suppliedResult.KeyPair.PublicQ.X)
+                    if (deferredResult.KeyPair.PublicQ.X != suppliedResult.KeyPair.PublicQ.X)
                     {
                         errors.Add($"Incorrect Qx generated from private key");
                     }
 
-                    if (generateResult.KeyPair.PublicQ.Y != suppliedResult.KeyPair.PublicQ.Y)
+                    if (deferredResult.KeyPair.PublicQ.Y != suppliedResult.KeyPair.PublicQ.Y)
                     {
                         errors.Add($"Incorrect Qy generated from private key");
                     }

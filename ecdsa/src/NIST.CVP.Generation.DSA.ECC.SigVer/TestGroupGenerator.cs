@@ -11,6 +11,15 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters>
     {
+        private readonly IDsaEccFactory _eccDsaFactory;
+        private readonly IEccCurveFactory _curveFactory;
+
+        public TestGroupGenerator(IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
+        {
+            _eccDsaFactory = eccDsaFactory;
+            _curveFactory = curveFactory;
+        }
+
         public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
@@ -25,12 +34,21 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                     foreach (var hashAlg in capability.HashAlg)
                     {
                         var sha = ShaAttributes.GetHashFunctionFromName(hashAlg);
+                        var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
+
+                        // Generate the key
+                        EccKeyPair key = null;
+                        var eccDsa = _eccDsaFactory.GetInstance(sha);
+                        var domainParams = new EccDomainParameters(_curveFactory.GetCurve(curve));
+                        var keyResult = eccDsa.GenerateKeyPair(domainParams);
+                        key = keyResult.KeyPair;
 
                         var testGroup = new TestGroup
                         {
                             TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
-                            Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName),
-                            HashAlg = sha
+                            Curve = curve,
+                            HashAlg = sha,
+                            KeyPair = key
                         };
 
                         testGroups.Add(testGroup);

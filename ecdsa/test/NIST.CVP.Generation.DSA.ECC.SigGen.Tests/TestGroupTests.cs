@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.DSA.ECC.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

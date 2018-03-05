@@ -1,6 +1,6 @@
 ﻿namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC
 {
-    public class EccKeyPairGenerateResult : IKeyPairGenerateResult
+    public class EccKeyPairGenerateResult : IKeyPairGenerateResult, ICryptoResult
     {
         public EccKeyPair KeyPair { get; }
         public bool Success => string.IsNullOrEmpty(ErrorMessage);

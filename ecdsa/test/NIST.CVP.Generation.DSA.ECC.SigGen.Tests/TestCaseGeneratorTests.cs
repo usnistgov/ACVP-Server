@@ -34,8 +34,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
 
             Assert.IsTrue(result.Success);
             var testCase = (TestCase)result.TestCase;
-            Assert.AreEqual(BigInteger.One, testCase.KeyPair.PublicQ.X);
-            Assert.AreEqual(BigInteger.One * 2, testCase.KeyPair.PublicQ.Y);
             Assert.AreEqual(BigInteger.One * 3, testCase.Signature.R);
             Assert.AreEqual(BigInteger.One * 4, testCase.Signature.S);
         }

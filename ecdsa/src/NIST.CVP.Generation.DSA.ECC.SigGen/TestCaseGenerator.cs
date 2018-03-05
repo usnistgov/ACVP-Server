@@ -45,32 +45,14 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 
         public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
         {
-            // Generate the key
-            EccKeyPairGenerateResult keyResult = null;
-            try
-            {
-                _eccDsa = _eccDsaFactory.GetInstance(group.HashAlg);
-                var domainParams = new EccDomainParameters(_curveFactory.GetCurve(group.Curve));
-                keyResult = _eccDsa.GenerateKeyPair(domainParams);
-                if (!keyResult.Success)
-                {
-                    ThisLogger.Warn($"Error generating key: {keyResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating key: {keyResult.ErrorMessage}");
-                }
-            }
-            catch (Exception ex)
-            {
-                ThisLogger.Error($"Exception generating key: {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating key: {ex.Message}");
-            }
-
-            testCase.KeyPair = keyResult.KeyPair;
-
             // Generate the signature
             EccSignatureResult sigResult = null;
             try
             {
-                sigResult = _eccDsa.Sign(new EccDomainParameters(_curveFactory.GetCurve(group.Curve)), testCase.KeyPair, testCase.Message, group.ComponentTest);
+                _eccDsa = _eccDsaFactory.GetInstance(group.HashAlg);
+                var curve = _curveFactory.GetCurve(group.Curve);
+                var domainParams = new EccDomainParameters(curve);
+                sigResult = _eccDsa.Sign(domainParams, group.KeyPair, testCase.Message, group.ComponentTest);
                 if (!sigResult.Success)
                 {
                     ThisLogger.Warn($"Error generating signature: {sigResult.ErrorMessage}");

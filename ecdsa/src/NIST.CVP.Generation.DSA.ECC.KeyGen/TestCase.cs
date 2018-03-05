@@ -40,8 +40,14 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 
         private void MapToProperties(dynamic source)
         {
-            TestCaseId = (int)source.tcId;
-            ParseKey((ExpandoObject)source);
+            TestCaseId = (int) source.tcId;
+            var expandoSource = (ExpandoObject) source;
+
+            BigInteger d, qx, qy;
+            d = expandoSource.GetBigIntegerFromProperty("d");
+            qx = expandoSource.GetBigIntegerFromProperty("qx");
+            qy = expandoSource.GetBigIntegerFromProperty("qy");
+            KeyPair = new EccKeyPair(new EccPoint(qx, qy), d);
         }
 
         public bool SetString(string name, string value)
@@ -74,28 +80,6 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
             }
 
             return false;
-        }
-
-        private void ParseKey(ExpandoObject source)
-        {
-            BigInteger d, Qx, Qy;
-
-            if (source.ContainsProperty("d"))
-            {
-                d = source.GetBigIntegerFromProperty("d");
-            }
-
-            if (source.ContainsProperty("qx"))
-            {
-                Qx = source.GetBigIntegerFromProperty("qx");
-            }
-
-            if (source.ContainsProperty("qy"))
-            {
-                Qy = source.GetBigIntegerFromProperty("qy");
-            }
-
-            KeyPair = new EccKeyPair(new EccPoint(Qx, Qy), d);
         }
     }
 }

@@ -20,7 +20,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
                 {
                     tests.Add(new TestCase
                     {
-                        KeyPair = new EccKeyPair(new EccPoint(1, 2)),
                         Message = new BitString("BEEFFACE"),
                         Signature = new EccSignature(1, 2),
                         TestCaseId = testId

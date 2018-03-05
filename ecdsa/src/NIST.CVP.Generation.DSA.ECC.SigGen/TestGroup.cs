@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Numerics;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
@@ -16,6 +18,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
         public int TestGroupId { get; set; }
         public Curve Curve { get; set; }
         public HashFunction HashAlg { get; set; }
+        public EccKeyPair KeyPair { get; set; }
         public bool ComponentTest { get; set; }
 
         public string TestType { get; set; }
@@ -41,6 +44,10 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             {
                 HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
             }
+
+            var qx = expandoSource.GetBigIntegerFromProperty("qx");
+            var qy = expandoSource.GetBigIntegerFromProperty("qy");
+            KeyPair = new EccKeyPair(new EccPoint(qx, qy));
 
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)

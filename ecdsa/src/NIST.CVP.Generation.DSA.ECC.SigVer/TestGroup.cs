@@ -3,6 +3,7 @@ using System.Dynamic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
@@ -17,6 +18,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
         public int TestGroupId { get; set; }
         public Curve Curve { get; set; }
         public HashFunction HashAlg { get; set; }
+        public EccKeyPair KeyPair{ get; set; }
 
         public ITestCaseExpectationProvider<SigFailureReasons> TestCaseExpectationProvider { get; set; }
 

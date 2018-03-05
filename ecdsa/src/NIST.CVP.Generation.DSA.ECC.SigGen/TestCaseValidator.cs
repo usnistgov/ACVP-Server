@@ -11,18 +11,15 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _group;
-        private readonly IDsaEccFactory _eccDsaFactory;
-        private IDsaEcc _eccDsa;
-        private readonly IEccCurveFactory _curveFactory;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, EccVerificationResult> _deferredResolver;
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
+        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDeferredTestCaseResolver<TestGroup, TestCase, EccVerificationResult> deferredResolver)
         {
             _expectedResult = expectedResult;
             _group = group;
-            _eccDsaFactory = eccDsaFactory;
-            _curveFactory = curveFactory;
+            _deferredResolver = deferredResolver;
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
@@ -33,15 +30,9 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             {
                 errors.Add("Could not find r or s");
             }
-            else if (suppliedResult.KeyPair == null)
-            {
-                errors.Add("Could not find Q");
-            }
             else
             {
-                // TODO move to deferred
-                _eccDsa = _eccDsaFactory.GetInstance(_group.HashAlg);
-                var verifyResult = _eccDsa.Verify(new EccDomainParameters(_curveFactory.GetCurve(_group.Curve)), suppliedResult.KeyPair, _expectedResult.Message, suppliedResult.Signature, _group.ComponentTest);
+                var verifyResult = _deferredResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
                 if (!verifyResult.Success)
                 {
                     errors.Add($"Validation failed: {verifyResult.ErrorMessage}");

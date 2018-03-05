@@ -43,6 +43,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                     updateDict.Add("tgId", group.TestGroupId);
                     updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
                     updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("qx", group.KeyPair.PublicQ.X);
+                    updateDict.Add("qy", group.KeyPair.PublicQ.Y);
 
                     var tests = new List<dynamic>();
                     updateDict.Add("tests", tests);
@@ -54,8 +56,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                         testDict.Add("result", test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed));
                         testDict.Add("reason", EnumHelpers.GetEnumDescriptionFromEnum(test.Reason));
                         testDict.Add("message", test.Message);
-                        testDict.Add("qx", test.KeyPair.PublicQ.X);
-                        testDict.Add("qy", test.KeyPair.PublicQ.Y);
                         testDict.Add("r", test.Signature.R);
                         testDict.Add("s", test.Signature.S);
 
@@ -78,21 +78,21 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    var updateDIct = ((IDictionary<string, object>) updateObject);
-                    updateDIct.Add("tgId", group.TestGroupId);
-                    updateDIct.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
-                    updateDIct.Add("hashAlg", group.HashAlg.Name);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("qx", group.KeyPair.PublicQ.X);
+                    updateDict.Add("qy", group.KeyPair.PublicQ.Y);
 
                     var tests = new List<dynamic>();
-                    updateDIct.Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
                         var testDict = ((IDictionary<string, object>) testObject);
                         testDict.Add("tcId", test.TestCaseId);
                         testDict.Add("message", test.Message);
-                        testDict.Add("qx", test.KeyPair.PublicQ.X);
-                        testDict.Add("qy", test.KeyPair.PublicQ.Y);
                         testDict.Add("r", test.Signature.R);
                         testDict.Add("s", test.Signature.S);
 

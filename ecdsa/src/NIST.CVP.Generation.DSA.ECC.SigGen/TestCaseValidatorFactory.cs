@@ -25,7 +25,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             {
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
-                    list.Add(new TestCaseValidator(test, group, _eccDsaFactory, _curveFactory));
+                    var deferredResolver = new DeferredTestCaseResolver(_eccDsaFactory, _curveFactory);
+                    list.Add(new TestCaseValidator(test, group, deferredResolver));
                 }
             }
 

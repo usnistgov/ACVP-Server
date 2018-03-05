@@ -109,6 +109,12 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
                     var groupDict = (IDictionary<string, object>) groupObject;
                     groupDict.Add("tgId", group.TestGroupId);
 
+                    if (IsSample)
+                    {
+                        groupDict.Add("qx", group.KeyPair.PublicQ.X);
+                        groupDict.Add("qy", group.KeyPair.PublicQ.Y);
+                    }
+                    
                     var tests = new List<dynamic>();
                     groupDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
@@ -119,8 +125,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 
                         if (IsSample)
                         {
-                            testDict.Add("qx", test.KeyPair.PublicQ.X);
-                            testDict.Add("qy", test.KeyPair.PublicQ.Y);
                             testDict.Add("r", test.Signature.R);
                             testDict.Add("s", test.Signature.S);
                         }

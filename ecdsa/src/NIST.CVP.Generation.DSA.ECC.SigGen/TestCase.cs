@@ -15,12 +15,12 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
         public bool Deferred { get; set; }
 
         public BitString Message { get; set; }
-        public EccKeyPair KeyPair { get; set; }
         public EccSignature Signature { get; set; }
 
         public ITestGroup Parent { get; set; }
 
         // Needed for FireHoseTests
+        public EccKeyPair KeyPair;
         public BigInteger K;
         public BigInteger _rSetString;
         public BigInteger _sSetString;
@@ -40,16 +40,14 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 
         private void MapToProperties(dynamic source)
         {
-            TestCaseId = (int)source.tcId;
+            TestCaseId = (int) source.tcId;
             var expandoSource = (ExpandoObject) source;
 
-            ParseKey(expandoSource);
-            ParseSignature(expandoSource);
+            Message = expandoSource.GetBitStringFromProperty("message");
 
-            if (expandoSource.ContainsProperty("message"))
-            {
-                Message = expandoSource.GetBitStringFromProperty("message");
-            }
+            var r = expandoSource.GetBigIntegerFromProperty("r");
+            var s = expandoSource.GetBigIntegerFromProperty("s");
+            Signature = new EccSignature(r, s);
         }
 
         public bool SetString(string name, string value)
@@ -90,40 +88,6 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             }
 
             return false;
-        }
-
-        private void ParseKey(ExpandoObject source)
-        {
-            BigInteger qx, qy;
-
-            if (source.ContainsProperty("qx"))
-            {
-                qx = source.GetBigIntegerFromProperty("qx");
-            }
-
-            if (source.ContainsProperty("qy"))
-            {
-                qy = source.GetBigIntegerFromProperty("qy");
-            }
-
-            KeyPair = new EccKeyPair(new EccPoint(qx, qy));
-        }
-
-        private void ParseSignature(ExpandoObject source)
-        {
-            BigInteger r, s;
-
-            if (source.ContainsProperty("r"))
-            {
-                r = source.GetBigIntegerFromProperty("r");
-            }
-
-            if (source.ContainsProperty("s"))
-            {
-                s = source.GetBigIntegerFromProperty("s");
-            }
-
-            Signature = new EccSignature(r, s);
         }
     }
 }

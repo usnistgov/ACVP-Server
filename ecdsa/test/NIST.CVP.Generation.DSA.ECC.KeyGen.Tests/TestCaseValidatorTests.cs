@@ -6,6 +6,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -19,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
         [Test]
         public void ShouldRunVerifyMethodAndSucceedWithGoodKey()
         {
-            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetDsaFactoryMock(true).Object, GetCurveFactoryMock().Object);
+            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetDeferredResolver(true).Object);
             var result = subject.Validate(GetResultTestCase());
 
             Assert.AreEqual(Disposition.Passed, result.Result);
@@ -28,28 +29,24 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
         [Test]
         public void ShouldRunVerifyMethodAndFailWithBadKey()
         {
-            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetDsaFactoryMock(false).Object, GetCurveFactoryMock().Object);
+            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetDeferredResolver(false).Object);
             var result = subject.Validate(GetResultTestCase());
 
             Assert.AreEqual(Disposition.Failed, result.Result);
         }
 
-        private Mock<IDsaEcc> GetEccMock(bool shouldPass)
+        [Test]
+        public void ShouldRunVerifyMethodAndFailWhenDeferredCryptoFails()
         {
-            var eccMock = new Mock<IDsaEcc>();
-            eccMock
-                .Setup(s => s.GenerateKeyPair(It.IsAny<EccDomainParameters>()))
-                .Returns(new EccKeyPairGenerateResult(GetKey(shouldPass)));
-            return eccMock;
-        }
-
-        private Mock<IDsaEccFactory> GetDsaFactoryMock(bool shouldPass)
-        {
-            var mock = new Mock<IDsaEccFactory>();
+            var mock = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, EccKeyPairGenerateResult>>();
             mock
-                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
-                .Returns(GetEccMock(shouldPass).Object);
-            return mock;
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(new EccKeyPairGenerateResult("fail"));
+
+            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), mock.Object);
+            var result = subject.Validate(GetResultTestCase());
+
+            Assert.AreEqual(Disposition.Failed, result.Result);
         }
 
         private EccKeyPair GetKey(bool correctKey)
@@ -57,9 +54,17 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
             return correctKey ? new EccKeyPair(new EccPoint(1, 2), 3) : new EccKeyPair(new EccPoint(4, 5), 6);
         }
 
-        private Mock<IEccCurveFactory> GetCurveFactoryMock()
+        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, EccKeyPairGenerateResult>> GetDeferredResolver(bool shouldPass)
         {
-            return new Mock<IEccCurveFactory>();
+            var goodResult = new EccKeyPairGenerateResult(GetKey(true));
+            var badResult = new EccKeyPairGenerateResult(GetKey(false));
+
+            var mock = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, EccKeyPairGenerateResult>>();
+            mock
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(shouldPass ? goodResult : badResult);
+
+            return mock;
         }
 
         private TestCase GetTestCase()
