@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.GenValApp
     public static class Program
     {
         private const string _SETTINGS_FILE = "appSettings.json";
-        private static readonly string DllDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        private static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
         private static readonly AlgorithmConfig Config;
         private static GenValMode _genValMode;
 
@@ -23,15 +23,23 @@ namespace NIST.CVP.Generation.GenValApp
         /// </summary>
         static Program()
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(_SETTINGS_FILE, optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();
+            try
+            {
+                var builder = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile($"{RootDirectory}{_SETTINGS_FILE}", optional: false, reloadOnChange: true)
+                    .AddEnvironmentVariables();
 
-            IConfigurationRoot configuration = builder.Build();
+                IConfigurationRoot configuration = builder.Build();
 
-            Config = new AlgorithmConfig();
-            configuration.Bind(Config);
+                Config = new AlgorithmConfig();
+                configuration.Bind(Config);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+            }
         }
 
         /// <summary>
@@ -51,15 +59,16 @@ namespace NIST.CVP.Generation.GenValApp
         {
             var parser = new CommandLineParser.CommandLineParser();
             var parsedParameters = new ArgumentParsingTarget();
-            parser.ExtractArgumentAttributes(parsedParameters);
-
-            args = GetArgsWhenNotProvided(args, parser);
 
             try
             {
+                parser.ExtractArgumentAttributes(parsedParameters);
+
+                args = GetArgsWhenNotProvided(args, parser);
+
                 parser.ParseCommandLine(args);
 
-                var dllLocation = DllDirectory;
+                var dllLocation = RootDirectory;
                 if (parsedParameters.DllLocation != null)
                 {
                     dllLocation = parsedParameters.DllLocation.FullName;
