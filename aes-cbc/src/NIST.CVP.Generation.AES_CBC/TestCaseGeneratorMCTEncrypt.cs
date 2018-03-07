@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.AES_CBC
         private readonly IRandom800_90 _iRandom80090;
         private readonly IAES_CBC_MCT _iAesEcbMct;
 
-        public int NumberOfTestCasesToGenerate { get { return 1; } }
+        public int NumberOfTestCasesToGenerate => 1;
 
         public TestCaseGeneratorMCTEncrypt(IRandom800_90 iRandom80090, IAES_CBC_MCT iAesEcbMct)
         {
@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_CBC
             _iAesEcbMct = iAesEcbMct;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             var iv = _iRandom80090.GetRandomBitString(128);
             var key = _iRandom80090.GetRandomBitString(@group.KeyLength);
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.AES_CBC
             return Generate(@group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
             MCTResult<AlgoArrayResponse> encryptionResult = null;
             try
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.AES_CBC
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -54,16 +54,13 @@ namespace NIST.CVP.Generation.AES_CBC
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             testCase.ResultsArray = encryptionResult.Response;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

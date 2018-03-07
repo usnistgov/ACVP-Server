@@ -7,16 +7,16 @@ namespace NIST.CVP.Generation.Core
     /// </summary>
     /// <typeparam name="TTestGroup">Specific test group type in which to perform validation</typeparam>
     /// <typeparam name="TTestCase">Specific test case type in which to perform validation</typeparam>
-    public interface IResultValidator<in TTestGroup, out TTestCase>
-        where TTestGroup : ITestGroup
-        where TTestCase : ITestCase
+    public interface IResultValidator<TTestGroup, out TTestCase>
+        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
         /// <summary>
-        /// Perform validation utilizing provided <see cref="ITestCaseValidator{TTestCase}"/> against IUT provided <see cref="TTestCase"/>s
+        /// Perform validation utilizing provided <see cref="ITestCaseValidator{TTestGroup, TTestCase}"/> against IUT provided <see cref="TTestCase"/>s
         /// </summary>
         /// <param name="testCaseValidators">The validators to use for each test case</param>
         /// <param name="testResults">The IUT supplied results to validate</param>
         /// <returns></returns>
-        TestVectorValidation ValidateResults(IEnumerable<ITestCaseValidator<TTestCase>> testCaseValidators, IEnumerable<TTestGroup> testResults);
+        TestVectorValidation ValidateResults(IEnumerable<ITestCaseValidator<TTestGroup, TTestCase>> testCaseValidators, IEnumerable<TTestGroup> testResults);
     }
 }

@@ -1,10 +1,8 @@
-﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using Moq;
+﻿using Moq;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
-using Castle.Components.DictionaryAdapter;
 
 namespace NIST.CVP.Generation.Core.Tests
 {
@@ -25,7 +23,7 @@ namespace NIST.CVP.Generation.Core.Tests
                 .Returns(1);
             _testCaseGenerator
                 .Setup(s => s.Generate(It.IsAny<FakeTestGroup>(), It.IsAny<bool>()))
-                .Returns(new TestCaseGenerateResponse(new FakeTestCase()));
+                .Returns(new TestCaseGenerateResponse<FakeTestGroup, FakeTestCase>(new FakeTestCase()));
 
             _testCaseGeneratorFactory = new Mock<ITestCaseGeneratorFactory<FakeTestGroup, FakeTestCase>>();
             _testCaseGeneratorFactory
@@ -38,7 +36,7 @@ namespace NIST.CVP.Generation.Core.Tests
             _testVectorSet = new FakeTestVectorSet()
             {
                 Algorithm = "",
-                TestGroups = new List<ITestGroup>()
+                TestGroups = new List<FakeTestGroup>()
                 {
                     new FakeTestGroup()
                 }
@@ -50,7 +48,7 @@ namespace NIST.CVP.Generation.Core.Tests
         {
             _testCaseGenerator
                 .Setup(s => s.Generate(It.IsAny<FakeTestGroup>(), It.IsAny<bool>()))
-                .Returns(new TestCaseGenerateResponse("fail"));
+                .Returns(new TestCaseGenerateResponse<FakeTestGroup, FakeTestCase>("fail"));
 
             var result = _subject.BuildTestCases(_testVectorSet);
 
@@ -80,7 +78,7 @@ namespace NIST.CVP.Generation.Core.Tests
         {
             _testVectorSet = new FakeTestVectorSet()
             {
-                TestGroups = new List<ITestGroup>()
+                TestGroups = new List<FakeTestGroup>()
             };
 
             for (int i = 0; i < numberOfGroups; i++)

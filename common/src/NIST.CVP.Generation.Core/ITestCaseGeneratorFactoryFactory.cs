@@ -4,12 +4,12 @@
     /// Used to create <see cref="TTestCase"/>s for a <see cref="TTestVectorSet"/>.
     /// </summary>
     /// <typeparam name="TTestVectorSet">The vector set type.</typeparam>
-    /// <typeparam name="TTestGroup">The test group type.</typeparam>
-    /// <typeparam name="TTestCase">The test case type.</typeparam>
+    /// <typeparam name="TTestGroup">The test group type</typeparam>
+    /// <typeparam name="TTestCase">The test case type</typeparam>
     public interface ITestCaseGeneratorFactoryFactory<in TTestVectorSet, TTestGroup, TTestCase>
-        where TTestVectorSet : ITestVectorSet
-        where TTestGroup : ITestGroup
-        where TTestCase : ITestCase
+        where TTestVectorSet : ITestVectorSet<TTestGroup, TTestCase>
+        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
         /// <summary>
         /// Create <see cref="TTestCase"/> based on <see cref="testVectorSet"/>

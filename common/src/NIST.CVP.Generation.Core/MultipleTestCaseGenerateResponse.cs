@@ -3,11 +3,12 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.Core
 {
-    public class MultipleTestCaseGenerateResponse<TTestCase>
-        where TTestCase : ITestCase
+    public class MultipleTestCaseGenerateResponse<TTestGroup, TTestCase>
+        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
-        public IEnumerable<TTestCase> TestCases { get; private set; }
-        public string ErrorMessage { get; private set; }
+        public IEnumerable<TTestCase> TestCases { get; }
+        public string ErrorMessage { get; }
 
         public MultipleTestCaseGenerateResponse(IEnumerable<TTestCase> testCases)
         {
@@ -19,9 +20,6 @@ namespace NIST.CVP.Generation.Core
             ErrorMessage = errorMessage;
         }
 
-        public bool Success
-        {
-            get { return string.IsNullOrEmpty(ErrorMessage); }
-        }
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
     }
 }

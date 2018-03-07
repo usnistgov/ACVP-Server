@@ -2,9 +2,9 @@
 
 namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
-    public class FakeTestGroupGenerator : ITestGroupGenerator<IParameters>
+    public class FakeTestGroupGenerator : ITestGroupGenerator<FakeParameters, FakeTestGroup, FakeTestCase>
     {
-        public IEnumerable<ITestGroup> BuildTestGroups(IParameters parameters)
+        public IEnumerable<FakeTestGroup> BuildTestGroups(FakeParameters parameters)
         {
             return null;
         }

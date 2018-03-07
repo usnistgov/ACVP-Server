@@ -5,12 +5,12 @@ namespace NIST.CVP.Generation.Core
     /// <summary>
     /// Describes functions necessary for completing a deferred crypto operation
     /// </summary>
-    /// <typeparam name="TTestGroup">The <see cref="ITestGroup"/></typeparam>
-    /// <typeparam name="TTestCase">The <see cref="ITestCase"/></typeparam>
+    /// <typeparam name="TTestGroup">The <see cref="ITestGroup{TTestGroup,TTestCase}"/></typeparam>
+    /// <typeparam name="TTestCase">The <see cref="ITestCase{TTestGroup,TTestCase}"/></typeparam>
     /// <typeparam name="TCryptoResult">The <see cref="ICryptoResult"/> of the completed crypto operation</typeparam>
     public interface IDeferredTestCaseResolver<in TTestGroup, in TTestCase, out TCryptoResult>
-        where TTestGroup : ITestGroup
-        where TTestCase : ITestCase
+        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : ITestCase<TTestGroup, TTestCase>
         where TCryptoResult : ICryptoResult
     {
         /// <summary>

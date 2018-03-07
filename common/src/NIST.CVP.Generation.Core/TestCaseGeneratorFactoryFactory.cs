@@ -3,9 +3,9 @@
 namespace NIST.CVP.Generation.Core
 {
     public class TestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> : ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase>
-        where TTestVectorSet : ITestVectorSet
-        where TTestGroup : ITestGroup
-        where TTestCase : ITestCase
+        where TTestVectorSet : ITestVectorSet<TTestGroup, TTestCase>
+        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
         private readonly ITestCaseGeneratorFactory<TTestGroup, TTestCase> _testCaseGeneratorFactory;
 
@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.Core
         public GenerateResponse BuildTestCases(TTestVectorSet testVector)
         {
             int testId = 1;
-            foreach (var group in testVector.TestGroups.Select(g => (TTestGroup)g))
+            foreach (var group in testVector.TestGroups.Select(g => g))
             {
                 var generator = _testCaseGeneratorFactory.GetCaseGenerator(group);
                 for (int caseNo = 0; caseNo < generator.NumberOfTestCasesToGenerate; ++caseNo)
@@ -27,7 +27,8 @@ namespace NIST.CVP.Generation.Core
                     {
                         return new GenerateResponse(testCaseResponse.ErrorMessage);
                     }
-                    var testCase = (TTestCase)testCaseResponse.TestCase;
+                    var testCase = testCaseResponse.TestCase;
+                    testCase.ParentGroup = group;
                     testCase.TestCaseId = testId;
                     group.Tests.Add(testCase);
                     testId++;

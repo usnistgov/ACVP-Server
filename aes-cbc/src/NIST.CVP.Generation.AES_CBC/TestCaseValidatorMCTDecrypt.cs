@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.AES_CBC
 {
-    public class TestCaseValidatorMCTDecrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMCTDecrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 

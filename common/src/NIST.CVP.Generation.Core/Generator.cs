@@ -1,47 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
-using NIST.CVP.Generation.Core.JsonConverters;
+using NIST.CVP.Generation.Core.ContractResolvers;
+using NIST.CVP.Generation.Core.DeSerialization;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Generation.Core.Resolvers;
 using NLog;
 
 namespace NIST.CVP.Generation.Core
 {
     public class Generator<TParameters, TTestVectorSet, TTestGroup, TTestCase> : IGenerator
         where TParameters : IParameters
-        where TTestVectorSet : ITestVectorSet
-        where TTestGroup : ITestGroup
-        where TTestCase : ITestCase
+        where TTestVectorSet : ITestVectorSet<TTestGroup, TTestCase>
+        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
-        protected readonly ITestVectorFactory<TParameters> _testVectorFactory;
+        protected readonly ITestVectorFactory<TParameters, TTestVectorSet, TTestGroup, TTestCase> _testVectorFactory;
         protected readonly IParameterParser<TParameters> _parameterParser;
         protected readonly IParameterValidator<TParameters> _parameterValidator;
         protected readonly ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> _testCaseGeneratorFactoryFactory;
-        protected readonly IList<JsonConverter> _jsonConverters = new List<JsonConverter>();
+        protected readonly IVectorSetSerializer<TTestVectorSet, TTestGroup, TTestCase> _vectorSetSerializer;
 
-        public readonly List<JsonOutputDetail> JsonOutputs = new List<JsonOutputDetail>
+        public readonly List<JsonOutputDetail> JsonOutputs = 
+            new List<JsonOutputDetail>
         {
-            new JsonOutputDetail { OutputFileName = "answer.json", Resolver = new AnswerResolver()},
-            new JsonOutputDetail { OutputFileName = "prompt.json", Resolver = new PromptResolver()},
-            new JsonOutputDetail { OutputFileName = "testResults.json", Resolver = new ResultResolver()},
+            new JsonOutputDetail { FileName = "answer.json", Projection = Projection.Server },
+            new JsonOutputDetail { FileName = "prompt.json", Projection = Projection.Prompt },
+            new JsonOutputDetail { FileName = "testResults.json", Projection = Projection.Result },
         };
 
         public Generator(
-            ITestVectorFactory<TParameters> testVectorFactory, 
+            ITestVectorFactory<TParameters, TTestVectorSet, TTestGroup, TTestCase> testVectorFactory, 
             IParameterParser<TParameters> parameterParser, 
             IParameterValidator<TParameters> parameterValidator, 
-            ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> iTestCaseGeneratorFactoryFactory
+            ITestCaseGeneratorFactoryFactory<TTestVectorSet, TTestGroup, TTestCase> iTestCaseGeneratorFactoryFactory,
+            IVectorSetSerializer<TTestVectorSet, TTestGroup, TTestCase> vectorSetSerializer
         )
         {
             _testVectorFactory = testVectorFactory;
             _parameterParser = parameterParser;
             _parameterValidator = parameterValidator;
             _testCaseGeneratorFactoryFactory = iTestCaseGeneratorFactoryFactory;
-
-            _jsonConverters.Add(new BitstringConverter());
-            _jsonConverters.Add(new BigIntegerConverter());
+            _vectorSetSerializer = vectorSetSerializer;
         }
 
         public virtual GenerateResponse Generate(string requestFilePath)
@@ -66,7 +66,7 @@ namespace NIST.CVP.Generation.Core
             return SaveOutputs(requestFilePath, testVector);
         }
 
-        protected GenerateResponse SaveOutputs(string requestFilePath, ITestVectorSet testVector)
+        protected GenerateResponse SaveOutputs(string requestFilePath, TTestVectorSet testVector)
         {
             var outputDirPath = Path.GetDirectoryName(requestFilePath);
             foreach (var jsonOutput in JsonOutputs)
@@ -81,17 +81,11 @@ namespace NIST.CVP.Generation.Core
             return new GenerateResponse();
         }
 
-        private string SaveProjectionToFile(string outputPath, ITestVectorSet testVectorSet, JsonOutputDetail jsonOutput)
+        private string SaveProjectionToFile(string outputPath, TTestVectorSet testVectorSet, JsonOutputDetail jsonOutput)
         {
-            //serialize to file
-            var json = JsonConvert.SerializeObject(testVectorSet, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    ContractResolver = jsonOutput.Resolver,
-                    Converters = _jsonConverters,
-                    NullValueHandling = NullValueHandling.Ignore
-                });
-            return SaveToFile(outputPath, jsonOutput.OutputFileName, json);
+            var json = _vectorSetSerializer.Serialize(testVectorSet, jsonOutput.Projection);
+
+            return SaveToFile(outputPath, jsonOutput.FileName, json);
         }
 
         private string SaveToFile(string fileRoot, string fileName, string json)

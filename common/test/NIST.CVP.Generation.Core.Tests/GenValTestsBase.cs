@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core.Enums;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Parsers;
@@ -29,7 +31,6 @@ namespace NIST.CVP.Generation.Core.Tests
 
         protected abstract void OverrideRegistrationGenFakeFailure();
         protected abstract void OverrideRegistrationValFakeException();
-        protected abstract void OverrideRegistrationValFakeFailure();
         protected abstract void ModifyTestCaseToFail(dynamic testCase);
         protected abstract string GetTestFileMinimalTestCases(string folderName);
         protected abstract string GetTestFileFewTestCases(string folderName);
@@ -93,20 +94,6 @@ namespace NIST.CVP.Generation.Core.Tests
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[0]}"), "testResults");
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[1]}"), "answer");
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[2]}"), "prompt");
-        }
-
-        [Test]
-        public void ValShouldReturn1OnAFailedRun()
-        {
-            OverrideRegistrationValFakeFailure();
-
-            var targetFolder = GetTestFolder("ValShouldFail");
-            var fileName = GetTestFileMinimalTestCases(targetFolder);
-
-            RunGeneration(targetFolder, fileName);
-            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames), GenValMode.Validate));
-
-            Assert.AreEqual(1, result);
         }
 
         [Test]
@@ -298,7 +285,7 @@ namespace NIST.CVP.Generation.Core.Tests
             Assume.That(parsedValidation.Success);
 
             var failedTestCases = new List<int>();
-            foreach (var testGroup in parsedValidation.ParsedObject.testResults)
+            foreach (var testGroup in parsedValidation.ParsedObject.testGroups)
             {
                 foreach (var testCase in testGroup.tests)
                 {
@@ -319,16 +306,14 @@ namespace NIST.CVP.Generation.Core.Tests
 
         protected string CreateRegistration(string targetFolder, IParameters parameters)
         {
+            JsonConverterProvider jcp = new JsonConverterProvider();
+
             var json = JsonConvert.SerializeObject(parameters, new JsonSerializerSettings
             {
-                Converters = new List<JsonConverter>
-                {
-                    new BitstringConverter(),
-                    new BigIntegerConverter(),
-                    new DomainConverter()
-                },
+                Converters = jcp.GetJsonConverters().ToList(),
                 Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
             var fileName = $@"{targetFolder}\registration.json";
             File.WriteAllText(fileName, json);

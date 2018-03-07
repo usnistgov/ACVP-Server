@@ -7,35 +7,18 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CBC
 {
-    public class TestVectorSet : ITestVectorSet
+    public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
-        public TestVectorSet()
-        {
-        }
-
-        public TestVectorSet(dynamic answers)
-        {
-            foreach (var answer in answers.answerProjection)
-            {
-                var group = new TestGroup(answer);
-                
-                TestGroups.Add(group);
-            }
-        }
-
         public string Algorithm { get; set; } = "AES-CBC";
         [JsonIgnore]
         public string Mode { get; set; } = string.Empty;
         public bool IsSample { get; set; }
-
-        [JsonIgnore]
-        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
-        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
-
+        public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
+        
         /// <summary>
         /// Expected answers (not sent to client)
         /// </summary>
-        public List<dynamic> AnswerProjection
+        private List<dynamic> AnswerProjection
         {
             get
             {
@@ -80,7 +63,6 @@ namespace NIST.CVP.Generation.AES_CBC
                             testDict.Add("cipherText", test.CipherText);
                             
                             testDict.Add("deferred", test.Deferred);
-                            testDict.Add("failureTest", test.FailureTest);
                         }
                         
                         tests.Add(testObject);
@@ -96,8 +78,7 @@ namespace NIST.CVP.Generation.AES_CBC
         /// <summary>
         /// What the client receives (should not include expected answers)
         /// </summary>
-        [JsonProperty(PropertyName = "testGroups")]
-        public List<dynamic> PromptProjection
+        private List<dynamic> PromptProjection
         {
             get
             {
@@ -139,8 +120,7 @@ namespace NIST.CVP.Generation.AES_CBC
         /// <summary>
         /// Debug projection (internal), as well as potentially sample projection (sent to client)
         /// </summary>
-        [JsonProperty(PropertyName = "testResults")]
-        public List<dynamic> ResultProjection
+        private List<dynamic> ResultProjection
         {
             get
             {
@@ -180,10 +160,6 @@ namespace NIST.CVP.Generation.AES_CBC
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
                                 testDict.Add("cipherText", test.CipherText);
-                            }
-                            if (test.FailureTest)
-                            {
-                                testDict.Add("decryptFail", true);
                             }
                             else
                             {

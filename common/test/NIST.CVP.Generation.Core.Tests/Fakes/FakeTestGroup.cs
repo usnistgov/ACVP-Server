@@ -2,16 +2,15 @@
 
 namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
-    public class FakeTestGroup : ITestGroup
+    public class FakeTestGroup : ITestGroup<FakeTestGroup, FakeTestCase>
     {
         public FakeTestGroup()
         {
-            Tests = new List<ITestCase>();
+            Tests = new List<FakeTestCase>();
             var fakeTestCase = new FakeTestCase
             {
                 TestCaseId = 1,
-                Deferred = false,
-                FailureTest = false
+                Deferred = false
             };
             Tests.Add(fakeTestCase);
 
@@ -20,7 +19,7 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
 
         public int TestGroupId { get; set; }
         public string TestType { get; }
-        public List<ITestCase> Tests { get; set; }
+        public List<FakeTestCase> Tests { get; set; }
 
         public int KeyLength { get; }
     }

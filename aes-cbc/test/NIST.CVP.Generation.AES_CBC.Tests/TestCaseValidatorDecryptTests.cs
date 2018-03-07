@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.Core.Enums;
+﻿using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -63,11 +59,10 @@ namespace NIST.CVP.Generation.AES_CBC.Tests
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}"));
         }
 
-        private TestCase GetTestCase(bool failureTest = false)
+        private TestCase GetTestCase()
         {
             var testCase = new TestCase
             {
-                FailureTest = failureTest,
                 PlainText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
                 TestCaseId = 1
             };

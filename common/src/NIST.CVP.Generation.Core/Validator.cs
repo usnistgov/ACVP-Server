@@ -1,53 +1,48 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
-using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Generation.Core.Resolvers;
+using NIST.CVP.Generation.Core.ContractResolvers;
+using NIST.CVP.Generation.Core.DeSerialization;
 using NLog;
 
 namespace NIST.CVP.Generation.Core
 {
     public class Validator<TTestVectorSet, TTestGroup, TTestCase> : IValidator
-        where TTestVectorSet : ITestVectorSet
-        where TTestGroup : ITestGroup
-        where TTestCase : ITestCase
+        where TTestVectorSet : ITestVectorSet<TTestGroup, TTestCase>
+        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
-        protected IDynamicParser _dynamicParser;
         protected readonly IResultValidator<TTestGroup, TTestCase> _resultValidator;
-        protected readonly ITestCaseValidatorFactory<TTestVectorSet, TTestCase> _testCaseValidatorFactory;
-        protected readonly ITestReconstitutor<TTestVectorSet, TTestGroup> _testReconstitutor;
+        protected readonly ITestCaseValidatorFactory<TTestVectorSet, TTestGroup, TTestCase> _testCaseValidatorFactory;
+        protected readonly IVectorSetDeserializer<TTestVectorSet, TTestGroup, TTestCase> _vectorSetDeserializer;
 
-        public Validator(IDynamicParser dynamicParser, IResultValidator<TTestGroup, TTestCase> resultValidator, ITestCaseValidatorFactory<TTestVectorSet, TTestCase> testCaseValidatorFactory, ITestReconstitutor<TTestVectorSet, TTestGroup> testReconstitutor)
+        public Validator(
+            IResultValidator<TTestGroup, TTestCase> resultValidator, 
+            ITestCaseValidatorFactory<TTestVectorSet, TTestGroup, TTestCase> testCaseValidatorFactory, 
+            IVectorSetDeserializer<TTestVectorSet, TTestGroup, TTestCase> vectorSetDeserializer
+        )
         {
-            _dynamicParser = dynamicParser;
             _resultValidator = resultValidator;
             _testCaseValidatorFactory = testCaseValidatorFactory;
-            _testReconstitutor = testReconstitutor;
+            _vectorSetDeserializer = vectorSetDeserializer;
         }
 
         public ValidateResponse Validate(string resultPath, string answerPath)
         {
-            var answerParseResponse = _dynamicParser.Parse(answerPath);
-            if (!answerParseResponse.Success)
-            {
-                return new ValidateResponse(answerParseResponse.ErrorMessage);
-            }
+            var resultText = ReadFromFile(resultPath);
+            var answerText = ReadFromFile(answerPath);
 
-            var testResultParseResponse = _dynamicParser.Parse(resultPath);
-            if (!testResultParseResponse.Success)
-            {
-                return new ValidateResponse(testResultParseResponse.ErrorMessage);
-            }
-
-            var response = ValidateWorker(answerParseResponse, testResultParseResponse);
+            var response = ValidateWorker(resultText, answerText);
 
             var validationJson = JsonConvert.SerializeObject(response, Formatting.Indented,
                 new JsonSerializerSettings
                 {
-                    ContractResolver = new ValidationResolver(),
+                    ContractResolver = new ValidationContractResolver(),
                     NullValueHandling = NullValueHandling.Ignore
                 });
+
             var saveResult = SaveToFile(Path.GetDirectoryName(resultPath), "validation.json", validationJson);
+
             if (!string.IsNullOrEmpty(saveResult))
             {
                 return new ValidateResponse(saveResult);
@@ -56,14 +51,30 @@ namespace NIST.CVP.Generation.Core
             return new ValidateResponse();
         }
 
-        protected virtual TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse, ParseResponse<dynamic> testResultParseResponse)
+        protected virtual TestVectorValidation ValidateWorker(string testResultText, string answerText)
         {
-            var testVectorSet = _testReconstitutor.GetTestVectorSetExpectationFromResponse(answerParseResponse.ParsedObject);
-            var results = testResultParseResponse.ParsedObject;
-            var suppliedResults = _testReconstitutor.GetTestGroupsFromResultResponse(results.testResults);
-            var testCaseValidators = _testCaseValidatorFactory.GetValidators(testVectorSet);
-            var response = _resultValidator.ValidateResults(testCaseValidators, suppliedResults);
+            var results = _vectorSetDeserializer.Deserialize(testResultText);
+            var answers = _vectorSetDeserializer.Deserialize(answerText);
+
+            var testCaseValidators = _testCaseValidatorFactory.GetValidators(answers);
+            var response = _resultValidator.ValidateResults(testCaseValidators, results.TestGroups);
+
             return response;
+        }
+        
+        /// <summary>
+        /// Returns contents of file as string
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private string ReadFromFile(string path)
+        {
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException(path);
+            }
+
+            return File.ReadAllText(path);
         }
 
         private string SaveToFile(string fileRoot, string fileName, string json)

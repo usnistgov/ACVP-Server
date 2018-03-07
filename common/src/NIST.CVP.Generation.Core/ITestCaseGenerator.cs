@@ -5,9 +5,9 @@ namespace NIST.CVP.Generation.Core
     /// </summary>
     /// <typeparam name="TTestGroup">The test group information.</typeparam>
     /// <typeparam name="TTestCase">The test case type.</typeparam>
-    public interface ITestCaseGenerator<in TTestGroup, in TTestCase>
-        where TTestGroup : ITestGroup 
-        where TTestCase : ITestCase
+    public interface ITestCaseGenerator<TTestGroup, TTestCase>
+        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
         /// <summary>
         /// The number of test cases to generate for this test type and group.
@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.Core
         /// <param name="group">The test group information</param>
         /// <param name="isSample">Is this a sample test?</param>
         /// <returns></returns>
-        TestCaseGenerateResponse Generate(TTestGroup @group, bool isSample);
+        TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, bool isSample);
         /// <summary>
         /// Generates a <see cref="TTestCase"/>.
         /// TODO is this needed?  Could it not be accomplished with the other method?
@@ -27,6 +27,6 @@ namespace NIST.CVP.Generation.Core
         /// <param name="group">The test group information</param>
         /// <param name="testCase">The testCase to hydrate</param>
         /// <returns></returns>
-        TestCaseGenerateResponse Generate(TTestGroup @group, TTestCase testCase);
+        TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, TTestCase testCase);
     }
 }

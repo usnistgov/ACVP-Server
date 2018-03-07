@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace NIST.CVP.Generation.Core
+﻿namespace NIST.CVP.Generation.Core
 {
     public class GenerateResponse
     {
         
-        public string ErrorMessage { get; private set; }
+        public string ErrorMessage { get; }
 
         public GenerateResponse()
         {
@@ -19,9 +14,6 @@ namespace NIST.CVP.Generation.Core
             ErrorMessage = errorMessage;
         }
 
-        public bool Success
-        {
-            get { return string.IsNullOrEmpty(ErrorMessage); }
-        }
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
     }
 }

@@ -13,8 +13,8 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldReturnValidation()
         {
-            var subject = new ResultValidator<ITestGroup, ITestCase>();
-            var valdiation = subject.ValidateResults(new List<ITestCaseValidator<ITestCase>>(), new List<ITestGroup>());
+            var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
+            var valdiation = subject.ValidateResults(new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>(), new List<FakeTestGroup>());
             Assert.IsNotNull(valdiation);
         }
 
@@ -23,14 +23,14 @@ namespace NIST.CVP.Generation.Core.Tests
         [TestCase(16)]
         public void ShouldReturnOnResultValidationPerSuppliedValidator(int count)
         {
-            var validators = new List<ITestCaseValidator<ITestCase>>();
+            var validators = new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>();
             for (var idx = 0; idx < count; idx++)
             {
-                validators.Add(new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = idx+1});
+                validators.Add(new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = idx+1});
             }
 
-            var subject = new ResultValidator<ITestGroup, ITestCase>();
-            var validation = subject.ValidateResults(validators, new List<ITestGroup>());
+            var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
+            var validation = subject.ValidateResults(validators, new List<FakeTestGroup>());
 
             Assume.That(validation != null);
             Assert.AreEqual(count, validation.Validations.Count);
@@ -39,16 +39,16 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldMarkMissingIfNoMatchingResultPresent()
         {
-            var subject = new ResultValidator<ITestGroup, ITestCase>();
+            var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
             var validation =
                 subject.ValidateResults(
-                    new List<ITestCaseValidator<ITestCase>>
+                    new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>
                     {
-                        new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = 1}
+                        new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = 1}
                     },
-                    new List<ITestGroup>
+                    new List<FakeTestGroup>
                     {
-                        new FakeTestGroup {TestGroupId = 2, Tests = new List<ITestCase>{new FakeTestCase {TestCaseId = 2}}}
+                        new FakeTestGroup {TestGroupId = 2, Tests = new List<FakeTestCase>{new FakeTestCase {TestCaseId = 2}}}
                     });
 
             Assume.That(validation != null);
@@ -62,16 +62,16 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldMarkPassedForValidResult()
         {
-            var subject = new ResultValidator<ITestGroup, ITestCase>();
+            var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
             var validation =
                 subject.ValidateResults(
-                    new List<ITestCaseValidator<ITestCase>>
+                    new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>
                     {
-                        new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = 1}
+                        new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = 1}
                     },
-                    new List<ITestGroup>
+                    new List<FakeTestGroup>
                     {
-                        new FakeTestGroup {TestGroupId = 2, Tests = new List<ITestCase>{new FakeTestCase {TestCaseId = 1}}}
+                        new FakeTestGroup {TestGroupId = 2, Tests = new List<FakeTestCase>{new FakeTestCase {TestCaseId = 1}}}
                     });
 
             Assume.That(validation != null);
@@ -85,16 +85,16 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldMarkFailedForInvalidResult()
         {
-            var subject = new ResultValidator<ITestGroup, ITestCase>();
+            var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
             var validation =
                 subject.ValidateResults(
-                    new List<ITestCaseValidator<ITestCase>>
+                    new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>
                     {
-                        new FakeTestCaseValidator<ITestCase>(Disposition.Failed) {TestCaseId = 1}
+                        new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Failed) {TestCaseId = 1}
                     },
-                    new List<ITestGroup>
+                    new List<FakeTestGroup>
                     {
-                        new FakeTestGroup {TestGroupId = 2, Tests = new List<ITestCase>{new FakeTestCase {TestCaseId = 1}}}
+                        new FakeTestGroup {TestGroupId = 2, Tests = new List<FakeTestCase>{new FakeTestCase {TestCaseId = 1}}}
                     });
 
             Assume.That(validation != null);
@@ -108,21 +108,21 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldMarkAllResultsProperly()
         {
-            var subject = new ResultValidator<ITestGroup, ITestCase>();
+            var subject = new ResultValidator<FakeTestGroup, FakeTestCase>();
             var validation =
                 subject.ValidateResults(
-                    new List<ITestCaseValidator<ITestCase>>
+                    new List<ITestCaseValidator<FakeTestGroup, FakeTestCase>>
                     {
-                        new FakeTestCaseValidator<ITestCase>(Disposition.Failed) {TestCaseId = 1},
-                        new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = 2},
-                        new FakeTestCaseValidator<ITestCase>(Disposition.Passed) {TestCaseId = 3}
+                        new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Failed) {TestCaseId = 1},
+                        new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = 2},
+                        new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = 3}
                     },
-                    new List<ITestGroup>
+                    new List<FakeTestGroup>
                     {
                         new FakeTestGroup
                         {
                             TestGroupId = 2, 
-                            Tests = new List<ITestCase>{new FakeTestCase {TestCaseId = 1}, new FakeTestCase {TestCaseId = 2}}
+                            Tests = new List<FakeTestCase>{new FakeTestCase {TestCaseId = 1}, new FakeTestCase {TestCaseId = 2}}
                         }
                     });
 
