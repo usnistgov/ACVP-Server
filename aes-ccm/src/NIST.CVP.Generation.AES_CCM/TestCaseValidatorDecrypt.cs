@@ -3,7 +3,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CCM
 {
-    public class TestCaseValidatorDecrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorDecrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 
@@ -12,17 +12,15 @@ namespace NIST.CVP.Generation.AES_CCM
             _expectedResult = expectedResult;
         }
 
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
-        }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
             var errors = new List<string>();
-            if (_expectedResult.FailureTest)
+            if (_expectedResult.TestPassed != null && !_expectedResult.TestPassed.Value)
             {
-                if (!suppliedResult.FailureTest)
+                if (!suppliedResult.TestPassed.HasValue || 
+                    (suppliedResult.TestPassed != null && suppliedResult.TestPassed.Value))
                 {
                     errors.Add("Expected tag validation failure");
                 }

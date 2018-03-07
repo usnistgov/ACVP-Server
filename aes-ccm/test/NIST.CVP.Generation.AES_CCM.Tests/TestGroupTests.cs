@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.AES_CCM.Tests
@@ -10,67 +6,6 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
     [TestFixture, UnitTest]
     public class TestGroupTests
     {
-        private TestDataMother _tdm = new TestDataMother();
-
-        [Test]
-        public void ShouldReconstituteTestGroupFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer );
-            Assert.IsNotNull(subject);
-           
-        }
-        
-        [Test]
-        public void ShouldSetProperAADLengthFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.aadLen, subject.AADLength);
-
-        }
-
-        [Test]
-        public void ShouldSetProperIVLengthFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.ivLen, subject.IVLength);
-
-        }
-
-        [Test]
-        public void ShouldSetProperTagLengthFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.tagLen, subject.TagLength);
-
-        }
-
-        [Test]
-        public void ShouldSetProperKeyLengthFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.keyLen, subject.KeyLength);
-
-        }
-
-        [Test]
-        public void ShouldSetProperPTLengthFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.ptLen, subject.PTLength);
-
-        }
-
         [Test]
         [TestCase("Fredo")]
         [TestCase("")]
@@ -157,13 +92,6 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var result = subject.SetString(name, "13");
             Assert.IsTrue(result);
             Assert.AreEqual(13, subject.PTLength);
-        }
-
-        private dynamic GetSourceAnswer()
-        {
-            var sourceVector = new TestVectorSet() {TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup) g).ToList()};
-            var sourceAnswer = sourceVector.AnswerProjection[0];
-            return sourceAnswer;
         }
     }
 }

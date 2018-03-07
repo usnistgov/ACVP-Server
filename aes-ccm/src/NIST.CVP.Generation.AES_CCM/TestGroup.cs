@@ -1,18 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.AES_CCM
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
-        [JsonProperty(PropertyName = "testType")]
-        public string TestType { get; set; } = "AFT";
+        public string TestType { get; set; }
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
         [JsonProperty(PropertyName = "keylen")]
@@ -25,37 +20,26 @@ namespace NIST.CVP.Generation.AES_CCM
         public int AADLength { get; set; }
         [JsonProperty(PropertyName = "taglen")]
         public int TagLength { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
+        [JsonIgnore]
         public bool GroupReusesKeyForTestCases { get; set; }
+        [JsonIgnore]
         public bool GroupReusesNonceForTestCases { get; set; }
+        
+        //public TestGroup(dynamic source)
+        //{
+        //    var expandoSource = (ExpandoObject) source;
 
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            AADLength = expandoSource.GetTypeFromProperty<int>("aadLen");;
-            PTLength = expandoSource.GetTypeFromProperty<int>("ptLen");;
-            IVLength = expandoSource.GetTypeFromProperty<int>("ivLen");;
-            TagLength = expandoSource.GetTypeFromProperty<int>("tagLen");;
-            KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");;
-            Function = expandoSource.GetTypeFromProperty<string>("direction");;
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");;
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-
-        }
+        //    TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
+        //    AADLength = expandoSource.GetTypeFromProperty<int>("aadLen");;
+        //    PTLength = expandoSource.GetTypeFromProperty<int>("ptLen");;
+        //    IVLength = expandoSource.GetTypeFromProperty<int>("ivLen");;
+        //    TagLength = expandoSource.GetTypeFromProperty<int>("tagLen");;
+        //    KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");;
+        //    Function = expandoSource.GetTypeFromProperty<string>("direction");;
+        //    TestType = expandoSource.GetTypeFromProperty<string>("testType");;
+        //}
 
         public bool SetString(string name, string value)
         {
