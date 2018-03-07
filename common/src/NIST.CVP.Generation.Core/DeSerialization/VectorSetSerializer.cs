@@ -8,8 +8,8 @@ namespace NIST.CVP.Generation.Core.DeSerialization
 {
     public class VectorSetSerializer<TTestVectorSet, TTestGroup, TTestCase> : IVectorSetSerializer<TTestVectorSet, TTestGroup, TTestCase>
         where TTestVectorSet : ITestVectorSet<TTestGroup, TTestCase>
-        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
-        where TTestCase : ITestCase<TTestGroup, TTestCase>
+        where TTestGroup : class, ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : class, ITestCase<TTestGroup, TTestCase>
     {
         protected IJsonConverterProvider JsonConverterProvider;
         protected IContractResolverFactory<TTestGroup, TTestCase> ContractResolverFactory;

@@ -11,8 +11,8 @@ namespace NIST.CVP.Generation.Core.ContractResolvers
     /// This projection generally includes every property available in the object.
     /// </summary>
     public class ServerProjectionContractResolver<TTestGroup, TTestCase> : ProjectionContractResolverBase<TTestGroup, TTestCase>
-        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
-        where TTestCase : ITestCase<TTestGroup, TTestCase>
+        where TTestGroup : class, ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : class, ITestCase<TTestGroup, TTestCase>
     {
         /// <summary>
         /// The server projection returns every property available to it.
