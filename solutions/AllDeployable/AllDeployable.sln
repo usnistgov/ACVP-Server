@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{618D5A82-BB7E-4634-8CAE-753A50E0DD20}"
 EndProject
@@ -190,6 +190,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-SigVer", "..\..\rsa\src\NIST.CVP.Generation.RSA-SigVer\NIST.CVP.Generation.RSA-SigVer.csproj", "{A3646661-24A7-4888-801F-92B8B98E68CA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-SPComponent", "..\..\rsa\src\NIST.CVP.Generation.RSA-SPComponent\NIST.CVP.Generation.RSA-SPComponent.csproj", "{0EDD07F3-A8E0-4873-85CF-03E33C074E03}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-DPComponent", "..\..\rsa\src\NIST.CVP.Generation.RSA-DPComponent\NIST.CVP.Generation.RSA-DPComponent.csproj", "{4DA20159-81B1-4811-9DDC-078DAB4A9FE3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.RSA-LegacySigVer", "..\..\rsa\src\NIST.CVP.Generation.RSA-LegacySigVer\NIST.CVP.Generation.RSA-LegacySigVer.csproj", "{FC97A694-7D4D-4BF3-A38E-306B1BC181BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -445,6 +449,14 @@ Global
 		{0EDD07F3-A8E0-4873-85CF-03E33C074E03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EDD07F3-A8E0-4873-85CF-03E33C074E03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EDD07F3-A8E0-4873-85CF-03E33C074E03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DA20159-81B1-4811-9DDC-078DAB4A9FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DA20159-81B1-4811-9DDC-078DAB4A9FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DA20159-81B1-4811-9DDC-078DAB4A9FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DA20159-81B1-4811-9DDC-078DAB4A9FE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC97A694-7D4D-4BF3-A38E-306B1BC181BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC97A694-7D4D-4BF3-A38E-306B1BC181BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC97A694-7D4D-4BF3-A38E-306B1BC181BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC97A694-7D4D-4BF3-A38E-306B1BC181BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -515,6 +527,8 @@ Global
 		{CB698039-DC2B-4EFD-9681-4FC61CD8D6E7} = {B6E24409-1B26-4075-BE44-2D096FA7C8D2}
 		{A3646661-24A7-4888-801F-92B8B98E68CA} = {B6E24409-1B26-4075-BE44-2D096FA7C8D2}
 		{0EDD07F3-A8E0-4873-85CF-03E33C074E03} = {B6E24409-1B26-4075-BE44-2D096FA7C8D2}
+		{4DA20159-81B1-4811-9DDC-078DAB4A9FE3} = {B6E24409-1B26-4075-BE44-2D096FA7C8D2}
+		{FC97A694-7D4D-4BF3-A38E-306B1BC181BF} = {B6E24409-1B26-4075-BE44-2D096FA7C8D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E2DADE3-F303-4723-868E-85619BA4A6A2}
