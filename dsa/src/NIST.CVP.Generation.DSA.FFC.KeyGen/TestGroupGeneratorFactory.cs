@@ -2,25 +2,24 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
     public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
     {
-        private IDsaFfc _ffcDsa;
+        private readonly IDsaFfcFactory _dsaFactory;
 
-        public TestGroupGeneratorFactory(IDsaFfc ffcDsa = null)
+        public TestGroupGeneratorFactory(IDsaFfcFactory dsaFactory)
         {
-            _ffcDsa = ffcDsa;
+            _dsaFactory = dsaFactory;
         }
 
         public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
         {
             var list = new HashSet<ITestGroupGenerator<Parameters>>
             {
-                new TestGroupGenerator(_ffcDsa)
+                new TestGroupGenerator(_dsaFactory)
             };
 
             return list;

@@ -5,7 +5,7 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 
 namespace NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators
 {
-    public class GGeneratorValidatorFactory
+    public class GGeneratorValidatorFactory : IGGeneratorValidatorFactory
     {
         public IGGeneratorValidator GetGeneratorValidator(GeneratorGenMode genMode, ISha sha)
         {

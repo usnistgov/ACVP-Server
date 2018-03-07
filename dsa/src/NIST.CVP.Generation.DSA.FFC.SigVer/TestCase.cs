@@ -3,7 +3,6 @@ using System.Numerics;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
@@ -14,6 +13,17 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
     public class TestCase : ITestCase
     {
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public bool Result { get; set; }
+        public ITestCaseExpectationReason<SigFailureReasons> Reason { get; set; }
+        public FfcKeyPair Key { get; set; }
+        public BitString Message { get; set; }
+        public FfcSignature Signature { get; set; }
+
+        // Needed for FireHoseTests
         private BigInteger _rSetString;
         private BigInteger _sSetString;
 
@@ -30,21 +40,11 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             MapToProperties(source);
         }
 
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public bool Result { get; set; }
-        public ITestCaseExpectationReason<SigFailureReasons> Reason { get; set; }
-        public FfcKeyPair Key { get; set; }
-        public BitString Message { get; set; }
-        public FfcSignature Signature { get; set; }
-
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
 
-            ExpandoObject expandoSource = (ExpandoObject)source;
+            var expandoSource = (ExpandoObject)source;
 
             var resultValue = expandoSource.GetTypeFromProperty<string>("result");
             if (resultValue != null)

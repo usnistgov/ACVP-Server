@@ -40,18 +40,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
             Assert.AreEqual(sourceAnswer.n, subject.N);
         }
 
-        // Answer does not contain Domain Params
-        //[Test]
-        //public void ShouldSetProperDomainParamsFromDynamicAnswer()
-        //{
-        //    var sourceAnswer = GetSourceAnswer();
-        //    var subject = new TestGroup(sourceAnswer);
-        //    Assume.That(subject != null);
-        //    Assert.AreEqual(sourceAnswer.p, subject.DomainParams.P);
-        //    Assert.AreEqual(sourceAnswer.q, subject.DomainParams.Q);
-        //    Assert.AreEqual(sourceAnswer.g, subject.DomainParams.G);
-        //}
-
         [Test]
         public void ShouldSetProperHashAlgFromDynamicAnswer()
         {

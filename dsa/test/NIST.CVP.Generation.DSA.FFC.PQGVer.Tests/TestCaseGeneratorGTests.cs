@@ -12,6 +12,7 @@ using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.FFC.PQGVer.TestCaseExpectations;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -23,17 +24,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
         [Test]
         public void GenerateShouldReturnNonNullTestCaseGenerateResponse()
         {
-            var rand = GetRandomMock();
-            rand
-                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
-                .Returns(new BitString("AB"));
+            var gMock = GetGMock();
+            gMock
+                .Setup(s => s.Generate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<BitString>()))
+                .Returns(new GGenerateResult(1));
 
-            var pqMock = GetPQMock();
-            pqMock
-                .Setup(s => s.Generate(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(new PQGenerateResult(1, 2, new DomainSeed(3), new Counter(4)));
-
-            var subject = new TestCaseGeneratorG(rand.Object, GetGMock().Object, pqMock.Object);
+            var subject = new TestCaseGeneratorG(GetRandomMock().Object, GetShaFactoryMock().Object, GetPQFactoryMock().Object, GetGFactoryMock(gMock).Object);
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
@@ -43,23 +39,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
-            var rand = GetRandomMock();
-            rand
-                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
-                .Returns(new BitString("AB"));
-
-            var pqMock = GetPQMock();
-            pqMock
-                .Setup(s => s.Generate(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(new PQGenerateResult(1, 2, new DomainSeed(3), new Counter(4)));
-
             var gMock = GetGMock();
             gMock
                 .Setup(s => s.Generate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<BitString>()))
                 .Returns(new GGenerateResult(1));
 
-            var subject = new TestCaseGeneratorG(rand.Object, gMock.Object, pqMock.Object);
-
+            var subject = new TestCaseGeneratorG(GetRandomMock().Object, GetShaFactoryMock().Object, GetPQFactoryMock().Object, GetGFactoryMock(gMock).Object);
             var result = subject.Generate(GetTestGroup(), true);
 
             gMock.Verify(v => v.Generate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<BitString>()), Times.Once, "Call Generate once");
@@ -70,9 +55,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             Assert.AreEqual(BigInteger.One * 2, testCase.Q);
             Assert.AreEqual(BigInteger.One * 3, testCase.Seed.GetFullSeed());
             Assert.AreEqual(4, testCase.Counter.Count);
-            
-            // This value could be modified
-            // Assert.AreEqual(BigInteger.One, testCase.G);
         }
 
         [Test]
@@ -80,22 +62,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
         {
             var group = GetTestGroup();
 
-            var randMock = GetRandomMock();
-            randMock
-                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
-                .Returns(new BitString("ABCD"));
-
-            var pqMock = GetPQMock();
-            pqMock
-                .Setup(s => s.Generate(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(new PQGenerateResult(1, 2, new DomainSeed(3), new Counter(4)));
-
             var gMock = GetGMock();
             gMock
                 .Setup(s => s.Generate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<BitString>()))
                 .Returns(new GGenerateResult(123));
 
-            var subject = new TestCaseGeneratorG(randMock.Object, gMock.Object, pqMock.Object);
+            var subject = new TestCaseGeneratorG(GetRandomMock().Object, GetShaFactoryMock().Object, GetPQFactoryMock().Object, GetGFactoryMock(gMock).Object);
 
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
@@ -125,7 +97,42 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
 
         private Mock<IRandom800_90> GetRandomMock()
         {
-            return new Mock<IRandom800_90>();
+            var randMock = new Mock<IRandom800_90>();
+            randMock
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString("ABCD"));
+            
+            return randMock;
+        }
+        
+        private Mock<IShaFactory> GetShaFactoryMock()
+        {
+            return new Mock<IShaFactory>();
+        }
+
+        private Mock<IPQGeneratorValidatorFactory> GetPQFactoryMock()
+        {
+            var pqMock = GetPQMock();
+            pqMock
+                .Setup(s => s.Generate(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(new PQGenerateResult(1, 2, new DomainSeed(3), new Counter(4)));
+
+            var mock = new Mock<IPQGeneratorValidatorFactory>();
+            mock
+                .Setup(s => s.GetGeneratorValidator(It.IsAny<PrimeGenMode>(), It.IsAny<ISha>(), It.IsAny<EntropyProviderTypes>()))
+                .Returns(pqMock.Object);
+
+            return mock;
+        }
+
+        private Mock<IGGeneratorValidatorFactory> GetGFactoryMock(Mock<IGGeneratorValidator> gMock)
+        {
+            var mock = new Mock<IGGeneratorValidatorFactory>();
+            mock
+                .Setup(s => s.GetGeneratorValidator(It.IsAny<GeneratorGenMode>(), It.IsAny<ISha>()))
+                .Returns(gMock.Object);
+
+            return mock;
         }
 
         private Mock<IGGeneratorValidator> GetGMock()

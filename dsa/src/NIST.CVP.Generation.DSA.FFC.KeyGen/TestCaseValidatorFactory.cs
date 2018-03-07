@@ -2,13 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
     {
+        private readonly IDsaFfcFactory _dsaFactory;
+
+        public TestCaseValidatorFactory(IDsaFfcFactory dsaFactory)
+        {
+            _dsaFactory = dsaFactory;
+        }
+
         public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidator<TestCase>>();
@@ -17,7 +24,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             {
                 foreach (var test in group.Tests.Select(t => (TestCase)t))
                 {
-                    list.Add(new TestCaseValidator(test, new FfcDsa(null)));
+                    var deferredResolver = new DeferredTestCaseResolver(_dsaFactory);
+                    list.Add(new TestCaseValidator(test, group, deferredResolver));
                 }
             }
 

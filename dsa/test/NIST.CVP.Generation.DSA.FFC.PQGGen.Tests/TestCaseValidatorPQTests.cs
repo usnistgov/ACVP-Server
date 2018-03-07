@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-using Moq;
-using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+﻿using Moq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -18,30 +12,18 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
         [Test]
         public void ShouldRunVerifyMethodAndSucceedWithGoodPQ()
         {
-            var pqMock = GetPQMock();
-            pqMock
-                .Setup(s => s.Validate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<Counter>()))
-                .Returns(new PQValidateResult());
-
-            var subject = new TestCaseValidatorPQ(GetTestCase(), pqMock.Object);
+            var subject = new TestCaseValidatorPQ(GetTestCase(), GetTestGroup(), GetResolverMock(true).Object);
             var result = subject.Validate(GetResultTestCase());
 
-            pqMock.Verify(v => v.Validate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<Counter>()), Times.Once);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
 
         [Test]
         public void ShouldRunVerifyMethodAndFailWithBadG()
         {
-            var pqMock = GetPQMock();
-            pqMock
-                .Setup(s => s.Validate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<Counter>()))
-                .Returns(new PQValidateResult("Fail"));
-
-            var subject = new TestCaseValidatorPQ(GetTestCase(), pqMock.Object);
+            var subject = new TestCaseValidatorPQ(GetTestCase(), GetTestGroup(), GetResolverMock(false).Object);
             var result = subject.Validate(GetResultTestCase());
 
-            pqMock.Verify(v => v.Validate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<Counter>()), Times.Once);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
@@ -50,6 +32,14 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
             return new TestCase
             {
                 TestCaseId = 1
+            };
+        }
+
+        private TestGroup GetTestGroup()
+        {
+            return new TestGroup
+            {
+                TestGroupId = 1
             };
         }
 
@@ -63,9 +53,17 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
             };
         }
 
-        private Mock<IPQGeneratorValidator> GetPQMock()
+        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, PQValidateResult>> GetResolverMock(bool shouldPass)
         {
-            return new Mock<IPQGeneratorValidator>();
+            var goodResult = new PQValidateResult();
+            var badResult = new PQValidateResult("fail");
+
+            var mock = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, PQValidateResult>>();
+            mock
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(shouldPass ? goodResult : badResult);
+
+            return mock;
         }
     }
 }

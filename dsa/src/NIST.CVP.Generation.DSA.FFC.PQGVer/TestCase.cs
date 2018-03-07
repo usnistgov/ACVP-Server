@@ -10,6 +10,20 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
     public class TestCase : ITestCase
     {
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+        public string Reason { get; set; }      // Needs to be a string because of PQFailureReasons type and GFailureReasons type
+        public bool Result { get; set; }
+
+        public BigInteger P { get; set; }
+        public BigInteger Q { get; set; }
+        public BigInteger G { get; set; }
+        public BigInteger H { get; set; }
+        public DomainSeed Seed { get; set; }
+        public Counter Counter { get; set; }
+        public BitString Index { get; set; }
+
         // Used for SetString only
         private BigInteger firstSeed;
         private BigInteger pSeed;
@@ -30,30 +44,18 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             MapToProperties(source);
         }
 
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-        public string Reason { get; set; }      // Needs to be a string because of PQFailureReasons type and GFailureReasons type
-        public bool Result { get; set; }
-
-        public BigInteger P { get; set; }
-        public BigInteger Q { get; set; }
-        public BigInteger G { get; set; }
-        public BigInteger H { get; set; }
-        public DomainSeed Seed { get; set; }
-        public Counter Counter { get; set; }
-        public BitString Index { get; set; }
-
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
 
-            ExpandoObject expandoSource = (ExpandoObject)source;
+            var expandoSource = (ExpandoObject)source;
+
             var resultValue = expandoSource.GetTypeFromProperty<string>("result");
             if (resultValue != null)
             {
                 Result = resultValue.ToLower() == "passed";
             }
+            
             Reason = expandoSource.GetTypeFromProperty<string>("reason");
         }
 

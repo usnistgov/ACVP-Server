@@ -6,7 +6,6 @@ using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
-using NIST.CVP.Crypto.DSA.FFC.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 
@@ -82,8 +81,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                     return true;
 
                 case "hashalg":
-                    var attributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(value);
-                    HashAlg = new HashFunction(attributes.shaMode, attributes.shaDigestSize);
+                    HashAlg = ShaAttributes.GetHashFunctionFromName(value);
                     return true;
             }
 

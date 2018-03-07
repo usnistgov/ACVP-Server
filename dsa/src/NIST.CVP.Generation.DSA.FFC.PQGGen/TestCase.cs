@@ -11,12 +11,23 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
     public class TestCase : ITestCase
     {
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public BigInteger P { get; set; }
+        public BigInteger Q { get; set; }
+        public BigInteger G { get; set; }
+        public DomainSeed Seed { get; set; }
+        public Counter Counter { get; set; }
+        public BitString Index { get; set; }
+
         // Used for SetString only
-        private BigInteger firstSeed;
-        private BigInteger pSeed;
-        private BigInteger qSeed;
-        private int pCounter;
-        private int qCounter;
+        private BigInteger _firstSeed;
+        private BigInteger _pSeed;
+        private BigInteger _qSeed;
+        private int _pCounter;
+        private int _qCounter;
 
         public TestCase() { }
 
@@ -31,67 +42,41 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             MapToProperties(source);
         }
 
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public BigInteger P { get; set; }
-        public BigInteger Q { get; set; }
-        public BigInteger G { get; set; }
-        public DomainSeed Seed { get; set; }
-        public Counter Counter { get; set; }
-        public BitString Index { get; set; }
-
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
+            
             var expandoSource = (ExpandoObject) source;
+            P = expandoSource.GetBigIntegerFromProperty("p");
+            Q = expandoSource.GetBigIntegerFromProperty("q");
+            G = expandoSource.GetBigIntegerFromProperty("g");
 
-            if (expandoSource.ContainsProperty("p"))
+            var firstSeed = expandoSource.GetBigIntegerFromProperty("domainSeed");
+            var pSeed = expandoSource.GetBigIntegerFromProperty("pSeed");
+            var qSeed = expandoSource.GetBigIntegerFromProperty("qSeed");
+
+            if (pSeed == default(BigInteger) && qSeed == default(BigInteger))
             {
-                P = expandoSource.GetBigIntegerFromProperty("p");
+                Seed = new DomainSeed(firstSeed);
+            }
+            else
+            {
+                Seed = new DomainSeed(firstSeed, pSeed, qSeed);
             }
 
-            if (expandoSource.ContainsProperty("q"))
+            var counter = expandoSource.GetTypeFromProperty<int>("counter");
+            var pCounter = expandoSource.GetTypeFromProperty<int>("pCounter");
+            var qCounter = expandoSource.GetTypeFromProperty<int>("qCounter");
+            if (counter != default(int))
             {
-                Q = expandoSource.GetBigIntegerFromProperty("q");
+                Counter = new Counter(counter);
+            }
+            else
+            {
+                Counter = new Counter(pCounter, qCounter);
             }
 
-            if (expandoSource.ContainsProperty("g"))
-            {
-                G = expandoSource.GetBigIntegerFromProperty("g");
-            }
-
-            if (expandoSource.ContainsProperty("domainSeed"))
-            {
-                if (expandoSource.ContainsProperty("pSeed") && expandoSource.ContainsProperty("qSeed"))
-                {
-                    var firstSeed = expandoSource.GetBigIntegerFromProperty("domainSeed");
-                    var pSeed = expandoSource.GetBigIntegerFromProperty("pSeed");
-                    var qSeed = expandoSource.GetBigIntegerFromProperty("qSeed");
-
-                    Seed = new DomainSeed(firstSeed, pSeed, qSeed);
-                }
-                else
-                {
-                    Seed = new DomainSeed(expandoSource.GetBigIntegerFromProperty("domainSeed"));
-                }
-            }
-
-            if (expandoSource.ContainsProperty("counter"))
-            {
-                Counter = new Counter((int)source.counter);
-            }
-
-            if (expandoSource.ContainsProperty("pCounter") && expandoSource.ContainsProperty("qCounter"))
-            {
-                Counter = new Counter((int)source.pCounter, (int)source.qCounter);
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("index"))
-            {
-                Index = expandoSource.GetBitStringFromProperty("index");
-            }
+            Index = expandoSource.GetBitStringFromProperty("index");
         }
 
         public bool SetString(string name, string value)
@@ -128,25 +113,25 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                     return true;
 
                 case "firstseed":
-                    firstSeed = new BitString(value).ToPositiveBigInteger();
+                    _firstSeed = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "pseed":
-                    pSeed = new BitString(value).ToPositiveBigInteger();
+                    _pSeed = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "qseed":
-                    qSeed = new BitString(value).ToPositiveBigInteger();
-                    Seed = new DomainSeed(firstSeed, pSeed, qSeed);
+                    _qSeed = new BitString(value).ToPositiveBigInteger();
+                    Seed = new DomainSeed(_firstSeed, _pSeed, _qSeed);
                     return true;
 
                 case "pgen_counter":
-                    pCounter = int.Parse(value);
+                    _pCounter = int.Parse(value);
                     return true;
 
                 case "qgen_counter":
-                    qCounter = int.Parse(value);
-                    Counter = new Counter(pCounter, qCounter);
+                    _qCounter = int.Parse(value);
+                    Counter = new Counter(_pCounter, _qCounter);
                     return true;
             }
 

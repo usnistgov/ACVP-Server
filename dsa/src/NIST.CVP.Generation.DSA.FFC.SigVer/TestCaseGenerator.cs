@@ -1,6 +1,5 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
 using NIST.CVP.Math;
@@ -10,14 +9,15 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
     public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
     {
-        public int NumberOfTestCasesToGenerate { get; private set; } = 15;
         private readonly IRandom800_90 _rand;
-        private readonly IDsaFfc _ffcDsa;
+        private readonly IDsaFfcFactory _dsaFactory;
 
-        public TestCaseGenerator(IRandom800_90 rand, IDsaFfc ffcDsa)
+        public int NumberOfTestCasesToGenerate { get; private set; } = 15;
+
+        public TestCaseGenerator(IRandom800_90 rand, IDsaFfcFactory dsaFactory)
         {
             _rand = rand;
-            _ffcDsa = ffcDsa;
+            _dsaFactory = dsaFactory;
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
@@ -27,7 +27,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                 NumberOfTestCasesToGenerate = 5;
             }
 
-            var keyResult = _ffcDsa.GenerateKeyPair(group.DomainParams);
+            var ffcDsa = _dsaFactory.GetInstance(group.HashAlg);
+            var keyResult = ffcDsa.GenerateKeyPair(group.DomainParams);
             if (!keyResult.Success)
             {
                 return new TestCaseGenerateResponse(keyResult.ErrorMessage);
@@ -35,12 +36,12 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
 
             var reason = group.TestCaseExpectationProvider.GetRandomReason();
 
-            var testCase = new TestCase()
+            var testCase = new TestCase
             {
                 Message = _rand.GetRandomBitString(group.N),
                 Key = keyResult.KeyPair,
                 Reason = reason,
-                FailureTest = (reason.GetReason() != SigFailureReasons.None),
+                FailureTest = reason.GetReason() != SigFailureReasons.None
             };
 
             return Generate(group, testCase);
@@ -51,7 +52,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             FfcSignatureResult sigResult = null;
             try
             {
-                sigResult = _ffcDsa.Sign(group.DomainParams, testCase.Key, testCase.Message);
+                var ffcDsa = _dsaFactory.GetInstance(group.HashAlg);
+                sigResult = ffcDsa.Sign(group.DomainParams, testCase.Key, testCase.Message);
                 if (!sigResult.Success)
                 {
                     ThisLogger.Warn($"Error generating g: {sigResult.ErrorMessage}");
@@ -98,6 +100,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             return new TestCaseGenerateResponse(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

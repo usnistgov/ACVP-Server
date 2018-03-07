@@ -45,6 +45,8 @@ using NIST.CVP.Crypto.TDES_OFBI;
 // vvv chris vvv
 using NIST.CVP.Crypto.RSA2;
 using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
+using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Crypto.RSA2.Signatures;
@@ -179,6 +181,9 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<EccCurveFactory>().AsImplementedInterfaces();
             builder.RegisterType<EccDsa>().AsImplementedInterfaces();
             builder.RegisterType<DsaEccFactory>().AsImplementedInterfaces();
+
+            builder.RegisterType<PQGeneratorValidatorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<GGeneratorValidatorFactory>().AsImplementedInterfaces();
         }
     }
 }

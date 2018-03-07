@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NLog;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
@@ -13,13 +11,16 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
     public class TestCaseGeneratorPQ : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _rand;
-        private readonly IPQGeneratorValidator _pqGen;
+        private readonly IPQGeneratorValidatorFactory _pqGenFactory;
+        private readonly IShaFactory _shaFactory;
+
         public int NumberOfTestCasesToGenerate { get; private set; } = 5;
 
-        public TestCaseGeneratorPQ(IRandom800_90 rand, IPQGeneratorValidator pqGen)
+        public TestCaseGeneratorPQ(IRandom800_90 rand, IShaFactory shaFactory, IPQGeneratorValidatorFactory pqGenFactory)
         {
             _rand = rand;
-            _pqGen = pqGen;
+            _shaFactory = shaFactory;
+            _pqGenFactory = pqGenFactory;
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
@@ -40,7 +41,9 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             PQGenerateResult sampleResult = null;
             try
             {
-                sampleResult = _pqGen.Generate(group.L, group.N, group.N);
+                var sha = _shaFactory.GetShaInstance(group.HashAlg);
+                var pqGen = _pqGenFactory.GetGeneratorValidator(group.PQGenMode, sha, EntropyProviderTypes.Random);
+                sampleResult = pqGen.Generate(group.L, group.N, group.N);
                 if (!sampleResult.Success)
                 {
                     ThisLogger.Warn($"Error generating sample: {sampleResult.ErrorMessage}");
@@ -65,6 +68,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             return new TestCaseGenerateResponse(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

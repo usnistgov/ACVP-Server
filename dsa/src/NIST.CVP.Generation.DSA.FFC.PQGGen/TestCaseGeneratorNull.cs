@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
     public class TestCaseGeneratorNull : ITestCaseGenerator<TestGroup, TestCase>
     {
-        public int NumberOfTestCasesToGenerate { get { return 1; } }
+        public int NumberOfTestCasesToGenerate => 1;
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
         {

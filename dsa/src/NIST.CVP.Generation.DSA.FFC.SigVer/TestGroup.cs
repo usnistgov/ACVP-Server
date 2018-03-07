@@ -6,9 +6,6 @@ using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC.Helpers;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
@@ -99,8 +96,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                     return true;
 
                 case "hashalg":
-                    var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(value);
-                    HashAlg = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
+                    HashAlg = ShaAttributes.GetHashFunctionFromName(value);
                     return true;
             }
 

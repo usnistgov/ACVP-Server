@@ -8,7 +8,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
     public class TestCaseValidator : ITestCaseValidator<TestCase>
     {
         private TestCase _expectedResult;
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidator(TestCase expectedResult)
         {

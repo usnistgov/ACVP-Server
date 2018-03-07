@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
@@ -10,14 +9,16 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
     public class TestCaseValidator : ITestCaseValidator<TestCase>
     {
         private readonly TestCase _expectedResult;
-        private readonly IDsaFfc _ffcDsa;
+        private readonly TestGroup _group;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, FfcKeyPairValidateResult> _deferredResolver;
 
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidator(TestCase expectedResult, IDsaFfc dsaFfc)
+        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDeferredTestCaseResolver<TestGroup, TestCase, FfcKeyPairValidateResult> deferredResolver)
         {
             _expectedResult = expectedResult;
-            _ffcDsa = dsaFfc;
+            _group = group;
+            _deferredResolver = deferredResolver;
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
@@ -28,13 +29,9 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             {
                 errors.Add("Could not find x or y");
             }
-            else if (suppliedResult.DomainParams.P == 0 || suppliedResult.DomainParams.Q == 0 || suppliedResult.DomainParams.G == 0)
-            {
-                errors.Add("Could not find p, q, or g");
-            }
             else
             {
-                var validateResult = _ffcDsa.ValidateKeyPair(suppliedResult.DomainParams, suppliedResult.Key);
+                var validateResult = _deferredResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
                 if (!validateResult.Success)
                 {
                     errors.Add($"Validation failed: {validateResult.ErrorMessage}");

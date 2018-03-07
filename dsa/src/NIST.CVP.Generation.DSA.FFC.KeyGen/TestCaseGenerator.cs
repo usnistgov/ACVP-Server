@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -12,14 +12,15 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
     public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random;
-        private readonly IDsaFfc _ffcDsa;
+        private readonly IDsaFfcFactory _dsaFactory;
+        private IDsaFfc _ffcDsa;
 
-        public int NumberOfTestCasesToGenerate { get { return 10; } }
+        public int NumberOfTestCasesToGenerate { get; private set; } = 10;
 
-        public TestCaseGenerator(IRandom800_90 rand, IDsaFfc ffcDsa)
+        public TestCaseGenerator(IRandom800_90 rand, IDsaFfcFactory dsaFactory)
         {
             _random = rand;
-            _ffcDsa = ffcDsa;
+            _dsaFactory = dsaFactory;
         }
 
         public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
@@ -39,6 +40,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             FfcKeyPairGenerateResult keyResult = null;
             try
             {
+                var hashFunction = new HashFunction(ModeValues.SHA2, DigestSizes.d256);
+                _ffcDsa = _dsaFactory.GetInstance(hashFunction);
                 keyResult = _ffcDsa.GenerateKeyPair(group.DomainParams);
                 if (!keyResult.Success)
                 {
@@ -52,11 +55,10 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                 return new TestCaseGenerateResponse($"Exception generating key: {ex.Message}");
             }
 
-            testCase.DomainParams = group.DomainParams;
             testCase.Key = keyResult.KeyPair;
             return new TestCaseGenerateResponse(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

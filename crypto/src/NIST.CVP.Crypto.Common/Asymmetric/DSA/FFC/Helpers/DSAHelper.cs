@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NIST.CVP.Crypto.DSA.FFC.Helpers
+namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Helpers
 {
     public static class DSAHelper
     {

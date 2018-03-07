@@ -1,6 +1,6 @@
 ﻿namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators
 {
-    public class GValidateResult
+    public class GValidateResult : ICryptoResult
     {
         public string ErrorMessage { get; }
 

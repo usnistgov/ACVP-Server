@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
         public int TestGroupId { get; set; }
         public int L { get; set; }
         public int N { get; set; }
-        public FfcDomainParameters DomainParams { get; set; }       // Used to make sure all test cases share a PQG
+        public FfcDomainParameters DomainParams { get; set; }
         public string TestType { get; set; }
         public List<ITestCase> Tests { get; set; }
 
@@ -38,10 +38,19 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             L = expandoSource.GetTypeFromProperty<int>("l");
             N = expandoSource.GetTypeFromProperty<int>("n");
             
+            var p = expandoSource.GetBigIntegerFromProperty("p");
+            var q = expandoSource.GetBigIntegerFromProperty("q");
+            var g = expandoSource.GetBigIntegerFromProperty("g");
+            DomainParams = new FfcDomainParameters(p, q, g);
+
             Tests = new List<ITestCase>();
             foreach (var test in source.tests)
             {
-                Tests.Add(new TestCase(test));
+                var tc = new TestCase(test)
+                {
+                    Parent = this
+                };
+                Tests.Add(tc);
             }
         }
 

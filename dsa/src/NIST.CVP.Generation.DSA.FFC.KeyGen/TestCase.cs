@@ -10,9 +10,18 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
     public class TestCase : ITestCase
     {
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public FfcDomainParameters DomainParams { get; set; }
+        public FfcKeyPair Key { get; set; }
+
+        public ITestGroup Parent { get; set; }
+
         // Needed for SetString, FireHoseTests
-        private BigInteger x;
-        private BigInteger y;
+        private BigInteger _x;
+        private BigInteger _y;
 
         public TestCase() { }
 
@@ -27,12 +36,16 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             MapToProperties(source);
         }
 
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
+        private void MapToProperties(dynamic source)
+        {
+            TestCaseId = (int) source.tcId;
 
-        public FfcDomainParameters DomainParams { get; set; }
-        public FfcKeyPair Key { get; set; }
+            var expandoSource = (ExpandoObject) source;
+
+            var x = expandoSource.GetBigIntegerFromProperty("x");
+            var y = expandoSource.GetBigIntegerFromProperty("y");
+            Key = new FfcKeyPair(x, y);
+        }
 
         public bool SetString(string name, string value)
         {
@@ -44,65 +57,16 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             switch (name.ToLower())
             {
                 case "x":
-                    x = new BitString(value).ToPositiveBigInteger();
+                    _x = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "y":
-                    y = new BitString(value).ToPositiveBigInteger();
-                    Key = new FfcKeyPair(x, y);
+                    _y = new BitString(value).ToPositiveBigInteger();
+                    Key = new FfcKeyPair(_x, _y);
                     return true;
             }
 
             return false;
-        }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            ParseKey((ExpandoObject)source);
-            ParseDomainParams((ExpandoObject)source);
-        }
-
-        
-
-        private void ParseDomainParams(ExpandoObject source)
-        {
-            BigInteger p, q, g;
-
-            if (source.ContainsProperty("p"))
-            {
-                p = source.GetBigIntegerFromProperty("p");
-            }
-
-            if (source.ContainsProperty("q"))
-            {
-                q = source.GetBigIntegerFromProperty("q");
-            }
-
-            if (source.ContainsProperty("g"))
-            {
-                g = source.GetBigIntegerFromProperty("g");
-            }
-
-            DomainParams = new FfcDomainParameters(p, q, g);
-        }
-
-        private void ParseKey(ExpandoObject source)
-        {
-            BigInteger x, y;
-
-            if (source.ContainsProperty("x"))
-            {
-                x = source.GetBigIntegerFromProperty("x");
-            }
-
-            if (source.ContainsProperty("y"))
-            {
-                y = source.GetBigIntegerFromProperty("y");
-            }
-
-            Key = new FfcKeyPair(x, y);
         }
     }
 }

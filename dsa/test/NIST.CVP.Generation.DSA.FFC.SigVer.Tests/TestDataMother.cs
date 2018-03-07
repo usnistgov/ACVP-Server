@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.DSA.FFC.SigVer.FailureHandlers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;

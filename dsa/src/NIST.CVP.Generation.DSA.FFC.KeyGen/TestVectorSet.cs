@@ -104,6 +104,13 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                     var groupDict = (IDictionary<string, object>) groupObject;
                     groupDict.Add("tgId", group.TestGroupId);
 
+                    if (IsSample)
+                    {
+                        groupDict.Add("p", group.DomainParams.P);
+                        groupDict.Add("q", group.DomainParams.Q);
+                        groupDict.Add("g", group.DomainParams.G);
+                    }
+                    
                     var tests = new List<dynamic>();
                     groupDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
@@ -114,14 +121,10 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 
                         if (IsSample)
                         {
-                            testDict.Add("p", test.DomainParams.P);
-                            testDict.Add("q", test.DomainParams.Q);
-                            testDict.Add("g", test.DomainParams.G);
+                            testDict.Add("x", test.Key.PrivateKeyX);
+                            testDict.Add("y", test.Key.PublicKeyY);
                         }
-
-                        testDict.Add("x", test.Key.PrivateKeyX);
-                        testDict.Add("y", test.Key.PublicKeyY);
-
+                        
                         tests.Add(testObject);
                     }
 

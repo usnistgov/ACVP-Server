@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         {
             var sourceTest = new JObject
             {
-                { "p", new JValue("00AA") }
+                { "r", new JValue("00AA") }
             };
             Assert.That(() => new TestCase(sourceTest), Throws.InstanceOf<RuntimeBinderException>());
         }

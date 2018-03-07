@@ -108,6 +108,13 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                     var groupDict = (IDictionary<string, object>) groupObject;
                     groupDict.Add("tgId", group.TestGroupId);
 
+                    if (IsSample)
+                    {
+                        groupDict.Add("p", group.DomainParams.P);
+                        groupDict.Add("q", group.DomainParams.Q);
+                        groupDict.Add("g", group.DomainParams.G);
+                    }
+
                     var tests = new List<dynamic>();
                     groupDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
@@ -118,11 +125,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
 
                         if (IsSample)
                         {
-                            // These are group properties inside each test case
-                            testDict.Add("p", test.DomainParams.P);
-                            testDict.Add("q", test.DomainParams.Q);
-                            testDict.Add("g", test.DomainParams.G);
-
                             // Normal answers per test case
                             testDict.Add("y", test.Key.PublicKeyY);
                             testDict.Add("r", test.Signature.R);

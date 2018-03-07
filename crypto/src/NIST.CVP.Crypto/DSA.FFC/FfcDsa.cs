@@ -6,6 +6,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 
 namespace NIST.CVP.Crypto.DSA.FFC

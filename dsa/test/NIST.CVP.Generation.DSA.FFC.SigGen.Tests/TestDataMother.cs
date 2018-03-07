@@ -21,7 +21,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
                         Key = new FfcKeyPair(1, 2),
                         Message = new BitString("BEEFFACE"),
                         Signature = new FfcSignature(1, 2),
-                        DomainParams = new FfcDomainParameters(3, 4, 5),
                         TestCaseId = testId
                     });
                 }
@@ -31,6 +30,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
                     L = 2048 + groupIdx,
                     N = 224,
                     HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
+                    DomainParams = new FfcDomainParameters(3, 4, 5),
                     Tests = tests
                 });
             }

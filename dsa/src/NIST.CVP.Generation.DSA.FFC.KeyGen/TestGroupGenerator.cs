@@ -2,8 +2,6 @@
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NLog;
 
@@ -11,19 +9,11 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters>
     {
-        private IShaFactory _shaFactory = new ShaFactory();
-        private IDsaFfc _ffcDsa;
+        private readonly IDsaFfcFactory _dsaFactory;
 
-        public TestGroupGenerator(IDsaFfc ffcDsa = null)
+        public TestGroupGenerator(IDsaFfcFactory dsaFactory)
         {
-            if (ffcDsa == null)
-            {
-                _ffcDsa = new FfcDsa(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256)));
-            }
-            else
-            {
-                _ffcDsa = ffcDsa;
-            }
+            _dsaFactory = dsaFactory;
         }
 
         public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
@@ -38,8 +28,10 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                 FfcDomainParameters domainParams = null;
                 if (parameters.IsSample)
                 {
-                    var domainParamsRequest = new FfcDomainParametersGenerateRequest(n, l, n, 256, null, PrimeGenMode.Provable, GeneratorGenMode.Unverifiable);
-                    var domainParamsResult = _ffcDsa.GenerateDomainParameters(domainParamsRequest);
+                    var hashFunction = new HashFunction(ModeValues.SHA2, DigestSizes.d256);
+                    var domainParamsRequest = new FfcDomainParametersGenerateRequest(n, l, n, hashFunction.OutputLen, null, PrimeGenMode.Provable, GeneratorGenMode.Unverifiable);
+                    var ffcDsa = _dsaFactory.GetInstance(hashFunction);
+                    var domainParamsResult = ffcDsa.GenerateDomainParameters(domainParamsRequest);
 
                     if (!domainParamsResult.Success)
                     {
@@ -49,7 +41,6 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 
                     domainParams = domainParamsResult.PqgDomainParameters;
                 }
-                
 
                 var testGroup = new TestGroup
                 {
@@ -64,6 +55,6 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             return testGroups;
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -15,12 +16,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         [Test]
         public void GenerateShouldReturnNonNullTestCaseGenerateResponse()
         {
-            var randMock = GetRandomMock();
-            randMock
-                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
-                .Returns(new BitString("BEEFFACE"));
-
-            var subject = new TestCaseGenerator(randMock.Object, GetDsaMock().Object);
+            var dsaMock = GetDsaMock();
+            var subject = new TestCaseGenerator(GetRandomMock().Object, GetDsaFactoryMock(dsaMock).Object);
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
@@ -30,11 +27,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
         [Test]
         public void GenerateShouldGenerateSignatureIfIsSample()
         {
-            var randMock = GetRandomMock();
-            randMock
-                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
-                .Returns(new BitString("BEEFFACE"));
-
             var dsaMock = GetDsaMock();
             dsaMock
                 .Setup(s => s.GenerateKeyPair(It.IsAny<FfcDomainParameters>()))
@@ -44,7 +36,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
                 .Setup(s => s.Sign(It.IsAny<FfcDomainParameters>(), It.IsAny<FfcKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()))
                 .Returns(new FfcSignatureResult(new FfcSignature(1, 2)));
 
-            var subject = new TestCaseGenerator(randMock.Object, dsaMock.Object);
+            var subject = new TestCaseGenerator(GetRandomMock().Object, GetDsaFactoryMock(dsaMock).Object);
 
             var result = subject.Generate(GetTestGroup(), true);
 
@@ -61,12 +53,27 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
 
         private Mock<IRandom800_90> GetRandomMock()
         {
-            return new Mock<IRandom800_90>();
+            var randMock = new Mock<IRandom800_90>();
+            randMock
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString("BEEFFACE"));
+
+            return randMock;
         }
 
         private Mock<IDsaFfc> GetDsaMock()
         {
             return new Mock<IDsaFfc>();
+        }
+
+        private Mock<IDsaFfcFactory> GetDsaFactoryMock(Mock<IDsaFfc> dsaMock)
+        {
+            var mock = new Mock<IDsaFfcFactory>();
+            mock
+                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
+                .Returns(dsaMock.Object);
+
+            return mock;
         }
 
         private TestGroup GetTestGroup()
