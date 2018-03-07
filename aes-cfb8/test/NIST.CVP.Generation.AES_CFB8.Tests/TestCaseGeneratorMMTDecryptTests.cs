@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.AES_CFB8.Tests
             var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]

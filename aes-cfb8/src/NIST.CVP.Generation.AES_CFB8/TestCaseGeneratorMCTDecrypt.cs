@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_CFB8
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             var iv = _iRandom80090.GetRandomBitString(128);
             var key = _iRandom80090.GetRandomBitString(@group.KeyLength);
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.AES_CFB8
             return Generate(@group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
             MCTResult<AlgoArrayResponse> decryptionResult = null;
             try
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.AES_CFB8
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -54,16 +54,13 @@ namespace NIST.CVP.Generation.AES_CFB8
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             testCase.ResultsArray = decryptionResult.Response;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

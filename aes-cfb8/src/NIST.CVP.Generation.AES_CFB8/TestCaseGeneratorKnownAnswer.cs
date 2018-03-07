@@ -45,17 +45,17 @@ namespace NIST.CVP.Generation.AES_CFB8
 
         public int NumberOfTestCasesToGenerate => _kats.Count;
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             TestCase testCase = new TestCase();
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             if (_katsIndex + 1 > _kats.Count)
             {
-                return new TestCaseGenerateResponse("No additional KATs exist.");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist.");
             }
 
             var currentKat = _kats[_katsIndex++];
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.AES_CFB8
             testCase.PlainText = currentKat.PlainText;
             testCase.CipherText = currentKat.CipherText;
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
     }
 }

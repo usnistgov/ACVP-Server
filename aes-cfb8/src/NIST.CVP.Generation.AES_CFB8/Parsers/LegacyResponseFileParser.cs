@@ -8,7 +8,7 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_CFB8.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -121,7 +121,7 @@ namespace NIST.CVP.Generation.AES_CFB8.Parsers
                 }
             }
 
-            var testVectorSet = new TestVectorSet { Algorithm = "AES-OFB", TestGroups = groups.Select(g => (ITestGroup)g).ToList() };
+            var testVectorSet = new TestVectorSet { TestGroups = groups.Select(g => g).ToList() };
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
     }
