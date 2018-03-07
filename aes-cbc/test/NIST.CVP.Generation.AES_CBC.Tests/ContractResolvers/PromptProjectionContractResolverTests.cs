@@ -51,6 +51,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests.ContractResolvers
             var newTg = newTvs.TestGroups[0];
 
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
+            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.Function, newTg.Function, nameof(newTg.Function));
             Assert.AreEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
@@ -89,7 +90,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests.ContractResolvers
             Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
-            Regex regex = new Regex("testPassed", RegexOptions.IgnoreCase);
+            Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
             Assert.IsTrue(regex.Matches(json).Count == 0);
         }
 
@@ -126,7 +127,7 @@ namespace NIST.CVP.Generation.AES_CBC.Tests.ContractResolvers
             Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
-            Regex regex = new Regex("testPassed", RegexOptions.IgnoreCase);
+            Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
             Assert.IsTrue(regex.Matches(json).Count == 0);
         }
     }
