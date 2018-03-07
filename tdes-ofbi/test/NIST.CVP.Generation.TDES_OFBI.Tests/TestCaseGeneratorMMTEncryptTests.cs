@@ -36,10 +36,10 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
                 var result = subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
                 Assume.That(result != null);
                 Assume.That(result.Success);
-                var testCase = (TestCase)result.TestCase;
+
+                var testCase = result.TestCase;
                 Assert.AreEqual((caseIdx + 1) * 8 * 3, testCase.PlainText.ToBytes().Length);
             }
-
         }
 
         [Test]
@@ -51,8 +51,6 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), algo.Object);
             var result = subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
             Assert.IsFalse(result.Success);
-
-
         }
 
         [Test]
@@ -60,7 +58,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         {
             var algo = new TdesOfbi();
             var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), algo);
-            var testGroup = new TestGroup()
+            var testGroup = new TestGroup
             {
                 Function = "encrypt",
                 KeyingOption = 1
@@ -75,7 +73,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
 
             Assume.That(testGroup.Tests.Count > 0);
 
-            foreach (TestCase testCase in testGroup.Tests)
+            foreach (var testCase in testGroup.Tests)
             {
                 var result = algo.BlockEncrypt(testCase.Keys, testCase.IV1, testCase.PlainText);
                 Assert.AreEqual(testCase.CipherText, result.Result);

@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
         public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             var key = TdesHelpers.GenerateTdesKey(group.KeyingOption); 
             var cipherText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * 3 * (_currentCase + 1));
@@ -35,11 +35,12 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 IV1 = iv,
                 Deferred = false
             };
+
             _currentCase++;
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SymmetricCipherWithIvResult decryptionResult = null;
             try
@@ -49,7 +50,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -57,13 +58,14 @@ namespace NIST.CVP.Generation.TDES_OFBI
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
+
             testCase.PlainText = decryptionResult.Result;
             testCase.IV2 = decryptionResult.IVs[1];
             testCase.IV3 = decryptionResult.IVs[2];
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

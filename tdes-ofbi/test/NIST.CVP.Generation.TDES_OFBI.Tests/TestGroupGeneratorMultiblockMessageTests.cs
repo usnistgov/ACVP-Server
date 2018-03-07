@@ -66,14 +66,14 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [Test]
         public void ShouldNotReturnEncryptKeyingOption2Group()
         {
-            Parameters p = new Parameters()
+            var p = new Parameters
             {
                 Algorithm = string.Empty,
                 Direction = new[] { "encrypt", "decrypt" },
                 KeyingOption = new[] { 1, 2 },
             };
 
-            var result = _subject.BuildTestGroups(p).ToList().Select(s => (TestGroup)s);
+            var result = _subject.BuildTestGroups(p).ToList();
 
             Assert.IsFalse(result.Any(a => a.Function.ToLower() == "encrypt" && a.KeyingOption == 2));
         }

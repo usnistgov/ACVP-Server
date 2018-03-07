@@ -21,14 +21,13 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [TestCase("SubstitutiontablE", "dreamweaver")]
         public void ShouldThrowIfInvalidTestTypeOrDirection(string testType, string direction)
         {
-            TestGroup testGroup = new TestGroup()
+            var testGroup = new TestGroup
             {
                 TestType = testType,
                 Function = direction
             };
 
             Assert.Throws(typeof(ArgumentException), () => new TestCaseGeneratorKnownAnswer(testGroup));
-
         }
 
         [Test]
@@ -38,10 +37,9 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [TestCase("SubstitutiontablE", "encrypt")]
         [TestCase("VariableTExt", "ENcryPt")]
         [TestCase("VariableKey", "ENCRYPT")]
-
         public void ShouldReturnKat(string testType, string direction)
         {
-            TestGroup testGroup = new TestGroup()
+            var testGroup = new TestGroup
             {
                 TestType = testType,
                 Function = direction
@@ -59,21 +57,21 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [TestCase("VariableKey", 112, "decrypt")]
         [TestCase("VariableText", 128, "encrypt")]
         [TestCase("SubstitutionTable", 38, "encrypt")]
-
         public void ShouldReturnExpectedListCount(string testType, int count, string direction)
         {
-            TestGroup testGroup = new TestGroup()
+            var testGroup = new TestGroup
             {
                 TestType = testType,
                 Function = direction
             };
 
             var subject = new TestCaseGeneratorKnownAnswer(testGroup);
-            List<TestCaseGenerateResponse> results = new EditableList<TestCaseGenerateResponse>();
-            for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            List<TestCaseGenerateResponse<TestGroup, TestCase>> results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
+            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
                 results.Add(subject.Generate(testGroup, false));
             }
+
             Assert.AreEqual(count, results.Count);
         }
 
@@ -88,23 +86,22 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [TestCase("SubstitutionTable", 14, "6fbf1cafcffd05560aa3768ad4358b6c68b40c29c2238233", "encrypt")]
         public void ShouldReturnExpectedElement(string testType, int elementId, string expectedCipherHex, string direction)
         {
-            TestGroup testGroup = new TestGroup()
+            var testGroup = new TestGroup
             {
                 TestType = testType,
                 Function = direction
             };
 
             var subject = new TestCaseGeneratorKnownAnswer(testGroup);
-            List<TestCaseGenerateResponse> results = new List<TestCaseGenerateResponse>();
-            for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
+            var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
+            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
                 results.Add(subject.Generate(testGroup, false));
             }
 
             Assume.That(results.Count > elementId);
-            var testCase = (TestCase)results[elementId].TestCase;
+            var testCase = results[elementId].TestCase;
             Assert.AreEqual(expectedCipherHex.ToUpper(), testCase.CipherText.ToHex());
         }
-       
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Moq;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_OFBI;
 using NIST.CVP.Math;
 using NUnit.Framework;
@@ -31,15 +30,15 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         public void ShouldGenerateProperlySizedCipherTextForEachGenerateCall()
         {
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), new TdesOfbi());
-            for (int caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
+            for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(new TestGroup { Function = "decrypt", KeyingOption = 1 }, false);
                 Assume.That(result != null);
                 Assume.That(result.Success);
-                var testCase = (TestCase)result.TestCase;
+
+                var testCase = result.TestCase;
                 Assert.AreEqual((caseIdx + 1) * 8 * 3, testCase.CipherText.ToBytes().Length);
             }
-
         }
 
         [Test]
@@ -51,17 +50,14 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), algo.Object);
             var result = subject.Generate(new TestGroup { Function = "decrypt", KeyingOption = 1 }, false);
             Assert.IsFalse(result.Success);
-
-
         }
-
 
         [Test]
         public void GeneratedPlainTextShouldDecryptBackToPlainText()
         {
             var algo = new TdesOfbi();
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), algo);
-            var testGroup = new TestGroup()
+            var testGroup = new TestGroup
             {
                 Function = "decrypt",
                 KeyingOption = 1
@@ -76,10 +72,9 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
 
             Assume.That(testGroup.Tests.Count > 0);
 
-            foreach (TestCase testCase in testGroup.Tests)
+            foreach (var testCase in testGroup.Tests)
             {
                 var result = algo.BlockDecrypt(testCase.Keys, testCase.IV1, testCase.CipherText);
-
                 Assert.AreEqual(testCase.PlainText, result.Result);
             }
         }

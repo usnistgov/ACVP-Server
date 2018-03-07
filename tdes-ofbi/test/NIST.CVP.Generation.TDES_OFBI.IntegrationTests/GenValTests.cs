@@ -13,7 +13,6 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-
         public override string Algorithm { get; } = "TDES";
         public override string Mode { get; } = "OFBI";
 
@@ -34,55 +33,46 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
             };
         }
 
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
         protected override void OverrideRegistrationValFakeException()
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
-            //TODO the duplication between testCase and resultArray should be refactored
             var rand = new Random800_90();
-            if (testCase.decryptFail != null)
+
+            // If TC has a cipherText, change it
+            if (testCase.cipherText != null)
             {
-                testCase.decryptFail = false;
+                var bs = new BitString(testCase.cipherText.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                testCase.cipherText = bs.ToHex();
             }
 
-            var propertiesToScramble = new[] { "ct", "ct1", "ct2", "ct3", "pt", "pt1", "pt2", "pt3" };
-            foreach (var prop in propertiesToScramble)
+            // If TC has a plainText, change it
+            if (testCase.plainText != null)
             {
-                if (testCase[prop] != null)
-                {
-                    var bs = new BitString(testCase[prop].ToString());
-                    bs = rand.GetDifferentBitStringOfSameSize(bs);
-                    testCase[prop] = bs.ToHex();
-                }
-            }
+                var bs = new BitString(testCase.plainText.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
 
+                testCase.plainText = bs.ToHex();
+            }
+            
             // If TC has a resultsArray, change some of the elements
             if (testCase.resultsArray != null)
             {
-                var arrayPropertiesToScramble = new[] { "ct", "pt", "iv1", "iv2", "iv3", "key1", "key2", "key3" };
-                foreach (var prop in arrayPropertiesToScramble)
-                {
-                    if (testCase.resultsArray[0][prop] != null)
-                    {
-                        var bs = new BitString(testCase.resultsArray[0][prop].ToString());
-                        bs = rand.GetDifferentBitStringOfSameSize(bs);
-                        testCase.resultsArray[0][prop] = bs.ToHex();
-                    }
-                }
+                var bsPlainText = new BitString(testCase.resultsArray[0].plainText.ToString());
+                bsPlainText = rand.GetDifferentBitStringOfSameSize(bsPlainText);
+                testCase.resultsArray[0].pplainTextt = bsPlainText.ToHex();
+
+                var bsCipherText = new BitString(testCase.resultsArray[0].cipherText.ToString());
+                bsCipherText = rand.GetDifferentBitStringOfSameSize(bsCipherText);
+                testCase.resultsArray[0].cipherText = bsCipherText.ToHex();
             }
         }
 
@@ -124,11 +114,11 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
         /// <summary>
         /// Can be used to only generate MMT groups for the genval tests
         /// </summary>
-        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
             {
-                return new List<ITestGroupGenerator<Parameters>>()
+                return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
                 {
                     new TestGroupGeneratorMultiblockMessage()
                 };
