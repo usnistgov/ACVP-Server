@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
@@ -8,86 +9,11 @@ using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        public TestCase()
-        {
-
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-        //todo find all references and see if we can separate out keys
-        public TestCase(string key, string plainText, string cipherText, string iv)
-        {
-            Iv = new BitString(iv);
-            Key = new BitString(key);
-            PlainText = new BitString(plainText);
-            CipherText = new BitString(cipherText);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-            var expandoSource = (ExpandoObject) source;
-            if (expandoSource.ContainsProperty("decryptFail"))
-            {
-                FailureTest = source.decryptFail;
-            }
-            if (expandoSource.ContainsProperty("failureTest"))
-            {
-                FailureTest = source.failureTest;
-            }
-            if (expandoSource.ContainsProperty("deferred"))
-            {
-                Deferred = source.deferred;
-            }
-            if (expandoSource.ContainsProperty("resultsArray"))
-            {
-                ResultsArray = ResultsArrayToObject(source.resultsArray);
-            }
-            
-            Key = expandoSource.GetBitStringFromProperty("key");
-            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
-            PlainText = expandoSource.GetBitStringFromProperty("plainText");
-            Iv = expandoSource.GetBitStringFromProperty("iv");
-
-        }
-
-        private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
-        {
-            List<AlgoArrayResponse> list = new List<AlgoArrayResponse>();
-
-            foreach (dynamic item in resultsArray)
-            {
-                var expandoItem = (ExpandoObject) item;
-
-                AlgoArrayResponse response = new AlgoArrayResponse();
-
-                var key1 = expandoItem.GetBitStringFromProperty("key1");
-                var key2 = expandoItem.GetBitStringFromProperty("key2");
-                var key3 = expandoItem.GetBitStringFromProperty("key3");
-
-                response.Keys = key1.ConcatenateBits(key2.ConcatenateBits(key3));
-                response.PlainText = expandoItem.GetBitStringFromProperty("plainText");
-                response.CipherText = expandoItem.GetBitStringFromProperty("cipherText");
-                response.IV = expandoItem.GetBitStringFromProperty("iv");
-                list.Add(response);
-            }
-
-            return list;
-        }
-        
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public TestGroup ParentGroup { get; set; }
+        public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
         public BitString PlainText { get; set; }
         public BitString Key { get; set; }
@@ -96,8 +22,9 @@ namespace NIST.CVP.Generation.TDES_OFB
         public BitString Key3 { get; set; }
         public BitString CipherText { get; set; }
         public BitString Iv { get; set; }
-        public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
+        public List<AlgoArrayResponse> ResultsArray { get; set; }
 
+        [JsonIgnore]
         public TDESKeys Keys
         {
             get
@@ -110,6 +37,16 @@ namespace NIST.CVP.Generation.TDES_OFB
             }
         }
 
+        public TestCase() { }
+
+        public TestCase(string key, string plainText, string cipherText, string iv)
+        {
+            Iv = new BitString(iv);
+            Key = new BitString(key);
+            PlainText = new BitString(plainText);
+            CipherText = new BitString(cipherText);
+        }
+        
         public bool SetResultsArrayString(int index, string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -141,6 +78,7 @@ namespace NIST.CVP.Generation.TDES_OFB
             }
             return false;
         }
+
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

@@ -35,15 +35,14 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         public void ShouldGenerateProperlySizedCipherTextForEachGenerateCall()
         {
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), new TdesOfb());
-            for (int caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
+            for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(new TestGroup {Function = "decrypt", NumberOfKeys = 3}, false);
                 Assume.That(result != null);
                 Assume.That(result.Success);
-                var testCase = (TestCase) result.TestCase;
+                var testCase = result.TestCase;
                 Assert.AreEqual((caseIdx + 1) * 8, testCase.CipherText.ToBytes().Length);
             }
-
         }
 
         [Test]
@@ -55,8 +54,6 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), algo.Object);
             var result = subject.Generate(new TestGroup {Function = "decrypt", NumberOfKeys = 3}, false);
             Assert.IsFalse(result.Success);
-
-
         }
 
 
@@ -65,7 +62,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         {
             var algo = new TdesOfb();
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), algo);
-            var testGroup = new TestGroup()
+            var testGroup = new TestGroup
             {
                 Function = "decrypt",
                 NumberOfKeys = 3
@@ -80,7 +77,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
 
             Assume.That(testGroup.Tests.Count > 0);
 
-            foreach (TestCase testCase in testGroup.Tests)
+            foreach (var testCase in testGroup.Tests)
             {
                 var result = algo.BlockDecrypt(testCase.Key, testCase.CipherText, testCase.Iv);
 

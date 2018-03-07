@@ -15,18 +15,18 @@ namespace NIST.CVP.Generation.TDES_OFB
         private readonly ITDES_OFB _algo;
         private int _currentCase;
 
+        public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
+
         public TestCaseGeneratorMMTEncrypt(IRandom800_90 random800_90, ITDES_OFB algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
         }
 
-        public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
-
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             //todo separate out keys? isSample?
-            var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * @group.NumberOfKeys).ToOddParityBitString();
+            var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * group.NumberOfKeys).ToOddParityBitString();
             var plainText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * (_currentCase + 1));
             var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
             var testCase = new TestCase
@@ -36,11 +36,12 @@ namespace NIST.CVP.Generation.TDES_OFB
                 Iv = iv,
                 Deferred = false
             };
+
             _currentCase++;
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SymmetricCipherResult encryptionResult = null;
             try
@@ -50,7 +51,7 @@ namespace NIST.CVP.Generation.TDES_OFB
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -58,18 +59,13 @@ namespace NIST.CVP.Generation.TDES_OFB
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             testCase.CipherText = encryptionResult.Result;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
-
-
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

@@ -8,7 +8,7 @@ using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
         
@@ -20,31 +20,8 @@ namespace NIST.CVP.Generation.TDES_OFB
         
         [JsonProperty(PropertyName = "numberOfKeys")]
         public int NumberOfKeys { get; set; }
-        
-        public List<ITestCase> Tests { get; set; }
 
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            Function = expandoSource.GetTypeFromProperty<string>("direction");
-            NumberOfKeys = expandoSource.GetTypeFromProperty<int>("numberOfKeys");
-            
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {

@@ -23,10 +23,9 @@ namespace NIST.CVP.Generation.TDES_OFB
 
         public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
-            //todo separate out keys?
-            var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * @group.NumberOfKeys).ToOddParityBitString();
+            var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * group.NumberOfKeys).ToOddParityBitString();
             var cipherText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * (_currentCase + 1));
             var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
             var testCase = new TestCase
@@ -36,11 +35,12 @@ namespace NIST.CVP.Generation.TDES_OFB
                 Iv = iv,
                 Deferred = false
             };
+
             _currentCase++;
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SymmetricCipherResult decryptionResult = null;
             try
@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.TDES_OFB
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -58,16 +58,14 @@ namespace NIST.CVP.Generation.TDES_OFB
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
+
             testCase.PlainText = decryptionResult.Result;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

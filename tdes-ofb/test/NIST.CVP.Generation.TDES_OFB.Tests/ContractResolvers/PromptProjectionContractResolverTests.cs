@@ -5,11 +5,11 @@ using System.Text.RegularExpressions;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.TDES_OFBI.ContractResolvers;
+using NIST.CVP.Generation.TDES_OFB.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.TDES_OFBI.Tests.ContractResolvers
+namespace NIST.CVP.Generation.TDES_OFB.Tests.ContractResolvers
 {
     [TestFixture, UnitTest, FastIntegrationTest]
     public class PromptProjectionContractResolverTests
@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests.ContractResolvers
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.Function, newTg.Function, nameof(newTg.Function));
-            Assert.AreEqual(tg.KeyingOption, newTg.KeyingOption, nameof(newTg.KeyingOption));
+            Assert.AreEqual(tg.NumberOfKeys, newTg.NumberOfKeys, nameof(newTg.NumberOfKeys));
         }
 
         /// <summary>
@@ -78,9 +78,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests.ContractResolvers
 
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.IV1, newTc.IV1, nameof(newTc.IV1));
-            Assert.AreEqual(tc.IV2, newTc.IV2, nameof(newTc.IV2));
-            Assert.AreEqual(tc.IV3, newTc.IV3, nameof(newTc.IV3));
+            Assert.AreEqual(tc.Iv, newTc.Iv, nameof(newTc.Iv));
             Assert.AreEqual(tc.Key1, newTc.Key1, nameof(newTc.Key1));
             Assert.AreEqual(tc.Key2, newTc.Key2, nameof(newTc.Key2));
             Assert.AreEqual(tc.Key3, newTc.Key3, nameof(newTc.Key3));
@@ -119,9 +117,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests.ContractResolvers
 
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.IV1, newTc.IV1, nameof(newTc.IV1));
-            Assert.AreEqual(tc.IV2, newTc.IV2, nameof(newTc.IV2));
-            Assert.AreEqual(tc.IV3, newTc.IV3, nameof(newTc.IV3));
+            Assert.AreEqual(tc.Iv, newTc.Iv, nameof(newTc.Iv));
             Assert.AreEqual(tc.Key1, newTc.Key1, nameof(newTc.Key1));
             Assert.AreEqual(tc.Key2, newTc.Key2, nameof(newTc.Key2));
             Assert.AreEqual(tc.Key3, newTc.Key3, nameof(newTc.Key3));
