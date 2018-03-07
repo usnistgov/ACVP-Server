@@ -15,20 +15,16 @@ namespace NIST.CVP.Generation.TDES_ECB
         private readonly ITDES_ECB _algo;
         private int _currentCase;
 
+        public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
+
         public TestCaseGeneratorMMTEncrypt(IRandom800_90 random800_90, ITDES_ECB algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
         }
 
-        public int NumberOfTestCasesToGenerate
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
-            get { return NUMBER_OF_CASES; }
-        }
-
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
-        {
-
             var numberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(group.KeyingOption);
             var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * numberOfKeys).ToOddParityBitString();
             var plainText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * (_currentCase + 1));
@@ -38,11 +34,12 @@ namespace NIST.CVP.Generation.TDES_ECB
                 PlainText = plainText,
                 Deferred = false
             };
+
             _currentCase++;
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SymmetricCipherResult encryptionResult = null;
             try
@@ -52,7 +49,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -60,18 +57,14 @@ namespace NIST.CVP.Generation.TDES_ECB
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
+
             testCase.CipherText = encryptionResult.Result;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
-
-       
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

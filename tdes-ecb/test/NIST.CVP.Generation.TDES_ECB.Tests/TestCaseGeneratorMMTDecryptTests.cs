@@ -36,15 +36,14 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         public void ShouldGenerateProperlySizedCipherTextForEachGenerateCall()
         {
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), new Crypto.TDES_ECB.TDES_ECB());
-            for (int caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
+            for (var caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
                 var result = subject.Generate(new TestGroup { Function = "decrypt", KeyingOption = 1 }, false);
                 Assume.That(result != null);
                 Assume.That(result.Success);
-                var testCase = (TestCase) result.TestCase;
+                var testCase = result.TestCase;
                 Assert.AreEqual((caseIdx + 1) * 8, testCase.CipherText.ToBytes().Length );
             }
-            
         }
 
         [Test]
@@ -56,8 +55,6 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             var subject = new TestCaseGeneratorMMTDecrypt(new Random800_90(), algo.Object);
             var result = subject.Generate(new TestGroup { Function = "decrypt", KeyingOption = 1 }, false);
             Assert.IsFalse(result.Success);
-
-
         }
     }
 }

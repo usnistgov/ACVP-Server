@@ -5,18 +5,15 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {
-    public class TestCaseValidatorMonteCarloEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMonteCarloEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
-        private TestCase _expectedResult;
+        private readonly TestCase _expectedResult;
+
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidatorMonteCarloEncrypt(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
-        }
-
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
@@ -32,6 +29,7 @@ namespace NIST.CVP.Generation.TDES_ECB
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
             }
+
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
 
@@ -47,10 +45,12 @@ namespace NIST.CVP.Generation.TDES_ECB
             {
                 errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Keys)}");
             }
+
             if (suppliedResult.ResultsArray.Any(a => a.PlainText == null))
             {
                 errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.PlainText)}");
             }
+
             if (suppliedResult.ResultsArray.Any(a => a.CipherText == null))
             {
                 errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}");
@@ -65,10 +65,12 @@ namespace NIST.CVP.Generation.TDES_ECB
                 {
                     errors.Add($"Key does not match on iteration {i}");
                 }
+
                 if (!_expectedResult.ResultsArray[i].CipherText.Equals(suppliedResult.ResultsArray[i].CipherText))
                 {
                     errors.Add($"Cipher Text does not match on iteration {i}");
                 }
+
                 if (!_expectedResult.ResultsArray[i].PlainText.Equals(suppliedResult.ResultsArray[i].PlainText))
                 {
                     errors.Add($"Plain Text does not match on iteration {i}");

@@ -34,15 +34,15 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
 
         private TestVectorSet GetTestGroup(string direction, string testType)
         {
-            TestVectorSet testVectorSet = new TestVectorSet()
+            TestVectorSet testVectorSet = new TestVectorSet
             {
-                TestGroups = new List<ITestGroup>()
+                TestGroups = new List<TestGroup>
                 {
-                    new TestGroup()
+                    new TestGroup
                     {
                         TestType = testType,
                         Function = direction,
-                        Tests = new List<ITestCase>()
+                        Tests = new List<TestCase>
                         {
                             new TestCase()
                         }

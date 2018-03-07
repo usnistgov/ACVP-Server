@@ -18,11 +18,9 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
     [TestFixture, UnitTest]
     public class TestCaseGeneratorMonteCarloDecryptTests
     {
-
         private Mock<IRandom800_90> _mockRandom;
         private Mock<ITDES_ECB_MCT> _mockMCT;
         private TestCaseGeneratorMonteCarloDecrypt _subject;
-
 
         [OneTimeSetUp]
         public void OneTimeSetup()
@@ -45,12 +43,14 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [TestCase(3)]
         public void ShouldCallRandomTwiceOnceForKeyOnceForCipherText(int keyingOption)
         {
-            TestGroup testGroup = new TestGroup()
+            var testGroup = new TestGroup()
             {
                 KeyingOption = keyingOption
             };
+
             _subject.Generate(testGroup, false);
             var numberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption);
+
             _mockRandom.Verify(v => v.GetRandomBitString(64 * numberOfKeys), nameof(keyingOption));
             _mockRandom.Verify(v => v.GetRandomBitString(64));
         }
@@ -58,10 +58,11 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         public void ShouldCallAlgoEncryptFromIsSampleMethod()
         {
-            TestGroup testGroup = new TestGroup()
+            var testGroup = new TestGroup()
             {
                 KeyingOption = 1
             };
+
             _subject.Generate(testGroup, false);
 
             _mockMCT.Verify(v => v.MCTDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>()));
@@ -70,11 +71,12 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         public void ShouldCallAlgoEncryptFromTestCaseMethod()
         {
-            TestGroup testGroup = new TestGroup()
+            var testGroup = new TestGroup()
             {
                 KeyingOption = 1
             };
-            TestCase testCase = new TestCase();
+
+            var testCase = new TestCase();
             _subject.Generate(testGroup, testCase);
 
             _mockMCT.Verify(v => v.MCTDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>()));
@@ -83,15 +85,16 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         public void ShouldReturnErrorMessageIfAlgoNotSuccessful()
         {
-            string errorMessage = "something bad happened!";
+            var errorMessage = "something bad happened!";
             _mockMCT.Setup(s => s.MCTDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Returns(new MCTResult<AlgoArrayResponse>(errorMessage));
 
-            TestGroup testGroup = new TestGroup()
+            var testGroup = new TestGroup()
             {
                 KeyingOption = 1
             };
-            TestCase testCase = new TestCase();
+
+            var testCase = new TestCase();
             var result = _subject.Generate(testGroup, testCase);
 
             Assert.IsFalse(result.Success, nameof(result.Success));
@@ -101,26 +104,20 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         public void ShouldReturnErrorMessageIfAlgoFailsWithException()
         {
-            string errorMessage = "something bad happened! oh noes!";
+            var errorMessage = "something bad happened! oh noes!";
             _mockMCT.Setup(s => s.MCTDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>()))
                 .Throws(new Exception(errorMessage));
 
-            TestGroup testGroup = new TestGroup()
+            var testGroup = new TestGroup()
             {
                 KeyingOption = 1
             };
-            TestCase testCase = new TestCase();
+
+            var testCase = new TestCase();
             var result = _subject.Generate(testGroup, testCase);
 
             Assert.IsFalse(result.Success, nameof(result.Success));
             Assert.AreEqual(errorMessage, result.ErrorMessage);
-        }
-
-
-
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
         }
     }
 }

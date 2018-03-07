@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         public void ShouldHave0NumberOfCases()
         {
             var subject = new TestCaseGeneratorNull();
-            Assert.AreEqual(0, subject.NumberOfTestCasesToGenerate);
+            Assert.AreEqual(1, subject.NumberOfTestCasesToGenerate);
         }
     }
 }
