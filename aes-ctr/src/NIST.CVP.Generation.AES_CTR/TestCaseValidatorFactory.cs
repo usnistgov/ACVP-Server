@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NIST.CVP.Crypto.AES_CTR;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 
@@ -24,34 +23,45 @@ namespace NIST.CVP.Generation.AES_CTR
 
             foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup) g))
             {
-                var testType = group.TestType.ToLower();
-                var direction = group.Direction.ToLower();
+                foreach (var test in group.Tests.Select(t => (TestCase) t))
+                {
+                    var testType = group.TestType.ToLower();
+                    var direction = group.Direction.ToLower();
 
-                if (testType == "singleblock" || testType == "partialblock" || _katTestTypes.Contains(testType))
-                {
-                    if (direction == "encrypt")
+                    if (testType == "singleblock" || testType == "partialblock" || _katTestTypes.Contains(testType))
                     {
-                        list.AddRange(group.Tests.Select(t => (TestCase)t).Select(t => new TestCaseValidatorEncrypt(t)));
+                        if (direction == "encrypt")
+                        {
+                            list.Add(new TestCaseValidatorEncrypt(test));
+                        }
+                        else if (direction == "decrypt")
+                        {
+                            list.Add(new TestCaseValidatorDecrypt(test));
+                        }
+                        else
+                        {
+                            list.Add(new TestCaseValidatorNull(test));
+                        }
                     }
-                    else if (direction == "decrypt")
+                    else if (testType == "counter")
                     {
-                        list.AddRange(group.Tests.Select(t => (TestCase)t).Select(t => new TestCaseValidatorDecrypt(t)));
+                        if (direction == "encrypt")
+                        {
+                            list.Add(new TestCaseValidatorCounterEncrypt(group, test, new DeferredTestCaseResolverEncrypt(_algo)));
+                        }
+                        else if (direction == "decrypt")
+                        {
+                            list.Add(new TestCaseValidatorCounterDecrypt(group, test, new DeferredTestCaseResolverDecrypt(_algo)));
+                        }
+                        else
+                        {
+                            list.Add(new TestCaseValidatorNull(test));
+                        }
                     }
-                }
-                else if (testType == "counter")
-                {
-                    if (direction == "encrypt")
+                    else
                     {
-                        list.AddRange(group.Tests.Select(t => (TestCase)t).Select(t => new TestCaseValidatorCounterEncrypt(group, t, new DeferredTestCaseResolverEncrypt(_algo))));
+                        list.Add(new TestCaseValidatorNull(test));
                     }
-                    else if (direction == "decrypt")
-                    {
-                        list.AddRange(group.Tests.Select(t => (TestCase)t).Select(t => new TestCaseValidatorCounterDecrypt(group, t, new DeferredTestCaseResolverDecrypt(_algo))));
-                    }
-                }
-                else
-                {
-                    list.AddRange(group.Tests.Select(t => new TestCaseValidatorNull(t)));
                 }
             }
 
