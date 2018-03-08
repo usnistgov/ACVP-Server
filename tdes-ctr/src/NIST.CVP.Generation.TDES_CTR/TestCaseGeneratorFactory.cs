@@ -28,6 +28,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                 case "variablekey":
                 case "variabletext":
                     return new TestCaseGeneratorKnownAnswer(group);
+
                 case "singleblock":
                     switch (direction)
                     {
@@ -38,6 +39,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     }
 
                     break;
+
                 case "partialblock":
                     switch (direction)
                     {
@@ -48,6 +50,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     }
 
                     break;
+
                 case "counter":
                     switch (direction)
                     {

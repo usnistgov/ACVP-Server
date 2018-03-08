@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.TDES_CTR
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.TDES_CTR
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SymmetricCipherResult decryptionResult = null;
             try
@@ -79,17 +79,17 @@ namespace NIST.CVP.Generation.TDES_CTR
                 if (!decryptionResult.Success)
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new TestCaseGenerateResponse(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
 
             testCase.PlainText = decryptionResult.Result;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

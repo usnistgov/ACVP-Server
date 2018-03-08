@@ -16,26 +16,48 @@ namespace NIST.CVP.Generation.TDES_OFB
         public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
         public BitString PlainText { get; set; }
-        public BitString Key { get; set; }
-        public BitString Key1 { get; set; }
-        public BitString Key2 { get; set; }
-        public BitString Key3 { get; set; }
-        public BitString CipherText { get; set; }
-        public BitString Iv { get; set; }
-        public List<AlgoArrayResponse> ResultsArray { get; set; }
 
         [JsonIgnore]
-        public TDESKeys Keys
+        public BitString Key { get; set; }
+        
+        public BitString Key1
+        {
+            get => Key?.MSBSubstring(0, 64);
+            set => Key = Key == null ?
+                value.ConcatenateBits(new BitString(128)) :
+                value.ConcatenateBits(Key.MSBSubstring(64, 128));
+        }
+
+        public BitString Key2
         {
             get
             {
-                if (Key2 == null)
-                {
-                    return new TDESKeys(Key);
-                }
-                return new TDESKeys(Key1.ConcatenateBits(Key2.ConcatenateBits(Key3)));
+                if (Key == null) return null;
+                if (Key.BitLength == 64) return Key1;
+                return Key.MSBSubstring(64, 64);
             }
+            set => Key = Key == null ?
+                new BitString(64).ConcatenateBits(value).ConcatenateBits(new BitString(64)) :
+                Key.MSBSubstring(0, 64).ConcatenateBits(value).ConcatenateBits(Key.MSBSubstring(128, 64));
         }
+
+        public BitString Key3
+        {
+            get
+            {
+                if (Key == null) return null;
+                if (Key.BitLength == 64) return Key1;
+                if (Key.BitLength == 128) return Key1;
+                return Key.MSBSubstring(128, 64);
+            }
+            set => Key = Key == null ?
+                new BitString(128).ConcatenateBits(value) :
+                Key.MSBSubstring(0, 128).ConcatenateBits(value);
+        }
+        
+        public BitString CipherText { get; set; }
+        public BitString Iv { get; set; }
+        public List<AlgoArrayResponse> ResultsArray { get; set; }
 
         public TestCase() { }
 

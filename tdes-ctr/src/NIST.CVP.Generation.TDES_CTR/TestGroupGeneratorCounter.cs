@@ -4,11 +4,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
-    public class TestGroupGeneratorCounter : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorCounter : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string LABEL = "counter";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -30,8 +30,6 @@ namespace NIST.CVP.Generation.TDES_CTR
                             NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption),
                             IncrementalCounter = parameters.IncrementalCounter,
                             OverflowCounter = true,
-
-                            StaticGroupOfTests = false,
                             TestType = LABEL
                         };
 
@@ -44,8 +42,6 @@ namespace NIST.CVP.Generation.TDES_CTR
                         NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption),
                         IncrementalCounter = parameters.IncrementalCounter,
                         OverflowCounter = false,
-
-                        StaticGroupOfTests = false,
                         TestType = LABEL
                     };
 

@@ -67,7 +67,12 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
         public BitString Key2
         {
-            get => Keys?.MSBSubstring(64, 64);
+            get
+            {
+                if (Keys == null) return null;
+                if (Keys.BitLength == 64) return Key1;
+                return Keys.MSBSubstring(64, 64);
+            }
             set => Keys = Keys == null ?
                 new BitString(64).ConcatenateBits(value).ConcatenateBits(new BitString(64)) :
                 Keys.MSBSubstring(0, 64).ConcatenateBits(value).ConcatenateBits(Keys.MSBSubstring(128, 64));
@@ -75,7 +80,13 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
         public BitString Key3
         {
-            get => Keys?.MSBSubstring(128, 64);
+            get
+            {
+                if (Keys == null) return null;
+                if (Keys.BitLength == 64) return Key1;
+                if (Keys.BitLength == 128) return Key1;
+                return Keys.MSBSubstring(128, 64);
+            }
             set => Keys = Keys == null ?
                 new BitString(128).ConcatenateBits(value) :
                 Keys.MSBSubstring(0, 128).ConcatenateBits(value);

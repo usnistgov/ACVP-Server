@@ -61,11 +61,11 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}"));
         }
 
-        private TestCase GetTestCase(bool failureTest = false)
+        private TestCase GetTestCase()
         {
             var testCase = new TestCase
             {
-                FailureTest = failureTest,
+                TestPassed = true,
                 PlainText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
                 TestCaseId = 1
             };

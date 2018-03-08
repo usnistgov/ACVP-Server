@@ -5,7 +5,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
-    public class TestGroupGeneratorKnownAnswerTest : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorKnownAnswerTest : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private readonly string[] _katTests =
         {
@@ -16,9 +16,9 @@ namespace NIST.CVP.Generation.TDES_CTR
             "VariableText"
         };
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
-            var testGroups = new List<ITestGroup>();
+            var testGroups = new List<TestGroup>();
             foreach (var function in parameters.Direction)
             {
                 foreach (var katTest in _katTests)
@@ -28,7 +28,6 @@ namespace NIST.CVP.Generation.TDES_CTR
                         Direction = function,
                         NumberOfKeys = 1,
                         TestType = katTest,
-                        StaticGroupOfTests = true
                     };
 
                     testGroups.Add(tg);

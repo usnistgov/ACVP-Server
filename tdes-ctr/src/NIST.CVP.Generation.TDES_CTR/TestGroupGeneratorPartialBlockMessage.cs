@@ -4,11 +4,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
-    public class TestGroupGeneratorPartialBlockMessage : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorPartialBlockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string LABEL = "partialblock";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -32,7 +32,6 @@ namespace NIST.CVP.Generation.TDES_CTR
                             // Only test case generator that cares about this information
                             DataLength = parameters.DataLength,
 
-                            StaticGroupOfTests = false,
                             TestType = LABEL
                         };
 

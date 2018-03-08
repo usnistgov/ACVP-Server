@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
@@ -8,51 +9,22 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
         public string Direction { get; set; }
         public int NumberOfKeys { get; set; }
 
         // Properties for specific groups
+        [JsonIgnore]
         public MathDomain DataLength { get; set; }
-        public bool StaticGroupOfTests { get; set; }
 
         // This is a vectorset / IUT property but it needs to be defined somewhere other than Parameter.cs
         public bool IncrementalCounter { get; set; }
         public bool OverflowCounter { get; set; }
 
         public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject)source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            Direction = expandoSource.GetTypeFromProperty<string>("direction");
-
-            var keyingOption = expandoSource.GetTypeFromProperty<int>("keyingOption");
-            if (keyingOption != 0)
-            {
-                NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption);
-            }
-
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            OverflowCounter = expandoSource.GetTypeFromProperty<bool>("overflow");
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {

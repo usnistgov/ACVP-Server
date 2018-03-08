@@ -4,11 +4,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
-    public class TestGroupGeneratorSingleBlockMessage : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorSingleBlockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string LABEL = "singleblock";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -26,8 +26,6 @@ namespace NIST.CVP.Generation.TDES_CTR
                     {
                         Direction = direction,
                         NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption),
-
-                        StaticGroupOfTests = false,
                         TestType = LABEL
                     };
 

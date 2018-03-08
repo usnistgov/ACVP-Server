@@ -59,13 +59,13 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         {
             var testVectorSet = new TestVectorSet
             {
-                TestGroups = new List<ITestGroup>
+                TestGroups = new List<TestGroup>
                 {
                     new TestGroup
                     {
                         TestType = testType,
                         Direction = direction,
-                        Tests = new List<ITestCase>
+                        Tests = new List<TestCase>
                         {
                             new TestCase()
                         }
