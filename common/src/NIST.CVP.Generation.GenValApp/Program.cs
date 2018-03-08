@@ -89,6 +89,7 @@ namespace NIST.CVP.Generation.GenValApp
             {
                 var errorMessage = $"ERROR: {ex.Message}";
                 Console.WriteLine(errorMessage);
+                Console.WriteLine(ex.StackTrace);
                 Logger.Error(errorMessage);
                 parser.ShowUsage();
 
@@ -98,6 +99,7 @@ namespace NIST.CVP.Generation.GenValApp
             {
                 var errorMessage = $"ERROR: {ex.Message}";
                 Console.WriteLine(errorMessage);
+                Console.WriteLine(ex.StackTrace);
                 Logger.Error(errorMessage);
                 return 1;
             }
