@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.DRBG
@@ -69,7 +70,8 @@ namespace NIST.CVP.Generation.DRBG
             tc.OtherInput.Add(
                 new OtherInput()
                 {
-                    EntropyInput = randomEntropyProvider.GetEntropy(group.EntropyInputLen),
+                    // we only want entropy if a PR group
+                    EntropyInput = group.PredResistance ? randomEntropyProvider.GetEntropy(group.EntropyInputLen) : new BitString(0),
                     AdditionalInput = randomEntropyProvider.GetEntropy(group.AdditionalInputLen)
                 }
             );
