@@ -253,24 +253,13 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
         }
 
         [Test]
-        public void ShouldHaveTestsWithKeyFilled()
-        {
-            var subject = new LegacyResponseFileParser();
-            var result = subject.Parse(_unitTestPath);
-            Assume.That(result != null);
-            var vectorSet = result.ParsedObject;
-            var casesWithKey = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).Keys.Keys != null));
-            Assert.IsNotEmpty(casesWithKey);
-        }
-
-        [Test]
         public void ShouldHaveTestsWithPlainTextFilled()
         {
             var subject = new LegacyResponseFileParser();
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            var casesWithPlainText = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).PlainText != null));
+            var casesWithPlainText = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => t.PlainText != null));
             Assert.IsNotEmpty(casesWithPlainText);
         }
 
@@ -281,7 +270,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var result = subject.Parse(_unitTestPath);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            var casesWithCipherText = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).CipherText != null));
+            var casesWithCipherText = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => t.CipherText != null));
             Assert.IsNotEmpty(casesWithCipherText);
         }
 
@@ -302,7 +291,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
             Assume.That(vectorSet.TestGroups.Count() == _groupsTotal);
-            var decryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "decrypt");
+            var decryptCount = vectorSet.TestGroups.Count(g => g.Function.ToLower() == "decrypt");
             Assert.AreEqual(4, decryptCount, decryptCount.ToString());
         }
 
@@ -314,7 +303,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
             Assume.That(vectorSet.TestGroups.Count() == _groupsTotal);
-            var encryptCount = vectorSet.TestGroups.Count(g => ((TestGroup)g).Function.ToLower() == "encrypt");
+            var encryptCount = vectorSet.TestGroups.Count(g => g.Function.ToLower() == "encrypt");
             Assert.AreEqual(4, encryptCount, encryptCount.ToString());
 
         }
