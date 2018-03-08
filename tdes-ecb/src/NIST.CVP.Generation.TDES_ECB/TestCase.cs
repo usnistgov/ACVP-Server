@@ -16,14 +16,15 @@ namespace NIST.CVP.Generation.TDES_ECB
         public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
         public BitString PlainText { get; set; }
+
         public BitString Key { get; set; }
+
         public BitString Key1 { get; set; }
         public BitString Key2 { get; set; }
         public BitString Key3 { get; set; }
         public BitString CipherText { get; set; }
         public List<AlgoArrayResponse> ResultsArray { get; set; }
 
-        [JsonIgnore]
         public TDESKeys Keys
         {
             get
