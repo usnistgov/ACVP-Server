@@ -38,13 +38,13 @@ namespace NIST.CVP.Generation.DRBG
             };
             
             // Reseed - needs entropy and additional input
-            AddOtherInput(group, randomEntropyProvider, testCase);
+            AddOtherInput(group, randomEntropyProvider, testCase, true);
 
             // Gen 1 - needs additional input
-            AddOtherInput(group, randomEntropyProvider, testCase);
+            AddOtherInput(group, randomEntropyProvider, testCase, false);
 
             // Gen 2 - needs additional input
-            AddOtherInput(group, randomEntropyProvider, testCase);
+            AddOtherInput(group, randomEntropyProvider, testCase, false);
 
             return Generate(group, testCase);
         }
@@ -95,12 +95,15 @@ namespace NIST.CVP.Generation.DRBG
             }
         }
 
-        private void AddOtherInput(TestGroup group, IEntropyProvider randomEntropyProvider, TestCase tc)
+        private void AddOtherInput(TestGroup group, IEntropyProvider randomEntropyProvider, TestCase tc, bool needsEntropyInput)
         {
             tc.OtherInput.Add(
                 new OtherInput()
                 {
-                    EntropyInput = randomEntropyProvider.GetEntropy(group.EntropyInputLen),
+                    // We only need additional Entropy input in some situations (Reseed, but not generate)
+                    EntropyInput = needsEntropyInput ? 
+                        randomEntropyProvider.GetEntropy(group.EntropyInputLen) : 
+                        new BitString(0),
                     AdditionalInput = randomEntropyProvider.GetEntropy(group.AdditionalInputLen)
                 }
             );

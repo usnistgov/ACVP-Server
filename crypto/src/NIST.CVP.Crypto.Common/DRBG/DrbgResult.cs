@@ -5,8 +5,8 @@ namespace NIST.CVP.Crypto.Common.DRBG
 {
     public class DrbgResult
     {
-        public BitString Bits { get; private set; }
-        public DrbgStatus DrbgStatus { get; private set; }
+        public BitString Bits { get; }
+        public DrbgStatus DrbgStatus { get; }
 
         public DrbgResult(BitString bits)
         {
@@ -24,10 +24,7 @@ namespace NIST.CVP.Crypto.Common.DRBG
             }
         }
 
-        public bool Success
-        {
-            get { return DrbgStatus == DrbgStatus.Success; }
-        }
+        public bool Success => DrbgStatus == DrbgStatus.Success;
 
         public override string ToString()
         {
