@@ -53,12 +53,12 @@ namespace NIST.CVP.Generation.AES_OFB.IntegrationTests
             foreach (var iTestGroup in parsedTestVectorSet.ParsedObject.TestGroups)
             {
 
-                var testGroup = (TestGroup) iTestGroup;
+                var testGroup = iTestGroup;
                 foreach (var iTestCase in testGroup.Tests)
                 {
                     count++;
 
-                    var testCase = (TestCase) iTestCase;
+                    var testCase = iTestCase;
 
                     if (testGroup.TestType.ToLower() == "mct")
                     {

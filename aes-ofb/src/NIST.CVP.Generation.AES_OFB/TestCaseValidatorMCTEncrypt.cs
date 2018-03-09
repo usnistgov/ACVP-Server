@@ -5,7 +5,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_OFB
 {
-    public class TestCaseValidatorMCTEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMCTEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 
@@ -14,10 +14,7 @@ namespace NIST.CVP.Generation.AES_OFB
             _expectedResult = expectedResult;
         }
 
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
-        }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
