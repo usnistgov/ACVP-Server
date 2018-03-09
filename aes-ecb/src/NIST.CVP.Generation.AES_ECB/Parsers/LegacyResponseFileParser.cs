@@ -8,7 +8,7 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_ECB.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -120,8 +120,7 @@ namespace NIST.CVP.Generation.AES_ECB.Parsers
 
             var testVectorSet = new TestVectorSet
             {
-                Algorithm = "AES-ECB",
-                TestGroups = groups.Select(g => (ITestGroup) g).ToList()
+                TestGroups = groups.Select(g => g).ToList()
             };
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }

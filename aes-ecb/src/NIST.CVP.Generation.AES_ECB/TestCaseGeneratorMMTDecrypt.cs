@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.AES_ECB
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             //known answer - need to do an encryption operation to get the tag
             var key = _random800_90.GetRandomBitString(@group.KeyLength);
@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.AES_ECB
             return Generate(@group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
             SymmetricCipherResult encryptionResult = null;
             try
@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.AES_ECB
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -57,20 +57,17 @@ namespace NIST.CVP.Generation.AES_ECB
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             testCase.CipherText = encryptionResult.Result;
            
          
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-      
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

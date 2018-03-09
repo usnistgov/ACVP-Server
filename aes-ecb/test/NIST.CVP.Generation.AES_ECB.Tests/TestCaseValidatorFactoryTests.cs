@@ -36,13 +36,13 @@ namespace NIST.CVP.Generation.AES_ECB.Tests
         {
             TestVectorSet testVectorSet = new TestVectorSet()
             {
-                TestGroups = new List<ITestGroup>()
+                TestGroups = new List<TestGroup>()
                 {
                     new TestGroup()
                     {
                         TestType = testType,
                         Function = direction,
-                        Tests = new List<ITestCase>()
+                        Tests = new List<TestCase>()
                         {
                             new TestCase()
                         }

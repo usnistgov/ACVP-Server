@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_ECB
             _iAesEcbMct = iAesEcbMct;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             var key = _iRandom80090.GetRandomBitString(@group.KeyLength);
             var plainText = _iRandom80090.GetRandomBitString(128);
@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.AES_ECB
             return Generate(@group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
             MCTResult<AlgoArrayResponse> encryptionResult = null;
             try
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.AES_ECB
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -52,16 +52,13 @@ namespace NIST.CVP.Generation.AES_ECB
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             testCase.ResultsArray = encryptionResult.Response;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
