@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestGroupGeneratorSingleBlockMessage : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorSingleBlockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string LABEL = "singleblock";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

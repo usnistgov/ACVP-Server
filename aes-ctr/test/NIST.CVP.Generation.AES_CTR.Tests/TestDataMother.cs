@@ -6,77 +6,62 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CTR.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1, string direction = "encrypt")
+        public static TestVectorSet GetTestGroups(int groups = 1, string direction = "encrypt", string testType = "aft")
         {
+            var tvs = new TestVectorSet
+            {
+                Algorithm = "TDES",
+                IsSample = true,
+                Mode = "CTR"
+            };
+
             var testGroups = new List<TestGroup>();
+            tvs.TestGroups = testGroups;
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                var tg = new TestGroup
+                {
+                    Direction = direction,
+                    KeyLength = 128,
+                    TestType = testType,
+                    IncrementalCounter = true,
+                    OverflowCounter = false
+                };
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
-                    tests.Add(new TestCase
+                    var tc = new TestCase
                     {
+                        ParentGroup = tg,
                         PlainText = new BitString("1AAADFFF"),
-                        Deferred = false,
-                        CipherText = new BitString("7EADDC"),
-                        Key = new BitString("9998ADCD"),
-                        IV = new BitString("CAFECAFE"),
-                        TestCaseId = testId
-                    });
-                }
-
-                testGroups.Add(
-                    new TestGroup
-                    {
-                        Direction = direction,
-                        KeyLength = 256 + groupIdx * 2,
-                        Tests = tests,
-                        TestType = "Sample"
-                    }
-                );
-            }
-            return testGroups;
-        }
-
-        public List<TestGroup> GetCounterTestGroups(int groups = 1, string direction = "encrypt")
-        {
-            var testGroups = new List<TestGroup>();
-
-            for (var groupIdx = 0; groupIdx < groups; groupIdx++)
-            {
-                var tests = new List<ITestCase>();
-                for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
-                {
-                    tests.Add(new TestCase
-                    {
                         Deferred = true,
-                        PlainText = new BitString("1AAADFFF"),
                         CipherText = new BitString("7EADDC"),
-                        Key = new BitString("9998ADCD"),
-                        IVs = new List<BitString>
-                        {
-                            new BitString("CAFECAFE"),
-                        },
+                        Key = new BitString("9998ADCD9998ADCD9998ADCD9998ADCD9998ADCD9998ADCD"),
+                        IV = new BitString("12314143"),
+                        Length = 10,
                         TestCaseId = testId
-                    });
-                }
+                    };
+                    tests.Add(tc);
 
-                testGroups.Add(
-                    new TestGroup
+                    if (testType.Equals("counter", StringComparison.OrdinalIgnoreCase))
                     {
-                        Direction = direction,
-                        KeyLength = 256 + groupIdx * 2,
-                        Tests = tests,
-                        OverflowCounter = true,
-                        IncrementalCounter = true,
-                        TestType = "counter"
+                        tc.IVs = new List<BitString>
+                        {
+                            new BitString("01"),
+                            new BitString("02"),
+                            new BitString("03")
+                        };
+                        tc.IV = null;
                     }
-                );
+                }
             }
 
-            return testGroups;
+            return tvs;
         }
     }
 }

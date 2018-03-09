@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestGroupGeneratorPartialBlockMessage : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorPartialBlockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string LABEL = "partialblock";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.AES_CTR
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -53,11 +53,11 @@ namespace NIST.CVP.Generation.AES_CTR
             }
             else
             {
-                return new TestCaseGenerateResponse(testCase);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SymmetricCounterResult encryptionResult = null;
             try
@@ -77,18 +77,18 @@ namespace NIST.CVP.Generation.AES_CTR
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new TestCaseGenerateResponse(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
 
             testCase.CipherText = encryptionResult.Result;
             testCase.IVs = encryptionResult.IVs;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private BitString GetStartingIV(TestGroup group)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -11,47 +12,26 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
+        public string TestType { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
+        [JsonProperty(PropertyName = "direction")]
         public string Direction { get; set; }
+        [JsonProperty(PropertyName = "keyLen")]
         public int KeyLength { get; set; }
 
         // Properties for specific groups
+        [JsonIgnore]
         public MathDomain DataLength { get; set; }
 
         // This is a vectorset / IUT property but it needs to be defined somewhere other than Parameter.cs
+        [JsonProperty(PropertyName = "incremental")]
         public bool IncrementalCounter { get; set; }
+        [JsonProperty(PropertyName = "overflow")]
         public bool OverflowCounter { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject)source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            Direction = expandoSource.GetTypeFromProperty<string>("direction");
-            KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            OverflowCounter = expandoSource.GetTypeFromProperty<bool>("overflow");
-            IncrementalCounter = expandoSource.GetTypeFromProperty<bool>("incremental");
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
-
+        
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

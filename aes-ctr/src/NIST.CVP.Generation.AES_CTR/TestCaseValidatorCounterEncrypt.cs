@@ -7,7 +7,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestCaseValidatorCounterEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorCounterEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, SymmetricCounterResult> _deferredTestCaseResolver;
         private readonly TestCase _serverTestCase;

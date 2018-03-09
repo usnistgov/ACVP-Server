@@ -7,7 +7,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
         private readonly IAesCtr _algo;
         private readonly List<string> _katTestTypes = new List<string> { "gfsbox", "keysbox", "varkey", "vartxt" };
@@ -17,13 +17,13 @@ namespace NIST.CVP.Generation.AES_CTR
             _algo = algo;
         }
 
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestCase>>();
+            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
 
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup) g))
+            foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
-                foreach (var test in group.Tests.Select(t => (TestCase) t))
+                foreach (var test in group.Tests.Select(t => t))
                 {
                     var testType = group.TestType.ToLower();
                     var direction = group.Direction.ToLower();

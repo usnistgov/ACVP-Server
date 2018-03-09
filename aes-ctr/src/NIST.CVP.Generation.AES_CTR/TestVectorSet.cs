@@ -2,35 +2,20 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestVectorSet : ITestVectorSet
+    public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }
 
-        [JsonIgnore]
-        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
-        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
-
-        public TestVectorSet() { }
-
-        public TestVectorSet(dynamic answers)
-        {
-            foreach (var answer in answers.answerProjection)
-            {
-                var group = new TestGroup(answer);
-
-                TestGroups.Add(group);
-            }
-        }
-
-        public List<dynamic> AnswerProjection
+        public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
+        
+        private List<dynamic> AnswerProjection
         {
             get
             {
@@ -70,8 +55,7 @@ namespace NIST.CVP.Generation.AES_CTR
             }
         }
 
-        [JsonProperty(PropertyName = "testGroups")]
-        public List<dynamic> PromptProjection
+        private List<dynamic> PromptProjection
         {
             get
             {
@@ -134,8 +118,7 @@ namespace NIST.CVP.Generation.AES_CTR
             }
         }
 
-        [JsonProperty(PropertyName = "testResults")]
-        public List<dynamic> ResultProjection
+        private List<dynamic> ResultProjection
         {
             get
             {

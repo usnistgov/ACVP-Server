@@ -9,14 +9,14 @@ namespace NIST.CVP.Generation.AES_CTR
     {
         public int NumberOfTestCasesToGenerate { get; } = 1;
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             return Generate(group, null);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
-            return new TestCaseGenerateResponse("This is the null generator -- nothing is generated");
+            return new TestCaseGenerateResponse<TestGroup, TestCase>("This is the null generator -- nothing is generated");
         }
     }
 }
