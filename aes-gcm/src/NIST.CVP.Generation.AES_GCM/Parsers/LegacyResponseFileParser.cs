@@ -7,7 +7,7 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_GCM.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -80,13 +80,13 @@ namespace NIST.CVP.Generation.AES_GCM.Parsers
                     string[] parts = workingLine.Split("=".ToCharArray());
                     int caseId = -1;
                     int.TryParse(parts[1].Trim(), out caseId);
-                    currentTestCase = new TestCase {TestCaseId = caseId};
+                    currentTestCase = new TestCase {TestCaseId = caseId, TestPassed = true};
                     currentGroup.Tests.Add(currentTestCase);
                     continue;
                 }
                 if(workingLine == "FAIL")
                 {
-                    currentTestCase.FailureTest = true;
+                    currentTestCase.TestPassed = false;
                     continue;
                 }
                 inCases = true;
@@ -95,7 +95,7 @@ namespace NIST.CVP.Generation.AES_GCM.Parsers
 
             }
 
-            var testVectorSet = new TestVectorSet { Algorithm = "AES-GCM", TestGroups = groups.Select(g => (ITestGroup)g).ToList()};
+            var testVectorSet = new TestVectorSet { TestGroups = groups.Select(g => g).ToList()};
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
     }

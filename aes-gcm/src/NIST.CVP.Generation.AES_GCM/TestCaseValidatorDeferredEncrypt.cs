@@ -5,7 +5,7 @@ using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class TestCaseValidatorDeferredEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorDeferredEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestGroup _testGroup;
         private readonly TestCase _serverTestCase;

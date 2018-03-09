@@ -4,63 +4,31 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
-using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_GCM
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
-        [JsonProperty(PropertyName = "testType")]
-        public string TestType { get; set; } = "AFT";
+        public string TestType { get; set; }
         [JsonProperty(PropertyName = "direction")]
         public string Function { get; set; }
-        [JsonProperty(PropertyName = "keylen")]
+        [JsonProperty(PropertyName = "keyLen")]
         public int KeyLength { get; set; }
-        [JsonProperty(PropertyName = "ivlen")]
+        [JsonProperty(PropertyName = "ivLen")]
         public int IVLength { get; set; }
-        [JsonProperty(PropertyName = "ivgen")]
+        [JsonProperty(PropertyName = "ivGen")]
         public string IVGeneration { get; set; }
-        [JsonProperty(PropertyName = "ivgenmode")]
+        [JsonProperty(PropertyName = "ivGenMode")]
         public string IVGenerationMode { get; set; }
-        [JsonProperty(PropertyName = "ptlen")]
+        [JsonProperty(PropertyName = "ptLen")]
         public int PTLength { get; set; }
-        [JsonProperty(PropertyName = "aadlen")]
+        [JsonProperty(PropertyName = "aadLen")]
         public int AADLength { get; set; }
-        [JsonProperty(PropertyName = "taglen")]
+        [JsonProperty(PropertyName = "tagLen")]
         public int TagLength { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            IVGeneration = expandoSource.GetTypeFromProperty<string>("ivGen");
-            IVGenerationMode = expandoSource.GetTypeFromProperty<string>("ivGenMode");
-            AADLength = expandoSource.GetTypeFromProperty<int>("aadLen");
-            PTLength = expandoSource.GetTypeFromProperty<int>("ptLen");
-            IVLength = expandoSource.GetTypeFromProperty<int>("ivLen");
-            TagLength = expandoSource.GetTypeFromProperty<int>("tagLen");
-            KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");
-            Function = expandoSource.GetTypeFromProperty<string>("direction");
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {

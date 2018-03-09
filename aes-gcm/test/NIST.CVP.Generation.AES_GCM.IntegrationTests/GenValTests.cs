@@ -33,19 +33,11 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             };
         }
 
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
         protected override void OverrideRegistrationValFakeException()
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
 
@@ -54,9 +46,9 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             var rand = new Random800_90();
 
             // If TC is intended to be a failure test, change it
-            if (testCase.decryptFail != null)
+            if (testCase.testPassed != null)
             {
-                testCase.decryptFail = false;
+                testCase.testPassed = true;
             }
 
             // If TC has a cipherText, change it
@@ -99,11 +91,11 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PtLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
                 ivLen = new MathDomain().AddSegment(new ValueDomainSegment(96)),
-                ivGen = ParameterValidator.VALID_IV_GEN[1],
-                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
+                ivGen = ParameterValidator.VALID_IV_GEN[0],
+                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],
                 aadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
                 TagLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),
-                IsSample = false
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, p);

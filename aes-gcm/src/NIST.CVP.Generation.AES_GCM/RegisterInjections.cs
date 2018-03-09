@@ -1,6 +1,9 @@
 ﻿using Autofac;
 using NIST.CVP.Common;
+using NIST.CVP.Generation.AES_GCM.ContractResolvers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.DeSerialization;
+using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 
@@ -15,17 +18,21 @@ namespace NIST.CVP.Generation.AES_GCM
             builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>()
                 .AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
             
             builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidator<TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
+
+            builder.RegisterType<JsonConverterProvider>().AsImplementedInterfaces();
+            builder.RegisterType<ContractResolverFactory>().AsImplementedInterfaces();
+            builder.RegisterType<VectorSetSerializer<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<VectorSetDeserializer<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
         }
     }
 }

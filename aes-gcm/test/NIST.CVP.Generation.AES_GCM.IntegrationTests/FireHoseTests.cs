@@ -108,18 +108,19 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                                 testCase.Tag
                             );
 
-                            if (testCase.FailureTest)
+                            if (testCase.TestPassed != null && !testCase.TestPassed.Value)
                             {
                                 failureTests++;
                                 if (result.Success)
                                 {
                                     fails++;
+                                    continue;
                                 }
                                 else
                                 {
                                     passes++;
+                                    continue;
                                 }
-                                continue;
                             }
 
                             if (testCase.PlainText.ToHex() == result.Result.ToHex())
