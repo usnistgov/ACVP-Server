@@ -74,12 +74,21 @@ namespace NIST.CVP.Generation.HMAC.IntegrationTests
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
+            //Parameters p = new Parameters()
+            //{
+            //    Algorithm = Algorithm,
+            //    Mode = Mode,
+            //    KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(8)),
+            //    MacLen = new MathDomain().AddSegment(new ValueDomainSegment(32)),
+            //    IsSample = false
+            //};
+
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                KeyLen = new MathDomain().AddSegment(new ValueDomainSegment(8)),
-                MacLen = new MathDomain().AddSegment(new ValueDomainSegment(32)),
+                KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)),
+                MacLen = new MathDomain().AddSegment(new ValueDomainSegment(384)),
                 IsSample = false
             };
 
