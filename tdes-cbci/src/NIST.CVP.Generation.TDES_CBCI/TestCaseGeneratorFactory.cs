@@ -28,6 +28,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
                 case "variablekey":
                 case "variabletext":
                     return new TestCaseGeneratorKnownAnswer(group);
+
                 case "multiblockmessage":
                     switch (@group.Function.ToLower())
                     {
@@ -38,6 +39,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
                     }
 
                     break;
+
                 case "mct":
                     switch (@group.Function.ToLower())
                     {

@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Collections.Generic;
+using Moq;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES;
@@ -63,7 +64,8 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
             var testGroup = new TestGroup()
             {
                 Function = "encrypt",
-                KeyingOption = 1
+                KeyingOption = 1,
+                Tests = new List<TestCase>()
             };
 
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)

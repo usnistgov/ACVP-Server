@@ -5,18 +5,18 @@ using System.Text.RegularExpressions;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.TDES_CFBP.ContractResolvers;
+using NIST.CVP.Generation.TDES_CBCI.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.TDES_CFBP.Tests.ContractResolvers
+namespace NIST.CVP.Generation.TDES_CBCI.Tests.ContractResolvers
 {
     [TestFixture, UnitTest, FastIntegrationTest]
-    public class PromptProjectionContractResolverTests
+    public class ResultsProjectionContractResolverTests
     {
         private readonly JsonConverterProvider _jsonConverterProvider = new JsonConverterProvider();
         private readonly ContractResolverFactory _contractResolverFactory = new ContractResolverFactory();
-        private readonly Projection _projection = Projection.Prompt;
+        private readonly Projection _projection = Projection.Result;
 
         private VectorSetSerializer<TestVectorSet, TestGroup, TestCase> _serializer;
         private VectorSetDeserializer<TestVectorSet, TestGroup, TestCase> _deserializer;
@@ -29,14 +29,14 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests.ContractResolvers
                     _jsonConverterProvider,
                     _contractResolverFactory
                 );
-            _deserializer = 
+            _deserializer =
                 new VectorSetDeserializer<TestVectorSet, TestGroup, TestCase>(
                     _jsonConverterProvider
                 );
         }
 
         /// <summary>
-        /// All group level properties are present in the prompt file
+        /// Only the groupId and tests should be present in the result file
         /// </summary>
         [Test]
         public void ShouldSerializeGroupProperties()
@@ -51,13 +51,14 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests.ContractResolvers
 
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.Function, newTg.Function, nameof(newTg.Function));
-            Assert.AreEqual(tg.KeyingOption, newTg.KeyingOption, nameof(newTg.KeyingOption));
+
+            Assert.AreNotEqual(tg.Function, newTg.Function, nameof(newTg.Function));
+            Assert.AreNotEqual(tg.KeyingOption, newTg.KeyingOption, nameof(newTg.KeyingOption));
         }
 
         /// <summary>
-        /// Encrypt test group should not contain the cipherText, results array, deferred, testPassed
-        /// all other properties included
+        /// Encrypt test group should contain the cipherText, results array (when mct)
+        /// all other properties excluded
         /// </summary>
         /// <param name="function">The function being tested</param>
         /// <param name="testType">The testType</param>
@@ -78,17 +79,34 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests.ContractResolvers
 
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.IV1, newTc.IV1, nameof(newTc.IV1));
-            Assert.AreEqual(tc.IV2, newTc.IV2, nameof(newTc.IV2));
-            Assert.AreEqual(tc.IV3, newTc.IV3, nameof(newTc.IV3));
-            Assert.AreEqual(tc.Key1, newTc.Key1, nameof(newTc.Key1));
-            Assert.AreEqual(tc.Key2, newTc.Key2, nameof(newTc.Key2));
-            Assert.AreEqual(tc.Key3, newTc.Key3, nameof(newTc.Key3));
-            Assert.AreEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
+            Assert.AreEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
 
-            Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
+            if (tg.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
+            {
+                for (var i = 0; i < tc.ResultsArray.Count; i++)
+                {
+                    Assert.AreEqual(tc.ResultsArray[i].IV1, newTc.ResultsArray[i].IV1, "mctIv1");
+                    Assert.AreEqual(tc.ResultsArray[i].IV2, newTc.ResultsArray[i].IV2, "mctIv2");
+                    Assert.AreEqual(tc.ResultsArray[i].IV3, newTc.ResultsArray[i].IV3, "mctIv3");
+                    Assert.AreEqual(tc.ResultsArray[i].Key1, newTc.ResultsArray[i].Key1, "mctKey1");
+                    Assert.AreEqual(tc.ResultsArray[i].Key2, newTc.ResultsArray[i].Key2, "mctKey2");
+                    Assert.AreEqual(tc.ResultsArray[i].Key3, newTc.ResultsArray[i].Key3, "mctKey3");
+                    Assert.AreEqual(tc.ResultsArray[i].CipherText, newTc.ResultsArray[i].CipherText, "mctCt");
+                    Assert.AreEqual(tc.ResultsArray[i].PlainText, newTc.ResultsArray[i].PlainText, "mctPt");
+                }
+            }
+            else
+            {
+                Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
+            }
 
-            Assert.AreNotEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
+            Assert.AreNotEqual(tc.IV1, newTc.IV1, nameof(newTc.IV1));
+            Assert.AreNotEqual(tc.IV2, newTc.IV2, nameof(newTc.IV2));
+            Assert.AreNotEqual(tc.IV3, newTc.IV3, nameof(newTc.IV3));
+            Assert.AreNotEqual(tc.Key1, newTc.Key1, nameof(newTc.Key1));
+            Assert.AreNotEqual(tc.Key2, newTc.Key2, nameof(newTc.Key2));
+            Assert.AreNotEqual(tc.Key3, newTc.Key3, nameof(newTc.Key3));
+            Assert.AreNotEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
             Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
@@ -97,8 +115,8 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests.ContractResolvers
         }
 
         /// <summary>
-        /// Decrypt test group should not contain the plainText, results array, deferred, testPassed
-        /// all other properties included
+        /// Decrypt test group should contain the plainText, results array (when mct)
+        /// all other properties excluded
         /// </summary>
         /// <param name="function">The function being tested</param>
         /// <param name="testType">The testType</param>
@@ -119,17 +137,34 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests.ContractResolvers
 
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.IV1, newTc.IV1, nameof(newTc.IV1));
-            Assert.AreEqual(tc.IV2, newTc.IV2, nameof(newTc.IV2));
-            Assert.AreEqual(tc.IV3, newTc.IV3, nameof(newTc.IV3));
-            Assert.AreEqual(tc.Key1, newTc.Key1, nameof(newTc.Key1));
-            Assert.AreEqual(tc.Key2, newTc.Key2, nameof(newTc.Key2));
-            Assert.AreEqual(tc.Key3, newTc.Key3, nameof(newTc.Key3));
-            Assert.AreEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
+            Assert.AreEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
 
-            Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
+            if (tg.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
+            {
+                for (var i = 0; i < tc.ResultsArray.Count; i++)
+                {
+                    Assert.AreEqual(tc.ResultsArray[i].IV1, newTc.ResultsArray[i].IV1, "mctIv1");
+                    Assert.AreEqual(tc.ResultsArray[i].IV2, newTc.ResultsArray[i].IV2, "mctIv2");
+                    Assert.AreEqual(tc.ResultsArray[i].IV3, newTc.ResultsArray[i].IV3, "mctIv3");
+                    Assert.AreEqual(tc.ResultsArray[i].Key1, newTc.ResultsArray[i].Key1, "mctKey1");
+                    Assert.AreEqual(tc.ResultsArray[i].Key2, newTc.ResultsArray[i].Key2, "mctKey2");
+                    Assert.AreEqual(tc.ResultsArray[i].Key3, newTc.ResultsArray[i].Key3, "mctKey3");
+                    Assert.AreEqual(tc.ResultsArray[i].CipherText, newTc.ResultsArray[i].CipherText, "mctCt");
+                    Assert.AreEqual(tc.ResultsArray[i].PlainText, newTc.ResultsArray[i].PlainText, "mctPt");
+                }
+            }
+            else
+            {
+                Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
+            }
 
-            Assert.AreNotEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
+            Assert.AreNotEqual(tc.IV1, newTc.IV1, nameof(newTc.IV1));
+            Assert.AreNotEqual(tc.IV2, newTc.IV2, nameof(newTc.IV2));
+            Assert.AreNotEqual(tc.IV3, newTc.IV3, nameof(newTc.IV3));
+            Assert.AreNotEqual(tc.Key1, newTc.Key1, nameof(newTc.Key1));
+            Assert.AreNotEqual(tc.Key2, newTc.Key2, nameof(newTc.Key2));
+            Assert.AreNotEqual(tc.Key3, newTc.Key3, nameof(newTc.Key3));
+            Assert.AreNotEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
             Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
