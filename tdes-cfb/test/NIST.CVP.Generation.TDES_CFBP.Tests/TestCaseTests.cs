@@ -9,75 +9,6 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
     [TestFixture]
     public class TestCaseTests
     {
-        private TestDataMother _tdm = new TestDataMother();
-
-        [Test]
-        public void ShouldReconstituteTestCaseFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assert.IsNotNull(subject);
-
-        }
-        [Test]
-        public void ShouldReconstituteTestCaseFromProperJObject()
-        {
-            var sourceTest = new JObject();
-            sourceTest.Add("tcId", new JValue(1));
-            sourceTest.Add("ct", new JValue("00AA"));
-            var subject = new TestCase(sourceTest);
-            Assert.IsNotNull(subject);
-
-        }
-
-        [Test]
-
-        public void ShouldNotReconstituteTestCaseFromJObjectWithouttcId_ThrowsException()
-        {
-            var sourceTest = new JObject();
-            sourceTest.Add("ct", new JValue("00AA"));
-            Assert.That(() => new TestCase(sourceTest), Throws.InstanceOf<RuntimeBinderException>());
-
-        }
-
-        [Test]
-        public void ShouldSetProperTestCaseIdFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.tcId, subject.TestCaseId);
-
-        }
-
-        [Test]
-        public void ShouldSetProperDeferredFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.deferred, subject.Deferred);
-        }
-
-        [Test]
-        public void ShouldSetProperFailureTestFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.failureTest, subject.FailureTest);
-        }
-
-
-        [Test]
-        public void ShouldSetProperCipherTextFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.ct, subject.CipherText);
-        }
-
         [Test]
         [TestCase("Fredo")]
         [TestCase("")]
@@ -97,10 +28,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             var subject = new TestCase();
             var result = subject.SetString(name, null);
             Assert.IsTrue(result);
-
         }
-
-
 
         [Test]
         [TestCase("key")]
@@ -112,8 +40,6 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             Assert.IsTrue(result);
             Assert.AreEqual("00AA00AA00AA00AA00AA00AA00AA00AA00AA00AA00AA00AA", subject.Keys.ToHex());
         }
-
-
 
         [Test]
         [TestCase("CipherText")]
@@ -152,13 +78,6 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             var result = subject.SetString(name, "00AA");
             Assert.IsTrue(result);
             Assert.AreEqual("00AA", subject.IV1.ToHex());
-        }
-
-        private dynamic GetSourceAnswerTest()
-        {
-            var sourceVector = new TestVectorSet() { TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup)g).ToList() };
-            var sourceTest = sourceVector.AnswerProjection[0].tests[0];
-            return sourceTest;
         }
     }
 }

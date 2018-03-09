@@ -17,6 +17,8 @@ namespace NIST.CVP.Generation.TDES_CFBP
         private int _currentCase;
         private int _shift;
 
+        public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
+
         public TestCaseGeneratorMMTEncrypt(IRandom800_90 random800_90, ICFBPMode modeOfOperation)
         {
             _random800_90 = random800_90;
@@ -37,9 +39,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
             }
         }
 
-        public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
-
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             var key = TdesHelpers.GenerateTdesKey(group.KeyingOption);
             var plainText = _random800_90.GetRandomBitString(_shift * (_currentCase + 1));
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
             SymmetricCipherWithIvResult encryptionResult = null;
             try
@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -73,20 +73,15 @@ namespace NIST.CVP.Generation.TDES_CFBP
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             testCase.CipherText = encryptionResult.Result;
             testCase.IV2 = encryptionResult.IVs[1];
             testCase.IV3 = encryptionResult.IVs[2];
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
-
-
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

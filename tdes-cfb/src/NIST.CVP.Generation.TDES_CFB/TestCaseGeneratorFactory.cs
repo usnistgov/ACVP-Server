@@ -17,9 +17,9 @@ namespace NIST.CVP.Generation.TDES_CFB
             _modeOfOperationMCT = modeOfOperationMCT;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group)
+        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup group)
         {
-            switch (@group.TestType.ToLower())
+            switch (group.TestType.ToLower())
             {
                 case "permutation":
                 case "inversepermutation":
@@ -27,8 +27,9 @@ namespace NIST.CVP.Generation.TDES_CFB
                 case "variablekey":
                 case "variabletext":
                     return new TestCaseGeneratorKnownAnswer(group, _modeOfOperation.Algo);
+
                 case "multiblockmessage":
-                    switch (@group.Function.ToLower())
+                    switch (group.Function.ToLower())
                     {
                         case "encrypt":
                             return new TestCaseGeneratorMMTEncrypt(_random800_90, _modeOfOperation);
@@ -37,8 +38,9 @@ namespace NIST.CVP.Generation.TDES_CFB
                     }
 
                     break;
+
                 case "mct":
-                    switch (@group.Function.ToLower())
+                    switch (group.Function.ToLower())
                     {
                         case "encrypt":
                             return new TestCaseGeneratorMonteCarloEncrypt(_random800_90, _modeOfOperationMCT);

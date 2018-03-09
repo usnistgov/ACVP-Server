@@ -6,18 +6,15 @@ using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.TDES_CFBP
 {
-    public class TestCaseValidatorMonteCarloEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMonteCarloEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private TestCase _expectedResult;
+
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidatorMonteCarloEncrypt(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
-        }
-
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)

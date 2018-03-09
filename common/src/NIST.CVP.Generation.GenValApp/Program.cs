@@ -143,7 +143,8 @@ namespace NIST.CVP.Generation.GenValApp
                     throw new ArgumentOutOfRangeException($"Invalid {nameof(_genValMode)}");
             }
 
-            string logName = $"{parsedParameters.Algorithm}-{parsedParameters.Mode}_{_genValMode}";
+            var friendlyMode = parsedParameters.Mode.Replace("/", "-");
+            var logName = $"{parsedParameters.Algorithm}-{friendlyMode}_{_genValMode}";
 
             LoggingHelper.ConfigureLogging(filePath, logName);
             Logger.Info($"{_genValMode} Test Vectors");

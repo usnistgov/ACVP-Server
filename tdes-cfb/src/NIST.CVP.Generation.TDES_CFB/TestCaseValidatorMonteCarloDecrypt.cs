@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
-    public class TestCaseValidatorMonteCarloDecrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMonteCarloDecrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private TestCase _expectedResult;
 

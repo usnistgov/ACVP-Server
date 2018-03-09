@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             };
 
             var subject = new TestCaseGeneratorKnownAnswer(testGroup, AlgoMode.TDES_CFB1);
-            List<TestCaseGenerateResponse> results = new List<TestCaseGenerateResponse>();
+            var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
                 results.Add(subject.Generate(testGroup, false));

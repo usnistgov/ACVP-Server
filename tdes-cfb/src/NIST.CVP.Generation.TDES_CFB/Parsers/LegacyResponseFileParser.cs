@@ -13,11 +13,10 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.TDES_CFB.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
-
             if (string.IsNullOrEmpty(path))
             {
                 return new ParseResponse<TestVectorSet>("There was no path supplied.");
@@ -76,13 +75,13 @@ namespace NIST.CVP.Generation.TDES_CFB.Parsers
                     }
                 }
             }
-            testVectorSet.TestGroups = groups.Select(g => (ITestGroup)g).ToList();
+            testVectorSet.TestGroups = groups;
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
 
-        private List<ITestCase> CreateTestCases(string input, bool isPtAndCtHex, bool isMCT)
+        private List<TestCase> CreateTestCases(string input, bool isPtAndCtHex, bool isMCT)
         {
-            var testCases = new List<ITestCase>();
+            var testCases = new List<TestCase>();
             var resultsArray = new List<AlgoArrayResponse>();
 
             var testCaseRegex = new Regex(@"COUNT = (?<count>\d*)(?:\n" +
@@ -154,9 +153,8 @@ namespace NIST.CVP.Generation.TDES_CFB.Parsers
 
             }
             return isMCT ? 
-                new List<ITestCase> {new TestCase {ResultsArray = resultsArray}} : 
+                new List<TestCase> {new TestCase {ResultsArray = resultsArray}} : 
                 testCases;
-
         }
 
         private TestGroup GetTestGroupFromFileName(string file)

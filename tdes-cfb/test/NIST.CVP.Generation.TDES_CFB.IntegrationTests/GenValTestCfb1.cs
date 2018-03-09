@@ -4,7 +4,7 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
 {
     public class GenValTestCfb1 : GenValTestsCfbBase
     {
-        public override string Algorithm { get; } = "TDES-CFB1";
+        public override string Algorithm { get; } = "TDES";
         public override string Mode { get; } = "CFB1";
 
         public override string RunnerAlgorithm => "TDES";

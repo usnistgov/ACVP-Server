@@ -15,6 +15,8 @@ namespace NIST.CVP.Generation.TDES_CFBP
         private readonly int _shift;
         private readonly ICFBPModeMCT _mode;
 
+        public int NumberOfTestCasesToGenerate => 1;
+
         public TestCaseGeneratorMonteCarloDecrypt(IRandom800_90 random800_90, ICFBPModeMCT mode)
         {
             switch (mode.Algo)
@@ -35,19 +37,14 @@ namespace NIST.CVP.Generation.TDES_CFBP
             _mode = mode;
         }
 
-        public int NumberOfTestCasesToGenerate
-        {
-            get { return 1; }
-        }
-
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             var seedCase = GetSeedCase(@group);
 
             return Generate(@group, seedCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase seedCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase seedCase)
         {
             MCTResult<AlgoArrayResponseWithIvs> decryptionResult = null;
             try
@@ -57,7 +54,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -65,11 +62,11 @@ namespace NIST.CVP.Generation.TDES_CFBP
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             seedCase.ResultsArray = decryptionResult.Response;
-            return new TestCaseGenerateResponse(seedCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(seedCase);
         }
 
         private TestCase GetSeedCase(TestGroup @group)
@@ -85,11 +82,6 @@ namespace NIST.CVP.Generation.TDES_CFBP
             };
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
-
-
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
