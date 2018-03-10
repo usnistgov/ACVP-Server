@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
 {
     public static class TestDataMother
     {
-        public static TestVectorSet GetTestGroups(int groups, string direction, bool deferred, bool testPassed)
+        public static TestVectorSet GetTestGroups(int groups, string direction, string ivGen, bool deferred, bool testPassed)
         {
             var testVectorSet = new TestVectorSet()
             {
@@ -26,6 +26,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 {
                     AADLength = 16 + groupIdx * 2,
                     Function = direction,
+                    IVGeneration = ivGen,
                     IVLength = 96 + groupIdx * 2,
                     KeyLength = 256 + groupIdx * 2,
                     PTLength = 256 + groupIdx * 2,

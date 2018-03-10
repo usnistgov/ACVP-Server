@@ -189,7 +189,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             {
                 SaltGen = saltGen,
                 IVGeneration = ivGen,
-                Tests = new List<ITestCase>()
+                Tests = new List<TestCase>()
                 {
                     tc
                 }

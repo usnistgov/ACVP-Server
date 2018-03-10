@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -7,34 +8,25 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-
-        public TestCase()
-        {
-            
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
+        public TestGroup ParentGroup { get; set; }
+        [JsonProperty(PropertyName = "plainText")]
         public BitString PlainText { get; set; }
+        [JsonProperty(PropertyName = "key")]
         public BitString Key { get; set; }
+        [JsonProperty(PropertyName = "aad")]
         public BitString AAD { get; set; }
+        [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; }
+        [JsonProperty(PropertyName = "salt")]
         public BitString Salt { get; set; }
+        [JsonProperty(PropertyName = "cipherText")]
         public BitString CipherText { get; set; }
+        [JsonProperty(PropertyName = "tag")]
         public BitString Tag { get; set; }
 
         public bool SetString(string name, string value)
@@ -71,33 +63,6 @@ namespace NIST.CVP.Generation.AES_XPN
                     return true;
             }
             return false;
-        }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-            var expandoSource = (ExpandoObject) source;
-            if (expandoSource.ContainsProperty("decryptFail"))
-            {
-                FailureTest = source.decryptFail;
-            }
-            if (expandoSource.ContainsProperty("failureTest"))
-            {
-                FailureTest = source.failureTest;
-            }
-            if (expandoSource.ContainsProperty("deferred"))
-            {
-                Deferred = source.deferred;
-            }
-
-            Key = expandoSource.GetBitStringFromProperty("key");
-            IV = expandoSource.GetBitStringFromProperty("iv");
-            Salt = expandoSource.GetBitStringFromProperty("salt");
-            Tag = expandoSource.GetBitStringFromProperty("tag");
-            AAD = expandoSource.GetBitStringFromProperty("aad");
-            PlainText = expandoSource.GetBitStringFromProperty("plainText");
-            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
-            
         }
     }
 }

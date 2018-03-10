@@ -5,7 +5,7 @@ using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
-    public class TestCaseValidatorInternalEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorInternalEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestGroup _testGroup;
         private readonly TestCase _serverTestCase;

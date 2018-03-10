@@ -110,7 +110,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                                 testCase.Tag
                             );
 
-                            if (testCase.FailureTest)
+                            if (testCase.TestPassed != null && !testCase.TestPassed.Value)
                             {
                                 failureTests++;
                                 if (result.Success)

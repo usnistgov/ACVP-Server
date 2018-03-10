@@ -33,7 +33,8 @@ namespace NIST.CVP.Generation.AES_GCM
                 IV = iv,
                 AAD = aad,
                 PlainText = plainText,
-                Deferred = false
+                Deferred = false,
+                TestPassed = true
             };
             return Generate(@group, testCase);
         }

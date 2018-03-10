@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_XPN
             _aesGcm = aesGcm;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             //known answer - need to do an encryption operation to get the tag
             var key = _random800_90.GetRandomBitString(@group.KeyLength);
@@ -35,12 +35,13 @@ namespace NIST.CVP.Generation.AES_XPN
                 Salt = salt,
                 AAD = aad,
                 PlainText = plainText,
-                Deferred = false
+                Deferred = false,
+                TestPassed = true
             };
             return Generate(@group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
             SymmetricCipherAeadResult encryptionResult = null;
             try
@@ -52,7 +53,7 @@ namespace NIST.CVP.Generation.AES_XPN
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -60,7 +61,7 @@ namespace NIST.CVP.Generation.AES_XPN
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             testCase.CipherText = encryptionResult.CipherText;
@@ -68,7 +69,7 @@ namespace NIST.CVP.Generation.AES_XPN
 
             SometimesMangleTestCaseTag(testCase);
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private void SometimesMangleTestCaseTag(TestCase testCase)
@@ -78,7 +79,7 @@ namespace NIST.CVP.Generation.AES_XPN
             if (option == 0)
             {
                 testCase.Tag = _random800_90.GetDifferentBitStringOfSameSize(testCase.Tag);
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
             }
         }
 

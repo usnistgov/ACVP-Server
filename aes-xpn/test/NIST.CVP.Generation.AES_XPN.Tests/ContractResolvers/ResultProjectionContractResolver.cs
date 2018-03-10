@@ -1,12 +1,12 @@
 ﻿using System.Text.RegularExpressions;
-using NIST.CVP.Generation.AES_GCM.ContractResolvers;
+using NIST.CVP.Generation.AES_XPN.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
+namespace NIST.CVP.Generation.AES_XPN.Tests.ContractResolvers
 {
     [TestFixture, UnitTest, FastIntegrationTest]
     public class ResultsProjectionContractResolverTests
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
         [Test]
         public void ShouldSerializeGroupProperties()
         {
-            var tvs = TestDataMother.GetTestGroups(1, "encrypt", "external", false, true);
+            var tvs = TestDataMother.GetTestGroups(1, "encrypt", "external", "external", true, true);
             var tg = tvs.TestGroups[0];
 
             var json = _serializer.Serialize(tvs, _projection);
@@ -52,7 +52,6 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
             Assert.AreNotEqual(tg.Function, newTg.Function, nameof(newTg.Function));
             Assert.AreNotEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
             Assert.AreNotEqual(tg.AADLength, newTg.AADLength, nameof(newTg.AADLength));
-            Assert.AreNotEqual(tg.IVLength, newTg.IVLength, nameof(newTg.IVLength));
             Assert.AreNotEqual(tg.TagLength, newTg.TagLength, nameof(newTg.TagLength));
             Assert.AreNotEqual(tg.PTLength, newTg.PTLength, nameof(newTg.PTLength));
             Assert.AreNotEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
@@ -63,14 +62,17 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
         /// all other properties excluded
         /// </summary>
         /// <param name="function">The function being tested</param>
-        /// <param name="ivGen">IV generation (internal/external from perspective of IUT)</param>
+        /// <param name="ivGen">IV generation (internal or external in relation to IUT)</param>
+        /// <param name="saltGen">Salt generation (internal or external in relation to IUT)</param>
         /// <param name="deferred">Is this a deferred test? (Internal IV generation encrypt)</param>
         [Test]
-        [TestCase("encrypt", "external", false)]
-        [TestCase("encrypt", "internal", true)]
-        public void ShouldSerializeEncryptCaseProperties(string function, string ivGen, bool deferred)
+        [TestCase("encrypt", "internal", "internal", true)]
+        [TestCase("encrypt", "internal", "external", true)]
+        [TestCase("encrypt", "external", "internal", true)]
+        [TestCase("encrypt", "external", "external", false)]
+        public void ShouldSerializeEncryptCaseProperties(string function, string ivGen, string saltGen, bool deferred)
         {
-            var tvs = TestDataMother.GetTestGroups(1, function, ivGen, deferred, true);
+            var tvs = TestDataMother.GetTestGroups(1, function, ivGen, saltGen, deferred, true);
             var tg = tvs.TestGroups[0];
             var tc = tg.Tests[0];
 
@@ -100,6 +102,19 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
                 Assert.IsNull(newTc.IV, nameof(newTc.IV));
             }
 
+            if (saltGen == "internal")
+            {
+                Assert.IsNotNull(newTc.CipherText, nameof(newTc.CipherText));
+                Assert.IsNotNull(newTc.Tag, nameof(newTc.Tag));
+                Assert.IsNotNull(newTc.Salt, nameof(newTc.Salt));
+            }
+            else
+            {
+                Assert.IsNotNull(newTc.CipherText, nameof(newTc.CipherText));
+                Assert.IsNotNull(newTc.Tag, nameof(newTc.Tag));
+                Assert.IsNull(newTc.Salt, nameof(newTc.Salt));
+            }
+            
             Regex regexDeferred = new Regex(nameof(TestCase.Deferred), RegexOptions.IgnoreCase);
             Assert.IsTrue(regexDeferred.Matches(json).Count == 0);
 
@@ -119,7 +134,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
         [TestCase("decrypt", false)]
         public void ShouldSerializeDecryptCaseProperties(string function, bool testPassed)
         {
-            var tvs = TestDataMother.GetTestGroups(1, function, "external", false, testPassed);
+            var tvs = TestDataMother.GetTestGroups(1, function, "external", "external", false, testPassed);
             var tg = tvs.TestGroups[0];
             var tc = tg.Tests[0];
 
@@ -148,6 +163,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
 
             // not included in results file
             Assert.AreNotEqual(tc.IV, newTc.IV, nameof(newTc.IV));
+            Assert.AreNotEqual(tc.Salt, newTc.Salt, nameof(newTc.Salt));
             Assert.AreNotEqual(tc.Key, newTc.Key, nameof(newTc.Key));
             Assert.AreNotEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
 

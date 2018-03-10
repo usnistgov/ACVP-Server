@@ -3,7 +3,7 @@ using System.Linq;
 using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core.ContractResolvers;
 
-namespace NIST.CVP.Generation.AES_GCM.ContractResolvers
+namespace NIST.CVP.Generation.AES_XPN.ContractResolvers
 {
     public class ResultProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.AES_GCM.ContractResolvers
                     {
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                        if ((testCase.TestPassed != null && testCase.TestPassed.Value) && 
+                        if ((testCase.TestPassed != null && testCase.TestPassed.Value) &&
                             testGroup.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
                             return true;
@@ -86,6 +86,23 @@ namespace NIST.CVP.Generation.AES_GCM.ContractResolvers
 
                         // if the test was internal IV, write out the IV in the result file
                         if (testGroup.IVGeneration.ToLower() == "internal")
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.Salt))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        // if the test was internal Salt generation, write out the salt in the result file
+                        if (testGroup.SaltGen.ToLower() == "internal")
                         {
                             return true;
                         }

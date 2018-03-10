@@ -1,12 +1,12 @@
 ﻿using System.Text.RegularExpressions;
-using NIST.CVP.Generation.AES_GCM.ContractResolvers;
+using NIST.CVP.Generation.AES_XPN.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
+namespace NIST.CVP.Generation.AES_XPN.Tests.ContractResolvers
 {
     [TestFixture, UnitTest, FastIntegrationTest]
     public class PromptProjectionContractResolverTests
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
         [Test]
         public void ShouldSerializeGroupProperties()
         {
-            var tvs = TestDataMother.GetTestGroups(1, "encrypt", "external", true, true);
+            var tvs = TestDataMother.GetTestGroups(1, "encrypt", "external", "external", true, true);
             var tg = tvs.TestGroups[0];
 
             var json = _serializer.Serialize(tvs, _projection);
@@ -61,14 +61,17 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
         /// all other properties included
         /// </summary>
         /// <param name="function">The function being tested</param>
-        /// <param name="ivGen">IV generation (internal/external from perspective of IUT)</param>
+        /// <param name="ivGen">IV generation (internal or external in relation to IUT)</param>
+        /// <param name="saltGen">Salt generation (internal or external in relation to IUT)</param>
         /// <param name="deferred">Is this a deferred test? (Internal IV generation encrypt)</param>
         [Test]
-        [TestCase("encrypt", "external", false)]
-        [TestCase("encrypt", "internal", true)]
-        public void ShouldSerializeEncryptCaseProperties(string function, string ivGen, bool deferred)
+        [TestCase("encrypt", "internal", "internal", true)]
+        [TestCase("encrypt", "internal", "external", true)]
+        [TestCase("encrypt", "external", "internal", true)]
+        [TestCase("encrypt", "external", "external", false)]
+        public void ShouldSerializeEncryptCaseProperties(string function, string ivGen, string saltGen, bool deferred)
         {
-            var tvs = TestDataMother.GetTestGroups(1, function, ivGen, deferred, true);
+            var tvs = TestDataMother.GetTestGroups(1, function, ivGen, saltGen, deferred, true);
             var tg = tvs.TestGroups[0];
             var tc = tg.Tests[0];
             
@@ -88,21 +91,18 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
             Assert.IsNull(newTc.CipherText, nameof(newTc.CipherText));
             Assert.IsNull(newTc.Tag, nameof(newTc.Tag));
 
-            // If deferred, newTc.CT/Tag
             if (deferred)
             {
                 Assert.IsNull(newTc.CipherText, nameof(newTc.CipherText));
                 Assert.IsNull(newTc.Tag, nameof(newTc.Tag));
             }
-            // when not deferred, TC should contain CT/Tag/IV, but only include the IV in the newCt
             else
             {
                 Assert.IsNotNull(tc.CipherText, nameof(tc.CipherText));
                 Assert.IsNotNull(tc.Tag, nameof(tc.Tag));
-                Assert.IsNotNull(tc.IV, nameof(tc.IV));
-                Assert.IsNotNull(newTc.IV, nameof(newTc.IV));
 
                 Assert.AreEqual(tc.IV, newTc.IV, nameof(newTc.IV));
+                Assert.AreEqual(tc.Salt, newTc.Salt, nameof(newTc.Salt));
             }
             
             Regex regexDeferred = new Regex(nameof(TestCase.Deferred), RegexOptions.IgnoreCase);
@@ -124,7 +124,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
         [TestCase("decrypt", false)]
         public void ShouldSerializeDecryptCaseProperties(string function, bool testPassed)
         {
-            var tvs = TestDataMother.GetTestGroups(1, function, "external", false, testPassed);
+            var tvs = TestDataMother.GetTestGroups(1, function, "external", "external", false, testPassed);
             var tg = tvs.TestGroups[0];
             var tc = tg.Tests[0];
 
@@ -137,6 +137,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests.ContractResolvers
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.IV, newTc.IV, nameof(newTc.IV));
+            Assert.AreEqual(tc.Salt, newTc.Salt, nameof(newTc.Salt));
             Assert.AreEqual(tc.Key, newTc.Key, nameof(newTc.Key));
             Assert.AreEqual(tc.AAD, newTc.AAD, nameof(newTc.AAD));
             Assert.AreEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
