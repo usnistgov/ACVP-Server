@@ -34,33 +34,19 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
                 builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
             };
         }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
+        
         protected override void OverrideRegistrationValFakeException()
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
-
-            // If TC is intended to be a failure test, change it
-            if (testCase.decryptFail != null)
-            {
-                testCase.decryptFail = false;
-            }
-
+            
             // If TC has a cipherText, change it
             if (testCase.cipherText != null)
             {

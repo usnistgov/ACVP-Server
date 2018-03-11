@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -147,7 +147,7 @@ namespace NIST.CVP.Generation.AES_XTS.Tests
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
 
             Assert.IsNotEmpty(((TestCase)result.TestCase).CipherText.ToString(), "CipherText");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).Key.ToString(), "Key");
+            Assert.IsNotEmpty(((TestCase)result.TestCase).XtsKey.ToString(), "Key");
             Assert.IsNotEmpty(((TestCase)result.TestCase).I.ToString(), "I");
             Assert.IsNotEmpty(((TestCase)result.TestCase).SequenceNumber.ToString(), "Sequence Number");
             Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");

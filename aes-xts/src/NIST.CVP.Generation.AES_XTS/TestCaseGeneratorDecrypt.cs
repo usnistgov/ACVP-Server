@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.AES_XTS
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             var key = _random800_90.GetRandomBitString(group.KeyLen * 2);
             var cipherText = _random800_90.GetRandomBitString(group.PtLen);
@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.AES_XTS
             var testCase = new TestCase
             {
                 CipherText = cipherText,
-                Key = new XtsKey(key),
+                XtsKey = new XtsKey(key),
                 I = i,
                 SequenceNumber = number
             };
@@ -49,17 +49,17 @@ namespace NIST.CVP.Generation.AES_XTS
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SymmetricCipherResult decryptionResult = null;
             try
             {
-                decryptionResult = _algo.Decrypt(testCase.Key, testCase.CipherText, testCase.I);
+                decryptionResult = _algo.Decrypt(testCase.XtsKey, testCase.CipherText, testCase.I);
                 if (!decryptionResult.Success)
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -67,14 +67,14 @@ namespace NIST.CVP.Generation.AES_XTS
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
 
             testCase.PlainText = decryptionResult.Result;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

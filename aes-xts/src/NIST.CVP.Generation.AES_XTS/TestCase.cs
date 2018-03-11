@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using Newtonsoft.Json.Linq;
@@ -8,29 +9,27 @@ using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.AES_XTS
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        public TestCase() { }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public bool? TestPassed => true;
         public bool Deferred { get; set; }
+        public TestGroup ParentGroup { get; set; }
+        [JsonIgnore] public XtsKey XtsKey { get; set; }
 
-        public XtsKey Key { get; set; }
+        [JsonProperty(PropertyName = "key")]
+        public BitString Key
+        {
+            get => XtsKey?.Key;
+            set => XtsKey = new XtsKey(value);
+        }
+        [JsonProperty(PropertyName = "plainText")]
         public BitString PlainText { get; set; }
+        [JsonProperty(PropertyName = "cipherText")]
         public BitString CipherText { get; set; }
+        [JsonProperty(PropertyName = "i")]
         public BitString I { get; set; }
+        [JsonProperty(PropertyName = "sequenceNumber")]
         public int SequenceNumber { get; set; }
 
         public bool SetString(string name, string value)
@@ -56,7 +55,7 @@ namespace NIST.CVP.Generation.AES_XTS
 
                 case "key":
                 case "k":
-                    Key = new XtsKey(new BitString(value));
+                    XtsKey = new XtsKey(new BitString(value));
                     return true;
 
                 case "i":
@@ -68,33 +67,6 @@ namespace NIST.CVP.Generation.AES_XTS
                     return true;
             }
             return false;
-        }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            var expandoSource = (ExpandoObject)source;
-
-            if (expandoSource.ContainsProperty("decryptFail"))
-            {
-                FailureTest = source.decryptFail;
-            }
-            if (expandoSource.ContainsProperty("failureTest"))
-            {
-                FailureTest = source.failureTest;
-            }
-
-            var bitStringKey = expandoSource.GetBitStringFromProperty("key");
-            if (bitStringKey != null)
-            {
-                Key = new XtsKey(bitStringKey);
-            }
-
-            I = expandoSource.GetBitStringFromProperty("i");
-            SequenceNumber = expandoSource.GetTypeFromProperty<int>("sequenceNumber");
-            PlainText = expandoSource.GetBitStringFromProperty("plainText");
-            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
         }
     }
 }

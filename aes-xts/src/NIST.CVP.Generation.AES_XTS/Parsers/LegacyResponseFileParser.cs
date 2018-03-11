@@ -8,7 +8,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_XTS.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -108,7 +108,7 @@ namespace NIST.CVP.Generation.AES_XTS.Parsers
                 currentTestCase.SetString(valueParts[0].Trim(), valueParts[1].Trim());
             }
 
-            var testVectorSet = new TestVectorSet { Algorithm = "AES", Mode = "XTS", TestGroups = groups.Select(g => (ITestGroup)g).ToList() };
+            var testVectorSet = new TestVectorSet { TestGroups = groups.Select(g => g).ToList() };
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
     }

@@ -5,11 +5,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_XTS
 {
-    public class TestCaseValidatorDecrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorDecrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidatorDecrypt(TestCase expectedResult)
         {
