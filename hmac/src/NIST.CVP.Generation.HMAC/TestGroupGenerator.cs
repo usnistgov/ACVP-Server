@@ -63,19 +63,13 @@ namespace NIST.CVP.Generation.HMAC
         {
             // Differing algo logic depending on keyLen < blockSize, keyLen = blockSize, keyLen > blockSize
             // Ensure we grab values from each section of logic (where applicable)
-            List<int> keyLengths = new List<int>();
+            var keyLengths = new List<int>();
             
-            var keyLengthMinMax = parameters.KeyLen.GetDomainMinMax();
             parameters.KeyLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
 
-            // key < block
-            keyLengths.AddRangeIfNotNullOrEmpty(parameters.KeyLen.GetValues(keyLengthMinMax.Minimum, blockSize - 1, 2));
-
-            // key = block
-            keyLengths.AddRangeIfNotNullOrEmpty(parameters.KeyLen.GetValues(blockSize, blockSize, 1));
-
-            // key > block
-            keyLengths.AddRangeIfNotNullOrEmpty(parameters.KeyLen.GetValues(blockSize + 1, blockSize + 1024, 2));
+            keyLengths.AddRangeIfNotNullOrEmpty(parameters.KeyLen.GetValues(x => x < blockSize, 2, false));
+            keyLengths.AddRangeIfNotNullOrEmpty(parameters.KeyLen.GetValues(x => x == blockSize, 1, false));
+            keyLengths.AddRangeIfNotNullOrEmpty(parameters.KeyLen.GetValues(x => x > blockSize, 2, false));
 
             KeyLens = keyLengths.ToArray();
         }
@@ -86,9 +80,9 @@ namespace NIST.CVP.Generation.HMAC
 
             var macMinMax = parameters.MacLen.GetDomainMinMaxAsEnumerable();
 
-            var randomMacLengths = parameters.MacLen.GetValues(4).Where(w => !macMinMax.Contains(w)).Take(2);
+            var randomMacLengths = parameters.MacLen.GetValues(x => !macMinMax.Contains(x), 2, false);
 
-            List<int> macLens = new List<int>();
+            var macLens = new List<int>();
             macLens.AddRangeIfNotNullOrEmpty(macMinMax);
             macLens.AddRangeIfNotNullOrEmpty(randomMacLengths);
 
