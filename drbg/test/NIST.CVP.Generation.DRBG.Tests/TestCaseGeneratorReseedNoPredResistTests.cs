@@ -59,22 +59,22 @@ namespace NIST.CVP.Generation.DRBG.Tests
         [Test]
         public void ShouldContainThreeCountInOtherInput()
         {
-            var vectorSet = DRBG.TestDataMother.GetSampleVectorSet(1, 1, true, false);
+            var vectorSet = TestDataMother.GetSampleVectorSet(1, 1, true, false);
 
-            var testGroup = (TestGroup)vectorSet.TestGroups[0];
+            var testGroup = vectorSet.TestGroups[0];
 
             var result = _subject.Generate(testGroup, false);
 
-            Assert.AreEqual(3, ((TestCase)result.TestCase).OtherInput.Count);
+            Assert.AreEqual(3, (result.TestCase).OtherInput.Count);
         }
 
         [Test]
         [TestCase(false, 1, 3)]
         public void ShouldContainExpectedEntropyWithPrOption(bool predictionResistance, int expectedNonZeroEntropy, int expectedNonZeroAdditionalInput)
         {
-            var vectorSet = DRBG.TestDataMother.GetSampleVectorSet(1, 1, true, predictionResistance);
+            var vectorSet = TestDataMother.GetSampleVectorSet(1, 1, true, predictionResistance);
 
-            var testGroup = (TestGroup)vectorSet.TestGroups[0];
+            var testGroup = vectorSet.TestGroups[0];
             _entropyProvider
                 .Setup(s => s.GetEntropy(testGroup.EntropyInputLen))
                 .Returns(new BitString(testGroup.EntropyInputLen));
@@ -105,9 +105,9 @@ namespace NIST.CVP.Generation.DRBG.Tests
         [Test]
         public void ShouldInvokeDrbgCorrectly()
         {
-            var vectorSet = DRBG.TestDataMother.GetSampleVectorSet(1, 1, true, false);
+            var vectorSet = TestDataMother.GetSampleVectorSet(1, 1, true, false);
 
-            var testGroup = (TestGroup)vectorSet.TestGroups[0];
+            var testGroup = vectorSet.TestGroups[0];
 
             var result = _subject.Generate(testGroup, false);
 

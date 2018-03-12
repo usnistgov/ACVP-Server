@@ -10,7 +10,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DRBG.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         private static DrbgMechanism _mechanism;
         private static string _mode;
@@ -159,7 +159,7 @@ namespace NIST.CVP.Generation.DRBG.Parsers
             var testVectorSet = new TestVectorSet
             {
                 Algorithm = "ctrDRBG",
-                TestGroups = groups.Select(g => (ITestGroup) g).ToList()
+                TestGroups = groups.Select(g => g).ToList()
             };
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }

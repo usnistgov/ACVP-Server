@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace NIST.CVP.Generation.Core.JsonConverters
 {
@@ -20,7 +21,8 @@ namespace NIST.CVP.Generation.Core.JsonConverters
                 new BigIntegerConverter(),
                 new BitstringConverter(),
                 new DispositionConverter(),
-                new DomainConverter()
+                new DomainConverter(),
+                new StringEnumConverter()
             };
 
             AddAdditionalConverters(converters);

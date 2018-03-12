@@ -1,17 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.DRBG
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         /// <summary>
         /// Setting this property also updates the "base" equivalent properties of the class.
@@ -40,8 +35,7 @@ namespace NIST.CVP.Generation.DRBG
         }
 
         public int TestGroupId { get; set; }
-        [JsonProperty(PropertyName = "testType")]
-        public string TestType { get; set; } = "AFT";
+        public string TestType { get; set; }
 
         [JsonProperty(PropertyName = "derFunc")]
         public bool DerFunc { get; set; }
@@ -69,40 +63,9 @@ namespace NIST.CVP.Generation.DRBG
 
         [JsonProperty(PropertyName = "mode")]
         public DrbgMode Mode { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         private DrbgParameters _drbgParameters = new DrbgParameters();
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            DerFunc = expandoSource.GetTypeFromProperty<bool>("derFunc");
-            PredResistance = expandoSource.GetTypeFromProperty<bool>("predResistance");
-            ReSeed = expandoSource.GetTypeFromProperty<bool>("reSeed");
-            EntropyInputLen = expandoSource.GetTypeFromProperty<int>("entropyInputLen");
-            NonceLen = expandoSource.GetTypeFromProperty<int>("nonceLen");
-            PersoStringLen = expandoSource.GetTypeFromProperty<int>("persoStringLen");
-            AdditionalInputLen = expandoSource.GetTypeFromProperty<int>("additionalInputLen");
-            ReturnedBitsLen = expandoSource.GetTypeFromProperty<int>("returnedBitsLen");
-
-            Mode = EnumHelpers.GetEnumFromEnumDescription<DrbgMode>(expandoSource.GetTypeFromProperty<string>("mode"), false);
-            
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
 
         public bool SetString(string name, string value)
         {

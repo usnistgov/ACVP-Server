@@ -1,8 +1,6 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using NIST.CVP.Crypto.DRBG;
 using NUnit.Framework;
-
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DRBG.Parsers;
 using NIST.CVP.Math.Entropy;
@@ -73,17 +71,17 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
             foreach (var iTestGroup in testVector.TestGroups)
             {
 
-                var testGroup = (TestGroup)iTestGroup;
+                var testGroup = iTestGroup;
                 foreach (var iTestCase in testGroup.Tests)
                 {
                     count++;
 
-                    var testCase = (TestCase)iTestCase;
+                    var testCase = iTestCase;
 
                     var expectedReturnBits = testCase.ReturnedBits.GetDeepCopy();
                     var generator = _subject.GetCaseGenerator(testGroup);
                     var result = generator.Generate(testGroup, testCase);
-                    var resultingTestCase = (TestCase)result.TestCase;
+                    var resultingTestCase = result.TestCase;
 
                     if (!result.Success)
                     {
@@ -109,9 +107,6 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
             //Assert.Fail($"Passes {testPasses}, fails {fails}, count {count}.");
         }
 
-        private static Logger ThisLogger
-        {
-            get { return LogManager.GetLogger("FireHose"); }
-        }
+        private static Logger ThisLogger => LogManager.GetLogger("FireHose");
     }
 }
