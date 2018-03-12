@@ -7,19 +7,19 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.CMAC.AES
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public int[] MsgLens { get; private set; }
         public int[] MacLens { get; private set; }
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
-            var testGroups = new List<ITestGroup>();
+            var testGroups = new List<TestGroup>();
 
             return CreateGroups(parameters, testGroups);
         }
 
-        private IEnumerable<ITestGroup> CreateGroups(Parameters parameters, List<ITestGroup> testGroups)
+        private IEnumerable<TestGroup> CreateGroups(Parameters parameters, List<TestGroup> testGroups)
         {
             DetermineLengths(parameters);
 

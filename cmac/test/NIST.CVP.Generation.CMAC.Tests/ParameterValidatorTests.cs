@@ -31,14 +31,16 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         }
 
         [Test]
-        [TestCase("CMAC-AES", true)]
-        [TestCase("CMAC-TDES", false)]
-        [TestCase("badValue", false)]
-        [TestCase(null, false)]
-        public void ShouldReportFailureWithBadAlgorithm(string value, bool success)
+        [TestCase("CMAC", "AES", true)]
+        [TestCase("CMAC", "TDES", false)]
+        [TestCase("badValue", "null", false)]
+        [TestCase("badValue", null, false)]
+        [TestCase(null, null, false)]
+        public void ShouldReportFailureWithBadAlgorithm(string algo, string mode, bool success)
         {
             Parameters p = new ParameterBuilder()
-                .WithAlgorithm(value)
+                .WithAlgorithm(algo)
+                .WithMode(mode)
                 .Build();
 
             var result = _subject.Validate(p);

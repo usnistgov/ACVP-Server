@@ -3,8 +3,9 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.CMAC
 {
-    public class TestCaseValidatorGen<TTestCase> : ITestCaseValidator<TTestCase>
-        where TTestCase : TestCaseBase
+    public class TestCaseValidatorGen<TTestGroup, TTestCase> : ITestCaseValidator<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>
     {
         private readonly TTestCase _expectedResult;
 
@@ -13,10 +14,7 @@ namespace NIST.CVP.Generation.CMAC
             _expectedResult = expectedResult;
         }
 
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
-        }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidation Validate(TTestCase suppliedResult)
         {

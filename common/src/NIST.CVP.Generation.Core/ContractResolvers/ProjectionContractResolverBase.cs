@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -39,12 +41,12 @@ namespace NIST.CVP.Generation.Core.ContractResolvers
         {
             var type = jsonProperty.DeclaringType;
 
-            if (type == typeof(TTestGroup))
+            if (typeof(ITestGroup<TTestGroup, TTestCase>).IsAssignableFrom(type))
             {
                 return TestGroupSerialization(jsonProperty);
             }
 
-            if (type == typeof(TTestCase))
+            if (typeof(ITestCase<TTestGroup, TTestCase>).IsAssignableFrom(type))
             {
                 return TestCaseSerialization(jsonProperty);
             }

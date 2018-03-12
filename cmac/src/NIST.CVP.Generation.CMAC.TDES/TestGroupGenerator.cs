@@ -7,24 +7,24 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.CMAC.TDES
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const int TdesBlockSize = 64;
         public int[] MsgLens { get; private set; }
         public int[] MacLens { get; private set; }
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
-            var testGroups = new List<ITestGroup>();
+            var testGroups = new List<TestGroup>();
 
             return CreateGroups(parameters, testGroups);
         }
 
-        private IEnumerable<ITestGroup> CreateGroups(Parameters parameters, List<ITestGroup> testGroups)
+        private IEnumerable<TestGroup> CreateGroups(Parameters parameters, List<TestGroup> testGroups)
         {
             if (!AlgorithmSpecificationMapping.Map
                 .TryFirst(
-                    w => w.algoSpecification.Equals(parameters.Algorithm, StringComparison.OrdinalIgnoreCase),
+                    w => w.algoSpecification.Equals($"{parameters.Algorithm}-{parameters.Mode}", StringComparison.OrdinalIgnoreCase),
                     out var result))
             {
                 throw new ArgumentException("Invalid Algorithm provided.");

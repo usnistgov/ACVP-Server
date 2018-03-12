@@ -9,6 +9,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
     public class ParameterBuilder
     {
         private string _algorithm;
+        private string _mode;
         private string[] _direction;
         private MathDomain _msgLen;
         private MathDomain _macLen;
@@ -16,7 +17,8 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
 
         public ParameterBuilder()
         {
-            _algorithm = "CMAC-AES";
+            _algorithm = "CMAC";
+            _mode = "AES";
             _direction = new[] {"gen", "ver"};
             _msgLen = new MathDomain().AddSegment(new ValueDomainSegment(8));
             _macLen = new MathDomain().AddSegment(new ValueDomainSegment(64));
@@ -26,6 +28,12 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         public ParameterBuilder WithAlgorithm(string value)
         {
             _algorithm = value;
+            return this;
+        }
+
+        public ParameterBuilder WithMode(string value)
+        {
+            _mode = value;
             return this;
         }
 
@@ -57,13 +65,13 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             Parameters p = new Parameters
             {
                 Algorithm = _algorithm,
+                Mode = _mode,
                 Direction = _direction,
                 MsgLen = _msgLen,
                 MacLen = _macLen,
                 KeyLen = _keyLen,
 
-                IsSample = false,
-                Mode = string.Empty
+                IsSample = false
             };
 
             return p;

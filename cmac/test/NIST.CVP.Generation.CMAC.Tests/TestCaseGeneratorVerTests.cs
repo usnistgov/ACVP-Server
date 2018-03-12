@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
             var result = _subject.Generate(new TestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -123,18 +123,16 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
                     .Returns(i);
 
                 var result = _subject.Generate(new TestGroup(), false);
-                var tc = (TestCase)result.TestCase;
+                var tc = result.TestCase;
                 if (tc.Mac.Equals(fakeMac))
                 {
                     originalFakeMacHit = true;
-                    Assert.IsFalse(tc.FailureTest, "Should not be a failure test");
-                    Assert.IsTrue(tc.Result.ToLower() == "pass");
+                    Assert.IsTrue(tc.TestPassed, "Should not be a failure test");
                 }
                 if (tc.Mac.Equals(mangledMac))
                 {
                     mangledMacHit = true;
-                    Assert.IsTrue(tc.FailureTest, "Should be a failure test");
-                    Assert.IsTrue(tc.Result.ToLower() == "fail");
+                    Assert.IsFalse(tc.TestPassed, "Should be a failure test");
                 }
             }
 

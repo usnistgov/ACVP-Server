@@ -6,7 +6,7 @@ namespace NIST.CVP.Generation.CMAC.TDES
 {
     public class TestCaseGeneratorGen : TestCaseGeneratorGenBase<TestGroup, TestCase>
     {
-        public override TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public override TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             BitString key = null;
             if (group.KeyingOption == 1)
@@ -23,7 +23,8 @@ namespace NIST.CVP.Generation.CMAC.TDES
             var testCase = new TestCase
             {
                 Key = key,
-                Message = msg
+                Message = msg,
+                TestPassed = true
             };
             return Generate(group, testCase);
         }

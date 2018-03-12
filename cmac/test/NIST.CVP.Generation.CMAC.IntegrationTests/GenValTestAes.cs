@@ -21,7 +21,6 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         [SetUp]
         public override void SetUp()
         {
-            AdditionalParameters = new[] {"CMAC-AES"};
             GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
         }
 
@@ -33,19 +32,11 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             };
         }
 
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
         protected override void OverrideRegistrationValFakeException()
         {
             GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
 
@@ -54,15 +45,15 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             var rand = new Random800_90();
 
             // If TC is intended to be a failure test, change it
-            if (testCase.result != null)
+            if (testCase.testPassed != null)
             {
-                if (testCase.result == "fail")
+                if (testCase.testPassed == true)
                 {
-                    testCase.result = "pass";
+                    testCase.testPassed = false;
                 }
                 else
                 {
-                    testCase.result = "fail";
+                    testCase.testPassed = true;
                 }
             }
 
@@ -86,7 +77,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         {
             var p = new Parameters
             {
-                Algorithm = "CMAC-AES",
+                Algorithm = Algorithm,
                 Mode = Mode,
                 Direction = new[] {"gen"},
                 KeyLen = new[] {128},
@@ -103,7 +94,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "CMAC-AES",
+                Algorithm = Algorithm,
                 Mode = Mode,
                 Direction = new[] { "gen", "ver" },
                 KeyLen = new[] { 128 },
@@ -123,7 +114,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             
             Parameters p = new Parameters()
             {
-                Algorithm = "CMAC-AES",
+                Algorithm = Algorithm,
                 Mode = Mode,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new[] { 128, 192, 256 },

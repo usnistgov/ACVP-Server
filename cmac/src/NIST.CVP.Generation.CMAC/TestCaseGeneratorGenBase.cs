@@ -8,8 +8,8 @@ using NLog;
 namespace NIST.CVP.Generation.CMAC
 {
     public abstract class TestCaseGeneratorGenBase<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase
-        where TTestCase : TestCaseBase, new()
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
         protected readonly ICmac _algo;
         protected readonly IRandom800_90 _random800_90;
@@ -22,10 +22,10 @@ namespace NIST.CVP.Generation.CMAC
             _algo = algo;
         }
 
-        public abstract TestCaseGenerateResponse Generate(TTestGroup @group, bool isSample);
+        public abstract TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, bool isSample);
 
 
-        public TestCaseGenerateResponse Generate(TTestGroup @group, TTestCase testCase)
+        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, TTestCase testCase)
         {
             MacResult genResult = null;
             try
@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.CMAC
                 {
                     ThisLogger.Warn(genResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(genResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TTestGroup, TTestCase>(genResult.ErrorMessage);
                     }
                 }
             }
@@ -43,17 +43,14 @@ namespace NIST.CVP.Generation.CMAC
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TTestGroup, TTestCase>(ex.Message);
                 }
             }
             testCase.Mac = genResult.Mac;
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TTestGroup, TTestCase>(testCase);
         }
-        
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

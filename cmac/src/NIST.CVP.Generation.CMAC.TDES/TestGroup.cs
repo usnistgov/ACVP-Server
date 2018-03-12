@@ -10,20 +10,15 @@ using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.CMAC.TDES
 {
-    public class TestGroup : TestGroupBase
+    public class TestGroup : TestGroupBase<TestGroup, TestCase>
     {
-        public TestGroup()
+        public override int KeyLength
         {
-            Tests = new List<ITestCase>();
+            get => 192;
+            set { } //there must be a better way to do this
         }
 
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            LoadSource(source);
-        }
-
+        [JsonProperty(PropertyName = "keyingOption")]
         public int KeyingOption { get; set; }
 
         public override bool SetString(string name, string value)
@@ -58,30 +53,5 @@ namespace NIST.CVP.Generation.CMAC.TDES
             return false;
         }
 
-        [JsonProperty(PropertyName = "keyLen")]
-        public override int KeyLength
-        {
-            get => 192;
-            set {} //there must be a better way to do this
-        }
-
-
-        protected override void LoadSource(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            Function = expandoSource.GetTypeFromProperty<string>("direction");
-            KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");
-            MessageLength = expandoSource.GetTypeFromProperty<int>("msgLen");
-            MacLength = expandoSource.GetTypeFromProperty<int>("macLen");
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
     }
 }

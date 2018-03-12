@@ -32,7 +32,8 @@ namespace NIST.CVP.Generation.AES_GCM
                 Key = key,
                 AAD = aad,
                 PlainText = plainText,
-                Deferred = true
+                Deferred = true,
+                TestPassed = true
             };
 
             // if a sample is requested, we need to generate an IV and go through with the actual encryption like we do for External

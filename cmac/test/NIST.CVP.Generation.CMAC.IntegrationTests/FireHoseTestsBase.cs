@@ -9,11 +9,11 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
     public abstract class FireHoseTestsBase<TLegacyResponseFileParser, TTestCaseGeneratorGen, TTestVectorSet, TTestGroup, TTestCase>
-        where TLegacyResponseFileParser : LegacyResponseFileParserBase<TTestVectorSet, TTestGroup>, new()
+        where TLegacyResponseFileParser : LegacyResponseFileParserBase<TTestVectorSet, TTestGroup, TTestCase>, new()
         where TTestCaseGeneratorGen : TestCaseGeneratorGenBase<TTestGroup, TTestCase>
-        where TTestVectorSet : TestVectorSetBase<TTestGroup>, new()
-        where TTestGroup : TestGroupBase, new()
-        where TTestCase : TestCaseBase, new()
+        where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>, new()
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>, new()
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
         string _testPath;
         protected abstract string FolderName { get; }
@@ -28,8 +28,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         }
  
         [Test]
-        [Ignore("Overwritten elsewhere, should be made virtual")]
-        public void ShouldRunThroughAllTestFilesAndValidate()
+        protected void ShouldRunThroughAllTestFilesAndValidate()
         {
             var parser = new TLegacyResponseFileParser();
             var parsedFiles = parser.Parse(_testPath);
@@ -59,17 +58,16 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             foreach (var iTestGroup in testVector.TestGroups)
             {
 
-                var testGroup = (TTestGroup) iTestGroup;
+                var testGroup = iTestGroup;
                 var algo = _subject.GetCmac(testGroup);
                 foreach (var iTestCase in testGroup.Tests)
                 {
                     count++;
 
-                    var testCase = (TTestCase) iTestCase;
+                    var testCase = iTestCase;
 
                     if (testGroup.Function.ToLower() == "gen")
                     {
-                        
                         var result = algo.Generate(
                             testCase.Key,
                             testCase.Message,
@@ -107,7 +105,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
                             testCase.Mac
                         );
 
-                        if (testCase.FailureTest)
+                        if (testCase.TestPassed != null && !testCase.TestPassed.Value)
                         {
                             failureTests++;
                             if (result.Success)
@@ -133,12 +131,13 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
                         continue;
                     }
 
-                    if (fails > 0)
-                        Assert.Fail("Unexpected failures were encountered.");
-
                     Assert.Fail($"{testGroup.Function} did not meet expected function values");
                 }
             }
+
+            if (fails > 0)
+                Assert.Fail("Unexpected failures were encountered.");
+
             //Assert.Fail($"Passes {passes}, fails {fails}, count {count}.  Failure tests {failureTests}");
         }
        

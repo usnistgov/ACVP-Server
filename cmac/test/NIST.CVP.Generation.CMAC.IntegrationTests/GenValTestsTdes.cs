@@ -21,7 +21,6 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         [SetUp]
         public override void SetUp()
         {
-            AdditionalParameters = new[] { "CMAC-TDES" };
             GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
         }
 
@@ -32,20 +31,12 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
                 builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
             };
         }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
+        
         protected override void OverrideRegistrationValFakeException()
         {
             GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
 
@@ -54,15 +45,15 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             var rand = new Random800_90();
 
             // If TC is intended to be a failure test, change it
-            if (testCase.result != null)
+            if (testCase.testPassed != null)
             {
-                if (testCase.result == "fail")
+                if (testCase.testPassed == true)
                 {
-                    testCase.result = "pass";
+                    testCase.testPassed = false;
                 }
                 else
                 {
-                    testCase.result = "fail";
+                    testCase.testPassed = true;
                 }
             }
 
@@ -86,7 +77,8 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "CMAC-TDES",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 Direction = new[] { "gen", "ver" },
                 KeyingOption = new[] { 1 },
                 MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
@@ -101,7 +93,8 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "CMAC-TDES",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 Direction = new [] { "gen", "ver" },
                 KeyingOption = new[] {1},
                 MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
@@ -118,7 +111,8 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             
             Parameters p = new Parameters()
             {
-                Algorithm = "CMAC-TDES",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
                 MacLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),

@@ -7,23 +7,8 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.CMAC.AES
 {
-    public class TestCase : TestCaseBase
+    public class TestCase : TestCaseBase<TestGroup, TestCase>
     {
-        public TestCase()
-        {
-
-        }
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
         public override bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -45,26 +30,6 @@ namespace NIST.CVP.Generation.CMAC.AES
 
             }
             return false;
-        }
-
-        protected override void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            ExpandoObject expandoSource = (ExpandoObject)source;
-
-            if (expandoSource.ContainsProperty("failureTest"))
-            {
-                FailureTest = source.failureTest;
-            }
-            if (expandoSource.ContainsProperty("result"))
-            {
-                Result = source.result;
-            }
-
-            Key = expandoSource.GetBitStringFromProperty("key");
-            Message = expandoSource.GetBitStringFromProperty("msg");
-            Mac = expandoSource.GetBitStringFromProperty("mac");
         }
     }
 }

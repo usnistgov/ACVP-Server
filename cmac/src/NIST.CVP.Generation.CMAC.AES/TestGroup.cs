@@ -11,22 +11,10 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.CMAC.AES
 {
-    public class TestGroup : TestGroupBase
+    public class TestGroup : TestGroupBase<TestGroup, TestCase>
     {
         [JsonProperty(PropertyName = "keyLen")]
         public override int KeyLength { get; set; }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            LoadSource(source);
-        }
 
         public override bool SetString(string name, string value)
         {
@@ -56,24 +44,6 @@ namespace NIST.CVP.Generation.CMAC.AES
                     return true;
             }
             return false;
-        }
-
-        protected override void LoadSource(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            Function = expandoSource.GetTypeFromProperty<string>("direction");
-            KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");
-            MessageLength = expandoSource.GetTypeFromProperty<int>("msgLen");
-            MacLength = expandoSource.GetTypeFromProperty<int>("macLen");
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
         }
     }
 }
