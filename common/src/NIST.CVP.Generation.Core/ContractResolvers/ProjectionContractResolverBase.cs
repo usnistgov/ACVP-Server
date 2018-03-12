@@ -62,5 +62,10 @@ namespace NIST.CVP.Generation.Core.ContractResolvers
             testCase = instance as TTestCase;
             testGroup = testCase?.ParentGroup;
         }
+
+        protected virtual void GetTestGroupFromTestGroupObject(object instance, out TTestGroup testGroup)
+        {
+            testGroup = instance as TTestGroup;
+        }
     }
 }

@@ -9,7 +9,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.SHA3.Parsers
 {
-    public class SHAKELegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class SHAKELegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -187,8 +187,8 @@ namespace NIST.CVP.Generation.SHA3.Parsers
 
             var testVectorSet = new TestVectorSet
             {
-                Algorithm = "SHA3",
-                TestGroups = groups.Select(g => (ITestGroup)g).ToList()
+                Algorithm = "SHAKE",
+                TestGroups = groups
             };
 
             return new ParseResponse<TestVectorSet>(testVectorSet);

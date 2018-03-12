@@ -3,11 +3,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA3
 {
-    public class TestGroupGeneratorVariableOutput : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorVariableOutput : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "vot";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

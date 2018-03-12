@@ -8,16 +8,16 @@ namespace NIST.CVP.Generation.SHA3
 {
     public class TestCaseGeneratorNull : ITestCaseGenerator<TestGroup, TestCase>
     {
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public int NumberOfTestCasesToGenerate { get; set; }
+
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             return Generate(group, null);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
-            return new TestCaseGenerateResponse("This is the null generator -- nothing is generated");
+            return new TestCaseGenerateResponse<TestGroup, TestCase>("This is the null generator -- nothing is generated");
         }
-
-        public int NumberOfTestCasesToGenerate { get; set; }
     }
 }

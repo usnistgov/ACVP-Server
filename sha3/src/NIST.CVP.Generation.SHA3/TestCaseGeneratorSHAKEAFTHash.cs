@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.SHA3
         private readonly IRandom800_90 _random800_90;
         private readonly ISHA3 _algo;
 
-        public int NumberOfTestCasesToGenerate { get { return _numberOfCases; } }
+        public int NumberOfTestCasesToGenerate => _numberOfCases;
 
         public TestCaseGeneratorSHAKEAFTHash(IRandom800_90 random800_90, ISHA3 algo)
         {
@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.SHA3
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             var unitSize = group.BitOrientedInput ? 1 : 8;
             var rate = 1600 - group.DigestSize * 2;
@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.SHA3
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             HashResult hashResult = null;
 
@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.SHA3
                 {
                     ThisLogger.Warn(hashResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(hashResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(hashResult.ErrorMessage);
                     }
                 }
             }
@@ -93,14 +93,14 @@ namespace NIST.CVP.Generation.SHA3
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
 
             testCase.Digest = hashResult.Digest;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

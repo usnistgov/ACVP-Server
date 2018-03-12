@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.SHA3;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
@@ -12,71 +13,59 @@ namespace NIST.CVP.Generation.SHA3.Tests
 {
     public class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(HashFunction hashFunction, int groups = 1, bool failureTest = false)
+        public static TestVectorSet GetTestGroups(int groups = 1, string mode = "sha3", string testType = "aft")
         {
+            var tvs = new TestVectorSet
+            {
+                Algorithm = "SHA3",
+                IsSample = true,
+            };
+
             var testGroups = new List<TestGroup>();
+            tvs.TestGroups = testGroups;
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                var tg = new TestGroup
+                {
+                    Function = mode,
+                    DigestSize = groupIdx + 1,
+                    BitOrientedInput = true,
+                    IncludeNull = true,
+                    BitOrientedOutput = true,
+                    OutputLength = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                    TestType = testType
+                };
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
-                    tests.Add(new TestCase
+                    var tc = new TestCase
                     {
-                        Message = new BitString("BEEFFACE"),
-                        Deferred = false,
-                        FailureTest = failureTest,
-                        Digest = new BitString("FACEDAD1"),
+                        ParentGroup = tg,
+                        Message = new BitString("ABCD"),
+                        Digest = new BitString("ABCDEF"),
+                        Deferred = true,
                         TestCaseId = testId
-                    });
-                }
+                    };
+                    tests.Add(tc);
 
-                var domain = new MathDomain();
-                domain.AddSegment(new RangeDomainSegment(null, 16 + groupIdx, 4000 + groupIdx));
-
-                testGroups.Add(new TestGroup
-                {
-                    Function = hashFunction.XOF ? "SHAKE" : "SHA3",
-                    DigestSize = hashFunction.DigestSize + groupIdx,
-                    TestType = "AFT",
-                    BitOrientedInput = false,
-                    BitOrientedOutput = false,
-                    IncludeNull = false,
-                    OutputLength = domain,
-                    Tests = tests
-                });
-            }
-
-            return testGroups;
-        }
-
-        public List<TestGroup> GetMCTTestGroups(int groups = 1)
-        {
-            var testGroups = new List<TestGroup>();
-            for (int groupIdx = 0; groupIdx < groups; groupIdx++)
-            {
-                var tests = new List<ITestCase>();
-                for (int testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
-                {
-                    tests.Add(new TestCase
+                    if (testType.Equals("mct", StringComparison.OrdinalIgnoreCase))
                     {
-                        Deferred = false,
-                        TestCaseId = testId,
-                        Message = new BitString("5EED")
-                    });
-                }
-
-                testGroups.Add(
-                    new TestGroup
-                    {
-                        Function = "SHA3",
-                        DigestSize = 224,
-                        Tests = tests,
-                        TestType = "mct"
+                        tc.ResultsArray = new List<AlgoArrayResponse>
+                        {
+                            new AlgoArrayResponse
+                            {
+                                Message = new BitString("123456"),
+                                Digest = new BitString("987654")
+                            }
+                        };
                     }
-                );
+                }
             }
 
-            return testGroups;
+            return tvs;
         }
     }
 }
