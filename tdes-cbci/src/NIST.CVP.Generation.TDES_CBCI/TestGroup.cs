@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
         [JsonProperty(PropertyName = "keyingOption")]
         public int KeyingOption { get; set; }
 
-        public List<TestCase> Tests { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {

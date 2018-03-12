@@ -20,7 +20,6 @@ namespace NIST.CVP.Generation.TDES_CBCI
                         continue;
                     }
 
-
                     var tg = new TestGroup()
                     {
                         Function = function,
