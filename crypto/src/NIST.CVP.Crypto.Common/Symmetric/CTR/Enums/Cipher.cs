@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.CTR.Enums
 {
     public enum Cipher
     {
-        [Description("AES")]
+        [EnumMember(Value = "AES")]
         AES,
 
-        [Description("TDES")]
+        [EnumMember(Value = "TDES")]
         TDES
     }
 }

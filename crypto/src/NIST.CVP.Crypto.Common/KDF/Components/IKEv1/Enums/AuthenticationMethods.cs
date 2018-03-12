@@ -1,16 +1,17 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums
 {
     public enum AuthenticationMethods
     {
-        [Description("dsa")]    // Digital signature algorithm
+        [EnumMember(Value = "dsa")]    // Digital signature algorithm
         Dsa,
 
-        [Description("pke")]    // Public key encryption
+        [EnumMember(Value = "pke")]    // Public key encryption
         Pke,
 
-        [Description("psk")]    // Pre-shared key
+        [EnumMember(Value = "psk")]    // Pre-shared key
         Psk
     }
 }

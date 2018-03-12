@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
@@ -10,17 +11,17 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         /// <summary>
         /// No key confirmation is performed
         /// </summary>
-        [Description("")]
+        [EnumMember(Value = "")]
         None,
         /// <summary>
         /// Key Confirmation occurs only in one direction
         /// </summary>
-        [Description("unilateral")]
+        [EnumMember(Value = "unilateral")]
         Unilateral,
         /// <summary>
         /// Key Confirmation occurs in both directions.
         /// </summary>
-        [Description("bilateral")]
+        [EnumMember(Value = "bilateral")]
         Bilateral
     }
 }

@@ -1,25 +1,26 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums
 {
     public enum SignatureModifications
     {
-        [Description("No modification")]
+        [EnumMember(Value = "No modification")]
         None,
 
-        [Description("Public key modified")]
+        [EnumMember(Value = "Public key modified")]
         E,
 
-        [Description("Message modified")]
+        [EnumMember(Value = "Message modified")]
         Message,
 
-        [Description("Signature modified")]
+        [EnumMember(Value = "Signature modified")]
         Signature,
 
-        [Description("IR moved from expected location")]
+        [EnumMember(Value = "IR moved from expected location")]
         MoveIr,
 
-        [Description("IR trailer modified from expected value")]
+        [EnumMember(Value = "IR trailer modified from expected value")]
         ModifyTrailer
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Common
 {
@@ -8,147 +9,147 @@ namespace NIST.CVP.Common
     /// </summary>
     public enum AlgoMode
     {
-        [Description("AES-CBC")]
+        [EnumMember(Value = "AES-CBC")]
         AES_CBC,
-        [Description("AES-CCM")]
+        [EnumMember(Value = "AES-CCM")]
         AES_CCM,
-        [Description("AES-CFB1")]
+        [EnumMember(Value = "AES-CFB1")]
         AES_CFB1,
-        [Description("AES-CFB8")]
+        [EnumMember(Value = "AES-CFB8")]
         AES_CFB8,
-        [Description("AES-CFB128")]
+        [EnumMember(Value = "AES-CFB128")]
         AES_CFB128,
-        [Description("AES-CTR")]
+        [EnumMember(Value = "AES-CTR")]
         AES_CTR,
-        [Description("AES-ECB")]
+        [EnumMember(Value = "AES-ECB")]
         AES_ECB,
-        [Description("AES-GCM")]
+        [EnumMember(Value = "AES-GCM")]
         AES_GCM,
-        [Description("AES-KW")]
+        [EnumMember(Value = "AES-KW")]
         AES_KW,
-        [Description("AES-KWP")]
+        [EnumMember(Value = "AES-KWP")]
         AES_KWP,
-        [Description("AES-OFB")]
+        [EnumMember(Value = "AES-OFB")]
         AES_OFB,
-        [Description("AES-XPN")]
+        [EnumMember(Value = "AES-XPN")]
         AES_XPN,
-        [Description("AES-XTS")]
+        [EnumMember(Value = "AES-XTS")]
         AES_XTS,
-        [Description("CMAC-AES")]
+        [EnumMember(Value = "CMAC-AES")]
         CMAC_AES,
-        [Description("CMAC-TDES")]
+        [EnumMember(Value = "CMAC-TDES")]
         CMAC_TDES,
-        [Description("ctrDRBG")]
+        [EnumMember(Value = "ctrDRBG")]
         DRBG_CTR,
-        [Description("hashDRBG")]
+        [EnumMember(Value = "hashDRBG")]
         DRBG_Hash,
-        [Description("hmacDRBG")]
+        [EnumMember(Value = "hmacDRBG")]
         DRBG_HMAC,
-        [Description("DSA-KeyGen")]
+        [EnumMember(Value = "DSA-KeyGen")]
         DSA_KeyGen,
-        [Description("DSA-PQGGen")]
+        [EnumMember(Value = "DSA-PQGGen")]
         DSA_PQGGen,
-        [Description("DSA-PQGVer")]
+        [EnumMember(Value = "DSA-PQGVer")]
         DSA_PQGVer,
-        [Description("DSA-SigGen")]
+        [EnumMember(Value = "DSA-SigGen")]
         DSA_SigGen,
-        [Description("DSA-SigVer")]
+        [EnumMember(Value = "DSA-SigVer")]
         DSA_SigVer,
-        [Description("ECDSA-KeyGen")]
+        [EnumMember(Value = "ECDSA-KeyGen")]
         ECDSA_KeyGen,
-        [Description("ECDSA-KeyVer")]
+        [EnumMember(Value = "ECDSA-KeyVer")]
         ECDSA_KeyVer,
-        [Description("ECDSA-SigGen")]
+        [EnumMember(Value = "ECDSA-SigGen")]
         ECDSA_SigGen,
-        [Description("ECDSA-SigVer")]
+        [EnumMember(Value = "ECDSA-SigVer")]
         ECDSA_SigVer,
-        [Description("HMAC-SHA-1")]
+        [EnumMember(Value = "HMAC-SHA-1")]
         HMAC_SHA1,
-        [Description("HMAC-SHA2-224")]
+        [EnumMember(Value = "HMAC-SHA2-224")]
         HMAC_SHA2_224,
-        [Description("HMAC-SHA2-256")]
+        [EnumMember(Value = "HMAC-SHA2-256")]
         HMAC_SHA2_256,
-        [Description("HMAC-SHA2-384")]
+        [EnumMember(Value = "HMAC-SHA2-384")]
         HMAC_SHA2_384,
-        [Description("HMAC-SHA2-512")]
+        [EnumMember(Value = "HMAC-SHA2-512")]
         HMAC_SHA2_512,
-        [Description("HMAC-SHA2-512/224")]
+        [EnumMember(Value = "HMAC-SHA2-512/224")]
         HMAC_SHA2_512_224,
-        [Description("HMAC-SHA2-512/256")]
+        [EnumMember(Value = "HMAC-SHA2-512/256")]
         HMAC_SHA2_512_256,
-        [Description("HMAC-SHA3-224")]
+        [EnumMember(Value = "HMAC-SHA3-224")]
         HMAC_SHA3_224,        
-        [Description("HMAC-SHA3-256")]
+        [EnumMember(Value = "HMAC-SHA3-256")]
         HMAC_SHA3_256,        
-        [Description("HMAC-SHA3-384")]
+        [EnumMember(Value = "HMAC-SHA3-384")]
         HMAC_SHA3_384,        
-        [Description("HMAC-SHA3-512")]
+        [EnumMember(Value = "HMAC-SHA3-512")]
         HMAC_SHA3_512,
-        [Description("KAS-ECC")]
+        [EnumMember(Value = "KAS-ECC")]
         KAS_ECC,
-        [Description("KAS-EccComponent")]
+        [EnumMember(Value = "KAS-EccComponent")]
         KAS_EccComponent,
-        [Description("KAS-FFC")]
+        [EnumMember(Value = "KAS-FFC")]
         KAS_FFC,
-        [Description("KDF")]
+        [EnumMember(Value = "KDF")]
         KDF,
-        [Description("KDF-Components-ANSIX9.63")]
+        [EnumMember(Value = "KDF-Components-ANSIX9.63")]
         KDFComponents_ANSIX963,
-        [Description("KDF-Components-IKEv1")]
+        [EnumMember(Value = "KDF-Components-IKEv1")]
         KDFComponents_IKEv1,
-        [Description("KDF-Components-IKEv2")]
+        [EnumMember(Value = "KDF-Components-IKEv2")]
         KDFComponents_IKEv2,
-        [Description("KDF-Components-SNMP")]
+        [EnumMember(Value = "KDF-Components-SNMP")]
         KDFComponents_SNMP,
-        [Description("KDF-Components-SRTP")]
+        [EnumMember(Value = "KDF-Components-SRTP")]
         KDFComponents_SRTP,
-        [Description("KDF-Components-SSH")]
+        [EnumMember(Value = "KDF-Components-SSH")]
         KDFComponents_SSH,
-        [Description("KDF-Components-TLS")]
+        [EnumMember(Value = "KDF-Components-TLS")]
         KDFComponents_TLS,
-        [Description("RSA-DecryptionPrimitive")]
+        [EnumMember(Value = "RSA-DecryptionPrimitive")]
         RSA_DecryptionPrimitive,
-        [Description("RSA-KeyGen")]
+        [EnumMember(Value = "RSA-KeyGen")]
         RSA_KeyGen,
-        [Description("RSA-SigGen")]
+        [EnumMember(Value = "RSA-SigGen")]
         RSA_SigGen,
-        [Description("RSA-SigVer")]
+        [EnumMember(Value = "RSA-SigVer")]
         RSA_SigVer,
-        [Description("RSA-LegacySigVer")]
+        [EnumMember(Value = "RSA-LegacySigVer")]
         RSA_LegacySigVer,
-        [Description("RSA-SignaturePrimitive")]
+        [EnumMember(Value = "RSA-SignaturePrimitive")]
         RSA_SignaturePrimitive,
-        [Description("SHA2")]
+        [EnumMember(Value = "SHA2")]
         SHA2,
-        [Description("SHA3")]
+        [EnumMember(Value = "SHA3")]
         SHA3,
-        [Description("SHAKE")]
+        [EnumMember(Value = "SHAKE")]
         SHAKE,
-        [Description("TDES-CBC")]
+        [EnumMember(Value = "TDES-CBC")]
         TDES_CBC,
-        [Description("TDES-CBCI")]
+        [EnumMember(Value = "TDES-CBCI")]
         TDES_CBCI,
-        [Description("TDES-CFB1")]
+        [EnumMember(Value = "TDES-CFB1")]
         TDES_CFB1,
-        [Description("TDES-CFB8")]
+        [EnumMember(Value = "TDES-CFB8")]
         TDES_CFB8,
-        [Description("TDES-CFB64")]
+        [EnumMember(Value = "TDES-CFB64")]
         TDES_CFB64,
-        [Description("TDES-CFBP1")]
+        [EnumMember(Value = "TDES-CFBP1")]
         TDES_CFBP1,
-        [Description("TDES-CFBP8")]
+        [EnumMember(Value = "TDES-CFBP8")]
         TDES_CFBP8,
-        [Description("TDES-CFBP64")]
+        [EnumMember(Value = "TDES-CFBP64")]
         TDES_CFBP64,
-        [Description("TDES-CTR")]
+        [EnumMember(Value = "TDES-CTR")]
         TDES_CTR,
-        [Description("TDES-ECB")]
+        [EnumMember(Value = "TDES-ECB")]
         TDES_ECB,
-        [Description("TDES-KW")]
+        [EnumMember(Value = "TDES-KW")]
         TDES_KW,
-        [Description("TDES-OFB")]
+        [EnumMember(Value = "TDES-OFB")]
         TDES_OFB,
-        [Description("TDES-OFBI")]
+        [EnumMember(Value = "TDES-OFBI")]
         TDES_OFBI
     }
 }

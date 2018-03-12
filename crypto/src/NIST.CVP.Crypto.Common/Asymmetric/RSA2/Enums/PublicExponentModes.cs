@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums
 {
     public enum PublicExponentModes
     {
-        [Description("fixed")]
+        [EnumMember(Value = "fixed")]
         Fixed,
 
-        [Description("random")]
+        [EnumMember(Value = "random")]
         Random
     }
 }

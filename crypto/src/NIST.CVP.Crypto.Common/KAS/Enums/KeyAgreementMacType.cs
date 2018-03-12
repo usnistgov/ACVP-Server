@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
@@ -11,32 +12,32 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         /// <summary>
         /// HMAC - SHA2-224
         /// </summary>
-        [Description("hmac-sha2-224")]
+        [EnumMember(Value = "hmac-sha2-224")]
         HmacSha2D224,
         /// <summary>
         /// HMAC - SHA2-256
         /// </summary>
-        [Description("hmac-sha2-256")]
+        [EnumMember(Value = "hmac-sha2-256")]
         HmacSha2D256,
         /// <summary>
         /// HMAC - SHA2-384
         /// </summary>
-        [Description("hmac-sha2-384")]
+        [EnumMember(Value = "hmac-sha2-384")]
         HmacSha2D384,
         /// <summary>
         /// HMAC - SHA2-512
         /// </summary>
-        [Description("hmac-sha2-512")]
+        [EnumMember(Value = "hmac-sha2-512")]
         HmacSha2D512,
         /// <summary>
         /// CMAC-AES
         /// </summary>
-        [Description("cmac")]
+        [EnumMember(Value = "cmac")]
         CmacAes,
         /// <summary>
         /// AES-CCM
         /// </summary>
-        [Description("aes-ccm")]
+        [EnumMember(Value = "aes-ccm")]
         AesCcm
     }
 }

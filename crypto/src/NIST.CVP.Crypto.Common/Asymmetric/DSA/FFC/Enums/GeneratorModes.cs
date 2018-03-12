@@ -1,28 +1,29 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums
 {
     public enum GeneratorGenMode
     {
-        [Description("none")]
+        [EnumMember(Value = "none")]
         None,
 
-        [Description("unverifiable")]
+        [EnumMember(Value = "unverifiable")]
         Unverifiable,
 
-        [Description("canonical")]
+        [EnumMember(Value = "canonical")]
         Canonical
     }
 
     public enum PrimeGenMode
     {
-        [Description("none")]
+        [EnumMember(Value = "none")]
         None,
 
-        [Description("probable")]
+        [EnumMember(Value = "probable")]
         Probable,
 
-        [Description("provable")]
+        [EnumMember(Value = "provable")]
         Provable
     }
 }

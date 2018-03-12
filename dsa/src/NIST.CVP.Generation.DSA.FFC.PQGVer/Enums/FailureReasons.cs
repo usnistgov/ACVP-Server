@@ -1,31 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Enums
 {
     public enum PQFailureReasons
     {
-        [Description("none")]
+        [EnumMember(Value = "none")]
         None,
 
-        [Description("modify p")]
+        [EnumMember(Value = "modify p")]
         ModifyP,
 
-        [Description("modify q")]
+        [EnumMember(Value = "modify q")]
         ModifyQ,
 
-        [Description("modify seed")]
+        [EnumMember(Value = "modify seed")]
         ModifySeed
     }
 
     public enum GFailureReasons
     {
-        [Description("none")]
+        [EnumMember(Value = "none")]
         None,
 
-        [Description("modify g")]
+        [EnumMember(Value = "modify g")]
         ModifyG
     }
 }

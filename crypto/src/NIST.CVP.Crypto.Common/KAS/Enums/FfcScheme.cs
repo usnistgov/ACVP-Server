@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
@@ -7,37 +8,37 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         /// <summary>
         /// C(2e, 2s, FFC DH)
         /// </summary>
-        [Description("dhHybrid1")]
+        [EnumMember(Value = "dhHybrid1")]
         DhHybrid1,
         /// <summary>
         /// C(2e, 2s, FFC MQV)
         /// </summary>
-        [Description("mqv2")]
+        [EnumMember(Value = "mqv2")]
         Mqv2,
         /// <summary>
         /// C(2e, 0s, FFC DH)
         /// </summary>
-        [Description("dhEphem")]
+        [EnumMember(Value = "dhEphem")]
         DhEphem,
         /// <summary>
         /// C(1e, 2s, FFC DH)
         /// </summary>
-        [Description("dhHybridOneFlow")]
+        [EnumMember(Value = "dhHybridOneFlow")]
         DhHybridOneFlow,
         /// <summary>
         /// C(1e, 2s, FFC MQV)
         /// </summary>
-        [Description("mqv1")]
+        [EnumMember(Value = "mqv1")]
         Mqv1,
         /// <summary>
         /// C(1e, 1s, FFC DH)
         /// </summary>
-        [Description("dhOneFlow")]
+        [EnumMember(Value = "dhOneFlow")]
         DhOneFlow,
         /// <summary>
         /// C(0e, 2s, FFC DH)
         /// </summary>
-        [Description("dhStatic")]
+        [EnumMember(Value = "dhStatic")]
         DhStatic
     }
 }

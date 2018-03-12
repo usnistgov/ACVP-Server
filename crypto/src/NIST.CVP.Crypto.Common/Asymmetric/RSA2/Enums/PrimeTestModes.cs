@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums
 {
     public enum PrimeTestModes
     {
-        [Description("tblC2")]
+        [EnumMember(Value = "tblC2")]
         C2,
 
-        [Description("tblC3")]
+        [EnumMember(Value = "tblC3")]
         C3
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
@@ -7,13 +8,13 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
     /// </summary>
     public enum EccParameterSet
     {
-        [Description("eb")]
+        [EnumMember(Value = "eb")]
         Eb,
-        [Description("ec")]
+        [EnumMember(Value = "ec")]
         Ec,
-        [Description("ed")]
+        [EnumMember(Value = "ed")]
         Ed,
-        [Description("ee")]
+        [EnumMember(Value = "ee")]
         Ee
     }
 }

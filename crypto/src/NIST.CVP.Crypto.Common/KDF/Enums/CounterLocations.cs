@@ -1,22 +1,23 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KDF.Enums
 {
     public enum CounterLocations
     {
-        [Description("none")]
+        [EnumMember(Value = "none")]
         None,
 
-        [Description("before fixed data")]
+        [EnumMember(Value = "before fixed data")]
         BeforeFixedData,
 
-        [Description("middle fixed data")]
+        [EnumMember(Value = "middle fixed data")]
         MiddleFixedData,
 
-        [Description("after fixed data")]
+        [EnumMember(Value = "after fixed data")]
         AfterFixedData,
 
-        [Description("before iterator")]
+        [EnumMember(Value = "before iterator")]
         BeforeIterator,
     }
 }
