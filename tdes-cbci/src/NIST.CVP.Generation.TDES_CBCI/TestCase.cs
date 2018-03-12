@@ -5,6 +5,7 @@ using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_CBCI
@@ -19,6 +20,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
 
         private BitString _keys;
 
+        [JsonIgnore]
         public BitString Keys //TODO this belongs in TDES keys, not here
         {
             get => _keys;

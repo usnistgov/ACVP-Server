@@ -9,70 +9,64 @@ namespace NIST.CVP.Generation.TDES_CBC
 {
     public class TestCaseGeneratorMMTDecrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
-            private const int BLOCK_SIZE_BITS = 64;
-            private const int NUMBER_OF_CASES = 10;
-            private readonly IRandom800_90 _random800_90;
-            private readonly ITDES_CBC _algo;
-            private int _currentCase;
+        private const int BLOCK_SIZE_BITS = 64;
+        private const int NUMBER_OF_CASES = 10;
+        private readonly IRandom800_90 _random800_90;
+        private readonly ITDES_CBC _algo;
+        private int _currentCase;
 
-            public TestCaseGeneratorMMTDecrypt(IRandom800_90 random800_90, ITDES_CBC algo)
+        public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
+
+        public TestCaseGeneratorMMTDecrypt(IRandom800_90 random800_90, ITDES_CBC algo)
+        {
+            _random800_90 = random800_90;
+            _algo = algo;
+        }
+
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
+        {
+
+            var numberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(group.KeyingOption);
+            var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * @numberOfKeys).ToOddParityBitString();
+            var cipherText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * (_currentCase + 1));
+            var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
+            var testCase = new TestCase
             {
-                _random800_90 = random800_90;
-                _algo = algo;
-            }
+                Key = key,
+                CipherText = cipherText,
+                Iv = iv,
+                Deferred = false
+            };
+            _currentCase++;
+            return Generate(group, testCase);
+        }
 
-            public int NumberOfTestCasesToGenerate
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
+        {
+            SymmetricCipherResult decryptionResult = null;
+            try
             {
-                get { return NUMBER_OF_CASES; }
-            }
-
-            public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
-            {
-
-                var numberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(group.KeyingOption);
-                var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * @numberOfKeys).ToOddParityBitString();
-                var cipherText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * (_currentCase + 1));
-                var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
-                var testCase = new TestCase
+                decryptionResult = _algo.BlockDecrypt(testCase.Key, testCase.CipherText, testCase.Iv);
+                if (!decryptionResult.Success)
                 {
-                    Key = key,
-                    CipherText = cipherText,
-                    Iv = iv,
-                    Deferred = false
-                };
-                _currentCase++;
-                return Generate(group, testCase);
-            }
-
-            public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
-            {
-                SymmetricCipherResult decryptionResult = null;
-                try
-                {
-                    decryptionResult = _algo.BlockDecrypt(testCase.Key, testCase.CipherText, testCase.Iv);
-                    if (!decryptionResult.Success)
+                GetThisLogger().Warn(decryptionResult.ErrorMessage);
                     {
-                        ThisLogger.Warn(decryptionResult.ErrorMessage);
-                        {
-                            return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
-                        }
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
                     }
                 }
-                catch (Exception ex)
-                {
-                    ThisLogger.Error(ex);
-                    {
-                        return new TestCaseGenerateResponse(ex.Message);
-                    }
-                }
-                testCase.PlainText = decryptionResult.Result;
-                return new TestCaseGenerateResponse(testCase);
             }
-
-            private Logger ThisLogger
+            catch (Exception ex)
             {
-                get { return LogManager.GetCurrentClassLogger(); }
+            GetThisLogger().Error(ex);
+                {
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
+                }
             }
+            testCase.PlainText = decryptionResult.Result;
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
+        }
+
+        private Logger GetThisLogger() => LogManager.GetCurrentClassLogger();
     }    
 }
 

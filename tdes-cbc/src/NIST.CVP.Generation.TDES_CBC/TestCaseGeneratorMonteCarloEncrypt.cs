@@ -13,28 +13,22 @@ namespace NIST.CVP.Generation.TDES_CBC
         private readonly IRandom800_90 _random800_90;
         private readonly ITDES_CBC_MCT _algo;
 
+        public int NumberOfTestCasesToGenerate => 1;
+
         public TestCaseGeneratorMonteCarloEncrypt(IRandom800_90 random800_90, ITDES_CBC_MCT algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
         }
 
-        public int NumberOfTestCasesToGenerate
-        {
-            get
-            {
-                return 1;
-            }
-        }
-
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             var seedCase = GetSeedCase(@group);
 
             return Generate(@group, seedCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase seedCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase seedCase)
         {
             MCTResult<AlgoArrayResponse> encryptionResult = null;
             try
@@ -44,7 +38,7 @@ namespace NIST.CVP.Generation.TDES_CBC
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -52,11 +46,11 @@ namespace NIST.CVP.Generation.TDES_CBC
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             seedCase.ResultsArray = encryptionResult.Response;
-            return new TestCaseGenerateResponse(seedCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(seedCase);
         }
 
         private TestCase GetSeedCase(TestGroup @group)
@@ -68,11 +62,6 @@ namespace NIST.CVP.Generation.TDES_CBC
             return new TestCase { Key = key, PlainText = plainText, Iv = iv};
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
-
-
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
