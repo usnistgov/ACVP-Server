@@ -10,7 +10,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.SHA2.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -138,7 +138,7 @@ namespace NIST.CVP.Generation.SHA2.Parsers
             var testVectorSet = new TestVectorSet
             {
                 Algorithm = "SHA",
-                TestGroups = groups.Select(g => (ITestGroup) g).ToList()
+                TestGroups = groups
             };
 
             return new ParseResponse<TestVectorSet>(testVectorSet);

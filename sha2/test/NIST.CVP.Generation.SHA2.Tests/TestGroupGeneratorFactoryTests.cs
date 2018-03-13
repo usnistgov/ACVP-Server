@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 IncludeNull = true,
             };
             
-            List<ITestGroup> groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
             foreach (var genny in result)
             {
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 IncludeNull = true,
             };
 
-            List<ITestGroup> groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
             foreach (var genny in result)
             {
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));

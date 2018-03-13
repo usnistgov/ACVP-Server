@@ -30,14 +30,14 @@ namespace NIST.CVP.Generation.SHA2
             _seedCaseForTest = seedCase;
         }
         
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             IsSample = isSample;
             var seedCase = GetSeedCase(group);
             return Generate(group, seedCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             var hashFunction = new HashFunction
             {
@@ -52,17 +52,17 @@ namespace NIST.CVP.Generation.SHA2
                 if (!hashResult.Success)
                 {
                     ThisLogger.Warn(hashResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(hashResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(hashResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new TestCaseGenerateResponse(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
 
             testCase.ResultsArray = hashResult.Response;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private TestCase GetSeedCase(TestGroup group)

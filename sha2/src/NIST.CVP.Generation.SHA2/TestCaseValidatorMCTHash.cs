@@ -5,7 +5,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA2
 {
-    public class TestCaseValidatorMCTHash : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMCTHash : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 

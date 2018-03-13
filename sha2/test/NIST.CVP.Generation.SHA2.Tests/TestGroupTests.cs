@@ -11,25 +11,6 @@ namespace NIST.CVP.Generation.SHA2.Tests
     [TestFixture, UnitTest]
     public class TestGroupTests
     {
-        private TestDataMother _tdm = new TestDataMother();
-
-        [Test]
-        public void ShouldReconstituteTestGroupFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assert.IsNotNull(subject);
-        }
-
-        [Test]
-        public void ShouldSetProperTestTypeFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.testType, subject.TestType);
-        }
-
         [Test]
         [TestCase("Fredo")]
         [TestCase("")]
@@ -72,24 +53,6 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var result = subject.Equals(null);
 
             Assert.IsFalse(result);
-        }
-
-        private dynamic GetSourceAnswer()
-        {
-            var hashFunction = new HashFunction
-            {
-                Mode = ModeValues.SHA2,
-                DigestSize = DigestSizes.d224
-            };
-
-            var sourceVector = new TestVectorSet
-            {
-                Algorithm = "SHA2",
-                TestGroups = _tdm.GetTestGroups(hashFunction).Select(g => (ITestGroup) g).ToList()
-            };
-
-            var sourceAnswer = sourceVector.AnswerProjection[0];
-            return sourceAnswer;
         }
     }
 }
