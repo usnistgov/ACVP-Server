@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.SHA2.Tests.ContractResolvers
         [Test]
         [TestCase("sha2", "aft")]
         [TestCase("sha2", "mct")]
-        public void ShouldSerializeSha3CaseProperties(string function, string testType)
+        public void ShouldSerializeShaCaseProperties(string function, string testType)
         {
             var tvs = TestDataMother.GetTestGroups(1, function, testType);
             var tg = tvs.TestGroups[0];
