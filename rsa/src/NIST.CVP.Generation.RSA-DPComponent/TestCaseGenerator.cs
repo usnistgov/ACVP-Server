@@ -31,10 +31,13 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             _rsa = rsa;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             var failureTestIndexes = GetFailureIndexes(group.TotalTestCases, group.TotalFailingCases);
-            var testCase = new TestCase();
+            var testCase = new TestCase()
+            {
+                ResultsArray = new List<AlgoArrayResponseSignature>()
+            };
 
             for (var i = 0; i < group.TotalTestCases; i++)
             {
@@ -103,7 +106,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             foreach (var algoArrayResponse in testCase.ResultsArray)
             {
@@ -120,13 +123,13 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                             if (!decryptionResult.Success)
                             {
                                 ThisLogger.Error($"Error decrypting: {decryptionResult.ErrorMessage}");
-                                return new TestCaseGenerateResponse($"Error decrypting: {decryptionResult.ErrorMessage}");
+                                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error decrypting: {decryptionResult.ErrorMessage}");
                             }
                         }
                         catch (Exception ex)
                         {
                             ThisLogger.Error($"Exception decrypting: {ex.StackTrace}");
-                            return new TestCaseGenerateResponse($"Exception decrypting: {ex.StackTrace}");
+                            return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception decrypting: {ex.StackTrace}");
                         }
 
                         algoArrayResponse.PlainText = new BitString(decryptionResult.PlainText);
@@ -134,7 +137,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent
                 }
             }
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

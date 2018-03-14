@@ -56,9 +56,9 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
             if (testCase.resultsArray != null)
             {
                 // If TC has a result, change it
-                if (testCase.resultsArray[0].isSuccess != null)
+                if (testCase.resultsArray[0].failureTest != null)
                 {
-                    testCase.resultsArray[0].isSuccess = !((bool)testCase.resultsArray[0].isSuccess);
+                    testCase.resultsArray[0].failureTest = !((bool)testCase.resultsArray[0].failureTest);
                 }
 
                 // If TC has a pt, change it
@@ -90,15 +90,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
     }

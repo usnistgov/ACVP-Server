@@ -7,7 +7,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_DPComponent
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
         private readonly IRsa _rsa;
 
@@ -16,13 +16,13 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             _rsa = rsa;
         }
 
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestCase>>();
+            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
 
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup) g))
+            foreach (var group in testVectorSet.TestGroups)
             {
-                foreach (var test in group.Tests.Select(t => (TestCase) t))
+                foreach (var test in group.Tests)
                 {
                     list.Add(new TestCaseValidator(group, test, new DeferredCryptoResolver(_rsa)));
                 }

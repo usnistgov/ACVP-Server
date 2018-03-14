@@ -10,65 +10,14 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_DPComponent
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public TestGroup ParentGroup { get; set; }
+        public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
 
-        public ITestGroup Parent { get; set; }
-        public List<AlgoArrayResponseSignature> ResultsArray { get; set; } = new List<AlgoArrayResponseSignature>();
-
-        public TestCase() { }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            var expandoSource = (ExpandoObject) source;
-            if (expandoSource.ContainsProperty("resultsArray"))
-            {
-                foreach (var item in source.resultsArray)
-                {
-                    var expandoItem = (ExpandoObject) item;
-                    var n = expandoItem.GetBigIntegerFromProperty("n");
-                    var e = expandoItem.GetBigIntegerFromProperty("e");
-                    var key = new KeyPair{PubKey = new PublicKey {E = e, N = n}};
-                    bool failureTest;
-
-                    if (expandoItem.ContainsProperty("isSuccess"))
-                    {
-                        // Negate it for 'FailureTest'
-                        failureTest = !expandoItem.GetTypeFromProperty<bool>("isSuccess");
-                    }
-                    else
-                    {
-                        failureTest = false;
-                    }
-
-                    var algoArray = new AlgoArrayResponseSignature
-                    {
-                        CipherText = expandoItem.GetBitStringFromProperty("cipherText"),
-                        PlainText = expandoItem.GetBitStringFromProperty("plainText"),
-                        Key = key,
-                        FailureTest = failureTest
-                    };
-
-                    ResultsArray.Add(algoArray);
-                }
-            }
-        }
+        public List<AlgoArrayResponseSignature> ResultsArray { get; set; }
 
         public bool SetString(string name, string value)
         {

@@ -9,7 +9,7 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.RSA_DPComponent.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Parsers
                         groups.Add(curGroup);
 
                         // Add a single test case to the group
-                        curTestCase = new TestCase {TestCaseId = caseId};
+                        curTestCase = new TestCase {TestCaseId = caseId, ResultsArray = new List<AlgoArrayResponseSignature>()};
                         inCases = true;
                         curGroup.Tests.Add(curTestCase);
                         caseId++;
@@ -87,7 +87,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Parsers
             {
                 Algorithm = "RSA",
                 Mode = "DP-Component",
-                TestGroups = groups.Select(g => (ITestGroup) g).ToList()
+                TestGroups = groups
             });
         }
     }
