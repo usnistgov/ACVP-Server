@@ -31,19 +31,11 @@ namespace NIST.CVP.Generation.RSA_SigGen.IntegrationTests
             };
         }
 
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
         protected override void OverrideRegistrationValFakeException()
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
 

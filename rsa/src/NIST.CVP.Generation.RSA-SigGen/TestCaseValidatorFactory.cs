@@ -7,7 +7,7 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
         private readonly IPaddingFactory _paddingFactory;
         private readonly ISignatureBuilder _signatureBuilder;
@@ -22,13 +22,13 @@ namespace NIST.CVP.Generation.RSA_SigGen
             _rsa = rsa;
         }
 
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestCase>>();
+            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
 
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup) g))
+            foreach (var group in testVectorSet.TestGroups)
             {
-                foreach (var test in group.Tests.Select(t => (TestCase) t))
+                foreach (var test in group.Tests)
                 {
                     if (group.TestType.ToLower() == "gdt")
                     {

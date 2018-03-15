@@ -1,69 +1,50 @@
-﻿using Newtonsoft.Json.Linq;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using NIST.CVP.Common.Helpers;
+using System.Numerics;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
         public SignatureSchemes Mode { get; set; }
         public int Modulo { get; set; }
+
+        [JsonIgnore]
         public HashFunction HashAlg { get; set; }
+
+        [JsonProperty(PropertyName = "hashAlg")]
+        public string HashAlgName
+        {
+            get => HashAlg?.Name;
+            set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+        }
+
         public int SaltLen { get; set; }
-        public KeyPair Key { get; set; }
+
+        [JsonIgnore]
+        public KeyPair Key { get; set; } = new KeyPair {PubKey = new PublicKey()};
+
+        public BigInteger N
+        {
+            get => Key.PubKey.N;
+            set => Key.PubKey.N = value;
+        }
+
+        public BigInteger E
+        {
+            get => Key.PubKey.E;
+            set => Key.PubKey.E = value;
+        }
 
         public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            Mode = EnumHelpers.GetEnumFromEnumDescription<SignatureSchemes>(expandoSource.GetTypeFromProperty<string>("sigType"), false);
-            Modulo = expandoSource.GetTypeFromProperty<int>("modulo");
-
-            var hashAlgName = expandoSource.GetTypeFromProperty<string>("hashAlg");
-            if (!string.IsNullOrEmpty(hashAlgName))
-            {
-                HashAlg = ShaAttributes.GetHashFunctionFromName(hashAlgName);
-            }
-            
-            SaltLen = expandoSource.GetTypeFromProperty<int>("saltLen");
-
-            var e = expandoSource.GetBigIntegerFromProperty("e");
-            var n = expandoSource.GetBigIntegerFromProperty("n");
-
-            Key = new KeyPair {PubKey = new PublicKey {E = e, N = n}};
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                var tc = new TestCase(test)
-                {
-                    Parent = this
-                };
-                Tests.Add(tc);
-            }
-        }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {

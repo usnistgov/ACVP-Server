@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
 
         public VerifyResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var iutTestGroup = iutTestCase.Parent as TestGroup;
+            var iutTestGroup = iutTestCase.ParentGroup;
             var sha = _shaFactory.GetShaInstance(serverTestGroup.HashAlg);
 
             var entropyProvider = new TestableEntropyProvider();

@@ -5,8 +5,6 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 
@@ -18,11 +16,11 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [Test]
         public void GenerateShouldReturnTestCaseGenerateResponse()
         {
-            var subject = new TestCaseGeneratorGDT(GetRandomMock().Object, GetSignatureBuilderMock().Object, GetKeyBuilderMock().Object, GetPaddingFactoryMock().Object, GetShaFactoryMock().Object, GetKeyComposerFactoryMock().Object, GetRsaMock().Object);
+            var subject = new TestCaseGeneratorGDT(GetRandomMock().Object, GetSignatureBuilderMock().Object, GetPaddingFactoryMock().Object, GetShaFactoryMock().Object, GetRsaMock().Object);
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -38,12 +36,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
                 .Returns(new BitString("BEEFFACE"));
 
-            var keyBuilder = GetKeyBuilderMock();
-            keyBuilder
-                .Setup(s => s.Build())
-                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
-
-            var subject = new TestCaseGeneratorGDT(rand.Object, signer.Object, keyBuilder.Object, GetPaddingFactoryMock().Object, GetShaFactoryMock().Object, GetKeyComposerFactoryMock().Object, GetRsaMock().Object);
+            var subject = new TestCaseGeneratorGDT(rand.Object, signer.Object, GetPaddingFactoryMock().Object, GetShaFactoryMock().Object, GetRsaMock().Object);
 
             var result = subject.Generate(GetTestGroup(), true);
 
@@ -64,13 +57,6 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
             return mock;
         }
 
-        private Mock<IKeyBuilder> GetKeyBuilderMock()
-        {
-            var mock = new Mock<IKeyBuilder>();
-            mock.SetReturnsDefault(mock.Object);
-            return mock;
-        }
-
         private Mock<IPaddingFactory> GetPaddingFactoryMock()
         {
             return new Mock<IPaddingFactory>();
@@ -79,11 +65,6 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         private Mock<IShaFactory> GetShaFactoryMock()
         {
             return new Mock<IShaFactory>();
-        }
-
-        private Mock<IKeyComposerFactory> GetKeyComposerFactoryMock()
-        {
-            return new Mock<IKeyComposerFactory>();
         }
 
         private Mock<IRsa> GetRsaMock()

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace NIST.CVP.Generation.RSA_SigGen.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -87,7 +87,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Parsers
                 curTestCase.SetString(parts[0].Trim(), parts[1].Trim());
             }
 
-            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "RSA", Mode = "SigGen", TestGroups = groups.Select(g => (ITestGroup)g).ToList() });
+            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "RSA", Mode = "SigGen", TestGroups = groups });
         }
     }
 }

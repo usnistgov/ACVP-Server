@@ -4,7 +4,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
-    public class TestCaseValidatorGDT : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorGDT : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestGroup _serverGroup;
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, VerifyResult> _deferredTestCaseResolver;
