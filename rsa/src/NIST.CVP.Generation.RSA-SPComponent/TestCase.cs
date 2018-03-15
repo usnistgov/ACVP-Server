@@ -1,4 +1,6 @@
 ﻿using System.Dynamic;
+using System.Numerics;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Generation.Core;
@@ -7,46 +9,158 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_SPComponent
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        public TestCase() { }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public TestGroup ParentGroup { get; set; }
+        public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
 
-        public KeyPair Key { get; set; }
+        [JsonIgnore]
+        public KeyPair Key { get; set; } = new KeyPair {PubKey = new PublicKey()};
         public BitString Message { get; set; }
         public BitString Signature { get; set; }
 
-        private void MapToProperties(dynamic source)
+        public BigInteger N
         {
-            TestCaseId = (int)source.tcId;
+            get => Key.PubKey.N;
+            set => Key.PubKey.N = value;
+        }
 
-            var expandoSource = (ExpandoObject) source;
+        public BigInteger E
+        {
+            get => Key.PubKey.E;
+            set => Key.PubKey.E = value;
+        }
 
-            if (expandoSource.ContainsProperty("sigResult"))
+        public BigInteger P
+        {
+            get => Key.PrivKey.P;
+            set => Key.PrivKey.P = value;
+        }
+
+        public BigInteger Q
+        {
+            get => Key.PrivKey.Q;
+            set => Key.PrivKey.Q = value;
+        }
+
+        private BigInteger _d;
+        public BigInteger D
+        {
+            get
             {
-                // Negate it for 'FailureTest'
-                FailureTest = !expandoSource.GetTypeFromProperty<bool>("sigResult");
+                if (Key.PrivKey is PrivateKey privKey)
+                {
+                    return privKey.D;
+                }
+
+                return 0;
             }
-            else
+
+            set
             {
-                FailureTest = false;
+                _d = value;
+                if (_d != 0)
+                {
+                    Key.PrivKey = new PrivateKey
+                    {
+                        D = _d,
+                        P = P,
+                        Q = Q
+                    };
+                }
             }
-            
-            Signature = expandoSource.GetBitStringFromProperty("signature");
+        }
+
+        private BigInteger _dmp1;
+        public BigInteger Dmp1
+        {
+            get
+            {
+                if (Key.PrivKey is CrtPrivateKey crtKey)
+                {
+                    return crtKey.DMP1;
+                }
+
+                return 0;
+            }
+
+            set
+            {
+                _dmp1 = value;
+                if (_dmp1 != 0)
+                {
+                    Key.PrivKey = new CrtPrivateKey
+                    {
+                        P = P,
+                        Q = Q,
+                        DMP1 = _dmp1,
+                        DMQ1 = Dmq1,
+                        IQMP = Iqmp
+                    };
+                }
+            }
+        }
+
+        private BigInteger _dmq1;
+        public BigInteger Dmq1
+        {
+            get
+            {
+                if (Key.PrivKey is CrtPrivateKey crtKey)
+                {
+                    return crtKey.DMQ1;
+                }
+
+                return 0;
+            }
+
+            set
+            {
+                _dmq1 = value;
+                if (_dmq1 != 0)
+                {
+                    Key.PrivKey = new CrtPrivateKey
+                    {
+                        P = P,
+                        Q = Q,
+                        DMP1 = Dmp1,
+                        DMQ1 = _dmq1,
+                        IQMP = Iqmp
+                    };
+                }
+            }
+        }
+
+        private BigInteger _iqmp;
+        public BigInteger Iqmp
+        {
+            get
+            {
+                if (Key.PrivKey is CrtPrivateKey crtKey)
+                {
+                    return crtKey.IQMP;
+                }
+
+                return 0;
+            }
+
+            set
+            {
+                _iqmp = value;
+                if (_iqmp != 0)
+                {
+                    Key.PrivKey = new CrtPrivateKey
+                    {
+                        P = P,
+                        Q = Q,
+                        DMP1 = Dmp1,
+                        DMQ1 = Dmq1,
+                        IQMP = _iqmp
+                    };
+                }
+            }
         }
 
         public bool SetString(string name, string value)
@@ -65,10 +179,11 @@ namespace NIST.CVP.Generation.RSA_SPComponent
                 case "s":
                     if (value.Contains("fail"))
                     {
-                        FailureTest = true;
+                        TestPassed = false;
                         return true;
                     }
                     Signature = new BitString(value);
+                    TestPassed = true;
                     return true;
 
                 case "n":

@@ -14,60 +14,18 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2
         public BitString CipherText { get; set; }
         
         [JsonIgnore]
-        public KeyPair Key { get; set; }
+        public KeyPair Key { get; set; } = new KeyPair() { PubKey = new PublicKey() };
 
         public BigInteger E
         {
-            get
-            {
-                if (Key == null) return 0;
-                return Key.PubKey.E;
-            }
-
-            set
-            {
-                if (Key == null)
-                {
-                    Key = new KeyPair
-                    {
-                        PubKey = new PublicKey
-                        {
-                            E = value
-                        }
-                    };
-                }
-                else
-                {
-                    Key.PubKey.E = value;
-                }
-            }
+            get => Key.PubKey.E;
+            set => Key.PubKey.E = value;
         }
 
         public BigInteger N
         {
-            get
-            {
-                if (Key == null) return 0;
-                return Key.PubKey.N;
-            }
-
-            set
-            {
-                if (Key == null)
-                {
-                    Key = new KeyPair
-                    {
-                        PubKey = new PublicKey
-                        {
-                            N = value
-                        }
-                    };
-                }
-                else
-                {
-                    Key.PubKey.N = value;
-                }
-            }
+            get => Key.PubKey.N;
+            set => Key.PubKey.N = value;
         }
 
         public bool FailureTest { get; set; }

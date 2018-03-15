@@ -29,11 +29,11 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Tests
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
-        public void GenerateShouldGenerateSignatureIfNotFailureTest()
+        public void GenerateShouldGenerateSignatureIfTestShouldPass()
         {
             var rsa = GetRsaMock();
             rsa
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Tests
             {
                 Key = new KeyPair(),
                 Message = new BitString("ABCD"),
-                FailureTest = false
+                TestPassed = true
             };
 
             var result = subject.Generate(GetTestGroup(), testCase);
@@ -57,7 +57,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Tests
         }
 
         [Test]
-        public void GenerateShouldNotGenerateSignatureIfFailureTest()
+        public void GenerateShouldNotGenerateSignatureIfTestShouldNotPass()
         {
             var rsa = GetRsaMock();
             rsa
@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Tests
             {
                 Key = new KeyPair { PrivKey = new CrtPrivateKey(), PubKey = new PublicKey() },
                 Message = new BitString("ABCD"),
-                FailureTest = true
+                TestPassed = false
             };
 
             var result = subject.Generate(GetTestGroup(), testCase);

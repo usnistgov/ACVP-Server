@@ -8,7 +8,7 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.RSA_SPComponent.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Parsers
             {
                 Algorithm = "RSA",
                 Mode = "SP-Component",
-                TestGroups = groups.Select(g => (ITestGroup) g).ToList()
+                TestGroups = groups
             });
         }
     }

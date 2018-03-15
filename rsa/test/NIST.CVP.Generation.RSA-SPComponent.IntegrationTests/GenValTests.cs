@@ -57,9 +57,9 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             // If TC has a result, change it
-            if (testCase.sigResult != null)
+            if (testCase.testPassed != null)
             {
-                testCase.sigResult = !((bool)testCase.sigResult);
+                testCase.testPassed = !((bool)testCase.testPassed);
             }
 
             var rand = new Random800_90();
@@ -91,15 +91,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
     }

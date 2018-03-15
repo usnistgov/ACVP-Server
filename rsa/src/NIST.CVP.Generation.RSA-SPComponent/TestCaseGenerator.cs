@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent
             _keyComposerFactory = keyComposerFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent
             }
 
             // Chance of all 30 tests not having a single expected failure is one in one billion
-            var failureTest = _rand.GetRandomInt(0, 2); // 0 or 1
+            var testShouldPass = _rand.GetRandomInt(0, 2); // 0 or 1
 
             KeyResult keyResult;
             do
@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent
             var key = keyResult.Key;
 
             BitString message;
-            if (failureTest == 0)
+            if (testShouldPass == 0)
             {
                 // No failure, get a random 2048-bit value less than N
                 message = new BitString(_rand.GetRandomBigInteger(key.PubKey.N), 2048);
@@ -71,15 +71,20 @@ namespace NIST.CVP.Generation.RSA_SPComponent
             {
                 Key = key,
                 Message = message,
-                FailureTest = (failureTest != 0)     // Failure test if m > N, meaning it can't be signed
+                TestPassed = (testShouldPass == 0)     // Failure test if m > N, meaning it can't be signed
             };
 
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
-            if (!testCase.FailureTest)
+            if (testCase.TestPassed == null)
+            {
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("Internal error setting pass setting");
+            }
+
+            if (testCase.TestPassed == true)
             {
                 DecryptionResult result;
                 try
@@ -89,19 +94,19 @@ namespace NIST.CVP.Generation.RSA_SPComponent
                     if (!result.Success)
                     {
                         ThisLogger.Error($"Error generating signature: {result.ErrorMessage}");
-                        return new TestCaseGenerateResponse(result.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(result.ErrorMessage);
                     }
                 }
                 catch (Exception ex)
                 {
                     ThisLogger.Error($"Exception generating signature: {ex.StackTrace}");
-                    return new TestCaseGenerateResponse($"Exception generating signature: {ex.StackTrace}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating signature: {ex.StackTrace}");
                 }
 
                 testCase.Signature = new BitString(result.PlainText, 2048);
             }
             
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();
