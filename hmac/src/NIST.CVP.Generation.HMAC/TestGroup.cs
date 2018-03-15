@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.HMAC
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
 
-        [JsonProperty(PropertyName = "testType")]
-        public string TestType { get; set; } = "AFT";
+        public string TestType { get; set; }
 
         [JsonProperty(PropertyName = "keyLen")]
         public int KeyLength { get; set; }
@@ -26,37 +20,13 @@ namespace NIST.CVP.Generation.HMAC
         [JsonProperty(PropertyName = "macLen")]
         public int MacLength { get; set; }
 
-        public List<ITestCase> Tests { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         [JsonIgnore]
         public ModeValues ShaMode { get; set; }
 
         [JsonIgnore]
         public DigestSizes ShaDigestSize { get; set; }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-        
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");
-            MessageLength = expandoSource.GetTypeFromProperty<int>("msgLen");
-            MacLength = expandoSource.GetTypeFromProperty<int>("macLen");
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
 
         public bool SetString(string name, string value)
         {

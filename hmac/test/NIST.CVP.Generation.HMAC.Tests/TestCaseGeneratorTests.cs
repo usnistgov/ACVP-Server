@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.HMAC.Tests
             var result = _subject.Generate(new TestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -87,9 +87,9 @@ namespace NIST.CVP.Generation.HMAC.Tests
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).Key.ToString(), "Key");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).Message.ToString(), "Message");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).Mac.ToString(), "Mac");
+            Assert.IsNotEmpty((result.TestCase).Key.ToString(), "Key");
+            Assert.IsNotEmpty((result.TestCase).Message.ToString(), "Message");
+            Assert.IsNotEmpty((result.TestCase).Mac.ToString(), "Mac");
             Assert.IsFalse(result.TestCase.Deferred, "Deferred");
         }
     }

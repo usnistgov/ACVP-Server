@@ -4,7 +4,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.HMAC
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _currentGroup;
@@ -15,10 +15,7 @@ namespace NIST.CVP.Generation.HMAC
             _currentGroup = currentGroup;
         }
 
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
-        }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
