@@ -390,7 +390,7 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
 
         private TestVectorSet GetCounterSubject(int groups = 1, string direction = "encrypt")
         {
-            var subject = new TestVectorSet { Algorithm = "TDES", Mode = "CTR" };
+            var subject = new TestVectorSet { Algorithm = "TDES", Mode = "CTR", IsSample = true };
             var testGroups = _tdm.GetCounterTestGroups(groups, direction);
             subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return subject;

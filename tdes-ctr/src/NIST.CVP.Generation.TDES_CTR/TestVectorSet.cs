@@ -176,16 +176,19 @@ namespace NIST.CVP.Generation.TDES_CTR
 
                         if (group.TestType.ToLower() == "counter")
                         {
-                            if (group.Direction.ToLower().Equals("encrypt"))
+                            if (IsSample)
                             {
-                                ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
-                            }
-                            else
-                            {
-                                ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
-                            }
+                                if (group.Direction.ToLower().Equals("encrypt"))
+                                {
+                                    ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                                }
+                                else
+                                {
+                                    ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                                }
 
-                            ((IDictionary<string, object>)testObject).Add("ivs", test.Ivs);
+                                ((IDictionary<string, object>)testObject).Add("ivs", test.Ivs);
+                            }
                         }
                         else
                         {

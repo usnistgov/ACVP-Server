@@ -378,7 +378,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
 
         private TestVectorSet GetCounterSubject(int groups = 1, string direction = "encrypt")
         {
-            var subject = new TestVectorSet { Algorithm = "AES", Mode = "CTR" };
+            var subject = new TestVectorSet { Algorithm = "AES", Mode = "CTR", IsSample = true };
             var testGroups = _tdm.GetCounterTestGroups(groups, direction);
             subject.TestGroups = testGroups.Select(g => (ITestGroup)g).ToList();
             return subject;

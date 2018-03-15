@@ -181,22 +181,35 @@ namespace NIST.CVP.Generation.AES_CTR
 
                         if (group.TestType.ToLower() == "counter")
                         {
-                            ((IDictionary<string, object>)testObject).Add("ivs", test.IVs);
-                        }
+                            if (IsSample)
+                            {
+                                if (group.Direction.ToLower().Equals("encrypt"))
+                                {
+                                    ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                                }
+                                else
+                                {
+                                    ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                                }
 
-                        if (group.Direction.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                                ((IDictionary<string, object>)testObject).Add("ivs", test.IVs);
+                            }
                         }
                         else
                         {
-                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            if (group.Direction.ToLower().Equals("encrypt"))
+                            {
+                                ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            }
+                            else
+                            {
+                                ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            }
                         }
-                        
+
                         tests.Add(testObject);
                     }
                 }
-
                 return tests;
             }
         }
