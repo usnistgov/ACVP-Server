@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
             _rsa = rsa;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             var reason = group.TestCaseExpectationProvider.GetRandomReason();
 
@@ -37,13 +37,13 @@ namespace NIST.CVP.Generation.RSA_SigVer
             {
                 Message = _random800_90.GetRandomBitString(group.Modulo / 2),
                 Reason = reason,
-                FailureTest = reason.GetReason() != SignatureModifications.None
+                TestPassed = reason.GetReason() == SignatureModifications.None
             };
 
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SignatureResult sigResult = null;
             BitString salt;
@@ -66,13 +66,13 @@ namespace NIST.CVP.Generation.RSA_SigVer
                 if (!sigResult.Success)
                 {
                     ThisLogger.Warn($"Error generating signature with intentional errors: {sigResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating signature with intentional errors: {sigResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating signature with intentional errors: {sigResult.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Warn($"Exception generating signature with intentional errors: {ex.Source}");
-                return new TestCaseGenerateResponse($"Exception generating signature with intentional errors: {ex.Source}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating signature with intentional errors: {ex.Source}");
             }
 
             if (group.Mode == SignatureSchemes.Pss)
@@ -81,7 +81,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
             }
 
             testCase.Signature = new BitString(sigResult.Signature);
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

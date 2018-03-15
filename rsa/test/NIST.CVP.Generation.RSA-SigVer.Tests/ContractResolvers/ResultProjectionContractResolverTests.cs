@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
-using NIST.CVP.Generation.RSA_SPComponent.ContractResolvers;
+using NIST.CVP.Generation.RSA_SigVer.ContractResolvers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.RSA_SPComponent.Tests.ContractResolvers
+namespace NIST.CVP.Generation.RSA_SigVer.Tests.ContractResolvers
 {
     [TestFixture, UnitTest, FastIntegrationTest]
     public class ResultsProjectionContractResolverTests
@@ -58,13 +57,10 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Tests.ContractResolvers
         /// Encrypt test group should contain the cipherText, results array (when mct)
         /// all other properties excluded
         /// </summary>
-        /// <param name="keyFormat">KeyFormat being tested</param>
         [Test]
-        [TestCase(PrivateKeyModes.Crt)]
-        [TestCase(PrivateKeyModes.Standard)]
-        public void ShouldSerializeCaseProperties(PrivateKeyModes keyFormat)
+        public void ShouldSerializeCaseProperties()
         {
-            var tvs = TestDataMother.GetTestGroups(1, keyFormat);
+            var tvs = TestDataMother.GetTestGroups(1);
             var tg = tvs.TestGroups[0];
             var tc = tg.Tests[0];
 

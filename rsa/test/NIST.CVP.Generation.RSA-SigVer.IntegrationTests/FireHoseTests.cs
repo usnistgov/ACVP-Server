@@ -52,9 +52,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                     Assert.Fail("No TestGroups parsed");
                 }
 
-                foreach(var iTestGroup in testVector.TestGroups)
+                foreach(var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
                     testGroup.Mode = EnumHelpers.GetEnumFromEnumDescription<SignatureSchemes>(sigVerMode);
 
                     if(testGroup.Tests.Count == 0)
@@ -62,10 +61,8 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                         Assert.Fail("No TestCases parsed");
                     }
 
-                    foreach(var iTestCase in testGroup.Tests)
+                    foreach(var testCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
-
                         var entropyProvider = new TestableEntropyProvider();
                         entropyProvider.AddEntropy(testCase.Salt);
 
@@ -81,9 +78,9 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
                             .WithDecryptionScheme(new Rsa(new RsaVisitor()))
                             .BuildVerify();
 
-                        if (result.Success != testCase.Result)
+                        if (result.Success != testCase.TestPassed)
                         {
-                            Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}.\nTestCase expected to {(testCase.Result ? "pass" : "fail")}.\nTestCase actually {(result.Success ? "pass" : "fail")}\nTestCase actual fail reason: {(result.Success ? "none" : result.ErrorMessage)}");
+                            Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}.\nTestCase expected to {(testCase.TestPassed.Value ? "pass" : "fail")}.\nTestCase actually {(result.Success ? "pass" : "fail")}\nTestCase actual fail reason: {(result.Success ? "none" : result.ErrorMessage)}");
                         }
                     }
                 }

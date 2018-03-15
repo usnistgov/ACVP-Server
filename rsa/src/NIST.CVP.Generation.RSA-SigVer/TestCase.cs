@@ -1,58 +1,31 @@
-﻿using Newtonsoft.Json.Linq;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
-using NIST.CVP.Math;
-using System.Dynamic;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
-using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.RSA_SigVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        public TestCase() { }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public TestGroup ParentGroup { get; set; }
+        public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
 
         public BitString Message { get; set; }
         public BitString Signature { get; set; }
         public BitString Salt { get; set; }
-        public bool Result { get; set; }
+
+        [JsonIgnore]
         public ITestCaseExpectationReason<SignatureModifications> Reason { get; set; }      // Tells us what value was modified leading to the failure
 
-
-        private void MapToProperties(dynamic source)
+        [JsonProperty(PropertyName = "reason")]
+        public string ReasonName
         {
-            TestCaseId = (int)source.tcId;
-
-            var expandoSource = (ExpandoObject) source;
-
-            Message = expandoSource.GetBitStringFromProperty("message");
-            Signature = expandoSource.GetBitStringFromProperty("signature");
-            Salt = expandoSource.GetBitStringFromProperty("salt");
-
-            var resultValue = expandoSource.GetTypeFromProperty<string>("sigResult");
-            var resultEnum = EnumHelpers.GetEnumFromEnumDescription<Disposition>(resultValue, false);
-            Result = (resultEnum == Disposition.Passed);
-
-            var reasonValue = expandoSource.GetTypeFromProperty<string>("reason");
-            var reasonEnum = EnumHelpers.GetEnumFromEnumDescription<SignatureModifications>(reasonValue, false);
-            Reason = new TestCaseExpectationReason(reasonEnum);
+            get => Reason.GetName();
+            set => Reason = new TestCaseExpectationReason(EnumHelpers.GetEnumFromEnumDescription<SignatureModifications>(value));
         }
 
         public bool SetString(string name, string value)
@@ -73,7 +46,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
                     return true;
 
                 case "result":
-                    Result = (value[0] == 'p');
+                    TestPassed = (value[0] == 'p');
                     return true;
 
                 case "saltval":

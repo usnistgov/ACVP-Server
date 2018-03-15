@@ -13,7 +13,7 @@ using NIST.CVP.Generation.RSA_SigVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
-    public class TestGroupGeneratorGeneratedDataTest : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorGeneratedDataTest : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string TEST_TYPE = "GDT";
         
@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.RSA_SigVer
             _shaFactory = shaFactory;
         }
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             var pubExpMode = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(parameters.PubExpMode);

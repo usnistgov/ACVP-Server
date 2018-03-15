@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
             {
                 Algorithm = "",
                 Mode = "",
-                TestGroups = new List<ITestGroup>
+                TestGroups = new List<TestGroup>
                 {
                     new TestGroup
                     {
@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                         Modulo = 2048,
                         Mode = SignatureSchemes.Pss,
                         HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d224),
-                        Tests = new List<ITestCase>
+                        Tests = new List<TestCase>
                         {
                             new TestCase
                             {
