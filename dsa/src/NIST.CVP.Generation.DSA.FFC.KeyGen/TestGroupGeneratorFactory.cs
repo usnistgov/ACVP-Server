@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
-    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
         private readonly IDsaFfcFactory _dsaFactory;
 
@@ -15,9 +15,9 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             _dsaFactory = dsaFactory;
         }
 
-        public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
         {
-            var list = new HashSet<ITestGroupGenerator<Parameters>>
+            var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
             {
                 new TestGroupGenerator(_dsaFactory)
             };

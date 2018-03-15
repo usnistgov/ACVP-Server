@@ -8,11 +8,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
-    public class TestGroupGeneratorPQ : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorPQ : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string TEST_TYPE = "GDT";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

@@ -1,56 +1,56 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Newtonsoft.Json.Linq;
+using System.Numerics;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Generation.DSA.ECC.SigVer.Enums;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
-        public Curve Curve { get; set; }
-        public HashFunction HashAlg { get; set; }
-        public EccKeyPair KeyPair{ get; set; }
-
-        public ITestCaseExpectationProvider<SigFailureReasons> TestCaseExpectationProvider { get; set; }
-
         public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        [JsonProperty(PropertyName = "curve")]
+        public Curve Curve { get; set; }
 
-        public TestGroup()
+        [JsonIgnore] public HashFunction HashAlg { get; set; }
+        [JsonProperty(PropertyName = "hashAlg")]
+        public string HashAlgName
         {
-            Tests = new List<ITestCase>();
+            get => HashAlg?.Name;
+            set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
         }
 
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
+        [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
+        [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger D
         {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(expandoSource.GetTypeFromProperty<string>("curve"), false);
-
-            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
-            if (!string.IsNullOrEmpty(hashValue))
-            {
-                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
-            }
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
+            get => KeyPair.PrivateD;
+            set => KeyPair.PrivateD = value;
         }
+
+        [JsonProperty(PropertyName = "qx", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Qx
+        {
+            get => KeyPair.PublicQ.X;
+            set => KeyPair.PublicQ.X = value;
+        }
+
+        [JsonProperty(PropertyName = "qy", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Qy
+        {
+            get => KeyPair.PublicQ.Y;
+            set => KeyPair.PublicQ.Y = value;
+        }
+
+        [JsonIgnore] public ITestCaseExpectationProvider<SigFailureReasons> TestCaseExpectationProvider { get; set; }
+        
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {

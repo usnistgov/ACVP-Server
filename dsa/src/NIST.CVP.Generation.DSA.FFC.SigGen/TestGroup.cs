@@ -2,6 +2,7 @@
 using System.Dynamic;
 using System.Linq;
 using System.Numerics;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
@@ -12,60 +13,45 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
+        public string TestType { get; set; }
         public int L { get; set; }
         public int N { get; set; }
-        public FfcDomainParameters DomainParams { get; set; }
-        public HashFunction HashAlg { get; set; }
+        [JsonIgnore] public FfcDomainParameters DomainParams { get; set; } = new FfcDomainParameters();
 
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
-        // Needed for SetString, FireHoseTests
-        private BigInteger p;
-        private BigInteger q;
-        private BigInteger g;
-
-        public TestGroup()
+        [JsonProperty(PropertyName = "p", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger P
         {
-            Tests = new List<ITestCase>();
+            get => DomainParams.P;
+            set => DomainParams.P = value;
         }
 
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
+        [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Q
         {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            L = expandoSource.GetTypeFromProperty<int>("l");
-            N = expandoSource.GetTypeFromProperty<int>("n");
-
-            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
-            if (!string.IsNullOrEmpty(hashValue))
-            {
-                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
-            }
-
-            var p = expandoSource.GetBigIntegerFromProperty("p");
-            var q = expandoSource.GetBigIntegerFromProperty("q");
-            var g = expandoSource.GetBigIntegerFromProperty("g");
-            DomainParams = new FfcDomainParameters(p, q, g);
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                var tc = new TestCase(test)
-                {
-                    Parent = this
-                };
-                Tests.Add(tc);
-            }
+            get => DomainParams.Q;
+            set => DomainParams.Q = value;
         }
 
+        [JsonProperty(PropertyName = "g", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger G
+        {
+            get => DomainParams.G;
+            set => DomainParams.G = value;
+        }
+
+        [JsonIgnore] public HashFunction HashAlg { get; set; }
+        [JsonProperty(PropertyName = "hashAlg")]
+        public string HashAlgName
+        {
+            get => HashAlg?.Name;
+            set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+        }
+
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
+        
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -76,16 +62,15 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             switch (name.ToLower())
             {
                 case "p":
-                    p = new BitString(value).ToPositiveBigInteger();
+                    DomainParams.P = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "q":
-                    q = new BitString(value).ToPositiveBigInteger();
+                    DomainParams.Q = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "g":
-                    g = new BitString(value).ToPositiveBigInteger();
-                    DomainParams = new FfcDomainParameters(p, q, g);
+                    DomainParams.G = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "l":
@@ -97,7 +82,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                     return true;
 
                 case "hashalg":
-                    HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+                    HashAlgName = value;
                     return true;
             }
 

@@ -7,7 +7,7 @@ using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         public int TestCaseId => _expectedResult.TestCaseId;
@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
-            if (_expectedResult.Result != suppliedResult.Result)
+            if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Failed, Reason = EnumHelpers.GetEnumDescriptionFromEnum(_expectedResult.Reason) };
             }

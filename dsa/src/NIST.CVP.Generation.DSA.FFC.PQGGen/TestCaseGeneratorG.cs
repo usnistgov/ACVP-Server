@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             _gGenFactory = gGenFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             // Make sure index is not "0000 0000"
             BitString index;
@@ -41,7 +41,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             var pqResult = pqGen.Generate(group.L, group.N, group.N);
             if (!pqResult.Success)
             {
-                return new TestCaseGenerateResponse(pqResult.ErrorMessage);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(pqResult.ErrorMessage);
             }
 
             // Assign values of the TestCase
@@ -61,11 +61,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             }
             else
             {
-                return new TestCaseGenerateResponse(testCase);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             GGenerateResult gResult = null;
             try
@@ -77,17 +77,17 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 if (!gResult.Success)
                 {
                     ThisLogger.Warn($"Error generating g: {gResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating g: {gResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating g: {gResult.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error($"Exception generating g: {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating g: {ex.Message}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating g: {ex.Message}");
             }
 
             testCase.G = gResult.G;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

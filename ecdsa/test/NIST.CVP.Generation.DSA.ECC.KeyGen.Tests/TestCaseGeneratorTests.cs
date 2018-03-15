@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
             var result = subject.Generate(GetTestGroup(), true);
 
             Assert.IsTrue(result.Success);
-            var testCase = (TestCase)result.TestCase;
+            var testCase = result.TestCase;
             Assert.AreEqual(BigInteger.One, testCase.KeyPair.PublicQ.X);
             Assert.AreEqual(BigInteger.One * 2, testCase.KeyPair.PublicQ.Y);
             Assert.AreEqual(BigInteger.One * 3, testCase.KeyPair.PrivateD);

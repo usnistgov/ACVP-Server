@@ -47,8 +47,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                Signature = new EccSignature(3, 4),
-                Parent = GetTestGroup()
+                Signature = new EccSignature(3, 4)
             };
         }
 

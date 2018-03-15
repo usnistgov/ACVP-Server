@@ -4,8 +4,13 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
 {
     public class FfcSignature : IDsaSignature
     {
-        public BigInteger R { get; }
-        public BigInteger S { get; }
+        public BigInteger R { get; set; }
+        public BigInteger S { get; set; }
+
+        public FfcSignature()
+        {
+            
+        }
 
         public FfcSignature(BigInteger r, BigInteger s)
         {

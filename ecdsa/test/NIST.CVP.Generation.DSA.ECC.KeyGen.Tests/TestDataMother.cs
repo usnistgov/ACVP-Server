@@ -1,39 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups = 1, bool isSample = false)
         {
+            var vectorSet = new TestVectorSet()
+            {
+                Algorithm = "ECDSA",
+                Mode = "KeyGen"
+            };
+
             var testGroups = new List<TestGroup>();
+            vectorSet.TestGroups = testGroups;
+
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                var tg = new TestGroup
+                {
+                    Curve = Curve.B571,
+                    SecretGenerationMode = SecretGenerationMode.TestingCandidates
+                };
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
+
                 for(var testId = 5 * groupIdx + 1; testId <= (groupIdx + 1) * 5; testId++)
                 {
-                    tests.Add(new TestCase
+                    var tc = new TestCase
                     {
                         TestCaseId = testId,
-                        KeyPair = new EccKeyPair(new EccPoint(1, 2), 3)
-                    });
-                }
+                        KeyPair = new EccKeyPair(new EccPoint(1, 2), 3),
+                        ParentGroup = tg
+                    };
+                    tests.Add(tc);
 
-                testGroups.Add(new TestGroup
-                {
-                    Curve = Curve.P224,
-                    SecretGenerationMode = SecretGenerationMode.TestingCandidates,
-                    Tests = tests
-                });
+                    if (!isSample)
+                    {
+                        tc.KeyPair = new EccKeyPair(new EccPoint(-1, -2), -3);
+                    }
+
+                }
             }
 
-            return testGroups;
+            return vectorSet;
         }
     }
 }

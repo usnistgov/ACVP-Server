@@ -9,7 +9,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private readonly IDsaEccFactory _eccDsaFactory;
         private readonly IEccCurveFactory _curveFactory;
@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             _curveFactory = curveFactory;
         }
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
             // Equality of groups is done via name of the curve and name of the hash function.

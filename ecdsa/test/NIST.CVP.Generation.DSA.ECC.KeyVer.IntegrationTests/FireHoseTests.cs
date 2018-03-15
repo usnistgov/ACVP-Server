@@ -49,22 +49,18 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
                     Assert.Fail("No TestGroups parsed");
                 }
 
-                foreach (var iTestGroup in testVector.TestGroups)
+                foreach (var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
-
                     if (testGroup.Tests.Count == 0)
                     {
                         Assert.Fail("No TestCases parsed");
                     }
 
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
-
                         var domainParams = new EccDomainParameters(curveFactory.GetCurve(testGroup.Curve));
                         var result = algo.ValidateKeyPair(domainParams, testCase.KeyPair);
-                        if (result.Success != testCase.Result)
+                        if (result.Success != testCase.TestPassed)
                         {
                             Assert.Fail($"Incorrect response for TestCase: {testCase.TestCaseId}");
                         }

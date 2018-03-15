@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 
         public EccVerificationResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var iutTestGroup = (TestGroup) iutTestCase.Parent;
+            var iutTestGroup = iutTestCase.ParentGroup;
             if (iutTestGroup.KeyPair == null)
             {
                 return new EccVerificationResult("Could not find Q");

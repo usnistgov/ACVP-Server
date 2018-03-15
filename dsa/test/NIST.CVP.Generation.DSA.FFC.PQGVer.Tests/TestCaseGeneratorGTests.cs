@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             gMock.Verify(v => v.Generate(It.IsAny<BigInteger>(), It.IsAny<BigInteger>(), It.IsAny<DomainSeed>(), It.IsAny<BitString>()), Times.Once, "Call Generate once");
 
             Assert.IsTrue(result.Success);
-            var testCase = (TestCase)result.TestCase;
+            var testCase = result.TestCase;
             Assert.AreEqual(BigInteger.One, testCase.P);
             Assert.AreEqual(BigInteger.One * 2, testCase.Q);
             Assert.AreEqual(BigInteger.One * 3, testCase.Seed.GetFullSeed());
@@ -79,15 +79,15 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
 
             var failCases = 0;
             var passCases = 0;
-            foreach (var testCase in group.Tests.Select(s => (TestCase)s))
+            foreach (var testCase in group.Tests.Select(s => s))
             {
-                if (testCase.FailureTest)
+                if (testCase.TestPassed != null && testCase.TestPassed.Value)
                 {
-                    failCases++;
+                    passCases++;
                 }
                 else
                 {
-                    passCases++;
+                    failCases++;
                 }
             }
 

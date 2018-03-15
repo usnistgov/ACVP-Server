@@ -1,64 +1,43 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Generation.DSA.FFC.PQGVer.Enums;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
+        public string TestType { get; set; }
+        [JsonProperty(PropertyName = "gMode")]
         public GeneratorGenMode GGenMode { get; set; }
+        [JsonProperty(PropertyName = "pqMode")]
         public PrimeGenMode PQGenMode { get; set; }
+        [JsonProperty(PropertyName = "l")]
         public int L { get; set; }
+        [JsonProperty(PropertyName = "n")]
         public int N { get; set; }
-        public HashFunction HashAlg { get; set; }
+
+        [JsonIgnore] public HashFunction HashAlg { get; set; }
+        [JsonProperty(PropertyName = "hashAlg")]
+        public string HashAlgName
+        {
+            get => HashAlg?.Name;
+            set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+        }
 
         // Used internally to build test cases for the group
-        public ITestCaseExpectationProvider<PQFailureReasons> PQTestCaseExpectationProvider { get; set; }
-        public ITestCaseExpectationProvider<GFailureReasons> GTestCaseExpectationProvider { get; set; }
+        [JsonIgnore] public ITestCaseExpectationProvider<PQFailureReasons> PQTestCaseExpectationProvider { get; set; }
+        [JsonIgnore] public ITestCaseExpectationProvider<GFailureReasons> GTestCaseExpectationProvider { get; set; }
 
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            L = expandoSource.GetTypeFromProperty<int>("l");
-            N = expandoSource.GetTypeFromProperty<int>("n");
-
-            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
-            if (!string.IsNullOrEmpty(hashValue))
-            {
-                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
-            }
-
-            PQGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenMode>(expandoSource.GetTypeFromProperty<string>("pqMode"), false);
-            GGenMode = EnumHelpers.GetEnumFromEnumDescription<GeneratorGenMode>(expandoSource.GetTypeFromProperty<string>("gMode"), false);
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
+        
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {
@@ -86,7 +65,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                     return true;
 
                 case "hashalg":
-                    HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+                    HashAlgName = value;
                     return true;
             }
 

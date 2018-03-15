@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             _pqGenFactory = pqGenFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             var testCase = new TestCase();
 
@@ -33,10 +33,10 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 return Generate(group, testCase);
             }
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             PQGenerateResult sampleResult = null;
             try
@@ -47,13 +47,13 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 if (!sampleResult.Success)
                 {
                     ThisLogger.Warn($"Error generating sample: {sampleResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse(sampleResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(sampleResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error($"Exception generating sample: {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating sample: {ex.Message}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating sample: {ex.Message}");
             }
 
             // We don't actually need anything from the old test case
@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 Counter = sampleResult.Count
             };
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

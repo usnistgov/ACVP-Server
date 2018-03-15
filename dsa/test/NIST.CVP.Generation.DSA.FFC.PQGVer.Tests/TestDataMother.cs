@@ -7,14 +7,33 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(string mode = "pq", int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups, GeneratorGenMode gGenMode, PrimeGenMode pqGenMode)
         {
+            var vectorSet = new TestVectorSet
+            {
+                Algorithm = "DSA",
+                Mode = "PQGVer"
+            };
+
             var testGroups = new List<TestGroup>();
+            vectorSet.TestGroups = testGroups;
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                TestGroup tg = new TestGroup
+                {
+                    GGenMode = gGenMode,
+                    PQGenMode = pqGenMode,
+                    HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
+                    L = 2048,
+                    N = 256,
+                    TestType = "gdt"
+                };
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for(var testId = 5 * groupIdx + 1; testId <= (groupIdx + 1) * 5; testId++)
                 {
                     tests.Add(new TestCase
@@ -24,44 +43,17 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
                         G = 3,
                         H = 4,
                         Reason = "none",
-                        Result = true,
-                        FailureTest = false,
-                        Seed = new DomainSeed(4),
-                        Counter = new Counter(5),
+                        TestPassed = true,
+                        Seed = new DomainSeed(4, 15, 25),
+                        Counter = new Counter(5, 88),
                         Index = new BitString("ABCD"),
-                        TestCaseId = testId
-                    });
-                }
-
-                if (mode == "pq")
-                {
-                    testGroups.Add(new TestGroup
-                    {
-                        GGenMode = GeneratorGenMode.None,
-                        PQGenMode = PrimeGenMode.Probable,
-                        HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                        L = 2048,
-                        N = 256,
-                        TestType = "gdt",
-                        Tests = tests
-                    });
-                }
-                else if(mode == "g")
-                {
-                    testGroups.Add(new TestGroup
-                    {
-                        GGenMode = GeneratorGenMode.Canonical,
-                        PQGenMode = PrimeGenMode.None,
-                        HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                        L = 2048,
-                        N = 256,
-                        TestType = "gdt",
-                        Tests = tests
+                        TestCaseId = testId,
+                        ParentGroup = tg
                     });
                 }
             }
 
-            return testGroups;
+            return vectorSet;
         }
     }
 }

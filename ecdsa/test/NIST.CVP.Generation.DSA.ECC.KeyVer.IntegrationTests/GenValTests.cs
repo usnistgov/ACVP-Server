@@ -32,28 +32,27 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
             };
         }
 
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
         protected override void OverrideRegistrationValFakeException()
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
-            if (testCase.result == null) return;
-            var previousValue = EnumHelpers.GetEnumFromEnumDescription<Disposition>(testCase.result.ToString(), false);
-            var newValue = previousValue == Disposition.Passed ? Disposition.Failed : Disposition.Passed;
-            testCase.result = EnumHelpers.GetEnumDescriptionFromEnum(newValue);
+            if (testCase.testPassed != null)
+            {
+                if (testCase.testPassed == true)
+                {
+                    testCase.testPassed = false;
+                }
+                else
+                {
+                    testCase.testPassed = true;
+                }
+            }
         }
 
         protected override string GetTestFileMinimalTestCases(string targetFolder)

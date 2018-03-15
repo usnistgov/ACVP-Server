@@ -9,7 +9,7 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _group;

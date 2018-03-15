@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -56,15 +56,15 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
 
             var failCases = 0;
             var passCases = 0;
-            foreach (var testCase in group.Tests.Select(s => (TestCase)s))
+            foreach (var testCase in group.Tests.Select(s => s))
             {
-                if (testCase.FailureTest)
+                if (testCase.TestPassed != null && testCase.TestPassed.Value)
                 {
-                    failCases++;
+                    passCases++;
                 }
                 else
                 {
-                    passCases++;
+                    failCases++;
                 }
             }
 

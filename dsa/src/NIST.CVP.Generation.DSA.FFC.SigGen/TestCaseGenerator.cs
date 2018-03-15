@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             _dsaFactory = ffcDsaFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             var testCase = new TestCase
             {
@@ -36,11 +36,11 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             }
             else
             {
-                return new TestCaseGenerateResponse(testCase);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             var ffcDsa = _dsaFactory.GetInstance(group.HashAlg);
 
@@ -52,13 +52,13 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                 if (!keyResult.Success)
                 {
                     ThisLogger.Warn($"Error generating key: {keyResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating key: {keyResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating key: {keyResult.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error($"Exception generating key: {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating key: {ex.Message}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating key: {ex.Message}");
             }
 
             testCase.Key = keyResult.KeyPair;
@@ -71,17 +71,17 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                 if (!sigResult.Success)
                 {
                     ThisLogger.Warn($"Error generating signature: {sigResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating signature: {sigResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating signature: {sigResult.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Warn($"Exception generating signature: {ex.Message}");
-                return new TestCaseGenerateResponse($"Exception generating signature: {ex.Message}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating signature: {ex.Message}");
             }
 
             testCase.Signature = sigResult.Signature;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

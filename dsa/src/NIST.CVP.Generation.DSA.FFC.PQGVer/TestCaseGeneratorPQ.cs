@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             _pqGenFactory = pqGenFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -39,13 +39,13 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             var testCase = new TestCase
             {
                 Reason = reason.GetName(),
-                FailureTest = (reason.GetReason() != PQFailureReasons.None)
+                TestPassed = reason.GetReason() == PQFailureReasons.None
             };
 
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             // Generate normal case
             PQGenerateResult sampleResult = null;
@@ -57,13 +57,13 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 if (!sampleResult.Success)
                 {
                     ThisLogger.Warn($"Error generating sample: {sampleResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse(sampleResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(sampleResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error($"Exception generating sample: {sampleResult.ErrorMessage}, {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating sample: {sampleResult.ErrorMessage}, {ex.StackTrace}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating sample: {sampleResult.ErrorMessage}, {ex.StackTrace}");
             }
 
             testCase.P = sampleResult.P;
@@ -96,7 +96,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 testCase.Seed.ModifySeed(newSeed);
             }
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

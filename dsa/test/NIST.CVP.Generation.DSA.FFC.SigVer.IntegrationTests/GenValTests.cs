@@ -30,28 +30,27 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
             };
         }
 
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
         protected override void OverrideRegistrationValFakeException()
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             // If TC has a result, change it
-            if (testCase.result != null)
+            if (testCase.testPassed != null)
             {
-                testCase.result = (testCase.result == "passed") ? "failed" : "passed";
+                if (testCase.testPassed == true)
+                {
+                    testCase.testPassed = false;
+                }
+                else
+                {
+                    testCase.testPassed = true;
+                }
             }
         }
 

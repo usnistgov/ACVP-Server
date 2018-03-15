@@ -5,7 +5,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
-    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
         private readonly IDsaEccFactory _eccDsaFactory;
         private readonly IEccCurveFactory _curveFactory;
@@ -16,9 +16,9 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             _curveFactory = curveFactory;
         }
 
-        public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
         {
-            var list = new HashSet<ITestGroupGenerator<Parameters>>
+            var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
             {
                 new TestGroupGenerator(_eccDsaFactory, _curveFactory)
             };

@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
                 TestCaseId = 1,
                 P = 2,
                 Q = 3,
-                Result = shouldPass   // Says the test Core.Enums.Disposition.Passed
+                TestPassed = shouldPass   // Says the test Core.Enums.Disposition.Passed
             };
         }
     }

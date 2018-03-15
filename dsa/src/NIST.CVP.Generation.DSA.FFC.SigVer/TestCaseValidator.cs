@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         
@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
-            if (_expectedResult.Result != suppliedResult.Result)
+            if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = _expectedResult.Reason.GetName() };
             }

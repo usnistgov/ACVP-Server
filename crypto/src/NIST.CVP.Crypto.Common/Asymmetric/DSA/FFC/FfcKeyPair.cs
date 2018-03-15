@@ -27,5 +27,10 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
         {
             PublicKeyY = publicKeyY;
         }
+
+        public FfcKeyPair()
+        {
+            
+        }
     }
 }

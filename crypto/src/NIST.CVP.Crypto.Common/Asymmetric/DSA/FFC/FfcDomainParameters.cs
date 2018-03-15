@@ -10,17 +10,22 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
         /// <summary>
         /// P / L bit length prime
         /// </summary>
-        public BigInteger P { get; }
+        public BigInteger P { get; set; }
         
         /// <summary>
         /// Q / N bit length prime, such that <see cref="P"/> - 1 % q
         /// </summary>
-        public BigInteger Q { get; }
+        public BigInteger Q { get; set; }
         
         /// <summary>
         /// A number whose multiplicative order mod <see cref="P"/> is <see cref="Q"/>
         /// </summary>
-        public BigInteger G { get; }
+        public BigInteger G { get; set; }
+
+        public FfcDomainParameters()
+        {
+            
+        }
 
         public FfcDomainParameters(BigInteger p, BigInteger q, BigInteger g)
         {

@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             _dsaFactory = dsaFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             var keyResult = ffcDsa.GenerateKeyPair(group.DomainParams);
             if (!keyResult.Success)
             {
-                return new TestCaseGenerateResponse(keyResult.ErrorMessage);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(keyResult.ErrorMessage);
             }
 
             var reason = group.TestCaseExpectationProvider.GetRandomReason();
@@ -41,13 +41,13 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                 Message = _rand.GetRandomBitString(group.N),
                 Key = keyResult.KeyPair,
                 Reason = reason,
-                FailureTest = reason.GetReason() != SigFailureReasons.None
+                TestPassed = reason.GetReason() == SigFailureReasons.None
             };
 
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             FfcSignatureResult sigResult = null;
             try
@@ -57,13 +57,13 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                 if (!sigResult.Success)
                 {
                     ThisLogger.Warn($"Error generating g: {sigResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating g: {sigResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating g: {sigResult.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error($"Exception generating g: {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating g: {ex.StackTrace}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating g: {ex.StackTrace}");
             }
 
             testCase.Signature = sigResult.Signature;
@@ -97,7 +97,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                 testCase.Signature = new FfcSignature(s, r);
             }
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

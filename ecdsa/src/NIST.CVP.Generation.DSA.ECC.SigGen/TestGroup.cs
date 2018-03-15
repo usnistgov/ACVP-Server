@@ -1,64 +1,57 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using System.Numerics;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
+        public string TestType { get; set; }
+        [JsonProperty(PropertyName = "curve")]
         public Curve Curve { get; set; }
-        public HashFunction HashAlg { get; set; }
-        public EccKeyPair KeyPair { get; set; }
+
+        [JsonIgnore] public HashFunction HashAlg { get; set; }
+        [JsonProperty(PropertyName = "hashAlg")]
+        public string HashAlgName
+        {
+            get => HashAlg?.Name;
+            set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+        }
+
+        [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
+        [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger D
+        {
+            get => KeyPair.PrivateD;
+            set => KeyPair.PrivateD = value;
+        }
+
+        [JsonProperty(PropertyName = "qx", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Qx
+        {
+            get => KeyPair.PublicQ.X;
+            set => KeyPair.PublicQ.X = value;
+        }
+
+        [JsonProperty(PropertyName = "qy", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Qy
+        {
+            get => KeyPair.PublicQ.Y;
+            set => KeyPair.PublicQ.Y = value;
+        }
+
+        [JsonProperty(PropertyName = "componentTest")]
         public bool ComponentTest { get; set; }
 
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(expandoSource.GetTypeFromProperty<string>("curve"), false);
-            ComponentTest = expandoSource.GetTypeFromProperty<bool>("componentTest");
-
-            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
-            if (!string.IsNullOrEmpty(hashValue))
-            {
-                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
-            }
-
-            var qx = expandoSource.GetBigIntegerFromProperty("qx");
-            var qy = expandoSource.GetBigIntegerFromProperty("qy");
-            KeyPair = new EccKeyPair(new EccPoint(qx, qy));
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                var tc = new TestCase(test)
-                {
-                    Parent = this
-                };
-                Tests.Add(tc);
-            }
-        }
+        
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {
@@ -74,7 +67,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
                     return true;
 
                 case "hashalg":
-                    HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+                    HashAlgName = value;
                     return true;
             }
 

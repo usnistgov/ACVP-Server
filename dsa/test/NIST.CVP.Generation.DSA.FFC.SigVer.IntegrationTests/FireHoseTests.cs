@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
 
                 foreach (var iTestGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
+                    var testGroup = iTestGroup;
 
                     if (testGroup.Tests.Count == 0)
                     {
@@ -61,10 +61,10 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
 
                     foreach (var iTestCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
+                        var testCase = iTestCase;
 
                         var result = algo.Verify(testGroup.DomainParams, testCase.Key, testCase.Message, testCase.Signature);
-                        if (result.Success == testCase.FailureTest)
+                        if (result.Success != testCase.TestPassed)
                         {
                             Assert.Fail($"Could not validate TestCase: {testCase.TestCaseId}");
                         }

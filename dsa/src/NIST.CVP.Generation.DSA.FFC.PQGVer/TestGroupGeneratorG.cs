@@ -7,11 +7,11 @@ using NIST.CVP.Generation.DSA.FFC.PQGVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
-    public class TestGroupGeneratorG : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorG : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string TEST_TYPE = "GDT";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

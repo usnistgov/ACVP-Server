@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 
         public FfcKeyPairValidateResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var iutTestGroup = (TestGroup) iutTestCase.Parent;
+            var iutTestGroup = iutTestCase.ParentGroup;
             if (iutTestGroup.DomainParams.P == 0 || iutTestGroup.DomainParams.Q == 0 || iutTestGroup.DomainParams.G == 0)
             {
                 return new FfcKeyPairValidateResult("Could not find p, q, or g");

@@ -1,50 +1,36 @@
-﻿using System.Dynamic;
-using System.Numerics;
-using Newtonsoft.Json.Linq;
+﻿using System.Numerics;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public bool? TestPassed => true;
         public bool Deferred { get; set; }
+        public TestGroup ParentGroup { get; set; }
 
-        public FfcDomainParameters DomainParams { get; set; }
-        public FfcKeyPair Key { get; set; }
+        /// <summary>
+        /// Ignoring for (De)Serialization as KeyPairs are flattened
+        /// </summary>
+        [JsonIgnore]
+        public FfcKeyPair Key { get; set; } = new FfcKeyPair();
 
-        public ITestGroup Parent { get; set; }
-
-        // Needed for SetString, FireHoseTests
-        private BigInteger _x;
-        private BigInteger _y;
-
-        public TestCase() { }
-
-        public TestCase(JObject source)
+        [JsonProperty(PropertyName = "x", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger X
         {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
+            get => Key.PrivateKeyX;
+            set => Key.PrivateKeyX = value;
         }
 
-        public TestCase(dynamic source)
+        [JsonProperty(PropertyName = "y", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Y
         {
-            MapToProperties(source);
-        }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int) source.tcId;
-
-            var expandoSource = (ExpandoObject) source;
-
-            var x = expandoSource.GetBigIntegerFromProperty("x");
-            var y = expandoSource.GetBigIntegerFromProperty("y");
-            Key = new FfcKeyPair(x, y);
+            get => Key.PublicKeyY;
+            set => Key.PublicKeyY = value;
         }
 
         public bool SetString(string name, string value)
@@ -57,12 +43,11 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             switch (name.ToLower())
             {
                 case "x":
-                    _x = new BitString(value).ToPositiveBigInteger();
+                    X = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "y":
-                    _y = new BitString(value).ToPositiveBigInteger();
-                    Key = new FfcKeyPair(_x, _y);
+                    Y = new BitString(value).ToPositiveBigInteger();
                     return true;
             }
 

@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
 
         public FfcVerificationResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var iutTestGroup = (TestGroup) iutTestCase.Parent;
+            var iutTestGroup = iutTestCase.ParentGroup;
 
             if (iutTestGroup.DomainParams == null)
             {

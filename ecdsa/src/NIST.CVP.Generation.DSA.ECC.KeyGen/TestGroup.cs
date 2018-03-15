@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
@@ -9,40 +9,16 @@ using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
         public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
+        [JsonProperty(PropertyName = "curve")]
         public Curve Curve { get; set; }
+        [JsonProperty(PropertyName = "secretGenerationMode")]
         public SecretGenerationMode SecretGenerationMode { get; set; }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(expandoSource.GetTypeFromProperty<string>("curve"), false);
-            SecretGenerationMode = EnumHelpers.GetEnumFromEnumDescription<SecretGenerationMode>(expandoSource.GetTypeFromProperty<string>("secretGenerationMode"), false);
-            
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                var tc = new TestCase(test)
-                {
-                    Parent = this
-                };
-                Tests.Add(tc);
-            }
-        }
 
         public bool SetString(string name, string value)
         {

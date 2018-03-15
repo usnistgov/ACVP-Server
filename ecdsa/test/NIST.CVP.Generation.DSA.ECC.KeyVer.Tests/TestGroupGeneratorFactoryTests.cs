@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.Tests
                 Curve = ParameterValidator.VALID_CURVES,
             };
 
-            var groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
 
             foreach (var genny in result)
             {
@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.Tests
                 Curve = ParameterValidator.VALID_CURVES,
             };
 
-            List<ITestGroup> groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
 
             foreach (var genny in result)
             {

@@ -50,10 +50,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
                     Assert.Fail("No TestGroups parsed");
                 }
 
-                foreach (var iTestGroup in testVector.TestGroups)
+                foreach (var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
-
                     if (testGroup.Tests.Count == 0)
                     {
                         Assert.Fail("No TestCases parsed");
@@ -62,13 +60,11 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
                     var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
                     var algo = new EccDsa(sha);
 
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
-
                         var domainParams = new EccDomainParameters(_curveFactory.GetCurve(testGroup.Curve));
                         var result = algo.Verify(domainParams, testCase.KeyPair, testCase.Message, testCase.Signature);
-                        if (result.Success != testCase.Result)
+                        if (result.Success != testCase.TestPassed)
                         {
                             Assert.Fail($"Could not validate TestCase: {testCase.TestCaseId}, with values: \nR: {testCase.Signature.R}\nS: {testCase.Signature.S}");
                         }

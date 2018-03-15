@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
                 Capabilities = GetCapabilities(),
             };
 
-            var groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
 
             foreach (var genny in result)
             {
@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
                 Capabilities = GetCapabilities(),
             };
 
-            List<ITestGroup> groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
 
             foreach (var genny in result)
             {

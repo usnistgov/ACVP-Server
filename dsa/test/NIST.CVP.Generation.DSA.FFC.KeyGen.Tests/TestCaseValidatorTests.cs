@@ -52,8 +52,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                Key = new FfcKeyPair(1, 2),
-                DomainParams = new FfcDomainParameters(1, 2, 3)
+                Key = new FfcKeyPair(1, 2)
             };
         }
 

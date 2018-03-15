@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
             pqMock.Verify(v => v.Generate(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once, "Call Generate once");
 
             Assert.IsTrue(result.Success);
-            var testCase = (TestCase)result.TestCase;
+            var testCase = result.TestCase;
             Assert.AreEqual(4, testCase.Counter.Count);
         }
 
@@ -72,15 +72,15 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
 
             var failCases = 0;
             var passCases = 0;
-            foreach (var testCase in group.Tests.Select(s => (TestCase)s))
+            foreach (var testCase in group.Tests.Select(s => s))
             {
-                if (testCase.FailureTest)
+                if (testCase.TestPassed != null && testCase.TestPassed.Value)
                 {
-                    failCases++;
+                    passCases++;
                 }
                 else
                 {
-                    passCases++;
+                    failCases++;
                 }
             }
 

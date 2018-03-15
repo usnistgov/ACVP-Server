@@ -1,68 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Numerics;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Common.Helpers;
+﻿using System.Numerics;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Generation.DSA.ECC.SigVer.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
+        public TestGroup ParentGroup { get; set; }
 
-        public bool Result { get; set; }
+        [JsonProperty(PropertyName = "reason")]
         public SigFailureReasons Reason { get; set; }
+        [JsonProperty(PropertyName = "message")]
         public BitString Message { get; set; }
-        public EccSignature Signature { get; set; }
+
+
+        [JsonIgnore] public EccSignature Signature { get; set; } = new EccSignature();
+        [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger R
+        {
+            get => Signature.R;
+            set => Signature.R = value;
+        }
+        [JsonProperty(PropertyName = "s", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger S
+        {
+            get => Signature.S;
+            set => Signature.S = value;
+        }
 
         // For FireHoseTests
-        public EccKeyPair KeyPair;
-        private BigInteger _rSetString;
-        private BigInteger _sSetString;
-        private BigInteger _qxSetString;
-        private BigInteger _qySetString;
-
-        public TestCase() { }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            ExpandoObject expandoSource = (ExpandoObject)source;
-
-            var resultValue = expandoSource.GetTypeFromProperty<string>("result");
-            if (resultValue != null)
-            {
-                Result = resultValue.ToLower() == EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed);
-            }
-
-            var reasonValue = expandoSource.GetTypeFromProperty<string>("reason");
-            if (reasonValue != null)
-            {
-                Reason = EnumHelpers.GetEnumFromEnumDescription<SigFailureReasons>(expandoSource.GetTypeFromProperty<string>("reason"));
-            }
-        }
+        public EccKeyPair KeyPair = new EccKeyPair();
 
         public bool SetString(string name, string value)
         {
@@ -83,25 +56,23 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                     return true;
 
                 case "qx":
-                    _qxSetString = new BitString(value).ToPositiveBigInteger();
+                    KeyPair.PublicQ.X = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "qy":
-                    _qySetString = new BitString(value).ToPositiveBigInteger();
-                    KeyPair = new EccKeyPair(new EccPoint(_qxSetString, _qySetString));
+                    KeyPair.PublicQ.Y = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "r":
-                    _rSetString = new BitString(value).ToPositiveBigInteger();
+                    Signature.R = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "s":
-                    _sSetString = new BitString(value).ToPositiveBigInteger();
-                    Signature = new EccSignature(_rSetString, _sSetString);
+                    Signature.S = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "result":
-                    Result = value.ToLower()[0] == 'p';
+                    TestPassed = value.ToLower()[0] == 'p';
                     return true;
             }
 

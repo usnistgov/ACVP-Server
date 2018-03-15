@@ -1,55 +1,39 @@
-﻿using System.Dynamic;
-using System.Numerics;
-using Newtonsoft.Json.Linq;
+﻿using System.Numerics;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
+        public bool? TestPassed => true;
+        public bool Deferred => true;
+        public TestGroup ParentGroup { get; set; }
 
+        [JsonProperty(PropertyName = "message")]
         public BitString Message { get; set; }
-        public EccSignature Signature { get; set; }
 
-        public ITestGroup Parent { get; set; }
+        [JsonIgnore] public EccSignature Signature { get; set; } = new EccSignature();
+        [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger R
+        {
+            get => Signature.R;
+            set => Signature.R = value;
+        }
+        [JsonProperty(PropertyName = "s", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger S
+        {
+            get => Signature.S;
+            set => Signature.S = value;
+        }
 
         // Needed for FireHoseTests
         public EccKeyPair KeyPair;
         public BigInteger K;
-        public BigInteger _rSetString;
-        public BigInteger _sSetString;
-
-        public TestCase() { }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int) source.tcId;
-            var expandoSource = (ExpandoObject) source;
-
-            Message = expandoSource.GetBitStringFromProperty("message");
-
-            var r = expandoSource.GetBigIntegerFromProperty("r");
-            var s = expandoSource.GetBigIntegerFromProperty("s");
-            Signature = new EccSignature(r, s);
-        }
-
+        
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -70,12 +54,11 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
                     return true;
 
                 case "r":
-                    _rSetString = new BitString(value).ToPositiveBigInteger();
+                    Signature.R = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "s":
-                    _sSetString = new BitString(value).ToPositiveBigInteger();
-                    Signature = new EccSignature(_rSetString, _sSetString);
+                    Signature.S = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "d":

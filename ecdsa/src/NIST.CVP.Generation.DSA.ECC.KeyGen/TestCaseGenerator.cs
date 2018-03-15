@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
             _curveFactory = curveFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -34,11 +34,11 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
             }
             else
             {
-                return new TestCaseGenerateResponse(new TestCase());
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase());
             }
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             EccKeyPairGenerateResult keyResult = null;
             try
@@ -52,19 +52,19 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
                 if (!keyResult.Success)
                 {
                     ThisLogger.Warn($"Error generating key: {keyResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating key: {keyResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating key: {keyResult.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error($"Exception generating key: {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating key: {ex.Message}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating key: {ex.Message}");
             }
 
             testCase.KeyPair = keyResult.KeyPair;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

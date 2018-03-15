@@ -53,10 +53,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                     Assert.Fail("No TestGroups parsed");
                 }
 
-                foreach (var iTestGroup in testVector.TestGroups)
+                foreach (var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
-
                     if (testGroup.Tests.Count == 0)
                     {
                         Assert.Fail("No TestCases parsed");
@@ -65,9 +63,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                     var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
                     var algo = new EccDsa(sha, EntropyProviderTypes.Testable);
 
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
                         algo.AddEntropy(testCase.K);
 
                         var domainParams = new EccDomainParameters(_curveFactory.GetCurve(testGroup.Curve));
@@ -107,10 +104,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                     Assert.Fail("No TestGroups parsed");
                 }
 
-                foreach (var iTestGroup in testVector.TestGroups)
+                foreach (var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
-
                     if (testGroup.Tests.Count == 0)
                     {
                         Assert.Fail("No TestCases parsed");
@@ -119,9 +114,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                     var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
                     var algo = new EccDsa(sha, EntropyProviderTypes.Testable);
 
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
                         algo.AddEntropy(testCase.K);
 
                         var domainParams = new EccDomainParameters(_curveFactory.GetCurve(testGroup.Curve));

@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
             _curveFactory = curveFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -38,13 +38,13 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
             var testCase = new TestCase
             {
                 Reason = reason.GetReason(),
-                FailureTest = (reason.GetReason() != TestCaseExpectationEnum.None)
+                TestPassed = reason.GetReason() == TestCaseExpectationEnum.None
             };
 
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             EccKeyPairGenerateResult keyPairResult = null;
             try
@@ -54,19 +54,19 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
                 if (!keyPairResult.Success)
                 {
                     ThisLogger.Warn($"Error generating key pair: {keyPairResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating key pair: {keyPairResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating key pair: {keyPairResult.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error($"Exception generating key pair: {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating key pair: {ex.StackTrace}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating key pair: {ex.StackTrace}");
             }
 
             testCase.KeyPair = keyPairResult.KeyPair;
 
             // Modify test case
-            return new TestCaseGenerateResponse(ModifyTestCase(testCase, _curveFactory.GetCurve(group.Curve)));
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(ModifyTestCase(testCase, _curveFactory.GetCurve(group.Curve)));
         }
 
         private TestCase ModifyTestCase(TestCase testCase, IEccCurve curve)
@@ -106,6 +106,6 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
             return modifiedTestCase;
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

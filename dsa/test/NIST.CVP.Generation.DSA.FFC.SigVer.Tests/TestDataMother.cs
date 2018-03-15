@@ -8,14 +8,32 @@ using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups = 1)
         {
+            var vectorSet = new TestVectorSet
+            {
+                Algorithm = "DSA",
+                Mode = "SigVer"
+            };
+
             var testGroups = new List<TestGroup>();
+            vectorSet.TestGroups = testGroups;
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                var tg = new TestGroup
+                {
+                    L = 2048 + groupIdx,
+                    N = 224,
+                    HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
+                    DomainParams = new FfcDomainParameters(1, 2, 3)
+                };
+
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
                     tests.Add(new TestCase
@@ -23,23 +41,15 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
                         Key = new FfcKeyPair(1, 2),
                         Message = new BitString("BEEFFACE"),
                         Signature = new FfcSignature(1, 2),
-                        FailureTest = false,
+                        TestPassed = true,
                         Reason = new TestCaseExpectationReason(SigFailureReasons.None),
-                        TestCaseId = testId
+                        TestCaseId = testId,
+                        ParentGroup = tg
                     });
                 }
-
-                testGroups.Add(new TestGroup
-                {
-                    L = 2048 + groupIdx,
-                    N = 224,
-                    HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                    DomainParams = new FfcDomainParameters(1, 2, 3),
-                    Tests = tests
-                });
             }
 
-            return testGroups;
+            return vectorSet;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using System.Numerics;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
@@ -8,26 +9,51 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
+        public TestGroup ParentGroup { get; set; }
 
-        public ITestGroup Parent { get; set; }
+        /// <summary>
+        /// Ignoring for (De)Serialization as KeyPairs are flattened
+        /// </summary>
+        [JsonIgnore]
+        public FfcKeyPair Key { get; set; } = new FfcKeyPair();
 
-        public FfcKeyPair Key { get; set; }
+        [JsonProperty(PropertyName = "x", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger X
+        {
+            get => Key.PrivateKeyX;
+            set => Key.PrivateKeyX = value;
+        }
+
+        [JsonProperty(PropertyName = "y", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Y
+        {
+            get => Key.PublicKeyY;
+            set => Key.PublicKeyY = value;
+        }
+
         public BitString Message { get; set; }
-        public FfcSignature Signature { get; set; }
+
+        [JsonIgnore] public FfcSignature Signature { get; set; } = new FfcSignature();
+        [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger R
+        {
+            get => Signature.R;
+            set => Signature.R = value;
+        }
+        [JsonProperty(PropertyName = "s", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger S
+        {
+            get => Signature.S;
+            set => Signature.S = value;
+        }
 
         // Needed for FireHoseTests
         public BigInteger K;
-
-        // Needed for SetString, FireHoseTests
-        private BigInteger _xSetString;
-        private BigInteger _ySetString;
-        private BigInteger _rSetString;
-        private BigInteger _sSetString;
 
         public TestCase() { }
 
@@ -70,12 +96,11 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             switch (name.ToLower())
             {
                 case "x":
-                    _xSetString = new BitString(value).ToPositiveBigInteger();
+                    Key.PrivateKeyX = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "y":
-                    _ySetString = new BitString(value).ToPositiveBigInteger();
-                    Key = new FfcKeyPair(_xSetString, _ySetString);
+                    Key.PublicKeyY = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "msg":
@@ -83,12 +108,11 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                     return true;
 
                 case "r":
-                    _rSetString = new BitString(value).ToPositiveBigInteger();
+                    Signature.R = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "s":
-                    _sSetString = new BitString(value).ToPositiveBigInteger();
-                    Signature = new FfcSignature(_rSetString, _sSetString);
+                    Signature.S = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "k":

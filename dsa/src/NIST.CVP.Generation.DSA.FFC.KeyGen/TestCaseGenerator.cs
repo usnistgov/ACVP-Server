@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
         private readonly IDsaFfcFactory _dsaFactory;
         private IDsaFfc _ffcDsa;
 
-        public int NumberOfTestCasesToGenerate { get; private set; } = 10;
+        public int NumberOfTestCasesToGenerate => 10;
 
         public TestCaseGenerator(IRandom800_90 rand, IDsaFfcFactory dsaFactory)
         {
@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             _dsaFactory = dsaFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -31,11 +31,11 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             }
             else
             {
-                return new TestCaseGenerateResponse(new TestCase());
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase());
             }
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             FfcKeyPairGenerateResult keyResult = null;
             try
@@ -46,17 +46,17 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                 if (!keyResult.Success)
                 {
                     ThisLogger.Warn($"Error generating key: {keyResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating key: {keyResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating key: {keyResult.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error($"Exception generating key: {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating key: {ex.Message}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating key: {ex.Message}");
             }
 
             testCase.Key = keyResult.KeyPair;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

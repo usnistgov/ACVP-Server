@@ -7,7 +7,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private readonly IDsaFfcFactory _dsaFactory;
 
@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             _dsaFactory = dsaFactory;
         }
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
