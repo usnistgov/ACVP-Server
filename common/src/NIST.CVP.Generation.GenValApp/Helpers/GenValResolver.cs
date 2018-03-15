@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Loader;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
 
@@ -43,32 +43,49 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
 
             List<IRegisterInjections> iocRegistrations = new List<IRegisterInjections>();
 
-            // Load additional dependant assemblies
-            if (mappingResult.AdditionalDependencies != null)
+            try
             {
-                foreach (var additionalDependency in mappingResult.AdditionalDependencies)
+                /*
+                 Note: loading additional assemblies first,
+                 because (example) if "main" generation Gen.CMAC.AES.dll
+                 depends on Gen.CMAC.dll, which has not yet been loaded.
+
+                 Gen.CMAC.dll is an additional assembly, and should be loaded first.
+                */
+                if (mappingResult.AdditionalDependencies != null)
                 {
-                    var additionalAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(
-                        $@"{dllLocation}{additionalDependency.DependencyDll}"
-                    );
-
-                    var additionalIocRegistrations =
-                        additionalAssembly.GetTypes()
-                            .SingleOrDefault(x => iTypeToDiscover.IsAssignableFrom(x));
-
-                    if (additionalIocRegistrations != null)
+                    foreach (var additionalDependency in mappingResult.AdditionalDependencies)
                     {
-                        iocRegistrations.Add(
-                            (IRegisterInjections)Activator.CreateInstance(additionalIocRegistrations)
+                        var additionalAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(
+                            $@"{dllLocation}{additionalDependency.DependencyDll}"
                         );
+
+                        var additionalIocRegistrations =
+                            additionalAssembly.GetTypes()
+                                .SingleOrDefault(x => iTypeToDiscover.IsAssignableFrom(x));
+
+                        if (additionalIocRegistrations != null)
+                        {
+                            iocRegistrations.Add(
+                                (IRegisterInjections)Activator.CreateInstance(additionalIocRegistrations)
+                            );
+                        }
                     }
                 }
-            }
 
-            // Load test assemblies last so they take priority
-            var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(fullgenValDllPath);
-            var concreteType = assembly.GetTypes().Single(x => iTypeToDiscover.IsAssignableFrom(x));
-            iocRegistrations.Add((IRegisterInjections)Activator.CreateInstance(concreteType));
+                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(fullgenValDllPath);
+                var concreteType = assembly.GetTypes().Single(x => iTypeToDiscover.IsAssignableFrom(x));
+                iocRegistrations.Add((IRegisterInjections)Activator.CreateInstance(concreteType));
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                foreach (var loaderException in ex.LoaderExceptions)
+                {
+                    Logger.Error(loaderException.Message);
+                }
+
+                throw;
+            }
 
             return iocRegistrations;
         }
