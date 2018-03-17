@@ -4,7 +4,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
-    public class TestCaseValidatorVal : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorVal : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 
@@ -33,27 +33,17 @@ namespace NIST.CVP.Generation.KAS.ECC
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (string.IsNullOrEmpty(suppliedResult.Result))
+            if (suppliedResult.TestPassed == null)
             {
-                errors.Add($"{nameof(suppliedResult.Result)} was not present in the {nameof(TestCase)}");
+                errors.Add($"{nameof(suppliedResult.TestPassed)} was not present in the {nameof(TestCase)}");
             }
         }
 
         private void CheckResults(TestCase suppliedResult, List<string> errors)
         {
-            if (_expectedResult.FailureTest)
+            if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
-                if (!suppliedResult.Result.Equals("fail", StringComparison.OrdinalIgnoreCase))
-                {
-                    errors.Add("Expected failure test.");
-                }
-            }
-            else
-            {
-                if (!suppliedResult.Result.Equals("pass", StringComparison.OrdinalIgnoreCase))
-                {
-                    errors.Add("Expected pass test.");
-                }
+                errors.Add($"Incorrect {nameof(suppliedResult.TestPassed)} result");
             }
         }
     }

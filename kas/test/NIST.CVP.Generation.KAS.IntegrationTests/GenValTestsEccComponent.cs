@@ -2,6 +2,7 @@
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Generation.GenValApp.Helpers;
+using NIST.CVP.Generation.KAS.EccComponent;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -13,23 +14,19 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
     {
         private readonly Random800_90 _random = new Random800_90();
 
-        public override string Algorithm => "KAS-ECC";
+        public override string Algorithm => "KAS";
 
-        public override string Mode => "Component";
-        public override string RunnerAlgorithm => "KAS";
-        public override string RunnerMode => "EccComponent";
-
+        public override string Mode => "EccComponent";
+        
         public override Executable Generator => GenValApp.Program.Main;
         public override Executable Validator => GenValApp.Program.Main;
 
         [SetUp]
         public override void SetUp()
         {
-            AdditionalParameters = new[] { $"{Algorithm}{Mode}" };
-
             AutofacConfig.OverrideRegistrations = null;
         }
-
+        
         protected override void OverrideRegistrationGenFakeFailure()
         {
             AutofacConfig.OverrideRegistrations = builder =>
@@ -42,15 +39,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
 

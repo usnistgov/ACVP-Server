@@ -7,24 +7,33 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.FFC.Tests
 {
-    internal class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups, bool isSample,
+            string testType,
+            KasMode kasMode = KasMode.NoKdfNoKc,
+            KeyAgreementMacType macType = KeyAgreementMacType.None,
+            KeyConfirmationRole kcRole = KeyConfirmationRole.None,
+            KeyConfirmationDirection kcDirection = KeyConfirmationDirection.None
+        )
         {
+            var vectorSet = new TestVectorSet();
+
             List<TestGroup> list = new EditableList<TestGroup>();
+            vectorSet.TestGroups = list;
 
             for (int i = 0; i < groups; i++)
             {
                 TestGroup tg = new TestGroup()
                 {
-                    Scheme = FfcScheme.DhEphem,
-                    KasMode = KasMode.KdfNoKc,
-                    KasRole = KeyAgreementRole.ResponderPartyV,
+                    TestType = testType,
+                    KasMode = kasMode,
+                    MacType = macType,
+                    KcRole = kcRole,
+                    KcType = kcDirection,
                     KeyLen = 128,
-                    KcRole = KeyConfirmationRole.None,
                     ParmSet = FfcParameterSet.Fc,
                     HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                    MacType = KeyAgreementMacType.AesCcm,
                     AesCcmNonceLen = 56,
                     MacLen = 128,
                     Function = KasAssurance.FullVal | KasAssurance.DpGen,
@@ -32,49 +41,51 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
                     Q = 2,
                     G = 3,
                     OiPattern = "uPartyInfo||vPartyInfo",
-                    TestType = "VAL",
                     IdIut = new BitString("AA"),
-                    KcType = KeyConfirmationDirection.None,
                     KdfType = "concatenation",
                     IdServer = new BitString("BB"),
-                    IdServerLen = 8
+                    IdServerLen = 8,
+                    Scheme = FfcScheme.DhOneFlow,
+                    IdIutLen = 42,
+                    TestGroupId = 55
                 };
-                tg.Tests = new List<ITestCase>()
+                list.Add(tg);
+
+                tg.Tests = new List<TestCase>
                 {
                     new TestCase()
                     {
                         OtherInfo = new BitString("AABB"),
-                        FailureTest = false,
-                        Tag = new BitString("01"),
-                        Z = new BitString("01"),
-                        IdIut = new BitString("01"),
+                        TestPassed = true,
+                        Tag = new BitString("0111"),
+                        Z = new BitString("0122"),
+                        IdIut = new BitString("0133"),
                         StaticPrivateKeyServer = 1,
-                        StaticPublicKeyServer = 1,
-                        EphemeralPrivateKeyServer = 1,
-                        EphemeralPublicKeyServer = 1,
-                        DkmNonceServer = new BitString("01"),
-                        EphemeralNonceServer = new BitString("01"),
-                        StaticPrivateKeyIut = 1,
-                        StaticPublicKeyIut = 1,
-                        EphemeralPrivateKeyIut = 1,
-                        EphemeralPublicKeyIut = 1,
-                        DkmNonceIut = new BitString("01"),
-                        EphemeralNonceIut = new BitString("01"),
-                        NonceAesCcm = new BitString("01"),
-                        MacData = new BitString("01"),
-                        OiLen = 1,
-                        NonceNoKc = new BitString("01"),
-                        TestCaseId = 1,
-                        Dkm = new BitString("01"),
-                        IdIutLen = 1,
-                        HashZ = new BitString("01"),
-                        Result = "pass"
+                        StaticPublicKeyServer = 2,
+                        EphemeralPrivateKeyServer = 3,
+                        EphemeralPublicKeyServer = 4,
+                        DkmNonceServer = new BitString("0144"),
+                        EphemeralNonceServer = new BitString("0155"),
+                        StaticPrivateKeyIut = 5,
+                        StaticPublicKeyIut = 6,
+                        EphemeralPrivateKeyIut = 7,
+                        EphemeralPublicKeyIut = 8,
+                        DkmNonceIut = new BitString("0166"),
+                        EphemeralNonceIut = new BitString("0177"),
+                        NonceAesCcm = new BitString("0188"),
+                        MacData = new BitString("0199"),
+                        OiLen = 9,
+                        NonceNoKc = new BitString("1101"),
+                        TestCaseId = 10,
+                        Dkm = new BitString("2201"),
+                        IdIutLen = 11,
+                        HashZ = new BitString("3301"),
+                        ParentGroup = tg
                     }
                 };
-                list.Add(tg);
             }
 
-            return list;
+            return vectorSet;
         }
     }
 }

@@ -10,8 +10,12 @@ namespace NIST.CVP.Generation.KAS.Helpers
 {
     public static class TestCaseDispositionHelper
     {
-        public static List<TestCaseDispositionOption> PopulateValidityTestCaseOptions<TKasDsaAlgoAttributes>(TestGroupBase<TKasDsaAlgoAttributes> testGroup)
+        public static List<TestCaseDispositionOption> PopulateValidityTestCaseOptions<TTestGroup, TTestCase, TKasDsaAlgoAttributes>(
+            TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes> testGroup
+        )
             where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+            where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
+            where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
         {
             List<TestCaseDispositionOption> validityTestCaseOptions = new List<TestCaseDispositionOption>();
             const int numberOfTestsForValidityGroups = 25;

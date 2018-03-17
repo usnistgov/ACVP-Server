@@ -25,8 +25,8 @@ namespace NIST.CVP.Generation.KAS
         TDomainParameters, 
         TKeyPair
     > : ITestCaseGenerator<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TKasDsaAlgoAttributes>
-        where TTestCase : TestCaseBase, new()
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>, new()
         where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
@@ -82,17 +82,18 @@ namespace NIST.CVP.Generation.KAS
         }
 
         public int NumberOfTestCasesToGenerate => 25;
-        public TestCaseGenerateResponse Generate(TTestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, bool isSample)
         {
             var testCase = new TTestCase()
             {
-                TestCaseDisposition = TestCaseDispositionHelper.GetTestCaseIntention(_dispositionList)
+                TestCaseDisposition = TestCaseDispositionHelper.GetTestCaseIntention(_dispositionList),
+                TestPassed = true
             };
 
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TTestGroup @group, TTestCase testCase)
+        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, TTestCase testCase)
         {
             var macParameters = _macParametersBuilder
                 .WithKeyAgreementMacType(group.MacType)
@@ -113,24 +114,24 @@ namespace NIST.CVP.Generation.KAS
             IKdfFactory kdfFactory = _kdfFactory;
             if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedZ)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 kdfFactory = new FakeKdfFactory_BadZ(_kdfFactory);
             }
             if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedDkm)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 kdfFactory = new FakeKdfFactory_BadDkm(_kdfFactory);
             }
             INoKeyConfirmationFactory noKeyConfirmationFactory = _noKeyConfirmationFactory;
             if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedMacData)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 noKeyConfirmationFactory = new FakeNoKeyConfirmationFactory_BadMacData(_noKeyConfirmationFactory);
             }
             IKeyConfirmationFactory keyConfirmationFactory = _keyConfirmationFactory;
             if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedMacData)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 keyConfirmationFactory = new FakeKeyConfirmationFactory_BadMacData(_keyConfirmationFactory);
             }
 
@@ -203,19 +204,19 @@ namespace NIST.CVP.Generation.KAS
             // Change data for failures that do not require a rerun of functions
             if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedOi)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 testCase.OtherInfo[0] += 2;
             }
             if (testCase.TestCaseDisposition == TestCaseDispositionOption.FailChangedTag)
             {
                 if (testCase.Tag != null)
                 {
-                    testCase.FailureTest = true;
+                    testCase.TestPassed = false;
                     testCase.Tag[0] += 2;
                 }
                 if (testCase.HashZ != null)
                 {
-                    testCase.FailureTest = true;
+                    testCase.TestPassed = false;
                     testCase.HashZ[0] += 2;
                 }
             }
@@ -242,7 +243,7 @@ namespace NIST.CVP.Generation.KAS
                 }
             }
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TTestGroup, TTestCase>(testCase);
         }
         
         /// <summary>

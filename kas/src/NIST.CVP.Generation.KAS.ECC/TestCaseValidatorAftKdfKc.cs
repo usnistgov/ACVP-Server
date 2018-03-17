@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
-    public class TestCaseValidatorAftKdfKc : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorAftKdfKc : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _workingTest;
         private readonly TestGroup _testGroup;

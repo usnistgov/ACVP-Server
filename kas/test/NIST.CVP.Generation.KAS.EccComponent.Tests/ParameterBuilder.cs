@@ -5,8 +5,8 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
 {
     public class ParameterBuilder
     {
-        private string _algorithm = "KAS-ECC";
-        private string _mode = "Component";
+        private string _algorithm = "KAS";
+        private string _mode = "EccComponent";
         private string[] _curves = EnumHelpers.GetEnumDescriptions<Curve>().ToArray();
 
         public ParameterBuilder WithAlgorithm(string value)

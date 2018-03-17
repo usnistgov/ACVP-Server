@@ -11,11 +11,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private readonly string[] _testTypes = new string[] { "AFT", "VAL" };
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
 

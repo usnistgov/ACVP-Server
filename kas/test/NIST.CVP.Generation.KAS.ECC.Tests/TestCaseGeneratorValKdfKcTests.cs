@@ -1606,7 +1606,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
 
             BuildTestGroup(scheme, testGroupIutRole, kcRole, kcType, macType, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
 
-            Assert.AreEqual(isFailure, resultTestCase.FailureTest);
+            Assert.AreEqual(isFailure, !resultTestCase.TestPassed);
         }
 
         private void BuildTestGroup(

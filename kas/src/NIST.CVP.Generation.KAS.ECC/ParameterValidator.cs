@@ -11,7 +11,8 @@ namespace NIST.CVP.Generation.KAS.ECC
 {
     public class ParameterValidator : ParameterValidatorBase
     {
-        public override string Algorithm => "KAS-ECC";
+        public override string Algorithm => "KAS";
+        public override string Mode => "ECC";
 
         public override string[] ValidFunctions => new string[]
         {

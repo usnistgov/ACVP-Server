@@ -3,12 +3,14 @@
     public class ParameterBuilder
     {
         private string _algorithm;
+        private string _mode;
         private string[] _functions;
         private Schemes _schemes;
 
         public ParameterBuilder()
         {
-            _algorithm = "KAS-FFC";
+            _algorithm = "KAS";
+            _mode = "FFC";
             _functions = new string[]
             {
                 "dpGen",
@@ -23,6 +25,12 @@
         public ParameterBuilder WithAlgorithm(string value)
         {
             _algorithm = value;
+            return this;
+        }
+
+        public ParameterBuilder WithMode(string value)
+        {
+            _mode = value;
             return this;
         }
 
@@ -43,6 +51,7 @@
             return new Parameters()
             {
                 Algorithm = _algorithm,
+                Mode = _mode,
                 Function = _functions,
                 Scheme = _schemes
             };

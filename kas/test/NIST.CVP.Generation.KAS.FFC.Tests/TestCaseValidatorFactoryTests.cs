@@ -77,7 +77,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
             testVectorSet = new TestVectorSet()
             {
                 Algorithm = string.Empty,
-                TestGroups = new List<ITestGroup>()
+                TestGroups = new List<TestGroup>()
                 {
                     new TestGroup()
                     {
@@ -86,7 +86,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
                         Scheme = scheme,
                         KcRole = kcRole,
                         KcType = kcType,
-                        Tests = new List<ITestCase>()
+                        Tests = new List<TestCase>()
                         {
                             new TestCase()
                         }

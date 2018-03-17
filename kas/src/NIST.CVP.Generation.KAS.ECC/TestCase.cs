@@ -1,40 +1,52 @@
 ﻿using System.Dynamic;
 using System.Numerics;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
-    public class TestCase : TestCaseBase
+    public class TestCase : TestCaseBase<TestGroup, TestCase, KasDsaAlgoAttributesEcc>
     {
-        public TestCase() { }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
+        [JsonProperty(PropertyName = "staticPrivateServer", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger StaticPrivateKeyServer { get; set; }
+
+        [JsonProperty(PropertyName = "staticPublicServerX", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger StaticPublicKeyServerX { get; set; }
+
+        [JsonProperty(PropertyName = "staticPublicServerY", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger StaticPublicKeyServerY { get; set; }
+
+        [JsonProperty(PropertyName = "ephemeralPrivateServer", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger EphemeralPrivateKeyServer { get; set; }
+
+        [JsonProperty(PropertyName = "ephemeralPublicServerX", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger EphemeralPublicKeyServerX { get; set; }
+
+        [JsonProperty(PropertyName = "ephemeralPublicServerY", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger EphemeralPublicKeyServerY { get; set; }
 
-        public BigInteger StaticPrivateKeyIut { get; set; }
-        public BigInteger StaticPublicKeyIutX { get; set; }
-        public BigInteger StaticPublicKeyIutY { get; set; }
-        public BigInteger EphemeralPrivateKeyIut { get; set; }
-        public BigInteger EphemeralPublicKeyIutX { get; set; }
-        public BigInteger EphemeralPublicKeyIutY { get; set; }
 
+        [JsonProperty(PropertyName = "staticPrivateIut", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger StaticPrivateKeyIut { get; set; }
+
+        [JsonProperty(PropertyName = "staticPublicIutX", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger StaticPublicKeyIutX { get; set; }
+
+        [JsonProperty(PropertyName = "staticPublicIutY", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger StaticPublicKeyIutY { get; set; }
+
+        [JsonProperty(PropertyName = "ephemeralPrivateIut", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger EphemeralPrivateKeyIut { get; set; }
+
+        [JsonProperty(PropertyName = "ephemeralPublicIutX", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger EphemeralPublicKeyIutX { get; set; }
+
+        [JsonProperty(PropertyName = "ephemeralPublicIutY", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger EphemeralPublicKeyIutY { get; set; }
+        
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -125,67 +137,11 @@ namespace NIST.CVP.Generation.KAS.ECC
                     HashZ = new BitString(value);
                     return true;
                 case "result":
-                    if (value.StartsWith("p"))
-                    {
-                        Result = "pass";
-                    }
-                    else
-                    {
-                        Result = "fail";
-                        FailureTest = true;
-                    }
+                    TestPassed = value.StartsWith("p");
                     return true;
             }
 
             return false;
-        }
-
-        protected void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            ExpandoObject expandoSource = (ExpandoObject)source;
-
-            FailureTest = expandoSource.GetTypeFromProperty<bool>("failureTest");
-            Deferred = expandoSource.GetTypeFromProperty<bool>("deferred");
-
-            EphemeralPrivateKeyServer = expandoSource.GetBigIntegerFromProperty("ephemeralPrivateServer");
-            EphemeralPublicKeyServerX = expandoSource.GetBigIntegerFromProperty("ephemeralPublicServerX");
-            EphemeralPublicKeyServerY = expandoSource.GetBigIntegerFromProperty("ephemeralPublicServerY");
-            StaticPrivateKeyServer = expandoSource.GetBigIntegerFromProperty("staticPrivateServer");
-            StaticPublicKeyServerX = expandoSource.GetBigIntegerFromProperty("staticPublicServerX");
-            StaticPublicKeyServerY = expandoSource.GetBigIntegerFromProperty("staticPublicServerY");
-            DkmNonceServer = expandoSource.GetBitStringFromProperty("nonceDkmServer");
-            EphemeralNonceServer = expandoSource.GetBitStringFromProperty("nonceEphemeralServer");
-
-            EphemeralPrivateKeyIut = expandoSource.GetBigIntegerFromProperty("ephemeralPrivateIut");
-            EphemeralPublicKeyIutX = expandoSource.GetBigIntegerFromProperty("ephemeralPublicIutX");
-            EphemeralPublicKeyIutY = expandoSource.GetBigIntegerFromProperty("ephemeralPublicIutY");
-            StaticPrivateKeyIut = expandoSource.GetBigIntegerFromProperty("staticPrivateIut");
-            StaticPublicKeyIutX = expandoSource.GetBigIntegerFromProperty("staticPublicIutX");
-            StaticPublicKeyIutY = expandoSource.GetBigIntegerFromProperty("staticPublicIutY");
-            DkmNonceIut = expandoSource.GetBitStringFromProperty("nonceDkmIut");
-            EphemeralNonceIut = expandoSource.GetBitStringFromProperty("nonceEphemeralIut");
-
-            IdIutLen = expandoSource.GetTypeFromProperty<int>("idIutLen");
-            IdIut = expandoSource.GetBitStringFromProperty("idIut");
-
-            OiLen = expandoSource.GetTypeFromProperty<int>("oiLen");
-            OtherInfo = expandoSource.GetBitStringFromProperty("oi");
-
-            NonceNoKc = expandoSource.GetBitStringFromProperty("nonceNoKc");
-
-            NonceAesCcm = expandoSource.GetBitStringFromProperty("nonceAesCcm");
-
-            Z = expandoSource.GetBitStringFromProperty("z");
-
-            Dkm = expandoSource.GetBitStringFromProperty("dkm");
-            MacData = expandoSource.GetBitStringFromProperty("macData");
-
-            HashZ = expandoSource.GetBitStringFromProperty("hashZIut");
-            Tag = expandoSource.GetBitStringFromProperty("tagIut");
-
-            Result = expandoSource.GetTypeFromProperty<string>("result");
         }
     }
 }

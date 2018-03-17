@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 
         public int NumberOfTestCasesToGenerate => 25;
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             var testCase = new TestCase();
 
@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             var serverKeyPair = _dsa.GenerateKeyPair(_domainParameters);
 
@@ -59,7 +59,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
                 testCase.Z = sharedSecret.SharedSecretZ;
             }
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
     }
 }

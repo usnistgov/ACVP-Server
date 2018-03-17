@@ -10,7 +10,7 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
         private readonly IKasBuilder<KasDsaAlgoAttributesFfc, OtherPartySharedInformation<FfcDomainParameters, FfcKeyPair>, FfcDomainParameters, FfcKeyPair> _kasBuilder;
         private readonly IMacParametersBuilder _macParametersBuilder;
@@ -30,13 +30,13 @@ namespace NIST.CVP.Generation.KAS.FFC
             _entropyProviderFactory = entropyProviderFactory;
         }
 
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestCase>>();
+            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
 
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
+            foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
-                foreach (var test in group.Tests.Select(t => (TestCase)t))
+                foreach (var test in group.Tests.Select(t => t))
                 {
                     var workingTest = test;
 

@@ -5,7 +5,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.EccComponent
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, SharedSecretResponse> _deferredTestCaseResolver;
 
@@ -14,13 +14,13 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             _deferredTestCaseResolver = deferredTestCaseResolver;
         }
 
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestCase>>();
+            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
 
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
+            foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
-                foreach (var test in group.Tests.Select(t => (TestCase)t))
+                foreach (var test in group.Tests.Select(t => t))
                 {
                     var workingTest = test;
                     list.Add(new TestCaseValidator(workingTest, group, _deferredTestCaseResolver));

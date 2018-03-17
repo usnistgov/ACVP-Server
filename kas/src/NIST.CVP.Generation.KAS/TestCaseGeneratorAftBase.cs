@@ -20,8 +20,8 @@ namespace NIST.CVP.Generation.KAS
         TScheme
     > 
         : ITestCaseGenerator<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TKasDsaAlgoAttributes>
-        where TTestCase : TestCaseBase, new()
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>, new()
         where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
@@ -79,11 +79,12 @@ namespace NIST.CVP.Generation.KAS
         }
 
         public int NumberOfTestCasesToGenerate => 10;
-        public TestCaseGenerateResponse Generate(TTestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, bool isSample)
         {
             TTestCase testCase = new TTestCase()
             {
-                Deferred = true
+                Deferred = true,
+                TestPassed = true
             };
 
             KeyAgreementRole serverRole =
@@ -238,9 +239,9 @@ namespace NIST.CVP.Generation.KAS
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TTestGroup @group, TTestCase testCase)
+        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, TTestCase testCase)
         {
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TTestGroup, TTestCase>(testCase);
         }
 
         /// <summary>

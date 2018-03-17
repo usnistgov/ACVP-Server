@@ -10,7 +10,7 @@ using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
-    public class TestGroup : TestGroupBase<KasDsaAlgoAttributesEcc>
+    public class TestGroup : TestGroupBase<TestGroup, TestCase, KasDsaAlgoAttributesEcc>
     {
         public EccScheme Scheme { get; set; }
         public EccParameterSet ParmSet { get; set; }
@@ -18,15 +18,6 @@ namespace NIST.CVP.Generation.KAS.ECC
         
         public override KasDsaAlgoAttributesEcc KasDsaAlgoAttributes =>
             new KasDsaAlgoAttributesEcc(Scheme, ParmSet, CurveName);
-
-        public TestGroup() { }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            MapToProperties(source);
-        }
 
         private void MapToProperties(dynamic source)
         {
@@ -61,11 +52,6 @@ namespace NIST.CVP.Generation.KAS.ECC
             NonceType = expandoSource.GetTypeFromProperty<string>("nonceType");
 
             CurveName = EnumHelpers.GetEnumFromEnumDescription<Curve>(expandoSource.GetTypeFromProperty<string>("curveName"), false);
-
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
         }
     }
 }

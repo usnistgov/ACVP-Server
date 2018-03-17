@@ -12,11 +12,9 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTestsFfc : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm => "KAS-FFC";
-        public override string Mode => string.Empty;
-        public override string RunnerAlgorithm => "KAS";
-        public override string RunnerMode => "FFC";
-
+        public override string Algorithm => "KAS";
+        public override string Mode => "FFC";
+        
         public override Executable Generator => GenValApp.Program.Main;
         public override Executable Validator => GenValApp.Program.Main;
 
@@ -45,18 +43,10 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         {
             AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
+        
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
@@ -90,9 +80,16 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 testCase.tagIut = bs.ToHex();
             }
             // If TC has a result, change it
-            if (testCase.result != null)
+            if (testCase.testPassed != null)
             {
-                testCase.result = testCase.result.ToString().Equals("pass") ? "fail" : "pass";
+                if (testCase.testPassed == true)
+                {
+                    testCase.testPassed = false;
+                }
+                else
+                {
+                    testCase.testPassed = true;
+                }
             }
         }
 
@@ -106,6 +103,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
+                Mode = Mode,
                 Function = new string[] { "dpGen" },
                 Scheme = new Schemes()
                 {
@@ -219,6 +217,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
+                Mode = Mode,
                 Function = new string[] { "dpGen", "dpVal", "keyPairGen", "fullVal", "keyRegen" },
                 Scheme = new Schemes()
                 {

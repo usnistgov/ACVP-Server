@@ -8,8 +8,8 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 {
     public class ParameterValidator : Core.ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public string Algorithm => "KAS-ECC";
-        public string Mode => "Component";
+        public string Algorithm => "KAS";
+        public string Mode => "EccComponent";
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {

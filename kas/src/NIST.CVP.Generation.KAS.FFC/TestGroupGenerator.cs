@@ -11,7 +11,7 @@ using NIST.CVP.Crypto.Common.KAS.Helpers;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private readonly string[] _testTypes = new string[] { "AFT", "VAL" };
         private readonly IPqgProvider _pqgProvider;
@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             _pqgProvider = pqgProvider;
         }
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
 

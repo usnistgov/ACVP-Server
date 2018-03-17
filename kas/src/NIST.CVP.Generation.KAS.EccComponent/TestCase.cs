@@ -9,28 +9,23 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.EccComponent
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        public TestCase() { }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
         public int TestCaseId { get; set; }
 
-        public bool FailureTest => false;
+        public bool? TestPassed => true;
+
         public bool Deferred { get; set; } = true;
 
+        public TestGroup ParentGroup { get; set; }
+
+        [JsonProperty(PropertyName = "privateServer", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger PrivateKeyServer { get; set; }
+
+        [JsonProperty(PropertyName = "publicServerX", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger PublicKeyServerX { get; set; }
+
+        [JsonProperty(PropertyName = "publicServerY", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger PublicKeyServerY { get; set; }
 
         [JsonIgnore]
@@ -42,8 +37,13 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             PrivateKeyServer
         );
 
+        [JsonProperty(PropertyName = "privateIut", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger PrivateKeyIut { get; set; }
+
+        [JsonProperty(PropertyName = "publicIutX", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger PublicKeyIutX { get; set; }
+
+        [JsonProperty(PropertyName = "publicIutY", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger PublicKeyIutY { get; set; }
 
         [JsonIgnore]
@@ -56,22 +56,5 @@ namespace NIST.CVP.Generation.KAS.EccComponent
         );
 
         public BitString Z { get; set; }
-
-        protected void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            ExpandoObject expandoSource = (ExpandoObject)source;
-
-            PrivateKeyServer = expandoSource.GetBigIntegerFromProperty("privateServer");
-            PublicKeyServerX = expandoSource.GetBigIntegerFromProperty("publicServerX");
-            PublicKeyServerY = expandoSource.GetBigIntegerFromProperty("publicServerY");
-            
-            PrivateKeyIut = expandoSource.GetBigIntegerFromProperty("privateIut");
-            PublicKeyIutX = expandoSource.GetBigIntegerFromProperty("publicIutX");
-            PublicKeyIutY = expandoSource.GetBigIntegerFromProperty("publicIutY");
-            
-            Z = expandoSource.GetBitStringFromProperty("z");
-        }
     }
 }

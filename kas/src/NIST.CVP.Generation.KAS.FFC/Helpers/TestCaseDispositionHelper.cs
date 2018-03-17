@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
         {
             if (generatesKeyPair)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 // modify the static public key until no longer valid
                 while (true)
                 {
@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
         {
             if (generatesKeyPair)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 // modify the ephemeral public key until no longer valid
                 while (true)
                 {
@@ -128,7 +128,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
         {
             if (generatesKeyPair)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 // modify the static private key to make it invalid
                 iutKas.Scheme.StaticKeyPair.PrivateKeyX += 2;
             }
@@ -142,7 +142,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Helpers
         {
             if (generatesKeyPair)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 // modify the static public key until no longer valid
                 while (true)
                 {

@@ -5,9 +5,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.EccComponent
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        private const string testType = "AFT";
+
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
             foreach (var curveString in parameters.Curves)
@@ -16,7 +18,8 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 
                 var group = new TestGroup()
                 {
-                    CurveName = curve
+                    CurveName = curve,
+                    TestType = testType
                 };
                 groups.Add(group);
             }

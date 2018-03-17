@@ -1,40 +1,64 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using Newtonsoft.Json;
+using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS
 {
-    public abstract class TestCaseBase : ITestCase
+    public abstract class TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes> : ITestCase<TTestGroup, TTestCase>
+        where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
     {
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
+        public TTestGroup ParentGroup { get; set; }
 
-        public TestCaseDispositionOption TestCaseDisposition { get; set; }
+        [JsonIgnore] public TestCaseDispositionOption TestCaseDisposition { get; set; }
 
+        [JsonProperty(PropertyName = "nonceDkmServer")]
         public BitString DkmNonceServer { get; set; }
+
+        [JsonProperty(PropertyName = "nonceEphemeralServer")]
         public BitString EphemeralNonceServer { get; set; }
 
+
+        [JsonProperty(PropertyName = "nonceDkmIut")]
         public BitString DkmNonceIut { get; set; }
+
+        [JsonProperty(PropertyName = "nonceEphemeralIut")]
         public BitString EphemeralNonceIut { get; set; }
-        
-        
+
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int IdIutLen { get; set; }
+
         public BitString IdIut { get; set; }
 
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int OiLen { get; set; }
+
+        [JsonProperty(PropertyName = "oi")]
         public BitString OtherInfo { get; set; }
         
         public BitString NonceNoKc { get; set; }
 
         public BitString NonceAesCcm { get; set; }
 
+
         public BitString Z { get; set; }
+
         public BitString Dkm { get; set; }
+
         public BitString MacData { get; set; }
 
+        [JsonProperty(PropertyName = "hashZIut")]
         public BitString HashZ { get; set; }
+
+        [JsonProperty(PropertyName = "tagIut")]
         public BitString Tag { get; set; }
-        public string Result { get; set; }
     }
 }

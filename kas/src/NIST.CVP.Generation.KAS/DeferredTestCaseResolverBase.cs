@@ -19,8 +19,8 @@ namespace NIST.CVP.Generation.KAS
         TScheme
     > 
         : IDeferredTestCaseResolver<TTestGroup, TTestCase, KasResult>
-        where TTestGroup : TestGroupBase<TKasDsaAlgoAttributes>
-        where TTestCase : TestCaseBase
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
         where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair
