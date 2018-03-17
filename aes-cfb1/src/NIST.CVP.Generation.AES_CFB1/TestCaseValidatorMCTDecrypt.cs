@@ -5,7 +5,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CFB1
 {
-    public class TestCaseValidatorMCTDecrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMCTDecrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 

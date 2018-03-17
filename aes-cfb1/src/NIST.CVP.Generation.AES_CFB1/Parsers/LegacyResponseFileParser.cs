@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_CFB1.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -40,7 +41,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Parsers
                 TestGroup currentGroup = null;
                 TestCase currentTestCase = null;
                 int currentResultArrayPosition = 0;
-                BitOrientedAlgoArrayResponse currentArrayResponse = null;
+                AlgoArrayResponse currentArrayResponse = null;
 
                 int lineIterator = 0;
 
@@ -78,9 +79,9 @@ namespace NIST.CVP.Generation.AES_CFB1.Parsers
                         if (workingLine.StartsWith("COUNT = 0", StringComparison.OrdinalIgnoreCase))
                         {
                             currentTestCase = new TestCase() { TestCaseId = 0 };
-                            currentTestCase.ResultsArray = new List<BitOrientedAlgoArrayResponse>();
+                            currentTestCase.ResultsArray = new List<AlgoArrayResponse>();
                             currentResultArrayPosition = 0;
-                            currentArrayResponse = new BitOrientedAlgoArrayResponse();
+                            currentArrayResponse = new AlgoArrayResponse();
                             currentTestCase.ResultsArray.Add(currentArrayResponse);
 
                             currentGroup.Tests.Add(currentTestCase);
@@ -92,7 +93,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Parsers
                         if (workingLine.StartsWith("COUNT = ", StringComparison.OrdinalIgnoreCase))
                         {
                             currentResultArrayPosition++;
-                            currentArrayResponse = new BitOrientedAlgoArrayResponse();
+                            currentArrayResponse = new AlgoArrayResponse();
                             currentTestCase.ResultsArray.Add(currentArrayResponse);
                             continue;
                         }
@@ -121,7 +122,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Parsers
                 }
             }
 
-            var testVectorSet = new TestVectorSet { Algorithm = "AES-OFB", TestGroups = groups.Select(g => (ITestGroup)g).ToList() };
+            var testVectorSet = new TestVectorSet { Algorithm = "AES-CFB", TestGroups = groups.Select(g => g).ToList() };
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
     }

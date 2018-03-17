@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.AES_CFB1;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -12,75 +12,6 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
     [TestFixture, UnitTest]
     public class TestCaseTests
     {
-        private TestDataMother _tdm = new TestDataMother();
-
-        [Test]
-        public void ShouldReconstituteTestCaseFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assert.IsNotNull(subject);
-           
-        }
-        [Test]
-        public void ShouldReconstituteTestCaseFromProperJObject()
-        {
-            var sourceTest = new JObject();
-            sourceTest.Add("tcId", new JValue(1));
-            sourceTest.Add("cipherText", new JValue("1"));
-            var subject = new TestCase(sourceTest);
-            Assert.IsNotNull(subject);
-
-        }
-
-        [Test]
-        
-        public void ShouldNotReconstituteTestCaseFromJObjectWithouttcId_ThrowsException()
-        {
-            var sourceTest = new JObject();
-            sourceTest.Add("cipherText", new JValue("00AA"));
-            Assert.That((TestDelegate) (() => new TestCase(sourceTest)), Throws.InstanceOf<RuntimeBinderException>());
-           
-        }
-
-        [Test]
-        public void ShouldSetProperTestCaseIdFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.tcId, subject.TestCaseId);
-
-        }
-
-        [Test]
-        public void ShouldSetProperDeferredFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.deferred, subject.Deferred);
-        }
-
-        [Test]
-        public void ShouldSetProperFailureTestFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.failureTest, subject.FailureTest);
-        }
-
-
-        [Test]
-        public void ShouldSetProperCipherTextFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = new TestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.cipherText, subject.CipherText);
-        }
-
         [Test]
         [TestCase("Fredo")]
         [TestCase("")]
@@ -126,7 +57,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
         public void ShouldSetCipherText(string name)
         {
             string text = "1";
-            var expected = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(text);
+            var expected = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed(text));
 
             var subject = new TestCase();
             var result = subject.SetString(name, text);
@@ -142,19 +73,12 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
         public void ShouldSetPlainText(string name)
         {
             string text = "1";
-            var expected = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(text);
+            var expected = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed(text));
 
             var subject = new TestCase();
             var result = subject.SetString(name, text);
             Assert.IsTrue(result);
             Assert.AreEqual(expected, subject.PlainText);
-        }
-
-        private dynamic GetSourceAnswerTest()
-        {
-            var sourceVector = new TestVectorSet() {TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup) g).ToList()};
-            var sourceTest = sourceVector.AnswerProjection[0].tests[0];
-            return sourceTest;
         }
     }
 }

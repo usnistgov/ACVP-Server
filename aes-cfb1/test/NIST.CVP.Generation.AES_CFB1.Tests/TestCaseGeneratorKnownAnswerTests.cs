@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             var result = _subject.Generate(testGroup, false);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(keyLength, ((TestCase)result.TestCase).Key.BitLength, nameof(keyLength));
+            Assert.AreEqual(keyLength, (result.TestCase).Key.BitLength, nameof(keyLength));
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
 
             _subject = new TestCaseGeneratorKnownAnswer(keyLength, katType);
 
-            List<TestCaseGenerateResponse> results = new List<TestCaseGenerateResponse>();
+            var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < _subject.NumberOfTestCasesToGenerate; i++)
             {
                 results.Add(_subject.Generate(testGroup, false));
@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
 
             _subject = new TestCaseGeneratorKnownAnswer(keyLength, katType);
 
-            List<TestCaseGenerateResponse> results = new List<TestCaseGenerateResponse>();
+            var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i <= _subject.NumberOfTestCasesToGenerate; i++)
             {
                 results.Add(_subject.Generate(testGroup, false));

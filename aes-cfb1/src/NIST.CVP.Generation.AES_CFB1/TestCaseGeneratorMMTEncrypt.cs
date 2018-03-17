@@ -22,22 +22,22 @@ namespace NIST.CVP.Generation.AES_CFB1
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             var key = _random800_90.GetRandomBitString(group.KeyLength);
             var plainText = _random800_90.GetRandomBitString(_ptLenGenIteration).GetMostSignificantBits(_ptLenGenIteration++);
             var iv = _random800_90.GetRandomBitString(Cipher._MAX_IV_BYTE_LENGTH * 8);
             var testCase = new TestCase
             {
+                DataLen = _ptLenGenIteration,
                 IV = iv,
                 Key = key,
-                PlainText = BitOrientedBitString.GetDerivedFromBase(plainText),
-                Deferred = false
+                PlainText = plainText
             };
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
             SymmetricCipherResult encryptionResult = null;
             try
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.AES_CFB1
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -55,16 +55,13 @@ namespace NIST.CVP.Generation.AES_CFB1
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
-            testCase.CipherText = BitOrientedBitString.GetDerivedFromBase(encryptionResult.Result);
-            return new TestCaseGenerateResponse(testCase);
+            testCase.CipherText = encryptionResult.Result;
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

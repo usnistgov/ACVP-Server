@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.AES.KATs;
 using NIST.CVP.Generation.Core;
@@ -9,9 +10,9 @@ namespace NIST.CVP.Generation.AES_CFB1
 {
     public class TestCaseGeneratorKnownAnswer : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly List<BitOrientedAlgoArrayResponse> _kats = new List<BitOrientedAlgoArrayResponse>();
-        private readonly Dictionary<(int keyLength, string katType), List<BitOrientedAlgoArrayResponse>> _katMapping =
-            new Dictionary<(int keyLength, string katType), List<BitOrientedAlgoArrayResponse>>()
+        private readonly List<AlgoArrayResponse> _kats = new List<AlgoArrayResponse>();
+        private readonly Dictionary<(int keyLength, string katType), List<AlgoArrayResponse>> _katMapping =
+            new Dictionary<(int keyLength, string katType), List<AlgoArrayResponse>>()
             {
                 {(128, "gfsbox"), KATDataCFB1.GetGFSBox128BitKey()},
                 {(192, "gfsbox"), KATDataCFB1.GetGFSBox192BitKey()},
@@ -45,26 +46,27 @@ namespace NIST.CVP.Generation.AES_CFB1
 
         public int NumberOfTestCasesToGenerate => _kats.Count;
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             TestCase testCase = new TestCase();
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             if (_katsIndex + 1 > _kats.Count)
             {
-                return new TestCaseGenerateResponse("No additional KATs exist.");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist.");
             }
 
             var currentKat = _kats[_katsIndex++];
+            testCase.DataLen = 1;
             testCase.Key = currentKat.Key;
             testCase.IV = currentKat.IV;
             testCase.PlainText = currentKat.PlainText;
             testCase.CipherText = currentKat.CipherText;
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
     }
 }

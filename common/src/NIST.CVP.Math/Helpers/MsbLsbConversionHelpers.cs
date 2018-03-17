@@ -97,5 +97,10 @@ namespace NIST.CVP.Math.Helpers
 
             return new BitArray(boolArray);
         }
+
+        public static BitArray GetBitArrayFromStringOf1sAnd0sReversed(string onesAndZeroes)
+        {
+            return GetBitArrayFromStringOf1sAnd0s(onesAndZeroes).Reverse();
+        }
     }
 }

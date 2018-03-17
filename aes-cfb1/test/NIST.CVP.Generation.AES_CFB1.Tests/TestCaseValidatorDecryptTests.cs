@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -25,7 +26,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.PlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("11");
+            suppliedResult.PlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("11"));
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
@@ -37,7 +38,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.PlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("11");
+            suppliedResult.PlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("11"));
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
@@ -64,8 +65,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
         {
             var testCase = new TestCase
             {
-                FailureTest = failureTest,
-                PlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1"),
+                PlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1")),
                 TestCaseId = 1
             };
             return testCase;

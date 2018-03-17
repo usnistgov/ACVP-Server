@@ -50,15 +50,11 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             int fails = 0;
             bool mctTestHit = false;
             bool nonMctTestHit = false;
-            foreach (var iTestGroup in parsedTestVectorSet.ParsedObject.TestGroups)
+            foreach (var testGroup in parsedTestVectorSet.ParsedObject.TestGroups)
             {
-
-                var testGroup = (TestGroup) iTestGroup;
-                foreach (var iTestCase in testGroup.Tests)
+                foreach (var testCase in testGroup.Tests)
                 {
                     count++;
-
-                    var testCase = (TestCase) iTestCase;
 
                     if (testGroup.TestType.ToLower() == "mct")
                     {

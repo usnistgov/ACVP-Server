@@ -20,25 +20,25 @@ namespace NIST.CVP.Generation.AES_CFB1
             _iAesOfbMct = iAesOfbMct;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             var iv = _iRandom80090.GetRandomBitString(128);
             var key = _iRandom80090.GetRandomBitString(@group.KeyLength);
             var cipherText = _iRandom80090.GetRandomBitString(1).GetMostSignificantBits(1);
             TestCase testCase = new TestCase()
             {
+                DataLen = 1,
                 IV = iv,
                 Key = key,
-                CipherText = BitOrientedBitString.GetDerivedFromBase(cipherText),
-                Deferred = false
+                CipherText = cipherText
             };
 
             return Generate(@group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
-            MCTResult<BitOrientedAlgoArrayResponse> decryptionResult = null;
+            MCTResult<AlgoArrayResponse> decryptionResult = null;
             try
             {
                 decryptionResult = _iAesOfbMct.MCTDecrypt(testCase.IV, testCase.Key, testCase.CipherText);
@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.AES_CFB1
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -54,11 +54,11 @@ namespace NIST.CVP.Generation.AES_CFB1
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             testCase.ResultsArray = decryptionResult.Response;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

@@ -1,5 +1,4 @@
 ﻿using System;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
@@ -29,7 +28,7 @@ namespace NIST.CVP.Crypto.AES_CFB1
                 var paddedData = BitString.PadToNextByteBoundry(data);
 
                 var decryptedBits = rijn.BlockEncrypt(cipher, key, paddedData.ToBytes(), data.BitLength);
-                return new SymmetricCipherResult(BitOrientedBitString.GetDerivedFromBase(decryptedBits.GetMostSignificantBits(data.BitLength)));
+                return new SymmetricCipherResult(decryptedBits.GetMostSignificantBits(data.BitLength));
             }
             catch (Exception ex)
             {
@@ -52,7 +51,7 @@ namespace NIST.CVP.Crypto.AES_CFB1
                 var paddedData = BitString.PadToNextByteBoundry(data);
 
                 var encryptedBits = rijn.BlockEncrypt(cipher, key, paddedData.ToBytes(), data.BitLength);
-                return new SymmetricCipherResult(BitOrientedBitString.GetDerivedFromBase(encryptedBits.GetMostSignificantBits(data.BitLength)));
+                return new SymmetricCipherResult(encryptedBits.GetMostSignificantBits(data.BitLength));
             }
             catch (Exception ex)
             {
@@ -62,9 +61,6 @@ namespace NIST.CVP.Crypto.AES_CFB1
             }
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
