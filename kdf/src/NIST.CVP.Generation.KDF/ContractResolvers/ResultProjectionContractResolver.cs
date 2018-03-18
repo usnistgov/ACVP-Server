@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
+using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
 
-namespace NIST.CVP.Generation.AES_CFB1.ContractResolvers
+namespace NIST.CVP.Generation.KDF.ContractResolvers
 {
     public class ResultProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {
@@ -12,7 +13,7 @@ namespace NIST.CVP.Generation.AES_CFB1.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestGroup.TestGroupId),
-                nameof(TestGroup.Tests)
+                nameof(TestGroup.Tests),
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -21,8 +22,7 @@ namespace NIST.CVP.Generation.AES_CFB1.ContractResolvers
                     instance => true;
             }
 
-            return jsonProperty.ShouldSerialize =
-                instance => false;
+            return jsonProperty.ShouldSerialize = instance => false;
         }
 
         protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)
@@ -30,8 +30,9 @@ namespace NIST.CVP.Generation.AES_CFB1.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestCase.TestCaseId),
-                nameof(TestCase.ResultsArray),
-                nameof(TestCase.DataLen)
+                nameof(TestCase.KeyOut),
+                nameof(TestCase.FixedData),
+
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -41,30 +42,15 @@ namespace NIST.CVP.Generation.AES_CFB1.ContractResolvers
             }
 
             #region Conditional Test Case properties
-            if (jsonProperty.UnderlyingName == nameof(TestCase.PlainText))
+            if (jsonProperty.UnderlyingName == nameof(TestCase.BreakLocation))
             {
                 return jsonProperty.ShouldSerialize =
                     instance =>
                     {
                         GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                        if (testGroup.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            return true;
-                        }
-
-                        return false;
-                    };
-            }
-
-            if (jsonProperty.UnderlyingName == nameof(TestCase.CipherText))
-            {
-                return jsonProperty.ShouldSerialize =
-                    instance =>
-                    {
-                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                        if (testGroup.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                        if (testGroup.KdfMode == KdfModes.Counter 
+                            && testGroup.CounterLocation == CounterLocations.MiddleFixedData)
                         {
                             return true;
                         }

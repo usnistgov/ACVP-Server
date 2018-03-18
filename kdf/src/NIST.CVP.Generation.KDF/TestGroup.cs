@@ -1,15 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.KDF
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
         public int KeyOutLength { get; set; }
@@ -20,32 +16,7 @@ namespace NIST.CVP.Generation.KDF
         public bool ZeroLengthIv { get; set; }
 
         public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            KeyOutLength = expandoSource.GetTypeFromProperty<int>("keyOutLength");
-            KdfMode = EnumHelpers.GetEnumFromEnumDescription<KdfModes>(expandoSource.GetTypeFromProperty<string>("kdfMode"), false);
-            MacMode = EnumHelpers.GetEnumFromEnumDescription<MacModes>(expandoSource.GetTypeFromProperty<string>("macMode"), false);
-            CounterLocation = EnumHelpers.GetEnumFromEnumDescription<CounterLocations>(expandoSource.GetTypeFromProperty<string>("counterLocation"), false);
-            CounterLength = expandoSource.GetTypeFromProperty<int>("counterLength");
-            ZeroLengthIv = expandoSource.GetTypeFromProperty<bool>("zeroLengthIv");
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {

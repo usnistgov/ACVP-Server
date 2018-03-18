@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.KDF
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -33,9 +33,7 @@ namespace NIST.CVP.Generation.KDF
             var testCase = new TestCase
             {
                 KeyIn = kI,
-                IV = iv,
-                Deferred = true,
-                
+                IV = iv
             };
 
             if (isSample)
@@ -53,11 +51,11 @@ namespace NIST.CVP.Generation.KDF
             }
             else
             {
-                return new TestCaseGenerateResponse(testCase);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             KdfResult kdfResult = null;
             try
@@ -66,17 +64,17 @@ namespace NIST.CVP.Generation.KDF
                 if (!kdfResult.Success)
                 {
                     ThisLogger.Warn(kdfResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(kdfResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(kdfResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex.StackTrace);
-                return new TestCaseGenerateResponse(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
 
             testCase.KeyOut = kdfResult.DerivedKey.GetDeepCopy();
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();
