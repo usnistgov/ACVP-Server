@@ -1,182 +1,162 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.IKEv1
 {
-    public class TestVectorSet : ITestVectorSet
+    public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
-        public string Algorithm { get; set; }
-        public string Mode { get; set; }
+        public string Algorithm { get; set; } = "kdf-components";
+        public string Mode { get; set; } = "ikev1";
         public bool IsSample { get; set; }
 
-        [JsonIgnore]
-        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
-        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
+        public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
 
-        public TestVectorSet() { }
+        
+        //public List<dynamic> AnswerProjection
+        //{
+        //    get
+        //    {
+        //        var list = new List<dynamic>();
+        //        foreach (var group in TestGroups.Select(g => (TestGroup) g))
+        //        {
+        //            dynamic updateObject = new ExpandoObject();
+        //            var updateDict = ((IDictionary<string, object>) updateObject);
+        //            updateDict.Add("tgId", group.TestGroupId);
+        //            updateDict.Add("authenticationMethod", EnumHelpers.GetEnumDescriptionFromEnum(group.AuthenticationMethod));
+        //            updateDict.Add("hashAlg", group.HashAlg.Name);
+        //            updateDict.Add("nInitLength", group.NInitLength);
+        //            updateDict.Add("nRespLength", group.NRespLength);
+        //            updateDict.Add("dhLength", group.GxyLength);
 
-        public TestVectorSet(dynamic answers)
-        {
-            foreach (var answer in answers.answerProjection)
-            {
-                var group = new TestGroup(answer);
+        //            if (group.AuthenticationMethod == AuthenticationMethods.Psk)
+        //            {
+        //                updateDict.Add("preSharedKeyLength", group.PreSharedKeyLength);
+        //            }
 
-                TestGroups.Add(group);
-            }
-        }
+        //            var tests = new List<dynamic>();
+        //            updateDict.Add("tests", tests);
+        //            foreach (var test in group.Tests.Select(t => (TestCase) t))
+        //            {
+        //                dynamic testObject = new ExpandoObject();
+        //                var testDict = ((IDictionary<string, object>) testObject);
+        //                testDict.Add("tcId", test.TestCaseId);
+        //                testDict.Add("nInit", test.NInit);
+        //                testDict.Add("nResp", test.NResp);
+        //                testDict.Add("ckyInit", test.CkyInit);
+        //                testDict.Add("ckyResp", test.CkyResp);
+        //                testDict.Add("gxy", test.Gxy);
 
-        public List<dynamic> AnswerProjection
-        {
-            get
-            {
-                var list = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup) g))
-                {
-                    dynamic updateObject = new ExpandoObject();
-                    var updateDict = ((IDictionary<string, object>) updateObject);
-                    updateDict.Add("tgId", group.TestGroupId);
-                    updateDict.Add("authenticationMethod", EnumHelpers.GetEnumDescriptionFromEnum(group.AuthenticationMethod));
-                    updateDict.Add("hashAlg", group.HashAlg.Name);
-                    updateDict.Add("nInitLength", group.NInitLength);
-                    updateDict.Add("nRespLength", group.NRespLength);
-                    updateDict.Add("dhLength", group.GxyLength);
+        //                if (group.AuthenticationMethod == AuthenticationMethods.Psk)
+        //                {
+        //                    testDict.Add("preSharedKey", test.PreSharedKey);
+        //                }
 
-                    if (group.AuthenticationMethod == AuthenticationMethods.Psk)
-                    {
-                        updateDict.Add("preSharedKeyLength", group.PreSharedKeyLength);
-                    }
+        //                testDict.Add("sKeyId", test.SKeyId);
+        //                testDict.Add("sKeyIdD", test.SKeyIdD);
+        //                testDict.Add("sKeyIdA", test.SKeyIdA);
+        //                testDict.Add("sKeyIdE", test.SKeyIdE);
 
-                    var tests = new List<dynamic>();
-                    updateDict.Add("tests", tests);
-                    foreach (var test in group.Tests.Select(t => (TestCase) t))
-                    {
-                        dynamic testObject = new ExpandoObject();
-                        var testDict = ((IDictionary<string, object>) testObject);
-                        testDict.Add("tcId", test.TestCaseId);
-                        testDict.Add("nInit", test.NInit);
-                        testDict.Add("nResp", test.NResp);
-                        testDict.Add("ckyInit", test.CkyInit);
-                        testDict.Add("ckyResp", test.CkyResp);
-                        testDict.Add("gxy", test.Gxy);
+        //                tests.Add(testObject);
+        //            }
 
-                        if (group.AuthenticationMethod == AuthenticationMethods.Psk)
-                        {
-                            testDict.Add("preSharedKey", test.PreSharedKey);
-                        }
+        //            list.Add(updateObject);
+        //        }
 
-                        testDict.Add("sKeyId", test.SKeyId);
-                        testDict.Add("sKeyIdD", test.SKeyIdD);
-                        testDict.Add("sKeyIdA", test.SKeyIdA);
-                        testDict.Add("sKeyIdE", test.SKeyIdE);
+        //        return list;
+        //    }
+        //}
 
-                        tests.Add(testObject);
-                    }
+        //[JsonProperty(PropertyName = "testGroups")]
+        //public List<dynamic> PromptProjection
+        //{
+        //    get
+        //    {
+        //        var list = new List<dynamic>();
+        //        foreach (var group in TestGroups.Select(g => (TestGroup) g))
+        //        {
+        //            dynamic updateObject = new ExpandoObject();
+        //            var updateDict = ((IDictionary<string, object>) updateObject);
+        //            updateDict.Add("tgId", group.TestGroupId);
+        //            updateDict.Add("authenticationMethod", EnumHelpers.GetEnumDescriptionFromEnum(group.AuthenticationMethod));
+        //            updateDict.Add("hashAlg", group.HashAlg.Name);
+        //            updateDict.Add("nInitLength", group.NInitLength);
+        //            updateDict.Add("nRespLength", group.NRespLength);
+        //            updateDict.Add("dhLength", group.GxyLength);
 
-                    list.Add(updateObject);
-                }
+        //            if (group.AuthenticationMethod == AuthenticationMethods.Psk)
+        //            {
+        //                updateDict.Add("preSharedKeyLength", group.PreSharedKeyLength);
+        //            }
 
-                return list;
-            }
-        }
+        //            var tests = new List<dynamic>();
+        //            updateDict.Add("tests", tests);
+        //            foreach (var test in group.Tests.Select(t => (TestCase) t))
+        //            {
+        //                dynamic testObject = new ExpandoObject();
+        //                var testDict = ((IDictionary<string, object>) testObject);
+        //                testDict.Add("tcId", test.TestCaseId);
+        //                testDict.Add("nInit", test.NInit);
+        //                testDict.Add("nResp", test.NResp);
+        //                testDict.Add("ckyInit", test.CkyInit);
+        //                testDict.Add("ckyResp", test.CkyResp);
+        //                testDict.Add("gxy", test.Gxy);
 
-        [JsonProperty(PropertyName = "testGroups")]
-        public List<dynamic> PromptProjection
-        {
-            get
-            {
-                var list = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup) g))
-                {
-                    dynamic updateObject = new ExpandoObject();
-                    var updateDict = ((IDictionary<string, object>) updateObject);
-                    updateDict.Add("tgId", group.TestGroupId);
-                    updateDict.Add("authenticationMethod", EnumHelpers.GetEnumDescriptionFromEnum(group.AuthenticationMethod));
-                    updateDict.Add("hashAlg", group.HashAlg.Name);
-                    updateDict.Add("nInitLength", group.NInitLength);
-                    updateDict.Add("nRespLength", group.NRespLength);
-                    updateDict.Add("dhLength", group.GxyLength);
+        //                if (group.AuthenticationMethod == AuthenticationMethods.Psk)
+        //                {
+        //                    testDict.Add("preSharedKey", test.PreSharedKey);
+        //                }
 
-                    if (group.AuthenticationMethod == AuthenticationMethods.Psk)
-                    {
-                        updateDict.Add("preSharedKeyLength", group.PreSharedKeyLength);
-                    }
+        //                tests.Add(testObject);
+        //            }
 
-                    var tests = new List<dynamic>();
-                    updateDict.Add("tests", tests);
-                    foreach (var test in group.Tests.Select(t => (TestCase) t))
-                    {
-                        dynamic testObject = new ExpandoObject();
-                        var testDict = ((IDictionary<string, object>) testObject);
-                        testDict.Add("tcId", test.TestCaseId);
-                        testDict.Add("nInit", test.NInit);
-                        testDict.Add("nResp", test.NResp);
-                        testDict.Add("ckyInit", test.CkyInit);
-                        testDict.Add("ckyResp", test.CkyResp);
-                        testDict.Add("gxy", test.Gxy);
+        //            list.Add(updateObject);
+        //        }
 
-                        if (group.AuthenticationMethod == AuthenticationMethods.Psk)
-                        {
-                            testDict.Add("preSharedKey", test.PreSharedKey);
-                        }
+        //        return list;
+        //    }
+        //}
 
-                        tests.Add(testObject);
-                    }
+        //[JsonProperty(PropertyName = "testResults")]
+        //public List<dynamic> ResultProjection
+        //{
+        //    get
+        //    {
+        //        var groups = new List<dynamic>();
+        //        foreach (var group in TestGroups.Select(g => (TestGroup)g))
+        //        {
+        //            dynamic groupObject = new ExpandoObject();
+        //            var groupDict = (IDictionary<string, object>) groupObject;
+        //            groupDict.Add("tgId", group.TestGroupId);
 
-                    list.Add(updateObject);
-                }
+        //            var tests = new List<dynamic>();
+        //            groupDict.Add("tests", tests);
+        //            foreach (var test in group.Tests.Select(t => (TestCase)t))
+        //            {
+        //                dynamic testObject = new ExpandoObject();
+        //                var testDict = ((IDictionary<string, object>) testObject);
+        //                testDict.Add("tcId", test.TestCaseId);
+        //                testDict.Add("sKeyId", test.SKeyId);
+        //                testDict.Add("sKeyIdD", test.SKeyIdD);
+        //                testDict.Add("sKeyIdA", test.SKeyIdA);
+        //                testDict.Add("sKeyIdE", test.SKeyIdE);
 
-                return list;
-            }
-        }
+        //                tests.Add(testObject);
+        //            }
 
-        [JsonProperty(PropertyName = "testResults")]
-        public List<dynamic> ResultProjection
-        {
-            get
-            {
-                var groups = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup)g))
-                {
-                    dynamic groupObject = new ExpandoObject();
-                    var groupDict = (IDictionary<string, object>) groupObject;
-                    groupDict.Add("tgId", group.TestGroupId);
+        //            groups.Add(groupObject);
+        //        }
 
-                    var tests = new List<dynamic>();
-                    groupDict.Add("tests", tests);
-                    foreach (var test in group.Tests.Select(t => (TestCase)t))
-                    {
-                        dynamic testObject = new ExpandoObject();
-                        var testDict = ((IDictionary<string, object>) testObject);
-                        testDict.Add("tcId", test.TestCaseId);
-                        testDict.Add("sKeyId", test.SKeyId);
-                        testDict.Add("sKeyIdD", test.SKeyIdD);
-                        testDict.Add("sKeyIdA", test.SKeyIdA);
-                        testDict.Add("sKeyIdE", test.SKeyIdE);
+        //        return groups;
+        //    }
+        //}
 
-                        tests.Add(testObject);
-                    }
-
-                    groups.Add(groupObject);
-                }
-
-                return groups;
-            }
-        }
-
-        public dynamic ToDynamic()
-        {
-            dynamic vectorSetObject = new ExpandoObject();
-            ((IDictionary<string, object>)vectorSetObject).Add("answerProjection", AnswerProjection);
-            ((IDictionary<string, object>)vectorSetObject).Add("testGroups", PromptProjection);
-            ((IDictionary<string, object>)vectorSetObject).Add("resultProjection", ResultProjection);
-            return vectorSetObject;
-        }
+        //public dynamic ToDynamic()
+        //{
+        //    dynamic vectorSetObject = new ExpandoObject();
+        //    ((IDictionary<string, object>)vectorSetObject).Add("answerProjection", AnswerProjection);
+        //    ((IDictionary<string, object>)vectorSetObject).Add("testGroups", PromptProjection);
+        //    ((IDictionary<string, object>)vectorSetObject).Add("resultProjection", ResultProjection);
+        //    return vectorSetObject;
+        //}
     }
 }

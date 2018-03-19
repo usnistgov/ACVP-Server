@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using NIST.CVP.Crypto.ANSIX963;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.ANSIX963.Parsers;
@@ -50,16 +47,14 @@ namespace NIST.CVP.Generation.ANSIX963.IntegrationTests
                     Assert.Fail("No TestGroups were parsed.");
                 }
 
-                foreach (var iTestGroup in testVector.TestGroups)
+                foreach (var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
                     var algo = new AnsiX963(shaFactory.GetShaInstance(testGroup.HashAlg));
 
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
                         count++;
 
-                        var testCase = (TestCase)iTestCase;
                         var result = algo.DeriveKey(testCase.Z, testCase.SharedInfo, testGroup.KeyDataLength);
 
                         Assert.IsTrue(result.Success, result.ErrorMessage);

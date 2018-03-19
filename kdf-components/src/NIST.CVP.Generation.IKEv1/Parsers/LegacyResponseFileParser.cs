@@ -10,7 +10,7 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.IKEv1.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -110,7 +110,7 @@ namespace NIST.CVP.Generation.IKEv1.Parsers
                 currentTestCase.SetString(valueParts[0].Trim(), valueParts[1].Trim());
             }
 
-            var testVectorSet = new TestVectorSet { Algorithm = "kdf-components", Mode = "ikev1", TestGroups = groups.Select(g => (ITestGroup)g).ToList() };
+            var testVectorSet = new TestVectorSet { Algorithm = "kdf-components", Mode = "ikev1", TestGroups = groups.Select(g => g).ToList() };
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
     }

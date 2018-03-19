@@ -9,9 +9,9 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.IKEv1
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new HashSet<TestGroup>();
 

@@ -1,60 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Newtonsoft.Json.Linq;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.IKEv1
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
-        public HashFunction HashAlg { get; set; }
+
+        [JsonIgnore] public HashFunction HashAlg { get; set; }
+        [JsonProperty(PropertyName = "hashAlg")]
+        public string HashAlgName
+        {
+            get => HashAlg?.Name;
+            set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+        }
+
         public AuthenticationMethods AuthenticationMethod { get; set; }
+
+        [JsonProperty(PropertyName = "dhLength")]
         public int GxyLength { get; set; }
+
         public int NInitLength { get; set; }
+
         public int NRespLength { get; set; }
+
         public int PreSharedKeyLength { get; set; }
 
         public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            
-            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
-            if (!string.IsNullOrEmpty(hashValue))
-            {
-                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
-            }
-            
-            AuthenticationMethod = EnumHelpers.GetEnumFromEnumDescription<AuthenticationMethods>(expandoSource.GetTypeFromProperty<string>("authenticationMethod"), false);
-            GxyLength = expandoSource.GetTypeFromProperty<int>("dhLength");
-            NInitLength = expandoSource.GetTypeFromProperty<int>("nInitLength");
-            NRespLength = expandoSource.GetTypeFromProperty<int>("nRespLength");
-            PreSharedKeyLength = expandoSource.GetTypeFromProperty<int>("preSharedKeyLength");
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {
@@ -79,7 +58,7 @@ namespace NIST.CVP.Generation.IKEv1
                     return true;
 
                 case "hashalg":
-                    HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+                    HashAlgName = value;
                     return true;
                 
                 case "pre-shared-key length":

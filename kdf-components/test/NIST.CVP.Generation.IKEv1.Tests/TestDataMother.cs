@@ -7,14 +7,31 @@ using NIST.CVP.Crypto.Common.KDF.Components.IKEv1.Enums;
 
 namespace NIST.CVP.Generation.IKEv1.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1, string authMode = "dsa")
+        public static TestVectorSet GetTestGroups(int groups = 1, AuthenticationMethods authMode = AuthenticationMethods.Dsa)
         {
+            var vectorSet = new TestVectorSet();
+
             var testGroups = new List<TestGroup>();
+            vectorSet.TestGroups = testGroups;
+
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                var tg = new TestGroup
+                {
+                    AuthenticationMethod = authMode,
+                    HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
+                    PreSharedKeyLength = groupIdx + 64,
+                    NInitLength = groupIdx + 64,
+                    NRespLength = groupIdx + 64,
+                    GxyLength = groupIdx + 64,
+                    TestType = "Sample"
+                };
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
                     tests.Add(new TestCase
@@ -29,25 +46,12 @@ namespace NIST.CVP.Generation.IKEv1.Tests
                         SKeyIdD = new BitString("7EADDCAB"),
                         SKeyIdA = new BitString("7EADDC"),
                         SKeyIdE = new BitString("9998ADCD"),
-                        TestCaseId = testId
+                        TestCaseId = testId,
+                        ParentGroup = tg
                     });
                 }
-
-                testGroups.Add(
-                    new TestGroup
-                    {
-                        AuthenticationMethod = EnumHelpers.GetEnumFromEnumDescription<AuthenticationMethods>(authMode),
-                        HashAlg = new HashFunction(ModeValues.SHA1, DigestSizes.d160),
-                        PreSharedKeyLength = groupIdx + 64,
-                        NInitLength = groupIdx + 64,
-                        NRespLength = groupIdx + 64,
-                        GxyLength = groupIdx + 64,
-                        Tests = tests,
-                        TestType = "Sample"
-                    }
-                );
             }
-            return testGroups;
+            return vectorSet;
         }
     }
 }

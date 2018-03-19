@@ -1,32 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.IKEv1
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        public TestCase() { }
-        
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
+        public bool? TestPassed => true;
+        public bool Deferred => false;
+        public TestGroup ParentGroup { get; set; }
 
         public BitString CkyInit { get; set; }
         public BitString CkyResp { get; set; }
@@ -38,23 +20,6 @@ namespace NIST.CVP.Generation.IKEv1
         public BitString SKeyIdD { get; set; }
         public BitString SKeyIdA { get; set; }
         public BitString SKeyIdE { get; set; }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            var expandoSource = (ExpandoObject) source;
-            CkyInit = expandoSource.GetBitStringFromProperty("ckyInit");
-            CkyResp = expandoSource.GetBitStringFromProperty("ckyResp");
-            NInit = expandoSource.GetBitStringFromProperty("nInit");
-            NResp = expandoSource.GetBitStringFromProperty("nResp");
-            Gxy = expandoSource.GetBitStringFromProperty("gxy");
-            PreSharedKey = expandoSource.GetBitStringFromProperty("preSharedKey");
-            SKeyId = expandoSource.GetBitStringFromProperty("sKeyId");
-            SKeyIdD = expandoSource.GetBitStringFromProperty("sKeyIdD");
-            SKeyIdA = expandoSource.GetBitStringFromProperty("sKeyIdA");
-            SKeyIdE = expandoSource.GetBitStringFromProperty("sKeyIdE");
-        }
 
         public bool SetString(string name, string value)
         {
