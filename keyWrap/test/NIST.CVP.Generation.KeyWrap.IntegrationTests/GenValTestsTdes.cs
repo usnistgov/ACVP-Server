@@ -36,19 +36,11 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             };
         }
 
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
         protected override void OverrideRegistrationValFakeException()
         {
             GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
 
@@ -57,9 +49,9 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             var rand = new Random800_90();
 
             // If TC is intended to be a failure test, change it
-            if (testCase.decryptFail != null)
+            if (testCase.testPassed != null)
             {
-                testCase.decryptFail = false;
+                testCase.testPassed = !(bool)testCase.testPassed;
             }
 
             // If TC has a cipherText, change it

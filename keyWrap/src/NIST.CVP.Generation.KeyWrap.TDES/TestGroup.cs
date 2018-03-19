@@ -8,7 +8,7 @@ using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.KeyWrap.TDES
 {
-    public class TestGroup : TestGroupBase
+    public class TestGroup : TestGroupBase<TestGroup, TestCase>
     {
         [JsonProperty(PropertyName = "keyLen")]
         public override int KeyLength
@@ -17,6 +17,7 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
             set { }
         }
 
+        [JsonIgnore]
         public override KeyWrapType KeyWrapType
         {
             get => KeyWrapType.TDES_KW;
@@ -26,16 +27,8 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
         [JsonProperty(PropertyName = "numberOfKeys")]
         public int NumberOfKeys { get; set; }
 
+        [JsonIgnore]
         public int KeyingOption { get; set; }
-
-        public TestGroup() { }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            LoadSource(source);
-        }
 
         public override bool SetString(string name, string value)
         {
@@ -53,8 +46,7 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
                     return true;
             }
 
-            int intVal = 0;
-            if (!int.TryParse(value, out intVal))
+            if (!int.TryParse(value, out var intVal))
             {
                 return false;
             }
@@ -66,24 +58,6 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
                     return true;
             }
             return false;
-        }
-
-        protected override void LoadSource(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            Direction = expandoSource.GetTypeFromProperty<string>("direction");
-            KwCipher = expandoSource.GetTypeFromProperty<string>("kwCipher");
-            KeyingOption = expandoSource.GetTypeFromProperty<int>("keyingOption");
-            PtLen = expandoSource.GetTypeFromProperty<int>("ptLen");
-            
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
         }
     }
 }

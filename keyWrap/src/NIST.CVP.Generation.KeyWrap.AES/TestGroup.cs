@@ -1,34 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.KeyWrap.AES
 {
-    public class TestGroup : TestGroupBase
+    public class TestGroup : TestGroupBase<TestGroup, TestCase>
     {
         [JsonProperty(PropertyName = "keyLen")]
         public override int KeyLength { get; set; }
 
+        [JsonIgnore]
         private bool _withPadding = false;
 
         public override  KeyWrapType KeyWrapType
         {
             get => _withPadding ? KeyWrapType.AES_KWP : KeyWrapType.AES_KW;
             set => _withPadding = (value == KeyWrapType.AES_KWP);
-        }
-
-        public TestGroup() { }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source) 
-        {
-            LoadSource(source);
         }
 
         public override bool SetString(string name, string value)
@@ -59,24 +45,6 @@ namespace NIST.CVP.Generation.KeyWrap.AES
             }
 
             return false;
-        }
-
-        protected override void LoadSource(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            Direction = expandoSource.GetTypeFromProperty<string>("direction");
-            KwCipher = expandoSource.GetTypeFromProperty<string>("kwCipher");
-            KeyLength = expandoSource.GetTypeFromProperty<int>("keyLen");
-            PtLen = expandoSource.GetTypeFromProperty<int>("ptLen");
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
         }
     }
 }

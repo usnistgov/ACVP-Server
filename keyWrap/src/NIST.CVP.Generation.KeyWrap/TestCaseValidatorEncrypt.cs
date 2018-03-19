@@ -3,8 +3,9 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseValidatorEncrypt<TTestCase> : ITestCaseValidator<TTestCase>
-        where TTestCase : TestCaseBase
+    public class TestCaseValidatorEncrypt<TTestGroup, TTestCase> : ITestCaseValidator<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
         private readonly TTestCase _expectedResult;
 
@@ -29,6 +30,7 @@ namespace NIST.CVP.Generation.KeyWrap
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
             }
+
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
 

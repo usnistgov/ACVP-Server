@@ -3,8 +3,9 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
-    public class TestCaseValidatorDecrypt<TTestCase> : ITestCaseValidator<TTestCase>
-        where TTestCase : TestCaseBase
+    public class TestCaseValidatorDecrypt<TTestGroup, TTestCase> : ITestCaseValidator<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
         private readonly TTestCase _expectedResult;
 
@@ -18,9 +19,9 @@ namespace NIST.CVP.Generation.KeyWrap
         public TestCaseValidation Validate(TTestCase suppliedResult)
         {
             var errors = new List<string>();
-            if (_expectedResult.FailureTest)
+            if (_expectedResult.TestPassed.Value)
             {
-                if (!suppliedResult.FailureTest)
+                if (!suppliedResult.TestPassed.Value)
                 {
                     errors.Add("Expected tag validation failure");
                 }

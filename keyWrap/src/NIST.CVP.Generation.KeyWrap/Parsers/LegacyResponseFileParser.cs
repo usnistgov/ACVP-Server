@@ -8,10 +8,10 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.KeyWrap.Parsers
 {
-    public class LegacyResponseFileParser<TTestVectorSet, TTestGroup, TTestCase> : ILegacyResponseFileParser<TTestVectorSet>
-        where TTestVectorSet : TestVectorSetBase<TTestGroup>, new()
-        where TTestGroup : TestGroupBase, new()
-        where TTestCase : TestCaseBase, new()
+    public class LegacyResponseFileParser<TTestVectorSet, TTestGroup, TTestCase> : ILegacyResponseFileParser<TTestVectorSet, TTestGroup, TTestCase>
+        where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>, new()
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>, new()
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
 
     {
         public ParseResponse<TTestVectorSet> Parse(string path)
@@ -77,7 +77,7 @@ namespace NIST.CVP.Generation.KeyWrap.Parsers
                             KeyLength = keySize,
                             KeyWrapType = keyWrapType,
                             KwCipher = kwCipher,
-                            Tests = new List<ITestCase>()
+                            Tests = new List<TTestCase>()
                         };
                         groups.Add(currentGroup);
 
@@ -103,7 +103,7 @@ namespace NIST.CVP.Generation.KeyWrap.Parsers
 
                     if (workingLine.StartsWith("fail"))
                     {
-                        currentTestCase.FailureTest = true;
+                        currentTestCase.TestPassed = false;
                         continue;
                     }
 
@@ -115,7 +115,7 @@ namespace NIST.CVP.Generation.KeyWrap.Parsers
             var testVectorSet = new TTestVectorSet
             {
                 Algorithm = "KeyWrap",
-                TestGroups = groups.Select(g => (ITestGroup)g).ToList()
+                TestGroups = groups
             };
             return new ParseResponse<TTestVectorSet>(testVectorSet);
         }

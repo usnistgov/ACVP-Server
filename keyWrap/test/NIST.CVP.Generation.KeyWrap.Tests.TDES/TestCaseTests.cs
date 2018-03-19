@@ -13,63 +13,6 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
     [TestFixture, UnitTest]
     public class TestCaseTests
     {
-        private TestDataMother _tdm = new TestDataMother();
-
-        [Test]
-        public void ShouldReconstituteTestCaseFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = BuildTestCase(sourceTest);
-            Assert.IsNotNull(subject);
-        }
-
-
-
-        [Test]
-        public void ShouldReconstituteTestCaseFromProperJObject()
-        {
-            var sourceTest = new JObject();
-            sourceTest.Add("tcId", new JValue(1));
-            sourceTest.Add("cipherText", new JValue("00AA"));
-            var subject = new TestCase(sourceTest);
-            Assert.IsNotNull(subject);
-        }
-
-        [Test]
-        public void ShouldNotReconstituteTestCaseFromJObjectWithouttcId_ThrowsException()
-        {
-            var sourceTest = new JObject();
-            sourceTest.Add("cipherText", new JValue("00AA"));
-            Assert.That(() => BuildTestCase(sourceTest), Throws.InstanceOf<TargetInvocationException>());
-        }
-
-        [Test]
-        public void ShouldSetProperTestCaseIdFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = BuildTestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.tcId, subject.TestCaseId);
-        }
-
-        [Test]
-        public void ShouldSetProperFailureTestFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = BuildTestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.failureTest, subject.FailureTest);
-        }
-
-        [Test]
-        public void ShouldSetProperCipherTextFromDynamicAnswerTest()
-        {
-            var sourceTest = GetSourceAnswerTest();
-            var subject = BuildTestCase(sourceTest);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.cipherText, subject.CipherText);
-        }
-
         [Test]
         [TestCase("Fredo")]
         [TestCase("")]
@@ -120,21 +63,6 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
             var result = subject.SetString(name, "00AA");
             Assert.IsTrue(result);
             Assert.AreEqual("00AA", subject.PlainText.ToHex());
-        }
-
-        private dynamic GetSourceAnswerTest()
-        {
-            var sourceVector = new TestVectorSet()
-            {
-                TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup)g).ToList()
-            };
-            var sourceTest = sourceVector.AnswerProjection[0].tests[0];
-            return sourceTest;
-        }
-
-        private TestCase BuildTestCase(object sourceTest)
-        {
-            return (TestCase)Activator.CreateInstance(typeof(TestCase), sourceTest);
         }
     }
 }

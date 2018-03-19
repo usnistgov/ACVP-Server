@@ -13,9 +13,9 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
     public abstract class FireHoseTestsBase<TTestVectorSet, TTestGroup, TTestCase>
-        where TTestVectorSet : TestVectorSetBase<TTestGroup>, new()
-        where TTestGroup : TestGroupBase, new()
-        where TTestCase : TestCaseBase, new()
+        where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>, new()
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>, new()
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
         string _testPath;
         protected abstract string FolderName { get; }
@@ -69,22 +69,18 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
 
-            foreach (var iTestGroup in testVector.TestGroups)
+            foreach (var testGroup in testVector.TestGroups)
             {
-
-                var testGroup = (TTestGroup)iTestGroup;
-                foreach (var iTestCase in testGroup.Tests)
+                foreach (var testCase in testGroup.Tests)
                 {
                     count++;
-
-                    var testCase = (TTestCase)iTestCase;
 
                     if (testGroup.Direction.ToLower() == "encrypt")
                     {
                         var expectedCipher = testCase.CipherText.GetDeepCopy();
                         var generator = _subject.GetCaseGenerator(testGroup);
                         var result = generator.Generate(testGroup, testCase);
-                        var resultingTestCase = (TTestCase)result.TestCase;
+                        var resultingTestCase = result.TestCase;
 
                         if (!result.Success)
                         {
@@ -110,7 +106,7 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
                             testGroup.UseInverseCipher
                         );
 
-                        if (testCase.FailureTest)
+                        if (!testCase.TestPassed.Value)
                         {
                             failureTests++;
                             if (result.Success)
@@ -140,7 +136,5 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
             Assert.IsTrue(failureTests > 0, "No expected failure tests were run");
             //Assert.Fail($"Passes {testPasses}, fails {fails}, count {count}.");
         }
-
-        private static Logger ThisLogger => LogManager.GetLogger("FireHose");
     }
 }
