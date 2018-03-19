@@ -259,6 +259,11 @@ namespace NIST.CVP.Generation.Core
                 return $"No {friendlyName} supplied.";
             }
 
+            if (supplied.Length % 2 != 0)
+            {
+                return $"Invalid length for hex";
+            }
+
             // Count all the values 0-9, a-f, and compare to original length. If string is hex, they will be equal
             if (supplied.ToLower().Count(c => (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')) != supplied.Length)
             {

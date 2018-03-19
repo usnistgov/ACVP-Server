@@ -80,6 +80,24 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         }
 
         [Test]
+        [TestCase("03")]
+        [TestCase("")]
+        [TestCase("0")]
+        [TestCase("1234")]
+        public void ShouldReturnErrorWithInvalidEValue(string fixedValue)
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithPubExpMode("fixed")
+                    .WithFixedPubExp(fixedValue)
+                    .Build()
+            );
+
+            Assert.IsFalse(result.Success);
+        }
+
+        [Test]
         public void ShouldReturnSuccessWithNewKeyGenModes()
         {
             var subject = new ParameterValidator();
@@ -119,9 +137,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         }
 
         [Test]
-        [TestCase("")]
         [TestCase("010001")]
-        [TestCase("BEEFFACE")]
+        [TestCase("BEEFFACD")]
         public void ShouldValidateHex(string hex)
         {
             var subject = new ParameterValidator();
