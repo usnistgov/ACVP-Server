@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             _shaFactory = shaFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (group.InfoGeneratedByServer || isSample)
             {
-                var response = new TestCaseGenerateResponse("fail");
+                var response = new TestCaseGenerateResponse<TestGroup, TestCase>("fail");
                 do
                 {
                     var seed = GetSeed(group.Modulo);
@@ -49,14 +49,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     {
                         Bitlens = bitlens,
                         Seed = seed,
-                        Key = new KeyPair { PubKey = new PublicKey { E = e }}
+                        Key = new KeyPair { PubKey = new PublicKey { E = e }},
+                        Deferred = !group.InfoGeneratedByServer
                     };
-
-                    if (isSample)
-                    {
-                        testCase.Deferred = true;
-                    }
-
+                    
                     response = Generate(group, testCase);
 
                 } while (!response.Success);
@@ -72,11 +68,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 }
 
                 testCase.Deferred = true;
-                return new TestCaseGenerateResponse(testCase);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             KeyResult keyResult = null;
             try
@@ -109,13 +105,13 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 if (!keyResult.Success)
                 {
                     ThisLogger.Warn(keyResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(keyResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(keyResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new TestCaseGenerateResponse(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
 
             testCase.Key = keyResult.Key;
@@ -136,7 +132,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 testCase.XQ2 = new BitString(keyResult.AuxValues.XQ2, testCase.Bitlens[3] % 8 == 0 ? testCase.Bitlens[3] : testCase.Bitlens[3] + 8 - testCase.Bitlens[3] % 8, false);
             }
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

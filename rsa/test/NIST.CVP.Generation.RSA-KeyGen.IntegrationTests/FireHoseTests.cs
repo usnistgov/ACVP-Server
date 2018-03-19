@@ -166,7 +166,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                     .WithKeyComposer(new RsaKeyComposer())
                     .Build();
                 
-                if (katTestCase.FailureTest == result.Success)
+                if (katTestCase.TestPassed != result.Success)
                 {
                     Assert.Fail($"Failed KAT: {katTestCase.TestCaseId}");
                 }

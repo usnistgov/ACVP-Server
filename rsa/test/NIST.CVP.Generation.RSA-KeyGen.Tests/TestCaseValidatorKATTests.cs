@@ -9,9 +9,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldValidateIfExpectedAndSuppliedResultsMatch(bool failureTest)
+        public void ShouldValidateIfExpectedAndSuppliedResultsMatch(bool testPassed)
         {
-            var testCase = GetTestCase(failureTest);
+            var testCase = GetTestCase(testPassed);
             var subject = new TestCaseValidatorKat(testCase);
 
             var result = subject.Validate(testCase);
@@ -23,10 +23,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase(true)]
         [TestCase(false)]
-        public void ShouldNotValidateIfExpectedAndSuppliedDoNotMatch(bool failureTest)
+        public void ShouldNotValidateIfExpectedAndSuppliedDoNotMatch(bool testPassed)
         {
-            var testCase = GetTestCase(failureTest);
-            var subject = new TestCaseValidatorKat(GetTestCase(!failureTest));
+            var testCase = GetTestCase(testPassed);
+            var subject = new TestCaseValidatorKat(GetTestCase(!testPassed));
 
             var result = subject.Validate(testCase);
 
@@ -34,12 +34,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
 
-        private TestCase GetTestCase(bool failureTest)
+        private TestCase GetTestCase(bool testPassed)
         {
             return new TestCase
             {
                 TestCaseId = 1,
-                FailureTest = failureTest
+                TestPassed = testPassed
             };
         }
     }

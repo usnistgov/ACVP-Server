@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
         private readonly IKeyBuilder _keyBuilder;
         private readonly IKeyComposerFactory _keyComposerFactory;
@@ -19,13 +19,13 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             _shaFactory = shaFactory;
         }
 
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestCase>>();
+            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
 
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup) g))
+            foreach (var group in testVectorSet.TestGroups)
             {
-                foreach (var test in group.Tests.Select(t => (TestCase) t))
+                foreach (var test in group.Tests)
                 {
                     var testType = group.TestType.ToLower();
 

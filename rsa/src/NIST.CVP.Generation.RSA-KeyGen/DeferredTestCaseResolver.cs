@@ -26,7 +26,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
         public KeyResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var iutTestGroup = iutTestCase.Parent as TestGroup;
+            var iutTestGroup = iutTestCase.ParentGroup;
 
             // TODO Not every group has a hash alg... Can use a default value perhaps?
             ISha sha = null;

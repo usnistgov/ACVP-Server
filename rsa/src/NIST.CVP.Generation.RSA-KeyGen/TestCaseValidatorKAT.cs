@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseValidatorKat : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorKat : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         public int TestCaseId => _expectedResult.TestCaseId;
@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         // if the client recognizes the test as a failed test.
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
-            if (_expectedResult.FailureTest != suppliedResult.FailureTest)
+            if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
                 return new TestCaseValidation
                 {

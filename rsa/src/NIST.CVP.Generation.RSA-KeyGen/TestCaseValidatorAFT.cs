@@ -8,7 +8,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseValidatorAft : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorAft : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _serverGroup;

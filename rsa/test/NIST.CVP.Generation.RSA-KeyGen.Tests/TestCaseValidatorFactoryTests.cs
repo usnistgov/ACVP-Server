@@ -43,12 +43,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             testVectorSet = new TestVectorSet
             {
                 Algorithm = "",
-                TestGroups = new List<ITestGroup>
+                TestGroups = new List<TestGroup>
                 {
                     new TestGroup
                     {
                         TestType = testType,
-                        Tests = new List<ITestCase>
+                        Tests = new List<TestCase>
                         {
                             new TestCase
                             {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
@@ -12,58 +13,30 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
         public bool InfoGeneratedByServer { get; set; }
         public int Modulo { get; set; }
         public BitString FixedPubExp { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
         public string TestType { get; set; }
 
-        public HashFunction HashAlg { get; set; }
         public PrivateKeyModes KeyFormat { get; set; }
         public PrimeTestModes PrimeTest { get; set; }
+
+        [JsonProperty(PropertyName = "randPQ")]
         public PrimeGenModes PrimeGenMode { get; set; }
         public PublicExponentModes PubExp { get; set; }
 
-        public TestGroup()
+        [JsonIgnore]
+        public HashFunction HashAlg { get; set; }
+
+        [JsonProperty(PropertyName = "hashAlg")]
+        public string HashAlgName
         {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            Modulo = expandoSource.GetTypeFromProperty<int>("modulo");
-            InfoGeneratedByServer = expandoSource.GetTypeFromProperty<bool>("infoGeneratedByServer");
-            PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(expandoSource.GetTypeFromProperty<string>("randPQ"), false);
-
-            var hashAlgName = expandoSource.GetTypeFromProperty<string>("hashAlg");
-            if (!string.IsNullOrEmpty(hashAlgName))
-            {
-                HashAlg = ShaAttributes.GetHashFunctionFromName(hashAlgName);
-            }
-
-            PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(expandoSource.GetTypeFromProperty<string>("primeTest"), false);
-            PubExp = EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(expandoSource.GetTypeFromProperty<string>("pubExpMode"), false);
-            FixedPubExp = expandoSource.GetBitStringFromProperty("fixedPubExp");
-            KeyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(expandoSource.GetTypeFromProperty<string>("keyFormat"), false);
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                var tc = new TestCase(test)
-                {
-                    Parent = this
-                };
-                Tests.Add(tc);
-            }
+            get => HashAlg?.Name;
+            set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
         }
 
         public bool SetString(string name, string value)
@@ -73,30 +46,23 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 return false;
             }
 
-            try
+            switch (name.ToLower())
             {
-                switch (name.ToLower())
-                {
-                    case "primemethod":
-                        PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(value);
-                        return true;
-                    case "mod":
-                        Modulo = int.Parse(value);
-                        return true;
-                    case "hash":
-                        HashAlg = ShaAttributes.GetHashFunctionFromName(value);
-                        return true;
-                    case "table for m-t test":
-                        PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(value);
-                        return true;
-                }
+                case "primemethod":
+                    PrimeGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenModes>(value);
+                    return true;
+                case "mod":
+                    Modulo = int.Parse(value);
+                    return true;
+                case "hash":
+                    HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+                    return true;
+                case "table for m-t test":
+                    PrimeTest = EnumHelpers.GetEnumFromEnumDescription<PrimeTestModes>(value);
+                    return true;
+            }
 
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
+            return false;
         }
     }
 }
