@@ -1,46 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.ANSIX963
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        public TestCase() { }
-        
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
+        public bool? TestPassed => true;
+        public bool Deferred => false;
+        public TestGroup ParentGroup { get; set; }
 
         public BitString Z { get; set; }
         public BitString SharedInfo { get; set; }
         public BitString KeyData { get; set; }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            var expandoSource = (ExpandoObject) source;
-            Z = expandoSource.GetBitStringFromProperty("z");
-            SharedInfo = expandoSource.GetBitStringFromProperty("sharedInfo");
-            KeyData = expandoSource.GetBitStringFromProperty("keyData");
-        }
 
         public bool SetString(string name, string value)
         {

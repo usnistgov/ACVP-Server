@@ -5,7 +5,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.ANSIX963
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _serverTestCase;
         public int TestCaseId => _serverTestCase.TestCaseId;

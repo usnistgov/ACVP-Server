@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.ANSIX963
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.ANSIX963
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             KdfResult kdfResult = null;
             try
@@ -44,17 +44,17 @@ namespace NIST.CVP.Generation.ANSIX963
                 if (!kdfResult.Success)
                 {
                     ThisLogger.Warn(kdfResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(kdfResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(kdfResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex.StackTrace);
-                return new TestCaseGenerateResponse(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
 
             testCase.KeyData = kdfResult.DerivedKey;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();
