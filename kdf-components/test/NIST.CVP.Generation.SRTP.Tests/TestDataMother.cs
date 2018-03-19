@@ -6,14 +6,24 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.SRTP.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups = 1)
         {
+            var vectorSet = new TestVectorSet();
+
             var testGroups = new List<TestGroup>();
+            vectorSet.TestGroups = testGroups;
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                var testGroup = new TestGroup
+                {
+                    AesKeyLength = groupIdx,
+                    Kdr = new BitString("ABCD"),
+                    TestType = "Sample"
+                };
+
+                var tests = new List<TestCase>();
                 for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
                     tests.Add(new TestCase
@@ -30,22 +40,16 @@ namespace NIST.CVP.Generation.SRTP.Tests
                         SrtpKa = new BitString("1AAADFFC"),
                         SrtpKs = new BitString("1AAADFFC02"),
 
+                        ParentGroup = testGroup,
                         TestCaseId = testId,
                     });
                 }
 
-                testGroups.Add(
-                    new TestGroup
-                    {
-                        AesKeyLength = groupIdx,
-                        Kdr = new BitString("ABCD"),
-                        Tests = tests,
-                        TestType = "Sample"
-                    }
-                );
+                testGroup.Tests = tests;
+                testGroups.Add(testGroup);
             }
 
-            return testGroups;
+            return vectorSet;
         }
     }
 }

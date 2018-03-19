@@ -6,24 +6,12 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.SSH
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        public TestCase() { }
-        
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
         public int TestCaseId { get; set; }
+        public TestGroup ParentGroup { get; set; }
+        public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
-        public bool FailureTest { get; set; }
 
         public BitString K { get; set; }
         public BitString H { get; set; }
@@ -34,25 +22,6 @@ namespace NIST.CVP.Generation.SSH
         public BitString EncryptionKeyServer { get; set; }
         public BitString IntegrityKeyClient { get; set; }
         public BitString IntegrityKeyServer { get; set; }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            var expandoSource = (ExpandoObject) source;
-            
-            K = expandoSource.GetBitStringFromProperty("k");
-            H = expandoSource.GetBitStringFromProperty("h");
-            SessionId = expandoSource.GetBitStringFromProperty("sessionId");
-            
-            InitialIvClient = expandoSource.GetBitStringFromProperty("initialIvClient");
-            EncryptionKeyClient = expandoSource.GetBitStringFromProperty("encryptionKeyClient");
-            IntegrityKeyClient = expandoSource.GetBitStringFromProperty("integrityKeyClient");
-            
-            InitialIvServer = expandoSource.GetBitStringFromProperty("initialIvServer");
-            EncryptionKeyServer = expandoSource.GetBitStringFromProperty("encryptionKeyServer");
-            IntegrityKeyServer = expandoSource.GetBitStringFromProperty("integrityKeyServer");
-        }
 
         public bool SetString(string name, string value)
         {

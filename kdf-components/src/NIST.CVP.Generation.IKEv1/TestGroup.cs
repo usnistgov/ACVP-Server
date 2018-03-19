@@ -24,15 +24,11 @@ namespace NIST.CVP.Generation.IKEv1
 
         [JsonProperty(PropertyName = "dhLength")]
         public int GxyLength { get; set; }
-
         public int NInitLength { get; set; }
-
         public int NRespLength { get; set; }
-
         public int PreSharedKeyLength { get; set; }
 
         public string TestType { get; set; }
-
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)

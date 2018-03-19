@@ -8,7 +8,7 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.SRTP.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -84,7 +84,7 @@ namespace NIST.CVP.Generation.SRTP.Parsers
                 currentTestCase.SetString(valueParts[0].Trim(), valueParts[1].Trim());
             }
 
-            var testVectorSet = new TestVectorSet { Algorithm = "kdf-components", Mode = "srtp", TestGroups = groups.Select(g => (ITestGroup)g).ToList() };
+            var testVectorSet = new TestVectorSet { Algorithm = "kdf-components", Mode = "srtp", TestGroups = groups };
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
     }

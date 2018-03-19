@@ -24,11 +24,11 @@ namespace NIST.CVP.Generation.SSH.Tests
         {
             var testVectorSet = new TestVectorSet
             {
-                TestGroups = new List<ITestGroup>
+                TestGroups = new List<TestGroup>
                 {
                     new TestGroup
                     {
-                        Tests = new List<ITestCase>
+                        Tests = new List<TestCase>
                         {
                             new TestCase()
                         }

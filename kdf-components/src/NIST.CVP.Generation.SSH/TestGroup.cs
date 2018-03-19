@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
@@ -10,43 +11,26 @@ using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.SSH
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
         public Cipher Cipher { get; set; }
+
+        [JsonIgnore]
         public HashFunction HashAlg { get; set; }
+        
+        [JsonProperty(PropertyName = "hashAlg")]
+        public string HashAlgName
+        {
+            get => HashAlg?.Name;
+            set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+        }
 
         public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         private int _ivLength;
         private int _keyLength;
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            Cipher = EnumHelpers.GetEnumFromEnumDescription<Cipher>(expandoSource.GetTypeFromProperty<string>("cipher"), false);
-            
-            var hashValue = expandoSource.GetTypeFromProperty<string>("hashAlg");
-            if (!string.IsNullOrEmpty(hashValue))
-            {
-                HashAlg = ShaAttributes.GetHashFunctionFromName(hashValue);
-            }
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
 
         public bool SetString(string name, string value)
         {

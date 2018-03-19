@@ -11,25 +11,6 @@ namespace NIST.CVP.Generation.SRTP.Tests
     [TestFixture, UnitTest]
     public class TestGroupTests
     {
-        private TestDataMother _tdm = new TestDataMother();
-
-        [Test]
-        public void ShouldReconstituteTestGroupFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assert.IsNotNull(subject);
-        }
-
-        [Test]
-        public void ShouldSetProperKdrFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.kdr, subject.Kdr);
-        }
-
         [Test]
         [TestCase("Fredo")]
         [TestCase("")]
@@ -60,13 +41,6 @@ namespace NIST.CVP.Generation.SRTP.Tests
             var result = subject.SetString(name, "128");
             Assert.IsTrue(result);
             Assert.AreEqual(128, subject.AesKeyLength);
-        }
-
-        private dynamic GetSourceAnswer()
-        {
-            var sourceVector = new TestVectorSet { TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup)g).ToList() };
-            var sourceAnswer = sourceVector.AnswerProjection[0];
-            return sourceAnswer;
         }
     }
 }
