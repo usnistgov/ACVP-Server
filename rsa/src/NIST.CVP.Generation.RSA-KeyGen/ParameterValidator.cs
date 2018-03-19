@@ -2,7 +2,9 @@
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.Math;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
@@ -25,6 +27,22 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             result = ValidateHex(parameters.FixedPubExp, "FixedPubExp hex");
             errorResults.AddIfNotNullOrEmpty(result);
+
+            if (errorResults.Count > 0)
+            {
+                return new ParameterValidateResponse(string.Join(";", errorResults));
+            }
+
+            // Gracefully check if the public exponent is valid
+            // Already checked if it was valid hex, so this is safe to run
+            if (EnumHelpers.GetEnumFromEnumDescription<PublicExponentModes>(parameters.PubExpMode) == PublicExponentModes.Fixed)
+            {
+                var eValue = new BitString(parameters.FixedPubExp).ToPositiveBigInteger();
+                if (eValue <= NumberTheory.Pow2(16) || eValue >= NumberTheory.Pow2(256) || eValue.IsEven)
+                {
+                    errorResults.Add("Invalid public exponent value provided");
+                }
+            }
 
             result = ValidateValue(parameters.KeyFormat, VALID_KEY_FORMATS, "Private Key Format");
             errorResults.AddIfNotNullOrEmpty(result);
