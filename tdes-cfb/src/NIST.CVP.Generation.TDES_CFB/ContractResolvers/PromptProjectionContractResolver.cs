@@ -22,7 +22,8 @@ namespace NIST.CVP.Generation.TDES_CFB.ContractResolvers
                 nameof(TestCase.Iv),
                 nameof(TestCase.Key1),
                 nameof(TestCase.Key2),
-                nameof(TestCase.Key3)
+                nameof(TestCase.Key3),
+                nameof(TestCase.DataLen)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

@@ -83,6 +83,26 @@ namespace NIST.CVP.Generation.TDES_CFB
 
         public BitString PlainText { get; set; }
         public BitString CipherText { get; set; }
+
+        public int DataLen
+        {
+            get
+            {
+                if (PlainText != null)
+                {
+                    return PlainText.BitLength;
+                }
+                else if (CipherText != null)
+                {
+                    return CipherText.BitLength;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
         public BitString Iv { get; set; }
         public List<AlgoArrayResponse> ResultsArray { get; set; }
 
