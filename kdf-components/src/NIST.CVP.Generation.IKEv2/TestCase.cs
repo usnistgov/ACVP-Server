@@ -1,33 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.IKEv2
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        public TestCase() { }
-        
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
         public int TestCaseId { get; set; }
-        public bool Deferred { get; set; }
-        public bool FailureTest { get; set; }
-
+        public bool? TestPassed => true;
+        public bool Deferred => false;
+        public TestGroup ParentGroup { get; set; }
+        
         public BitString NInit { get; set; }
         public BitString NResp { get; set; }
         public BitString Gir { get; set; }
@@ -39,27 +21,7 @@ namespace NIST.CVP.Generation.IKEv2
         public BitString DerivedKeyingMaterialChild { get; set; }
         public BitString DerivedKeyingMaterialDh { get; set; }
         public BitString SKeySeedReKey { get; set; }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            var expandoSource = (ExpandoObject) source;
-            
-            NInit = expandoSource.GetBitStringFromProperty("nInit");
-            NResp = expandoSource.GetBitStringFromProperty("nResp");
-            Gir = expandoSource.GetBitStringFromProperty("gir");
-            GirNew = expandoSource.GetBitStringFromProperty("girNew");
-            SpiInit = expandoSource.GetBitStringFromProperty("spiInit");
-            SpiResp = expandoSource.GetBitStringFromProperty("spiResp");
-            
-            SKeySeed = expandoSource.GetBitStringFromProperty("sKeySeed");
-            DerivedKeyingMaterial = expandoSource.GetBitStringFromProperty("derivedKeyingMaterial");
-            DerivedKeyingMaterialChild = expandoSource.GetBitStringFromProperty("derivedKeyingMaterialChild");
-            DerivedKeyingMaterialDh = expandoSource.GetBitStringFromProperty("derivedKeyingMaterialDh");
-            SKeySeedReKey = expandoSource.GetBitStringFromProperty("sKeySeedReKey");
-        }
-
+        
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.IKEv2
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -39,7 +39,7 @@ namespace NIST.CVP.Generation.IKEv2
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             IkeResult ikeResult = null;
             try
@@ -48,13 +48,13 @@ namespace NIST.CVP.Generation.IKEv2
                 if (!ikeResult.Success)
                 {
                     ThisLogger.Warn(ikeResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(ikeResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ikeResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex.StackTrace);
-                return new TestCaseGenerateResponse(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
 
             testCase.SKeySeed = ikeResult.SKeySeed;
@@ -63,7 +63,7 @@ namespace NIST.CVP.Generation.IKEv2
             testCase.DerivedKeyingMaterialDh = ikeResult.DKMChildSADh;
             testCase.SKeySeedReKey = ikeResult.SKeySeedReKey;
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();
