@@ -23,30 +23,6 @@ namespace NIST.CVP.Generation.KeyWrap.AES
             MapToProperties(data);
         }
 
-        public override bool Merge(ITestCase promptTestCase)
-        {
-            if (TestCaseId != promptTestCase.TestCaseId)
-            {
-                return false;
-            }
-
-            var otherTypedTest = (TestCase)promptTestCase;
-
-            if (PlainText == null && otherTypedTest.PlainText != null)
-            {
-                PlainText = otherTypedTest.PlainText;
-                return true;
-            }
-
-            if (CipherText == null && otherTypedTest.CipherText != null)
-            {
-                CipherText = otherTypedTest.CipherText;
-                return true;
-            }
-
-            return false;
-        }
-
         public override bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

@@ -4,8 +4,8 @@ using CommandLineParser.Validation;
 
 namespace NIST.CVP.Generation.GenValApp.Models
 {
-    [DistinctGroupsCertification("g", "n,p,r", 
-        Description = "(g) - used to indicate generation, (n,p,r) - used to indicate validation")]
+    [DistinctGroupsCertification("g", "n,r", 
+        Description = "(g) - used to indicate generation, (n,r) - used to indicate validation")]
     public class ArgumentParsingTarget
     {
         [ValueArgument(typeof(string), 'a', "algorithm", Optional = false, 
@@ -27,10 +27,6 @@ namespace NIST.CVP.Generation.GenValApp.Models
         [FileArgument('n', "answerFile", FileMustExist = true, Optional = true,
             Description = "The answers file to be used to validate a responses file against.")]
         public FileInfo AnswerFile { get; set; }
-
-        [FileArgument('p', "promptFile", FileMustExist = true, Optional = true,
-            Description = "The prompt file to be used to validate a responses file against.")]
-        public FileInfo PromptFile { get; set; }
 
         [FileArgument('r', "responsesFile", FileMustExist = true, Optional = true,
             Description = "The response file to validate, provided by the IUT.")]

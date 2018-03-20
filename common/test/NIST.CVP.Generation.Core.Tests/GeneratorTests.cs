@@ -5,6 +5,7 @@ using System.Linq;
 using Moq;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using FakeParameters = NIST.CVP.Generation.Core.Tests.Fakes.FakeParameters;
@@ -15,15 +16,19 @@ namespace NIST.CVP.Generation.Core.Tests
     [TestFixture, UnitTest]
     public class GeneratorTests
     {
-        private const string _WORKING_PATH = @"C:\temp";
+        private string _testPath;
 
         [OneTimeSetUp]
-        public void Setup()
+        public void OneTimeSetUp()
         {
-            if (!Directory.Exists(_WORKING_PATH))
-            {
-                Directory.CreateDirectory(_WORKING_PATH);
-            }
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\GeneratorTests\");
+            Directory.CreateDirectory(_testPath);
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            Directory.Delete(_testPath, true);
         }
 
         [Test]
@@ -118,13 +123,13 @@ namespace NIST.CVP.Generation.Core.Tests
 
             try
             {
-                result = subject.Generate($"{_WORKING_PATH}\\{fileNameRoot.ToString()}.json");
+                result = subject.Generate($"{_testPath}\\{fileNameRoot.ToString()}.json");
             }
             finally
             {
                 // Find and delete files as a result of the test
                 List<string> files = new List<string>();
-                files = Directory.GetFiles(_WORKING_PATH, $"{fileNameRoot}*").ToList();
+                files = Directory.GetFiles(_testPath, $"{fileNameRoot}*").ToList();
 
                 if (files.Count <= 4)
                 {
@@ -135,6 +140,25 @@ namespace NIST.CVP.Generation.Core.Tests
                 }
             }
             Assert.IsTrue(result.Success);
+        }
+
+        [Test]
+        public void ShouldProperlySaveOutputsForEachResolverWithValidFiles()
+        {
+            var subject = new FakeGenerator();
+            var testVectorSet = new FakeTestVectorSet();
+            var result = subject.SaveOutputsTester(_testPath, testVectorSet);
+            Assert.IsTrue(result.Success);
+        }
+
+        [Test]
+        public void ShouldNotSaveOutputsForEachResolverWithInvalidPath()
+        {
+            var subject = new FakeGenerator();
+            var testVectorSet = new FakeTestVectorSet();
+            var jsonPath = Path.Combine(_testPath, "fakePath/");
+            var result = subject.SaveOutputsTester(jsonPath, testVectorSet);
+            Assert.IsFalse(result.Success);
         }
 
         private Generator<FakeParameters,FakeTestVectorSet, FakeTestGroup, FakeTestCase> GetSystem(

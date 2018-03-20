@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -60,23 +58,6 @@ namespace NIST.CVP.Generation.DRBG.Tests
         {
             var subject = new TestGroup();
             var result = subject.SetString("entropyinputlen", value);
-            Assert.IsFalse(result);
-        }
-
-        [Test]
-        public void ShouldReturnFalseIfMergeFails()
-        {
-            var answerGroup = _tdm.GetTestGroups(1)[0];
-            var promptGroup = _tdm.GetTestGroups(1)[0];
-
-            foreach (var test in promptGroup.Tests)
-            {
-                var typedTest = (TestCase) test;
-                typedTest.TestCaseId += 42;
-            }
-
-            var result = answerGroup.MergeTests(promptGroup.Tests);
-
             Assert.IsFalse(result);
         }
 

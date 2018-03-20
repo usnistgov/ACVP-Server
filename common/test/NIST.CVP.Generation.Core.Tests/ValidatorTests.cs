@@ -4,22 +4,19 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using Moq;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Math;
+using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using FakeTestCase = NIST.CVP.Generation.Core.Tests.Fakes.FakeTestCase;
-using FakeTestVectorSet = NIST.CVP.Generation.Core.Tests.Fakes.FakeTestVectorSet;
 
 namespace NIST.CVP.Generation.Core.Tests
 {
     [TestFixture, UnitTest]
     public class ValidatorTests
     {
-        private const string _WORKING_PATH = @"C:\temp";
+        private string _testPath;
         private TestDataMother _tdm = new TestDataMother();
 
         private class TestDataMother
@@ -43,21 +40,126 @@ namespace NIST.CVP.Generation.Core.Tests
                 return testGroups;
             }
         }
-        
-        [OneTimeSetUp]
-        public void Setup()
+
+        private readonly string[] _testVectorFileNames = new string[]
         {
-            if (!Directory.Exists(_WORKING_PATH))
+                @"\testResults.json",
+                @"\answer.json"
+        };
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\validatorBaseTests\");
+        }
+
+        [OneTimeTearDown]
+        public void Teardown()
+        {
+            Directory.Delete(_testPath, true);
+        }
+
+        [Test]
+        public void ShouldParseSuccessfullyAndCreateValidationFile()
+        {
+            var mocks = new MockedSystemDependencies();
+            var subject = new FakeSuccessValidator(
+                mocks.MockIDynamicParser.Object, 
+                mocks.MockIResultValidator.Object, 
+                mocks.MockITestCaseValidatorFactory.Object, 
+                mocks.MockITestReconstitutor.Object
+            );
+            string localTestPath = GetUniqueTestPath(_testPath);
+
+            mocks.MockIDynamicParser
+                .Setup(s => s.Parse(It.IsAny<string>()))
+                .Returns(new ParseResponse<object>(new object()));
+
+            subject
+                .Validate(
+                $"{localTestPath}{_testVectorFileNames[0]}",
+                $"{localTestPath}{_testVectorFileNames[1]}");
+
+            var expectedFile = $@"{localTestPath}\validation.json";
+            Assert.IsTrue(File.Exists(expectedFile));
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(1)]
+        public void ShouldHandleFailedFileParse(int failFileIndex)
+        {
+            var mocks = new MockedSystemDependencies();
+            var subject = new FakeSuccessValidator(
+                mocks.MockIDynamicParser.Object,
+                mocks.MockIResultValidator.Object,
+                mocks.MockITestCaseValidatorFactory.Object,
+                mocks.MockITestReconstitutor.Object
+            );
+            string localTestPath = GetUniqueTestPath(_testPath);
+
+            var failFile = $"{localTestPath}{_testVectorFileNames[failFileIndex]}";
+
+            mocks.MockIDynamicParser
+                .Setup(s => s.Parse(It.IsAny<string>()))
+                .Returns(new ParseResponse<object>(new object()));
+            mocks.MockIDynamicParser
+                .Setup(s => s.Parse(failFile))
+                .Returns(new ParseResponse<object>(failFile));
+
+            var result = subject
+                .Validate(
+                    $"{localTestPath}{_testVectorFileNames[0]}",
+                    $"{localTestPath}{_testVectorFileNames[1]}"
+                );
+
+            Assert.AreEqual(failFile, result.ErrorMessage);
+        }
+
+        [Test]
+        public void ShouldHandleFailedFileSaveGracefully()
+        {
+            var mocks = new MockedSystemDependencies();
+            var subject = new FakeSuccessValidator(
+                mocks.MockIDynamicParser.Object,
+                mocks.MockIResultValidator.Object,
+                mocks.MockITestCaseValidatorFactory.Object,
+                mocks.MockITestReconstitutor.Object
+            );
+            string localTestPath = GetUniqueTestPath(_testPath);
+
+            string validationFileLocation = $"{localTestPath}\\validation.json";
+            string expectedMessage = $"Could not create {validationFileLocation}";
+
+            mocks.MockIDynamicParser
+                .Setup(s => s.Parse(It.IsAny<string>()))
+                .Returns(new ParseResponse<object>(new object()));
+
+            using (FileStream fs = File.Create(validationFileLocation))
             {
-                Directory.CreateDirectory(_WORKING_PATH);
+                var result = subject
+                    .Validate(
+                        $"{localTestPath}{_testVectorFileNames[0]}",
+                        $"{localTestPath}{_testVectorFileNames[1]}"
+                    );
+
+                Assert.AreEqual(expectedMessage, result.ErrorMessage);
             }
+        }
+
+        private string GetUniqueTestPath(string testPath)
+        {
+            var directoryToCreate = Path.Combine(testPath, Guid.NewGuid().ToString());
+            Directory.CreateDirectory(directoryToCreate);
+
+            return directoryToCreate;
         }
 
         [Test]
         public void ShouldReturnErrorForNonExistentPath()
         {
             var subject = GetSubject(true, false);
-            var result = subject.Validate($"C:\\{Guid.NewGuid()}\\result.json", $"C:\\{Guid.NewGuid()}\\answer.json", $"C:\\{Guid.NewGuid()}\\prompt.json");
+            var result = subject.Validate($"C:\\{Guid.NewGuid()}\\result.json", $"C:\\{Guid.NewGuid()}\\answer.json");
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Success);
         }
@@ -68,7 +170,7 @@ namespace NIST.CVP.Generation.Core.Tests
         public void ShouldReturnErrorForNullOrEmptyPath(string path)
         {
             var subject = GetSubject(true, false);
-            var result = subject.Validate(path, path, path);
+            var result = subject.Validate(path, path);
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Success);
         }
@@ -79,7 +181,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var subject = GetSubject(false, false);
             var testPath = GetTestPath();
 
-            var result = subject.Validate(Path.Combine(testPath, "result.json"), Path.Combine(testPath, "answer.json"), Path.Combine(testPath, "prompt.json"));
+            var result = subject.Validate(Path.Combine(testPath, "result.json"), Path.Combine(testPath, "answer.json"));
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -90,7 +192,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var subject = GetSubject(false, true);
             var testPath = GetTestPath();
 
-            var result = subject.Validate(Path.Combine(testPath, "result.json"), Path.Combine(testPath, "answer.json"), Path.Combine(testPath, "prompt.json"));
+            var result = subject.Validate(Path.Combine(testPath, "result.json"), Path.Combine(testPath, "answer.json"));
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -151,7 +253,7 @@ namespace NIST.CVP.Generation.Core.Tests
         {
             var guid = Guid.NewGuid();
            
-            var testDir = Path.Combine(_WORKING_PATH, guid.ToString());
+            var testDir = Path.Combine(_testPath, guid.ToString());
             Directory.CreateDirectory(testDir);
             return testDir;
         }

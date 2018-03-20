@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Loader;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
@@ -41,19 +42,39 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 throw new ArgumentException(errorMsg);
             }
 
-            var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(fullgenValDllPath);
-            var concreteType = assembly.GetTypes().Single(x => iTypeToDiscover.IsAssignableFrom(x));
-            var concrete = (IRegisterInjections)Activator.CreateInstance(concreteType);
-
-            // Load additional dependant assemblies
-            if (mappingResult.AdditionalDependencies != null)
+            IRegisterInjections concrete = null;
+            try
             {
-                foreach (var additionalDependency in mappingResult.AdditionalDependencies)
+                /*
+                 Note: loading additional assemblies first,
+                 because (example) if "main" generation Gen.CMAC.AES.dll
+                 depends on Gen.CMAC.dll, which has not yet been loaded.
+
+                 Gen.CMAC.dll is an additional assembly, and should be loaded first.
+                */
+                // Load additional dependant assemblies
+                if (mappingResult.AdditionalDependencies != null)
                 {
-                    AssemblyLoadContext.Default.LoadFromAssemblyPath(
-                        $@"{dllLocation}{additionalDependency.DependencyDll}"
-                    );
+                    foreach (var additionalDependency in mappingResult.AdditionalDependencies)
+                    {
+                        AssemblyLoadContext.Default.LoadFromAssemblyPath(
+                            $@"{dllLocation}{additionalDependency.DependencyDll}"
+                        );
+                    }
                 }
+
+                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(fullgenValDllPath);
+                var concreteType = assembly.GetTypes().Single(x => iTypeToDiscover.IsAssignableFrom(x));
+                concrete = (IRegisterInjections) Activator.CreateInstance(concreteType);
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                foreach (var loaderException in ex.LoaderExceptions)
+                {
+                    Logger.Error(loaderException.Message);
+                }
+
+                throw;
             }
 
             return concrete;

@@ -65,33 +65,6 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         }
 
         [Test]
-        public void ShouldReturnFalseIfMergeFails()
-        {
-            var rand = new Random800_90();
-            var testCase = new TestCase
-            {
-                Key = rand.GetRandomBitString(8),
-                CipherText = null,
-                PlainText = null,
-                TestCaseId = 42
-            };
-
-            var testCases = new List<ITestCase>
-            {
-                testCase
-            };
-
-            var tg = new TestGroup
-            {
-                Tests = testCases
-            };
-
-            var result = tg.MergeTests(testCases);
-
-            Assert.IsFalse(result);
-        }
-
-        [Test]
         public void ShouldReturnFalseIfPassObjectCannotCast()
         {
             var subject = new TestGroup();

@@ -21,25 +21,12 @@ namespace NIST.CVP.Generation.RSA_SigGen
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach(var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 TestGroups.Add(group);
-            }
-
-            foreach(var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if(matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -51,22 +38,26 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("sigType", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
-                    ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("sigType", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
+                    updateDict.Add("modulo", group.Modulo);
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("testType", group.TestType);
 
                     if (group.Mode == SignatureSchemes.Pss)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
+                        updateDict.Add("saltLen", group.SaltLen);
                     }
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("message", test.Message);
 
                         tests.Add(testObject);
                     }
@@ -87,23 +78,26 @@ namespace NIST.CVP.Generation.RSA_SigGen
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("sigType", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
-                    ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("sigType", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
+                    updateDict.Add("modulo", group.Modulo);
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("testType", group.TestType);
 
                     if (group.Mode == SignatureSchemes.Pss)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
+                        updateDict.Add("saltLen", group.SaltLen);
                     }
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("message", test.Message);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("message", test.Message);
 
                         tests.Add(testObject);
                     }
@@ -126,17 +120,18 @@ namespace NIST.CVP.Generation.RSA_SigGen
                     foreach(var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (IsSample)
                         {
-                            ((IDictionary<string, object>)testObject).Add("n", group.Key.PubKey.N);
-                            ((IDictionary<string, object>)testObject).Add("e", group.Key.PubKey.E);
-                            ((IDictionary<string, object>)testObject).Add("signature", test.Signature);
+                            testDict.Add("n", group.Key.PubKey.N);
+                            testDict.Add("e", group.Key.PubKey.E);
+                            testDict.Add("signature", test.Signature);
 
                             if (group.Mode == SignatureSchemes.Pss)
                             {
-                                ((IDictionary<string, object>)testObject).Add("salt", test.Salt);
+                                testDict.Add("salt", test.Salt);
                             }
                         }
 

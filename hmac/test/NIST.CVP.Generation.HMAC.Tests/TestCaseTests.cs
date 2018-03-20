@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.CSharp.RuntimeBinder;
-using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -159,15 +154,6 @@ namespace NIST.CVP.Generation.HMAC.Tests
             var result = subject.SetString(name, value);
             Assert.IsTrue(result);
             Assert.AreEqual(value, subject.Mac.ToHex());
-        }
-        
-        [Test]
-        public void ShouldNotMergeTestsWithMismatchedIds()
-        {
-            var testCase = new TestCase {TestCaseId = 1};
-            var otherTestCase = new TestCase { TestCaseId = 2 };
-            var mergeResult = testCase.Merge(otherTestCase);
-            Assert.IsFalse(mergeResult);
         }
         
         private dynamic GetSourceAnswerTest()

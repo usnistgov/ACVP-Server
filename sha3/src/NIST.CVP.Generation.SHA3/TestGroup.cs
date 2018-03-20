@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
@@ -14,29 +10,6 @@ namespace NIST.CVP.Generation.SHA3
 {
     public class TestGroup : ITestGroup
     {
-        public List<ITestCase> Tests { get; set; }
-
-        [JsonProperty(PropertyName = "testType")]
-        public string TestType { get; set; }
-
-        [JsonProperty(PropertyName = "function")]
-        public string Function { get; set; }
-
-        [JsonProperty(PropertyName = "digestSize")]
-        public int DigestSize { get; set; }
-
-        [JsonProperty(PropertyName = "inBit")]
-        public bool BitOrientedInput { get; set; } = false;
-
-        [JsonProperty(PropertyName = "outBit")]
-        public bool BitOrientedOutput { get; set; } = false;
-
-        [JsonProperty(PropertyName = "inEmpty")]
-        public bool IncludeNull { get; set; } = false;
-
-        [JsonProperty(PropertyName = "outputLength")]
-        public MathDomain OutputLength { get; set; }
-
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -61,37 +34,29 @@ namespace NIST.CVP.Generation.SHA3
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public int TestGroupId { get; set; }
+        public List<ITestCase> Tests { get; set; }
 
-        public override int GetHashCode()
-        {
-            return $"{Function}|{DigestSize}|{TestType}".GetHashCode();
-        }
+        [JsonProperty(PropertyName = "testType")]
+        public string TestType { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
+        [JsonProperty(PropertyName = "function")]
+        public string Function { get; set; }
+
+        [JsonProperty(PropertyName = "digestSize")]
+        public int DigestSize { get; set; }
+
+        [JsonProperty(PropertyName = "inBit")]
+        public bool BitOrientedInput { get; set; } = false;
+
+        [JsonProperty(PropertyName = "outBit")]
+        public bool BitOrientedOutput { get; set; } = false;
+
+        [JsonProperty(PropertyName = "inEmpty")]
+        public bool IncludeNull { get; set; } = false;
+
+        [JsonProperty(PropertyName = "outputLength")]
+        public MathDomain OutputLength { get; set; }
 
         public bool SetString(string name, string value)
         {

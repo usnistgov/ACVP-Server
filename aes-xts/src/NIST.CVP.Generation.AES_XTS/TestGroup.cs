@@ -8,14 +8,6 @@ namespace NIST.CVP.Generation.AES_XTS
 {
     public class TestGroup : ITestGroup
     {
-        public string Direction { get; set; }
-        public int KeyLen { get; set; }
-        public int PtLen { get; set; }
-        public string TweakMode { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -35,40 +27,15 @@ namespace NIST.CVP.Generation.AES_XTS
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public int TestGroupId { get; set; }
+        public string Direction { get; set; }
+        public int KeyLen { get; set; }
+        public int PtLen { get; set; }
+        public string TweakMode { get; set; }
 
-        public override int GetHashCode()
-        {
-            return
-                $"{Direction}|{KeyLen}|{PtLen}|{TweakMode}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
-
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+        
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

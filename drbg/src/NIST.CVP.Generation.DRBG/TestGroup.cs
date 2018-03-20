@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
-using NIST.CVP.Crypto.DRBG;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DRBG
@@ -12,56 +11,6 @@ namespace NIST.CVP.Generation.DRBG
     public class TestGroup : ITestGroup
     {
         private DrbgParameters _drbgParameters = new DrbgParameters();
-        /// <summary>
-        /// Setting this property also updates the "base" equivalent properties of the class.
-        /// </summary>
-        public DrbgParameters DrbgParameters
-        {
-            get
-            {
-                return _drbgParameters;
-            }
-            set
-            {
-                _drbgParameters = value;
-
-                Mode = _drbgParameters.Mode;
-
-                DerFunc = _drbgParameters.DerFuncEnabled;
-                PredResistance = _drbgParameters.PredResistanceEnabled;
-                ReSeed = _drbgParameters.ReseedImplemented;
-
-                EntropyInputLen = _drbgParameters.EntropyInputLen;
-                NonceLen = _drbgParameters.NonceLen;
-                PersoStringLen = _drbgParameters.PersoStringLen;
-                AdditionalInputLen = _drbgParameters.AdditionalInputLen;
-
-                ReturnedBitsLen = _drbgParameters.ReturnedBitsLen;
-            }
-        }
-
-        [JsonProperty(PropertyName = "testType")]
-        public string TestType { get; set; } = "AFT";
-        [JsonProperty(PropertyName = "derFunc")]
-        public bool DerFunc { get; set; }
-        [JsonProperty(PropertyName = "predResistance")]
-        public bool ReSeed { get; set; }
-        [JsonProperty(PropertyName = "reSeed")]
-        public bool PredResistance { get; set; }
-        [JsonProperty(PropertyName = "entropyInputLen")]
-        public int EntropyInputLen { get; set; }
-        [JsonProperty(PropertyName = "nonceLen")]
-        public int NonceLen { get; set; }
-        [JsonProperty(PropertyName = "persoStringLen")]
-        public int PersoStringLen { get; set; }
-        [JsonProperty(PropertyName = "additionalInputLen")]
-        public int AdditionalInputLen { get; set; }
-        [JsonProperty(PropertyName = "returnedBitsLen")]
-        public int ReturnedBitsLen { get; set; }
-        [JsonProperty(PropertyName = "mode")]
-        public DrbgMode Mode { get; set; }
-
-        public List<ITestCase> Tests { get; set; }
 
         public TestGroup()
         {
@@ -90,39 +39,54 @@ namespace NIST.CVP.Generation.DRBG
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
+        /// <summary>
+        /// Setting this property also updates the "base" equivalent properties of the class.
+        /// </summary>
+        [JsonIgnore]
+        public DrbgParameters DrbgParameters
         {
-            foreach (var test in Tests)
+            get => _drbgParameters;
+            set
             {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
+                _drbgParameters = value;
+
+                Mode = _drbgParameters.Mode;
+
+                DerFunc = _drbgParameters.DerFuncEnabled;
+                PredResistance = _drbgParameters.PredResistanceEnabled;
+                ReSeed = _drbgParameters.ReseedImplemented;
+
+                EntropyInputLen = _drbgParameters.EntropyInputLen;
+                NonceLen = _drbgParameters.NonceLen;
+                PersoStringLen = _drbgParameters.PersoStringLen;
+                AdditionalInputLen = _drbgParameters.AdditionalInputLen;
+
+                ReturnedBitsLen = _drbgParameters.ReturnedBitsLen;
             }
-            return true;
         }
 
-        public override int GetHashCode()
-        {
-            return
-                $"{TestType}|{DerFunc}|{PredResistance}|{ReSeed}|{EntropyInputLen}|{NonceLen}|{PersoStringLen}|{AdditionalInputLen}|{ReturnedBitsLen}|{Mode}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
+        public int TestGroupId { get; set; }
+        [JsonProperty(PropertyName = "testType")]
+        public string TestType { get; set; } = "AFT";
+        [JsonProperty(PropertyName = "derFunc")]
+        public bool DerFunc { get; set; }
+        [JsonProperty(PropertyName = "predResistance")]
+        public bool ReSeed { get; set; }
+        [JsonProperty(PropertyName = "reSeed")]
+        public bool PredResistance { get; set; }
+        [JsonProperty(PropertyName = "entropyInputLen")]
+        public int EntropyInputLen { get; set; }
+        [JsonProperty(PropertyName = "nonceLen")]
+        public int NonceLen { get; set; }
+        [JsonProperty(PropertyName = "persoStringLen")]
+        public int PersoStringLen { get; set; }
+        [JsonProperty(PropertyName = "additionalInputLen")]
+        public int AdditionalInputLen { get; set; }
+        [JsonProperty(PropertyName = "returnedBitsLen")]
+        public int ReturnedBitsLen { get; set; }
+        [JsonProperty(PropertyName = "mode")]
+        public DrbgMode Mode { get; set; }
+        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -178,6 +142,5 @@ namespace NIST.CVP.Generation.DRBG
             }
             return false;
         }
-
     }
 }

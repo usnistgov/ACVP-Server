@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Text;
+﻿using System.Dynamic;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -13,14 +9,6 @@ namespace NIST.CVP.Generation.RSA_SPComponent
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public KeyPair Key { get; set; }
-        public BitString Message { get; set; }
-        public BitString Signature { get; set; }
-
         public TestCase() { }
 
         public TestCase(JObject source)
@@ -33,6 +21,14 @@ namespace NIST.CVP.Generation.RSA_SPComponent
         {
             MapToProperties(source);
         }
+
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public KeyPair Key { get; set; }
+        public BitString Message { get; set; }
+        public BitString Signature { get; set; }
 
         private void MapToProperties(dynamic source)
         {
@@ -51,16 +47,6 @@ namespace NIST.CVP.Generation.RSA_SPComponent
             }
             
             Signature = expandoSource.GetBitStringFromProperty("signature");
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            return true;
         }
 
         public bool SetString(string name, string value)

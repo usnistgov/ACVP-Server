@@ -8,14 +8,6 @@ namespace NIST.CVP.Generation.HMAC
 {
     public class TestCase : ITestCase
     {
-
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred => false;
-        public BitString Key { get; set; }
-        public BitString Message { get; set; }
-        public BitString Mac { get; set; }
-
         public TestCase() { }
 
         public TestCase(dynamic source)
@@ -29,15 +21,12 @@ namespace NIST.CVP.Generation.HMAC
             MapToProperties(data);
         }
 
-        public bool Merge(ITestCase promptTestCase)
-        {
-            if (TestCaseId == promptTestCase.TestCaseId)
-            {
-                return true;
-            }
-
-            return false;
-        }
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred => false;
+        public BitString Key { get; set; }
+        public BitString Message { get; set; }
+        public BitString Mac { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -67,7 +56,7 @@ namespace NIST.CVP.Generation.HMAC
 
             ExpandoObject expandoSource = (ExpandoObject)source;
             
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
+            if (expandoSource.ContainsProperty("failureTest"))
             {
                 FailureTest = source.failureTest;
             }

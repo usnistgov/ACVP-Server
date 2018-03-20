@@ -11,15 +11,6 @@ namespace NIST.CVP.Generation.IKEv2
 {
     public class TestGroup : ITestGroup
     {
-        public HashFunction HashAlg { get; set; }
-        public int GirLength { get; set; }
-        public int NInitLength { get; set; }
-        public int NRespLength { get; set; }
-        public int DerivedKeyingMaterialLength { get; set; }
-        
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -30,6 +21,7 @@ namespace NIST.CVP.Generation.IKEv2
         public TestGroup(dynamic source)
         {
             var expandoSource = (ExpandoObject) source;
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
             HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
             GirLength = expandoSource.GetTypeFromProperty<int>("dhLength");
             NInitLength = expandoSource.GetTypeFromProperty<int>("nInitLength");
@@ -43,40 +35,16 @@ namespace NIST.CVP.Generation.IKEv2
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public int TestGroupId { get; set; }
+        public HashFunction HashAlg { get; set; }
+        public int GirLength { get; set; }
+        public int NInitLength { get; set; }
+        public int NRespLength { get; set; }
+        public int DerivedKeyingMaterialLength { get; set; }
 
-        public override int GetHashCode()
-        {
-            return
-                $"{HashAlg.Name}|{GirLength}|{NInitLength}|{NRespLength}|{DerivedKeyingMaterialLength}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
-
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
+        
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

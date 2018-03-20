@@ -26,6 +26,13 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                             PrivKey = new PrivateKey{D = 3, P = 4, Q = 5}
                         },
                         Seed = new BitString("BEEFFACE"),
+                        Bitlens = new[] {1,2,3,4},
+                        XP = new BitString("01"),
+                        XP1 = new BitString("02"),
+                        XP2 = new BitString("03"),
+                        XQ = new BitString("04"),
+                        XQ1 = new BitString("05"),
+                        XQ2 = new BitString("06"),
                         TestCaseId = testId
                     });
                 }

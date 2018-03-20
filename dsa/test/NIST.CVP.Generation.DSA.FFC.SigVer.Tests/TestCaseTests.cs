@@ -51,15 +51,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
             Assert.AreEqual(sourceTest.result == "passed", subject.Result);
         }
 
-        [Test]
-        public void ShouldNotMergeTestWithMismatchedIds()
-        {
-            var testCase = new TestCase { TestCaseId = 1 };
-            var otherTestCase = new TestCase { TestCaseId = 2 };
-            var mergeResult = testCase.Merge(otherTestCase);
-            Assert.IsFalse(mergeResult);
-        }
-
         private dynamic GetSourceAnswerTest()
         {
             // Need sample here

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NUnit.Framework;
@@ -68,34 +66,6 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         }
 
         [Test]
-        public void ShouldReturnFalseIfMergeFails()
-        {
-            Random800_90 rand = new Random800_90();
-            var testCase = new TestCase()
-            {
-
-                Key = rand.GetRandomBitString(8),
-                CipherText = null,
-                PlainText = null,
-                TestCaseId = 42
-            };
-
-            List<ITestCase> testCases = new List<ITestCase>
-            {
-                testCase
-            };
-
-            TestGroup tg = new TestGroup()
-            {
-                Tests = testCases
-            };
-
-            var result = tg.MergeTests(testCases);
-
-            Assert.IsFalse(result);
-        }
-
-        [Test]
         public void ShouldReturnFalseIfPassObjectCannotCast()
         {
             var subject = new TestGroup();
@@ -103,9 +73,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
 
             Assert.IsFalse(result);
         }
-
-
-
+        
         private dynamic GetSourceAnswer()
         {
             var sourceVector = new TestVectorSet() { TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup)g).ToList() };

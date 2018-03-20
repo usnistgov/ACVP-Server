@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.CSharp.RuntimeBinder;
 using NIST.CVP.Crypto.Common.Hash.SHA3;
-using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -49,25 +46,8 @@ namespace NIST.CVP.Generation.SHA3.Tests
         public void ShouldReconstituteTestVectorFromAnswerAndPrompt()
         {
             var source = GetSubject(2).ToDynamic();
-            var subject = new TestVectorSet(source, source);
+            var subject = new TestVectorSet(source);
             Assert.AreEqual(2, subject.TestGroups.Count);
-        }
-
-        [Test]
-        public void ShouldFailToReconstituteTestVectorSetWhenNotMatched()
-        {
-            var answers = GetSubject();
-            var prompts = GetSubject();
-
-            foreach (var testGroup in prompts.TestGroups)
-            {
-                testGroup.Tests.Clear();
-            }
-
-            Assert.Throws(
-                Is.TypeOf<Exception>()
-                    .And.Message.EqualTo("Could not reconstitute TestVectorSet from supplied answers and prompts"),
-                () => new TestVectorSet(answers.ToDynamic(), prompts.ToDynamic()));
         }
 
         [Test]
@@ -156,19 +136,6 @@ namespace NIST.CVP.Generation.SHA3.Tests
             foreach (var item in results)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(item.md.ToString()));
-            }
-        }
-
-        [Test]
-        public void HashShouldExcludeMessageInAnswerProjection()
-        {
-            var subject = GetSubject(1);
-            var results = subject.AnswerProjection;
-            var group = results[0];
-            var tests = group.tests;
-            foreach (var test in tests)
-            {
-                Assert.Throws(typeof(RuntimeBinderException), () => test.msg.ToString());
             }
         }
 

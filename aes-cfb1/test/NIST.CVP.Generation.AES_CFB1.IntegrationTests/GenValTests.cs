@@ -147,11 +147,11 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             {
             }
 
-            public override TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse, ParseResponse<dynamic> promptParseResponse,
+            protected override TestVectorValidation ValidateWorker(ParseResponse<dynamic> answerParseResponse,
                 ParseResponse<dynamic> testResultParseResponse)
             {
                 var testVectorSet = _testReconstitutor
-                    .GetTestVectorSetExpectationFromResponse(answerParseResponse.ParsedObject, promptParseResponse.ParsedObject);
+                    .GetTestVectorSetExpectationFromResponse(answerParseResponse.ParsedObject);
 
                 ParsedTestVectorSet = testVectorSet;
 
@@ -186,11 +186,10 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             testGenerator.Generate($@"{targetFolder}\test.test");
 
             var result = $"{targetFolder}{TestVectorFileNames[0]}";
-            var prompt = $"{targetFolder}{TestVectorFileNames[1]}";
-            var answer = $"{targetFolder}{TestVectorFileNames[2]}";
+            var answer = $"{targetFolder}{TestVectorFileNames[1]}";
 
             TestValidator testValidator = new TestValidator(new DynamicParser(), new ResultValidator<TestCase>(), new TestCaseValidatorFactory(), new TestReconstitutor());
-            testValidator.Validate(result, answer, prompt);
+            testValidator.Validate(result, answer);
 
             var parsedTestVectorSet = testValidator.ParsedTestVectorSet;
             

@@ -222,10 +222,9 @@ namespace NIST.CVP.Generation.GenValApp
         {
             var responseFile = parsedParameters.ResponseFile.FullName;
             var answerFile = parsedParameters.AnswerFile.FullName;
-            var promptFile = parsedParameters.PromptFile.FullName;
 
             var validator = scope.Resolve<IValidator>();
-            var result = validator.Validate(responseFile, answerFile, promptFile);
+            var result = validator.Validate(responseFile, answerFile);
 
             if (result.Success)
                 return 0;

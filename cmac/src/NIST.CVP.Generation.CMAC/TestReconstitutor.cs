@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Generation.Core;
 using System;
 
@@ -10,9 +9,9 @@ namespace NIST.CVP.Generation.CMAC
         where TTestGroup : TestGroupBase<TTestCase>, new()
         where TTestCase : TestCaseBase, new()
     {
-        public TTestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse, dynamic promptResponse)
+        public TTestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse)
         {
-            return (TTestVectorSet)Activator.CreateInstance(typeof(TTestVectorSet), answerResponse, promptResponse);
+            return (TTestVectorSet)Activator.CreateInstance(typeof(TTestVectorSet), answerResponse);
         }
 
         public IEnumerable<TTestCase> GetTestCasesFromResultResponse(dynamic resultResponse)

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Numerics;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Enums;
 using NIST.CVP.Math;
 
@@ -43,15 +36,5 @@ namespace NIST.CVP.Generation.KAS
         public BitString HashZ { get; set; }
         public BitString Tag { get; set; }
         public string Result { get; set; }
-
-        public bool Merge(ITestCase promptTestCase)
-        {
-            if (TestCaseId == promptTestCase.TestCaseId)
-            {
-                return true;
-            }
-
-            return false;
-        }
     }
 }

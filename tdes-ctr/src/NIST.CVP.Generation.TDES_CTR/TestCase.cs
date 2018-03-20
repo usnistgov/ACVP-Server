@@ -12,6 +12,27 @@ namespace NIST.CVP.Generation.TDES_CTR
 {
     public class TestCase : ITestCase
     {
+        public TestCase(JObject source)
+        {
+            var data = source.ToObject<ExpandoObject>();
+            MapToProperties(data);
+        }
+
+        public TestCase() { }
+
+        public TestCase(dynamic source)
+        {
+            MapToProperties(source);
+        }
+
+        public TestCase(string key, string pt, string ct, string iv)
+        {
+            Key = new BitString(key);
+            PlainText = new BitString(pt);
+            CipherText = new BitString(ct);
+            Iv = new BitString(iv);
+        }
+
         public int TestCaseId { get; set; }
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
@@ -36,27 +57,6 @@ namespace NIST.CVP.Generation.TDES_CTR
                 }
                 return new TDESKeys(Key1.ConcatenateBits(Key2.ConcatenateBits(Key3)));
             }
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public TestCase() { }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(string key, string pt, string ct, string iv)
-        {
-            Key = new BitString(key);
-            PlainText = new BitString(pt);
-            CipherText = new BitString(ct);
-            Iv = new BitString(iv);
         }
 
         private void MapToProperties(dynamic source)
@@ -90,30 +90,6 @@ namespace NIST.CVP.Generation.TDES_CTR
                     Ivs.Add(new BitString(iv));
                 }
             }
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            var otherTypedTest = (TestCase)otherTest;
-
-            if (PlainText == null && otherTypedTest.PlainText != null)
-            {
-                PlainText = otherTypedTest.PlainText;
-                return true;
-            }
-
-            if (CipherText == null && otherTypedTest.CipherText != null)
-            {
-                CipherText = otherTypedTest.CipherText;
-                return true;
-            }
-
-            return false;
         }
 
         public bool SetString(string name, string value)

@@ -31,27 +31,11 @@ namespace NIST.CVP.Generation.KAS.ECC
         public override KasDsaAlgoAttributesEcc KasDsaAlgoAttributes =>
             new KasDsaAlgoAttributesEcc(Scheme, ParmSet, CurveName);
 
-        public override int GetHashCode()
-        {
-            return (
-                $"{Scheme.ToString()}|{TestType}|{KasRole}|{KasMode}|{HashAlg.Name}|{MacType}|{KeyLen}|{AesCcmNonceLen}|{MacLen}|{KdfType}|{IdServerLen}|{IdServer}|{IdIutLen}|{IdIut}|{OiPattern}|{KcRole.ToString()}|{KcType.ToString()}|{NonceType}|{ParmSet}|{CurveName}"
-            ).GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (!(obj is TestGroupBase<KasDsaAlgoAttributesEcc> otherGroup))
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
-
         private void MapToProperties(dynamic source)
         {
             ExpandoObject expandoSource = (ExpandoObject)source;
 
-            //Function = SpecificationMapping.FunctionArrayToFlags(source.function);
+            TestGroupId = (int) source.tgId;
             Scheme = EnumHelpers.GetEnumFromEnumDescription<EccScheme>(expandoSource.GetTypeFromProperty<string>("scheme"));
 
             TestType = expandoSource.GetTypeFromProperty<string>("testType");

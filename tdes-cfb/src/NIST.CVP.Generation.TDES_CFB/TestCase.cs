@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System.Collections.Generic;
@@ -12,6 +11,8 @@ namespace NIST.CVP.Generation.TDES_CFB
 {
     public class TestCase : ITestCase
     {
+        private BitString _keys;
+
         public TestCase()
         {
 
@@ -29,105 +30,15 @@ namespace NIST.CVP.Generation.TDES_CFB
             CipherText = cipherText;
         }
 
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-            if (((ExpandoObject)source).ContainsProperty("decryptFail"))
-            {
-                FailureTest = source.decryptFail;
-            }
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
-            {
-                FailureTest = source.failureTest;
-            }
-            if (((ExpandoObject)source).ContainsProperty("deferred"))
-            {
-                Deferred = source.deferred;
-            }
-            if (((ExpandoObject)source).ContainsProperty("resultsArray"))
-            {
-                ResultsArray = ResultsArrayToObject(source.resultsArray);
-            }
-            if (((ExpandoObject) source).ContainsProperty("key1"))
-            {
-                Key1 = BitStringFromObject("key1", (ExpandoObject) source);
-                Key2 = BitStringFromObject("key2", (ExpandoObject) source);
-                Key3 = BitStringFromObject("key3", (ExpandoObject) source);
-            }
-            else
-            {
-                Keys = BitStringFromObject("key", (ExpandoObject)source);
-            }
-
-            CipherText = BitStringFromObject("ct", (ExpandoObject)source);
-            if (((ExpandoObject)source).ContainsProperty("ctLen"))
-            {
-                CipherText = CipherText?.MSBSubstring(0, (int)source.ctLen);
-            }
-
-            PlainText = BitStringFromObject("pt", (ExpandoObject)source);
-            if (((ExpandoObject)source).ContainsProperty("ptLen"))
-            {
-                var ptLen = (int)source.ptLen;
-                PlainText = PlainText?.MSBSubstring(0, ptLen);
-            }
-
-            Iv = BitStringFromObject("iv", (ExpandoObject)source);
-
-        }
-
-        private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
-        {
-            List<AlgoArrayResponse> list = new List<AlgoArrayResponse>();
-
-            foreach (dynamic item in resultsArray)
-            {
-                AlgoArrayResponse response = new AlgoArrayResponse();
-
-                var key1 = BitStringFromObject("key1", (ExpandoObject)item);
-                var key2 = BitStringFromObject("key2", (ExpandoObject)item);
-                var key3 = BitStringFromObject("key3", (ExpandoObject)item);
-
-                response.Keys = key1.ConcatenateBits(key2.ConcatenateBits(key3));
-                response.PlainText = BitStringFromObject("pt", (ExpandoObject)item);
-                response.CipherText = BitStringFromObject("ct", (ExpandoObject)item);
-                response.IV = BitStringFromObject("iv", (ExpandoObject)item);
-                list.Add(response);
-            }
-
-            return list;
-        }
-
-        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return null;
-            }
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-            var valueAsBitString = sourcePropertyValue as BitString;
-            if (valueAsBitString != null)
-            {
-                return valueAsBitString;
-
-            }
-            return new BitString(sourcePropertyValue.ToString());
-        }
-
         public TestCase(JObject source)
         {
             var data = source.ToObject<ExpandoObject>();
             MapToProperties(data);
         }
+
         public int TestCaseId { get; set; }
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
-
-        private BitString _keys;
         public BitString Keys //TODO this belongs in TDES keys, not here
         {
             get => _keys;
@@ -191,78 +102,79 @@ namespace NIST.CVP.Generation.TDES_CFB
         public BitString Iv { get; set; }
         public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
 
-        //public TDESKeys Keys
-        //{
-        //    get
-        //    {
-        //        if (Key2 == null)
-        //        {
-        //            return new TDESKeys(Key);
-        //        }
-        //        return new TDESKeys(Key1.ConcatenateBits(Key2.ConcatenateBits(Key3)));
-        //    }
-        //}
 
-
-
-        public bool Merge(ITestCase otherTest)
+        private void MapToProperties(dynamic source)
         {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-            var otherTypedTest = (TestCase)otherTest;
+            TestCaseId = (int)source.tcId;
+            var expandoSource = (ExpandoObject) source;
 
-            if (PlainText == null && otherTypedTest.PlainText != null)
+            if (expandoSource.ContainsProperty("decryptFail"))
             {
-                PlainText = otherTypedTest.PlainText;
-                return true;
+                FailureTest = source.decryptFail;
+            }
+            if (expandoSource.ContainsProperty("failureTest"))
+            {
+                FailureTest = source.failureTest;
+            }
+            if (expandoSource.ContainsProperty("deferred"))
+            {
+                Deferred = source.deferred;
+            }
+            if (expandoSource.ContainsProperty("resultsArray"))
+            {
+                ResultsArray = ResultsArrayToObject(source.resultsArray);
+            }
+            if (expandoSource.ContainsProperty("key1"))
+            {
+                Key1 = expandoSource.GetBitStringFromProperty("key1");
+                Key2 = expandoSource.GetBitStringFromProperty("key2");
+                Key3 = expandoSource.GetBitStringFromProperty("key3");
+            }
+            else
+            {
+                Keys = expandoSource.GetBitStringFromProperty("key");
             }
 
-            if (CipherText == null && otherTypedTest.CipherText != null)
+            CipherText = expandoSource.GetBitStringFromProperty("ct");
+            if (expandoSource.ContainsProperty("ctLen"))
             {
-                CipherText = otherTypedTest.CipherText;
-                return true;
+                CipherText = CipherText?.MSBSubstring(0, (int)source.ctLen);
             }
 
-            if (ResultsArray.Count != 0 && otherTypedTest.ResultsArray.Count != 0)
+            PlainText = expandoSource.GetBitStringFromProperty("pt");
+            if (expandoSource.ContainsProperty("ptLen"))
             {
-                return true;
+                var ptLen = (int)source.ptLen;
+                PlainText = PlainText?.MSBSubstring(0, ptLen);
             }
-            return false;
+
+            Iv = expandoSource.GetBitStringFromProperty("iv");
+
         }
 
-        public bool SetResultsArrayString(int index, string name, string value)
+        private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
         {
-            if (string.IsNullOrEmpty(name))
+            List<AlgoArrayResponse> list = new List<AlgoArrayResponse>();
+
+            foreach (dynamic item in resultsArray)
             {
-                return false;
+                var expandoItem = (ExpandoObject) item;
+                AlgoArrayResponse response = new AlgoArrayResponse();
+
+                var key1 = expandoItem.GetBitStringFromProperty("key1");
+                var key2 = expandoItem.GetBitStringFromProperty("key2");
+                var key3 = expandoItem.GetBitStringFromProperty("key3");
+
+                response.Keys = key1.ConcatenateBits(key2.ConcatenateBits(key3));
+                response.PlainText = expandoItem.GetBitStringFromProperty("pt");
+                response.CipherText = expandoItem.GetBitStringFromProperty("ct");
+                response.IV = expandoItem.GetBitStringFromProperty("iv");
+                list.Add(response);
             }
 
-            switch (name.ToLower())
-            {
-                case "key":
-                case "keys":
-                case "key1":
-                    ResultsArray[index].Keys = new BitString(value);
-                    return true;
-
-                case "plaintext":
-                case "pt":
-                    ResultsArray[index].PlainText = new BitString(value);
-                    return true;
-
-                case "ciphertext":
-                case "ct":
-                    ResultsArray[index].CipherText = new BitString(value);
-                    return true;
-                case "initialization vector":
-                case "iv":
-                    ResultsArray[index].IV = new BitString(value);
-                    return true;
-            }
-            return false;
+            return list;
         }
+        
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

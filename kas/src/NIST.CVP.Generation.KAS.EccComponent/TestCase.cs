@@ -57,16 +57,6 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 
         public BitString Z { get; set; }
 
-        public bool Merge(ITestCase promptTestCase)
-        {
-            if (TestCaseId == promptTestCase.TestCaseId)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         protected void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;

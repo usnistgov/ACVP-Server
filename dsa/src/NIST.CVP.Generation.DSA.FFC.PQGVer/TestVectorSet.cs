@@ -21,25 +21,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -51,28 +38,68 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("l", group.L);
-                    ((IDictionary<string, object>)updateObject).Add("n", group.N);
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("l", group.L);
+                    updateDict.Add("n", group.N);
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("testType", group.TestType);
 
                     if (group.PQGenMode != PrimeGenMode.None)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("pqMode", EnumHelpers.GetEnumDescriptionFromEnum(group.PQGenMode));
+                        updateDict.Add("pqMode", EnumHelpers.GetEnumDescriptionFromEnum(group.PQGenMode));
                     }
                     else if(group.GGenMode != GeneratorGenMode.None)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("gMode", EnumHelpers.GetEnumDescriptionFromEnum(group.GGenMode));
+                        updateDict.Add("gMode", EnumHelpers.GetEnumDescriptionFromEnum(group.GGenMode));
                     }
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("result", (test.FailureTest ? "failed" : "passed"));
-                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+
+                        testDict.Add("p", test.P);
+                        testDict.Add("q", test.Q);
+
+                        if (group.PQGenMode != PrimeGenMode.None)
+                        {
+                            // Counter
+                            if (group.PQGenMode == PrimeGenMode.Probable)
+                            {
+                                testDict.Add("domainSeed", test.Seed.Seed);
+                                testDict.Add("counter", test.Counter.Count);
+                            }
+                            else if (group.PQGenMode == PrimeGenMode.Provable)
+                            {
+                                testDict.Add("pCounter", test.Counter.PCount);
+                                testDict.Add("qCounter", test.Counter.QCount);
+                                testDict.Add("pSeed", test.Seed.PSeed);
+                                testDict.Add("qSeed", test.Seed.QSeed);
+                            }
+                        }
+                        else if (group.GGenMode != GeneratorGenMode.None)
+                        {
+                            testDict.Add("g", test.G);
+
+                            if (group.GGenMode == GeneratorGenMode.Canonical)
+                            {
+                                // Index
+                                testDict.Add("index", test.Index);
+                            }
+                            else if (group.GGenMode == GeneratorGenMode.Unverifiable)
+                            {
+                                // H and Seed
+                                testDict.Add("h", test.H);
+                                testDict.Add("domainSeed", test.Seed.GetFullSeed());
+                            }
+                        }
+
+                        testDict.Add("result", (test.FailureTest ? "failed" : "passed"));
+                        testDict.Add("reason", test.Reason);
 
                         tests.Add(testObject);
                     }
@@ -93,59 +120,62 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("l", group.L);
-                    ((IDictionary<string, object>)updateObject).Add("n", group.N);
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("l", group.L);
+                    updateDict.Add("n", group.N);
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("testType", group.TestType);
 
                     if (group.PQGenMode != PrimeGenMode.None)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("pqMode", EnumHelpers.GetEnumDescriptionFromEnum(group.PQGenMode));
+                        updateDict.Add("pqMode", EnumHelpers.GetEnumDescriptionFromEnum(group.PQGenMode));
                     }
                     else if (group.GGenMode != GeneratorGenMode.None)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("gMode", EnumHelpers.GetEnumDescriptionFromEnum(group.GGenMode));
+                        updateDict.Add("gMode", EnumHelpers.GetEnumDescriptionFromEnum(group.GGenMode));
                     }
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("p", test.P);
-                        ((IDictionary<string, object>)testObject).Add("q", test.Q);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("p", test.P);
+                        testDict.Add("q", test.Q);
 
                         if (group.PQGenMode != PrimeGenMode.None)
                         {
                             // Counter
                             if (group.PQGenMode == PrimeGenMode.Probable)
                             {
-                                ((IDictionary<string, object>)testObject).Add("domainSeed", test.Seed.Seed);
-                                ((IDictionary<string, object>)testObject).Add("counter", test.Counter.Count);
+                                testDict.Add("domainSeed", test.Seed.Seed);
+                                testDict.Add("counter", test.Counter.Count);
                             }
                             else if (group.PQGenMode == PrimeGenMode.Provable)
                             {
-                                ((IDictionary<string, object>)testObject).Add("pCounter", test.Counter.PCount);
-                                ((IDictionary<string, object>)testObject).Add("qCounter", test.Counter.QCount);
-                                ((IDictionary<string, object>)testObject).Add("pSeed", test.Seed.PSeed);
-                                ((IDictionary<string, object>)testObject).Add("qSeed", test.Seed.QSeed);
+                                testDict.Add("pCounter", test.Counter.PCount);
+                                testDict.Add("qCounter", test.Counter.QCount);
+                                testDict.Add("pSeed", test.Seed.PSeed);
+                                testDict.Add("qSeed", test.Seed.QSeed);
                             }
                         }
                         else if (group.GGenMode != GeneratorGenMode.None)
                         {
-                            ((IDictionary<string, object>)testObject).Add("g", test.G);
+                            testDict.Add("g", test.G);
 
                             if (group.GGenMode == GeneratorGenMode.Canonical)
                             {
                                 // Index
-                                ((IDictionary<string, object>)testObject).Add("index", test.Index);
+                                testDict.Add("index", test.Index);
                             }
                             else if (group.GGenMode == GeneratorGenMode.Unverifiable)
                             {
                                 // H and Seed
-                                ((IDictionary<string, object>)testObject).Add("h", test.H);
-                                ((IDictionary<string, object>)testObject).Add("domainSeed", test.Seed.GetFullSeed());
+                                testDict.Add("h", test.H);
+                                testDict.Add("domainSeed", test.Seed.GetFullSeed());
                             }
                         }
 
@@ -170,9 +200,9 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("result", (test.FailureTest ? "failed" : "passed"));
-                        //((IDictionary<string, object>)testObject).Add("reason", test.Reason);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("result", (test.FailureTest ? "failed" : "passed"));
 
                         tests.Add(testObject);
                     }

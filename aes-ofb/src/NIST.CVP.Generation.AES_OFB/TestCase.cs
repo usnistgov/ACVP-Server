@@ -22,75 +22,12 @@ namespace NIST.CVP.Generation.AES_OFB
             MapToProperties(source);
         }
 
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-            if (((ExpandoObject)source).ContainsProperty("decryptFail"))
-            {
-                FailureTest = source.decryptFail;
-            }
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
-            {
-                FailureTest = source.failureTest;
-            }
-            if (((ExpandoObject) source).ContainsProperty("deferred"))
-            {
-                Deferred = source.deferred;
-            }
-            if (((ExpandoObject)source).ContainsProperty("resultsArray"))
-            {
-                ResultsArray = ResultsArrayToObject(source.resultsArray);
-            }
-
-            IV = BitStringFromObject("iv", (ExpandoObject) source);
-            Key = BitStringFromObject("key", (ExpandoObject) source);
-            CipherText = BitStringFromObject("cipherText", (ExpandoObject)source);
-            PlainText = BitStringFromObject("plainText", (ExpandoObject)source);
-        }
-
-        private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
-        {
-            List<AlgoArrayResponse> list = new List<AlgoArrayResponse>();
-
-            foreach (dynamic item in resultsArray)
-            {
-                AlgoArrayResponse response = new AlgoArrayResponse();
-                response.IV = BitStringFromObject("iv", (ExpandoObject)item);
-                response.Key = BitStringFromObject("key", (ExpandoObject)item);
-                response.PlainText = BitStringFromObject("plainText", (ExpandoObject)item);
-                response.CipherText = BitStringFromObject("cipherText", (ExpandoObject)item);
-
-                list.Add(response);
-            }
-
-            return list;
-        }
-
-        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return null;
-            }
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-            var valueAsBitString = sourcePropertyValue as BitString;
-            if (valueAsBitString != null)
-            {
-                return valueAsBitString;
-                
-            }
-            return new BitString(sourcePropertyValue.ToString());
-        }
-
         public TestCase(JObject source)
         {
             var data = source.ToObject<ExpandoObject>();
             MapToProperties(data);
         }
+
         public int TestCaseId { get; set; }
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
@@ -99,35 +36,6 @@ namespace NIST.CVP.Generation.AES_OFB
         public BitString Key { get; set; }
         public BitString CipherText { get; set; }
         public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
-
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-            var otherTypedTest = (TestCase) otherTest;
-
-            if (PlainText == null && otherTypedTest.PlainText != null)
-            {
-                PlainText = otherTypedTest.PlainText;
-                return true;
-            }
-
-            if (CipherText == null && otherTypedTest.CipherText != null)
-            {
-                CipherText = otherTypedTest.CipherText;
-                return true;
-            }
-
-            if (ResultsArray.Count != 0 && otherTypedTest.ResultsArray.Count != 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
 
         public bool SetResultsArrayString(int index, string name, string value)
         {
@@ -189,5 +97,50 @@ namespace NIST.CVP.Generation.AES_OFB
             return false;
         }
 
+        private void MapToProperties(dynamic source)
+        {
+            TestCaseId = (int)source.tcId;
+            var expandoSource = (ExpandoObject) source;
+            if (expandoSource.ContainsProperty("decryptFail"))
+            {
+                FailureTest = source.decryptFail;
+            }
+            if (expandoSource.ContainsProperty("failureTest"))
+            {
+                FailureTest = source.failureTest;
+            }
+            if (expandoSource.ContainsProperty("deferred"))
+            {
+                Deferred = source.deferred;
+            }
+            if (expandoSource.ContainsProperty("resultsArray"))
+            {
+                ResultsArray = ResultsArrayToObject(source.resultsArray);
+            }
+
+            IV = expandoSource.GetBitStringFromProperty("iv");
+            Key = expandoSource.GetBitStringFromProperty("key");
+            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
+            PlainText = expandoSource.GetBitStringFromProperty("plainText");
+        }
+
+        private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
+        {
+            List<AlgoArrayResponse> list = new List<AlgoArrayResponse>();
+
+            foreach (dynamic item in resultsArray)
+            {
+                var expandoItem = (ExpandoObject) item;
+                AlgoArrayResponse response = new AlgoArrayResponse();
+                response.IV = expandoItem.GetBitStringFromProperty("iv");
+                response.Key = expandoItem.GetBitStringFromProperty("key");
+                response.PlainText = expandoItem.GetBitStringFromProperty("plainText");
+                response.CipherText = expandoItem.GetBitStringFromProperty("cipherText");
+
+                list.Add(response);
+            }
+
+            return list;
+        }
     }
 }

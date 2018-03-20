@@ -17,16 +17,8 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-        public TestCaseExpectationEnum Reason { get; set; }
-        public bool Result { get; set; }
-
         private BigInteger _setStringQx;
         private BigInteger _setStringQy;
-
-        public EccKeyPair KeyPair { get; set; }
 
         public TestCase() { }
 
@@ -41,6 +33,14 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
             MapToProperties(source);
         }
 
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+        public TestCaseExpectationEnum Reason { get; set; }
+        public bool Result { get; set; }
+
+        public EccKeyPair KeyPair { get; set; }
+
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
@@ -52,12 +52,6 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
 
             var reasonValue = expandoSource.GetTypeFromProperty<string>("reason");
             Reason = EnumHelpers.GetEnumFromEnumDescription<TestCaseExpectationEnum>(reasonValue, false);
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            // We don't need any properties from the prompt...
-            return (TestCaseId == otherTest.TestCaseId);
         }
 
         public bool SetString(string name, string value)

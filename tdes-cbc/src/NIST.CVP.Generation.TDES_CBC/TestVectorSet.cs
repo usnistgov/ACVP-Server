@@ -16,26 +16,13 @@ namespace NIST.CVP.Generation.TDES_CBC
         {
         }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
 
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -59,16 +46,19 @@ namespace NIST.CVP.Generation.TDES_CBC
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("direction", group.Function);
 
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
+                    updateDict.Add("testType", group.TestType);
+                    updateDict.Add("keyingOption", group.KeyingOption);
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (group.TestType.Equals("MCT", StringComparison.OrdinalIgnoreCase))
                         {
@@ -77,51 +67,41 @@ namespace NIST.CVP.Generation.TDES_CBC
                             foreach (var result in test.ResultsArray)
                             {
                                 dynamic resultObject = new ExpandoObject();
+                                var resultDict = ((IDictionary<string, object>) resultObject);
 
                                 TDESKeys keys = new TDESKeys(result.Keys);
                                 for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
                                 {
-                                    ((IDictionary<string, object>)resultObject).Add($"key{iKeyIndex + 1}",
-                                        keys.KeysAsBitStrings[iKeyIndex]);
+                                    resultDict.Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
                                 }
-                                ((IDictionary<string, object>)resultObject).Add("iv", result.IV);
-                                if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    ((IDictionary<string, object>)resultObject).Add("plainText", result.PlainText);
-                                    ((IDictionary<string, object>)resultObject).Add("cipherText", result.CipherText);
-                                }
-                                if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    ((IDictionary<string, object>)resultObject).Add("cipherText", result.CipherText);
-                                    ((IDictionary<string, object>)resultObject).Add("plainText", result.PlainText);
-                                }
+                                resultDict.Add("iv", result.IV);
+                                resultDict.Add("plainText", result.PlainText);
+                                resultDict.Add("cipherText", result.CipherText);
 
                                 resultsArray.Add(resultObject);
                             }
-                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
+                            testDict.Add("resultsArray", resultsArray);
                         }
                         else
                         {
                             TDESKeys keys = test.Keys;
                             for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
                             {
-                                ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}",
-                                    keys.KeysAsBitStrings[iKeyIndex]);
+                                testDict.Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
                             }
 
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
-                                ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                                testDict.Add("cipherText", test.CipherText);
                             }
                             else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                             {
                                 ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
                             }
-                            ((IDictionary<string, object>)testObject).Add("iv", test.Iv);
+                            testDict.Add("iv", test.Iv);
                         }
-                        //((IDictionary<string, object>)testObject).Add("key", test.Key);
-                        ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
-                        ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
+                        testDict.Add("deferred", test.Deferred);
+                        testDict.Add("failureTest", test.FailureTest);
                         tests.Add(testObject);
                     }
                     list.Add(updateObject);
@@ -144,32 +124,34 @@ namespace NIST.CVP.Generation.TDES_CBC
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("direction", group.Function);
+                    updateDict.Add("testType", group.TestType);
+                    updateDict.Add("keyingOption", group.KeyingOption);
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
                         
                         TDESKeys keys = test.Keys;
                         for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
                         {
-                            ((IDictionary<string, object>)testObject).Add($"key{iKeyIndex + 1}",
-                                keys.KeysAsBitStrings[iKeyIndex]);
+                            testDict.Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
                         }
 
                         if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                            testDict.Add("plainText", test.PlainText);
                         }
                         else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                            testDict.Add("cipherText", test.CipherText);
                         }
-                        ((IDictionary<string, object>)testObject).Add("iv", test.Iv);
+                        testDict.Add("iv", test.Iv);
                         
                         tests.Add(testObject);
                     }
@@ -194,36 +176,37 @@ namespace NIST.CVP.Generation.TDES_CBC
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
                         if (group.TestType.ToLower() == "mct")
                         {
                             var resultsArray = new List<dynamic>();
                             foreach (var result in test.ResultsArray)
                             {
                                 dynamic resultObject = new ExpandoObject();
+                                var resultDict = ((IDictionary<string, object>) resultObject);
 
                                 TDESKeys keys = new TDESKeys(result.Keys);
                                 for (int iKeyIndex = 0; iKeyIndex < keys.KeysAsBitStrings.Count; iKeyIndex++)
                                 {
-                                    ((IDictionary<string, object>)resultObject).Add($"key{iKeyIndex + 1}",
-                                        keys.KeysAsBitStrings[iKeyIndex]);
+                                    resultDict.Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
                                 }
 
                                 if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    ((IDictionary<string, object>)resultObject).Add("plainText", result.PlainText);
-                                    ((IDictionary<string, object>)resultObject).Add("cipherText", result.CipherText);
-                                    ((IDictionary<string, object>)resultObject).Add("iv", result.IV);
+                                    resultDict.Add("plainText", result.PlainText);
+                                    resultDict.Add("cipherText", result.CipherText);
+                                    resultDict.Add("iv", result.IV);
                                 }
                                 else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    ((IDictionary<string, object>)resultObject).Add("cipherText", result.CipherText);
-                                    ((IDictionary<string, object>)resultObject).Add("plainText", result.PlainText);
-                                    ((IDictionary<string, object>)resultObject).Add("iv", result.IV);
+                                    resultDict.Add("cipherText", result.CipherText);
+                                    resultDict.Add("plainText", result.PlainText);
+                                    resultDict.Add("iv", result.IV);
                                 }
                                 resultsArray.Add(resultObject);
                             }
-                            ((IDictionary<string, object>)testObject).Add("resultsArray", resultsArray);
+                            testDict.Add("resultsArray", resultsArray);
                         }
                         else
                         {
@@ -231,18 +214,18 @@ namespace NIST.CVP.Generation.TDES_CBC
 
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
-                                ((IDictionary<string, object>)testObject).Add("cipherText", test.CipherText);
+                                testDict.Add("cipherText", test.CipherText);
                             }
 
                             if (test.FailureTest)
                             {
-                                ((IDictionary<string, object>)testObject).Add("decryptFail", true);
+                                testDict.Add("decryptFail", true);
                             }
                             else
                             {
                                 if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    ((IDictionary<string, object>)testObject).Add("plainText", test.PlainText);
+                                    testDict.Add("plainText", test.PlainText);
                                 }
                             }
                         }

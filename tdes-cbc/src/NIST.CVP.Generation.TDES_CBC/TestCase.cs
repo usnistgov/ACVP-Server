@@ -20,6 +20,13 @@ namespace NIST.CVP.Generation.TDES_CBC
         {
             MapToProperties(source);
         }
+
+        public TestCase(JObject source)
+        {
+            var data = source.ToObject<ExpandoObject>();
+            MapToProperties(data);
+        }
+
         //todo find all references and see if we can separate out keys
         public TestCase(string key, string plainText, string cipherText, string iv)
         {
@@ -32,36 +39,29 @@ namespace NIST.CVP.Generation.TDES_CBC
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
-            if (((ExpandoObject)source).ContainsProperty("decryptFail"))
+            var expandoSource = (ExpandoObject) source;
+
+            if (expandoSource.ContainsProperty("decryptFail"))
             {
                 FailureTest = source.decryptFail;
             }
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
+            if (expandoSource.ContainsProperty("failureTest"))
             {
                 FailureTest = source.failureTest;
             }
-            if (((ExpandoObject)source).ContainsProperty("deferred"))
+            if (expandoSource.ContainsProperty("deferred"))
             {
                 Deferred = source.deferred;
             }
-            if (((ExpandoObject)source).ContainsProperty("resultsArray"))
+            if (expandoSource.ContainsProperty("resultsArray"))
             {
                 ResultsArray = ResultsArrayToObject(source.resultsArray);
             }
-            //if (((ExpandoObject) source).ContainsProperty("key1"))
-            //{
-            //    Key1 = BitStringFromObject("key1", (ExpandoObject) source);
-            //    Key2 = BitStringFromObject("key2", (ExpandoObject) source);
-            //    Key3 = BitStringFromObject("key3", (ExpandoObject) source);
-            //}
-            //else
-            //{
-                Key = BitStringFromObject("key", (ExpandoObject) source);
-            //}
-            CipherText = BitStringFromObject("cipherText", (ExpandoObject)source);
-            PlainText = BitStringFromObject("plainText", (ExpandoObject)source);
-            Iv = BitStringFromObject("iv", (ExpandoObject)source);
-
+            
+            Key = expandoSource.GetBitStringFromProperty("key");
+            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
+            PlainText = expandoSource.GetBitStringFromProperty("plainText");
+            Iv = expandoSource.GetBitStringFromProperty("iv");
         }
 
         private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
@@ -70,47 +70,23 @@ namespace NIST.CVP.Generation.TDES_CBC
 
             foreach (dynamic item in resultsArray)
             {
+                var expandoItem = (ExpandoObject) item;
                 AlgoArrayResponse response = new AlgoArrayResponse();
 
-                var key1 = BitStringFromObject("key1", (ExpandoObject)item);
-                var key2 = BitStringFromObject("key2", (ExpandoObject)item);
-                var key3 = BitStringFromObject("key3", (ExpandoObject)item);
+                var key1 = expandoItem.GetBitStringFromProperty("key1");
+                var key2 = expandoItem.GetBitStringFromProperty("key2");
+                var key3 = expandoItem.GetBitStringFromProperty("key3");
 
                 response.Keys = key1.ConcatenateBits(key2.ConcatenateBits(key3));
-                response.PlainText = BitStringFromObject("plainText", (ExpandoObject)item);
-                response.CipherText = BitStringFromObject("cipherText", (ExpandoObject)item);
-                response.IV = BitStringFromObject("iv", (ExpandoObject)item);
+                response.PlainText = expandoItem.GetBitStringFromProperty("plainText");
+                response.CipherText = expandoItem.GetBitStringFromProperty("cipherText");
+                response.IV = expandoItem.GetBitStringFromProperty("iv");
                 list.Add(response);
             }
 
             return list;
         }
-
-        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return null;
-            }
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-            var valueAsBitString = sourcePropertyValue as BitString;
-            if (valueAsBitString != null)
-            {
-                return valueAsBitString;
-
-            }
-            return new BitString(sourcePropertyValue.ToString());
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
+        
         public int TestCaseId { get; set; }
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
@@ -133,33 +109,6 @@ namespace NIST.CVP.Generation.TDES_CBC
                 }
                 return new TDESKeys(Key1.ConcatenateBits(Key2.ConcatenateBits(Key3)));
             }
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-            var otherTypedTest = (TestCase)otherTest;
-
-            if (PlainText == null && otherTypedTest.PlainText != null)
-            {
-                PlainText = otherTypedTest.PlainText;
-                return true;
-            }
-
-            if (CipherText == null && otherTypedTest.CipherText != null)
-            {
-                CipherText = otherTypedTest.CipherText;
-                return true;
-            }
-
-            if (ResultsArray.Count != 0 && otherTypedTest.ResultsArray.Count != 0)
-            {
-                return true;
-            }
-            return false;
         }
 
         public bool SetResultsArrayString(int index, string name, string value)

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.CSharp.RuntimeBinder;
 using NIST.CVP.Generation.Core;
 using NUnit.Framework;
@@ -46,25 +44,8 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         public void ShouldReconstituteTestVectorFromAnswerAndPrompt()
         {
             var source = GetSubject(2).ToDynamic();
-            var subject = new TestVectorSet(source, source);
+            var subject = new TestVectorSet(source);
             Assert.AreEqual(2, subject.TestGroups.Count);
-        }
-
-        [Test]
-        public void ShouldFailToReconstituteTestVectorSetWhenNotMatched()
-        {
-            var answers = GetSubject();
-            var prompts = GetSubject();
-
-            foreach (var testGroup in prompts.TestGroups)
-            {
-                testGroup.Tests.Clear();
-            }
-
-            Assert.Throws(
-                Is.TypeOf<Exception>()
-                    .And.Message.EqualTo("Could not reconstitute TestVectorSet from supplied answers and prompts"),
-                () => new TestVectorSet(answers.ToDynamic(), prompts.ToDynamic()));
         }
 
         // @@@ possible to get strong typing out of projection?
@@ -154,19 +135,6 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
         }
 
         [Test]
-        public void EncryptShouldExcludePlainTextInAnswerProjection()
-        {
-            var subject = GetSubject(1);
-            var results = subject.AnswerProjection;
-            var group = results[0];
-            var tests = group.tests;
-            foreach (var test in tests)
-            {
-                Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
-            }
-        }
-
-        [Test]
         public void EncryptShouldExcludeCipherTextInPromptProjection()
         {
             var subject = GetSubject(1);
@@ -236,19 +204,6 @@ namespace NIST.CVP.Generation.TDES_OFB.Tests
             {
                 Assume.That(item.decryptFail);
                 Assert.Throws(typeof(RuntimeBinderException), () => item.plainText.ToString());
-            }
-        }
-
-        [Test]
-        public void DecryptShouldExcludeCipherTextInAnswerProjection()
-        {
-            var subject = GetSubject(1, "decrypt");
-            var results = subject.AnswerProjection;
-            var group = results[0];
-            var tests = group.tests;
-            foreach (var test in tests)
-            {
-                Assert.Throws(typeof(RuntimeBinderException), () => test.cipherText.ToString());
             }
         }
 

@@ -73,37 +73,6 @@ namespace NIST.CVP.Generation.HMAC.Tests
         }
 
         [Test]
-        public void ShouldReturnFalseIfMergeFails()
-        {
-            var testCase = new TestCase()
-            {
-                TestCaseId = 42
-            };
-
-            List<ITestCase> testCases = new List<ITestCase>
-            {
-                testCase
-            };
-
-            TestGroup tg = new TestGroup()
-            {
-                Tests = testCases
-            };
-
-            List<ITestCase> differentTestCases = new List<ITestCase>
-            {
-                new TestCase()
-                {
-                    TestCaseId = 1
-                }
-            };
-
-            var result = tg.MergeTests(differentTestCases);
-
-            Assert.IsFalse(result);
-        }
-
-        [Test]
         public void ShouldReturnFalseIfPassObjectCannotCast()
         {
             var subject = new TestGroup();

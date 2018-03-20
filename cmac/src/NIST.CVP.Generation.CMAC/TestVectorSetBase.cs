@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
@@ -47,12 +46,12 @@ namespace NIST.CVP.Generation.CMAC
         {
         }
 
-        public TestVectorSetBase(dynamic answers, dynamic prompts)
+        public TestVectorSetBase(dynamic answers)
         {
-            SetAnswerAndPrompts(answers, prompts);
+            SetAnswers(answers);
         }
 
-        public void SetAnswerAndPrompts(dynamic answers, dynamic prompts)
+        public void SetAnswers(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
@@ -60,20 +59,6 @@ namespace NIST.CVP.Generation.CMAC
                 //var group = new TTestGroup(answer);
 
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = (TTestGroup)Activator.CreateInstance(typeof(TTestGroup), prompt);
-                //var promptGroup = new TTestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.Single(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
     }

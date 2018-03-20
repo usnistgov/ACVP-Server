@@ -9,8 +9,6 @@ namespace NIST.CVP.Generation.CMAC.TDES
 {
     public class TestGroup : TestGroupBase<TestCase>
     {
-        public int KeyingOption { get; set; }
-
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -21,39 +19,7 @@ namespace NIST.CVP.Generation.CMAC.TDES
             LoadSource(source);
         }
 
-        //public bool MergeTests(List<ITestCase> testsToMerge)
-        //{
-        //    foreach (var test in Tests)
-        //    {
-        //        var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-        //        if (matchingTest == null)
-        //        {
-        //            return false;
-        //        }
-        //        if (!test.Merge(matchingTest))
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    return true;
-        //}
-
-        public override int GetHashCode()
-        {
-            return
-                $"{Function}|{TestType}|{KeyingOption}|{MessageLength}|{MacLength}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
+        public int KeyingOption { get; set; }
 
         public override bool SetString(string name, string value)
         {
@@ -97,6 +63,7 @@ namespace NIST.CVP.Generation.CMAC.TDES
 
         protected override void LoadSource(dynamic source)
         {
+            TestGroupId = source.tgId;
             TestType = source.testType;
             Function = source.direction;
             KeyingOption = source.keyingOption;

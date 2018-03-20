@@ -21,26 +21,13 @@ namespace NIST.CVP.Generation.IKEv2
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
 
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -52,30 +39,33 @@ namespace NIST.CVP.Generation.IKEv2
                 foreach (var group in TestGroups.Select(g => (TestGroup) g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
-                    ((IDictionary<string, object>)updateObject).Add("nInitLength", group.NInitLength);
-                    ((IDictionary<string, object>)updateObject).Add("nRespLength", group.NRespLength);
-                    ((IDictionary<string, object>)updateObject).Add("dhLength", group.GirLength);
-                    ((IDictionary<string, object>)updateObject).Add("derivedKeyingMaterialLength", group.DerivedKeyingMaterialLength);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("nInitLength", group.NInitLength);
+                    updateDict.Add("nRespLength", group.NRespLength);
+                    updateDict.Add("dhLength", group.GirLength);
+                    updateDict.Add("derivedKeyingMaterialLength", group.DerivedKeyingMaterialLength);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase) t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("nInit", test.NInit);
-                        ((IDictionary<string, object>)testObject).Add("nResp", test.NResp);
-                        ((IDictionary<string, object>)testObject).Add("spiInit", test.SpiInit);
-                        ((IDictionary<string, object>)testObject).Add("spiResp", test.SpiResp);
-                        ((IDictionary<string, object>)testObject).Add("gir", test.Gir);
-                        ((IDictionary<string, object>)testObject).Add("girNew", test.GirNew);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("nInit", test.NInit);
+                        testDict.Add("nResp", test.NResp);
+                        testDict.Add("spiInit", test.SpiInit);
+                        testDict.Add("spiResp", test.SpiResp);
+                        testDict.Add("gir", test.Gir);
+                        testDict.Add("girNew", test.GirNew);
 
-                        ((IDictionary<string, object>)testObject).Add("sKeySeed", test.SKeySeed);
-                        ((IDictionary<string, object>)testObject).Add("derivedKeyingMaterial", test.DerivedKeyingMaterial);
-                        ((IDictionary<string, object>)testObject).Add("derivedKeyingMaterialChild", test.DerivedKeyingMaterialChild);
-                        ((IDictionary<string, object>)testObject).Add("derivedKeyingMaterialDh", test.DerivedKeyingMaterialDh);
-                        ((IDictionary<string, object>)testObject).Add("sKeySeedReKey", test.SKeySeedReKey);
+                        testDict.Add("sKeySeed", test.SKeySeed);
+                        testDict.Add("derivedKeyingMaterial", test.DerivedKeyingMaterial);
+                        testDict.Add("derivedKeyingMaterialChild", test.DerivedKeyingMaterialChild);
+                        testDict.Add("derivedKeyingMaterialDh", test.DerivedKeyingMaterialDh);
+                        testDict.Add("sKeySeedReKey", test.SKeySeedReKey);
 
                         tests.Add(testObject);
                     }
@@ -96,24 +86,27 @@ namespace NIST.CVP.Generation.IKEv2
                 foreach (var group in TestGroups.Select(g => (TestGroup) g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
-                    ((IDictionary<string, object>)updateObject).Add("nInitLength", group.NInitLength);
-                    ((IDictionary<string, object>)updateObject).Add("nRespLength", group.NRespLength);
-                    ((IDictionary<string, object>)updateObject).Add("dhLength", group.GirLength);
-                    ((IDictionary<string, object>)updateObject).Add("derivedKeyingMaterialLength", group.DerivedKeyingMaterialLength);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("nInitLength", group.NInitLength);
+                    updateDict.Add("nRespLength", group.NRespLength);
+                    updateDict.Add("dhLength", group.GirLength);
+                    updateDict.Add("derivedKeyingMaterialLength", group.DerivedKeyingMaterialLength);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase) t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("nInit", test.NInit);
-                        ((IDictionary<string, object>)testObject).Add("nResp", test.NResp);
-                        ((IDictionary<string, object>)testObject).Add("spiInit", test.SpiInit);
-                        ((IDictionary<string, object>)testObject).Add("spiResp", test.SpiResp);
-                        ((IDictionary<string, object>)testObject).Add("gir", test.Gir);
-                        ((IDictionary<string, object>)testObject).Add("girNew", test.GirNew);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("nInit", test.NInit);
+                        testDict.Add("nResp", test.NResp);
+                        testDict.Add("spiInit", test.SpiInit);
+                        testDict.Add("spiResp", test.SpiResp);
+                        testDict.Add("gir", test.Gir);
+                        testDict.Add("girNew", test.GirNew);
 
                         tests.Add(testObject);
                     }
@@ -136,12 +129,13 @@ namespace NIST.CVP.Generation.IKEv2
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>) testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("sKeySeed", test.SKeySeed);
-                        ((IDictionary<string, object>)testObject).Add("derivedKeyingMaterial", test.DerivedKeyingMaterial);
-                        ((IDictionary<string, object>)testObject).Add("derivedKeyingMaterialChild", test.DerivedKeyingMaterialChild);
-                        ((IDictionary<string, object>)testObject).Add("derivedKeyingMaterialDh", test.DerivedKeyingMaterialDh);
-                        ((IDictionary<string, object>)testObject).Add("sKeySeedReKey", test.SKeySeedReKey);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("sKeySeed", test.SKeySeed);
+                        testDict.Add("derivedKeyingMaterial", test.DerivedKeyingMaterial);
+                        testDict.Add("derivedKeyingMaterialChild", test.DerivedKeyingMaterialChild);
+                        testDict.Add("derivedKeyingMaterialDh", test.DerivedKeyingMaterialDh);
+                        testDict.Add("sKeySeedReKey", test.SKeySeedReKey);
 
                         tests.Add(testObject);
                     }

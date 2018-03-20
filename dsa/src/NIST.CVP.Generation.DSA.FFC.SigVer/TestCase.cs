@@ -14,18 +14,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public bool Result { get; set; }
-        public ITestCaseExpectationReason<SigFailureReasons> Reason { get; set; }
-        public FfcKeyPair Key { get; set; }
-        public BitString Message { get; set; }
-        public FfcSignature Signature { get; set; }
-
-        // public ITestCaseModifier<TestCase> Modifier { get; set; }
-
         private BigInteger _rSetString;
         private BigInteger _sSetString;
 
@@ -41,6 +29,16 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         {
             MapToProperties(source);
         }
+
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public bool Result { get; set; }
+        public ITestCaseExpectationReason<SigFailureReasons> Reason { get; set; }
+        public FfcKeyPair Key { get; set; }
+        public BitString Message { get; set; }
+        public FfcSignature Signature { get; set; }
 
         private void MapToProperties(dynamic source)
         {
@@ -59,12 +57,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             {
                 Reason = new TestCaseExpectationReason(EnumHelpers.GetEnumFromEnumDescription<SigFailureReasons>(expandoSource.GetTypeFromProperty<string>("reason")));
             }
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            // We don't need any properties from the prompt...
-            return (TestCaseId == otherTest.TestCaseId);
         }
 
         public bool SetString(string name, string value)

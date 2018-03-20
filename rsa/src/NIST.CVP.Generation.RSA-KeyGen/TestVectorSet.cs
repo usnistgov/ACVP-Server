@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 
@@ -24,25 +23,12 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -54,54 +40,85 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType.ToLower());
-                    ((IDictionary<string, object>)updateObject).Add("randPQ", EnumHelpers.GetEnumDescriptionFromEnum(group.PrimeGenMode));
-                    ((IDictionary<string, object>)updateObject).Add("pubExpMode", EnumHelpers.GetEnumDescriptionFromEnum(group.PubExp));
-                    ((IDictionary<string, object>)updateObject).Add("keyFormat", EnumHelpers.GetEnumDescriptionFromEnum(group.KeyFormat));
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("modulo", group.Modulo);
+                    updateDict.Add("testType", group.TestType.ToLower());
+                    updateDict.Add("randPQ", EnumHelpers.GetEnumDescriptionFromEnum(group.PrimeGenMode));
+                    updateDict.Add("pubExpMode", EnumHelpers.GetEnumDescriptionFromEnum(group.PubExp));
+                    updateDict.Add("keyFormat", EnumHelpers.GetEnumDescriptionFromEnum(group.KeyFormat));
 
                     if (group.PubExp == PublicExponentModes.Fixed)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("fixedPubExp", group.FixedPubExp);
+                        updateDict.Add("fixedPubExp", group.FixedPubExp);
                     }
 
                     if (group.TestType.ToLower() == "aft")
                     {
-                        ((IDictionary<string, object>)updateObject).Add("infoGeneratedByServer", group.InfoGeneratedByServer);
+                        updateDict.Add("infoGeneratedByServer", group.InfoGeneratedByServer);
                     }
 
                     if (group.PrimeGenMode == PrimeGenModes.B32 || group.PrimeGenMode == PrimeGenModes.B34 || group.PrimeGenMode == PrimeGenModes.B35)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                        updateDict.Add("hashAlg", group.HashAlg.Name);
                     }
 
                     if (group.PrimeGenMode == PrimeGenModes.B33 || group.PrimeGenMode == PrimeGenModes.B35 || group.PrimeGenMode == PrimeGenModes.B36)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("primeTest", EnumHelpers.GetEnumDescriptionFromEnum(group.PrimeTest));
+                        updateDict.Add("primeTest", EnumHelpers.GetEnumDescriptionFromEnum(group.PrimeTest));
                     }
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>) updateObject).Add("tests", tests);
-                    foreach (var test in group.Tests.Select(t => (TestCase) t))
+                    updateDict.Add("tests", tests);
+                    foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>) testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
-                        if (group.TestType.ToLower() == "kat")
-                        {
-                            ((IDictionary<string, object>) testObject).Add("result", !test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed));
-                        }
-                        else if(group.TestType.ToLower() == "aft")
+                        if (group.TestType.ToLower() == "aft")
                         {
                             if (group.InfoGeneratedByServer)
                             {
                                 AddKeyToDynamic(testObject, test.Key);
+
+                                if (group.PrimeGenMode == PrimeGenModes.B34 || group.PrimeGenMode == PrimeGenModes.B35 || group.PrimeGenMode == PrimeGenModes.B36)
+                                {
+                                    testDict.Add("bitlens", test.Bitlens);
+                                }
+
+                                if (group.PrimeGenMode == PrimeGenModes.B32 || group.PrimeGenMode == PrimeGenModes.B34 || group.PrimeGenMode == PrimeGenModes.B35)
+                                {
+                                    testDict.Add("seed", test.Seed);
+                                }
+
+                                if (group.PrimeGenMode == PrimeGenModes.B35)
+                                {
+                                    testDict.Add("xp", test.XP);
+                                    testDict.Add("xq", test.XQ);
+                                }
+                                else if (group.PrimeGenMode == PrimeGenModes.B36)
+                                {
+                                    testDict.Add("xp", test.XP);
+                                    testDict.Add("xp1", test.XP1);
+                                    testDict.Add("xp2", test.XP2);
+                                    testDict.Add("xq", test.XQ);
+                                    testDict.Add("xq1", test.XQ1);
+                                    testDict.Add("xq2", test.XQ2);
+                                }
                             }
+                        }
+                        else if (group.TestType.ToLower() == "kat")
+                        {
+                            testDict.Add("e", test.Key.PubKey.E);
+                            testDict.Add("pRand", test.Key.PrivKey.P);
+                            testDict.Add("qRand", test.Key.PrivKey.Q);
+                            testDict.Add("result", !test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed));
                         }
 
                         if (test.Deferred)
                         {
-                            ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
+                            testDict.Add("deferred", test.Deferred);
                         }
 
                         tests.Add(testObject);
@@ -120,43 +137,46 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             get
             {
                 var list = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup) g))
+                foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType.ToLower());
-                    ((IDictionary<string, object>)updateObject).Add("randPQ", EnumHelpers.GetEnumDescriptionFromEnum(group.PrimeGenMode));
-                    ((IDictionary<string, object>)updateObject).Add("pubExpMode", EnumHelpers.GetEnumDescriptionFromEnum(group.PubExp));
-                    ((IDictionary<string, object>)updateObject).Add("keyFormat", EnumHelpers.GetEnumDescriptionFromEnum(group.KeyFormat));
+                    var updateDict = ((IDictionary<string, object>)updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("modulo", group.Modulo);
+                    updateDict.Add("testType", group.TestType.ToLower());
+                    updateDict.Add("randPQ", EnumHelpers.GetEnumDescriptionFromEnum(group.PrimeGenMode));
+                    updateDict.Add("pubExpMode", EnumHelpers.GetEnumDescriptionFromEnum(group.PubExp));
+                    updateDict.Add("keyFormat", EnumHelpers.GetEnumDescriptionFromEnum(group.KeyFormat));
 
                     if (group.PubExp == PublicExponentModes.Fixed)
                     {
-                        ((IDictionary<string, object>) updateObject).Add("fixedPubExp", group.FixedPubExp);
+                        updateDict.Add("fixedPubExp", group.FixedPubExp);
                     }
 
                     if (group.TestType.ToLower() == "aft")
                     {
-                        ((IDictionary<string, object>)updateObject).Add("infoGeneratedByServer", group.InfoGeneratedByServer);
+                        updateDict.Add("infoGeneratedByServer", group.InfoGeneratedByServer);
                     }
 
                     if (group.PrimeGenMode == PrimeGenModes.B32 || group.PrimeGenMode == PrimeGenModes.B34 || group.PrimeGenMode == PrimeGenModes.B35)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                        updateDict.Add("hashAlg", group.HashAlg.Name);
                     }
 
                     if (group.PrimeGenMode == PrimeGenModes.B33 || group.PrimeGenMode == PrimeGenModes.B35 || group.PrimeGenMode == PrimeGenModes.B36)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("primeTest", EnumHelpers.GetEnumDescriptionFromEnum(group.PrimeTest));
+                        updateDict.Add("primeTest", EnumHelpers.GetEnumDescriptionFromEnum(group.PrimeTest));
                     }
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
+                        var testDict = ((IDictionary<string, object>) testObject);
 
                         // Always include tcId
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (group.TestType.ToLower() == "aft")
                         {
@@ -164,45 +184,45 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                             {
                                 if (group.PubExp == PublicExponentModes.Random)
                                 {
-                                    ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
+                                    testDict.Add("e", test.Key.PubKey.E);
                                 }
 
                                 if (group.PrimeGenMode == PrimeGenModes.B34 || group.PrimeGenMode == PrimeGenModes.B35 || group.PrimeGenMode == PrimeGenModes.B36)
                                 {
-                                    ((IDictionary<string, object>)testObject).Add("bitlens", test.Bitlens);
+                                    testDict.Add("bitlens", test.Bitlens);
                                 }
 
                                 if (group.PrimeGenMode == PrimeGenModes.B32 || group.PrimeGenMode == PrimeGenModes.B34 || group.PrimeGenMode == PrimeGenModes.B35)
                                 {
-                                    ((IDictionary<string, object>)testObject).Add("seed", test.Seed);
+                                    testDict.Add("seed", test.Seed);
                                 }
 
                                 if (group.PrimeGenMode == PrimeGenModes.B35)
                                 {
-                                    ((IDictionary<string, object>)testObject).Add("xp", test.XP);
-                                    ((IDictionary<string, object>)testObject).Add("xq", test.XQ);
+                                    testDict.Add("xp", test.XP);
+                                    testDict.Add("xq", test.XQ);
                                 }
                                 else if (group.PrimeGenMode == PrimeGenModes.B36)
                                 {
-                                    ((IDictionary<string, object>)testObject).Add("xp", test.XP);
-                                    ((IDictionary<string, object>)testObject).Add("xp1", test.XP1);
-                                    ((IDictionary<string, object>)testObject).Add("xp2", test.XP2);
-                                    ((IDictionary<string, object>)testObject).Add("xq", test.XQ);
-                                    ((IDictionary<string, object>)testObject).Add("xq1", test.XQ1);
-                                    ((IDictionary<string, object>)testObject).Add("xq2", test.XQ2);
+                                    testDict.Add("xp", test.XP);
+                                    testDict.Add("xp1", test.XP1);
+                                    testDict.Add("xp2", test.XP2);
+                                    testDict.Add("xq", test.XQ);
+                                    testDict.Add("xq1", test.XQ1);
+                                    testDict.Add("xq2", test.XQ2);
                                 }
                             }
                         }
                         else if (group.TestType.ToLower() == "kat")
                         {
-                            ((IDictionary<string, object>)testObject).Add("e", test.Key.PubKey.E);
-                            ((IDictionary<string, object>)testObject).Add("pRand", test.Key.PrivKey.P);
-                            ((IDictionary<string, object>)testObject).Add("qRand", test.Key.PrivKey.Q);
+                            testDict.Add("e", test.Key.PubKey.E);
+                            testDict.Add("pRand", test.Key.PrivKey.P);
+                            testDict.Add("qRand", test.Key.PrivKey.Q);
                         }
 
                         if (test.Deferred)
                         {
-                            ((IDictionary<string, object>) testObject).Add("deferred", test.Deferred);
+                            testDict.Add("deferred", test.Deferred);
                         }
 
                         tests.Add(testObject);
@@ -226,9 +246,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
+                        var testDict = ((IDictionary<string, object>) testObject);
 
                         // Always include tcId
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (group.TestType.ToLower() == "aft")
                         {
@@ -236,27 +257,27 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                             {
                                 if (group.PrimeGenMode == PrimeGenModes.B34 || group.PrimeGenMode == PrimeGenModes.B35 || group.PrimeGenMode == PrimeGenModes.B36)
                                 {
-                                    ((IDictionary<string, object>)testObject).Add("bitlens", test.Bitlens);
+                                    testDict.Add("bitlens", test.Bitlens);
                                 }
 
                                 if (group.PrimeGenMode == PrimeGenModes.B32 || group.PrimeGenMode == PrimeGenModes.B34 || group.PrimeGenMode == PrimeGenModes.B35)
                                 {
-                                    ((IDictionary<string, object>)testObject).Add("seed", test.Seed);
+                                    testDict.Add("seed", test.Seed);
                                 }
 
                                 if (group.PrimeGenMode == PrimeGenModes.B35)
                                 {
-                                    ((IDictionary<string, object>)testObject).Add("xp", test.XP);
-                                    ((IDictionary<string, object>)testObject).Add("xq", test.XQ);
+                                    testDict.Add("xp", test.XP);
+                                    testDict.Add("xq", test.XQ);
                                 }
                                 else if (group.PrimeGenMode == PrimeGenModes.B36)
                                 {
-                                    ((IDictionary<string, object>)testObject).Add("xp",  test.XP);
-                                    ((IDictionary<string, object>)testObject).Add("xp1", test.XP1);
-                                    ((IDictionary<string, object>)testObject).Add("xp2", test.XP2);
-                                    ((IDictionary<string, object>)testObject).Add("xq",  test.XQ);
-                                    ((IDictionary<string, object>)testObject).Add("xq1", test.XQ1);
-                                    ((IDictionary<string, object>)testObject).Add("xq2", test.XQ2);
+                                    testDict.Add("xp", test.XP);
+                                    testDict.Add("xp1", test.XP1);
+                                    testDict.Add("xp2", test.XP2);
+                                    testDict.Add("xq", test.XQ);
+                                    testDict.Add("xq1", test.XQ1);
+                                    testDict.Add("xq2", test.XQ2);
                                 }
 
                                 AddKeyToDynamic(testObject, test.Key);
@@ -264,7 +285,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         }
                         else if (group.TestType.ToLower() == "kat")
                         {
-                            ((IDictionary<string, object>)testObject).Add("result", !test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed));
+                            testDict.Add("result", !test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed));
                         }
                         else if (group.TestType.ToLower() == "gdt")
                         {
@@ -293,20 +314,21 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
         private void AddKeyToDynamic(ExpandoObject jsonObject, KeyPair key)
         {
-            ((IDictionary<string, object>)jsonObject).Add("e", key.PubKey.E);
-            ((IDictionary<string, object>)jsonObject).Add("n", key.PubKey.N);
-            ((IDictionary<string, object>)jsonObject).Add("p", key.PrivKey.P);
-            ((IDictionary<string, object>)jsonObject).Add("q", key.PrivKey.Q);
+            var jsonDict = ((IDictionary<string, object>) jsonObject);
+            jsonDict.Add("e", key.PubKey.E);
+            jsonDict.Add("n", key.PubKey.N);
+            jsonDict.Add("p", key.PrivKey.P);
+            jsonDict.Add("q", key.PrivKey.Q);
 
             if (key.PrivKey is PrivateKey standardKey)
             {
-                ((IDictionary<string, object>)jsonObject).Add("d", standardKey.D);
+                jsonDict.Add("d", standardKey.D);
             }
             else if (key.PrivKey is CrtPrivateKey crtKey)
             {
-                ((IDictionary<string, object>)jsonObject).Add("dmp1", crtKey.DMP1);
-                ((IDictionary<string, object>)jsonObject).Add("dmq1", crtKey.DMQ1);
-                ((IDictionary<string, object>)jsonObject).Add("iqmp", crtKey.IQMP);
+                jsonDict.Add("dmp1", crtKey.DMP1);
+                jsonDict.Add("dmq1", crtKey.DMQ1);
+                jsonDict.Add("iqmp", crtKey.IQMP);
             }
             else
             {

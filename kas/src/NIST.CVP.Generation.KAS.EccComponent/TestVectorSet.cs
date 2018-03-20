@@ -19,9 +19,9 @@ namespace NIST.CVP.Generation.KAS.EccComponent
         {
         }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
-            SetAnswerAndPrompts(answers, prompts);
+            SetAnswers(answers);
         }
 
         public string Algorithm { get; set; } = "KAS-ECC";
@@ -141,7 +141,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             return vectorSetObject;
         }
 
-        protected void SetAnswerAndPrompts(dynamic answers, dynamic prompts)
+        protected void SetAnswers(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
@@ -149,25 +149,14 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 
                 TestGroups.Add(group);
             }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.Single(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
-            }
         }
 
         private void SharedProjectionTestGroupInfo(TestGroup @group, dynamic updateObject)
         {
-            ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-            ((IDictionary<string, object>)updateObject).Add("curveName", EnumHelpers.GetEnumDescriptionFromEnum(group.CurveName));
+            var updateDict = ((IDictionary<string, object>) updateObject);
+            updateDict.Add("tgId", group.TestGroupId);
+            updateDict.Add("testType", group.TestType);
+            updateDict.Add("curveName", EnumHelpers.GetEnumDescriptionFromEnum(group.CurveName));
         }
     }
 }

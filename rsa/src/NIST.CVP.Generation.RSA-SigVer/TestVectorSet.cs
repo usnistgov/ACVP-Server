@@ -22,25 +22,12 @@ namespace NIST.CVP.Generation.RSA_SigVer
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -52,27 +39,39 @@ namespace NIST.CVP.Generation.RSA_SigVer
                 foreach(var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("sigType", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
-                    ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("sigType", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
+                    updateDict.Add("modulo", group.Modulo);
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("testType", group.TestType);
 
                     if (group.Mode == SignatureSchemes.Pss)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
+                        updateDict.Add("saltLen", group.SaltLen);
                     }
 
-                    ((IDictionary<string, object>)updateObject).Add("n", group.Key.PubKey.N);
-                    ((IDictionary<string, object>)updateObject).Add("e", group.Key.PubKey.E);
+                    updateDict.Add("n", group.Key.PubKey.N);
+                    updateDict.Add("e", group.Key.PubKey.E);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach(var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("sigResult", EnumHelpers.GetEnumDescriptionFromEnum(test.FailureTest ? Disposition.Failed : Disposition.Passed));
-                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason.GetName());
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        
+                        testDict.Add("message", test.Message);
+                        testDict.Add("signature", test.Signature);
+
+                        if (group.Mode == SignatureSchemes.Pss)
+                        {
+                            testDict.Add("salt", test.Salt);
+                        }
+
+                        testDict.Add("sigResult", EnumHelpers.GetEnumDescriptionFromEnum(test.FailureTest ? Disposition.Failed : Disposition.Passed));
+                        testDict.Add("reason", test.Reason.GetName());
 
                         tests.Add(testObject);
                     }
@@ -93,31 +92,34 @@ namespace NIST.CVP.Generation.RSA_SigVer
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("sigType", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
-                    ((IDictionary<string, object>)updateObject).Add("modulo", group.Modulo);
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("sigType", EnumHelpers.GetEnumDescriptionFromEnum(group.Mode));
+                    updateDict.Add("modulo", group.Modulo);
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("testType", group.TestType);
 
                     if (group.Mode == SignatureSchemes.Pss)
                     {
-                        ((IDictionary<string, object>)updateObject).Add("saltLen", group.SaltLen);
+                        updateDict.Add("saltLen", group.SaltLen);
                     }
 
-                    ((IDictionary<string, object>)updateObject).Add("n", group.Key.PubKey.N);
-                    ((IDictionary<string, object>)updateObject).Add("e", group.Key.PubKey.E);
+                    updateDict.Add("n", group.Key.PubKey.N);
+                    updateDict.Add("e", group.Key.PubKey.E);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("message", test.Message);
-                        ((IDictionary<string, object>)testObject).Add("signature", test.Signature);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("message", test.Message);
+                        testDict.Add("signature", test.Signature);
 
                         if (group.Mode == SignatureSchemes.Pss)
                         {
-                            ((IDictionary<string, object>)testObject).Add("salt", test.Salt);
+                            testDict.Add("salt", test.Salt);
                         }
 
                         tests.Add(testObject);
@@ -141,9 +143,10 @@ namespace NIST.CVP.Generation.RSA_SigVer
                     foreach(var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("sigResult", EnumHelpers.GetEnumDescriptionFromEnum(test.FailureTest ? Disposition.Failed : Disposition.Passed));
-                        ((IDictionary<string, object>)testObject).Add("reason", test.Reason.GetName());
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("sigResult", EnumHelpers.GetEnumDescriptionFromEnum(test.FailureTest ? Disposition.Failed : Disposition.Passed));
+                        testDict.Add("reason", test.Reason.GetName());
 
                         tests.Add(testObject);
                     }

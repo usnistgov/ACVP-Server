@@ -14,6 +14,44 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
     public class TestGroup : ITestGroup
     {
+        public TestGroup()
+        {
+            Tests = new List<ITestCase>();
+        }
+
+        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
+
+        public TestGroup(dynamic source)
+        {
+            var expandoSource = (ExpandoObject) source;
+
+            TestGroupId = (int) source.tgId;
+            TestType = source.testType;
+            
+            L = (int)source.l;
+            N = (int)source.n;
+
+            var attributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm((string)source.hashAlg);
+            HashAlg = new HashFunction(attributes.shaMode, attributes.shaDigestSize);
+
+            if (expandoSource.ContainsProperty("pqMode"))
+            {
+                PQGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenMode>(source.pqMode, false);
+            }
+
+            if (expandoSource.ContainsProperty("gMode"))
+            {
+                GGenMode = EnumHelpers.GetEnumFromEnumDescription<GeneratorGenMode>(source.gMode, false);
+            }
+
+            Tests = new List<ITestCase>();
+            foreach (var test in source.tests)
+            {
+                Tests.Add(new TestCase(test));
+            }
+        }
+
+        public int TestGroupId { get; set; }
         public GeneratorGenMode GGenMode { get; set; }
         public PrimeGenMode PQGenMode { get; set; }
         public int L { get; set; }
@@ -26,71 +64,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 
         public string TestType { get; set; }
         public List<ITestCase> Tests { get; set; }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            TestType = source.testType;
-            L = (int)source.l;
-            N = (int)source.n;
-
-            var attributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm((string)source.hashAlg);
-            HashAlg = new HashFunction(attributes.shaMode, attributes.shaDigestSize);
-
-            if (((ExpandoObject)source).ContainsProperty("pqMode"))
-            {
-                PQGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenMode>(source.pqMode, false);
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("gMode"))
-            {
-                GGenMode = EnumHelpers.GetEnumFromEnumDescription<GeneratorGenMode>(source.gMode, false);
-            }
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
-
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            return ($"{L}{N}{HashAlg.Name}{EnumHelpers.GetEnumDescriptionFromEnum(PQGenMode)}{EnumHelpers.GetEnumDescriptionFromEnum(GGenMode)}").GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
 
         public bool SetString(string name, string value)
         {

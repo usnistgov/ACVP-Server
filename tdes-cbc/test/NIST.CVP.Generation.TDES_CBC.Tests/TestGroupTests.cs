@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -65,34 +61,6 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         {
             var subject = new TestGroup();
             var result = subject.SetString("numberOfkeys", value);
-            Assert.IsFalse(result);
-        }
-
-        [Test]
-        public void ShouldReturnFalseIfMergeFails()
-        {
-            Random800_90 rand = new Random800_90();
-            var testCase = new TestCase()
-            {
-
-                Key = rand.GetRandomBitString(8),
-                CipherText = null,
-                PlainText = null,
-                TestCaseId = 42
-            };
-
-            List<ITestCase> testCases = new List<ITestCase>
-            {
-                testCase
-            };
-
-            TestGroup tg = new TestGroup()
-            {
-                Tests = testCases
-            };
-
-            var result = tg.MergeTests(testCases);
-
             Assert.IsFalse(result);
         }
 

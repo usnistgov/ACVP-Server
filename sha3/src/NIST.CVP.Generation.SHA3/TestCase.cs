@@ -2,7 +2,6 @@
 using System.Dynamic;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Hash;
-using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -11,13 +10,6 @@ namespace NIST.CVP.Generation.SHA3
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-        public BitString Message { get; set; }
-        public BitString Digest { get; set; }
-        public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
-
         public TestCase() { }
 
         public TestCase(JObject source)
@@ -38,34 +30,12 @@ namespace NIST.CVP.Generation.SHA3
             Digest = new BitString(digest);
         }
 
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
-
-            var otherTypedTest = (TestCase) otherTest;
-
-            if (Message == null && otherTypedTest.Message != null)
-            {
-                Message = otherTypedTest.Message;
-                return true;
-            }
-
-            if (Digest == null && otherTypedTest.Digest != null)
-            {
-                Digest = otherTypedTest.Digest;
-                return true;
-            }
-
-            if (ResultsArray.Count != 0 && otherTypedTest.ResultsArray.Count != 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+        public BitString Message { get; set; }
+        public BitString Digest { get; set; }
+        public List<AlgoArrayResponse> ResultsArray { get; set; } = new List<AlgoArrayResponse>();
 
         public bool SetString(string name, string value, int length = -1)
         {
@@ -118,25 +88,27 @@ namespace NIST.CVP.Generation.SHA3
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
-            if (((ExpandoObject)source).ContainsProperty("hashFail"))
+            var expandoSource = (ExpandoObject) source;
+
+            if (expandoSource.ContainsProperty("hashFail"))
             {
                 FailureTest = source.hashFail;
             }
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
+            if (expandoSource.ContainsProperty("failureTest"))
             {
                 FailureTest = source.failureTest;
             }
-            if (((ExpandoObject)source).ContainsProperty("deferred"))
+            if (expandoSource.ContainsProperty("deferred"))
             {
                 Deferred = source.deferred;
             }
-            if (((ExpandoObject)source).ContainsProperty("resultsArray"))
+            if (expandoSource.ContainsProperty("resultsArray"))
             {
                 ResultsArray = ResultsArrayToObject(source.resultsArray);
             }
 
-            Message = BitStringFromObject("msg", (ExpandoObject)source);
-            Digest = BitStringFromObject("md", (ExpandoObject)source);
+            Message = expandoSource.GetBitStringFromProperty("msg");
+            Digest = expandoSource.GetBitStringFromProperty("md");
         }
 
         private List<AlgoArrayResponse> ResultsArrayToObject(dynamic resultsArray)
@@ -145,36 +117,16 @@ namespace NIST.CVP.Generation.SHA3
 
             foreach (dynamic item in resultsArray)
             {
+                var expandoSource = (ExpandoObject) item;
+
                 var response = new AlgoArrayResponse();
-                response.Message = BitStringFromObject("msg", (ExpandoObject)item);
-                response.Digest = BitStringFromObject("md", (ExpandoObject)item);
+                response.Message = expandoSource.GetBitStringFromProperty("msg");
+                response.Digest = expandoSource.GetBitStringFromProperty("md");
 
                 list.Add(response);
             }
 
             return list;
-        }
-
-        private BitString BitStringFromObject(string sourcePropertyName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return null;
-            }
-
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-
-            var valueAsBitString = sourcePropertyValue as BitString;
-            if (valueAsBitString != null)
-            {
-                return valueAsBitString;
-            }
-
-            return new BitString(sourcePropertyValue.ToString());
         }
     }
 }

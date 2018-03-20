@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
@@ -13,14 +12,8 @@ namespace NIST.CVP.Generation.SSH
 {
     public class TestGroup : ITestGroup
     {
-        public Cipher Cipher { get; set; }
-        public HashFunction HashAlg { get; set; }
-
         private int _ivLength;
         private int _keyLength;
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
 
         public TestGroup()
         {
@@ -32,6 +25,7 @@ namespace NIST.CVP.Generation.SSH
         public TestGroup(dynamic source)
         {
             var expandoSource = (ExpandoObject) source;
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
             Cipher = EnumHelpers.GetEnumFromEnumDescription<Cipher>(expandoSource.GetTypeFromProperty<string>("cipher"));
             HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
 
@@ -42,39 +36,12 @@ namespace NIST.CVP.Generation.SSH
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public int TestGroupId { get; set; }
+        public Cipher Cipher { get; set; }
+        public HashFunction HashAlg { get; set; }
 
-        public override int GetHashCode()
-        {
-            return
-                $"{HashAlg.Name}|{Cipher}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

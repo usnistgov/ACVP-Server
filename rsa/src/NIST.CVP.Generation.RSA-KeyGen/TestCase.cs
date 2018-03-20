@@ -4,7 +4,6 @@ using System.Linq;
 using System.Numerics;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -13,22 +12,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public KeyPair Key { get; set; }
-        public BitString Seed { get; set; }
-        public int[] Bitlens { get; set; }
-
-        // Potential auxiliary values
-        public BitString XP1 { get; set; }
-        public BitString XP2 { get; set; }
-        public BitString XP { get; set; }
-        public BitString XQ1 { get; set; }
-        public BitString XQ2 { get; set; }
-        public BitString XQ { get; set; }
-
         private BigInteger _p;
         private BigInteger _q;
 
@@ -45,52 +28,21 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             MapToProperties(source);
         }
 
-        public bool Merge(ITestCase otherTest)
-        {
-            if (TestCaseId != otherTest.TestCaseId)
-            {
-                return false;
-            }
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
 
-            // Nothing to merge here
-            if (Key == null || otherTest.Deferred)
-            {
-                return true;
-            }
+        public KeyPair Key { get; set; }
+        public BitString Seed { get; set; }
+        public int[] Bitlens { get; set; }
 
-            // KATs have nothing to merge
-            if (Key.PubKey.N == 0)
-            {
-                return true;
-            }
-            
-            var otherTypedTest = (TestCase) otherTest;
-            var retVal = false;
-
-            if (XP == null && otherTypedTest.XP != null)
-            {
-                XP = otherTypedTest.XP.GetDeepCopy();
-                XQ = otherTypedTest.XQ.GetDeepCopy();
-                retVal = true;
-            }
-
-            if (XP1 == null && otherTypedTest.XP1 != null)
-            {
-                XP1 = otherTypedTest.XP1.GetDeepCopy();
-                XP2 = otherTypedTest.XP2.GetDeepCopy();
-                XQ1 = otherTypedTest.XQ1.GetDeepCopy();
-                XQ2 = otherTypedTest.XQ2.GetDeepCopy();
-                retVal = true;
-            }
-
-            if (Seed == null && otherTypedTest.Seed != null)
-            {
-                Seed = otherTypedTest.Seed.GetDeepCopy();
-                retVal = true;
-            }
-
-            return retVal;
-        }
+        // Potential auxiliary values
+        public BitString XP1 { get; set; }
+        public BitString XP2 { get; set; }
+        public BitString XP { get; set; }
+        public BitString XQ1 { get; set; }
+        public BitString XQ2 { get; set; }
+        public BitString XQ { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -201,6 +153,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             Deferred = expandoSource.GetTypeFromProperty<bool>("deferred");
             FailureTest = expandoSource.GetTypeFromProperty<bool>("result");
 
+            //Bitlens = expandoSource.GetTypeFromProperty<int[]>("bitlens");
             Bitlens = IntArrayFromObject("bitlens", expandoSource);
             Key = KeyPairFromObject(expandoSource);
 
@@ -275,6 +228,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
 
             var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
+
+            if (sourcePropertyValue is int[] val)
+            {
+                return val.Length == 4 ? val : null;
+            }
 
             var valueAsArr = ((List<object>)sourcePropertyValue).ToArray();
             if (valueAsArr.Count() != 4)

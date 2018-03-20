@@ -17,9 +17,9 @@ namespace NIST.CVP.Generation.KAS.FFC
         {
         }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
-            SetAnswerAndPrompts(answers, prompts);
+            SetAnswers(answers);
         }
 
         public override List<dynamic> AnswerProjection
@@ -232,44 +232,47 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         private void SharedProjectionTestGroupInfo(TestGroup @group, dynamic updateObject)
         {
-            ((IDictionary<string, object>) updateObject).Add("scheme", EnumHelpers.GetEnumDescriptionFromEnum(group.Scheme));
-            ((IDictionary<string, object>) updateObject).Add("testType", group.TestType);
-            ((IDictionary<string, object>) updateObject).Add("kasRole", EnumHelpers.GetEnumDescriptionFromEnum(group.KasRole));
-            ((IDictionary<string, object>) updateObject).Add("kasMode", EnumHelpers.GetEnumDescriptionFromEnum(group.KasMode));
-            ((IDictionary<string, object>) updateObject).Add("parmSet", EnumHelpers.GetEnumDescriptionFromEnum(group.ParmSet));
-            ((IDictionary<string, object>) updateObject).Add("hashAlg", ShaAttributes.GetShaAttributes(group.HashAlg.Mode, group.HashAlg.DigestSize).name);
+            var updateDict = ((IDictionary<string, object>) updateObject);
+
+            updateDict.Add("tgId", group.TestGroupId);
+            updateDict.Add("scheme", EnumHelpers.GetEnumDescriptionFromEnum(group.Scheme));
+            updateDict.Add("testType", group.TestType);
+            updateDict.Add("kasRole", EnumHelpers.GetEnumDescriptionFromEnum(group.KasRole));
+            updateDict.Add("kasMode", EnumHelpers.GetEnumDescriptionFromEnum(group.KasMode));
+            updateDict.Add("parmSet", EnumHelpers.GetEnumDescriptionFromEnum(group.ParmSet));
+            updateDict.Add("hashAlg", ShaAttributes.GetShaAttributes(group.HashAlg.Mode, group.HashAlg.DigestSize).name);
 
             if (group.MacType != KeyAgreementMacType.None)
             {
-                ((IDictionary<string, object>)updateObject).Add("macType", EnumHelpers.GetEnumDescriptionFromEnum(group.MacType));
-                ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLen);
+                updateDict.Add("macType", EnumHelpers.GetEnumDescriptionFromEnum(group.MacType));
+                updateDict.Add("keyLen", group.KeyLen);
 
                 if (group.MacType == KeyAgreementMacType.AesCcm)
                 {
-                    ((IDictionary<string, object>)updateObject).Add("aesCcmNonceLen", group.AesCcmNonceLen);
+                    updateDict.Add("aesCcmNonceLen", group.AesCcmNonceLen);
                 }
 
-                ((IDictionary<string, object>)updateObject).Add("macLen", group.MacLen);
-                ((IDictionary<string, object>)updateObject).Add("kdfType", group.KdfType);
-                ((IDictionary<string, object>)updateObject).Add("idServerLen", group.IdServerLen);
+                updateDict.Add("macLen", group.MacLen);
+                updateDict.Add("kdfType", group.KdfType);
+                updateDict.Add("idServerLen", group.IdServerLen);
                 DynamicBitStringPrintWithOptions.AddToDynamic(updateObject, "idServer", group.IdServer);
 
                 if (group.TestType.Equals("val", StringComparison.OrdinalIgnoreCase))
                 {
-                    ((IDictionary<string, object>)updateObject).Add("idIutLen", group.IdIutLen);
+                    updateDict.Add("idIutLen", group.IdIutLen);
                     DynamicBitStringPrintWithOptions.AddToDynamic(updateObject, "idIut", group.IdIut);
                 }
             }
 
             if (group.KasMode == KasMode.KdfKc)
             {
-                ((IDictionary<string, object>)updateObject).Add("kcRole", EnumHelpers.GetEnumDescriptionFromEnum(group.KcRole));
-                ((IDictionary<string, object>)updateObject).Add("kcType", EnumHelpers.GetEnumDescriptionFromEnum(group.KcType));
+                updateDict.Add("kcRole", EnumHelpers.GetEnumDescriptionFromEnum(group.KcRole));
+                updateDict.Add("kcType", EnumHelpers.GetEnumDescriptionFromEnum(group.KcType));
             }
 
-            ((IDictionary<string, object>)updateObject).Add("p", group.P);
-            ((IDictionary<string, object>)updateObject).Add("q", group.Q);
-            ((IDictionary<string, object>)updateObject).Add("g", group.G);
+            updateDict.Add("p", group.P);
+            updateDict.Add("q", group.Q);
+            updateDict.Add("g", group.G);
 
         }
     }

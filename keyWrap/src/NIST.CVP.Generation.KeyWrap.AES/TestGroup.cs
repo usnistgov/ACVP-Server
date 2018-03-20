@@ -29,23 +29,6 @@ namespace NIST.CVP.Generation.KeyWrap.AES
             set => _withPadding = (value == KeyWrapType.AES_KWP);
         }
 
-        public override int GetHashCode()
-        {
-            return
-                $"{KeyWrapType}|{TestType}|{Direction}|{KwCipher}|{KeyLength}|{PtLen}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
-
         public override bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -77,6 +60,7 @@ namespace NIST.CVP.Generation.KeyWrap.AES
 
         protected override void LoadSource(dynamic source)
         {
+            TestGroupId = (int) source.tgId;
             TestType = source.testType;
             Direction = source.direction;
             KwCipher = source.kwCipher;

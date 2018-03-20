@@ -17,9 +17,8 @@ namespace NIST.CVP.Generation.Core
         /// Merges the answer and prompt files back into a <see cref="TTestVectorSet"/>
         /// </summary>
         /// <param name="answerResponse">The answer file</param>
-        /// <param name="promptResponse">The prompt file</param>
         /// <returns></returns>
-        TTestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse, dynamic promptResponse);
+        TTestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse);
         /// <summary>
         /// Retrieves <see cref="TTestCase"/>s from the <see cref="resultResponse"/>
         /// </summary>

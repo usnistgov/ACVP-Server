@@ -14,16 +14,6 @@ namespace NIST.CVP.Generation.IKEv1
 {
     public class TestGroup : ITestGroup
     {
-        public HashFunction HashAlg { get; set; }
-        public AuthenticationMethods AuthenticationMethod { get; set; }
-        public int GxyLength { get; set; }
-        public int NInitLength { get; set; }
-        public int NRespLength { get; set; }
-        public int PreSharedKeyLength { get; set; }
-        
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -34,6 +24,7 @@ namespace NIST.CVP.Generation.IKEv1
         public TestGroup(dynamic source)
         {
             var expandoSource = (ExpandoObject) source;
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
             HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
             AuthenticationMethod = EnumHelpers.GetEnumFromEnumDescription<AuthenticationMethods>(expandoSource.GetTypeFromProperty<string>("authenticationMethod"));
             GxyLength = expandoSource.GetTypeFromProperty<int>("dhLength");
@@ -48,39 +39,16 @@ namespace NIST.CVP.Generation.IKEv1
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public int TestGroupId { get; set; }
+        public HashFunction HashAlg { get; set; }
+        public AuthenticationMethods AuthenticationMethod { get; set; }
+        public int GxyLength { get; set; }
+        public int NInitLength { get; set; }
+        public int NRespLength { get; set; }
+        public int PreSharedKeyLength { get; set; }
 
-        public override int GetHashCode()
-        {
-            return
-                $"{HashAlg.Name}|{EnumHelpers.GetEnumDescriptionFromEnum(AuthenticationMethod)}|{GxyLength}|{NInitLength}|{NRespLength}|{PreSharedKeyLength}"
-                    .GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -114,6 +82,23 @@ namespace NIST.CVP.Generation.IKEv1
             }
 
             return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return
+                $"{HashAlg.Name}|{EnumHelpers.GetEnumDescriptionFromEnum(AuthenticationMethod)}|{GxyLength}|{NInitLength}|{NRespLength}|{PreSharedKeyLength}"
+                    .GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var otherGroup = obj as TestGroup;
+            if (otherGroup == null)
+            {
+                return false;
+            }
+            return this.GetHashCode() == otherGroup.GetHashCode();
         }
     }
 }

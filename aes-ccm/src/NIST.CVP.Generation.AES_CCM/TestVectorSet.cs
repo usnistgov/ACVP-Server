@@ -21,26 +21,13 @@ namespace NIST.CVP.Generation.AES_CCM
         {
         }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -65,32 +52,29 @@ namespace NIST.CVP.Generation.AES_CCM
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("ivLen", group.IVLength);
-                    ((IDictionary<string, object>)updateObject).Add("ptLen", group.PTLength);
-                    ((IDictionary<string, object>)updateObject).Add("aadLen", group.AADLength);
-                    ((IDictionary<string, object>)updateObject).Add("tagLen", group.TagLength);
-                    ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("direction", group.Function);
+                    updateDict.Add("testType", group.TestType);
+                    updateDict.Add("ivLen", group.IVLength);
+                    updateDict.Add("ptLen", group.PTLength);
+                    updateDict.Add("aadLen", group.AADLength);
+                    updateDict.Add("tagLen", group.TagLength);
+                    updateDict.Add("keyLen", group.KeyLength);
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
-                        }
-                        if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
-                        {
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
-                        }
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
+                        _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
                         _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key", test.Key);
                         _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "iv", test.IV);
                         _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "aad", test.AAD);
-                        ((IDictionary<string, object>)testObject).Add("deferred", test.Deferred);
-                        ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
+                        testDict.Add("deferred", test.Deferred);
+                        testDict.Add("failureTest", test.FailureTest);
                         tests.Add(testObject);
                     }
                     list.Add(updateObject);
@@ -113,19 +97,22 @@ namespace NIST.CVP.Generation.AES_CCM
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("direction", group.Function);
-                    ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-                    ((IDictionary<string, object>)updateObject).Add("ivLen", group.IVLength);
-                    ((IDictionary<string, object>)updateObject).Add("ptLen", group.PTLength);
-                    ((IDictionary<string, object>)updateObject).Add("aadLen", group.AADLength);
-                    ((IDictionary<string, object>)updateObject).Add("tagLen", group.TagLength);
-                    ((IDictionary<string, object>)updateObject).Add("keyLen", group.KeyLength);
+                    var updateDict = ((IDictionary<string, object>)updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("direction", group.Function);
+                    updateDict.Add("testType", group.TestType);
+                    updateDict.Add("ivLen", group.IVLength);
+                    updateDict.Add("ptLen", group.PTLength);
+                    updateDict.Add("aadLen", group.AADLength);
+                    updateDict.Add("tagLen", group.TagLength);
+                    updateDict.Add("keyLen", group.KeyLength);
                     var tests = new List<dynamic>();
                     ((IDictionary<string, object>)updateObject).Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
                         if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
                             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
@@ -160,7 +147,8 @@ namespace NIST.CVP.Generation.AES_CCM
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>)testObject);
+                        testDict.Add("tcId", test.TestCaseId);
                         if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
                             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
@@ -169,7 +157,7 @@ namespace NIST.CVP.Generation.AES_CCM
 
                         if (test.FailureTest)
                         {
-                            ((IDictionary<string, object>)testObject).Add("decryptFail", true);
+                            testDict.Add("decryptFail", true);
                         }
                         else
                         {

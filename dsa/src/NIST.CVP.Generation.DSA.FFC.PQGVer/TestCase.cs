@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Numerics;
-using System.Text;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -14,20 +10,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
     public class TestCase : ITestCase
     {
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-        public string Reason { get; set; }      // Needs to be a string because of PQFailureReasons type and GFailureReasons type
-        public bool Result { get; set; }
-
-        public BigInteger P { get; set; }
-        public BigInteger Q { get; set; }
-        public BigInteger G { get; set; }
-        public BigInteger H { get; set; }
-        public DomainSeed Seed { get; set; }
-        public Counter Counter { get; set; }
-        public BitString Index { get; set; }
-
         // Used for SetString only
         private BigInteger firstSeed;
         private BigInteger pSeed;
@@ -48,6 +30,20 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             MapToProperties(source);
         }
 
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+        public string Reason { get; set; }      // Needs to be a string because of PQFailureReasons type and GFailureReasons type
+        public bool Result { get; set; }
+
+        public BigInteger P { get; set; }
+        public BigInteger Q { get; set; }
+        public BigInteger G { get; set; }
+        public BigInteger H { get; set; }
+        public DomainSeed Seed { get; set; }
+        public Counter Counter { get; set; }
+        public BitString Index { get; set; }
+
         private void MapToProperties(dynamic source)
         {
             TestCaseId = (int)source.tcId;
@@ -59,12 +55,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 Result = resultValue.ToLower() == "passed";
             }
             Reason = expandoSource.GetTypeFromProperty<string>("reason");
-        }
-
-        public bool Merge(ITestCase otherTest)
-        {
-            // We don't need any properties from the prompt...
-            return (TestCaseId == otherTest.TestCaseId);
         }
 
         public bool SetString(string name, string value)
@@ -133,54 +123,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             }
 
             return false;
-        }
-
-        private BitString BitStringFromObject(string propName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(propName))
-            {
-                return null;
-            }
-
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[propName];
-            if (sourcePropertyValue == null)
-            {
-                return null;
-            }
-
-            if (sourcePropertyValue is BitString valueAsBitString)
-            {
-                return valueAsBitString;
-            }
-
-            return new BitString(sourcePropertyValue.ToString());
-        }
-
-        private BigInteger BigIntegerFromObject(string sourcePropertyName, ExpandoObject source)
-        {
-            if (!source.ContainsProperty(sourcePropertyName))
-            {
-                return 0;
-            }
-
-            var sourcePropertyValue = ((IDictionary<string, object>)source)[sourcePropertyName];
-            if (sourcePropertyValue == null)
-            {
-                return 0;
-            }
-
-            if (sourcePropertyValue.GetType() == typeof(string))
-            {
-                return new BitString(sourcePropertyValue.ToString()).ToPositiveBigInteger();
-            }
-
-            var valueAsBigInteger = (BigInteger)sourcePropertyValue;
-            if (valueAsBigInteger != 0)
-            {
-                return valueAsBigInteger;
-            }
-
-            return 0;
         }
     }
 }

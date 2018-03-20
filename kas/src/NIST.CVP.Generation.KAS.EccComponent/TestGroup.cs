@@ -23,48 +23,19 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             MapToProperties(source);
         }
 
+        public int TestGroupId { get; set; }
         public string TestType => "AFT";
 
         public List<ITestCase> Tests { get; set; } = new List<ITestCase>();
 
         public Curve CurveName { get; set; }
 
-        public override int GetHashCode()
-        {
-            return (
-                $"{TestType}|{CurveName}"
-            ).GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (!(obj is TestGroup otherGroup))
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
-
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
         private void MapToProperties(dynamic source)
         {
             ExpandoObject expandoSource = (ExpandoObject)source;
+
+            TestGroupId = (int) source.tgId;
+
             CurveName = EnumHelpers.GetEnumFromEnumDescription<Curve>(
                 expandoSource.GetTypeFromProperty<string>("curveName")
             );

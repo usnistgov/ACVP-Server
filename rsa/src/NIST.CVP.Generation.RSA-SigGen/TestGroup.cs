@@ -4,28 +4,17 @@ using NIST.CVP.Math;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Numerics;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core.ExtensionMethods;
-using NIST.CVP.Crypto.RSA2.Keys;
 
 namespace NIST.CVP.Generation.RSA_SigGen
 {
     public class TestGroup : ITestGroup
     {
-        public SignatureSchemes Mode { get; set; }
-        public int Modulo { get; set; }
-        public HashFunction HashAlg { get; set; }
-        public int SaltLen { get; set; }
-        public KeyPair Key { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -38,6 +27,7 @@ namespace NIST.CVP.Generation.RSA_SigGen
             TestType = source.testType;
             var expandoSource = (ExpandoObject) source;
 
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
             Mode = EnumHelpers.GetEnumFromEnumDescription<SignatureSchemes>(expandoSource.GetTypeFromProperty<string>("sigType"));
             Modulo = expandoSource.GetTypeFromProperty<int>("modulo");
             HashAlg = ShaAttributes.GetHashFunctionFromName(expandoSource.GetTypeFromProperty<string>("hashAlg"));
@@ -56,22 +46,15 @@ namespace NIST.CVP.Generation.RSA_SigGen
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public int TestGroupId { get; set; }
+        public SignatureSchemes Mode { get; set; }
+        public int Modulo { get; set; }
+        public HashFunction HashAlg { get; set; }
+        public int SaltLen { get; set; }
+        public KeyPair Key { get; set; }
+
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -110,22 +93,6 @@ namespace NIST.CVP.Generation.RSA_SigGen
             }
 
             return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return ($"{TestType}|{EnumHelpers.GetEnumDescriptionFromEnum(Mode)}|" +
-                    $"{Modulo}|{HashAlg.Name}").GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
         }
     }
 }

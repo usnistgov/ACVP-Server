@@ -126,15 +126,6 @@ namespace NIST.CVP.Generation.SHA3.Tests
             Assert.AreEqual(expectedResult, subject.Digest);
         }
 
-        [Test]
-        public void ShouldNotMergeTestsWithMismatchedIds()
-        {
-            var testCase = new TestCase { TestCaseId = 1 };
-            var otherTestCase = new TestCase { TestCaseId = 2 };
-            var mergeResult = testCase.Merge(otherTestCase);
-            Assert.IsFalse(mergeResult);
-        }
-
         private dynamic GetSourceAnswerTest()
         {
             var hashFunction = new HashFunction

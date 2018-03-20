@@ -21,26 +21,13 @@ namespace NIST.CVP.Generation.ANSIX963
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
 
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -52,20 +39,23 @@ namespace NIST.CVP.Generation.ANSIX963
                 foreach (var group in TestGroups.Select(g => (TestGroup) g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
-                    ((IDictionary<string, object>)updateObject).Add("fieldSize", group.FieldSize);
-                    ((IDictionary<string, object>)updateObject).Add("keyDataLength", group.KeyDataLength);
-                    ((IDictionary<string, object>)updateObject).Add("sharedInfoLength", group.SharedInfoLength);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("fieldSize", group.FieldSize);
+                    updateDict.Add("keyDataLength", group.KeyDataLength);
+                    updateDict.Add("sharedInfoLength", group.SharedInfoLength);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase) t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("z", test.Z);
-                        ((IDictionary<string, object>)testObject).Add("sharedInfo", test.SharedInfo);
-                        ((IDictionary<string, object>)testObject).Add("keyData", test.KeyData);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("z", test.Z);
+                        testDict.Add("sharedInfo", test.SharedInfo);
+                        testDict.Add("keyData", test.KeyData);
 
                         tests.Add(testObject);
                     }
@@ -86,19 +76,22 @@ namespace NIST.CVP.Generation.ANSIX963
                 foreach (var group in TestGroups.Select(g => (TestGroup) g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
-                    ((IDictionary<string, object>)updateObject).Add("fieldSize", group.FieldSize);
-                    ((IDictionary<string, object>)updateObject).Add("keyDataLength", group.KeyDataLength);
-                    ((IDictionary<string, object>)updateObject).Add("sharedInfoLength", group.SharedInfoLength);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
+                    updateDict.Add("fieldSize", group.FieldSize);
+                    updateDict.Add("keyDataLength", group.KeyDataLength);
+                    updateDict.Add("sharedInfoLength", group.SharedInfoLength);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase) t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("z", test.Z);
-                        ((IDictionary<string, object>)testObject).Add("sharedInfo", test.SharedInfo);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("z", test.Z);
+                        testDict.Add("sharedInfo", test.SharedInfo);
 
                         tests.Add(testObject);
                     }
@@ -121,8 +114,9 @@ namespace NIST.CVP.Generation.ANSIX963
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>) testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("keyData", test.KeyData);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("keyData", test.KeyData);
 
                         tests.Add(testObject);
                     }

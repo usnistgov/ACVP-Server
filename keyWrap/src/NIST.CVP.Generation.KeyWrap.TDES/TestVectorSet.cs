@@ -10,9 +10,9 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
         {
         }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
-            SetAnswerAndPrompts(answers, prompts);
+            SetAnswers(answers);
         }
 
         public override List<dynamic> AnswerProjection
@@ -23,28 +23,21 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = BuildGroupInformation(group);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        //_bitStringPrinter.AddToDynamic(testObject, "key", test.Key);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
                         _bitStringPrinter.AddToDynamic(testObject, "key1", test.Key1);
                         _bitStringPrinter.AddToDynamic(testObject, "key2", test.Key2);
                         _bitStringPrinter.AddToDynamic(testObject, "key3", test.Key3);
-
-                        if (group.Direction.ToLower() == "encrypt")
-                        {
-                            _bitStringPrinter.AddToDynamic(testObject, "cipherText", test.CipherText);
-                        }
-                        if (group.Direction.ToLower() == "decrypt")
-                        {
-                            _bitStringPrinter.AddToDynamic(testObject, "plainText", test.PlainText);
-                        }
-
-                        ((IDictionary<string, object>)testObject).Add("failureTest", test.FailureTest);
+                        _bitStringPrinter.AddToDynamic(testObject, "plainText", test.PlainText);
+                        _bitStringPrinter.AddToDynamic(testObject, "cipherText", test.CipherText);
+                        testDict.Add("failureTest", test.FailureTest);
 
                         tests.Add(testObject);
                     }
@@ -64,14 +57,15 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = BuildGroupInformation(group);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        //_bitStringPrinter.AddToDynamic(testObject, "key", test.Key);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
                         _bitStringPrinter.AddToDynamic(testObject, "key1", test.Key1);
                         _bitStringPrinter.AddToDynamic(testObject, "key2", test.Key2);
                         _bitStringPrinter.AddToDynamic(testObject, "key3", test.Key3);
@@ -105,7 +99,8 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (group.Direction.ToLower() == "encrypt")
                         {
@@ -114,7 +109,7 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
 
                         if (test.FailureTest)
                         {
-                            ((IDictionary<string, object>)testObject).Add("decryptFail", true);
+                            testDict.Add("decryptFail", true);
                         }
                         else
                         {
@@ -133,11 +128,13 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
         protected override dynamic BuildGroupInformation(TestGroup group)
         {
             dynamic updateObject = new ExpandoObject();
-            ((IDictionary<string, object>)updateObject).Add("testType", group.TestType);
-            ((IDictionary<string, object>)updateObject).Add("direction", group.Direction);
-            ((IDictionary<string, object>)updateObject).Add("kwCipher", group.KwCipher);
-            ((IDictionary<string, object>)updateObject).Add("keyingOption", group.KeyingOption);
-            ((IDictionary<string, object>)updateObject).Add("ptLen", group.PtLen);
+            var updateDict = ((IDictionary<string, object>) updateObject);
+            updateDict.Add("tgId", group.TestGroupId);
+            updateDict.Add("testType", group.TestType);
+            updateDict.Add("direction", group.Direction);
+            updateDict.Add("kwCipher", group.KwCipher);
+            updateDict.Add("keyingOption", group.KeyingOption);
+            updateDict.Add("ptLen", group.PtLen);
             return updateObject;
         }
     }

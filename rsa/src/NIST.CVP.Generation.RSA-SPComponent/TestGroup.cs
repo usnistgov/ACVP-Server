@@ -12,11 +12,6 @@ namespace NIST.CVP.Generation.RSA_SPComponent
 {
     public class TestGroup : ITestGroup
     {
-        public int Modulo { get; set; } = 2048;
-        public PrivateKeyModes KeyFormat { get; set; }
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -33,37 +28,11 @@ namespace NIST.CVP.Generation.RSA_SPComponent
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            return $"{Modulo}|{EnumHelpers.GetEnumDescriptionFromEnum(KeyFormat)}".GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
+        public int TestGroupId { get; set; }
+        public int Modulo { get; set; } = 2048;
+        public PrivateKeyModes KeyFormat { get; set; }
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {

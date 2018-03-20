@@ -6,9 +6,9 @@ namespace NIST.CVP.Generation.AES_CFB128
 {
     public class TestReconstitutor : ITestReconstitutor<TestVectorSet, TestCase>
     {
-        public TestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse, dynamic promptResponse)
+        public TestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse)
         {
-            return new TestVectorSet(answerResponse, promptResponse);
+            return new TestVectorSet(answerResponse);
         }
 
         public IEnumerable<TestCase> GetTestCasesFromResultResponse(dynamic resultResponse)

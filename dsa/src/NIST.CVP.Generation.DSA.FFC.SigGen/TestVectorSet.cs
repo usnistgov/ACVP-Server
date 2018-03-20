@@ -20,25 +20,12 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -50,16 +37,20 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("l", group.L);
-                    ((IDictionary<string, object>)updateObject).Add("n", group.N);
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("l", group.L);
+                    updateDict.Add("n", group.N);
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("message", test.Message);
 
                         tests.Add(testObject);
                     }
@@ -80,17 +71,20 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("l", group.L);
-                    ((IDictionary<string, object>)updateObject).Add("n", group.N);
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("l", group.L);
+                    updateDict.Add("n", group.N);
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("message", test.Message);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("message", test.Message);
 
                         tests.Add(testObject);
                     }
@@ -113,19 +107,20 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
 
                         if (IsSample)
                         {
                             // These are group properties inside each test case
-                            ((IDictionary<string, object>)testObject).Add("p", test.DomainParams.P);
-                            ((IDictionary<string, object>)testObject).Add("q", test.DomainParams.Q);
-                            ((IDictionary<string, object>)testObject).Add("g", test.DomainParams.G);
+                            testDict.Add("p", test.DomainParams.P);
+                            testDict.Add("q", test.DomainParams.Q);
+                            testDict.Add("g", test.DomainParams.G);
 
                             // Normal answers per test case
-                            ((IDictionary<string, object>)testObject).Add("y", test.Key.PublicKeyY);
-                            ((IDictionary<string, object>)testObject).Add("r", test.Signature.R);
-                            ((IDictionary<string, object>)testObject).Add("s", test.Signature.S);
+                            testDict.Add("y", test.Key.PublicKeyY);
+                            testDict.Add("r", test.Signature.R);
+                            testDict.Add("s", test.Signature.S);
                         }
 
                         tests.Add(testObject);

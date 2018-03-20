@@ -22,25 +22,12 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
 
         public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers, dynamic prompts)
+        public TestVectorSet(dynamic answers)
         {
             foreach (var answer in answers.answerProjection)
             {
                 var group = new TestGroup(answer);
                 TestGroups.Add(group);
-            }
-
-            foreach (var prompt in prompts.testGroups)
-            {
-                var promptGroup = new TestGroup(prompt);
-                var matchingAnswerGroup = TestGroups.FirstOrDefault(g => g.Equals(promptGroup));
-                if (matchingAnswerGroup != null)
-                {
-                    if (!matchingAnswerGroup.MergeTests(promptGroup.Tests))
-                    {
-                        throw new Exception("Could not reconstitute TestVectorSet from supplied answers and prompts");
-                    }
-                }
             }
         }
 
@@ -52,17 +39,25 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                    var updateDict = ((IDictionary<string, object>) updateObject);
+                    updateDict.Add("tgId", group.TestGroupId);
+                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
+                    updateDict.Add("hashAlg", group.HashAlg.Name);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDict.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("result", test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed));
-                        ((IDictionary<string, object>)testObject).Add("reason", EnumHelpers.GetEnumDescriptionFromEnum(test.Reason));
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("result", test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed));
+                        testDict.Add("reason", EnumHelpers.GetEnumDescriptionFromEnum(test.Reason));
+                        testDict.Add("message", test.Message);
+                        testDict.Add("qx", test.KeyPair.PublicQ.X);
+                        testDict.Add("qy", test.KeyPair.PublicQ.Y);
+                        testDict.Add("r", test.Signature.R);
+                        testDict.Add("s", test.Signature.S);
 
                         tests.Add(testObject);
                     }
@@ -83,20 +78,23 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                 foreach (var group in TestGroups.Select(g => (TestGroup)g))
                 {
                     dynamic updateObject = new ExpandoObject();
-                    ((IDictionary<string, object>)updateObject).Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
-                    ((IDictionary<string, object>)updateObject).Add("hashAlg", group.HashAlg.Name);
+                    var updateDIct = ((IDictionary<string, object>) updateObject);
+                    updateDIct.Add("tgId", group.TestGroupId);
+                    updateDIct.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
+                    updateDIct.Add("hashAlg", group.HashAlg.Name);
 
                     var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
+                    updateDIct.Add("tests", tests);
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("message", test.Message);
-                        ((IDictionary<string, object>)testObject).Add("qx", test.KeyPair.PublicQ.X);
-                        ((IDictionary<string, object>)testObject).Add("qy", test.KeyPair.PublicQ.Y);
-                        ((IDictionary<string, object>)testObject).Add("r", test.Signature.R);
-                        ((IDictionary<string, object>)testObject).Add("s", test.Signature.S);
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("message", test.Message);
+                        testDict.Add("qx", test.KeyPair.PublicQ.X);
+                        testDict.Add("qy", test.KeyPair.PublicQ.Y);
+                        testDict.Add("r", test.Signature.R);
+                        testDict.Add("s", test.Signature.S);
 
                         tests.Add(testObject);
                     }
@@ -119,9 +117,10 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
                     foreach (var test in group.Tests.Select(t => (TestCase)t))
                     {
                         dynamic testObject = new ExpandoObject();
-                        ((IDictionary<string, object>)testObject).Add("tcId", test.TestCaseId);
-                        ((IDictionary<string, object>)testObject).Add("result", test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed));
-                        ((IDictionary<string, object>)testObject).Add("reason", EnumHelpers.GetEnumDescriptionFromEnum(test.Reason));
+                        var testDict = ((IDictionary<string, object>) testObject);
+                        testDict.Add("tcId", test.TestCaseId);
+                        testDict.Add("result", test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed));
+                        testDict.Add("reason", EnumHelpers.GetEnumDescriptionFromEnum(test.Reason));
 
                         tests.Add(testObject);
                     }

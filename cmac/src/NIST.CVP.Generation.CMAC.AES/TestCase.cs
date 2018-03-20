@@ -24,16 +24,6 @@ namespace NIST.CVP.Generation.CMAC.AES
             MapToProperties(data);
         }
 
-        public override bool Merge(ITestCase promptTestCase)
-        {
-            if (TestCaseId == promptTestCase.TestCaseId)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         public override bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -63,11 +53,11 @@ namespace NIST.CVP.Generation.CMAC.AES
 
             ExpandoObject expandoSource = (ExpandoObject)source;
 
-            if (((ExpandoObject)source).ContainsProperty("failureTest"))
+            if (expandoSource.ContainsProperty("failureTest"))
             {
                 FailureTest = source.failureTest;
             }
-            if (((ExpandoObject)source).ContainsProperty("result"))
+            if (expandoSource.ContainsProperty("result"))
             {
                 Result = source.result;
             }

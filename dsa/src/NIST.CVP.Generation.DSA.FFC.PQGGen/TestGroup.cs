@@ -13,15 +13,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
     public class TestGroup : ITestGroup
     {
-        public GeneratorGenMode GGenMode { get; set; }
-        public PrimeGenMode PQGenMode { get; set; }
-        public int L { get; set; }
-        public int N { get; set; }
-        public HashFunction HashAlg { get; set; }
-
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
-
         public TestGroup()
         {
             Tests = new List<ITestCase>();
@@ -35,6 +26,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 
             var expandoSource = (ExpandoObject)source;
 
+            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
             L = expandoSource.GetTypeFromProperty<int>("l");
             N = expandoSource.GetTypeFromProperty<int>("n");
 
@@ -51,49 +43,15 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             }
         }
 
-        public bool MergeTests(List<ITestCase> testsToMerge)
-        {
-            foreach (var test in Tests)
-            {
-                var matchingTest = testsToMerge.FirstOrDefault(t => t.TestCaseId == test.TestCaseId);
-                if (matchingTest == null)
-                {
-                    return false;
-                }
-                if (!test.Merge(matchingTest))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public int TestGroupId { get; set; }
+        public GeneratorGenMode GGenMode { get; set; }
+        public PrimeGenMode PQGenMode { get; set; }
+        public int L { get; set; }
+        public int N { get; set; }
+        public HashFunction HashAlg { get; set; }
 
-        public override int GetHashCode()
-        {
-            //var gMode = "";
-            //if (GGenMode != GeneratorGenMode.None)
-            //{
-            //    gMode = EnumHelper.GGenModeToString(GGenMode);
-            //}
-
-            //var pqMode = "";
-            //if (PQGenMode != PrimeGenMode.None)
-            //{
-            //    pqMode = EnumHelper.PQGenModeToString(PQGenMode);
-            //}
-
-            return ($"{L}{N}{HashAlg.Name}{EnumHelpers.GetEnumDescriptionFromEnum(GGenMode)}{EnumHelpers.GetEnumDescriptionFromEnum(PQGenMode)}").GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
-            {
-                return false;
-            }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
+        public string TestType { get; set; }
+        public List<ITestCase> Tests { get; set; }
 
         public bool SetString(string name, string value)
         {
