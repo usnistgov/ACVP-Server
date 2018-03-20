@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Autofac;
 using Newtonsoft.Json;
 using NIST.CVP.Generation.Core.Enums;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Tests.Core;
 
@@ -14,28 +16,22 @@ namespace NIST.CVP.Generation.Core.Tests
     [TestFixture]
     public abstract class GenValTestsBase
     {
+        public abstract AlgoMode AlgoMode { get; }
         public abstract string Algorithm { get; }
         public abstract string Mode { get; }
+
+        public string DllDropLocation { get; private set; }
+
         public string TestPath { get; private set; }
         public string JsonSavePath { get; private set; }
-        public string[] AdditionalParameters { get; protected set; } = { };
+        
+        public abstract IRegisterInjections RegistrationsGenVal { get; }
 
-        public delegate int Executable(string[] paths);
+        public string[] TestVectorFileNames = { @"\expectedResults.json", @"\internalProjection.json", @"\prompt.json"};
 
-        public abstract Executable Generator { get; }
-        public abstract Executable Validator { get; }
-
-        public string[] TestVectorFileNames = { @"\testResults.json", @"\answer.json", @"\prompt.json"};
-
-        protected abstract void OverrideRegistrationGenFakeFailure();
-        protected abstract void OverrideRegistrationValFakeException();
-        protected abstract void OverrideRegistrationValFakeFailure();
         protected abstract void ModifyTestCaseToFail(dynamic testCase);
-        protected abstract string GetTestFileMinimalTestCases(string folderName);
         protected abstract string GetTestFileFewTestCases(string folderName);
         protected abstract string GetTestFileLotsOfTestCases(string folderName);
-
-        public abstract void SetUp();
 
         // Set this during a test if you want to save the json from the session
         public bool SaveJson = true;
@@ -45,6 +41,10 @@ namespace NIST.CVP.Generation.Core.Tests
         {
             TestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
             JsonSavePath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\..\..\..\json-files\");
+
+            DllDropLocation =
+                Utilities.GetConsistentTestingStartPath(GetType(),
+                    @"..\..\..\common\src\NIST.CVP.Generation.GenValApp\");
         }
 
         [OneTimeTearDown]
@@ -57,91 +57,12 @@ namespace NIST.CVP.Generation.Core.Tests
         }
 
         [Test]
-        public void GenShouldReturn1OnNoArgumentsSupplied()
-        {
-            var result = Generator.Invoke(GetParameters(new string[] { }, GenValMode.Generate));
-            Assert.AreEqual(1, result);
-        }
-
-        [Test]
-        public void GenShouldReturn1OnInvalidFileName()
-        {
-            var result = Generator.Invoke(GetParameters(new[] { $"{Guid.NewGuid()}.json" }, GenValMode.Generate));
-            Assert.AreEqual(1, result);
-        }
-
-        [Test]
-        public void GenShouldReturn1OnAFailedRun()
-        {
-            OverrideRegistrationGenFakeFailure();
-
-            var targetFolder = GetTestFolder("GenShouldFail");
-            var fileName = GetTestFileMinimalTestCases(targetFolder);
-
-            var result = Generator.Invoke(GetParameters(new string[] {fileName}, GenValMode.Generate));
-            Assert.AreEqual(1, result);
-        }
-
-        [Test]
-        public void GenShouldCreateTestVectors()
-        {
-            var targetFolder = GetTestFolder("GenMinimal");
-            var fileName = GetTestFileMinimalTestCases(targetFolder);
-
-            RunGeneration(targetFolder, fileName);
-
-            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[0]}"), "testResults");
-            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[1]}"), "answer");
-            Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[2]}"), "prompt");
-        }
-
-        [Test]
-        public void ValShouldReturn1OnAFailedRun()
-        {
-            OverrideRegistrationValFakeFailure();
-
-            var targetFolder = GetTestFolder("ValShouldFail");
-            var fileName = GetTestFileMinimalTestCases(targetFolder);
-
-            RunGeneration(targetFolder, fileName);
-            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames), GenValMode.Validate));
-
-            Assert.AreEqual(1, result);
-        }
-
-        [Test]
-        public void ValShouldReturn1OnException()
-        {
-            OverrideRegistrationValFakeException();
-
-            var targetFolder = GetTestFolder("ValShouldException");
-            var fileName = GetTestFileMinimalTestCases(targetFolder);
-
-            RunGeneration(targetFolder, fileName);
-            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames), GenValMode.Validate));
-
-            Assert.AreEqual(1, result);
-        }
-
-        [Test]
-        public void ShouldCreateValidationFile()
-        {
-            var targetFolder = GetTestFolder("ValMinimal");
-            var fileName = GetTestFileMinimalTestCases(targetFolder);
-
-            RunGeneration(targetFolder, fileName);
-            RunValidation(targetFolder);
-
-            Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), "validation");
-        }
-
-        [Test]
         public void ShouldReportAllSuccessfulTestsWithinValidationFewTestCases()
         {
             var targetFolder = GetTestFolder("Few");
             var fileName = GetTestFileFewTestCases(targetFolder);
 
-            RunGeneration(targetFolder, fileName);
+            RunGeneration(targetFolder, fileName, true);
             RunValidation(targetFolder);
 
             // Get object for the validation.json
@@ -158,7 +79,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var targetFolder = GetTestFolder("Lots");
             var fileName = GetTestFileLotsOfTestCases(targetFolder);
 
-            RunGeneration(targetFolder, fileName);
+            RunGeneration(targetFolder, fileName, false);
             RunValidation(targetFolder);
 
             // Get object for the validation.json
@@ -192,7 +113,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var fileName = GetTestFileFewTestCases(targetFolder);
 
             var expectedFailTestCases = new List<int>();
-            RunGeneration(targetFolder, fileName);
+            RunGeneration(targetFolder, fileName, true);
             GetFailureTestCases(targetFolder, ref expectedFailTestCases);
             RunValidation(targetFolder);
 
@@ -217,16 +138,6 @@ namespace NIST.CVP.Generation.Core.Tests
                     Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), result, tcId.ToString());
                 }
             }
-        }
-
-        protected virtual string[] GetParameters(string[] parameters, GenValMode mode)
-        {
-            // Copy the parameters over to a new array with the AdditionalParameters coming first
-            var fullParameters = new string[parameters.Length + AdditionalParameters.Length];
-            Array.Copy(AdditionalParameters, fullParameters, AdditionalParameters.Length);
-            Array.Copy(parameters, 0, fullParameters, AdditionalParameters.Length, parameters.Length);
-
-            return fullParameters;
         }
 
         private string[] GetFileNamesWithPath(string directory, string[] fileNames)
@@ -261,11 +172,17 @@ namespace NIST.CVP.Generation.Core.Tests
             return targetFolder;
         }
 
-        protected void RunGeneration(string targetFolder, string fileName)
+        protected void RunGeneration(string targetFolder, string fileName, bool overrideRegisteredDependencies)
         {
             // Run test vector generation
-            var result = Generator.Invoke(GetParameters(new[] { fileName }, GenValMode.Generate));
-            Assert.IsTrue(result == 0, "Generator failed to complete");
+            using (var scope = GetContainer(overrideRegisteredDependencies).BeginLifetimeScope())
+            {
+                var gen = scope.Resolve<IGenerator>();
+                var result = gen.Generate(fileName);
+
+                Assert.IsTrue(result.Success, "Generator failed to complete");
+            }
+
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[0]}"), $"{targetFolder}{TestVectorFileNames[0]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[1]}"), $"{targetFolder}{TestVectorFileNames[1]}");
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[2]}"), $"{targetFolder}{TestVectorFileNames[2]}");
@@ -274,9 +191,36 @@ namespace NIST.CVP.Generation.Core.Tests
         protected void RunValidation(string targetFolder)
         {
             // Run test vector validation
-            var result = Validator.Invoke(GetParameters(GetFileNamesWithPath(targetFolder, TestVectorFileNames), GenValMode.Validate));
-            Assert.IsTrue(result == 0, "Validator failed to complete");
+            using (var scope = GetContainer().BeginLifetimeScope())
+            {
+                var val = scope.Resolve<IValidator>();
+                var result = val.Validate(
+                    $@"{targetFolder}\{TestVectorFileNames[0]}",
+                    $@"{targetFolder}\{TestVectorFileNames[1]}"
+                );
+
+                Assert.IsTrue(result.Success, "Validator failed to complete");
+            }
             Assert.IsTrue(File.Exists($@"{targetFolder}\validation.json"), $"{targetFolder} validation");
+        }
+
+        private IContainer GetContainer(bool overrideRegisteredDependencies = false)
+        {
+            var builder = new ContainerBuilder();
+
+            RegistrationsGenVal.RegisterTypes(builder, AlgoMode);
+
+            if (overrideRegisteredDependencies)
+            {
+                OverrideRegisteredDependencies(builder);
+            }
+
+            return builder.Build();
+        }
+
+        protected virtual void OverrideRegisteredDependencies(ContainerBuilder builder)
+        {
+
         }
 
         private void GetFailureTestCases(string targetFolder, ref List<int> failureTcIds)

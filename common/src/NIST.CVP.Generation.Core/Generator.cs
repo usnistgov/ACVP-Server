@@ -23,9 +23,9 @@ namespace NIST.CVP.Generation.Core
 
         public readonly List<JsonOutputDetail> JsonOutputs = new List<JsonOutputDetail>
         {
-            new JsonOutputDetail { OutputFileName = "answer.json", Resolver = new AnswerResolver()},
+            new JsonOutputDetail { OutputFileName = "internalProjection.json", Resolver = new AnswerResolver()},
             new JsonOutputDetail { OutputFileName = "prompt.json", Resolver = new PromptResolver()},
-            new JsonOutputDetail { OutputFileName = "testResults.json", Resolver = new ResultResolver()},
+            new JsonOutputDetail { OutputFileName = "expectedResults.json", Resolver = new ResultResolver()},
         };
 
         public Generator(
