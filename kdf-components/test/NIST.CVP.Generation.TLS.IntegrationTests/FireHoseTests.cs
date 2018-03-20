@@ -46,16 +46,14 @@ namespace NIST.CVP.Generation.TLS.IntegrationTests
                     Assert.Fail("No TestGroups were parsed.");
                 }
 
-                foreach (var iTestGroup in testVector.TestGroups)
+                foreach (var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
                     var algo = tlsFactory.GetTlsKdfInstance(testGroup.TlsMode, testGroup.HashAlg);
                     
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
                         count++;
 
-                        var testCase = (TestCase)iTestCase;
                         var result = algo.DeriveKey(
                             testCase.PreMasterSecret,
                             testCase.ClientHelloRandom,

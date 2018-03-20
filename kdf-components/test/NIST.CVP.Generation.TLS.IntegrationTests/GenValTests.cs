@@ -35,18 +35,10 @@ namespace NIST.CVP.Generation.TLS.IntegrationTests
         {
             GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
             {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
+                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             };
         }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
+        
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();

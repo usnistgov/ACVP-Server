@@ -9,24 +9,12 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.TLS
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        public TestCase() { }
-        
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
+        public bool? TestPassed => true;
+        public bool Deferred => false;
+        public TestGroup ParentGroup { get; set; }
 
         public BitString PreMasterSecret { get; set; }
         public BitString ClientHelloRandom { get; set; }
@@ -35,23 +23,7 @@ namespace NIST.CVP.Generation.TLS
         public BitString ServerRandom { get; set; }
         public BitString MasterSecret { get; set; }
         public BitString KeyBlock { get; set; }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            var expandoSource = (ExpandoObject) source;
-            
-            PreMasterSecret = expandoSource.GetBitStringFromProperty("preMasterSecret");
-            ClientHelloRandom = expandoSource.GetBitStringFromProperty("clientHelloRandom");
-            ServerHelloRandom = expandoSource.GetBitStringFromProperty("serverHelloRandom");
-            ClientRandom = expandoSource.GetBitStringFromProperty("clientRandom");
-            ServerRandom = expandoSource.GetBitStringFromProperty("serverRandom");
-            
-            MasterSecret = expandoSource.GetBitStringFromProperty("masterSecret");
-            KeyBlock = expandoSource.GetBitStringFromProperty("keyBlock");
-        }
-
+        
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.TLS
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.TLS
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             TlsKdfResult tlsResult = null;
             try
@@ -48,19 +48,19 @@ namespace NIST.CVP.Generation.TLS
                 if (!tlsResult.Success)
                 {
                     ThisLogger.Warn(tlsResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(tlsResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(tlsResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex.StackTrace);
-                return new TestCaseGenerateResponse(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
 
             testCase.MasterSecret = tlsResult.MasterSecret;
             testCase.KeyBlock = tlsResult.DerivedKey;
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         public Logger ThisLogger => LogManager.GetCurrentClassLogger();

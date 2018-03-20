@@ -7,9 +7,9 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TLS
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var list = new List<TestGroup>();
 

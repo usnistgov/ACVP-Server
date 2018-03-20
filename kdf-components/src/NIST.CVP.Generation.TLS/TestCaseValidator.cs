@@ -1,11 +1,9 @@
 ﻿using NIST.CVP.Generation.Core;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NIST.CVP.Generation.TLS
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _serverTestCase;
         public int TestCaseId => _serverTestCase.TestCaseId;
