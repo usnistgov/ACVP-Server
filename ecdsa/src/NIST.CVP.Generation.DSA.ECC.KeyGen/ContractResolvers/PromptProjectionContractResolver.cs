@@ -17,6 +17,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestGroup.TestGroupId),
+                nameof(TestGroup.TestType),
                 nameof(TestGroup.Tests),
                 nameof(TestGroup.Curve),
                 nameof(TestGroup.SecretGenerationMode),

@@ -13,6 +13,7 @@ namespace NIST.CVP.Generation.KDF.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestGroup.TestGroupId),
+                nameof(TestGroup.TestType),
                 nameof(TestGroup.Tests),
                 nameof(TestGroup.KdfMode),
                 nameof(TestGroup.MacMode),

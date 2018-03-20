@@ -15,6 +15,7 @@ namespace NIST.CVP.Generation.SSH.ContractResolvers
             {
                 nameof(TestGroup.TestGroupId),
                 nameof(TestGroup.Tests),
+                nameof(TestGroup.TestType),
                 nameof(TestGroup.Cipher),
                 nameof(TestGroup.HashAlgName)
             };

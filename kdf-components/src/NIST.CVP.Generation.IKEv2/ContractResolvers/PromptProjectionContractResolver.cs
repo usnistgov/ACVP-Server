@@ -14,6 +14,7 @@ namespace NIST.CVP.Generation.IKEv2.ContractResolvers
             {
                 nameof(TestGroup.TestGroupId),
                 nameof(TestGroup.Tests),
+                nameof(TestGroup.TestType),
                 nameof(TestGroup.HashAlgName),
                 nameof(TestGroup.NInitLength),
                 nameof(TestGroup.NRespLength),

@@ -15,6 +15,7 @@ namespace NIST.CVP.Generation.SRTP.ContractResolvers
             {
                 nameof(TestGroup.TestGroupId),
                 nameof(TestGroup.Tests),
+                nameof(TestGroup.TestType),
                 nameof(TestGroup.AesKeyLength),
                 nameof(TestGroup.Kdr),
             };

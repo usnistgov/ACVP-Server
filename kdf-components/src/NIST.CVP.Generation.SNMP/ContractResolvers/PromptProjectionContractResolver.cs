@@ -13,6 +13,7 @@ namespace NIST.CVP.Generation.SNMP.ContractResolvers
             {
                 nameof(TestGroup.TestGroupId),
                 nameof(TestGroup.Tests),
+                nameof(TestGroup.TestType),
                 nameof(TestGroup.EngineId),
                 nameof(TestGroup.PasswordLength),
             };
