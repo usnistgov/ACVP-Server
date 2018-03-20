@@ -1,9 +1,7 @@
 ﻿using System.Linq;
-using Autofac;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -17,38 +15,9 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
         public override string Algorithm { get; } = "AES";
         public override string Mode { get; } = "CCM";
 
-        public override Executable Generator => Program.Main;
-        public override Executable Validator => Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.AES_CCM;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -83,35 +52,6 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
 
                 testCase.plainText = bs.ToHex();
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            MathDomain ptDomain = new MathDomain();
-            ptDomain.AddSegment(new ValueDomainSegment(0));
-
-            MathDomain aadDomain = new MathDomain();
-            aadDomain.AddSegment(new ValueDomainSegment(0));
-
-            MathDomain tagDomain = new MathDomain();
-            tagDomain.AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First()));
-
-            MathDomain nonceDomain = new MathDomain();
-            nonceDomain.AddSegment(new ValueDomainSegment(ParameterValidator.VALID_NONCE_LENGTHS.First()));
-
-            Parameters p = new Parameters()
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PtLen = ptDomain,
-                AadLen = aadDomain,
-                TagLen = tagDomain,
-                IvLen = nonceDomain,
-                IsSample = false
-            };
-
-            return CreateRegistration(targetFolder, p);
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)
