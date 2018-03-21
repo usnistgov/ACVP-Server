@@ -1,8 +1,7 @@
 ﻿using System.Linq;
-using Autofac;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.KDF.Tests;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -17,39 +16,9 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
         public override string Algorithm => "KDF";
         public override string Mode => "";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.KDF;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            //SaveJson = true;
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -62,30 +31,6 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
 
                 testCase.keyOut = bs.ToHex();
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string folderName)
-        {
-            var capabilities = new[]
-            {
-                new CapabilityBuilder()
-                    .WithKdfMode("counter")
-                    .WithMacMode(new [] {"cmac-aes128"})
-                    .WithCounterLength(new [] {8})
-                    .WithFixedDataOrder(new [] {"before fixed data"})
-                    .WithSupportedLengths(new MathDomain().AddSegment(new ValueDomainSegment(128)))
-                    .Build()
-            };
-            
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                IsSample = true,
-                Capabilities = capabilities
-            };
-
-            return CreateRegistration(folderName, p);
         }
 
         protected override string GetTestFileFewTestCases(string folderName)
