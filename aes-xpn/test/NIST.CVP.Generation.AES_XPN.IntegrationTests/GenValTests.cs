@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using Autofac;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -16,38 +16,9 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
         public override string Algorithm { get; } = "AES";
         public override string Mode { get; } = "XPN";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.AES_XPN;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -89,8 +60,8 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                 testCase.plainText = bs.ToHex();
             }
         }
-        
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
+       
+        protected override string GetTestFileFewTestCases(string targetFolder)
         {
             Parameters p = new Parameters()
             {
@@ -109,31 +80,6 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
 
             return CreateRegistration(targetFolder, p);
         }
-
-        protected override string GetTestFileFewTestCases(string targetFolder)
-        {
-            return GetTestFileMinimalTestCases(targetFolder);
-        }
-
-        //private string GetTestFileInternalIvNotSample(string targetFolder)
-        //{
-        //    Parameters p = new Parameters()
-        //    {
-        //        Algorithm = Algorithm,
-        //        Mode = Mode,
-        //        Direction = new string[] { "encrypt" },
-        //        KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-        //        PtLen = new int[] { 128 },
-        //        ivGen = ParameterValidator.VALID_IV_GEN[0],
-        //        ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],
-        //        SaltGen = ParameterValidator.VALID_SALT_GEN[1],
-        //        aadLen = new int[] { 128 },
-        //        TagLen = new int[] { ParameterValidator.VALID_TAG_LENGTHS.First() },
-        //        IsSample = false
-        //    };
-
-        //    return CreateRegistration(targetFolder, p);
-        //}
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
