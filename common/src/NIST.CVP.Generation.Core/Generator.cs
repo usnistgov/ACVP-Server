@@ -24,9 +24,9 @@ namespace NIST.CVP.Generation.Core
         public readonly List<JsonOutputDetail> JsonOutputs = 
             new List<JsonOutputDetail>
         {
-            new JsonOutputDetail { FileName = "answer.json", Projection = Projection.Server },
+            new JsonOutputDetail { FileName = "internalProjection.json", Projection = Projection.Server },
             new JsonOutputDetail { FileName = "prompt.json", Projection = Projection.Prompt },
-            new JsonOutputDetail { FileName = "testResults.json", Projection = Projection.Result },
+            new JsonOutputDetail { FileName = "expectedResults.json", Projection = Projection.Result },
         };
 
         public Generator(
