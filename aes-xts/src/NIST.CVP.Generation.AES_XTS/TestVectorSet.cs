@@ -44,6 +44,7 @@ namespace NIST.CVP.Generation.AES_XTS
                     updateDict.Add("keyLen", group.KeyLen);
                     updateDict.Add("tweakMode", group.TweakMode);
                     updateDict.Add("ptLen", group.PtLen);
+                    updateDict.Add("testType", group.TestType);
 
                     var tests = new List<dynamic>();
                     updateDict.Add("tests", tests);
@@ -91,6 +92,7 @@ namespace NIST.CVP.Generation.AES_XTS
                     updateDict.Add("keyLen", group.KeyLen);
                     updateDict.Add("tweakMode", group.TweakMode);
                     updateDict.Add("ptLen", group.PtLen);
+                    updateDict.Add("testType", group.TestType);
 
                     var tests = new List<dynamic>();
                     updateDict.Add("tests", tests);
