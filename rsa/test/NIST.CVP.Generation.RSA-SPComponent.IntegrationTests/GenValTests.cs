@@ -1,10 +1,9 @@
 ﻿using NIST.CVP.Generation.Core.Tests;
-using Autofac;
-using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
 {
@@ -14,18 +13,21 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
         public override string Algorithm => "RSA";
         public override string Mode => "SignaturePrimitive";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.RSA_SignaturePrimitive;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string folderName)
         {
-            return GetTestFileMinimalTestCases(folderName);
+            var p = new Parameters
+            {
+                Algorithm = Algorithm,
+                Mode = Mode,
+                IsSample = true,
+                KeyFormat = "crt"
+            };
+
+            return CreateRegistration(folderName, p);
         }
 
         protected override string GetTestFileLotsOfTestCases(string folderName)
@@ -36,19 +38,6 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
                 Mode = Mode,
                 IsSample = false,
                 KeyFormat = "standard"
-            };
-
-            return CreateRegistration(folderName, p);
-        }
-
-        protected override string GetTestFileMinimalTestCases(string folderName)
-        {
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                IsSample = true,
-                KeyFormat = "crt"
             };
 
             return CreateRegistration(folderName, p);
@@ -77,30 +66,6 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
 
                 testCase.signature = bs.ToHex();
             }
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
         }
     }
 }

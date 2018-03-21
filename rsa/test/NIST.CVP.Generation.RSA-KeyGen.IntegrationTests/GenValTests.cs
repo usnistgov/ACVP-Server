@@ -1,7 +1,7 @@
 ﻿using Autofac;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -14,50 +14,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         public override string Algorithm { get; } = "RSA";
         public override string Mode { get; } = "KeyGen";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.RSA_KeyGen;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        //[Test]
-        //public void QuickStartUpLots()
-        //{
-        //    var targetFolder = Path.Combine(TestPath, "QuickStart");
-        //    RunValidation(targetFolder);
-
-        //    // Get object for the validation.json
-        //    var dp = new DynamicParser();
-        //    var parsedValidation = dp.Parse($@"{targetFolder}\validation.json");
-        //    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString(), "disposition");
-        //}
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -92,40 +51,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
                 testCase.q = bs.ToHex();
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            var caps = new Capability[1];
-            caps[0] = new Capability
-            {
-                Modulo = 2048,
-                HashAlgs = new[] { "sha2-224" },
-                PrimeTests = new[] { "tblc2" }
-            };
-
-            var algSpecs = new AlgSpec[ParameterValidator.VALID_KEY_GEN_MODES.Length];
-            for (var i = 0; i < algSpecs.Length; i++)
-            {
-                algSpecs[i] = new AlgSpec
-                {
-                    RandPQ = ParameterValidator.VALID_KEY_GEN_MODES[i],
-                    Capabilities = caps
-                };
-            }
-
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                InfoGeneratedByServer = true,
-                IsSample = true,
-                PubExpMode = "random",
-                KeyFormat = "standard",
-                AlgSpecs = algSpecs
-            };
-
-            return CreateRegistration(targetFolder, p);
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)
