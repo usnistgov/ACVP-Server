@@ -1,7 +1,8 @@
 ﻿using Autofac;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -16,48 +17,10 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         public override string Algorithm => "KAS-ECC";
 
         public override string Mode => "Component";
-        public override string RunnerAlgorithm => "KAS";
-        public override string RunnerMode => "EccComponent";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.KAS_EccComponent;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AdditionalParameters = new[] { $"{Algorithm}{Mode}" };
-
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<EccComponent.Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override string GetTestFileMinimalTestCases(string folderName)
-        {
-            return GetTestFileFewTestCases(folderName);
-        }
+        public override IRegisterInjections RegistrationsGenVal => new EccComponent.RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string folderName)
         {
