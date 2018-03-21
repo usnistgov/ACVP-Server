@@ -1,5 +1,7 @@
 ﻿using Autofac;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.CMAC.TDES;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
@@ -15,39 +17,9 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         public override string Algorithm { get; } = "CMAC";
         public override string Mode { get; } = "TDES";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.CMAC_TDES;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AdditionalParameters = new[] { "CMAC-TDES" };
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -80,21 +52,6 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
                 testCase.mac = bs.ToHex();
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            Parameters p = new Parameters()
-            {
-                Algorithm = "CMAC-TDES",
-                Direction = new[] { "gen", "ver" },
-                KeyingOption = new[] { 1 },
-                MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                MacLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),
-                IsSample = true
-            };
-
-            return CreateRegistration(targetFolder, p);
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)
