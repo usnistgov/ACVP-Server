@@ -1,15 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Autofac;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -22,30 +16,11 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         public override string Algorithm { get; } = "AES";
         public override string Mode { get; } = "CFB1";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.AES_CFB1;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -80,16 +55,8 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             }
         }
         
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            RemoveMCTAndKATTestGroupFactories();
-            return GetTestFileFewTestCases(targetFolder);
-        }
-
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            RemoveMCTAndKATTestGroupFactories();
-
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
@@ -130,12 +97,11 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             }
         }
 
-        private void RemoveMCTAndKATTestGroupFactories()
+        protected override void OverrideRegisteredDependencies(ContainerBuilder builder)
         {
-            AutofacConfig.OverrideRegistrations += builder =>
-            {
-                builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
-            };
+            base.OverrideRegisteredDependencies(builder);
+
+            builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
         }
     }
 }

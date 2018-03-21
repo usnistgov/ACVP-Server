@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using Autofac;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math.Domain;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
 {
@@ -18,30 +16,10 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
         public override string Algorithm { get; } = "AES";
         public override string Mode { get; } = "XTS";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.AES_XTS;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-        
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -76,22 +54,6 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
 
                 testCase.plainText = bs.ToHex();
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string folderName)
-        {
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                KeyLen = new[] {128},
-                Direction = new[] {"encrypt"},
-                PtLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                TweakModes = new[] {"hex"},
-                IsSample = true
-            };
-
-            return CreateRegistration(folderName, p);
         }
 
         protected override string GetTestFileFewTestCases(string folderName)
