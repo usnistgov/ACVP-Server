@@ -1,7 +1,8 @@
 ﻿using Autofac;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -13,38 +14,9 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
         public override string Algorithm { get; } = "DSA";
         public override string Mode { get; } = "PQGVer";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.DSA_PQGVer;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -53,30 +25,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
             {
                 testCase.result = ((string)testCase.result).ToLower() == "passed" ? "failed" : "passed";
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            var caps = new Capability[1];
-
-            caps[0] = new Capability
-            {
-                PQGen = new[] { "probable" },
-                GGen = new[] { "canonical" },
-                L = 2048,
-                N = 224,
-                HashAlgs = new[] { "sha2-256" }
-            };
-
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                IsSample = true,
-                Capabilities = caps,
-            };
-
-            return CreateRegistration(targetFolder, p);
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)
