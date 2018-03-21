@@ -1,9 +1,11 @@
 ﻿using Autofac;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Crypto;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 
@@ -12,24 +14,8 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public abstract class GenValTestsCfbpBase : GenValTestsSingleRunnerBase
     {
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -82,16 +68,8 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
             }
         }
 
-
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            return GetTestFileFewTestCases(targetFolder);
-        }
-
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            RemoveMCTAndKATTestGroupFactories();
-
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
@@ -132,12 +110,9 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
             }
         }
 
-        private void RemoveMCTAndKATTestGroupFactories()
+        protected override void OverrideRegisteredDependencies(ContainerBuilder builder)
         {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations += builder =>
-            {
-                builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
-            };
+            builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
         }
     }
 }

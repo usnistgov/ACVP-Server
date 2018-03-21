@@ -1,47 +1,24 @@
 ﻿using Autofac;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
-using NIST.CVP.Generation.GenValApp.Helpers;
+using NIST.CVP.Common;
 
 namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
 {
-
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-
         public override string Algorithm { get; } = "TDES";
         public override string Mode { get; } = "CBCI";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.TDES_CBCI;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
+		public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -94,15 +71,8 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
             }
         }
 
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            return GetTestFileFewTestCases(targetFolder);
-        }
-
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            RemoveMCTAndKATTestGroupFactories();
-
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
@@ -143,12 +113,9 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
             }
         }
 
-        private void RemoveMCTAndKATTestGroupFactories()
+        protected override void OverrideRegisteredDependencies(ContainerBuilder builder)
         {
-            AutofacConfig.OverrideRegistrations += builder =>
-            {
-                builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
-            };
+            builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
         }
     }
 }

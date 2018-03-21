@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
 {
@@ -7,14 +9,6 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
         public override string Algorithm { get; } = "TDES";
         public override string Mode { get; } = "CFB1";
 
-        public override string RunnerAlgorithm => "TDES";
-        public override string RunnerMode => "CFB1";
-
-        [SetUp]
-        public override void SetUp()
-        {
-            AdditionalParameters = new[] { "TDES-CFB1" };
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
-        }
+        public override AlgoMode AlgoMode => AlgoMode.TDES_CFB1;
     }
 }

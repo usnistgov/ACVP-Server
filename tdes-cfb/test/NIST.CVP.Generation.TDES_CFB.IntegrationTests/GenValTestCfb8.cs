@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Common;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
@@ -10,14 +11,6 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
         public override string Algorithm { get; } = "TDES";
         public override string Mode { get; } = "CFB8";
 
-        public override string RunnerAlgorithm => "TDES";
-        public override string RunnerMode => "CFB64";
-
-        [SetUp]
-        public override void SetUp()
-        {
-            AdditionalParameters = new[] { "TDES-CFB8" }; 
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
-        }
+        public override AlgoMode AlgoMode => AlgoMode.TDES_CFB8;
     }
 }

@@ -1,7 +1,5 @@
-﻿using Autofac;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -15,15 +13,10 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
         public override string Algorithm => "TDES";
         public override string Mode => "CTR";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.TDES_CTR;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            // SaveJson = true;
-            AutofacConfig.OverrideRegistrations = null;
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string folderName)
         {
@@ -59,23 +52,6 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
             return CreateRegistration(folderName, p);
         }
 
-        protected override string GetTestFileMinimalTestCases(string folderName)
-        {
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                Direction = new[] {"encrypt"},
-                KeyingOption = new[] {1},
-                IncrementalCounter = true,
-                OverflowCounter = false,
-                DataLength = new MathDomain().AddSegment(new ValueDomainSegment(64)),
-                IsSample = true
-            };
-
-            return CreateRegistration(folderName, p);
-        }
-
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
@@ -97,22 +73,6 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
 
                 testCase.plainText = bs.ToHex();
             }
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
         }
     }
 }
