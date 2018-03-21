@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using Autofac;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -16,38 +15,9 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         public override string Algorithm { get; } = "SHA2";
         public override string Mode { get; } = string.Empty;
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.SHA2;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -79,26 +49,8 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             }
         }
 
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            RemoveMCTTestGroupFactories();
-
-            var parameters = new Parameters
-            {
-                Algorithm = "SHA1",
-                DigestSizes = new[] {"160"},
-                BitOriented = true,
-                IncludeNull = true,
-                IsSample = true
-            };
-
-            return CreateRegistration(targetFolder, parameters);
-        }
-
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            RemoveMCTTestGroupFactories();
-
             var parameters = new Parameters
             {
                 Algorithm = Algorithm,
@@ -139,12 +91,11 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             }
         }
 
-        private void RemoveMCTTestGroupFactories()
+        protected override void OverrideRegisteredDependencies(ContainerBuilder builder)
         {
-            AutofacConfig.OverrideRegistrations += builder =>
-            {
-                builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
-            };
+            base.OverrideRegisteredDependencies(builder);
+
+            builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
         }
     }
 }
