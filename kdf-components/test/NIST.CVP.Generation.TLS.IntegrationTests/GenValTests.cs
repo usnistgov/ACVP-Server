@@ -4,6 +4,8 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TLS.IntegrationTests
 {
@@ -13,39 +15,9 @@ namespace NIST.CVP.Generation.TLS.IntegrationTests
         public override string Algorithm => "kdf-components";
         public override string Mode => "tls";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_TLS;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AdditionalParameters = new[] {Mode};
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureDynamicParser>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeExceptionDynamicParser>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -58,19 +30,6 @@ namespace NIST.CVP.Generation.TLS.IntegrationTests
 
                 testCase.masterSecret = bs.ToHex();
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string folderName)
-        {
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                TlsVersion = new[] {"v1.0/1.1"},
-                IsSample = true
-            };
-
-            return CreateRegistration(folderName, p);
         }
 
         protected override string GetTestFileFewTestCases(string folderName)
