@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Crypto.Common;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.DRBG.IntegrationTests
@@ -23,6 +24,8 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
             384,
             232
         };
+
+        public override AlgoMode AlgoMode => AlgoMode.DRBG_CTR;
     }
 
     [TestFixture, FastIntegrationTest]
@@ -50,6 +53,8 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
             224,
             256
         };
+
+        public override AlgoMode AlgoMode => AlgoMode.DRBG_Hash;
     }
 
     [TestFixture, FastIntegrationTest]
@@ -78,5 +83,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
             224,
             256
         };
+
+        public override AlgoMode AlgoMode => AlgoMode.DRBG_HMAC;
     }
 }
