@@ -6,6 +6,9 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Common;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
@@ -15,34 +18,11 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         // ParameterValidator expects the algorithm to be "TDES-KW"
         public override string Algorithm { get; } = "TDES-KW";
         public override string Mode { get; } = "KeyWrap";
-        public override string RunnerAlgorithm => "TDES";
-        public override string RunnerMode => "KW";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.TDES_KW;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AdditionalParameters = new[] { "TDES-KW" };
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -71,23 +51,6 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 
                 testCase.plainText = bs.ToHex();
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                Direction = new[] { "encrypt" },
-                KwCipher = new[] { "cipher" },
-                KeyLen = new[] { 192 },
-                KeyingOption = new[] { 2 },
-                PtLen = new MathDomain()
-                    .AddSegment(new ValueDomainSegment(64))
-            };
-
-            return CreateRegistration(targetFolder, p);
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)
