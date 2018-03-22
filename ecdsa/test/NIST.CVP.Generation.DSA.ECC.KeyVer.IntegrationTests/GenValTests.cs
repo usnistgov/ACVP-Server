@@ -1,9 +1,11 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -15,30 +17,10 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
         public override string Algorithm { get; } = "ECDSA";
         public override string Mode { get; } = "KeyVer";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.ECDSA_KeyVer;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -53,19 +35,6 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
                     testCase.testPassed = true;
                 }
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                IsSample = true,
-                Curve = new [] { "p-224" }
-            };
-
-            return CreateRegistration(targetFolder, p);
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)

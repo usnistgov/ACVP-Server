@@ -1,7 +1,9 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -13,30 +15,10 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
         public override string Algorithm { get; } = "DSA";
         public override string Mode { get; } = "SigVer";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.DSA_SigVer;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -52,28 +34,6 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.IntegrationTests
                     testCase.testPassed = true;
                 }
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            var caps = new Capability[1];
-
-            caps[0] = new Capability
-            {
-                L = 2048,
-                N = 224,
-                HashAlg = new[] { "sha2-256" }
-            };
-
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                IsSample = true,
-                Capabilities = caps,
-            };
-
-            return CreateRegistration(targetFolder, p);
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)
