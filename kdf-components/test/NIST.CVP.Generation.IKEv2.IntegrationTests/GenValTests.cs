@@ -5,6 +5,9 @@ using NIST.CVP.Math.Domain;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.IKEv2.IntegrationTests
 {
@@ -14,31 +17,10 @@ namespace NIST.CVP.Generation.IKEv2.IntegrationTests
         public override string Algorithm => "kdf-components";
         public override string Mode => "IKEv2";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_IKEv2;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AdditionalParameters = new[] {Mode};
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-        
-        protected override void OverrideRegistrationValFakeException()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -51,22 +33,6 @@ namespace NIST.CVP.Generation.IKEv2.IntegrationTests
 
                 testCase.sKeySeed = bs.ToHex();
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string folderName)
-        {
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                HashAlg = new [] {"sha-1"},
-                InitiatorNonceLength = new MathDomain().AddSegment(new ValueDomainSegment(256)),
-                ResponderNonceLength = new MathDomain().AddSegment(new ValueDomainSegment(256)),
-                DiffieHellmanSharedSecretLength = new MathDomain().AddSegment(new ValueDomainSegment(256)),
-                DerivedKeyingMaterialLength = new MathDomain().AddSegment(new ValueDomainSegment(256))
-            };
-
-            return CreateRegistration(folderName, p);
         }
 
         protected override string GetTestFileFewTestCases(string folderName)

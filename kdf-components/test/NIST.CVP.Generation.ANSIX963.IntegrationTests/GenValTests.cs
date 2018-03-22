@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
@@ -14,32 +16,11 @@ namespace NIST.CVP.Generation.ANSIX963.IntegrationTests
         public override string Algorithm => "kdf-components";
         public override string Mode => "ansix9.63";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_ANSIX963;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AdditionalParameters = new[] {Mode};
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
-        
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
@@ -51,22 +32,6 @@ namespace NIST.CVP.Generation.ANSIX963.IntegrationTests
 
                 testCase.keyData = bs.ToHex();
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string folderName)
-        {
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                HashAlg = new [] {"sha2-224"},
-                KeyDataLength = new MathDomain().AddSegment(new ValueDomainSegment(256)),
-                SharedInfoLength = new MathDomain().AddSegment(new ValueDomainSegment(1024)),
-                FieldSize = new [] {224},
-                IsSample = true
-            };
-
-            return CreateRegistration(folderName, p);
         }
 
         protected override string GetTestFileFewTestCases(string folderName)

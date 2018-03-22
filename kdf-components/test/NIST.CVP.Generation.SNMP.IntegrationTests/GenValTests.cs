@@ -1,4 +1,7 @@
 ﻿using Autofac;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
@@ -14,31 +17,10 @@ namespace NIST.CVP.Generation.SNMP.IntegrationTests
         public override string Algorithm => "kdf-components";
         public override string Mode => "snmp";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_SNMP;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AdditionalParameters = new[] {Mode};
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -51,20 +33,6 @@ namespace NIST.CVP.Generation.SNMP.IntegrationTests
 
                 testCase.sharedKey = bs.ToHex();
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string folderName)
-        {
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                EngineId = new [] {"12345678912345678900"},
-                PasswordLength = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                IsSample = true
-            };
-
-            return CreateRegistration(folderName, p);
         }
 
         protected override string GetTestFileFewTestCases(string folderName)
