@@ -1,11 +1,13 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.KAS.FFC;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
@@ -15,38 +17,11 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         public override string Algorithm => "KAS";
         public override string Mode => "FFC";
         
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.KAS_FFC;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AdditionalParameters = new[] { Algorithm };
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjectables();
 
-            AutofacConfig.OverrideRegistrations = null;
-
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<PqgProviderPreGenerated>().AsImplementedInterfaces();
-            };
-        }
-        
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
-        
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
@@ -91,11 +66,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     testCase.testPassed = true;
                 }
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string folderName)
-        {
-            return GetTestFileFewTestCases(folderName);
         }
 
         protected override string GetTestFileFewTestCases(string folderName)
