@@ -1,5 +1,8 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.CMAC.AES;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
@@ -15,30 +18,10 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         public override string Algorithm { get; } = "CMAC";
         public override string Mode { get; } = "AES";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.CMAC_AES;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            GenValApp.Helpers.AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -71,23 +54,6 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
                 testCase.mac = bs.ToHex();
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                Direction = new[] {"gen"},
-                KeyLen = new[] {128},
-                MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
-                MacLen = new MathDomain().AddSegment(new ValueDomainSegment(128))
-                    .AddSegment(new ValueDomainSegment(127)),
-                IsSample = true
-            };
-
-            return CreateRegistration(targetFolder, p);
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)

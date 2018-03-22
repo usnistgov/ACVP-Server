@@ -1,11 +1,11 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
-using NIST.CVP.Tests.Core;
-using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.DRBG.IntegrationTests
@@ -15,33 +15,11 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public abstract override string Algorithm { get; }
         public override string Mode { get; } = string.Empty;
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
-
         public abstract string[] Modes { get; }
         public abstract int[] SeedLength { get; }
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-        
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -56,46 +34,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                 testCase.returnedBits = bs.ToHex();
             }
         }
-
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            var index = 0;
-
-            var nonceLen = new MathDomain();
-            nonceLen.AddSegment(new ValueDomainSegment(SeedLength[index]));
-
-            var additionalInputLen = new MathDomain();
-            additionalInputLen.AddSegment(new RangeDomainSegment(new Random800_90(), SeedLength[index], SeedLength[index] + 64, 64));
-
-            var persoStringLen = new MathDomain();
-            persoStringLen.AddSegment(new ValueDomainSegment(SeedLength[index]));
-
-            var entropyInputLen = new MathDomain();
-            entropyInputLen.AddSegment(new ValueDomainSegment(SeedLength[index]));
-
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                ReseedImplemented = true,
-                PredResistanceEnabled = new []{true},
-                Capabilities = new []
-                {
-                    new Capability
-                    {
-                        Mode = Modes[index],
-                        NonceLen = nonceLen,
-                        AdditionalInputLen = additionalInputLen,
-                        PersoStringLen = persoStringLen,
-                        EntropyInputLen = entropyInputLen,
-                        ReturnedBitsLen = 128 * 4,
-                        DerFuncEnabled = true
-                    }
-                }
-            };
-
-            return CreateRegistration(targetFolder, p);
-        }
-
+        
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
             var index = 0;

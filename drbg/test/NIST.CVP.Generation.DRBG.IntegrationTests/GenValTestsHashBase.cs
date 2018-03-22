@@ -8,11 +8,6 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public abstract override string[] Modes { get; }
         public abstract override int[] SeedLength { get; }
 
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            return GetTestFileFewTestCases(targetFolder);
-        }
-
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
             var index = 0;
