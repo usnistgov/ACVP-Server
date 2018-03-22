@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Autofac;
+using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -17,26 +19,12 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
         public override string Algorithm => "RSA";
         public override string Mode => "DecryptionPrimitive";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.RSA_DecryptionPrimitive;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string folderName)
-        {
-            return GetTestFileMinimalTestCases(folderName);
-        }
-
-        protected override string GetTestFileLotsOfTestCases(string folderName)
-        {
-            return GetTestFileMinimalTestCases(folderName);
-        }
-
-        protected override string GetTestFileMinimalTestCases(string folderName)
         {
             var p = new Parameters
             {
@@ -46,6 +34,11 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
             };
 
             return CreateRegistration(folderName, p);
+        }
+
+        protected override string GetTestFileLotsOfTestCases(string folderName)
+        {
+            return GetTestFileFewTestCases(folderName);
         }
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -76,22 +69,6 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
                     testCase.resultsArray[0].plainText = bs.ToHex();
                 }
             }
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
         }
     }
 }

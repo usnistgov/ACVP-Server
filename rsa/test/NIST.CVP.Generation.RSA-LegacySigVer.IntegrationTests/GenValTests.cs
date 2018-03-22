@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using Autofac;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
-using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.RSA_SigVer;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -19,30 +21,10 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
         public override string Algorithm { get; } = "RSA";
         public override string Mode { get; } = "LegacySigVer";
 
-        public override Executable Generator => GenValApp.Program.Main;
-        public override Executable Validator => GenValApp.Program.Main;
+        public override AlgoMode AlgoMode => AlgoMode.RSA_LegacySigVer;
 
-        [SetUp]
-        public override void SetUp()
-        {
-            AutofacConfig.OverrideRegistrations = null;
-        }
-
-        protected override void OverrideRegistrationGenFakeFailure()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeFailureParameterParser<Parameters>>().AsImplementedInterfaces();
-            };
-        }
-
-        protected override void OverrideRegistrationValFakeException()
-        {
-            AutofacConfig.OverrideRegistrations = builder =>
-            {
-                builder.RegisterType<FakeVectorSetDeserializerException<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            };
-        }
+        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -51,49 +33,6 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
             {
                 testCase.testPassed = !(bool) testCase.testPassed;
             }
-        }
-
-        protected override string GetTestFileMinimalTestCases(string targetFolder)
-        {
-            var hashPair = new[]
-            {
-                new HashPair
-                {
-                    HashAlg = "sha2-256",
-                    SaltLen = 5
-                }
-            };
-
-            var modCap = new[]
-            {
-                new CapSigType
-                {
-                    Modulo = 1024,
-                    HashPairs = hashPair
-                }
-            };
-
-            var algSpec = new[]
-            {
-                new AlgSpecs
-                {
-                    SigType = "pss",
-                    ModuloCapabilities = modCap
-                }
-            };
-
-            var p = new Parameters
-            {
-                Algorithm = Algorithm,
-                Mode = Mode,
-                Capabilities = algSpec,
-                IsSample = false,
-                PubExpMode = "fixed",
-                FixedPubExpValue = "03",
-                KeyFormat = "standard"
-            };
-
-            return CreateRegistration(targetFolder, p);
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)
