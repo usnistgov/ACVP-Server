@@ -99,7 +99,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                InfoGeneratedByServer = true,
+                InfoGeneratedByServer = false,
                 IsSample = true,
                 PubExpMode = "fixed",
                 FixedPubExp = "010001",
@@ -137,7 +137,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                InfoGeneratedByServer = false,
+                InfoGeneratedByServer = true,
                 IsSample = true,
                 PubExpMode = "random",
                 AlgSpecs = algSpecs,

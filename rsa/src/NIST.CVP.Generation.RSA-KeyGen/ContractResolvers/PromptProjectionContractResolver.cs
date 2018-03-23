@@ -147,21 +147,23 @@ namespace NIST.CVP.Generation.RSA_KeyGen.ContractResolvers
                         return true;
                     }
                 }
-
-                // Include based on group
-                if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
+                else
                 {
-                    if (_aftProperties[testGroup.PrimeGenMode].Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+                    // Include based on group
+                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
                     {
-                        return true;
+                        if (_aftProperties[testGroup.PrimeGenMode].Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
                     }
-                }
 
-                if (testGroup.TestType.Equals("kat", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (b33KatProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+                    if (testGroup.TestType.Equals("kat", StringComparison.OrdinalIgnoreCase))
                     {
-                        return true;
+                        if (b33KatProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
                     }
                 }
 

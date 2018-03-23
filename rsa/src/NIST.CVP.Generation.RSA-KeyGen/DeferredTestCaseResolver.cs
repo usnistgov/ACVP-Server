@@ -26,8 +26,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
         public KeyResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var iutTestGroup = iutTestCase.ParentGroup;
-
             // TODO Not every group has a hash alg... Can use a default value perhaps?
             ISha sha = null;
             if (serverTestGroup.HashAlg != null)
@@ -40,7 +38,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             BigInteger e;
             if (serverTestGroup.PubExp == PublicExponentModes.Fixed)
             {
-                e = (serverTestGroup.InfoGeneratedByServer ? serverTestGroup : iutTestGroup).FixedPubExp.ToPositiveBigInteger();
+                e = serverTestGroup.FixedPubExp.ToPositiveBigInteger();
             }
             else
             {
@@ -92,10 +90,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 entropyProvider.AddEntropy(iutTestCase.XQ.ToPositiveBigInteger());
 
                 // XP1, XP2, XQ1, XQ2
-                entropyProvider.AddEntropy(iutTestCase.XP1);
-                entropyProvider.AddEntropy(iutTestCase.XP2);
-                entropyProvider.AddEntropy(iutTestCase.XQ1);
-                entropyProvider.AddEntropy(iutTestCase.XQ2);
+                entropyProvider.AddEntropy(iutTestCase.XP1.GetLeastSignificantBits(iutTestCase.Bitlens[0]));
+                entropyProvider.AddEntropy(iutTestCase.XP2.GetLeastSignificantBits(iutTestCase.Bitlens[1]));
+                entropyProvider.AddEntropy(iutTestCase.XQ1.GetLeastSignificantBits(iutTestCase.Bitlens[2]));
+                entropyProvider.AddEntropy(iutTestCase.XQ2.GetLeastSignificantBits(iutTestCase.Bitlens[3]));
             }
         }
     }
