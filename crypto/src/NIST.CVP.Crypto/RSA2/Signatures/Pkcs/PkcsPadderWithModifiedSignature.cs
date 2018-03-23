@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pkcs
     {
         public PkcsPadderWithModifiedSignature(ISha sha) : base(sha) { }
 
-        public new BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
+        public override BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
         {
             return signature + 2;
         }

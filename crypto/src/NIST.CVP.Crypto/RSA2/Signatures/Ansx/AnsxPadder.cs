@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
         }
 
         // Override with good or bad padding methods
-        public PaddingResult Pad(int nlen, BitString message)
+        public virtual PaddingResult Pad(int nlen, BitString message)
         {
             // 1. Message Hashing
             var hashedMessage = Sha.HashMessage(message).Digest;
@@ -132,12 +132,12 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
             }
         }
 
-        public BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
+        public virtual BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
         {
             return BigInteger.Min(signature, pubKey.N - signature);
         }
 
-        public (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
+        public virtual (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
         {
             // TODO maybe use this to check N bitlength on nlen
             return (key, message, nlen);

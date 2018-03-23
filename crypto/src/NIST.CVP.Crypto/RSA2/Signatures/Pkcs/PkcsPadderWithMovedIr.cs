@@ -11,7 +11,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pkcs
     {
         public PkcsPadderWithMovedIr(ISha sha) : base(sha) { }
 
-        public new PaddingResult Pad(int nlen, BitString message)
+        public override PaddingResult Pad(int nlen, BitString message)
         {
             if (message.BitLength < GetHashAlgId().BitLength + 11 * 8)
             {

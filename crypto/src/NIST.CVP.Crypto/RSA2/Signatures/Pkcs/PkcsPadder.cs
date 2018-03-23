@@ -67,7 +67,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pkcs
             return EM;
         }
 
-        public PaddingResult Pad(int nlen, BitString message)
+        public virtual PaddingResult Pad(int nlen, BitString message)
         {
             if (message.BitLength < GetHashAlgId().BitLength + 11 * 8)
             {
@@ -78,7 +78,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pkcs
             return new PaddingResult(embeddedMessage);
         }
 
-        public BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
+        public virtual BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
         {
             return signature;
         }
@@ -99,7 +99,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pkcs
             }
         }
 
-        public (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
+        public virtual (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
         {
             return (key, message, nlen);
         }

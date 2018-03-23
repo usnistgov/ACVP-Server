@@ -13,7 +13,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
     {
         public AnsxPadderWithModifiedSignature(ISha sha) : base(sha) { }
 
-        public new BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
+        public override BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
         {
             return BigInteger.Min(signature, pubKey.N - signature) + 2;
         }
