@@ -55,7 +55,6 @@ namespace NIST.CVP.Generation.CMAC.Tests.ContractResolvers
             Assert.AreNotEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
             Assert.AreNotEqual(tg.MessageLength, newTg.MessageLength, nameof(newTg.MessageLength));
             Assert.AreNotEqual(tg.MacLength, newTg.MacLength, nameof(newTg.MacLength));
-            Assert.AreNotEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
         }
 
         /// <summary>

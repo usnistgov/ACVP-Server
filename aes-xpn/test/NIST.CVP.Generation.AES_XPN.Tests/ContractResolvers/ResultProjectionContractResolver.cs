@@ -54,7 +54,6 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.ContractResolvers
             Assert.AreNotEqual(tg.AADLength, newTg.AADLength, nameof(newTg.AADLength));
             Assert.AreNotEqual(tg.TagLength, newTg.TagLength, nameof(newTg.TagLength));
             Assert.AreNotEqual(tg.PTLength, newTg.PTLength, nameof(newTg.PTLength));
-            Assert.AreNotEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
         }
 
         /// <summary>

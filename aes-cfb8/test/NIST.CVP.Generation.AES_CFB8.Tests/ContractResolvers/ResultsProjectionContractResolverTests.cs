@@ -52,7 +52,6 @@ namespace NIST.CVP.Generation.AES_CFB8.Tests.ContractResolvers
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
             Assert.AreNotEqual(tg.Function, newTg.Function, nameof(newTg.Function));
             Assert.AreNotEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
         }

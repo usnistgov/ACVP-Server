@@ -49,9 +49,6 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES.ContractResolvers
 
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-
-            // This value is defaulted as "AFT" so this test doesn't work
-            // Assert.AreNotEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
         }
         
         [Test]

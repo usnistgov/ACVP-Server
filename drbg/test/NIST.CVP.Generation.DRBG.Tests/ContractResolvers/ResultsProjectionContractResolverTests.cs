@@ -50,7 +50,6 @@ namespace NIST.CVP.Generation.DRBG.Tests.ContractResolvers
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
             Assert.AreNotEqual(tg.DerFunc, newTg.DerFunc, nameof(newTg.DerFunc));
             Assert.AreNotEqual(tg.PredResistance, newTg.PredResistance, nameof(newTg.PredResistance));
             Assert.AreNotEqual(tg.ReSeed, newTg.ReSeed, nameof(newTg.ReSeed));

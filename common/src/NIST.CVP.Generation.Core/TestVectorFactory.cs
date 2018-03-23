@@ -6,9 +6,9 @@ namespace NIST.CVP.Generation.Core
 {
     public class TestVectorFactory<TParameters, TTestVectorSet, TTestGroup, TTestCase> : ITestVectorFactory<TParameters, TTestVectorSet, TTestGroup, TTestCase>
         where TParameters : IParameters
-        where TTestVectorSet : ITestVectorSet<TTestGroup, TTestCase>, new()
-        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
-        where TTestCase : ITestCase<TTestGroup, TTestCase>
+        where TTestVectorSet : class, ITestVectorSet<TTestGroup, TTestCase>, new()
+        where TTestGroup : class, ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : class, ITestCase<TTestGroup, TTestCase>
     {
         private readonly ITestGroupGeneratorFactory<TParameters, TTestGroup, TTestCase> _iTestGroupGeneratorFactory;
 
@@ -31,6 +31,10 @@ namespace NIST.CVP.Generation.Core
             foreach (var group in groups)
             {
                 group.TestGroupId = testGroupId++;
+                if (string.IsNullOrEmpty(group.TestType))
+                {
+                    group.TestType = "AFT";
+                }
             }
 
             var testVector = new TTestVectorSet

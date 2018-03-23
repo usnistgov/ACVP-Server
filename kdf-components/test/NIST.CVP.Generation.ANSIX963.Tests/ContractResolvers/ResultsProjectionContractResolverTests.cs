@@ -45,8 +45,6 @@ namespace NIST.CVP.Generation.ANSIX963.Tests.ContractResolvers
 
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-
-            Assert.AreNotEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
         }
         
         [Test]

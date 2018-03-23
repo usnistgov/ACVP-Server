@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.Core
         /// The test type (AFT, KAT, VOT, etc)
         /// </summary>
         [JsonProperty(PropertyName = "testType")]
-        string TestType { get; }
+        string TestType { get; set; }
         /// <summary>
         /// The <see cref="TTestCase"/>s belonging to the group
         /// </summary>

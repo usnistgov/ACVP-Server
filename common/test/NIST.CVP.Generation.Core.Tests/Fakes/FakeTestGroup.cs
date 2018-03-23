@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.Core.Tests.Fakes
         }
 
         public int TestGroupId { get; set; }
-        public string TestType { get; }
+        public string TestType { get; set; }
         public List<FakeTestCase> Tests { get; set; }
 
         public int KeyLength { get; }

@@ -58,7 +58,6 @@ namespace NIST.CVP.Generation.AES_CCM.Tests.ContractResolvers
             Assert.AreNotEqual(tg.IVLength, newTg.IVLength, nameof(newTg.IVLength));
             Assert.AreNotEqual(tg.TagLength, newTg.TagLength, nameof(newTg.TagLength));
             Assert.AreNotEqual(tg.PTLength, newTg.PTLength, nameof(newTg.PTLength));
-            Assert.AreNotEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
 
             // These properties are ignored and should be confirmed not in the json
             Regex regexIgnoredKey = new Regex(nameof(TestGroup.GroupReusesKeyForTestCases), RegexOptions.IgnoreCase);

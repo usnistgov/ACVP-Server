@@ -84,5 +84,41 @@ namespace NIST.CVP.Generation.Core.Tests
             _testGroupGeneratorFactory.Verify(v => v.GetTestGroupGenerators(), Times.Once, nameof(_subject.BuildTestVectorSet));
             _testGroupGenerator.Verify(v => v.BuildTestGroups(It.IsAny<FakeParameters>()), Times.Exactly(numberOfInvokes), nameof(_testGroupGenerator.Object.BuildTestGroups));
         }
+
+        [Test]
+        [TestCase(null, "AFT")]
+        [TestCase("", "AFT")]
+        [TestCase("aft", "aft")]
+        [TestCase("AFT", "AFT")]
+        [TestCase("MCT", "MCT")]
+        public void ShouldSetAftInGroupWhenNullOrEmpty(string testType, string expectedType)
+        {
+            var gennies = new List<ITestGroupGenerator<FakeParameters, FakeTestGroup, FakeTestCase>>
+            {
+                _testGroupGenerator.Object
+            };
+
+            _testGroupGeneratorFactory
+                .Setup(s => s.GetTestGroupGenerators())
+                .Returns(gennies);
+            _testGroupGenerator
+                .Setup(s => s.BuildTestGroups(It.IsAny<FakeParameters>()))
+                .Returns(() => 
+                    new List<FakeTestGroup>()
+                    {
+                        new FakeTestGroup()
+                        {
+                            TestType = testType
+                        }
+                    });
+
+            _subject = new TestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(_testGroupGeneratorFactory.Object);
+
+            FakeParameters p = new FakeParameters();
+
+            var result = _subject.BuildTestVectorSet(p);
+
+            Assert.AreEqual(result.TestGroups[0].TestType, expectedType);
+        }
     }
 }

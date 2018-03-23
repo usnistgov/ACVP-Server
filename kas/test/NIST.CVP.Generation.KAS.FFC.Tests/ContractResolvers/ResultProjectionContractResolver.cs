@@ -60,7 +60,6 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests.ContractResolvers
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
             Assert.AreNotEqual(tg.Scheme, newTg.Scheme, nameof(newTg.Scheme));
             Assert.AreNotEqual(tg.ParmSet, newTg.ParmSet, nameof(newTg.ParmSet));
             Assert.AreNotEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));

@@ -52,7 +52,6 @@ namespace NIST.CVP.Generation.AES_XTS.Tests.ContractResolvers
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
             Assert.AreNotEqual(tg.Direction, newTg.Direction, nameof(newTg.Direction));
             Assert.AreNotEqual(tg.PtLen, newTg.PtLen, nameof(newTg.PtLen));
             Assert.AreNotEqual(tg.TweakMode, newTg.TweakMode, nameof(newTg.TweakMode));

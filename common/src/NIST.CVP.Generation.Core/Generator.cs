@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.Core
                 return new GenerateResponse(validateResponse.ErrorMessage);
             }
             var testVector = _testVectorFactory.BuildTestVectorSet(parameters);
-            var testCasesResult = _testCaseGeneratorFactoryFactory.BuildTestCases((TTestVectorSet)testVector);
+            var testCasesResult = _testCaseGeneratorFactoryFactory.BuildTestCases(testVector);
             if (!testCasesResult.Success)
             {
                 return testCasesResult;
