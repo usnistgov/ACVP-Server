@@ -11,7 +11,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
     {
         public AnsxPadderWithMovedIr(ISha sha) : base(sha) { }
 
-        public new PaddingResult Pad(int nlen, BitString message)
+        public override PaddingResult Pad(int nlen, BitString message)
         {
             // 1. Message Hashing
             var hashedMessage = Sha.HashMessage(message).Digest;

@@ -139,7 +139,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase("010001")]
         [TestCase("BEEFFACD")]
-        public void ShouldValidateHex(string hex)
+        public void ShouldValidateOddHex(string hex)
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(
@@ -155,6 +155,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [Test]
         [TestCase("GG")]
         [TestCase("0192809ajsf0j3")]
+        [TestCase("BEEFFACE")]
         [TestCase(null)]
         public void ShouldNotValidateInvalidHex(string hex)
         {

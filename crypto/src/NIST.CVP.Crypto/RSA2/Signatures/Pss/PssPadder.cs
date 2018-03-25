@@ -28,7 +28,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pss
             SaltLength = saltLength;
         }
 
-        public PaddingResult Pad(int nlen, BitString message)
+        public virtual PaddingResult Pad(int nlen, BitString message)
         {
             return EmsaPssEncode(message, nlen - 1);
         }
@@ -38,7 +38,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pss
             return EmsaPssVerify(message, new BitString(embededMessage, nlen), nlen - 1);
         }
 
-        public BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
+        public virtual BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
         {
             return signature;
         }
@@ -163,7 +163,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pss
             }
         }
 
-        public (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
+        public virtual (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
         {
             return (key, message, nlen);
         }

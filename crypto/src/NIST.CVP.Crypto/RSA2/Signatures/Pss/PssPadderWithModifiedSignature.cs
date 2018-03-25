@@ -13,7 +13,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pss
     {
         public PssPadderWithModifiedSignature(ISha sha, IEntropyProvider entropy, int saltLength) : base(sha, entropy, saltLength) { }
 
-        public new BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
+        public override BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
         {
             return signature + 2;
         }

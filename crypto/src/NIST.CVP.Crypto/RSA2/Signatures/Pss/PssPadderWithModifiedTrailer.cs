@@ -13,7 +13,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pss
     {
         public PssPadderWithModifiedTrailer(ISha sha, IEntropyProvider entropy, int saltLength) : base(sha, entropy, saltLength) { }
 
-        public new PaddingResult Pad(int nlen, BitString message)
+        public override PaddingResult Pad(int nlen, BitString message)
         {
             var emBits = nlen - 1;
             var mHash = Sha.HashMessage(message).Digest;
