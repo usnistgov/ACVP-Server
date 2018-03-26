@@ -1960,6 +1960,14 @@ namespace NIST.CVP.Math.Tests
                 Assert.IsTrue(subject.ToBool(i));
             }
         }
+
+        [Test]
+        public void ShouldReturnTwo()
+        {
+            var subject = BitString.Two();
+            Assert.AreEqual("80", subject.ToHex()); // BigEndian hex, 10 - 000000
+            Assert.AreEqual(2, subject.BitLength);
+        }
         #endregion ZERO and ONE
 
         #region GetAtLeastZeroLengthBitString

@@ -92,7 +92,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             }
 
             // Do provided padding method either correct or incorrect
-            var preCheck = _paddingScheme.PrePadCheck(_publicKey, _message, _publicKey.N.ExactBitLength());
+            var preCheck = _paddingScheme.PrePadCheck(_publicKey, _message.GetDeepCopy(), _publicKey.N.ExactBitLength());
             var paddedResult = _paddingScheme.Pad(preCheck.key.N.ExactBitLength(), preCheck.message);
             if (!paddedResult.Success)
             {

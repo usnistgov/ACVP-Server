@@ -3,6 +3,7 @@ using NIST.CVP.Math;
 using NLog;
 using System;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Signatures;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.RSA2;
@@ -54,12 +55,24 @@ namespace NIST.CVP.Generation.RSA_SigVer
                 entropyProvider.AddEntropy(salt);
 
                 var paddingScheme = _paddingFactory.GetSigningPaddingScheme(group.Mode, sha, testCase.Reason.GetReason(), entropyProvider, group.SaltLen);
+                
+                // Gotta pass in a copy, not the actual reference because modifications are made to this to introduce failures
+                // those failures will be reflected in the actual key if the reference is passed in. (Same for message)
+                var copyKey = new KeyPair
+                {
+                    PrivKey = group.Key.PrivKey,
+                    PubKey = new PublicKey
+                    {
+                        E = group.Key.PubKey.E,
+                        N = group.Key.PubKey.N
+                    }
+                };
 
                 sigResult = _signatureBuilder
                     .WithDecryptionScheme(new Rsa(new RsaVisitor()))
                     .WithMessage(testCase.Message)
                     .WithPaddingScheme(paddingScheme)
-                    .WithKey(group.Key)
+                    .WithKey(copyKey)
                     .BuildSign();
 
                 if (!sigResult.Success)
