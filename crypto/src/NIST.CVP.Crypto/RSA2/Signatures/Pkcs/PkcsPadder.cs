@@ -99,7 +99,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pkcs
             }
         }
 
-        public virtual (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
+        public virtual (KeyPair key, BitString message, int nlen) PrePadCheck(KeyPair key, BitString message, int nlen)
         {
             return (key, message, nlen);
         }

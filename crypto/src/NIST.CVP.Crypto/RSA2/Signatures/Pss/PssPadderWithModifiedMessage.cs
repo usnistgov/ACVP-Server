@@ -13,7 +13,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pss
     {
         public PssPadderWithModifiedMessage(ISha sha, IEntropyProvider entropy, int saltLength) : base(sha, entropy, saltLength) { }
 
-        public override (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
+        public override (KeyPair key, BitString message, int nlen) PrePadCheck(KeyPair key, BitString message, int nlen)
         {
             return (key, message.BitStringAddition(BitString.Two()), nlen);
         }

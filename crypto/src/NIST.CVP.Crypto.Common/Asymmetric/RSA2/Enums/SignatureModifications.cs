@@ -7,7 +7,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums
         [Description("No modification")]
         None,
 
-        [Description("Public key modified")]
+        [Description("Key modified")]
         E,
 
         [Description("Message modified")]
