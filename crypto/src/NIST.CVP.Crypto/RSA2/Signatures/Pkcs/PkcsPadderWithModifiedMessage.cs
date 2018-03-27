@@ -12,9 +12,9 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Pkcs
     {
         public PkcsPadderWithModifiedMessage(ISha sha) : base(sha) { }
 
-        public override (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
+        public override (KeyPair key, BitString message, int nlen) PrePadCheck(KeyPair key, BitString message, int nlen)
         {
-            return (key, message.BitStringAddition(BitString.Two()), nlen);
+            return (key, BitString.BitStringAddition(message, BitString.Two()), nlen);
         }
     }
 }

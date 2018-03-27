@@ -137,7 +137,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
             return BigInteger.Min(signature, pubKey.N - signature);
         }
 
-        public virtual (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
+        public virtual (KeyPair key, BitString message, int nlen) PrePadCheck(KeyPair key, BitString message, int nlen)
         {
             // TODO maybe use this to check N bitlength on nlen
             return (key, message, nlen);

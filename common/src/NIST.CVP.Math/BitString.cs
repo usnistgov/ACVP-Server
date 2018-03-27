@@ -870,7 +870,7 @@ namespace NIST.CVP.Math
 
         public static BitString Two()
         {
-            return new BitString("02", 2);
+            return new BitString("80", 2);
         }
 
         public static BitString Ones(int length)

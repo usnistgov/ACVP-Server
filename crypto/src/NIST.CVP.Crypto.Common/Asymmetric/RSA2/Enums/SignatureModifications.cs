@@ -8,8 +8,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums
         [EnumMember(Value = "No modification")]
         None,
 
-        [EnumMember(Value = "Public key modified")]
-        E,
+		[EnumMember(Value = "Key modified")]        E,
 
         [EnumMember(Value = "Message modified")]
         Message,

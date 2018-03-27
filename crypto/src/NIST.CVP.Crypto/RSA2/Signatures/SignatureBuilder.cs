@@ -17,6 +17,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
         private BitString _signature;
         private PublicKey _publicKey;
         private PrivateKeyBase _privateKey;
+        private KeyPair _key;
         private IPaddingScheme _paddingScheme;
         private IRsa _rsa;
 
@@ -91,16 +92,19 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
                 return new SignatureResult("Improper signature build");
             }
 
+            _key = new KeyPair {PubKey = _publicKey, PrivKey = _privateKey};
+
             // Do provided padding method either correct or incorrect
-            var preCheck = _paddingScheme.PrePadCheck(_publicKey, _message, _publicKey.N.ExactBitLength());
-            var paddedResult = _paddingScheme.Pad(preCheck.key.N.ExactBitLength(), preCheck.message);
+            var preCheck = _paddingScheme.PrePadCheck(_key, _message.GetDeepCopy(), _publicKey.N.ExactBitLength());
+
+            var paddedResult = _paddingScheme.Pad(preCheck.key.PubKey.N.ExactBitLength(), preCheck.message);
             if (!paddedResult.Success)
             {
                 return new SignatureResult(paddedResult.ErrorMessage);
             }
 
             // Perform the RSA Decryption
-            var decryptionResult = _rsa.Decrypt(paddedResult.PaddedMessage.ToPositiveBigInteger(), _privateKey, preCheck.key);
+            var decryptionResult = _rsa.Decrypt(paddedResult.PaddedMessage.ToPositiveBigInteger(), preCheck.key.PrivKey, preCheck.key.PubKey);
 
             if (!decryptionResult.Success)
             {
@@ -108,7 +112,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures
             }
 
             // Perform the Post-Check depending on the padding scheme
-            var postCheck = _paddingScheme.PostSignCheck(decryptionResult.PlainText, preCheck.key);
+            var postCheck = _paddingScheme.PostSignCheck(decryptionResult.PlainText, preCheck.key.PubKey);
 
             return new SignatureResult(postCheck);
         }

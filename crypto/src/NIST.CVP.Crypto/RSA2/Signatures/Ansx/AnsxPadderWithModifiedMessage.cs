@@ -12,7 +12,7 @@ namespace NIST.CVP.Crypto.RSA2.Signatures.Ansx
     {
         public AnsxPadderWithModifiedMessage(ISha sha) : base(sha) { }
 
-        public override (PublicKey key, BitString message, int nlen) PrePadCheck(PublicKey key, BitString message, int nlen)
+        public override (KeyPair key, BitString message, int nlen) PrePadCheck(KeyPair key, BitString message, int nlen)
         {
             return (key, message.BitStringAddition(BitString.Two()), nlen);
         }
