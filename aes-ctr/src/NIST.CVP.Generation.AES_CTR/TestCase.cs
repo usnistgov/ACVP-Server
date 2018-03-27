@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.AES_CTR;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
@@ -11,6 +10,21 @@ namespace NIST.CVP.Generation.AES_CTR
 {
     public class TestCase : ITestCase
     {
+        public int TestCaseId { get; set; }
+        public bool FailureTest { get; set; }
+        public bool Deferred { get; set; }
+
+        public BitString PlainText { get; set; }
+
+        [JsonProperty(PropertyName = "dataLen")]
+        public int Length { get; set; }
+        
+        public BitString CipherText { get; set; }
+        
+        public BitString IV { get; set; }
+        public List<BitString> IVs { get; set; }
+        public BitString Key { get; set; }
+
         public TestCase() { }
 
         public TestCase(dynamic source)
@@ -23,17 +37,6 @@ namespace NIST.CVP.Generation.AES_CTR
             var data = source.ToObject<ExpandoObject>();
             MapToProperties(data);
         }
-
-        public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
-
-        public BitString PlainText { get; set; }
-        public int Length { get; set; }
-        public BitString CipherText { get; set; }
-        public BitString IV { get; set; }
-        public List<BitString> IVs { get; set; }
-        public BitString Key { get; set; }
 
         public bool SetString(string name, string value)
         {
