@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
@@ -37,6 +38,7 @@ namespace NIST.CVP.Generation.TDES_CTR
         public bool FailureTest { get; set; }
         public bool Deferred { get; set; }
 
+        [JsonProperty(PropertyName = "dataLen")]
         public int Length { get; set; }
         public BitString PlainText { get; set; }
         public BitString Key { get; set; }
