@@ -1,0 +1,54 @@
+﻿using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Math;
+
+namespace NIST.CVP.Crypto.Common.Symmetric.BlockModes
+{
+    public class ModeBlockCipherParameters : IModeBlockCipherParameters
+    {
+        public BlockCipherDirections Direction { get; }
+        public BitString Iv { get; }
+        public BitString Key { get; }
+        public BitString Payload { get; }
+        public bool UseInverseCipherMode { get; }
+
+        /// <summary>
+        /// Construction for modes requiring use of an IV
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="iv"></param>
+        /// <param name="key"></param>
+        /// <param name="payload"></param>
+        /// <param name="useInverseCipherMode"></param>
+        public ModeBlockCipherParameters(
+            BlockCipherDirections direction, 
+            BitString iv, 
+            BitString key, 
+            BitString payload, 
+            bool useInverseCipherMode = false
+        ) 
+            : this (direction, key, payload, useInverseCipherMode)
+        {
+            Iv = iv;
+        }
+
+        /// <summary>
+        /// Construction for modes that do not require an IV
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="key"></param>
+        /// <param name="payload"></param>
+        /// <param name="useInverseCipherMode"></param>
+        public ModeBlockCipherParameters(
+            BlockCipherDirections direction,
+            BitString key,
+            BitString payload,
+            bool useInverseCipherMode = false
+        )
+        {
+            Direction = direction;
+            Key = key;
+            Payload = payload;
+            UseInverseCipherMode = useInverseCipherMode;
+        }
+    }
+}

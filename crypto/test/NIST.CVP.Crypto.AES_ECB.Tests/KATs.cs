@@ -2,6 +2,10 @@
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES.KATs;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -15,6 +19,8 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
                 new RijndaelInternals()
             )
         );
+
+        private EcbBlockCipher _newSubject = new EcbBlockCipher(new AesEngine());
 
         #region TestData
         static IEnumerable _GetGFSBox128BitKey()
@@ -103,10 +109,11 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
         }
         #endregion TestData
 
-        #region GFSbox
         [Test]
         [TestCaseSource(nameof(_GetGFSBox128BitKey))]
-        public void ShouldGFSboxCorrectlyWith128BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
+        [TestCaseSource(nameof(_GetGFSBox192BitKey))]
+        [TestCaseSource(nameof(_GetGFSBox256BitKey))]
+        public void ShouldGFSboxCorrectly(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
@@ -115,120 +122,109 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
         }
 
         [Test]
-        [TestCaseSource(nameof(_GetGFSBox192BitKey))]
-        public void ShouldGFSboxCorrectlyWith192BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
-        {
-            var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-
-        [Test]
-        [TestCaseSource(nameof(_GetGFSBox256BitKey))]
-        public void ShouldGFSboxCorrectlyWith256BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
-        {
-            var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-        #endregion GFSbox
-
-        #region KeySBox
-        [Test]
         [TestCaseSource(nameof(_GetKeySBox128BitKey))]
-        public void ShouldKeySboxCorrectlyWith128BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
-        {
-            var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-
-        [Test]
         [TestCaseSource(nameof(_GetKeySBox192BitKey))]
-        public void ShouldKeySboxCorrectlyWith192BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
-        {
-            var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-
-        [Test]
         [TestCaseSource(nameof(_GetKeySBox256BitKey))]
-        public void ShouldKeySboxCorrectlyWith256BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
+        public void ShouldKeySboxCorrectly(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
-        #endregion KeySBox
-
-        #region VarTxt
+        
         [Test]
         [TestCaseSource(nameof(_GetVarTxt128BitKey))]
-        public void ShouldVarTxtCorrectlyWith128BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
-        {
-            var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-
-        [Test]
         [TestCaseSource(nameof(_GetVarTxt192BitKey))]
-        public void ShouldVarTxtCorrectlyWith192BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
-        {
-            var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-
-        [Test]
         [TestCaseSource(nameof(_GetVarTxt256BitKey))]
-        public void ShouldVarTxtCorrectlyWith256BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
+        public void ShouldVarTxtCorrectly(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
-        #endregion VarTxt
-
-        #region VarKey
+        
         [Test]
         [TestCaseSource(nameof(_GetVarKey128BitKey))]
-        public void ShouldVarKeyCorrectlyWith128BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
-        {
-            var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-
-        [Test]
         [TestCaseSource(nameof(_GetVarKey192BitKey))]
-        public void ShouldVarKeyCorrectlyWith196BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
+        [TestCaseSource(nameof(_GetVarKey256BitKey))]
+        public void ShouldVarKeyCorrectly(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
+
+            Assert.IsTrue(result.Success, nameof(result.Success));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
+        }
+
+
+
+        [Test]
+        [TestCaseSource(nameof(_GetGFSBox128BitKey))]
+        [TestCaseSource(nameof(_GetGFSBox192BitKey))]
+        [TestCaseSource(nameof(_GetGFSBox256BitKey))]
+        public void ShouldGFSboxCorrectlyNewEngine(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
+        {
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                algoArrayResponse.Key,
+                algoArrayResponse.PlainText
+            );
+            var result = _newSubject.ProcessMessage(param);
+
+            Assert.IsTrue(result.Success, nameof(result.Success));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, expectedCipherText);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(_GetKeySBox128BitKey))]
+        [TestCaseSource(nameof(_GetKeySBox192BitKey))]
+        [TestCaseSource(nameof(_GetKeySBox256BitKey))]
+        public void ShouldKeySboxCorrectlyNewEngine(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
+        {
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                algoArrayResponse.Key,
+                algoArrayResponse.PlainText
+            );
+            var result = _newSubject.ProcessMessage(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
 
         [Test]
-        [TestCaseSource(nameof(_GetVarKey256BitKey))]
-        public void ShouldVarKeyCorrectlyWith256BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
+        [TestCaseSource(nameof(_GetVarTxt128BitKey))]
+        [TestCaseSource(nameof(_GetVarTxt192BitKey))]
+        [TestCaseSource(nameof(_GetVarTxt256BitKey))]
+        public void ShouldVarTxtCorrectlyNewEngine(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
         {
-            var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                algoArrayResponse.Key,
+                algoArrayResponse.PlainText
+            );
+            var result = _newSubject.ProcessMessage(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
-        #endregion VarKey
+
+        [Test]
+        [TestCaseSource(nameof(_GetVarKey128BitKey))]
+        [TestCaseSource(nameof(_GetVarKey192BitKey))]
+        [TestCaseSource(nameof(_GetVarKey256BitKey))]
+        public void ShouldVarKeyCorrectlyNewEngine(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
+        {
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                algoArrayResponse.Key,
+                algoArrayResponse.PlainText
+            );
+            var result = _newSubject.ProcessMessage(param);
+
+            Assert.IsTrue(result.Success, nameof(result.Success));
+            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
+        }
     }
 }
