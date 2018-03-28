@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using NIST.CVP.Generation.Core;
+using Newtonsoft.Json;using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CTR
@@ -24,7 +23,6 @@ namespace NIST.CVP.Generation.AES_CTR
         public List<BitString> IVs { get; set; }
         [JsonProperty(PropertyName = "key")]
         public BitString Key { get; set; }
-
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
