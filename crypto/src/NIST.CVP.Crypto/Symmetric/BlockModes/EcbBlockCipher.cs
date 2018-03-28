@@ -28,12 +28,12 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             var outBuffer = GetOutputBuffer(param.Payload.BitLength);
 
             // block setup is same between encrypt/decrypt
-            ProcessMessage(param, numberOfBlocks, outBuffer);
+            ProcessPayload(param, numberOfBlocks, outBuffer);
 
             return new SymmetricCipherResult(new BitString(outBuffer).GetMostSignificantBits(param.Payload.BitLength));
         }
         
-        private void ProcessMessage(IModeBlockCipherParameters param, int numberOfBlocks, byte[] outBuffer)
+        private void ProcessPayload(IModeBlockCipherParameters param, int numberOfBlocks, byte[] outBuffer)
         {
             var block = new byte[4, 4];
             

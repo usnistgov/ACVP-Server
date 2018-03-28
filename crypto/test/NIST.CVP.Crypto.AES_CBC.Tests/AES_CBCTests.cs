@@ -3,6 +3,10 @@ using Moq;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -106,7 +110,7 @@ namespace NIST.CVP.Crypto.AES_CBC.Tests
             );
         }
 
-        //[Test]
+        [Test]
         public void SpecificTest()
         {
             var rijndaelInternals = new RijndaelInternals();
@@ -121,6 +125,48 @@ namespace NIST.CVP.Crypto.AES_CBC.Tests
             var result = subject.BlockEncrypt(iv, key, pt);
 
             Assert.AreEqual(ct.ToHex(), result.Result.ToHex());
+        }
+
+        [Test]
+        public void SpecificTestNewEngineEncrypt()
+        {
+            var subject = new CbcBlockCipher(new AesEngine());
+
+            var key = new BitString("72D6E1A903180DF8889E4112FE2090C1");
+            var iv = new BitString("9B2B6F3AF5F4A1651797EF34676B3719");
+            var pt = new BitString("F56B38666B2EF044B70A7BDD8054FED33F2E5D5D2F061D097E2AAACA0CDB4DA8");
+            var ct = new BitString("69644FE62ED7F8023B6DDF6A4FFFC0F4C4028B96AE265A5B8F9AC5F2756281D3");
+
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                iv,
+                key,
+                pt
+            );
+            var result = subject.ProcessPayload(param);
+
+            Assert.AreEqual(ct.ToHex(), result.Result.ToHex());
+        }
+
+        [Test]
+        public void SpecificTestNewEngineDecrypt()
+        {
+            var subject = new CbcBlockCipher(new AesEngine());
+
+            var key = new BitString("72D6E1A903180DF8889E4112FE2090C1");
+            var iv = new BitString("9B2B6F3AF5F4A1651797EF34676B3719");
+            var pt = new BitString("F56B38666B2EF044B70A7BDD8054FED33F2E5D5D2F061D097E2AAACA0CDB4DA8");
+            var ct = new BitString("69644FE62ED7F8023B6DDF6A4FFFC0F4C4028B96AE265A5B8F9AC5F2756281D3");
+
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt,
+                iv,
+                key,
+                ct
+            );
+            var result = subject.ProcessPayload(param);
+
+            Assert.AreEqual(pt.ToHex(), result.Result.ToHex());
         }
     }
 }
