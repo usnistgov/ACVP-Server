@@ -12,6 +12,6 @@
         /// </summary>
         /// <param name="param">The parameters for performing the cipher operation</param>
         /// <returns>The result of the crypto function</returns>
-        TSymmetricCipherResult ProcessMessage(IModeBlockCipherParameters param);
+        TSymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param);
     }
 }

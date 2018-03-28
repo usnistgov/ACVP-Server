@@ -8,7 +8,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Symmetric.BlockModes
 {
-    public class EcbBlockCipher : EngineBase<SymmetricCipherResult>
+    public class EcbBlockCipher : ModeBlockCipherBase<SymmetricCipherResult>
     {
         private readonly IBlockCipherEngine _engine;
 
@@ -17,7 +17,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             _engine = engine;
         }
 
-        public override SymmetricCipherResult ProcessMessage(IModeBlockCipherParameters param)
+        public override SymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param)
         {
             var key = param.Key.ToBytes();
 

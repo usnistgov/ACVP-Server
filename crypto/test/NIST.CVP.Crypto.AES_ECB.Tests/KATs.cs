@@ -170,7 +170,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
                 algoArrayResponse.Key,
                 algoArrayResponse.PlainText
             );
-            var result = _newSubject.ProcessMessage(param);
+            var result = _newSubject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, expectedCipherText);
@@ -187,7 +187,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
                 algoArrayResponse.Key,
                 algoArrayResponse.PlainText
             );
-            var result = _newSubject.ProcessMessage(param);
+            var result = _newSubject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
@@ -204,7 +204,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
                 algoArrayResponse.Key,
                 algoArrayResponse.PlainText
             );
-            var result = _newSubject.ProcessMessage(param);
+            var result = _newSubject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
@@ -221,7 +221,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
                 algoArrayResponse.Key,
                 algoArrayResponse.PlainText
             );
-            var result = _newSubject.ProcessMessage(param);
+            var result = _newSubject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));

@@ -1,12 +1,11 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 
-namespace NIST.CVP.Crypto.Symmetric.Engines
+namespace NIST.CVP.Crypto.Symmetric.BlockModes
 {
-    public abstract class EngineBase<TSymmetricCipherResult> : IModeBlockCipher<TSymmetricCipherResult>
+    public abstract class ModeBlockCipherBase<TSymmetricCipherResult> : IModeBlockCipher<TSymmetricCipherResult>
         where TSymmetricCipherResult : IModeBlockCipherResult
     {
-        public abstract TSymmetricCipherResult ProcessMessage(IModeBlockCipherParameters param);
+        public abstract TSymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param);
 
         protected virtual int GetNumberOfBlocks(int bitsPerBlock, int outputLengthBits)
         {
