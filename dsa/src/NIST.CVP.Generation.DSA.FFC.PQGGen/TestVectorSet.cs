@@ -190,6 +190,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                             }
                             else if (group.PQGenMode == PrimeGenMode.Probable)
                             {
+                                testDict.Add("domainSeed", test.Seed.Seed);
                                 testDict.Add("counter", test.Counter.Count);
                             }
                         }
