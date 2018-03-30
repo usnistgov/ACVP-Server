@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         Key = new KeyPair { PubKey = new PublicKey { E = e }}
                     };
 
-                    if (isSample)
+                    if (isSample && !group.InfoGeneratedByServer)
                     {
                         testCase.Deferred = true;
                     }
