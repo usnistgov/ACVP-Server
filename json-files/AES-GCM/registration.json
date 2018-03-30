@@ -1,0 +1,38 @@
+{
+  "Algorithm": "AES-GCM",
+  "Mode": null,
+  "IsSample": false,
+  "Direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "KeyLen": [
+    128,
+    192,
+    256
+  ],
+  "PtLen": [
+    128,
+    120,
+    256
+  ],
+  "ivLen": [
+    96,
+    128
+  ],
+  "ivGen": "external",
+  "ivGenMode": "8.2.2",
+  "aadLen": [
+    128,
+    120
+  ],
+  "TagLen": [
+    32,
+    64,
+    96,
+    104,
+    112,
+    120,
+    128
+  ]
+}

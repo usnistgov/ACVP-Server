@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <PostBuildEvent>xcopy /y /d  "C:\Projects\Dyno3\Dyno.Sort\bin\Debug\netcoreapp1.1\*.dll" "C:\Projects\Dyno3\Dyno.Driver\bin\Debug\netcoreapp1.1\win7-x64\plugins\"
+
+</PostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dyno.Interfaces\Dyno.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

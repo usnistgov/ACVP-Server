@@ -1,0 +1,23 @@
+{
+  "Algorithm": "kdf-components",
+  "Mode": "ansix9.63",
+  "IsSample": true,
+  "SharedInfoLength": [
+    0,
+    1024
+  ],
+  "FieldSize": [
+    224,
+    521
+  ],
+  "KeyDataLength": [
+    256,
+    1024
+  ],
+  "HashAlg": [
+    "sha2-224",
+    "sha2-256",
+    "sha2-384",
+    "sha2-512"
+  ]
+}

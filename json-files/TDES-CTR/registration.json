@@ -1,0 +1,22 @@
+{
+  "Algorithm": "TDES",
+  "Mode": "CTR",
+  "IsSample": true,
+  "KeyingOption": [
+    1,
+    2
+  ],
+  "Direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "DataLength": [
+    {
+      "min": 1,
+      "max": 64,
+      "increment": 1
+    }
+  ],
+  "OverflowCounter": true,
+  "IncrementalCounter": false
+}

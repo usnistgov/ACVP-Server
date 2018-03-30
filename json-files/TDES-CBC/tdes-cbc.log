@@ -1,0 +1,6 @@
+2017-12-22 17:48:33.0549 Info Generate Running testhost 15.0.0.0
+2017-12-22 17:48:33.0758 Info Generate Generating Test Vectors for C:\workspace\ACVP\gen-val\trunk\tdes-cbc\TestFiles\temp_integrationTests\TDES-CBC-171222-17483347-Lots\registration.json
+2017-12-22 17:48:33.0758 Debug Generate Generating
+2017-12-22 17:55:13.6790 Debug Generate Success! Generating Test Vectors for C:\workspace\ACVP\gen-val\trunk\tdes-cbc\TestFiles\temp_integrationTests\TDES-CBC-171222-17483347-Lots\registration.json
+2017-12-22 17:55:13.6790 Debug LoggingHelper Added Console Logging
+2017-12-22 17:55:13.6891 Debug LoggingHelper Added File Logging

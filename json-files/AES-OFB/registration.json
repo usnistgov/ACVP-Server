@@ -1,0 +1,14 @@
+{
+  "Algorithm": "AES",
+  "Mode": "OFB",
+  "IsSample": false,
+  "Direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "KeyLen": [
+    128,
+    192,
+    256
+  ]
+}

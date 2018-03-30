@@ -1,0 +1,367 @@
+{
+  "algorithm": "ECDSA",
+  "mode": "KeyGen",
+  "isSample": true,
+  "answerProjection": [
+    {
+      "curve": "p-224",
+      "secretGenerationMode": "extra bits",
+      "tests": [
+        {
+          "tcId": 1
+        },
+        {
+          "tcId": 2
+        },
+        {
+          "tcId": 3
+        }
+      ]
+    },
+    {
+      "curve": "p-224",
+      "secretGenerationMode": "testing candidates",
+      "tests": [
+        {
+          "tcId": 4
+        },
+        {
+          "tcId": 5
+        },
+        {
+          "tcId": 6
+        }
+      ]
+    },
+    {
+      "curve": "p-256",
+      "secretGenerationMode": "extra bits",
+      "tests": [
+        {
+          "tcId": 7
+        },
+        {
+          "tcId": 8
+        },
+        {
+          "tcId": 9
+        }
+      ]
+    },
+    {
+      "curve": "p-256",
+      "secretGenerationMode": "testing candidates",
+      "tests": [
+        {
+          "tcId": 10
+        },
+        {
+          "tcId": 11
+        },
+        {
+          "tcId": 12
+        }
+      ]
+    },
+    {
+      "curve": "p-384",
+      "secretGenerationMode": "extra bits",
+      "tests": [
+        {
+          "tcId": 13
+        },
+        {
+          "tcId": 14
+        },
+        {
+          "tcId": 15
+        }
+      ]
+    },
+    {
+      "curve": "p-384",
+      "secretGenerationMode": "testing candidates",
+      "tests": [
+        {
+          "tcId": 16
+        },
+        {
+          "tcId": 17
+        },
+        {
+          "tcId": 18
+        }
+      ]
+    },
+    {
+      "curve": "p-521",
+      "secretGenerationMode": "extra bits",
+      "tests": [
+        {
+          "tcId": 19
+        },
+        {
+          "tcId": 20
+        },
+        {
+          "tcId": 21
+        }
+      ]
+    },
+    {
+      "curve": "p-521",
+      "secretGenerationMode": "testing candidates",
+      "tests": [
+        {
+          "tcId": 22
+        },
+        {
+          "tcId": 23
+        },
+        {
+          "tcId": 24
+        }
+      ]
+    },
+    {
+      "curve": "b-233",
+      "secretGenerationMode": "extra bits",
+      "tests": [
+        {
+          "tcId": 25
+        },
+        {
+          "tcId": 26
+        },
+        {
+          "tcId": 27
+        }
+      ]
+    },
+    {
+      "curve": "b-233",
+      "secretGenerationMode": "testing candidates",
+      "tests": [
+        {
+          "tcId": 28
+        },
+        {
+          "tcId": 29
+        },
+        {
+          "tcId": 30
+        }
+      ]
+    },
+    {
+      "curve": "b-283",
+      "secretGenerationMode": "extra bits",
+      "tests": [
+        {
+          "tcId": 31
+        },
+        {
+          "tcId": 32
+        },
+        {
+          "tcId": 33
+        }
+      ]
+    },
+    {
+      "curve": "b-283",
+      "secretGenerationMode": "testing candidates",
+      "tests": [
+        {
+          "tcId": 34
+        },
+        {
+          "tcId": 35
+        },
+        {
+          "tcId": 36
+        }
+      ]
+    },
+    {
+      "curve": "b-409",
+      "secretGenerationMode": "extra bits",
+      "tests": [
+        {
+          "tcId": 37
+        },
+        {
+          "tcId": 38
+        },
+        {
+          "tcId": 39
+        }
+      ]
+    },
+    {
+      "curve": "b-409",
+      "secretGenerationMode": "testing candidates",
+      "tests": [
+        {
+          "tcId": 40
+        },
+        {
+          "tcId": 41
+        },
+        {
+          "tcId": 42
+        }
+      ]
+    },
+    {
+      "curve": "b-571",
+      "secretGenerationMode": "extra bits",
+      "tests": [
+        {
+          "tcId": 43
+        },
+        {
+          "tcId": 44
+        },
+        {
+          "tcId": 45
+        }
+      ]
+    },
+    {
+      "curve": "b-571",
+      "secretGenerationMode": "testing candidates",
+      "tests": [
+        {
+          "tcId": 46
+        },
+        {
+          "tcId": 47
+        },
+        {
+          "tcId": 48
+        }
+      ]
+    },
+    {
+      "curve": "k-233",
+      "secretGenerationMode": "extra bits",
+      "tests": [
+        {
+          "tcId": 49
+        },
+        {
+          "tcId": 50
+        },
+        {
+          "tcId": 51
+        }
+      ]
+    },
+    {
+      "curve": "k-233",
+      "secretGenerationMode": "testing candidates",
+      "tests": [
+        {
+          "tcId": 52
+        },
+        {
+          "tcId": 53
+        },
+        {
+          "tcId": 54
+        }
+      ]
+    },
+    {
+      "curve": "k-283",
+      "secretGenerationMode": "extra bits",
+      "tests": [
+        {
+          "tcId": 55
+        },
+        {
+          "tcId": 56
+        },
+        {
+          "tcId": 57
+        }
+      ]
+    },
+    {
+      "curve": "k-283",
+      "secretGenerationMode": "testing candidates",
+      "tests": [
+        {
+          "tcId": 58
+        },
+        {
+          "tcId": 59
+        },
+        {
+          "tcId": 60
+        }
+      ]
+    },
+    {
+      "curve": "k-409",
+      "secretGenerationMode": "extra bits",
+      "tests": [
+        {
+          "tcId": 61
+        },
+        {
+          "tcId": 62
+        },
+        {
+          "tcId": 63
+        }
+      ]
+    },
+    {
+      "curve": "k-409",
+      "secretGenerationMode": "testing candidates",
+      "tests": [
+        {
+          "tcId": 64
+        },
+        {
+          "tcId": 65
+        },
+        {
+          "tcId": 66
+        }
+      ]
+    },
+    {
+      "curve": "k-571",
+      "secretGenerationMode": "extra bits",
+      "tests": [
+        {
+          "tcId": 67
+        },
+        {
+          "tcId": 68
+        },
+        {
+          "tcId": 69
+        }
+      ]
+    },
+    {
+      "curve": "k-571",
+      "secretGenerationMode": "testing candidates",
+      "tests": [
+        {
+          "tcId": 70
+        },
+        {
+          "tcId": 71
+        },
+        {
+          "tcId": 72
+        }
+      ]
+    }
+  ]
+}

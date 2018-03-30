@@ -1,0 +1,28 @@
+{
+  "Algorithm": "CMAC-AES",
+  "Mode": "AES",
+  "IsSample": false,
+  "Direction": [
+    "gen",
+    "ver"
+  ],
+  "MsgLen": [
+    {
+      "min": 0,
+      "max": 65536,
+      "increment": 8
+    }
+  ],
+  "MacLen": [
+    {
+      "min": 64,
+      "max": 128,
+      "increment": 8
+    }
+  ],
+  "KeyLen": [
+    128,
+    192,
+    256
+  ]
+}

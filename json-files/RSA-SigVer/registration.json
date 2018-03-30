@@ -1,0 +1,321 @@
+{
+  "Algorithm": "RSA",
+  "Mode": "SigVer",
+  "IsSample": false,
+  "algSpecs": [
+    {
+      "SigType": "ansx9.31",
+      "sigTypeCapabilities": [
+        {
+          "Modulo": 1024,
+          "hashPair": [
+            {
+              "HashAlg": "sha-1",
+              "SaltLen": 8
+            },
+            {
+              "HashAlg": "sha2-224",
+              "SaltLen": 9
+            },
+            {
+              "HashAlg": "sha2-256",
+              "SaltLen": 10
+            },
+            {
+              "HashAlg": "sha2-384",
+              "SaltLen": 11
+            },
+            {
+              "HashAlg": "sha2-512",
+              "SaltLen": 12
+            },
+            {
+              "HashAlg": "sha2-512/224",
+              "SaltLen": 13
+            },
+            {
+              "HashAlg": "sha2-512/256",
+              "SaltLen": 14
+            }
+          ]
+        },
+        {
+          "Modulo": 2048,
+          "hashPair": [
+            {
+              "HashAlg": "sha-1",
+              "SaltLen": 8
+            },
+            {
+              "HashAlg": "sha2-224",
+              "SaltLen": 9
+            },
+            {
+              "HashAlg": "sha2-256",
+              "SaltLen": 10
+            },
+            {
+              "HashAlg": "sha2-384",
+              "SaltLen": 11
+            },
+            {
+              "HashAlg": "sha2-512",
+              "SaltLen": 12
+            },
+            {
+              "HashAlg": "sha2-512/224",
+              "SaltLen": 13
+            },
+            {
+              "HashAlg": "sha2-512/256",
+              "SaltLen": 14
+            }
+          ]
+        },
+        {
+          "Modulo": 3072,
+          "hashPair": [
+            {
+              "HashAlg": "sha-1",
+              "SaltLen": 8
+            },
+            {
+              "HashAlg": "sha2-224",
+              "SaltLen": 9
+            },
+            {
+              "HashAlg": "sha2-256",
+              "SaltLen": 10
+            },
+            {
+              "HashAlg": "sha2-384",
+              "SaltLen": 11
+            },
+            {
+              "HashAlg": "sha2-512",
+              "SaltLen": 12
+            },
+            {
+              "HashAlg": "sha2-512/224",
+              "SaltLen": 13
+            },
+            {
+              "HashAlg": "sha2-512/256",
+              "SaltLen": 14
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "SigType": "pkcs1v1.5",
+      "sigTypeCapabilities": [
+        {
+          "Modulo": 1024,
+          "hashPair": [
+            {
+              "HashAlg": "sha-1",
+              "SaltLen": 8
+            },
+            {
+              "HashAlg": "sha2-224",
+              "SaltLen": 9
+            },
+            {
+              "HashAlg": "sha2-256",
+              "SaltLen": 10
+            },
+            {
+              "HashAlg": "sha2-384",
+              "SaltLen": 11
+            },
+            {
+              "HashAlg": "sha2-512",
+              "SaltLen": 12
+            },
+            {
+              "HashAlg": "sha2-512/224",
+              "SaltLen": 13
+            },
+            {
+              "HashAlg": "sha2-512/256",
+              "SaltLen": 14
+            }
+          ]
+        },
+        {
+          "Modulo": 2048,
+          "hashPair": [
+            {
+              "HashAlg": "sha-1",
+              "SaltLen": 8
+            },
+            {
+              "HashAlg": "sha2-224",
+              "SaltLen": 9
+            },
+            {
+              "HashAlg": "sha2-256",
+              "SaltLen": 10
+            },
+            {
+              "HashAlg": "sha2-384",
+              "SaltLen": 11
+            },
+            {
+              "HashAlg": "sha2-512",
+              "SaltLen": 12
+            },
+            {
+              "HashAlg": "sha2-512/224",
+              "SaltLen": 13
+            },
+            {
+              "HashAlg": "sha2-512/256",
+              "SaltLen": 14
+            }
+          ]
+        },
+        {
+          "Modulo": 3072,
+          "hashPair": [
+            {
+              "HashAlg": "sha-1",
+              "SaltLen": 8
+            },
+            {
+              "HashAlg": "sha2-224",
+              "SaltLen": 9
+            },
+            {
+              "HashAlg": "sha2-256",
+              "SaltLen": 10
+            },
+            {
+              "HashAlg": "sha2-384",
+              "SaltLen": 11
+            },
+            {
+              "HashAlg": "sha2-512",
+              "SaltLen": 12
+            },
+            {
+              "HashAlg": "sha2-512/224",
+              "SaltLen": 13
+            },
+            {
+              "HashAlg": "sha2-512/256",
+              "SaltLen": 14
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "SigType": "pss",
+      "sigTypeCapabilities": [
+        {
+          "Modulo": 1024,
+          "hashPair": [
+            {
+              "HashAlg": "sha-1",
+              "SaltLen": 8
+            },
+            {
+              "HashAlg": "sha2-224",
+              "SaltLen": 9
+            },
+            {
+              "HashAlg": "sha2-256",
+              "SaltLen": 10
+            },
+            {
+              "HashAlg": "sha2-384",
+              "SaltLen": 11
+            },
+            {
+              "HashAlg": "sha2-512",
+              "SaltLen": 12
+            },
+            {
+              "HashAlg": "sha2-512/224",
+              "SaltLen": 13
+            },
+            {
+              "HashAlg": "sha2-512/256",
+              "SaltLen": 14
+            }
+          ]
+        },
+        {
+          "Modulo": 2048,
+          "hashPair": [
+            {
+              "HashAlg": "sha-1",
+              "SaltLen": 8
+            },
+            {
+              "HashAlg": "sha2-224",
+              "SaltLen": 9
+            },
+            {
+              "HashAlg": "sha2-256",
+              "SaltLen": 10
+            },
+            {
+              "HashAlg": "sha2-384",
+              "SaltLen": 11
+            },
+            {
+              "HashAlg": "sha2-512",
+              "SaltLen": 12
+            },
+            {
+              "HashAlg": "sha2-512/224",
+              "SaltLen": 13
+            },
+            {
+              "HashAlg": "sha2-512/256",
+              "SaltLen": 14
+            }
+          ]
+        },
+        {
+          "Modulo": 3072,
+          "hashPair": [
+            {
+              "HashAlg": "sha-1",
+              "SaltLen": 8
+            },
+            {
+              "HashAlg": "sha2-224",
+              "SaltLen": 9
+            },
+            {
+              "HashAlg": "sha2-256",
+              "SaltLen": 10
+            },
+            {
+              "HashAlg": "sha2-384",
+              "SaltLen": 11
+            },
+            {
+              "HashAlg": "sha2-512",
+              "SaltLen": 12
+            },
+            {
+              "HashAlg": "sha2-512/224",
+              "SaltLen": 13
+            },
+            {
+              "HashAlg": "sha2-512/256",
+              "SaltLen": 14
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "PubExpMode": "random",
+  "fixedPubExp": ""
+}

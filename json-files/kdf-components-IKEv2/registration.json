@@ -1,0 +1,40 @@
+{
+  "Algorithm": "kdf-components",
+  "Mode": "IKEv2",
+  "IsSample": false,
+  "HashAlg": [
+    "sha-1",
+    "sha2-224",
+    "sha2-256",
+    "sha2-384",
+    "sha2-512"
+  ],
+  "InitiatorNonceLength": [
+    {
+      "min": 64,
+      "max": 2048,
+      "increment": 1
+    }
+  ],
+  "ResponderNonceLength": [
+    {
+      "min": 64,
+      "max": 2048,
+      "increment": 1
+    }
+  ],
+  "DiffieHellmanSharedSecretLength": [
+    {
+      "min": 224,
+      "max": 8192,
+      "increment": 1
+    }
+  ],
+  "DerivedKeyingMaterialLength": [
+    {
+      "min": 512,
+      "max": 16384,
+      "increment": 1
+    }
+  ]
+}

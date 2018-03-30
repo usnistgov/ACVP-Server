@@ -1,0 +1,888 @@
+<Project>
+  <Name>WorkflowGenVal</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>CurrentGenerator</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Interface">
+        <Name>IGenerator</Name>
+        <Access>Public</Access>
+        <Location left="96" top="315" />
+        <Size width="295" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">GenerateResponse Generate(string requestFile)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>GenerateResponse</Name>
+        <Access>Public</Access>
+        <Location left="146" top="85" />
+        <Size width="162" height="97" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public bool Success { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IParameterParser&lt;TParameters&gt;</Name>
+        <Access>Public</Access>
+        <Location left="484" top="238" />
+        <Size width="290" height="82" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ParseResponse&lt;TParameters&gt; Parse(string path)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>ParseResponse&lt;TParameters&gt;</Name>
+        <Access>Public</Access>
+        <Location left="484" top="54" />
+        <Size width="247" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public TParameters ParsedObject { get; }</Member>
+        <Member type="Property">public string ErrorMessage { get; }</Member>
+        <Member type="Property">public bool Success { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IParameters</Name>
+        <Access>Public</Access>
+        <Location left="774" top="39" />
+        <Size width="162" height="112" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">string Algorithm { get; }</Member>
+        <Member type="Property">string Mode { get; }</Member>
+        <Member type="Property">bool IsSample { get; }</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IParameterValidator&lt;TParameters&gt;</Name>
+        <Access>Public</Access>
+        <Location left="710" top="367" />
+        <Size width="360" height="81" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ParameterValidateResponse Validate(TParameters parameters)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>ParameterValidateResponse</Name>
+        <Access>Public</Access>
+        <Location left="967" top="39" />
+        <Size width="211" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public bool Success { get; }</Member>
+        <Member type="Property">public string ErrorMessage { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestVectorFactory&lt;TParameters&gt;</Name>
+        <Access>Public</Access>
+        <Location left="421" top="474" />
+        <Size width="337" height="82" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ITestVectorSet BuildTestVectorSet(TParameters parameters)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestGroupGeneratorFactory&lt;TParameters&gt;</Name>
+        <Access>Public</Access>
+        <Location left="868" top="474" />
+        <Size width="445" height="82" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">IEnumerable&lt;ITestGroupGenerator&lt;TParameters&gt;&gt; GetTestGroupGenerators()</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestGroupGenerator&lt;TParameters&gt;</Name>
+        <Access>Public</Access>
+        <Location left="1390" top="474" />
+        <Size width="396" height="82" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">IEnumerable&lt;ITestGroup&gt; BuildTestGroups(TParameters parameters)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestVectorSet</Name>
+        <Access>Public</Access>
+        <Location left="821" top="650" />
+        <Size width="249" height="182" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">string Algorithm { get; set; }</Member>
+        <Member type="Property">string Mode { get; set; }</Member>
+        <Member type="Property">bool IsSample { get; set; }</Member>
+        <Member type="Property">List&lt;ITestGroup&gt; TestGroups { get; set; }</Member>
+        <Member type="Property">List&lt;dynamic&gt; AnswerProjection { get; }</Member>
+        <Member type="Property">List&lt;dynamic&gt; PromptProjection { get; }</Member>
+        <Member type="Property">List&lt;dynamic&gt; ResultProjection { get; }</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestGroup</Name>
+        <Access>Public</Access>
+        <Location left="1141" top="650" />
+        <Size width="290" height="119" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">string TestType { get; }</Member>
+        <Member type="Property">List&lt;ITestCase&gt; Tests { get; }</Member>
+        <Member type="Method">bool MergeTests(List&lt;ITestCase&gt; testsToMerge)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestCase</Name>
+        <Access>Public</Access>
+        <Location left="1485" top="648" />
+        <Size width="209" height="135" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">int TestCaseId { get; set; }</Member>
+        <Member type="Property">bool FailureTest { get; }</Member>
+        <Member type="Property">bool Deferred { get; }</Member>
+        <Member type="Method">bool Merge(ITestCase otherTest)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestCaseGeneratorFactoryFactory&lt;TTestVectorSet, TTestGroup, TTestCase&gt;</Name>
+        <Access>Public</Access>
+        <Location left="66" top="821" />
+        <Size width="511" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">GenerateResponse BuildTestCases(TTestVectorSet testVectorSet)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestCaseGeneratorFactory&lt;TTestGroup, TTestCase&gt;</Name>
+        <Access>Public</Access>
+        <Location left="660" top="956" />
+        <Size width="479" height="87" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ITestCaseGenerator&lt;TTestGroup, TTestCase&gt; GetCaseGenerator(TTestGroup testGroup)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestCaseGenerator&lt;TTestGroup, TTestCase&gt;</Name>
+        <Access>Public</Access>
+        <Location left="1198" top="956" />
+        <Size width="436" height="120" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">int NumberOfTestCasesToGenerate { get; }</Member>
+        <Member type="Method">TestCaseGenerateResponse Generate(TTestGroup group, bool isSample)</Member>
+        <Member type="Method">TestCaseGenerateResponse Generate(TTestGroup group, TTestCase testCase)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>TestCaseGenerateResponse</Name>
+        <Access>Public</Access>
+        <Location left="1531" top="1128" />
+        <Size width="285" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public ITestCase TestCase { get; }</Member>
+        <Member type="Property">public string ErrorMessage { get; }</Member>
+        <Member type="Property">public bool Success { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="7">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="8" second="9">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="7" second="8">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="7" second="10">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="10" second="11">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="11" second="12">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="9" second="11">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="13">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="13" second="14">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="14" second="15">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="15" second="16">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="15" second="12">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>CurrentValidator</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Interface">
+        <Name>IValidator</Name>
+        <Access>Public</Access>
+        <Location left="166" top="287" />
+        <Size width="463" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ValidateResponse Validate(string resultPath, string answerPath, string promptPath)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>ValidateResponse</Name>
+        <Access>Public</Access>
+        <Location left="846" top="50" />
+        <Size width="162" height="113" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public bool Success { get; }</Member>
+        <Member type="Property">public string ErrorMessage { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IDynamicParser</Name>
+        <Access>Public</Access>
+        <Location left="792" top="268" />
+        <Size width="254" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ParseResponse&lt;object&gt; Parse(string path)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestReconstitutor&lt;TTestVectorSet, TTestCase&gt;</Name>
+        <Access>Public</Access>
+        <Location left="792" top="387" />
+        <Size width="603" height="95" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">TTestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse, dynamic promptResponse)</Member>
+        <Member type="Method">IEnumerable&lt;TTestCase&gt; GetTestCasesFromResultResponse(dynamic resultResponse)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestCaseValidatorFactory&lt;TTestVectorSet, TTestCase&gt;</Name>
+        <Access>Public</Access>
+        <Location left="568" top="537" />
+        <Size width="740" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">IEnumerable&lt;ITestCaseValidator&lt;TTestCase&gt;&gt; GetValidators(TTestVectorSet testVectorSet, IEnumerable&lt;TTestCase&gt; suppliedResults)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestCaseValidator&lt;TTestCase&gt;</Name>
+        <Access>Public</Access>
+        <Location left="1260" top="669" />
+        <Size width="310" height="95" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">TestCaseValidation Validate(TTestCase suppliedResult)</Member>
+        <Member type="Property">int TestCaseId { get; }</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IDeferredTestCaseResolver&lt;TTestGroup, TTestCase, TCryptoResult&gt;</Name>
+        <Access>Public</Access>
+        <Location left="1642" top="669" />
+        <Size width="607" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">TCryptoResult CompleteDeferredCrypto(TTestGroup testGroup, TTestCase serverTestCase, TTestCase iutTestCase)</Member>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>543</X>
+          <Y>580</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>NewGenerator</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>TestCaseGenerateResponse</Name>
+        <Access>Public</Access>
+        <Location left="1551" top="1148" />
+        <Size width="285" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public ITestCase TestCase { get; }</Member>
+        <Member type="Property">public string ErrorMessage { get; }</Member>
+        <Member type="Property">public bool Success { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestCaseGenerator&lt;TTestGroup, TTestCase&gt;</Name>
+        <Access>Public</Access>
+        <Location left="1218" top="976" />
+        <Size width="436" height="120" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">int NumberOfTestCasesToGenerate { get; }</Member>
+        <Member type="Method">TestCaseGenerateResponse Generate(TTestGroup group, bool isSample)</Member>
+        <Member type="Method">TestCaseGenerateResponse Generate(TTestGroup group, TTestCase testCase)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestCaseGeneratorFactory&lt;TTestGroup, TTestCase&gt;</Name>
+        <Access>Public</Access>
+        <Location left="680" top="976" />
+        <Size width="479" height="87" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ITestCaseGenerator&lt;TTestGroup, TTestCase&gt; GetCaseGenerator(TTestGroup testGroup)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestCaseGeneratorFactoryFactory&lt;TTestVectorSet, TTestGroup, TTestCase&gt;</Name>
+        <Access>Public</Access>
+        <Location left="86" top="841" />
+        <Size width="511" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">GenerateResponse BuildTestCases(TTestVectorSet testVectorSet)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestCase</Name>
+        <Access>Public</Access>
+        <Location left="1505" top="670" />
+        <Size width="209" height="135" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">int TestCaseId { get; set; }</Member>
+        <Member type="Property">bool FailureTest { get; }</Member>
+        <Member type="Property">bool Deferred { get; }</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestGroup</Name>
+        <Access>Public</Access>
+        <Location left="1161" top="670" />
+        <Size width="290" height="119" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">string TestType { get; }</Member>
+        <Member type="Property">List&lt;ITestCase&gt; Tests { get; }</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestVectorSet</Name>
+        <Access>Public</Access>
+        <Location left="841" top="670" />
+        <Size width="249" height="182" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">string Algorithm { get; set; }</Member>
+        <Member type="Property">string Mode { get; set; }</Member>
+        <Member type="Property">bool IsSample { get; set; }</Member>
+        <Member type="Property">List&lt;ITestGroup&gt; TestGroups { get; set; }</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestGroupGenerator&lt;TParameters&gt;</Name>
+        <Access>Public</Access>
+        <Location left="1410" top="494" />
+        <Size width="396" height="82" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">IEnumerable&lt;ITestGroup&gt; BuildTestGroups(TParameters parameters)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestGroupGeneratorFactory&lt;TParameters&gt;</Name>
+        <Access>Public</Access>
+        <Location left="888" top="494" />
+        <Size width="445" height="82" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">IEnumerable&lt;ITestGroupGenerator&lt;TParameters&gt;&gt; GetTestGroupGenerators()</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestVectorFactory&lt;TParameters&gt;</Name>
+        <Access>Public</Access>
+        <Location left="441" top="494" />
+        <Size width="337" height="82" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ITestVectorSet BuildTestVectorSet(TParameters parameters)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>ParameterValidateResponse</Name>
+        <Access>Public</Access>
+        <Location left="987" top="59" />
+        <Size width="211" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public bool Success { get; }</Member>
+        <Member type="Property">public string ErrorMessage { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IParameterValidator&lt;TParameters&gt;</Name>
+        <Access>Public</Access>
+        <Location left="730" top="387" />
+        <Size width="360" height="81" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ParameterValidateResponse Validate(TParameters parameters)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IParameters</Name>
+        <Access>Public</Access>
+        <Location left="794" top="59" />
+        <Size width="162" height="112" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">string Algorithm { get; }</Member>
+        <Member type="Property">string Mode { get; }</Member>
+        <Member type="Property">bool IsSample { get; }</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>ParseResponse&lt;TParameters&gt;</Name>
+        <Access>Public</Access>
+        <Location left="504" top="74" />
+        <Size width="247" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public TParameters ParsedObject { get; }</Member>
+        <Member type="Property">public string ErrorMessage { get; }</Member>
+        <Member type="Property">public bool Success { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IParameterParser&lt;TParameters&gt;</Name>
+        <Access>Public</Access>
+        <Location left="504" top="258" />
+        <Size width="290" height="82" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ParseResponse&lt;TParameters&gt; Parse(string path)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>GenerateResponse</Name>
+        <Access>Public</Access>
+        <Location left="166" top="105" />
+        <Size width="162" height="97" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public bool Success { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IGenerator</Name>
+        <Access>Public</Access>
+        <Location left="116" top="335" />
+        <Size width="295" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">GenerateResponse Generate(string requestFile)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestSerializer&lt;TTestVectorSet, TTestGroup, TTestCase&gt;</Name>
+        <Access>Public</Access>
+        <Location left="1808" top="794" />
+        <Size width="365" height="112" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ITestVectorSet Serialize(TTestVectorSet testVectorSet)</Member>
+        <Member type="Method">ITestGroup Serialize(TTestGroup testGroup)</Member>
+        <Member type="Method">ITestCase Serialize(TTestCase testCase, TTestGroup testGroup)</Member>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="1" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="16" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="7" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="9" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="9" second="8">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="8" second="7">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="16" second="9">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="11" second="10">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="11" second="12">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="16" second="11">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="14" second="12">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="16" second="14">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="14" second="13">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="16" second="15">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>NewValidator</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>ValidateResponse</Name>
+        <Access>Public</Access>
+        <Location left="866" top="70" />
+        <Size width="162" height="113" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public bool Success { get; }</Member>
+        <Member type="Property">public string ErrorMessage { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IDeferredTestCaseResolver&lt;TTestGroup, TTestCase, TCryptoResult&gt;</Name>
+        <Access>Public</Access>
+        <Location left="1662" top="689" />
+        <Size width="607" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">TCryptoResult CompleteDeferredCrypto(TTestGroup testGroup, TTestCase serverTestCase, TTestCase iutTestCase)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestCaseValidator&lt;TTestCase&gt;</Name>
+        <Access>Public</Access>
+        <Location left="1280" top="689" />
+        <Size width="310" height="95" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">TestCaseValidation Validate(TTestCase suppliedResult)</Member>
+        <Member type="Property">int TestCaseId { get; }</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestCaseValidatorFactory&lt;TTestVectorSet, TTestCase&gt;</Name>
+        <Access>Public</Access>
+        <Location left="588" top="557" />
+        <Size width="740" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">IEnumerable&lt;ITestCaseValidator&lt;TTestCase&gt;&gt; GetValidators(TTestVectorSet testVectorSet)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITestReconstitutor&lt;TTestVectorSet, TTestGroup&gt;</Name>
+        <Access>Public</Access>
+        <Location left="812" top="407" />
+        <Size width="603" height="95" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">TTestVectorSet GetTestVectorSetExpectationFromResponse(dynamic answerResponse, dynamic promptResponse)</Member>
+        <Member type="Method">IEnumerable&lt;TTestGroup&gt; GetTestGroupsFromResultResponse(dynamic resultResponse)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IDynamicParser</Name>
+        <Access>Public</Access>
+        <Location left="812" top="288" />
+        <Size width="254" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ParseResponse&lt;object&gt; Parse(string path)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IValidator</Name>
+        <Access>Public</Access>
+        <Location left="186" top="307" />
+        <Size width="463" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">ValidateResponse Validate(string resultPath, string answerPath)</Member>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="2" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>563</X>
+          <Y>600</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

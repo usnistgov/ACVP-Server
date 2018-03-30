@@ -1,0 +1,12 @@
+{
+  "Algorithm": "TDES",
+  "Mode": "OFB",
+  "IsSample": false,
+  "Direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "KeyingOption": [
+    1
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "Algorithm": "SHA3",
+  "Mode": "",
+  "IsSample": true,
+  "digestSize": [
+    224,
+    256,
+    384,
+    512
+  ],
+  "inBit": true,
+  "outBit": false,
+  "inEmpty": true
+}

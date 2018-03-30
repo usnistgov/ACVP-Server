@@ -1,0 +1,110 @@
+{
+  "Algorithm": "KDF",
+  "Mode": "",
+  "IsSample": true,
+  "Capabilities": [
+    {
+      "KdfMode": "counter",
+      "MacMode": [
+        "cmac-aes128",
+        "cmac-aes192",
+        "cmac-aes256",
+        "cmac-tdes",
+        "hmac-sha1",
+        "hmac-sha224",
+        "hmac-sha256",
+        "hmac-sha384",
+        "hmac-sha512"
+      ],
+      "SupportedLengths": [
+        {
+          "min": 8,
+          "max": 1024,
+          "increment": 1
+        }
+      ],
+      "FixedDataOrder": [
+        "after fixed data",
+        "before fixed data",
+        "middle fixed data"
+      ],
+      "CounterLength": [
+        8,
+        16,
+        24,
+        32
+      ],
+      "SupportsEmptyIv": false
+    },
+    {
+      "KdfMode": "feedback",
+      "MacMode": [
+        "cmac-aes128",
+        "cmac-aes192",
+        "cmac-aes256",
+        "cmac-tdes",
+        "hmac-sha1",
+        "hmac-sha224",
+        "hmac-sha256",
+        "hmac-sha384",
+        "hmac-sha512"
+      ],
+      "SupportedLengths": [
+        {
+          "min": 8,
+          "max": 1024,
+          "increment": 1
+        }
+      ],
+      "FixedDataOrder": [
+        "none",
+        "after fixed data",
+        "before fixed data",
+        "before iterator"
+      ],
+      "CounterLength": [
+        0,
+        8,
+        16,
+        24,
+        32
+      ],
+      "SupportsEmptyIv": true
+    },
+    {
+      "KdfMode": "double pipeline iteration",
+      "MacMode": [
+        "cmac-aes128",
+        "cmac-aes192",
+        "cmac-aes256",
+        "cmac-tdes",
+        "hmac-sha1",
+        "hmac-sha224",
+        "hmac-sha256",
+        "hmac-sha384",
+        "hmac-sha512"
+      ],
+      "SupportedLengths": [
+        {
+          "min": 8,
+          "max": 1024,
+          "increment": 1
+        }
+      ],
+      "FixedDataOrder": [
+        "none",
+        "after fixed data",
+        "before fixed data",
+        "before iterator"
+      ],
+      "CounterLength": [
+        0,
+        8,
+        16,
+        24,
+        32
+      ],
+      "SupportsEmptyIv": false
+    }
+  ]
+}

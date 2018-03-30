@@ -1,0 +1,26 @@
+{
+  "Algorithm": "AES-KWP",
+  "Mode": "KeyWrap",
+  "IsSample": false,
+  "KeyLen": [
+    128,
+    192,
+    256
+  ],
+  "Direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "KwCipher": [
+    "cipher",
+    "inverse"
+  ],
+  "PtLen": [
+    {
+      "min": 8,
+      "max": 4096,
+      "increment": 8
+    }
+  ],
+  "KeyingOption": null
+}
