@@ -8,6 +8,10 @@
         where TSymmetricCipherResult : IModeBlockCipherResult
     {
         /// <summary>
+        /// Does the mode support partial blocks?
+        /// </summary>
+        bool IsPartialBlockAllowed { get; }
+        /// <summary>
         /// Process a message using the mode wrapping the symmetric block cipher
         /// </summary>
         /// <param name="param">The parameters for performing the cipher operation</param>

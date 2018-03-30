@@ -9,7 +9,7 @@
         /// The cipher's block size
         /// </summary>
         /// <returns></returns>
-        int BlockSizeBits { get; }
+        int BlockSizeBytes { get; }
         /// <summary>
         /// Initialize the primitive
         /// </summary>
@@ -18,7 +18,10 @@
         /// <summary>
         /// Process a single block of data
         /// </summary>
-        /// <param name="block"></param>
-        void ProcessSingleBlock(byte[,] block);
+        /// <param name="payLoad">The data to process</param>
+        /// <param name="outBuffer">The processed output</param>
+        /// <param name="blockIndex">The block to process</param>
+        /// 
+        void ProcessSingleBlock(byte[] payLoad, byte[] outBuffer, int blockIndex);
     }
 }
