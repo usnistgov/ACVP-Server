@@ -10,21 +10,19 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
 {
     public class EcbBlockCipher : ModeBlockCipherBase<SymmetricCipherResult>
     {
-        private readonly IBlockCipherEngine _engine;
+        public override bool IsPartialBlockAllowed => false;
 
-        public EcbBlockCipher(IBlockCipherEngine engine)
-        {
-            _engine = engine;
-        }
+        public EcbBlockCipher(IBlockCipherEngine engine) : base(engine) { }
 
         public override SymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param)
         {
+            CheckPayloadRequirements(param.Payload);
             var key = param.Key.ToBytes();
 
             var engineParam = new EngineInitParameters(param.Direction, key, param.UseInverseCipherMode);
             _engine.Init(engineParam);
 
-            var numberOfBlocks = GetNumberOfBlocks(_engine.BlockSizeBits, param.Payload.BitLength);
+            var numberOfBlocks = GetNumberOfBlocks(param.Payload.BitLength);
             var outBuffer = GetOutputBuffer(param.Payload.BitLength);
 
             // block setup is same between encrypt/decrypt
@@ -35,29 +33,11 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
         
         private void ProcessPayload(IModeBlockCipherParameters param, int numberOfBlocks, byte[] outBuffer)
         {
-            var block = new byte[4, 4];
-            
+            var payLoad = param.Payload.ToBytes();
+
             for (int i = 0; i < numberOfBlocks; i++)
             {
-                //put payload into the block
-                for (int j = 0; j < _engine.BlockSizeBits / 32; j++)
-                {
-                    for (int t = 0; t < 4; t++)
-                    {
-                        block[t, j] = param.Payload.ToBytes()[i * 16 + 4 * j + t];
-                    }
-                }
-
-                _engine.ProcessSingleBlock(block);
-
-                //put processed block into into the out buffer
-                for (int j = 0; j < _engine.BlockSizeBits / 32; j++)
-                {
-                    for (int t = 0; t < 4; t++)
-                    {
-                        outBuffer[i * 16 + 4 * j + t] = block[t, j];
-                    }
-                }
+                _engine.ProcessSingleBlock(payLoad, outBuffer, i);
             }
         }
     }

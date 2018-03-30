@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
         private byte[] _key;
         private bool _useInverseCipher;
 
-        public int BlockSizeBits => 128;
+        public int BlockSizeBytes => 16;
 
         public void Init(IBlockCipherEngineParameters param)
         {
@@ -48,11 +48,15 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
             PopulateKeySchedule();
         }
 
-        public void ProcessSingleBlock(byte[,] block)
+        public void ProcessSingleBlock(byte[] payLoad, byte[] outBuffer, int blockIndex)
         {
             if (_key == null)
             {
                 throw new InvalidOperationException("Engine has not been initialized");
+            }
+            if (payLoad.Length % BlockSizeBytes != 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(payLoad), "not a modulus of the block size");
             }
 
             List<(BlockCipherDirections direction, bool useInverseCipher, Action<byte[,]> action)> workerMappings =
@@ -76,7 +80,56 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
                 throw new ArgumentException($"Invalid arguments passed into {nameof(ProcessSingleBlock)}.");
             }
 
-            action(block);
+            var multiDimensionBlock = PopulateMultiDimensionBlock(payLoad, blockIndex);
+
+            action(multiDimensionBlock);
+
+            PopulateOutputFromResult(multiDimensionBlock, outBuffer, blockIndex);
+        }
+
+        /// <summary>
+        /// Places the array into a 2d array the AES internals can operate on
+        /// </summary>
+        /// <param name="payLoad">The payload (all blocks)</param>
+        /// <param name="blockIndex">The index of the block to process</param>
+        /// <returns></returns>
+        private byte[,] PopulateMultiDimensionBlock(byte[] payLoad, int blockIndex)
+        {
+            // (Blocksize / BitsInByte).Sqrt => (128 / 8).Sqrt => 4
+            var dimension = 4;
+            var multiDimensionBlock = new byte[dimension, dimension];
+
+            for (int i = 0; i < dimension; i++)
+            {
+                for (int j = 0; j < dimension; j++)
+                {
+                    multiDimensionBlock[j, i] = 
+                        payLoad[blockIndex * BlockSizeBytes + dimension * i + j];
+                }
+            }
+
+            return multiDimensionBlock;
+        }
+
+        /// <summary>
+        /// Puts the "AES internals friendly" multidimensional array back into a flat byte array.
+        /// </summary>
+        /// <param name="multiDimensionBlock"></param>
+        /// <param name="outBuffer"></param>
+        /// <param name="blockIndex"></param>
+        private void PopulateOutputFromResult(byte[,] multiDimensionBlock, byte[] outBuffer, int blockIndex)
+        {
+            // (Blocksize / BitsInByte).Sqrt => (128 / 8).Sqrt => 4
+            var dimension = 4;
+
+            for (int i = 0; i < dimension; i++)
+            {
+                for (int j = 0; j < dimension; j++)
+                {
+                    outBuffer[blockIndex * BlockSizeBytes + dimension * i + j] = 
+                        multiDimensionBlock[j, i];
+                }
+            }
         }
 
         private void Encrypt(byte[,] block)
@@ -236,7 +289,7 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
             {
                 k[i % 4, i / 4] = _key[i];
             }
-            _keySchedule = new RijndaelKeySchedule(keyBits, BlockSizeBits, k);
+            _keySchedule = new RijndaelKeySchedule(keyBits, BlockSizeBytes * _bitsInByte, k);
         }
     }
 }
