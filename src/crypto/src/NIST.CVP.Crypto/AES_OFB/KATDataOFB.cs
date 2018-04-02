@@ -70,7 +70,7 @@ namespace NIST.CVP.Crypto.AES_OFB
         }
         #endregion VarTxt
 
-        #region VarTxt
+        #region VarKey
         public static List<AlgoArrayResponse> GetVarKey128BitKey()
         {
             var initial = KATData.GetVarKey128BitKey();

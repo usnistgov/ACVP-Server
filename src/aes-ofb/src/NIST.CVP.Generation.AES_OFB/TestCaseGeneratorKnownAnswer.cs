@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -14,18 +15,18 @@ namespace NIST.CVP.Generation.AES_OFB
         private readonly Dictionary<(int keyLength, string katType), List<AlgoArrayResponse>> _katMapping =
             new Dictionary<(int keyLength, string katType), List<AlgoArrayResponse>>()
             {
-                {(128, "gfsbox"), KATData.GetGFSBox128BitKey()},
-                {(192, "gfsbox"), KATData.GetGFSBox192BitKey()},
-                {(256, "gfsbox"), KATData.GetGFSBox256BitKey()},
-                {(128, "keysbox"), KATData.GetKeySBox128BitKey()},
-                {(192, "keysbox"), KATData.GetKeySBox192BitKey()},
-                {(256, "keysbox"), KATData.GetKeySBox256BitKey()},
-                {(128, "vartxt"), KATData.GetVarTxt128BitKey()},
-                {(192, "vartxt"), KATData.GetVarTxt192BitKey()},
-                {(256, "vartxt"), KATData.GetVarTxt256BitKey()},
-                {(128, "varkey"), KATData.GetVarKey128BitKey()},
-                {(192, "varkey"), KATData.GetVarKey192BitKey()},
-                {(256, "varkey"), KATData.GetVarKey256BitKey()},
+                {(128, "gfsbox"), KATDataOFB.GetGFSBox128BitKey()},
+                {(192, "gfsbox"), KATDataOFB.GetGFSBox192BitKey()},
+                {(256, "gfsbox"), KATDataOFB.GetGFSBox256BitKey()},
+                {(128, "keysbox"), KATDataOFB.GetKeySBox128BitKey()},
+                {(192, "keysbox"), KATDataOFB.GetKeySBox192BitKey()},
+                {(256, "keysbox"), KATDataOFB.GetKeySBox256BitKey()},
+                {(128, "vartxt"), KATDataOFB.GetVarTxt128BitKey()},
+                {(192, "vartxt"), KATDataOFB.GetVarTxt192BitKey()},
+                {(256, "vartxt"), KATDataOFB.GetVarTxt256BitKey()},
+                {(128, "varkey"), KATDataOFB.GetVarKey128BitKey()},
+                {(192, "varkey"), KATDataOFB.GetVarKey192BitKey()},
+                {(256, "varkey"), KATDataOFB.GetVarKey256BitKey()},
             };
 
         private int _katsIndex = 0;
