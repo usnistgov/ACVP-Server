@@ -157,7 +157,6 @@ namespace NIST.CVP.Crypto.AES_OFB.Tests
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
         }
 
-
         [Test]
         [TestCaseSource(nameof(_GetGFSBox128BitKey))]
         [TestCaseSource(nameof(_GetGFSBox192BitKey))]
@@ -301,6 +300,30 @@ namespace NIST.CVP.Crypto.AES_OFB.Tests
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.PlainText, result.Result, nameof(algoArrayResponse.CipherText));
+        }
+
+        [Test]
+        public void ShouldEncryptCorrectly()
+        {
+            var pt = new BitString("F34481EC3CC627BACD5DC3FB08F273E6");
+            var key = new BitString("00000000000000000000000000000000");
+            var iv = new BitString("00000000000000000000000000000000");
+            var expectedCt = new BitString("95adca38d34c0b81451139a2c2c658c8");
+
+            var result = _subject.BlockEncrypt(iv, key, pt);
+
+            Assume.That(result.Success, result.ErrorMessage);
+            Assert.AreEqual(expectedCt.ToHex(), result.Result.ToHex());
+
+            var pt2 = new BitString("00000000000000000000000000000000");
+            var key2 = new BitString("00000000000000000000000000000000");
+            var iv2 = new BitString("F34481EC3CC627BACD5DC3FB08F273E6");
+            var expectedCt2 = new BitString("0336763e966d92595a567cc9ce537f5e");
+
+            var result2 = _subject.BlockEncrypt(iv2, key2, pt2);
+            
+            Assume.That(result2.Success, result2.ErrorMessage);
+            Assert.AreEqual(expectedCt2.ToHex(), result2.Result.ToHex());
         }
     }
 }

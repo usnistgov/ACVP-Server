@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.Common.Symmetric.AES.KATs
+namespace NIST.CVP.Crypto.AES_OFB
 {
     public class KATDataOFB
     {
@@ -68,7 +70,7 @@ namespace NIST.CVP.Crypto.Common.Symmetric.AES.KATs
         }
         #endregion VarTxt
 
-        #region VarTxt
+        #region VarKey
         public static List<AlgoArrayResponse> GetVarKey128BitKey()
         {
             var initial = KATData.GetVarKey128BitKey();
