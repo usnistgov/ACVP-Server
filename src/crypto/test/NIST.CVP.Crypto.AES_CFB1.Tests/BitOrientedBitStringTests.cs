@@ -134,5 +134,12 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
             // Note that bits input are MSb and ToString prints in MSb
             Assert.AreEqual(input, subject.ToString());
         }
+
+        [Test]
+        [TestCase("BEEFFACE")]
+        public void ShouldThrowExceptionWhenNotAll1sAnd0s(string input)
+        {
+            Assert.Throws(typeof(ArgumentException), () => BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(input));
+        }
     }
 }
