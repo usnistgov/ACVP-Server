@@ -211,7 +211,7 @@ namespace NIST.CVP.Crypto.AES_ECB.Tests
 
         [Test]
         [TestCaseSource(nameof(_GetVarKey192BitKey))]
-        public void ShouldVarKeyCorrectlyWith196BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
+        public void ShouldVarKeyCorrectlyWith192BitKey(string expectedCipherText, AlgoArrayResponse algoArrayResponse)
         {
             var result = _subject.BlockEncrypt(algoArrayResponse.Key, algoArrayResponse.PlainText);
 
