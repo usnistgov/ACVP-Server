@@ -1,5 +1,6 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
 
@@ -134,91 +135,91 @@ namespace NIST.CVP.Crypto.Common.DRBG.Helpers
                     mode: DrbgMode.SHA1,
                     maxSecurityStrength: 160,
                     minEntropyInputLength: 160,
-                    maxEntropyInputLength: 160,
+                    maxEntropyInputLength: (long) 1 << 35,
                     maxPersoStringLength: (long) 1 << 35,
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
                     minNonceLength: 160,
-                    maxNonceLength: 160
+                    maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Hash,
                     mode: DrbgMode.SHA224,
                     maxSecurityStrength: 224,
                     minEntropyInputLength: 224,
-                    maxEntropyInputLength: 224,
+                    maxEntropyInputLength: (long) 1 << 35,
                     maxPersoStringLength: (long) 1 << 35,
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
                     minNonceLength: 224,
-                    maxNonceLength: 224
+                    maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Hash,
                     mode: DrbgMode.SHA256,
                     maxSecurityStrength: 256,
                     minEntropyInputLength: 256,
-                    maxEntropyInputLength: 256,
+                    maxEntropyInputLength: (long) 1 << 35,
                     maxPersoStringLength: (long) 1 << 35,
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
                     minNonceLength: 256,
-                    maxNonceLength: 256
+                    maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Hash,
                     mode: DrbgMode.SHA384,
                     maxSecurityStrength: 384,
                     minEntropyInputLength: 384,
-                    maxEntropyInputLength: 384,
+                    maxEntropyInputLength: (long) 1 << 35,
                     maxPersoStringLength: (long) 1 << 35,
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
                     minNonceLength: 384,
-                    maxNonceLength: 384
+                    maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Hash,
                     mode: DrbgMode.SHA512,
                     maxSecurityStrength: 512,
                     minEntropyInputLength: 512,
-                    maxEntropyInputLength: 512,
+                    maxEntropyInputLength: (long) 1 << 35,
                     maxPersoStringLength: (long) 1 << 35,
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
                     minNonceLength: 512,
-                    maxNonceLength: 512
+                    maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Hash,
                     mode: DrbgMode.SHA512t224,
                     maxSecurityStrength: 224,
                     minEntropyInputLength: 224,
-                    maxEntropyInputLength: 224,
+                    maxEntropyInputLength: (long) 1 << 35,
                     maxPersoStringLength: (long) 1 << 35,
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
                     minNonceLength: 224,
-                    maxNonceLength: 224
+                    maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Hash,
                     mode: DrbgMode.SHA512t256,
                     maxSecurityStrength: 256,
                     minEntropyInputLength: 256,
-                    maxEntropyInputLength: 256,
+                    maxEntropyInputLength: (long) 1 << 35,
                     maxPersoStringLength: (long) 1 << 35,
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
                     minNonceLength: 256,
-                    maxNonceLength: 256
+                    maxNonceLength: (long) 1 << 35
                 ),
                 #endregion SHA
             };
