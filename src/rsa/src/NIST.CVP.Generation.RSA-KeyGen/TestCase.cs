@@ -151,7 +151,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             var expandoSource = (ExpandoObject) source;
 
             Deferred = expandoSource.GetTypeFromProperty<bool>("deferred");
-            FailureTest = expandoSource.GetTypeFromProperty<bool>("result");
+            FailureTest = expandoSource.GetTypeFromProperty<string>("result")?.ToLower() == "failed";
 
             //Bitlens = expandoSource.GetTypeFromProperty<int[]>("bitlens");
             Bitlens = IntArrayFromObject("bitlens", expandoSource);
