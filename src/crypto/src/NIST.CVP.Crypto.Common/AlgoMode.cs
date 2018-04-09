@@ -118,6 +118,8 @@ namespace NIST.CVP.Crypto.Common
         RSA_LegacySigVer,
         [Description("RSA-SignaturePrimitive")]
         RSA_SignaturePrimitive,
+        [Description("SHA1")]
+        SHA1,
         [Description("SHA2")]
         SHA2,
         [Description("SHA3")]
