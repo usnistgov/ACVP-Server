@@ -119,6 +119,8 @@ namespace NIST.CVP.Common
         RSA_LegacySigVer,
         [EnumMember(Value = "RSA-SignaturePrimitive")]
         RSA_SignaturePrimitive,
+        [EnumMember(Value = "SHA1")]
+        SHA1,
         [EnumMember(Value = "SHA2")]
         SHA2,
         [EnumMember(Value = "SHA3")]
