@@ -21,7 +21,7 @@ namespace NIST.CVP.Crypto.DRBG
         public DrbgHmac(IEntropyProvider entropyProvider, IHmac hmac, DrbgParameters drbgParameters) : base(entropyProvider, drbgParameters)
         {
             _hmac = hmac;
-            HashAttributes = DrbgAttributesHelper.GetHashDrbgAttriutes(drbgParameters.Mode);
+            HashAttributes = DrbgAttributesHelper.GetHashDrbgAttributes(drbgParameters.Mode);
         }
 
         protected override DrbgStatus InstantiateAlgorithm(BitString entropyInput, BitString nonce, BitString personalizationString)

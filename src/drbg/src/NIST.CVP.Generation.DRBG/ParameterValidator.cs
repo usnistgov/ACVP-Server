@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.DRBG
                 }
                 else if (attributes.Mechanism == DrbgMechanism.Hash || attributes.Mechanism == DrbgMechanism.HMAC)
                 {
-                    baseOutputLength = DrbgAttributesHelper.GetHashDrbgAttriutes(attributes.Mode).OutputLength;
+                    baseOutputLength = DrbgAttributesHelper.GetHashDrbgAttributes(attributes.Mode).OutputLength;
                 }
 
                 ValidateOutputBitLength(capability, errorResults, baseOutputLength);
@@ -117,7 +117,7 @@ namespace NIST.CVP.Generation.DRBG
                 new long[] { nonceFullDomain.Minimum, nonceFullDomain.Maximum },
                 attributes.MinNonceLength,
                 attributes.MaxNonceLength,
-                "Nonce Range"
+                $"Nonce Range for {capability.Mode}"
             );
             errorResults.AddIfNotNullOrEmpty(rangeCheck);
 

@@ -22,7 +22,7 @@ namespace NIST.CVP.Crypto.DRBG
         public DrbgHash(IEntropyProvider entropyProvider, ISha sha, DrbgParameters drbgParameters) : base(entropyProvider, drbgParameters)
         {
             _sha = sha;
-            HashAttributes = DrbgAttributesHelper.GetHashDrbgAttriutes(drbgParameters.Mode);
+            HashAttributes = DrbgAttributesHelper.GetHashDrbgAttributes(drbgParameters.Mode);
         }
 
         protected override DrbgResult GenerateAlgorithm(int requestedNumberOfBits, BitString additionalInput)

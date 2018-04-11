@@ -180,7 +180,7 @@ namespace NIST.CVP.Generation.Core.Tests
                 var gen = scope.Resolve<IGenerator>();
                 var result = gen.Generate(fileName);
 
-                Assert.IsTrue(result.Success, "Generator failed to complete");
+                Assert.IsTrue(result.Success, $"Generator failed to complete: {result.ErrorMessage}");
             }
 
             Assert.IsTrue(File.Exists($"{targetFolder}{TestVectorFileNames[0]}"), $"{targetFolder}{TestVectorFileNames[0]}");
