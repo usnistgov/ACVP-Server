@@ -1,12 +1,13 @@
 ﻿using NIST.CVP.Crypto.Common;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Crypto.TDES_CFB
 {
     public static class ModeFactory
     {
-        public static CFBMode GetMode(AlgoMode algo)
+        public static ICFBMode GetMode(AlgoMode algo)
         {
-            CFBMode mode;
+            ICFBMode mode;
             switch (algo)
             {
                 case AlgoMode.TDES_CFB1:
