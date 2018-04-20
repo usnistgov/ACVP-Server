@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
                 N = 224,
                 GGen = ParameterValidator.VALID_G_MODES,
                 PQGen = ParameterValidator.VALID_PQ_MODES,
-                HashAlgs = ParameterValidator.VALID_HASH_ALGS
+                HashAlg = ParameterValidator.VALID_HASH_ALGS
             };
 
             caps[1] = new Capability
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
                 N = 256,
                 GGen = ParameterValidator.VALID_G_MODES,
                 PQGen = ParameterValidator.VALID_PQ_MODES,
-                HashAlgs = ParameterValidator.VALID_HASH_ALGS
+                HashAlg = ParameterValidator.VALID_HASH_ALGS
             };
 
             caps[2] = new Capability
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
                 N = 256,
                 GGen = ParameterValidator.VALID_G_MODES,
                 PQGen = ParameterValidator.VALID_PQ_MODES,
-                HashAlgs = ParameterValidator.VALID_HASH_ALGS
+                HashAlg = ParameterValidator.VALID_HASH_ALGS
             };
 
             return caps;

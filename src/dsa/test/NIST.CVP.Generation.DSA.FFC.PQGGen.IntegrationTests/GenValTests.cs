@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
                 GGen = new[] { "canonical" },
                 L = 2048,
                 N = 224,
-                HashAlgs = new[] { "sha2-224", "sha2-512/224" }
+                HashAlg = new[] { "sha2-224", "sha2-512/224" }
             };
 
             caps[1] = new Capability
@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
                 GGen = new[] { "unverifiable" },
                 L = 2048,
                 N = 256,
-                HashAlgs = new[] { "sha2-256" }
+                HashAlg = new[] { "sha2-256" }
             };
 
             var p = new Parameters
@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
                 GGen = new[] { "unverifiable", "canonical" },
                 L = 2048,
                 N = 224,
-                HashAlgs = new[] { "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" }
+                HashAlg = new[] { "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" }
             };
 
             caps[1] = new Capability
@@ -91,7 +91,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
                 GGen = new[] { "unverifiable", "canonical" },
                 L = 2048,
                 N = 256,
-                HashAlgs = new[] { "sha2-256", "sha2-384", "sha2-512", "sha2-512/256" }
+                HashAlg = new[] { "sha2-256", "sha2-384", "sha2-512", "sha2-512/256" }
             };
 
             caps[2] = new Capability
@@ -100,7 +100,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.IntegrationTests
                 GGen = new[] { "unverifiable", "canonical" },
                 L = 3072,
                 N = 256,
-                HashAlgs = new[] { "sha2-256", "sha2-384", "sha2-512", "sha2-512/256" }
+                HashAlg = new[] { "sha2-256", "sha2-384", "sha2-512", "sha2-512/256" }
             };
 
             var p = new Parameters

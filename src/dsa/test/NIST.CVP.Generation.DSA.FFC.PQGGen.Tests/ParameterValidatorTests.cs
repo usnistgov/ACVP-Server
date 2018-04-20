@@ -162,7 +162,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
                 N = n,
                 PQGen = pqModes,
                 GGen = gModes,
-                HashAlgs = hashAlgs
+                HashAlg = hashAlgs
             };
         }
 

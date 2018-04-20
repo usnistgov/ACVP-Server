@@ -19,7 +19,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             {
                 foreach (var gGen in capability.GGen)
                 {
-                    foreach (var hashAlg in capability.HashAlgs)
+                    foreach (var hashAlg in capability.HashAlg)
                     {
                         var testGroup = new TestGroup
                         {
