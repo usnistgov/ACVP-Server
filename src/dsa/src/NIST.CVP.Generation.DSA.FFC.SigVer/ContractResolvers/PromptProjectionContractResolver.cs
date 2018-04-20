@@ -21,7 +21,10 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.ContractResolvers
                 nameof(TestGroup.L),
                 nameof(TestGroup.N),
                 nameof(TestGroup.HashAlgName),
-                nameof(TestGroup.TestType)
+                nameof(TestGroup.TestType),
+                nameof(TestGroup.P),
+                nameof(TestGroup.Q),
+                nameof(TestGroup.G)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
