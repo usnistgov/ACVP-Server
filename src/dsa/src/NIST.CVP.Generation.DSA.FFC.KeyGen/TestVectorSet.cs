@@ -111,10 +111,10 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                             testDict.Add("p", test.DomainParams.P);
                             testDict.Add("q", test.DomainParams.Q);
                             testDict.Add("g", test.DomainParams.G);
-                        }
 
-                        testDict.Add("x", test.Key.PrivateKeyX);
-                        testDict.Add("y", test.Key.PublicKeyY);
+                            testDict.Add("x", test.Key.PrivateKeyX);
+                            testDict.Add("y", test.Key.PublicKeyY);
+                        }
 
                         tests.Add(testObject);
                     }
