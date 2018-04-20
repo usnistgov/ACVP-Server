@@ -91,7 +91,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
                 N = 160,
                 GGen = ParameterValidator.VALID_G_MODES,
                 PQGen = ParameterValidator.VALID_PQ_MODES,
-                HashAlgs = ParameterValidator.VALID_HASH_ALGS
+                HashAlg = ParameterValidator.VALID_HASH_ALGS
             };
 
             caps[1] = new Capability
@@ -100,7 +100,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
                 N = 224,
                 GGen = ParameterValidator.VALID_G_MODES,
                 PQGen = ParameterValidator.VALID_PQ_MODES,
-                HashAlgs = ParameterValidator.VALID_HASH_ALGS.Where(h => h != "sha-1").ToArray()
+                HashAlg = ParameterValidator.VALID_HASH_ALGS.Where(h => h != "sha-1").ToArray()
             };
 
             caps[2] = new Capability
@@ -109,7 +109,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
                 N = 256,
                 GGen = ParameterValidator.VALID_G_MODES,
                 PQGen = ParameterValidator.VALID_PQ_MODES,
-                HashAlgs = ParameterValidator.VALID_HASH_ALGS.Where(h => h != "sha-1" && h != "sha2-224" && h != "sha2-512/224").ToArray()
+                HashAlg = ParameterValidator.VALID_HASH_ALGS.Where(h => h != "sha-1" && h != "sha2-224" && h != "sha2-512/224").ToArray()
             };
 
             caps[3] = new Capability
@@ -118,7 +118,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.Tests
                 N = 256,
                 GGen = ParameterValidator.VALID_G_MODES,
                 PQGen = ParameterValidator.VALID_PQ_MODES,
-                HashAlgs = ParameterValidator.VALID_HASH_ALGS.Where(h => h != "sha-1" && h != "sha2-224" && h != "sha2-512/224").ToArray()
+                HashAlg = ParameterValidator.VALID_HASH_ALGS.Where(h => h != "sha-1" && h != "sha2-224" && h != "sha2-512/224").ToArray()
             };
 
             return caps;

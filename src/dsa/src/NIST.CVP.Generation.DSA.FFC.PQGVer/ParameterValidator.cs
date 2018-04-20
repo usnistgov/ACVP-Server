@@ -55,19 +55,19 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                     errors.Add(result);
                 }
 
-                if (capability.HashAlgs.Length == 0)
+                if (capability.HashAlg.Length == 0)
                 {
                     errors.Add("No hash algorithm found");
                     continue;
                 }
 
-                result = ValidateArray(capability.HashAlgs, VALID_HASH_ALGS, "Hash Algs");
+                result = ValidateArray(capability.HashAlg, VALID_HASH_ALGS, "Hash Algs");
                 if (!string.IsNullOrEmpty(result))
                 {
                     errors.Add(result);
                 }
 
-                foreach (var hashAlg in capability.HashAlgs)
+                foreach (var hashAlg in capability.HashAlg)
                 {
                     if (!VerifyHash(capability.N, hashAlg))
                     {

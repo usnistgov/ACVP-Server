@@ -154,7 +154,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
             return this;
         }
 
-        public static Capability GetCapabilityWith(int l, int n, string[] pqModes, string[] gModes, string[] hashAlgs)
+        public static Capability GetCapabilityWith(int l, int n, string[] pqModes, string[] gModes, string[] hashAlg)
         {
             return new Capability
             {
@@ -162,7 +162,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Tests
                 N = n,
                 PQGen = pqModes,
                 GGen = gModes,
-                HashAlgs = hashAlgs
+                HashAlg = hashAlg
             };
         }
 
