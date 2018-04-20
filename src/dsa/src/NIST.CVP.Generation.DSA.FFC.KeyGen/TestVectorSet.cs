@@ -50,6 +50,16 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                         var testDict = ((IDictionary<string, object>) testObject);
                         testDict.Add("tcId", test.TestCaseId);
 
+                        if (IsSample)
+                        {
+                            testDict.Add("p", test.DomainParams.P);
+                            testDict.Add("q", test.DomainParams.Q);
+                            testDict.Add("g", test.DomainParams.G);
+
+                            testDict.Add("x", test.Key.PrivateKeyX);
+                            testDict.Add("y", test.Key.PublicKeyY);
+                        }
+
                         tests.Add(testObject);
                     }
 
