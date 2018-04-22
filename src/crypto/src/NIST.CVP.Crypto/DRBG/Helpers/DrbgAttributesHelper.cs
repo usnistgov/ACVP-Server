@@ -129,7 +129,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxNonceLength: (long) 1 << 35
                 ),
                 #endregion TDES
-                #region SHA
+                #region Hash
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Hash,
                     mode: DrbgMode.SHA1,
@@ -221,7 +221,100 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     minNonceLength: 128,
                     maxNonceLength: (long) 1 << 35
                 ),
-                #endregion SHA
+                #endregion Hash
+                #region HMAC
+                new DrbgAttributes(
+                    mechanism: DrbgMechanism.HMAC,
+                    mode: DrbgMode.SHA1,
+                    maxSecurityStrength: 160,
+                    minEntropyInputLength: 80,
+                    maxEntropyInputLength: (long) 1 << 35,
+                    maxPersoStringLength: (long) 1 << 35,
+                    maxAdditStringLength: (long) 1 << 35,
+                    maxNumberOfBitsPerRequest: 1 << 19,
+                    maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
+                    minNonceLength: 80,
+                    maxNonceLength: (long) 1 << 35
+                ),
+                new DrbgAttributes(
+                    mechanism: DrbgMechanism.HMAC,
+                    mode: DrbgMode.SHA224,
+                    maxSecurityStrength: 224,
+                    minEntropyInputLength: 112,
+                    maxEntropyInputLength: (long) 1 << 35,
+                    maxPersoStringLength: (long) 1 << 35,
+                    maxAdditStringLength: (long) 1 << 35,
+                    maxNumberOfBitsPerRequest: 1 << 19,
+                    maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
+                    minNonceLength: 112,
+                    maxNonceLength: (long) 1 << 35
+                ),
+                new DrbgAttributes(
+                    mechanism: DrbgMechanism.HMAC,
+                    mode: DrbgMode.SHA256,
+                    maxSecurityStrength: 256,
+                    minEntropyInputLength: 128,
+                    maxEntropyInputLength: (long) 1 << 35,
+                    maxPersoStringLength: (long) 1 << 35,
+                    maxAdditStringLength: (long) 1 << 35,
+                    maxNumberOfBitsPerRequest: 1 << 19,
+                    maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
+                    minNonceLength: 128,
+                    maxNonceLength: (long) 1 << 35
+                ),
+                new DrbgAttributes(
+                    mechanism: DrbgMechanism.HMAC,
+                    mode: DrbgMode.SHA384,
+                    maxSecurityStrength: 384,
+                    minEntropyInputLength: 192,
+                    maxEntropyInputLength: (long) 1 << 35,
+                    maxPersoStringLength: (long) 1 << 35,
+                    maxAdditStringLength: (long) 1 << 35,
+                    maxNumberOfBitsPerRequest: 1 << 19,
+                    maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
+                    minNonceLength: 192,
+                    maxNonceLength: (long) 1 << 35
+                ),
+                new DrbgAttributes(
+                    mechanism: DrbgMechanism.HMAC,
+                    mode: DrbgMode.SHA512,
+                    maxSecurityStrength: 512,
+                    minEntropyInputLength: 256,
+                    maxEntropyInputLength: (long) 1 << 35,
+                    maxPersoStringLength: (long) 1 << 35,
+                    maxAdditStringLength: (long) 1 << 35,
+                    maxNumberOfBitsPerRequest: 1 << 19,
+                    maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
+                    minNonceLength: 256,
+                    maxNonceLength: (long) 1 << 35
+                ),
+                new DrbgAttributes(
+                    mechanism: DrbgMechanism.HMAC,
+                    mode: DrbgMode.SHA512t224,
+                    maxSecurityStrength: 224,
+                    minEntropyInputLength: 112,
+                    maxEntropyInputLength: (long) 1 << 35,
+                    maxPersoStringLength: (long) 1 << 35,
+                    maxAdditStringLength: (long) 1 << 35,
+                    maxNumberOfBitsPerRequest: 1 << 19,
+                    maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
+                    minNonceLength: 112,
+                    maxNonceLength: (long) 1 << 35
+                ),
+                new DrbgAttributes(
+                    mechanism: DrbgMechanism.HMAC,
+                    mode: DrbgMode.SHA512t256,
+                    maxSecurityStrength: 256,
+                    minEntropyInputLength: 128,
+                    maxEntropyInputLength: (long) 1 << 35,
+                    maxPersoStringLength: (long) 1 << 35,
+                    maxAdditStringLength: (long) 1 << 35,
+                    maxNumberOfBitsPerRequest: 1 << 19,
+                    maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
+                    minNonceLength: 128,
+                    maxNonceLength: (long) 1 << 35
+                ),
+                #endregion HMAC
             };
         #endregion DrbgAttributes
 
@@ -331,12 +424,6 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
         public static DrbgAttributes GetDrbgAttributes(DrbgMechanism mechanism, DrbgMode mode, bool derivationFunction = false)
         {
             DrbgAttributes result = null;
-            
-            // We treat HMAC as Hash here because they share the same larger properties
-            if (mechanism == DrbgMechanism.HMAC)
-            {
-                mechanism = DrbgMechanism.Hash;
-            }
 
             if (derivationFunction)
             {
@@ -359,12 +446,6 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
         public static DrbgAttributes GetDrbgAttributes(string mechanism, string mode, bool derivationFunction = false)
         {
             DrbgAttributes result = null;
-
-            // We treat HMAC as Hash here because they share the same larger properties
-            if (mechanism.Equals("hmacDRBG", StringComparison.OrdinalIgnoreCase))
-            {
-                mechanism = "hashDRBG";
-            }
 
             if (derivationFunction)
             {

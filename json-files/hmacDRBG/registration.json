@@ -9,30 +9,13 @@
   "ReseedImplemented": true,
   "Capabilities": [
     {
-      "Mode": "SHA-1",
-      "DerFuncEnabled": false,
-      "EntropyInputLen": [
-        800
-      ],
-      "NonceLen": [
-        320
-      ],
-      "PersoStringLen": [
-        640
-      ],
-      "AdditionalInputLen": [
-        480
-      ],
-      "ReturnedBitsLen": 960
-    },
-    {
       "Mode": "SHA2-224",
       "DerFuncEnabled": false,
       "EntropyInputLen": [
         1120
       ],
       "NonceLen": [
-        448
+        128
       ],
       "PersoStringLen": [
         896
@@ -49,7 +32,7 @@
         1280
       ],
       "NonceLen": [
-        512
+        128
       ],
       "PersoStringLen": [
         1024
@@ -60,47 +43,13 @@
       "ReturnedBitsLen": 1536
     },
     {
-      "Mode": "SHA2-384",
-      "DerFuncEnabled": false,
-      "EntropyInputLen": [
-        1920
-      ],
-      "NonceLen": [
-        768
-      ],
-      "PersoStringLen": [
-        1536
-      ],
-      "AdditionalInputLen": [
-        1152
-      ],
-      "ReturnedBitsLen": 2304
-    },
-    {
-      "Mode": "SHA2-512",
-      "DerFuncEnabled": false,
-      "EntropyInputLen": [
-        2560
-      ],
-      "NonceLen": [
-        1024
-      ],
-      "PersoStringLen": [
-        2048
-      ],
-      "AdditionalInputLen": [
-        1536
-      ],
-      "ReturnedBitsLen": 3072
-    },
-    {
       "Mode": "SHA2-512/224",
       "DerFuncEnabled": false,
       "EntropyInputLen": [
         1120
       ],
       "NonceLen": [
-        448
+        128
       ],
       "PersoStringLen": [
         896
@@ -117,7 +66,7 @@
         1280
       ],
       "NonceLen": [
-        512
+        128
       ],
       "PersoStringLen": [
         1024
