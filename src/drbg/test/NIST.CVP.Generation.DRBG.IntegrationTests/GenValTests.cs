@@ -64,22 +64,22 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
 
         public override string[] Modes => new[]
                 {
-                    "SHA-1",
+                    //"SHA-1",
                     "SHA2-224",
                     "SHA2-256",
-                    "SHA2-384",
-                    "SHA2-512",
+                    //"SHA2-384",
+                    //"SHA2-512",
                     "SHA2-512/224",
                     "SHA2-512/256"
                 };
 
         public override int[] SeedLength => new[]
         {
-            160,
+            //160,
             224,
             256,
-            384,
-            512,
+            //384,
+            //512,
             224,
             256
         };
