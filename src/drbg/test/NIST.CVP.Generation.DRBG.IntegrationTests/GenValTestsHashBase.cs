@@ -23,8 +23,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                     new Capability
                     {
                         Mode = Modes[index],
-                        // NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[index])),
-                        NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                        NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[index])),
                         AdditionalInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[index] * 2)),
                         PersoStringLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[index] * 3)),
                         EntropyInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[index] * 4)),
@@ -54,7 +53,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                 capabilities[i] = new Capability
                 {
                     Mode = Modes[i],
-                    NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                    NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
                     AdditionalInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i] * 3)),
                     PersoStringLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i] * 4)),
                     EntropyInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i] * 5)),
