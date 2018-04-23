@@ -28,6 +28,8 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             {
                 errors.Add("Could not find x or y");
             }
+
+            // TODO evaluate once group level properties are allowed in result file.
             else if (suppliedResult.DomainParams.P == 0 || suppliedResult.DomainParams.Q == 0 || suppliedResult.DomainParams.G == 0)
             {
                 errors.Add("Could not find p, q, or g");

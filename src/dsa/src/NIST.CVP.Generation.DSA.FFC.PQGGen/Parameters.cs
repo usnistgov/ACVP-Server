@@ -20,6 +20,6 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
         public string[] GGen { get; set; }
         public int L { get; set; }
         public int N { get; set; }
-        public string[] HashAlgs { get; set; }
+        public string[] HashAlg { get; set; }
     }
 }

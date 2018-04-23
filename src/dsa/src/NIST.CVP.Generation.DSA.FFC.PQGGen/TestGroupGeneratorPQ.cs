@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             {
                 foreach (var pqGen in capability.PQGen)
                 {
-                    foreach (var hashAlg in capability.HashAlgs)
+                    foreach (var hashAlg in capability.HashAlg)
                     {
                         // Gather hash alg
                         var mapping = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(hashAlg);

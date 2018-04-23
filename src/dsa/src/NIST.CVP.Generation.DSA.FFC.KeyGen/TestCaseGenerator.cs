@@ -52,6 +52,10 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
                 return new TestCaseGenerateResponse($"Exception generating key: {ex.Message}");
             }
 
+            // TODO REMOVE once group level properties are allowed.
+            // Adding group level properties PQG to test case,
+            // for isSample only.  Currently result projection does not allow
+            // group level properties, so PQG are being included on a per test case basis.
             testCase.DomainParams = group.DomainParams;
             testCase.Key = keyResult.KeyPair;
             return new TestCaseGenerateResponse(testCase);
