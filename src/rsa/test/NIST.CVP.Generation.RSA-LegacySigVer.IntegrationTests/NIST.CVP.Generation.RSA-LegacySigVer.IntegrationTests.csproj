@@ -8,6 +8,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20171009-10" />
     <PackageReference Include="NUnit" Version="3.8.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
+    <PackageReference Include="Autofac" Version="4.6.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,12 +18,6 @@
     <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.RSA-LegacySigVer\NIST.CVP.Generation.RSA-LegacySigVer.csproj" />
     <ProjectReference Include="..\..\src\NIST.CVP.Generation.RSA-SigVer\NIST.CVP.Generation.RSA-SigVer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Autofac">
-      <HintPath>..\..\..\..\..\..\..\.nuget\packages\autofac\4.6.2\lib\netstandard1.1\Autofac.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
