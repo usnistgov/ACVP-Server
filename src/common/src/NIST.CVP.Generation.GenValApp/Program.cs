@@ -13,9 +13,10 @@ namespace NIST.CVP.Generation.GenValApp
 {
     public static class Program
     {
-        private const string _SETTINGS_FILE = "appSettings.json";
-        private static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
         private static readonly AlgorithmConfig Config;
+
+        public const string SETTINGS_FILE = "appSettings.json";
+        public static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         /// <summary>
         /// Static constructor - bootstraps and sets configuration
@@ -26,7 +27,7 @@ namespace NIST.CVP.Generation.GenValApp
             {
                 var builder = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile($"{RootDirectory}{_SETTINGS_FILE}", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"{RootDirectory}{SETTINGS_FILE}", optional: false, reloadOnChange: true)
                     .AddEnvironmentVariables();
 
                 var configuration = builder.Build();
