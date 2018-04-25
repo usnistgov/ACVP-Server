@@ -1,8 +1,0 @@
-{
-  "testField": 10,
-  "secondField": 20,
-  "arrayField": [ 30, 40 ],
-  "objectField": {
-    "insideField":  50
-  }
-}

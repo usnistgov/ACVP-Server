@@ -1,0 +1,4583 @@
+# CAVS 21.4
+# DRBG800-90A information for "test"
+# Generated on Mon Dec 11 10:51:31 2017
+# 0125a236ca36b56203f939d792b5e416174889e856994b53874ed5faa19587a63df2ef54e9d6ec1e3af8de4f48ee087fd9bf64a9ddf5f738ed3b10274718c224
+
+# CTR_DRBG options: 3KeyTDEA use df :: 3KeyTDEA no df
+
+[3KeyTDEA use df]
+[PredictionResistance = True]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = e0cc68e05bfd868989d98b8b5838
+Nonce = 90fafee42ec7aa
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 0a792ae03e2a2a4dc63e4279718d
+AdditionalInput = 
+EntropyInputPR = 1612aa6f5c2edb5192d5c3db46db
+ReturnedBits = e812531a2a612cf34cee1ae66737809610d7cf89d58c49d99c99cef0ab7cefbf
+
+COUNT = 1
+EntropyInput = fd660394d7d29bf137b5baa90c55
+Nonce = 2e411f05bd9b00
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 63ce5509d56941a34cf6b07c4e10
+AdditionalInput = 
+EntropyInputPR = 7025cef4d046e7f08d27fee08b72
+ReturnedBits = 2f9eba41d82e4308a4febc3d56d2bbc7a42e6a5317e3ed02f91328c76fc8859b
+
+COUNT = 2
+EntropyInput = 963fc7a9467c96c1b5b4c1c43013
+Nonce = 01b16b67899c06
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 1359323a542a4ea2d676e822d326
+AdditionalInput = 
+EntropyInputPR = b5ec24ee977bb647f631bd2208e6
+ReturnedBits = aa98c14b70cdc556b49da5010daa0646aeac91ecbb467352b319ffdc8fa52929
+
+COUNT = 3
+EntropyInput = 598c9a9eb1df5fea0a4b9bc21a3b
+Nonce = e439186ed0b97e
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = f0a0a41816a5f5f16033cbbad113
+AdditionalInput = 
+EntropyInputPR = 9b258bfcfcf87161965147d662e4
+ReturnedBits = 3d65736aefe544f0ebd2c985c64ea42edadd021e9824b39bacd26307af13840f
+
+COUNT = 4
+EntropyInput = 9f9720d189a01b421e04d1f373c0
+Nonce = 983edc5dc3bda5
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = bffac85977f6897e47306d2b535c
+AdditionalInput = 
+EntropyInputPR = bee20007654c3dce593cf106e55a
+ReturnedBits = ee1e4edcab9e8667e1b478f5b313ce55bcf59e84145821f81532e6940d195c59
+
+COUNT = 5
+EntropyInput = 1967daeb49f6d5fbb40659a6a9de
+Nonce = 7a76f00b088dd9
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 11c1ec2ed6a5854fbddb4523b2af
+AdditionalInput = 
+EntropyInputPR = beb66b79befae8bd19dd4c10d6da
+ReturnedBits = ebfaf53a7cf241e5443e002f2a4dcb21034cb734d569f2d34282c819d2d1da84
+
+COUNT = 6
+EntropyInput = c14a47e3fef353d9de1e39ccbf13
+Nonce = 0b3281bf8ef455
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 6d180593825e63373e5f67bd7a6c
+AdditionalInput = 
+EntropyInputPR = b35aa6fd4296ef91ba1cc4739ec4
+ReturnedBits = d9703aa713eda8a2f2e7dd809df37adbfdeeead0e66c908f8c7d905dd4e1a820
+
+COUNT = 7
+EntropyInput = cb1424baa8aea609c5f28df03f23
+Nonce = 5e1228fc2b7945
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = fdf22776a5e0b2cbb77bc5e11336
+AdditionalInput = 
+EntropyInputPR = e1c5695565e4808813a4a4764e38
+ReturnedBits = 3d1f0bdf65c90d9d42aad008fef4c0ad2db2d10fbabde18db58feb1926f93147
+
+COUNT = 8
+EntropyInput = 05c28d24b8a99218566a6db6db5e
+Nonce = 884737284a06ba
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = b2d4ea15a71f421065551a9609a6
+AdditionalInput = 
+EntropyInputPR = fb8b84fba944e699045cd8e9d4f6
+ReturnedBits = 35742df5b9434cff767d8147c8763c140445bf06f7118d0482dcfc2ca6e762ca
+
+COUNT = 9
+EntropyInput = 7c8704ac8998798851b9e81f9814
+Nonce = 43a6d220eece3c
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = d5b8e01d68780fcc4d7335dbe019
+AdditionalInput = 
+EntropyInputPR = fb759996d3560c7f2fc8a321162b
+ReturnedBits = 365b141ffb0329dc48b7bd2a82a644bf684fb0567a9d573d4e8aa2224d23e3ec
+
+COUNT = 10
+EntropyInput = 8a664af40386e603b4242473112d
+Nonce = c735059128a68f
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 4e3c57bdcad65f70a2df85c6b29c
+AdditionalInput = 
+EntropyInputPR = f4d5ea5213ccdfe3a3e4bcf5e197
+ReturnedBits = f188c49d294af4113456e6f92ba53884b646432de25acd1e1b050b21d9bcfccc
+
+COUNT = 11
+EntropyInput = 324a16dd038ec077095feb7a0352
+Nonce = 77d9cf4710c2f8
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = ad81b2fde508adf6ad5292df25d9
+AdditionalInput = 
+EntropyInputPR = 4dcdacea67cf6246ccddc5c3518f
+ReturnedBits = c90a6be2cfe19ebeecc9739f4f626dfd72906fd6b5fbcce893d3e49dbb1baf52
+
+COUNT = 12
+EntropyInput = 61602a4f1a7aaab05cb699607b16
+Nonce = 9ebc141e6e60de
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = e5e77879069554139e1cfaad01d3
+AdditionalInput = 
+EntropyInputPR = 22084defa680b428ce014a9784b4
+ReturnedBits = 2deead11b3de4e5d4835d8270ea7e8a065cd34ff86f53d62296682c255e034d7
+
+COUNT = 13
+EntropyInput = 41fd23d7dd51fd00ce362021513d
+Nonce = b5b472e09a4fc3
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 336005532f6ae42e493a611673b6
+AdditionalInput = 
+EntropyInputPR = 1b8e18cfd6ac55c3cc772384b7cd
+ReturnedBits = 4e871b222d1b75e9d30df67329ba104b2dce9781352dfe63b5acb76503863c12
+
+COUNT = 14
+EntropyInput = 597840a76c37ca1b94bb3303b273
+Nonce = daca4561a44235
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = c1814a27935702fa3a4a5e3f664a
+AdditionalInput = 
+EntropyInputPR = f1a59e811ec74686ce3b89f5ca79
+ReturnedBits = ddcc7236e458adcffcfc4464abf1f38fb7b3238ef337cbf78875fc9a9f5448b4
+
+[3KeyTDEA use df]
+[PredictionResistance = True]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 112]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 2a4ec7ebf08f2ade592e1d9e3d0e
+Nonce = f715422451c2e2
+PersonalizationString = 
+AdditionalInput = 9db44ab7f3110607b8bae39a1a38
+EntropyInputPR = fc3111e501e5988dc31ecc231227
+AdditionalInput = 513fa32fed54475af96b43d49da0
+EntropyInputPR = e66ad09c24050969cfbc76836f2d
+ReturnedBits = 2f80226a3f445282f6f3ef1389c0e1d0c3c1117dd9020e5e9da6021bd7ed251e
+
+COUNT = 1
+EntropyInput = 1a6c8c8ac019cdc0bc3769fc9358
+Nonce = 26d895bf492389
+PersonalizationString = 
+AdditionalInput = c60d716129bc9fcf8eaad37c444e
+EntropyInputPR = b75a4205b1abfd3bdc1bd6ea9db8
+AdditionalInput = 48b113035de60683f14295aaa4ed
+EntropyInputPR = 9bdd57313f05c72bdd43278fb46c
+ReturnedBits = 3d8c824258c465bfa9712ece5d2a6f01030962ef623919171a8947e1d2838c08
+
+COUNT = 2
+EntropyInput = f76af43c1541d6a4befd3df4c8aa
+Nonce = 4c3efa1d90ae31
+PersonalizationString = 
+AdditionalInput = bed1ab2e156034b37cb5750ea6fb
+EntropyInputPR = 9aee1d89d054fd411577f10d33e2
+AdditionalInput = fa5b59e8803d3617cf4523596e29
+EntropyInputPR = ebb7f83f869ccd19860b855f9d95
+ReturnedBits = d31b7fa8f5846b120bc8febc296a5f1374e1eeb3bc432adacefa228a6a2fd15b
+
+COUNT = 3
+EntropyInput = 6fcdcc1c97696d57fcec9dfe4883
+Nonce = 10e746989b8e41
+PersonalizationString = 
+AdditionalInput = 94a7e12d286838b717fb9e55599c
+EntropyInputPR = ba45f3c271ecf0c50d1c9518d501
+AdditionalInput = e35f90bc9e32ac730fcfba8510d4
+EntropyInputPR = 8ea833a1975c466c1a60787106ca
+ReturnedBits = 83db0253c16880e65c8e065ee6851f7618aa2ca2b4c9abb8e3d738f3e0f8d047
+
+COUNT = 4
+EntropyInput = cca67a0458fa5ca5e6a356310d2e
+Nonce = 83700663a14557
+PersonalizationString = 
+AdditionalInput = 8e4f802ca39b4c63d9c2af2c4201
+EntropyInputPR = 9a2b67f017b68d99fd3fb972c019
+AdditionalInput = d9dd2b5c6ac195264dde94643bb9
+EntropyInputPR = 6b9ab24262d0b197c13f2ac83091
+ReturnedBits = dab488c7ffcc1822488d127c6594aa78a5337c86b5958da04e7945eb6781fdc3
+
+COUNT = 5
+EntropyInput = d51b686c817acdf2cf91db18852d
+Nonce = 156b27ae00d84d
+PersonalizationString = 
+AdditionalInput = 433d504c3fe8539c89a579ba5926
+EntropyInputPR = d697dd154771e060156844652ffc
+AdditionalInput = e7e29a100a8fac9324372d9314ff
+EntropyInputPR = 85e51825a27be703a97c102e96b5
+ReturnedBits = efe51174fbbb1edfba858676a260bfa90c46e40eb756af7d828e1af3a51203b0
+
+COUNT = 6
+EntropyInput = 0c176f280d93f3b6fa973f9395f4
+Nonce = c3224444721d72
+PersonalizationString = 
+AdditionalInput = 32e03ebd159a34f5413618ada359
+EntropyInputPR = 7d63421022ea93c0ff24494bf107
+AdditionalInput = 73de88d28abf4c1d8c599678270f
+EntropyInputPR = bb5d1be98474d15de1d285ba20c2
+ReturnedBits = 6aaecf859ae60e539351d077895a9bd2d3f998433bf6eaa71cfa68563595c99b
+
+COUNT = 7
+EntropyInput = 5547ca93a5df9796268722202798
+Nonce = 9ce359328b75f7
+PersonalizationString = 
+AdditionalInput = 08fe27d2afc159fd0a63094c0e3d
+EntropyInputPR = c91046e0f24006477a2015ef2a1d
+AdditionalInput = 556f9965ad3aa87d991ba68fe111
+EntropyInputPR = 5d7d3572abcd2bdd2de3a0e5c44a
+ReturnedBits = 43320de71a35ab824323faefedb7d5286ce2a95fbfb6c68703ceae0f26458afa
+
+COUNT = 8
+EntropyInput = cc9baf55b6bc28ae09a9b9abda6e
+Nonce = f64664042575eb
+PersonalizationString = 
+AdditionalInput = 17f9e6050d1bce4309b6fb438c6f
+EntropyInputPR = b17aee66ee2aad1de6adf38b8331
+AdditionalInput = 82704a388bcb3a7422cf96eea34f
+EntropyInputPR = 788d5808aff90731df87a924da02
+ReturnedBits = 4569a1347d5917c47fb695ed6bbb1647f13a86298919f672806146a8149d26c7
+
+COUNT = 9
+EntropyInput = ee1c6cc1075508036621bb5cd0ed
+Nonce = 0c22fdaee1aa77
+PersonalizationString = 
+AdditionalInput = fb9bcbae83b975e2b8c2238bc53d
+EntropyInputPR = c89e79c974938cde52227af064bd
+AdditionalInput = cede73e7cebe3704b13d0d60d95f
+EntropyInputPR = 410c06d4018927e2d9d8a445c0ec
+ReturnedBits = b5e2a4f366778d37751733880df61f29d623970d68502ef2077c881f762afafd
+
+COUNT = 10
+EntropyInput = 67416764affdcfec3ccaa3c7ac5d
+Nonce = 5d0f48c95beea2
+PersonalizationString = 
+AdditionalInput = 906d8d7dc33bec34fa7c3a83f1b9
+EntropyInputPR = 98ab3371f42e76477b4c04eb69e8
+AdditionalInput = 308dd847ec7773c9a8aaa24cfce2
+EntropyInputPR = 61310835eab31a630fac5bf5af95
+ReturnedBits = 6579e3c38dc432bb3d36f867e5782c404a38565771d08af0d8d0cf78e2d51a74
+
+COUNT = 11
+EntropyInput = 4a2383e9c4c95670b1732a7ab4c3
+Nonce = d41c14b719eacb
+PersonalizationString = 
+AdditionalInput = 52b78a6f10147fc35a80f75278ae
+EntropyInputPR = 0b5caacc075bbca7035ef9b6c7c1
+AdditionalInput = 5549fe1d65e85bf3b3dbacb24713
+EntropyInputPR = 853fc47ac4ba19732a7caf3efc0a
+ReturnedBits = a18ff0a669be5cc02fac9f4702c8227113ca5a40d6a2ebf08449c742c39f9417
+
+COUNT = 12
+EntropyInput = 5dcc9880f73bf99d4b8e5605df02
+Nonce = d737d0883a20ae
+PersonalizationString = 
+AdditionalInput = be6851a0c3f915bc2b56e10c3ae5
+EntropyInputPR = d80e53a6136d71098e482fd1cd16
+AdditionalInput = 3ef89e6b421f630b4bfceffc9d62
+EntropyInputPR = 0ed49e7bc81921ac0eb030542e2d
+ReturnedBits = b6fb6a0d4013ea23020f1a17522020514fb2f317324735a36504e0d443744c94
+
+COUNT = 13
+EntropyInput = 6e22607d0c3f82d6e480df715132
+Nonce = a3729bc0c13ea2
+PersonalizationString = 
+AdditionalInput = 9951c3ab393499992974ce326369
+EntropyInputPR = 6d04df3b45148d40ade83e31ed19
+AdditionalInput = cd2e7ab5d0cb778b246bba98f891
+EntropyInputPR = c10c82f00765c0034866ee369a93
+ReturnedBits = f35979ed81134e61f38e77235afcebc32820226f1fbc6b8836c2297c52eb763a
+
+COUNT = 14
+EntropyInput = d72071dbbeb03643f9132ca81023
+Nonce = ae8f71dcbd6ac0
+PersonalizationString = 
+AdditionalInput = 887ad3ba82cba84c7256d1bf14e9
+EntropyInputPR = db6bb26db4f557f9e3749487af83
+AdditionalInput = 72fad0f208f7cf27369b7c78df0d
+EntropyInputPR = 9c86600fc240d5a4dede5775ddaf
+ReturnedBits = bdbe30cee6612410895bc0c9c636ee6fa4840fef59461ffb80089b0b51797773
+
+[3KeyTDEA use df]
+[PredictionResistance = True]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 112]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 9ee9c95a9277561278fa8f8c06e7
+Nonce = bb854bcc0523a5
+PersonalizationString = 6df9118d04e7a267319be528b394
+AdditionalInput = 
+EntropyInputPR = e6fe64206ac1cba097c94aff72d6
+AdditionalInput = 
+EntropyInputPR = cdcf7af385e762316e157b874596
+ReturnedBits = 11bad1f1821ea19fa3924d368185ab93c2eb551a9d9548d1728e4538158d1f49
+
+COUNT = 1
+EntropyInput = 6659c1feb9f47b41ea49af48cf44
+Nonce = 44e40061df17dd
+PersonalizationString = 35d56a16a46594f6013572fb4ca9
+AdditionalInput = 
+EntropyInputPR = caefe8f7c475424a2349c5bf36cc
+AdditionalInput = 
+EntropyInputPR = 9e88003a0dc33e59537f6bb24a55
+ReturnedBits = dd11c8b849576f471a20d7fbe5ea3c45c9bf8289b162c084094ebabd8fad1a37
+
+COUNT = 2
+EntropyInput = 6a9d3ac9d3525cae00eeae2397b1
+Nonce = 94e12cb2290b5d
+PersonalizationString = 59fb4f2d2f91a48d8ae1c86f1c55
+AdditionalInput = 
+EntropyInputPR = bbb945cd0377c2845294de0a183f
+AdditionalInput = 
+EntropyInputPR = d44c888836d5ad6973e7c4fec964
+ReturnedBits = 13b6379ebc441a1a5d7c20706995fd3b5076ec7bcda7de35166ff81a7835a9ee
+
+COUNT = 3
+EntropyInput = cdbbc3a5349097f7fa1fcb8a2022
+Nonce = 62f641bfb9e8b5
+PersonalizationString = 0e7495038ced55a077bc66039955
+AdditionalInput = 
+EntropyInputPR = 754b7bf61bf4320cbc2ed4e2fe0a
+AdditionalInput = 
+EntropyInputPR = 8cce7d89716070121b4111bdb482
+ReturnedBits = 08cbe47d3a4839b13381a1ecd632e30b88a96dee8102cee972e763e596d0d134
+
+COUNT = 4
+EntropyInput = 55e832b25f2c7d211515bb399865
+Nonce = 7c61fa37f8f2de
+PersonalizationString = 7c9aade4c1b5aa3476ad9125912e
+AdditionalInput = 
+EntropyInputPR = 2b507367adedfff1f7f3e01cbfd6
+AdditionalInput = 
+EntropyInputPR = 0cbd900e76436a6eee453ea92fd1
+ReturnedBits = e149d85fa76e965eb675487b68c1ecd7b43a25e26a949912c0a7eed441a75c0d
+
+COUNT = 5
+EntropyInput = 0ae335d826b24fcb4f1d1e425787
+Nonce = b1ec4f5319b86c
+PersonalizationString = cf60f8c3158e9772394078e07c23
+AdditionalInput = 
+EntropyInputPR = de926170aa9727aeb3e3cc63c567
+AdditionalInput = 
+EntropyInputPR = 8c79224829846eb6e82dbeea87e1
+ReturnedBits = 5c86f4280ddab0768fcbd4895e81ba9afaf36e5b05ee08bc0030716484ffb48d
+
+COUNT = 6
+EntropyInput = b44086dedc27b6638f9fb4e63a85
+Nonce = b89dcbafd47444
+PersonalizationString = 915d2ab6b4bf9e29e40aefdc58f6
+AdditionalInput = 
+EntropyInputPR = 3d259a44363ffc72f3c5a0080119
+AdditionalInput = 
+EntropyInputPR = b0badc144b50cc080b1e34a7541f
+ReturnedBits = 3d0d897655bc5f746db84dc10190571b9c8f9b62011673e4ef1b224e2d7f8299
+
+COUNT = 7
+EntropyInput = c2aaddbc768f97a6a7b49cee6d57
+Nonce = 5193c9200fbdde
+PersonalizationString = 8f630e900aaa2b3d43c4b054c339
+AdditionalInput = 
+EntropyInputPR = 06ad802574336fa1185aaaef60be
+AdditionalInput = 
+EntropyInputPR = 1df794140afd13b3f03a3068fcd0
+ReturnedBits = ae4cbb4a1d182b02f3441ee0fb9ded0c90ea9c1b9b109015af63b76066b15a4b
+
+COUNT = 8
+EntropyInput = 2ae36e05bdb4cde923639aecdea4
+Nonce = 27016ba94d6763
+PersonalizationString = 187b1b69264e3fe3f8d1e72a9e79
+AdditionalInput = 
+EntropyInputPR = 7dba4307c27d02d318ea8f52b934
+AdditionalInput = 
+EntropyInputPR = ae2eedf19a06b9147ae7b8c4c59e
+ReturnedBits = 010cd3903d7f282a0e7e42c6a95e70d264abee932e1693b434f06eb17a8ce8ac
+
+COUNT = 9
+EntropyInput = e209d3b872d528d5ee22bd224aff
+Nonce = da726f20634ce6
+PersonalizationString = 6e37e2c350f08dfb5a7060e9b41f
+AdditionalInput = 
+EntropyInputPR = a894aeb0ec763b88a630bf3f76be
+AdditionalInput = 
+EntropyInputPR = 549b1ac90a1db7d05e8a951bb3f0
+ReturnedBits = bfe1494fa3956b82c7a77b7ea00c3edadd5051340a0ed1f6c9e83b62b7502d3b
+
+COUNT = 10
+EntropyInput = 3b9efaf8cddd303a25fd1c0e4194
+Nonce = 81444c3a1aa2da
+PersonalizationString = a8c54397cf75b61dd96b3c7ffbac
+AdditionalInput = 
+EntropyInputPR = b2ee47faf5d0e1d09238a0f03e62
+AdditionalInput = 
+EntropyInputPR = 3246abf5c679c36588dc7323e126
+ReturnedBits = 966a08b97ac5f464b13f6489e2ae569a0a68655f9459664b4d84368671e4dce5
+
+COUNT = 11
+EntropyInput = e36d0e6a0cc82c75a575242f4a95
+Nonce = 46ad1825d35234
+PersonalizationString = 49a049d8bfc14d53c49f410df525
+AdditionalInput = 
+EntropyInputPR = 01f22c33f86d68d6bc533d36bf4f
+AdditionalInput = 
+EntropyInputPR = f1f2811ce344e51ec6919c336669
+ReturnedBits = e5a2ead06b57e55274e269ad4795581c4d965eae66918bd413e43a931bfb33c2
+
+COUNT = 12
+EntropyInput = f3f4dd6e78048bd9558c20495220
+Nonce = 9c543e8d776db9
+PersonalizationString = ad8a885b798516ba21b138a58aeb
+AdditionalInput = 
+EntropyInputPR = 94a658dd9226e4a085892ffc33a3
+AdditionalInput = 
+EntropyInputPR = c03674b94bd891e85ad39ad6fc03
+ReturnedBits = 570d45adc98face68c4b2097bfc6fd0dc636f2309bd58575d8fe9bf928abb8ff
+
+COUNT = 13
+EntropyInput = 6d10242a2a2d4f654760cee0c939
+Nonce = f4f452e07fb303
+PersonalizationString = a7bba4fa0886383abcc1c91a0b9b
+AdditionalInput = 
+EntropyInputPR = 378b0ee895d8edf56926af62df02
+AdditionalInput = 
+EntropyInputPR = ded6d2baba75e9928f4543ee7c0a
+ReturnedBits = 4f2626c592a6b03d9e8a565a54d57898e36e2742c1b3355aac83d0ff6068dddf
+
+COUNT = 14
+EntropyInput = 64181eebbdd6d2d0cf9da08f7332
+Nonce = 39e02484fee860
+PersonalizationString = b6308c278f7edd2856f70c240b9e
+AdditionalInput = 
+EntropyInputPR = 089ad7c211dc9e484bc239c8bd9a
+AdditionalInput = 
+EntropyInputPR = 810a7570fa0811a99bfa00af9725
+ReturnedBits = 67a74cbdb5cf2fcb420432c0a28c388337041f1ba5eeb503464c96e596e8ff58
+
+[3KeyTDEA use df]
+[PredictionResistance = True]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 112]
+[AdditionalInputLen = 112]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = cc1e603f1bf33ab717a467ca124e
+Nonce = babae6cff68fd2
+PersonalizationString = 3d9f4a02d18b16799b9d8a7b31dc
+AdditionalInput = 99df036d5f7ec6c33878d2b3759d
+EntropyInputPR = 557ffa7e096c0b5304ec6d322a9c
+AdditionalInput = bae500529bd1cae9ebd0c6c11a0f
+EntropyInputPR = f84c2c9f83b69b85b50bf07f72b8
+ReturnedBits = 0c8078f76e4fd08e34644af6603193f0315e93fc8734b89ac0b69b2339e33c3d
+
+COUNT = 1
+EntropyInput = 285e4e807ce6d19f0291b99e74c8
+Nonce = 922b27d63eaa3b
+PersonalizationString = c4bcde25f3425962679773b130b0
+AdditionalInput = 3c654b846a949448935ab9df0826
+EntropyInputPR = 12a6d345c4aaa32837b15a679ff0
+AdditionalInput = 6d9357eadc537de0c37aa2dbadb5
+EntropyInputPR = b77c29733fd00760d0f84f7ccb49
+ReturnedBits = 2ea73b84e8d51a65b20312e28ba6ea093b73405abc1a9b28a7f7ae90f8c061df
+
+COUNT = 2
+EntropyInput = d3c3cc2c169557d17e18ea623ea9
+Nonce = 5a52c28b04f025
+PersonalizationString = 647ebb7af8313b56b42915cbe8fd
+AdditionalInput = 4e92369e9f36d4abe384c6f92883
+EntropyInputPR = d0b0ccb0b66f4cc6a2dae6f3d91c
+AdditionalInput = aef1f390c41f06dd6abe5769c70e
+EntropyInputPR = 8e401d2312a0fb872afdc2c86eca
+ReturnedBits = e19d398b700929f41da5523715274f1d8ae9a01dd1b6cc5be9562561409ae886
+
+COUNT = 3
+EntropyInput = 9d8b7c44b4097ba01d823414bc71
+Nonce = 285c320a2ecba0
+PersonalizationString = 0cb5919dce9af3b9719c1cb99036
+AdditionalInput = f2fc59c0d857368a0d912b4959ba
+EntropyInputPR = 3232d80eb3f64b65000ba8bbee97
+AdditionalInput = 5fd3a5cb9fe80c88b2485db548b1
+EntropyInputPR = 230ce67cc83afb9410783eef9f41
+ReturnedBits = c343ccde7bff475bede4a0da50926e5d247c24553ad0a3e97cd4b829909bad47
+
+COUNT = 4
+EntropyInput = f0411fe950ad7319334f07595954
+Nonce = e377d8eb2775dc
+PersonalizationString = e44a0512244e9403dbafbd03ae27
+AdditionalInput = fe9f3f154ce98c2adc0b74a6bd58
+EntropyInputPR = a84fc19ca17df43075283b379fd8
+AdditionalInput = 5161c1ee26044cecb85f7fef310b
+EntropyInputPR = 25b96a88b9c0e614da19f6a809d5
+ReturnedBits = e2cb3e8e1a15fbf9c8e0556635053e760ac3b25284cd09bb98eaab9c46d590b4
+
+COUNT = 5
+EntropyInput = 07532754cddf7da5490cc64a354c
+Nonce = 6fe3c421ac8676
+PersonalizationString = 334906bb448b20a7e497a72e76f5
+AdditionalInput = 390521b4deb57e0464da3830b304
+EntropyInputPR = 1a50f2d52c1f92ecfc742694104b
+AdditionalInput = dcb93bd7cc894fd0323dd624bcef
+EntropyInputPR = 92cb063c62300287f7991608bf6b
+ReturnedBits = af467a90023a26d1af6ef6fc8f9033bb00909f5d8f62512bb6cd0dca2b7427a2
+
+COUNT = 6
+EntropyInput = d8306b857c7485f1fd3b38e4a0e5
+Nonce = 537249f4b07901
+PersonalizationString = d15906b9d6b14c42c2e9d5d43512
+AdditionalInput = 8a7a9edf2391527239063f87118a
+EntropyInputPR = c6ff7c859ac5eb2dc430ebd33756
+AdditionalInput = e9546480d486fbea6b55c50d7364
+EntropyInputPR = 3b6c0c0821709615a462b704de02
+ReturnedBits = fc780567b6bc7e984d32e1ab9c3037f6e6b726e9b18164916a8e9cbe84546321
+
+COUNT = 7
+EntropyInput = 33d7ab6c135385e60757b82924c2
+Nonce = fd63c19b91e423
+PersonalizationString = b9c179a15e8414aec4bfcea1e5b0
+AdditionalInput = 1007a69e51ebd6677f9a9f011e51
+EntropyInputPR = 96748440e99141137ad981ef3205
+AdditionalInput = 8ff13cb56c6a17188ace3b03e766
+EntropyInputPR = aa5dc5230c881dc7ea9923ca4df5
+ReturnedBits = 3d685184842e57ff5f915398b98804d06f32f44f9125c9fbd642fd915ab26f30
+
+COUNT = 8
+EntropyInput = 6efafdada371a06a8864cb621f76
+Nonce = 31640b5d652095
+PersonalizationString = 6b9c179b2601c0f607b59b4f6406
+AdditionalInput = bc97fe55f5d02bf56be729f14ef3
+EntropyInputPR = 5904119ba23d6d62ebb24e161f57
+AdditionalInput = 904e6d01da352d04f31f58a57400
+EntropyInputPR = 4a5bccccbb0d53d17fb8aa6982f3
+ReturnedBits = 57656ad318b251ebbf8cf28ed6c26d86c02711fdc62a4593763f88209769c420
+
+COUNT = 9
+EntropyInput = c0e5c7266dcc167616358e555d83
+Nonce = bf77806667ceda
+PersonalizationString = b8683e042da08767e1ba37ad3307
+AdditionalInput = 2d9b662865f24e04d1514d42f38d
+EntropyInputPR = c05dc74111863c191f848f2b138d
+AdditionalInput = 06e74cb8badf1286a92cc411a372
+EntropyInputPR = 493e46571fb12748f46af8715948
+ReturnedBits = fb923db2d0f1c014a807b90c3693b4bdf23b32036673da64a07723555946eb02
+
+COUNT = 10
+EntropyInput = ce5a79c3c9b9ab68db440f628eb1
+Nonce = d52bd22cf1a4c0
+PersonalizationString = 4a843ed017b9ec5b946832478f12
+AdditionalInput = 252bb47b6f21efbbda7afc5f8afe
+EntropyInputPR = 95eb1efbf9efbdc76157c902aaaa
+AdditionalInput = acee33a3e90281d7559b28dd8e93
+EntropyInputPR = 8b3b49710b91f7d17c23e5a0c805
+ReturnedBits = 9c5acad82f341e9689a46a3232a9fb7e66bccc6d1aabd4feb789bd96e3d5ac6a
+
+COUNT = 11
+EntropyInput = b184e43461fc39c5da65c5f6232e
+Nonce = 1835e7c43c5901
+PersonalizationString = 991ad0f8c4f972dc5823a8402a64
+AdditionalInput = 2a1bb7f676d7b08f03d0c392d568
+EntropyInputPR = 9ad9cf8ba03561b70a075c4f19d7
+AdditionalInput = c4c6690389bfb2a7a673c42ee484
+EntropyInputPR = 2f7a7cf9fb499b1d86b4be2e6caf
+ReturnedBits = 6bde6bc9f3c721702321ec5da9a44c349f509ac0f6dc034915cf4c07eff6eaa2
+
+COUNT = 12
+EntropyInput = 140fc68f958c103f0cd196e3b98d
+Nonce = 552e727a4831fc
+PersonalizationString = c5fa05070b53cbb89eebc03d0fb2
+AdditionalInput = 705f3e42c622ef331c0e485e9267
+EntropyInputPR = ed530378aafce4316ed57fa861d1
+AdditionalInput = b5737624c42642d54abb82618209
+EntropyInputPR = a7a346291d5d262d1e0ab23e5791
+ReturnedBits = 65e5846b011fa27dc61f2a7b5fca6238643be9b8f9a337ba42d84debf311d4f6
+
+COUNT = 13
+EntropyInput = f70032433c4820a0c27c24bad0da
+Nonce = 994392e0bb8c47
+PersonalizationString = 2b42348399b08f2789df85013ccd
+AdditionalInput = 8f60f7586fa779ce34615c4b548b
+EntropyInputPR = 7c1f3aa01a88dfc4b5ec62e27e39
+AdditionalInput = 19fd6c80e1a1fc50b95e42c67a24
+EntropyInputPR = f0fff62d34111db5268d32426e72
+ReturnedBits = 1f29420ae671b9ab6ae9470164f31fe682ad3d3ef1c23a7b55457a625677f54a
+
+COUNT = 14
+EntropyInput = 86d88943145ec06e9ed13f2829ad
+Nonce = 71697baf1bc4c6
+PersonalizationString = d5652eae5becc090766bb2ac89c0
+AdditionalInput = 6e3012a682d251add12d26584c96
+EntropyInputPR = fdd18e9cc392f60b5fdc9b7f9e30
+AdditionalInput = 15138d7e8b3a02db78c377b1d506
+EntropyInputPR = 50a2b30b2044ac5449ae1282b976
+ReturnedBits = 29b949f286aad2d3cad3f67e5846099b39fcb7705430a17c5ecb5c3122cc01bf
+
+[3KeyTDEA use df]
+[PredictionResistance = False]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 8d1fbfb34dc4ad69e58f19af8a82
+Nonce = 545e2da6d420da
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = a73be90c86cc6b1e6827e8f38bd1a26fd0d5783d5949b0249fed96c7d9f5c1cc
+
+COUNT = 1
+EntropyInput = 3fa4a22dd4771d6ddf59e5952398
+Nonce = c265607c6c38e1
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 4e552f034a448c30387e8e2c65bd8c36607dd09d66a8d4fa6a7ded3c70bd9274
+
+COUNT = 2
+EntropyInput = f9a68e5a93e293bd1177783cf10e
+Nonce = 2e76a491afc3d9
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 559c376d39cf314d6cceba317b459a635fd7eebfc3a76a65d06695931bd332de
+
+COUNT = 3
+EntropyInput = 4da62f2b0b6fef3179c2235409eb
+Nonce = 1239dfb8795c74
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 6fe38cd8234cb330e873ae575f4d31968e90cc25d36f2c5413b6a94f085fe39f
+
+COUNT = 4
+EntropyInput = 20f635b2f806b1f88edeac2fa843
+Nonce = 5603a1b8205e93
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = fc22e68bdc7dfa8d9ac8253abe3e44c47ad1059fb46d657282e437b6dcdae6f9
+
+COUNT = 5
+EntropyInput = 055386a459bc190d0581815c91eb
+Nonce = d9ad34b41d0e45
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 4323cb1d62ea529b519597b6191499a4ba09a2a65ff1b9f3a2b66a9718ff9b27
+
+COUNT = 6
+EntropyInput = 608ef4b31373047f559b9f09f5c4
+Nonce = 572c9b0ae4542d
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 1bae0e20f9ef0f068c0dfad826f280cc19340dd9b9cf990b82529a6c125300e8
+
+COUNT = 7
+EntropyInput = 5ecf7fb58bb0d88f2816e87adcbb
+Nonce = 11b8e6bedd7cc5
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = deaad76aaf2e9b8da2337aa5e236350725d3432b7d9193ebe71e6dfe8dbd21d2
+
+COUNT = 8
+EntropyInput = e00456dffd07fed5e5a932594564
+Nonce = 674d7c7adf1966
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = d6a9ac2d6a96589a1f2aa7d01ad4831464975d81b679679175599c9e06c5b0d0
+
+COUNT = 9
+EntropyInput = 8efa6bd66c0a54d45e29eabfc59b
+Nonce = bb930017c377b9
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = f6cf05991372cb2716ec0bf4fc603450813af3edaa36672d32bfe663d7269e13
+
+COUNT = 10
+EntropyInput = a3c1e15bcc9e98e532fed5b32fce
+Nonce = 4ae2cbb8db8f98
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = fccecdb8721a386c1d1a050c973d00e2dbb957d4e58884835b95f6cf5e95f8eb
+
+COUNT = 11
+EntropyInput = d38d912fd303905f71ec19dd9107
+Nonce = 24c63881e294fe
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = e68132aacaf9d686a4d2ed016224f89dade2d55723e44e6080562654456469c6
+
+COUNT = 12
+EntropyInput = 419904085d0b8ca38ea9fd5cd853
+Nonce = 13177d304c2677
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 07578e0fe579050ffe8fd645cb1e83c41b144dce27c11c187ddae7fe983d12d5
+
+COUNT = 13
+EntropyInput = 3955cef2a26eb7803d0af00e68ed
+Nonce = ee9725d444ff89
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 058db16c6366a5788ad4e565820366a4c1e247b5a4de9b66db5bb6954c82a0b0
+
+COUNT = 14
+EntropyInput = 94aff8dd1d08efebc31479765b29
+Nonce = 5ccba1fc4d20be
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = b782fa810c4d2a033943b5ed657f7f11ecc2878d0180bbb3241908e79b9216f8
+
+[3KeyTDEA use df]
+[PredictionResistance = False]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 112]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 135c12fb3d6fe8ed6069cef7ee3f
+Nonce = 15a437c65d6c17
+PersonalizationString = 
+AdditionalInput = 5b6d7b7e338d61097b691b93fff3
+AdditionalInput = a3d187f711811821dd028746f6cc
+ReturnedBits = f41f2f3de4dd0e5c6728798f64eb1efc64bdc6f4b11cb664255915448bf44151
+
+COUNT = 1
+EntropyInput = 32be38bd65e8349c26c785d653c0
+Nonce = 444c20d1311662
+PersonalizationString = 
+AdditionalInput = bf7cbfab9c5458e380a6636bd008
+AdditionalInput = 90341161d50c81531430e2605432
+ReturnedBits = 361afe2b35fb9605ffb7d7cf6f788e9c2f306cfdb1fd317dd0553a7d71aef04e
+
+COUNT = 2
+EntropyInput = 030c1e5e0d916c2088bed1503db2
+Nonce = 299ba23c4dbe9a
+PersonalizationString = 
+AdditionalInput = a715133a0c72c4cde4b72ff0ec54
+AdditionalInput = 089aebcc399d81d46c093076084d
+ReturnedBits = cc99006fe163821364d64930a2a7b5488165ea86d6b3712b7b2cddf1e1b0017e
+
+COUNT = 3
+EntropyInput = 69eafb9424d881adcb4c6804a19e
+Nonce = 14434a88616eec
+PersonalizationString = 
+AdditionalInput = 5f5fe369255ee18c9134658d02fd
+AdditionalInput = 544784ef24d4360b719dc6df1dc5
+ReturnedBits = f2e043ff1b4879e0d190841c6ba770af0790d0782cced7451313c9676c096e1d
+
+COUNT = 4
+EntropyInput = 163d2f2031e36fdf777d3635bd4f
+Nonce = 1e5ae920dd20fd
+PersonalizationString = 
+AdditionalInput = bffc58cdc958f8d0d7c1df51350c
+AdditionalInput = ebeec9160b99539cd2d81653df9d
+ReturnedBits = abdaf2a581bfccabfc2dc1bf27fbf38c8b5ec59d468a3cc1fcdb6b6d2794bd04
+
+COUNT = 5
+EntropyInput = f4581ac4669f7ab6bc78e560782f
+Nonce = 5ae753764ce34d
+PersonalizationString = 
+AdditionalInput = 9944a2adef447306b46e8cff373a
+AdditionalInput = c9048d2c42af82d7cce4a9fbf464
+ReturnedBits = f03b64dc902bea3ac2701923d2e7c3bb20dc1fcd64f1ff9f1010dd54941079f0
+
+COUNT = 6
+EntropyInput = 44e0b1e2a4e10527681b4be56b8e
+Nonce = 02bf1711e68641
+PersonalizationString = 
+AdditionalInput = 137128cbd1ffe584825c98409184
+AdditionalInput = 935982f394d105b21c8e560ceda6
+ReturnedBits = b2f184ed122a98b4d8acb42d43788428fb2a58b4daaa57349c5406744402765d
+
+COUNT = 7
+EntropyInput = fbcc848fc307b733063d7a1aed0a
+Nonce = 4459b3c936ea2d
+PersonalizationString = 
+AdditionalInput = be3ab3b5de274f5be1f6786b3430
+AdditionalInput = 24cfe1b2be906429bfd4ec367167
+ReturnedBits = dbc2a8aa359d6a5a2b6db26eb9738d04f7d74adf968edca1a52acb3ae992ff12
+
+COUNT = 8
+EntropyInput = 83026df3545e54b4f0ba08ac1f46
+Nonce = afccfad6e8183b
+PersonalizationString = 
+AdditionalInput = e2c4de7cf0d585a991d76cba9075
+AdditionalInput = 1038ba2dd1c3b9e5b742eb24e8ee
+ReturnedBits = 2c73b504fbfb5196d3f0eee6ad0be422fa0abb089c903172128bb8aa041c9238
+
+COUNT = 9
+EntropyInput = aa5d652f6e2db05ad34633670381
+Nonce = ebf7ed93762146
+PersonalizationString = 
+AdditionalInput = 7fa6a11ad7c6c9c27f43a513ab1e
+AdditionalInput = e4af73b65359dd28c88e4c5419d9
+ReturnedBits = 996775e1123db834c46e13a8c568ea080650e2b8e3b410c889adf373bfdff9b1
+
+COUNT = 10
+EntropyInput = 11491b11e00f5b431025bc2ba5d3
+Nonce = bc02485955f89e
+PersonalizationString = 
+AdditionalInput = 27896d5fdc1882dd2f07869bdb30
+AdditionalInput = 7d0689c02c24c67e35ca34cbd942
+ReturnedBits = 93595cf99e034c97e41057270b6a93d18a1c6001a05b3e8693aad55c4ccd3807
+
+COUNT = 11
+EntropyInput = b3225a3f3862643d9eebd882bbb1
+Nonce = 01d85c00b78c7b
+PersonalizationString = 
+AdditionalInput = cb1a85bee5f68b75741205f12e7c
+AdditionalInput = 591c1ae84b270416aea3c4b63540
+ReturnedBits = 003300af496944a5db19e2087047b11af436765923d3ea487fde109a6f0034fb
+
+COUNT = 12
+EntropyInput = 851f7193435f1d5b5107b2d58c2d
+Nonce = 949691d433d088
+PersonalizationString = 
+AdditionalInput = 0f649fd98b6982f33f456783cc64
+AdditionalInput = 094d4590d95a905a8f6d6587ed16
+ReturnedBits = fb1b41a152d9cd3d5e49a62b176ea8e89e2ce25c45cf419dd304969ce04b69c5
+
+COUNT = 13
+EntropyInput = 5c45a5678e2d7cf465ba21cb37a7
+Nonce = 958c7d5519c67f
+PersonalizationString = 
+AdditionalInput = ad8ee730c917643772333b1a5578
+AdditionalInput = 9a39d8d651cf1cb6a62bfdbd0858
+ReturnedBits = 7f8e3ff618de48d210905443058b38d10476d889ea15badfdf6fbdaa239b3c2b
+
+COUNT = 14
+EntropyInput = 1cc41ff3c0258a12d8c2218abcdf
+Nonce = ae3d02c2f776a6
+PersonalizationString = 
+AdditionalInput = 790e464e2b138b06aad4369d2b7b
+AdditionalInput = a8913f95b76f7a3e9e83a599a5d9
+ReturnedBits = 14ac823b6a8a37bf2ad60e0931279b10d13dff75e48eb6107c6c9e35bcdf2601
+
+[3KeyTDEA use df]
+[PredictionResistance = False]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 112]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = cdcc96f745ad00b235f30ae4baf8
+Nonce = 26ca37f156a2e9
+PersonalizationString = b86bcd4e66f6925dbcc8146465a5
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 9920d99f948428e1f3b649693d14c30f3241d5ef9aaf34b28b501d6540b82eff
+
+COUNT = 1
+EntropyInput = 4465365fd08f02feb7f0a55e38d1
+Nonce = baace3af00823f
+PersonalizationString = 9a24f1921d1aef5999b0472c285c
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 5c247c77f494c2294d4c1582e7daf54fa0f680690a4f361956ff16379fdd4ee6
+
+COUNT = 2
+EntropyInput = 1679a5346481feaf291ba378f071
+Nonce = 294d529c26a1f8
+PersonalizationString = 52dc8374c01adb14dae84cf79ea1
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 599f3c13d392f19b1a654bcca4dc605481b92dc04114e8739e70476adf50aadb
+
+COUNT = 3
+EntropyInput = 2623a587c3b5563fc405662bd062
+Nonce = 24feef7b8ae3a1
+PersonalizationString = daca0e697e292eb1bbc52a3acb23
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 210ce91d4a71827fb7464462e91b6939a79d726b8bba90a9f2ffbcc0ce569a0f
+
+COUNT = 4
+EntropyInput = 637ace22b0a4bc2cd5cd50172707
+Nonce = 5180c6467ba1e4
+PersonalizationString = 5c6695ddda360c90956546e932f2
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = eb35f029debcaaa9266311ffb7e0be8c4f50690e6ef4adf2046bd34c58455849
+
+COUNT = 5
+EntropyInput = ce52d4069ff45d3ae7adc5465454
+Nonce = 7a3b8d48beda38
+PersonalizationString = 69f99e77cb3175fe7ca08da3ef75
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 0690e2dc6f5f3f71c731785ff64f57366c0856f1e7427e3943b21619ecaaf31e
+
+COUNT = 6
+EntropyInput = d94f9559888ed466fcceea84ed70
+Nonce = c644a42df0000f
+PersonalizationString = 65316a7170cfebddea2783df9f9e
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = f001db4bc29cbc94d7c9e9a57303dd9b86c80adbc7f31cbf19d8b11a753bbda2
+
+COUNT = 7
+EntropyInput = db7c215ff7e2444261e7e0d82ad5
+Nonce = 633ce217c95507
+PersonalizationString = 1a7556f441aabc5d3fd586a70289
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = a117dedb16ffa1a41e00aeb6e4c38735e2fcec631711ac03c9fd0587e84638c1
+
+COUNT = 8
+EntropyInput = 71599a7e93d4b4d9b248e3b347e8
+Nonce = 9702a9cd00b5ff
+PersonalizationString = 065202b0e5dc17f41fea84952984
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 7a73bcb2738b0294aa0103399bb923370ddb5debe34dddad740442a882400826
+
+COUNT = 9
+EntropyInput = 245aa5224b5b738d4d9214f59ffc
+Nonce = 88e31ae3bec2e9
+PersonalizationString = 3fe238a793a550e48168fde60457
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 96c3f5c5ffc4d3be52d5999fd46788ae90146ce4893fd7dc87b086f7fd75298c
+
+COUNT = 10
+EntropyInput = 1ede23fbf438a7bc56d18c771403
+Nonce = cb6ee89bc85c10
+PersonalizationString = 95f404bd395814206dad0342b451
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = b6d09d191cada7ce949dce25f7a743de3750230fdd897b2b78c6e4ae6112f7e4
+
+COUNT = 11
+EntropyInput = 1f28c9f93d6327d6d50ca26e01aa
+Nonce = 0af58085c7cee2
+PersonalizationString = 3c87fad46cf40052e8bece895695
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = ec2c933cdfa25a975a4652f1716a9aa9159d1d72e29efafdaddc718ff46b6255
+
+COUNT = 12
+EntropyInput = ad2c5dc9c6410b5b1d4e40ae03be
+Nonce = 865de08f6ef944
+PersonalizationString = acec408da3388732918d264e5485
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 939e0bc81ac660323c5eb82a5294138a2680736bc431767d8db12611e4b5130f
+
+COUNT = 13
+EntropyInput = ac710f7f195510c7f12514986777
+Nonce = 4ff16729f782ad
+PersonalizationString = f81183160d3d6cef1c085eb82fde
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 3618210fec97ee24bd25306fdeda8533bcccc4beae83236689027d7f28df7cc1
+
+COUNT = 14
+EntropyInput = bc1ce5a38e375404c64860528d88
+Nonce = bc79382087557c
+PersonalizationString = f0a4d5ba439bbc7fd4558aaa43c4
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 6c30f054d8e6d57e34be7779989b294412c0711a773a38478a09e2dd16f8bceb
+
+[3KeyTDEA use df]
+[PredictionResistance = False]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 112]
+[AdditionalInputLen = 112]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = ad990464060d91c53239d676b569
+Nonce = cdcc4deb93427f
+PersonalizationString = 3f1f94c7a6381a15d838b5d538e6
+AdditionalInput = d4dc2bd2de340410a3c5466f6178
+AdditionalInput = 73b2e49f906b63632b95e6e419a6
+ReturnedBits = 8a1c3a540581d7118535fa2d9fe1c4218d023f4f4a23f4bbe3dff1c9821ad5fa
+
+COUNT = 1
+EntropyInput = 8ae4ebf8c050c6864244220d9324
+Nonce = dc8a61e75ab4ad
+PersonalizationString = f8449f402419728161fb5634edfa
+AdditionalInput = 1fa6c7c41f6a893941f766edffb2
+AdditionalInput = 32bf115f9d60b06705bbcbd93f7a
+ReturnedBits = 5d658abcfc87f1316e6ad6aad8015d6e2411d5d0aa1765e0a04bfb8b18f48873
+
+COUNT = 2
+EntropyInput = 13cc66fa86cbd5e5457436fe2b0c
+Nonce = bfa9620a792721
+PersonalizationString = 1651d3108cffeb2b6ef24014e8be
+AdditionalInput = de978901c99880d0044ddb93cd19
+AdditionalInput = 782d377904d388c2aa3bf5013cb1
+ReturnedBits = 0b234e2745fc897a134d15bea4399d987e22a9d51a24eefb3e8c7c3d4cac8290
+
+COUNT = 3
+EntropyInput = 745184112ebc41c9ad0c3c364ff1
+Nonce = 48f701a6c19ff2
+PersonalizationString = f9f7f70346c962edf8af42184b60
+AdditionalInput = 178d9f0306c32a5c2736c0d2f1a6
+AdditionalInput = bb849392ce44e4db4e9d8bea1435
+ReturnedBits = 550974f6ea3575ca8b6668666249bd83ce00e71cf070530112edf2164db666df
+
+COUNT = 4
+EntropyInput = a2f4b34a64c28a1f7ef3fb273c3c
+Nonce = 1fd91f43d08f27
+PersonalizationString = 887c44f1fc12bc1fa538487241ec
+AdditionalInput = d016dc1178269d5ac751a204153f
+AdditionalInput = 203275ee2c258d72f6fe12552e51
+ReturnedBits = 3d51df5b326cc1c0dae2f144c0299b3a04499dc78263d05a885d8ff16d7b4457
+
+COUNT = 5
+EntropyInput = f077c3814cb710dec61682cc5920
+Nonce = 839d2f8fc35525
+PersonalizationString = 38b74699b40a48b67f25702a3624
+AdditionalInput = 66897c5759438d921bc195edbc2a
+AdditionalInput = 933e5f98d2d6633edb19d366eed1
+ReturnedBits = 3ec0ad84922f90be4dc8906be50ad009c3ec2eeb6792c35fc01082b0f4aba524
+
+COUNT = 6
+EntropyInput = 76a4042c4ee51f929d28615b3238
+Nonce = bb8d2badbb6288
+PersonalizationString = 6008af784e553e332b69aa0f7acc
+AdditionalInput = 37620047b31037f5236fc696342c
+AdditionalInput = 7ff0c3502831f89fe58826586499
+ReturnedBits = 56e3e54ee1ff9723b425f77323e63a0cdea44db5ea6d13fab9fe2e107f004aab
+
+COUNT = 7
+EntropyInput = c7b009523e4d0c9990f8debf0f61
+Nonce = 35a20c1dc54dd6
+PersonalizationString = 40cebc86c4820dc32185cb864bbd
+AdditionalInput = 8fa2aa46f7ab5e00ece6c26850e0
+AdditionalInput = eb856633d4aa0891d16026465143
+ReturnedBits = efba8d99368339b2b8da66454830a2157ec5d23391688dd28abf08d00c8038ee
+
+COUNT = 8
+EntropyInput = f2872a5e87d79e50189604e0680a
+Nonce = e6bf506d942b5f
+PersonalizationString = 6a17a2b737e7c2fcea24dbde29b1
+AdditionalInput = d5c5823c4a75c74ccc49b63cfccf
+AdditionalInput = 1ce033e99d47227898e7d6b4e4ec
+ReturnedBits = 2b1660ac83f3c46faac071a49d43193afc81aad7532c878cab6e5191e86a194e
+
+COUNT = 9
+EntropyInput = 138d5946eab5720df6b66304fc51
+Nonce = 82f1a8f7ba2c03
+PersonalizationString = 34aab97fb6ed08970b8791ce2106
+AdditionalInput = 4b3123fe263850a44c50f18ef628
+AdditionalInput = fc3fe5d0f2e16e8e7740bdcda80f
+ReturnedBits = a4245aa4919c7da66f42122983371964481976cb2d61855e3f0190c9aa4e1ab7
+
+COUNT = 10
+EntropyInput = c360aff18e64b5cbd0bbf3e36e36
+Nonce = 77b33fc6b79013
+PersonalizationString = f0fa56f72b200eb9a25c9e528d55
+AdditionalInput = ca05a3103eebb730a04a69d36e79
+AdditionalInput = 7cc59867989c290a1023f1c9a6a8
+ReturnedBits = af7b0c4492e12ed27cc8ffd11ca305c7753c9b3faf968b5620fa07e042dc01bb
+
+COUNT = 11
+EntropyInput = 1129e60c3bf2925c7ab7a6dfc447
+Nonce = 45a00bbd5b5abc
+PersonalizationString = c22d97948d8f6583c2b8e31dbf2d
+AdditionalInput = f4e18c894cfb4a90c26fa12b2f99
+AdditionalInput = f7aca91be83cf9c9b5a704029b7d
+ReturnedBits = 23718b61c3f2a047d46b66a14798f9f8254a5b3d9be9225a2c29167276d1e837
+
+COUNT = 12
+EntropyInput = 5cb0a3583aaf9f612271382db6e6
+Nonce = a750dc603ca13b
+PersonalizationString = b9562721659f1e9ed0c45752ec7b
+AdditionalInput = 569f545567691e523c0d050f195c
+AdditionalInput = c540ce02924cb28a666da3dbb49f
+ReturnedBits = 5a13124b4b05e084ae1225a7f118971f10e453a2734865f45b018359c1361a20
+
+COUNT = 13
+EntropyInput = ed3937158527e73bc2fd3e8b2733
+Nonce = be6fe8ca04c1a0
+PersonalizationString = 5183138f05a546a81ae0ccca0a33
+AdditionalInput = af4f87de4a74a5e60285a69b38c2
+AdditionalInput = b13663af7306ac685fa8e037c11d
+ReturnedBits = a7b6c61375696dd07dc87f6a0db0f6aa4064fc2b27d19e2173ed9c264f852f7e
+
+COUNT = 14
+EntropyInput = b94b0ea4a3f9d5dea2a5becc4258
+Nonce = 242f3aa3ce2960
+PersonalizationString = b4a99e36d00cc7ea95bd9de652d0
+AdditionalInput = 5f9dc68b5527cb61162f323e59be
+AdditionalInput = 020f734794df86085159de180d03
+ReturnedBits = 2fa2c70510da272d569cb079cbcf930f037a77f8e45350459cba67a7f38f0c96
+
+[3KeyTDEA use df]
+[PredictionResistance = True]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 1546cef70784b82a67b4f6e9bd77
+Nonce = 0ccfdca59e4c18
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 9a32bd0f31273c56bbe36c925a6c
+AdditionalInput = 
+EntropyInputPR = 9e9737c8b48e625e3ada71822d64
+ReturnedBits = acfc970c5278c123c08c96d25302373446183a55200e5b88ab73dc679f2b6601
+
+COUNT = 1
+EntropyInput = c4ab6890ff0c1a1a300a93a4efa9
+Nonce = 0aacf20166681a
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 0f00637fbf04e200219ae41f601d
+AdditionalInput = 
+EntropyInputPR = c4d50a3bdb9911c45b2789fe7d77
+ReturnedBits = 70918739f687130e9b9dfa17d21907a4ad57e0a8bd9ec059b5b666d33ce0d648
+
+COUNT = 2
+EntropyInput = fddd9ce764420458e87fcd054086
+Nonce = 4f893d372ae9fa
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 56ceb0b830fdf327668d762dbb29
+AdditionalInput = 
+EntropyInputPR = cb6bf0b9c7c5070b22bd6424c000
+ReturnedBits = fd017d82b444cc78bdd8adaebe96e705f83d957be4a1b9e1beb74ef303277a1c
+
+COUNT = 3
+EntropyInput = ebc5cf20387780d412103ed386a7
+Nonce = 951a27e8a7f12a
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 76e112f9a94f29e6319ceaeedb11
+AdditionalInput = 
+EntropyInputPR = dd78c7071c11ac0f9e9cc2872112
+ReturnedBits = 57dc0c7437f7174ad31f3d745802807920ac291e9c1c58380aeed2195d6b466b
+
+COUNT = 4
+EntropyInput = 6e032cf36d9ef87c552d7db561a7
+Nonce = 72f171705c6722
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 091afd6e69aaf6323bce9ee06df8
+AdditionalInput = 
+EntropyInputPR = aea6cb324642e645943891cb887b
+ReturnedBits = 227c962bbc884b7fcb4dac52324ab9f7d2adb9a4a6673e4a33d235b7d7c7c88f
+
+COUNT = 5
+EntropyInput = f6cb5a9005f3b3e39a4ffccd12f8
+Nonce = 547bba9e07365a
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = cf7afc251aec0d1c17ebc911f636
+AdditionalInput = 
+EntropyInputPR = 8ce09876e2a73ae27aee3adf7b08
+ReturnedBits = 4618b42c5a86a5edc9e31be71cd1a97ca06e7683c69259c00f27cd548e675dc2
+
+COUNT = 6
+EntropyInput = 64ccef799b65e76722fa4dc7a3fa
+Nonce = ac1ae28f626fe1
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 104f036889ecb2f2375224ddc48c
+AdditionalInput = 
+EntropyInputPR = 76ccc25998e8346193af86fe712b
+ReturnedBits = 86786d6bb77bb3ef52720f38159f469acee61e2451da7054c2c171949c7824a7
+
+COUNT = 7
+EntropyInput = b963e5863c5ee85b2f8a8dbcc049
+Nonce = 2e04ece05c01aa
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = bc683ad284853eeff78e2254a467
+AdditionalInput = 
+EntropyInputPR = c8d7d9efd8c7e5241adbf43be1b9
+ReturnedBits = a3e78c6b17fa52855d31daf50cdda9771584dd795ae062bdf15a7f05001685cb
+
+COUNT = 8
+EntropyInput = 1b03f9fe6455f22ce4172b7cdb88
+Nonce = d57c6c38933bb4
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 654647d0c262ad5bd06dc9da7135
+AdditionalInput = 
+EntropyInputPR = ab18fd66e2f9fa6a9afd82a76720
+ReturnedBits = 91b19afccdf6dc8a25898c600f1c460069e69175a7b4a299621d27578c8e2a00
+
+COUNT = 9
+EntropyInput = 466af44fd50fc6a5ccbe763c287d
+Nonce = 42640a4d43c729
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = aa3b747ed51fc172249366cca097
+AdditionalInput = 
+EntropyInputPR = 6c05564ee1f2f9094d786ffd1a19
+ReturnedBits = f49e06aefe8a7a77701b0158648cf53f0c87a7f44efc9d327e480706013ad5cb
+
+COUNT = 10
+EntropyInput = 15f4970a0a2fa568fd3e6a114863
+Nonce = f9f126ef625a91
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 0eb0d35d8a1dc808ae0ba37eb2a3
+AdditionalInput = 
+EntropyInputPR = fb551eac5d5c496ccc25a91687d2
+ReturnedBits = d74ebb7509153ee2626142b411376f6022bcfb97c5235a7e021d614566300fb4
+
+COUNT = 11
+EntropyInput = 875b9d30d2ec3f6a2a1ce36911c9
+Nonce = 1f45a1b7eae9c9
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 2333caa8bcc3e74d40a1a5ba989c
+AdditionalInput = 
+EntropyInputPR = 541c98293dad20d391ee5b09c142
+ReturnedBits = 1bb0864f0d06cfc259a226028196d876f01387e11f4b48a749d0fefec33ffe66
+
+COUNT = 12
+EntropyInput = 862d32462e034a7207bbcb416a37
+Nonce = ebb20c08b0b612
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = a320cf87ff07f0d471b67947932e
+AdditionalInput = 
+EntropyInputPR = 29eb22a33faba5e965296c61846d
+ReturnedBits = 3cded06d1e94f2cf05aa36ad6afbfca19f855b5663f567a9dac49e77d969e759
+
+COUNT = 13
+EntropyInput = 2125c1fb5d3981307705db122ee1
+Nonce = 7f446f7456502c
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 02bffeb6f7d8ed82fa232d22d684
+AdditionalInput = 
+EntropyInputPR = f1635d024978748f446871d1c278
+ReturnedBits = 7a12a972f091480ebebaddbd385bd396242a0b2ab7e29148579ad11dff497bbd
+
+COUNT = 14
+EntropyInput = 814d5699cc553e9979347c24ea21
+Nonce = 48343c113212d0
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = b1a7f3ec11cbfd77bd475d72e0ac
+AdditionalInput = 
+EntropyInputPR = b4496fd570c8beb2b3683df34581
+ReturnedBits = e69213d4d14a4f6f7c8bdf2e58a0a8907ce6041106633a5fc1d7e5a23f815c95
+
+[3KeyTDEA use df]
+[PredictionResistance = True]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 112]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 7bab6d6910ba34d7e4eef9a513e5
+Nonce = 103516aae7cb71
+PersonalizationString = 
+AdditionalInput = d769004166d071374a8104e70bf1
+EntropyInputPR = 9ef598c64d94d4f31f80157458c3
+AdditionalInput = 9ab5e1a94642d07080bb74edf99c
+EntropyInputPR = b939e5fc4e9f6bf822e157a00b46
+ReturnedBits = 7c3765c8fc9489688764572633880654e1cc8712019cb0ce2cad07208eb91769
+
+COUNT = 1
+EntropyInput = 0731bb4a757e28aea402b61443d2
+Nonce = 7f147a55b3d82f
+PersonalizationString = 
+AdditionalInput = 4828b988c1d687d079108fe9981d
+EntropyInputPR = d4326a665c3b1546105b7691f0ea
+AdditionalInput = 4c856e71cdb4fb29bc87ab41bebc
+EntropyInputPR = b1340aa50f2c910bb05cc1873c56
+ReturnedBits = ebae40a774c20cec528953e85d8ab6f89056d4dbb24ad3beab6e9153e41748cf
+
+COUNT = 2
+EntropyInput = 6a6e2a9ca295d0c761a8bc301c7e
+Nonce = af3f287159e816
+PersonalizationString = 
+AdditionalInput = b8874ca1c7c9cc0e1a1419b1c398
+EntropyInputPR = 89408488d6eb2ea97ae8a320d59a
+AdditionalInput = e36ab8732d3ea841d29ca5644ef5
+EntropyInputPR = 5dfa20d1d2501c7cfd3ea68b6d82
+ReturnedBits = bc3eee099c53faffbc7228d2f4090db65e3e996830a02ed028f44cf5a26e24a8
+
+COUNT = 3
+EntropyInput = 02b054f5050eaae8718ee488b9ba
+Nonce = 598fc34f1f1940
+PersonalizationString = 
+AdditionalInput = 44dd5c9897415e5b192c6086bc0b
+EntropyInputPR = 68efb0977909f55e2cd74cdc1511
+AdditionalInput = f93e831754039a112f188a006d54
+EntropyInputPR = a741a3649d35a543e512369386ea
+ReturnedBits = c31de4e99e6b5d251aef764784e972d133a9c636480519813eb36585fbcdfa2c
+
+COUNT = 4
+EntropyInput = 82fe83096dc2eb7a8d4f27b0ba39
+Nonce = 904bed746bd98c
+PersonalizationString = 
+AdditionalInput = 843db3191c2e75fbc4a5be4259b2
+EntropyInputPR = 5715c3d26a99a518fba30894211b
+AdditionalInput = 31284d0636ad1e5431c37df35c93
+EntropyInputPR = 93517be72c949b523deb402c0060
+ReturnedBits = 3dd2a6ee93cc5947ce2e5b61ba067c95f0aa16559e72714d49b523b79758e885
+
+COUNT = 5
+EntropyInput = 34239b3c6f00201a4a6d3006e132
+Nonce = 535dbb8f0a0c67
+PersonalizationString = 
+AdditionalInput = 250c30f4bc345d93df39c419a26f
+EntropyInputPR = cc96cc80e768e0cabe0008a09f1c
+AdditionalInput = 6de3720f39b0aac76fd66ec310fd
+EntropyInputPR = c2fe5592c2b1763e76dcb40e3fea
+ReturnedBits = 491d4cec0675a812115a3b7c7a262a402d0eaa48bbbb598d5361ec1e077997a0
+
+COUNT = 6
+EntropyInput = b2ab2f25c2f840d8ce034a0fa8ad
+Nonce = fe485dacffcc2b
+PersonalizationString = 
+AdditionalInput = 0c71864bbf9497c128694dbc6e1f
+EntropyInputPR = dfc49a9053f99c74588d77bf79d3
+AdditionalInput = ab465dfa13e7d7c1b8fb4c571c28
+EntropyInputPR = 75421ac7e3d55d3d89314f1cdd69
+ReturnedBits = 6e68b121982e7f5961e4a9a0af89b8512eaeecfaab47cce83619d78fe4b81263
+
+COUNT = 7
+EntropyInput = 1258f1db8f2d4c62dd7593ae4dc0
+Nonce = ddbac8d6da571f
+PersonalizationString = 
+AdditionalInput = f833a518a02284b4bdd23734a6f1
+EntropyInputPR = 7d3f14aa243b5ee4f24e24955ec3
+AdditionalInput = 50dc36c473f2a80c386c63442c79
+EntropyInputPR = 2837cfd3041994ca5241aac6a2cc
+ReturnedBits = b40979d2a28fcc761c77ce135b573fc1d7b03a205da19ce4a97c0da4cf5ffda5
+
+COUNT = 8
+EntropyInput = a595f555a546142c54cc8a40f04a
+Nonce = 27511467c2fe49
+PersonalizationString = 
+AdditionalInput = 20f3ebdc35d997115328301eb61f
+EntropyInputPR = 9c1415b08ab3a666a2e38a6923b0
+AdditionalInput = 3b1013cefa2228474e343ebdb1ef
+EntropyInputPR = 4ea256fceca8d1bca55fcd4b051c
+ReturnedBits = f7472085ff0d1948037e9ef8cab65b8a2c047040b50c8a691144d9a49f4ca7b0
+
+COUNT = 9
+EntropyInput = c98dca8d335fd1c7be1d8ac9376c
+Nonce = 9c60a75080105b
+PersonalizationString = 
+AdditionalInput = 7ee7317804a60d345b1d3555a377
+EntropyInputPR = 9360fdfba246eca94b00f5a472ed
+AdditionalInput = 4020ffe08f134063bfe18a79afe4
+EntropyInputPR = e9a00b75b5610757cb48cfdd6347
+ReturnedBits = b2a9e5caaa99fb49fd2c22c2a0702af544cd6f68fb291b26feb2330241896c71
+
+COUNT = 10
+EntropyInput = 5ee829383a94a3dba28998b58f73
+Nonce = a9a5c6aa44e7e9
+PersonalizationString = 
+AdditionalInput = 3eb55fa3e2ad92a8b973e6077c28
+EntropyInputPR = 02d728fd1df99b307f00f5794616
+AdditionalInput = 3a12344595179b8c523d27559c88
+EntropyInputPR = 7a1b547892e8ee8352e28bf6610c
+ReturnedBits = 82ee9bcd51918358ff63d1a12236ce8e025bbf437e31de403a0e8901df48b715
+
+COUNT = 11
+EntropyInput = 8e1b1490e97a1b2f26b222102336
+Nonce = 6c7a263659ddfe
+PersonalizationString = 
+AdditionalInput = 1dc23f3705dc4343e39d199af4cc
+EntropyInputPR = 9faab452f4b57d45a7396c58ee64
+AdditionalInput = f5547ad5dd5c7f4e1b175226366e
+EntropyInputPR = 631733ce8f7b0e6048fc3f515cfd
+ReturnedBits = 50184232f5df562400626047178a94a9b40761a6fcfaccd772ced6539416b7a1
+
+COUNT = 12
+EntropyInput = 10aa2d1ec9e1c01ca940b5531e80
+Nonce = c05beea2516288
+PersonalizationString = 
+AdditionalInput = 45e31830063d74d9a1af3111fc02
+EntropyInputPR = 762417e5ca5a91c182fd22e09e10
+AdditionalInput = c54d85d76826a5a405ad4d7f8070
+EntropyInputPR = a401bcd00bf25ffcea27c2710ea8
+ReturnedBits = 6bb6269a995df578c904357bdc9699720eab06c47cc3b51f77db33db265347c0
+
+COUNT = 13
+EntropyInput = 71528d97adb41cba49aa7154ffb0
+Nonce = 870e6209fd3e1a
+PersonalizationString = 
+AdditionalInput = 33a56d0ba94de07a5fa5ac34ba1d
+EntropyInputPR = 4f5607ec89cb5c721525615471b8
+AdditionalInput = 3347d73fd9653df17d66b6986fc8
+EntropyInputPR = e70464acb112ade31dc0e6388636
+ReturnedBits = 48db200e6ffcbecc7e39453d412546b0bf53cd07965d1cf8862b11cdc5b6a83f
+
+COUNT = 14
+EntropyInput = d68d5a92093e56d71811831ab144
+Nonce = 309d3b0d74d26e
+PersonalizationString = 
+AdditionalInput = d2dcadcebc0b907ce164a5a2c8b3
+EntropyInputPR = 8ce730f995e473b80d0c8a5e1776
+AdditionalInput = abacd1cbe043c9629bc0c8e5249f
+EntropyInputPR = c2b7c279378c35736f63e742ef52
+ReturnedBits = 67c51b2fed209d96e7f78ca2048a2e78be62b8765546c7efe6fd2c82edb191e2
+
+[3KeyTDEA use df]
+[PredictionResistance = True]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 112]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 5ad1627d4e9824eea3debe18cc92
+Nonce = 447b4509de149e
+PersonalizationString = d20890baacf9513e5c8944fca5d7
+AdditionalInput = 
+EntropyInputPR = 1bcc3796cc9ddde0bf8d5eadbd2b
+AdditionalInput = 
+EntropyInputPR = 04e22d7ba51f4635cfb969a8f0c8
+ReturnedBits = 3d48377799c0a5c02ee4fdbe9a7f0966e1a6567dfbaa483e8ab8bf76fa84b0c1
+
+COUNT = 1
+EntropyInput = 9e508a2e074592e1d376a2347002
+Nonce = 5841055aeba592
+PersonalizationString = 8759be4e31a4005bd85ed9b93c1a
+AdditionalInput = 
+EntropyInputPR = ecd2ff1759262204e2a94bc2b057
+AdditionalInput = 
+EntropyInputPR = 1dd1b62ff9b6bff3145b4533a967
+ReturnedBits = 22411c6f65aa9f7b2e61e9d600feae618f3ce945bac35485a955d4e33c77987c
+
+COUNT = 2
+EntropyInput = 7f7ea55ee1b488069d4d3d4638e8
+Nonce = b9a4c2044bd84c
+PersonalizationString = 35f1063164095d83af0a9cd61870
+AdditionalInput = 
+EntropyInputPR = a7281763ed0c9898d59c4ef7610d
+AdditionalInput = 
+EntropyInputPR = 47017f8c2654b6f8b40127d39bf4
+ReturnedBits = 39d337b22e7f9583e1641e58fd261cfe77552650dfb343ec73353653ac48c982
+
+COUNT = 3
+EntropyInput = 8dbd88a650ae4009f793b39fbe29
+Nonce = 77b3f103767db5
+PersonalizationString = 842d195b0ead312ee2469f24efd7
+AdditionalInput = 
+EntropyInputPR = 4ac0c5b52c18c5c9764f6db86fcc
+AdditionalInput = 
+EntropyInputPR = 8663f8019245d22f826b02cfb6c7
+ReturnedBits = b4ffbce26478a637d276b60b4358db45a050ff2141f5aeb5192e1f9de8e50d30
+
+COUNT = 4
+EntropyInput = c5d9d048e93cd49e5d06f8ad7a54
+Nonce = f2657191070919
+PersonalizationString = 06bb56119427e261331d74c42072
+AdditionalInput = 
+EntropyInputPR = ff894d129370d697fb981253ded0
+AdditionalInput = 
+EntropyInputPR = e1a9009be7e0ba79184ff011db32
+ReturnedBits = 36fa9a564b91316d4945235b1b106ecb4709d30db3ec864d50a7f12e63f41a30
+
+COUNT = 5
+EntropyInput = 9161414bef423f68ffb93e323c42
+Nonce = e7918e1b1567f6
+PersonalizationString = c74546f1ee7a4896404790044efa
+AdditionalInput = 
+EntropyInputPR = 4e71241ffc561db765a837d37f43
+AdditionalInput = 
+EntropyInputPR = fb6a5f6a804996d5fd6a23c454ff
+ReturnedBits = b77afb74f301102a8080e81ce37550afbdba441fa7650d0001cfaa05a5b9b1d5
+
+COUNT = 6
+EntropyInput = 4d8f1679c2b415f9489b199691f1
+Nonce = 451cb210989d16
+PersonalizationString = f36f2246657dc1d23519e3c40305
+AdditionalInput = 
+EntropyInputPR = 8da87e37b342e5b2b34265bd0c65
+AdditionalInput = 
+EntropyInputPR = fe79b1bb7c7907261bd40989b503
+ReturnedBits = d1ffdce3d5c0a2b50dac6895a12afec3b44d6856e37957530f78a146dd636e5d
+
+COUNT = 7
+EntropyInput = e3fb87abd57db3c4269e1672ac7c
+Nonce = 5f253dc230e55a
+PersonalizationString = 311829cf0ba4a3e1d375981da75d
+AdditionalInput = 
+EntropyInputPR = 2ada375631e425915cf71aaadea5
+AdditionalInput = 
+EntropyInputPR = a9f35c4d6bbe0932a78041a88a7c
+ReturnedBits = ce6428a21c4eaa72506c8b2949f7cb9d63a6eb9c932365dd875df20186774a72
+
+COUNT = 8
+EntropyInput = b4fa79b8785c336a40a63b1eb173
+Nonce = ffddeba2fc104b
+PersonalizationString = 598afd81a61ff5271564adc7d216
+AdditionalInput = 
+EntropyInputPR = 70c3fa819abe4d76591e79234da6
+AdditionalInput = 
+EntropyInputPR = 924a7d01a9e207d056197b0be43c
+ReturnedBits = fe68a8cbceefdb7025258f715a8b62300f7ed3bb714725ed7f8f82cd5f63b24e
+
+COUNT = 9
+EntropyInput = 8377c03030491976895c8294b66c
+Nonce = 461c0cbf525b55
+PersonalizationString = 23c14029e5f83cdb7569930c6c9e
+AdditionalInput = 
+EntropyInputPR = 6a0b6b92624b40ff642417e282d3
+AdditionalInput = 
+EntropyInputPR = bd9ed8401156c5cde04bc74f5b34
+ReturnedBits = 80abc79e9406749bc6623b7a6a79318cd92c29d9c60489d520508d28df4b3091
+
+COUNT = 10
+EntropyInput = aaabaf4d0bb5631d2956ab0a6743
+Nonce = 8e339178336fab
+PersonalizationString = d4350046e6a35daa1f9be5a8941c
+AdditionalInput = 
+EntropyInputPR = f734506f605f981a791c5e971f39
+AdditionalInput = 
+EntropyInputPR = 7200dc50b852aa5f4ed909cbd9e8
+ReturnedBits = c5a6934e3ba7b344c88fb9670f795a06a7a386d68b596f48b8b75f27f6ec2791
+
+COUNT = 11
+EntropyInput = d13315c802b7390c8171e3736e4b
+Nonce = b953d11213c2b6
+PersonalizationString = ce78ff1cdba48e64dfc50ef0b32e
+AdditionalInput = 
+EntropyInputPR = 9e166ea92c00dc7322f81d851cbe
+AdditionalInput = 
+EntropyInputPR = 76ab61a3f3e94b671b6d9c4e0113
+ReturnedBits = 42d6a828ce9619c957188263c54e66d5b5a73074d767f5b541145af678346242
+
+COUNT = 12
+EntropyInput = 85c7ac20df65759204b1e0b4538c
+Nonce = b32d4f352d990a
+PersonalizationString = 2a661049268c2c335122992d07cb
+AdditionalInput = 
+EntropyInputPR = 44d514b5f586f0505541acc641b8
+AdditionalInput = 
+EntropyInputPR = 3044cc434f7d02a832fb944f8692
+ReturnedBits = 23fbb75f336ae5fc9f9281c721fc156f39a4c68ce90f2ff8801c6f6bcb8cd98c
+
+COUNT = 13
+EntropyInput = 42ef28bf737134e33632b607e5f9
+Nonce = e42321e91c00ab
+PersonalizationString = 6cba761f63bf4c9c81e7f739967e
+AdditionalInput = 
+EntropyInputPR = c02cad99e17e8b06ae847d42df30
+AdditionalInput = 
+EntropyInputPR = e16cb8bcb2fbc7a09cc5288b0caa
+ReturnedBits = 20d1e50b4ebe71ed9ebfc6833c09a3478dd12464abfee260b6dad90e6e3974af
+
+COUNT = 14
+EntropyInput = a031e4d878e93cea770ba6ab0757
+Nonce = 7436328e2cb15a
+PersonalizationString = b9db60df1e5d785b6aa847c5cd9e
+AdditionalInput = 
+EntropyInputPR = 58da2f8173931e30f0f343282367
+AdditionalInput = 
+EntropyInputPR = a5c94290965376d4388f20367a2b
+ReturnedBits = 919a1d6870a7f4e52facb90cc5b83f44e94d6fe3f3e120f6a1fd425e188ca69c
+
+[3KeyTDEA use df]
+[PredictionResistance = True]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 112]
+[AdditionalInputLen = 112]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 3f8f0f695693dc4aa27c7f2cb94d
+Nonce = ad21e7cf8eeffd
+PersonalizationString = 44d738121cac11a31af3a08f1969
+AdditionalInput = 37df62829accfda920b4753a716c
+EntropyInputPR = 9589f9c194df04c148c898672fd3
+AdditionalInput = e1510c78a771996416e45909aaba
+EntropyInputPR = 386515da94d00c2b81ac76eaccb9
+ReturnedBits = 498cb56f5dd92fe4e4abaa6d7a0bd60c76f00b6e0697408a512f70440e100230
+
+COUNT = 1
+EntropyInput = 79b94ef026d53b6f0f2b9404d98e
+Nonce = 1f0e659187d3d4
+PersonalizationString = 2c5dfaf7038a8a4ae61b4fd399ed
+AdditionalInput = dc57195af62b0ff0beb02ab751ea
+EntropyInputPR = 9d422e963921aea01b88b28cfad7
+AdditionalInput = 813134b5323a094790c26f77aa02
+EntropyInputPR = 27c87e900bd64c6835653b35e26b
+ReturnedBits = 791201751df50b8c812a0a5159146497db90aa2cb4f3813618dec1955ded7a84
+
+COUNT = 2
+EntropyInput = b11052ecb8508d7ed88a3096c985
+Nonce = d0012e57e32190
+PersonalizationString = 051be7d8f7a2adffac9b72853208
+AdditionalInput = 722a47253bb7c3b08783fee0b78d
+EntropyInputPR = cbe707b7cec1ae2844abc5f745a6
+AdditionalInput = 07f2fe84d41112d9ad563b5bbaa4
+EntropyInputPR = 88121f839568a177b1e1324c0664
+ReturnedBits = 3c9370f4781e374a8654c21dc04da38953da5d55b55ec5dfe0f3ef273a8642c3
+
+COUNT = 3
+EntropyInput = 4f54f6349d54429f1d0374c38688
+Nonce = 810d93386c4b04
+PersonalizationString = 0ebd1638adbe40af33ce3e954ecc
+AdditionalInput = eceafaebe7a22d920fad0712c832
+EntropyInputPR = ee3559583c5d2f1c68359fa29151
+AdditionalInput = 9f5bc89ed379920b79222ca17bf0
+EntropyInputPR = 9e068e1d288c75f24b1ff8ac96e6
+ReturnedBits = 7d676a7732514d506e507410f80faef278e7423027a1f1bbee246aebf3d61e84
+
+COUNT = 4
+EntropyInput = 7070494d5843720ea8ed87f0dddf
+Nonce = ddc67e10976866
+PersonalizationString = 71bf1f9e4937dc0a2bd5a7d220bd
+AdditionalInput = ec26ff7fc4bceeb2d72d7a8db7fd
+EntropyInputPR = ea33ef16e0cd2710d5f7bcda4b9d
+AdditionalInput = a5392fe24c90d8172bc399afecda
+EntropyInputPR = 53537a6cd194a6b179cec3cd1a29
+ReturnedBits = 6a0f569f61ad4d7a0984fe17933f7727a76e5a4bee56f866f3ace89954c88977
+
+COUNT = 5
+EntropyInput = 5fcdabdbb728aaf541f05b56486c
+Nonce = d510478096fa68
+PersonalizationString = 5f956096c5a903e5205dc8737cd0
+AdditionalInput = 6fdba0df9620b2d5381ae3ae736c
+EntropyInputPR = a874e0a3d29ac5d19993d6ce92cd
+AdditionalInput = 05291ef6e6986c871f7e9139c012
+EntropyInputPR = 1fc9f21faa16843b671714d7004c
+ReturnedBits = bfa2b132be48c9d61d49d618b1053d24eddaab5f5f595a576f22e4602d5ff7bf
+
+COUNT = 6
+EntropyInput = 59aa7ee6c510d8175c363627c181
+Nonce = 46b947ad26f30a
+PersonalizationString = 7893d547830e2d55b4a24f516407
+AdditionalInput = 713d02278827781f28f72f2bd306
+EntropyInputPR = 01ebd2d5bc52c4eb7ec73309e494
+AdditionalInput = 051195e040e10d329b08bd6519c5
+EntropyInputPR = 2adff0ab6fe2e15b05a67056d8a3
+ReturnedBits = 7d9423c5536858e822118f4591937c014bad704f47f688724091db9cc5921f2b
+
+COUNT = 7
+EntropyInput = cb4ed9f04098c409d93d4d9f80ef
+Nonce = c5a23805f264da
+PersonalizationString = f0552e4c4a199db7a92391e5d587
+AdditionalInput = 4a253ba4e2eaf5c8303366839401
+EntropyInputPR = 906a6cdcc9780614ac00ac9215af
+AdditionalInput = 8f7f722b84f9a84730eaa31e6594
+EntropyInputPR = fcf3c2f37ca932dda1ef3f98df54
+ReturnedBits = 285302f56b97129a1066cdadffee80d769f9b46fcc9bbf1e7a8fdd58f26d39ab
+
+COUNT = 8
+EntropyInput = 1e3943e938c8ce6774255f81f767
+Nonce = 75b35e1d9dbe00
+PersonalizationString = abd98741ff7ea3994a9257a7f8ab
+AdditionalInput = f908ef08173bc5ba2574417f9251
+EntropyInputPR = 486c0140632e41b9f7ace569cea9
+AdditionalInput = 840a2e88b9ec6487c4b6b9fc2f60
+EntropyInputPR = dc3a83c16c9f542e771741d2dab6
+ReturnedBits = 08c6ddbc006546d218f33a94094ec120240e5f1e2c73d593fb670d8bab4cb9d1
+
+COUNT = 9
+EntropyInput = 2e79743621457e8298bbbbbd19e5
+Nonce = c76bfcd5b320a0
+PersonalizationString = 31070d23d12e55660d888554cd15
+AdditionalInput = 6071eee53428073f857555d298ce
+EntropyInputPR = 0bfbfc771cf08a35befa39667473
+AdditionalInput = 376f667d4259524c80e4237e027b
+EntropyInputPR = e0115d899e7127d987b96be7de43
+ReturnedBits = ba4d08ff2ae4915d877a56dcce7f97bdb30fdb52b439d4cfb2650dc40efef901
+
+COUNT = 10
+EntropyInput = d147f37b6ecffae221f7cad6baab
+Nonce = 60fe0e236aed91
+PersonalizationString = 1c737cf7156ba7361563784298be
+AdditionalInput = 262e5bbbe1c318c440fa2233bff8
+EntropyInputPR = 2268c8691f6e1f19e26a8f3dd163
+AdditionalInput = c1008f4bd6c2212535933a33335f
+EntropyInputPR = b1a591a5f4b37982a2e6904579fe
+ReturnedBits = 234511da2d7977790aba458e3e46e3f6c8f60831f3a81af8b9d3610f6c1e5ee4
+
+COUNT = 11
+EntropyInput = db244537f07a4778f81fda6c4de3
+Nonce = 8e3e5617b9b789
+PersonalizationString = 473fc7ae2ac1b8f1523f3cc209c9
+AdditionalInput = 54746ed13690276325d811b6b652
+EntropyInputPR = 7afde70cfc01de84f429b53da1c4
+AdditionalInput = d4f21b165cd75bcd0a736f7a72ca
+EntropyInputPR = c98cf06ea6d53b848ae7858dbb62
+ReturnedBits = 974b2208a44eb8c7f73ba9d5e22ee180df602ab004bc27fb54a7e3e3d0ebf2c7
+
+COUNT = 12
+EntropyInput = ef319a0cc5b2ffdfa5b21b194c16
+Nonce = b6dd877ab38782
+PersonalizationString = bc391740835057f0ffb9ccf52ff6
+AdditionalInput = e7fda95df628fe8785f59398eef1
+EntropyInputPR = 2dcc0cd37f7e70189632085f2ae8
+AdditionalInput = 19b67f879909dc85bad8abc4071b
+EntropyInputPR = 4a698eb87cb9b5bc17092a58642c
+ReturnedBits = a6055f61f1802507cfefee34a34263c37adb48899e2cc12f61784a16ca79b3ba
+
+COUNT = 13
+EntropyInput = 5cca34e2ccef9d2e8cfa1d0ba49c
+Nonce = b412033287f4ee
+PersonalizationString = d5a8fd1e8bd3cdffd2a4ccdb2f6d
+AdditionalInput = 18ce4a08830a025a7bc59d2a06a3
+EntropyInputPR = 9ebf11a5f03189cbb448885abaa8
+AdditionalInput = 10e0da0a900d1210fc04b0d26ab9
+EntropyInputPR = a4bc4c37a581604036074b86146e
+ReturnedBits = 030af50d01cd309c3987708890a2f949178b8799cb7dc3fc03139c26888e846d
+
+COUNT = 14
+EntropyInput = 070b49a87f242eb7e19579f3db4b
+Nonce = f920ecdcdcb4ba
+PersonalizationString = b3ed57adc935365fb69c86c671ae
+AdditionalInput = 79a5f295601ed09fc8e348bb6f99
+EntropyInputPR = 3fef13caf2b678c512361c9af5ac
+AdditionalInput = da2200f206f41984350478989b5d
+EntropyInputPR = df55189eeee23b08f726cac51069
+ReturnedBits = da67220a1529367e55c7563eff305d1e733cee9f206d880cd6717a4ec797e803
+
+[3KeyTDEA use df]
+[PredictionResistance = False]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 8fc0d5c858406f5b3b99b466a5d5
+Nonce = 6d220fa53d0c73
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = bb640229fc448564cd38e3be7a690e6c35b56faff92233be5756ecbe648932b0
+
+COUNT = 1
+EntropyInput = 4e748583400307a841385116c27a
+Nonce = 3e697f899565bc
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 371175248bc6dc4ec66b292e0d7a7cab566e9d21ae79db2502ad601cb5c565a3
+
+COUNT = 2
+EntropyInput = 3bba8a88c1b61812f5800f50fffd
+Nonce = db34101f61bcae
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 4683ddb244cf216097ac42b7f86fb656e14d90fc32f173cdff1f37ac2fc4303e
+
+COUNT = 3
+EntropyInput = 16890c9523ee2945b3453019f334
+Nonce = 7c5c731f2d9d35
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = d06fdd26fbc03cc93a0fda035b4adfc833d3eea74fb9eaeca9af541a5948a585
+
+COUNT = 4
+EntropyInput = 768baf4890191b4b937c646ce1e6
+Nonce = 3bd4fe85d10e30
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = dfdd17766e25cd36c496144c1b11753d70b82b8bde43d5718fbf757ed1741743
+
+COUNT = 5
+EntropyInput = 8fd602438b6eb298478e96cb969a
+Nonce = 9d93f5cd452a4a
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 6bbac1bc699ef8a142cd68aa090d0304f1959d960385022b1f3fdc3c22f1ac8e
+
+COUNT = 6
+EntropyInput = e7422402e644b24a7784ef07e40d
+Nonce = 7ef8980d8e8e4a
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = e80a60931083c9f97100a3eac42a8e123814602ddbc5978fe2c8dd5af42511bf
+
+COUNT = 7
+EntropyInput = 31eb49175d2e3e80d0223df3e147
+Nonce = 3ae0d054c0957b
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 44ff6d991c0211119fac83072d457fd0bb360e66d91f89729a98677d4462e030
+
+COUNT = 8
+EntropyInput = fbc62fecdb8b6abca8eafbe7093e
+Nonce = 38e70a9e09e4ee
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = a1d27bfa9439450d6a77bc5658d9ebd10900ed784058e8eb5fc0d7e06e75fe17
+
+COUNT = 9
+EntropyInput = 45addd3724fc95a8af3472588173
+Nonce = 74e45ddd143ea8
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = f00eba4f5e753443c009dd077ac18f7d65473489765398aceb3220a0f7a880c3
+
+COUNT = 10
+EntropyInput = b73b752a21cbc9dc1c5cdb99191e
+Nonce = 32c632ec4e04e6
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = fa5986a8b3c31d2f45e28136ddba10508c1b25b1d92cfcd5348cbfcc7fbb337c
+
+COUNT = 11
+EntropyInput = d9e897c8fa8fc9f9100dd775bbe8
+Nonce = 0b68b202c63654
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 5a3edd77e9c0efbbd0785cf81141058a8e410a3aa38dd7c2d577044d2d49bf6a
+
+COUNT = 12
+EntropyInput = 6c845946db67f021dd130e4042a7
+Nonce = 9e5189be938b56
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 4aae412adb98abd03e1f6a13c827d35fe1def3bd9a2a9317775dab27500ffc68
+
+COUNT = 13
+EntropyInput = 19b25b078b1123722f5b8c93fe04
+Nonce = 4e7cf76d39e134
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = f27491d1f1a7d81103cc2e4d7721b0c07501a0ef78f82561b36678eefe8e3f41
+
+COUNT = 14
+EntropyInput = a9498b200716ae96e74689212fba
+Nonce = 013ce55b6f2174
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 21a2ea7dc41bb05c48b4f7a5e8a2def2c67f4d2ec3bfd71b36c05ecf28041000
+
+[3KeyTDEA use df]
+[PredictionResistance = False]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 112]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = a2f43b106a2642148e9a81ff8ed0
+Nonce = d7fc6b60909440
+PersonalizationString = 
+AdditionalInput = e75f4eec872fda23cc8293c00a1a
+AdditionalInput = 7558b98ed0dc177ba62accde0f02
+ReturnedBits = 1e5ff8cbe2ea01cf8e9f68e609497eaf59ac41f68360fcdc00e882461eb0d364
+
+COUNT = 1
+EntropyInput = d20001aef9308074ee416076daa1
+Nonce = 57d2f770115970
+PersonalizationString = 
+AdditionalInput = 4bc8bdfa767ecca0b368225dcff3
+AdditionalInput = 23364f4e74fb1b33943c3e70db9d
+ReturnedBits = ea8208620c53704aa31871f0932e7219446779e2acc2732a81504152a7c557e5
+
+COUNT = 2
+EntropyInput = 46b95d28d4df4c73ce412303eaad
+Nonce = f423d89637a64c
+PersonalizationString = 
+AdditionalInput = cfbafe1d784c18979741fbdf533f
+AdditionalInput = 96b84c0e9ae8c5fcc65926cf8088
+ReturnedBits = 9731f6122982e4c24cc8c5b515f4de84116a1a55a2af6bf2a3557f3509583642
+
+COUNT = 3
+EntropyInput = 14564bf6faec841f2415e1617ab0
+Nonce = f4d93b0ec5a421
+PersonalizationString = 
+AdditionalInput = e090b94a644b9695aa4f13dfd1d2
+AdditionalInput = 4355465643dfe9895a4ce2d81b50
+ReturnedBits = b8f19bd6c939b02998bc5a2abca6d3fa60f189c8e7a1bbd3480824fe496724b2
+
+COUNT = 4
+EntropyInput = 50449925056046c8c918fd1e50b4
+Nonce = 0b6538f5e17ecf
+PersonalizationString = 
+AdditionalInput = 4cef41fd519e3ac8d635ecb9a9ce
+AdditionalInput = fdf29648a2eba82eec148d46d1f7
+ReturnedBits = fa8d0ed3ee299c75a990f631564cbcfc561218d61aa127493bbb4b547ca9d903
+
+COUNT = 5
+EntropyInput = d3e498bc0359268dc686cdb9f37c
+Nonce = 72eefb241ca9d2
+PersonalizationString = 
+AdditionalInput = b2b59083fdb6af3cd07a1c34dbfe
+AdditionalInput = 635f225fee1e1f473ee6b99e0c5b
+ReturnedBits = 914ab8d1e69845171713edcec2857218a220bba617b7414df50038e4f445e739
+
+COUNT = 6
+EntropyInput = cd9025c6810871948c57cd8651c9
+Nonce = ace70fa85b08b5
+PersonalizationString = 
+AdditionalInput = 6805e0d23be5ff91ac74d5cdbeee
+AdditionalInput = 1a9119d6697a94e694373c8f1235
+ReturnedBits = 90edf889b57a41616f1f9b127e2d0528b1b57bcf7d909018fa0c62886539b3ec
+
+COUNT = 7
+EntropyInput = feac99c65c322e02aa473462f31c
+Nonce = 9ec1e716efd5e4
+PersonalizationString = 
+AdditionalInput = 4f64c7f6e995a4546f7f98c24c08
+AdditionalInput = 85392a995f9afa389cff47bc5a6f
+ReturnedBits = f817e679f808f86890f09d267f91439404e5469b0cf7bfb933226e7683a7060a
+
+COUNT = 8
+EntropyInput = 3b406f79b602022eb795c93f02d2
+Nonce = f1217d57db1dc5
+PersonalizationString = 
+AdditionalInput = 5043b193b1e0e7508a90127acba6
+AdditionalInput = c7c382bbbcaf48562692770fbc63
+ReturnedBits = ea8afbd1d34970ee33a809d179096d4a0b3cda0a085537afadb7eebedb88fb05
+
+COUNT = 9
+EntropyInput = 9e9a9b17f65aa2f40575ecf8423e
+Nonce = 9e96c0442d9df2
+PersonalizationString = 
+AdditionalInput = ee5831db4af97e3a2e9b9ad6ceca
+AdditionalInput = 992218e78eedf131ae5e752aea74
+ReturnedBits = 33c60575e7c95aff2708bc5d4baa12202c25b8f9f3628918ae76e9a67d728481
+
+COUNT = 10
+EntropyInput = d304606eedeb4002e92047dd7de4
+Nonce = 979f0fc7e55744
+PersonalizationString = 
+AdditionalInput = 4e6260978e4435861e95584ab60b
+AdditionalInput = 23af4fec7ffb46608836f66a1be5
+ReturnedBits = 871475a45d011a15487e5789bb3412e3ea42ec9919e0f626990e8ec9d431ef64
+
+COUNT = 11
+EntropyInput = 07a6ea3e5bb6c6056cf96f311c13
+Nonce = 63ae682037afea
+PersonalizationString = 
+AdditionalInput = cbbdc20d972a7ae21eeca590038f
+AdditionalInput = 03ec4fe9ead0496ecb2851e8933f
+ReturnedBits = 19b8533a0fd91b81dc84b5cc44e0583a047089d4717424edf99a92f64b1c693a
+
+COUNT = 12
+EntropyInput = e27711d15012571b259fb229a98a
+Nonce = ce695d2cb84f99
+PersonalizationString = 
+AdditionalInput = 2e2b79d9d4a6ccf3de7b9d4b2e41
+AdditionalInput = 82f941469b8ef941b00ef64df730
+ReturnedBits = 91dad04001a435769448bb6a468e022e9b0dfe93f85d8773ea617a5c1f2133cc
+
+COUNT = 13
+EntropyInput = b9f6665f8d66c959349f1a092163
+Nonce = 372b54b740c84d
+PersonalizationString = 
+AdditionalInput = 3a947a8d92ae5f4200b2d1a78447
+AdditionalInput = cfaeb96d63db59c3652149a91847
+ReturnedBits = cf639bf70dbeb41ba3a830bb9792cb767e5a85fd1051a867278c39f122364d6a
+
+COUNT = 14
+EntropyInput = 536b4271de1a17b6a70fba780acc
+Nonce = 31a8c4fc6029c4
+PersonalizationString = 
+AdditionalInput = c72366f4c90f86be13c79184ca4f
+AdditionalInput = 62687a294077dc5257d01d9a5e71
+ReturnedBits = f270cbc49d6abbd8a8c16cf3ed4c1e7a6cd832a60db8065ac70d376ce9811150
+
+[3KeyTDEA use df]
+[PredictionResistance = False]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 112]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = bc9c379464be2842bacf82d5ef2c
+Nonce = a260827161ef1b
+PersonalizationString = b209c761404252ce05a16c8aff0a
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 02b7ad322b36b44a0ec2bdcd12262d4d83dae57de96ae1ee13eab3710be9fca1
+
+COUNT = 1
+EntropyInput = dbc0e9d59903c06308181d0f6232
+Nonce = fcd088ca823137
+PersonalizationString = ba68582ba4ddd5fdca83300b7356
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 20b0799a2110410029811630a8988555d61a8c155eb17444a97cb0b976cececd
+
+COUNT = 2
+EntropyInput = ac25049b1d750fd30dc32a375415
+Nonce = a09045cf908e46
+PersonalizationString = 715b31cd329753f0458054cc0da9
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 288cf9d6c65ab16e2c8509ecf75a825119fc95f6d94a621f379e7c4feec97f01
+
+COUNT = 3
+EntropyInput = 107a461310f8b84167f10afdb514
+Nonce = 945e9dce980c61
+PersonalizationString = a5aafaaab175253e1d89c066f707
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 3f43f1c3658dea3c13ad9683377c4933a3de0a3de397fa0cef13e84088399d12
+
+COUNT = 4
+EntropyInput = 1eac60b76879d46433f166b8a93d
+Nonce = 6d14eff4eaa354
+PersonalizationString = b8bb5e650f40c720aa9e7e1648c1
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 08e40d75a79e60c6dc4f36b95ac4aec7ed77cf2278820798b9883877e037d45e
+
+COUNT = 5
+EntropyInput = c78ebd7baee2e29d1d9a37a39996
+Nonce = 9ef17b984af4b8
+PersonalizationString = 816afe2b29d564e35aeef83ebeae
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = b6254e8f8d74f8a562876bf32ce0426cd4c79dd6781bd2f825050c9cb54f88cd
+
+COUNT = 6
+EntropyInput = 0c01060f973dcff618bfc69fcdb1
+Nonce = bec85a096e6863
+PersonalizationString = c8e086e2425f507c6390699c6239
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = ec4845540987b4a734083571fa0fd5bd6f0b21faa79ed27015cf81f46648b760
+
+COUNT = 7
+EntropyInput = 8cfccbc0d2aeea5853d375bb9af5
+Nonce = f83016cd8aed23
+PersonalizationString = 4b48d91558b6332ee9ba565bd083
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 64a982ebe065de757dc13ec371a3e097e4223b3a446d7f7a2fd62a8ffac2accd
+
+COUNT = 8
+EntropyInput = abf75f8ee972ff359b002c588931
+Nonce = 77b8b665d3b89a
+PersonalizationString = 937734807e1a9569dc166259e7ea
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = d224c9294b7b33744d98f8e73332349c23d30addbba986f9a8b5f69a50e59eea
+
+COUNT = 9
+EntropyInput = fe3f35dc10419ee3efcdd289438a
+Nonce = 1527f38586b195
+PersonalizationString = 3988a7ba2c8ea41ac677f1b62244
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = c5b15925a502b52fd142df1110abd993cdfe624dbc0bbef3ea9ed0fc9a2f76eb
+
+COUNT = 10
+EntropyInput = ca4c8e212169781d154aec6e7c31
+Nonce = b73d7496845413
+PersonalizationString = a3037a791896030dd66b168ef1bd
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 50d9e32bc02415de2f8caa1aea2f004c2f6785acd1491dcfd39b740b192c05fc
+
+COUNT = 11
+EntropyInput = 7db62780d6dcd56e137b8b8547ed
+Nonce = 2f5440b5cf06eb
+PersonalizationString = e18e39a803d1d00879fb3e5b9d7e
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = b46d8ade468ce70e15dc4d7f93bac9cfe767baf00a5b6bc66317dd5e8ae06cfa
+
+COUNT = 12
+EntropyInput = ad3ed34f20c5f52bd4960d8e9fbb
+Nonce = 6de8886451f5b3
+PersonalizationString = 202823688f72c7027e0c20fe942d
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 17db6465764dc027c825f8c54a815d601aee53328eb264f94d9720845123bd87
+
+COUNT = 13
+EntropyInput = 752a530c94c1bbc0d8f5409505b7
+Nonce = 899b88be414086
+PersonalizationString = 85a5075c0667b53531b3dde812c5
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = a641638d14ee9069cab1bb87e035520be62fecc3cf490125a71db0c971bbd82a
+
+COUNT = 14
+EntropyInput = bbc38154adc3c2416e12b230b1ae
+Nonce = 85651105503f34
+PersonalizationString = 80dfee4c400205e8befe7b6ff0cf
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = ec33c9705ad6165332c868b7d0099b925d6b43e2c9faa5f3c4e85e1a9df08189
+
+[3KeyTDEA use df]
+[PredictionResistance = False]
+[EntropyInputLen = 112]
+[NonceLen = 56]
+[PersonalizationStringLen = 112]
+[AdditionalInputLen = 112]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = feb7b00b617084c95146304885d0
+Nonce = 562629d7593caa
+PersonalizationString = 909da9c95f2fa153a0f001c07a32
+AdditionalInput = 29354aae044cb0b669d45c888a8b
+AdditionalInput = 3a66b0996ca20c26316420bbf074
+ReturnedBits = 5c085edf490121df65a3cdcbbfe5d45260ef779725aab17d3c17dc1a08a0f596
+
+COUNT = 1
+EntropyInput = fa4ed24c3ec9604e34d1ae412e13
+Nonce = a622900dff32b7
+PersonalizationString = fd2392ced4fb776ba6735accbae8
+AdditionalInput = 4e9d00772a7eafb9fcbf7cc50c00
+AdditionalInput = 01adc6971d58db30a218363233c1
+ReturnedBits = 4bdb3e1ecbad1a0ef24130a6dc83bbb63984d21ea2e946aa6cfb154d96b237c4
+
+COUNT = 2
+EntropyInput = 0772232db1981c5abd0223189617
+Nonce = 6ac530ffcbc491
+PersonalizationString = e49dc59eb70bf9f27a87db3761d8
+AdditionalInput = a0de748a24941810e2bebd5696b3
+AdditionalInput = 966cd1ebb5e770376ba03cbb79be
+ReturnedBits = a7899fa1d2619e19b2a4c31c6cf5782a07d582c24d1a238eda77f3f2cec11cd4
+
+COUNT = 3
+EntropyInput = 3339fe67d403cbdfe5821312b137
+Nonce = 2d0e9595816f7f
+PersonalizationString = 6dfa80cdb9f93b3b27f1cd481d90
+AdditionalInput = 11feb5dc27980320007c5e8193a5
+AdditionalInput = 4870c9c3f973b8bdc65732290771
+ReturnedBits = 87e5157eae6d7c5bc67b1c817289a04da493d9f265dc4f86b2ecf37819890930
+
+COUNT = 4
+EntropyInput = 461ad03353686a7399aed3cc8a14
+Nonce = 942722c1b6369b
+PersonalizationString = fdab74746ec3c2a652a3e5baad37
+AdditionalInput = b0e9b05df4891a9c9343bf24dd02
+AdditionalInput = 5d731eba013376b7d7e695b58724
+ReturnedBits = 3f10990c59e284bca383d4cac5d860ac73ec58d3ded5839f85af4ce5b90a8bdb
+
+COUNT = 5
+EntropyInput = c1052043d71ce2098520915788cc
+Nonce = 74c1e3420f6531
+PersonalizationString = f8be7eea90e8f264d43933d16fd4
+AdditionalInput = 25e24ea0ef29b11e9230540d7b86
+AdditionalInput = 5af3d0656eb1e8c9b0ccee847e77
+ReturnedBits = e5df44849d372c975f597a713970ae4fd600ddde41bd845dba3c5608bd0b03b0
+
+COUNT = 6
+EntropyInput = 7e91fbf83229a144c08d921a6b71
+Nonce = fde51899c33dbe
+PersonalizationString = f0ca70f827505a646716ca7f3868
+AdditionalInput = d6102397b158caae8b380db70516
+AdditionalInput = 88bd1cab584f595b060b3e6cb80b
+ReturnedBits = 8f11f8bf7f80ea9cd4dac4ef00d9b59423f8babec7d3dd08ae1783bd5f5aa63c
+
+COUNT = 7
+EntropyInput = da083e9efcd3f4266ec0afa7a7d9
+Nonce = 0f7af1f9737780
+PersonalizationString = c87e9b1ba05278c253961ab9145f
+AdditionalInput = 67d770a914a5647fd0316652ec40
+AdditionalInput = c031555b73fb1f4bd4ac2b5023da
+ReturnedBits = 32a342075b20beeba2050c515c0a7fe9c70daf66866899316fb61c6cda6f72b6
+
+COUNT = 8
+EntropyInput = b13e8006aab152a63e7c9a2c27d9
+Nonce = 0bded769f5f537
+PersonalizationString = 9f49e4dbed085be2da525f6100eb
+AdditionalInput = 3894cf8d6e10ee7fed07eeff68bc
+AdditionalInput = bdfa5d26bb90e18966a798bc9a47
+ReturnedBits = 17cdbd582c31a1e275212c7201f54e6b5ce28e85c2351619a4394141d894feb4
+
+COUNT = 9
+EntropyInput = 7f66ee749d5f868345c4b450e91d
+Nonce = 8884e1d3e08cd0
+PersonalizationString = c0384dda750b30ab1128615a8b08
+AdditionalInput = cbaf741eeec9669cad2651219616
+AdditionalInput = 313622e0ec6c41943260bd383492
+ReturnedBits = 4a586d7c05eda5edfa951c974c121fe62bba74f9cab51cd267abd2ebd4af559b
+
+COUNT = 10
+EntropyInput = 24e6263b2a6b6cf14820bb9d20d2
+Nonce = 297ba314d07e44
+PersonalizationString = 57e97a7d7de88c23a95099293868
+AdditionalInput = ad6ff8911f6b5dd5e218cf2f0b3e
+AdditionalInput = 19d58b72afab9d6702b62b98d727
+ReturnedBits = 6bb7f1074844d829ab476e92075afd3c62c8c62b0b1fb24add84d1b15e116993
+
+COUNT = 11
+EntropyInput = eb6571f1746f9da90b2a9445edce
+Nonce = 466b56d76cbbc7
+PersonalizationString = ea750e2d1289d762f8851076abad
+AdditionalInput = 0d5da5c29027b41db52503825abc
+AdditionalInput = a8654a9b69d2386c7029bdf1a9c1
+ReturnedBits = f40e4a14482f53ded7b8dfc6ba604eb7e227b3770eff228ad35557077b8848d7
+
+COUNT = 12
+EntropyInput = 63fdbf49d1dfc1345a0f385ae265
+Nonce = a911ab1bf53f61
+PersonalizationString = 9b13303d336456f149534a7250cb
+AdditionalInput = a14dd66f29307932507483d3e613
+AdditionalInput = 122ddb849079e036a37bb291cce1
+ReturnedBits = c95a8c70347f9c01eab93a0bfd6e61686a2cf9b2ce2b0dc2550bbd9a17a5fe70
+
+COUNT = 13
+EntropyInput = bf05029bf79bdd250e0113c6ed77
+Nonce = a540410dfe4654
+PersonalizationString = dcb36d4e7d55e7d22660ade7baa3
+AdditionalInput = 2ce8fbaa5ea5ce25f5a17b8be021
+AdditionalInput = 9795ebf51f39654f720ed82f210c
+ReturnedBits = 1dce4a5030eea9a2353bd6fb2f4dc11f71e918b0847415519c9182bcf0395922
+
+COUNT = 14
+EntropyInput = 4b074b570b3611eeec722a895b91
+Nonce = 9fb7699c9294ed
+PersonalizationString = 952b2a22e613b56cde7ce6f74eb2
+AdditionalInput = 8a8792c81fa6373c76fa914efe58
+AdditionalInput = 27c924ade7d4b9d461dc86a1f592
+ReturnedBits = d7191f39bd43fbe56eb97eedbb3cd5b23fd10cbfdcb988f34bd7d5f8576c9f01
+
+[3KeyTDEA no df]
+[PredictionResistance = True]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 12d49a8338f3f54baf75448aa8cc5be2d457bf25887957e21ff624bc49
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 097c2354ec554b495d77f1a651dce6ba80950e170d462a5fb109e2f102
+AdditionalInput = 
+EntropyInputPR = fcb04f773bd9754d6b81b8fb8265b1349f4f6683d65e6fb438f33ebbb1
+ReturnedBits = 494bacb2adc82cf5cbc9f1274c528a01161aad2a1ece581fc1deb26994feadf6
+
+COUNT = 1
+EntropyInput = 0a9c33a9336a526c036f82c7145bbb5550edb082a629ffbc7768767c6b
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 5658df1a15b3c571ce48f7876d3b1621ac63b004b4d1e440f51c58dfbf
+AdditionalInput = 
+EntropyInputPR = d15648d8ec952a2541bb3b4cda58ed536747efe13463161ca0f2b52b3d
+ReturnedBits = a86861554b97dfda75eb91c40545f0d00dc5042da6789499b717cd66576dd148
+
+COUNT = 2
+EntropyInput = 9c836515688a0070aab1034d0c803229626fffcb1795df0a3f80c4e3d0
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = f4f0579374785aa75a08b9418e1db06c4ae48cd6ecf442eae4a303c87e
+AdditionalInput = 
+EntropyInputPR = 0b81170797d817abac2d638e4dff4ddd3fe38ac07cdf458e596b93e6cf
+ReturnedBits = d054dbc6e5503550d13e734e319f7359466c1b28a082b4483bc126423d50fc61
+
+COUNT = 3
+EntropyInput = 56b4b9cf3c2fbbc0c8b9283fc3503b4a7d01c7d4543da514ef046edb74
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 50f58e1f42cb4ca9e5716334bd2620cbd26dd76fd919bb02c876a6f2eb
+AdditionalInput = 
+EntropyInputPR = bb05912e9801778f65531d650f5bd6472d5141f79f26cc6b91bdfbce7c
+ReturnedBits = eb23d822c55993101a3aa6c2e282a7f2c874031cbe59ca317489ed74dd9bcf2b
+
+COUNT = 4
+EntropyInput = 6c4e0528cfdb6ece6fc7151740d55e19ae2c0f6212dfc657b17800902a
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 7d12a232fe7daeb9febda912ed47a3a8257601b23d3da440ba7f4edb8e
+AdditionalInput = 
+EntropyInputPR = a970730e342eca6010c64d742e4f2c9fe8a0471c345c8d8e04bd2271d8
+ReturnedBits = 62f927b5c450e35dbc25e6584d2bddbd209f5ccfed9d535a5d81418abe3f0e62
+
+COUNT = 5
+EntropyInput = 0c1cd871fdc83f437732e3c5fc1f0edc1621fb1820f520c3a702c89f59
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = a4b39073279b029ff9f89ff6e2d8675684d6c490b314757451213cb51e
+AdditionalInput = 
+EntropyInputPR = 698f2e671c60511bb0e1cc3863c3dc2b14a4eccc6597baad970c28703a
+ReturnedBits = ec9304c46779a601877fe66ef8245b86455820776dcc67e4ab3052174ffeab84
+
+COUNT = 6
+EntropyInput = 7657fd1faec70515f4919b8812bd526e1dcce57b71e7bbc397705018e4
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 3e0550f7a28dc288c6627b70647a62fb60b526e5472e58c26b2f7e924d
+AdditionalInput = 
+EntropyInputPR = 968422b9578ca173db38f8010bd03d530b4bb2b0f0766c1b19b6502538
+ReturnedBits = 41f30a5b12fa46d8d852a6475e089674ed4e93354178b6f8ff8d57d6b84db774
+
+COUNT = 7
+EntropyInput = df0609f55dd7f33c504e5524407aa0bb3c6d2be9268f7044a52cd5abd9
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 9074f0d785a82f6fb7a6f2342b2b8f42f83ae127e38fb2fe2aaddeea8b
+AdditionalInput = 
+EntropyInputPR = fe528c79263e86c878f8019151fa3fdacb447e709ad67c4222b4eeb633
+ReturnedBits = 700db86035708c024e2005595d8fd73d303ea97223bf056f1f10817208980893
+
+COUNT = 8
+EntropyInput = 04fed7dd35259d5e9955617acd2c5d888d6715d6ed856763bd25788a24
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 2ca7f373313a61f8fa207e8ba1fda2a15cbb5a81fb8fbee1eee072c19f
+AdditionalInput = 
+EntropyInputPR = 97af540e49e794ba2134d89f012dd29831ca56f3e93cd0416296711da9
+ReturnedBits = b4c569dedad81ed43ae8c7b30a6b15d86544af738d8106f793fb283f7fde1fbc
+
+COUNT = 9
+EntropyInput = be88a76f01787e54e57daf17e706118b43821c6385bd67293d25b4f228
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 89ad8beb1fe066def219d7cc57b2d4648a4ab7fabd1593ff0744d9206b
+AdditionalInput = 
+EntropyInputPR = 14381f51ad2b983d6d73f4452a84a1a6d94f4259492fb8cd631129a78c
+ReturnedBits = e8a24ca7047b78dd1470660744e3c973278660504aa0d6dbba7ec5db3cd47709
+
+COUNT = 10
+EntropyInput = 70a70f2d8a49ae39d986dae02565fb4badec4f96afd93ea465dea26c2c
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 3300aba0b5bf5a66c321ac748a807f83de9d52e688bcf860076923b8b9
+AdditionalInput = 
+EntropyInputPR = c7a0da91417e7d0d393fab6775433008e126e6d3329b767e45122ffd94
+ReturnedBits = 4709c51114424a32b0554c289d0a7226b50ceb9317a231bcc26516668b33848b
+
+COUNT = 11
+EntropyInput = de09136e8f2aceb1aee3594f2054cc8e580789027c765280d407af9f21
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = fa63d2d6a40d4d8b7acd49a8d095157e544f5405fb67772251c6652661
+AdditionalInput = 
+EntropyInputPR = bd3ec478859bc93bd6e654eb7d53d2f75ad8a7298880d0b3de6e315235
+ReturnedBits = 192a6d8eaa70d686c58b41ab71d67a29d2ee0eb5390eaf823a364c8583e770cf
+
+COUNT = 12
+EntropyInput = a49e16ea38d4ba224d3154cd59866a19c70834a0ce63705d18f071bdbd
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 9c5a8373c9e80f4bd71dfe0632de24ae13cfc9bc93e890156bf4287c2f
+AdditionalInput = 
+EntropyInputPR = da71d1e09ee2a0de6bb130d0c30123206873a830e7009e3542f540b5eb
+ReturnedBits = a8c1e48e171faa95744383bd3de22c664f8e38985c803b1b503225b597a07084
+
+COUNT = 13
+EntropyInput = 4f89fa0303ffc54942f9eee09c2631797d174b0ee0de68f9658b1783af
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 247d95d2018b4da865ca336b78d261bd87bdcad2874d5df70c69bfdefa
+AdditionalInput = 
+EntropyInputPR = 7e3ddd3c3d35e1238b0ba58b5a8bb24c50e7c4547026d12876114e795d
+ReturnedBits = 12946e765425148b988d97d98b9a435bb5269d99aa50348dffd63113e15578da
+
+COUNT = 14
+EntropyInput = 0e7e2f65bbc1436d1591ef675229209c0d61fcaf472d4942b905ca1931
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 0d868443c3c36e4bec235856e20091af901b9bc9d0b64669329138aafe
+AdditionalInput = 
+EntropyInputPR = a1361796a1ccfed4b943af587bc95b86093a669bf722e5644f6adb5555
+ReturnedBits = e5085ab3b68176c3f5cdfa5de1adc818419fc22a547de5f14cde806d24aa2703
+
+[3KeyTDEA no df]
+[PredictionResistance = True]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 232]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 9264287ee5e96bd7a5a0a13da4cd12ff3ef0a81525c71a3b2c586962a7
+Nonce = 
+PersonalizationString = 
+AdditionalInput = f01eacd963384e8d6cbb8a8e341ec24b94755c1678e083fd4eb9dd9191
+EntropyInputPR = 64369121b613db57ff0bbde40b4325599a04fc0ef279cd5c740dd5284c
+AdditionalInput = 85bc36e81688773664da8b3d4a5c0ab4ff21bf8dedbf824112b1fc00cb
+EntropyInputPR = e4b8bdc0e65129814d7fbc9b32e62db859b06a4106e0d93fbc274701bb
+ReturnedBits = 4ec6ca1af335b678f4aa5296ada83ec772cca12de961201f5c27619e3d3a7f10
+
+COUNT = 1
+EntropyInput = a569b10ba7446b7b5fa41a1ac6bbe628ca80587a909b0fb168ed1f00bc
+Nonce = 
+PersonalizationString = 
+AdditionalInput = e00a5e501a87e41ffa1f966c55237f07231470c0b066feec4d10da0f0f
+EntropyInputPR = 1d640b20c12308fd2784e859a443df8a12661ad9428badd00441f1a139
+AdditionalInput = 1a0929cd1bdc3d4488e4d07d0ac65b9c23aab9af2564990d0326369319
+EntropyInputPR = 696dcd23a0f4e5b938627592ed8ea06822f15f016e4c532bfdd363b929
+ReturnedBits = 638e41c1f3e9066badfe8b82870394af9b5c281c5fcd274e5d699e7b33321f99
+
+COUNT = 2
+EntropyInput = 5839a4a6514a045cd753fad7d011121530f400c7bb863d58c330223e14
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 4920f1096d5f458e2d0c8ccec10d46ba4083668ce789513c8a33f00b75
+EntropyInputPR = a7d5dd97fcc89e293be6643a32448fee1f679569a16bc61378de75a37a
+AdditionalInput = 7f77d5b9b4d38c968e80776ce0b5227e3dac225b1bac0df189d9f9975c
+EntropyInputPR = 8d0bf23ebbcf03721def35d120e3255e853303df226e5da6558b2080de
+ReturnedBits = b25043b08986ff7019509522683f3a841b211227e204c216dced707efa9f2729
+
+COUNT = 3
+EntropyInput = 7751a42d1b69dca21f09aab99557fd7fd880a1c6bf5b5dfaabc11de7cd
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 452f377b4c6cdc31c0dd6f07dbb329f108e2a340baf3b0565b5068cb7e
+EntropyInputPR = 4c7d9a58ea7b802cdc79d0e906b97653895d211ef95846408e028be801
+AdditionalInput = 364ac3e6fd23e8968a3857ed4418c607052868f68462bc5d67ad331244
+EntropyInputPR = 5e1f12c5f093b0faa8df4e39f5b64af673e1030cf1f91e6b075cacf90f
+ReturnedBits = cc7b5dc9797d094cfbfe5f6098cc8bcb7fd856e1ea62778bbe28d9e9104e292a
+
+COUNT = 4
+EntropyInput = 28fb5a6c96f2449dfa33185aafdf0dde9c055f444366bef6a35c15a315
+Nonce = 
+PersonalizationString = 
+AdditionalInput = b2b2c6f8abc235b41b21d3d2c39263e312bbf4e74acee9434f92464f76
+EntropyInputPR = b7361250478da295f0916100789eea0d3f1ea788534ded1e88084e715b
+AdditionalInput = c00459145b7716d2234ddc89d9d2cc4e26baaaa1dd607d61788e296cd5
+EntropyInputPR = c116b9b7de01a3a99fdf1aef301891efa9aded010396a8bf7c1d5b4007
+ReturnedBits = 9c0b21beb1627e2a539186761455c248f045d5843ece7101159c562970012016
+
+COUNT = 5
+EntropyInput = 1de50b365aa2843b65584004702bbe0b030ed7f384659b8fe79f80eb6e
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 3726744765b8e08beede9b79416086876d9e7ecf79f7a6f89eb1809351
+EntropyInputPR = 216f54beefe01e9abbde5c6329df9d323c7738088569555dc243b20d05
+AdditionalInput = 0e375bcd0e473fd82709c6f195cba8df6be9fc263f95187fedae5fffc5
+EntropyInputPR = e5dfd2140f22a9aecfdd69e693eaae0e0e55ed97f875f0ecec3567f3d0
+ReturnedBits = 3a35bd3f22b65530aa2295854b990c937ac548fb15ad85e29788c96798d91e6b
+
+COUNT = 6
+EntropyInput = 9ae6f97cfa6379decec95b1344b24de1d4078f28c7291244a46614580f
+Nonce = 
+PersonalizationString = 
+AdditionalInput = bd717eddb5f2aec9b1789bb12220f2eba81b6342e471295480b8b2fe91
+EntropyInputPR = b4caafb1320e8bd419dc261ad3ae529451f5b00f4964702e577050d6f2
+AdditionalInput = 154dde14ea252ac512fccc6b2e5b44f2855d3abeb92b1917347a5a89de
+EntropyInputPR = 61b0ce648480cdd8d987a547cbdf86bf53424b8d9e58ad4e85435a71d4
+ReturnedBits = a10455b143bf5dfc4063fe066c9aaac306d984e5f06dc510d53e9629bd3fe8bb
+
+COUNT = 7
+EntropyInput = f9df3876daf1e33d069b4236f26046999475e0e2f39e5ae95ed0e9d144
+Nonce = 
+PersonalizationString = 
+AdditionalInput = ce732110fa6dfe7513b1a5366fd315f508ac3006c03474cfedb6f6002b
+EntropyInputPR = 4898b8f8807753b72e504d8714c444ce470ccad2769b9812e3a945b0e7
+AdditionalInput = ffcca2d65aa53d20fbc2f851df0d1cf3096cdf90097db76dc1263e3b98
+EntropyInputPR = 9dc18f2ac84d9543917acb62c95ca793b1239188460da4c54aa511ab95
+ReturnedBits = 9ff6172578cc05d42c32c66385fe2bc9a694fd47a77b02df4ad9457d05a4930c
+
+COUNT = 8
+EntropyInput = 96ec0ab16d83b2b2fd1dc5664afbf243d8722665896c75e6855478aebb
+Nonce = 
+PersonalizationString = 
+AdditionalInput = f3c5f2b4767c6108bdcbc19c20376d5e98ff875294f315ff400e8eff82
+EntropyInputPR = 2abad052c3a581e0d730359833d50d686bbbfd4530dcdfe9ca837ae31b
+AdditionalInput = 51548a51746e8a1cc1fb486deeeae122aad1240ed2b44783141866263f
+EntropyInputPR = b30080c1c914449268816ea8f0b69bbac417e5889fb17b8ad46127c044
+ReturnedBits = dcf4605996389dc47e1f1c57a3700b1470b8d5589602f99d429a721c7aa4af28
+
+COUNT = 9
+EntropyInput = 5821ddff9cac4ec91816e9e921188fef6ee256b8c1c199142655e14fb2
+Nonce = 
+PersonalizationString = 
+AdditionalInput = d38acb07b3982f1c804b1e23420a6a324d7bf304685d5256fa73138f2a
+EntropyInputPR = 487b00585c15c2c3bdbd4160a0e0379fed75a0133abe57fca796d0563b
+AdditionalInput = 76adc427ada04e692d70fddfaeeae82fa4cc847a54c2de63636e655975
+EntropyInputPR = 37ed5cb9e25b55be6b95c26470fd753d3536575d9679fcf3f69602ac48
+ReturnedBits = f338d6faf0b8d1323e0901882305cc2929e8271f34a9b7e17914dd24178953e2
+
+COUNT = 10
+EntropyInput = 3cca299bc42d0fbe49e44f7e3d799e38d571858689a763386a04869acb
+Nonce = 
+PersonalizationString = 
+AdditionalInput = be218a63a15d0558be39b23b0c7e99962df9642dd4cd66687ab5384243
+EntropyInputPR = ff34f0d8543b2b19bbee0e96217a440f2902c421545331ea64800ae607
+AdditionalInput = 025babcc41b304da1e0c18c332e33d598b9c18ae8ba67fc1ef71dbbb40
+EntropyInputPR = c78f10f8f81871f0954f86a4f3fc1ed0f7ea6e7ad3812d5e7bcb6ca5fd
+ReturnedBits = 2abb630c4a3e3c07a12b76a9b91f40e0d6f02517b4f742e35e6d1965a5707f66
+
+COUNT = 11
+EntropyInput = d66500163f1b15d93dee5d5866be8ffaeb927e3e14ee239a447eccb293
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 3605f61ce160fe5b61ff299d7d0f04a531eddf0d3881da3df456669fd3
+EntropyInputPR = b04d0e997d796b09f8a18d6ef3e110abd8915c38527a6c9aa9bb109e59
+AdditionalInput = 1bd06e6e0a829da2258f8b73855a96982a100559d9f2f1034b8f79b2ff
+EntropyInputPR = 3e4266ed84d9407f8d8ae79d52aeb21bc614fcc875dcf35d737810190e
+ReturnedBits = 11ff4b4df5408b2cbed99a4ef62422e3ccd60da96f3369ddf38ae8e91465c80a
+
+COUNT = 12
+EntropyInput = c80b5b12feb86ffae7084377a684ae75b21420ed0e7100ad20c76c09f9
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 8a24881a42a3ab9a15f7ddc65cd37209f990b6d90ef5dab02440b12533
+EntropyInputPR = 251ab689b0acbf3d8a355ee832726b960b20b388cb11b1544fcad6da97
+AdditionalInput = 850b8475e6e17a1cf060f1878daad87968b4dd0ccb2af40bb8fcf8e8c1
+EntropyInputPR = eae48c320e825e6cdefd0f8d83937e3388c128bf099434e418aafec76a
+ReturnedBits = 67f43b4c987f20f3fb90b65aadbe8751d041e5e60ef84073a284a182589052b1
+
+COUNT = 13
+EntropyInput = 0d449b9097e2092b49630fcd4aa0dbd0e8b066ced9131476d1f2d31ccb
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 74a4026e87bfea53ce58d52bf049bc1a3ba709f5b6d077e7b8614ec396
+EntropyInputPR = 9cd445e6b64c95c1caa14087302193d4c3e7c5db5236f23d8e9fcf50f1
+AdditionalInput = 201be98b1c5a0940a6fe605ff036d841e782c1502d372404549d9c3db6
+EntropyInputPR = 89c608bb02e70c89de118c44cd9af82e997b9dbdd24474d06bff9a949c
+ReturnedBits = cf9e4a0ac074d2509f418f557c4801898e1f318ba30db31a83313728e51e0a92
+
+COUNT = 14
+EntropyInput = 82bb42834fb11bbcc9968d855c03d2ac145e369ca2aa263467dd8fa453
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 47c589bb5b634d7826618e54e8ec6c646580edc5a57d290ed75c7cda69
+EntropyInputPR = a098319d8ea2548d106d3bc478ef25344fac8db803367b972fed178869
+AdditionalInput = c5ba818623b64e57f5f2688fa65d9cd641f64b3d4e0f29a745879e4d7a
+EntropyInputPR = fb464a0bd845bc75be02f8e3c00082b33e2cea83ce3ef52e5976efe49a
+ReturnedBits = e99aed04890638a7ec5fce7830c817818268970845a5282d13490ec63b48b810
+
+[3KeyTDEA no df]
+[PredictionResistance = True]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 232]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 600b543b7f97729de8ec94047fd1810419a0e621411dd6c9e65699cb4f
+Nonce = 
+PersonalizationString = 5b70198961fa574eafdb811672c08fab84276c998d96c05be1e78d0ed4
+AdditionalInput = 
+EntropyInputPR = 8b1eecdd66609ad16a74e86ae8354db328750ee028cb2b0319c92dbafa
+AdditionalInput = 
+EntropyInputPR = 3a2f053120aed6d2035b12fe082b4ba9e08294323f1888e9b822d46d76
+ReturnedBits = 607035705e9174d4f9cbaf6832e6a54bb47eeb85613e681d6d33b8fbbc444371
+
+COUNT = 1
+EntropyInput = 78a23dd5b17317ac63d7663edbfaa6fe0b3fd7d73734129bab463a4694
+Nonce = 
+PersonalizationString = aff18a3087bc47d450cec633e25add7890faf6b6804a83a3b33adde504
+AdditionalInput = 
+EntropyInputPR = 269bcf36b0d7d388fd51f5e2c0288d5c404603d1ea0cd1fdf51461bdb1
+AdditionalInput = 
+EntropyInputPR = aa331312659135f8d6917a3b7b61589c621a68858840cd0f92aad17701
+ReturnedBits = 07e5bb618b08732134a2105eb8ac966c459c8cf786df6299bbcc6a16c09a5a6d
+
+COUNT = 2
+EntropyInput = a6a92f17cff29fc0f93e840fa4cfa8b49eff30338d514cfe2a78ccdaf4
+Nonce = 
+PersonalizationString = f942aab2968482f2223ee6f46b4b480058642cdb306eea2c81252058ff
+AdditionalInput = 
+EntropyInputPR = dc54754e9121fdc43f012243972cab3fff01989f518df028c7064e4477
+AdditionalInput = 
+EntropyInputPR = ee8bfc6eb398961147816e9783f639fd0dd85442c7002d4baa193a8908
+ReturnedBits = 22e06a5168b608d824d42b7c2de54cae5a15dae3d7a2fb6ada7270070f5795cd
+
+COUNT = 3
+EntropyInput = 22a85c3dd559571988d336e56d69ff355a967925a09b80cf40dc399b70
+Nonce = 
+PersonalizationString = 0c7a03a99cd950e41e5766ba3938ab9e1ed23b98fa8d6170239148b99b
+AdditionalInput = 
+EntropyInputPR = e43bb5ea7ada49f9f533efede41d448aa6a44f37b82be91043c619ae7d
+AdditionalInput = 
+EntropyInputPR = 4cbb5628958695aca0853718db04b95bfdcf309d8be21e1f1c1efc7146
+ReturnedBits = 7972bf7f799caec3100753ad7335aea13229326dd610748953f2ddc331b46a82
+
+COUNT = 4
+EntropyInput = 1f018a35ce226e2ac372e9730946c8fc58f03687836a2de2fae688aa22
+Nonce = 
+PersonalizationString = 9c5746900edc323662af7ab3a2a2250fdd9419f439f9c8cbe4b5d6ebb2
+AdditionalInput = 
+EntropyInputPR = 7315351ee29c36082921ff0b8290a853ecd9345c23b7bc3f58f1bab31c
+AdditionalInput = 
+EntropyInputPR = 5d74042876f799ef35318f72883b2488d4675f589cfb2e33368e8e23cb
+ReturnedBits = 6dc87849814a9b3af4265b15a25e10d16d707698de86f1ff138297d5a8d97490
+
+COUNT = 5
+EntropyInput = 4908b5def1f4579e340a33a7022e585ae43895f255a4f33e22d2be233f
+Nonce = 
+PersonalizationString = fe2e61e733bd9b7c39fca2ae5d4c690073db04270cae763d7f1b2b3e44
+AdditionalInput = 
+EntropyInputPR = 1aae3d2a735299d95681e6c5e076aaafa350f6c8528aea4efd92e1cd6e
+AdditionalInput = 
+EntropyInputPR = 5d3fd8f08ce97225c2a036a94d9a7b3d3d6c431bbb210356dfb3476837
+ReturnedBits = d01f67b5fbc2ae51bcce6357fac71a4b289ba53e77d37022dcd2d09947955d3d
+
+COUNT = 6
+EntropyInput = 79b541d91d906803447cf71124e13005b5536f9860ccf452408d907390
+Nonce = 
+PersonalizationString = ed6048da85642aec2fa2b1882bd746449a0f74c77bf1b098b6cd8be6eb
+AdditionalInput = 
+EntropyInputPR = 3c8978268359f384bd1ee4bf56b955004960b11bbdf3942413eab464eb
+AdditionalInput = 
+EntropyInputPR = 9bcfa9d22993b4bbeb5be8212f4f469fd4e0baa376cbdd891eda882659
+ReturnedBits = 561cc8ece33cbda4891acfa8cba4c62d3d6daa7fc1ae666fdc58352262c1e313
+
+COUNT = 7
+EntropyInput = 3a99939e0345e3d93481b8c495e76840d3ccb0f95ca40e6707428ae2e8
+Nonce = 
+PersonalizationString = f6a90b97534f9296daa50efa895e01e82b5552d4804f256ecfa2e1bf12
+AdditionalInput = 
+EntropyInputPR = 2576a0a1446d07550654a73c0b3dd9d7a67bc950d33253aad4c6646b37
+AdditionalInput = 
+EntropyInputPR = 296db3c60d96f467c813a3d43a3b753f77bdd64b4b564c473e25c909b9
+ReturnedBits = 712be8341a160055e75ae3e582c2a0b51e8efafa6f94aeefe0e8837629d2ffc8
+
+COUNT = 8
+EntropyInput = 7c0abcb456641a197488cf1161753e0d5b51ff41cc2fa0a4579c5fd89e
+Nonce = 
+PersonalizationString = 15c3b248fcad8aeab483c4e14d247ac254acfb78aad973090b02da53ca
+AdditionalInput = 
+EntropyInputPR = 444b7f0873a754fb7eef6d8e84c0103a15342444289ec6104c2e92020d
+AdditionalInput = 
+EntropyInputPR = bc0cd58390a9a7ebb22fa7e00adc018678606c76f50a6e76ed82a43b27
+ReturnedBits = 8146f9ff23050076175eb8216fddf3b48265aa7def4b0f5d2d8c2ce0a6d9ef62
+
+COUNT = 9
+EntropyInput = acf698e388af023f9f9aacc6ae4a30f75692a768e639af2b22a136aeac
+Nonce = 
+PersonalizationString = efaabb92db2bb4914d2b13e111cdb2769cb25b9003f291de44a069141d
+AdditionalInput = 
+EntropyInputPR = b17533a65303e38592bb29e1aa38c727cf28edf4ed637242346735f845
+AdditionalInput = 
+EntropyInputPR = 9d6adc358016b37ab0abbc2c3fc2fb9e14655a7560ec98b39491547f76
+ReturnedBits = 3d056b3a9974b597fa8edc7db0d7e51bb9c5300d80b17b3b8862cc5f4005dbb5
+
+COUNT = 10
+EntropyInput = c7aa7736b89c79cdca875ae5ffabab4d6cc0f56d61543777f5feaa12b0
+Nonce = 
+PersonalizationString = b82c4e2e594930abf4c29896333ae2add5075030b9d9b7e07adb9868bf
+AdditionalInput = 
+EntropyInputPR = 68835d31b2e67e7307ef1529116c6812387b6237c4be34d7759447aa5f
+AdditionalInput = 
+EntropyInputPR = f78b1c76ae1c4b6e3ededb1d82f211431e82f79aa891f5ad330bdae26a
+ReturnedBits = 709511e1ab6c4f1c8c920d01d8ccc1eda1445729126b9c8e2e27301f4c22eb13
+
+COUNT = 11
+EntropyInput = 4ea0b7172a48d5ba2b2c00cb26bd4847f173cb24b18c96431617cde3c5
+Nonce = 
+PersonalizationString = 0983da03b05ca6db070bfa6b7f042940019931acb351ef0934f8474cf5
+AdditionalInput = 
+EntropyInputPR = 427f8bef903fd93c24abed3c6bf81a0141dc5ba498f982d90a3062ae91
+AdditionalInput = 
+EntropyInputPR = 3cb37657316ae7c8bfbb887f901ae771edad162557fd8c6e218755f24c
+ReturnedBits = 7f3839510b48d1f4d50944f0e40a1520a9667057da0efca307dce546e4510412
+
+COUNT = 12
+EntropyInput = f0498636bfaeba7c0d2329b0d64a3adc1cc652e243feb903d142c9d4e1
+Nonce = 
+PersonalizationString = 728e2bb177d4ee5ea29d9a28e789d23c296999ef27d10c428ca3e37061
+AdditionalInput = 
+EntropyInputPR = 77a1679cb7ff639e5b92bf8e453dc60db51d92a9ef480d6e73b1474d03
+AdditionalInput = 
+EntropyInputPR = 4fad8bfc6d9e7debaa8fd6cdba7e26251b62207951e80c52c39e9933b1
+ReturnedBits = 2dd8d13c6f1ff1db896ce5bbb29b563f87f99f8b7e0cbb240bc7afcf77f0cafe
+
+COUNT = 13
+EntropyInput = 668f21a066969ff6b7f82743445ba194ba9a68997b63fcd66e71a9f635
+Nonce = 
+PersonalizationString = 1bc6189ecb841bcd9538f338fe6eaeb04aaa7eba8f518aeda0c4953dd4
+AdditionalInput = 
+EntropyInputPR = 3aa367ee64185bef08b098b65786a64243e631f4a51da176520119b2e5
+AdditionalInput = 
+EntropyInputPR = 9a12298c015820dbbb4b3f4a169c69dac9667c77019f1df4c98c50e31b
+ReturnedBits = 2c9e700016d5fc5426244e38e965e29361f1af24f82601fb0612e5adbcf8a4fc
+
+COUNT = 14
+EntropyInput = b4608d5898674ad101761e99015a6a51ef319e3bc1beaf915a02e7f458
+Nonce = 
+PersonalizationString = 916ffddf3e616df33d61503ab936909bcb4fee63dca7331f7a8e0b1d12
+AdditionalInput = 
+EntropyInputPR = e654270ca56392834e8cff561d0552a7053c2e0974c792a4c71ada0dc8
+AdditionalInput = 
+EntropyInputPR = 734b16d0aaff05da6952e8dc9a0f79a2111c807f1ae29b95b9c579a184
+ReturnedBits = 0fa422281c3a3e0a2a7d5d66be43e1fba2771bbe0afc321dbdc5d565e9a0d4b9
+
+[3KeyTDEA no df]
+[PredictionResistance = True]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 232]
+[AdditionalInputLen = 232]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 7401525a722d3c0b136affcd83a71aa0545be41bd9967d28071c6e2c49
+Nonce = 
+PersonalizationString = cfdef6d329e7ba063151dc9dee94b5ffba848bda99efdf3f64b82df7bb
+AdditionalInput = 2500550b35366e5a3743de5070748909b89a970da5f20453374ee95e7e
+EntropyInputPR = 583a4f017764cff519fa2a40ac64fbfa8d7a5d65e670829e4a8c3da369
+AdditionalInput = b4c0c1987209b0615ecdac4f8b084ed343c890a5521f34d0602ce676f7
+EntropyInputPR = 6366f09f844089dab6c3a33e53a30e1fac5af7688b084890f7fc318b8a
+ReturnedBits = b696bdb942ba1db6f8d6f793da9f35ac2883095f09d20fc5a5bc82fcbef79d90
+
+COUNT = 1
+EntropyInput = c68907ffbb65d36454f09217145b2016ad923a3fff7da488e4239179ce
+Nonce = 
+PersonalizationString = dc66da7b80d57384957fb82761f8ae8398e8cd3294a1d05e9da655c0c9
+AdditionalInput = 1fb75a1c0d04088062510bb026f4e8b519c04f1b9a43468f66a6f62b8f
+EntropyInputPR = 83805bc9c40f87ee9666f7550377eb0165712a1063e25fd0197ca81b36
+AdditionalInput = 91030edc0baee63a22eb5a12150562a34e9c15be080b327418925e056b
+EntropyInputPR = eed81c174a63cf446676aaf7657b4c4efe5d2563542cfb0dcdedc7060b
+ReturnedBits = d6bd7c7ca89bb1b17d73d23972fde3b764dfe72f7692dd0d8b4e51efce1b621c
+
+COUNT = 2
+EntropyInput = fe757b91695f3ef7284f97080d65d5b252744262c038c3ea7b265809dd
+Nonce = 
+PersonalizationString = 1a33fcfc242809cd7bb27ae41a9be1d0ce187c7ea6243d901f4483caae
+AdditionalInput = e0c04c616c6c6add8f7e892bafc90fc4f773483001e7f8601ac7e9a23c
+EntropyInputPR = 079cee0f35920f94639e77bd8b7b7fed8733804657aafb439b99ee2e95
+AdditionalInput = cdc374a0768f794e3a2f60e2ce19aba91301fe3998161a0e3fe4f1aebb
+EntropyInputPR = fe950bebda95fa4be830c6228879a63f5b9c1db0c995878aad3e105c24
+ReturnedBits = 6b96e098eede68a4ea0cf06f02a894764e2937aafc91c417f9a00779081d249f
+
+COUNT = 3
+EntropyInput = 982ddb17014731f9f1ff7e12dcbf6bf057a81143449311def7d6fd957e
+Nonce = 
+PersonalizationString = 9b1ed9c6726672b8e417daa3872c9e7bb64a21a80ee2fce9883e5c396e
+AdditionalInput = 5a17ac9a3764eef9d676b0edb1c35b6e1b929f5032927b19440ea3987d
+EntropyInputPR = dd95c58d4de8a8b22080e24b6dd752fbd9fd963afea3e94db7cde7fb5f
+AdditionalInput = 44bb93144bbc15527dcf00689fe3b41bf98cbf54cc3184fe5488093603
+EntropyInputPR = 96b987d1cf48e67710191c569be05347d2a45d639a14c628239fd8bdd0
+ReturnedBits = e23bd855aa88af0d0e7818b3057e16abe35a430875f0ef208a147da16e815541
+
+COUNT = 4
+EntropyInput = e9cdfc68be5d9396eafb3520eb50fed2747068159e6b4f6971509df482
+Nonce = 
+PersonalizationString = 8635f39cceef4ded4337500d58d4221c437c662a9eeaee684c324a376f
+AdditionalInput = 67a29e5e40b44a4bb3e48ecb4c93b5ac3271f3d3d0f0cf3de75629f2d3
+EntropyInputPR = c1b7b885f23c009910294b75aa4606b17676c53f02837984c404f2b53a
+AdditionalInput = b185ce661937ccf0d333fe25d21d95456978eb91c6161d789ae90bc4f3
+EntropyInputPR = d22b06de01f6fe656e689cc0ea52d34a4bda05a1402a0131db27b4e1a3
+ReturnedBits = e110eb0f40e64272719af14d34aa3164951517adfafc017d21fb4d7560af4ed5
+
+COUNT = 5
+EntropyInput = 3d0b66ee35a3fb0f3d9cc82945412bea72528bfedff593222b9a45e313
+Nonce = 
+PersonalizationString = 305d8eed55221d73e00a3ac5fc656888189c1910730f1992cdf685db2b
+AdditionalInput = dcf5779a2a38267a62cc4f5a9a187ed49be8851f26155dec7b3cb6519b
+EntropyInputPR = 6e2f8dee6860c0d0e98d037779bd1b42605ef40fa80fa9ea153ae9a8dc
+AdditionalInput = af6242b9c9d92034f664f2a0c50852c3637da8b497bbabbfcda519915f
+EntropyInputPR = ec6a54b93f925d8ca93960b9b9e8e118b8b3ec92aeb54bb651af3f015c
+ReturnedBits = c54b11e555d831eb2153ced601dd754bbbc32db3ac05ce4e9095d7036eac3111
+
+COUNT = 6
+EntropyInput = aacd0d421cf445a156ce3ead0aff028f99a7b40d7b2e0e48d1fdbac624
+Nonce = 
+PersonalizationString = 498abea7ea52659344cf9851619d4f4e661cde09d6d3858283c4af6b56
+AdditionalInput = 011601568503ed75fc97bc52f6ded160e170cc4cba31a11a19c409108d
+EntropyInputPR = 141219ae42c3da9cc2886f4777756ab197dea4cd3109ef57a39a078552
+AdditionalInput = 1dbcd0881d8abd763d1c1fe8aae90b27841e3f14bad04067ee341c9a31
+EntropyInputPR = 0a780ce6a7c522ab7ead3d63b8a321d26d7989c21d159ec22007854356
+ReturnedBits = b172a0d5941fbc774ca10aceaf69a4b70336b1f1cc596ca8971e6212db046223
+
+COUNT = 7
+EntropyInput = 71e8d396944a057f5bbde7e4d39540f5dc66354a11dac8c1d9aa94b985
+Nonce = 
+PersonalizationString = a9c2832fc31d7935c67a36f91e00497e5f35ac61470de052301cc3c8b2
+AdditionalInput = db4035912cdf35a8a93b2cc0e2c41c4ce674e41fc9bd190984da5f2ced
+EntropyInputPR = 20b45d24ab1c31bad88570063dd56317ec8a8adfe2fc573ab2e4573d3f
+AdditionalInput = 999acbb256ad7081dc6ddef321aeb0a82cd9d133c6782e75c45c0520f4
+EntropyInputPR = 78dc936e58811bcfcfd3d6745916193826bb0dab473c645b5535d3708a
+ReturnedBits = 56431d9452ff0b9058c363308c4484be903cf89282ab42366a15628894638e37
+
+COUNT = 8
+EntropyInput = d44cbe78b26c4bad4eced16b3f7a7d2f9454e88c9440c36d38b8ccc5b8
+Nonce = 
+PersonalizationString = 29e573567051330da72c8f7a5d824d3ac23736c8b4eb57c39ede36e2df
+AdditionalInput = c7ab663b05be99ffee230ab89f45f5b9ce356ad3745d0c9f0bd92a98df
+EntropyInputPR = b298ba54b20c873cdbd0e75d184fe51ea79ade7b3efbd891a8a899b604
+AdditionalInput = fc92b50fa42d4f8f4503f8b40f2d23075bfed262c514928537bb020036
+EntropyInputPR = 8a457267a1b55cb955d1ecca833e695321b3077781495c81e7b3b888e3
+ReturnedBits = fabe77bd6840212d2a19536ea2c1987be9d8185b49adea342491e72242d6f1eb
+
+COUNT = 9
+EntropyInput = 122449bb87b8348ef267fad0cbec57be3c9dd5762ae5ead7cb452922bc
+Nonce = 
+PersonalizationString = e99545b13d28fbf2247d2813033cbac8650cca73425f777e52e800fc24
+AdditionalInput = 1953f94948865a7d52e2a600965d50961439a5783a7c6b162d35a01074
+EntropyInputPR = bed37d52e4f09bf35aba2c25c726513f29ea83ba49f1da38c36886c4d3
+AdditionalInput = d44f9d7e17090b11cefb83d4d1b2e827e32b9e0123fb49dbaf697c1567
+EntropyInputPR = 25c750e8d948edff129efc0e2e263cbf740b893f2f4b9c6975b5af1648
+ReturnedBits = 05b69815ef3d8e74419ed54ced1f8ed8209f4c2f3c7a9f2e87d0d51ae84da7d6
+
+COUNT = 10
+EntropyInput = 3d046c0bbc8a6c2e4f4d49b24158bd060d9508a8817b804ce226504157
+Nonce = 
+PersonalizationString = 772421988ba5fd8ef08aca55b4ec70fe19774b5433085bcc2662c6cc5c
+AdditionalInput = 330694193a7f8c38bcd06ff4791a9bc2b2c95e04232a6e14c93453b6cd
+EntropyInputPR = 86af9334886f5efd39b8785602f64b20a2207dde24d6c81827de525468
+AdditionalInput = b10ab9c70d4939c8bbe336a67f10eb4609afbad4c8c9268c50650652be
+EntropyInputPR = 63aedf9a56003a304d2d37a545e19cc594c1350e503081d2ca76e6cafd
+ReturnedBits = 6a44dc80c6c4db2bf09e031e9c6e80cd64da2b99ae9228db6197b0664683cffb
+
+COUNT = 11
+EntropyInput = ccd1a8f6ac42224ecf1dbb94956f99969352f0bd32f3b13f7bce9b1922
+Nonce = 
+PersonalizationString = 49fd8616b204a8edf97b61e562783857264ea896a7ad2caae278e18692
+AdditionalInput = 0952439459d04d023aacbe08d7a2d0c39929f74702640acad07c0936d4
+EntropyInputPR = 6374b3ac77a2b7e2a15ddda3f2bb7b5d17b227fa17e916c369e07587e3
+AdditionalInput = cfc5305aa56e6e6309df5b921c63e2e35ffb475dc0160a04162065bf97
+EntropyInputPR = 35361f27ed72353c826eee592a446d07b019f4ab9bf17034eac83779bb
+ReturnedBits = a06df802445c02eb5fb7c36c2ccc59971c99e12bdc323c4b68c86ed2ccf67dc8
+
+COUNT = 12
+EntropyInput = 44d37682b7d27835a49bbf40e21efaf3a5d67f93aa630cd27720796cbe
+Nonce = 
+PersonalizationString = 0ff5bec482a425a772a5d4fddf1b727bedf28e97645ab484e970ac0b69
+AdditionalInput = 9407380014fee36c64d90ff0a11acb6ae9eb80abbf94a6b3b29143baad
+EntropyInputPR = dac327366ea1f6aea938e7d2e7c861b3f0a1cb22e2375a6cafeabc3ba5
+AdditionalInput = 83ec41f1c165f13908e78292507853f01bc2fde12c5967dbdd86062ccd
+EntropyInputPR = b16a128932a6b6b9cb140af06f6f2f5f9047f8e2e42dcd492e6535be32
+ReturnedBits = b79d65307f7773e00ff48d8a5464db8762318700c1c9369839fc8b85cb903001
+
+COUNT = 13
+EntropyInput = 6f44b74aa9b5db34f05ef96b06574884522168e7fb42cd314319ed269f
+Nonce = 
+PersonalizationString = 8b4b0e033b9d257f99c6ab9071db170669425111605dcd4a79ea2574c5
+AdditionalInput = 309ee63d6f27e6469a633ebf84050c4f57ed6db334136dbf78014ea019
+EntropyInputPR = c0e197464de6854281b8039cb7636b782fe8fffbbfb49a68d884fd9062
+AdditionalInput = 37a634c282d983cc10190c7ce0e66c9b900a73668c4f417f5bba32e908
+EntropyInputPR = bb7b068819069c193766f08dc240ee133e44d19ace13caf7a9ef14f708
+ReturnedBits = cec47ec572d245d18ed6f74d4eb2778a933f33b1818246883b73917d573b2b59
+
+COUNT = 14
+EntropyInput = cd4d8985eb0e008efdebf6a642c6654e0cceacda14c34c9e7c53af79a7
+Nonce = 
+PersonalizationString = 6dc2cc608fd59a6eb03b0871a852e036a8dce5a1734fe35856f8ed0ddb
+AdditionalInput = c9bc341732f9bee380d68a9e8cb657735816ce8be712c99a15efce1038
+EntropyInputPR = f570c4120de5a9da9de0afe87e37fe70d101430b0e4d8be4c9c0877986
+AdditionalInput = 0e20ff0d9ae88601e01053078f52b92c8546b6a01a34ddb319a4996585
+EntropyInputPR = febebcb08289823873c2da5ecdc1ae0bc2dd6854ff1506ee315f2ca0fe
+ReturnedBits = 06dd38c7348a40470c67a11609562b9b53597140e086de52c1245a9e0ffbaf00
+
+[3KeyTDEA no df]
+[PredictionResistance = False]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 464692ae5ef824c775e4359b0fc8c8eb983b31c13ebfaf2cf47c2f0a15
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = a0e95d27e43cdf8677463fee1a502688fb2038c5cbc06027d6e44e4200791539
+
+COUNT = 1
+EntropyInput = 85fbca4412afcce32d816dec527767b6d2d27969a44edad90e31f2db01
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 463b76c53c39683162952360590d62004ca78ce690e49e8ef2f384659c8179a7
+
+COUNT = 2
+EntropyInput = a73cd1081898fa036d25cb8c037aea26ce7afbf7247e15e4b69a61b190
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = d7a80bdb9675c12d58d33604ec5c50038f37b339ab44b7e44b1e8f4ca5c1d610
+
+COUNT = 3
+EntropyInput = a85d9d7e68962e342982370403a4566c297791c3f0a5554123122360a9
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 29947c1315b5e1dcd74457ce4cce0d2fc896c36809ce5ae3e82bda7a2930c52c
+
+COUNT = 4
+EntropyInput = 1eeda808da6d45bfb4f66de4f9e746ed55036b64b39787ba46b72462e0
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 64eafb4040879fd70415abcc0f9475f5ba4bcf3d5b1af6da858723de584527f8
+
+COUNT = 5
+EntropyInput = 280ca7c8d6a8234f1d7d87d02b3f3768aea35a0086354d46f1a72bbd4e
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = dea6994712bdd086b808d43f8522d1604be9b558ae5f9b39a66cf182a06a1bea
+
+COUNT = 6
+EntropyInput = 7f207e7bd94d6215f09cef4d5524defd11a10854ad028a4617a39381bb
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = f343be08944d631351e9dd52fa232e4272d7bc606c8b3c2be8f8410304f54af5
+
+COUNT = 7
+EntropyInput = b0b3458d3114625ed5903c21d9bc2cb1a9fd32737c0267c0f46d392723
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = f37326aadb673f1882f1feb83a914d1d7e555a3d71ef044f3edd9ad03fc8c560
+
+COUNT = 8
+EntropyInput = fb01b17f785f6ba7ac6087e6a5b68daa10fc67f708207acc6c0778ff6a
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 3ba5b7ddd7fca689c1191600729c723395fb43131d70a7725b2fa3b405377f9e
+
+COUNT = 9
+EntropyInput = 5560bc55b02b9d681efac6c6dd71b0f2d6fa229ed112ca52872a735970
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 19b48913243ce29dd12dc4df974e16062877840ce8531b0aa18a52447258fddb
+
+COUNT = 10
+EntropyInput = 166ecb8a5257ecadd980575ec9a48d5ac678f97257dc3d37dc50b7f58f
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 22973fc6ec9608caa063c04c04a10c716366ab225b5aebc324ee9bef1e5142c4
+
+COUNT = 11
+EntropyInput = 983f9bfdf53e1a36ac48345c7f2d2e3fde39c7da10653e8c7200ef9913
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 7af6f76e6e79d7665e39aefc1a4fdace61900be31bbc8e76fc5a67e40e3f1c2f
+
+COUNT = 12
+EntropyInput = f94cc49f767b2f32c45f8a9766d65a0549a04ff8c563bbbb20a1480cb8
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = e1de631ce2b8125b3c323b37b7fd3ca7bf16c9375fe667556d30db49ce3f5311
+
+COUNT = 13
+EntropyInput = ebcd6dae606b4988823a8ae18275413af87f9e516f2794b3872b717ec0
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 0c9d3377f1d8afc82a644cdff09b7b4078cacbb672feaf7092acde654cdc9d8a
+
+COUNT = 14
+EntropyInput = 540cbb9c246dfd72fa3a76fd931495c0005aa9e061d33b43ef78bcc602
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 49425303d7b6d7d7d60772eb94f1aba1c901b7826c54daf15adef7bf72c0a976
+
+[3KeyTDEA no df]
+[PredictionResistance = False]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 232]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 768019cc8bda6a0c2b5321318551b0edb4e3754aa626489bffe703ffed
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 3160f1b8d680eb9493a1297718bdf76b86c48adf156b89f971c0106064
+AdditionalInput = 1b337373ce3940dde30f6955d60b83ed185e1c370ca74ce006f8d623d2
+ReturnedBits = 5c6b84991a7787948b599da96439e7910cfb2e181f6764bf8137756c2731bc20
+
+COUNT = 1
+EntropyInput = e5716e259d059d142f1175d9c03f48a4038c6390069755734e634dadc0
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 96595b26a0fff853e1bb45282461d8b07cd5e04c22187226fb0c3b10e9
+AdditionalInput = c738a752c4806ba8e609c669d22f6f5158ccf6e55096f0592187f9af32
+ReturnedBits = 8f9b8c728fe85006f0cb352dfe5353e5b6e64ed04b4a77db1144ac4704888879
+
+COUNT = 2
+EntropyInput = ea07e68288033043df7d03f012f4879e5fcf4b04d1b1e644eb2f60f0bc
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 236407bbbdcf21a2977f2f2ce87087fb47fbec23abf472f43622962504
+AdditionalInput = 48714fca637098acc2e68bbc712ddc16e6dd5ef3e7d48c9dfc223feb56
+ReturnedBits = e88cdb66bc2f795e78449a1f2de0b103b8d3efc4268ac4b74b584e6f19396bda
+
+COUNT = 3
+EntropyInput = 87a12fd83b3507192b0edfefe8580bcc07b20e6e29f63c8dd63788e975
+Nonce = 
+PersonalizationString = 
+AdditionalInput = a534379a213de81188ea722a10af6556e5ab179969fd4d991391f5667e
+AdditionalInput = 31efe90903c38320579b73cdb3b2a69273109d8fe6879463236d30e1c4
+ReturnedBits = 5d328d3c2b559395e35c93f03d5f6f48921a052fb05455634fe8b075bdbfb99f
+
+COUNT = 4
+EntropyInput = 374d280393bd5e2b85002acca5331a11306b33a73b4388f135a1fa02e4
+Nonce = 
+PersonalizationString = 
+AdditionalInput = b411372f7a69f691a1d9cef64e7482d35a935955fdf2d76f83f77c5d20
+AdditionalInput = fcfc7557c01648d032f06abc6d41e858af0190b5d8093dd8c61381390a
+ReturnedBits = 63bedc1f72cc70e64f3c89277589ddc0af5e1c3ac253235cd883a1bdcee18736
+
+COUNT = 5
+EntropyInput = 930a50b88be3e9145520a3d830cda304374c9c524e90d5a7ce7cfc99b9
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 5f78cf97f8c1806a26193ef9e024b5f2171239ec7501701a28391fdd4c
+AdditionalInput = 72f86518eacf3ce276a1b8c7dc69fcf5a3d7d274a7e8d3494e64c6ea2f
+ReturnedBits = f5c74db0a9e970739c7a75d479924306876548907845989957b973bd93b93fb9
+
+COUNT = 6
+EntropyInput = 316e1dec26a3af47ac529b961e7156e698bba0a787e6f891a69259f35e
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 739e0a807338fbd13683079f86f42a61297585c70aae61a1b3fba5d1d7
+AdditionalInput = 5c7ad8db7b1b839059ecc12a678776dbff3d18892891c8006e9453e1c0
+ReturnedBits = 4081de7be6844e1db12df72a16d63cba529163e38c2762c4b802a9d755e71c24
+
+COUNT = 7
+EntropyInput = fc28d143ed4406ec9a49625c2b146ebf42399aeaa8e3d2bb1916315594
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 59b742813cacc9fd204f09a718707b8486add48115393c3b462acff6a3
+AdditionalInput = 6b9d0fc7f22756a944124fa3fad27c9a036e7f0ed6f09255398ee45cf1
+ReturnedBits = d63fd3b4c8ad983568b70e2b076a96e04ec7496bc4355e5a1cef823457da91cd
+
+COUNT = 8
+EntropyInput = d0f05cfab83d9206c4c244b267279d8002eb9ea8c1d4e2229978e36e43
+Nonce = 
+PersonalizationString = 
+AdditionalInput = ab25b4b1201d3fe76622d42123998c624993450fb2fd161b746e8e35da
+AdditionalInput = 777010b1210016244349fc058c487dad4da97eb47903d1f48634057c14
+ReturnedBits = fa2674b748f6b33080b69a4317f3f915c30bc3e2a287489b17fc1f36a5e2837e
+
+COUNT = 9
+EntropyInput = a5c07c6723c3a207a6a936b10fa766d1010e0e64d08774b3746bf2e1c9
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 73d34f7c05970226bcaf94037de1d7fc5615696d11b4cd42f993488d05
+AdditionalInput = 953dec632f98b0d3a11b372c4df7c49d74ad203a4953e3f223d166ffb2
+ReturnedBits = 2893480a18937b57a4d79574dd102cb6862cb20f3aabf635d2a0797fc52f4720
+
+COUNT = 10
+EntropyInput = b898037957903212901148c34323f138d41c17cde8061c6de3e58953ec
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 8f29a7d4e4215375ad4909d4f42412ab06792325fa538957282c71624f
+AdditionalInput = 01b09c852235449e5a060ffb8328823eb5ea1bc2357f07e09d2631e783
+ReturnedBits = 75dc03195a31c0c8ef7f24f013babd2b239bfd124218555b6fe6dd2a67d8d8d6
+
+COUNT = 11
+EntropyInput = b6d86c9636b1a7aa49174fab9d7733cede3e07344105d8666e0573699f
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 65984faa367ed8f45250be6946c7210e883f6c73419a15a6c7970a8660
+AdditionalInput = a4b504cea4b8ced71de49aa7609c534d95a2786bd378a41ecc41d9847a
+ReturnedBits = 91fb64cdfc0bf3649a5d0e65cc8c5ecac91371de1cd8b7e8b9836c3bf0f44c62
+
+COUNT = 12
+EntropyInput = da5c7f05ff1c099053bb082575f511112da96f5b9089c83ece9ac4dda0
+Nonce = 
+PersonalizationString = 
+AdditionalInput = eb2f4a133410e880addffda89c0cc7062bb27ed556dbec65e02d042f0a
+AdditionalInput = f8a1ced5beba92d2d4a064f21c75cdad3fbd75387d6c50bb7e1855b339
+ReturnedBits = 450ba9e4a578fe338d76a8dc01704aea4d51b09635288a17aee22f9722e94b49
+
+COUNT = 13
+EntropyInput = 46c39a9bb508e05948f78252334e3042bd85e016052889e11045fa84e4
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 53d2cf557985bcc89c519019efb7728b4d8140f2bbf1ef597903e88f2e
+AdditionalInput = 1a6a587b4668c8109db242d525c640c9a85b44b2f04810e1bf2866e9d0
+ReturnedBits = 7c375d6fc540b7c29f7905d2f36bcbafa9ef231d232b89ca629faaa2513d041e
+
+COUNT = 14
+EntropyInput = 0986fb23eea8f21d6fe5a58c7ab9acdbdca471a5105f9efda949246af5
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 96ef398a5b6a7838e6bc52678b4f7bffbfb3b1e9cbf492ad632f92e44a
+AdditionalInput = f0d74c3c5658c81bb8553c7531faf6d8078d220831bb2aeda4cd91e55a
+ReturnedBits = dd54d06f3c4834aad2f202179ea8f1e70ebae91762c17633c0ae04342955cfe4
+
+[3KeyTDEA no df]
+[PredictionResistance = False]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 232]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = d8ef5839bf5b8421edc8a1ee8a97beb6ae09c1cd2812519ec64ef11fd1
+Nonce = 
+PersonalizationString = 48db1a4dc49db2296efe15f56e721521d151d9afd1795d4a4fecbd4f70
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 930ad67b1b937325890dcd1b5c93873fb4cb4fd7ef49d5bab0404f324e9ffa63
+
+COUNT = 1
+EntropyInput = 7252dbd6ba2ab54a4806e60023de21ba7f10c99ef8493c6d6b729dd103
+Nonce = 
+PersonalizationString = b5d2348d7e5a4c771ddad025228f44229fd63c6be089ad9ed6d7054a03
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 2c27f6c7f1d88678644a895e7b262e82de4c2ef1c847ebb44c608d2e43581106
+
+COUNT = 2
+EntropyInput = 6526ef5efb521a4c51f7272d7e5aa90a6d3ed5daf1ba54a50cc7001fbf
+Nonce = 
+PersonalizationString = fbf8d207ae0b9280b54359f3568b684ce9af336dc5ec71b55dff9d6d01
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 34aad5c526a244f5038e55e885e4c9c4274fadf01b46f5c294992d0a937a747d
+
+COUNT = 3
+EntropyInput = 7f049d058d13cd106c01de4a5f32ea0680a2209f913cb548e15f453f7c
+Nonce = 
+PersonalizationString = a098dcbec6b1ba710d40db097b7f62594c77f8d7ab610132e165e76d6d
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 6f3c5c5f23d3f055ecf71ded58ad9c918de0f664e551f5429228184371e9e743
+
+COUNT = 4
+EntropyInput = 65aaf10d3da25d25ee3e81539d1f5f851c2f081308de1850c33394c273
+Nonce = 
+PersonalizationString = 978cecc9888e2dd8200cc6b96e1fef6ddadda87c3d14f1963b15d12f4a
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 1dbe32fa8ac391a203db218a8884bcd689def0709db77c17944be183f0fe55d8
+
+COUNT = 5
+EntropyInput = 8ba3f5947c94d33d03c09911fbc938115d993790816c2b76d4fe2e5e5b
+Nonce = 
+PersonalizationString = a3cd23ff05edf8f0f754b5f2a3ac2addbe4c806b0f2f786c469d6e03a6
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 86a66282f904cf3d6d172d925dab264c47f317009bb6bddd6189b4dc5a79d333
+
+COUNT = 6
+EntropyInput = af3cc2505ba95642cc7fd4e4e4026ab71637a85687f073e7388f0f04cb
+Nonce = 
+PersonalizationString = 10fb3653511a33208b81ae38750c70fc35054ebbce4ee3a4ae2b4d7359
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 822ef4083c0479eec6c4fc79ac11edf387c0700d702b2bb0b234ff13993aeeb5
+
+COUNT = 7
+EntropyInput = 0b009c274ef48c73cf7d2daa9baa5177c6fde9258e12c3de1f698e9084
+Nonce = 
+PersonalizationString = 3f6a29fdbd5cdfb1083e6e1a6c0ec8eb46906f08a1a87cbf0698d96179
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 185ca0f182aa90f65d83e8eaa8bde2c3d42cc3f8f26adb4494fb13182424fba6
+
+COUNT = 8
+EntropyInput = 1cf85189d7e5e6239d731ffdedcec059afd1ede126fb94f602b7f5ad7a
+Nonce = 
+PersonalizationString = b0915848240e6ad0dcb40325ae4c4c7a6257babdba92cc867ef011b689
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 41dda4945c4de11ac5ebcc9a7f431ebf74ee934c57a8e332250afea053d008c0
+
+COUNT = 9
+EntropyInput = a7bcf6b01a742f1cc5ce12916ee7e287290ec6dd7df5810691e14d1261
+Nonce = 
+PersonalizationString = a772b5fd5d8a773359395f19cd972a7583c63900d5b447686ef4598c7a
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 3a2917cc414ad32cf7ac8b6681664c91b62d2c6367b482bbba3081370358b2e1
+
+COUNT = 10
+EntropyInput = b9d9f51aedf17b9b96e8a6fdf5837a57249c5f4d7cd36972027175b6f8
+Nonce = 
+PersonalizationString = 69f0db319e8587fb78feef937f34e5d447d358aae6eeb167a6358f93f2
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = f80482e8a2850897bee69e5c964c0ff34cb4121e2404f850bc7e6ac597e31207
+
+COUNT = 11
+EntropyInput = c1a2f094842627675a79b184b65968e4eb0b16d303cdff0e4ecb46cba3
+Nonce = 
+PersonalizationString = 4d74590894d56233ea028a259514a79e198cf6bf21fcc4d9e8ef1c421e
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 5cd260d4f6079949ced1bbabe268702f87647f1185508adad9df272c34eb1337
+
+COUNT = 12
+EntropyInput = 9a8000039118c5fdf82d01d3bffc740e80da13e6ef88d639bddcec2d5f
+Nonce = 
+PersonalizationString = 289265ce0d57640131505ba6472ae33d113596a7b4edd04a0d8aec9570
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 950710ba13e398dfd193f5579f03bacf4761b19a446fae7aa58d6c107355e1ea
+
+COUNT = 13
+EntropyInput = 615e194fd7b62b5fbfb06bf3a43b38e9e38972fd8c6ebb742834e465dd
+Nonce = 
+PersonalizationString = 27853f81b7253757baf6e9c9b96510d1332e43ad813b19e2188140b90f
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = f6902a0b43bf117fdafdc42e72833f840d5ff959dda559d50a452bf122aba368
+
+COUNT = 14
+EntropyInput = b08323677d85ad2d10981b6690d2db8edda536318588b207aa88cb004a
+Nonce = 
+PersonalizationString = 2b7a69d4ddbdcf8d03f3fcadf84d11c9d14292cbf8cbb09223dd7453b0
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 83b3d79ae9c97baf9a9498451a3e4925eaa7910a1de35d0a3ad0ec860da8109a
+
+[3KeyTDEA no df]
+[PredictionResistance = False]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 232]
+[AdditionalInputLen = 232]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = e8672a36309cc36a012399fc4554938f0ee610235f7fe26f76bcd585bf
+Nonce = 
+PersonalizationString = 147392781a9d684738c9ab6f79d9e0c1fb7f99f4f080fbfbc69d903f56
+AdditionalInput = 2a38faaf925276174ccac6504293f80bff411095319aa4f7be2427b3f0
+AdditionalInput = 692c29acd49eb11b35256df94f9dbccc2b7d5d4dac1b84528ac4eb31f9
+ReturnedBits = f87eeeefd737ac09ee52061604a662b2c618faec951eed70a7e830f8ac54139e
+
+COUNT = 1
+EntropyInput = a6cec33073cf3510443723988d05c93957e016708982b0098a915a6784
+Nonce = 
+PersonalizationString = 52574d011ef30b93ab97c180278ab991078f8286f9c6362993a8fb5a3a
+AdditionalInput = 7bc3a35611013a86a5de4a921a4c61e7716d82d7427504f49466595fe9
+AdditionalInput = 538040e54eee449b0ffdd9aa6452a4144f49e20df202ff52ab816d61a1
+ReturnedBits = 7f2b5ffb85f31e324edca0feb31df4684dcfab56a50d9ce440fb573ac10920b3
+
+COUNT = 2
+EntropyInput = e19d2290034c88ddea3185c1e7312dfdfc6554fc6872417ec1c5e22688
+Nonce = 
+PersonalizationString = 2cc59b76dfe99787943812608373d45454185c86f2d95a4d05dea02c95
+AdditionalInput = ee20ce2dc5ce2e6e254fa5904dc0f0e350894729b10cce152494cca2fd
+AdditionalInput = d3ed687214a705d99157a3c45f69b4ae4ea3a2718056b680d07b2270cb
+ReturnedBits = 12bc652cdb16b6dc4ffbeb9e07c2b24e0da1d91cef91498f640f42a46c56402d
+
+COUNT = 3
+EntropyInput = 723376433926854f504b79bd1a251d0ff73f4b7e7aa26e19a3944fad80
+Nonce = 
+PersonalizationString = c34ef6c918630f46ecebce5db5d9a2167c5b5e416f3d60c34905ceec05
+AdditionalInput = f1b5df1eac6bfc07d316480a9df745c62f18bba5601a6f752a320617e4
+AdditionalInput = 54721d54a2ea30c6bc23e304f7c4f0044270a05c38a3d9a05d36c57f72
+ReturnedBits = 8806baa48d05f52680a2c5b02188a431380b4cb05d0481b9d1b71abc01686d5d
+
+COUNT = 4
+EntropyInput = da3f9c6b4c10b570a73d40a492e878c47895d733d32fea71e87dcf398b
+Nonce = 
+PersonalizationString = 1e7f5abed58bfd07065f1a549a440e7ccaf37afd88c911a1e6a62e7c09
+AdditionalInput = 8a70b53dd0b1ac8a26f5656a7f07500a7cd3fa18866bf3830038f70503
+AdditionalInput = ee23f4c17417faa089f5ca1ad70f5d1eb8f0160095ef9ebd49e71fdc82
+ReturnedBits = f16f29bc97403505d3f5061df50c0ff4995221f1c2debfb41d1f0c0294073544
+
+COUNT = 5
+EntropyInput = e8fd551ad3abecabeeec138766692071bc54f4a72c1458ef773382c5d3
+Nonce = 
+PersonalizationString = 6a32bcca9797d63cdf06d84915317814452dea1b533cc635705abca24a
+AdditionalInput = 54342e724c823a7fdb31f73c9ef842175ee6c1440bbdf9a361a70252de
+AdditionalInput = 49209b113b77a383d252ebaa028676dfdc1b3673baf3b1fa3f28c926b5
+ReturnedBits = 2a50a55e0894844ed04bb5ef3a4008ddf593021a324c5b89b43b2767088fb2a9
+
+COUNT = 6
+EntropyInput = 9c47c517c305298ec6dcade51dc7b223ee1760b525298e320e87724612
+Nonce = 
+PersonalizationString = 471ba0d19a9edf428721b19ad50dd27b3fec9a27655421cd5e87ad5e8c
+AdditionalInput = 7de4c5b38861c4432166070dce6c633a5180fa515b3b8e5cfd83410331
+AdditionalInput = f6cd7881fb74e709faa56c58c68eb89ea5c993a3f5f4718bff6a6e3c11
+ReturnedBits = 9bb693d0d4c1ffd354567d85b0d74b0ce87cdf0016116fa51704bbdbcb0c1817
+
+COUNT = 7
+EntropyInput = 8482065fb80eb85459d0e81b9ab1a96c1d3e9ba7a54daae8ee24bcbee5
+Nonce = 
+PersonalizationString = 740f3ec42507075bf0a1dd8617a682a571421d19ee6e28628957598cd5
+AdditionalInput = 331e9fc60ae143f697b85b53264fd565a1ac8575a651586e2f97847b21
+AdditionalInput = dda9044228a75d3fae3a675450291aa044aedb74442ec109336e941df7
+ReturnedBits = f84017f6e6b8a12807103780a444d01cc3a3af27d2dbf819e8c4079823a3a0fa
+
+COUNT = 8
+EntropyInput = ae2f13aaacbf314d1a5b8e8736d6e1532c686f8dc6306c6b9d5c3fbc30
+Nonce = 
+PersonalizationString = 103014acfde129861f69a3924d41676c15d018cc14da7253541e068fad
+AdditionalInput = e07e502f354f10341fc154a1956a7385984fcba03311583d5897ff8b72
+AdditionalInput = e016f104faad03e215053c6b37b61f208f1f5b67902ac49ce22bd4e0ec
+ReturnedBits = f6e6995c9cfe2f76181e8db14bea97496884edc1e09b95247a0f6fc2b3b16be9
+
+COUNT = 9
+EntropyInput = 4a84c2613828f68cf05add1cac37375f720693c8b7c31bfcc3771432af
+Nonce = 
+PersonalizationString = fa8797886e29c49158ee80532bba6fdd38fe9a0d2b355680493e618f05
+AdditionalInput = f8584f76c0f6b99b7c66bca3acb93e680d4113443c70263a926bdf494a
+AdditionalInput = b6a670df53f977d4bdeba45a9ad422f44acfb1c5e0230f1a910f4c7f21
+ReturnedBits = 59e32c0ff09ff82df6cc5a0e60e1dab358ff1a9d010118fb97163a60c97a81b5
+
+COUNT = 10
+EntropyInput = bc2db8a16afdd468a0b35673a799608778312fd35d8dc6a9a4aac4ad02
+Nonce = 
+PersonalizationString = d9702ac777af9a2837581437c9d563dfa364780b44d928ce0c48ee2127
+AdditionalInput = 30700d1779f1035b3119abbf3bcb3a79ca8260d4bf97619bfc740d0ff4
+AdditionalInput = c4edca3986520f618e846aed80d6955721e3b75137c3e0ca5681a0fd21
+ReturnedBits = edd31a4e2349c3285dc814d8dd60b4fc7f270c71a47d1630d1245a63ab660e69
+
+COUNT = 11
+EntropyInput = c5a9624d0a6f0143b4d3a7d003a3ba582243ff763afc0c0472df30ea33
+Nonce = 
+PersonalizationString = 719e702c95007707738c2ea0c35cdcc10662bd24b611ce07684483eb5a
+AdditionalInput = cbab1658eadaeced1d8b5568155f94aa33a195e1e43e983a09770716f6
+AdditionalInput = 4a0fc9b83c21bfe1344df54554ff98a40268759a9bb3b4da2ac4c0fc92
+ReturnedBits = df88421b34eb7433e9d0a48f60f234d910c4d14c3b1fbcba31cd8f173420b706
+
+COUNT = 12
+EntropyInput = 4f0d00a9e3e089eb17a0ae537aba3ba0250a46cc4d432443294d59352e
+Nonce = 
+PersonalizationString = a36b6fb20ec32721818bab7d5b10a45632588af821466cf6cfd90743eb
+AdditionalInput = 5b4a1e707e552d6f8723b7fea557d6a3f039f08f752f46b220631523d1
+AdditionalInput = 5025a6ef3cf77de1b235b8d490c14f6f255e994d62da28f8d31d86658c
+ReturnedBits = 4a734494d0161108cda5c4087b2f092fe732d9cd720e349e2fdb17dd33c1e88d
+
+COUNT = 13
+EntropyInput = dd0250c8329bceef77b7dba82c56fc37d237b27d5b0015e53ef39e532d
+Nonce = 
+PersonalizationString = 35e9541cdbcd0ba6435e75482ac118a19e532f8fefcf8897ff9ce73769
+AdditionalInput = 6d685efd4ec1c064b0fbcac0c29f63bdee66b8d74ff74d1f8f6c27e6de
+AdditionalInput = 93bb44f1ee8a5fa1a2cdcc82fbbaa6bb57ed2621c22acdaadfa3514093
+ReturnedBits = 52899332e59d8170dcac2977cc50794d6b25bef4f10c38d1dddc1c5a9a5db71d
+
+COUNT = 14
+EntropyInput = 0ec6d6e4b9d60920965126a24aa77e2ea54d44ec9ca6d70d40a4079bee
+Nonce = 
+PersonalizationString = 68843fa72efeaaac0bf086f7a564cdfdbf7d00eec47a029f0d924ac490
+AdditionalInput = 077c06ec293a41ff2c95a63e9eaa315ec20077f39cb3c60f436ef9f0d0
+AdditionalInput = b32abeadd58966d0c022f97120ffcb4c4d4c707d68c241b7b01b5ec02b
+ReturnedBits = 76394b9ffc6e8216e64aa17661bd0b97e7e97da06a3133a01f03e9da95a0ec9d
+
+[3KeyTDEA no df]
+[PredictionResistance = True]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 6cdb93412aff5f31690e5ff99a116cd2cff01943b1d242f9e321bcf7c9
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 271ffa720359b872e8e67a8cde64765c02e730992d19ed8b0087f38769
+AdditionalInput = 
+EntropyInputPR = 39935d07fcaa11de9c170313c10faf8ea2dd8c52983be227ded071b984
+ReturnedBits = 12a0f3fdc7a255f5e27d17540b7a5581eafb4cc4595c6b7ac6245ca253a35db6
+
+COUNT = 1
+EntropyInput = a070b47fd80bb8d00bf4293efbf1f62f86f25610c60b21d31a1f00bc7d
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = b5f21304b90c260b4e069d3036954f5d57a829a6a43ec2cb5a8d7ec930
+AdditionalInput = 
+EntropyInputPR = 8d15ea1281e9859dde751cf9c8741d41c827c7be9089e82e87fc6e617b
+ReturnedBits = 76b3cb8b6ff5252cca7c0e978f815a81c8e3fe1d8e33696f3fc0867c5dd191e8
+
+COUNT = 2
+EntropyInput = 923d42d9a7b85046f721c45b67435d65e6bac21208a00085ff7b3867ce
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = f54fce071b0e8c8d9fe5a673f306b241543eda0d9bc985c1ae985cbdd5
+AdditionalInput = 
+EntropyInputPR = f3186ae2e763fda4929707cbcede0c7ac04e9ee32374b92c47405fc5e6
+ReturnedBits = bd700596bf8a4c7bf44f608ae3d644c414e02d21b658d72e29256eb8636f0061
+
+COUNT = 3
+EntropyInput = 4b9367ba2c3103316a0037801c69f1736406791511d59af30179873a1b
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 4625e61cd2d7cdc8421f36d4c4ea0fd3e312e861fbed3a7f616501f82e
+AdditionalInput = 
+EntropyInputPR = 3a0ee791f45888e5c67c97e0745eda26954c557b362f8664b6cc219a80
+ReturnedBits = a608ea387ec8fa41255a4982db8ba56a5cde3fdf50fd5e0bd5c3b077cac8eec2
+
+COUNT = 4
+EntropyInput = 0c2b6a364c308e09b18ea9cf3788f3c13d492e09dcb9095da19b085939
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 9ca878a90bc7c6c25d1852c881ed5b6b84b539a97ef6e6ff6ae66d7aa8
+AdditionalInput = 
+EntropyInputPR = 8ce2625950da3685a6a839dab96ca2a5700fd6c41c94f2c2697f99c587
+ReturnedBits = a5b99b087a87bcd38c7544107265596b8f1567df77c291646fce640202c4e482
+
+COUNT = 5
+EntropyInput = 89487effb10325b809992fb4b339b47ac1cfc577758a64023f8b33ef94
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = fdb1e4529fdcb98283041590fbe36e577dab65cac1d41667cf19f78868
+AdditionalInput = 
+EntropyInputPR = ff60aef13544f3519be7c0f74721ad2e9d14ad1f90e6315bbebf27b2aa
+ReturnedBits = f05bfab9d0afb11f9d5ac0c00b096dd6cba9ba760f526e8b3896bc86888905f5
+
+COUNT = 6
+EntropyInput = 3db7c6762a9d2b2dac185d9e9cde6320b93b64471fcbe4973a9c46ec05
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = ebadc5e6ead178599992735e45baf4a84799f91410e51ed1ee21ae184f
+AdditionalInput = 
+EntropyInputPR = a00d4a003e0eda76fbabed910558a78b9fef7f5d45c64aea866871e7f4
+ReturnedBits = 59883ae49ecfc216dfa903432ab6d0099bad5ee4fa2010465678ee09bd0fb874
+
+COUNT = 7
+EntropyInput = fc89daae6d7c42c45b1e09dcd1ffe8496f9508b96ed14f3659eee43c24
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 68754df192e3ab1ced8c6df600a53913655d8850f4cccda9a263948742
+AdditionalInput = 
+EntropyInputPR = 82fa5633da5aa84b7c841149e684f483a9bc945db1c67c29f50a3d525d
+ReturnedBits = 08a6a27424e162bfb6df73913a40eac3decb4578f396609aa137e094241b113b
+
+COUNT = 8
+EntropyInput = bff11bdc87a43d0f1c7a61fe75208b9371860404ac2d5912eb5d132660
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = fa33bb7ddf73ebe23731d4b07fa36847b2c53083ef80df578074b1d578
+AdditionalInput = 
+EntropyInputPR = 829f91106b89628708d643de962c45c09ae53982a54370fda74370e4c1
+ReturnedBits = 616c311debc26d9c834a8d68a7e1b9229eb7ed14a22ae4deba0757c536e105c5
+
+COUNT = 9
+EntropyInput = 82bcc6cc45e54d3bc89d902bcfa77e892ea484f4a37da43261d2b91d7e
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 6136a327136b33608e275a930e0552aa718f46628380f4a519b0ed9ae8
+AdditionalInput = 
+EntropyInputPR = e4218ff686dd38e8cd55a1442ece64495c119fe79c24a7c8a0bbb3942b
+ReturnedBits = 8a0dadf87efa889746aec2cf91db98c350b173fab45f3db7757f6a9900a0d9c5
+
+COUNT = 10
+EntropyInput = 0427f443f7031933acfbf49a05e350c7a1132a7d4a82cc22954968370e
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 13bc6edaef8010953fed9d3915be512133faf4bc9249d699e383057d71
+AdditionalInput = 
+EntropyInputPR = 83bb0802577460c63b05724b82ebbf052bc47181d3440dc899f4573cd2
+ReturnedBits = 8825f9a94e884b9448f7fb8a929cd6af6527b2ec5f2c22ef9626b2e998bdb1a7
+
+COUNT = 11
+EntropyInput = da6766312d8ceba027b37f71ab474e7d58990c30a9a3daef6478904403
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 70c905bba8b866652fd762cd09b1301776ffd66979364d0c17bfcb7c3b
+AdditionalInput = 
+EntropyInputPR = 9ca57a8b8e45c33e3e4e2f3756c228995c35ccee53c4b19013c5496f69
+ReturnedBits = 184e2576cb3966df91e6cfa91663d55a6ed62903b8b9ca98fa70575fff8806dc
+
+COUNT = 12
+EntropyInput = 8b6a50c53a6d78e1dfbd4b95244a7d05dfab4269edd466ae9b7aa524b8
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 056c32ab0c0b7f7d5fd22c993a153c4e9ad9b90e8d13a273248e127d56
+AdditionalInput = 
+EntropyInputPR = 8e6951d546cbf3c7da27f98acc84e7e9cf3aba193c15bf15cf1eeb0d8f
+ReturnedBits = e57b9906f0d477abce43f8c3a2c5af71422998acc2a6cd89f43c39786355d9b2
+
+COUNT = 13
+EntropyInput = 06071f2f7991111ccffaf97d5ffde2ab0453155f4cffe1092bdc38fec6
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = 410243f58ef4f5c4bcd206bb14bcccb60a603d7838457aeecd6dcba476
+AdditionalInput = 
+EntropyInputPR = 2bc065ec3d51717ef3015317317e8cabace2985373772cc76be3a329de
+ReturnedBits = 6c573291897f06ad10e4fb8f74cf2581cd127bd43f3f837b62009fe02239e034
+
+COUNT = 14
+EntropyInput = 318bf3a06c0ac687589219f1fed8b7d95fc99f266dbad7838b87423ffd
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+EntropyInputPR = b4ff15b013dfdb25078e2d53e52b00dcca5658c905a8b1f657a494650c
+AdditionalInput = 
+EntropyInputPR = ea36a9302b3d02330c8dca203558d2b42c95f95798edaeeec5a349aecb
+ReturnedBits = 74cd89f501830a7d0cf6592c4508088f0adc20960c5ed5d8d7e870aecf664954
+
+[3KeyTDEA no df]
+[PredictionResistance = True]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 232]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = a11baa4e714277842bf7b4265958044ec4851f4bc26be1c4f9851abb2e
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 30b2e2e36789ccd3610a666a266c2e098da97fd4f216b30ef39a8148d8
+EntropyInputPR = 3d17d1b318690867697a44c21c35539f68f8a169db0119195c3b9a2011
+AdditionalInput = 162c99eccd45a35c4c394fd22a2253ec8df8ec358e468916c490527311
+EntropyInputPR = f45f73f0c67d433c04d16a8635f4e2423209b2ae0ca74d6570db3734c3
+ReturnedBits = 96b1f29362d9d5889f79531a1b51699150e9d04740e4e2f4aa849220d4138dd8
+
+COUNT = 1
+EntropyInput = aec6c6251c3653d3e2a6b64f1c1ddd4a7da49857facb6d5e6c75f48735
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 9f571636fc76b11b81e0992e8525f3347799c6f468297c656104b8431b
+EntropyInputPR = b1d9da37c555cf4d0f51f93720ca9a8abe5f9e58718d4aadb6447d8a93
+AdditionalInput = b6827166494f50e79ad3d3846a0219a875e8deb7c8af737c58d91def9a
+EntropyInputPR = 32f57d5d2569648d949e42caaa7819070c3a9601822cda263d212f96b1
+ReturnedBits = 1326de969b23b3d04a351f81627b90cddc007cbdd3ce47a5206bd3583581b6a8
+
+COUNT = 2
+EntropyInput = 8571792591ff3518303d425f44922166f74f83ce21153f0261a6f8b8a0
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 40d50e61675e3b7f7eae6a5c20de813ba43d520e8ee16cf36924f2b55f
+EntropyInputPR = 2306a70a18cbdf1d71dcf181b9773a8d0cf0fa0675ecacb17296e23432
+AdditionalInput = 2f7a0a3ba58664de356f3efb473453c611befdcafb724d3a0f49434c45
+EntropyInputPR = dbdaeb0417fb2d334b24d6e08922fb22550e5365fc880da62a1a0c3501
+ReturnedBits = eb9466c4c74773e5bd47ef06efbfcc15e3ca350949eba7195e9fc1ddab235606
+
+COUNT = 3
+EntropyInput = 85d10b58bd45207be3732f532ec44d2f6aa056babfd6be3dc9f8f32372
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 452bd2a6035c97887e3518a70e8d764c43e5a24973eb157bb4061a9894
+EntropyInputPR = d61b8a19c942e447f7483f81bb3229aa0ffc2d5049d5a02f2df6fb7916
+AdditionalInput = ac001cd2c554e1842f3604b1df504f97d3f7e05335d08a33138c83c7a8
+EntropyInputPR = de156910eb21e4a5d7eff2b1bf0bd06832ccd6d395522381587383b851
+ReturnedBits = da3ff21d6592df95f2b76a01c6d7748eb3ef6fd07702c04c323d0c154fa798a2
+
+COUNT = 4
+EntropyInput = 3c63f40aee4ee43f55788793d442ace31c7f72634fca673871181e75c6
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 3a39c37d92ad7b5fac1cd8ed58bef2a4e3a9c0c3502fab0726789a1186
+EntropyInputPR = 8c10e9bbd42584544af3aec35891bcac7837e208839bbcf90afb83a9d2
+AdditionalInput = 6e80f39396b5441f2ae0aabc5c2624cb03f6e17f83989f282fa66e0186
+EntropyInputPR = 27773b6e40a539d4f0503624101c8b5bb34c2b4a0d7bee41e8de836636
+ReturnedBits = e2908e23bb8c013079c9e66e21536aba7e0a82debe42990bbf86a2453a102eae
+
+COUNT = 5
+EntropyInput = cbc1ba00af70c6e001e7aabb0255b5b2a9d417416ea0153266ad93ef1c
+Nonce = 
+PersonalizationString = 
+AdditionalInput = ffc150da39b92d6457d3409a7451a813a092a86551104bf34fba00ba0e
+EntropyInputPR = 9bef3054728940622730b4d477c9b023cbcf616e389ff6e884e3a40720
+AdditionalInput = f72a796c0315badc265493b29aac47a1d12f9ac2bcc35c239d8cfd3cd1
+EntropyInputPR = cd134b3383319c84fa1513ce7f34016534b1fc1995d25d5c420f1035d6
+ReturnedBits = c7af5b31037d380a11d542d386e6c067a390a3ee14fdc1be33e83b7e2beb13af
+
+COUNT = 6
+EntropyInput = 6fa4b97af7209b083a4705d00bd4cf82ed74eb0fe6387608c11ed2203c
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 060c5f54c2bdba0c1959858f1677de651f69becb2dc5b4ec87fa0a6117
+EntropyInputPR = eed3fc1ef90d981c593bb59926e33deba9e670f2688b4c089e4f2d7c95
+AdditionalInput = da707bb8ca1dee46b1fb8dcb4d375c56798420ce526fbf593ee49dca1a
+EntropyInputPR = f896ce43cf78efaaaeb8a90bfdc02b10e3015848a9246dcc0a8034e600
+ReturnedBits = 0fdccaafb4420d02f1accc6c351e2f81f79b345addec994ef72d507dea155467
+
+COUNT = 7
+EntropyInput = 2ea29324ee43407749fdd26cffcc5650611a18fdb7ab1f99b12a1aa73f
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 0b372ec46e8b3e19d80edf586511b0dfbf74bf84dc6a237ae092596e61
+EntropyInputPR = 11b6764e26a9664de90e90132e81cc6a3380cb1d33229d9bf76c873214
+AdditionalInput = 7444591bc431f42cf6b055c158ed81214186a85bd32b4266bdf763ef1c
+EntropyInputPR = 89061f61dbe4d9b5872755a88aede18f84873f72ec0fd4217743829734
+ReturnedBits = 3af7ca5d12f4bd0cba23181d56711124ec8edd1654d6db42cb83ab2bafb6b20f
+
+COUNT = 8
+EntropyInput = 28864b4a92c84ff723c45ef10bba5654cab7e7febfe305de5bcbbc12e1
+Nonce = 
+PersonalizationString = 
+AdditionalInput = cbecd9a40438c20c44b1e635d3eec6d041c7b34bb08a3572a93e61f578
+EntropyInputPR = 6bf090c4b6d990473b526255f9ddafb675202b197dc94a5aeeb412e379
+AdditionalInput = d4a919163599c29f251ebd940cd50413ab1d16b4338aa7db574c45bc96
+EntropyInputPR = 3bced74e72af4c0329ace0ab88578f7100b45db07a81e27ff5a469d0cd
+ReturnedBits = 5d1112e3bf43a6e52ed5eda6d39b86e460a5910fa1326e77149d66019a41a142
+
+COUNT = 9
+EntropyInput = ad1d52035a43eae6c8644a2bd14bec8e9e2de14c05920cfbb0b2cbd1e7
+Nonce = 
+PersonalizationString = 
+AdditionalInput = d653a8b04a7fd0fbb6d4a92a735b16b01153d54c1b9c57c5a1d37fb2b4
+EntropyInputPR = caf8dd3b95141edd04380e17b84b8cd56714394a886296e78d0b99d594
+AdditionalInput = 789ce9be040b04785436ea625e492d29cc837e5d97a873aaef8853ec3f
+EntropyInputPR = 55bec06a1722f5ac487dc1e1e626fcdbb956a4603acc94cd87ca2dc50d
+ReturnedBits = 2bcd0bb991831efd741cbf53216f0f20569a10d27e1a85be65a093134eaa57ea
+
+COUNT = 10
+EntropyInput = 3cb73f28a6e2de18bf9aec5e232d69d7075397be20107444b2e8e283a2
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 8f731de561509a002332bcd8d9de27456d7c263a4b40764a84d3fbe9a6
+EntropyInputPR = 24c0b9da4c842283be2c09f11ceebcd0b168cc75503efce36b22d70ead
+AdditionalInput = d922c29e7e002c45bbd7d5e7671d7a4e62edd28c1da3c3f3188ed44c74
+EntropyInputPR = d6b897a91fa1201c5feb945c512d5af0a294a734a64849fc46db97762a
+ReturnedBits = 4c2eb69f7074f9fd476317e25cd44f4295e037f85e0db46a512be05953e0559e
+
+COUNT = 11
+EntropyInput = 635adeb7d8b8dea844863f096e3fc3abb6478abf4f29e6beabb0fcefa3
+Nonce = 
+PersonalizationString = 
+AdditionalInput = eb6544dc679c4151e3f95d1523f7a218331722e2173700453b4d21b48b
+EntropyInputPR = 39cbc19f2c8fa89e49a6dc1990c5e358eba7d51e698d932d4c26e081d2
+AdditionalInput = 83c9740347ad584d2992a06929a17a12131375fa6068f9a0033171133d
+EntropyInputPR = e24828a7d05abaee4e829276d403763759f30286e1f93418f1f0e1ab2b
+ReturnedBits = cdcd84f377211dfdfe2e8f5bb560e4ab6499b66c6be8d981a704fa471d58878b
+
+COUNT = 12
+EntropyInput = d768006fb2120cf521378fc19ece910f9bc117f797474503afa13faa30
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 34f41085978028056bf53be502bcbac6ce77f46bd531badbc778d7bcae
+EntropyInputPR = 9fa28dfdbb7756d58cd88c66fe48d695427bf22fb024f94904bb04cd49
+AdditionalInput = b3253c37d6ad4ddf785cce96fef3409ee48acf837db7495c2e67fde61c
+EntropyInputPR = 6032b7ca10fa807c3f2004887df526f3ba6ff31d98dbe341ac42881a95
+ReturnedBits = 85e15ca387d36c2b6e89c92e445d59d6c70fc546994ed60babecbd552fae7af0
+
+COUNT = 13
+EntropyInput = 52aa5c8ccdc3d2d70d1a19dcd0a868cf166b7f0cfc1f85f4b202597d19
+Nonce = 
+PersonalizationString = 
+AdditionalInput = f47fd5471ba10fccb2ac71cbe380a819f46c47a93ea65edac17e5d1256
+EntropyInputPR = bde1f31772a01bc011d81b3c555a13ab7ef41c38a33564e0cf23eed590
+AdditionalInput = e49bf6eae2192fc57137249d862aa497eb75fa77ddb223afc4bac7cc6e
+EntropyInputPR = bd784062c1e5c4c78a1d38cf24855561ff3d2943148631ef3e96143ab5
+ReturnedBits = edbe0e307f24d14d64ae0e27469324586c68c03d7ff52b187d37d343d8090cbf
+
+COUNT = 14
+EntropyInput = 0273cbdf1e96ee10d798994ae4f80f54eaf12e292a6a6d26d71568c9ae
+Nonce = 
+PersonalizationString = 
+AdditionalInput = e656032bf3c864447cf117c38cf1c041e44e9ca10e28c2974eb82ef353
+EntropyInputPR = d96fa027bc07fde56b9e7b87d8fa13d7ee0efeb29fd0ef1b891abaebf8
+AdditionalInput = fd3593bb3b213b3aeb35e0d53657ea32b9a50ede9e352bced167daee14
+EntropyInputPR = 4f4959daf6373523a27bde89fc42bae91e943c910ba974ef5680b47a2b
+ReturnedBits = 6970e33470c111981ac3222b6386523956dc65518038c6b9489aa175da143bf0
+
+[3KeyTDEA no df]
+[PredictionResistance = True]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 232]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 50d8cb6cba385f3ec91092bc084762bead2c88729b2917c35eaa83ec91
+Nonce = 
+PersonalizationString = f9ea5a61878c1d2dbf6a12f17ae76175500c5e13e06207c545de248389
+AdditionalInput = 
+EntropyInputPR = ee38bd6c4c525c8528876a48f8ebfc48fc6ff4169438dc3527a9c7904e
+AdditionalInput = 
+EntropyInputPR = d50bc4490b323bd4cb5640300b1ff5ac6d5810f7ae4442abf2ce8a5aba
+ReturnedBits = 545c72d64737bae945479e37b205d7d55a5a226a24c48f29e6a8a877c22a0282
+
+COUNT = 1
+EntropyInput = 2be2d15b08c59ecbcd7c86c07e5dbacf24778054e65f6436080b4ecf30
+Nonce = 
+PersonalizationString = a0a59770dc79484edac4ddb03980e1922d45addca23ae65a128803e6b8
+AdditionalInput = 
+EntropyInputPR = 89469336d096a737efe34966cbabe9da548ac69256d8b8bdaae67453cc
+AdditionalInput = 
+EntropyInputPR = bd8ed30686d2efc3928def2546c2448b8fbb0a921cf45035669471c193
+ReturnedBits = cd801994882b5ba31a819d5be17834b88d0c371bdf241879bbb0bb51f24da95a
+
+COUNT = 2
+EntropyInput = 45a7f2a2497c735d5206ad034b76a8d9efb11adea90c6505691cdae20e
+Nonce = 
+PersonalizationString = a360c664990e530d7ef78437816ae3ed8209df7051b9927fd7495f6ca0
+AdditionalInput = 
+EntropyInputPR = 818c77dbc0406e8574615cae35a90c518dbd5d37b31f40e8d46be31ecb
+AdditionalInput = 
+EntropyInputPR = ec56c45be39adaaff0af547701bb77cd040b594663a53df650655da738
+ReturnedBits = 16f0ede7d3365fdc3985c4a116b90db381915ff6c4bdecb9f3c3c5dea3ecbba3
+
+COUNT = 3
+EntropyInput = 27f37640be892a323054f58602802c291b74aa954337f92bfff63ed290
+Nonce = 
+PersonalizationString = 6fd0b0ff13cc5952622ab60803796db1eaab7477e846fe67040b4f7d47
+AdditionalInput = 
+EntropyInputPR = 4c8512ffb6077c9e6cc14950e610bd85c0a77fb7882d52b50c351f459b
+AdditionalInput = 
+EntropyInputPR = a7ee187288c3a35eee879fd8d33a90b2622003b356ce342080ec01d05b
+ReturnedBits = 2850b7de82341d5ca5216f99cf474700fa48bafcd3607dbf6a490824acd5899c
+
+COUNT = 4
+EntropyInput = 02b367160148a670738af87a90ac738f976801f4d308a1c47c74500cca
+Nonce = 
+PersonalizationString = 30af8ba5ef19041bbad9355f3e3bb024758582b73aab3f7b42e55e5851
+AdditionalInput = 
+EntropyInputPR = 059ee388a68b6ad1cec895f81158eb35fb4e9cf4e6d7feae3e3f5d38df
+AdditionalInput = 
+EntropyInputPR = c8d722e06a96b1a2ddae199e3c998d67d7e4fc16fc42955dbd10e8d9a7
+ReturnedBits = cdded435a7321a0ebdd28345f3ac1c371bcf7a80477db78d02ef8fd5d0f2c9f3
+
+COUNT = 5
+EntropyInput = 2da45726b317991afbb16706bad358626b8b92ce651fcdb89a3be818a3
+Nonce = 
+PersonalizationString = aac49db78d3e7473e05b3987b3b8011f6ee874640218edaa28804521a3
+AdditionalInput = 
+EntropyInputPR = 225b92cc3abc12663016c7080b070bf08b8ab60eee8e4fabb3222781dd
+AdditionalInput = 
+EntropyInputPR = 340c114e4695d9a99a2459a53b4e15fc4ad2ec3b489a72e94a6dc814a8
+ReturnedBits = 51e2a4d77d03a15b531c067f2b044d94840f47f78a600f79eac154dfbe1dfebd
+
+COUNT = 6
+EntropyInput = 4ff82132c148c5da31b69cf5cf72cc568d684f6f76a3a49d7ccb4fbfcb
+Nonce = 
+PersonalizationString = 73783afaa2bf02ed60339dc4842effb2e59f8a7d941f215ae866bf5cc7
+AdditionalInput = 
+EntropyInputPR = 9e040e7da7c4b48a66996a56ccb8a78a146b3ceec8559ecb1b3d5061c8
+AdditionalInput = 
+EntropyInputPR = 8e41b7f2511ff6c5085b59c3a796413a68a3ea57f756613a9edfd82d56
+ReturnedBits = e63cbe7574dafa687b90dfe29749b0c2178390b343958bb98b519f8fe7bc64d7
+
+COUNT = 7
+EntropyInput = cad0f40e34d587c60210ec044b3c57aa09c3f1d7d802399d00504bf968
+Nonce = 
+PersonalizationString = 892fc2f04f147d5e80aa22b4ee40a725d17a36f772aa10427638c317db
+AdditionalInput = 
+EntropyInputPR = 72f14b59dccf5d68fa9ff47b2d279732c7d32c046b2ab7025e85e59610
+AdditionalInput = 
+EntropyInputPR = f9478a0efdf431c8d6ab719a161cbb6bf012e55d7f293fc965fc94c460
+ReturnedBits = bdf13244b2ea4037dd1b708fcc28b83a82ae26afd61a62063fb10bce141ed0e5
+
+COUNT = 8
+EntropyInput = 0a99531f9c77a4e2b8845198235f9c9f3ac9c7819cc63fdf2c162b29f9
+Nonce = 
+PersonalizationString = 767b640cf1be03c3dfc195d8c51ee10bac337a8ac557f13603e8cc5aa1
+AdditionalInput = 
+EntropyInputPR = 08f3233cae17baefb3f9e3e54e1a9c09192bc8b22c8fb046a303109102
+AdditionalInput = 
+EntropyInputPR = 96c15ebd1f25e86ac56dca7143d93e794bb24a9e1df59035a2aa81098c
+ReturnedBits = 39ac24db02b417bd44925ff9e85ce5a5251a891dbda421109310e0afbd0e5683
+
+COUNT = 9
+EntropyInput = 2badaec7876293b0631d7c418347d07ccff6f4efbfc677d7cc06b4fa1d
+Nonce = 
+PersonalizationString = b3dbfcd72140c9fb6a79b7fc92bcc1e14db0005b0e131932abf8e1a766
+AdditionalInput = 
+EntropyInputPR = 50808c5154c45663a434ba12172f7db87e306ce069ba8ccec994eb6243
+AdditionalInput = 
+EntropyInputPR = e6833c71f67a9dd5dda4de656425e88bedc21900a8a33661e9ced3979f
+ReturnedBits = d060ee2b666ac813f735902ec2642d8d650e184abe47e8d946795269ca703d61
+
+COUNT = 10
+EntropyInput = 2de418f44f2196f9d93a5eab8496a0076122aa8940d3ed82a28d1fea28
+Nonce = 
+PersonalizationString = d3ff1688437219d43fef99032577b432264447dc47e98ac31a50b41943
+AdditionalInput = 
+EntropyInputPR = 4ae72d8bd89631e9b9d089dbec135e59e6f21f06aba63199e956c38dab
+AdditionalInput = 
+EntropyInputPR = 41aa332cf09cd19926ff6e7babebe30084dad8e5983cdbf07947071eb2
+ReturnedBits = a73340dccac0ba7b6f37ea254ff283d33c39ed19a252724359df88d7120ded19
+
+COUNT = 11
+EntropyInput = 9e81afa8d623b000bd13bbda648ded9ac638cb738f52cffbe10a9b260a
+Nonce = 
+PersonalizationString = 4b5430f5b2deff37a43aa060bdab9fd7a3635fb3a779477de756e6a652
+AdditionalInput = 
+EntropyInputPR = 7ec4505cd8d95c8d5fe492c83adcc290e3e46e5fb2c2fcd7cf90755a09
+AdditionalInput = 
+EntropyInputPR = fffbebd7d6e1a3dca7c78caaa1bd23b22cfe244dda2a41efa34558fd36
+ReturnedBits = b76f2305a783099a12fec10d0a73f877a11bdc2e37af963869169cf736d37166
+
+COUNT = 12
+EntropyInput = 940c04ea2add7a95b906614804924a8a4428753540e3da9ceec609c029
+Nonce = 
+PersonalizationString = 2ae83c714c98c123a63474ea8cae78662310209830903eaeb96f395593
+AdditionalInput = 
+EntropyInputPR = 7c36a6ac1ea085e75e27ad59f15a03c0814c3a3d5d756bf0e5dc85da02
+AdditionalInput = 
+EntropyInputPR = a0af6273e06dd015e9906afaca57c12bdc449538ad1a98d6347fccd861
+ReturnedBits = 2d76e5f7e39aaab81f7cef6baa3002faf8ef219a0c629a17d7c88c97392c17d8
+
+COUNT = 13
+EntropyInput = 9560df8eff6f9e3eef82cfb825352168be9ab0b29c85595d10e9b42f6d
+Nonce = 
+PersonalizationString = 19948321465e79a6e462ca053efadd46603febff3ae0c1587310f027c1
+AdditionalInput = 
+EntropyInputPR = 4c5b9518d8c8c8afc3f033ceb442b5c21e2a439bef2d44c396157b32a9
+AdditionalInput = 
+EntropyInputPR = 9c257c1b8d9d74ec73b84758c26e137b6aef169b3a28afd85a2f9f08ca
+ReturnedBits = c6c52a374a7a2b0caa62fd82cf09f4f13d4bac10dc33de1c55c8ea38ac65ca95
+
+COUNT = 14
+EntropyInput = 15c16ed871d075e5a8264484d30e012cedb90a041ab7d1d161898d773f
+Nonce = 
+PersonalizationString = dc633ea1b8c5c689f0ea2ea9e86e23d08045f16dbc9e6ba42472cbc79d
+AdditionalInput = 
+EntropyInputPR = db0df2600202d7fdda961e6b992958267592c825e1235fa0e0a7484bf0
+AdditionalInput = 
+EntropyInputPR = ff35b862c0d401c77548b6978d42323b83679f89facff911bd8e74a0ec
+ReturnedBits = dd044ef58a2ef16965faba2846939eca371f13ba35568927a43fcb45316d3a53
+
+[3KeyTDEA no df]
+[PredictionResistance = True]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 232]
+[AdditionalInputLen = 232]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 683de59fdaaf0e89851f11d0ed01e71feb3cb77b3bc6c6e5d43a514486
+Nonce = 
+PersonalizationString = 95837baafae48361656a5a83c15761de33b9a1fed86d1f0351702427f0
+AdditionalInput = 7ef10de72e77f884ca2c82380b6875d6b41e4b01ec9277b381a6944581
+EntropyInputPR = a51ec1938a2057a6894f258aea9f33bd72b695f0c65bb1afc7ca610d75
+AdditionalInput = fea089ecbc20edc7b9ed6e9be48a18bd54881196e94f92a372b3d04e85
+EntropyInputPR = 7b7a6e97e147987ed9971c963f48585b522bdbb9c59b3fb616ec98d280
+ReturnedBits = 9c833b0a04503ab8d016ea649ffa293c433e6bfa56db2c45f00e3f48ba1be4e5
+
+COUNT = 1
+EntropyInput = b85234fb0de20b31463224764af31e2a06059db7850ce5451e694e0fed
+Nonce = 
+PersonalizationString = 9d3fb43f5219745a00a8389136109e24df59c47413f89ebadb65f5ed4d
+AdditionalInput = ab2cce75426fcb6d9d4ae9a9a9858bbc57ea53d0211a9e545cd38919d9
+EntropyInputPR = 2d43b502d7e7534af0f591d80aaff615dd71297a148d6f720ee7285bc1
+AdditionalInput = 39688a5fe393612c21fb81d7fc624b7f9eca85d06ca4f091c123cd5dad
+EntropyInputPR = cb5a451ddc9a097f71102ed5f42ac72c81f78d8f40775f698a0e95e17d
+ReturnedBits = 507d53a01d48cb79d04cc461eac8924c45d1afb9977259fd51bee3ed6463891d
+
+COUNT = 2
+EntropyInput = bb3261923ceacd64808f8a26bf35a32e5bfe5f9e07b170ab65c8f0c71b
+Nonce = 
+PersonalizationString = b516e7624f4dd0e5029846339e171aa9eeb5e12c49b3918b9808d2fc79
+AdditionalInput = 0ec0f52c95608b16b11804c95ec128f2d956f57b68f5e7161b83e52c75
+EntropyInputPR = 67757855e0262d4a6473650fc670150bc72650e4835fd0fa7948765198
+AdditionalInput = b39af5296c66a04a4438d41ffccf1706db4be6213b6e15c654953282c0
+EntropyInputPR = 4c4400c5881ccc9484c83cb17ff2eea42713fd5205a238f184a1120c63
+ReturnedBits = 886d9753ef76d271f4970f5f40ca9472049bd7b1988c0436840e3af5ba44de76
+
+COUNT = 3
+EntropyInput = d441ec7981603919810d08e77d495ce0b3f77bb6a438b30a6f27b87975
+Nonce = 
+PersonalizationString = 54cd31cb3280cd001794a6485755a14ab914bc5ca86d41fad9a9ae55af
+AdditionalInput = 707c030a1b979c43f791523701076dfe622cb05970b968e57d550b2cbe
+EntropyInputPR = 1e92e70b7dea7a12363b17c8e5b78915367718165a59b8c6075020706f
+AdditionalInput = 6e985140bc90b0df5752bb68cfaa8b5e8bfdf2b5929aba9e58191dfe74
+EntropyInputPR = 7a1ad172fab2e6e2924c4471564bd2990ba63671c2ff63d7f2ae804ae1
+ReturnedBits = e3f1068cc8315e33ab48e2b0cdc53bf2c7540fbf203611d978cf26f0e75c5f4b
+
+COUNT = 4
+EntropyInput = 9a3bc58213637bcb58f009b61813d48e225068d4253b0fd079f52873a0
+Nonce = 
+PersonalizationString = 73c2fc5daaef67d3f5b96828230a9088f820fadd033bb3aabe6ae4167c
+AdditionalInput = 35772d9591b44b908faccc2a117a00e7e449c81330b50af7dce89fb7a9
+EntropyInputPR = 59611df90ba417522f959d0648a66b75bb103d81ee53ae9e068d27ac7d
+AdditionalInput = 06d9b385a8503874c58821d8ce2f60165d20d5437518835c23a0f71ce4
+EntropyInputPR = afd6af9c8efd736be1041356c542b937a564d92ac137fcba8d60893642
+ReturnedBits = 1adaf4f4e6632a424cd93ba329564835081e847b922dfdc688c5371d26b6aaad
+
+COUNT = 5
+EntropyInput = 7f49482fad25119d84e5668f8ce22b6b922556900cdf476228fd189244
+Nonce = 
+PersonalizationString = 047cb7f4b171163614bf56aea277b664bc78833c218669f9848741a996
+AdditionalInput = 99c9a85651fef7e4bd94edd2ce75c56b744ef618bf0df9260a277a9af2
+EntropyInputPR = 41c5bab6b60dcd00a81124c0c2595abf1b3832c26e5dfce90a62730337
+AdditionalInput = f6add2f42ab056e1c3595e11d5d46cd8b2f1181d29369ecef93d675514
+EntropyInputPR = 839abad7a15f5549986c64b1f95a4488199e2136f7f67ba3957ae466e4
+ReturnedBits = e5ef0549b355c305c27ebd597c5095465f2fed2c68f663fee17ad239570280fc
+
+COUNT = 6
+EntropyInput = cb2a755d9e0b798b332242408b7101f045d024cc96170955a53679d837
+Nonce = 
+PersonalizationString = 11362084fd310cb360f0011081b814a70946fe0cb45939a1288f4c99df
+AdditionalInput = b94d6a160701052388d6c74060db0acf042bc68d6e5c3cac4665c9b8d3
+EntropyInputPR = cff7b471e0a6d4297545a5e186619a03e0160e35e6cdfdfe6c83ddd234
+AdditionalInput = 26e87bcbfb86122073a34464b3adb5be98a8147c0b1e0bf975f5bbc95e
+EntropyInputPR = 353e46f9daf654e0afb1df46f293da95c5af5e756419410b2efecae7b7
+ReturnedBits = b37f4f17279a7ce0e76e04d1d4b5395ad032dcdbc0a5fc9e4c6c8e39897f7fd7
+
+COUNT = 7
+EntropyInput = 1fe7edf57ec7a2c59f44cbe1aad4308d3e0c63a670496fc781aafbd77b
+Nonce = 
+PersonalizationString = 0858df376c8e2e36c9dfe2cb594d59c0adfb79306a0de024be2ecf3910
+AdditionalInput = 54790ce141357a9fde6f64fd250bc331f28542f2a7d1fdf05102cf38e8
+EntropyInputPR = 970e0ea6e799df57f4ca639933b5310733e478f226f96efefdf81825c1
+AdditionalInput = c43a8f1e10a4d8316e4066e381d3cfba7514759e0096fc6f2e796f3155
+EntropyInputPR = 5eed9e91470e04e9de5cf6801115479356b2dee417289a6669f780ed0d
+ReturnedBits = 1a553c7a639ccad85937588f1144971f98ca8fe4b133c2c9b95d5fe8399e1017
+
+COUNT = 8
+EntropyInput = c26dba531d1a6014ca52b3c59f74f4851550d6bfa2f960c7748c31c1f6
+Nonce = 
+PersonalizationString = 419a058564274470161a6d80e3ee8d854097f4936a829440651ada428f
+AdditionalInput = 6f0cffeca1c35396fb6919d008b9c8cbaa8ee3b7b1edaa1159d01b133f
+EntropyInputPR = 5a1c953d189797bad28a879e4bd3a82b4b94d2914e24b50bb0931ea979
+AdditionalInput = 2fbdeb60793765d18c699315939c2a1d802ed60319d9bc66b056cf98c0
+EntropyInputPR = 2bbc0f82e939b3a8e596c6114060ec5c2097ae2be6363b93f53ffe60c6
+ReturnedBits = 7c4add75ff83d2f78d763451e01614e1ff2998952e87d6cae611a9f44cc501a6
+
+COUNT = 9
+EntropyInput = 82b884a1a3bfb56fc290a56570e56a62ed10050679e0bb8ff472ace07d
+Nonce = 
+PersonalizationString = 6956a8f1a74ecb011fe39d3228a45c56f40b63c6c0a0a42dfbdba8a68c
+AdditionalInput = 81e11fe66139a2b030d773d02121a60b296b3d99982065d2fd9717cded
+EntropyInputPR = 25599ccc951e266bd625da7be496e286ad49e556e995dbcf01e3fd7a83
+AdditionalInput = b259f9bd5f6f6908d3fd062311d287bd1883e413952f72e46b2777ae3a
+EntropyInputPR = ce33534e3fc0023f18c27c7cffcdafac40b3a746576e86b7641ed6efd5
+ReturnedBits = e14033de78a6e1c1ca9a161f2c004ecf0cfab4192cbc217044615b3a4dfa8fc3
+
+COUNT = 10
+EntropyInput = 0b958fd1d65eeb929b5497b691d4613c97295bfa31f4863fe5d56b11b3
+Nonce = 
+PersonalizationString = 1cb4e0daf32354a308a9bec2b4ee3d2a95c670486980fbc20ce85c357e
+AdditionalInput = 8a75a01aff4f4adc30faa905166045cdee08051838bc5a9d8c3e407b02
+EntropyInputPR = fdca9cba14c04e10faad03792f53d089414dc4156e7ec3d056b7347847
+AdditionalInput = ba069aecaa957e8b8d5ac03bb2e9135909b443a26710a07df71ed4818d
+EntropyInputPR = c15a93a49b8ede84f4a5b0b36b7a0f74cb1369faeb3a10a7055d4c4ad9
+ReturnedBits = 419cbd6318778f59448f91646adc5ec05725b4ade7ae92ed8fb780e99f8d592c
+
+COUNT = 11
+EntropyInput = 6bb4124e50f032268ea5f9f80196e97e66b90e39f606a2be42f7fc3415
+Nonce = 
+PersonalizationString = 229deefd31be2a193a8a6a7d2e9a1fa3226afcfbf0e18b54daaa61d150
+AdditionalInput = 76ada6ccca70cba45daae668972c5c773d0c8d3f37d3f0553fc8fbf685
+EntropyInputPR = 401650d75cf8021ee0946275367803662a25fd8adc6d3beacec21ff253
+AdditionalInput = e771911c39dd55c37bba9db003a3dcfe1fffb0cb67f73346407e40ef1d
+EntropyInputPR = 536cd32032cc04ac7daadeb95507d9c01138460ca1fce67da4749dc660
+ReturnedBits = 33ed2e228395caecf8a86b6852b9a3f5a0df82ad3e1b1de02c7b9345f8bbe147
+
+COUNT = 12
+EntropyInput = 8e0189cb58dde65c773adee2e361184b519330e1ed8d424ca94e9585a0
+Nonce = 
+PersonalizationString = a8dd108bf14d3868f27cc8cae36646608eae290bc22d2a959b26bfaa10
+AdditionalInput = bf843f38fcf11899841d7e454775adf4d6f3061b56682bfe9fc3f324e8
+EntropyInputPR = d7ca8cbad0a5af1521866f028d562ad9a8045435e3a7d06cd864fbc9a4
+AdditionalInput = 544f293d5d1e79981e475d5f2f92e8218852f44896ba2d783d05d5f00c
+EntropyInputPR = a00956f79157163be99f02c1720a42e0cefe463acffc82e65f654d07f3
+ReturnedBits = f166006a3626e382093d8a80665a5520c64f136d9fb03b384814312b910d5df9
+
+COUNT = 13
+EntropyInput = 99593da8d470ed6c75cdd1d69397429475ece4ca2b8d5ce4541cb3b11b
+Nonce = 
+PersonalizationString = 58ef5dcc73fd4fbd74f704c0ed9c2d5f87c560cf1d739dda1ce1e22a17
+AdditionalInput = 22be4ede1b79faa78bdf7c54e910cc483f20b4bdad6e87659cb5cac9d7
+EntropyInputPR = 4ba00f021471d932ac716027a90f5935cf8e32311ce1cd980cf0c5df13
+AdditionalInput = ff0227098f98e8ae2152e010b91e7c763947ee8c1f0f48c81e2d00dcf3
+EntropyInputPR = d15cbc549089a1f1b2b5c2ae113eef4aab2733f40535d1502cd2f41a69
+ReturnedBits = 7d4beca757f6cd7853e661aa57e6b44f7f1cd3e9671c18800750dad432aa20b3
+
+COUNT = 14
+EntropyInput = 53635639a0ecd6b8e978222b1dbe24a58dc3ea8e16f90ccafdb3c023b6
+Nonce = 
+PersonalizationString = c0ea7b7539809191f06dfce9fe95ca1e5602028251c656b2673370730c
+AdditionalInput = 9d4835ad008baa2d17a8e89a59b4a1c151eeb2c723e45a2eeccfda6280
+EntropyInputPR = df03f2bb0dee02d281b29aa77ca54d95a4c59bdc64074482dac62f758a
+AdditionalInput = 9620c93c9a1458511167b8da3f7521c7077d1df0673d828684c7fefdce
+EntropyInputPR = 1fe0d3d04a33b0a06c72e5689c2cecc4f9b8c50bb8c2fba8e0f07c96c6
+ReturnedBits = c62da479c177c0e05962c020a008aadf6d315bf790ad2f74255250b3fb929ff3
+
+[3KeyTDEA no df]
+[PredictionResistance = False]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = bf23771ed7a31a996a4b75f26235ef3a9e2f0fd7e1b9845dcb71d434c8
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = be0e90d01e3bf9bb6934b0a6d5c0e626296d614abbfbd17f1144bfb0d2e1ed35
+
+COUNT = 1
+EntropyInput = 7cb3473fa51ea478e5770f748f80ba4604bb56c713fa09f083edba0bae
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 37bb73b3b46dbb3f5a61573d11dedc55f76a10dc889b4bd8cf2fe49be1469248
+
+COUNT = 2
+EntropyInput = 628f09e0229fb42e23b7de82d3d37b61caf3cb6ea21f9bb726831dfb96
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 509a23fdfe334cebeb7ca975cadb02cfb299a7ca16f095b94f9d2d7a1634878d
+
+COUNT = 3
+EntropyInput = f4c415c6927e3c1ad7c6890d952b6408e84c3ca866401f233f2e1ced44
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = d555ee22c9f0acf6888c28a4db93b2360d5fcbf73fbf278cd59fb74bc3610f58
+
+COUNT = 4
+EntropyInput = d6c6bb4bee109dc9a95043ca7a9ac2f9298f82f1aecc5076c011880b7a
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 9d3d77bb1cc2d163ac56c28f4147b4d2daf47807bdeeb76aa909977cf3b36d37
+
+COUNT = 5
+EntropyInput = 80a59f8c1cee33717226ffb78443012a74b36913b9fe7782fc495e5994
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = ea0fdc22af670167b144fd0f24ebfa8cad05c94cb110f4abd3c769d2ca116b73
+
+COUNT = 6
+EntropyInput = 8a5b73438967cd2b55a7feb4235f3a1b5f107e8680247d97f081907fca
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 309b8df0031395274a86631fcc5f6c7ede2d52f8d34ba9963c212db8ba730028
+
+COUNT = 7
+EntropyInput = b67170cca4d2331990bb8f9128a288a4e8f13653c4b49e337f04df11fe
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = ad4c9bb89b88d9d11194246b6a754a4216da0657d11ac74a5888759f711071a2
+
+COUNT = 8
+EntropyInput = 497acc9fcccb89cdc78c5c014fc30a9754d6dc6c17dd1d4940212ed81e
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 5edfdbd3c60a4b5e57a87828c8b643bd10c0d5a10a6e28832b85798f16f7da7e
+
+COUNT = 9
+EntropyInput = 13372a427462d4d1905ca9b22d2488060a4ee1c4dd2a8282f48c615dd3
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = b9f8b44dc299abf2fabe9fd076009c190b174a94e5eead2c8c13dffd7da47478
+
+COUNT = 10
+EntropyInput = 09426021efd50a8bd472070f5261faf2b77b6af307ec30f8c5ead1bbda
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 7e481a778766ba3dbb481df5fcebb55115f5a4a9677cc70e55a9f1397f998fd6
+
+COUNT = 11
+EntropyInput = 96139010385a1ea085bc3c64e2d727d14c5e05d674bbbae70887b95560
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 43232af1795fba96f72fd1371d475aa7ab633248144d3c8e1820b7ce7fa4a8ae
+
+COUNT = 12
+EntropyInput = c6a54b761c71e5b8a9c55e419d6b68e0c5227df330313b683b41bb097e
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = b94b04870debe5139123cae1538bf959c16a0658d29a6e1c5bbc7a437b45a959
+
+COUNT = 13
+EntropyInput = d7a965c09bb1d20b6e41cfb7ba2196aff2fc2d8757cafe765ac09835bd
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 3b699fba42463814b024030c8ff45096e8d41a74340c0899b437aca99274d99f
+
+COUNT = 14
+EntropyInput = 2ea1058f4dedb7c5f1929c38267284454c200296b8ae9bb13f244bc85d
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 1f0ac36de3a01fd44492c98987330b6c6ee78b12d8a09cd635d6b46d40ddb803
+
+[3KeyTDEA no df]
+[PredictionResistance = False]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 0]
+[AdditionalInputLen = 232]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 4e16410eba90d7766438d7cec362c46ad3d45aa679213231b275af2f58
+Nonce = 
+PersonalizationString = 
+AdditionalInput = dfac9038e6840da67f0dc471910627f38c6a2270c2eee308d8ccf8f662
+AdditionalInput = 6d4009a05299800759fc1b814608f44f228431155e4e8bffacc205afb4
+ReturnedBits = 0ca6838497cf08ced97b93e04d56ce10412a02e7a8f43e16c6fc8ec14b04f564
+
+COUNT = 1
+EntropyInput = 7b7cd7da73b02550af6cc16cc15c2794de18543e982d966757f3151189
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 0b9b333412b9adae5af16022fcae04e9546effe452cc2ce82e9b835435
+AdditionalInput = 11036a409cc32f06cc8c5d567741402ff954ec9c74e44a0c924c6617ac
+ReturnedBits = 89129f65254fb7fe4ba68162fea7b3b2ebbb9e2f79ea21984724a2d86c32f6ee
+
+COUNT = 2
+EntropyInput = a19a30e42ec688263e27cdd3fccbb0efcf0c9209a37dd6b324f41930a5
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 1191ac3790d3ab64dfd5a80503cdc7c47420d7c3d95746cb98bfa87cf3
+AdditionalInput = 97fb77ca61d29258f6a1ad4fbc2e9f58c5ba26aa878ffde097af2eebd8
+ReturnedBits = e131022ad28988609f8c64ac71d478d54f3b931dd241589b4763ef18a209d1da
+
+COUNT = 3
+EntropyInput = a7b28776ec229e0b4ec834272555c6b3d4628137154b99fc92609815bf
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 55002948230358356ffd5e55ba8366748eed161b5a29933b6999594212
+AdditionalInput = 6574528bdb42f19e6b6591d609059e6035f78262410ab6c3815ec4b912
+ReturnedBits = 3f2c6b3b4d3b1475e0c23c0e92ceebfdc8b45655e70bc8876c1e40be2187ab9c
+
+COUNT = 4
+EntropyInput = bcdfd9d860ec3623ec2c976df85273c772ff0aa32ab29f97fe1e758e99
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 59aa8e64a6e1b0d51144cd86e2f09a9961a245d1a303950e4c8a68f96a
+AdditionalInput = d5ba1b9e22167a8ac041d87302b352b535de49507e046a1678cf2d2fc9
+ReturnedBits = 61ec5512e9b045750946a8ae71035e7f53eecc5af1a6e541d380dc63fe599253
+
+COUNT = 5
+EntropyInput = 62962d9c3ef3a0db35f302012387e827e441c6503eb93ab3454eca85d2
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 85d0da1a8132387b484a995d710cd7fb01e694d23b890af476b8ee1583
+AdditionalInput = b41c07c35a548213fa3cabdf7d191ec8a1fbb3d6c52bf5f626b66e90b8
+ReturnedBits = 0f22123bc415ab8a64275063537e62eabe961175e286befdf4dd02d711de08b5
+
+COUNT = 6
+EntropyInput = a033a2375737e66dc3bfdea706174ae9be6eb3dd66ce3db37a7a943304
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 68867f76f14e7f9bcb773b2471d66067e515f8253c61720e7c9aafacc5
+AdditionalInput = d9b55d13d201540b3fbb399ff23da0798bc08346fc2c31290b2908b9af
+ReturnedBits = b3215f3864abf5e8423f4a567df969895be19be5d75628aed52824481fd1ed98
+
+COUNT = 7
+EntropyInput = d846244ed7fe6ed12e771b57c2a60b01ca2a56b0a6627c073205ef8c8d
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 449adf3308e2121e400c2bbb642004793cdde66ffb9c80ec4d4b096354
+AdditionalInput = 2b351be6c255110a10ac8bb018f4c756b8f9e23e8b5ee34c4c2ab5b99d
+ReturnedBits = 975f918a10a87a0bdccd1aa1a29a4dfba1387d67762497625b4a091d8961944b
+
+COUNT = 8
+EntropyInput = 067138acca97127017c2d280fd2a7ddc0d2dec4fad1c7fddf933b0d7b6
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 5c3a3ba03018134f0513c5953c90d9d2414c90183491d209c8bfcf6dc7
+AdditionalInput = 0d802539bb65c523a6ed459f519e6acfc7d2c483fc750dc3b0138fcc4b
+ReturnedBits = d6c40c2d426aa1bdef04c3f1e3823fe295ea964ad6f0c7c23385878ffd33cf70
+
+COUNT = 9
+EntropyInput = 8d1de03cac910ea4596c10481d2d2e2f51d0074e708a87076581a94c12
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 9d60e1748fa4a8949ef29fac492e04813695fac5e112bd743e2f9ccd03
+AdditionalInput = 2e9b83dcec084d987f85185ba9ee9805d8383f4df52d559bcc721000de
+ReturnedBits = 157414ef247d1842d16b29ca57d2f4aa84fc278cb1365652f1c7fbbfd9d8ca50
+
+COUNT = 10
+EntropyInput = 2e7fd04b8f88371d7ed7485f643da3a9fc9c614796766ded08343d5759
+Nonce = 
+PersonalizationString = 
+AdditionalInput = bc5fc7699732a493ccc81b2421d5c6776c6e5bc162561d8be55a7a7ca5
+AdditionalInput = 64895447d36449330cb3de03349d6e13dc0e3cc2649de0654cbc77e48e
+ReturnedBits = c2654cea013ca007cbedcefcc491b8215c2911897afc6a9f19574177afe2796a
+
+COUNT = 11
+EntropyInput = 0147cacd4784cc6411a284b09b590afed42e7df0baf949072a6bed2bf6
+Nonce = 
+PersonalizationString = 
+AdditionalInput = ab87c260bae4f67730f64fab531bcb7980c6246ee62b2fbb0fff470464
+AdditionalInput = 126112ea41ef81e80ec998aafbba947b97f2d32cfe79e3fa3cc5e8981c
+ReturnedBits = fcabecb1ce5cf3978e748b92efc13de96955410a02d2e753420983aa376dc1d1
+
+COUNT = 12
+EntropyInput = e2b6e4f3b12030b4c23f24bdf0d2f7d8a35e19365e63aade5e3751b803
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 8c4d10d21b3a78c715474e8f3a1f12526e1fee35574136b2246738dbc7
+AdditionalInput = 8c5fd14ab06f86b38a1916e142176a2b5d5a647fe47414246d1512df99
+ReturnedBits = 9a44726df103e6ba3ea9f6c6d0639e01d1a233ac7be4a4c3fb6fc9cf39ef299c
+
+COUNT = 13
+EntropyInput = 4e11684292931eadafe81c2eb50af651780371d4749959343589110bbe
+Nonce = 
+PersonalizationString = 
+AdditionalInput = 4a0602370861e64bf4c600736641e601010ec2e8cfca8f1e70f2a99816
+AdditionalInput = 6b2d5e943520b5a54c31fc698e79ac0c584dc58ee68da5b68f99c581b3
+ReturnedBits = bad94b17ddf4b70a18010e2d07bfa1a2d40c48b0bead8be852fc4b47765600ff
+
+COUNT = 14
+EntropyInput = 417ab72e29377bed3620ad9feaf543002f5bf4aaafce64c9cbe09593e7
+Nonce = 
+PersonalizationString = 
+AdditionalInput = b911a06573799618f164cf419ad38bf261bd8912b1be5153bb84897a9f
+AdditionalInput = 45804d826dfd45fdddc5d5e7c6ba537fcc8450656e28c0341515b59b2b
+ReturnedBits = abcc3581424851359fb646e55d37a696467822b9f980bab73406ad71f5935cfd
+
+[3KeyTDEA no df]
+[PredictionResistance = False]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 232]
+[AdditionalInputLen = 0]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = 614c2c62d8a54db73089eea58a5693a5830b1784b7cc93dabebd48b5b3
+Nonce = 
+PersonalizationString = 1c8cdf6208a7d6a51874450afe5a4a64e81ff824f71a5fbd0f2a845580
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = ec8bc815b99f67456011599d88304548be837e06b9fbc60ea1d81f3e2b2d488d
+
+COUNT = 1
+EntropyInput = 05ffde3b7bbccfb74c40765cbb1394f2a82d9759b8acdb96d68994102f
+Nonce = 
+PersonalizationString = ed465fe3f1bb1cd831dc7b9022a8d4e66c3ac9b096374dd5cb0dee1f77
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 8ad9e17074735d0c45a7bfb41767296896fc7342d5c7a3ff2edd301611ae228d
+
+COUNT = 2
+EntropyInput = 553609243004aa7ccc29fec860c422bcf10ee53dd95e08d95bac058fe0
+Nonce = 
+PersonalizationString = 9ef190ee59c0c125b21dfeebc3051d1394c1fc876b00288eb2f4f31b6f
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 830dd3c5942bbd562b08a0917816c3650e9da965e2b2ed15c48fbc0fe3bd0be4
+
+COUNT = 3
+EntropyInput = 15515d114878341e3a01df7bc32ce7f666d5680637176f2353fdb10c14
+Nonce = 
+PersonalizationString = ff1d8571aa8f091a38210f3b52c6cbe663fe21fb88d3e674c8a9f1cee3
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 40141be16e944ddeaac1021008c9fcf75b132b1200182485de247fbc2b6cec75
+
+COUNT = 4
+EntropyInput = a9cb620722a5b60dfdbaae4962baa650f907f7761bbc29de646a985a51
+Nonce = 
+PersonalizationString = 8ce5d667507f06e8d9e14d17120ea1ea61e0337c6f56160421d031bcaf
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 69b72d7684c5084e4dacbb290d112911cc9ab7112eb38e95f2f3590e7be3b44d
+
+COUNT = 5
+EntropyInput = 917531395515fd0bf3bdeb80d8c55e97e88f31b46d2510297d89cf617e
+Nonce = 
+PersonalizationString = da6bd8e71345f921d27b8ec798e3b4be9198f381010704ace730ef1810
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 29ebf0ada5200ad623c61369a23a91c4fbab754f8da68f66aa4095b70b1fe209
+
+COUNT = 6
+EntropyInput = 2b4bece59e5503249fcba821d1ee57522e8a385662ecac40495c1b7447
+Nonce = 
+PersonalizationString = 15bb20006ed47a36f126287bc2d3801fc389dda9b4642f9b67ffbbe376
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 415c0ee3e145d783e24a6696b921ee36dd8855661ce32deb3067a59b09bfdc6b
+
+COUNT = 7
+EntropyInput = e76b6fc438da875771cfae98f5642c119c15cdff77ce404bc550cba838
+Nonce = 
+PersonalizationString = 8b895b6a0bda28080255661ed991097b7831b219a2c7b3feba94325c43
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 35930a81670b813e5eba2a1aefb747553c5307c7073ab3d65ee97e71a2e72f42
+
+COUNT = 8
+EntropyInput = 960b5838d78b40f315487084612b4bd93073dde79b252b36862f79ab8c
+Nonce = 
+PersonalizationString = 5942efa5ae91ff29e00cd07feb2dd1ae4c2f68397199d4cc443a9c6f30
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 0bed45f9f3df78086c27b8ad4ac2ca5d2d3a77987f18e94e8fe5d8a3201eada3
+
+COUNT = 9
+EntropyInput = 5d5e1ea5a16d8defc7444b31a8ddcb2d8d88e9ddb1376385f0313b5ad8
+Nonce = 
+PersonalizationString = d67ce26d38afb92b75d2b5994b1182d2f2c842dcd4db8d1a151e49587b
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 7013de896dd5c35c580fd90a72b68bf1c0a584c38d839b34c96e532a4b52b73c
+
+COUNT = 10
+EntropyInput = de7946830095d0cf2ba1ff6020ffe35b8c448166c9bb2949ccd75a4a4f
+Nonce = 
+PersonalizationString = 712d2a66f76d4e54da2b8f3f21f3804071c64ea2133c0dc4ec47a90a04
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 6141fe0426942bc814a26d68e94a249f729b406750c2633105bf9bb7a434a5a2
+
+COUNT = 11
+EntropyInput = d15dd8e78825fe01f2341649a9e86286317a441adefd3f10e3116d7346
+Nonce = 
+PersonalizationString = 7d54c01530083d56976f55bb5e5b2ae0286cf1166ab8eda90546ac3072
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = f50a0b942cbafb1aab27c96bf6ae4b57c549446a95e66738bdbea842318ec869
+
+COUNT = 12
+EntropyInput = 773a44e9208e0941b3145f3a43d3e6f6b378395c693a2395c48f45b13f
+Nonce = 
+PersonalizationString = 859566c4d5d1e0e1d3471c385dc4a7d2ad82712246b11c6b3cda1a1119
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 24020b6fe7aafda36a36da05757ae7cbef257e2cea6c135e7a112a35e6576312
+
+COUNT = 13
+EntropyInput = 49fb8e8d3c25c8abfdcc1598edf78e5e79e0f0afcdc0f05c92274259b8
+Nonce = 
+PersonalizationString = 2936e3d9205d6bcc17769f16a2531b3d0f2f21f9d9ee40d375562d09b8
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 73cf8f736d963040f70bf70938cd49043c15c212b720e75412dd50d49b1957c9
+
+COUNT = 14
+EntropyInput = 0d8fa14bc1f7f67718182f81c3ec5676e74dee6fd745b2347f9b92dc74
+Nonce = 
+PersonalizationString = 7430ffdd12b2943a1607f014515c7f4644224c86fbb353b08764e1b8c1
+AdditionalInput = 
+AdditionalInput = 
+ReturnedBits = 0f46f81b65c017731ca2af2222f2ed6c6de35e05c0ceb55ee6cdd5eef4f1aacd
+
+[3KeyTDEA no df]
+[PredictionResistance = False]
+[EntropyInputLen = 232]
+[NonceLen = 0]
+[PersonalizationStringLen = 232]
+[AdditionalInputLen = 232]
+[ReturnedBitsLen = 256]
+
+COUNT = 0
+EntropyInput = e9f202802eed4d35767b2e9839c0a0416ee618e7e4620885fc0c925c19
+Nonce = 
+PersonalizationString = 026ce25cdf6edaba041ce8c06dd17f000d5dae6fb89d9b36f5848391e0
+AdditionalInput = 7ff2821302e188ead2a5904bb08307594b9f1bdb881bf0d889af285a48
+AdditionalInput = 03d716dbde9c9fe599b63d86bc7f19524391f65153ac598f2a19e65602
+ReturnedBits = 3d3cfcdb5b86f4ad081e97efbb17478c7dfaff8526a170489ffe6f91c130aa52
+
+COUNT = 1
+EntropyInput = f3d8dd6968e9e9570e37b372e24b60dcd4f4b72f8f784e9ccf37df9d67
+Nonce = 
+PersonalizationString = 58946e860f0e679e3fcd86e0201cfee6637f3954602411fff3ace1c85c
+AdditionalInput = 935a6feb43c69097ee679183a9e345bd259e1785101f13300dc18be1de
+AdditionalInput = 3a119a5916b87f43320cbefafd39b6a8f3187b6a9eb6282336ce7407ac
+ReturnedBits = b15f62735c4daa9e8d470ab8c548f6d1662c112b14324399b8c368618d88e923
+
+COUNT = 2
+EntropyInput = 1de32cd0708f0d44e938be934dd407a8686d5e4aeda53de9d1c86bb17c
+Nonce = 
+PersonalizationString = 13469cc887d2908c80840eb28ff0d532f6f2f9af35273fa923b6d1213a
+AdditionalInput = bd86b97f25cf8e180e53eb4aef3c79b52ac9056e99388261e6f7c392b9
+AdditionalInput = 40ae3d550f83553c63c099992dbecf15336a1aa88522b3cf2aec68ba4e
+ReturnedBits = 4dd2d600b6f68c5c746b257777e1b10bd5e39d87d2f7a4c585a2512edf28a685
+
+COUNT = 3
+EntropyInput = e672de0a5347bbd132bbbfbc8b153474d29bb0af71d01a7fa4fb559e19
+Nonce = 
+PersonalizationString = 709efd4d39fcb423b817cd740548aef478134f3d148f4b0601077ea85e
+AdditionalInput = 65af3d4530e25e95bb55a125359978ce9d312daf5ef0aeab6f419a21ab
+AdditionalInput = 734bbe1559829fdfc6ee191b18477810c0e94d1dbf535557bfce84c296
+ReturnedBits = c52001148878ea11cd1f0f37a1374104f05449b4b8318285566a259a173cb8b5
+
+COUNT = 4
+EntropyInput = 5359c954d3eec42568b344554bf35d20478b3b3795b42b0cb9ef86c117
+Nonce = 
+PersonalizationString = ebc3dd959f607c385463da12f9b57dfaee9e108052be204a50f979baa7
+AdditionalInput = 7e1604429f5880a30dfc8a390a69378777ecc519fc79dec2264d610ecf
+AdditionalInput = 981779a8097a53162f6bda0d96871ec42d880c230e76be06961a4500a4
+ReturnedBits = e189674c5e9cee4b517b1e654ffca0d0403503e2f0896d5332c9d59ccfa67c61
+
+COUNT = 5
+EntropyInput = a789165cf017ce09e1d01a7fe7d535185463a67ccec7fd0c92c6cbd2b9
+Nonce = 
+PersonalizationString = 2fb23f3a0deb65196b321fb34a29d8d46ee3715ca04c7499c133940fd8
+AdditionalInput = 3a27b765f5a10560299a47b9cfe52db774ebf1de56254f27858c895b80
+AdditionalInput = f9bee907f620922ff8f51404c10e860f036740b7e26940f23f42e095da
+ReturnedBits = 32e586a3f3a7ceae035951e95a4a5a645a6c1cfc0b7afcc1a911b2c72e4d1c81
+
+COUNT = 6
+EntropyInput = 65b515fc9fcbaab686a5cbf40326082ff4bc81ff9a93ab4692f1db4da8
+Nonce = 
+PersonalizationString = 914e60b54aa44e2af64260ad2ef4b0af0a57870134c328394c24a21da8
+AdditionalInput = 461961a0770c41d1adec3e21919b0ceceff9b7a63fcc6a447fe673a23d
+AdditionalInput = 7f9bd356033dcb9c602d8e6d64c5c776a7c35df935ade2222472eda7d0
+ReturnedBits = f49812ca2d652ab6c382ac0946137b4a0c232eb86bd6c14476b4b23d01a7b4dc
+
+COUNT = 7
+EntropyInput = 93a725162c2e5c27f768da7c0318d5f66a77a8ea24ae88dea05e493379
+Nonce = 
+PersonalizationString = 01b49d471215f17f329f969582534b907f91c6c9894ec62d138193d57c
+AdditionalInput = 5ae9afccb3ea7abfe4d28e9617dace37d97fe08d469f02eb9c5716733f
+AdditionalInput = b6b47a2506d324fd4b30333c10abcd18fe5441f6a27ac13326a2377fbb
+ReturnedBits = b476484783e39bfd9387976c2c660559627ddb400d96c4ccf71ba85e9a16b892
+
+COUNT = 8
+EntropyInput = 7df808f4ce9c2cb5f9d64cb28073178f5c46580d69a0e0787bb4c7f074
+Nonce = 
+PersonalizationString = e95bfa75ed0bc1e2a0a268a9de536b4298735ae70d95b3b88fdd422818
+AdditionalInput = 8a5d8d7bdb41d49a80c1a41c0594e1637b62ca202600c93285496877e6
+AdditionalInput = 95f8ef999d02ab91d838f33b868d128c7f239fb972f93790047c29c8ff
+ReturnedBits = 7d428005854083eb9245ec9a913937f72780d5559f5ad57b952b6c2682cd0f27
+
+COUNT = 9
+EntropyInput = 8e2bcb4cb7b88135c44a365233d4ccd8743b9972c2ee5161b4aaacc48e
+Nonce = 
+PersonalizationString = b1d49fbc0d9cc2d7681951344ce6b5ed81d578781bb1eb7800e7cc4b03
+AdditionalInput = 9690e86598a4b6624f4376a25ce5c408efbf054d133460814b3a71180c
+AdditionalInput = 14f49b9e64bed0bd5f7fc32e1444b9aec6c73f56e0ab89c2047db608c8
+ReturnedBits = e2d464c6cf80dbb9688958530f504b4a0ec70eeb7f73c2a2be6a949c88a90f3e
+
+COUNT = 10
+EntropyInput = d3f2fe26d4dbc91a96043d151ac638da18d46c386adcb5b386c8af915f
+Nonce = 
+PersonalizationString = 54fc1488293e5235fbb9475282020afe85eb25e3dadc173e4c127ccb50
+AdditionalInput = 88e691bcf770e7234f5f49664832b12bd9b514465f6776bb1fa4b1bda3
+AdditionalInput = 599d26cef034ea6cd70f37246eac044df5ad8e475c0c773341fec7275f
+ReturnedBits = 49480b915419ee3695212844e4f2f7dd5268dec8ecd94ef721fb8bc413fa1dc6
+
+COUNT = 11
+EntropyInput = 9a88d8860c01d6f6186244e717a6ca0b43ad56bb77f7d2cb2223d81feb
+Nonce = 
+PersonalizationString = da57784aaff3eba54c792f37648d2d727d4395e0022da1e0f87cb3c9da
+AdditionalInput = 3c61f857675c544e2245bda91a103aeb6ff96d410f4e7d92dd6f9c7a47
+AdditionalInput = 874d39e00667dea0427ca3d884c165f33c59b1418b728fa09473ac5677
+ReturnedBits = 2d07f95fd469bbe48c237412924f9477ede5f249fe439f05c86f20b3937bf0c1
+
+COUNT = 12
+EntropyInput = 96ecc49888f75dc961c85b7202e0f889e534e2bab0193a48f2a5fd2313
+Nonce = 
+PersonalizationString = f70e2c128daf2ab3e9c673fb1292297650994a156e49e0f4693e3896c6
+AdditionalInput = 5bad0680c042f7d2ac81fb3047699dca34ddeb8355096ee24d5f061a98
+AdditionalInput = f58d80d92ce874691f37bf9c32f1073570c73eed3d6d7f1801c1b580eb
+ReturnedBits = e108844b48071747b7d30909e137e47514eee86479739ff08130e39a52d69e67
+
+COUNT = 13
+EntropyInput = 284bfc19a65a1eba44a59089be7f05afaed8334e3d8a101d253d1290bd
+Nonce = 
+PersonalizationString = 651ca4ff3198f071dc1ea7818a8f1ba550c715f5a6efc35c7c332fb310
+AdditionalInput = d6ce14059fe7f0c3bab258b7111e242e732fe584f47e26a9fc10af9848
+AdditionalInput = 285ca70781ef278c621242d0b7b72c48bc4ee75d8fc008c19f0563184d
+ReturnedBits = 8ce635b36f84504d472cc4586cf229b5eb82b541c578e1ca8107912d93cec117
+
+COUNT = 14
+EntropyInput = 17b43d9ea098b38ca1d646746eca3af9a92ff30e8c9755e42a2bfe986d
+Nonce = 
+PersonalizationString = 1173cde168d934e9d65661759690365b1065d75f340e924f4ebd269684
+AdditionalInput = 05073daa91d15be0280fde66ee240d7c42b1971196d2033003ef6203dd
+AdditionalInput = 74031f97f8675fd563b7270b133e9fd0dcfb037178ba2b2a1c1eea89b5
+ReturnedBits = 99132478c235a5cf512d59aefc4cb0d95b73f1a1a81fb6905a690ce5e56942b4
+
