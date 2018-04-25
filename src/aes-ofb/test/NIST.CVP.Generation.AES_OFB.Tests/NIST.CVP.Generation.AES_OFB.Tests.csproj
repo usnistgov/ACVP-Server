@@ -12,13 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20171009-10" />
-    <PackageReference Include="dotnet-test-nunit" Version="3.4.0-beta-3" />
-    <PackageReference Include="TeamCity.VSTest.TestAdapter" Version="1.0.5" />
-    <PackageReference Include="Moq" Version="4.7.142" />
-    <PackageReference Include="NLog" Version="5.0.0-beta11" />
-    <PackageReference Include="NUnit" Version="3.8.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="$(NuGetVersionMicrosoftAspNetCoreAll)" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
+    <PackageReference Include="dotnet-test-nunit" Version="$(NuGetVersiondotnettestnunit)" />
+    <PackageReference Include="TeamCity.VSTest.TestAdapter" Version="$(NuGetVersionTeamCityVSTestTestAdapter)" />
+    <PackageReference Include="Moq" Version="$(NuGetVersionMoq)" />
+    <PackageReference Include="NLog" Version="$(NuGetVersionNLog)" />
+    <PackageReference Include="NUnit" Version="$(NuGetVersionNUnit)" />
   </ItemGroup>
 
   <ItemGroup>
