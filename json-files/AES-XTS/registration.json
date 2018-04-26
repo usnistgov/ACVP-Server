@@ -1,0 +1,24 @@
+{
+  "Algorithm": "AES",
+  "Mode": "XTS",
+  "IsSample": false,
+  "KeyLen": [
+    128,
+    256
+  ],
+  "Direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "PtLen": [
+    {
+      "min": 128,
+      "max": 65536,
+      "increment": 1
+    }
+  ],
+  "TweakMode": [
+    "hex",
+    "number"
+  ]
+}

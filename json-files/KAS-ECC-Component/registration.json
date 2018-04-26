@@ -1,0 +1,10 @@
+{
+  "Curves": [
+    "p-192",
+    "k-163",
+    "b-163"
+  ],
+  "Algorithm": "KAS-ECC",
+  "Mode": "Component",
+  "IsSample": true
+}

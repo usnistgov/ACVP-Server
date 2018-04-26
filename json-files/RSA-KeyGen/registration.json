@@ -1,0 +1,36 @@
+{
+  "algSpecs": [
+    {
+      "randPQ": "b.3.3",
+      "capabilities": [
+        {
+          "modulo": 2048,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "tblC2",
+            "tblC3"
+          ]
+        },
+        {
+          "modulo": 3072,
+          "hashAlg": [
+            "sha2-224"
+          ],
+          "primeTest": [
+            "tblC2",
+            "tblC3"
+          ]
+        }
+      ]
+    }
+  ],
+  "Algorithm": "RSA",
+  "Mode": "KeyGen",
+  "IsSample": true,
+  "InfoGeneratedByServer": false,
+  "PubExpMode": "random",
+  "FixedPubExp": "",
+  "KeyFormat": "crt"
+}

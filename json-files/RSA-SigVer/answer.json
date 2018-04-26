@@ -1,0 +1,733 @@
+{
+  "algorithm": "RSA",
+  "mode": "SigVer",
+  "isSample": false,
+  "answerProjection": [
+    {
+      "sigType": "ansx9.31",
+      "modulo": 2048,
+      "hashAlg": "sha2-256",
+      "testType": "GDT",
+      "n": "C57C4BCB63B476A6BA175FEDE1899351388CD2F71DA79FB1446D8C0C27F5F3B4755DF44C69A83D1B2D86E1AB9FE132EB3B933CBD8D2A627C4A2B6BD2AE21365D83E9A2E090706E19A0075323AD7B4DA04D722721A6B423603B13AA248A3B0370DEDB0F072EA9A4638362070255C357E3E27A22BFC8BD40FB1EC675C00ADA160A47E6F90BDB00AEA5091BCC5D0A8EA44000853AA73C41E3D930089B0C68F41D4ECA81706BAB2B3487E7C02093D06AD96907BBE2C0A0C468417D04D918AB34DB301F10C5903E93A5EAF0597A4C78DFEA7E52D334AE182015B17973F169193915A7A782FFD976D7AAE78A5A5C35DEBE7B6CD4D5020CCB65BE5788DBB467AD8B2D6F",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 1,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 2,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 3,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 4,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 5,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 6,
+          "result": false,
+          "reason": "IR moved from expected location"
+        }
+      ]
+    },
+    {
+      "sigType": "ansx9.31",
+      "modulo": 2048,
+      "hashAlg": "sha2-256",
+      "testType": "GDT",
+      "n": "D7B014AB0E709AFA6E4962F59D04E4D1FFA2C60D0FCB8042449E08FF478654A28077554FCC46640C1D4A916A4531D591263A4285CDB92EBAEB26D7BD51570CC25F2F80BC93425E2CDA98357CA5A1BB4D50FF27DEF725E6862EBC826FD986A85B3C5F73D39D021D2104DB599570FFDD1C3F37E467146178DF3E349E2F83F45394EF06970393E4F85FE42FFEEDE4FBEC2068122D2241D1038730E686DC183E7F275D1695E01F6DE89A916C05872A289BB36A41E8D712629B07DD1C65C5E8E6A3B3291F67B0034E5F08C4F52BB1FA7423D98E41C6ED44E99990E2844EE633232CB19F742E67CA523A4A20070F489846FFC7D2F8AEE795269182764742790D528B3B",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 7,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 8,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 9,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 10,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 11,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 12,
+          "result": false,
+          "reason": "IR moved from expected location"
+        }
+      ]
+    },
+    {
+      "sigType": "ansx9.31",
+      "modulo": 2048,
+      "hashAlg": "sha2-256",
+      "testType": "GDT",
+      "n": "8E14EA4F0F3DA38669EC0E85B5FA5C81190FD13BF910DE7D4326C7EF0D39441CB33321228B09DAA9A50C0F6566CDE99103B1301B7A48EDEB854A78E9167D40912C5301B7DC8C802DF32519B562A52E2CE326CD33E092E67F0CB4F245E99A9D315110C8B7577BAB4EE8180C5DD8AF6F23B4E480CE3A82B3AF811BCF7E68D8F6398C4503CB6A6A63B69C717299D6B2A27897E0A356257D5DA1E1DE3E8E468F6F2CE69C544065150492FFB78A890D06AC419F893B122B03D2C2FCFA4C1FD945F186D5D512C57877C46E701ED8D9CA179C2DE0EFBCFD69F8BEEFA57518C26E5EBADC5B460ADF52E4640DE042D249599AFF5036472FF7C0C69A6828FCF66FB18E4BE3",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 13,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 14,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 15,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 16,
+          "result": false,
+          "reason": "IR moved from expected location"
+        },
+        {
+          "tcId": 17,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 18,
+          "result": false,
+          "reason": "Signature modified"
+        }
+      ]
+    },
+    {
+      "sigType": "ansx9.31",
+      "modulo": 2048,
+      "hashAlg": "sha2-384",
+      "testType": "GDT",
+      "n": "B683FB83003DF5748C4CCA4B65E57B2EAD26D624EF466696B9F205C6F00C5F393C528BED65DB9E047BC1B06944F51745485B20B8DA359EDBB681F11DBBAF8459E4D4C3F41D4E69068188868034D902419B4A98F2A6AD9EEBA38DE5879FA4058F91CDC41B37C79CB636792D454559F4F2ECC9F79EAC033EABB06CA8D7D02676516512A5CB2CAA7987F53EB2089AB1B627ECE0B0E16C46D88F0DD997BD8A7822D9779C97B81BD7EE4B2F21B0F677DB77050F5CDC463E3C28EC58F5967A30E5034F052CD786EF39B1EE5C6FFC7418D645A68552E10CCAB709D60713471D8470C29C312B8E436762C97E80798B0C37E9D01394E2CBC88E42E4D560D288FCCDCBB98F",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 19,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 20,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 21,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 22,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 23,
+          "result": false,
+          "reason": "IR moved from expected location"
+        },
+        {
+          "tcId": 24,
+          "result": false,
+          "reason": "Public key modified"
+        }
+      ]
+    },
+    {
+      "sigType": "ansx9.31",
+      "modulo": 2048,
+      "hashAlg": "sha2-384",
+      "testType": "GDT",
+      "n": "DB88F69918A28FDC59E5C44777D3028BE11E1E0A88BC887DCF18026A0BE22A1FE8CFCD1CF04FEA4A2FF13EAE734C6BCE2C18452A91807A9D61D32CD2EDBF69F4D1855DBA7B990E04B5CEDB5101365E3D11497460BFD76E483D2821C3FA2F598E428849EB233182ECCA7D56A7B8E352084D582FCA69BD571B9655B896A0D94E204AD731A3D95C6DC902F526FAD40BDB844BA2635F721E47B1074E67BC11F41AE8DFE6A49B7306F5A174A33EF8CECB9900FDC2581D69F4A6F7EB7E47E9F1C9999C97075EE664FF226326F17CB153C0F4E5E1599C4D2A999E6CC5E5B1728A45F5181480A7E71C17892663F690610F081F700C2E2FE2C6289B30C661F2B03C6938A7",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 25,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 26,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 27,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 28,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 29,
+          "result": false,
+          "reason": "IR moved from expected location"
+        },
+        {
+          "tcId": 30,
+          "result": false,
+          "reason": "Message modified"
+        }
+      ]
+    },
+    {
+      "sigType": "ansx9.31",
+      "modulo": 2048,
+      "hashAlg": "sha2-384",
+      "testType": "GDT",
+      "n": "AE34AD4B8F6A841AF9F382740A208F0EE26267D4D86062B2C60C6D9E372C56FA3221D70D48A40C4A11F46D69B603BBC9360C2053010E80BB682FC01947C736F4ED25C722B4BF52D7195E434DF890D5B17747BFE207E6A5CD2247BBDEFA671139251758FFF029571D6A1808017F7F1E2BD1FF63670F4C8B5E2CDE292CE058BC92370DB32A5D2A9E77944A0EB89E6C02DBA5B03874029F129D507A7E2C3FC4697256B38D2EC12291FDECFA9D37C99669C31E854D6C64D094BEDF2F1AAF13AF25331F9514325055635F79C780A9E002AF8244B39249FDBEF73BD11547A89C30BC5954CCF747FCC818C4B096FFA44B29DC8E731FF313B18CDB335F9B5D673FDC21AF",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 31,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 32,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 33,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 34,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 35,
+          "result": false,
+          "reason": "IR moved from expected location"
+        },
+        {
+          "tcId": 36,
+          "result": false,
+          "reason": "Signature modified"
+        }
+      ]
+    },
+    {
+      "sigType": "pkcs1v1.5",
+      "modulo": 2048,
+      "hashAlg": "sha2-256",
+      "testType": "GDT",
+      "n": "B63E0FA2ADAA93CCF95E5A001714F212131E48123E5157BF8C9BD3FF9C1AD1CC78653F4CA1E383704FADDC6C64A9D313CD0F29DE3BFF7F73A57AD6B97A25B28951346E39EA2415BC9451CEB3EB7034946693CDF85A8AF43189F1B23B10732A6E419B3166DAC9CBFFCFF7C2A28C431DF7131A9E97F32E4163175FB169118550326A142DED2468F5D33D8AB9219143AC533CCA93C7CAF02C2E299792600E982E6E2031637AC20EA44FB55A12F2F97A0DFCCC969C640E3D8BAE3A4ECB2E80713DBCB7382F4B3073AFA781FC1962AF1A8E6E327BEE41C6FE9012349B65404B38D94D02C25F2912B0309F4DE937B82BA93D67B39235542EE07EC140D1E4F69ECE4D2D",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 37,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 38,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 39,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 40,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 41,
+          "result": false,
+          "reason": "IR moved from expected location"
+        },
+        {
+          "tcId": 42,
+          "result": false,
+          "reason": "Public key modified"
+        }
+      ]
+    },
+    {
+      "sigType": "pkcs1v1.5",
+      "modulo": 2048,
+      "hashAlg": "sha2-256",
+      "testType": "GDT",
+      "n": "D88BDF87C237308F0675E33AF3F3F01055948419F4B22776D3B9EDD41DF05F5CAAE5D180774D9856C6AFEB24AC7F9E2E1E22562A44422DB8C759310F9EEA30836CCAE4579586F22DCDF1AC1D3BCC65F13FC186DD7A0A06C20B646F5DB4FA72A74EC9038B10CD24450ECC5B80EC1C1E1A157C70063DF4E7B8D1E09A260D124405E956555A0781230AE43AFD494252EAB432AD65336A6B9634EBFA7A44F2159C84F875DC35459888C81723DDC65B4237D69B49152BEF288EB493161A8374C984B40DB0D8D5A7FE300DF2A71EF4027C802DEEA97BD14B4D1ABC0E8D29ACDA12D54F2D7E552D00EA6AE97FF8DFA2F08169AE4E11AB2EDBFEAA6A18BA8DC1C276F009",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 43,
+          "result": false,
+          "reason": "IR moved from expected location"
+        },
+        {
+          "tcId": 44,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 45,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 46,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 47,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 48,
+          "result": false,
+          "reason": "Public key modified"
+        }
+      ]
+    },
+    {
+      "sigType": "pkcs1v1.5",
+      "modulo": 2048,
+      "hashAlg": "sha2-256",
+      "testType": "GDT",
+      "n": "D269C3367D93D767B42FD0FFA2644A53068C6879C60E0163CA59555DA6C746DDC42D4402F16A38FA6BEC3FD48F74FC7A8DA922904A62629A986DFC70495C336182D165081B4B5F09062B2887C2FADCAC2B72634BFD13E1C95D31C3DD4EF09A9A1FBD961A8C7DF002AF078DA8DE271FBB7341511BDEFC9287AE5F3A7C314BB025BC433D4C172B29D7EEF893259980262C2A38A6B51690C598EE5909C0DCC99ED0A7AA8297F832D24D1633947EF2DECE27A14EBBE180A675A09FC3AFFEE26D374006323CA645B94250DFAAFD4812ACF13C3DB5EC051EE5D361829D303973683B699DF087A0AB1622BD75AC8310EC47BBF41AB091DA5C2ED4EFD8E224A4E092FA57",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 49,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 50,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 51,
+          "result": false,
+          "reason": "IR moved from expected location"
+        },
+        {
+          "tcId": 52,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 53,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 54,
+          "result": false,
+          "reason": "Message modified"
+        }
+      ]
+    },
+    {
+      "sigType": "pkcs1v1.5",
+      "modulo": 2048,
+      "hashAlg": "sha2-384",
+      "testType": "GDT",
+      "n": "B6A26A7261E4A78B2D7CCAF8732154770C4352ED37F6C31D32C439A038F66969F49A02E78342C57568D6B7ADB2C08F2E8ED06C1492D6FAB31CFD808CB04FC61367A5BF91599202093EE687960DD69C083D223E279ED18B208BC37A34F4C4AD2F986AA85F142F4559A6E9334C8697849C7EAF3F93EA3F97EACA574A5BB033F8FD0A69D07A84FD7611F2F5580D5D8912F9DD10B378EB300F8D2D824CC3B79F496592791F541726DE40B34B66305FF14EDC3354BC09F1CAB915E6BA2313D2288FC3FF60080C5DEF355AA5BD9ED7823B57CC70D285A6021570D47AE8A6950D9024F12689414CDC8E1D44ABE4CD2F0B26A1E7E72E8C008EB976DB5DA07F89126F946D",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 55,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 56,
+          "result": false,
+          "reason": "IR moved from expected location"
+        },
+        {
+          "tcId": 57,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 58,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 59,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 60,
+          "result": false,
+          "reason": "Public key modified"
+        }
+      ]
+    },
+    {
+      "sigType": "pkcs1v1.5",
+      "modulo": 2048,
+      "hashAlg": "sha2-384",
+      "testType": "GDT",
+      "n": "BA620AAB67FE7976C5B67C8BF12A03A9AF7DEE8673C4569D6B7B092FF3BA099894833E23B8BDCBAA15E704974146CF7638CAC82C3B813861C3654A910043D4D7BDECE2C5E04D04150523943C679C3D38395BED1C564DABB54388C1FA596D9D48A400A5EA2B6EAA9AB4852F575537285F2571F001D025E46A7CA303B1E45B1DB85FA8D56B5E0EE3D8348A6D03472DF9A7296018649DAD825E5D4856978E39E2B3E9788909AFCB513A81FADFDAC1BC0FAA92AD03FBF016F4EA7D40D82A716FAE7D326E2787A1650CEE06E527BC1F6306E8F0E90F736672005ADD8C0210F6F9955BB42061441B0BC38D1FEFEB8FAAC794415328120D1911206F97F31C1FA0E4726B",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 61,
+          "result": false,
+          "reason": "IR moved from expected location"
+        },
+        {
+          "tcId": 62,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 63,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 64,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 65,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 66,
+          "result": true,
+          "reason": "No modification"
+        }
+      ]
+    },
+    {
+      "sigType": "pkcs1v1.5",
+      "modulo": 2048,
+      "hashAlg": "sha2-384",
+      "testType": "GDT",
+      "n": "886A8903AADF4328BB4BCEA2B7C9CE4D46040338602B7CA4F6EC93A2AF7AACBF2901415689DD6F79ED6A62F1A064490E17E719DAF01A35ECD91BD47182CC195813E5112ECA2C243D93FD657D0CA6CE9CC053A7B864214F28D262AF700674A71B40288570039E359BF3DFFB26ACA6F669FC16CF47F1809C59F36540DC95D4BE3A9EC2EE24737F017471F9C7316A48702FFAB04D7374FA595BDB73B95283ED0F83B90C72F819596B7EBC7E6900A6491E5244D313F2D0D6B4792CFC530BCDFF4D4BCDC7C2071D608F992346F236BC67BFEEE91DD8B6E8954298706FE196AB5AF70CC0CCF1B57BC12CE32126F70869940639E46C0B6B6811F8E599D52F5775F818BD",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 67,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 68,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 69,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 70,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 71,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 72,
+          "result": false,
+          "reason": "IR moved from expected location"
+        }
+      ]
+    },
+    {
+      "sigType": "pss",
+      "modulo": 2048,
+      "hashAlg": "sha2-256",
+      "testType": "GDT",
+      "saltLen": 1,
+      "n": "C0D7DEBA4079BB81D1CA3F1C93ACAC97CAA6875E0B2B3C7222ECE999D21BE7A0B87DA1ADBC6E63BCCE654B23436FE31675570B9C9268ED58FC7A73BAA867D6F3A4CFC6C9F8C715E79F0E447468779AD42F62151CA2924C1A4031A6A31DCB8CDB7096BD043BA56EF47EBD5FD9BE950CE48D5EBC97A49561B1319B4866AD85A4F409092DC62FF7E86E92AF867D428F129B080E5469F380CAB0E27C1B52CD9E034202A11AB7F1F02E917615D8DCCE50A56762BE00580CE6F518E9E3B18E181C29B2AECAB682421BA51FD72C446FFF9B4A000225CFCD35869C4D33A4B0740791A18E8691397500B5E3364E6DCBBB58C2E5D6B13D24FECECEFE163C90D700C289747B",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 73,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 74,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 75,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 76,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 77,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 78,
+          "result": false,
+          "reason": "IR moved from expected location"
+        }
+      ]
+    },
+    {
+      "sigType": "pss",
+      "modulo": 2048,
+      "hashAlg": "sha2-256",
+      "testType": "GDT",
+      "saltLen": 1,
+      "n": "B0751E803B8D4EE42DF681E1D2A566F006277EC3D49FEFFE661E1A7574C2D257EDA17BCE59DA3D5682B69CEF94B2C8F27FD22D878C6C9421ADE95CA56AC7579ABAB84228C192126134FF2AF0B5DE4D43E3662685F9CC3E769C7DF357958500CF4E3BBE3BEE6BAF63CEE7D94B58F67291CAECD438458B2F5A182725F37E40D055BF5EA5A8051F512D9AC98E458E48670F01CCDF1BAF5184432B2A39F27639E62B60A7E77888F65B0BC5323D0E657E6536ACB6A4C01325F248F39B83A7C5ACDD5010A556405A5896629F397F1A8FD947D325E7F35057A64B23C0F655870F2000792AFAD9DE3CE04CB360FD3AAF8EBD09150687F24482A114E7B365F0BADCD8BF33",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 79,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 80,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 81,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 82,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 83,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 84,
+          "result": false,
+          "reason": "IR moved from expected location"
+        }
+      ]
+    },
+    {
+      "sigType": "pss",
+      "modulo": 2048,
+      "hashAlg": "sha2-256",
+      "testType": "GDT",
+      "saltLen": 1,
+      "n": "B7F28A4FB9637F0C19617D033E114D501084A707EF369A0552F682EEA31E15AE8E4F628247FEB7B7331FD7F552F48C375FA2BD4BCB8C32424CC874D4C77A7FBF69C07EFEAE04B745ECB2F9E5CEF5162F1639EC9DC575C226422075005F87C26AE35994227A1CC20C8D7022C3310F98A8844A7B93DA843949CB01137CAF2BEF8DD1594EACCDF5B9242A97935DB014D475FFBCD0DE37DD81C7668F22221DAE86A63FF38931C1C00D2FD836962E5F1312873AB0DDC3647976EFEE3E6977D71A5B45CE5CB3FE6EDE6064B7D182060F55EA97E38F43975E28DF7BCD74C972A6AC13285C8BF435EFAC8FC255299B1E899EF8F2217032928779B8C4AB6D615E6E388BC1",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 85,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 86,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 87,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 88,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 89,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 90,
+          "result": false,
+          "reason": "IR moved from expected location"
+        }
+      ]
+    },
+    {
+      "sigType": "pss",
+      "modulo": 2048,
+      "hashAlg": "sha2-384",
+      "testType": "GDT",
+      "saltLen": 2,
+      "n": "BEF5D66B840B228392533493A468FE4A4627CA96C6C7240345BB6FA7BF24431044BA507AE58C11421E55A703B39D14BF93B12490D2B003CD87ABD3D106AC2EE97B9CC778D4222AFA6DB5F7EF165B5BA2747B596BB6101FCA00EE2B4916E3372987FE9FA32DDBBE6370D2B19D24234124A527E92FB3E6FFD8C3A4FA5F787C1574C745EBC3B582A298009BA2BA249F3F5613D782045E5145F2BB8261968090B9EE5EE2CECF405F7D57FEEEF4081BABE29EEFCAFB3CFC7F346C0F29A4983402B35B2A63FCC8DA11AD06CCB794DA446524A72E55630E708EEA57D5940590453C7340A47B5A2E7DDC3E8E67F3A1DF1D7AB204B5E70A845BAA16B70C214BDD77ECBC7D",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 91,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 92,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 93,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 94,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 95,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 96,
+          "result": false,
+          "reason": "IR moved from expected location"
+        }
+      ]
+    },
+    {
+      "sigType": "pss",
+      "modulo": 2048,
+      "hashAlg": "sha2-384",
+      "testType": "GDT",
+      "saltLen": 2,
+      "n": "C6C2C38760D6BC44E91AAF6670411E94DA35E02C883BC815F78992BB21F60BDEE2C30C0A5A1D9F3EE73010D37EC0951F5E9926BFC0BA4AEF45715152060547E9F7B6A41262823851F371FE82FB12EE38D90CBC3CC0679AC5EEEC4F0D92FE54E61508B249793AC8D7A995FC674C746B9ECED964B9A008B7E77CE1FB2F02B9246A5067595480506E92F2D531C42E9C0FD11238F5404F1E3B5519AF93AD3DAC375A0B741687E118E9F38C6FD7329E9BA7BE1A3B04B735DF5DB34CEA3CEA013B3D398139AFCD838BC090CD1A61D83285EFE830B79CB906BFDD02B53AE7AF6CD4F6EB67F419D358A32D75D78F97F5EF1968F2696991F49B7EF1D1940556AC683A3D05",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 97,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 98,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 99,
+          "result": false,
+          "reason": "IR moved from expected location"
+        },
+        {
+          "tcId": 100,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 101,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 102,
+          "result": false,
+          "reason": "Signature modified"
+        }
+      ]
+    },
+    {
+      "sigType": "pss",
+      "modulo": 2048,
+      "hashAlg": "sha2-384",
+      "testType": "GDT",
+      "saltLen": 2,
+      "n": "B8F478EFDBABDF85F0CAB436F5580C5D54197E3E3E48FC4E186B806DD15C9408CBDBB90A0A999C3C0135228988946AC972B942EA3984D750AA86FB909D367509047D0881253655C44957726E88FD835B919145E06257F4A630FE90968091C395568E8A88DB2EC1EEC34897F02FBB6C2A0C9AA84DB994BFB5FFEBA71F80665D95F4D2C104A06857293DDD5ABC066CCA1DC2A8FF6145EE7B438AE116BE6E723D2BF0B4A85AC81A0904057E8BB08F5D9351499170B170FF67B78D347CEFA369A59D9822319B920EC0B011E420198FF716433D20600344A765F9E1C0E71FE845CF0B8704AF70ACD1B8D9CAFFC034440AB38FD7EA388D36AD421ABE03A2806DEEF72D",
+      "e": "010001",
+      "tests": [
+        {
+          "tcId": 103,
+          "result": false,
+          "reason": "IR trailer modified from expected value"
+        },
+        {
+          "tcId": 104,
+          "result": false,
+          "reason": "Message modified"
+        },
+        {
+          "tcId": 105,
+          "result": false,
+          "reason": "Public key modified"
+        },
+        {
+          "tcId": 106,
+          "result": true,
+          "reason": "No modification"
+        },
+        {
+          "tcId": 107,
+          "result": false,
+          "reason": "Signature modified"
+        },
+        {
+          "tcId": 108,
+          "result": false,
+          "reason": "IR moved from expected location"
+        }
+      ]
+    }
+  ]
+}

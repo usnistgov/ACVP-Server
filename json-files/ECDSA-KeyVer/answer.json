@@ -1,0 +1,307 @@
+{
+  "algorithm": "ECDSA",
+  "mode": "KeyVer",
+  "isSample": true,
+  "answerProjection": [
+    {
+      "curve": "p-192",
+      "tests": [
+        {
+          "tcId": 1,
+          "result": "failed",
+          "reason": "x or y out of range"
+        },
+        {
+          "tcId": 2,
+          "result": "failed",
+          "reason": "point not on curve"
+        },
+        {
+          "tcId": 3,
+          "result": "passed",
+          "reason": "none"
+        }
+      ]
+    },
+    {
+      "curve": "p-224",
+      "tests": [
+        {
+          "tcId": 4,
+          "result": "failed",
+          "reason": "point not on curve"
+        },
+        {
+          "tcId": 5,
+          "result": "failed",
+          "reason": "x or y out of range"
+        },
+        {
+          "tcId": 6,
+          "result": "passed",
+          "reason": "none"
+        }
+      ]
+    },
+    {
+      "curve": "p-256",
+      "tests": [
+        {
+          "tcId": 7,
+          "result": "passed",
+          "reason": "none"
+        },
+        {
+          "tcId": 8,
+          "result": "failed",
+          "reason": "point not on curve"
+        },
+        {
+          "tcId": 9,
+          "result": "failed",
+          "reason": "x or y out of range"
+        }
+      ]
+    },
+    {
+      "curve": "p-384",
+      "tests": [
+        {
+          "tcId": 10,
+          "result": "passed",
+          "reason": "none"
+        },
+        {
+          "tcId": 11,
+          "result": "failed",
+          "reason": "point not on curve"
+        },
+        {
+          "tcId": 12,
+          "result": "failed",
+          "reason": "x or y out of range"
+        }
+      ]
+    },
+    {
+      "curve": "p-521",
+      "tests": [
+        {
+          "tcId": 13,
+          "result": "failed",
+          "reason": "x or y out of range"
+        },
+        {
+          "tcId": 14,
+          "result": "failed",
+          "reason": "point not on curve"
+        },
+        {
+          "tcId": 15,
+          "result": "passed",
+          "reason": "none"
+        }
+      ]
+    },
+    {
+      "curve": "b-163",
+      "tests": [
+        {
+          "tcId": 16,
+          "result": "passed",
+          "reason": "none"
+        },
+        {
+          "tcId": 17,
+          "result": "failed",
+          "reason": "x or y out of range"
+        },
+        {
+          "tcId": 18,
+          "result": "failed",
+          "reason": "point not on curve"
+        }
+      ]
+    },
+    {
+      "curve": "b-233",
+      "tests": [
+        {
+          "tcId": 19,
+          "result": "passed",
+          "reason": "none"
+        },
+        {
+          "tcId": 20,
+          "result": "failed",
+          "reason": "point not on curve"
+        },
+        {
+          "tcId": 21,
+          "result": "failed",
+          "reason": "x or y out of range"
+        }
+      ]
+    },
+    {
+      "curve": "b-283",
+      "tests": [
+        {
+          "tcId": 22,
+          "result": "passed",
+          "reason": "none"
+        },
+        {
+          "tcId": 23,
+          "result": "failed",
+          "reason": "x or y out of range"
+        },
+        {
+          "tcId": 24,
+          "result": "failed",
+          "reason": "point not on curve"
+        }
+      ]
+    },
+    {
+      "curve": "b-409",
+      "tests": [
+        {
+          "tcId": 25,
+          "result": "passed",
+          "reason": "none"
+        },
+        {
+          "tcId": 26,
+          "result": "failed",
+          "reason": "x or y out of range"
+        },
+        {
+          "tcId": 27,
+          "result": "failed",
+          "reason": "point not on curve"
+        }
+      ]
+    },
+    {
+      "curve": "b-571",
+      "tests": [
+        {
+          "tcId": 28,
+          "result": "failed",
+          "reason": "point not on curve"
+        },
+        {
+          "tcId": 29,
+          "result": "failed",
+          "reason": "x or y out of range"
+        },
+        {
+          "tcId": 30,
+          "result": "passed",
+          "reason": "none"
+        }
+      ]
+    },
+    {
+      "curve": "k-163",
+      "tests": [
+        {
+          "tcId": 31,
+          "result": "failed",
+          "reason": "x or y out of range"
+        },
+        {
+          "tcId": 32,
+          "result": "failed",
+          "reason": "point not on curve"
+        },
+        {
+          "tcId": 33,
+          "result": "passed",
+          "reason": "none"
+        }
+      ]
+    },
+    {
+      "curve": "k-233",
+      "tests": [
+        {
+          "tcId": 34,
+          "result": "failed",
+          "reason": "point not on curve"
+        },
+        {
+          "tcId": 35,
+          "result": "failed",
+          "reason": "x or y out of range"
+        },
+        {
+          "tcId": 36,
+          "result": "passed",
+          "reason": "none"
+        }
+      ]
+    },
+    {
+      "curve": "k-283",
+      "tests": [
+        {
+          "tcId": 37,
+          "result": "failed",
+          "reason": "point not on curve"
+        },
+        {
+          "tcId": 38,
+          "result": "passed",
+          "reason": "none"
+        },
+        {
+          "tcId": 39,
+          "result": "failed",
+          "reason": "x or y out of range"
+        }
+      ]
+    },
+    {
+      "curve": "k-409",
+      "tests": [
+        {
+          "tcId": 40,
+          "result": "failed",
+          "reason": "point not on curve"
+        },
+        {
+          "tcId": 41,
+          "result": "passed",
+          "reason": "none"
+        },
+        {
+          "tcId": 42,
+          "result": "failed",
+          "reason": "x or y out of range"
+        }
+      ]
+    },
+    {
+      "curve": "k-571",
+      "tests": [
+        {
+          "tcId": 43,
+          "result": "failed",
+          "reason": "x or y out of range"
+        },
+        {
+          "tcId": 44,
+          "result": "passed",
+          "reason": "none"
+        },
+        {
+          "tcId": 45,
+          "result": "failed",
+          "reason": "point not on curve"
+        }
+      ]
+    }
+  ]
+}

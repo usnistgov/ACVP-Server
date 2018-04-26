@@ -1,0 +1,23 @@
+{
+  "Algorithm": "ECDSA",
+  "Mode": "KeyGen",
+  "IsSample": true,
+  "Curve": [
+    "p-224",
+    "p-256",
+    "p-384",
+    "p-521",
+    "b-233",
+    "b-283",
+    "b-409",
+    "b-571",
+    "k-233",
+    "k-283",
+    "k-409",
+    "k-571"
+  ],
+  "SecretGenerationMode": [
+    "extra bits",
+    "testing candidates"
+  ]
+}

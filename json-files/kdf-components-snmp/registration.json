@@ -1,0 +1,13 @@
+{
+  "Algorithm": "kdf-components",
+  "Mode": "snmp",
+  "IsSample": false,
+  "EngineId": [
+    "12345678912345678900",
+    "abcdef0123456789abcdef1234567890"
+  ],
+  "PasswordLength": [
+    64,
+    8192
+  ]
+}

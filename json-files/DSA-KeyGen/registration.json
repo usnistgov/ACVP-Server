@@ -1,0 +1,19 @@
+{
+  "Algorithm": "DSA",
+  "Mode": "KeyGen",
+  "IsSample": true,
+  "Capabilities": [
+    {
+      "N": 224,
+      "L": 2048
+    },
+    {
+      "N": 256,
+      "L": 2048
+    },
+    {
+      "N": 256,
+      "L": 3072
+    }
+  ]
+}
