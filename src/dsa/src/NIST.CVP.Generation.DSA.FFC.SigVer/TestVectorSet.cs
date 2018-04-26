@@ -40,6 +40,9 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                     updateDict.Add("tgId", group.TestGroupId);
                     updateDict.Add("l", group.L);
                     updateDict.Add("n", group.N);
+                    updateDict.Add("p", group.DomainParams.P);
+                    updateDict.Add("q", group.DomainParams.Q);
+                    updateDict.Add("g", group.DomainParams.G);
                     updateDict.Add("hashAlg", group.HashAlg.Name);
 
                     var tests = new List<dynamic>();
@@ -79,6 +82,9 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                     updateDict.Add("tgId", group.TestGroupId);
                     updateDict.Add("l", group.L);
                     updateDict.Add("n", group.N);
+                    updateDict.Add("p", group.DomainParams.P);
+                    updateDict.Add("q", group.DomainParams.Q);
+                    updateDict.Add("g", group.DomainParams.G);
                     updateDict.Add("hashAlg", group.HashAlg.Name);
 
                     var tests = new List<dynamic>();

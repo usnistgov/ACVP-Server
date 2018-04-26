@@ -119,13 +119,13 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
             return this;
         }
 
-        public static Capability GetCapabilityWith(int l, int n, string[] hashAlgs)
+        public static Capability GetCapabilityWith(int l, int n, string[] hashAlg)
         {
             return new Capability
             {
                 L = l,
                 N = n,
-                HashAlg = hashAlgs
+                HashAlg = hashAlg
             };
         }
 
