@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.AES_OFB.Tests
 {

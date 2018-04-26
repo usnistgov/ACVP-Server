@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Crypto.Common;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using NIST.CVP.Common;
 
 namespace NIST.CVP.Generation.DRBG.IntegrationTests
 {

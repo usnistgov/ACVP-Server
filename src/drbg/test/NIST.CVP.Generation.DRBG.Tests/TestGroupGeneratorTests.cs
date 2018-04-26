@@ -8,6 +8,7 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Math;
+using NIST.CVP.Crypto.Common.DRBG.Enums;
 
 namespace NIST.CVP.Generation.DRBG.Tests
 {
