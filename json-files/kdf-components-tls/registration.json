@@ -1,0 +1,14 @@
+{
+  "Algorithm": "kdf-components",
+  "Mode": "tls",
+  "IsSample": true,
+  "TlsVersion": [
+    "v1.0/1.1",
+    "v1.2"
+  ],
+  "HashAlg": [
+    "sha2-256",
+    "sha2-384",
+    "sha2-512"
+  ]
+}

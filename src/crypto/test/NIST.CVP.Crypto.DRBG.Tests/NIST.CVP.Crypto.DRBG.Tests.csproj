@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Crypto.Common\NIST.CVP.Crypto.Common.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="$(NuGetVersionMicrosoftAspNetCoreAll)" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
+    <PackageReference Include="dotnet-test-nunit" Version="$(NuGetVersiondotnettestnunit)" />
+    <PackageReference Include="TeamCity.VSTest.TestAdapter" Version="$(NuGetVersionTeamCityVSTestTestAdapter)" />
+    <PackageReference Include="Moq" Version="$(NuGetVersionMoq)" />
+
+    <PackageReference Include="NLog" Version="$(NuGetVersionNLog)" />
+    <PackageReference Include="NUnit" Version="$(NuGetVersionNUnit)" />
+    <PackageReference Include="NUnit3TestAdapter" Version="$(NuGetVersionNUnit3TestAdapter)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+</Project>

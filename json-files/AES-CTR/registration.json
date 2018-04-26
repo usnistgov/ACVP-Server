@@ -1,0 +1,23 @@
+{
+  "Algorithm": "AES",
+  "Mode": "CTR",
+  "IsSample": true,
+  "KeyLen": [
+    128,
+    192,
+    256
+  ],
+  "Direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "DataLength": [
+    {
+      "min": 1,
+      "max": 128,
+      "increment": 1
+    }
+  ],
+  "OverflowCounter": true,
+  "IncrementalCounter": true
+}

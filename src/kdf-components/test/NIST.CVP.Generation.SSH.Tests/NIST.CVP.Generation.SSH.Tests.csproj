@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
+    <PackageReference Include="Moq" Version="$(NuGetVersionMoq)" />
+    <PackageReference Include="NUnit" Version="$(NuGetVersionNUnit)" />
+    <PackageReference Include="NUnit3TestAdapter" Version="$(NuGetVersionNUnit3TestAdapter)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj" />
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.Crypto\NIST.CVP.Crypto.csproj" />
+    <ProjectReference Include="..\..\src\NIST.CVP.Generation.SSH\NIST.CVP.Generation.SSH.csproj" />
+  </ItemGroup>
+
+</Project>

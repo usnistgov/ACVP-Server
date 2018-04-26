@@ -1,0 +1,13 @@
+{
+  "Algorithm": "AES-ECB",
+  "IsSample": false,
+  "Direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "KeyLen": [
+    128,
+    192,
+    256
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "Algorithm": "AES-XPN",
+  "Mode": null,
+  "IsSample": false,
+  "Direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "KeyLen": [
+    128,
+    256
+  ],
+  "PtLen": [
+    128,
+    256
+  ],
+  "ivGen": "external",
+  "ivGenMode": "8.2.2",
+  "SaltGen": "external",
+  "aadLen": [
+    128,
+    120
+  ],
+  "TagLen": [
+    32,
+    64,
+    96,
+    104,
+    112,
+    120,
+    128
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "Algorithm": "kdf-components",
+  "Mode": "IKEv1",
+  "IsSample": false,
+  "Capabilities": [
+    {
+      "AuthenticationMethod": "dsa",
+      "InitiatorNonceLength": [
+        {
+          "min": 64,
+          "max": 2048,
+          "increment": 1
+        }
+      ],
+      "ResponderNonceLength": [
+        {
+          "min": 64,
+          "max": 2048,
+          "increment": 1
+        }
+      ],
+      "DiffieHellmanSharedSecretLength": [
+        {
+          "min": 224,
+          "max": 8192,
+          "increment": 1
+        }
+      ],
+      "HashAlg": [
+        "sha-1",
+        "sha2-224",
+        "sha2-256",
+        "sha2-384",
+        "sha2-512"
+      ]
+    },
+    {
+      "AuthenticationMethod": "psk",
+      "InitiatorNonceLength": [
+        {
+          "min": 64,
+          "max": 2048,
+          "increment": 1
+        }
+      ],
+      "ResponderNonceLength": [
+        {
+          "min": 64,
+          "max": 2048,
+          "increment": 1
+        }
+      ],
+      "PreSharedKeyLength": [
+        {
+          "min": 8,
+          "max": 8192,
+          "increment": 1
+        }
+      ],
+      "DiffieHellmanSharedSecretLength": [
+        {
+          "min": 224,
+          "max": 8192,
+          "increment": 1
+        }
+      ],
+      "HashAlg": [
+        "sha-1",
+        "sha2-224",
+        "sha2-256",
+        "sha2-384",
+        "sha2-512"
+      ]
+    },
+    {
+      "AuthenticationMethod": "pke",
+      "InitiatorNonceLength": [
+        {
+          "min": 64,
+          "max": 2048,
+          "increment": 1
+        }
+      ],
+      "ResponderNonceLength": [
+        {
+          "min": 64,
+          "max": 2048,
+          "increment": 1
+        }
+      ],
+      "DiffieHellmanSharedSecretLength": [
+        {
+          "min": 224,
+          "max": 8192,
+          "increment": 1
+        }
+      ],
+      "HashAlg": [
+        "sha-1",
+        "sha2-224",
+        "sha2-256",
+        "sha2-384",
+        "sha2-512"
+      ]
+    }
+  ]
+}

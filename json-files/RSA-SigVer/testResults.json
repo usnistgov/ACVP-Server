@@ -1,0 +1,547 @@
+{
+  "algorithm": "RSA",
+  "mode": "SigVer",
+  "isSample": false,
+  "testResults": [
+    {
+      "tcId": 1,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 2,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 3,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 4,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 5,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 6,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 7,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 8,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 9,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 10,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 11,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 12,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 13,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 14,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 15,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 16,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 17,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 18,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 19,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 20,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 21,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 22,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 23,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 24,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 25,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 26,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 27,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 28,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 29,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 30,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 31,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 32,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 33,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 34,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 35,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 36,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 37,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 38,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 39,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 40,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 41,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 42,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 43,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 44,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 45,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 46,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 47,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 48,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 49,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 50,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 51,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 52,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 53,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 54,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 55,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 56,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 57,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 58,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 59,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 60,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 61,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 62,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 63,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 64,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 65,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 66,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 67,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 68,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 69,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 70,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 71,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 72,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 73,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 74,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 75,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 76,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 77,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 78,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 79,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 80,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 81,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 82,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 83,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 84,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 85,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 86,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 87,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 88,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 89,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 90,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 91,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 92,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 93,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 94,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 95,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 96,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 97,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 98,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 99,
+      "result": false,
+      "reason": "IR moved from expected location"
+    },
+    {
+      "tcId": 100,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 101,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 102,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 103,
+      "result": false,
+      "reason": "IR trailer modified from expected value"
+    },
+    {
+      "tcId": 104,
+      "result": false,
+      "reason": "Message modified"
+    },
+    {
+      "tcId": 105,
+      "result": false,
+      "reason": "Public key modified"
+    },
+    {
+      "tcId": 106,
+      "result": true,
+      "reason": "No modification"
+    },
+    {
+      "tcId": 107,
+      "result": false,
+      "reason": "Signature modified"
+    },
+    {
+      "tcId": 108,
+      "result": false,
+      "reason": "IR moved from expected location"
+    }
+  ]
+}

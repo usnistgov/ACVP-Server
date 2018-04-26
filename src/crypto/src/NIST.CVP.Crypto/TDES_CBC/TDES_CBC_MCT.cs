@@ -1,0 +1,211 @@
+﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Math;
+using NLog;
+using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
+
+//using System.Diagnostics;
+
+namespace NIST.CVP.Crypto.TDES_CBC
+{
+    public class TDES_CBC_MCT : ITDES_CBC_MCT
+    {
+        private readonly ITDES_CBC _algo;
+        private readonly IMonteCarloKeyMaker _keyMaker;
+
+        private const int NUMBER_OF_CASES = 400;
+        //private const int NUMBER_OF_CASES = 5;
+        private const int NUMBER_OF_ITERATIONS = 10000;
+        private const int NUMBER_OF_OUTPUTS_TO_SAVE = 3;
+
+        protected virtual int NumberOfCases { get { return NUMBER_OF_CASES; } }
+
+        public TDES_CBC_MCT(ITDES_CBC algo, IMonteCarloKeyMaker keyMaker)
+        {
+            _algo = algo;
+            _keyMaker = keyMaker;
+        }
+
+        public Common.Symmetric.TDES.MCTResult<AlgoArrayResponse> MCTEncrypt(BitString keyBits, BitString data, BitString iv)
+        {
+            List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
+
+            BitString originalPlainTextForOutput = data.GetDeepCopy();
+            BitString originalIVForOutput = iv.GetDeepCopy();
+            
+            List<BitString> lastCipherTexts = new List<BitString>();
+            AlgoArrayResponse tempAlgoArrayResponse = new AlgoArrayResponse()
+            {
+                Keys = keyBits.GetDeepCopy(),
+                PlainText = originalPlainTextForOutput.GetDeepCopy(),
+                IV = originalIVForOutput.GetDeepCopy()
+            };
+
+            var cv = new BitString(64);
+            var previousCipherText = new BitString(64);
+            var copyOfPreviousCipherText = new BitString(64);
+
+
+            for (int outerLoop = 0; outerLoop < NumberOfCases; outerLoop++)
+            {
+                if (originalPlainTextForOutput == null && originalIVForOutput == null)
+                {
+                    originalPlainTextForOutput = tempAlgoArrayResponse.PlainText.GetDeepCopy();
+                    originalIVForOutput = cv.GetDeepCopy();
+                }
+
+                if (outerLoop == 0)
+                {
+                    cv = iv.GetDeepCopy(); //For the first outerloop interation, set CV0 to IV.
+                }
+
+                SymmetricCipherResult encryptionResult = null;
+
+
+                for (int innerLoop = 0; innerLoop < NUMBER_OF_ITERATIONS; innerLoop++)
+                {
+                    encryptionResult = _algo.BlockEncrypt(tempAlgoArrayResponse.Keys, tempAlgoArrayResponse.PlainText, cv);
+                    if (!encryptionResult.Success)
+                    {
+                        ThisLogger.Warn(encryptionResult.ErrorMessage);
+                        {
+                            return new Common.Symmetric.TDES.MCTResult<AlgoArrayResponse>(encryptionResult.ErrorMessage);
+                        }
+                    }
+
+                    SaveOutputForKeyMixing(encryptionResult.Result.GetDeepCopy(), lastCipherTexts);
+
+                    if (innerLoop == 0)
+                    {
+                        tempAlgoArrayResponse.PlainText = cv.GetDeepCopy(); //Pj+1 = CV0
+                    }
+                    else
+                    {
+
+                        tempAlgoArrayResponse.PlainText = previousCipherText.GetDeepCopy(); //Pj+1 = Cj-1
+                        copyOfPreviousCipherText = previousCipherText;
+                    }
+
+                    previousCipherText = encryptionResult.Result;
+                    cv = encryptionResult.Result.GetDeepCopy(); //CVj+1 = Cj
+                }
+
+                // Inner loop complete, save response
+                responses.Add(
+                    new AlgoArrayResponse() //Send keys, P0, Cj, CV0
+                    {
+                        Keys = tempAlgoArrayResponse.Keys.GetDeepCopy(),
+                        PlainText = originalPlainTextForOutput.GetDeepCopy(),
+                        CipherText = encryptionResult.Result.GetDeepCopy(),
+                        IV = originalIVForOutput.GetDeepCopy()
+                    });
+
+
+                originalPlainTextForOutput = null;
+                originalIVForOutput = null;
+
+                // Setup next loop values
+                tempAlgoArrayResponse.Keys =
+                    _keyMaker.MixKeys(new TDESKeys(tempAlgoArrayResponse.Keys.GetDeepCopy()), lastCipherTexts)
+                        .ToOddParityBitString();
+                tempAlgoArrayResponse.PlainText = copyOfPreviousCipherText.GetDeepCopy(); //P0 = Cj-1
+                cv = encryptionResult.Result.GetDeepCopy();    
+            }
+
+            return new Common.Symmetric.TDES.MCTResult<AlgoArrayResponse>(responses);
+        }
+
+        public Common.Symmetric.TDES.MCTResult<AlgoArrayResponse> MCTDecrypt(BitString keyBits, BitString data, BitString iv)
+        {
+            List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
+
+            BitString originalCipherTextForOutput = data.GetDeepCopy();
+            BitString originalIVForOutput = iv.GetDeepCopy();
+
+            List<BitString> lastPlainTexts = new List<BitString>();
+
+            var cv = new BitString(64);
+            var copyOfPreviousCipherText = new BitString(64);
+            var copyOfPreviousIV = new BitString(64);
+
+            AlgoArrayResponse tempAlgoArrayResponse = new AlgoArrayResponse()
+            {
+                Keys = keyBits.GetDeepCopy(),
+                CipherText = originalCipherTextForOutput.GetDeepCopy(),
+                IV = originalIVForOutput.GetDeepCopy()
+            };
+
+            for (int outerLoop = 0; outerLoop < NumberOfCases; outerLoop++)
+            {
+                if (originalCipherTextForOutput == null && originalIVForOutput == null)
+                {
+                    originalCipherTextForOutput = tempAlgoArrayResponse.CipherText.GetDeepCopy();
+                    originalIVForOutput = cv.GetDeepCopy();
+                }
+
+                if (outerLoop == 0)
+                {
+                    cv = iv.GetDeepCopy(); //For the first outerloop interation, set CV0 to IV.
+                }
+                SymmetricCipherResult decryptionResult = null;
+                for (int innerLoop = 0; innerLoop < NUMBER_OF_ITERATIONS; innerLoop++)
+                {
+                    decryptionResult = _algo.BlockDecrypt(tempAlgoArrayResponse.Keys, tempAlgoArrayResponse.CipherText, cv);
+                    if (!decryptionResult.Success)
+                    {
+                        ThisLogger.Warn(decryptionResult.ErrorMessage);
+                        {
+                            return new Common.Symmetric.TDES.MCTResult<AlgoArrayResponse>(decryptionResult.ErrorMessage);
+                        }
+                    }
+
+                    SaveOutputForKeyMixing(decryptionResult.Result.GetDeepCopy(), lastPlainTexts);
+                    copyOfPreviousCipherText = tempAlgoArrayResponse.CipherText;
+
+                    cv = tempAlgoArrayResponse.CipherText.GetDeepCopy(); //CVj+1 = Cj;
+                    tempAlgoArrayResponse.CipherText = decryptionResult.Result.GetDeepCopy();
+                }
+
+                // Inner loop complete, save response
+                responses.Add(
+                    new AlgoArrayResponse()
+                    {
+                        Keys = tempAlgoArrayResponse.Keys.GetDeepCopy(),
+                        PlainText = decryptionResult.Result.GetDeepCopy(),
+                        CipherText = originalCipherTextForOutput.GetDeepCopy(),
+                        IV = originalIVForOutput.GetDeepCopy() 
+                    });
+
+
+                originalCipherTextForOutput = null;
+                originalIVForOutput = null;
+
+                // Setup next loop values
+                tempAlgoArrayResponse.Keys =
+                    _keyMaker.MixKeys(new TDESKeys(tempAlgoArrayResponse.Keys.GetDeepCopy()), lastPlainTexts)
+                        .ToOddParityBitString();
+
+                cv = copyOfPreviousCipherText.GetDeepCopy();
+                tempAlgoArrayResponse.CipherText = decryptionResult.Result.GetDeepCopy();
+            }
+
+            return new Common.Symmetric.TDES.MCTResult<AlgoArrayResponse>(responses);
+        }
+
+        private void SaveOutputForKeyMixing(BitString output, List<BitString> lastAlgoOutputs)
+        {
+            lastAlgoOutputs.Insert(0, output);
+            if (lastAlgoOutputs.Count > NUMBER_OF_OUTPUTS_TO_SAVE)
+            {
+                lastAlgoOutputs.RemoveRange(NUMBER_OF_OUTPUTS_TO_SAVE, lastAlgoOutputs.Count - NUMBER_OF_OUTPUTS_TO_SAVE);
+            }
+        }
+
+        private Logger ThisLogger
+        {
+            get { return LogManager.GetCurrentClassLogger(); }
+        }
+    }
+}
