@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Crypto.Symmetric.BlockModes
+﻿namespace NIST.CVP.Crypto.Symmetric.BlockModes.ShiftRegister
 {
     /// <summary>
     /// Strategy interface for utilizing a shift register along with CFB Mode.

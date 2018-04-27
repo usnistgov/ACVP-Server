@@ -1,7 +1,7 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 
-namespace NIST.CVP.Crypto.Symmetric.BlockModes
+namespace NIST.CVP.Crypto.Symmetric.BlockModes.ShiftRegister
 {
     public class ShiftRegisterStrategyFullBlock : IShiftRegisterStrategy
     {

@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes.ShiftRegister;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Symmetric.BlockModes
@@ -56,7 +57,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             {
                 _engine.ProcessSingleBlock(iv, ivOutBuffer, 0);
 
-                // XORs the payload onto the first segment of the ivOutBuffer
+                // XORs the current segment of payload onto the first segment of the ivOutBuffer
                 _shiftRegisterStrategy.SetSegmentInProcessedBlock(payLoad, i, ivOutBuffer);
 
                 // Sets the outbuffer segment equal to the first segment of the ivOutBuffer
@@ -84,7 +85,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             {
                 _engine.ProcessSingleBlock(iv, ivOutBuffer, 0);
 
-                // XORs the payload onto the first segment of the ivOutBuffer
+                // XORs the current segment of payload onto the first segment of the ivOutBuffer
                 _shiftRegisterStrategy.SetSegmentInProcessedBlock(payLoad, i, ivOutBuffer);
 
                 // Sets the outbuffer segment equal to the first segment of the ivOutBuffer
