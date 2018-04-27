@@ -14,12 +14,20 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
     [TestFixture, FastCryptoTest]
     public class KATs
     {
-        private readonly Crypto.AES_CFB128.AES_CFB128 _subject = new Crypto.AES_CFB128.AES_CFB128(
+        private readonly AES_CFB128 _subject = new AES_CFB128(
             new RijndaelFactory(
                 new RijndaelInternals()
             )
         );
-        private readonly CfbBlockCipher _newSubject = new CfbBlockCipher(new AesEngine(), 128);
+
+        private CfbBlockCipher _newSubject;
+
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            var engine = new AesEngine();
+            _newSubject = new CfbBlockCipher(engine, new ShiftRegisterStrategyFullBlock(engine));
+        }
 
         #region TestData
         static IEnumerable _GetGFSBox128BitKey()

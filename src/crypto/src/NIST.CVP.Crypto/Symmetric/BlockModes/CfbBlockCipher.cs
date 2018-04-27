@@ -11,25 +11,13 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
 {
     public class CfbBlockCipher : ModeBlockCipherBase<SymmetricCipherResult>
     {
-        private readonly int _shift;
+        private readonly IShiftRegisterStrategy _shiftRegisterStrategy;
 
         public override bool IsPartialBlockAllowed => true;
 
-        public CfbBlockCipher(IBlockCipherEngine engine, int shift) : base(engine)
+        public CfbBlockCipher(IBlockCipherEngine engine, IShiftRegisterStrategy shiftRegisterStrategy) : base(engine)
         {
-            // Valid shifts are 1 bit, 8 bits (byte), or the block size bits
-            var validShifts = new[] { 1, 8, engine.BlockSizeBytes * BitsInByte };
-            if (validShifts.Contains(shift))
-            {
-                _shift = shift;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException(
-                    nameof(shift), 
-                    "Invalid shift size. Must be 1 bit, 1 byte, or the block size."
-                );
-            }
+            _shiftRegisterStrategy = shiftRegisterStrategy;
         }
 
         public override SymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param)
@@ -40,7 +28,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             var engineParam = new EngineInitParameters(BlockCipherDirections.Encrypt, key, param.UseInverseCipherMode);
             _engine.Init(engineParam);
 
-            var numberOfSegments = param.Payload.BitLength / _shift;
+            var numberOfSegments = param.Payload.BitLength / _shiftRegisterStrategy.ShiftSize;
             var outBuffer = GetOutputBuffer(param.Payload.BitLength);
 
             if (param.Direction == BlockCipherDirections.Encrypt)
@@ -68,17 +56,14 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             {
                 _engine.ProcessSingleBlock(iv, ivOutBuffer, 0);
 
-                // XOR processed IV onto current block payload
-                for (int j = 0; j < _engine.BlockSizeBytes; j++)
-                {
-                    outBuffer[i * _engine.BlockSizeBytes + j] =
-                        (byte)(payLoad[i * _engine.BlockSizeBytes + j] ^ ivOutBuffer[j]);
-                }
+                // XORs the payload onto the first segment of the ivOutBuffer
+                _shiftRegisterStrategy.SetSegmentInProcessedBlock(payLoad, i, ivOutBuffer);
 
-                var outBufferStartIndex = i * (_engine.BlockSizeBytes / BitsInByte);
+                // Sets the outbuffer segment equal to the first segment of the ivOutBuffer
+                _shiftRegisterStrategy.SetOutBufferSegmentFromIvXorPayload(ivOutBuffer, i, outBuffer);
 
-                // update next block IV to the processed outBuffer of this block
-                Array.Copy(outBuffer, outBufferStartIndex, iv, 0, iv.Length);
+                // Sets up the iv for the next segment
+                _shiftRegisterStrategy.SetNextRoundIv(ivOutBuffer, 0, iv);
             }
 
             // Update the Param.Iv for the next call
@@ -99,17 +84,14 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             {
                 _engine.ProcessSingleBlock(iv, ivOutBuffer, 0);
 
-                // XOR processed IV onto current block payload
-                for (int j = 0; j < _engine.BlockSizeBytes; j++)
-                {
-                    outBuffer[i * _engine.BlockSizeBytes + j] =
-                        (byte)(payLoad[i * _engine.BlockSizeBytes + j] ^ ivOutBuffer[j]);
-                }
+                // XORs the payload onto the first segment of the ivOutBuffer
+                _shiftRegisterStrategy.SetSegmentInProcessedBlock(payLoad, i, ivOutBuffer);
 
-                var payloadStartIndex = i * (_engine.BlockSizeBytes / BitsInByte);
+                // Sets the outbuffer segment equal to the first segment of the ivOutBuffer
+                _shiftRegisterStrategy.SetOutBufferSegmentFromIvXorPayload(ivOutBuffer, i, outBuffer);
 
-                // update next block IV to the payload (ciphertext) of this block
-                Array.Copy(payLoad, payloadStartIndex, iv, 0, iv.Length);
+                // Sets up the iv for the next segment
+                _shiftRegisterStrategy.SetNextRoundIv(payLoad, i, iv);
             }
 
             // Update the Param.Iv for the next call

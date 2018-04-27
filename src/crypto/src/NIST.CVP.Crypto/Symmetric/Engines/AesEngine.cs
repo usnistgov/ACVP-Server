@@ -23,6 +23,8 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
 
         public int BlockSizeBytes => 16;
 
+        public int BlockSizeBits => BlockSizeBytes * _bitsInByte;
+
         public void Init(IBlockCipherEngineParameters param)
         {
             if (param == null)
