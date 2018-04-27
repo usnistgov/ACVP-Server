@@ -29,7 +29,7 @@
         /// </summary>
         /// <param name="block">The block to process for next round's IV</param>
         /// <param name="segmentNumber">The segment number of the block</param>
-        /// <param name="nextRoundIv">The next round's IV (modified in impl)</param>
-        void SetNextRoundIv(byte[] block, int segmentNumber, byte[] nextRoundIv);
+        /// <param name="iv">The IV to manipulate for next round</param>
+        void SetNextRoundIv(byte[] block, int segmentNumber, byte[] iv);
     }
 }
