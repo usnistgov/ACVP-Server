@@ -17,8 +17,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.ShiftRegister
         public void SetSegmentInProcessedBlock(byte[] payload, int segmentNumber, byte[] ivOutBuffer)
         {
             // XOR the current segment number payload byte onto the first byte of the ivOutBuffer
-            ivOutBuffer[0] =
-                (byte) (payload[segmentNumber] ^ ivOutBuffer[0]);
+            ivOutBuffer[0] ^= payload[segmentNumber];
         }
 
         public void SetOutBufferSegmentFromIvXorPayload(byte[] block, int segmentNumber, byte[] outBuffer)
@@ -35,14 +34,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.ShiftRegister
                 iv[i] = iv[i + 1];
             }
 
-            if (segmentNumber == 0)
-            {
-                iv[iv.Length - 1] = block[0];
-            }
-            else
-            {
-                iv[iv.Length - 1] = block[segmentNumber];
-            }
+            iv[iv.Length - 1] = block[segmentNumber];
         }
     }
 }

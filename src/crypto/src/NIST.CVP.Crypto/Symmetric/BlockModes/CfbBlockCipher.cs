@@ -24,12 +24,14 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
         public override SymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param)
         {
             var key = param.Key.ToBytes();
+            var actualBitsToProcess = param.Payload.BitLength;
+            param.Payload = BitString.PadToNextByteBoundry(param.Payload);
 
             // CFB always utilizes engine in encrypt mode
             var engineParam = new EngineInitParameters(BlockCipherDirections.Encrypt, key, param.UseInverseCipherMode);
             _engine.Init(engineParam);
 
-            var numberOfSegments = param.Payload.BitLength / _shiftRegisterStrategy.ShiftSize;
+            var numberOfSegments = actualBitsToProcess / _shiftRegisterStrategy.ShiftSize;
             var outBuffer = GetOutputBuffer(param.Payload.BitLength);
 
             if (param.Direction == BlockCipherDirections.Encrypt)
@@ -42,7 +44,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             }
 
             return new SymmetricCipherResult(
-                new BitString(outBuffer).GetMostSignificantBits(param.Payload.BitLength)
+                new BitString(outBuffer).GetMostSignificantBits(actualBitsToProcess)
             );
         }
 

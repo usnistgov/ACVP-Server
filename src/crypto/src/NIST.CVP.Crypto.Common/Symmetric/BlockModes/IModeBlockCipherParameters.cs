@@ -18,15 +18,15 @@ namespace NIST.CVP.Crypto.Common.Symmetric.BlockModes
         /// <remarks>
         /// not used for ECB
         /// </remarks>
-        BitString Iv { get; }
+        BitString Iv { get; set; }
         /// <summary>
         /// The key
         /// </summary>
-        BitString Key { get; }
+        BitString Key { get; set; }
         /// <summary>
         /// The data to encrypt/decrypt
         /// </summary>
-        BitString Payload { get; }
+        BitString Payload { get; set; }
         /// <summary>
         /// Forward or reverse cipher mode?
         /// </summary>

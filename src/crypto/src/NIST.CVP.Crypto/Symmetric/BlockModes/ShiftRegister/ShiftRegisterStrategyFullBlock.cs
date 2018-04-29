@@ -18,8 +18,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.ShiftRegister
         {
             for (int i = 0; i < _engine.BlockSizeBytes; i++)
             {
-                ivOutBuffer[i] =
-                    (byte)(payload[segmentNumber * _engine.BlockSizeBytes + i] ^ ivOutBuffer[i]);
+                ivOutBuffer[i] ^= payload[segmentNumber * _engine.BlockSizeBytes + i];
             }
         }
 
