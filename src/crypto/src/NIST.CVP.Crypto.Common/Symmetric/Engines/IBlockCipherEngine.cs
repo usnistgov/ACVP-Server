@@ -6,10 +6,14 @@
     public interface IBlockCipherEngine
     {
         /// <summary>
-        /// The cipher's block size
+        /// The cipher's block size in bytes
         /// </summary>
         /// <returns></returns>
         int BlockSizeBytes { get; }
+        /// <summary>
+        /// The cipher's block size in bits
+        /// </summary>
+        int BlockSizeBits { get; }
         /// <summary>
         /// Initialize the primitive
         /// </summary>

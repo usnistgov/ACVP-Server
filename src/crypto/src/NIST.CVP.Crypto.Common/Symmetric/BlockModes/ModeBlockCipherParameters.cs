@@ -6,9 +6,9 @@ namespace NIST.CVP.Crypto.Common.Symmetric.BlockModes
     public class ModeBlockCipherParameters : IModeBlockCipherParameters
     {
         public BlockCipherDirections Direction { get; }
-        public BitString Iv { get; }
-        public BitString Key { get; }
-        public BitString Payload { get; }
+        public BitString Iv { get; set; }
+        public BitString Key { get; set; }
+        public BitString Payload { get; set; }
         public bool UseInverseCipherMode { get; }
 
         /// <summary>
