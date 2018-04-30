@@ -41,7 +41,15 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
         /// <returns></returns>
         protected virtual int GetNumberOfBlocks(int outputLengthBits)
         {
-            return outputLengthBits / (_engine.BlockSizeBytes * BitsInByte);
+            var numberOfBlocks = outputLengthBits / (_engine.BlockSizeBytes * BitsInByte);
+            
+            // In cases of partial block, add an additional block for processing.
+            if (outputLengthBits % _engine.BlockSizeBits != 0)
+            {
+                numberOfBlocks++;
+            }
+
+            return numberOfBlocks;
         }
 
         /// <summary>
@@ -51,7 +59,8 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
         /// <returns></returns>
         protected virtual byte[] GetOutputBuffer(int outputLengthInBits)
         {
-            var byteLength = outputLengthInBits / BitsInByte + (outputLengthInBits % BitsInByte > 0 ? 1 : 0);
+            var byteLength = GetNumberOfBlocks(outputLengthInBits) * _engine.BlockSizeBytes;
+            
             return new byte[byteLength];
         }
     }
