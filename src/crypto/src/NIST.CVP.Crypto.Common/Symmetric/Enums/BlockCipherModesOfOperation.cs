@@ -5,9 +5,13 @@
         Ecb,
         Cbc,
         Cbci,
+        CbcMac,
+        Ccm,
         CfbBit,
         CfbByte,
         CfbBlock,
+        Ctr,
+        Gcm,
         Ofb,
         Ofbi
     }

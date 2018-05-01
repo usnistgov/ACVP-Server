@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Crypto.Common.Symmetric.Engines
+﻿using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
+
+namespace NIST.CVP.Crypto.Common.Symmetric.Engines
 {
     /// <summary>
     /// Interface for symmetric block cipher primitive operations
@@ -14,6 +16,11 @@
         /// The cipher's block size in bits
         /// </summary>
         int BlockSizeBits { get; }
+        /// <summary>
+        /// The underlying engine cipher
+        /// TODO consolidate enums
+        /// </summary>
+        Cipher Cipher { get; }
         /// <summary>
         /// Initialize the primitive
         /// </summary>

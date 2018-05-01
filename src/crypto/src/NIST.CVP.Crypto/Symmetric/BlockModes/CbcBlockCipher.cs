@@ -9,12 +9,13 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
 {
     public class CbcBlockCipher : ModeBlockCipherBase<SymmetricCipherResult>
     {
-        public override bool IsPartialBlockAllowed => true;
+        public override bool IsPartialBlockAllowed => false;
 
         public CbcBlockCipher(IBlockCipherEngine engine) : base(engine) { }
 
         public override SymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param)
         {
+            CheckPayloadRequirements(param.Payload);
             var key = param.Key.ToBytes();
 
             var engineParam = new EngineInitParameters(param.Direction, key, param.UseInverseCipherMode);

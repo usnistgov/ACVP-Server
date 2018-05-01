@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.Enums;
+﻿using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.BlockModes
 {
@@ -8,16 +9,25 @@ namespace NIST.CVP.Crypto.Common.Symmetric.BlockModes
     public interface IModeBlockCipherFactory
     {
         /// <summary>
-        /// Retrieve a standard symmetric cipher instance (non AEAD)
+        /// Retrieve a standard symmetric cipher instance (non AEAD/Counter)
         /// </summary>
-        /// <typeparam name="TSymmetricCipherResult">The Mode wrapping a symmetric cipher</typeparam>
-        /// <param name="engine">The engine type to retrieve</param>
+        /// <param name="engine">The engine to wrap</param>
         /// <param name="modeOfOperation">The mode to wrap around the engine</param>
         /// <returns>A mode wrapping a symmetric block cipher</returns>
-        IModeBlockCipher<TSymmetricCipherResult> GetStandardCipher<TSymmetricCipherResult>(
-            BlockCipherEngines engine, 
+        IModeBlockCipher<SymmetricCipherResult> GetStandardCipher(
+            IBlockCipherEngine engine,
             BlockCipherModesOfOperation modeOfOperation
-        )
-            where TSymmetricCipherResult : IModeBlockCipherResult;
+        );
+
+        /// <summary>
+        /// Get a counter symmetric cipher instance
+        /// </summary>
+        /// <param name="engine">The engine to wrap</param>
+        /// <param name="counter">The counter implementation to use</param>
+        /// <returns>A mode wrapping a symmetric block cipher</returns>
+        IModeBlockCipher<SymmetricCounterResult> GetCounterCipher(
+            IBlockCipherEngine engine,
+            ICounter counter
+        );
     }
 }
