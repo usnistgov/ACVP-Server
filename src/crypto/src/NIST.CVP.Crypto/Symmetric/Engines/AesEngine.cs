@@ -25,6 +25,8 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
 
         public int BlockSizeBits => BlockSizeBytes * _bitsInByte;
 
+        public Common.Symmetric.CTR.Enums.Cipher Cipher => Common.Symmetric.CTR.Enums.Cipher.AES;
+
         public void Init(IBlockCipherEngineParameters param)
         {
             if (param == null)

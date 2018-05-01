@@ -23,6 +23,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
 
         public override SymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param)
         {
+            CheckPayloadRequirements(param.Payload);
             var key = param.Key.ToBytes();
             var actualBitsToProcess = param.Payload.BitLength;
             param.Payload = BitString.PadToNextByteBoundry(param.Payload);

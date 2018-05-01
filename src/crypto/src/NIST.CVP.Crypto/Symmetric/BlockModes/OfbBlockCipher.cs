@@ -15,6 +15,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
 
         public override SymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param)
         {
+            CheckPayloadRequirements(param.Payload);
             var key = param.Key.ToBytes();
 
             // OFB always utilizes engine in encrypt mode

@@ -9,12 +9,13 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
 {
     public class CbcBlockCipher : ModeBlockCipherBase<SymmetricCipherResult>
     {
-        public override bool IsPartialBlockAllowed => true;
+        public override bool IsPartialBlockAllowed => false;
 
         public CbcBlockCipher(IBlockCipherEngine engine) : base(engine) { }
 
         public override SymmetricCipherResult ProcessPayload(IModeBlockCipherParameters param)
         {
+            CheckPayloadRequirements(param.Payload);
             var key = param.Key.ToBytes();
 
             var engineParam = new EngineInitParameters(param.Direction, key, param.UseInverseCipherMode);
@@ -54,7 +55,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                 _engine.ProcessSingleBlock(payLoad, outBuffer, i);
 
                 // Update Iv with current block's outBuffer values
-                Array.Copy(outBuffer, i, iv, 0, _engine.BlockSizeBytes);
+                Array.Copy(outBuffer, i * _engine.BlockSizeBytes, iv, 0, _engine.BlockSizeBytes);
             }
 
             // Update the Param.Iv for the next call
@@ -81,7 +82,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                 }
 
                 // Update Iv with current block's payLoad values
-                Array.Copy(payLoad, i, iv, 0, _engine.BlockSizeBytes);
+                Array.Copy(payLoad, i * _engine.BlockSizeBytes, iv, 0, _engine.BlockSizeBytes);
             }
 
             // Update the Param.Iv for the next call
