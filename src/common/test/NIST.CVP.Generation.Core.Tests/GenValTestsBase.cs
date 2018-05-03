@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Autofac;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NIST.CVP.Generation.Core.Enums;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Parsers;
@@ -269,7 +270,8 @@ namespace NIST.CVP.Generation.Core.Tests
                     new DomainConverter()
                 },
                 Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
             var fileName = $@"{targetFolder}\registration.json";
             File.WriteAllText(fileName, json);
