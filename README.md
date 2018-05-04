@@ -20,7 +20,7 @@ Console application build in dotnet core used to generate (depending on a crypto
 
 ## How it works
 
-The console application works through communication of json files as input and output. The application is invoked with parameters such as the algorithm to be tested, as well as the capabilities/regiration json file that describe the "functions" being used in the algorithm.
+The console application works through communication of json files as input and output. The application is invoked with parameters such as the algorithm to be tested, as well as the capabilities/registration json file that describe the "functions" being used in the algorithm.
 
 ## Running the application
 
