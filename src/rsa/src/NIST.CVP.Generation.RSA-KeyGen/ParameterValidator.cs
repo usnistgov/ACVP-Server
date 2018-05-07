@@ -63,16 +63,29 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     continue;
                 }
 
+                if (errorResults.Count > 0)
+                {
+                    continue;
+                }
+
                 foreach (var capability in algSpec.Capabilities)
                 {
                     result = ValidateValue(capability.Modulo, VALID_MODULI, "Modulo");
                     errorResults.AddIfNotNullOrEmpty(result);
 
-                    result = ValidateArray(capability.HashAlgs, VALID_HASH_ALGS, "Hash Alg");
-                    errorResults.AddIfNotNullOrEmpty(result);
+                    var friendlyName = algSpec.RandPQ.ToLower();
 
-                    result = ValidateArray(capability.PrimeTests, VALID_PRIME_TESTS, "Prime Tests");
-                    errorResults.AddIfNotNullOrEmpty(result);
+                    if (friendlyName == "b.3.2" || friendlyName == "b.3.4" || friendlyName == "b.3.5")
+                    {
+                        result = ValidateArray(capability.HashAlgs, VALID_HASH_ALGS, "Hash Alg");
+                        errorResults.AddIfNotNullOrEmpty(result);
+                    }
+
+                    if (friendlyName == "b.3.3" || friendlyName == "b.3.5" || friendlyName == "b.3.6")
+                    {
+                        result = ValidateArray(capability.PrimeTests, VALID_PRIME_TESTS, "Prime Tests");
+                        errorResults.AddIfNotNullOrEmpty(result);
+                    }
                 }
             }
 

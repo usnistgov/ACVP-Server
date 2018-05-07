@@ -170,6 +170,78 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             Assert.IsFalse(result.Success);
         }
 
+        [Test]
+        [TestCase("b.3.2")]
+        [TestCase("b.3.4")]
+        [TestCase("b.3.5")]
+        public void ShouldCheckHashAlgForCertainModes(string mode)
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithKeyGenModes(new[] {mode})
+                    .WithHashAlgs(null)
+                    .WithPrimeTests(new[] {"tblc3"})
+                    .Build()
+            );
+
+            Assert.IsFalse(result.Success, "Success check");
+            Assert.IsTrue(result.ErrorMessage.Contains("Hash Alg"), "Contains check");
+        }
+
+        [Test]
+        [TestCase("b.3.3")]
+        [TestCase("b.3.6")]
+        public void ShouldNotCheckHashAlgForCertainModes(string mode)
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithKeyGenModes(new[] {mode})
+                    .WithHashAlgs(null)
+                    .WithPrimeTests(new[] {"tblc3"})
+                    .Build()
+            );
+
+            Assert.IsTrue(result.Success, "Success check");
+        }
+
+        [Test]
+        [TestCase("b.3.3")]
+        [TestCase("b.3.5")]
+        [TestCase("b.3.6")]
+        public void ShouldCheckPrimeTestForCertainModes(string mode)
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithKeyGenModes(new[] {mode})
+                    .WithHashAlgs(new[] {"sha2-512"})
+                    .WithPrimeTests(null)
+                    .Build()
+            );
+
+            Assert.IsFalse(result.Success, "Success check");
+            Assert.IsTrue(result.ErrorMessage.Contains("Prime Tests"), "Contains check");
+        }
+
+        [Test]
+        [TestCase("b.3.2")]
+        [TestCase("b.3.4")]
+        public void ShouldNotCheckPrimeTestForCertainModes(string mode)
+        {
+            var subject = new ParameterValidator();
+            var result = subject.Validate(
+                new ParameterBuilder()
+                    .WithKeyGenModes(new[] {mode})
+                    .WithHashAlgs(new[] {"sha2-512"})
+                    .WithPrimeTests(null)
+                    .Build()
+            );
+
+            Assert.IsTrue(result.Success, "Success check");
+        }
+
         public class ParameterBuilder
         {
             private string _algorithm;
