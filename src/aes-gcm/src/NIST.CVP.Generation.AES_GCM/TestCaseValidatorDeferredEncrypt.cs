@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.AES_GCM
         {
             var serverResult = _testCaseResolver.CompleteDeferredCrypto(_testGroup, _serverTestCase, suppliedResult);
 
-            if (!serverResult.CipherText.Equals(suppliedResult.CipherText))
+            if (!serverResult.Result.Equals(suppliedResult.CipherText))
             {
                 errors.Add("Cipher Text does not match");
             }

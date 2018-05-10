@@ -23,6 +23,8 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             {
                 case BlockCipherModesOfOperation.Cbc:
                     return new CbcBlockCipher(engine);
+                case BlockCipherModesOfOperation.CbcMac:
+                    return new CbcMacBlockCipher(engine);
                 case BlockCipherModesOfOperation.CfbBit:
                     return new CfbBlockCipher(engine, new ShiftRegisterStrategyBit(engine));
                 case BlockCipherModesOfOperation.CfbByte:

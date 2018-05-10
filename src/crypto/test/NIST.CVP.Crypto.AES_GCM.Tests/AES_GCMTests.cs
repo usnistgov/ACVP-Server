@@ -44,7 +44,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             var results = subject.BlockEncrypt(key, plainText, iv, aad, 128);
             Assert.IsTrue(results.Success);
 
-            var dResults = subject.BlockDecrypt(key, results.CipherText, iv, aad, results.Tag);
+            var dResults = subject.BlockDecrypt(key, results.Result, iv, aad, results.Tag);
             Assert.IsTrue(dResults.Success);
 
             Assert.AreEqual(new BitString("3247184B 3C4F69A4 4DBCD228 87BBB418"), results.Tag);
@@ -73,7 +73,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             Assert.IsTrue(results.Success);
             ThisLogger.Debug(results.Tag.ToHex());
 
-            var dResults = subject.BlockDecrypt(key, results.CipherText, iv, aad, results.Tag);
+            var dResults = subject.BlockDecrypt(key, results.Result, iv, aad, results.Tag);
             Assert.IsTrue(dResults.Success);
             Assert.AreEqual(plainText, dResults.Result);
             Assert.AreEqual(new BitString("4D5C2AF3 27CD64A6 2CF35ABD 2BA6FAB4"), results.Tag);

@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.AES_GCM
                     return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
-            testCase.CipherText = encryptionResult.CipherText;
+            testCase.CipherText = encryptionResult.Result;
             testCase.Tag = encryptionResult.Tag;
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }

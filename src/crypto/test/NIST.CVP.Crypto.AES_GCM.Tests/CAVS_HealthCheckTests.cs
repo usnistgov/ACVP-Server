@@ -250,7 +250,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             Assert.IsTrue(encryptResult.Success);
             Assert.AreEqual(encryptResult.Tag, new BitString("e47971b2 c83ed28a d66fb896 2478d01f"), nameof(encryptResult.Tag));
 
-            var decryptResult = _subject.BlockDecrypt(key, encryptResult.CipherText, newIV, aad, encryptResult.Tag);
+            var decryptResult = _subject.BlockDecrypt(key, encryptResult.Result, newIV, aad, encryptResult.Tag);
 
             Assert.IsTrue(decryptResult.Success);
         }
@@ -282,7 +282,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
             Assert.IsTrue(encryptResult.Success, nameof(_subject.BlockEncrypt));
             Assert.AreEqual(tag, encryptResult.Tag, nameof(encryptResult.Tag));
 
-            var decryptResult = _subject.BlockDecrypt(key, encryptResult.CipherText, iv, aad, encryptResult.Tag);
+            var decryptResult = _subject.BlockDecrypt(key, encryptResult.Result, iv, aad, encryptResult.Tag);
             Assert.IsTrue(decryptResult.Success, nameof(_subject.BlockDecrypt));
 
             Assert.AreEqual(plainText, decryptResult.Result, nameof(plainText));
@@ -317,7 +317,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
 
             var xoredTag = encryptResult.Tag.XOR(GetBitStringOfLengthWithAll1s(encryptResult.Tag.BitLength));
 
-            var decryptResult = _subject.BlockDecrypt(key, encryptResult.CipherText, iv, aad, xoredTag);
+            var decryptResult = _subject.BlockDecrypt(key, encryptResult.Result, iv, aad, xoredTag);
             Assert.IsFalse(decryptResult.Success, nameof(_subject.BlockDecrypt));
             Assert.AreEqual("Tags do not match", decryptResult.ErrorMessage, nameof(decryptResult.ErrorMessage));
         }
@@ -351,7 +351,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
 
             var xoredTag = encryptResult.Tag.XOR(GetBitStringOfLengthWithAll1s(encryptResult.Tag.BitLength));
 
-            var decryptResult = _subject.BlockDecrypt(key, encryptResult.CipherText, iv, aad, xoredTag);
+            var decryptResult = _subject.BlockDecrypt(key, encryptResult.Result, iv, aad, xoredTag);
 
             Assert.AreNotEqual(plainText, decryptResult.Result, nameof(plainText));
         }
@@ -446,7 +446,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
         {
             var result = _subject.BlockEncrypt(key, pt, iv, aad, expectedTag.BitLength);
 
-            Assert.AreEqual(result.CipherText.ToHex(), expectedCt.ToHex(), nameof(expectedCt));
+            Assert.AreEqual(result.Result.ToHex(), expectedCt.ToHex(), nameof(expectedCt));
             Assert.AreEqual(result.Tag.ToHex(), expectedTag.ToHex(), nameof(expectedTag));
         }
 
