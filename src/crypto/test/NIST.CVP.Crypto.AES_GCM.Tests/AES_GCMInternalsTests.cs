@@ -2,7 +2,13 @@
 using System.Numerics;
 using Moq;
 using NIST.CVP.Crypto.AES;
+using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -13,22 +19,43 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
     [TestFixture,  FastCryptoTest]
     public class AES_GCMInternalsTests
     {
-        Mock<IRijndaelInternals> _mockIRijndaelInternals;
-        Mock<IRijndaelFactory> _mockiRijndaelFactory;
+        Mock<IModeBlockCipherFactory> _mockModeBlockFactory;
+        Mock<IModeBlockCipher<SymmetricCipherResult>> _mockModeBlockCipher;
+        Mock<IBlockCipherEngineFactory> _mockBlockCipherEngineFactory;
+        Mock<IBlockCipherEngine> _mockBlockCipherEngine;
+        
         AES_GCMInternals _subject;
         Mock<AES_GCMInternals> _mockSubject;
 
         [SetUp]
         public void Setup()
         {
-            _mockIRijndaelInternals = new Mock<IRijndaelInternals>();
-            _mockiRijndaelFactory = new Mock<IRijndaelFactory>();
-            _mockiRijndaelFactory
-                .Setup(s => s.GetRijndael(It.IsAny<ModeValues>()))
-                .Returns(new RijndaelECB(_mockIRijndaelInternals.Object));
-            _subject = new AES_GCMInternals(new RijndaelFactory(new RijndaelInternals()));
-            _mockSubject = new Mock<AES_GCMInternals>(_mockiRijndaelFactory.Object);
-            _mockSubject.CallBase = true;
+            _mockModeBlockCipher = new Mock<IModeBlockCipher<SymmetricCipherResult>>();
+            _mockModeBlockCipher
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
+                .Returns(() => new SymmetricCipherResult(new BitString(128)));
+
+            _mockModeBlockFactory = new Mock<IModeBlockCipherFactory>();
+            _mockModeBlockFactory
+                .Setup(s => s.GetStandardCipher(It.IsAny<IBlockCipherEngine>(),
+                    It.IsAny<BlockCipherModesOfOperation>()))
+                .Returns(new EcbBlockCipher(new AesEngine()));
+
+            _mockBlockCipherEngine = new Mock<IBlockCipherEngine>();
+            _mockBlockCipherEngine
+                .Setup(s => s.ProcessSingleBlock(It.IsAny<byte[]>(), It.IsAny<byte[]>(), It.IsAny<int>()));
+
+            _mockBlockCipherEngineFactory = new Mock<IBlockCipherEngineFactory>();
+            
+            _mockBlockCipherEngineFactory
+                .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
+                .Returns(_mockBlockCipherEngine.Object);
+
+            _subject = new AES_GCMInternals(_mockModeBlockFactory.Object, _mockBlockCipherEngineFactory.Object);
+            _mockSubject = new Mock<AES_GCMInternals>(_mockModeBlockFactory.Object, _mockBlockCipherEngineFactory.Object)
+            {
+                CallBase = true
+            };
         }
 
         #region GetJ0
@@ -148,7 +175,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
         {
             BitString icb = new BitString(127);
             BitString x = new BitString(128);
-            Key key = new Key();
+            BitString key = new BitString(120);
 
             var result = _subject.GCTR(icb, x, key);
 
@@ -161,7 +188,7 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
 
             BitString icb = new BitString(128);
             BitString x = new BitString(0);
-            Key key = new Key();
+            BitString key = new BitString(128);
 
             BitString expectation = new BitString(0);
 
@@ -179,14 +206,13 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
 
             BitString icb = new BitString(icbLength);
             BitString x = new BitString(xLength);
-            Key key = new Key()
-            {
-                BlockLength = 128,
-                Bytes = new byte[8],
-                Direction = DirectionValues.Encrypt,
-                KeySchedule = new RijndaelKeySchedule(128, 128, new byte[4,8])
-            };
-            
+            BitString key = new BitString(128);
+
+            _mockModeBlockFactory
+                .Setup(s => s.GetStandardCipher(It.IsAny<IBlockCipherEngine>(),
+                    It.IsAny<BlockCipherModesOfOperation>()))
+                .Returns(_mockModeBlockCipher.Object);
+
             var result = _mockSubject.Object.GCTR(icb, x, key);
             
             _mockSubject.Verify(
@@ -194,10 +220,10 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 Times.Exactly(mockedCeiling), 
                 nameof(_mockSubject.Object.inc_s)
             );
-            _mockIRijndaelInternals.Verify(
-                v => v.EncryptSingleBlock(It.IsAny<byte[,]>(), It.IsAny<Key>()), 
-                Times.Exactly(mockedCeiling + 1), 
-                nameof(_mockIRijndaelInternals.Object.EncryptSingleBlock));
+            _mockModeBlockCipher.Verify(
+                v => v.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()),
+                Times.Exactly(mockedCeiling + 1),
+                nameof(_mockModeBlockCipher.Object.ProcessPayload));
         }
 
         [Test]
@@ -206,13 +232,12 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
         {
             BitString icb = new BitString(icbLength);
             BitString x = new BitString(xLength);
-            Key key = new Key()
-            {
-                BlockLength = 128,
-                Bytes = new byte[8],
-                Direction = DirectionValues.Encrypt,
-                KeySchedule = new RijndaelKeySchedule(128, 128, new byte[4, 8])
-            };
+            BitString key = new BitString(128);
+
+            _mockModeBlockFactory
+                .Setup(s => s.GetStandardCipher(It.IsAny<IBlockCipherEngine>(),
+                    It.IsAny<BlockCipherModesOfOperation>()))
+                .Returns(_mockModeBlockCipher.Object);
 
             var result = _mockSubject.Object.GCTR(icb, x, key);
             
@@ -221,10 +246,10 @@ namespace NIST.CVP.Crypto.AES_GCM.Tests
                 Times.Exactly(mockedCeiling - 1),
                 nameof(_mockSubject.Object.inc_s)
             );
-            _mockIRijndaelInternals.Verify(
-                v => v.EncryptSingleBlock(It.IsAny<byte[,]>(), It.IsAny<Key>()),
+            _mockModeBlockCipher.Verify(
+                v => v.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()),
                 Times.Exactly(mockedCeiling),
-                nameof(_mockIRijndaelInternals.Object.EncryptSingleBlock));
+                nameof(_mockModeBlockCipher.Object.ProcessPayload));
         }
         #endregion GCTR
 

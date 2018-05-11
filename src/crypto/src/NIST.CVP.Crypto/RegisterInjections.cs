@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using NIST.CVP.Common;
-// vvv russ vvv
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CBC;
 using NIST.CVP.Crypto.AES_CCM;
@@ -40,9 +39,6 @@ using NIST.CVP.Crypto.TDES_CTR;
 using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Crypto.TDES_OFB;
 using NIST.CVP.Crypto.TDES_OFBI;
-// ^^^ russ ^^^
-
-// vvv chris vvv
 using NIST.CVP.Crypto.RSA2;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
@@ -51,8 +47,9 @@ using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Crypto.RSA2.Signatures;
 using NIST.CVP.Crypto.SHAWrapper;
-// ^^^ chris ^^^
-// fin
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Symmetric.Engines;
 
 namespace NIST.CVP.Crypto
 {
@@ -64,6 +61,9 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
             builder.RegisterType<AES_CBC.AES_CBC>().AsImplementedInterfaces();
             builder.RegisterType<AES_CBC_MCT>().AsImplementedInterfaces();
+            builder.RegisterType<ModeBlockCipherFactory>().AsImplementedInterfaces();
+            builder.RegisterType<AeadModeBlockCipherFactory>().AsImplementedInterfaces();
+            builder.RegisterType<BlockCipherEngineFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<AES_CCM.AES_CCM>().AsImplementedInterfaces();
             builder.RegisterType<AES_CCMInternals>().AsImplementedInterfaces();

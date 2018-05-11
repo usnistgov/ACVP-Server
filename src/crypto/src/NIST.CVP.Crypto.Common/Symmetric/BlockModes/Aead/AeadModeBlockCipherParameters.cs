@@ -9,6 +9,7 @@ namespace NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead
     public class AeadModeBlockCipherParameters : IAeadModeBlockCipherParameters
     {
         public BitString AdditionalAuthenticatedData { get; set; }
+        public BitString Tag { get; set; }
         public int TagLength { get; }
         public BlockCipherDirections Direction { get; }
         public BitString Iv { get; set; }
@@ -33,6 +34,24 @@ namespace NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead
             AdditionalAuthenticatedData = additionalAuthenticatedData;
             TagLength = tagLength;
             UseInverseCipherMode = useInverseCipherMode;
+        }
+
+        public AeadModeBlockCipherParameters(
+            BlockCipherDirections direction,
+            BitString iv,
+            BitString key,
+            BitString payload,
+            BitString additionalAuthenticatedData,
+            BitString tag,
+            bool useInverseCipherMode = false
+        ) : this(direction, iv, key, payload, additionalAuthenticatedData, tag.BitLength, useInverseCipherMode)
+        {
+            if (tag == null)
+            {
+                throw new ArgumentNullException(nameof(tag));
+            }
+
+            Tag = tag;
         }
     }
 }

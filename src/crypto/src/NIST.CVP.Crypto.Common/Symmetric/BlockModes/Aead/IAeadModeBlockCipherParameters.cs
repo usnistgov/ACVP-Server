@@ -15,5 +15,9 @@ namespace NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead
         /// The length of the tag in bits
         /// </summary>
         int TagLength { get; }
+        /// <summary>
+        /// The tag
+        /// </summary>
+        BitString Tag { get; set; }
     }
 }

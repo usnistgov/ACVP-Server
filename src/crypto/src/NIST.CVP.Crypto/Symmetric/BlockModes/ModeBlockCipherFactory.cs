@@ -33,6 +33,8 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                     return new CfbBlockCipher(engine, new ShiftRegisterStrategyFullBlock(engine));
                 case BlockCipherModesOfOperation.Ctr:
                     throw new ArgumentException($"{modeOfOperation} not a standard mode, use {nameof(GetCounterCipher)} instead");
+                case BlockCipherModesOfOperation.Ecb:
+                    return new EcbBlockCipher(engine);
 
                 default:
                     throw new ArgumentException(nameof(modeOfOperation));

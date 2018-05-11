@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.AES
 {
@@ -6,7 +7,7 @@ namespace NIST.CVP.Crypto.Common.Symmetric.AES
     {
         BitString Getj0(BitString h, BitString iv);
         BitString GHash(BitString h, BitString x);
-        BitString GCTR(BitString icb, BitString x, Key key);
+        BitString GCTR(BitString icb, BitString x, BitString key);
         /// <summary>
         /// NIST SP 800-38D
         /// Recommendation for Block Cipher Modes of Operation: Galois/Counter
