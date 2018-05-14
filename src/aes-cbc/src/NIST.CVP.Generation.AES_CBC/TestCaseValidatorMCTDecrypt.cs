@@ -15,26 +15,32 @@ namespace NIST.CVP.Generation.AES_CBC
             _expectedResult = expectedResult;
         }
 
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
-        }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             // Can only check the contents of the array, 
             // if the array and all expected elements within the array are available
             ValidateArrayResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors);
+                CheckResults(suppliedResult, errors, expected, provided);
             }
             
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Failed, Reason = string.Join("; ", errors) };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId,
+                    Result = Disposition.Failed,
+                    Reason = string.Join("; ", errors), 
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
+                };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Passed };
         }
@@ -65,25 +71,33 @@ namespace NIST.CVP.Generation.AES_CBC
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             for (int i = 0; i < _expectedResult.ResultsArray.Count; i++)
             {
                 if (!_expectedResult.ResultsArray[i].IV.Equals(suppliedResult.ResultsArray[i].IV))
                 {
                     errors.Add($"IV does not match on iteration {i}");
+                    expected.Add($"{i} IV", _expectedResult.ResultsArray[i].IV.ToHex());
+                    provided.Add($"{i} IV", suppliedResult.ResultsArray[i].IV.ToHex());
                 }
                 if (!_expectedResult.ResultsArray[i].Key.Equals(suppliedResult.ResultsArray[i].Key))
                 {
                     errors.Add($"Key does not match on iteration {i}");
+                    expected.Add($"{i} Key", _expectedResult.ResultsArray[i].Key.ToHex());
+                    provided.Add($"{i} Key", suppliedResult.ResultsArray[i].Key.ToHex());
                 }
                 if (!_expectedResult.ResultsArray[i].CipherText.Equals(suppliedResult.ResultsArray[i].CipherText))
                 {
                     errors.Add($"Cipher Text does not match on iteration {i}");
+                    expected.Add($"{i} cipherText", _expectedResult.ResultsArray[i].CipherText.ToHex());
+                    provided.Add($"{i} cipherText", suppliedResult.ResultsArray[i].CipherText.ToHex());
                 }
                 if (!_expectedResult.ResultsArray[i].PlainText.Equals(suppliedResult.ResultsArray[i].PlainText))
                 {
                     errors.Add($"Plain Text does not match on iteration {i}");
+                    expected.Add($"{i} plainText", _expectedResult.ResultsArray[i].PlainText.ToHex());
+                    provided.Add($"{i} plainText", suppliedResult.ResultsArray[i].PlainText.ToHex());
                 }
             }
         }
