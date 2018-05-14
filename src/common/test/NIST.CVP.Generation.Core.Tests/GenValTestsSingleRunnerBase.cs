@@ -209,7 +209,8 @@ namespace NIST.CVP.Generation.Core.Tests
                 var val = scope.Resolve<IValidator>();
                 var result = val.Validate(
                     $@"{targetFolder}\{TestVectorFileNames[0]}",
-                    $@"{targetFolder}\{TestVectorFileNames[1]}"
+                    $@"{targetFolder}\{TestVectorFileNames[1]}",
+                    showExpected: true
                 );
 
                 Assert.IsTrue(result.Success, "Validator failed to complete");
