@@ -27,12 +27,12 @@ namespace NIST.CVP.Generation.Core
             _vectorSetDeserializer = vectorSetDeserializer;
         }
 
-        public ValidateResponse Validate(string resultPath, string answerPath)
+        public ValidateResponse Validate(string resultPath, string answerPath, bool showExpected)
         {
             var resultText = ReadFromFile(resultPath);
             var answerText = ReadFromFile(answerPath);
 
-            var response = ValidateWorker(resultText, answerText);
+            var response = ValidateWorker(resultText, answerText, showExpected);
 
             var validationJson = JsonConvert.SerializeObject(response, Formatting.Indented,
                 new JsonSerializerSettings
@@ -51,13 +51,13 @@ namespace NIST.CVP.Generation.Core
             return new ValidateResponse();
         }
 
-        protected virtual TestVectorValidation ValidateWorker(string testResultText, string answerText)
+        protected virtual TestVectorValidation ValidateWorker(string testResultText, string answerText, bool showExpected)
         {
             var results = _vectorSetDeserializer.Deserialize(testResultText);
             var answers = _vectorSetDeserializer.Deserialize(answerText);
 
             var testCaseValidators = _testCaseValidatorFactory.GetValidators(answers);
-            var response = _resultValidator.ValidateResults(testCaseValidators, results.TestGroups);
+            var response = _resultValidator.ValidateResults(testCaseValidators, results.TestGroups, showExpected);
 
             return response;
         }
