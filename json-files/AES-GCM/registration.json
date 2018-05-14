@@ -1,38 +1,29 @@
 {
-  "Algorithm": "AES-GCM",
-  "Mode": null,
-  "IsSample": false,
-  "Direction": [
+  "algorithm": "AES-GCM",
+  "isSample": false,
+  "direction": [
     "encrypt",
     "decrypt"
   ],
-  "KeyLen": [
-    128,
-    192,
-    256
+  "keyLen": [
+    128
   ],
-  "PtLen": [
-    128,
-    120,
-    256
+  "ptLen": [
+    0,
+    120
   ],
   "ivLen": [
     96,
-    128
+    120
   ],
   "ivGen": "external",
   "ivGenMode": "8.2.2",
   "aadLen": [
-    128,
+    0,
     120
   ],
-  "TagLen": [
+  "tagLen": [
     32,
-    64,
-    96,
-    104,
-    112,
-    120,
     128
   ]
 }

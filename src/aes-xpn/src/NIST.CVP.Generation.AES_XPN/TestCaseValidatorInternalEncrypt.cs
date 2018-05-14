@@ -20,21 +20,48 @@ namespace NIST.CVP.Generation.AES_XPN
 
         public int TestCaseId => _serverTestCase.TestCaseId;
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors);
+                CheckResults(suppliedResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Failed, Reason = string.Join("; ", errors) };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId, 
+                    Result = Disposition.Failed,
+                    Reason = string.Join("; ", errors),
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
+                };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Passed };
+        }
+
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        {
+            var serverResult = _testCaseResolver.CompleteDeferredCrypto(_testGroup, _serverTestCase, suppliedResult);
+
+            if (!serverResult.CipherText.Equals(suppliedResult.CipherText))
+            {
+                errors.Add("Cipher Text does not match");
+                expected.Add(nameof(serverResult.CipherText), serverResult.CipherText.ToHex());
+                provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
+            }
+            if (!serverResult.Tag.Equals(suppliedResult.Tag))
+            {
+                errors.Add("Tag does not match");
+                expected.Add(nameof(serverResult.Tag), serverResult.Tag.ToHex());
+                provided.Add(nameof(suppliedResult.Tag), suppliedResult.Tag.ToHex());
+            }
         }
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
@@ -64,20 +91,6 @@ namespace NIST.CVP.Generation.AES_XPN
             if (suppliedResult.Tag == null)
             {
                 errors.Add($"{nameof(suppliedResult.Tag)} was not present in the {nameof(TestCase)}");
-            }
-        }
-
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
-        {
-            var serverResult = _testCaseResolver.CompleteDeferredCrypto(_testGroup, _serverTestCase, suppliedResult);
-
-            if (!serverResult.CipherText.Equals(suppliedResult.CipherText))
-            {
-                errors.Add("Cipher Text does not match");
-            }
-            if (!serverResult.Tag.Equals(suppliedResult.Tag))
-            {
-                errors.Add("Tag does not match");
             }
         }
     }
