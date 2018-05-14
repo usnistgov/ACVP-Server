@@ -79,7 +79,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         [Test]
         [TestCase(GenValMode.Generate, "registration.json", null, null, 0)]
         [TestCase(GenValMode.Validate, null, "response.json", "answer.json", 0)]
-        [TestCase(GenValMode.Unset, null, null, null, 1)]
+        [TestCase(GenValMode.Unset, null, null, null, 5)]
         public void ShouldRun(GenValMode genValMode, string registrationFile, string responseFile, string answerFile, int returnCode)
         {
             var parameters = new ArgumentParsingTarget

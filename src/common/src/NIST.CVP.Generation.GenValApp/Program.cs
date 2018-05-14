@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using Autofac;
 using Microsoft.Extensions.Configuration;
+using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.GenValApp.Helpers;
@@ -86,7 +87,7 @@ namespace NIST.CVP.Generation.GenValApp
                 Console.WriteLine(ex.StackTrace);
                 Logger.Error(errorMessage);
                 argumentParser.ShowUsage();
-                return 1;
+                return (int) StatusCode.CommandLineError;
             }
             catch (Exception ex)
             {
@@ -94,7 +95,7 @@ namespace NIST.CVP.Generation.GenValApp
                 Console.WriteLine(errorMessage);
                 Console.WriteLine(ex.StackTrace);
                 Logger.Error(errorMessage);
-                return 1;
+                return (int) StatusCode.Exception;
             }
         }
     }

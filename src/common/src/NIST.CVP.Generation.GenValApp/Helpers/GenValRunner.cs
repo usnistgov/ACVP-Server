@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Autofac;
+using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.GenValApp.Models;
@@ -79,12 +80,12 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 var result = RunGeneration(registrationFile);
 
                 if (result.Success)
-                    return 0;
+                    return (int) StatusCode.Success;
 
                 errorMessage = $"ERROR! Generating Test Vectors for {registrationFile}: {result.ErrorMessage}";
                 Console.Error.WriteLine(errorMessage);
                 Program.Logger.Error(errorMessage);
-                return 2;
+                return (int) StatusCode.GeneratorError;
             }
             else if (GenValMode == GenValMode.Validate)
             {
@@ -93,18 +94,18 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 var result = RunValidation(responseFile, answerFile);
 
                 if (result.Success)
-                    return 0;
+                    return (int) StatusCode.Success;
 
                 errorMessage = $"ERROR! Validating Test Vectors for {responseFile}: {result.ErrorMessage}";
                 Console.Error.WriteLine(errorMessage);
                 Program.Logger.Error(errorMessage);
-                return 3;
+                return (int) StatusCode.ValidatorError;
             }
 
             errorMessage = "ERROR! Unable to find running mode";
             Console.Error.WriteLine(errorMessage);
             Program.Logger.Error(errorMessage);
-            return 1;
+            return (int) StatusCode.ModeError;
         }
 
         /// <summary>
