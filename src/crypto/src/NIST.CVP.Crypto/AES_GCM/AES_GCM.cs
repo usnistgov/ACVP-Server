@@ -32,7 +32,7 @@ namespace NIST.CVP.Crypto.AES_GCM
                 var h = rijn.BlockEncrypt(cipher, key, new byte[16], 128);
                 var j0 = Getj0(h, iv);
 
-                var plainText = GCTR(inc_s(32, j0), cipherText, key);//rework Block to deal with only key or key bitstring
+                var plainText = GCTR(inc_s(32, j0), cipherText, keyBits);//rework Block to deal with only key or key bitstring
 
                 int u = 128 * plainText.BitLength.CeilingDivide(128) - plainText.BitLength;
                 int v = 128 * aad.BitLength.CeilingDivide(128) - aad.BitLength;
@@ -45,7 +45,7 @@ namespace NIST.CVP.Crypto.AES_GCM
                         .ConcatenateBits(BitString.To64BitString(cipherText.BitLength));
 
                 var s = GHash(h,decryptedBits);
-                var tagPrime = GCTR(j0, s, key).GetMostSignificantBits(tag.BitLength);
+                var tagPrime = GCTR(j0, s, keyBits).GetMostSignificantBits(tag.BitLength);
                 if (!tag.Equals(tagPrime))
                 {
                     ThisLogger.Debug(plainText.ToHex());
@@ -82,7 +82,7 @@ namespace NIST.CVP.Crypto.AES_GCM
                 var j0 = Getj0(h, iv);
                 ThisLogger.Debug($"j0: {j0.ToHex()}");
                 //ThisLogger.Debug($"Cipher Text: {j0.Length}");
-                var cipherText = GCTR(inc_s(32, j0), data, key);//rework Block to deal with only key or key bitstring
+                var cipherText = GCTR(inc_s(32, j0), data, keyBits);//rework Block to deal with only key or key bitstring
                 ThisLogger.Debug($"cipherLen: {cipherText.BitLength}");
                 ThisLogger.Debug($"aadLen: {aad.BitLength}");
                 int u = 128 * cipherText.BitLength.CeilingDivide(128) - cipherText.BitLength;
@@ -97,7 +97,7 @@ namespace NIST.CVP.Crypto.AES_GCM
                 ThisLogger.Debug($"encrBits: {encryptedBits.ToHex()}");
                 var s = GHash(h, encryptedBits);
                 ThisLogger.Debug($"s: {s.ToHex()}");
-                var tag = GCTR(j0, s, key).GetMostSignificantBits(tagLength);
+                var tag = GCTR(j0, s, keyBits).GetMostSignificantBits(tagLength);
                 ThisLogger.Debug($"Tag: {tag.ToHex()}");
                 return new SymmetricCipherAeadResult(cipherText, tag);
             }
@@ -120,7 +120,7 @@ namespace NIST.CVP.Crypto.AES_GCM
             return _iAES_GCMInternals.GHash(h, x);
         }
 
-        private BitString GCTR(BitString icb, BitString x, Key key)
+        private BitString GCTR(BitString icb, BitString x, BitString key)
         {
             return _iAES_GCMInternals.GCTR(icb, x, key);
         }

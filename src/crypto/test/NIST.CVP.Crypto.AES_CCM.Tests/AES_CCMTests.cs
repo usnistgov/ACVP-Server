@@ -3,6 +3,11 @@ using Moq;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NLog;
@@ -14,11 +19,13 @@ namespace NIST.CVP.Crypto.AES_CCM.Tests
     public class AES_CCMTests
     {
         private AES_CCM _subject;
+        private IAeadModeBlockCipher _newSubject;
 
         [SetUp]
         public void Setup()
         {
             _subject = new AES_CCM(new AES_CCMInternals(), new RijndaelFactory(new RijndaelInternals()));
+            _newSubject = new CcmBlockCipher(new AesEngine(), new ModeBlockCipherFactory(), new AES_CCMInternals());
         }
 
         [Test]
@@ -79,7 +86,171 @@ namespace NIST.CVP.Crypto.AES_CCM.Tests
                 testData.AssocData, 128);
 
             Assert.IsFalse(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
-            Assert.AreEqual(Crypto.AES_CCM.AES_CCM.INVALID_TAG_MESSAGE, decryptionResult.ErrorMessage);
+            Assert.AreEqual(AES_CCM.INVALID_TAG_MESSAGE, decryptionResult.ErrorMessage);
+        }
+
+
+
+        [Test]
+        public void ShouldEncryptAndDecryptWithValidatedTagNewEngine()
+        {
+            var testData = GetTestData();
+
+            // Perform encryption operation and assert
+            var encryptParam = new AeadModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                testData.Nonce,
+                testData.Key,
+                testData.Payload,
+                testData.AssocData,
+                128
+            );
+            var encryptionResult = _newSubject.ProcessPayload(encryptParam);
+
+            Assert.IsTrue(encryptionResult.Success, $"{nameof(encryptionResult.Success)} Encrypt");
+            Assert.AreEqual(testData.CipherText, encryptionResult.Result, nameof(testData.CipherText));
+
+            // Validate the decryption operation / tag
+            var decryptParam = new AeadModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt,
+                testData.Nonce,
+                testData.Key,
+                encryptionResult.Result,
+                testData.AssocData,
+                128
+            );
+            var decryptionResult = _newSubject.ProcessPayload(decryptParam);
+
+            Assert.IsTrue(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
+            Assert.AreEqual(testData.Payload, decryptionResult.Result);
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        public void ShouldFailDueToInvalidTagNewEngine(int indexToChange)
+        {
+            var testData = GetTestData();
+
+            // Perform encryption operation and assert
+            var encryptParam = new AeadModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                testData.Nonce,
+                testData.Key,
+                testData.Payload,
+                testData.AssocData,
+                128
+            );
+            var encryptionResult = _newSubject.ProcessPayload(encryptParam);
+
+            Assert.IsTrue(encryptionResult.Success, $"{nameof(encryptionResult.Success)} Encrypt");
+            Assert.AreEqual(testData.CipherText, encryptionResult.Result, nameof(testData.CipherText));
+
+            // Change a byte value to invalidate the decryption
+            var encryptionResultBytes = encryptionResult.Result.ToBytes();
+            if (encryptionResultBytes.Length >= indexToChange)
+            {
+                if (encryptionResultBytes[indexToChange] == 255)
+                {
+                    encryptionResultBytes[indexToChange]--;
+                }
+                else
+                {
+                    encryptionResultBytes[indexToChange]++;
+                }
+            }
+
+            var newCipherText = new BitString(encryptionResultBytes);
+
+            // Validate the decryption operation / tag
+            var decryptParam = new AeadModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt,
+                testData.Nonce,
+                testData.Key,
+                newCipherText,
+                testData.AssocData,
+                128
+            );
+            var decryptionResult = _newSubject.ProcessPayload(decryptParam);
+
+            Assert.IsFalse(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
+            Assert.AreEqual(CcmBlockCipher.INVALID_TAG_MESSAGE, decryptionResult.ErrorMessage);
+        }
+
+        [Test]
+        [TestCase(
+            // nonce
+            "958a3ede772faf", 
+            // key
+            "e9d1ded93334397c6b6b33ed3ec3fa6e7237aa801ed81e5e167205cbaa6c380d", 
+            // aad
+            "4c50f81107140b0104fa0a3706427f268717435ab47a9c08b87ca9ea3db00049", 
+            // payload
+            "6a8bbcde06daa9c8753fa1aab319977971a4e9f00b1dedd6ba26cd830b6b96a1", 
+            // ct
+            "0b848f292b987337cc98b95a0f2c5da9b22a26386b5d75f6e78f7dd0fb89dd85b5805716e16017ec78ee44b26f28c996",
+            // tag length
+            128
+        )]
+        [TestCase(
+            // nonce
+            "970e636da4ab7f7b8bffa6d840",
+            // key
+            "c3f989b353095884677d2ac4be68d3cc",
+            // aad
+            "9c5e05bd3ac842d8b91c0c629e2220f9a1fd2181a7522f6af0acbc31921f9b2a",
+            // payload
+            "e53f83eb85f1f1566822141015c954eee07c40546ae4314b6b6f2ad4af44037d",
+            // ct
+            "dc5640e25839a8a0b9404f46364f5fdfe6c96d81a0db0e991e9b3d1d30e8dc1c75ccf950",
+            // tag length
+            32
+        )]
+        public void NewEngineTests(
+            string nonceStr, 
+            string keyStr, 
+            string aadStr, 
+            string payloadStr, 
+            string ctStr,
+            int tagLength
+        )
+        {
+            var nonce = new BitString(nonceStr);
+            var key = new BitString(keyStr);
+            var aad = new BitString(aadStr);
+            var payload = new BitString(payloadStr);
+            var expectedCt = new BitString(ctStr);
+
+            // Perform encryption operation and assert
+            var encryptParam = new AeadModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                nonce,
+                key,
+                payload,
+                aad,
+                tagLength
+            );
+            var encryptionResult = _newSubject.ProcessPayload(encryptParam);
+
+            Assert.IsTrue(encryptionResult.Success, $"{nameof(encryptionResult.Success)} Encrypt");
+            Assert.AreEqual(expectedCt, encryptionResult.Result, nameof(expectedCt));
+
+            // Validate the decryption operation / tag
+            var decryptParam = new AeadModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt,
+                nonce,
+                key,
+                encryptionResult.Result,
+                aad,
+                tagLength
+            );
+            var decryptionResult = _newSubject.ProcessPayload(decryptParam);
+
+            Assert.IsTrue(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
+            Assert.AreEqual(payload, decryptionResult.Result);
         }
 
         private class TestData
