@@ -142,8 +142,8 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 Keys = expandoSource.GetBitStringFromProperty("key");
             }
 
-            CipherText = expandoSource.GetBitStringFromProperty("ct");
-            PlainText = expandoSource.GetBitStringFromProperty("pt");
+            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
+            PlainText = expandoSource.GetBitStringFromProperty("plainText");
             
             IV1 = expandoSource.GetBitStringFromProperty("iv1");
             IV2 = expandoSource.GetBitStringFromProperty("iv2");
@@ -165,9 +165,9 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 var key3 = expandoItem.GetBitStringFromProperty("key3");
 
                 response.Keys = key1.ConcatenateBits(key2.ConcatenateBits(key3));
-                response.PlainText = expandoItem.GetBitStringFromProperty("pt");
+                response.PlainText = expandoItem.GetBitStringFromProperty("plainText");
 
-                response.CipherText = expandoItem.GetBitStringFromProperty("ct");
+                response.CipherText = expandoItem.GetBitStringFromProperty("cipherText");
 
                 response.IV1 = expandoItem.GetBitStringFromProperty("iv1");
                 response.IV2 = expandoItem.GetBitStringFromProperty("iv2");

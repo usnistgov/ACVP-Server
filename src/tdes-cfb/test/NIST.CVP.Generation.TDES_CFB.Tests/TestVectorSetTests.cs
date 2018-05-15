@@ -108,7 +108,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(test.ct.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
             }
         }
 
@@ -121,7 +121,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(test.pt.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
             }
         }
 
@@ -132,7 +132,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.ct.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(item.cipherText.ToString()));
             }
         }
 
@@ -145,7 +145,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => test.ct.ToString());
+                Assert.Throws(typeof(RuntimeBinderException), () => test.cipherText.ToString());
             }
         }
 
@@ -156,7 +156,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => item.pt.ToString());
+                Assert.Throws(typeof(RuntimeBinderException), () => item.plainText.ToString());
             }
         }
 
@@ -169,7 +169,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(test.pt.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
             }
         }
 
@@ -182,7 +182,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(test.ct.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
             }
         }
 
@@ -193,7 +193,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.pt.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(item.plainText.ToString()));
             }
         }
 
@@ -205,7 +205,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             foreach (var item in results)
             {
                 Assume.That(item.decryptFail);
-                Assert.Throws(typeof(RuntimeBinderException), () => item.pt.ToString());
+                Assert.Throws(typeof(RuntimeBinderException), () => item.plainText.ToString());
             }
         }
 
@@ -218,7 +218,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => test.pt.ToString());
+                Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
             }
         }
 
@@ -229,7 +229,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
-                Assert.Throws(typeof(RuntimeBinderException), () => item.ct.ToString());
+                Assert.Throws(typeof(RuntimeBinderException), () => item.cipherText.ToString());
             }
         }
 

@@ -157,10 +157,10 @@ namespace NIST.CVP.Generation.TDES_CFBP
             }
 
 
-            CipherText = expandoSource.GetBitStringFromProperty("ct");
-            CipherText1 = expandoSource.GetBitStringFromProperty("ct1");
-            CipherText2 = expandoSource.GetBitStringFromProperty("ct2");
-            CipherText3 = expandoSource.GetBitStringFromProperty("ct3");
+            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
+            CipherText1 = expandoSource.GetBitStringFromProperty("cipherText1");
+            CipherText2 = expandoSource.GetBitStringFromProperty("cipherText2");
+            CipherText3 = expandoSource.GetBitStringFromProperty("cipherText3");
 
             if (expandoSource.ContainsProperty("ctLen"))
             {
@@ -171,10 +171,10 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 CipherText3 = CipherText3?.MSBSubstring(0, ctLen);
             }
 
-            PlainText = expandoSource.GetBitStringFromProperty("pt");
-            PlainText1 = expandoSource.GetBitStringFromProperty("pt1");
-            PlainText2 = expandoSource.GetBitStringFromProperty("pt2");
-            PlainText3 = expandoSource.GetBitStringFromProperty("pt3");
+            PlainText = expandoSource.GetBitStringFromProperty("plainText");
+            PlainText1 = expandoSource.GetBitStringFromProperty("plainText1");
+            PlainText2 = expandoSource.GetBitStringFromProperty("plainText2");
+            PlainText3 = expandoSource.GetBitStringFromProperty("plainText3");
 
             if (expandoSource.ContainsProperty("ptLen"))
             {
@@ -205,9 +205,9 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 var key3 = expandoItem.GetBitStringFromProperty("key3");
 
                 response.Keys = key1.ConcatenateBits(key2.ConcatenateBits(key3));
-                response.PlainText = expandoItem.GetBitStringFromProperty("pt");
+                response.PlainText = expandoItem.GetBitStringFromProperty("plainText");
 
-                response.CipherText = expandoItem.GetBitStringFromProperty("ct");
+                response.CipherText = expandoItem.GetBitStringFromProperty("cipherText");
 
                 response.IV1 = expandoItem.GetBitStringFromProperty("iv1");
                 response.IV2 = expandoItem.GetBitStringFromProperty("iv2");

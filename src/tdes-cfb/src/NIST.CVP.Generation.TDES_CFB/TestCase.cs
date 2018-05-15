@@ -135,13 +135,13 @@ namespace NIST.CVP.Generation.TDES_CFB
                 Keys = expandoSource.GetBitStringFromProperty("key");
             }
 
-            CipherText = expandoSource.GetBitStringFromProperty("ct");
+            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
             if (expandoSource.ContainsProperty("ctLen"))
             {
                 CipherText = CipherText?.MSBSubstring(0, (int)source.ctLen);
             }
 
-            PlainText = expandoSource.GetBitStringFromProperty("pt");
+            PlainText = expandoSource.GetBitStringFromProperty("plainText");
             if (expandoSource.ContainsProperty("ptLen"))
             {
                 var ptLen = (int)source.ptLen;
@@ -166,8 +166,8 @@ namespace NIST.CVP.Generation.TDES_CFB
                 var key3 = expandoItem.GetBitStringFromProperty("key3");
 
                 response.Keys = key1.ConcatenateBits(key2.ConcatenateBits(key3));
-                response.PlainText = expandoItem.GetBitStringFromProperty("pt");
-                response.CipherText = expandoItem.GetBitStringFromProperty("ct");
+                response.PlainText = expandoItem.GetBitStringFromProperty("plainText");
+                response.CipherText = expandoItem.GetBitStringFromProperty("cipherText");
                 response.IV = expandoItem.GetBitStringFromProperty("iv");
                 list.Add(response);
             }

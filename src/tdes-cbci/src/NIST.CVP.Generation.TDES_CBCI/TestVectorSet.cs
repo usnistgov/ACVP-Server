@@ -81,8 +81,8 @@ namespace NIST.CVP.Generation.TDES_CBCI
                                 resultDict.Add("iv1", result.IV1);
                                 resultDict.Add("iv2", result.IV2);
                                 resultDict.Add("iv3", result.IV3);
-                                resultDict.Add("pt", result.PlainText);
-                                resultDict.Add("ct", result.CipherText);
+                                resultDict.Add("plainText", result.PlainText);
+                                resultDict.Add("cipherText", result.CipherText);
 
                                 resultsArray.Add(resultObject);
                             }
@@ -96,12 +96,12 @@ namespace NIST.CVP.Generation.TDES_CBCI
 
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct", test.CipherText);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
                             }
 
                             else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                             {
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt", test.PlainText);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
                             }
 
                             testDict.Add("iv1", test.IV1);
@@ -152,11 +152,11 @@ namespace NIST.CVP.Generation.TDES_CBCI
 
                         if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt", test.PlainText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
                         }
                         else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct", test.CipherText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
                         }
 
                         _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "iv", test.IV1);
@@ -204,8 +204,8 @@ namespace NIST.CVP.Generation.TDES_CBCI
                                 resultObject.Add("iv2", result.IV2);
                                 resultObject.Add("iv3", result.IV3);
 
-                                resultObject.Add("pt", result.PlainText);
-                                resultObject.Add("ct", result.CipherText);
+                                resultObject.Add("plainText", result.PlainText);
+                                resultObject.Add("cipherText", result.CipherText);
 
                                 resultsArray.Add(resultObject);
                             }
@@ -228,7 +228,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
                             {
                                 if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt", test.PlainText);
+                                    _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
                                 }
                             }
 

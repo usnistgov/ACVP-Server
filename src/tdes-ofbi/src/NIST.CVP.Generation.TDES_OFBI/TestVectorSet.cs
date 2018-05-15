@@ -82,8 +82,8 @@ namespace NIST.CVP.Generation.TDES_OFBI
                                 resultDict.Add("iv1", result.IV1);
                                 resultDict.Add("iv2", result.IV2);
                                 resultDict.Add("iv3", result.IV3);
-                                resultDict.Add("pt", result.PlainText);
-                                resultDict.Add("ct", result.CipherText);
+                                resultDict.Add("plainText", result.PlainText);
+                                resultDict.Add("cipherText", result.CipherText);
 
                                 resultsArray.Add(resultObject);
                             }
@@ -94,8 +94,8 @@ namespace NIST.CVP.Generation.TDES_OFBI
                             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key1", test.Key1);
                             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key2", test.Key2);
                             _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "key3", test.Key3);
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt", test.PlainText);
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct", test.CipherText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
                             
                             testDict.Add("iv1", test.IV1);
                             testDict.Add("iv2", test.IV2);
@@ -145,12 +145,12 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
                         if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt", test.PlainText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
                         }
                         else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
 
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct", test.CipherText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
                         }
                         _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "iv", test.IV1);
                         tests.Add(testObject);
@@ -195,8 +195,8 @@ namespace NIST.CVP.Generation.TDES_OFBI
                                 resultObject.Add("iv2", result.IV2);
                                 resultObject.Add("iv3", result.IV3);
 
-                                resultObject.Add("pt", result.PlainText);
-                                resultObject.Add("ct", result.CipherText);
+                                resultObject.Add("plainText", result.PlainText);
+                                resultObject.Add("cipherText", result.CipherText);
 
 
 
@@ -210,7 +210,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct", test.CipherText);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
                             }
 
                             if (test.FailureTest)
@@ -221,7 +221,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
                             {
                                 if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt", test.PlainText);
+                                    _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
                                 }
                             }
 

@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
                 testCase.decryptFail = false;
             }
 
-            var propertiesToScramble = new[] { "ct", "ct1", "ct2", "ct3", "pt", "pt1", "pt2", "pt3" };
+            var propertiesToScramble = new[] { "cipherText", "cipherText1", "cipherText2", "cipherText3", "plainText", "plainText1", "plainText2", "plainText3" };
             foreach (var prop in propertiesToScramble)
             {
                 if (testCase[prop] != null)
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
             // If TC has a resultsArray, change some of the elements
             if (testCase.resultsArray != null)
             {
-                var arrayPropertiesToScramble = new[] { "ct", "pt", "iv1", "iv2", "iv3", "key1", "key2", "key3" };
+                var arrayPropertiesToScramble = new[] { "cipherText", "plainText", "iv1", "iv2", "iv3", "key1", "key2", "key3" };
                 foreach (var prop in arrayPropertiesToScramble)
                 {
                     if (testCase.resultsArray[0][prop] != null)
