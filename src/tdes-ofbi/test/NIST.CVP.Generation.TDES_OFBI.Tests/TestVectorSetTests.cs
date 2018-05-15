@@ -135,19 +135,6 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         }
 
         [Test]
-        public void EncryptShouldExcludePlainTextInAnswerProjection()
-        {
-            var subject = GetSubject(1);
-            var results = subject.AnswerProjection;
-            var group = results[0];
-            var tests = group.tests;
-            foreach (var test in tests)
-            {
-                Assert.Throws(typeof(RuntimeBinderException), () => test.plainText.ToString());
-            }
-        }
-
-        [Test]
         public void EncryptShouldExcludeCipherTextInPromptProjection()
         {
             var subject = GetSubject(1);
@@ -193,7 +180,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(test.cipherTextt.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
             }
         }
 
@@ -204,7 +191,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.plainTextt.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(item.plainText.ToString()));
             }
         }
 
@@ -217,19 +204,6 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             {
                 Assume.That(item.decryptFail);
                 Assert.Throws(typeof(RuntimeBinderException), () => item.plainText.ToString());
-            }
-        }
-
-        [Test]
-        public void DecryptShouldExcludeCipherTextInAnswerProjection()
-        {
-            var subject = GetSubject(1, "decrypt");
-            var results = subject.AnswerProjection;
-            var group = results[0];
-            var tests = group.tests;
-            foreach (var test in tests)
-            {
-                Assert.Throws(typeof(RuntimeBinderException), () => test.cipherText.ToString());
             }
         }
 
