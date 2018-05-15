@@ -19,6 +19,11 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
         public CfbpBlockCipher(IBlockCipherEngine engine, IShiftRegisterStrategy shiftRegisterStrategy) : base(engine)
         {
             _shiftRegisterStrategy = shiftRegisterStrategy;
+
+            if (engine.BlockSizeBits != 64)
+            {
+                throw new NotSupportedException("Mode valid only with TDES Engine");
+            }
         }
 
         public override SymmetricCipherWithIvResult ProcessPayload(IModeBlockCipherParameters param)
