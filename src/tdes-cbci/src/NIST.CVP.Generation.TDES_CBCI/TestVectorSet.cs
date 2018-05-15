@@ -217,7 +217,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
 
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct", test.CipherText);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
                             }
 
                             if (test.FailureTest)
