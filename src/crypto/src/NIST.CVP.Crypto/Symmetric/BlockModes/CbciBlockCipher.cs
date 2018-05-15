@@ -19,7 +19,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
         {
             if (engine.BlockSizeBits != 64)
             {
-                throw new NotSupportedException();
+                throw new NotSupportedException("Mode valid only with TDES Engine");
             }
         }
 
