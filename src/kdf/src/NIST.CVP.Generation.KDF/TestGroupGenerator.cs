@@ -70,7 +70,8 @@ namespace NIST.CVP.Generation.KDF
 
                                 testGroups.Add(testGroup);
 
-                                if (capability.SupportsEmptyIv)
+                                // Only counter has an IV
+                                if (capability.SupportsEmptyIv && kdfMode == KdfModes.Feedback)
                                 {
                                     var testGroupNoIv = new TestGroup
                                     {
