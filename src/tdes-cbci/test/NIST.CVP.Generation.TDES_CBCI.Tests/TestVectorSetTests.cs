@@ -106,7 +106,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(test.ct.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
             }
         }
 
@@ -119,7 +119,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(test.pt.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
             }
         }
 
@@ -130,7 +130,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.ct.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(item.cipherText.ToString()));
             }
         }
 
@@ -180,7 +180,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(test.pt.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.plainText.ToString()));
             }
         }
 
@@ -193,7 +193,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
             var tests = group.tests;
             foreach (var test in tests)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(test.ct.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(test.cipherText.ToString()));
             }
         }
 
@@ -204,7 +204,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
             var results = subject.ResultProjection;
             foreach (var item in results)
             {
-                Assert.IsTrue(!string.IsNullOrEmpty(item.pt.ToString()));
+                Assert.IsTrue(!string.IsNullOrEmpty(item.plainText.ToString()));
             }
         }
 

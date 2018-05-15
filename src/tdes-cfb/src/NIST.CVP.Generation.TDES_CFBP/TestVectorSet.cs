@@ -78,8 +78,8 @@ namespace NIST.CVP.Generation.TDES_CFBP
                                 resultDict.Add("iv1", result.IV1);
                                 resultDict.Add("iv2", result.IV2);
                                 resultDict.Add("iv3", result.IV3);
-                                resultDict.Add("pt", result.PlainText);
-                                resultDict.Add("ct", result.CipherText);
+                                resultDict.Add("plainText", result.PlainText);
+                                resultDict.Add("cipherText", result.CipherText);
                                 resultDict.Add("ctLen", result.CipherTextLength);
                                 resultDict.Add("ptLen", result.PlainTextLength);
 
@@ -95,19 +95,19 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct", test.CipherText);
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct1", test.CipherText1);
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct2", test.CipherText2);
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct3", test.CipherText3);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText1", test.CipherText1);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText2", test.CipherText2);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText3", test.CipherText3);
                                 AddToObjectIfNotNull(testObject, "ctLen", test.CipherTextLength);
                             }
 
                             else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                             {
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt", test.PlainText);
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt1", test.PlainText1);
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt2", test.PlainText2);
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt3", test.PlainText3);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText1", test.PlainText1);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText2", test.PlainText2);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText3", test.PlainText3);
                                 AddToObjectIfNotNull(testObject, "ptLen", test.PlainTextLength);
                             }
 
@@ -155,18 +155,18 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
                         if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt", test.PlainText);
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt1", test.PlainText1);
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt2", test.PlainText2);
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt3", test.PlainText3);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText1", test.PlainText1);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText2", test.PlainText2);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText3", test.PlainText3);
                             AddToObjectIfNotNull(testObject, "ptLen", test.PlainTextLength);
                         }
                         else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct", test.CipherText);
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct1", test.CipherText1);
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct2", test.CipherText2);
-                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct3", test.CipherText3);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText1", test.CipherText1);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText2", test.CipherText2);
+                            _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText3", test.CipherText3);
                             AddToObjectIfNotNull(testObject, "ctLen", test.CipherTextLength);
                         }
 
@@ -214,9 +214,9 @@ namespace NIST.CVP.Generation.TDES_CFBP
                                 resultObject.Add("iv2", result.IV2);
                                 resultObject.Add("iv3", result.IV3);
 
-                                resultObject.Add("pt", result.PlainText);
+                                resultObject.Add("plainText", result.PlainText);
                                 resultObject.Add("ptLen", result.PlainTextLength);
-                                resultObject.Add("ct", result.CipherText);
+                                resultObject.Add("cipherText", result.CipherText);
                                 resultObject.Add("ctLen", result.CipherTextLength);
 
                                 resultsArray.Add(resultObject);
@@ -228,10 +228,10 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct", test.CipherText);
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct1", test.CipherText1);
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct2", test.CipherText2);
-                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "ct3", test.CipherText3);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText", test.CipherText);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText1", test.CipherText1);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText2", test.CipherText2);
+                                _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "cipherText3", test.CipherText3);
                                 AddToObjectIfNotNull(testObject, "ctLen", test.CipherTextLength);
                             }
 
@@ -243,10 +243,10 @@ namespace NIST.CVP.Generation.TDES_CFBP
                             {
                                 if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt", test.PlainText);
-                                    _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt1", test.PlainText1);
-                                    _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt2", test.PlainText2);
-                                    _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "pt3", test.PlainText3);
+                                    _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText", test.PlainText);
+                                    _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText1", test.PlainText1);
+                                    _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText2", test.PlainText2);
+                                    _dynamicBitStringPrintWithOptions.AddToDynamic(testObject, "plainText3", test.PlainText3);
                                     AddToObjectIfNotNull(testObject, "ptLen", test.PlainTextLength);
                                 }
                             }

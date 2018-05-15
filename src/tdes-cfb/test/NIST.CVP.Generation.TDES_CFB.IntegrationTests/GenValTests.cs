@@ -336,21 +336,21 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
                     }
 
                     // If TC has a cipherText, change it
-                    if (testCase.ct != null)
+                    if (testCase.cipherText != null)
                     {
-                        BitString bs = new BitString(testCase.ct.ToString());
+                        BitString bs = new BitString(testCase.cipherText.ToString());
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
 
-                        testCase.ct = bs.ToHex();
+                        testCase.cipherText = bs.ToHex();
                     }
 
                     // If TC has a plainText, change it
-                    if (testCase.pt != null)
+                    if (testCase.plainText != null)
                     {
-                        BitString bs = new BitString(testCase.pt.ToString());
+                        BitString bs = new BitString(testCase.plainText.ToString());
                         bs = rand.GetDifferentBitStringOfSameSize(bs);
 
-                        testCase.pt = bs.ToHex();
+                        testCase.plainText = bs.ToHex();
                     }
 
                     // If TC has a resultsArray, change some of the elements
@@ -372,13 +372,13 @@ namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests
                         bsKey3 = rand.GetDifferentBitStringOfSameSize(bsKey3);
                         testCase.resultsArray[0].key3 = bsKey3.ToHex();
 
-                        BitString bsPlainText = new BitString(testCase.resultsArray[0].pt.ToString());
+                        BitString bsPlainText = new BitString(testCase.resultsArray[0].plainText.ToString());
                         bsPlainText = rand.GetDifferentBitStringOfSameSize(bsPlainText);
-                        testCase.resultsArray[0].pt = bsPlainText.ToHex();
+                        testCase.resultsArray[0].plainText = bsPlainText.ToHex();
 
-                        BitString bsCipherText = new BitString(testCase.resultsArray[0].ct.ToString());
+                        BitString bsCipherText = new BitString(testCase.resultsArray[0].cipherText.ToString());
                         bsCipherText = rand.GetDifferentBitStringOfSameSize(bsCipherText);
-                        testCase.resultsArray[0].ct = bsCipherText.ToHex();
+                        testCase.resultsArray[0].cipherText = bsCipherText.ToHex();
                     }
                 }
             }

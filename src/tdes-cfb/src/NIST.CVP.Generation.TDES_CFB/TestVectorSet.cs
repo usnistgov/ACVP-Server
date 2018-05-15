@@ -79,8 +79,8 @@ namespace NIST.CVP.Generation.TDES_CFB
                                     resultDict.Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
                                 }
                                 resultDict.Add("iv", result.IV);
-                                resultDict.Add("pt", result.PlainText);
-                                resultDict.Add("ct", result.CipherText);
+                                resultDict.Add("plainText", result.PlainText);
+                                resultDict.Add("cipherText", result.CipherText);
                                 if (result.CipherTextLength != null)
                                 {
                                     resultDict.Add("ctLen", result.CipherTextLength.Value);
@@ -102,13 +102,13 @@ namespace NIST.CVP.Generation.TDES_CFB
                             {
                                 testDict.Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
                             }
-                            testDict.Add("pt", test.PlainText);
+                            testDict.Add("plainText", test.PlainText);
                             if (test.PlainTextLength.HasValue)
                             {
                                 testDict.Add("ptLen", test.PlainTextLength.Value);
                             }
 
-                            testDict.Add("ct", test.CipherText);
+                            testDict.Add("cipherText", test.CipherText);
                             if (test.CipherTextLength.HasValue)
                             {
                                 testDict.Add("ctLen", test.CipherTextLength.Value);
@@ -162,7 +162,7 @@ namespace NIST.CVP.Generation.TDES_CFB
 
                         if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            testDict.Add("pt", test.PlainText);
+                            testDict.Add("plainText", test.PlainText);
                             if (test.PlainTextLength.HasValue)
                             {
                                 testDict.Add("ptLen", test.PlainTextLength.Value);
@@ -170,7 +170,7 @@ namespace NIST.CVP.Generation.TDES_CFB
                         }
                         else if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                         {
-                            testDict.Add("ct", test.CipherText);
+                            testDict.Add("cipherText", test.CipherText);
                             if (test.CipherTextLength.HasValue)
                             {
                                 testDict.Add("ctLen", test.CipherTextLength.Value);
@@ -218,8 +218,8 @@ namespace NIST.CVP.Generation.TDES_CFB
                                     resultObject.Add($"key{iKeyIndex + 1}", keys.KeysAsBitStrings[iKeyIndex]);
                                 }
 
-                                resultObject.Add("pt", result.PlainText);
-                                resultObject.Add("ct", result.CipherText);
+                                resultObject.Add("plainText", result.PlainText);
+                                resultObject.Add("cipherText", result.CipherText);
 
                                 if (result.CipherTextLength != null)
                                 {
@@ -257,7 +257,7 @@ namespace NIST.CVP.Generation.TDES_CFB
                             {
                                 if (group.Function.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    testDict.Add("pt", test.PlainText);
+                                    testDict.Add("plainText", test.PlainText);
                                     if (test.PlainTextLength.HasValue)
                                     {
                                         testDict.Add("ptLen", test.PlainTextLength.Value);

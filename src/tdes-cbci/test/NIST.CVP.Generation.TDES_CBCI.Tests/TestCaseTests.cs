@@ -78,7 +78,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.Tests
             var sourceTest = GetSourceAnswerTest();
             var subject = new TestCase(sourceTest);
             Assume.That(subject != null);
-            Assert.AreEqual(sourceTest.ct, subject.CipherText);
+            Assert.AreEqual(sourceTest.cipherText, subject.CipherText);
         }
 
         [Test]
