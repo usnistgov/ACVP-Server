@@ -5,7 +5,9 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
+using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
@@ -24,9 +26,11 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
             _deferredResolver = deferredResolver;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             if (suppliedResult.KeyPair.PrivateD == 0 || suppliedResult.KeyPair.PublicQ.X == 0 || suppliedResult.KeyPair.PublicQ.Y == 0)
             {
@@ -37,25 +41,36 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen
                 var deferredResult = _deferredResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
                 if (!deferredResult.Success)
                 {
-                    errors.Add($"Unable to generate public key from private key d value");
+                    errors.Add("Unable to generate public key from private key d value");
                 }
                 else
                 {
                     if (deferredResult.KeyPair.PublicQ.X != suppliedResult.KeyPair.PublicQ.X)
                     {
-                        errors.Add($"Incorrect Qx generated from private key");
+                        errors.Add("Incorrect Qx generated from private key");
+                        expected.Add(nameof(deferredResult.KeyPair.PublicQ.X), new BitString(deferredResult.KeyPair.PublicQ.X).ToHex());
+                        provided.Add(nameof(suppliedResult.KeyPair.PublicQ.X), new BitString(suppliedResult.KeyPair.PublicQ.X).ToHex());
                     }
 
                     if (deferredResult.KeyPair.PublicQ.Y != suppliedResult.KeyPair.PublicQ.Y)
                     {
-                        errors.Add($"Incorrect Qy generated from private key");
+                        errors.Add("Incorrect Qy generated from private key");
+                        expected.Add(nameof(deferredResult.KeyPair.PublicQ.Y), new BitString(deferredResult.KeyPair.PublicQ.Y).ToHex());
+                        provided.Add(nameof(suppliedResult.KeyPair.PublicQ.Y), new BitString(suppliedResult.KeyPair.PublicQ.Y).ToHex());
                     }
                 }
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Failed, Reason = string.Join(";", errors) };
+                return new TestCaseValidation 
+                { 
+                    TestCaseId = suppliedResult.TestCaseId, 
+                    Result = Disposition.Failed, 
+                    Reason = string.Join(";", errors),
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
+                };
             }
 
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Passed };

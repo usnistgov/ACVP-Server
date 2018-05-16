@@ -49,10 +49,9 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests.ContractResolvers
             Assert.AreEqual(tg.L, newTg.L, nameof(newTg.L));
             Assert.AreEqual(tg.N, newTg.N, nameof(newTg.N));
             Assert.AreEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));
-
-            Assert.AreNotEqual(tg.P, newTg.P, nameof(newTg.P));
-            Assert.AreNotEqual(tg.Q, newTg.Q, nameof(newTg.Q));
-            Assert.AreNotEqual(tg.G, newTg.G, nameof(newTg.G));
+            Assert.AreEqual(tg.P, newTg.P, nameof(newTg.P));
+            Assert.AreEqual(tg.Q, newTg.Q, nameof(newTg.Q));
+            Assert.AreEqual(tg.G, newTg.G, nameof(newTg.G));
         }
 
         [Test]

@@ -1,148 +1,148 @@
 {
-  "Algorithm": "ctrDRBG",
-  "Mode": "",
-  "IsSample": false,
-  "PredResistanceEnabled": [
+  "algorithm": "ctrDRBG",
+  "mode": "",
+  "isSample": false,
+  "predResistanceEnabled": [
     true,
     false
   ],
-  "ReseedImplemented": true,
-  "Capabilities": [
+  "reseedImplemented": true,
+  "capabilities": [
     {
-      "Mode": "AES-128",
-      "DerFuncEnabled": true,
-      "EntropyInputLen": [
+      "mode": "AES-128",
+      "derFuncEnabled": true,
+      "entropyInputLen": [
         256
       ],
-      "NonceLen": [
+      "nonceLen": [
         256
       ],
-      "PersoStringLen": [
+      "persoStringLen": [
         256
       ],
-      "AdditionalInputLen": [
+      "additionalInputLen": [
         256
       ],
-      "ReturnedBitsLen": 512
+      "returnedBitsLen": 512
     },
     {
-      "Mode": "AES-192",
-      "DerFuncEnabled": true,
-      "EntropyInputLen": [
+      "mode": "AES-192",
+      "derFuncEnabled": true,
+      "entropyInputLen": [
         320
       ],
-      "NonceLen": [
+      "nonceLen": [
         320
       ],
-      "PersoStringLen": [
+      "persoStringLen": [
         320
       ],
-      "AdditionalInputLen": [
+      "additionalInputLen": [
         320
       ],
-      "ReturnedBitsLen": 512
+      "returnedBitsLen": 512
     },
     {
-      "Mode": "AES-256",
-      "DerFuncEnabled": true,
-      "EntropyInputLen": [
+      "mode": "AES-256",
+      "derFuncEnabled": true,
+      "entropyInputLen": [
         384
       ],
-      "NonceLen": [
+      "nonceLen": [
         384
       ],
-      "PersoStringLen": [
+      "persoStringLen": [
         384
       ],
-      "AdditionalInputLen": [
+      "additionalInputLen": [
         384
       ],
-      "ReturnedBitsLen": 512
+      "returnedBitsLen": 512
     },
     {
-      "Mode": "TDES",
-      "DerFuncEnabled": true,
-      "EntropyInputLen": [
+      "mode": "TDES",
+      "derFuncEnabled": true,
+      "entropyInputLen": [
         232
       ],
-      "NonceLen": [
+      "nonceLen": [
         232
       ],
-      "PersoStringLen": [
+      "persoStringLen": [
         232
       ],
-      "AdditionalInputLen": [
+      "additionalInputLen": [
         232
       ],
-      "ReturnedBitsLen": 512
+      "returnedBitsLen": 512
     },
     {
-      "Mode": "AES-128",
-      "DerFuncEnabled": false,
-      "EntropyInputLen": [
+      "mode": "AES-128",
+      "derFuncEnabled": false,
+      "entropyInputLen": [
         256
       ],
-      "NonceLen": [
+      "nonceLen": [
         256
       ],
-      "PersoStringLen": [
+      "persoStringLen": [
         256
       ],
-      "AdditionalInputLen": [
+      "additionalInputLen": [
         256
       ],
-      "ReturnedBitsLen": 512
+      "returnedBitsLen": 512
     },
     {
-      "Mode": "AES-192",
-      "DerFuncEnabled": false,
-      "EntropyInputLen": [
+      "mode": "AES-192",
+      "derFuncEnabled": false,
+      "entropyInputLen": [
         320
       ],
-      "NonceLen": [
+      "nonceLen": [
         320
       ],
-      "PersoStringLen": [
+      "persoStringLen": [
         320
       ],
-      "AdditionalInputLen": [
+      "additionalInputLen": [
         320
       ],
-      "ReturnedBitsLen": 512
+      "returnedBitsLen": 512
     },
     {
-      "Mode": "AES-256",
-      "DerFuncEnabled": false,
-      "EntropyInputLen": [
+      "mode": "AES-256",
+      "derFuncEnabled": false,
+      "entropyInputLen": [
         384
       ],
-      "NonceLen": [
+      "nonceLen": [
         384
       ],
-      "PersoStringLen": [
+      "persoStringLen": [
         384
       ],
-      "AdditionalInputLen": [
+      "additionalInputLen": [
         384
       ],
-      "ReturnedBitsLen": 512
+      "returnedBitsLen": 512
     },
     {
-      "Mode": "TDES",
-      "DerFuncEnabled": false,
-      "EntropyInputLen": [
+      "mode": "TDES",
+      "derFuncEnabled": false,
+      "entropyInputLen": [
         232
       ],
-      "NonceLen": [
+      "nonceLen": [
         232
       ],
-      "PersoStringLen": [
+      "persoStringLen": [
         232
       ],
-      "AdditionalInputLen": [
+      "additionalInputLen": [
         232
       ],
-      "ReturnedBitsLen": 512
+      "returnedBitsLen": 512
     }
   ]
 }

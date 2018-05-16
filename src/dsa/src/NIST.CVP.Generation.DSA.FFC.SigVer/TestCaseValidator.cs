@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
             _expectedResult = expectedResult;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {

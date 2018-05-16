@@ -22,9 +22,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             _deferredTestCaseResolver = deferredTestCaseResolver;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             if (_expectedResult.Deferred)
             {
@@ -42,12 +44,19 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             ValidateResultsPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors);
+                CheckResults(suppliedResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation {TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors)};
+                return new TestCaseValidation 
+                {
+                    TestCaseId = suppliedResult.TestCaseId, 
+                    Result = Core.Enums.Disposition.Failed, 
+                    Reason = string.Join("; ", errors),
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
+                };
             }
 
             return new TestCaseValidation {TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed};
@@ -73,21 +82,27 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             if (!_expectedResult.Key.PrivKey.P.Equals(suppliedResult.Key.PrivKey.P))
             {
                 errors.Add("P does not match");
+                expected.Add(nameof(_expectedResult.Key.PrivKey.P), _expectedResult.Key.PrivKey.P.ToHex());
+                provided.Add(nameof(suppliedResult.Key.PrivKey.P), suppliedResult.Key.PrivKey.P.ToHex());
             }
 
             if (!_expectedResult.Key.PrivKey.Q.Equals(suppliedResult.Key.PrivKey.Q))
             {
                 errors.Add("Q does not match");
+                expected.Add(nameof(_expectedResult.Key.PrivKey.Q), _expectedResult.Key.PrivKey.Q.ToHex());
+                provided.Add(nameof(suppliedResult.Key.PrivKey.Q), suppliedResult.Key.PrivKey.Q.ToHex());
             }
 
             if (!_expectedResult.Key.PubKey.N.Equals(suppliedResult.Key.PubKey.N))
             {
                 errors.Add("N does not match");
+                expected.Add(nameof(_expectedResult.Key.PubKey.N), _expectedResult.Key.PubKey.N.ToHex());
+                provided.Add(nameof(suppliedResult.Key.PubKey.N), suppliedResult.Key.PubKey.N.ToHex());
             }
 
             if (_serverGroup.KeyFormat == PrivateKeyModes.Standard)
@@ -100,6 +115,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                         if (!expectedKey.D.Equals(standardKey.D))
                         {
                             errors.Add("D does not match");
+                            expected.Add(nameof(expectedKey.D), expectedKey.D.ToHex());
+                            provided.Add(nameof(standardKey.D), standardKey.D.ToHex());
                         }
                     }
                     else
@@ -121,17 +138,23 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     {
                         if (!expectedKey.DMP1.Equals(crtKey.DMP1))
                         {
-                            errors.Add("DMP1 does not match");   
+                            errors.Add("DMP1 does not match");
+                            expected.Add(nameof(expectedKey.DMP1), expectedKey.DMP1.ToHex());
+                            provided.Add(nameof(crtKey.DMP1), crtKey.DMP1.ToHex()); 
                         }
 
                         if (!expectedKey.DMQ1.Equals(crtKey.DMQ1))
                         {
                             errors.Add("DMQ1 does not match");
+                            expected.Add(nameof(expectedKey.DMQ1), expectedKey.DMQ1.ToHex());
+                            provided.Add(nameof(crtKey.DMQ1), crtKey.DMQ1.ToHex());
                         }
 
                         if (!expectedKey.IQMP.Equals(crtKey.IQMP))
                         {
                             errors.Add("IQMP does not match");
+                            expected.Add(nameof(expectedKey.IQMP), expectedKey.IQMP.ToHex());
+                            provided.Add(nameof(crtKey.IQMP), crtKey.IQMP.ToHex());
                         }
                     }
                     else

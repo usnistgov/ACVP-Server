@@ -1,26 +1,26 @@
 {
-  "Algorithm": "CMAC-AES",
-  "Mode": "AES",
-  "IsSample": false,
-  "Direction": [
+  "algorithm": "CMAC",
+  "mode": "AES",
+  "isSample": false,
+  "direction": [
     "gen",
     "ver"
   ],
-  "MsgLen": [
+  "msgLen": [
     {
       "min": 0,
       "max": 65536,
       "increment": 8
     }
   ],
-  "MacLen": [
+  "macLen": [
     {
       "min": 64,
       "max": 128,
       "increment": 8
     }
   ],
-  "KeyLen": [
+  "keyLen": [
     128,
     192,
     256

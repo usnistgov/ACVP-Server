@@ -15,19 +15,28 @@ namespace NIST.CVP.Generation.SRTP
             _serverTestCase = serverTestCase;
         }
 
-        public TestCaseValidation Validate(TestCase iutResult)
+        public TestCaseValidation Validate(TestCase iutResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             ValidateResultPresent(iutResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(iutResult, errors);
+                CheckResults(iutResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
+                return new TestCaseValidation 
+                { 
+                    TestCaseId = TestCaseId, 
+                    Result = Core.Enums.Disposition.Failed, 
+                    Reason = string.Join("; ", errors),
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
+                };
             }
 
             return new TestCaseValidation { TestCaseId = TestCaseId, Result = Core.Enums.Disposition.Passed };
@@ -66,36 +75,48 @@ namespace NIST.CVP.Generation.SRTP
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             if (!_serverTestCase.SrtpKe.Equals(suppliedResult.SrtpKe))
             {
                 errors.Add($"{nameof(suppliedResult.SrtpKe)} does not match");
+                expected.Add(nameof(_serverTestCase.SrtpKe), _serverTestCase.SrtpKe.ToHex());
+                provided.Add(nameof(suppliedResult.SrtpKe), suppliedResult.SrtpKe.ToHex());
             }
 
             if (!_serverTestCase.SrtpKa.Equals(suppliedResult.SrtpKa))
             {
                 errors.Add($"{nameof(suppliedResult.SrtpKa)} does not match");
+                expected.Add(nameof(_serverTestCase.SrtpKa), _serverTestCase.SrtpKa.ToHex());
+                provided.Add(nameof(suppliedResult.SrtpKa), suppliedResult.SrtpKa.ToHex());
             }
 
             if (!_serverTestCase.SrtpKs.Equals(suppliedResult.SrtpKs))
             {
                 errors.Add($"{nameof(suppliedResult.SrtpKs)} does not match");
+                expected.Add(nameof(_serverTestCase.SrtpKs), _serverTestCase.SrtpKs.ToHex());
+                provided.Add(nameof(suppliedResult.SrtpKs), suppliedResult.SrtpKs.ToHex());
             }
 
             if (!_serverTestCase.SrtcpKe.Equals(suppliedResult.SrtcpKe))
             {
                 errors.Add($"{nameof(suppliedResult.SrtcpKe)} does not match");
+                expected.Add(nameof(_serverTestCase.SrtcpKe), _serverTestCase.SrtcpKe.ToHex());
+                provided.Add(nameof(suppliedResult.SrtcpKe), suppliedResult.SrtcpKe.ToHex());
             }
 
             if (!_serverTestCase.SrtcpKa.Equals(suppliedResult.SrtcpKa))
             {
                 errors.Add($"{nameof(suppliedResult.SrtcpKa)} does not match");
+                expected.Add(nameof(_serverTestCase.SrtcpKa), _serverTestCase.SrtcpKa.ToHex());
+                provided.Add(nameof(suppliedResult.SrtcpKa), suppliedResult.SrtcpKa.ToHex());
             }
 
             if (!_serverTestCase.SrtcpKs.Equals(suppliedResult.SrtcpKs))
             {
                 errors.Add($"{nameof(suppliedResult.SrtcpKs)} does not match");
+                expected.Add(nameof(_serverTestCase.SrtcpKs), _serverTestCase.SrtcpKs.ToHex());
+                provided.Add(nameof(suppliedResult.SrtcpKs), suppliedResult.SrtcpKs.ToHex());
             }
         }
     }

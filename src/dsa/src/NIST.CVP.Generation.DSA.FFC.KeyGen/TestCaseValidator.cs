@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             _deferredResolver = deferredResolver;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
 

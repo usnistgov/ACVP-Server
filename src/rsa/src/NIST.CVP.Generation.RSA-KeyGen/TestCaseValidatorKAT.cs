@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         // KATs here give the client some data and expect them to determine if the pair is
         // a valid key pair. The expected response is just 'passed' or 'failed', so we check
         // if the client recognizes the test as a failed test.
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {

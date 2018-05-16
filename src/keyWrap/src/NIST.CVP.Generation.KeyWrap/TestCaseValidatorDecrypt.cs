@@ -16,9 +16,12 @@ namespace NIST.CVP.Generation.KeyWrap
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidation Validate(TTestCase suppliedResult)
+        public TestCaseValidation Validate(TTestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
+
             if (_expectedResult.TestPassed.Value)
             {
                 if (!suppliedResult.TestPassed.Value)
@@ -31,13 +34,20 @@ namespace NIST.CVP.Generation.KeyWrap
                 ValidateResultPresent(suppliedResult, errors);
                 if (errors.Count == 0)
                 {
-                    CheckResults(suppliedResult, errors);
+                    CheckResults(suppliedResult, errors, expected, provided);
                 }
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId, 
+                    Result = Core.Enums.Disposition.Failed, 
+                    Reason = string.Join("; ", errors),
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
+                };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
@@ -51,11 +61,13 @@ namespace NIST.CVP.Generation.KeyWrap
             }
         }
 
-        private void CheckResults(TTestCase suppliedResult, List<string> errors)
+        private void CheckResults(TTestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             if (!_expectedResult.PlainText.Equals(suppliedResult.PlainText))
             {
                 errors.Add($"{nameof(suppliedResult.PlainText)} does not match");
+                expected.Add(nameof(_expectedResult.PlainText), _expectedResult.PlainText.ToHex());
+                provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
             }
         }
     }

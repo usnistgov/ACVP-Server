@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             _expectedResult = expectedResult;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
