@@ -11,7 +11,7 @@ namespace NIST.CVP.Crypto.Common.Symmetric.MonteCarlo
     /// <typeparam name="TAlgoArrayResponse">The individual outer loop response objects</typeparam>
     public interface IMonteCarloTester<out TMonteCarloResult, out TAlgoArrayResponse>
         where TMonteCarloResult : IMCTResult<TAlgoArrayResponse>
-        where TAlgoArrayResponse : IAlgoArrayResponse
+        where TAlgoArrayResponse : ICryptoResult
     {
         /// <summary>
         /// Process a monte carlo test given the parameters.
