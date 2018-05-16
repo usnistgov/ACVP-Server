@@ -140,7 +140,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 80,
+                    minNonceLength: 40,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -153,7 +153,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 112,
+                    minNonceLength: 56,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -166,7 +166,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 128,
+                    minNonceLength: 64,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -179,7 +179,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 192,
+                    minNonceLength: 96,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -192,7 +192,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 256,
+                    minNonceLength: 128,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -205,7 +205,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 112,
+                    minNonceLength: 56,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -218,7 +218,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 128,
+                    minNonceLength: 64,
                     maxNonceLength: (long) 1 << 35
                 ),
                 #endregion Hash
@@ -233,7 +233,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 80,
+                    minNonceLength: 40,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -246,7 +246,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 112,
+                    minNonceLength: 56,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -259,7 +259,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 128,
+                    minNonceLength: 64,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -272,7 +272,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 192,
+                    minNonceLength: 96,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -285,7 +285,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 256,
+                    minNonceLength: 128,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -298,7 +298,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 112,
+                    minNonceLength: 56,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -311,7 +311,7 @@ namespace NIST.CVP.Crypto.DRBG.Helpers
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 128,
+                    minNonceLength: 64,
                     maxNonceLength: (long) 1 << 35
                 ),
                 #endregion HMAC
