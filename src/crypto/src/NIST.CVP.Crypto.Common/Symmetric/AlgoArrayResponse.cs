@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Crypto.Common.Symmetric
 {
-    public class AlgoArrayResponse
+    public class AlgoArrayResponse : IAlgoArrayResponse
     {
         public BitString Key { get; set; }
         public BitString IV { get; set; }

@@ -13,7 +13,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
             TODO should different types of instances be broken out as their own enums?
             "standard", "counter", "aead", etc?
         */
-
+        
         public IModeBlockCipher<SymmetricCipherResult> GetStandardCipher(
             IBlockCipherEngine engine, 
             BlockCipherModesOfOperation modeOfOperation

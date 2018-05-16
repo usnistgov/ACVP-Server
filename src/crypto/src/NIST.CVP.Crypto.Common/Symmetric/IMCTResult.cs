@@ -1,0 +1,12 @@
+﻿using System.Collections.Generic;
+
+namespace NIST.CVP.Crypto.Common.Symmetric
+{
+    public interface IMCTResult<TAlgoArrayResponse> 
+        where TAlgoArrayResponse : IAlgoArrayResponse
+    {
+        string ErrorMessage { get; }
+        List<TAlgoArrayResponse> Response { get; }
+        bool Success { get; }
+    }
+}

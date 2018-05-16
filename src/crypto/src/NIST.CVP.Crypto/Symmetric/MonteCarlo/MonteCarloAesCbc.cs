@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using NLog;
 
-namespace NIST.CVP.Crypto.AES_CBC
+namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 {
-    public class AES_CBC_MCT : IAES_CBC_MCT
+    public class MonteCarloAesCbc : IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse>
     {
-        private readonly IAES_CBC _iAES_CBC;
+        private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
 
-        public AES_CBC_MCT(IAES_CBC iAES_CBC)
+        public MonteCarloAesCbc(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory)
         {
-            _iAES_CBC = iAES_CBC;
+            _algo = modeFactory.GetStandardCipher(
+                engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes),
+                BlockCipherModesOfOperation.Cbc
+            );
         }
 
         #region MonteCarloAlgorithm Pseudocode
@@ -45,10 +50,23 @@ namespace NIST.CVP.Crypto.AES_CBC
         */
         #endregion MonteCarloAlgorithm Pseudocode
 
-        public MCTResult<AlgoArrayResponse> MCTEncrypt(BitString iv, BitString key, BitString plainText)
+        public MCTResult<AlgoArrayResponse> ProcessMonteCarloTest(IModeBlockCipherParameters param)
+        {
+            switch (param.Direction)
+            {
+                case BlockCipherDirections.Encrypt:
+                    return Encrypt(param);
+                case BlockCipherDirections.Decrypt:
+                    return Decrypt(param);
+                default:
+                    throw new ArgumentException(nameof(param.Direction));
+            }
+        }
+
+        private MCTResult<AlgoArrayResponse> Encrypt(IModeBlockCipherParameters param)
         {
             List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
-
+            
             int i = 0;
             int j = 0;
             try
@@ -57,19 +75,19 @@ namespace NIST.CVP.Crypto.AES_CBC
                 {
                     AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
                     {
-                        IV = iv,
-                        Key = key,
-                        PlainText = plainText
+                        IV = param.Iv,
+                        Key = param.Key,
+                        PlainText = param.Payload
                     };
 
                     BitString jCipherText = null;
                     BitString previousCipherText = null;
                     BitString copyPreviousCipherText = null;
                     var ivCopiedBytes = iIterationResponse.IV.ToBytes();
-                    iv = new BitString(ivCopiedBytes);
+                    param.Iv = new BitString(ivCopiedBytes);
                     for (j = 0; j < 1000; j++)
                     {
-                        var jResult = _iAES_CBC.BlockEncrypt(iv, key, plainText);
+                        var jResult = _algo.ProcessPayload(param);
                         jCipherText = jResult.Result;
 
                         if (j == 0)
@@ -77,7 +95,7 @@ namespace NIST.CVP.Crypto.AES_CBC
                             previousCipherText = iIterationResponse.IV;
                         }
 
-                        plainText = previousCipherText;
+                        param.Payload = previousCipherText;
                         copyPreviousCipherText = previousCipherText;
                         previousCipherText = jCipherText;
                     }
@@ -85,28 +103,28 @@ namespace NIST.CVP.Crypto.AES_CBC
                     iIterationResponse.CipherText = jCipherText;
                     responses.Add(iIterationResponse);
 
-                    if (key.BitLength == 128)
+                    if (param.Key.BitLength == 128)
                     {
-                        key = key.XOR(previousCipherText);
+                        param.Key = param.Key.XOR(previousCipherText);
                     }
-                    if (key.BitLength == 192)
+                    if (param.Key.BitLength == 192)
                     {
                         var mostSignificant16KeyBitStringXor =
-                            key.GetMostSignificantBits(64).XOR( // XOR 64 most significant key bits w/
+                            param.Key.GetMostSignificantBits(64).XOR( // XOR 64 most significant key bits w/
                                 copyPreviousCipherText.Substring(0, 64) // the 64 least significant bits of the previous cipher text
                             );
-                        var leastSignificant128KeyBitStringXor = key.GetLeastSignificantBits(16 * 8).XOR(previousCipherText);
+                        var leastSignificant128KeyBitStringXor = param.Key.GetLeastSignificantBits(16 * 8).XOR(previousCipherText);
 
-                        key = mostSignificant16KeyBitStringXor.ConcatenateBits(leastSignificant128KeyBitStringXor);
+                        param.Key = mostSignificant16KeyBitStringXor.ConcatenateBits(leastSignificant128KeyBitStringXor);
                     }
-                    if (key.BitLength == 256)
+                    if (param.Key.BitLength == 256)
                     {
-                        var mostSignificantFirst16BitStringXor = key.GetMostSignificantBits(16 * 8).XOR(copyPreviousCipherText);
-                        var leastSignificant16BitStringXor = key.GetLeastSignificantBits(16 * 8).XOR(previousCipherText);
-                        key = mostSignificantFirst16BitStringXor.ConcatenateBits(leastSignificant16BitStringXor);
+                        var mostSignificantFirst16BitStringXor = param.Key.GetMostSignificantBits(16 * 8).XOR(copyPreviousCipherText);
+                        var leastSignificant16BitStringXor = param.Key.GetLeastSignificantBits(16 * 8).XOR(previousCipherText);
+                        param.Key = mostSignificantFirst16BitStringXor.ConcatenateBits(leastSignificant16BitStringXor);
                     }
 
-                    iv = previousCipherText;
+                    param.Iv = previousCipherText;
                 }
             }
             catch (Exception ex)
@@ -119,7 +137,7 @@ namespace NIST.CVP.Crypto.AES_CBC
             return new MCTResult<AlgoArrayResponse>(responses);
         }
 
-        public MCTResult<AlgoArrayResponse> MCTDecrypt(BitString iv, BitString key, BitString cipherText)
+        private MCTResult<AlgoArrayResponse> Decrypt(IModeBlockCipherParameters param)
         {
             List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
 
@@ -131,19 +149,19 @@ namespace NIST.CVP.Crypto.AES_CBC
                 {
                     AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
                     {
-                        IV = iv,
-                        Key = key,
-                        CipherText = cipherText
+                        IV = param.Iv,
+                        Key = param.Key,
+                        CipherText = param.Payload
                     };
 
                     BitString jPlainText = null;
                     BitString previousPlainText = null;
                     BitString copyPreviousPlainText = null;
                     var ivCopiedBytes = iIterationResponse.IV.ToBytes();
-                    iv = new BitString(ivCopiedBytes);
+                    param.Iv = new BitString(ivCopiedBytes);
                     for (j = 0; j < 1000; j++)
                     {
-                        var jResult = _iAES_CBC.BlockDecrypt(iv, key, cipherText);
+                        var jResult = _algo.ProcessPayload(param);
                         jPlainText = jResult.Result;
 
                         if (j == 0)
@@ -151,7 +169,7 @@ namespace NIST.CVP.Crypto.AES_CBC
                             previousPlainText = iIterationResponse.IV;
                         }
 
-                        cipherText = previousPlainText;
+                        param.Payload = previousPlainText;
                         copyPreviousPlainText = previousPlainText;
                         previousPlainText = jPlainText;
                     }
@@ -159,28 +177,28 @@ namespace NIST.CVP.Crypto.AES_CBC
                     iIterationResponse.PlainText = jPlainText;
                     responses.Add(iIterationResponse);
 
-                    if (key.BitLength == 128)
+                    if (param.Key.BitLength == 128)
                     {
-                        key = key.XOR(previousPlainText);
+                        param.Key = param.Key.XOR(previousPlainText);
                     }
-                    if (key.BitLength == 192)
+                    if (param.Key.BitLength == 192)
                     {
                         var mostSignificant16KeyBitStringXor =
-                            key.GetMostSignificantBits(64).XOR( // XOR 64 most significant key bits w/
+                            param.Key.GetMostSignificantBits(64).XOR( // XOR 64 most significant key bits w/
                                 copyPreviousPlainText.Substring(0, 64) // the 64 least significant bits of the previous plain text
                             );
-                        var leastSignificant128KeyBitStringXor = key.GetLeastSignificantBits(16 * 8).XOR(previousPlainText);
+                        var leastSignificant128KeyBitStringXor = param.Key.GetLeastSignificantBits(16 * 8).XOR(previousPlainText);
 
-                        key = mostSignificant16KeyBitStringXor.ConcatenateBits(leastSignificant128KeyBitStringXor);
+                        param.Key = mostSignificant16KeyBitStringXor.ConcatenateBits(leastSignificant128KeyBitStringXor);
                     }
-                    if (key.BitLength == 256)
+                    if (param.Key.BitLength == 256)
                     {
-                        var mostSignificantFirst16BitStringXor = key.GetMostSignificantBits(16 * 8).XOR(copyPreviousPlainText);
-                        var leastSignificant16BitStringXor = key.GetLeastSignificantBits(16 * 8).XOR(previousPlainText);
-                        key = mostSignificantFirst16BitStringXor.ConcatenateBits(leastSignificant16BitStringXor);
+                        var mostSignificantFirst16BitStringXor = param.Key.GetMostSignificantBits(16 * 8).XOR(copyPreviousPlainText);
+                        var leastSignificant16BitStringXor = param.Key.GetLeastSignificantBits(16 * 8).XOR(previousPlainText);
+                        param.Key = mostSignificantFirst16BitStringXor.ConcatenateBits(leastSignificant16BitStringXor);
                     }
 
-                    iv = previousPlainText;
+                    param.Iv = previousPlainText;
                 }
             }
             catch (Exception ex)
@@ -192,6 +210,8 @@ namespace NIST.CVP.Crypto.AES_CBC
 
             return new MCTResult<AlgoArrayResponse>(responses);
         }
+
+        
 
         private Logger ThisLogger
         {

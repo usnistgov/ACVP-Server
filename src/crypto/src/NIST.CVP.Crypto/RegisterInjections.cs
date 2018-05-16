@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.AES_CBC;
 using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Crypto.AES_CFB1;
 using NIST.CVP.Crypto.AES_CFB128;
@@ -50,6 +49,7 @@ using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Crypto.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Aead;
 using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 
 namespace NIST.CVP.Crypto
 {
@@ -59,11 +59,10 @@ namespace NIST.CVP.Crypto
         {
             builder.RegisterType<RijndaelInternals>().AsImplementedInterfaces();
             builder.RegisterType<RijndaelFactory>().AsImplementedInterfaces();
-            builder.RegisterType<AES_CBC.AES_CBC>().AsImplementedInterfaces();
-            builder.RegisterType<AES_CBC_MCT>().AsImplementedInterfaces();
             builder.RegisterType<ModeBlockCipherFactory>().AsImplementedInterfaces();
             builder.RegisterType<AeadModeBlockCipherFactory>().AsImplementedInterfaces();
             builder.RegisterType<BlockCipherEngineFactory>().AsImplementedInterfaces();
+            builder.RegisterType<AesMonteCarloFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<AES_CCM.AES_CCM>().AsImplementedInterfaces();
             builder.RegisterType<AES_CCMInternals>().AsImplementedInterfaces();
