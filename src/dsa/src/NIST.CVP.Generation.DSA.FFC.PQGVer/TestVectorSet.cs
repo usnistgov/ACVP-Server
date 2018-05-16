@@ -67,10 +67,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 
                         if (group.PQGenMode != PrimeGenMode.None)
                         {
+                            testDict.Add("domainSeed", test.Seed.Seed);
+
                             // Counter
                             if (group.PQGenMode == PrimeGenMode.Probable)
                             {
-                                testDict.Add("domainSeed", test.Seed.Seed);
                                 testDict.Add("counter", test.Counter.Count);
                             }
                             else if (group.PQGenMode == PrimeGenMode.Provable)
@@ -148,10 +149,11 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 
                         if (group.PQGenMode != PrimeGenMode.None)
                         {
+                            testDict.Add("domainSeed", test.Seed.Seed);
+
                             // Counter
                             if (group.PQGenMode == PrimeGenMode.Probable)
                             {
-                                testDict.Add("domainSeed", test.Seed.Seed);
                                 testDict.Add("counter", test.Counter.Count);
                             }
                             else if (group.PQGenMode == PrimeGenMode.Provable)
