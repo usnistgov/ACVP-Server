@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
     {
         private readonly IRandom800_90 _rand;
         private readonly IPQGeneratorValidator _pqGen;
-        public int NumberOfTestCasesToGenerate { get; private set; } = 5;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 2;
 
         public TestCaseGeneratorPQ(IRandom800_90 rand, IPQGeneratorValidator pqGen)
         {
