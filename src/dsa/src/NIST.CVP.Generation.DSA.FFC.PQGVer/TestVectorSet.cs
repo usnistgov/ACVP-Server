@@ -170,14 +170,14 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 
                             if (group.GGenMode == GeneratorGenMode.Canonical)
                             {
-                                // Index
+                                // Index and Seed
                                 testDict.Add("index", test.Index);
+                                testDict.Add("domainSeed", test.Seed.GetFullSeed());
                             }
                             else if (group.GGenMode == GeneratorGenMode.Unverifiable)
                             {
-                                // H and Seed
+                                // H
                                 testDict.Add("h", test.H);
-                                testDict.Add("domainSeed", test.Seed.GetFullSeed());
                             }
                         }
 
