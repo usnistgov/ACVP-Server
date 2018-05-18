@@ -8,11 +8,13 @@ using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
     public class TestGroupGenerator : ITestGroupGenerator<Parameters>
     {
+        private const int MAX_KEY_SIZE = 4096;
         private readonly string[] _testTypes = new string[] { "AFT", "VAL" };
         private readonly IPqgProvider _pqgProvider;
 
@@ -164,7 +166,9 @@ namespace NIST.CVP.Generation.KAS.FFC
                             if (parameterSet.Value.hashFunc.Any() && parameterSet.Value.mac.Any())
                             {
                                 var mac = parameterSet.Value.mac.OrderBy(ob => Guid.NewGuid()).ToList().First();
-                                var keyLen = mac.KeyLen.OrderBy(ob => Guid.NewGuid()).ToList().First();
+                                mac.KeyLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
+                                mac.KeyLen.SetMaximumAllowedValue(MAX_KEY_SIZE);
+                                var keyLen = mac.KeyLen.GetValues(1).OrderBy(ob => Guid.NewGuid()).ToList().First();
                                 var keyAgreementMacType =
                                     SpecificationMapping.GetMacInfoFromParameterClass(mac).keyAgreementMacType;
 
@@ -233,7 +237,10 @@ namespace NIST.CVP.Generation.KAS.FFC
                                         {
                                             foreach (var mac in parameterSet.Value.mac)
                                             {
-                                                foreach (var keyLen in mac.KeyLen)
+                                                mac.KeyLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
+                                                mac.KeyLen.SetMaximumAllowedValue(MAX_KEY_SIZE);
+
+                                                foreach (var keyLen in mac.KeyLen.GetValues(1).OrderBy(ob => Guid.NewGuid()).Take(1))
                                                 {
                                                     var keyAgreementMacType =
                                                         SpecificationMapping.GetMacInfoFromParameterClass(mac)
