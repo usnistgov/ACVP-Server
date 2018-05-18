@@ -23,6 +23,18 @@ namespace NIST.CVP.Common.Enums
         ValidatorError,
 
         [EnumMember(Value = "invalid mode provided, must run generator or validator and provide needed files")]
-        ModeError
+        ModeError,
+
+        ParameterError,
+
+        ParameterValidationError,
+
+        FileSaveError,
+
+        TestCaseGeneratorError,
+
+        TestCaseValidatorError,
+
+        FileReadError
     }
 }

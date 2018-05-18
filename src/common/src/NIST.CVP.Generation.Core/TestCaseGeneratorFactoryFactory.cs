@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NIST.CVP.Common.Enums;
 
 namespace NIST.CVP.Generation.Core
 {
@@ -25,7 +26,7 @@ namespace NIST.CVP.Generation.Core
                     var testCaseResponse = generator.Generate(@group, testVector.IsSample);
                     if (!testCaseResponse.Success)
                     {
-                        return new GenerateResponse(testCaseResponse.ErrorMessage);
+                        return new GenerateResponse(testCaseResponse.ErrorMessage, StatusCode.TestCaseGeneratorError);
                     }
                     var testCase = testCaseResponse.TestCase;
                     testCase.ParentGroup = group;

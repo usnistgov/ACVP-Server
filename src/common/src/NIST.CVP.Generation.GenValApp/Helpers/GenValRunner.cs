@@ -80,12 +80,12 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 var result = RunGeneration(registrationFile);
 
                 if (result.Success)
-                    return (int) StatusCode.Success;
+                    return (int) result.StatusCode;
 
                 errorMessage = $"ERROR! Generating Test Vectors for {registrationFile}: {result.ErrorMessage}";
                 Console.Error.WriteLine(errorMessage);
                 Program.Logger.Error(errorMessage);
-                return (int) StatusCode.GeneratorError;
+                return (int) result.StatusCode;
             }
             else if (GenValMode == GenValMode.Validate)
             {
@@ -94,12 +94,12 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 var result = RunValidation(responseFile, answerFile);
 
                 if (result.Success)
-                    return (int) StatusCode.Success;
+                    return (int) result.StatusCode;
 
                 errorMessage = $"ERROR! Validating Test Vectors for {responseFile}: {result.ErrorMessage}";
                 Console.Error.WriteLine(errorMessage);
                 Program.Logger.Error(errorMessage);
-                return (int) StatusCode.ValidatorError;
+                return (int) result.StatusCode;
             }
 
             errorMessage = "ERROR! Unable to find running mode";

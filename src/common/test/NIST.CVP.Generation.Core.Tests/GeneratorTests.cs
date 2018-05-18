@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Moq;
+using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Parsers;
@@ -94,6 +95,7 @@ namespace NIST.CVP.Generation.Core.Tests
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorMessage, result.ErrorMessage);
+            Assert.AreEqual(StatusCode.ParameterError, result.StatusCode);
         }
 
         [Test]
@@ -108,6 +110,7 @@ namespace NIST.CVP.Generation.Core.Tests
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorMessage, result.ErrorMessage);
+            Assert.AreEqual(StatusCode.ParameterValidationError, result.StatusCode);
         }
 
         [Test]
@@ -116,12 +119,13 @@ namespace NIST.CVP.Generation.Core.Tests
             string errorMessage = "Invalid Test Case Response";
             _mockITestCaseGeneratorFactoryFactory
                 .Setup(s => s.BuildTestCases(It.IsAny<FakeTestVectorSet>()))
-                .Returns(() => new GenerateResponse(errorMessage));
+                .Returns(() => new GenerateResponse(errorMessage, StatusCode.TestCaseGeneratorError));
 
             var result = _subject.Generate(string.Empty);
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorMessage, result.ErrorMessage);
+            Assert.AreEqual(StatusCode.TestCaseGeneratorError, result.StatusCode);
         }
 
         [Test]
@@ -148,7 +152,9 @@ namespace NIST.CVP.Generation.Core.Tests
                     }
                 }
             }
+
             Assert.IsTrue(result.Success);
+            Assert.AreEqual(StatusCode.Success, result.StatusCode);
         }
 
         [Test]
@@ -180,6 +186,7 @@ namespace NIST.CVP.Generation.Core.Tests
             var jsonPath = Path.Combine(_testPath, "fakePath/");
             var result = subject.SaveOutputsTester(jsonPath, testVectorSet);
             Assert.IsFalse(result.Success);
+            Assert.AreEqual(StatusCode.FileSaveError, result.StatusCode);
         }
     }
 }
