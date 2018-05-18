@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
         }
 
         public string Algorithm { get; set; } = "KAS-ECC";
-        public string Mode { get; set; } = "Component";
+        public string Mode { get; set; } = "CDH Component";
         public bool IsSample { get; set; }
 
         [JsonIgnore]

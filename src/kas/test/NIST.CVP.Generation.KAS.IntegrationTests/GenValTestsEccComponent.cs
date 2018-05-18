@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
         public override string Algorithm => "KAS-ECC";
 
-        public override string Mode => "Component";
+        public override string Mode => "CDH-Component";
 
         public override AlgoMode AlgoMode => AlgoMode.KAS_EccComponent;
 

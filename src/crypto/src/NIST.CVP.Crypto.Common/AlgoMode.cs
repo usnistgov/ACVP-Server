@@ -86,7 +86,7 @@ namespace NIST.CVP.Crypto.Common
         HMAC_SHA3_512,
         [Description("KAS-ECC")]
         KAS_ECC,
-        [Description("KAS-EccComponent")]
+        [Description("KAS-EccCDH-Component")]
         KAS_EccComponent,
         [Description("KAS-FFC")]
         KAS_FFC,
