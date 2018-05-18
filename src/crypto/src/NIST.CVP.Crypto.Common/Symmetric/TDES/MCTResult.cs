@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.TDES
 {
-    public class MCTResult<TAlgoArrayResponse>
-        where TAlgoArrayResponse : AlgoArrayResponse
+    [Obsolete("Being replaced by Symmetric.MCTResult")]
+    public class MCTResult<TAlgoArrayResponse> : IMCTResult<TAlgoArrayResponse>
+        where TAlgoArrayResponse : ICryptoResult
     {
         public List<TAlgoArrayResponse> Response { get;}
         public string ErrorMessage { get;}

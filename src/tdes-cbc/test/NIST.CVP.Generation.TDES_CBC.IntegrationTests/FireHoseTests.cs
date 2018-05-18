@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_CBC;
 using NIST.CVP.Generation.TDES_CBC.Parsers;
@@ -17,17 +22,21 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
     public class FireHoseTests
     {
         private string _testPath;
-        private TdesCbc _algo;
-        private TDES_CBC_MCT _algoMct;
+        private CbcBlockCipher _algo;
+        private MonteCarloTdesCbc _algoMct;
         private MonteCarloKeyMaker _keyMaker;
 
         [SetUp]
         public void Setup()
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
-            _algo = new TdesCbc();
+            _algo = new CbcBlockCipher(new TdesEngine());
             _keyMaker = new MonteCarloKeyMaker();
-            _algoMct = new TDES_CBC_MCT(_algo, _keyMaker);
+            _algoMct = new MonteCarloTdesCbc(
+                new BlockCipherEngineFactory(), 
+                new ModeBlockCipherFactory(), 
+                _keyMaker
+            );
         }
 
         [Test]
@@ -72,11 +81,13 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            var result = _algoMct.MCTEncrypt(
+                            var param = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Encrypt,
+                                testCase.ResultsArray.First().IV,
                                 testCase.ResultsArray.First().Keys,
-                                testCase.ResultsArray.First().PlainText, 
-                                testCase.ResultsArray.First().IV
+                                testCase.ResultsArray.First().PlainText
                             );
+                            var result = _algoMct.ProcessMonteCarloTest(param);
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
@@ -87,11 +98,14 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
                         }
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = _algoMct.MCTDecrypt(
+                            var param = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Decrypt,
+                                testCase.ResultsArray.First().IV,
                                 testCase.ResultsArray.First().Keys,
-                                testCase.ResultsArray.First().CipherText,
-                                testCase.ResultsArray.First().IV
+                                testCase.ResultsArray.First().CipherText
                             );
+                            var result = _algoMct.ProcessMonteCarloTest(param);
+
                             if (testCase.ResultsArray.Count != result.Response.Count)
                             {
                                 throw new IndexOutOfRangeException(
@@ -100,7 +114,7 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
-                                Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].PlainText.ToHex(), result.Response[i].PlainText.ToHex(), $"PlainText mismatch on index {i}");
                             }
                             continue;
                         }
@@ -116,11 +130,13 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
                             {
                                 testCase.Key = testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
                             }
-                            var result = _algo.BlockEncrypt(
-                                testCase.Key,
-                                testCase.PlainText, 
-                                testCase.Iv
+                            var param = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Encrypt,
+                                testCase.Iv.GetDeepCopy(),
+                                testCase.Key.GetDeepCopy(),
+                                testCase.PlainText.GetDeepCopy()
                             );
+                            var result = _algo.ProcessPayload(param);
 
                             if (testCase.CipherText.ToHex() == result.Result.ToHex())
                                 passes++;
@@ -139,11 +155,13 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
                                 //Since MMT files include 3 keys (while KAT files only include 1), we concatenate them into a single key before inputing them into the DEA.
                                 testCase.Key = testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
                             }
-                            var result = _algo.BlockDecrypt(
-                                testCase.Key,
-                                testCase.CipherText,
-                                testCase.Iv
+                            var param = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Decrypt,
+                                testCase.Iv.GetDeepCopy(),
+                                testCase.Key.GetDeepCopy(),
+                                testCase.CipherText.GetDeepCopy()
                             );
+                            var result = _algo.ProcessPayload(param);
 
                             if (testCase.PlainText.ToHex() == result.Result.ToHex())
                                 passes++;

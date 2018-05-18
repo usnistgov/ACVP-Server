@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Crypto.TDES;
@@ -18,9 +21,12 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
     [TestFixture, UnitTest]
     public class TestCaseGeneratorMonteCarloEncryptTests
     {
-
         private Mock<IRandom800_90> _mockRandom;
-        private Mock<ITDES_CBC_MCT> _mockMCT;
+
+        private Mock<IMonteCarloTester<Crypto.Common.Symmetric.MCTResult<AlgoArrayResponse>, AlgoArrayResponse>>
+            _mockMct;
+
+        private Mock<IMonteCarloFactoryTdes> _mockMctFactory;
         private TestCaseGeneratorMonteCarloEncrypt _subject;
 
 
@@ -34,16 +40,23 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         public void Setup()
         {
             _mockRandom = new Mock<IRandom800_90>();
-            _mockRandom.Setup(s => s.GetRandomBitString(It.IsAny<int>())).Returns(new BitString(64));
-            _mockMCT = new Mock<ITDES_CBC_MCT>();
-            _subject = new TestCaseGeneratorMonteCarloEncrypt(_mockRandom.Object, _mockMCT.Object);
+            _mockRandom.Setup(s => s.GetRandomBitString(It.IsAny<int>())).Returns(() => new BitString(64));
+            _mockMct =
+                new Mock<IMonteCarloTester<Crypto.Common.Symmetric.MCTResult<AlgoArrayResponse>, AlgoArrayResponse>>();
+            _mockMctFactory = new Mock<IMonteCarloFactoryTdes>();
+            _mockMctFactory
+                .Setup(s => s.GetInstance(
+                    It.IsAny<BlockCipherModesOfOperation>())
+                )
+                .Returns(_mockMct.Object);
+            _subject = new TestCaseGeneratorMonteCarloEncrypt(_mockRandom.Object, _mockMctFactory.Object);
         }
 
         [Test]
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
-        public void ShouldCallRandomTwiceOnceForKeyOnceForCipherText(int keyingOption)
+        public void ShouldCallRandomTwiceOnceForKeyOnce(int keyingOption)
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -57,7 +70,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         }
 
         [Test]
-        public void ShouldCallAlgoEncryptFromIsSampleMethod()
+        public void ShouldCallAlgoFromIsSampleMethod()
         {
             TestGroup testGroup = new TestGroup()
             {
@@ -65,34 +78,46 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             };
             _subject.Generate(testGroup, false);
 
-            _mockMCT.Verify(v => v.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()));
+            _mockMct.Verify(v => v.ProcessMonteCarloTest(It.IsAny<IModeBlockCipherParameters>()));
         }
 
         [Test]
-        public void ShouldCallAlgoEncryptFromTestCaseMethod()
+        public void ShouldCallAlgoFromTestCaseMethod()
         {
-            TestGroup testGroup = new TestGroup()
+            var testGroup = new TestGroup()
             {
                 KeyingOption = 1
             };
-            TestCase testCase = new TestCase();
+            TestCase testCase = new TestCase()
+            {
+                Iv = new BitString(64),
+                Key = new BitString(192),
+                PlainText = new BitString(64),
+                CipherText = new BitString(64)
+            };
             _subject.Generate(testGroup, testCase);
 
-            _mockMCT.Verify(v => v.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()));
+            _mockMct.Verify(v => v.ProcessMonteCarloTest(It.IsAny<IModeBlockCipherParameters>()));
         }
 
         [Test]
         public void ShouldReturnErrorMessageIfAlgoNotSuccessful()
         {
             string errorMessage = "something bad happened!";
-            _mockMCT.Setup(s => s.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new MCTResult<AlgoArrayResponse>(errorMessage));
+            _mockMct.Setup(s => s.ProcessMonteCarloTest(It.IsAny<IModeBlockCipherParameters>()))
+                .Returns(new Crypto.Common.Symmetric.MCTResult<AlgoArrayResponse>(errorMessage));
 
             TestGroup testGroup = new TestGroup()
             {
                 KeyingOption = 1
             };
-            TestCase testCase = new TestCase();
+            TestCase testCase = new TestCase()
+            {
+                Iv = new BitString(64),
+                Key = new BitString(192),
+                PlainText = new BitString(64),
+                CipherText = new BitString(64)
+            };
             var result = _subject.Generate(testGroup, testCase);
 
             Assert.IsFalse(result.Success, nameof(result.Success));
@@ -103,14 +128,20 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         public void ShouldReturnErrorMessageIfAlgoFailsWithException()
         {
             string errorMessage = "something bad happened! oh noes!";
-            _mockMCT.Setup(s => s.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+            _mockMct.Setup(s => s.ProcessMonteCarloTest(It.IsAny<IModeBlockCipherParameters>()))
                 .Throws(new Exception(errorMessage));
 
             TestGroup testGroup = new TestGroup()
             {
                 KeyingOption = 1
             };
-            TestCase testCase = new TestCase();
+            TestCase testCase = new TestCase()
+            {
+                Iv = new BitString(64),
+                Key = new BitString(192),
+                PlainText = new BitString(64),
+                CipherText = new BitString(64)
+            };
             var result = _subject.Generate(testGroup, testCase);
 
             Assert.IsFalse(result.Success, nameof(result.Success));

@@ -3,7 +3,7 @@
 namespace NIST.CVP.Crypto.Common.Symmetric
 {
     public class MCTResult<TAlgoArrayResponse> : IMCTResult<TAlgoArrayResponse> 
-        where TAlgoArrayResponse : IAlgoArrayResponse
+        where TAlgoArrayResponse : ICryptoResult
     {
         public List<TAlgoArrayResponse> Response { get;}
         public string ErrorMessage { get;}

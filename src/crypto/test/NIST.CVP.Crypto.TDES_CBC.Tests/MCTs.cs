@@ -1,5 +1,9 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -10,14 +14,14 @@ namespace NIST.CVP.Crypto.TDES_CBC.Tests
     public class MCTs
     {
 
-        private class TestTDesCbcMct : TDES_CBC_MCT
+        private class TestTDesCbcMct : MonteCarloTdesCbc
         {
-            public TestTDesCbcMct(ITDES_CBC algo, IMonteCarloKeyMaker keyMaker) 
-                : base(algo, keyMaker) { }
+            public TestTDesCbcMct(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, IMonteCarloKeyMakerTdes keyMaker) 
+                : base(engineFactory, modeFactory, keyMaker) { }
 
             private int _numberOfCases = 1;
 
-            protected override int NumberOfCases { get { return _numberOfCases; } }
+            protected override int NumberOfCases => _numberOfCases;
 
             public void SetNumberOfCases(int numberOfCases)
             {
@@ -25,7 +29,11 @@ namespace NIST.CVP.Crypto.TDES_CBC.Tests
             }
         }
 
-        TestTDesCbcMct _subject = new TestTDesCbcMct(new TdesCbc(), new MonteCarloKeyMaker());
+        private readonly TestTDesCbcMct _subject = new TestTDesCbcMct(
+            new BlockCipherEngineFactory(), 
+            new ModeBlockCipherFactory(), 
+            new MonteCarloKeyMaker()
+        );
 
         [Test]
         [TestCase("29469264c25ed54ab90e3737049e7301e3198aecc4ae4c4c", "bed1e248f734d16d", "06c3cedd527b1206", 1, "29469264c25ed54ab90e3737049e7301e3198aecc4ae4c4c", "f61d6ca68a7928a6", "06c3cedd527b1206")]
@@ -43,12 +51,17 @@ namespace NIST.CVP.Crypto.TDES_CBC.Tests
             BitString expectedFinalCt = new BitString(expectedFinalCtHex);
             BitString expectedFinalIV = new BitString(expectedFinalIvHex);
 
-
-            var result = _subject.MCTEncrypt(key, pt, iv);
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                iv,
+                key,
+                pt
+            );
+            var result = _subject.ProcessMonteCarloTest(param);
 
             Assert.AreEqual(expectedFinalKey.ToHex(), result.Response[result.Response.Count - 1].Keys.ToHex(), nameof(expectedFinalKey));
-            Assert.AreEqual(expectedFinalCt.ToHex(), result.Response[result.Response.Count - 1].CipherText.ToHex(), nameof(expectedFinalCtHex));
             Assert.AreEqual(expectedFinalIV.ToHex(), result.Response[result.Response.Count - 1].IV.ToHex(), nameof(expectedFinalIvHex));
+            Assert.AreEqual(expectedFinalCt.ToHex(), result.Response[result.Response.Count - 1].CipherText.ToHex(), nameof(expectedFinalCtHex));
         }
 
         [Test]
@@ -67,12 +80,17 @@ namespace NIST.CVP.Crypto.TDES_CBC.Tests
             BitString expectedFinalPt = new BitString(expectedFinalPtHex);
             BitString expectedFinalIV = new BitString(expectedFinalIvHex);
 
-            var result = _subject.MCTDecrypt(key, ct, iv);
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt,
+                iv,
+                key,
+                ct
+            );
+            var result = _subject.ProcessMonteCarloTest(param);
 
             Assert.AreEqual(expectedFinalKey.ToHex(), result.Response[result.Response.Count - 1].Keys.ToHex(), nameof(expectedFinalKey));
-            Assert.AreEqual(expectedFinalPt.ToHex(), result.Response[result.Response.Count - 1].PlainText.ToHex(), nameof(expectedFinalPtHex));
             Assert.AreEqual(expectedFinalIV.ToHex(), result.Response[result.Response.Count - 1].IV.ToHex(), nameof(expectedFinalIvHex));
-
+            Assert.AreEqual(expectedFinalPt.ToHex(), result.Response[result.Response.Count - 1].PlainText.ToHex(), nameof(expectedFinalPtHex));
         }
     }
 }

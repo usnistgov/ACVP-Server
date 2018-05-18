@@ -1,11 +1,10 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.TDES_CBC
+namespace NIST.CVP.Crypto.Common.Symmetric.MonteCarlo
 {
-    public interface IMonteCarloKeyMaker
+    public interface IMonteCarloKeyMakerTdes
     {
         BitString MixKeys(TDESKeys keys, List<BitString> lastThreeOpResults);
     }
