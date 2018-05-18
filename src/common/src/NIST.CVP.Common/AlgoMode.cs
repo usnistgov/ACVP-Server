@@ -87,7 +87,7 @@ namespace NIST.CVP.Common
         HMAC_SHA3_512,
         [EnumMember(Value = "KAS-ECC")]
         KAS_ECC,
-        [EnumMember(Value = "KAS-EccComponent")]
+        [EnumMember(Value = "KAS-EccCDH-Component")]
         KAS_EccComponent,
         [EnumMember(Value = "KAS-FFC")]
         KAS_FFC,

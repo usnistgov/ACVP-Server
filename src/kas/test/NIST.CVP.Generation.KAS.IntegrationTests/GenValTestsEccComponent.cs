@@ -18,8 +18,8 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
         public override string Algorithm => "KAS";
 
-        public override string Mode => "EccComponent";
-        
+        public override string Mode => "CDH-Component";
+
         public override AlgoMode AlgoMode => AlgoMode.KAS_EccComponent;
 
         public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
@@ -31,6 +31,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Function = ParameterValidator.ValidFunctions,
                 Curves = new string[] { "p-192" },
                 IsSample = true
             };
@@ -44,6 +45,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Function = ParameterValidator.ValidFunctions,
                 Curves = new string[] { "p-192", "k-163", "b-163" },
                 IsSample = true
             };

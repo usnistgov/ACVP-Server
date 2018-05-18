@@ -1,14 +1,16 @@
-﻿namespace NIST.CVP.Generation.KAS.Tests.Builders
+﻿using NIST.CVP.Math.Domain;
+
+namespace NIST.CVP.Generation.KAS.Tests.Builders
 {
     public class MacOptionsBaseBuilder
     {
-        private int[] _keyLen;
+        private MathDomain _keyLen;
         private int _macLen;
         private int _nonceLen;
 
         public MacOptionsBaseBuilder(bool nonceRequired)
         {
-            _keyLen = new int[] { 256 };
+            _keyLen = new MathDomain().AddSegment(new ValueDomainSegment(256));
             _macLen = 128;
 
             if (nonceRequired)
@@ -17,7 +19,7 @@
             }
         }
 
-        public MacOptionsBaseBuilder WithKeyLen(int[] value)
+        public MacOptionsBaseBuilder WithKeyLen(MathDomain value)
         {
             _keyLen = value;
             return this;

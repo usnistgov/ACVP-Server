@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
         private readonly IPQGeneratorValidatorFactory _pqGenFactory;
         private readonly IShaFactory _shaFactory;
 
-        public int NumberOfTestCasesToGenerate { get; private set; } = 5;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 2;
 
         public TestCaseGeneratorG(IRandom800_90 rand, IShaFactory shaFactory, IPQGeneratorValidatorFactory pqGenFactory, IGGeneratorValidatorFactory gGenFactory)
         {

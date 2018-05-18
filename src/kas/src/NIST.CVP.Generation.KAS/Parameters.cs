@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KAS
 {
@@ -364,7 +365,7 @@ namespace NIST.CVP.Generation.KAS
     /// </summary>
     public abstract class MacOptionsBase
     {
-        public int[] KeyLen { get; set; }
+        public MathDomain KeyLen { get; set; }
         public int MacLen { get; set; }
         public int NonceLen { get; set; }
     }
