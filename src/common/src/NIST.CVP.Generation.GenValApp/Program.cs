@@ -85,6 +85,7 @@ namespace NIST.CVP.Generation.GenValApp
                 var errorMessage = $"ERROR: {ex.Message}";
                 Console.WriteLine(errorMessage);
                 Console.WriteLine(ex.StackTrace);
+                Logger.Error($"Status Code: {StatusCode.CommandLineError}");
                 Logger.Error(errorMessage);
                 argumentParser.ShowUsage();
                 return (int) StatusCode.CommandLineError;
@@ -94,6 +95,7 @@ namespace NIST.CVP.Generation.GenValApp
                 var errorMessage = $"ERROR: {ex.Message}";
                 Console.WriteLine(errorMessage);
                 Console.WriteLine(ex.StackTrace);
+                Logger.Error($"Status Code: {StatusCode.Exception}");
                 Logger.Error(errorMessage);
                 return (int) StatusCode.Exception;
             }

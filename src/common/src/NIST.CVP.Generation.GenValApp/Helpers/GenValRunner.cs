@@ -84,6 +84,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
 
                 errorMessage = $"ERROR! Generating Test Vectors for {registrationFile}: {result.ErrorMessage}";
                 Console.Error.WriteLine(errorMessage);
+                Program.Logger.Error($"Status Code: {result.StatusCode}");
                 Program.Logger.Error(errorMessage);
                 return (int) result.StatusCode;
             }
@@ -98,12 +99,14 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
 
                 errorMessage = $"ERROR! Validating Test Vectors for {responseFile}: {result.ErrorMessage}";
                 Console.Error.WriteLine(errorMessage);
+                Program.Logger.Error($"Status Code: {result.StatusCode}");
                 Program.Logger.Error(errorMessage);
                 return (int) result.StatusCode;
             }
 
             errorMessage = "ERROR! Unable to find running mode";
             Console.Error.WriteLine(errorMessage);
+            Program.Logger.Error($"Status Code: {StatusCode.ModeError}");
             Program.Logger.Error(errorMessage);
             return (int) StatusCode.ModeError;
         }
