@@ -1,7 +1,7 @@
 {
-  "Algorithm": "SHA3",
-  "Mode": "",
-  "IsSample": true,
+  "algorithm": "SHA3",
+  "mode": "",
+  "isSample": true,
   "digestSize": [
     224,
     256,

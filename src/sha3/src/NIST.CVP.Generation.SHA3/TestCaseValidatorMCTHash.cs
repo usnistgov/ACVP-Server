@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.SHA3
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
-            var provided = new Dicitonary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             ValidateArrayResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
@@ -68,14 +68,14 @@ namespace NIST.CVP.Generation.SHA3
                 if (!_expectedResult.ResultsArray[i].Message.Equals(suppliedResult.ResultsArray[i].Message))
                 {
                     errors.Add($"Message does not match on iteration {i}");
-                    expected.Add($"{nameof(_expectedResult.ResultsArray[i].Message)} {i}", _expectedResult.ResultsArray[i].Message.ToHex());
-                    provided.Add($"{nameof(suppliedResult.ResultsArray[i].Message)} {i}", suppliedResult.ResultsArray[i].Message.ToHex());
+                    expected.Add($"Message {i}", _expectedResult.ResultsArray[i].Message.ToHex());
+                    provided.Add($"Message {i}", suppliedResult.ResultsArray[i].Message.ToHex());
                 }
                 if (!_expectedResult.ResultsArray[i].Digest.Equals(suppliedResult.ResultsArray[i].Digest))
                 {
                     errors.Add($"Digest does not match on iteration {i}");
-                    expected.Add($"{nameof(_expectedResult.ResultsArray[i].Digest)} {i}", _expectedResult.ResultsArray[i].Digest.ToHex());
-                    provided.Add($"{nameof(suppliedResult.ResultsArray[i].Digest)} {i}", suppliedResult.ResultsArray[i].Digest.ToHex());
+                    expected.Add($"Digest {i}", _expectedResult.ResultsArray[i].Digest.ToHex());
+                    provided.Add($"Digest {i}", suppliedResult.ResultsArray[i].Digest.ToHex());
                 }
             }
         }

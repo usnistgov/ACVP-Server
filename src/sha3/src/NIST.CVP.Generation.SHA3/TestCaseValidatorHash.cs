@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.SHA3
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
-            var provided = new Dicitonary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
