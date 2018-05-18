@@ -71,6 +71,9 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
+                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].Key, result.Response[i].Key, $"Key mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
                             }
                             continue;
@@ -86,7 +89,10 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
+                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].Key, result.Response[i].Key, $"Key mismatch on index {i}");
                                 Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
