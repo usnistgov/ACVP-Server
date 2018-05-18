@@ -243,7 +243,10 @@ namespace NIST.CVP.Generation.KAS
             int maxMacLength;
             if (macOptionsBase is MacOptionAesCcm || macOptionsBase is MacOptionCmac)
             {
-                errorResults.AddIfNotNullOrEmpty(ValidateArray(macOptionsBase.KeyLen, ValidAesKeyLengths, "AES Key Lengths"));
+                var copyKeyLen = macOptionsBase.KeyLen.GetDeepCopy();
+                var keyLenValues = copyKeyLen.GetValues(3).ToArray(); // maximum of 3 valid key values with AES
+
+                errorResults.AddIfNotNullOrEmpty(ValidateArray(keyLenValues, ValidAesKeyLengths, "AES Key Lengths"));
                 maxMacLength = 128; // aes block size
             }
             else
@@ -255,7 +258,7 @@ namespace NIST.CVP.Generation.KAS
             // validate key mod 8
             errorResults.AddIfNotNullOrEmpty(ValidateMultipleOf(macOptionsBase.KeyLen, 8, "KeyLength Modulus"));
             // valid key min
-            if (macOptionsBase.KeyLen.Min() < minMacKeyLength)
+            if (macOptionsBase.KeyLen.GetDomainMinMax().Minimum < minMacKeyLength)
             {
                 errorResults.Add("KeyLength minimum");
             }
