@@ -3,6 +3,7 @@ using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Generation.KAS.EccComponent;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -28,6 +29,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Function = ParameterValidator.ValidFunctions,
                 Curves = new string[] { "p-192" },
                 IsSample = true
             };
@@ -41,6 +43,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
+                Function = ParameterValidator.ValidFunctions,
                 Curves = new string[] { "p-192", "k-163", "b-163" },
                 IsSample = true
             };

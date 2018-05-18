@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
@@ -11,10 +12,20 @@ namespace NIST.CVP.Generation.KAS.EccComponent
         public string Algorithm => "KAS-ECC";
         public string Mode => "CDH-Component";
 
+        public static string[] ValidFunctions => new string[]
+        {
+            "dpGen",
+            "dpVal",
+            "keyPairGen",
+            "partialVal",
+            "keyRegen"
+        };
+
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errorResults = new List<string>();
             ValidateAlgorithm(parameters, errorResults);
+            ValidateFunctions(parameters, errorResults);
             ValidateCurves(parameters, errorResults);
 
             if (errorResults.Count > 0)
@@ -40,6 +51,13 @@ namespace NIST.CVP.Generation.KAS.EccComponent
                     new string[] { Mode },
                     nameof(Mode)
                 )
+            );
+        }
+
+        private void ValidateFunctions(Parameters parameters, List<string> errorResults)
+        {
+            errorResults.AddIfNotNullOrEmpty(
+                ValidateArray(parameters.Function, ValidFunctions, "Functions")
             );
         }
 
