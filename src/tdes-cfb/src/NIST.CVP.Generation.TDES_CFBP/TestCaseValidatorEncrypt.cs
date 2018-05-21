@@ -55,12 +55,13 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            // TODO this first check doesn't make sense
             if (_expectedResult.CipherText != null && suppliedResult.CipherText != null)
             {
                 if (!_expectedResult.CipherText.Equals(suppliedResult.CipherText))
                 {
                     errors.Add("Cipher Texts do not match");
+                    expected.Add(nameof(_expectedResult.CipherText), _expectedResult.CipherText.ToHex());
+                    provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
                 }
             }
 

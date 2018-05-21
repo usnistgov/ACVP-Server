@@ -52,12 +52,14 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            // TODO this first check doesn't make sense
-            if (!_expectedResult.PlainText.Equals(suppliedResult.PlainText))
+            if (_expectedResult.PlainText != null && suppliedResult.PlainText != null)
             {
-                errors.Add("Plain Text does not match");
-                expected.Add(nameof(_expectedResult.PlainText), _expectedResult.PlainText.ToHex());
-                provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
+                if (!_expectedResult.PlainText.Equals(suppliedResult.PlainText))
+                {
+                    errors.Add("Plain Text does not match");
+                    expected.Add(nameof(_expectedResult.PlainText), _expectedResult.PlainText.ToHex());
+                    provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
+                }
             }
 
             if (suppliedResult.PlainText1 != null && suppliedResult.PlainText2 != null && suppliedResult.PlainText3 != null &&

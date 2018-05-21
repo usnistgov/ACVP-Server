@@ -19,7 +19,14 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
         {
             if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = _expectedResult.Reason };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId,
+                    Result = Core.Enums.Disposition.Failed,
+                    Reason = _expectedResult.Reason,
+                    Expected = showExpected ? new Dictionary<string, string>() : null,
+                    Provided = showExpected ? new Dictionary<string, string>() : null
+                };
             }
 
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };

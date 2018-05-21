@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {

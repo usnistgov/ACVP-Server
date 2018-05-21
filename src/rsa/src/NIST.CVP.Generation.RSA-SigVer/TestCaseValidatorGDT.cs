@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using System.Collections.Generic;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
@@ -20,7 +21,14 @@ namespace NIST.CVP.Generation.RSA_SigVer
             }
             else
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = _expectedResult.ReasonName };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId, 
+                    Result = Core.Enums.Disposition.Failed, 
+                    Reason = _expectedResult.ReasonName,
+                    Expected = showExpected ? new Dictionary<string, string>() : null,
+                    Provided = showExpected ? new Dictionary<string, string>() : null
+                };
             }
         }
     }

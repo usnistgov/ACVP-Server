@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.Core;
+﻿using System.Collections.Generic;
+using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
@@ -17,7 +18,14 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
         {
             if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = _expectedResult.Reason.GetName() };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId, 
+                    Result = Core.Enums.Disposition.Failed, 
+                    Reason = _expectedResult.Reason.GetName(),
+                    Expected = showExpected ? new Dictionary<string, string>() : null,
+                    Provided = showExpected ? new Dictionary<string, string>() : null
+                };
             }
 
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };

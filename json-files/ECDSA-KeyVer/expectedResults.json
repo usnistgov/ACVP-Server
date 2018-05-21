@@ -29,11 +29,11 @@
         },
         {
           "tcId": 5,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 6,
-          "testPassed": false
+          "testPassed": true
         }
       ]
     },
@@ -42,7 +42,7 @@
       "tests": [
         {
           "tcId": 7,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 8,
@@ -50,7 +50,7 @@
         },
         {
           "tcId": 9,
-          "testPassed": true
+          "testPassed": false
         }
       ]
     },
@@ -59,7 +59,7 @@
       "tests": [
         {
           "tcId": 10,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 11,
@@ -67,7 +67,7 @@
         },
         {
           "tcId": 12,
-          "testPassed": true
+          "testPassed": false
         }
       ]
     },
@@ -93,11 +93,11 @@
       "tests": [
         {
           "tcId": 16,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 17,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 18,
@@ -110,11 +110,11 @@
       "tests": [
         {
           "tcId": 19,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 20,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 21,
@@ -127,7 +127,7 @@
       "tests": [
         {
           "tcId": 22,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 23,
@@ -135,7 +135,7 @@
         },
         {
           "tcId": 24,
-          "testPassed": true
+          "testPassed": false
         }
       ]
     },
@@ -148,11 +148,11 @@
         },
         {
           "tcId": 26,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 27,
-          "testPassed": false
+          "testPassed": true
         }
       ]
     },
@@ -161,7 +161,7 @@
       "tests": [
         {
           "tcId": 28,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 29,
@@ -169,7 +169,7 @@
         },
         {
           "tcId": 30,
-          "testPassed": false
+          "testPassed": true
         }
       ]
     },
@@ -178,7 +178,7 @@
       "tests": [
         {
           "tcId": 31,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 32,
@@ -186,7 +186,7 @@
         },
         {
           "tcId": 33,
-          "testPassed": false
+          "testPassed": true
         }
       ]
     },
@@ -195,11 +195,11 @@
       "tests": [
         {
           "tcId": 34,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 35,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 36,
@@ -212,7 +212,7 @@
       "tests": [
         {
           "tcId": 37,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 38,
@@ -220,7 +220,7 @@
         },
         {
           "tcId": 39,
-          "testPassed": true
+          "testPassed": false
         }
       ]
     },
@@ -246,7 +246,7 @@
       "tests": [
         {
           "tcId": 43,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 44,
@@ -254,7 +254,7 @@
         },
         {
           "tcId": 45,
-          "testPassed": false
+          "testPassed": true
         }
       ]
     }

@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent
                     Result = Core.Enums.Disposition.Failed, 
                     Reason = string.Join(";", errors),
                     Expected = showExpected ? expected : null,
-                    Provided = showProvided ? provided : null
+                    Provided = showExpected ? provided : null
                 };
             }
 

@@ -1,20 +1,20 @@
 {
-  "Algorithm": "DSA",
-  "Mode": "PQGVer",
-  "IsSample": false,
-  "Capabilities": [
+  "algorithm": "DSA",
+  "mode": "PQGVer",
+  "isSample": false,
+  "capabilities": [
     {
-      "PQGen": [
+      "pqGen": [
         "probable",
         "provable"
       ],
-      "GGen": [
+      "gGen": [
         "unverifiable",
         "canonical"
       ],
-      "L": 1024,
-      "N": 160,
-      "HashAlgs": [
+      "l": 1024,
+      "n": 160,
+      "hashAlg": [
         "sha-1",
         "sha2-224",
         "sha2-256",
@@ -25,17 +25,17 @@
       ]
     },
     {
-      "PQGen": [
+      "pqGen": [
         "probable",
         "provable"
       ],
-      "GGen": [
+      "gGen": [
         "unverifiable",
         "canonical"
       ],
-      "L": 2048,
-      "N": 224,
-      "HashAlgs": [
+      "l": 2048,
+      "n": 224,
+      "hashAlg": [
         "sha2-224",
         "sha2-256",
         "sha2-384",
@@ -45,17 +45,17 @@
       ]
     },
     {
-      "PQGen": [
+      "pqGen": [
         "probable",
         "provable"
       ],
-      "GGen": [
+      "gGen": [
         "unverifiable",
         "canonical"
       ],
-      "L": 2048,
-      "N": 256,
-      "HashAlgs": [
+      "l": 2048,
+      "n": 256,
+      "hashAlg": [
         "sha2-256",
         "sha2-384",
         "sha2-512",
@@ -63,17 +63,17 @@
       ]
     },
     {
-      "PQGen": [
+      "pqGen": [
         "probable",
         "provable"
       ],
-      "GGen": [
+      "gGen": [
         "unverifiable",
         "canonical"
       ],
-      "L": 3072,
-      "N": 256,
-      "HashAlgs": [
+      "l": 3072,
+      "n": 256,
+      "hashAlg": [
         "sha2-256",
         "sha2-384",
         "sha2-512",
