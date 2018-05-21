@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 
         public List<ITestCase> Tests { get; set; } = new List<ITestCase>();
 
-        public Curve CurveName { get; set; }
+        public Curve Curve { get; set; }
 
         private void MapToProperties(dynamic source)
         {
@@ -36,8 +36,8 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 
             TestGroupId = (int) source.tgId;
 
-            CurveName = EnumHelpers.GetEnumFromEnumDescription<Curve>(
-                expandoSource.GetTypeFromProperty<string>("curveName")
+            Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(
+                expandoSource.GetTypeFromProperty<string>("curve")
             );
 
             foreach (var test in source.tests)

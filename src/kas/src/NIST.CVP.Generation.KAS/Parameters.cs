@@ -308,7 +308,7 @@ namespace NIST.CVP.Generation.KAS
         /// <summary>
         /// The curve to use in ECC schemes
         /// </summary>
-        public string CurveName { get; set; }
+        public string Curve { get; set; }
     }
 
     /// <inheritdoc />

@@ -68,28 +68,28 @@ namespace NIST.CVP.Generation.KAS.ECC
                         (GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Eb)
                             .OrderBy(ob => Guid.NewGuid())
                             .ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Eb?.CurveName)
+                        schemeBase.NoKdfNoKc.ParameterSet.Eb?.Curve)
                     },
                     {
                         EccParameterSet.Ec,
                         (GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Ec)
                             .OrderBy(ob => Guid.NewGuid())
                             .ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ec?.CurveName)
+                        schemeBase.NoKdfNoKc.ParameterSet.Ec?.Curve)
                     },
                     {
                         EccParameterSet.Ed,
                         (GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Ed)
                             .OrderBy(ob => Guid.NewGuid())
                             .ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ed?.CurveName)
+                        schemeBase.NoKdfNoKc.ParameterSet.Ed?.Curve)
                     },
                     {
                         EccParameterSet.Ee,
                         (GetHashAlgsPerParameterSet(schemeBase.NoKdfNoKc.ParameterSet.Ee)
                             .OrderBy(ob => Guid.NewGuid())
                             .ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ee?.CurveName)
+                        schemeBase.NoKdfNoKc.ParameterSet.Ee?.Curve)
                     }
                 };
 
@@ -104,7 +104,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                             groups.Add(new TestGroup()
                             {
                                 Scheme = scheme,
-                                CurveName = EnumHelpers.GetEnumFromEnumDescription<Curve>(parameterSet.Value.curveName),
+                                Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(parameterSet.Value.curveName),
                                 KasMode = KasMode.NoKdfNoKc,
                                 TestType = testType,
                                 Function = flagFunctions,
@@ -136,7 +136,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                         GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Eb)
                             .OrderBy(ob => Guid.NewGuid())
                             .ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Eb?.CurveName)
+                        schemeBase.NoKdfNoKc.ParameterSet.Eb?.Curve)
                     },
                     {
                         EccParameterSet.Ec,
@@ -144,7 +144,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                             .ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Ec)
                             .OrderBy(ob => Guid.NewGuid()).ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ec?.CurveName)
+                        schemeBase.NoKdfNoKc.ParameterSet.Ec?.Curve)
                     },
                     {
                         EccParameterSet.Ed,
@@ -152,7 +152,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                             .ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Ed)
                             .OrderBy(ob => Guid.NewGuid()).ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ed?.CurveName)
+                        schemeBase.NoKdfNoKc.ParameterSet.Ed?.Curve)
                     },
                     {
                         EccParameterSet.Ee,
@@ -160,7 +160,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                             .ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfNoKc.ParameterSet.Ee)
                             .OrderBy(ob => Guid.NewGuid()).ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ee?.CurveName)
+                        schemeBase.NoKdfNoKc.ParameterSet.Ee?.Curve)
                     }
                 };
 
@@ -184,7 +184,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                                 groups.Add(new TestGroup()
                                 {
                                     Scheme = scheme,
-                                    CurveName = EnumHelpers.GetEnumFromEnumDescription<Curve>(parameterSet.Value.curveName),
+                                    Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(parameterSet.Value.curveName),
                                     KasMode = KasMode.KdfNoKc,
                                     TestType = testType,
                                     Function = flagFunctions,
@@ -221,25 +221,25 @@ namespace NIST.CVP.Generation.KAS.ECC
                             .ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Eb)
                             .ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Eb?.CurveName)
+                        schemeBase.NoKdfNoKc.ParameterSet.Eb?.Curve)
                     },
                     {
                         EccParameterSet.Ec,
                         (GetHashAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Ec).ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Ec).ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ec?.CurveName)
+                        schemeBase.NoKdfNoKc.ParameterSet.Ec?.Curve)
                     },
                     {
                         EccParameterSet.Ed,
                         (GetHashAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Ed).ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Ed).ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ed?.CurveName)
+                        schemeBase.NoKdfNoKc.ParameterSet.Ed?.Curve)
                     },
                     {
                         EccParameterSet.Ee,
                         (GetHashAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Ee).ToList(),
                         GetMacAlgsPerParameterSet(schemeBase.KdfKc.ParameterSet.Ee).ToList(),
-                        schemeBase.NoKdfNoKc.ParameterSet.Ee?.CurveName)
+                        schemeBase.NoKdfNoKc.ParameterSet.Ee?.Curve)
                     }
                 };
 
@@ -296,7 +296,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                                                     groups.Add(new TestGroup()
                                                     {
                                                         Scheme = scheme,
-                                                        CurveName = curve,
+                                                        Curve = curve,
                                                         KasMode = KasMode.KdfKc,
                                                         TestType = testType,
                                                         Function = flagFunctions,

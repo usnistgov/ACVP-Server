@@ -6,10 +6,11 @@
     "dpGen",
     "dpVal",
     "keyPairGen",
+    "fullVal",
     "partialVal",
     "keyRegen"
   ],
-  "curves": [
+  "curve": [
     "p-192",
     "k-163",
     "b-163"

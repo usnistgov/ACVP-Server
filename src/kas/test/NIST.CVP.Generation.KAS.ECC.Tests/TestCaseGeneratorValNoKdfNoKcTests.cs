@@ -301,7 +301,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
                 KcType = KeyConfirmationDirection.None,
                 MacType = KeyAgreementMacType.None,
                 TestType = "VAL",
-                CurveName = Curve.P224
+                Curve = Curve.P224
             };
 
             KeyAgreementRole serverRole =

@@ -77,7 +77,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 Eb = new Eb()
                                 {
                                     HashAlg = new string[] { "SHA2-224" },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         }
@@ -92,7 +92,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 Eb = new Eb()
                                 {
                                     HashAlg = new string[] { "SHA2-224" },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         }
@@ -107,7 +107,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 Eb = new Eb()
                                 {
                                     HashAlg = new string[] { "SHA2-224" },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         }
@@ -137,7 +137,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 Eb = new Eb()
                                 {
                                     HashAlg = new string[] { "SHA2-224" },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -171,7 +171,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -211,7 +211,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -226,7 +226,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 Eb = new Eb()
                                 {
                                     HashAlg = new string[] { "SHA2-224" },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -260,7 +260,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -300,7 +300,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -315,7 +315,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 Eb = new Eb()
                                 {
                                     HashAlg = new string[] { "SHA2-224" },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -349,7 +349,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         }
@@ -364,7 +364,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 Eb = new Eb()
                                 {
                                     HashAlg = new string[] { "SHA2-224" },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -398,7 +398,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -438,7 +438,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -453,7 +453,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 Eb = new Eb()
                                 {
                                     HashAlg = new string[] { "SHA2-224" },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -487,7 +487,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -527,7 +527,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -542,7 +542,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 Eb = new Eb()
                                 {
                                     HashAlg = new string[] { "SHA2-224" },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -576,7 +576,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -616,7 +616,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -631,7 +631,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 Eb = new Eb()
                                 {
                                     HashAlg = new string[] { "SHA2-224" },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -666,7 +666,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
@@ -707,7 +707,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                             MacLen = 128
                                         }
                                     },
-                                    CurveName = "P-224"
+                                    Curve = "P-224"
                                 }
                             }
                         },
