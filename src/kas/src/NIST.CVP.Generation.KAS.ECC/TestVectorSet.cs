@@ -283,7 +283,7 @@ namespace NIST.CVP.Generation.KAS.ECC
                 updateDict.Add("kcType", EnumHelpers.GetEnumDescriptionFromEnum(group.KcType));
             }
 
-            updateDict.Add("curveName", EnumHelpers.GetEnumDescriptionFromEnum(group.CurveName));
+            updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
         }
     }
 }

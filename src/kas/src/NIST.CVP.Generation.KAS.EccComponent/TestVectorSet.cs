@@ -156,7 +156,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             var updateDict = ((IDictionary<string, object>) updateObject);
             updateDict.Add("tgId", group.TestGroupId);
             updateDict.Add("testType", group.TestType);
-            updateDict.Add("curveName", EnumHelpers.GetEnumDescriptionFromEnum(group.CurveName));
+            updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
         }
     }
 }

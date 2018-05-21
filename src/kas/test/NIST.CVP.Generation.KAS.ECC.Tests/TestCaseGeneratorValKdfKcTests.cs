@@ -1631,7 +1631,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
                 KcType = kcType,
                 MacType = macType,
                 TestType = "VAL",
-                CurveName = Curve.B163,
+                Curve = Curve.B163,
                 KeyLen = 128,
                 MacLen = 128,
                 KdfType = "concatenation",

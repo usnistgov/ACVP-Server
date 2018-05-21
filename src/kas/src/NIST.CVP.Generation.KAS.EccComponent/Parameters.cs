@@ -8,6 +8,6 @@ namespace NIST.CVP.Generation.KAS.EccComponent
         public string Mode { get; set; }
         public bool IsSample { get; set; }
         public string[] Function { get; set; }
-        public string[] Curves { get; set; }
+        public string[] Curve { get; set; }
     }
 }

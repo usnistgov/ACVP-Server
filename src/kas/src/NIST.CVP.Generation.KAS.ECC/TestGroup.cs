@@ -26,10 +26,10 @@ namespace NIST.CVP.Generation.KAS.ECC
 
         public EccScheme Scheme { get; set; }
         public EccParameterSet ParmSet { get; set; }
-        public Curve CurveName { get; set; }
+        public Curve Curve { get; set; }
         
         public override KasDsaAlgoAttributesEcc KasDsaAlgoAttributes =>
-            new KasDsaAlgoAttributesEcc(Scheme, ParmSet, CurveName);
+            new KasDsaAlgoAttributesEcc(Scheme, ParmSet, Curve);
 
         private void MapToProperties(dynamic source)
         {
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             KcType = EnumHelpers.GetEnumFromEnumDescription<KeyConfirmationDirection>(expandoSource.GetTypeFromProperty<string>("kcType"), false);
             NonceType = expandoSource.GetTypeFromProperty<string>("nonceType");
 
-            CurveName = EnumHelpers.GetEnumFromEnumDescription<Curve>(expandoSource.GetTypeFromProperty<string>("curveName"));
+            Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(expandoSource.GetTypeFromProperty<string>("curve"));
 
             foreach (var test in source.tests)
             {

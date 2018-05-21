@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Function = ParameterValidator.ValidFunctions,
-                Curves = new string[] { "p-192" },
+                Curve = new string[] { "p-192" },
                 IsSample = true
             };
 
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Function = ParameterValidator.ValidFunctions,
-                Curves = new string[] { "p-192", "k-163", "b-163" },
+                Curve = new string[] { "p-192", "k-163", "b-163" },
                 IsSample = true
             };
 

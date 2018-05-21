@@ -142,7 +142,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             var parameterSetDetails = ParameterSetDetails.GetDetailsForEccParameterSet(parameterSetType);
 
             ValidateCurve(
-                parameterSet.CurveName, parameterSetDetails.minLengthN, parameterSetDetails.maxLengthN,
+                parameterSet.Curve, parameterSetDetails.minLengthN, parameterSetDetails.maxLengthN,
                 errorResults);
             ValidateHashFunctions(parameterSet.HashAlg, parameterSetType.ToString(),
                 parameterSetDetails.minHashLength, errorResults);

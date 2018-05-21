@@ -105,7 +105,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Parsers
                     if (workingLine.StartsWith(curveLine, StringComparison.OrdinalIgnoreCase))
                     {
                         var curveSplit = workingLine.Replace("]", "").Split(":".ToCharArray());
-                        currentGroup.CurveName = GetCurve(curveSplit[1]);
+                        currentGroup.Curve = GetCurve(curveSplit[1]);
                         continue;
                     }
                     #endregion curve
