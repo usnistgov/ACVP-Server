@@ -1,58 +1,58 @@
 {
-  "Algorithm": "KAS-FFC",
-  "IsSample": true,
-  "Function": [
+  "algorithm": "KAS-FFC",
+  "isSample": true,
+  "function": [
     "dpGen",
     "dpVal",
     "keyPairGen",
     "fullVal",
     "keyRegen"
   ],
-  "Scheme": {
+  "scheme": {
     "dhEphem": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ]
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             }
           }
@@ -60,97 +60,97 @@
       }
     },
     "mqv1": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ]
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             }
           }
         }
       },
-      "KdfKc": {
-        "KcOption": {
-          "KcRole": [
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
             "provider",
             "recipient"
           ],
-          "KcType": [
+          "kcType": [
             "unilateral",
             "bilateral"
           ],
-          "NonceType": [
+          "nonceType": [
             "randomNonce"
           ]
         },
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafe1234]"
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafe1234]"
         },
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-512"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-384": {
-                "KeyLen": [
+              "hmaC-SHA2-384": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             }
           }
@@ -158,49 +158,49 @@
       }
     },
     "dhHybrid1": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ]
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             }
           }
@@ -208,97 +208,97 @@
       }
     },
     "mqv2": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ]
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             }
           }
         }
       },
-      "KdfKc": {
-        "KcOption": {
-          "KcRole": [
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
             "provider",
             "recipient"
           ],
-          "KcType": [
+          "kcType": [
             "unilateral",
             "bilateral"
           ],
-          "NonceType": [
+          "nonceType": [
             "randomNonce"
           ]
         },
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafe1234]"
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafe1234]"
         },
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-512"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-384": {
-                "KeyLen": [
+              "hmaC-SHA2-384": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             }
           }
@@ -306,97 +306,97 @@
       }
     },
     "hybridOneFlow": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ]
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             }
           }
         }
       },
-      "KdfKc": {
-        "KcOption": {
-          "KcRole": [
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
             "provider",
             "recipient"
           ],
-          "KcType": [
+          "kcType": [
             "unilateral",
             "bilateral"
           ],
-          "NonceType": [
+          "nonceType": [
             "randomNonce"
           ]
         },
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafe1234]"
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafe1234]"
         },
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-512"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-384": {
-                "KeyLen": [
+              "hmaC-SHA2-384": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             }
           }
@@ -404,96 +404,96 @@
       }
     },
     "dhOneFlow": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ]
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             }
           }
         }
       },
-      "KdfKc": {
-        "KcOption": {
-          "KcRole": [
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
             "provider",
             "recipient"
           ],
-          "KcType": [
+          "kcType": [
             "unilateral"
           ],
-          "NonceType": [
+          "nonceType": [
             "randomNonce"
           ]
         },
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafe1234]"
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafe1234]"
         },
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-512"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-384": {
-                "KeyLen": [
+              "hmaC-SHA2-384": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             }
           }
@@ -501,102 +501,102 @@
       }
     },
     "dhStatic": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ]
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "DkmNonceTypes": [
+        "dkmNonceTypes": [
           "randomNonce"
         ],
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             }
           }
         }
       },
-      "KdfKc": {
-        "KcOption": {
-          "KcRole": [
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
             "provider",
             "recipient"
           ],
-          "KcType": [
+          "kcType": [
             "unilateral"
           ],
-          "NonceType": [
+          "nonceType": [
             "randomNonce"
           ]
         },
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafe1234]"
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafe1234]"
         },
-        "DkmNonceTypes": [
+        "dkmNonceTypes": [
           "randomNonce"
         ],
-        "ParameterSet": {
-          "Fb": {
-            "HashAlg": [
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
               "SHA2-512"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   256
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-384": {
-                "KeyLen": [
+              "hmaC-SHA2-384": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             }
           }
