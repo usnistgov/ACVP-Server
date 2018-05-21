@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 
         public SharedSecretResponse CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var domainParameters = new EccDomainParameters(_curveFactory.GetCurve(testGroup.CurveName));
+            var domainParameters = new EccDomainParameters(_curveFactory.GetCurve(testGroup.Curve));
             return _eccDhComponent.GenerateSharedSecret(
                 domainParameters,
                 serverTestCase.KeyPairPartyServer,

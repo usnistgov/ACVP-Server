@@ -63,7 +63,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests.ContractResolvers
             Assert.AreEqual(tg.KasMode, newTg.KasMode, nameof(newTg.KasMode));
             Assert.AreEqual(tg.ParmSet, newTg.ParmSet, nameof(newTg.ParmSet));
             Assert.AreEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));
-            Assert.AreEqual(tg.CurveName, newTg.CurveName, nameof(newTg.CurveName));
+            Assert.AreEqual(tg.Curve, newTg.Curve, nameof(newTg.Curve));
 
             Assert.IsFalse(json.ToLower().Contains(nameof(TestGroup.MacType).ToLower()), nameof(TestGroup.MacType));
             Assert.IsFalse(json.ToLower().Contains(nameof(TestGroup.KcRole).ToLower()), nameof(TestGroup.KcRole));
@@ -110,7 +110,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests.ContractResolvers
             Assert.AreEqual(tg.KasMode, newTg.KasMode, nameof(newTg.KasMode));
             Assert.AreEqual(tg.ParmSet, newTg.ParmSet, nameof(newTg.ParmSet));
             Assert.AreEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));
-            Assert.AreEqual(tg.CurveName, newTg.CurveName, nameof(newTg.CurveName));
+            Assert.AreEqual(tg.Curve, newTg.Curve, nameof(newTg.Curve));
 
             Assert.AreEqual(tg.MacType, newTg.MacType, nameof(newTg.MacType));
             Assert.AreEqual(tg.KeyLen, newTg.KeyLen, nameof(newTg.KeyLen));
@@ -176,7 +176,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests.ContractResolvers
             Assert.AreEqual(tg.KasMode, newTg.KasMode, nameof(newTg.KasMode));
             Assert.AreEqual(tg.ParmSet, newTg.ParmSet, nameof(newTg.ParmSet));
             Assert.AreEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));
-            Assert.AreEqual(tg.CurveName, newTg.CurveName, nameof(newTg.CurveName));
+            Assert.AreEqual(tg.Curve, newTg.Curve, nameof(newTg.Curve));
 
             Assert.AreEqual(tg.MacType, newTg.MacType, nameof(newTg.MacType));
             Assert.AreEqual(tg.KeyLen, newTg.KeyLen, nameof(newTg.KeyLen));

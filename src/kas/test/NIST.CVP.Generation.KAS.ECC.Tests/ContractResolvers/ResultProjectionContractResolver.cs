@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests.ContractResolvers
             Assert.AreNotEqual(tg.KasRole, newTg.KasRole, nameof(newTg.KasRole));
             Assert.AreNotEqual(tg.ParmSet, newTg.ParmSet, nameof(newTg.ParmSet));
             Assert.AreNotEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));
-            Assert.AreNotEqual(tg.CurveName, newTg.CurveName, nameof(newTg.CurveName));
+            Assert.AreNotEqual(tg.Curve, newTg.Curve, nameof(newTg.Curve));
 
             Assert.IsFalse(json.ToLower().Contains(nameof(TestGroup.KasMode).ToLower()), nameof(TestGroup.KasMode));
             Assert.IsFalse(json.ToLower().Contains(nameof(TestGroup.MacType).ToLower()), nameof(TestGroup.MacType));

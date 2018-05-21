@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent.ContractResolvers
                 nameof(TestGroup.TestGroupId),
                 nameof(TestGroup.Tests),
                 nameof(TestGroup.TestType),
-                nameof(TestGroup.CurveName),
+                nameof(TestGroup.Curve),
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

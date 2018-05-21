@@ -47,6 +47,11 @@ namespace NIST.CVP.Generation.KAS.Helpers
                 validityTestCaseOptions.Add(TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, numberOfScenariosPerType);
             }
 
+            if (testGroup.Function.HasFlag(KasAssurance.PartialVal))
+            {
+                validityTestCaseOptions.Add(TestCaseDispositionOption.FailAssuranceServerStaticPublicKey, numberOfScenariosPerType);
+            }
+
             if (testGroup.KasMode == KasMode.KdfKc || testGroup.Function.HasFlag(KasAssurance.KeyPairGen) ||
                 testGroup.Function.HasFlag(KasAssurance.KeyRegen))
             {

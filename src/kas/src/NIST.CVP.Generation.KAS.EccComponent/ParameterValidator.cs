@@ -17,6 +17,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             "dpGen",
             "dpVal",
             "keyPairGen",
+            "fullVal",
             "partialVal",
             "keyRegen"
         };
@@ -66,7 +67,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
             var validValues = EnumHelpers.GetEnumDescriptions<Curve>();
             errorResults.AddIfNotNullOrEmpty(
                 ValidateArray(
-                    parameters.Curves, 
+                    parameters.Curve, 
                     validValues.ToArray(), 
                     "Curves"
                 )

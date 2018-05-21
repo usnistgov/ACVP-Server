@@ -667,7 +667,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
                 KcType = KeyConfirmationDirection.None,
                 MacType = macType,
                 TestType = "VAL",
-                CurveName = Curve.P224,
+                Curve = Curve.P224,
                 KeyLen = 128,
                 MacLen = 128,
                 KdfType = "concatenation",

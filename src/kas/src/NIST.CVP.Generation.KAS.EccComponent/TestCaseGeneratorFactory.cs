@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            var curve = _curveFactory.GetCurve(testGroup.CurveName);
+            var curve = _curveFactory.GetCurve(testGroup.Curve);
             // note hash function is used for signing/verifying - not relevant for use in this algo
             var dsa = _dsaFactory.GetInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512));
 

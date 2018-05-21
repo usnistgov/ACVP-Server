@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests.ContractResolvers
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.CurveName, newTg.CurveName, nameof(newTg.CurveName));
+            Assert.AreEqual(tg.Curve, newTg.Curve, nameof(newTg.Curve));
         }
 
         [Test]

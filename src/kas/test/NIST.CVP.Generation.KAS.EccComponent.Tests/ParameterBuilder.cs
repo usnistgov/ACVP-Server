@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
                 Algorithm = _algorithm,
                 Mode = _mode,
                 Function = _function,
-                Curves = _curves
+                Curve = _curves
             };
         }
 
