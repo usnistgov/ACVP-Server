@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.Enums;
@@ -49,13 +50,13 @@ namespace NIST.CVP.Generation.Core
             var parameterResponse = _parameterParser.Parse(requestFilePath);
             if (!parameterResponse.Success)
             {
-                return new GenerateResponse(parameterResponse.ErrorMessage);
+                return new GenerateResponse(parameterResponse.ErrorMessage, StatusCode.ParameterError);
             }
             var parameters = parameterResponse.ParsedObject;
             var validateResponse = _parameterValidator.Validate(parameters);
             if (!validateResponse.Success)
             {
-                return new GenerateResponse(validateResponse.ErrorMessage);
+                return new GenerateResponse(validateResponse.ErrorMessage, StatusCode.ParameterValidationError);
             }
             var testVector = _testVectorFactory.BuildTestVectorSet(parameters);
             var testCasesResult = _testCaseGeneratorFactoryFactory.BuildTestCases(testVector);
@@ -74,7 +75,7 @@ namespace NIST.CVP.Generation.Core
                 var saveResult = SaveProjectionToFile(outputDirPath, testVector, jsonOutput);
                 if (!string.IsNullOrEmpty(saveResult))
                 {
-                    return new GenerateResponse(saveResult);
+                    return new GenerateResponse(saveResult, StatusCode.FileSaveError);
                 }
             }
 
