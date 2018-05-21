@@ -18,6 +18,7 @@ namespace NIST.CVP.Generation.KAS.ECC
             "dpGen",
             "dpVal",
             "keyPairGen",
+            "fullVal",
             "partialVal",
             "keyRegen"
         };

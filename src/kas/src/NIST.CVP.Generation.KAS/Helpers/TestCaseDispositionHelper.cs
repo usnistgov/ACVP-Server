@@ -4,6 +4,7 @@ using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Schema;
+using NIST.CVP.Crypto.KAS.Scheme.Ecc;
 using NIST.CVP.Generation.KAS.Enums;
 
 namespace NIST.CVP.Generation.KAS.Helpers
@@ -41,6 +42,11 @@ namespace NIST.CVP.Generation.KAS.Helpers
             {
                 validityTestCaseOptions.Add(TestCaseDispositionOption.FailAssuranceServerStaticPublicKey, numberOfScenariosPerType);
                 validityTestCaseOptions.Add(TestCaseDispositionOption.FailAssuranceServerEphemeralPublicKey, numberOfScenariosPerType);
+            }
+
+            if (testGroup.Function.HasFlag(KasAssurance.PartialVal))
+            {
+                validityTestCaseOptions.Add(TestCaseDispositionOption.FailAssuranceServerStaticPublicKey, numberOfScenariosPerType);
             }
 
             if (testGroup.KasMode == KasMode.KdfKc || testGroup.Function.HasFlag(KasAssurance.KeyPairGen) ||
