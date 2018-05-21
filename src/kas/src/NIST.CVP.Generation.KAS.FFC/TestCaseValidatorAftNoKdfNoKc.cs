@@ -33,19 +33,28 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         public int TestCaseId => _workingResult.TestCaseId;
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
 
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors);
+                CheckResults(suppliedResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId,
+                    Result = Core.Enums.Disposition.Failed,
+                    Reason = string.Join("; ", errors),
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
+                };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
@@ -74,13 +83,15 @@ namespace NIST.CVP.Generation.KAS.FFC
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             KasResult serverResult = _deferredResolver.CompleteDeferredCrypto(_testGroup, _workingResult, suppliedResult);
 
             if (!serverResult.Tag.Equals(suppliedResult.HashZ))
             {
                 errors.Add($"{nameof(suppliedResult.HashZ)} does not match");
+                expected.Add(nameof(serverResult.Tag), serverResult.Tag.ToHex());
+                provided.Add(nameof(suppliedResult.HashZ), suppliedResult.HashZ.ToHex());
             }
         }
     }

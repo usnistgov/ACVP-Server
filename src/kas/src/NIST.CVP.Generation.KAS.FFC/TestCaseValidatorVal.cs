@@ -15,9 +15,12 @@ namespace NIST.CVP.Generation.KAS.FFC
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
+
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
@@ -26,7 +29,14 @@ namespace NIST.CVP.Generation.KAS.FFC
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId,
+                    Result = Core.Enums.Disposition.Failed,
+                    Reason = string.Join("; ", errors),
+                    Expected = showExpected ? new Dictionary<string, string>() : null,
+                    Provided = showExpected ? new Dictionary<string, string>() : null
+                };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }

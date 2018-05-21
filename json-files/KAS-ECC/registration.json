@@ -1,674 +1,675 @@
 {
-  "Algorithm": "KAS-ECC",
-  "IsSample": true,
-  "Function": [
+  "algorithm": "KAS",
+  "mode": "ECC",
+  "isSample": true,
+  "function": [
     "dpGen",
     "dpVal",
     "keyPairGen",
     "partialVal",
     "keyRegen"
   ],
-  "Scheme": {
+  "scheme": {
     "ephemeralUnified": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       }
     },
     "onePassMqv": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfKc": {
-        "KcOption": {
-          "KcRole": [
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
             "provider",
             "recipient"
           ],
-          "KcType": [
+          "kcType": [
             "unilateral",
             "bilateral"
           ],
-          "NonceType": [
+          "nonceType": [
             "randomNonce"
           ]
         },
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       }
     },
     "fullUnified": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfKc": {
-        "KcOption": {
-          "KcRole": [
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
             "provider",
             "recipient"
           ],
-          "KcType": [
+          "kcType": [
             "unilateral",
             "bilateral"
           ],
-          "NonceType": [
+          "nonceType": [
             "randomNonce"
           ]
         },
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       }
     },
     "fullMqv": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfKc": {
-        "KcOption": {
-          "KcRole": [
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
             "provider",
             "recipient"
           ],
-          "KcType": [
+          "kcType": [
             "unilateral",
             "bilateral"
           ],
-          "NonceType": [
+          "nonceType": [
             "randomNonce"
           ]
         },
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       }
     },
     "onePassUnified": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfKc": {
-        "KcOption": {
-          "KcRole": [
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
             "provider",
             "recipient"
           ],
-          "KcType": [
+          "kcType": [
             "unilateral",
             "bilateral"
           ],
-          "NonceType": [
+          "nonceType": [
             "randomNonce"
           ]
         },
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       }
     },
     "onePassDh": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfKc": {
-        "KcOption": {
-          "KcRole": [
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
             "provider",
             "recipient"
           ],
-          "KcType": [
+          "kcType": [
             "unilateral",
             "bilateral"
           ],
-          "NonceType": [
+          "nonceType": [
             "randomNonce"
           ]
         },
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       }
     },
     "staticUnified": {
-      "Role": [
+      "role": [
         "initiator",
         "responder"
       ],
-      "NoKdfNoKc": {
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+      "noKdfNoKc": {
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfNoKc": {
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "DkmNonceTypes": [
+        "dkmNonceTypes": [
           "randomNonce"
         ],
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       },
-      "KdfKc": {
-        "KcOption": {
-          "KcRole": [
+      "kdfKc": {
+        "kcOption": {
+          "kcRole": [
             "provider",
             "recipient"
           ],
-          "KcType": [
+          "kcType": [
             "unilateral",
             "bilateral"
           ],
-          "NonceType": [
+          "nonceType": [
             "randomNonce"
           ]
         },
-        "KdfOption": {
-          "Asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
         },
-        "DkmNonceTypes": [
+        "dkmNonceTypes": [
           "randomNonce"
         ],
-        "ParameterSet": {
-          "Eb": {
-            "HashAlg": [
+        "parameterSet": {
+          "eb": {
+            "hashAlg": [
               "SHA2-224"
             ],
-            "MacOption": {
-              "AES-CCM": {
-                "KeyLen": [
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 64
+                "macLen": 128,
+                "nonceLen": 64
               },
-              "CMAC": {
-                "KeyLen": [
+              "cmac": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               },
-              "HMAC-SHA2-224": {
-                "KeyLen": [
+              "hmaC-SHA2-224": {
+                "keyLen": [
                   128
                 ],
-                "MacLen": 128,
-                "NonceLen": 0
+                "macLen": 128,
+                "nonceLen": 0
               }
             },
-            "CurveName": "P-224"
+            "curveName": "P-224"
           }
         }
       }
