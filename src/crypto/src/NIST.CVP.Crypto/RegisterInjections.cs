@@ -64,6 +64,7 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<BlockCipherEngineFactory>().AsImplementedInterfaces();
             builder.RegisterType<AesMonteCarloFactory>().AsImplementedInterfaces();
             builder.RegisterType<TdesMonteCarloFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TdesPartitionsMonteCarloFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<AES_CCM.AES_CCM>().AsImplementedInterfaces();
             builder.RegisterType<AES_CCMInternals>().AsImplementedInterfaces();
@@ -136,10 +137,6 @@ namespace NIST.CVP.Crypto
 
             builder.RegisterType<SHA3.SHA3>().AsImplementedInterfaces();
             builder.RegisterType<SHA3_MCT>().AsImplementedInterfaces();
-
-            builder.RegisterType<TdesCbci>().AsImplementedInterfaces();
-            builder.RegisterType<TdesCbciMCT>().AsImplementedInterfaces();
-            builder.RegisterType<TDES_CBCI.MonteCarloKeyMaker>().AsImplementedInterfaces();
 
             builder.RegisterType<TDES_CFB.MonteCarloKeyMaker>().AsImplementedInterfaces();
             builder.Register(c => TDES_CFB.ModeFactory.GetMode(algoMode)).AsImplementedInterfaces();

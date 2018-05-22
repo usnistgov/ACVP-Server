@@ -3,7 +3,11 @@ using NIST.CVP.Math;
 using NLog;
 using System;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.Common.Symmetric.TDES.Helpers;
 
 namespace NIST.CVP.Generation.TDES_CBCI
 {
@@ -12,28 +16,36 @@ namespace NIST.CVP.Generation.TDES_CBCI
         private const int BLOCK_SIZE_BITS = 64;
         private const int NUMBER_OF_CASES = 10;
         private readonly IRandom800_90 _random800_90;
-        private readonly ITDES_CBCI _algo;
+        private readonly IBlockCipherEngineFactory _engineFactory;
+        private readonly IModeBlockCipherFactory _modeFactory;
         private int _currentCase;
 
         public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
 
-        public TestCaseGeneratorMMTEncrypt(IRandom800_90 random800_90, ITDES_CBCI algo)
+        public TestCaseGeneratorMMTEncrypt(
+            IRandom800_90 random800_90,
+            IBlockCipherEngineFactory engineFactory,
+            IModeBlockCipherFactory modeFactory
+        )
         {
             _random800_90 = random800_90;
-            _algo = algo;
+            _engineFactory = engineFactory;
+            _modeFactory = modeFactory;
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
-            //todo separate out keys? isSample?
             var key = TdesHelpers.GenerateTdesKey(group.KeyingOption);
             var plainText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * 3 * (_currentCase + 1));
             var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
+            var ivs = TdesPartitionHelpers.SetupIvs(iv);
             var testCase = new TestCase
             {
                 Keys = key,
                 PlainText = plainText,
-                IV1 = iv,
+                IV1 = ivs[0],
+                IV2 = ivs[1],
+                IV3 = ivs[2],
                 Deferred = false
             };
             _currentCase++;
@@ -42,17 +54,29 @@ namespace NIST.CVP.Generation.TDES_CBCI
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
-            SymmetricCipherWithIvResult encryptionResult = null;
             try
             {
-                encryptionResult = _algo.BlockEncrypt(testCase.Keys, testCase.IV1, testCase.PlainText);
-                if (!encryptionResult.Success)
+                var algo = _modeFactory.GetStandardCipher(
+                    _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes),
+                    BlockCipherModesOfOperation.Cbci
+                );
+                var p = new ModeBlockCipherParameters(
+                    BlockCipherDirections.Encrypt,
+                    testCase.IV1,
+                    testCase.Keys,
+                    testCase.PlainText
+                );
+
+                var result = algo.ProcessPayload(p);
+                if (!result.Success)
                 {
-                    ThisLogger.Warn(encryptionResult.ErrorMessage);
+                    ThisLogger.Warn(result.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(result.ErrorMessage);
                     }
                 }
+
+                testCase.CipherText = result.Result;
             }
             catch (Exception ex)
             {
@@ -61,9 +85,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
                     return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
-            testCase.CipherText = encryptionResult.Result;
-            testCase.IV2 = encryptionResult.IVs[1];
-            testCase.IV3 = encryptionResult.IVs[2];
+            
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 

@@ -103,27 +103,30 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                     iIterationResponse.CipherText = jCipherText;
                     responses.Add(iIterationResponse);
 
-                    if (param.Key.BitLength == 128)
+                    switch (param.Key.BitLength)
                     {
-                        param.Key = param.Key.XOR(previousCipherText);
-                    }
-                    if (param.Key.BitLength == 192)
-                    {
-                        var mostSignificant16KeyBitStringXor =
-                            param.Key.GetMostSignificantBits(64).XOR( // XOR 64 most significant key bits w/
-                                copyPreviousCipherText.Substring(0, 64) // the 64 least significant bits of the previous cipher text
-                            );
-                        var leastSignificant128KeyBitStringXor = param.Key.GetLeastSignificantBits(16 * 8).XOR(previousCipherText);
+                        case 128:
+                            param.Key = param.Key.XOR(previousCipherText);
+                            break;
+                        case 192:
+                            var mostSignificant16KeyBitStringXor =
+                                param.Key.GetMostSignificantBits(64).XOR( // XOR 64 most significant key bits w/
+                                    copyPreviousCipherText.Substring(0, 64) // the 64 least significant bits of the previous cipher text
+                                );
+                            var leastSignificant128KeyBitStringXor = param.Key.GetLeastSignificantBits(16 * 8).XOR(previousCipherText);
 
-                        param.Key = mostSignificant16KeyBitStringXor.ConcatenateBits(leastSignificant128KeyBitStringXor);
-                    }
-                    if (param.Key.BitLength == 256)
-                    {
-                        var mostSignificantFirst16BitStringXor = param.Key.GetMostSignificantBits(16 * 8).XOR(copyPreviousCipherText);
-                        var leastSignificant16BitStringXor = param.Key.GetLeastSignificantBits(16 * 8).XOR(previousCipherText);
-                        param.Key = mostSignificantFirst16BitStringXor.ConcatenateBits(leastSignificant16BitStringXor);
-                    }
+                            param.Key = mostSignificant16KeyBitStringXor.ConcatenateBits(leastSignificant128KeyBitStringXor);
+                            break;
+                        case 256:
+                            var mostSignificantFirst16BitStringXor = param.Key.GetMostSignificantBits(16 * 8).XOR(copyPreviousCipherText);
+                            var leastSignificant16BitStringXor = param.Key.GetLeastSignificantBits(16 * 8).XOR(previousCipherText);
 
+                            param.Key = mostSignificantFirst16BitStringXor.ConcatenateBits(leastSignificant16BitStringXor);
+                            break;
+                        default:
+                            throw new ArgumentException(nameof(param.Key));
+                    }
+                    
                     param.Iv = previousCipherText;
                 }
             }

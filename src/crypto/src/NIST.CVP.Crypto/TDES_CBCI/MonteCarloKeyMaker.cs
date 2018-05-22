@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.Common.Symmetric.TDES.Enums;
 using NIST.CVP.Crypto.TDES;
@@ -7,7 +8,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.TDES_CBCI
 {
-    public class MonteCarloKeyMaker : IMonteCarloKeyMaker
+    public class MonteCarloKeyMaker : IMonteCarloKeyMakerTdes
     {
         public BitString MixKeys(TDESKeys keys, List<BitString> lastThreeOpResults)
         {

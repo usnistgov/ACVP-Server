@@ -28,24 +28,21 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                     throw new NotImplementedException();
                 case BlockCipherModesOfOperation.Cbc:
                     return new MonteCarloTdesCbc(_engineFactory, _modeFactory, new TDES_CBC.MonteCarloKeyMaker());
-                case BlockCipherModesOfOperation.Cbci:
-                    throw new NotImplementedException();
                 case BlockCipherModesOfOperation.CfbBit:
                     throw new NotImplementedException();
                 case BlockCipherModesOfOperation.CfbByte:
                     throw new NotImplementedException();
                 case BlockCipherModesOfOperation.CfbBlock:
                     throw new NotImplementedException();
-                case BlockCipherModesOfOperation.CfbpBit:
-                    throw new NotImplementedException();
-                case BlockCipherModesOfOperation.CfbpByte:
-                    throw new NotImplementedException();
-                case BlockCipherModesOfOperation.CfbpBlock:
-                    throw new NotImplementedException();
                 case BlockCipherModesOfOperation.Ofb:
                     throw new NotImplementedException();
                 case BlockCipherModesOfOperation.Ofbi:
                     throw new NotImplementedException();
+                case BlockCipherModesOfOperation.Cbci:
+                case BlockCipherModesOfOperation.CfbpBit:
+                case BlockCipherModesOfOperation.CfbpByte:
+                case BlockCipherModesOfOperation.CfbpBlock:
+                    throw new NotSupportedException(nameof(mode));
                 case BlockCipherModesOfOperation.CbcMac:
                 case BlockCipherModesOfOperation.Ccm:
                 case BlockCipherModesOfOperation.Ctr:
