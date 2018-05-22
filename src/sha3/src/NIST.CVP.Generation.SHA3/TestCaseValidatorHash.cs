@@ -6,16 +6,16 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA3
 {
-    public class TestCaseValidatorHash : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorHash : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
+
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidatorHash(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }
-
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {

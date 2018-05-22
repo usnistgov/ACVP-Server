@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Generation.AES_XPN
 {
-    public class TestCaseValidatorNull : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorNull : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly string _errorMessage;
 

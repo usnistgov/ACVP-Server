@@ -45,8 +45,7 @@ namespace NIST.CVP.Math.Helpers
 
             return copy;
         }
-
-
+        
         public static byte[] ToBytes(this BitArray bArray)
         {
             byte[] bytes = new byte[(bArray.Length - 1) / BITSINBYTE + 1];
@@ -95,5 +94,9 @@ namespace NIST.CVP.Math.Helpers
             return sb.ToString();
         }
 
+        public static BitArray Reverse(this BitArray bArray)
+        {
+            return MsbLsbConversionHelpers.ReverseBitArrayBits(bArray);
+        }
     }
 }

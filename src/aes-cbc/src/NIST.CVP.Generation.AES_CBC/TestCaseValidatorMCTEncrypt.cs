@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.AES_CBC
 {
-    public class TestCaseValidatorMCTEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMCTEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
         private readonly TestCase _expectedResult;
+        
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidator(TestCase expectedResult)
         {
@@ -17,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
-            if (_expectedResult.Result != suppliedResult.Result)
+            if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = _expectedResult.Reason.GetName() };
             }

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.SHA3;
-using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -17,9 +13,8 @@ namespace NIST.CVP.Generation.SHA3
         private readonly ISHA3_MCT _algo;
 
         public bool IsSample { get; set; } = false;
-        private TestCase _seedCaseForTest = null;
 
-        public int NumberOfTestCasesToGenerate { get { return 1; } }
+        public int NumberOfTestCasesToGenerate => 1;
 
         public TestCaseGeneratorSHA3MCTHash(IRandom800_90 random800_90, ISHA3_MCT algo)
         {
@@ -27,21 +22,14 @@ namespace NIST.CVP.Generation.SHA3
             _algo = algo;
         }
 
-        public TestCaseGeneratorSHA3MCTHash(IRandom800_90 random800_90, ISHA3_MCT algo, TestCase seedCase)
-        {
-            _random800_90 = random800_90;
-            _algo = algo;
-            _seedCaseForTest = seedCase;
-        }
-
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             IsSample = isSample;
             var seedCase = new TestCase { Message = _random800_90.GetRandomBitString(group.DigestSize), Deferred = false };
             return Generate(group, seedCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             var hashFunction = new HashFunction
             {
@@ -57,19 +45,19 @@ namespace NIST.CVP.Generation.SHA3
                 if (!hashResult.Success)
                 {
                     ThisLogger.Warn(hashResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(hashResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(hashResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new TestCaseGenerateResponse(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
 
             testCase.ResultsArray = hashResult.Response;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

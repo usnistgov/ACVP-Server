@@ -6,13 +6,13 @@ using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
-    public class TestCaseValidatorNull : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorNull : ITestCaseValidator<TestGroup, TestCase>
     {
-        private readonly ITestCase _expectedResult;
+        private readonly TestCase _expectedResult;
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidatorNull(ITestCase testCase)
+        public TestCaseValidatorNull(TestCase testCase)
         {
             _expectedResult = testCase;
         }

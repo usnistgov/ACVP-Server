@@ -2,6 +2,7 @@
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 
@@ -16,6 +17,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_SignaturePrimitive;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string folderName)
         {
@@ -46,9 +48,9 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             // If TC has a result, change it
-            if (testCase.sigResult != null)
+            if (testCase.testPassed != null)
             {
-                testCase.sigResult = !((bool)testCase.sigResult);
+                testCase.testPassed = !((bool)testCase.testPassed);
             }
 
             var rand = new Random800_90();

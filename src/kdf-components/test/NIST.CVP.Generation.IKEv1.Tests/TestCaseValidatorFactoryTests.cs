@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Moq;
-using NIST.CVP.Crypto.IKEv1;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -26,11 +21,11 @@ namespace NIST.CVP.Generation.IKEv1.Tests
         {
             var testVectorSet = new TestVectorSet
             {
-                TestGroups = new List<ITestGroup>
+                TestGroups = new List<TestGroup>
                 {
                     new TestGroup
                     {
-                        Tests = new List<ITestCase>
+                        Tests = new List<TestCase>
                         {
                             new TestCase()
                         }
@@ -38,7 +33,7 @@ namespace NIST.CVP.Generation.IKEv1.Tests
                 }
             };
 
-            var result = _subject.GetValidators(testVectorSet, null);
+            var result = _subject.GetValidators(testVectorSet);
 
             Assert.AreEqual(1, result.Count());
             Assert.IsInstanceOf(typeof(TestCaseValidator), result.First());

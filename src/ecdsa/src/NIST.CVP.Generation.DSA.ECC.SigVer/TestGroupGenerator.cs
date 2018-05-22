@@ -3,20 +3,24 @@ using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC.Helpers;
-using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.ECC.SigVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        private IShaFactory _shaFactory = new ShaFactory();
-        private readonly EccCurveFactory _curveFactory = new EccCurveFactory();
+        private readonly IDsaEccFactory _eccDsaFactory;
+        private readonly IEccCurveFactory _curveFactory;
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public TestGroupGenerator(IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
+        {
+            _eccDsaFactory = eccDsaFactory;
+            _curveFactory = curveFactory;
+        }
+
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
             // Equality of groups is done via name of the curve and name of the hash function.
@@ -27,19 +31,24 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer
             {
                 foreach (var curveName in capability.Curve)
                 {
-                    var curveEnum = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
-                    var curve = _curveFactory.GetCurve(curveEnum);
-
                     foreach (var hashAlg in capability.HashAlg)
                     {
-                        var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(hashAlg);
-                        var sha = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
+                        var sha = ShaAttributes.GetHashFunctionFromName(hashAlg);
+                        var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
+
+                        // Generate the key
+                        EccKeyPair key = null;
+                        var eccDsa = _eccDsaFactory.GetInstance(sha);
+                        var domainParams = new EccDomainParameters(_curveFactory.GetCurve(curve));
+                        var keyResult = eccDsa.GenerateKeyPair(domainParams);
+                        key = keyResult.KeyPair;
 
                         var testGroup = new TestGroup
                         {
                             TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
-                            DomainParameters = new EccDomainParameters(curve),
-                            HashAlg = sha
+                            Curve = curve,
+                            HashAlg = sha,
+                            KeyPair = key
                         };
 
                         testGroups.Add(testGroup);

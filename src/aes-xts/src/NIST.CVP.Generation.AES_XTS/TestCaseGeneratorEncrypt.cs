@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.AES_XTS;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
@@ -23,7 +20,7 @@ namespace NIST.CVP.Generation.AES_XTS
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -49,7 +46,7 @@ namespace NIST.CVP.Generation.AES_XTS
             var testCase = new TestCase
             {
                 PlainText = plainText,
-                Key = new XtsKey(key),
+                XtsKey = new XtsKey(key),
                 I = i,
                 SequenceNumber = number
             };
@@ -57,17 +54,17 @@ namespace NIST.CVP.Generation.AES_XTS
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SymmetricCipherResult encryptionResult = null;
             try
             {
-                encryptionResult = _algo.Encrypt(testCase.Key, testCase.PlainText, testCase.I);
+                encryptionResult = _algo.Encrypt(testCase.XtsKey, testCase.PlainText, testCase.I);
                 if (!encryptionResult.Success)
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -75,15 +72,15 @@ namespace NIST.CVP.Generation.AES_XTS
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
 
             testCase.CipherText = encryptionResult.Result;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
 

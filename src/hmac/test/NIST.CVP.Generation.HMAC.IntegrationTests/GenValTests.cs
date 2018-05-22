@@ -1,4 +1,4 @@
-﻿using NIST.CVP.Crypto.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

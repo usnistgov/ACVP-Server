@@ -786,12 +786,23 @@ namespace NIST.CVP.Math
         /// <returns></returns>
         public static BitString PadToNextByteBoundry(BitString bs)
         {
-            if (bs.BitLength % 8 == 0)
+            return PadToModulus(bs, BITSINBYTE);
+        }
+
+        /// <summary>
+        /// Takes a BitString and adds LSBs to make the BitString hit (BitString % modulus = 0)
+        /// </summary>
+        /// <param name="bs">The BitString to pad</param>
+        /// <param name="modulus">The modulus to pad the bitstring such that BitString % modulusToHit = 0</param>
+        /// <returns>The padded BitString</returns>
+        public static BitString PadToModulus(BitString bs, int modulus)
+        {
+            if (bs.BitLength % modulus == 0)
             {
                 return bs;
             }
 
-            var bitsToAdd = (8 - bs.BitLength % 8);
+            var bitsToAdd = (modulus - bs.BitLength % modulus);
 
             return bs.ConcatenateBits(new BitString(bitsToAdd));
         }

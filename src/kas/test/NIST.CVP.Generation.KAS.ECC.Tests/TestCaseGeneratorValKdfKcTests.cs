@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.KC;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.NoKC;
@@ -12,7 +13,6 @@ using NIST.CVP.Crypto.Common.KAS.Schema;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Builders.Ecc;
-using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
             _macParametersBuilder = new MacParametersBuilder();
             _keyConfirmationFactory = new KeyConfirmationFactory();
             _noKeyConfirmationFactory = new NoKeyConfirmationFactory();
-            _kdfFactory = new FakeKdfFactory_BadDkm(_shaFactory);
+            _kdfFactory = new FakeKdfFactory_BadDkm(new KdfFactory(_shaFactory));
 
             _subject = new TestCaseGeneratorValKdfKc(
                 _curveFactory,
@@ -1606,7 +1606,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Tests
 
             BuildTestGroup(scheme, testGroupIutRole, kcRole, kcType, macType, out var iutKeyGenRequirements, out var serverKeyGenRequirements, out var resultTestCase);
 
-            Assert.AreEqual(isFailure, resultTestCase.FailureTest);
+            Assert.AreEqual(isFailure, !resultTestCase.TestPassed);
         }
 
         private void BuildTestGroup(

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
@@ -18,14 +19,22 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.ECDSA_KeyVer;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
-            if (testCase.result == null) return;
-            var previousValue = EnumHelpers.GetEnumFromEnumDescription<Disposition>(testCase.result.ToString(), false);
-            var newValue = previousValue == Disposition.Passed ? Disposition.Failed : Disposition.Passed;
-            testCase.result = EnumHelpers.GetEnumDescriptionFromEnum(newValue);
+            if (testCase.testPassed != null)
+            {
+                if (testCase.testPassed == true)
+                {
+                    testCase.testPassed = false;
+                }
+                else
+                {
+                    testCase.testPassed = true;
+                }
+            }
         }
 
         protected override string GetTestFileFewTestCases(string targetFolder)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Crypto.SHAWrapper;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;

@@ -3,18 +3,15 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {
-    public class TestCaseValidatorDecrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorDecrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
+
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidatorDecrypt(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
-        }
-
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)

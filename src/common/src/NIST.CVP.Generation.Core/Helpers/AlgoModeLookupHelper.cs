@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common;
 using NLog;

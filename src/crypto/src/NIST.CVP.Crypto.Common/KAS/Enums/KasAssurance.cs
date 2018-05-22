@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
@@ -16,32 +17,32 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         /// <summary>
         /// Domain Parameter Generation
         /// </summary>
-        [Description("dpGen")]
+        [EnumMember(Value = "dpGen")]
         DpGen = 1 << 1,
         /// <summary>
         /// Domain Parameter Validation
         /// </summary>
-        [Description("dpVal")]
+        [EnumMember(Value = "dpVal")]
         DpVal = 1 << 2,
         /// <summary>
         /// Key Pair Generation
         /// </summary>
-        [Description("keyPairGen")]
+        [EnumMember(Value = "keyPairGen")]
         KeyPairGen = 1 << 3,
         /// <summary>
         /// Full Validation (FFC)
         /// </summary>
-        [Description("fullVal")]
+        [EnumMember(Value = "fullVal")]
         FullVal = 1 << 4,
         /// <summary>
         /// Partial Validation (ECC)
         /// </summary>
-        [Description("partialVal")]
+        [EnumMember(Value = "partialVal")]
         PartialVal = 1 << 5,
         /// <summary>
         /// Key Regeneration
         /// </summary>
-        [Description("keyRegen")]
+        [EnumMember(Value = "keyRegen")]
         KeyRegen = 1 << 6
     }
 }

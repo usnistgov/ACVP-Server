@@ -8,7 +8,7 @@ using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -90,7 +90,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen.Parsers
                 curTestCase.SetString(parts[0].Trim(), parts[1].Trim());
             }
 
-            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "DSA", Mode = "PQGGen", TestGroups = groups.Select(g => (ITestGroup)g).ToList() });
+            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "DSA", Mode = "PQGGen", TestGroups = groups.Select(g => g).ToList() });
         }
     }
 }

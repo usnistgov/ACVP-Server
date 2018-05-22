@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
-    public class TestCaseValidatorMonteCarloDecrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMonteCarloDecrypt : ITestCaseValidator<TestGroup, TestCase>
     {
-        private TestCase _expectedResult;
+        private readonly TestCase _expectedResult;
+        
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidatorMonteCarloDecrypt(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }
-
-        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
@@ -32,6 +29,7 @@ namespace NIST.CVP.Generation.TDES_OFB
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = string.Join("; ", errors) };
             }
+
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
 
@@ -47,10 +45,12 @@ namespace NIST.CVP.Generation.TDES_OFB
             {
                 errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Keys)}");
             }
+
             if (suppliedResult.ResultsArray.Any(a => a.PlainText == null))
             {
                 errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.PlainText)}");
             }
+
             if (suppliedResult.ResultsArray.Any(a => a.CipherText == null))
             {
                 errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}");
@@ -64,16 +64,19 @@ namespace NIST.CVP.Generation.TDES_OFB
                 errors.Add("Expected results and supplied results arrays sizes do not match");
                 return;
             }
+
             for (var i = 0; i < _expectedResult.ResultsArray.Count; i++)
             {
                 if (!_expectedResult.ResultsArray[i].Keys.Equals(suppliedResult.ResultsArray[i].Keys))
                 {
                     errors.Add($"Key does not match on iteration {i}");
                 }
+
                 if (!_expectedResult.ResultsArray[i].CipherText.Equals(suppliedResult.ResultsArray[i].CipherText))
                 {
                     errors.Add($"Cipher Text does not match on iteration {i}");
                 }
+
                 if (!_expectedResult.ResultsArray[i].PlainText.Equals(suppliedResult.ResultsArray[i].PlainText))
                 {
                     errors.Add($"Plain Text does not match on iteration {i}");

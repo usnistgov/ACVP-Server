@@ -3,8 +3,9 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.CMAC
 {
-    public class TestCaseValidatorVer<TTestCase> : ITestCaseValidator<TTestCase>
-        where TTestCase : TestCaseBase
+    public class TestCaseValidatorVer<TTestGroup, TTestCase> : ITestCaseValidator<TTestGroup, TTestCase>
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>
     {
         private readonly TTestCase _expectedResult;
 
@@ -13,10 +14,7 @@ namespace NIST.CVP.Generation.CMAC
             _expectedResult = expectedResult;
         }
 
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
-        }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidation Validate(TTestCase suppliedResult)
         {
@@ -36,15 +34,15 @@ namespace NIST.CVP.Generation.CMAC
 
         private void ValidateResultPresent(TTestCase suppliedResult, List<string> errors)
         {
-            if (suppliedResult.Result == null)
+            if (suppliedResult.TestPassed == null)
             {
-                errors.Add($"{nameof(suppliedResult.Result)} was not present in the {nameof(TTestCase)}");
+                errors.Add($"{nameof(suppliedResult.TestPassed)} was not present in the {nameof(TTestCase)}");
             }
         }
 
         private void CheckResults(TTestCase suppliedResult, List<string> errors)
         {
-            if (!_expectedResult.Result.Equals(suppliedResult.Result))
+            if (!_expectedResult.TestPassed.Equals(suppliedResult.TestPassed))
             {
                 errors.Add("Result does not match");
             }

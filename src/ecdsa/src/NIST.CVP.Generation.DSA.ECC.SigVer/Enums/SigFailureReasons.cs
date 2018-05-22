@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer.Enums
 {
     public enum SigFailureReasons
     {
-        [Description("none")]
+        [EnumMember(Value = "none")]
         None,
 
-        [Description("modify s")]
+        [EnumMember(Value = "modify s")]
         ModifyS,
 
-        [Description("modify message")]
+        [EnumMember(Value = "modify message")]
         ModifyMessage,
 
-        [Description("modify r")]
+        [EnumMember(Value = "modify r")]
         ModifyR,
 
-        [Description("modify key")]
+        [EnumMember(Value = "modify key")]
         ModifyKey,
     }
 }

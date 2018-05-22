@@ -3,11 +3,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CFB8
 {
-    public class TestGroupGeneratorMonteCarlo : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorMonteCarlo : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string _MCT_TEST_TYPE_LABEL = "MCT";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

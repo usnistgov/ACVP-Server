@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Autofac;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.RSA2;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
+﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.DeSerialization;
+using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
+using NIST.CVP.Generation.RSA_DPComponent.ContractResolvers;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_DPComponent
@@ -16,24 +13,22 @@ namespace NIST.CVP.Generation.RSA_DPComponent
     {
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
         {
-            builder.RegisterType<KeyBuilder>().AsImplementedInterfaces();
-            builder.RegisterType<KeyComposerFactory>().AsImplementedInterfaces();
-            builder.RegisterType<PrimeGeneratorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<Rsa>().AsImplementedInterfaces();
-            builder.RegisterType<RsaVisitor>().AsImplementedInterfaces();
+            builder.RegisterType<JsonConverterProvider>().AsImplementedInterfaces();
+            builder.RegisterType<ContractResolverFactory>().AsImplementedInterfaces();
+            builder.RegisterType<VectorSetSerializer<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<VectorSetDeserializer<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
 
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactoryFactory<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet>>().AsImplementedInterfaces();
+            builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
             builder.RegisterType<Random800_90>().AsImplementedInterfaces();
 
-            builder.RegisterType<Validator<TestVectorSet, TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<TestReconstitutor>().AsImplementedInterfaces();
-            builder.RegisterType<ResultValidator<TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<Validator<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<ResultValidator<TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
         }

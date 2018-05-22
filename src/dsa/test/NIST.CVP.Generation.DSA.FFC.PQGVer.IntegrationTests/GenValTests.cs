@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
@@ -16,14 +17,22 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.DSA_PQGVer;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             // If TC has a result, change it
-            if (testCase.result != null)
+            if (testCase.testPassed != null)
             {
-                testCase.result = ((string)testCase.result).ToLower() == "passed" ? "failed" : "passed";
+                if (testCase.testPassed == true)
+                {
+                    testCase.testPassed = false;
+                }
+                else
+                {
+                    testCase.testPassed = true;
+                }
             }
         }
 

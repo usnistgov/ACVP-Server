@@ -11,6 +11,7 @@ namespace NIST.CVP.Generation.KAS
     public abstract class ParameterValidatorBase : Core.ParameterValidatorBase, IParameterValidator<Parameters>
     {
         public abstract string Algorithm { get; }
+        public abstract string Mode { get; }
 
         public abstract string[] ValidFunctions { get; }
 
@@ -72,6 +73,7 @@ namespace NIST.CVP.Generation.KAS
         private void ValidateAlgorithm(Parameters parameters, List<string> errorResults)
         {
             errorResults.AddIfNotNullOrEmpty(ValidateValue(parameters.Algorithm, new string[] {Algorithm}, "Algorithm"));
+            errorResults.AddIfNotNullOrEmpty(ValidateValue(parameters.Mode, new string[] { Mode }, "Mode"));
         }
 
         private void ValidateFunction(Parameters parameters, List<string> errorResults)

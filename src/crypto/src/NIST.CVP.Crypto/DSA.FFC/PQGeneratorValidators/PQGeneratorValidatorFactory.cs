@@ -6,7 +6,7 @@ using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators
 {
-    public class PQGeneratorValidatorFactory
+    public class PQGeneratorValidatorFactory : IPQGeneratorValidatorFactory
     {
         public IPQGeneratorValidator GetGeneratorValidator(PrimeGenMode primeGenMode, ISha sha, EntropyProviderTypes entropyType = EntropyProviderTypes.Random)
         {

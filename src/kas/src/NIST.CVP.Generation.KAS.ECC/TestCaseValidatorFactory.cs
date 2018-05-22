@@ -5,13 +5,12 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Crypto.KAS.Scheme.Ecc;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Entropy;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
         private readonly IEccCurveFactory _curveFactory;
         private readonly IKasBuilder<KasDsaAlgoAttributesEcc, OtherPartySharedInformation<EccDomainParameters, EccKeyPair>, EccDomainParameters, EccKeyPair> _kasBuilder;
@@ -34,13 +33,13 @@ namespace NIST.CVP.Generation.KAS.ECC
             _entropyProviderFactory = entropyProviderFactory;
         }
 
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
+        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestCase>>();
+            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
 
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
+            foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
-                foreach (var test in group.Tests.Select(t => (TestCase)t))
+                foreach (var test in group.Tests.Select(t => t))
                 {
                     var workingTest = test;
 

@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.ECC.SigVer.TestCaseExpectations;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -19,50 +20,19 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
         [Test]
         public void GenerateShouldReturnNonNullTestCaseGenerateResponse()
         {
-            var randMock = GetRandomMock();
-            randMock
-                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
-                .Returns(new BitString("BEEFFACE"));
-
-            var eccMock = GetDsaMock();
-            eccMock
-                .Setup(s => s.GenerateKeyPair(It.IsAny<EccDomainParameters>()))
-                .Returns(new EccKeyPairGenerateResult(new EccKeyPair(new EccPoint(1, 2), 3)));
-
-            eccMock
-                .Setup(s => s.Sign(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()))
-                .Returns(new EccSignatureResult(new EccSignature(1, 2)));
-
-            var subject = new TestCaseGenerator(randMock.Object, eccMock.Object);
+            var subject = new TestCaseGenerator(GetRandomMock().Object, GetEccFactoryMock().Object, GetCurveFactoryMock().Object);
             var result = subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
         public void GenerateShouldGenerateSignature()
         {
-            var randMock = GetRandomMock();
-            randMock
-                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
-                .Returns(new BitString("BEEFFACE"));
-
-            var eccMock = GetDsaMock();
-            eccMock
-                .Setup(s => s.GenerateKeyPair(It.IsAny<EccDomainParameters>()))
-                .Returns(new EccKeyPairGenerateResult(new EccKeyPair(new EccPoint(1, 2), 3)));
-
-            eccMock
-                .Setup(s => s.Sign(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()))
-                .Returns(new EccSignatureResult(new EccSignature(1, 2)));
-
-            var subject = new TestCaseGenerator(randMock.Object, eccMock.Object);
+            var subject = new TestCaseGenerator(GetRandomMock().Object, GetEccFactoryMock().Object, GetCurveFactoryMock().Object);
 
             var result = subject.Generate(GetTestGroup(), true);
-
-            eccMock.Verify(v => v.GenerateKeyPair(It.IsAny<EccDomainParameters>()), Times.AtLeastOnce, "Call KeyGen Generate at least once");
-            eccMock.Verify(v => v.Sign(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()), Times.Once, "Call Sign once");
 
             Assert.IsTrue(result.Success);
             var testCase = (TestCase)result.TestCase;
@@ -74,21 +44,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
         {
             var group = GetTestGroup();
 
-            var randMock = GetRandomMock();
-            randMock
-                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
-                .Returns(new BitString("BEEFFACE"));
-
-            var eccMock = GetDsaMock();
-            eccMock
-                .Setup(s => s.GenerateKeyPair(It.IsAny<EccDomainParameters>()))
-                .Returns(new EccKeyPairGenerateResult(new EccKeyPair(new EccPoint(1, 2), 3)));
-
-            eccMock
-                .Setup(s => s.Sign(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()))
-                .Returns(new EccSignatureResult(new EccSignature(1, 2)));
-
-            var subject = new TestCaseGenerator(randMock.Object, eccMock.Object);
+            var subject = new TestCaseGenerator(GetRandomMock().Object, GetEccFactoryMock().Object, GetCurveFactoryMock().Object);
 
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
@@ -100,15 +56,15 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
 
             var failCases = 0;
             var passCases = 0;
-            foreach (var testCase in group.Tests.Select(s => (TestCase)s))
+            foreach (var testCase in group.Tests.Select(s => s))
             {
-                if (testCase.FailureTest)
+                if (testCase.TestPassed != null && testCase.TestPassed.Value)
                 {
-                    failCases++;
+                    passCases++;
                 }
                 else
                 {
-                    passCases++;
+                    failCases++;
                 }
             }
 
@@ -118,19 +74,49 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.Tests
 
         private Mock<IRandom800_90> GetRandomMock()
         {
-            return new Mock<IRandom800_90>();
+            var randMock = new Mock<IRandom800_90>();
+            randMock
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString("BEEFFACE"));
+            return randMock;
         }
 
         private Mock<IDsaEcc> GetDsaMock()
         {
-            return new Mock<IDsaEcc>();
+            var eccMock = new Mock<IDsaEcc>();
+            eccMock
+                .Setup(s => s.GenerateKeyPair(It.IsAny<EccDomainParameters>()))
+                .Returns(new EccKeyPairGenerateResult(new EccKeyPair(new EccPoint(1, 2), 3)));
+
+            eccMock
+                .Setup(s => s.Sign(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<bool>()))
+                .Returns(new EccSignatureResult(new EccSignature(1, 2)));
+            return eccMock;
+        }
+
+        private Mock<IDsaEccFactory> GetEccFactoryMock()
+        {
+            var mock = new Mock<IDsaEccFactory>();
+            mock
+                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
+                .Returns(GetDsaMock().Object);
+            return mock;
+        }
+
+        private Mock<IEccCurveFactory> GetCurveFactoryMock()
+        {
+            var mock = new Mock<IEccCurveFactory>();
+            mock
+                .Setup(s => s.GetCurve(It.IsAny<Curve>()))
+                .Returns(new PrimeCurve(Curve.P192, 0, 0, new EccPoint(0, 0), 0));
+            return mock;
         }
 
         private TestGroup GetTestGroup()
         {
             return new TestGroup
             {
-                DomainParameters = new EccDomainParameters(new PrimeCurve(Curve.P192, 0, 0, new EccPoint(0, 0), 0)),
+                Curve = Curve.P192,
                 TestCaseExpectationProvider = new TestCaseExpectationProvider(),
                 HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256)
             };

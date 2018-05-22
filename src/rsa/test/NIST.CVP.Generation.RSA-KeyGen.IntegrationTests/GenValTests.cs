@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
@@ -17,11 +18,17 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_KeyGen;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
-            
+
+            if (testCase.testPassed != null)
+            {
+                testCase.testPassed = !(bool) testCase.testPassed;
+            }
+
             // If TC has a cipherText, change it
             if (testCase.p != null)
             {
@@ -92,7 +99,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                InfoGeneratedByServer = true,
+                InfoGeneratedByServer = false,
                 IsSample = true,
                 PubExpMode = "fixed",
                 FixedPubExp = "010001",
@@ -111,7 +118,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
                 caps[i] = new Capability
                 {
                     Modulo = ParameterValidator.VALID_MODULI[i],
-                    HashAlgs = new string[] {"sha2-224"},
+                    HashAlgs = new string[] { "sha2-224" },
                     PrimeTests = ParameterValidator.VALID_PRIME_TESTS
                 };
             }
@@ -130,7 +137,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                InfoGeneratedByServer = false,
+                InfoGeneratedByServer = true,
                 IsSample = true,
                 PubExpMode = "random",
                 AlgSpecs = algSpecs,

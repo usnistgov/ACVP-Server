@@ -9,10 +9,10 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.CMAC.Parsers
 {
-    public abstract class LegacyResponseFileParserBase<TTestVectorSet, TTestGroup, TTestCase> : ILegacyResponseFileParser<TTestVectorSet>
+    public abstract class LegacyResponseFileParserBase<TTestVectorSet, TTestGroup, TTestCase> : ILegacyResponseFileParser<TTestVectorSet, TTestGroup, TTestCase>
         where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>, new()
-        where TTestGroup : TestGroupBase<TTestCase>, new()
-        where TTestCase : TestCaseBase, new()
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>, new()
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
         public abstract ParseResponse<TTestVectorSet> Parse(string path);
 

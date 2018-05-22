@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.KDF;
 using NIST.CVP.Crypto.Common.KDF.Enums;
-using NIST.CVP.Crypto.KDF;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KDF
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _serverTestCase;
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, KdfResult> _deferredTestCaseResolver;

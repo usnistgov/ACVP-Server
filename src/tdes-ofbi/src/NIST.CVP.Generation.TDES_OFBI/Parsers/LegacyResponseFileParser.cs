@@ -1,5 +1,4 @@
-﻿using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 using System;
@@ -11,7 +10,7 @@ using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_OFBI.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -68,13 +67,13 @@ namespace NIST.CVP.Generation.TDES_OFBI.Parsers
                     }
                 }
             }
-            testVectorSet.TestGroups = groups.Select(g => (ITestGroup)g).ToList();
+            testVectorSet.TestGroups = groups.ToList();
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
 
-        private List<ITestCase> CreateTestCases(string input, bool isMCT, bool expandText)
+        private List<TestCase> CreateTestCases(string input, bool isMCT, bool expandText)
         {
-            var testCases = new List<ITestCase>();
+            var testCases = new List<TestCase>();
             var resultsArray = new List<AlgoArrayResponseWithIvs>();
 
             var regExTestCase = new Regex(@"(?:[A-Za-z0-9]* = [0-9a-f]*\n)*\n");
@@ -202,7 +201,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Parsers
 
             }
             return isMCT ?
-                new List<ITestCase> { new TestCase { ResultsArray = resultsArray } } :
+                new List<TestCase> { new TestCase { ResultsArray = resultsArray } } :
                 testCases;
         }
 

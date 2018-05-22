@@ -2,22 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
-        {
-            var list = new List<ITestCaseValidator<TestCase>>();
+        private readonly IDsaFfcFactory _dsaFactory;
 
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
+        public TestCaseValidatorFactory(IDsaFfcFactory dsaFactory)
+        {
+            _dsaFactory = dsaFactory;
+        }
+
+        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        {
+            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
+
+            foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
-                foreach (var test in group.Tests.Select(t => (TestCase)t))
+                foreach (var test in group.Tests.Select(t => t))
                 {
-                    list.Add(new TestCaseValidator(test, new FfcDsa(null)));
+                    var deferredResolver = new DeferredTestCaseResolver(_dsaFactory);
+                    list.Add(new TestCaseValidator(test, group, deferredResolver));
                 }
             }
 

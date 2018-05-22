@@ -62,7 +62,6 @@ namespace NIST.CVP.Generation.AES_CFB8.Tests
         {
             var testCase = new TestCase
             {
-                FailureTest = failureTest,
                 PlainText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
                 TestCaseId = 1
             };

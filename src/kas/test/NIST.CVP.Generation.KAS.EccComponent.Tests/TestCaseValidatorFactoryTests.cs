@@ -36,10 +36,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
         public void ShouldReturnValidator()
         {
             var vectorSet = GetVectorSet();
-            var result = _subject.GetValidators(
-                vectorSet, 
-                vectorSet.TestGroups[0].Tests.Select(s => (TestCase)s)
-            ).ToList();
+            var result = _subject.GetValidators(vectorSet).ToList();
 
             Assume.That(result.Count() == 1, "count");
             Assert.IsInstanceOf(typeof(TestCaseValidator), result[0]);
@@ -55,10 +52,7 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
             int expectedValidators = numberOfGroups * numberOfTestsPerGroup;
 
             var vectorSet = GetVectorSet(numberOfGroups, numberOfTestsPerGroup);
-            var result = _subject.GetValidators(
-                vectorSet,
-                vectorSet.TestGroups[0].Tests.Select(s => (TestCase)s)
-            ).ToList();
+            var result = _subject.GetValidators(vectorSet).ToList();
 
             Assert.AreEqual(expectedValidators, result.Count());
         }

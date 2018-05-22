@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var result = subject.Generate(GetRandomETestGroup(infoGeneratedByServer), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should not be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -85,9 +85,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 
             Assert.IsTrue(result.Success, result.ErrorMessage);
 
-            var testCase = (TestCase)result.TestCase;
+            var testCase = result.TestCase;
             Assert.AreEqual(testCase.Key.PubKey.N, BigInteger.Zero);
-            Assert.IsNull(testCase.Key.PrivKey);
+            Assert.AreEqual(testCase.Key.PrivKey.P, BigInteger.Zero);
+            Assert.AreEqual(testCase.Key.PrivKey.Q, BigInteger.Zero);
         }
 
         [Test]
@@ -104,7 +105,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
             var subject = new TestCaseGeneratorAft(new Random800_90(), keyBuilder, _keyComposerFactory, _shaFactory);
             var result = subject.Generate(GetRandomETestGroup(false), true);
 
-            var testCase = (TestCase)result.TestCase;
+            var testCase = result.TestCase;
 
             Assert.IsTrue(result.Success, result.ErrorMessage);
             Assert.AreNotEqual(testCase.Seed, 0);
@@ -115,12 +116,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 
             if (crtForm)
             {
+                Assume.That(testCase.Key.PrivKey is CrtPrivateKey);
                 Assert.AreNotEqual(((CrtPrivateKey)testCase.Key.PrivKey).DMP1, 0);
                 Assert.AreNotEqual(((CrtPrivateKey)testCase.Key.PrivKey).DMQ1, 0);
                 Assert.AreNotEqual(((CrtPrivateKey)testCase.Key.PrivKey).IQMP, 0);
             }
             else
             {
+                Assume.That(testCase.Key.PrivKey is PrivateKey);
                 Assert.AreNotEqual(((PrivateKey)testCase.Key.PrivKey).D, 0);
             }
 

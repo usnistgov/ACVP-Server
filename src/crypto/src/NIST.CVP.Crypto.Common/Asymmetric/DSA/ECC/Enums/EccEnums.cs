@@ -1,38 +1,39 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums
 {
     public enum Curve
     {
-        [Description("p-192")]
+        [EnumMember(Value = "p-192")]
         P192,
-        [Description("p-224")]
+        [EnumMember(Value = "p-224")]
         P224,
-        [Description("p-256")]
+        [EnumMember(Value = "p-256")]
         P256,
-        [Description("p-384")]
+        [EnumMember(Value = "p-384")]
         P384,
-        [Description("p-521")]
+        [EnumMember(Value = "p-521")]
         P521,       // Should be 521 not 512.
-        [Description("k-163")]
+        [EnumMember(Value = "k-163")]
         K163,
-        [Description("k-233")]
+        [EnumMember(Value = "k-233")]
         K233,
-        [Description("k-283")]
+        [EnumMember(Value = "k-283")]
         K283,
-        [Description("k-409")]
+        [EnumMember(Value = "k-409")]
         K409,
-        [Description("k-571")]
+        [EnumMember(Value = "k-571")]
         K571,
-        [Description("b-163")]
+        [EnumMember(Value = "b-163")]
         B163,
-        [Description("b-233")]
+        [EnumMember(Value = "b-233")]
         B233,
-        [Description("b-283")]
+        [EnumMember(Value = "b-283")]
         B283,
-        [Description("b-409")]
+        [EnumMember(Value = "b-409")]
         B409,
-        [Description("b-571")]
+        [EnumMember(Value = "b-571")]
         B571
     }
 
@@ -44,10 +45,10 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums
 
     public enum SecretGenerationMode
     {
-        [Description("testing candidates")]
+        [EnumMember(Value = "testing candidates")]
         TestingCandidates,
 
-        [Description("extra bits")]
+        [EnumMember(Value = "extra bits")]
         ExtraRandomBits
     }
 }

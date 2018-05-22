@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace NIST.CVP.Generation.Core
+﻿namespace NIST.CVP.Generation.Core
 {
-    public class TestCaseGenerateResponse
+    public class TestCaseGenerateResponse<TTestGroup, TTestCase>
+        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
-        public ITestCase TestCase { get; private set; }
-        public string ErrorMessage { get; private set; }
+        public TTestCase TestCase { get; }
+        public string ErrorMessage { get; }
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
 
-        public TestCaseGenerateResponse(ITestCase testCase)
+        public TestCaseGenerateResponse(TTestCase testCase)
         {
             TestCase = testCase;
         }
@@ -18,11 +16,6 @@ namespace NIST.CVP.Generation.Core
         public TestCaseGenerateResponse(string errorMessage)
         {
             ErrorMessage = errorMessage;
-        }
-
-        public bool Success
-        {
-            get { return string.IsNullOrEmpty(ErrorMessage); }
         }
     }
 }

@@ -6,6 +6,7 @@ using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Common;
 
 namespace NIST.CVP.Generation.TLS.IntegrationTests
 {
@@ -18,6 +19,7 @@ namespace NIST.CVP.Generation.TLS.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.KDFComponents_TLS;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

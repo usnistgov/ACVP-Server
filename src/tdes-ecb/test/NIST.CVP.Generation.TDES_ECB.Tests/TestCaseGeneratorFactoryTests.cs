@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [TestCase("Decrypt", "MCT", typeof(TestCaseGeneratorMonteCarloDecrypt))]
         public void ShouldReturnProperGenerator(string direction, string testType, Type expectedType)
         {
-            TestGroup testGroup = new TestGroup()
+            var testGroup = new TestGroup()
             {
                 Function = direction,
                 TestType = testType
@@ -74,7 +74,5 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             var algoMct = new Mock<ITDES_ECB_MCT>().Object;
             return new TestCaseGeneratorFactory(randy, algo, algoMct);
         }
-
-      
     }
 }

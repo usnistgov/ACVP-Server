@@ -1,30 +1,28 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Crypto.DRBG;
 using System;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.DRBG;
-using NIST.CVP.Crypto.DRBG.Helpers;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+using NIST.CVP.Crypto.Common.DRBG.Helpers;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.DRBG
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const int _MAX_BIT_SIZE = 1024;
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
-            var groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
 
             CreateGroups(groups, parameters);
 
             return groups;
         }
 
-        private void CreateGroups(List<ITestGroup> groups, Parameters parameters)
+        private void CreateGroups(List<TestGroup> groups, Parameters parameters)
         {
             foreach (var predResistance in parameters.PredResistanceEnabled)
             {
@@ -72,7 +70,8 @@ namespace NIST.CVP.Generation.DRBG
 
                                     var tg = new TestGroup
                                     {
-                                        DrbgParameters = dp
+                                        DrbgParameters = dp,
+                                        TestType = "AFT"
                                     };
 
                                     groups.Add(tg);

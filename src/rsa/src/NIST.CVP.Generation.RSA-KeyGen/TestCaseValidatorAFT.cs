@@ -4,22 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseValidatorAft : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorAft : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
-        private readonly TestGroup _group;
+        private readonly TestGroup _serverGroup;
         private readonly IDeferredTestCaseResolver<TestGroup, TestCase, KeyResult> _deferredTestCaseResolver;
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidatorAft(TestCase expectedResult, TestGroup group, IDeferredTestCaseResolver<TestGroup, TestCase, KeyResult> deferredTestCaseResolver)
+        public TestCaseValidatorAft(TestCase expectedResult, TestGroup serverGroup, IDeferredTestCaseResolver<TestGroup, TestCase, KeyResult> deferredTestCaseResolver)
         {
             _expectedResult = expectedResult;
-            _group = group;
+            _serverGroup = serverGroup;
             _deferredTestCaseResolver = deferredTestCaseResolver;
         }
 
@@ -29,7 +28,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen
 
             if (_expectedResult.Deferred)
             {
-                var computedResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
+                var computedResult = _deferredTestCaseResolver.CompleteDeferredCrypto(_serverGroup, _expectedResult, suppliedResult);
                 if (!computedResult.Success)
                 {
                     errors.Add($"Unable to resolve deferred crypto: {computedResult.ErrorMessage}");
@@ -91,11 +90,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                 errors.Add("N does not match");
             }
 
-            if (_group.KeyFormat == PrivateKeyModes.Standard)
+            if (_serverGroup.KeyFormat == PrivateKeyModes.Standard)
             {
                 if (suppliedResult.Key.PrivKey is PrivateKey standardKey)
                 {
-                    // Assuming that _group.KeyFormat matches the actual type
+                    // Assuming that _serverGroup.KeyFormat matches the actual type
                     if (_expectedResult.Key.PrivKey is PrivateKey expectedKey)
                     {
                         if (!expectedKey.D.Equals(standardKey.D))
@@ -113,11 +112,11 @@ namespace NIST.CVP.Generation.RSA_KeyGen
                     errors.Add("Unexpected private key format");
                 }
             }
-            else if (_group.KeyFormat == PrivateKeyModes.Crt)
+            else if (_serverGroup.KeyFormat == PrivateKeyModes.Crt)
             {
                 if (suppliedResult.Key.PrivKey is CrtPrivateKey crtKey)
                 {
-                    // Assuming that _group.KeyFormat matches the actual type
+                    // Assuming that _serverGroup.KeyFormat matches the actual type
                     if (_expectedResult.Key.PrivKey is CrtPrivateKey expectedKey)
                     {
                         if (!expectedKey.DMP1.Equals(crtKey.DMP1))

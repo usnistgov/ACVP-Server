@@ -10,35 +10,14 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.SRTP
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject) source;
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            AesKeyLength = expandoSource.GetTypeFromProperty<int>("aesKeyLength");
-            Kdr = expandoSource.GetBitStringFromProperty("kdr");
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
-
         public int TestGroupId { get; set; }
         public int AesKeyLength { get; set; }
         public BitString Kdr { get; set; }
 
         public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {

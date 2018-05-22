@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES_CBCI;
+﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -32,6 +28,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
                 case "variablekey":
                 case "variabletext":
                     return new TestCaseGeneratorKnownAnswer(group);
+
                 case "multiblockmessage":
                     switch (@group.Function.ToLower())
                     {
@@ -42,6 +39,7 @@ namespace NIST.CVP.Generation.TDES_CBCI
                     }
 
                     break;
+
                 case "mct":
                     switch (@group.Function.ToLower())
                     {

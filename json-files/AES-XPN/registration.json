@@ -1,33 +1,27 @@
 {
-  "Algorithm": "AES-XPN",
-  "Mode": null,
-  "IsSample": false,
-  "Direction": [
+  "algorithm": "AES-XPN",
+  "isSample": false,
+  "direction": [
     "encrypt",
     "decrypt"
   ],
-  "KeyLen": [
+  "keyLen": [
     128,
     256
   ],
-  "PtLen": [
+  "ptLen": [
     128,
     256
   ],
   "ivGen": "external",
   "ivGenMode": "8.2.2",
-  "SaltGen": "external",
+  "saltGen": "external",
   "aadLen": [
     128,
     120
   ],
-  "TagLen": [
-    32,
+  "tagLen": [
     64,
-    96,
-    104,
-    112,
-    120,
     128
   ]
 }

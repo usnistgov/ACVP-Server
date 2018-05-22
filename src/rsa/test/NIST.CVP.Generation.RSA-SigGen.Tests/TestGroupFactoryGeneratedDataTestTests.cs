@@ -4,12 +4,47 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Moq;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_SigGen.Tests
 {
     [TestFixture, UnitTest]
     public class TestGroupFactoryGeneratedDataTestTests
     {
+        private TestGroupGeneratorGeneratedDataTest _subject;
+
+        [SetUp]
+        public void SetUp()
+        {
+            var rand = new Mock<IRandom800_90>();
+            rand
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString("ABCDABCDABCD"));
+
+            rand
+                .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(1);
+
+            var keyBuilder = new Mock<IKeyBuilder>();
+            keyBuilder
+                .Setup(s => s.Build())
+                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
+
+            keyBuilder.SetReturnsDefault(keyBuilder.Object);
+
+            var keyComposerFactory = new Mock<IKeyComposerFactory>();
+            keyComposerFactory
+                .Setup(s => s.GetKeyComposer(It.IsAny<PrivateKeyModes>()))
+                .Returns(new RsaKeyComposer());
+
+            _subject = new TestGroupGeneratorGeneratedDataTest(keyBuilder.Object, rand.Object, keyComposerFactory.Object);
+        }
+
         private static object[] parameters =
         {
             new object[]
@@ -54,8 +89,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [TestCaseSource(nameof(parameters))]
         public void ShouldCreate1TestGroupForEachCombinationOfModeModuliAndHashAlg(int expectedGroups, Parameters parameters)
         {
-            var subject = new TestGroupGeneratorGeneratedDataTest();
-            var result = subject.BuildTestGroups(parameters);
+            var result = _subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }
     }

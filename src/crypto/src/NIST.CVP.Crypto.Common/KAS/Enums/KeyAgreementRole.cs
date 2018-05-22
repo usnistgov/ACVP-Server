@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
@@ -10,12 +11,12 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         /// <summary>
         /// The initiator, aka party U
         /// </summary>
-        [Description("initiator")]
+        [EnumMember(Value = "initiator")]
         InitiatorPartyU,
         /// <summary>
         /// The responder, aka party V
         /// </summary>
-        [Description("responder")]
+        [EnumMember(Value = "responder")]
         ResponderPartyV
     }
 }

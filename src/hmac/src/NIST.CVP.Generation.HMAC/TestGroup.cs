@@ -1,46 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.HMAC
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(dynamic source)
-        {
-            TestGroupId = (int) source.tgId;
-            TestType = source.testType;
-            KeyLength = source.keyLen;
-            MessageLength = source.msgLen;
-            MacLength = source.macLen;
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
-
         public int TestGroupId { get; set; }
-        [JsonProperty(PropertyName = "testType")]
-        public string TestType { get; set; } = "AFT";
+
+        public string TestType { get; set; }
+
         [JsonProperty(PropertyName = "keyLen")]
         public int KeyLength { get; set; }
+
         [JsonProperty(PropertyName = "msgLen")]
         public int MessageLength { get; set; }
+
         [JsonProperty(PropertyName = "macLen")]
         public int MacLength { get; set; }
-        public List<ITestCase> Tests { get; set; }
+
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         [JsonIgnore]
         public ModeValues ShaMode { get; set; }
+
         [JsonIgnore]
         public DigestSizes ShaDigestSize { get; set; }
 
@@ -51,8 +35,7 @@ namespace NIST.CVP.Generation.HMAC
                 return false;
             }
 
-            int intVal = 0;
-            if (!int.TryParse(value, out intVal))
+            if (!int.TryParse(value, out var intVal))
             {
                 return false;
             }

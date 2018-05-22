@@ -8,7 +8,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_DPComponent
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestGroup _group;
         private readonly TestCase _expectedResult;

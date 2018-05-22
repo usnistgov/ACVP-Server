@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
         {
             string errorMessage = "something bad happened!";
             _mockMCT.Setup(s => s.MCTEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new MCTResult<BitOrientedAlgoArrayResponse>(errorMessage));
+                .Returns(new MCTResult<AlgoArrayResponse>(errorMessage));
 
             TestGroup testGroup = new TestGroup()
             {

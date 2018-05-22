@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Crypto.Common;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
+using NIST.CVP.Common;
 
 namespace NIST.CVP.Generation.DRBG.IntegrationTests
 {
@@ -63,15 +64,15 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public override string Algorithm => "hmacDRBG";
 
         public override string[] Modes => new[]
-        {
-            "SHA-1",
-            "SHA2-224",
-            "SHA2-256",
-            "SHA2-384",
-            "SHA2-512",
-            "SHA2-512/224",
-            "SHA2-512/256"
-        };
+                {
+                    "SHA-1",
+                    "SHA2-224",
+                    "SHA2-256",
+                    "SHA2-384",
+                    "SHA2-512",
+                    "SHA2-512/224",
+                    "SHA2-512/256"
+                };
 
         public override int[] SeedLength => new[]
         {

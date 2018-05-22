@@ -74,6 +74,7 @@ namespace NIST.CVP.Generation.IKEv2.Tests
             {
                 Algorithm = _algorithm,
                 Mode = _mode,
+
                 Capabilities = new []
                 {
                     new Capabilities

@@ -5,7 +5,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestGroupGeneratorKnownAnswerTest : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorKnownAnswerTest : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private readonly string[] _katTests = 
         {
@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.AES_CTR
             "VarKey"
         };
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

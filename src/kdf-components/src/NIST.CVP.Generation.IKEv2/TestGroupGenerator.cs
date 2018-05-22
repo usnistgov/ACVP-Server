@@ -7,31 +7,39 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.IKEv2
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new HashSet<TestGroup>();
 
+
             foreach (var capability in parameters.Capabilities)
             {
+
                 foreach (var hashAlg in capability.HashAlg)
                 {
                     var hashFunction = ShaAttributes.GetHashFunctionFromName(hashAlg);
+
 
                     var nInitValues = GetMinMaxOtherValueForDomain(capability.InitiatorNonceLength.GetDeepCopy()).Shuffle();
                     var nRespValues = GetMinMaxOtherValueForDomain(capability.ResponderNonceLength.GetDeepCopy()).Shuffle();
                     var dhValues = GetMinMaxOtherValueForDomain(capability.DiffieHellmanSharedSecretLength.GetDeepCopy()).Shuffle();
                     var dkmValues = GetMinMaxOtherValueForDomain(capability.DerivedKeyingMaterialLength.GetDeepCopy()).Shuffle();
 
+
                     // Safe assumption that these will all have exactly 3 values
                     for (var i = 0; i < 3; i++)
                     {
+
                         // If the dkmValue is too low, make sure it is at least equal to the hash function
                         if (dkmValues[i] < hashFunction.OutputLen)
                         {
                             dkmValues[i] = hashFunction.OutputLen;
                         }
+
 
                         var testGroup = new TestGroup
                         {
@@ -41,6 +49,7 @@ namespace NIST.CVP.Generation.IKEv2
                             GirLength = dhValues[i],
                             DerivedKeyingMaterialLength = dkmValues[i]
                         };
+
 
                         testGroups.Add(testGroup);
                     }

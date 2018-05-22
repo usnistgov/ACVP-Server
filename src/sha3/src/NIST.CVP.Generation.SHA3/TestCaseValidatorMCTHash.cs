@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash;
-using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA3
 {
-    public class TestCaseValidatorMCTHash : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMCTHash : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
+
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidatorMCTHash(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }
-
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {

@@ -3,7 +3,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
-    public class TestCaseValidatorExternalEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorExternalEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 

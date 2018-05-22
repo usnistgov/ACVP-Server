@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using NIST.CVP.Common;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
@@ -16,6 +17,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.DSA_KeyGen;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

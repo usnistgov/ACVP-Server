@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CFB1
 {
-    public class TestCaseValidatorMCTDecrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMCTDecrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 
@@ -15,10 +14,7 @@ namespace NIST.CVP.Generation.AES_CFB1
             _expectedResult = expectedResult;
         }
 
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
-        }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {

@@ -88,14 +88,13 @@ namespace NIST.CVP.Generation.CMAC.TDES.Parsers
                         Key = key,
                         Mac = mac,
                         Message = msg,
-                        Result = result
+                        TestPassed = result.ToLower() == "p"
                     });
                 }
             }
             var testVectorSet = new TestVectorSet
             {
-                Algorithm = $"CMAC",
-                TestGroups = groups.Select(g => (ITestGroup)g).ToList()
+                TestGroups = groups.Select(g => g).ToList()
             };
             return new ParseResponse<TestVectorSet>(testVectorSet);
 
@@ -141,7 +140,7 @@ namespace NIST.CVP.Generation.CMAC.TDES.Parsers
             }
 
             testGroup.CmacType = CmacTypes.TDES;
-            testGroup.Tests = new List<ITestCase>();
+            testGroup.Tests = new List<TestCase>();
             return testGroup;
         }
     }

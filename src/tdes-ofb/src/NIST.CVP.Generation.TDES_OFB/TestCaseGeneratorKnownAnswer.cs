@@ -27,20 +27,20 @@ namespace NIST.CVP.Generation.TDES_OFB
 
         public int NumberOfTestCasesToGenerate => _katTestCases.Count;
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
-            TestCase testCase = new TestCase();
+            var testCase = new TestCase();
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             if (_katsIndex + 1 > _katTestCases.Count)
             {
-                return new TestCaseGenerateResponse("No additional KATs exist.");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist.");
             }
 
-            return new TestCaseGenerateResponse(_katTestCases[_katsIndex++]);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(_katTestCases[_katsIndex++]);
         }
 
         private readonly Dictionary<string, List<TestCase>> _kats =
@@ -132,13 +132,11 @@ namespace NIST.CVP.Generation.TDES_OFB
         //using    http://regexr.com/
         //FIND     COUNT = \d*\n)(KEYs = (.*)\n)(IV = (.*)\n)(CIPHERTEXT = (.*)\n)(PLAINTEXT = (.*)\n?)
         //REPLACE  new TestCase("$3", "$9", "$7", "$5"),
-
-
+        
         private static List<TestCase> PermutationTests()
         {
             return new List<TestCase>
             {
-
                 new TestCase("1046913489980131", "88d55e54f54c97b4", "0000000000000000", "0000000000000000"),
                 new TestCase("1007103489988020", "0c0cc00c83ea48fd", "0000000000000000", "0000000000000000"),
                 new TestCase("10071034c8980120", "83bc8ef3a6570183", "0000000000000000", "0000000000000000"),

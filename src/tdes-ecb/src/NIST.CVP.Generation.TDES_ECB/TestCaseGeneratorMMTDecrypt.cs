@@ -2,8 +2,6 @@
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Crypto.TDES_ECB;
 using NIST.CVP.Math;
 using NLog;
 
@@ -17,18 +15,15 @@ namespace NIST.CVP.Generation.TDES_ECB
         private readonly ITDES_ECB _algo;
         private int _currentCase;
 
+        public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
+
         public TestCaseGeneratorMMTDecrypt(IRandom800_90 random800_90, ITDES_ECB algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
         }
 
-        public int NumberOfTestCasesToGenerate
-        {
-            get { return NUMBER_OF_CASES; }
-        }
-
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             var numberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(group.KeyingOption);
             var key = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * numberOfKeys).ToOddParityBitString();
@@ -39,11 +34,12 @@ namespace NIST.CVP.Generation.TDES_ECB
                 CipherText = cipherText,
                 Deferred = false
             };
+
             _currentCase++;
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SymmetricCipherResult decryptionResult = null;
             try
@@ -53,7 +49,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -61,18 +57,14 @@ namespace NIST.CVP.Generation.TDES_ECB
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
-            testCase.PlainText= decryptionResult.Result;
-            return new TestCaseGenerateResponse(testCase);
+
+            testCase.PlainText = decryptionResult.Result;
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
-
-       
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger(); 
     }
 }

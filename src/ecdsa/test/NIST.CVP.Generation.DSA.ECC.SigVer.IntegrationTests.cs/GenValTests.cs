@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -18,6 +19,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.ECDSA_SigVer;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string targetFolder)
@@ -71,10 +73,17 @@ namespace NIST.CVP.Generation.DSA.ECC.SigVer.IntegrationTests
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
-            if (testCase.result == null) return;
-            var previousValue = EnumHelpers.GetEnumFromEnumDescription<Disposition>(testCase.result.ToString(), false);
-            var newValue = previousValue == Disposition.Passed ? Disposition.Failed : Disposition.Passed;
-            testCase.result = EnumHelpers.GetEnumDescriptionFromEnum(newValue);
+            if (testCase.testPassed != null)
+            {
+                if (testCase.testPassed == true)
+                {
+                    testCase.testPassed = false;
+                }
+                else
+                {
+                    testCase.testPassed = true;
+                }
+            }
         }
     }
 }

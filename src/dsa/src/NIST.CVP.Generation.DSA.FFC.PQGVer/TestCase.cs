@@ -1,61 +1,77 @@
 ﻿using System.Dynamic;
 using System.Numerics;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        // Used for SetString only
-        private BigInteger firstSeed;
-        private BigInteger pSeed;
-        private BigInteger qSeed;
-        private int pCounter;
-        private int qCounter;
-
-        public TestCase() { }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
+        public TestGroup ParentGroup { get; set; }
         public string Reason { get; set; }      // Needs to be a string because of PQFailureReasons type and GFailureReasons type
-        public bool Result { get; set; }
 
         public BigInteger P { get; set; }
         public BigInteger Q { get; set; }
         public BigInteger G { get; set; }
         public BigInteger H { get; set; }
-        public DomainSeed Seed { get; set; }
-        public Counter Counter { get; set; }
-        public BitString Index { get; set; }
-
-        private void MapToProperties(dynamic source)
+        [JsonIgnore] public DomainSeed Seed { get; set; } = new DomainSeed();
+        [JsonProperty(PropertyName = "domainSeed")]
+        public BigInteger DomainSeed
         {
-            TestCaseId = (int)source.tcId;
-
-            ExpandoObject expandoSource = (ExpandoObject)source;
-            var resultValue = expandoSource.GetTypeFromProperty<string>("result");
-            if (resultValue != null)
+            get
             {
-                Result = resultValue.ToLower() == "passed";
+                if (ParentGroup?.GGenMode == GeneratorGenMode.Unverifiable)
+                {
+                    return Seed.GetFullSeed();
+                }
+
+                return Seed.Seed;
             }
-            Reason = expandoSource.GetTypeFromProperty<string>("reason");
+            set => Seed.Seed = value;
         }
+        [JsonProperty(PropertyName = "pSeed")]
+        public BigInteger PSeed
+        {
+            get => Seed.PSeed;
+            set => Seed.PSeed = value;
+        }
+        [JsonProperty(PropertyName = "qSeed")]
+        public BigInteger QSeed
+        {
+            get => Seed.QSeed;
+            set => Seed.QSeed = value;
+        }
+
+        [JsonIgnore] public Counter Counter { get; set; } = new Counter();
+        [JsonProperty(PropertyName = "counter")]
+        public int Count
+        {
+            get => Counter.Count;
+            set => Counter.Count = value;
+        }
+        [JsonProperty(PropertyName = "pCounter")]
+        public int PCount
+        {
+            get => Counter.PCount;
+            set => Counter.PCount = value;
+        }
+        [JsonProperty(PropertyName = "QCounter")]
+        public int QCount
+        {
+            get => Counter.QCount;
+            set => Counter.QCount = value;
+        }
+
+        [JsonProperty(PropertyName = "index")]
+        public BitString Index { get; set; }
 
         public bool SetString(string name, string value)
         {
@@ -96,29 +112,27 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                     return true;
 
                 case "firstseed":
-                    firstSeed = new BitString(value).ToPositiveBigInteger();
+                    Seed.Seed = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "pseed":
-                    pSeed = new BitString(value).ToPositiveBigInteger();
+                    Seed.PSeed = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "qseed":
-                    qSeed = new BitString(value).ToPositiveBigInteger();
-                    Seed = new DomainSeed(firstSeed, pSeed, qSeed);
+                    Seed.QSeed = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "pgen_counter":
-                    pCounter = int.Parse(value);
+                    Counter.PCount = int.Parse(value);
                     return true;
 
                 case "qgen_counter":
-                    qCounter = int.Parse(value);
-                    Counter = new Counter(pCounter, qCounter);
+                    Counter.QCount = int.Parse(value);
                     return true;
 
                 case "result":
-                    Result = (value.StartsWith("p"));
+                    TestPassed = value.StartsWith("p");
                     return true;
             }
 

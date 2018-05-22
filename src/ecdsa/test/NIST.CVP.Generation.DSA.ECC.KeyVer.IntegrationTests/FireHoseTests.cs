@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.DSA.ECC.KeyVer.Parsers;
 using NIST.CVP.Tests.Core;
@@ -32,6 +33,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
             var folderPath = new DirectoryInfo(Path.Combine(_testPath));
             var parser = new LegacyResponseFileParser();
             var algo = new EccDsa(null);
+            var curveFactory = new EccCurveFactory();
 
             foreach (var testFilePath in folderPath.EnumerateFiles())
             {
@@ -47,21 +49,18 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer.IntegrationTests
                     Assert.Fail("No TestGroups parsed");
                 }
 
-                foreach (var iTestGroup in testVector.TestGroups)
+                foreach (var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
-
                     if (testGroup.Tests.Count == 0)
                     {
                         Assert.Fail("No TestCases parsed");
                     }
 
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
-
-                        var result = algo.ValidateKeyPair(testGroup.DomainParameters, testCase.KeyPair);
-                        if (result.Success != testCase.Result)
+                        var domainParams = new EccDomainParameters(curveFactory.GetCurve(testGroup.Curve));
+                        var result = algo.ValidateKeyPair(domainParams, testCase.KeyPair);
+                        if (result.Success != testCase.TestPassed)
                         {
                             Assert.Fail($"Incorrect response for TestCase: {testCase.TestCaseId}");
                         }

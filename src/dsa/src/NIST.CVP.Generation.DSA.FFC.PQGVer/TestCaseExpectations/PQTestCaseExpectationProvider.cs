@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.TestCaseExpectations
                 };
 
                 _expectationReasons.Add(new PQTestCaseExpectationReason(PQFailureReasons.None));
-                _expectationReasons.Add(badReasons.OrderBy(a => Guid.NewGuid()).ToList()[0]);
+                _expectationReasons.Add(badReasons.OrderBy(a => Guid.NewGuid()).First());
             }
             // Otherwise we want everything
             else

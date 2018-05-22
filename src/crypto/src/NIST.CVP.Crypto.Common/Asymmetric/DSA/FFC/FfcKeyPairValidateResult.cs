@@ -1,6 +1,6 @@
 ﻿namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
 {
-    public class FfcKeyPairValidateResult : IKeyPairValidateResult
+    public class FfcKeyPairValidateResult : IKeyPairValidateResult, ICryptoResult
     {
         /// <summary>
         /// Was the validation successful?

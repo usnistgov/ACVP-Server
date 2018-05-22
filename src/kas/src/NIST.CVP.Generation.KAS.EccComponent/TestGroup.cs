@@ -9,41 +9,11 @@ using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.KAS.EccComponent
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
-        public TestGroup()
-        {
-
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
         public int TestGroupId { get; set; }
-        public string TestType => "AFT";
-
-        public List<ITestCase> Tests { get; set; } = new List<ITestCase>();
-
+        public string TestType { get; set; }
         public Curve Curve { get; set; }
-
-        private void MapToProperties(dynamic source)
-        {
-            ExpandoObject expandoSource = (ExpandoObject)source;
-
-            TestGroupId = (int) source.tgId;
-
-            Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(
-                expandoSource.GetTypeFromProperty<string>("curve")
-            );
-
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
     }
 }

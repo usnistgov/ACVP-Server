@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators;
-using NIST.CVP.Crypto.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
-    public class TestCaseValidatorG : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorG : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
-        private readonly IGGeneratorValidator _gGen;
+        private readonly TestGroup _group;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, GValidateResult> _deferredResolver;
 
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidatorG(TestCase expectedResult, IGGeneratorValidator gGen)
+        public TestCaseValidatorG(TestCase expectedResult, TestGroup group, IDeferredTestCaseResolver<TestGroup, TestCase, GValidateResult> deferredResolver)
         {
             _expectedResult = expectedResult;
-            _gGen = gGen;
+            _group = group;
+            _deferredResolver = deferredResolver;
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
@@ -30,7 +31,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
             }
             else
             {
-                var validateResult = _gGen.Validate(_expectedResult.P, _expectedResult.Q, suppliedResult.G, _expectedResult.Seed, _expectedResult.Index);
+                var validateResult = _deferredResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
                 if (!validateResult.Success)
                 {
                     errors.Add($"Validation failed: {validateResult.ErrorMessage}");

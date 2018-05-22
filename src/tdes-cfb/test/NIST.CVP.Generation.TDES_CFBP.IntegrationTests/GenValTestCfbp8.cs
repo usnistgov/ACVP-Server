@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NUnit.Framework;
 

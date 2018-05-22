@@ -5,7 +5,7 @@ using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 
 namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
 {
@@ -17,41 +17,57 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.TDES_CBCI;
 
-        public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
-            //TODO the duplication between testCase and resultArray should be refactored
             var rand = new Random800_90();
-            if (testCase.decryptFail != null)
+
+            // If TC has a cipherText, change it
+            if (testCase.cipherText != null)
             {
-                testCase.decryptFail = false;
+                BitString bs = new BitString(testCase.cipherText.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                testCase.cipherText = bs.ToHex();
             }
 
-            var propertiesToScramble = new[] { "cipherText", "cipherText1", "cipherText2", "cipherText3", "plainText", "plainText1", "plainText2", "plainText3" };
-            foreach (var prop in propertiesToScramble)
+            // If TC has a plainText, change it
+            if (testCase.plainText != null)
             {
-                if (testCase[prop] != null)
-                {
-                    var bs = new BitString(testCase[prop].ToString());
-                    bs = rand.GetDifferentBitStringOfSameSize(bs);
-                    testCase[prop] = bs.ToHex();
-                }
+                BitString bs = new BitString(testCase.plainText.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                testCase.plainText = bs.ToHex();
             }
 
             // If TC has a resultsArray, change some of the elements
             if (testCase.resultsArray != null)
             {
-                var arrayPropertiesToScramble = new[] { "cipherText", "plainText", "iv1", "iv2", "iv3", "key1", "key2", "key3" };
-                foreach (var prop in arrayPropertiesToScramble)
-                {
-                    if (testCase.resultsArray[0][prop] != null)
-                    {
-                        var bs = new BitString(testCase.resultsArray[0][prop].ToString());
-                        bs = rand.GetDifferentBitStringOfSameSize(bs);
-                        testCase.resultsArray[0][prop] = bs.ToHex();
-                    }
-                }
+                BitString bsIV = new BitString(testCase.resultsArray[0].iv.ToString());
+                bsIV = rand.GetDifferentBitStringOfSameSize(bsIV);
+                testCase.resultsArray[0].iv = bsIV.ToHex();
+
+                BitString bsKey1 = new BitString(testCase.resultsArray[0].key1.ToString());
+                bsKey1 = rand.GetDifferentBitStringOfSameSize(bsKey1);
+                testCase.resultsArray[0].key1 = bsKey1.ToHex();
+
+                BitString bsKey2 = new BitString(testCase.resultsArray[0].key2.ToString());
+                bsKey2 = rand.GetDifferentBitStringOfSameSize(bsKey2);
+                testCase.resultsArray[0].key2 = bsKey2.ToHex();
+
+                BitString bsKey3 = new BitString(testCase.resultsArray[0].key3.ToString());
+                bsKey3 = rand.GetDifferentBitStringOfSameSize(bsKey3);
+                testCase.resultsArray[0].key3 = bsKey3.ToHex();
+
+                BitString bsPlainText = new BitString(testCase.resultsArray[0].plainText.ToString());
+                bsPlainText = rand.GetDifferentBitStringOfSameSize(bsPlainText);
+                testCase.resultsArray[0].plainText = bsPlainText.ToHex();
+
+                BitString bsCipherText = new BitString(testCase.resultsArray[0].cipherText.ToString());
+                bsCipherText = rand.GetDifferentBitStringOfSameSize(bsCipherText);
+                testCase.resultsArray[0].cipherText = bsCipherText.ToHex();
             }
         }
 
@@ -86,11 +102,11 @@ namespace NIST.CVP.Generation.TDES_CBCI.IntegrationTests
         /// <summary>
         /// Can be used to only generate MMT groups for the genval tests
         /// </summary>
-        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
             {
-                return new List<ITestGroupGenerator<Parameters>>()
+                return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGeneratorMultiblockMessage()
                 };

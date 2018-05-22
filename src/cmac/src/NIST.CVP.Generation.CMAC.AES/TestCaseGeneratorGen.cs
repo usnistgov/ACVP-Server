@@ -1,5 +1,4 @@
-﻿using NIST.CVP.Crypto.CMAC;
-using NIST.CVP.Crypto.Common.MAC.CMAC;
+﻿using NIST.CVP.Crypto.Common.MAC.CMAC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -7,7 +6,7 @@ namespace NIST.CVP.Generation.CMAC.AES
 {
     public class TestCaseGeneratorGen : TestCaseGeneratorGenBase<TestGroup, TestCase>
     {
-        public override TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public override TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             //known answer - need to do an encryption operation to get the tag
             var key = _random800_90.GetRandomBitString(group.KeyLength);
@@ -15,7 +14,8 @@ namespace NIST.CVP.Generation.CMAC.AES
             var testCase = new TestCase
             {
                 Key = key,
-                Message = msg
+                Message = msg,
+                TestPassed = true
             };
             return Generate(group, testCase);
         }

@@ -4,6 +4,7 @@ using System.Numerics;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.FFC.Helpers;

@@ -1,16 +1,17 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KDF.Enums
 {
     public enum KdfModes
     {
-        [Description("counter")]
+        [EnumMember(Value = "counter")]
         Counter,
 
-        [Description("feedback")]
+        [EnumMember(Value = "feedback")]
         Feedback,
 
-        [Description("double pipeline iteration")]
+        [EnumMember(Value = "double pipeline iteration")]
         Pipeline
     }
 }

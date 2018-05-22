@@ -12,12 +12,12 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private const int MAX_KEY_SIZE = 4096;
         private readonly string[] _testTypes = new string[] { "AFT", "VAL" };
         
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.GenValApp.Helpers;
@@ -77,9 +78,9 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         }
 
         [Test]
-        [TestCase(GenValMode.Generate, "registration.json", null, null, 0)]
-        [TestCase(GenValMode.Validate, null, "response.json", "answer.json", 0)]
-        [TestCase(GenValMode.Unset, null, null, null, 1)]
+        [TestCase(GenValMode.Generate, "registration.json", null, null, StatusCode.Success)]
+        [TestCase(GenValMode.Validate, null, "response.json", "answer.json", StatusCode.Success)]
+        [TestCase(GenValMode.Unset, null, null, null, StatusCode.ModeError)]
         public void ShouldRun(GenValMode genValMode, string registrationFile, string responseFile, string answerFile, int returnCode)
         {
             var parameters = new ArgumentParsingTarget

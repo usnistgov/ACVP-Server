@@ -7,11 +7,11 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestGroupGeneratorAft : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorAft : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string TEST_TYPE = "AFT";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

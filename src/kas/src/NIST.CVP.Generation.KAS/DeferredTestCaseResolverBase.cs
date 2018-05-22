@@ -3,8 +3,8 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Entropy;
 
@@ -19,8 +19,8 @@ namespace NIST.CVP.Generation.KAS
         TScheme
     > 
         : IDeferredTestCaseResolver<TTestGroup, TTestCase, KasResult>
-        where TTestGroup : TestGroupBase<TKasDsaAlgoAttributes>
-        where TTestCase : TestCaseBase
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
         where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
         where TDomainParameters : IDsaDomainParameters
         where TKeyPair : IDsaKeyPair

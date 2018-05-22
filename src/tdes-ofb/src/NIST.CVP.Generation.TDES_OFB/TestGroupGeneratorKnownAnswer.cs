@@ -3,7 +3,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
-    public class TestGroupGeneratorKnownAnswer : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorKnownAnswer : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private readonly string[] _katTests = new string[]
         {
@@ -14,14 +14,14 @@ namespace NIST.CVP.Generation.TDES_OFB
             "VariableText"
         };
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
-            var testGroups = new List<ITestGroup>();
+            var testGroups = new List<TestGroup>();
             foreach (var function in parameters.Direction)
             {
                 foreach (var katTest in _katTests)
                 { 
-                    TestGroup tg = new TestGroup()
+                    var tg = new TestGroup
                     {
                         Function = function,
                         NumberOfKeys = 1,
@@ -31,6 +31,7 @@ namespace NIST.CVP.Generation.TDES_OFB
                     testGroups.Add(tg);
                 }
             }
+
             return testGroups;
         }
     }

@@ -1,46 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.CMAC.AES;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.CMAC_AES.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1, string direction = "gen", bool failureTest = false)
+        public static TestVectorSet GetTestGroups(int groups, string direction, bool testPassed)
         {
+            var testVectorSet = new TestVectorSet()
+            {
+                Algorithm = "CMAC",
+                Mode = "AES",
+                IsSample = false
+            };
+
             var testGroups = new List<TestGroup>();
+            testVectorSet.TestGroups = testGroups;
             for (int groupIdx = 0; groupIdx < groups; groupIdx++)
             {
+                var tg = new TestGroup
+                {
+                    Function = direction,
+                    KeyLength = 256 + groupIdx * 2,
+                    MessageLength = 42,
+                    MacLength = 55,
+                    TestType = "AFT"
+                };
+                testGroups.Add(tg);
 
-                var tests = new List<ITestCase>();
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for (int testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
-                    tests.Add(new TestCase
+                    var tc = new TestCase
                     {
-                        FailureTest = failureTest,
-                        Message = new BitString("FACE"),
-                        Mac = new BitString("CAFE"),
+                        TestPassed = testPassed,
                         Key = new BitString("9998ADCD"),
-                        TestCaseId = testId
-                    });
+                        TestCaseId = testId,
+                        Message = new BitString("BEEFFACE"),
+                        Mac = new BitString("FACEBEEF"),
+                        ParentGroup = tg
+                    };
+                    
+                    tests.Add(tc);
                 }
-
-                testGroups.Add(
-                    new TestGroup
-                    {
-                        Function = direction,
-                        KeyLength = 128 + groupIdx * 2,
-                        MessageLength = groupIdx * 8,
-                        MacLength = 64,
-                        Tests = tests
-                    }
-                );
             }
-            return testGroups;
+            return testVectorSet;
         }
     }
 }

@@ -3,17 +3,16 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {
-    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
         {
-            HashSet<ITestGroupGenerator<Parameters>> list =
-                new HashSet<ITestGroupGenerator<Parameters>>()
-                {
-                    new TestGroupGeneratorKnownAnswer(),
-                    new TestGroupGeneratorMultiblockMessage(),
-                    new TestGroupGeneratorMonteCarlo()
-                };
+            var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
+            {
+                new TestGroupGeneratorKnownAnswer(),
+                new TestGroupGeneratorMultiblockMessage(),
+                new TestGroupGeneratorMonteCarlo()
+            };
 
             return list;
         }

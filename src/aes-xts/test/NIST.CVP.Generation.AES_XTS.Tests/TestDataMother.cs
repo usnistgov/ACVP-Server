@@ -1,48 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.AES_XTS;
+﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_XTS.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1, string direction = "encrypt")
+        public static TestVectorSet GetTestGroups(int groups, string direction, string tweakMode)
         {
+            var testVectorSet = new TestVectorSet()
+            {
+                Algorithm = "AES",
+                Mode = "XTS",
+                IsSample = false
+            };
+
             var testGroups = new List<TestGroup>();
+            testVectorSet.TestGroups = testGroups;
             for (int groupIdx = 0; groupIdx < groups; groupIdx++)
             {
+                var tg = new TestGroup
+                {
+                    Direction = direction,
+                    KeyLen = 52,
+                    PtLen = 128,
+                    TweakMode = tweakMode,
+                    TestType = "AFT"
+                };
+                testGroups.Add(tg);
 
-                var tests = new List<ITestCase>();
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for (int testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
-                    tests.Add(new TestCase
+                    var tc = new TestCase
                     {
                         PlainText = new BitString("1AAADFFF"),
                         CipherText = new BitString("7EADDC"),
-                        Key = new XtsKey(new BitString("9998ADCD")),
-                        SequenceNumber = 10,
-                        I = new BitString("CAFECAFE"),
-                        TestCaseId = testId
-                    });
-                }
+                        Key = new BitString("9998ADCD"),
+                        TestCaseId = testId,
+                        ParentGroup = tg,
+                        // note not actually true in real scenarios, 
+                        // just want to be able to confirm the property isn't serialized.
+                        Deferred = true 
+                    };
 
-                testGroups.Add(
-                    new TestGroup
+                    if (tweakMode == "hex")
                     {
-                        Direction = direction,
-                        KeyLen = 256 + groupIdx * 2,
-                        PtLen = 128,
-                        TweakMode = "hex",
-                        Tests = tests,
-                        TestType = "Sample"
+                        tc.I = new BitString("CAFECAFE");
                     }
-                );
+
+                    if (tweakMode == "number")
+                    {
+                        tc.SequenceNumber = 10;
+                    }
+
+                    tests.Add(tc);
+                }
             }
-            return testGroups;
+            return testVectorSet;
         }
     }
 }

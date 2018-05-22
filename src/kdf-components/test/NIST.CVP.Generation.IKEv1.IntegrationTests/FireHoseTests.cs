@@ -46,16 +46,14 @@ namespace NIST.CVP.Generation.IKEv1.IntegrationTests
                     Assert.Fail("No TestGroups were parsed.");
                 }
 
-                foreach (var iTestGroup in testVector.TestGroups)
+                foreach (var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
                     var algo = algoFactory.GetIkeV1Instance(testGroup.AuthenticationMethod, testGroup.HashAlg);
                     
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
                         count++;
 
-                        var testCase = (TestCase)iTestCase;
                         var result = algo.GenerateIke(
                             testCase.NInit,
                             testCase.NResp,

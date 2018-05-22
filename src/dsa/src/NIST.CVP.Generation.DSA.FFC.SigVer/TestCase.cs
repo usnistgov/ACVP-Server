@@ -1,9 +1,9 @@
 ﻿using System.Dynamic;
 using System.Numerics;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Generation.DSA.FFC.SigVer.Enums;
@@ -12,51 +12,47 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigVer
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        private BigInteger _rSetString;
-        private BigInteger _sSetString;
-
-        public TestCase() { }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
+        public bool? TestPassed { get; set; }
+        public bool Deferred => false;
+        public TestGroup ParentGroup { get; set; }
+        [JsonIgnore] public ITestCaseExpectationReason<SigFailureReasons> Reason { get; set; }
+        [JsonProperty(PropertyName = "reason")]
+        public string ReasonVal => Reason?.GetName();
 
-        public bool Result { get; set; }
-        public ITestCaseExpectationReason<SigFailureReasons> Reason { get; set; }
-        public FfcKeyPair Key { get; set; }
-        public BitString Message { get; set; }
-        public FfcSignature Signature { get; set; }
-
-        private void MapToProperties(dynamic source)
+        /// <summary>
+        /// Ignoring for (De)Serialization as KeyPairs are flattened
+        /// </summary>
+        [JsonIgnore] public FfcKeyPair Key { get; set; } = new FfcKeyPair();
+        [JsonProperty(PropertyName = "x", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger X
         {
-            TestCaseId = (int)source.tcId;
+            get => Key.PrivateKeyX;
+            set => Key.PrivateKeyX = value;
+        }
+        [JsonProperty(PropertyName = "y", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Y
+        {
+            get => Key.PublicKeyY;
+            set => Key.PublicKeyY = value;
+        }
 
-            ExpandoObject expandoSource = (ExpandoObject)source;
+        public BitString Message { get; set; }
 
-            var resultValue = expandoSource.GetTypeFromProperty<string>("result");
-            if (resultValue != null)
-            {
-                Result = resultValue.ToLower() == "passed";
-            }
-
-            var reasonValue = expandoSource.GetTypeFromProperty<string>("reason");
-            if (reasonValue != null)
-            {
-                Reason = new TestCaseExpectationReason(EnumHelpers.GetEnumFromEnumDescription<SigFailureReasons>(expandoSource.GetTypeFromProperty<string>("reason")));
-            }
+        [JsonIgnore] public FfcSignature Signature { get; set; } = new FfcSignature();
+        [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger R
+        {
+            get => Signature.R;
+            set => Signature.R = value;
+        }
+        [JsonProperty(PropertyName = "s", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger S
+        {
+            get => Signature.S;
+            set => Signature.S = value;
         }
 
         public bool SetString(string name, string value)
@@ -77,16 +73,15 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer
                     return true;
 
                 case "r":
-                    _rSetString = new BitString(value).ToPositiveBigInteger();
+                    Signature.R = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "s":
-                    _sSetString = new BitString(value).ToPositiveBigInteger();
-                    Signature = new FfcSignature(_rSetString, _sSetString);
+                    Signature.S = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "result":
-                    FailureTest = value.ToLower()[0] == 'f';
+                    TestPassed = value.ToLower()[0] != 'f';
                     return true;
             }
 

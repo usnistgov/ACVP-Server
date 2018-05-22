@@ -12,7 +12,7 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_LegacySigVer.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -126,7 +126,7 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.Parsers
                 curTestCase.SetString(parts[0].Trim(), parts[1].Trim());
             }
 
-            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "RSA", Mode = "LegacySigVer", TestGroups = groups.Select(g => (ITestGroup)g).ToList() });
+            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "RSA", Mode = "LegacySigVer", TestGroups = groups });
         }
     }
 }

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
-using NIST.CVP.Crypto.Common.DRBG.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Math;
+using NIST.CVP.Crypto.Common.DRBG.Enums;
 
 namespace NIST.CVP.Generation.DRBG.Tests
 {
@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
 
             Assert.AreEqual(1, result.Count);
         }
-        
+
         [Test]
         [TestCase("ctrDRBG", "AES-128", false, DrbgMechanism.Counter, DrbgMode.AES128)]
         [TestCase("ctrDRBG", "AES-192", false, DrbgMechanism.Counter, DrbgMode.AES192)]
@@ -145,7 +145,5 @@ namespace NIST.CVP.Generation.DRBG.Tests
 
             return p;
         }
-
-        
     }
 }

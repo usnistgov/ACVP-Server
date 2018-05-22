@@ -4,7 +4,13 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Moq;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
+using NIST.CVP.Crypto.RSA2.Keys;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_SigGen.Tests
 {
@@ -16,7 +22,28 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
         [SetUp]
         public void SetUp()
         {
-            _subject = new TestGroupGeneratorFactory();
+            var rand = new Mock<IRandom800_90>();
+            rand
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString("ABCDABCDABCD"));
+
+            rand
+                .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(1);
+
+            var keyBuilder = new Mock<IKeyBuilder>();
+            keyBuilder
+                .Setup(s => s.Build())
+                .Returns(new KeyResult(new KeyPair(), new AuxiliaryResult()));
+
+            keyBuilder.SetReturnsDefault(keyBuilder.Object);
+
+            var keyComposerFactory = new Mock<IKeyComposerFactory>();
+            keyComposerFactory
+                .Setup(s => s.GetKeyComposer(It.IsAny<PrivateKeyModes>()))
+                .Returns(new RsaKeyComposer());
+
+            _subject = new TestGroupGeneratorFactory(keyBuilder.Object, rand.Object, keyComposerFactory.Object);
         }
 
         [Test]
@@ -47,7 +74,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 Capabilities = BuildFullSpecs(),
             };
 
-            var groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
 
             foreach(var genny in result)
             {
@@ -70,7 +97,7 @@ namespace NIST.CVP.Generation.RSA_SigGen.Tests
                 Capabilities = BuildFullSpecs(),
             };
 
-            List<ITestGroup> groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
 
             foreach (var genny in result)
             {

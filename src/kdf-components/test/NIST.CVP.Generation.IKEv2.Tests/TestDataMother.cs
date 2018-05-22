@@ -5,14 +5,30 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.IKEv2.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups = 1)
         {
+            var vectorSet = new TestVectorSet();
+
             var testGroups = new List<TestGroup>();
+            vectorSet.TestGroups = testGroups;
+
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                var tg = new TestGroup
+                {
+                    HashAlg = new HashFunction(ModeValues.SHA1, DigestSizes.d160),
+                    DerivedKeyingMaterialLength = groupIdx + 64,
+                    NInitLength = groupIdx + 64,
+                    NRespLength = groupIdx + 64,
+                    GirLength = groupIdx + 64,
+                    TestType = "Sample"
+                };
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
                     tests.Add(new TestCase
@@ -28,24 +44,13 @@ namespace NIST.CVP.Generation.IKEv2.Tests
                         DerivedKeyingMaterialChild = new BitString("7EADDCAB"),
                         DerivedKeyingMaterialDh = new BitString("7EADDC"),
                         SKeySeedReKey = new BitString("9998ADCD"),
-                        TestCaseId = testId
+                        TestCaseId = testId,
+                        ParentGroup = tg
                     });
                 }
 
-                testGroups.Add(
-                    new TestGroup
-                    {
-                        HashAlg = new HashFunction(ModeValues.SHA1, DigestSizes.d160),
-                        DerivedKeyingMaterialLength = groupIdx + 64,
-                        NInitLength = groupIdx + 64,
-                        NRespLength = groupIdx + 64,
-                        GirLength = groupIdx + 64,
-                        Tests = tests,
-                        TestType = "Sample"
-                    }
-                );
             }
-            return testGroups;
+            return vectorSet;
         }
     }
 }

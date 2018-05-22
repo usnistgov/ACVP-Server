@@ -2,9 +2,8 @@
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Crypto.KAS.Helpers;
-using NIST.CVP.Crypto.KAS.Scheme.Ecc;
 using NIST.CVP.Generation.KAS.Enums;
 
 namespace NIST.CVP.Generation.KAS.ECC.Helpers
@@ -78,7 +77,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Helpers
         {
             if (generatesKeyPair)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 // modify the static public key until no longer valid
                 while (true)
                 {
@@ -105,7 +104,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Helpers
         {
             if (generatesKeyPair)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 // modify the ephemeral public key until no longer valid
                 while (true)
                 {
@@ -132,7 +131,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Helpers
         {
             if (generatesKeyPair)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 // modify the static private key to make it invalid
                 iutKas.Scheme.StaticKeyPair.PrivateD += 2;
             }
@@ -146,7 +145,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Helpers
         {
             if (generatesKeyPair)
             {
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
                 // modify the static public key until no longer valid
                 while (true)
                 {

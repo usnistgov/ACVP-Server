@@ -5,9 +5,9 @@
     /// </summary>
     /// <typeparam name="TTestGroup">The test group type.</typeparam>
     /// <typeparam name="TTestCase">The test case type</typeparam>
-    public interface ITestCaseGeneratorFactory<in TTestGroup, in TTestCase>
-        where TTestGroup : ITestGroup
-        where TTestCase : ITestCase
+    public interface ITestCaseGeneratorFactory<TTestGroup, TTestCase>
+        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
         /// <summary>
         /// Gets a <see cref="ITestCaseGenerator{TTestGroup,TTestCase}"/> based on the <see cref="testGroup"/> options.

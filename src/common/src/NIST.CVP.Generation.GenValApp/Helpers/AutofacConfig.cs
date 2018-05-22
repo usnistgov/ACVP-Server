@@ -22,8 +22,11 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
 
             var algoMode = AlgoModeLookupHelper.GetAlgoModeFromStrings(algorithm, mode);
 
-            var genValInjectables = GenValResolver.ResolveIocInjectables(algorithmConfig, algorithm, mode, dllLocation);
-            genValInjectables.RegisterTypes(builder, algoMode);
+            var iocRegisterables = GenValResolver.ResolveIocInjectables(algorithmConfig, algorithm, mode, dllLocation);
+            foreach (var iocRegisterable in iocRegisterables)
+            {
+                iocRegisterable.RegisterTypes(builder, algoMode);
+            }
 
             OverrideRegistrations?.Invoke(builder);
 

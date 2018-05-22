@@ -1,5 +1,4 @@
 ﻿using System;
-using NIST.CVP.Crypto.AES_CCM;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
@@ -16,7 +15,7 @@ namespace NIST.CVP.Generation.AES_CCM
         private BitString _key = null;
         private BitString _nonce = null;
 
-        public int NumberOfTestCasesToGenerate { get { return 15; } }
+        public int NumberOfTestCasesToGenerate => 15;
 
         public TestCaseGeneratorDecrypt(IRandom800_90 random800_90, IAES_CCM algo)
         {
@@ -24,7 +23,7 @@ namespace NIST.CVP.Generation.AES_CCM
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             var key = GetReusableInput(ref _key, group.GroupReusesKeyForTestCases, group.KeyLength);
             var iv = GetReusableInput(ref _nonce, group.GroupReusesNonceForTestCases, group.IVLength);
@@ -36,12 +35,13 @@ namespace NIST.CVP.Generation.AES_CCM
                 IV = iv,
                 AAD = aad,
                 PlainText = plainText,
-                Deferred = false
+                Deferred = false,
+                TestPassed = true
             };
             return Generate(@group, testCase);
         }
         
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
             SymmetricCipherResult encryptionResult = null;
             try
@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.AES_CCM
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -59,14 +59,14 @@ namespace NIST.CVP.Generation.AES_CCM
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             testCase.CipherText = encryptionResult.Result;
 
             SometimesMangleTestCaseCipherText(testCase);
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
         
         private BitString GetReusableInput(ref BitString holdInstance, bool isReusable, int lengthToGenerate)
@@ -91,13 +91,10 @@ namespace NIST.CVP.Generation.AES_CCM
             if (option == 0)
             {
                 testCase.CipherText = _random800_90.GetDifferentBitStringOfSameSize(testCase.CipherText);
-                testCase.FailureTest = true;
+                testCase.TestPassed = false;
             }
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

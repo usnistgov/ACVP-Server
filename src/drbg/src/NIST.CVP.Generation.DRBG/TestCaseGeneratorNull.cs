@@ -10,14 +10,14 @@ namespace NIST.CVP.Generation.DRBG
     {
         public int NumberOfTestCasesToGenerate => 1;
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
-            return new TestCaseGenerateResponse("Null generator");
+            return new TestCaseGenerateResponse<TestGroup, TestCase>("Null generator");
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
-            return new TestCaseGenerateResponse("Null generator");
+            return new TestCaseGenerateResponse<TestGroup, TestCase>("Null generator");
         }
     }
 }

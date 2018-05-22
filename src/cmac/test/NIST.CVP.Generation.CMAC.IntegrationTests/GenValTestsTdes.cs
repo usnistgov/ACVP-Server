@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.CMAC.TDES;
 using NIST.CVP.Generation.Core;
@@ -19,6 +20,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.CMAC_TDES;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -26,15 +28,15 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             var rand = new Random800_90();
 
             // If TC is intended to be a failure test, change it
-            if (testCase.result != null)
+            if (testCase.testPassed != null)
             {
-                if (testCase.result == "fail")
+                if (testCase.testPassed == true)
                 {
-                    testCase.result = "pass";
+                    testCase.testPassed = false;
                 }
                 else
                 {
-                    testCase.result = "fail";
+                    testCase.testPassed = true;
                 }
             }
 
@@ -58,7 +60,8 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "CMAC-TDES",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 Direction = new [] { "gen", "ver" },
                 KeyingOption = new[] {1},
                 MsgLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
@@ -75,7 +78,8 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             
             Parameters p = new Parameters()
             {
-                Algorithm = "CMAC-TDES",
+                Algorithm = Algorithm,
+                Mode = Mode,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 MsgLen = new MathDomain().AddSegment(new RangeDomainSegment(random, 0, 65536, 8)),
                 MacLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),

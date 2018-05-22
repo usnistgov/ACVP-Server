@@ -7,7 +7,8 @@ namespace NIST.CVP.Generation.CMAC.TDES
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string AlgorithmName = "CMAC-AES";
+        public static string VALID_ALGORITHM = "CMAC";
+        public static string VALID_MODE = "TDES";
         public static string[] VALID_DIRECTIONS = new string[] { "gen", "ver" };
         public static int VALID_MESSAGE_LENGTH_MIN = 0;
         public static int VALID_MESSAGE_LENGTH_MAX = 1 << 19;
@@ -18,6 +19,11 @@ namespace NIST.CVP.Generation.CMAC.TDES
         {
             var errorResults = new List<string>();
             ValidateAlgorithm(parameters, errorResults);
+            if (errorResults.Count > 0)
+            {
+                return new ParameterValidateResponse(string.Join(";", errorResults));
+            }
+
             ValidateDirection(parameters, errorResults);
             ValidateMessageLength(parameters, errorResults);
             ValidateMacLength(parameters, errorResults);
@@ -32,12 +38,11 @@ namespace NIST.CVP.Generation.CMAC.TDES
 
         private void ValidateAlgorithm(Parameters parameters, List<string> errorResults)
         {
-            var validAlgorithmValues = AlgorithmSpecificationMapping.Map
-                .Select(s => s.algoSpecification)
-                .ToArray();
-
-            var algoCheck = ValidateValue(parameters.Algorithm, validAlgorithmValues, "Algorithm");
+            var algoCheck = ValidateValue(parameters.Algorithm, new string[] { VALID_ALGORITHM }, "Algorithm");
             errorResults.AddIfNotNullOrEmpty(algoCheck);
+
+            var modeCheck = ValidateValue(parameters.Mode, new string[] { VALID_MODE }, "Mode");
+            errorResults.AddIfNotNullOrEmpty(modeCheck);
         }
 
         private void ValidateDirection(Parameters parameters, List<string> errorResults)

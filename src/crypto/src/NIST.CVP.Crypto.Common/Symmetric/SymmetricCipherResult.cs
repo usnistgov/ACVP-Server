@@ -1,8 +1,9 @@
-﻿using NIST.CVP.Math;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Symmetric
 {
-    public class SymmetricCipherResult : ICryptoResult
+    public class SymmetricCipherResult : IModeBlockCipherResult
     {
         public BitString Result { get; }
         public string ErrorMessage { get; }

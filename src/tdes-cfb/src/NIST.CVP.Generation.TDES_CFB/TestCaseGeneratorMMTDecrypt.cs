@@ -1,10 +1,8 @@
-﻿using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Crypto.TDES_CFB;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
@@ -18,6 +16,8 @@ namespace NIST.CVP.Generation.TDES_CFB
         private readonly ICFBMode _modeOfOperation;
         private int _currentCase;
         private int _shift;
+
+        public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
 
         public TestCaseGeneratorMMTDecrypt(IRandom800_90 random800_90, ICFBMode modeOfOperation)
         {
@@ -39,9 +39,7 @@ namespace NIST.CVP.Generation.TDES_CFB
             }
         }
 
-        public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
-
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             var keys = TdesHelpers.GenerateTdesKey(group.KeyingOption);
             var cipherText = _random800_90.GetRandomBitString(_shift * (_currentCase + 1));
@@ -57,7 +55,7 @@ namespace NIST.CVP.Generation.TDES_CFB
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SymmetricCipherResult decryptionResult = null;
             try
@@ -67,7 +65,7 @@ namespace NIST.CVP.Generation.TDES_CFB
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -75,17 +73,13 @@ namespace NIST.CVP.Generation.TDES_CFB
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             testCase.PlainText = decryptionResult.Result;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

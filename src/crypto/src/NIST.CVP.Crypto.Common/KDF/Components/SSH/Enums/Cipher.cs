@@ -1,19 +1,20 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KDF.Components.SSH.Enums
 {
     public enum Cipher
     {
-        [Description("tdes")]
+        [EnumMember(Value = "tdes")]
         TDES,
 
-        [Description("aes-128")]
+        [EnumMember(Value = "aes-128")]
         AES128,
 
-        [Description("aes-192")]
+        [EnumMember(Value = "aes-192")]
         AES192,
 
-        [Description("aes-256")]
+        [EnumMember(Value = "aes-256")]
         AES256
     }
 }

@@ -3,7 +3,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CFB1
 {
-    public class TestCaseValidatorEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 

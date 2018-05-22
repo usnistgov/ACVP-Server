@@ -4,6 +4,7 @@ using NUnit.Framework;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using Autofac;
 using NIST.CVP.Math;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 
@@ -18,6 +19,7 @@ namespace NIST.CVP.Generation.SSH.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.KDFComponents_SSH;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NIST.CVP.Crypto.Common.KDF.Components.SNMP;
-using NIST.CVP.Crypto.SNMP;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -22,7 +19,7 @@ namespace NIST.CVP.Generation.SNMP
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -37,7 +34,7 @@ namespace NIST.CVP.Generation.SNMP
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SnmpResult snmpResult = null;
             try
@@ -46,18 +43,18 @@ namespace NIST.CVP.Generation.SNMP
                 if (!snmpResult.Success)
                 {
                     ThisLogger.Warn(snmpResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(snmpResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(snmpResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex.StackTrace);
-                return new TestCaseGenerateResponse(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
 
             testCase.SharedKey = snmpResult.SharedKey;
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         public Logger ThisLogger => LogManager.GetCurrentClassLogger();

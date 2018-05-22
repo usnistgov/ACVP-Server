@@ -7,11 +7,11 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
-            var testGroups = new List<ITestGroup>();
+            var testGroups = new List<TestGroup>();
 
             parameters.PtLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
             parameters.aadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);

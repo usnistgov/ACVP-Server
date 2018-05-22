@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash;
-using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.SHA3.Parsers
 {
-    public class SHAKELegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class SHAKELegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -189,8 +187,8 @@ namespace NIST.CVP.Generation.SHA3.Parsers
 
             var testVectorSet = new TestVectorSet
             {
-                Algorithm = "SHA3",
-                TestGroups = groups.Select(g => (ITestGroup)g).ToList()
+                Algorithm = "SHAKE",
+                TestGroups = groups
             };
 
             return new ParseResponse<TestVectorSet>(testVectorSet);

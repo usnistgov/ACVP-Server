@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_GCM;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Generation.AES_XPN.Parsers;
 using NIST.CVP.Tests.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -23,17 +25,15 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
         public void ShouldRunThroughAllTestFilesAndValidate()
         {
             if (!Directory.Exists(_testPath))
-
             {
                 Assert.Fail("Test File Directory does not exist");
             }
             var testDir = new DirectoryInfo(_testPath);
             var parser = new LegacyResponseFileParser();
-            var algo = new Crypto.AES_GCM.AES_GCM(
+            var algo = new AES_GCM(
                 new AES_GCMInternals(
-                    new RijndaelFactory(
-                        new RijndaelInternals()
-                    )
+                    new ModeBlockCipherFactory(),
+                    new BlockCipherEngineFactory()
                 ), 
                 new RijndaelFactory(
                     new RijndaelInternals()
@@ -86,7 +86,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                                 continue;
                             }
 
-                            if (testCase.CipherText.ToHex() == result.CipherText.ToHex())
+                            if (testCase.CipherText.ToHex() == result.Result.ToHex())
                             {
                                 passes++;
                             }
@@ -95,7 +95,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                                 fails++;
                             }
 
-                            Assert.AreEqual(testCase.CipherText.ToHex(), result.CipherText.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.CipherText.ToHex()}");
+                            Assert.AreEqual(testCase.CipherText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.Result.ToHex()}");
                             continue;
                         }
 
@@ -111,7 +111,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                                 testCase.Tag
                             );
 
-                            if (testCase.FailureTest)
+                            if (testCase.TestPassed != null && !testCase.TestPassed.Value)
                             {
                                 failureTests++;
                                 if (result.Success)

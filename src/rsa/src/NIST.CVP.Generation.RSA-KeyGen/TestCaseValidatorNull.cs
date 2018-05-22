@@ -6,9 +6,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestCaseValidatorNull : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorNull : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly string _errorMessage;
+
+        public int TestCaseId { get; }
 
         public TestCaseValidatorNull(string errorMessage, int testCaseId)
         {
@@ -20,7 +22,5 @@ namespace NIST.CVP.Generation.RSA_KeyGen
         {
             return new TestCaseValidation { Reason = _errorMessage, Result = Core.Enums.Disposition.Failed, TestCaseId = TestCaseId };
         }
-
-        public int TestCaseId { get; }
     }
 }

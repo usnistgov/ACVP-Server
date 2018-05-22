@@ -1,18 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
-    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+        private readonly IDsaEccFactory _eccDsaFactory;
+        private readonly IEccCurveFactory _curveFactory;
+
+        public TestGroupGeneratorFactory(IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
         {
-            var list = new HashSet<ITestGroupGenerator<Parameters>>
+            _eccDsaFactory = eccDsaFactory;
+            _curveFactory = curveFactory;
+        }
+
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
+        {
+            var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
             {
-                new TestGroupGenerator()
+                new TestGroupGenerator(_eccDsaFactory, _curveFactory)
             };
 
             return list;

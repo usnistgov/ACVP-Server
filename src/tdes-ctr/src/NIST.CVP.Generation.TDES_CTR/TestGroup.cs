@@ -1,59 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NIST.CVP.Crypto.TDES;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(dynamic source)
-        {
-            var expandoSource = (ExpandoObject)source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            Direction = expandoSource.GetTypeFromProperty<string>("direction");
-
-            var keyingOption = expandoSource.GetTypeFromProperty<int>("keyingOption");
-            NumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption);
-
-            TestType = expandoSource.GetTypeFromProperty<string>("testType");
-            OverflowCounter = expandoSource.GetTypeFromProperty<bool>("overflow");
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
-
         public int TestGroupId { get; set; }
         public string Direction { get; set; }
         public int NumberOfKeys { get; set; }
 
         // Properties for specific groups
+        [JsonIgnore]
         public MathDomain DataLength { get; set; }
-        public bool StaticGroupOfTests { get; set; }
 
         // This is a vectorset / IUT property but it needs to be defined somewhere other than Parameter.cs
         public bool IncrementalCounter { get; set; }
         public bool OverflowCounter { get; set; }
 
         public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {
@@ -69,8 +40,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     return true;
             }
 
-            int intVal = 0;
-            if (!int.TryParse(value, out intVal))
+            if (!int.TryParse(value, out var intVal))
             {
                 return false;
             }
@@ -82,6 +52,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     NumberOfKeys = intVal;
                     return true;
             }
+
             return false;
         }
     }

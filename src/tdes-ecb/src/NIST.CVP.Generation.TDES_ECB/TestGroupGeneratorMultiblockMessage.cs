@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_ECB
 {
-    public class TestGroupGeneratorMultiblockMessage : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorMultiblockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "MultiBlockMessage";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
-            var testGroups = new List<ITestGroup>();
+            var testGroups = new List<TestGroup>();
             foreach (var function in parameters.Direction)
             {
                 foreach (var keyingOption in parameters.KeyingOption)
@@ -21,7 +20,7 @@ namespace NIST.CVP.Generation.TDES_ECB
                         continue;
                     }
 
-                    var tg = new TestGroup()
+                    var tg = new TestGroup
                     {
                         Function = function,
                         KeyingOption = keyingOption,
@@ -31,8 +30,8 @@ namespace NIST.CVP.Generation.TDES_ECB
                     testGroups.Add(tg);
                 }
             }
+
             return testGroups;
         }
-
     }
 }

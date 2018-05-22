@@ -95,12 +95,12 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests
             };
         }
 
-        private List<AlgoArrayResponse> GetResultsArrayList(int count, int failing = 2)
+        private List<AlgoArrayResponseSignature> GetResultsArrayList(int count, int failing = 2)
         {
-            var resultsArray = new List<AlgoArrayResponse>();
+            var resultsArray = new List<AlgoArrayResponseSignature>();
             for (var i = 0; i < count; i++)
             {
-                resultsArray.Add(new AlgoArrayResponse
+                resultsArray.Add(new AlgoArrayResponseSignature
                 {
                     CipherText = new BitString("ABCD"),
                     Key = new KeyPair {PubKey = new PublicKey{N = 10}},
@@ -112,12 +112,12 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests
             return resultsArray;
         }
 
-        private List<AlgoArrayResponse> GetIncorrectResultsArrayListWithBadCipherText(int count, int failing = 2)
+        private List<AlgoArrayResponseSignature> GetIncorrectResultsArrayListWithBadCipherText(int count, int failing = 2)
         {
-            var resultsArray = new List<AlgoArrayResponse>();
+            var resultsArray = new List<AlgoArrayResponseSignature>();
             for (var i = 0; i < count; i++)
             {
-                resultsArray.Add(new AlgoArrayResponse
+                resultsArray.Add(new AlgoArrayResponseSignature
                 {
                     CipherText = new BitString("4321"),
                     Key = new KeyPair {PubKey = new PublicKey{N = 10}},
@@ -129,12 +129,12 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests
             return resultsArray;
         }
 
-        private List<AlgoArrayResponse> GetIncorrectResultsArrayListWithBadFailureTest(int count, int failing = 2)
+        private List<AlgoArrayResponseSignature> GetIncorrectResultsArrayListWithBadFailureTest(int count, int failing = 2)
         {
-            var resultsArray = new List<AlgoArrayResponse>();
+            var resultsArray = new List<AlgoArrayResponseSignature>();
             for (var i = 0; i < count; i++)
             {
-                resultsArray.Add(new AlgoArrayResponse
+                resultsArray.Add(new AlgoArrayResponseSignature
                 {
                     CipherText = new BitString("4321"),
                     Key = new KeyPair {PubKey = new PublicKey{N = 10}},

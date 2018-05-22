@@ -151,7 +151,11 @@ namespace NIST.CVP.Generation.AES_XPN.Tests.Parsers
             var result = subject.Parse(path);
             Assume.That(result != null);
             var vectorSet = result.ParsedObject;
-            var casesWithFailureTests = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).FailureTest));
+            var casesWithFailureTests = vectorSet
+                .TestGroups
+                .SelectMany(g => g.Tests
+                    .Where(t => t.TestPassed != null && !t.TestPassed.Value)
+                );
             Assert.IsNotEmpty(casesWithFailureTests);
         }
 

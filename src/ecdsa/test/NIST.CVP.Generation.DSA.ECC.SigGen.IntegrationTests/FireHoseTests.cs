@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Math.Entropy;
@@ -13,9 +14,10 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class FireHoseTests
     {
-        string _testPath;
+        private string _testPath;
         private string _testPathComponent;
-        IShaFactory _shaFactory;
+        private IShaFactory _shaFactory;
+        private IEccCurveFactory _curveFactory;
 
         [SetUp]
         public void SetUp()
@@ -23,6 +25,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\siggen\");
             _testPathComponent = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\siggencomponent\");
             _shaFactory = new ShaFactory();
+            _curveFactory = new EccCurveFactory();
         }
 
         [Test]
@@ -50,10 +53,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                     Assert.Fail("No TestGroups parsed");
                 }
 
-                foreach (var iTestGroup in testVector.TestGroups)
+                foreach (var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
-
                     if (testGroup.Tests.Count == 0)
                     {
                         Assert.Fail("No TestCases parsed");
@@ -62,12 +63,12 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                     var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
                     var algo = new EccDsa(sha, EntropyProviderTypes.Testable);
 
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
                         algo.AddEntropy(testCase.K);
 
-                        var result = algo.Sign(testGroup.DomainParameters, testCase.KeyPair, testCase.Message);
+                        var domainParams = new EccDomainParameters(_curveFactory.GetCurve(testGroup.Curve));
+                        var result = algo.Sign(domainParams, testCase.KeyPair, testCase.Message);
                         if (result.Signature.R != testCase.Signature.R || result.Signature.S != testCase.Signature.S)
                         {
                             Assert.Fail($"Could not validate TestCase: {testCase.TestCaseId}, with values: \nR: {testCase.Signature.R}\nS: {testCase.Signature.S}");
@@ -103,10 +104,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                     Assert.Fail("No TestGroups parsed");
                 }
 
-                foreach (var iTestGroup in testVector.TestGroups)
+                foreach (var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
-
                     if (testGroup.Tests.Count == 0)
                     {
                         Assert.Fail("No TestCases parsed");
@@ -115,12 +114,12 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.IntegrationTests
                     var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
                     var algo = new EccDsa(sha, EntropyProviderTypes.Testable);
 
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
                         algo.AddEntropy(testCase.K);
 
-                        var result = algo.Sign(testGroup.DomainParameters, testCase.KeyPair, testCase.Message, true);
+                        var domainParams = new EccDomainParameters(_curveFactory.GetCurve(testGroup.Curve));
+                        var result = algo.Sign(domainParams, testCase.KeyPair, testCase.Message, true);
                         if (result.Signature.R != testCase.Signature.R || result.Signature.S != testCase.Signature.S)
                         {
                             Assert.Fail($"Could not validate TestCase: {testCase.TestCaseId}, with values: \nR: {testCase.Signature.R}\nS: {testCase.Signature.S}");

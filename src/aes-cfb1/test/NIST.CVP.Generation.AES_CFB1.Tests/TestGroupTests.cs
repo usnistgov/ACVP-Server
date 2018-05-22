@@ -10,34 +10,6 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
     [TestFixture, UnitTest]
     public class TestGroupTests
     {
-        private TestDataMother _tdm = new TestDataMother();
-
-        [Test]
-        public void ShouldReconstituteTestGroupFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer );
-            Assert.IsNotNull(subject);
-        }
-
-        [Test]
-        public void ShouldSetProperTestTypeFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.testType, subject.TestType);
-        }
-
-        [Test]
-        public void ShouldSetProperKeyLengthFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.keyLen, subject.KeyLength);
-        }
-
         [Test]
         [TestCase("Fredo")]
         [TestCase("")]
@@ -80,13 +52,6 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             var result = subject.SetString(name,"13");
             Assert.IsTrue(result);
             Assert.AreEqual(13, subject.KeyLength);
-        }
-
-        private dynamic GetSourceAnswer()
-        {
-            var sourceVector = new TestVectorSet() {TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup) g).ToList()};
-            var sourceAnswer = sourceVector.AnswerProjection[0];
-            return sourceAnswer;
         }
     }
 }

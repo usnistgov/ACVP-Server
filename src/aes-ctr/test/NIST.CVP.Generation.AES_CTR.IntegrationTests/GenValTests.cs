@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math.Domain;
+﻿using NIST.CVP.Common;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Tests;
@@ -16,6 +17,7 @@ namespace NIST.CVP.Generation.AES_CTR.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CTR;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string folderName)

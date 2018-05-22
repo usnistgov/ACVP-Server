@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.IKEv2.Tests
             var result = subject.Generate(new TestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -86,11 +86,11 @@ namespace NIST.CVP.Generation.IKEv2.Tests
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
 
-            Assert.IsNotEmpty(((TestCase)result.TestCase).SKeySeed.ToString(), "SKeySeed");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).DerivedKeyingMaterial.ToString(), "DerivedKeyingMaterial");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).DerivedKeyingMaterialChild.ToString(), "DerivedKeyingMaterialChild");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).DerivedKeyingMaterialDh.ToString(), "DerivedKeyingMaterialDh");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).SKeySeedReKey.ToString(), "SKeySeedReKey");
+            Assert.IsNotEmpty((result.TestCase).SKeySeed.ToString(), "SKeySeed");
+            Assert.IsNotEmpty((result.TestCase).DerivedKeyingMaterial.ToString(), "DerivedKeyingMaterial");
+            Assert.IsNotEmpty((result.TestCase).DerivedKeyingMaterialChild.ToString(), "DerivedKeyingMaterialChild");
+            Assert.IsNotEmpty((result.TestCase).DerivedKeyingMaterialDh.ToString(), "DerivedKeyingMaterialDh");
+            Assert.IsNotEmpty((result.TestCase).SKeySeedReKey.ToString(), "SKeySeedReKey");
         }
 
         private Mock<IRandom800_90> GetRandomMock()

@@ -31,13 +31,16 @@ namespace NIST.CVP.Generation.IKEv2
                 errors.Add("Incorrect mode");
             }
 
+
             if (parameters.Capabilities.Length == 0)
             {
                 errors.Add("No capabilties provided");
             }
 
+
             foreach (var capability in parameters.Capabilities)
             {
+
                 var result = ValidateArray(capability.HashAlg, VALID_HASH_ALGS, "Hash Algs");
                 errors.AddIfNotNullOrEmpty(result);
 
@@ -52,6 +55,7 @@ namespace NIST.CVP.Generation.IKEv2
                 ValidateDomain(capability.DerivedKeyingMaterialLength, errors, "DKM", MIN_DKM, MAX_DKM);
                 ValidateDKM(capability.DerivedKeyingMaterialLength, capability.HashAlg, errors, "DKM");
             }
+
 
             if (errors.Count > 0)
             {

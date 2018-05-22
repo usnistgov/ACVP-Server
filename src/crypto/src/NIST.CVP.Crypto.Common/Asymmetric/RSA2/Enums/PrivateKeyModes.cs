@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums
 {
     public enum PrivateKeyModes
     {
-        [Description("standard")]
+        [EnumMember(Value = "standard")]
         Standard,
 
-        [Description("crt")]
+        [EnumMember(Value = "crt")]
         Crt
     }
 }

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.CTR;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.CTR;
-using NIST.CVP.Crypto.CTR.Enums;
-using NIST.CVP.Crypto.TDES_CTR;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -28,7 +25,7 @@ namespace NIST.CVP.Generation.TDES_CTR
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -56,11 +53,11 @@ namespace NIST.CVP.Generation.TDES_CTR
             }
             else
             {
-                return new TestCaseGenerateResponse(testCase);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SymmetricCounterResult decryptionResult = null;
             try
@@ -80,18 +77,18 @@ namespace NIST.CVP.Generation.TDES_CTR
                 if (!decryptionResult.Success)
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new TestCaseGenerateResponse(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
 
             testCase.PlainText = decryptionResult.Result;
             testCase.Ivs = decryptionResult.IVs;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private BitString GetStartingIV(TestGroup group)

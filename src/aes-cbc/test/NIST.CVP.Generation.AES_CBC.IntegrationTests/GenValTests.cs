@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Autofac;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
@@ -17,18 +17,14 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
         public override string Mode { get; } = "CBC";
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CBC;
-        
+
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new AES_CBC.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
-
-            // If TC is intended to be a failure test, change it
-            if (testCase.decryptFail != null)
-            {
-                testCase.decryptFail = false;
-            }
 
             // If TC has a cipherText, change it
             if (testCase.cipherText != null)
@@ -100,11 +96,11 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
         /// <summary>
         /// Can be used to only generate MMT groups for the genval tests
         /// </summary>
-        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
             {
-                return new List<ITestGroupGenerator<Parameters>>()
+                return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGeneratorMultiBlockMessage()
                 };

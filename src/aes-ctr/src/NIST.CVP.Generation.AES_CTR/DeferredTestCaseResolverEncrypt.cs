@@ -1,8 +1,8 @@
 ﻿using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
-using NIST.CVP.Crypto.CTR;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Fakes;
 using NIST.CVP.Generation.Core;
-using Cipher = NIST.CVP.Crypto.CTR.Enums.Cipher;
+using Cipher = NIST.CVP.Crypto.Common.Symmetric.CTR.Enums.Cipher;
 
 namespace NIST.CVP.Generation.AES_CTR
 {

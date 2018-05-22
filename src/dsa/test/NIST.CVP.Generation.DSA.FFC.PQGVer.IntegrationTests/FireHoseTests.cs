@@ -67,12 +67,12 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
 
                     foreach (var iTestCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
+                        var testCase = iTestCase;
                         var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
                         var algo = gFactory.GetGeneratorValidator(testGroup.GGenMode, sha);
 
                         var result = algo.Validate(testCase.P, testCase.Q, testCase.G, testCase.Seed, testCase.Index);
-                        if (result.Success != testCase.Result)
+                        if (result.Success != testCase.TestPassed)
                         {
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
                         }
@@ -119,15 +119,14 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer.IntegrationTests
                         Assert.Fail("No TestCases parsed");
                     }
 
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
                         var sha = _shaFactory.GetShaInstance(testGroup.HashAlg);
 
                         var algo = pqFactory.GetGeneratorValidator(testGroup.PQGenMode, sha);
 
                         var result = algo.Validate(testCase.P, testCase.Q, testCase.Seed, testCase.Counter);
-                        if (result.Success != testCase.Result)
+                        if (result.Success != testCase.TestPassed)
                         {
                             Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}");
                         }

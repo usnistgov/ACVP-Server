@@ -6,15 +6,31 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
 {
     public class DomainSeed
     {
-        public BigInteger Seed { get; private set; }
-        public BigInteger PSeed { get; private set; }
-        public BigInteger QSeed { get; private set; }
-        public PrimeGenMode Mode { get; private set; }
+        public BigInteger Seed { get; set; }
+        public BigInteger PSeed { get; set; }
+        public BigInteger QSeed { get; set; }
+
+        public PrimeGenMode Mode
+        {
+            get
+            {
+                if (PSeed != BigInteger.Zero && QSeed != BigInteger.Zero)
+                {
+                    return PrimeGenMode.Provable;
+                }
+
+                return PrimeGenMode.Probable;
+            }
+        }
+
+        public DomainSeed()
+        {
+            
+        }
 
         public DomainSeed(BigInteger seed)
         {
             Seed = seed;
-            Mode = PrimeGenMode.Probable;
         }
 
         public DomainSeed(BigInteger firstSeed, BigInteger pSeed, BigInteger qSeed)
@@ -22,7 +38,6 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
             Seed = firstSeed;
             PSeed = pSeed;
             QSeed = qSeed;
-            Mode = PrimeGenMode.Provable;
         }
 
         public BigInteger GetFullSeed()

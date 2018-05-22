@@ -1,24 +1,25 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
     public enum EccScheme
     {
-        [Description("fullUnified")]
+        [EnumMember(Value = "fullUnified")]
         FullUnified,
-        [Description("fullMqv")]
+        [EnumMember(Value = "fullMqv")]
         FullMqv,
-        [Description("ephemeralUnified")]
+        [EnumMember(Value = "ephemeralUnified")]
         EphemeralUnified,
-        [Description("onePassUnified")]
+        [EnumMember(Value = "onePassUnified")]
         OnePassUnified,
-        [Description("onePassMqv")]
+        [EnumMember(Value = "onePassMqv")]
         OnePassMqv,
-        [Description("onePassDh")]
+        [EnumMember(Value = "onePassDh")]
         OnePassDh,
-        [Description("staticUnified")]
+        [EnumMember(Value = "staticUnified")]
         StaticUnified,
-        [Description("componentTest")]
+        [EnumMember(Value = "componentTest")]
         ComponentTest
     }
 }

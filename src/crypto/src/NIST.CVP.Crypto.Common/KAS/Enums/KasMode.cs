@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
@@ -10,19 +11,19 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         /// <summary>
         /// No Kdf, No Key confirmation (component only test)
         /// </summary>
-        [Description("noKdfNoKc")]
+        [EnumMember(Value = "noKdfNoKc")]
         NoKdfNoKc,
         /// <summary>
         /// No Key Confirmation test - uses a MAC function and KDF on the generated secret
         /// Kdf, No Key Confirmation
         /// </summary>
-        [Description("kdfNoKc")]
+        [EnumMember(Value = "kdfNoKc")]
         KdfNoKc,
         /// <summary>
         /// Key Confirmation test - uses a MAC function, KDF, and Key Confirmation
         /// Kdf, Key Confirmation
         /// </summary>
-        [Description("kdfKc")]
+        [EnumMember(Value = "kdfKc")]
         KdfKc
     }
 }

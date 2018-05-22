@@ -9,12 +9,17 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC
         /// <summary>
         /// X Coordinate of the point
         /// </summary>
-        public BigInteger X { get; }
+        public BigInteger X { get; set; }
 
         /// <summary>
         /// Y Coordinate of the point
         /// </summary>
-        public BigInteger Y { get; }
+        public BigInteger Y { get; set; }
+
+        public EccPoint()
+        {
+            
+        }
 
         public EccPoint(string inf)
         {

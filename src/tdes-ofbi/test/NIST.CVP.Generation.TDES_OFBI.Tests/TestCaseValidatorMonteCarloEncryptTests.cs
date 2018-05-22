@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         {
             var expected = GetTestCase();
             var supplied = GetTestCase();
-            TestCaseValidatorMonteCarloEncrypt subject = new TestCaseValidatorMonteCarloEncrypt(expected);
+            var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -24,13 +24,13 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [Test]
         public void ShouldReturnReasonOnMismatchedCipherText()
         {
-            Random800_90 rand = new Random800_90();
+            var rand = new Random800_90();
             var expected = GetTestCase();
             var supplied = GetTestCase();
             supplied.ResultsArray[0].CipherText =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].CipherText).ToBytes());
 
-            TestCaseValidatorMonteCarloEncrypt subject = new TestCaseValidatorMonteCarloEncrypt(expected);
+            var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -43,13 +43,13 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [Test]
         public void ShouldReturnReasonOnMismatchedPlainText()
         {
-            Random800_90 rand = new Random800_90();
+            var rand = new Random800_90();
             var expected = GetTestCase();
             var supplied = GetTestCase();
             supplied.ResultsArray[0].PlainText =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].PlainText).ToBytes());
 
-            TestCaseValidatorMonteCarloEncrypt subject = new TestCaseValidatorMonteCarloEncrypt(expected);
+            var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -62,13 +62,13 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [Test]
         public void ShouldReturnReasonOnMismatchedKey()
         {
-            Random800_90 rand = new Random800_90();
+            var rand = new Random800_90();
             var expected = GetTestCase();
             var supplied = GetTestCase();
             supplied.ResultsArray[0].Keys =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Keys).ToBytes());
 
-            TestCaseValidatorMonteCarloEncrypt subject = new TestCaseValidatorMonteCarloEncrypt(expected);
+            var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -81,7 +81,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [Test]
         public void ShouldReturnReasonWithMultipleErrorReasons()
         {
-            Random800_90 rand = new Random800_90();
+            var rand = new Random800_90();
             var expected = GetTestCase();
             var supplied = GetTestCase();
             supplied.ResultsArray[0].CipherText =
@@ -91,7 +91,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             supplied.ResultsArray[0].Keys =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Keys).ToBytes());
 
-            TestCaseValidatorMonteCarloEncrypt subject = new TestCaseValidatorMonteCarloEncrypt(expected);
+            var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -164,16 +164,16 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         {
             var testCase = new TestCase
             {
-                ResultsArray = new List<AlgoArrayResponseWithIvs>()
+                ResultsArray = new List<AlgoArrayResponseWithIvs>
                 {
-                    new AlgoArrayResponseWithIvs()
+                    new AlgoArrayResponseWithIvs
                     {
                         CipherText = new BitString("1234567890"),
                         Keys = new BitString("ABCDEF0ABCDEF0ABCDEF0ABCDEF0"),
                         PlainText = new BitString("FAF0FAF0FAF0FAF0FAF0"),
                         IV1 = new BitString("1234567890"),
                         IV2 = new BitString("1234567890"),
-                        IV3 = new BitString("1234567890"),
+                        IV3 = new BitString("1234567890")
                     }
                 },
                 TestCaseId = 1

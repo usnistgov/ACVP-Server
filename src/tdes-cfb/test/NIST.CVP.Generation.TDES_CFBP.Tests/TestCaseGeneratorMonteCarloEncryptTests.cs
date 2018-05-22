@@ -1,9 +1,7 @@
 ﻿using System;
 using Moq;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Crypto.TDES_CFBP;
 using NIST.CVP.Math;
 using NLog;
 using NUnit.Framework;
@@ -35,21 +33,6 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             _mockMCT.SetupProperty(x => x.Algo, AlgoMode.TDES_CFBP1);
             _subject = new TestCaseGeneratorMonteCarloEncrypt(_mockRandom.Object, _mockMCT.Object);
         }
-
-        //[Test]
-        //[TestCase(1)]
-        //[TestCase(2)]
-        //public void ShouldCallRandomTwiceOnceForKeyOnceForCipherText(int keyingOption)
-        //{
-        //    TestGroup testGroup = new TestGroup()
-        //    {
-        //        KeyingOption = keyingOption
-        //    };
-        //    _subject.Generate(testGroup, false);
-
-        //    _mockRandom.Verify(v => v.GetRandomBitString(64 * keyingOption), nameof(keyingOption));
-        //    _mockRandom.Verify(v => v.GetRandomBitString(64));
-        //}
 
         [Test]
         public void ShouldCallAlgoEncryptFromIsSampleMethod()

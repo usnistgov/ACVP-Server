@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+﻿using System.IO;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.IKEv2;
 using NIST.CVP.Crypto.SHAWrapper;
@@ -56,11 +52,10 @@ namespace NIST.CVP.Generation.IKEv2.IntegrationTests
                     var testGroup = (TestGroup)iTestGroup;
                     var algo = new IkeV2(new HmacFactory(new ShaFactory()).GetHmacInstance(testGroup.HashAlg));
                     
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
                         count++;
 
-                        var testCase = (TestCase)iTestCase;
                         var result = algo.GenerateIke(
                             testCase.NInit,
                             testCase.NResp,

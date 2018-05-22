@@ -1,6 +1,6 @@
 ﻿namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators
 {
-    public class PQValidateResult
+    public class PQValidateResult : ICryptoResult
     {
         public string ErrorMessage { get; }
 

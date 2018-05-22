@@ -47,19 +47,15 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.IntegrationTests
                     Assert.Fail("No TestGroups parsed");
                 }
 
-                foreach (var iTestGroup in testVector.TestGroups)
+                foreach (var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
-
                     if (testGroup.Tests.Count == 0)
                     {
                         Assert.Fail("No TestCases parsed");
                     }
 
-                    foreach (var iTestCase in testGroup.Tests)
+                    foreach (var testCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
-
                         var result = algo.ValidateKeyPair(testGroup.DomainParams, testCase.Key);
                         if (!result.Success)
                         {

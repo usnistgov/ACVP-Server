@@ -2,46 +2,48 @@
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
-using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.Fakes
 {
     public class FakeKdfFactory_BadZ : IKdfFactory
     {
-        private readonly IShaFactory _shaFactory;
+        private readonly IKdfFactory _kdfFactory;
 
-        public FakeKdfFactory_BadZ(IShaFactory shaFactory)
+        public FakeKdfFactory_BadZ(IKdfFactory kdfFactory)
         {
-            _shaFactory = shaFactory;
+            _kdfFactory = kdfFactory;
         }
 
         public IKdf GetInstance(KdfHashMode kdfHashMode, HashFunction hashFunction)
         {
-            var sha = _shaFactory.GetShaInstance(hashFunction);
+            var kdf = _kdfFactory.GetInstance(kdfHashMode, hashFunction);
 
             switch (kdfHashMode)
             {
                 case KdfHashMode.Sha:
-                    return new FakeKdfSha_BadZ(sha);
+                    return new FakeKdfSha_BadZ(kdf);
                 default:
                     throw new ArgumentException(nameof(kdfHashMode));
             }
         }
     }
 
-    internal class FakeKdfSha_BadZ : KdfSha
+    internal class FakeKdfSha_BadZ : IKdf
     {
-        public FakeKdfSha_BadZ(ISha sha) : base(sha)
+        private readonly IKdf _kdf;
+
+        public FakeKdfSha_BadZ(IKdf kdf)
         {
+            _kdf = kdf;
         }
 
-        public override KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo)
+        public KdfResult DeriveKey(BitString z, int keyDataLength, BitString otherInfo)
         {
             // change the z prior to passing to the KDF
             z[0] += 2;
 
-            return base.DeriveKey(z, keyDataLength, otherInfo);
+            return _kdf.DeriveKey(z, keyDataLength, otherInfo);
         }
     }
 }

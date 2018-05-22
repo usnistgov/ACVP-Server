@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollection;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES_CTR;
+﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -33,6 +28,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                 case "variablekey":
                 case "variabletext":
                     return new TestCaseGeneratorKnownAnswer(group);
+
                 case "singleblock":
                     switch (direction)
                     {
@@ -43,6 +39,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     }
 
                     break;
+
                 case "partialblock":
                     switch (direction)
                     {
@@ -53,6 +50,7 @@ namespace NIST.CVP.Generation.TDES_CTR
                     }
 
                     break;
+
                 case "counter":
                     switch (direction)
                     {

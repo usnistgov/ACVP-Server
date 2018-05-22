@@ -9,7 +9,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.AES_CCM.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -121,6 +121,7 @@ namespace NIST.CVP.Generation.AES_CCM.Parsers
                             TestCaseId = caseId,
                             Key = key,
                             IV = nonce,
+                            TestPassed = true
                         };
 
                         currentGroup.Tests.Add(currentTestCase);
@@ -133,7 +134,7 @@ namespace NIST.CVP.Generation.AES_CCM.Parsers
                         var resultParts = SplitLabelFromValue(workingLine);
                         if (resultParts[1].StartsWith("Fail", StringComparison.OrdinalIgnoreCase))
                         {
-                            currentTestCase.FailureTest = true;
+                            currentTestCase.TestPassed = false;
                         }
                         continue;
                     }
@@ -152,7 +153,7 @@ namespace NIST.CVP.Generation.AES_CCM.Parsers
                 }
 
             }
-            var testVectorSet = new TestVectorSet { Algorithm = "AES-CCM", TestGroups = groups.Select(g => (ITestGroup)g).ToList()};
+            var testVectorSet = new TestVectorSet { Algorithm = "AES-CCM", TestGroups = groups.Select(g => g).ToList()};
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
 
@@ -208,9 +209,6 @@ namespace NIST.CVP.Generation.AES_CCM.Parsers
             return valueParts;
         }
 
-        private static Logger ThisLogger
-        {
-            get { return LogManager.GetLogger("LegacyResponseFileParser"); }
-        }
+        private static Logger ThisLogger => LogManager.GetLogger("LegacyResponseFileParser");
     }
 }

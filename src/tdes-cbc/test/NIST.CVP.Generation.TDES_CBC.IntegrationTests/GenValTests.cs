@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
+using NIST.CVP.Common;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -18,6 +19,7 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.TDES_CBCI;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -106,11 +108,11 @@ namespace NIST.CVP.Generation.TDES_CBC.IntegrationTests
         /// <summary>
         /// Can be used to only generate MMT groups for the genval tests
         /// </summary>
-        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
             {
-                return new List<ITestGroupGenerator<Parameters>>()
+                return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGeneratorMultiblockMessage()
                 };

@@ -3,12 +3,12 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CCM
 {
-    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
         {
-            HashSet<ITestGroupGenerator<Parameters>> list =
-                new HashSet<ITestGroupGenerator<Parameters>>()
+            HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>> list =
+                new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGenerator()
                 };

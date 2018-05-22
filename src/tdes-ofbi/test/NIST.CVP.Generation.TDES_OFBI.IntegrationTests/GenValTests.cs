@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Autofac;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
@@ -18,40 +18,40 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.TDES_OFBI;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
-            //TODO the duplication between testCase and resultArray should be refactored
             var rand = new Random800_90();
-            if (testCase.decryptFail != null)
+
+            // If TC has a cipherText, change it
+            if (testCase.cipherText != null)
             {
-                testCase.decryptFail = false;
+                var bs = new BitString(testCase.cipherText.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                testCase.cipherText = bs.ToHex();
             }
 
-            var propertiesToScramble = new[] { "cipherText", "cipherText1", "cipherText2", "cipherText3", "plainText", "plainText1", "plainText2", "plainText3" };
-            foreach (var prop in propertiesToScramble)
+            // If TC has a plainText, change it
+            if (testCase.plainText != null)
             {
-                if (testCase[prop] != null)
-                {
-                    var bs = new BitString(testCase[prop].ToString());
-                    bs = rand.GetDifferentBitStringOfSameSize(bs);
-                    testCase[prop] = bs.ToHex();
-                }
-            }
+                var bs = new BitString(testCase.plainText.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
 
+                testCase.plainText = bs.ToHex();
+            }
+            
             // If TC has a resultsArray, change some of the elements
             if (testCase.resultsArray != null)
             {
-                var arrayPropertiesToScramble = new[] { "cipherText", "plainText", "iv1", "iv2", "iv3", "key1", "key2", "key3" };
-                foreach (var prop in arrayPropertiesToScramble)
-                {
-                    if (testCase.resultsArray[0][prop] != null)
-                    {
-                        var bs = new BitString(testCase.resultsArray[0][prop].ToString());
-                        bs = rand.GetDifferentBitStringOfSameSize(bs);
-                        testCase.resultsArray[0][prop] = bs.ToHex();
-                    }
-                }
+                var bsPlainText = new BitString(testCase.resultsArray[0].plainText.ToString());
+                bsPlainText = rand.GetDifferentBitStringOfSameSize(bsPlainText);
+                testCase.resultsArray[0].pplainTextt = bsPlainText.ToHex();
+
+                var bsCipherText = new BitString(testCase.resultsArray[0].cipherText.ToString());
+                bsCipherText = rand.GetDifferentBitStringOfSameSize(bsCipherText);
+                testCase.resultsArray[0].cipherText = bsCipherText.ToHex();
             }
         }
 
@@ -86,11 +86,11 @@ namespace NIST.CVP.Generation.TDES_OFBI.IntegrationTests
         /// <summary>
         /// Can be used to only generate MMT groups for the genval tests
         /// </summary>
-        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
             {
-                return new List<ITestGroupGenerator<Parameters>>()
+                return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
                 {
                     new TestGroupGeneratorMultiblockMessage()
                 };

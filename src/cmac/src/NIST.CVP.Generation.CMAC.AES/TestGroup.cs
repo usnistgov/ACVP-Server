@@ -1,26 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.CMAC.AES
 {
-    public class TestGroup : TestGroupBase<TestCase>
+    public class TestGroup : TestGroupBase<TestGroup, TestCase>
     {
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(dynamic source)
-        {
-            LoadSource(source);
-        }
-
         [JsonProperty(PropertyName = "keyLen")]
         public override int KeyLength { get; set; }
 
@@ -52,21 +44,6 @@ namespace NIST.CVP.Generation.CMAC.AES
                     return true;
             }
             return false;
-        }
-
-        protected override void LoadSource(dynamic source)
-        {
-            TestGroupId = source.tgId;
-            TestType = source.testType;
-            Function = source.direction;
-            KeyLength = source.keyLen;
-            MessageLength = source.msgLen;
-            MacLength = source.macLen;
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.CTR.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

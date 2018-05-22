@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
                 OutputLength = minMax
             };
 
-            List<ITestGroup> groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
             foreach (var genny in result)
             {
                 groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));

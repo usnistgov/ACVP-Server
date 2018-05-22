@@ -4,18 +4,15 @@ using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_CFBP
 {
-    public class TestCaseValidatorEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
+
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidatorEncrypt(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
-        }
-
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)

@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.AES_CBC.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -122,7 +121,7 @@ namespace NIST.CVP.Generation.AES_CBC.Parsers
                 }
             }
 
-            var testVectorSet = new TestVectorSet { Algorithm = "AES-CBC", TestGroups = groups.Select(g => (ITestGroup)g).ToList() };
+            var testVectorSet = new TestVectorSet { Algorithm = "AES-CBC", TestGroups = groups.Select(g => g).ToList() };
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
     }

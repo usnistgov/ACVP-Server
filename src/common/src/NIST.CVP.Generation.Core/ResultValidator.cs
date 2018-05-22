@@ -6,23 +6,28 @@ using NLog;
 
 namespace NIST.CVP.Generation.Core
 {
-    public class ResultValidator<TTestCase> : IResultValidator<TTestCase>
-        where TTestCase : ITestCase
+    public class ResultValidator<TTestGroup, TTestCase> : IResultValidator<TTestGroup, TTestCase>
+        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
-        
-        public TestVectorValidation ValidateResults(IEnumerable<ITestCaseValidator<TTestCase>> testCaseValidators, IEnumerable<TTestCase> testResults)
+        public TestVectorValidation ValidateResults(
+            IEnumerable<ITestCaseValidator<TTestGroup, TTestCase>> testCaseValidators, 
+            IEnumerable<TTestGroup> testResults
+        )
         {
-
             var validations = new List<TestCaseValidation>();
             foreach (var caseValidator in testCaseValidators)
             {
-                var suppliedResult = testResults.FirstOrDefault(r => r.TestCaseId == caseValidator.TestCaseId);
+                var suppliedResult = testResults.SelectMany(tg => tg.Tests).FirstOrDefault(tc => tc.TestCaseId == caseValidator.TestCaseId);
                 if (suppliedResult == null)
                 {
-                    validations.Add(new TestCaseValidation { TestCaseId = caseValidator.TestCaseId, Result = Disposition.Missing });
+                    validations.Add(new TestCaseValidation
+                    {
+                        TestCaseId = caseValidator.TestCaseId,
+                        Result = Disposition.Missing
+                    });
                     continue;
                 }
-
 
                 try
                 {
@@ -31,7 +36,7 @@ namespace NIST.CVP.Generation.Core
                 }
                 catch (Exception e)
                 {
-                    Logger.Error($"ERROR! Validating supplied results");
+                    Logger.Error("ERROR! Validating supplied results");
                     Logger.Error(e.Message);
                     Logger.Error(e.StackTrace);
 
@@ -42,14 +47,11 @@ namespace NIST.CVP.Generation.Core
                         Result = Disposition.Failed
                     });
                 }
-
             }
 
             return new TestVectorValidation { Validations = validations };
         }
-        private static Logger Logger
-        {
-            get { return LogManager.GetLogger("Generate"); }
-        }
+
+        private static Logger Logger => LogManager.GetLogger("Generate");
     }
 }

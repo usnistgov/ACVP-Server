@@ -4,11 +4,11 @@ using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.SHA3
 {
-    public class TestGroupGeneratorMonteCarlo : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorMonteCarlo : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string TEST_TYPE = "MCT";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

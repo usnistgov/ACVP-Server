@@ -47,19 +47,15 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
                     Assert.Fail("No TestGroups parsed");
                 }
 
-                foreach(var iTestGroup in testVector.TestGroups)
+                foreach(var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
-
                     if(testGroup.Tests.Count == 0)
                     {
                         Assert.Fail("No TestCases parsed");
                     }
 
-                    foreach(var iTestCase in testGroup.Tests)
+                    foreach(var testCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
-
                         for (var i = 0; i < testCase.ResultsArray.Count; i++)
                         {
                             var testInfo = testCase.ResultsArray[i];
@@ -72,7 +68,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.IntegrationTests
 
                             // Can only run encryption with the information provided...
                             var result = rsa.Encrypt(testInfo.PlainText.ToPositiveBigInteger(), testInfo.Key.PubKey);
-                            if (result.Success == testCase.FailureTest)
+                            if (result.Success == testInfo.FailureTest)
                             {
                                 Assert.Fail($"TestCase {i} was incorrect. Expected {testInfo.FailureTest}");
                             }

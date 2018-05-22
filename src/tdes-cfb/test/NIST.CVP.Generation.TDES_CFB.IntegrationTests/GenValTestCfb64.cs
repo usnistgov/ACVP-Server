@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Crypto.Common;
+﻿using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_CFB.IntegrationTests

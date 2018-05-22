@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Crypto.Common", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "..\..\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{319E2C6E-7181-4C4A-9806-1675D4A44C68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.GenValApp.Tests", "..\..\common\test\NIST.CVP.Generation.GenValApp.Tests\NIST.CVP.Generation.GenValApp.Tests.csproj", "{361F7C39-9443-4813-BD92-54B82921C067}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.GenValApp.Tests", "..\..\common\test\NIST.CVP.Generation.GenValApp.Tests\NIST.CVP.Generation.GenValApp.Tests.csproj", "{361F7C39-9443-4813-BD92-54B82921C067}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Tests.Core", "..\..\common\test\NIST.CVP.Tests.Core\NIST.CVP.Tests.Core.csproj", "{551DC0CE-28F7-45F0-B8DF-A7D30E426CE4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Generation.Core.Tests", "..\..\common\test\NIST.CVP.Generation.Core.Tests\NIST.CVP.Generation.Core.Tests.csproj", "{910077C1-B2BE-47D7-92AA-420149E146DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{551DC0CE-28F7-45F0-B8DF-A7D30E426CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{551DC0CE-28F7-45F0-B8DF-A7D30E426CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{551DC0CE-28F7-45F0-B8DF-A7D30E426CE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{910077C1-B2BE-47D7-92AA-420149E146DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{910077C1-B2BE-47D7-92AA-420149E146DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{910077C1-B2BE-47D7-92AA-420149E146DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{910077C1-B2BE-47D7-92AA-420149E146DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{319E2C6E-7181-4C4A-9806-1675D4A44C68} = {AD675197-3C4C-4730-A44C-A60EBBCC166E}
 		{361F7C39-9443-4813-BD92-54B82921C067} = {45DA38C0-11F1-47BE-99A8-DF5A0EAE720B}
 		{551DC0CE-28F7-45F0-B8DF-A7D30E426CE4} = {45DA38C0-11F1-47BE-99A8-DF5A0EAE720B}
+		{910077C1-B2BE-47D7-92AA-420149E146DF} = {45DA38C0-11F1-47BE-99A8-DF5A0EAE720B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {45B6E914-C005-4067-B620-082C9FBC0CE9}

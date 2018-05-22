@@ -5,11 +5,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
 {
-    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
         {
-            var list = new HashSet<ITestGroupGenerator<Parameters>>
+            var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
             {
                 new TestGroupGeneratorPQ(),
                 new TestGroupGeneratorG()

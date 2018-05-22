@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests
 
             Assert.AreEqual(1, result.Count());
 
-            var testGroup = (TestGroup) result.First();
+            var testGroup = result.First();
             Assert.AreEqual(failing, testGroup.TotalFailingCases, "failing");
             Assert.AreEqual(total, testGroup.TotalTestCases, "total");
         }

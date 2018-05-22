@@ -1,5 +1,4 @@
 ﻿using System;
-using NIST.CVP.Crypto.CMAC;
 using NIST.CVP.Crypto.Common.MAC;
 using NIST.CVP.Crypto.Common.MAC.CMAC;
 using NIST.CVP.Generation.Core;
@@ -9,8 +8,8 @@ using NLog;
 namespace NIST.CVP.Generation.CMAC
 {
     public class TestCaseGeneratorVer<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestCase>
-        where TTestCase : TestCaseBase, new()
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
         private readonly ICmac _algo;
         private readonly IRandom800_90 _random800_90;
@@ -23,19 +22,20 @@ namespace NIST.CVP.Generation.CMAC
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TTestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, bool isSample)
         {
             var key = _random800_90.GetRandomBitString(@group.KeyLength);
             var msg = _random800_90.GetRandomBitString(@group.MessageLength);
             var testCase = new TTestCase
             {
                 Key = key,
-                Message = msg
+                Message = msg,
+                TestPassed = true
             };
             return Generate(@group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TTestGroup @group, TTestCase testCase)
+        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, TTestCase testCase)
         {
             MacResult genResult = null;
             try
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.CMAC
                 {
                     ThisLogger.Warn(genResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(genResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TTestGroup, TTestCase>(genResult.ErrorMessage);
                     }
                 }
             }
@@ -53,15 +53,14 @@ namespace NIST.CVP.Generation.CMAC
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TTestGroup, TTestCase>(ex.Message);
                 }
             }
             testCase.Mac = genResult.Mac;
-            testCase.Result = "pass";
             
             SometimesMangleTestCaseMac(testCase);
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TTestGroup, TTestCase>(testCase);
         }
 
         private void SometimesMangleTestCaseMac(TTestCase testCase)
@@ -71,14 +70,10 @@ namespace NIST.CVP.Generation.CMAC
             if (option == 0)
             {
                 testCase.Mac = _random800_90.GetDifferentBitStringOfSameSize(testCase.Mac);
-                testCase.FailureTest = true;
-                testCase.Result = "fail";
+                testCase.TestPassed = false;
             }
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

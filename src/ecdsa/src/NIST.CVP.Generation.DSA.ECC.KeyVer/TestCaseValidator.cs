@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Common.Helpers;
+﻿using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
-        private TestCase _expectedResult;
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
+        private readonly TestCase _expectedResult;
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidator(TestCase expectedResult)
         {
@@ -19,7 +16,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
-            if (_expectedResult.Result != suppliedResult.Result)
+            if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Failed, Reason = EnumHelpers.GetEnumDescriptionFromEnum(_expectedResult.Reason) };
             }

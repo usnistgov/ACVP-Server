@@ -1,40 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.AES_XTS
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(dynamic source)
-        {
-            Direction = source.direction;
-            KeyLen = source.keyLen;
-            PtLen = source.ptLen;
-            TweakMode = source.tweakMode;
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
-
         public int TestGroupId { get; set; }
-        public string Direction { get; set; }
-        public int KeyLen { get; set; }
-        public int PtLen { get; set; }
-        public string TweakMode { get; set; }
-
         public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        [JsonProperty(PropertyName = "direction")]
+        public string Direction { get; set; }
+        [JsonProperty(PropertyName = "keyLen")]
+        public int KeyLen { get; set; }
+        [JsonProperty(PropertyName = "ptLen")]
+        public int PtLen { get; set; }
+        [JsonProperty(PropertyName = "tweakMode")]
+        public string TweakMode { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
         
         public bool SetString(string name, string value)
         {

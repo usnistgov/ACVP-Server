@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -10,6 +10,8 @@ namespace NIST.CVP.Generation.TDES_CFBP
     {
         private readonly List<TestCase> _katTestCases = new List<TestCase>();
         private int _katsIndex = 0;
+
+        public int NumberOfTestCasesToGenerate => _katTestCases.Count;
 
         public TestCaseGeneratorKnownAnswer(TestGroup group, AlgoMode algo)
         {
@@ -25,22 +27,20 @@ namespace NIST.CVP.Generation.TDES_CFBP
             _katTestCases = _kats[algo][concatTestType];
         }
 
-        public int NumberOfTestCasesToGenerate => _katTestCases.Count;
-
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             TestCase testCase = new TestCase();
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             if (_katsIndex + 1 > _katTestCases.Count)
             {
-                return new TestCaseGenerateResponse("No additional KATs exist.");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist.");
             }
 
-            return new TestCaseGenerateResponse(_katTestCases[_katsIndex++]);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(_katTestCases[_katsIndex++]);
         }
 
         private readonly Dictionary<AlgoMode, Dictionary<string, List<TestCase>>> _kats =
@@ -97,9 +97,6 @@ namespace NIST.CVP.Generation.TDES_CFBP
                     }
                 }
             };
-
-
-
 
         private static List<TestCase> InversPermutationTest(AlgoMode algo)
         {

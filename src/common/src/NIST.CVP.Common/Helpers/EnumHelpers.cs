@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -20,15 +21,15 @@ namespace NIST.CVP.Common.Helpers
         {
             FieldInfo fi = enumToGetDescriptionFrom.GetType().GetField(enumToGetDescriptionFrom.ToString());
 
-            DescriptionAttribute[] attributes =
-                (DescriptionAttribute[])fi.GetCustomAttributes(
-                    typeof(DescriptionAttribute),
+            EnumMemberAttribute[] attributes =
+                (EnumMemberAttribute[])fi.GetCustomAttributes(
+                    typeof(EnumMemberAttribute),
                     false);
 
             if (attributes != null &&
                 attributes.Length > 0)
             {
-                return attributes[0].Description;
+                return attributes[0].Value;
             }
 
             return enumToGetDescriptionFrom.ToString();
@@ -54,8 +55,8 @@ namespace NIST.CVP.Common.Helpers
                 return (T) typeof(T)
                     .GetFields()
                     .First(
-                        f => f.GetCustomAttributes<DescriptionAttribute>()
-                            .Any(a => a.Description.Equals(enumDescription, StringComparison.OrdinalIgnoreCase))
+                        f => f.GetCustomAttributes<EnumMemberAttribute>()
+                            .Any(a => a.Value.Equals(enumDescription, StringComparison.OrdinalIgnoreCase))
                     )
                     .GetValue(null);
             }

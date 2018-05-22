@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.Core.Enums;
+﻿using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -91,7 +87,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
         {
             var testCase = new TestCase
             {
-                FailureTest = failureTest,
+                TestPassed = !failureTest,
                 PlainText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
                 TestCaseId = 1
             };

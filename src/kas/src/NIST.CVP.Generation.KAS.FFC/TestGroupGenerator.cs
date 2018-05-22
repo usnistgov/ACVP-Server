@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private const int MAX_KEY_SIZE = 4096;
         private readonly string[] _testTypes = new string[] { "AFT", "VAL" };
@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             _pqgProvider = pqgProvider;
         }
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
 

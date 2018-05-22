@@ -1,6 +1,4 @@
-﻿using System;
-using NIST.CVP.Crypto.Common.DRBG;
-using NIST.CVP.Crypto.DRBG;
+﻿using NIST.CVP.Crypto.Common.DRBG;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
@@ -24,7 +22,7 @@ namespace NIST.CVP.Generation.DRBG
 
         public int NumberOfTestCasesToGenerate => 15;
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             var randomEntropyProvider = _iEntropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
 
@@ -44,7 +42,7 @@ namespace NIST.CVP.Generation.DRBG
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
             var testableEntropyProvider = _iEntropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Testable) as TestableEntropyProvider;
             SetupTestableEntropy(testCase, testableEntropyProvider);
@@ -58,13 +56,13 @@ namespace NIST.CVP.Generation.DRBG
                 var result = drbg.Generate(group.ReturnedBitsLen, item.AdditionalInput);
                 if (!result.Success)
                 {
-                    return new TestCaseGenerateResponse(result.DrbgStatus.ToString());
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(result.DrbgStatus.ToString());
                 }
 
                 testCase.ReturnedBits = result.Bits.GetDeepCopy();
             }
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private void AddOtherInput(TestGroup group, IEntropyProvider randomEntropyProvider, TestCase tc)

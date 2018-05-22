@@ -4,9 +4,9 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 
 namespace NIST.CVP.Generation.ANSIX963
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new HashSet<TestGroup>();
             foreach (var hashAlg in parameters.HashAlg)

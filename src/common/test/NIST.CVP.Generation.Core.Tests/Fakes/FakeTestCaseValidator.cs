@@ -2,8 +2,9 @@
 
 namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
-    public class FakeTestCaseValidator<TTestCase> : ITestCaseValidator<TTestCase>
-        where TTestCase : ITestCase
+    public class FakeTestCaseValidator<TTestGroup, TTestCase> : ITestCaseValidator<TTestGroup, TTestCase>
+        where TTestGroup : ITestGroup<TTestGroup, TTestCase>
+        where TTestCase : ITestCase<TTestGroup, TTestCase>
     {
         public int TestCaseId { get; set; }
         private readonly Disposition _result;

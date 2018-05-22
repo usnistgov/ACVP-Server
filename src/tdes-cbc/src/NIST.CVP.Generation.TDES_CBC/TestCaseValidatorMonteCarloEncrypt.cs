@@ -1,23 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CBC
 {
-    public class TestCaseValidatorMonteCarloEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMonteCarloEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private TestCase _expectedResult;
+
+        public int TestCaseId => _expectedResult.TestCaseId;
 
         public TestCaseValidatorMonteCarloEncrypt(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
-        }
-
-        public int TestCaseId
-        {
-            get { return _expectedResult.TestCaseId; }
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)

@@ -1,12 +1,9 @@
 ﻿using NIST.CVP.Generation.Core.Tests;
-using Autofac;
+using NIST.CVP.Common;
 using NUnit.Framework;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
-using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.IKEv1.IntegrationTests
 {
@@ -19,6 +16,7 @@ namespace NIST.CVP.Generation.IKEv1.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.KDFComponents_IKEv1;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

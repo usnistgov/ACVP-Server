@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.KDF.Tests
             fakeFactory
                 .Setup(s => s.GetKdfInstance(It.IsAny<KdfModes>(), It.IsAny<MacModes>(), It.IsAny<CounterLocations>(), It.IsAny<int>()))
                 .Returns(new FakeKdf());
-            _subject = new TestCaseValidatorFactory(null);
+            _subject = new TestCaseValidatorFactory(fakeFactory.Object);
         }
 
         [Test]
@@ -33,11 +33,11 @@ namespace NIST.CVP.Generation.KDF.Tests
         {
             var testVectorSet = new TestVectorSet
             {
-                TestGroups = new List<ITestGroup>
+                TestGroups = new List<TestGroup>
                 {
                     new TestGroup
                     {
-                        Tests = new List<ITestCase>
+                        Tests = new List<TestCase>
                         {
                             new TestCase()
                         }
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.KDF.Tests
                 }
             };
 
-            var result = _subject.GetValidators(testVectorSet, null);
+            var result = _subject.GetValidators(testVectorSet);
 
             Assert.AreEqual(1, result.Count());
             Assert.IsInstanceOf(typeof(TestCaseValidator), result.First());

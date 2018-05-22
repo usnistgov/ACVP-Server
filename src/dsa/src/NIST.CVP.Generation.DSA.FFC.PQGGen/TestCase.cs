@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Numerics;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
@@ -9,91 +10,63 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        // Used for SetString only
-        private BigInteger firstSeed;
-        private BigInteger pSeed;
-        private BigInteger qSeed;
-        private int pCounter;
-        private int qCounter;
-
-        public TestCase() { }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
+        public bool? TestPassed => true;
+        public bool Deferred => false;
+        public TestGroup ParentGroup { get; set; }
 
         public BigInteger P { get; set; }
         public BigInteger Q { get; set; }
         public BigInteger G { get; set; }
-        public DomainSeed Seed { get; set; }
-        public Counter Counter { get; set; }
-        public BitString Index { get; set; }
 
-        private void MapToProperties(dynamic source)
+        /// <summary>
+        /// DomainSeed object represented as flat JSON structure
+        /// </summary>
+        [JsonIgnore] public DomainSeed Seed { get; set; } = new DomainSeed();
+        [JsonProperty(PropertyName = "domainSeed")]
+        public BigInteger DomainSeed
         {
-            TestCaseId = (int)source.tcId;
-            var expandoSource = (ExpandoObject) source;
-
-            if (expandoSource.ContainsProperty("p"))
-            {
-                P = expandoSource.GetBigIntegerFromProperty("p");
-            }
-
-            if (expandoSource.ContainsProperty("q"))
-            {
-                Q = expandoSource.GetBigIntegerFromProperty("q");
-            }
-
-            if (expandoSource.ContainsProperty("g"))
-            {
-                G = expandoSource.GetBigIntegerFromProperty("g");
-            }
-
-            if (expandoSource.ContainsProperty("domainSeed"))
-            {
-                if (expandoSource.ContainsProperty("pSeed") && expandoSource.ContainsProperty("qSeed"))
-                {
-                    var firstSeed = expandoSource.GetBigIntegerFromProperty("domainSeed");
-                    var pSeed = expandoSource.GetBigIntegerFromProperty("pSeed");
-                    var qSeed = expandoSource.GetBigIntegerFromProperty("qSeed");
-
-                    Seed = new DomainSeed(firstSeed, pSeed, qSeed);
-                }
-                else
-                {
-                    Seed = new DomainSeed(expandoSource.GetBigIntegerFromProperty("domainSeed"));
-                }
-            }
-
-            if (expandoSource.ContainsProperty("counter"))
-            {
-                Counter = new Counter((int)source.counter);
-            }
-
-            if (expandoSource.ContainsProperty("pCounter") && expandoSource.ContainsProperty("qCounter"))
-            {
-                Counter = new Counter((int)source.pCounter, (int)source.qCounter);
-            }
-
-            if (((ExpandoObject)source).ContainsProperty("index"))
-            {
-                Index = expandoSource.GetBitStringFromProperty("index");
-            }
+            get => Seed.Seed;
+            set => Seed.Seed = value;
+        }
+        [JsonProperty(PropertyName = "pSeed")]
+        public BigInteger PSeed
+        {
+            get => Seed.PSeed;
+            set => Seed.PSeed = value;
+        }
+        [JsonProperty(PropertyName = "qSeed")]
+        public BigInteger QSeed
+        {
+            get => Seed.QSeed;
+            set => Seed.QSeed = value;
         }
 
+        [JsonIgnore] public Counter Counter { get; set; } = new Counter();
+        [JsonProperty(PropertyName = "counter")]
+        public int Count
+        {
+            get => Counter.Count;
+            set => Counter.Count = value;
+        }
+        [JsonProperty(PropertyName = "pCounter")]
+        public int PCount
+        {
+            get => Counter.PCount;
+            set => Counter.PCount = value;
+        }
+        [JsonProperty(PropertyName = "QCounter")]
+        public int QCount
+        {
+            get => Counter.QCount;
+            set => Counter.QCount = value;
+        }
+
+        [JsonProperty(PropertyName = "index")]
+        public BitString Index { get; set; }
+        
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -128,25 +101,23 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                     return true;
 
                 case "firstseed":
-                    firstSeed = new BitString(value).ToPositiveBigInteger();
+                    Seed.Seed = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "pseed":
-                    pSeed = new BitString(value).ToPositiveBigInteger();
+                    Seed.PSeed = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "qseed":
-                    qSeed = new BitString(value).ToPositiveBigInteger();
-                    Seed = new DomainSeed(firstSeed, pSeed, qSeed);
+                    Seed.QSeed = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "pgen_counter":
-                    pCounter = int.Parse(value);
+                    Counter.PCount = int.Parse(value);
                     return true;
 
                 case "qgen_counter":
-                    qCounter = int.Parse(value);
-                    Counter = new Counter(pCounter, qCounter);
+                    Counter.QCount = int.Parse(value);
                     return true;
             }
 

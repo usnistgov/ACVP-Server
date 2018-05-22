@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
-    public class TestCaseValidatorGDT : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorGDT : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         public int TestCaseId => _expectedResult.TestCaseId;
@@ -14,13 +14,13 @@ namespace NIST.CVP.Generation.RSA_SigVer
 
         public TestCaseValidation Validate(TestCase suppliedResult)
         {
-            if (_expectedResult.Result == suppliedResult.Result)
+            if (_expectedResult.TestPassed == suppliedResult.TestPassed)
             {
                 return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
             }
             else
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = _expectedResult.Reason.GetName() };
+                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Failed, Reason = _expectedResult.ReasonName };
             }
         }
     }

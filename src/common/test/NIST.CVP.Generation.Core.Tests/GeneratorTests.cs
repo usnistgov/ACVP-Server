@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Moq;
+using NIST.CVP.Common.Enums;
+using NIST.CVP.Generation.Core.DeSerialization;
+using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core;
@@ -17,6 +20,55 @@ namespace NIST.CVP.Generation.Core.Tests
     public class GeneratorTests
     {
         private string _testPath;
+
+        private Mock<ITestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>> _mockITestVectorFactory;
+        private Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase>> _mockITestCaseGeneratorFactoryFactory;
+        private Mock<IParameterParser<FakeParameters>> _mockIParameterParser;
+        private Mock<IParameterValidator<FakeParameters>> _mockIParameterValidator;
+        private Mock<IVectorSetSerializer<FakeTestVectorSet, FakeTestGroup, FakeTestCase>> _mockIVectorSetSerializer;
+
+        private Generator<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase> _subject;
+
+        [SetUp]
+        public void Setup()
+        {
+            _mockITestVectorFactory = new Mock<ITestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>>();
+            _mockITestCaseGeneratorFactoryFactory = new Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase>>();
+            _mockIParameterParser = new Mock<IParameterParser<FakeParameters>>();
+            _mockIParameterValidator = new Mock<IParameterValidator<FakeParameters>>();
+            _mockIVectorSetSerializer = new Mock<IVectorSetSerializer<FakeTestVectorSet, FakeTestGroup, FakeTestCase>>();
+
+            _mockIParameterParser
+                .Setup(s => s.Parse(It.IsAny<string>()))
+                .Returns(() => new ParseResponse<FakeParameters>(new FakeParameters()));
+            _mockIParameterValidator
+                .Setup(s => s.Validate(It.IsAny<FakeParameters>()))
+                .Returns(() => new ParameterValidateResponse());
+            _mockITestVectorFactory
+                .Setup(s => s.BuildTestVectorSet(It.IsAny<FakeParameters>()))
+                .Returns(() => new FakeTestVectorSet()
+                {
+                    Algorithm = "AES",
+                    TestGroups = new List<FakeTestGroup>()
+                    {
+                        new FakeTestGroup()
+                    }
+                });
+            _mockITestCaseGeneratorFactoryFactory
+                .Setup(s => s.BuildTestCases(It.IsAny<FakeTestVectorSet>()))
+                .Returns(() => new GenerateResponse());
+            _mockIVectorSetSerializer
+                .Setup(s => s.Serialize(It.IsAny<FakeTestVectorSet>(), Projection.Server))
+                .Returns(() => "");
+
+            _subject = new Generator<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(
+                _mockITestVectorFactory.Object,
+                _mockIParameterParser.Object,
+                _mockIParameterValidator.Object,
+                _mockITestCaseGeneratorFactoryFactory.Object,
+                _mockIVectorSetSerializer.Object
+            );
+        }
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -35,95 +87,56 @@ namespace NIST.CVP.Generation.Core.Tests
         public void GenerateShouldReturnErrorResponseWhenParametersNotParsedSuccessfully()
         {
             string errorMessage = "Invalid Parameters";
-            var mocks = new MockedSystemDependencies();
-            mocks.MockIParameterParser
+            _mockIParameterParser
                 .Setup(s => s.Parse(It.IsAny<string>()))
-                .Returns(new Generation.Core.ParseResponse<FakeParameters>(errorMessage));
-            var subject = GetSystem(mocks);
+                .Returns(() => new ParseResponse<FakeParameters>(errorMessage));
 
-            var result = subject.Generate(It.IsAny<string>());
+            var result = _subject.Generate(string.Empty);
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorMessage, result.ErrorMessage);
+            Assert.AreEqual(StatusCode.ParameterError, result.StatusCode);
         }
 
         [Test]
         public void GenerateShouldReturnErrorResponseWhenParametersNotValidatedSuccessfully()
         {
             string errorMessage = "Invalid Parameter Validation";
-            var mocks = new MockedSystemDependencies();
-            mocks.MockIParameterParser
-                .Setup(s => s.Parse(It.IsAny<string>()))
-                .Returns(new Generation.Core.ParseResponse<FakeParameters>(new FakeParameters()));
-            mocks.MockIParameterValidator
+            _mockIParameterValidator
                 .Setup(s => s.Validate(It.IsAny<FakeParameters>()))
-                .Returns(new Generation.Core.ParameterValidateResponse(errorMessage));
-            var subject = GetSystem(mocks);
+                .Returns(() => new ParameterValidateResponse(errorMessage));
 
-            var result = subject.Generate(It.IsAny<string>());
+            var result = _subject.Generate(string.Empty);
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorMessage, result.ErrorMessage);
+            Assert.AreEqual(StatusCode.ParameterValidationError, result.StatusCode);
         }
 
         [Test]
         public void GenerateShouldReturnErrorResponseWhenInvalidTestCaseResponse()
         {
             string errorMessage = "Invalid Test Case Response";
-            var mocks = new MockedSystemDependencies();
-            mocks.MockIParameterParser
-                .Setup(s => s.Parse(It.IsAny<string>()))
-                .Returns(new ParseResponse<FakeParameters>(new FakeParameters()));
-            mocks.MockIParameterValidator
-                .Setup(s => s.Validate(It.IsAny<FakeParameters>()))
-                .Returns(new ParameterValidateResponse());
-            mocks.MockITestVectorFactory
-                .Setup(s => s.BuildTestVectorSet(It.IsAny<FakeParameters>()))
-                .Returns(new FakeTestVectorSet());
-            mocks.MockITestCaseGeneratorFactoryFactory
+            _mockITestCaseGeneratorFactoryFactory
                 .Setup(s => s.BuildTestCases(It.IsAny<FakeTestVectorSet>()))
-                .Returns(new GenerateResponse(errorMessage));
+                .Returns(() => new GenerateResponse(errorMessage, StatusCode.TestCaseGeneratorError));
 
-            var subject = GetSystem(mocks);
-
-            var result = subject.Generate(It.IsAny<string>());
+            var result = _subject.Generate(string.Empty);
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual(errorMessage, result.ErrorMessage);
+            Assert.AreEqual(StatusCode.TestCaseGeneratorError, result.StatusCode);
         }
 
         [Test]
         public void GenerateShouldReturnSuccessWithValidCalls()
         {
-            var mocks = new MockedSystemDependencies();
-            mocks.MockIParameterParser
-                .Setup(s => s.Parse(It.IsAny<string>()))
-                .Returns(new ParseResponse<FakeParameters>(new FakeParameters()));
-            mocks.MockIParameterValidator
-                .Setup(s => s.Validate(It.IsAny<FakeParameters>()))
-                .Returns(new ParameterValidateResponse());
-            mocks.MockITestVectorFactory
-                .Setup(s => s.BuildTestVectorSet(It.IsAny<FakeParameters>()))
-                .Returns(new FakeTestVectorSet()
-                {
-                    Algorithm = "AES",
-                    TestGroups = new List<ITestGroup>()
-                    {
-                        new FakeTestGroup()
-                    }
-                });
-            mocks.MockITestCaseGeneratorFactoryFactory
-                .Setup(s => s.BuildTestCases(It.IsAny<FakeTestVectorSet>()))
-                .Returns(new GenerateResponse());
-
-            var subject = GetSystem(mocks);
-
             GenerateResponse result = null;
             Guid fileNameRoot = Guid.NewGuid();
 
             try
             {
-                result = subject.Generate($"{_testPath}\\{fileNameRoot.ToString()}.json");
+                result = _subject.Generate($"{_testPath}\\{fileNameRoot.ToString()}.json");
             }
             finally
             {
@@ -139,13 +152,21 @@ namespace NIST.CVP.Generation.Core.Tests
                     }
                 }
             }
+
             Assert.IsTrue(result.Success);
+            Assert.AreEqual(StatusCode.Success, result.StatusCode);
         }
 
         [Test]
         public void ShouldProperlySaveOutputsForEachResolverWithValidFiles()
         {
-            var subject = new FakeGenerator();
+            var subject = new FakeGenerator(
+                _mockITestVectorFactory.Object, 
+                _mockIParameterParser.Object, 
+                _mockIParameterValidator.Object, 
+                _mockITestCaseGeneratorFactoryFactory.Object, 
+                _mockIVectorSetSerializer.Object
+            );
             var testVectorSet = new FakeTestVectorSet();
             var result = subject.SaveOutputsTester(_testPath, testVectorSet);
             Assert.IsTrue(result.Success);
@@ -154,39 +175,18 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void ShouldNotSaveOutputsForEachResolverWithInvalidPath()
         {
-            var subject = new FakeGenerator();
+            var subject = new FakeGenerator(
+                _mockITestVectorFactory.Object,
+                _mockIParameterParser.Object,
+                _mockIParameterValidator.Object,
+                _mockITestCaseGeneratorFactoryFactory.Object,
+                _mockIVectorSetSerializer.Object
+            );
             var testVectorSet = new FakeTestVectorSet();
             var jsonPath = Path.Combine(_testPath, "fakePath/");
             var result = subject.SaveOutputsTester(jsonPath, testVectorSet);
             Assert.IsFalse(result.Success);
-        }
-
-        private Generator<FakeParameters,FakeTestVectorSet, FakeTestGroup, FakeTestCase> GetSystem(
-            ITestVectorFactory<FakeParameters> testVectorFactory, 
-            IParameterParser<FakeParameters> parameterParser, 
-            IParameterValidator<FakeParameters> parameterValidator, 
-            ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase> testCaseGeneratorFactoryFactory
-        )
-        {
-            return new Generator<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(testVectorFactory, parameterParser, parameterValidator, testCaseGeneratorFactoryFactory);
-        }
-
-        private Generator<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase> GetSystem(MockedSystemDependencies mocks)
-        {
-            return GetSystem(
-                mocks.MockITestVectorFactory.Object,
-                mocks.MockIParameterParser.Object,
-                mocks.MockIParameterValidator.Object,
-                mocks.MockITestCaseGeneratorFactoryFactory.Object
-            );
-        }
-
-        private class MockedSystemDependencies
-        {
-            public Mock<ITestVectorFactory<FakeParameters>> MockITestVectorFactory { get; set; } = new Mock<ITestVectorFactory<FakeParameters>>();
-            public Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase>> MockITestCaseGeneratorFactoryFactory { get; set; } = new Mock<ITestCaseGeneratorFactoryFactory<FakeTestVectorSet, FakeTestGroup, FakeTestCase>>();
-            public Mock<IParameterParser<FakeParameters>> MockIParameterParser { get; set; } = new Mock<IParameterParser<FakeParameters>>();
-            public Mock<IParameterValidator<FakeParameters>> MockIParameterValidator { get; set; } = new Mock<IParameterValidator<FakeParameters>>();
+            Assert.AreEqual(StatusCode.FileSaveError, result.StatusCode);
         }
     }
 }

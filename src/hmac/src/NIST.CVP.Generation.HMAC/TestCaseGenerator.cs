@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.HMAC
             _algo = algo;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             var key = _random800_90.GetRandomBitString(@group.KeyLength);
             var msg = _random800_90.GetRandomBitString(@group.MessageLength);
@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.HMAC
             return Generate(@group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
             MacResult genResult = null;
             try
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.HMAC
                 {
                     ThisLogger.Warn(genResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(genResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(genResult.ErrorMessage);
                     }
                 }
             }
@@ -50,17 +50,14 @@ namespace NIST.CVP.Generation.HMAC
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             testCase.Mac = genResult.Mac;
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
-        
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
+
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

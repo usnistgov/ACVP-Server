@@ -2,31 +2,18 @@
 
 namespace NIST.CVP.Crypto.Common.Symmetric
 {
-    public class SymmetricCipherAeadResult : ICryptoResult
+    public class SymmetricCipherAeadResult : SymmetricCipherResult
     {
-        public BitString CipherText { get; }
         public BitString Tag { get; }
-        public string ErrorMessage { get; }
-        public SymmetricCipherAeadResult(BitString cipherText, BitString tag)
+
+        public SymmetricCipherAeadResult(BitString cipherText, BitString tag) : base(cipherText)
         {
-            CipherText = cipherText;
             Tag = tag;
         }
 
-        public SymmetricCipherAeadResult(string errorMessage)
-        {
-            ErrorMessage = errorMessage;
-        }
+        public SymmetricCipherAeadResult(BitString plainText) : base(plainText) { }
 
-        public bool Success => string.IsNullOrEmpty(ErrorMessage);
+        public SymmetricCipherAeadResult(string errorMessage) : base (errorMessage) { }
 
-        public override string ToString()
-        {
-            if (!Success)
-            {
-                return ErrorMessage;
-            }
-            return $"Cipher: {CipherText.ToHex()}";
-        }
     }
 }

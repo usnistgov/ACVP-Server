@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Autofac;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
@@ -23,23 +24,14 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_LegacySigVer;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
-            var passed = EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed);
-            var failed = EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed);
-
             // If TC has a result, change it
-            if (testCase.sigResult != null)
+            if (testCase.testPassed != null)
             {
-                if (testCase.sigResult.ToString() == passed)
-                {
-                    testCase.sigResult = failed;
-                }
-                else if (testCase.sigResult.ToString() == failed)
-                {
-                    testCase.sigResult = passed;
-                }
+                testCase.testPassed = !(bool) testCase.testPassed;
             }
         }
 

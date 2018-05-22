@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
@@ -18,6 +19,7 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.AES_XPN;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -25,9 +27,9 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
             var rand = new Random800_90();
 
             // If TC is intended to be a failure test, change it
-            if (testCase.decryptFail != null)
+            if (testCase.testPassed != null)
             {
-                testCase.decryptFail = false;
+                testCase.testPassed = true;
             }
 
             // If TC has a cipherText, change it
@@ -43,6 +45,21 @@ namespace NIST.CVP.Generation.AES_XPN.IntegrationTests
                 }
 
                 testCase.cipherText = bs.ToHex();
+            }
+
+            // If TC has a tag, change it
+            if (testCase.tag != null)
+            {
+                BitString bs = new BitString(testCase.tag.ToString());
+                bs = rand.GetDifferentBitStringOfSameSize(bs);
+
+                // Can't get something "different" of empty bitstring of the same length
+                if (bs == null)
+                {
+                    bs = new BitString("01");
+                }
+
+                testCase.tag = bs.ToHex();
             }
 
             // If TC has a plainText, change it

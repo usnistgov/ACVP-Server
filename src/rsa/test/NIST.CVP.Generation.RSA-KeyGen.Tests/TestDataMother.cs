@@ -2,54 +2,78 @@
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 {
     public class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups = 1)
         {
+            var tvs = new TestVectorSet
+            {
+                Algorithm = "RSA",
+                Mode = "KeyGen",
+                IsSample = true,
+            };
+
             var testGroups = new List<TestGroup>();
+            tvs.TestGroups = testGroups;
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                var tg = new TestGroup
+                {
+                    Modulo = 2048,
+                    HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
+                    PrimeGenMode = PrimeGenModes.B36,
+                    PubExp = PublicExponentModes.Fixed,
+                    FixedPubExp = new BitString("ABCD"),
+                    KeyFormat = PrivateKeyModes.Crt,
+                    InfoGeneratedByServer = true,
+                    PrimeTest = PrimeTestModes.C2,
+                    TestType = "aft"
+                };
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
-                    tests.Add(new TestCase
+                    var tc = new TestCase
                     {
                         Key = new KeyPair
                         {
-                            PubKey = new PublicKey{E = 1, N = 2},
-                            PrivKey = new PrivateKey{D = 3, P = 4, Q = 5}
+                            PrivKey = new CrtPrivateKey
+                            {
+                                DMP1 = 1,
+                                DMQ1 = 2,
+                                IQMP = 3,
+                                P = 4,
+                                Q = 5
+                            },
+                            PubKey = new PublicKey
+                            {
+                                E = 6,
+                                N = 7
+                            }
                         },
-                        Seed = new BitString("BEEFFACE"),
-                        Bitlens = new[] {1,2,3,4},
-                        XP = new BitString("01"),
-                        XP1 = new BitString("02"),
-                        XP2 = new BitString("03"),
-                        XQ = new BitString("04"),
-                        XQ1 = new BitString("05"),
-                        XQ2 = new BitString("06"),
+                        Bitlens = new [] {32, 32, 32, 32},
+                        Deferred = false,
+                        Seed = new BitString("ABCDEF"),
+                        XP = new BitString("BEEFFACE"),
+                        XP1 = new BitString("BEEFFACE"),
+                        XP2 = new BitString("BEEFFACE"),
+                        XQ = new BitString("BEEFFACE"),
+                        XQ1 = new BitString("BEEFFACE"),
+                        XQ2 = new BitString("BEEFFACE"),
+                        ParentGroup = tg,
                         TestCaseId = testId
-                    });
+                    };
+                    tests.Add(tc);
                 }
-
-                testGroups.Add(new TestGroup
-                {
-                    HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d224),
-                    InfoGeneratedByServer = true,
-                    PrimeGenMode = PrimeGenModes.B35,
-                    Modulo = 1 + groupIdx,
-                    TestType = "aft",
-                    PubExp = PublicExponentModes.Random,
-                    Tests = tests
-                });
             }
 
-            return testGroups;
+            return tvs;
         }
     }
 }

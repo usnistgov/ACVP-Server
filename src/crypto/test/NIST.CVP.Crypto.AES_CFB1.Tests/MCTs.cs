@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -23,18 +24,18 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
 
             var sanityCheckFirstKey = new BitString(keyString);
             var sanityCheckFirstIv = new BitString(ivString);
-            var plainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
-            var firstExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var plainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
+            var firstExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
 
             var secondExpectedKey = new BitString("d00433b558d5e5b504620846ea9335d9");
             var secondExpectedIv = new BitString("c9c64f6aaae695d948037ead89376357");
-            var secondExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
-            var secondExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var secondExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
+            var secondExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
             
             var lastExpectedKey = new BitString("0b677b274bde90ae72844bff9eb0d0b3");
             var lastExpectedIv = new BitString("337584c1b9d72ddb72b0a544b0f41dbf");
-            var lastExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
-            var lastExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var lastExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
+            var lastExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
 
 
             var result = _subject.MCTEncrypt(iv, key, plainText);
@@ -79,16 +80,16 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
 
             var sanityCheckFirstKey = new BitString(keyString);
             var sanityCheckFirstIv = new BitString(ivString);
-            var plainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
-            var firstExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var plainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
+            var firstExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
 
             var secondExpectedKey = new BitString("579fd63a9d329fa44285e3f834a94747d56c1278a9fc3c3d");
             var secondExpectedIv = new BitString("94d95f8af411d01e3760a371b23aaf4b");
 
             var lastExpectedKey = new BitString("ffa875bfb283d86a75801112b048bdd4d2f6e5caafbd9994");
             var lastExpectedIv = new BitString("3f597d5af4d9b1a3980cea2b4f60118e");
-            var lastExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
-            var lastExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var lastExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
+            var lastExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
 
 
             var result = _subject.MCTEncrypt(iv, key, plainText);
@@ -129,16 +130,16 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
 
             var sanityCheckFirstKey = new BitString(keyString);
             var sanityCheckFirstIv = new BitString(ivString);
-            var plainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
-            var firstExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var plainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
+            var firstExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
 
             var secondExpectedKey = new BitString("ebd07fe190d02504be720ebaf56c963e6375cb3ea01105c9fdfe112f826c9b75");
             var secondExpectedIv = new BitString("3b875b5bac03c69036b91636a2a9c276");
 
             var lastExpectedKey = new BitString("101dd780875c359a7a4327fe2951e70939db234e72b09c579c12abb01c0f8c1b");
             var lastExpectedIv = new BitString("23028f02b4adc4a5d35ed0e120b142bc");
-            var lastExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
-            var lastExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var lastExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
+            var lastExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
 
 
             var result = _subject.MCTEncrypt(iv, key, plainText);
@@ -181,18 +182,18 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
 
             var sanityCheckFirstKey = new BitString(keyString);
             var sanityCheckFirstIv = new BitString(ivString);
-            var cipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
-            var firstExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var cipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
+            var firstExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
 
             var secondExpectedKey = new BitString("0679aba4f75ae4e820fd2d2caa297854");
             var secondExpectedIv = new BitString("d57cd7808014a0c8e520404a44993146");
-            var secondExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
-            var secondExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var secondExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
+            var secondExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
 
             var lastExpectedKey = new BitString("d5f29f0400854d31f2ddcdd5c32ce3ba");
             var lastExpectedIv = new BitString("89b57c371d635d67a83aa3ebb4f4a03d");
-            var lastExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
-            var lastExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var lastExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
+            var lastExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
 
 
             var result = _subject.MCTDecrypt(iv, key, cipherText);
@@ -237,18 +238,18 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
 
             var sanityCheckFirstKey = new BitString(keyString);
             var sanityCheckFirstIv = new BitString(ivString);
-            var cipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
-            var firstExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var cipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
+            var firstExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
 
             var secondExpectedKey = new BitString("e98067eb3a70d4e54fbe0fbd36aa282e41ab0af9a96d2db9");
             var secondExpectedIv = new BitString("f899541ee48e92edbce9ce43bf5a4534");
-            var secondExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
-            var secondExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var secondExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
+            var secondExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
 
             var lastExpectedKey = new BitString("481dac4354c7a602f31d9fd33119cd834f69277fabba5c5f");
             var lastExpectedIv = new BitString("40648ac18d340bf6f83887de83cb28db");
-            var lastExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
-            var lastExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var lastExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
+            var lastExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
 
 
             var result = _subject.MCTDecrypt(iv, key, cipherText);
@@ -293,18 +294,18 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
 
             var sanityCheckFirstKey = new BitString(keyString);
             var sanityCheckFirstIv = new BitString(ivString);
-            var cipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
-            var firstExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var cipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
+            var firstExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
 
             var secondExpectedKey = new BitString("4c1189c6218791ceba937ff30c4c4bee86b03c7569edf1604cd4a816aa8dbaf7");
             var secondExpectedIv = new BitString("95052251d679e7a0eccee00858a9d5e0");
-            var secondExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
-            var secondExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1");
+            var secondExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
+            var secondExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
 
             var lastExpectedKey = new BitString("9ccc8ef62058690c1265f314c752bdcb6c90e7ceaa9ca313a55ff48862005491");
             var lastExpectedIv = new BitString("f2037905c418ed80780ffccdb650bf3c");
-            var lastExpectedCipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
-            var lastExpectedPlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0");
+            var lastExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
+            var lastExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
 
 
             var result = _subject.MCTDecrypt(iv, key, cipherText);

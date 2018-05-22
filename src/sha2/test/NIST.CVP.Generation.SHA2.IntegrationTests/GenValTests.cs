@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Autofac;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
@@ -18,6 +18,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.SHA2;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -80,11 +81,11 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         /// <summary>
         /// Can be used to exclude MCT tests
         /// </summary>
-        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
             {
-                return new List<ITestGroupGenerator<Parameters>>()
+                return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGeneratorAlgorithmFunctionalTest()
                 };

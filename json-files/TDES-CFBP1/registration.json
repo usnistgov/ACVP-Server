@@ -1,12 +1,12 @@
 {
-  "algorithm": "TDES",
-  "mode": "CFBP1",
-  "isSample": false,
-  "direction": [
+  "Algorithm": "TDES",
+  "Mode": "CFBP1",
+  "IsSample": false,
+  "Direction": [
     "encrypt",
     "decrypt"
   ],
-  "keyingOption": [
+  "KeyingOption": [
     1
   ]
 }

@@ -3,8 +3,10 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -16,15 +18,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         [Test]
         public void ShouldRunVerifyMethodAndSucceedWithGoodSignature()
         {
-            var eccMock = GetDsaMock();
-            eccMock
-                .Setup(s => s.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()))
-                .Returns(new EccVerificationResult());
-
-            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), eccMock.Object);
+            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetDeferredResolver(true).Object);
             var result = subject.Validate(GetResultTestCase());
-
-            eccMock.Verify(v => v.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()), Times.Once);
 
             Assert.AreEqual(Disposition.Passed, result.Result);
         }
@@ -32,15 +27,8 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         [Test]
         public void ShouldRunVerifyMethodAndFailWithBadSignature()
         {
-            var eccMock = GetDsaMock();
-            eccMock
-                .Setup(s => s.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()))
-                .Returns(new EccVerificationResult("Fail"));
-
-            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), eccMock.Object);
+            var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetDeferredResolver(false).Object);
             var result = subject.Validate(GetResultTestCase());
-
-            eccMock.Verify(v => v.Verify(It.IsAny<EccDomainParameters>(), It.IsAny<EccKeyPair>(), It.IsAny<BitString>(), It.IsAny<EccSignature>(), It.IsAny<bool>()), Times.Once);
 
             Assert.AreEqual(Disposition.Failed, result.Result);
         }
@@ -59,8 +47,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                KeyPair = new EccKeyPair(new EccPoint(1, 2)),
-                Signature = new EccSignature(3, 4),
+                Signature = new EccSignature(3, 4)
             };
         }
 
@@ -68,14 +55,23 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         {
             return new TestGroup
             {
-                DomainParameters = new EccDomainParameters(new PrimeCurve(Curve.P192, 0, 0, new EccPoint(0, 0), 0)),
+                Curve = Curve.P192,
                 HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
+                KeyPair = new EccKeyPair(new EccPoint(1, 2))
             };
         }
 
-        private Mock<IDsaEcc> GetDsaMock()
+        private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, EccVerificationResult>> GetDeferredResolver(bool shouldPass)
         {
-            return new Mock<IDsaEcc>();
+            var goodResult = new EccVerificationResult();
+            var badResult = new EccVerificationResult("fail");
+
+            var mock = new Mock<IDeferredTestCaseResolver<TestGroup, TestCase, EccVerificationResult>>();
+            mock
+                .Setup(s => s.CompleteDeferredCrypto(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()))
+                .Returns(shouldPass ? goodResult : badResult);
+
+            return mock;
         }
     }
 }

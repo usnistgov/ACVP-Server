@@ -1,25 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
-        private IShaFactory _shaFactory = new ShaFactory();
+        private readonly IDsaEccFactory _eccDsaFactory;
+        private readonly IEccCurveFactory _curveFactory;
 
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
+        public TestCaseValidatorFactory(IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
         {
-            var list = new List<ITestCaseValidator<TestCase>>();
+            _eccDsaFactory = eccDsaFactory;
+            _curveFactory = curveFactory;
+        }
 
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
+        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        {
+            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
+
+            foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
-                foreach (var test in group.Tests.Select(t => (TestCase)t))
+                foreach (var test in group.Tests.Select(t => t))
                 {
-                    list.Add(new TestCaseValidator(test, group, new EccDsa(_shaFactory.GetShaInstance(group.HashAlg))));
+                    var deferredResolver = new DeferredTestCaseResolver(_eccDsaFactory, _curveFactory);
+                    list.Add(new TestCaseValidator(test, group, deferredResolver));
                 }
             }
 

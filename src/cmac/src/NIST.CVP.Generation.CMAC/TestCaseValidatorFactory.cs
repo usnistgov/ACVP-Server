@@ -4,27 +4,27 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.CMAC
 {
-    public class TestCaseValidatorFactory<TTestVectorSet, TTestGroup, TTestCase> : ITestCaseValidatorFactory<TTestVectorSet, TTestCase>
+    public class TestCaseValidatorFactory<TTestVectorSet, TTestGroup, TTestCase> : ITestCaseValidatorFactory<TTestVectorSet, TTestGroup, TTestCase>
         where TTestVectorSet : TestVectorSetBase<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestCase>, new()
-        where TTestCase : TestCaseBase, new()
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>
     {
-        public IEnumerable<ITestCaseValidator<TTestCase>> GetValidators(TTestVectorSet testVectorSet, IEnumerable<TTestCase> suppliedResults)
+        public IEnumerable<ITestCaseValidator<TTestGroup, TTestCase>> GetValidators(TTestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TTestCase>>();
+            var list = new List<ITestCaseValidator<TTestGroup, TTestCase>>();
 
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TTestGroup)g))
+            foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
-                foreach (var test in group.Tests.Select(t => (TTestCase)t))
+                foreach (var test in group.Tests.Select(t => t))
                 {
                     var workingTest = test;
                     if (group.Function.ToLower() == "gen")
                     {
-                        list.Add(new TestCaseValidatorGen<TTestCase>(workingTest));
+                        list.Add(new TestCaseValidatorGen<TTestGroup, TTestCase>(workingTest));
                     }
                     else
                     {
-                        list.Add(new TestCaseValidatorVer<TTestCase>(workingTest));
+                        list.Add(new TestCaseValidatorVer<TTestGroup, TTestCase>(workingTest));
                     }
                 }
             }

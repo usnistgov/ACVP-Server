@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
-using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -37,7 +36,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
 
             GetData(ref testVectorSet, ref suppliedResults, function, isDeferred);
 
-            var results = _subject.GetValidators(testVectorSet, suppliedResults);
+            var results = _subject.GetValidators(testVectorSet);
 
             Assert.IsTrue(results.Count() == 1, "Expected 1 validator");
             Assert.IsInstanceOf(expectedType, results.First());
@@ -48,7 +47,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             testVectorSet = new TestVectorSet()
             {
                 Algorithm = string.Empty,
-                TestGroups = new List<ITestGroup>()
+                TestGroups = new List<TestGroup>()
                 {
                     new TestGroup()
                     {
@@ -60,14 +59,14 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
                         KeyLength = 128,
                         PTLength = 128,
                         TagLength = 128,
-                        Tests = new List<ITestCase>()
+                        Tests = new List<TestCase>()
                         {
                             new TestCase()
                             {
                                 AAD = new BitString(128),
                                 CipherText = new BitString(128),
                                 Deferred = isDeferred,
-                                FailureTest = false,
+                                TestPassed = true,
                                 Key = new BitString(128),
                                 PlainText = new BitString(128),
                                 Tag = new BitString(128),

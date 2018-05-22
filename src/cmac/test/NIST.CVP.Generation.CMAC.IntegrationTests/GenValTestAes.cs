@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.CMAC.AES;
 using NIST.CVP.Generation.Core;
@@ -19,6 +20,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.CMAC_AES;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -26,15 +28,15 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             var rand = new Random800_90();
 
             // If TC is intended to be a failure test, change it
-            if (testCase.result != null)
+            if (testCase.testPassed != null)
             {
-                if (testCase.result == "fail")
+                if (testCase.testPassed == true)
                 {
-                    testCase.result = "pass";
+                    testCase.testPassed = false;
                 }
                 else
                 {
-                    testCase.result = "fail";
+                    testCase.testPassed = true;
                 }
             }
 
@@ -58,7 +60,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
         {
             Parameters p = new Parameters()
             {
-                Algorithm = "CMAC-AES",
+                Algorithm = Algorithm,
                 Mode = Mode,
                 Direction = new[] { "gen", "ver" },
                 KeyLen = new[] { 128 },
@@ -78,7 +80,7 @@ namespace NIST.CVP.Generation.CMAC.IntegrationTests
             
             Parameters p = new Parameters()
             {
-                Algorithm = "CMAC-AES",
+                Algorithm = Algorithm,
                 Mode = Mode,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
                 KeyLen = new[] { 128, 192, 256 },

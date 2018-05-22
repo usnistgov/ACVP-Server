@@ -7,19 +7,29 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.SSH.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups = 1)
         {
             if (groups > 4)
             {
                 throw new Exception("Too many test groups");
             }
 
+            var vectorSet = new TestVectorSet();
+
             var testGroups = new List<TestGroup>();
+            vectorSet.TestGroups = testGroups;
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                var testGroup = new TestGroup
+                {
+                    HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
+                    Cipher = (Cipher) groupIdx,
+                    TestType = "Sample"
+                };
+
+                var tests = new List<TestCase>();
                 for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
                     tests.Add(new TestCase
@@ -36,21 +46,15 @@ namespace NIST.CVP.Generation.SSH.Tests
                         IntegrityKeyServer = new BitString("1AAADFFC02"),
 
                         TestCaseId = testId,
+                        ParentGroup = testGroup
                     });
                 }
 
-                testGroups.Add(
-                    new TestGroup
-                    {
-                        HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d256),
-                        Cipher = (Cipher)groupIdx,
-                        Tests = tests,
-                        TestType = "Sample"
-                    }
-                );
+                testGroup.Tests = tests;
+                testGroups.Add(testGroup);
             }
 
-            return testGroups;
+            return vectorSet;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
         public void Setup()
         {
             _mockRandom = new Mock<IRandom800_90>();
-            _mockRandom.Setup(s => s.GetRandomBitString(It.IsAny<int>())).Returns(new BitString(1));
+            _mockRandom.Setup(s => s.GetRandomBitString(It.IsAny<int>())).Returns(new BitString(64));
             _mockMCT = new Mock<ITDES_CBC_MCT>();
             _subject = new TestCaseGeneratorMonteCarloEncrypt(_mockRandom.Object, _mockMCT.Object);
         }
@@ -115,13 +115,6 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
 
             Assert.IsFalse(result.Success, nameof(result.Success));
             Assert.AreEqual(errorMessage, result.ErrorMessage);
-        }
-
-
-
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
         }
     }
 }

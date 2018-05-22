@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Parsers
     /// Note that KAS files are exceedingly complex, 
     /// limiting usage of a single MAC/parameter set will save time on parsing
     /// </summary>
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         private const string Algorithm = "KAS-ECC";
         private readonly BitString _serverId = new BitString("434156536964");
@@ -62,7 +62,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Parsers
                 // limited ot a single group per file... see note at class start
                 TestGroup currentGroup = new TestGroup()
                 {
-                    Tests = new List<ITestCase>(),
+                    Tests = new List<TestCase>(),
                     OiPattern = "uPartyInfo||vPartyInfo",
                     Function = KasAssurance.DpGen|KasAssurance.DpVal|KasAssurance.FullVal|KasAssurance.KeyPairGen|KasAssurance.KeyRegen,
                     IdIut = _iutId,
@@ -243,7 +243,7 @@ namespace NIST.CVP.Generation.KAS.ECC.Parsers
             var testVectorSet = new TestVectorSet
             {
                 Algorithm = Algorithm,
-                TestGroups = groups.Select(g => (ITestGroup)g).ToList()
+                TestGroups = groups.Select(g => g).ToList()
             };
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }

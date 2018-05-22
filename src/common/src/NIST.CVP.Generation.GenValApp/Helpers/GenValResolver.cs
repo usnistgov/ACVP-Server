@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Runtime.Loader;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
 
@@ -16,7 +15,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
     {
         private static Logger Logger => LogManager.GetCurrentClassLogger();
 
-        public static IRegisterInjections ResolveIocInjectables(AlgorithmConfig algorithmConfig, string algorithm, string mode, string dllLocation)
+        public static List<IRegisterInjections> ResolveIocInjectables(AlgorithmConfig algorithmConfig, string algorithm, string mode, string dllLocation)
         {
             var iTypeToDiscover = typeof(IRegisterInjections);
 
@@ -42,7 +41,8 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 throw new ArgumentException(errorMsg);
             }
 
-            IRegisterInjections concrete = null;
+            List<IRegisterInjections> iocRegistrations = new List<IRegisterInjections>();
+
             try
             {
                 /*
@@ -52,20 +52,30 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
 
                  Gen.CMAC.dll is an additional assembly, and should be loaded first.
                 */
-                // Load additional dependant assemblies
                 if (mappingResult.AdditionalDependencies != null)
                 {
                     foreach (var additionalDependency in mappingResult.AdditionalDependencies)
                     {
-                        AssemblyLoadContext.Default.LoadFromAssemblyPath(
+                        var additionalAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(
                             $@"{dllLocation}{additionalDependency.DependencyDll}"
                         );
+
+                        var additionalIocRegistrations =
+                            additionalAssembly.GetTypes()
+                                .SingleOrDefault(x => iTypeToDiscover.IsAssignableFrom(x));
+
+                        if (additionalIocRegistrations != null)
+                        {
+                            iocRegistrations.Add(
+                                (IRegisterInjections)Activator.CreateInstance(additionalIocRegistrations)
+                            );
+                        }
                     }
                 }
 
                 var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(fullgenValDllPath);
                 var concreteType = assembly.GetTypes().Single(x => iTypeToDiscover.IsAssignableFrom(x));
-                concrete = (IRegisterInjections) Activator.CreateInstance(concreteType);
+                iocRegistrations.Add((IRegisterInjections)Activator.CreateInstance(concreteType));
             }
             catch (ReflectionTypeLoadException ex)
             {
@@ -77,7 +87,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                 throw;
             }
 
-            return concrete;
+            return iocRegistrations;
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using NIST.CVP.Crypto.DSA.FFC.Helpers;
+using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
@@ -11,8 +13,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
         public static int[] VALID_L = { 2048, 3072 };
         public static int[] VALID_N = { 224, 256 };
         public static string[] VALID_HASH_ALGS = { "sha2-224", "sha2-256", "sha2-384", "sha2-512", "sha2-512/224", "sha2-512/256" };
-        public static string[] VALID_PQ_MODES = { "probable", "provable" };
-        public static string[] VALID_G_MODES = { "canonical", "unverifiable" };
+        public static string[] VALID_PQ_MODES = EnumHelpers.GetEnumDescriptions<PrimeGenMode>().Except(new [] {"none"}).ToArray();
+        public static string[] VALID_G_MODES = EnumHelpers.GetEnumDescriptions<GeneratorGenMode>().Except(new [] {"none"}).ToArray();
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {

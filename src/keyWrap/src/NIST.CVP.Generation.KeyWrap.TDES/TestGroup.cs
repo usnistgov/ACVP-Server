@@ -1,21 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.KeyWrap.TDES
 {
-    public class TestGroup : TestGroupBase<TestCase>
+    public class TestGroup : TestGroupBase<TestGroup, TestCase>
     {
-        public TestGroup()
-        {
-
-        }
-        public TestGroup(dynamic source)
-        {
-            LoadSource(source);
-        }
-
         [JsonProperty(PropertyName = "keyLen")]
         public override int KeyLength
         {
@@ -23,6 +17,7 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
             set { }
         }
 
+        [JsonIgnore]
         public override KeyWrapType KeyWrapType
         {
             get => KeyWrapType.TDES_KW;
@@ -32,6 +27,7 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
         [JsonProperty(PropertyName = "numberOfKeys")]
         public int NumberOfKeys { get; set; }
 
+        [JsonIgnore]
         public int KeyingOption { get; set; }
 
         public override bool SetString(string name, string value)
@@ -50,8 +46,7 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
                     return true;
             }
 
-            int intVal = 0;
-            if (!int.TryParse(value, out intVal))
+            if (!int.TryParse(value, out var intVal))
             {
                 return false;
             }
@@ -63,22 +58,6 @@ namespace NIST.CVP.Generation.KeyWrap.TDES
                     return true;
             }
             return false;
-        }
-
-        protected override void LoadSource(dynamic source)
-        {
-            TestGroupId = (int) source.tgId;
-            TestType = source.testType;
-            Direction = source.direction;
-            KwCipher = source.kwCipher;
-            KeyingOption = source.keyingOption;
-            
-            PtLen = source.ptLen;
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
         }
     }
 }

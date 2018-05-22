@@ -12,7 +12,6 @@ namespace NIST.CVP.Generation.HMAC.Tests
     [TestFixture, UnitTest]
     public class TestCaseValidatorFactoryTests
     {
-
         private Mock<ITestCaseGeneratorFactory<TestGroup, TestCase>> _mockTestCaseGeneratorFactory;
         private Mock<ITestCaseGenerator<TestGroup, TestCase>> _mockTestCaseGenerator;
         private TestCaseValidatorFactory _subject;
@@ -25,7 +24,7 @@ namespace NIST.CVP.Generation.HMAC.Tests
 
             _mockTestCaseGenerator
                 .Setup(s => s.Generate(It.IsAny<TestGroup>(), It.IsAny<TestCase>()))
-                .Returns(new TestCaseGenerateResponse(new TestCase()));
+                .Returns(new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase()));
             _mockTestCaseGeneratorFactory
                 .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(_mockTestCaseGenerator.Object);
@@ -38,22 +37,21 @@ namespace NIST.CVP.Generation.HMAC.Tests
         public void ShouldReturnCorrectValidatorTypeDependantOnFunction(Type expectedType)
         {
             TestVectorSet testVectorSet = null;
-            List<TestCase> suppliedResults = null;
 
-            GetData(ref testVectorSet, ref suppliedResults);
+            GetData(ref testVectorSet);
 
-            var results = _subject.GetValidators(testVectorSet, suppliedResults);
+            var results = _subject.GetValidators(testVectorSet);
 
             Assert.IsTrue(results.Count() == 1, "Expected 1 validator");
             Assert.IsInstanceOf(expectedType, results.First());
         }
 
-        private void GetData(ref TestVectorSet testVectorSet, ref List<TestCase> suppliedResults)
+        private void GetData(ref TestVectorSet testVectorSet)
         {
             testVectorSet = new TestVectorSet()
             {
                 Algorithm = string.Empty,
-                TestGroups = new List<ITestGroup>()
+                TestGroups = new List<TestGroup>()
                 {
                     new TestGroup()
                     {
@@ -61,11 +59,10 @@ namespace NIST.CVP.Generation.HMAC.Tests
                         KeyLength = 128,
                         MessageLength = 0,
                         MacLength = 64,
-                        Tests = new List<ITestCase>()
+                        Tests = new List<TestCase>()
                         {
                             new TestCase()
                             {
-                                FailureTest = false,
                                 Key = new BitString(128),
                                 Message = new BitString(128),
                                 Mac = new BitString(128),
@@ -73,14 +70,6 @@ namespace NIST.CVP.Generation.HMAC.Tests
                             }
                         }
                     }
-                }
-            };
-
-            suppliedResults = new List<TestCase>()
-            {
-                new TestCase()
-                {
-                    TestCaseId = 1
                 }
             };
         }

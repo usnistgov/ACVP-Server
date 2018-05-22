@@ -1,21 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Generation.Core;
+﻿using System.Collections.Generic;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.HMAC.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups = 1)
         {
+            var vectorSet = new TestVectorSet();
+            
             var testGroups = new List<TestGroup>();
+            vectorSet.TestGroups = testGroups;
             for (int groupIdx = 0; groupIdx < groups; groupIdx++)
             {
+                var tg = new TestGroup
+                {
+                    KeyLength = 128 + groupIdx * 2,
+                    MessageLength = 52 + groupIdx * 8,
+                    MacLength = 64,
+                    TestType = "AFT"
+                };
+                testGroups.Add(tg);
 
-                var tests = new List<ITestCase>();
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
+
                 for (int testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
                     tests.Add(new TestCase
@@ -23,21 +32,12 @@ namespace NIST.CVP.Generation.HMAC.Tests
                         Message = new BitString("FACE"),
                         Mac = new BitString("CAFE"),
                         Key = new BitString("9998ADCD"),
-                        TestCaseId = testId
+                        TestCaseId = testId,
+                        ParentGroup = tg
                     });
                 }
-
-                testGroups.Add(
-                    new TestGroup
-                    {
-                        KeyLength = 128 + groupIdx * 2,
-                        MessageLength = groupIdx * 8,
-                        MacLength = 64,
-                        Tests = tests
-                    }
-                );
             }
-            return testGroups;
+            return vectorSet;
         }
     }
 }

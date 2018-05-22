@@ -6,6 +6,7 @@ using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.KeyWrap.AES;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 
@@ -21,15 +22,16 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.AES_KW;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
 
             // If TC is intended to be a failure test, change it
-            if (testCase.decryptFail != null)
+            if (testCase.testPassed != null)
             {
-                testCase.decryptFail = false;
+                testCase.testPassed = !(bool)testCase.testPassed;
             }
 
             // If TC has a cipherText, change it

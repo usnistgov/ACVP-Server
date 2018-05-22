@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_OFBI
 {
-    public class TestCaseValidatorMonteCarloDecrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMonteCarloDecrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private TestCase _expectedResult;
 

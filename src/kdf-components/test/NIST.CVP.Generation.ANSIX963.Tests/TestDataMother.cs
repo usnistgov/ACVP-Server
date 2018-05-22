@@ -5,14 +5,28 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.ANSIX963.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups = 1)
         {
+            var vectorSet = new TestVectorSet();
+
             var testGroups = new List<TestGroup>();
+            vectorSet.TestGroups = testGroups;
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                var tg = new TestGroup
+                {
+                    FieldSize = groupIdx,
+                    HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d224),
+                    SharedInfoLength = groupIdx,
+                    KeyDataLength = groupIdx,
+                    TestType = "Sample"
+                };
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
                     tests.Add(new TestCase
@@ -21,23 +35,12 @@ namespace NIST.CVP.Generation.ANSIX963.Tests
                         SharedInfo = new BitString("ABCD"),
                         KeyData = new BitString("ABCDEF"),
                         TestCaseId = testId,
+                        ParentGroup = tg
                     });
                 }
-
-                testGroups.Add(
-                    new TestGroup
-                    {
-                        FieldSize = groupIdx,
-                        HashAlg = new HashFunction(ModeValues.SHA2, DigestSizes.d224),
-                        SharedInfoLength = groupIdx,
-                        KeyDataLength = groupIdx,
-                        Tests = tests,
-                        TestType = "Sample"
-                    }
-                );
             }
 
-            return testGroups;
+            return vectorSet;
         }
     }
 }

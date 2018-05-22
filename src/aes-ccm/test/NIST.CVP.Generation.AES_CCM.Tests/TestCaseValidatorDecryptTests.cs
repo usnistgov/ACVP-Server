@@ -45,21 +45,20 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         [Test]
         public void ShouldFailIfFailedTestDoesNotMatch()
         {
-            var testCase = GetTestCase(true);
+            var testCase = GetTestCase(false);
             var subject = new TestCaseValidatorDecrypt(testCase);
-            var suppliedResult = GetTestCase(false);
+            var suppliedResult = GetTestCase(true);
             var result = subject.Validate(suppliedResult);
-            Assume.That(result != null);
-            Assume.That(Core.Enums.Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains("tag"));
+            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result, nameof(result.Result));
+            Assert.IsTrue(result.Reason.Contains("tag"), nameof(result.Reason));
         }
 
         [Test]
         public void ShouldNotFailTestDueToBadPlainTextWhenTestIsExpectedToBeFailureTest()
         {
-            var testCase = GetTestCase(true);
+            var testCase = GetTestCase(false);
             var subject = new TestCaseValidatorDecrypt(testCase);
-            var suppliedResult = GetTestCase(true);
+            var suppliedResult = GetTestCase(false);
             suppliedResult.PlainText = new BitString(0);
             var result = subject.Validate(suppliedResult);
             Assume.That(result != null);
@@ -82,11 +81,11 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}"));
         }
 
-        private TestCase GetTestCase(bool failureTest = false)
+        private TestCase GetTestCase(bool testPassed = true)
         {
             var testCase = new TestCase
             {
-                FailureTest = failureTest,
+                TestPassed = testPassed,
                 PlainText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
                 TestCaseId = 1
             };

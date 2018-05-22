@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.RSA2.Keys;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_SigVer
 {
-    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
         private readonly IRandom800_90 _rand;
         private readonly IKeyBuilder _keyBuilder;
@@ -22,9 +21,9 @@ namespace NIST.CVP.Generation.RSA_SigVer
             _shaFactory = shaFactory;
         }
 
-        public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
         {
-            var list = new HashSet<ITestGroupGenerator<Parameters>>
+            var list = new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>
             {
                 new TestGroupGeneratorGeneratedDataTest(_rand, _keyBuilder, _keyComposerFactory, _shaFactory)
             };

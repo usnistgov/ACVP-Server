@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
 
             _mockTestCaseGenerator
                 .Setup(s => s.Generate(It.IsAny<TestGroup>(), It.IsAny<TestCase>()))
-                .Returns(new TestCaseGenerateResponse(new TestCase()));
+                .Returns(new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase()));
             _mockTestCaseGeneratorFactory
                 .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(_mockTestCaseGenerator.Object);
@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
 
             GetData(ref testVectorSet, ref suppliedResults, function, isDeferred);
 
-            var results = _subject.GetValidators(testVectorSet, suppliedResults);
+            var results = _subject.GetValidators(testVectorSet);
 
             Assert.IsTrue(results.Count() == 1, "Expected 1 validator");
             Assert.IsInstanceOf(expectedType, results.First());
@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             testVectorSet = new TestVectorSet()
             {
                 Algorithm = string.Empty,
-                TestGroups = new List<ITestGroup>()
+                TestGroups = new List<TestGroup>()
                 {
                     new TestGroup()
                     {
@@ -67,14 +67,14 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                         KeyLength = 128,
                         PTLength = 128,
                         TagLength = 128,
-                        Tests = new List<ITestCase>()
+                        Tests = new List<TestCase>()
                         {
                             new TestCase()
                             {
                                 AAD = new BitString(128),
                                 CipherText = new BitString(128),
                                 Deferred = isDeferred,
-                                FailureTest = false,
+                                TestPassed = true,
                                 Key = new BitString(128),
                                 PlainText = new BitString(128),
                                 TestCaseId = 1

@@ -1,10 +1,9 @@
 ﻿using Autofac;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 
@@ -19,23 +18,14 @@ namespace NIST.CVP.Generation.RSA_SigVer.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.RSA_SigVer;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
-            var passed = EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed);
-            var failed = EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed);
-
             // If TC has a result, change it
-            if (testCase.sigResult != null)
+            if (testCase.testPassed != null)
             {
-                if (testCase.sigResult.ToString() == passed)
-                {
-                    testCase.sigResult = failed;
-                }
-                else if (testCase.sigResult.ToString() == failed)
-                {
-                    testCase.sigResult = passed;
-                }
+                testCase.testPassed = !(bool) testCase.testPassed;
             }
         }
         

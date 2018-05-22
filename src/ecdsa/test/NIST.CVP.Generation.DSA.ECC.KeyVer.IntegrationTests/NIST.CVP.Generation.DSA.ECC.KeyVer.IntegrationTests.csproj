@@ -8,6 +8,7 @@
     <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="NUnit" Version="$(NuGetVersionNUnit)" />
+    <PackageReference Include="NUnit.Runners" Version="3.7.0" />
   </ItemGroup>
 
   <ItemGroup>

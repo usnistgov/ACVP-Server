@@ -1,7 +1,6 @@
 ﻿using System;
 using Moq;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES_OFBI;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -43,7 +42,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [TestCase("Decrypt", "MCT", typeof(TestCaseGeneratorMonteCarloDecrypt))]
         public void ShouldReturnProperGenerator(string direction, string testType, Type expectedType)
         {
-            TestGroup testGroup = new TestGroup()
+            var testGroup = new TestGroup
             {
                 Function = direction,
                 TestType = testType
@@ -70,7 +69,5 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             var algoMct = new Mock<ITDES_OFBI_MCT>().Object;
             return new TestCaseGeneratorFactory(randy, algo, algoMct);
         }
-
-
     }
 }

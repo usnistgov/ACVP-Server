@@ -2,25 +2,24 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _group;
-        private readonly IDsaEcc _eccDsa;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, EccVerificationResult> _deferredResolver;
 
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDsaEcc eccDsa)
+        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDeferredTestCaseResolver<TestGroup, TestCase, EccVerificationResult> deferredResolver)
         {
             _expectedResult = expectedResult;
             _group = group;
-            _eccDsa = eccDsa;
+            _deferredResolver = deferredResolver;
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
@@ -31,13 +30,9 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             {
                 errors.Add("Could not find r or s");
             }
-            else if (suppliedResult.KeyPair == null)
-            {
-                errors.Add("Could not find Q");
-            }
             else
             {
-                var verifyResult = _eccDsa.Verify(_group.DomainParameters, suppliedResult.KeyPair, _expectedResult.Message, suppliedResult.Signature, _group.ComponentTest);
+                var verifyResult = _deferredResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
                 if (!verifyResult.Success)
                 {
                     errors.Add($"Validation failed: {verifyResult.ErrorMessage}");

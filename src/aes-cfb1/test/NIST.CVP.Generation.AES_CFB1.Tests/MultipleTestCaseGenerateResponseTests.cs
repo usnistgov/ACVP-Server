@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
                 list.Add(new TestCase());
             }
 
-            MultipleTestCaseGenerateResponse<TestCase> subject = new MultipleTestCaseGenerateResponse<TestCase>(list);
+            var subject = new MultipleTestCaseGenerateResponse<TestGroup, TestCase>(list);
 
             Assert.AreEqual(numberOfResponses, subject.TestCases.Count());
         }
@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
         public void ShouldBeSuccessfulWhenResponsesAssignedToInstance()
         {
             List<TestCase> list = new List<TestCase>();
-            MultipleTestCaseGenerateResponse<TestCase> subject = new MultipleTestCaseGenerateResponse<TestCase>(list);
+            var subject = new MultipleTestCaseGenerateResponse<TestGroup, TestCase>(list);
 
             Assert.IsTrue(subject.Success, nameof(subject.Success));
             Assert.IsTrue(string.IsNullOrEmpty(subject.ErrorMessage), nameof(subject.ErrorMessage));
@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
         public void ShouldBeNotSuccessfulOnError()
         {
             string error = "Error!";
-            MultipleTestCaseGenerateResponse<TestCase> subject = new MultipleTestCaseGenerateResponse<TestCase>(error);
+            var subject = new MultipleTestCaseGenerateResponse<TestGroup, TestCase>(error);
 
             Assert.IsFalse(subject.Success, nameof(subject.Success));
             Assert.AreEqual(error, subject.ErrorMessage);

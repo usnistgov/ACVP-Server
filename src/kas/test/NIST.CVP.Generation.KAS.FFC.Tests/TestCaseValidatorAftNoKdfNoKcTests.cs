@@ -12,7 +12,6 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
     [TestFixture, UnitTest]
     public class TestCaseValidatorAftNoKdfNoKcTests
     {
-        private readonly TestDataMother _tdm = new TestDataMother();
         private TestCaseValidatorAftNoKdfNoKc _subject;
         private Mock<IDeferredTestCaseResolver<TestGroup, TestCase, KasResult>> _deferredResolver;
 
@@ -204,7 +203,7 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         
         private TestGroup GetData(FfcScheme scheme, KeyAgreementRole kasRole)
         {
-            var testGroup =  _tdm.GetTestGroups().First();
+            var testGroup = TestDataMother.GetTestGroups(1, true, "aft").TestGroups[0];
             testGroup.KasMode = KasMode.NoKdfNoKc;
             testGroup.Scheme = scheme;
             testGroup.KasRole = kasRole;

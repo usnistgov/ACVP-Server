@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash;
 using NIST.CVP.Crypto.Common.Hash.SHA3;
-using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -18,32 +15,30 @@ namespace NIST.CVP.Generation.SHA3
         private int _capacity = 0;
         private int _currentCase = 0;
         private int _digestSize = 0;
-        private List<int> _testCaseSizes = new List<int>();
-
         private readonly IRandom800_90 _random800_90;
         private readonly ISHA3 _algo;
 
-        public int NumberOfTestCasesToGenerate { get { return _testCaseSizes.Count; } }
-        public List<int> TestCaseSizes { get { return _testCaseSizes; } }                   // Primarily for testing purposes
+        public int NumberOfTestCasesToGenerate => TestCaseSizes.Count;
+        public List<int> TestCaseSizes { get; } = new List<int>();                 // Primarily for testing purposes
 
         public TestCaseGeneratorSHAKEVOTHash(IRandom800_90 random800_90, ISHA3 algo)
         {
             _random800_90 = random800_90;
             _algo = algo;
-            _testCaseSizes.Add(-1);
+            TestCaseSizes.Add(-1);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             // Only do this logic once
             if (_capacity == 0)
             {
-                _testCaseSizes.Clear();
+                TestCaseSizes.Clear();
                 DetermineLengths(group.OutputLength);
                 _capacity = 2 * group.DigestSize;
             }
 
-            _digestSize = _testCaseSizes[_currentCase];
+            _digestSize = TestCaseSizes[_currentCase];
             _currentCase++;
 
             var message = _random800_90.GetRandomBitString(_capacity / 2);
@@ -56,7 +51,7 @@ namespace NIST.CVP.Generation.SHA3
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             HashResult hashResult = null;
 
@@ -73,17 +68,17 @@ namespace NIST.CVP.Generation.SHA3
                 if (!hashResult.Success)
                 {
                     ThisLogger.Warn(hashResult.ErrorMessage);
-                    return new TestCaseGenerateResponse(hashResult.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(hashResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new TestCaseGenerateResponse(ex.Message);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
 
             testCase.Digest = hashResult.Digest;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private void DetermineLengths(MathDomain domain)
@@ -111,18 +106,18 @@ namespace NIST.CVP.Generation.SHA3
             {
                 for(var i = 0; i < repetitions; i++)
                 {
-                    _testCaseSizes.Add(value);
+                    TestCaseSizes.Add(value);
                 }
             }
 
             // Make sure min and max appear in the list
-            _testCaseSizes.Add(minMax.Minimum);
-            _testCaseSizes.Add(minMax.Maximum);
+            TestCaseSizes.Add(minMax.Minimum);
+            TestCaseSizes.Add(minMax.Maximum);
 
-            _testCaseSizes.Sort();
+            TestCaseSizes.Sort();
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
 

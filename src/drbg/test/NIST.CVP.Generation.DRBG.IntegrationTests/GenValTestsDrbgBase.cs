@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
@@ -17,13 +18,14 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
         public abstract string[] Modes { get; }
         public abstract int[] SeedLength { get; }
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
 
-            // If TC has a plainText, change it
+            // If TC has a returnedBIts, change it
             if (testCase.returnedBits != null)
             {
                 var bs = new BitString(testCase.returnedBits.ToString());

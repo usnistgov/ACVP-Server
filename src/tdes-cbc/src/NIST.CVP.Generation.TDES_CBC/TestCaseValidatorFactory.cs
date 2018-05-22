@@ -6,15 +6,15 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CBC
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestCase>>();
+            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
 
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup)g))
+            foreach (var group in testVectorSet.TestGroups)
             {
-                foreach (var test in group.Tests.Select(t => (TestCase)t))
+                foreach (var test in group.Tests)
                 {
                     var workingTest = test;
                     if (group.TestType.ToLower() == "mct")
@@ -30,7 +30,6 @@ namespace NIST.CVP.Generation.TDES_CBC
                     }
                     else
                     {
-
                         if (group.Function == "encrypt")
                         {
                             list.Add(new TestCaseValidatorEncrypt(workingTest));
@@ -44,11 +43,6 @@ namespace NIST.CVP.Generation.TDES_CBC
             }
 
             return list;
-        }
-
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
-        {
-            return GetValidators(testVectorSet);
         }
     }
 }

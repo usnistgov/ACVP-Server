@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.SHAWrapper;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
-    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
     {
         private readonly IPqgProvider _iPqgProvider;
         
@@ -16,10 +12,10 @@ namespace NIST.CVP.Generation.KAS.FFC
             _iPqgProvider = iPqgProvider;
         }
 
-        public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+        public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
         {
-            HashSet<ITestGroupGenerator<Parameters>> list =
-                new HashSet<ITestGroupGenerator<Parameters>>()
+            var list =
+                new HashSet<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGenerator(_iPqgProvider),
                 };

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
@@ -10,133 +8,139 @@ using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigVer
 {
-    public class TestVectorSet : ITestVectorSet
+    public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
-        public string Algorithm { get; set; }
-        public string Mode { get; set; }
+        public string Algorithm { get; set; } = "ECDSA";
+        public string Mode { get; set; } = "SigVer";
         public bool IsSample { get; set; }
 
-        [JsonIgnore]
-        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
-        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
+        public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
 
-        public TestVectorSet() { }
+        //public TestVectorSet() { }
 
-        public TestVectorSet(dynamic answers)
-        {
-            foreach (var answer in answers.answerProjection)
-            {
-                var group = new TestGroup(answer);
-                TestGroups.Add(group);
-            }
-        }
+        //public TestVectorSet(dynamic answers)
+        //{
+        //    foreach (var answer in answers.answerProjection)
+        //    {
+        //        var group = new TestGroup(answer);
+        //        TestGroups.Add(group);
+        //    }
+        //}
 
-        public List<dynamic> AnswerProjection
-        {
-            get
-            {
-                var list = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup)g))
-                {
-                    dynamic updateObject = new ExpandoObject();
-                    var updateDict = ((IDictionary<string, object>) updateObject);
-                    updateDict.Add("tgId", group.TestGroupId);
-                    updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
-                    updateDict.Add("hashAlg", group.HashAlg.Name);
+        //public List<dynamic> AnswerProjection
+        //{
+        //    get
+        //    {
+        //        var list = new List<dynamic>();
+        //        foreach (var group in TestGroups.Select(g => (TestGroup)g))
+        //        {
+        //            dynamic updateObject = new ExpandoObject();
+        //            var updateDict = ((IDictionary<string, object>) updateObject);
+        //            updateDict.Add("tgId", group.TestGroupId);
+        //            updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
+        //            updateDict.Add("hashAlg", group.HashAlg.Name);
+        //            updateDict.Add("qx", group.KeyPair.PublicQ.X);
+        //            updateDict.Add("qy", group.KeyPair.PublicQ.Y);
 
-                    var tests = new List<dynamic>();
-                    updateDict.Add("tests", tests);
-                    foreach (var test in group.Tests.Select(t => (TestCase)t))
-                    {
-                        dynamic testObject = new ExpandoObject();
-                        var testDict = ((IDictionary<string, object>) testObject);
-                        testDict.Add("tcId", test.TestCaseId);
-                        testDict.Add("result", test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed));
-                        testDict.Add("reason", EnumHelpers.GetEnumDescriptionFromEnum(test.Reason));
-                        testDict.Add("message", test.Message);
-                        testDict.Add("qx", test.KeyPair.PublicQ.X);
-                        testDict.Add("qy", test.KeyPair.PublicQ.Y);
-                        testDict.Add("r", test.Signature.R);
-                        testDict.Add("s", test.Signature.S);
+        //            var tests = new List<dynamic>();
+        //            updateDict.Add("tests", tests);
+        //            foreach (var test in group.Tests.Select(t => (TestCase)t))
+        //            {
+        //                dynamic testObject = new ExpandoObject();
+        //                var testDict = ((IDictionary<string, object>) testObject);
+        //                testDict.Add("tcId", test.TestCaseId);
+        //                testDict.Add("result", test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed));
+        //                testDict.Add("reason", EnumHelpers.GetEnumDescriptionFromEnum(test.Reason));
+        //                testDict.Add("message", test.Message);
+        //                testDict.Add("r", test.Signature.R);
+        //                testDict.Add("s", test.Signature.S);
 
-                        tests.Add(testObject);
-                    }
+        //                tests.Add(testObject);
+        //            }
 
-                    list.Add(updateObject);
-                }
+        //            list.Add(updateObject);
+        //        }
 
-                return list;
-            }
-        }
+        //        return list;
+        //    }
+        //}
 
-        [JsonProperty(PropertyName = "testGroups")]
-        public List<dynamic> PromptProjection
-        {
-            get
-            {
-                var list = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup)g))
-                {
-                    dynamic updateObject = new ExpandoObject();
-                    var updateDIct = ((IDictionary<string, object>) updateObject);
-                    updateDIct.Add("tgId", group.TestGroupId);
-                    updateDIct.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.DomainParameters.CurveE.CurveName));
-                    updateDIct.Add("hashAlg", group.HashAlg.Name);
+        //[JsonProperty(PropertyName = "testGroups")]
+        //public List<dynamic> PromptProjection
+        //{
+        //    get
+        //    {
+        //        var list = new List<dynamic>();
+        //        foreach (var group in TestGroups.Select(g => (TestGroup)g))
+        //        {
+        //            dynamic updateObject = new ExpandoObject();
+        //            var updateDict = ((IDictionary<string, object>) updateObject);
+        //            updateDict.Add("tgId", group.TestGroupId);
+        //            updateDict.Add("curve", EnumHelpers.GetEnumDescriptionFromEnum(group.Curve));
+        //            updateDict.Add("hashAlg", group.HashAlg.Name);
+        //            updateDict.Add("qx", group.KeyPair.PublicQ.X);
+        //            updateDict.Add("qy", group.KeyPair.PublicQ.Y);
 
-                    var tests = new List<dynamic>();
-                    updateDIct.Add("tests", tests);
-                    foreach (var test in group.Tests.Select(t => (TestCase)t))
-                    {
-                        dynamic testObject = new ExpandoObject();
-                        var testDict = ((IDictionary<string, object>) testObject);
-                        testDict.Add("tcId", test.TestCaseId);
-                        testDict.Add("message", test.Message);
-                        testDict.Add("qx", test.KeyPair.PublicQ.X);
-                        testDict.Add("qy", test.KeyPair.PublicQ.Y);
-                        testDict.Add("r", test.Signature.R);
-                        testDict.Add("s", test.Signature.S);
+        //            var tests = new List<dynamic>();
+        //            updateDict.Add("tests", tests);
+        //            foreach (var test in group.Tests.Select(t => (TestCase)t))
+        //            {
+        //                dynamic testObject = new ExpandoObject();
+        //                var testDict = ((IDictionary<string, object>) testObject);
+        //                testDict.Add("tcId", test.TestCaseId);
+        //                testDict.Add("message", test.Message);
+        //                testDict.Add("r", test.Signature.R);
+        //                testDict.Add("s", test.Signature.S);
 
-                        tests.Add(testObject);
-                    }
+        //                tests.Add(testObject);
+        //            }
 
-                    list.Add(updateObject);
-                }
+        //            list.Add(updateObject);
+        //        }
 
-                return list;
-            }
-        }
+        //        return list;
+        //    }
+        //}
 
-        [JsonProperty(PropertyName = "testResults")]
-        public List<dynamic> ResultProjection
-        {
-            get
-            {
-                var tests = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup)g))
-                {
-                    foreach (var test in group.Tests.Select(t => (TestCase)t))
-                    {
-                        dynamic testObject = new ExpandoObject();
-                        var testDict = ((IDictionary<string, object>) testObject);
-                        testDict.Add("tcId", test.TestCaseId);
-                        testDict.Add("result", test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed));
-                        testDict.Add("reason", EnumHelpers.GetEnumDescriptionFromEnum(test.Reason));
+        //[JsonProperty(PropertyName = "testResults")]
+        //public List<dynamic> ResultProjection
+        //{
+        //    get
+        //    {
+        //        var groups = new List<dynamic>();
+        //        foreach (var group in TestGroups.Select(g => (TestGroup)g))
+        //        {
+        //            dynamic groupObject = new ExpandoObject();
+        //            var groupDict = (IDictionary<string, object>) groupObject;
+        //            groupDict.Add("tgId", group.TestGroupId);
 
-                        tests.Add(testObject);
-                    }
-                }
+        //            var tests = new List<dynamic>();
+        //            groupDict.Add("tests", tests);
+        //            foreach (var test in group.Tests.Select(t => (TestCase)t))
+        //            {
+        //                dynamic testObject = new ExpandoObject();
+        //                var testDict = ((IDictionary<string, object>) testObject);
+        //                testDict.Add("tcId", test.TestCaseId);
+        //                testDict.Add("result", test.FailureTest ? EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed) : EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed));
+        //                testDict.Add("reason", EnumHelpers.GetEnumDescriptionFromEnum(test.Reason));
 
-                return tests;
-            }
-        }
+        //                tests.Add(testObject);
+        //            }
 
-        public dynamic ToDynamic()
-        {
-            dynamic vectorSetObject = new ExpandoObject();
-            ((IDictionary<string, object>)vectorSetObject).Add("answerProjection", AnswerProjection);
-            ((IDictionary<string, object>)vectorSetObject).Add("testGroups", PromptProjection);
-            ((IDictionary<string, object>)vectorSetObject).Add("resultProjection", ResultProjection);
-            return vectorSetObject;
-        }
+        //            groups.Add(groupObject);
+        //        }
+
+        //        return groups;
+        //    }
+        //}
+
+        //public dynamic ToDynamic()
+        //{
+        //    dynamic vectorSetObject = new ExpandoObject();
+        //    ((IDictionary<string, object>)vectorSetObject).Add("answerProjection", AnswerProjection);
+        //    ((IDictionary<string, object>)vectorSetObject).Add("testGroups", PromptProjection);
+        //    ((IDictionary<string, object>)vectorSetObject).Add("resultProjection", ResultProjection);
+        //    return vectorSetObject;
+        //}
     }
 }

@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -59,7 +60,12 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
                 .Setup(s => s.GenerateDomainParameters(It.IsAny<FfcDomainParametersGenerateRequest>()))
                 .Returns(new FfcDomainParametersGenerateResult(new FfcDomainParameters(1, 2, 3), new DomainSeed(4), new Counter(5)));
 
-            var subject = new TestGroupGenerator(dsaMock.Object);
+            var factoryMock = new Mock<IDsaFfcFactory>();
+            factoryMock
+                .Setup(s => s.GetInstance(It.IsAny<HashFunction>(), It.IsAny<EntropyProviderTypes>()))
+                .Returns(dsaMock.Object);
+
+            var subject = new TestGroupGenerator(factoryMock.Object);
             var result = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }

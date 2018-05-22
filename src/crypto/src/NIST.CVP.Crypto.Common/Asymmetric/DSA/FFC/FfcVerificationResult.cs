@@ -1,6 +1,6 @@
 ﻿namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
 {
-    public class FfcVerificationResult : IDsaVerificationResult
+    public class FfcVerificationResult : IDsaVerificationResult, ICryptoResult
     {
         /// <summary>
         /// Was the generation successful?

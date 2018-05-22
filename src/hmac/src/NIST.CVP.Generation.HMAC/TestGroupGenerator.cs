@@ -1,32 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.HMAC
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private const int _MESSAGE_LENGTH = 128;
         private const string _TEST_TYPE = "AFT";
-        private const int _MAX_MAC_LENGTHS_TO_TEST = 4;
 
         public int[] KeyLens { get; private set; }
         public int[] MacLens { get; private set; }
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
-            var testGroups = new List<ITestGroup>();
+            var testGroups = new List<TestGroup>();
 
             return CreateGroups(parameters, testGroups);
         }
 
-        private IEnumerable<ITestGroup> CreateGroups(Parameters parameters, List<ITestGroup> testGroups)
+        private IEnumerable<TestGroup> CreateGroups(Parameters parameters, List<TestGroup> testGroups)
         {
             var result = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(parameters.Algorithm);
             

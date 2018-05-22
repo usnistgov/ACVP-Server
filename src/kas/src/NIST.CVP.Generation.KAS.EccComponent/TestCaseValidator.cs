@@ -1,11 +1,10 @@
-﻿using NIST.CVP.Crypto.KES;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.KES;
 
 namespace NIST.CVP.Generation.KAS.EccComponent
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _workingTest;
         private readonly TestGroup _group;

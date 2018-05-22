@@ -4,11 +4,10 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.FFC.PQGeneratorValidators;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.FFC.PQGVer.Enums;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Entropy;
 using NLog;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGVer
@@ -16,48 +15,42 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
     public class TestCaseGeneratorG : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _rand;
-        private readonly IGGeneratorValidator _gGen;
-        private readonly IPQGeneratorValidator _pqGen;
-        private readonly IShaFactory _shaFactory = new ShaFactory();
+        private readonly IGGeneratorValidatorFactory _gGenFactory;
+        private readonly IPQGeneratorValidatorFactory _pqGenFactory;
+        private readonly IShaFactory _shaFactory;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 5;
 
-        public TestCaseGeneratorG(IRandom800_90 rand, IGGeneratorValidator gGen, IPQGeneratorValidator pqGen = null)
+        public TestCaseGeneratorG(IRandom800_90 rand, IShaFactory shaFactory, IPQGeneratorValidatorFactory pqGenFactory, IGGeneratorValidatorFactory gGenFactory)
         {
             _rand = rand;
-            _gGen = gGen;
-
-            if (pqGen == null)
-            {
-                var hashFunction = new HashFunction(ModeValues.SHA2, DigestSizes.d256);
-                _pqGen = new ProbablePQGeneratorValidator(_shaFactory.GetShaInstance(hashFunction));
-            }
-            else
-            {
-                _pqGen = pqGen;
-            }
+            _shaFactory = shaFactory;
+            _pqGenFactory = pqGenFactory;
+            _gGenFactory = gGenFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 2;
             }
 
-            // We need a PQ pair for the test case
-            var pqResult = _pqGen.Generate(group.L, group.N, group.N);
-            if (!pqResult.Success)
-            {
-                return new TestCaseGenerateResponse(pqResult.ErrorMessage);
-            }
-
             // Make sure index is not "0000 0000"
-            var index = BitString.Zeroes(8);
+            BitString index;
             do
             {
                 index = _rand.GetRandomBitString(8);
-            } while (index.ToHex() == "00");
+            } while (index.Equals(BitString.Zeroes(8)));
+
+            // We need a PQ pair for the test case
+            var sha = _shaFactory.GetShaInstance(group.HashAlg);
+            var pqGen = _pqGenFactory.GetGeneratorValidator(PrimeGenMode.Probable, sha, EntropyProviderTypes.Random);
+            var pqResult = pqGen.Generate(group.L, group.N, group.N);
+            if (!pqResult.Success)
+            {
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(pqResult.ErrorMessage);
+            }
 
             // Determine failure reason
             var reason = group.GTestCaseExpectationProvider.GetRandomReason();
@@ -71,30 +64,31 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 Counter = pqResult.Count,
                 Index = index,
                 Reason = reason.GetName(),
-                FailureTest = (reason.GetReason() != GFailureReasons.None)
+                TestPassed = reason.GetReason() == GFailureReasons.None
             };
 
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
-            // Generate g
             GGenerateResult gResult = null;
             try
             {
-                gResult = _gGen.Generate(testCase.P, testCase.Q, testCase.Seed, testCase.Index);
+                var sha = _shaFactory.GetShaInstance(group.HashAlg);
+                var gGen = _gGenFactory.GetGeneratorValidator(group.GGenMode, sha);
+                gResult = gGen.Generate(testCase.P, testCase.Q, testCase.Seed, testCase.Index);
 
                 if (!gResult.Success)
                 {
                     ThisLogger.Warn($"Error generating g: {gResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating g: {gResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating g: {gResult.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error($"Exception generating g: {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating g: {ex.StackTrace}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating g: {ex.Message}");
             }
 
             testCase.G = gResult.G;
@@ -104,7 +98,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             }
 
             // Modify g
-            if (testCase.FailureTest)
+            if (testCase.TestPassed != null && !testCase.TestPassed.Value)
             {
                 do
                 {
@@ -113,9 +107,9 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                 } while (BigInteger.ModPow(testCase.G, testCase.Q, testCase.P) == 1);
             }
 
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

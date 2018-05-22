@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
+﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
-using NIST.CVP.Crypto.TDES_OFB;
 
 namespace NIST.CVP.Generation.TDES_OFB
 {
@@ -22,10 +17,10 @@ namespace NIST.CVP.Generation.TDES_OFB
             _mctAlgo = mctAlgo;
         }
 
-        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group)
+        public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup group)
         {
 
-            switch (@group.TestType.ToLower())
+            switch (group.TestType.ToLower())
             {
                 case "permutation":
                 case "inversepermutation":
@@ -33,8 +28,9 @@ namespace NIST.CVP.Generation.TDES_OFB
                 case "variablekey":
                 case "variabletext":
                     return new TestCaseGeneratorKnownAnswer(group);
+
                 case "multiblockmessage":
-                    switch (@group.Function.ToLower())
+                    switch (group.Function.ToLower())
                     {
                         case "encrypt":
                             return new TestCaseGeneratorMMTEncrypt(_random800_90, _algo);
@@ -43,8 +39,9 @@ namespace NIST.CVP.Generation.TDES_OFB
                     }
 
                     break;
+
                 case "mct":
-                    switch (@group.Function.ToLower())
+                    switch (group.Function.ToLower())
                     {
                         case "encrypt":
                             return new TestCaseGeneratorMonteCarloEncrypt(_random800_90, _mctAlgo);

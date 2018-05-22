@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var expected = GetTestCase();
             var supplied = GetTestCase();
-            TestCaseValidatorMonteCarloEncrypt subject = new TestCaseValidatorMonteCarloEncrypt(expected);
+            var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -28,13 +28,13 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         public void ShouldReturnReasonOnMismatchedCipherText()
         {
-            Random800_90 rand = new Random800_90();
+            var rand = new Random800_90();
             var expected = GetTestCase();
             var supplied = GetTestCase();
             supplied.ResultsArray[0].CipherText =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].CipherText).ToBytes());
 
-            TestCaseValidatorMonteCarloEncrypt subject = new TestCaseValidatorMonteCarloEncrypt(expected);
+            var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -47,13 +47,13 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         public void ShouldReturnReasonOnMismatchedPlainText()
         {
-            Random800_90 rand = new Random800_90();
+            var rand = new Random800_90();
             var expected = GetTestCase();
             var supplied = GetTestCase();
             supplied.ResultsArray[0].PlainText =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].PlainText).ToBytes());
 
-            TestCaseValidatorMonteCarloEncrypt subject = new TestCaseValidatorMonteCarloEncrypt(expected);
+            var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -66,13 +66,13 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         public void ShouldReturnReasonOnMismatchedKey()
         {
-            Random800_90 rand = new Random800_90();
+            var rand = new Random800_90();
             var expected = GetTestCase();
             var supplied = GetTestCase();
             supplied.ResultsArray[0].Keys =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Keys).ToBytes());
 
-            TestCaseValidatorMonteCarloEncrypt subject = new TestCaseValidatorMonteCarloEncrypt(expected);
+            var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         [Test]
         public void ShouldReturnReasonWithMultipleErrorReasons()
         {
-            Random800_90 rand = new Random800_90();
+            var rand = new Random800_90();
             var expected = GetTestCase();
             var supplied = GetTestCase();
             supplied.ResultsArray[0].CipherText =
@@ -95,7 +95,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             supplied.ResultsArray[0].Keys =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Keys).ToBytes());
 
-            TestCaseValidatorMonteCarloEncrypt subject = new TestCaseValidatorMonteCarloEncrypt(expected);
+            var subject = new TestCaseValidatorMonteCarloEncrypt(expected);
 
             var result = subject.Validate(supplied);
 
@@ -168,9 +168,9 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
         {
             var testCase = new TestCase
             {
-                ResultsArray = new List<AlgoArrayResponse>()
+                ResultsArray = new List<AlgoArrayResponse>
                 {
-                    new AlgoArrayResponse()
+                    new AlgoArrayResponse
                     {
                         CipherText = new BitString("1234567890"),
                         Keys = new BitString("ABCDEF0ABCDEF0ABCDEF0ABCDEF0"),
@@ -179,6 +179,7 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                 },
                 TestCaseId = 1
             };
+
             return testCase;
         }
     }

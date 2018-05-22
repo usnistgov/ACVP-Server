@@ -7,7 +7,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CBCI
 {
-    public class TestCaseValidatorMonteCarloEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorMonteCarloEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private TestCase _expectedResult;
 

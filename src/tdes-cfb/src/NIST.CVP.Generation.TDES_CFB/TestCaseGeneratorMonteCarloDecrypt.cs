@@ -1,11 +1,9 @@
-﻿using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES_CFB;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
@@ -16,6 +14,8 @@ namespace NIST.CVP.Generation.TDES_CFB
         private readonly IRandom800_90 _random800_90;
         private readonly int _shift;
         private readonly ICFBModeMCT _mode;
+
+        public int NumberOfTestCasesToGenerate => 1;
 
         public TestCaseGeneratorMonteCarloDecrypt(IRandom800_90 random800_90, ICFBModeMCT mode)
         {
@@ -37,19 +37,14 @@ namespace NIST.CVP.Generation.TDES_CFB
             _mode = mode;
         }
 
-        public int NumberOfTestCasesToGenerate
-        {
-            get { return 1; }
-        }
-
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, bool isSample)
         {
             var seedCase = GetSeedCase(@group);
 
             return Generate(@group, seedCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase seedCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase seedCase)
         {
             MCTResult<AlgoArrayResponse> decryptionResult = null;
             try
@@ -59,7 +54,7 @@ namespace NIST.CVP.Generation.TDES_CFB
                 {
                     ThisLogger.Warn(decryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(decryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -67,18 +62,18 @@ namespace NIST.CVP.Generation.TDES_CFB
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             seedCase.ResultsArray = decryptionResult.Response;
-            return new TestCaseGenerateResponse(seedCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(seedCase);
         }
 
         private TestCase GetSeedCase(TestGroup @group)
         {
             var keys = TdesHelpers.GenerateTdesKey(group.KeyingOption);
             var cipherText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
-             var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
+            var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
             return new TestCase
             {
                 Keys = keys,
@@ -87,11 +82,6 @@ namespace NIST.CVP.Generation.TDES_CFB
             };
         }
 
-        private Logger ThisLogger
-        {
-            get { return LogManager.GetCurrentClassLogger(); }
-        }
-
-
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

@@ -30,27 +30,25 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         public void ShouldReturnCorrectValidatorTypeDependentOnFunction(string testType, Type expectedType)
         {
             TestVectorSet testVectorSet = null;
-            List<TestCase> suppliedResults = null;
+            GetData(ref testVectorSet, testType);
 
-            GetData(ref testVectorSet, ref suppliedResults, testType);
-
-            var results = _subject.GetValidators(testVectorSet, suppliedResults);
+            var results = _subject.GetValidators(testVectorSet);
 
             Assert.AreEqual(1, results.Count(), "Expected 1 validator");
             Assert.IsInstanceOf(expectedType, results.First());
         }
 
-        private void GetData(ref TestVectorSet testVectorSet, ref List<TestCase> suppliedResults, string testType)
+        private void GetData(ref TestVectorSet testVectorSet, string testType)
         {
             testVectorSet = new TestVectorSet
             {
                 Algorithm = "",
-                TestGroups = new List<ITestGroup>
+                TestGroups = new List<TestGroup>
                 {
                     new TestGroup
                     {
                         TestType = testType,
-                        Tests = new List<ITestCase>
+                        Tests = new List<TestCase>
                         {
                             new TestCase
                             {
@@ -58,14 +56,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
                             }
                         }
                     }
-                }
-            };
-
-            suppliedResults = new List<TestCase>
-            {
-                new TestCase
-                {
-                    TestCaseId = 1
                 }
             };
         }

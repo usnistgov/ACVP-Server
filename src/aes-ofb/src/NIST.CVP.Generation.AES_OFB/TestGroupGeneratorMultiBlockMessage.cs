@@ -3,11 +3,11 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_OFB
 {
-    public class TestGroupGeneratorMultiBlockMessage : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorMultiBlockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string MMT_TYPE_LABEL = "MMT";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

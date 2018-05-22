@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Numerics;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 using NLog;
@@ -9,11 +12,13 @@ namespace NIST.CVP.Crypto.AES_GCM
 {
     public class AES_GCMInternals : IAES_GCMInternals
     {
-        private readonly IRijndaelFactory _iRijndaelFactory;
+        private readonly IModeBlockCipherFactory _modeFactory;
+        private readonly IBlockCipherEngineFactory _engineFactory;
 
-        public AES_GCMInternals(IRijndaelFactory iRijndaelFactory)
+        public AES_GCMInternals(IModeBlockCipherFactory modeFactory, IBlockCipherEngineFactory engineFactory)
         {
-            _iRijndaelFactory = iRijndaelFactory;
+            _modeFactory = modeFactory;
+            _engineFactory = engineFactory;
         }
 
         public virtual BitString Getj0(BitString h, BitString iv)
@@ -70,7 +75,7 @@ namespace NIST.CVP.Crypto.AES_GCM
             return y;
         }
 
-        public virtual BitString GCTR(BitString icb, BitString x, Key key)
+        public virtual BitString GCTR(BitString icb, BitString x, BitString key)
         {
             // ICB must be 128 bits long
             // ThisLogger.Debug("GCTR");
@@ -86,6 +91,11 @@ namespace NIST.CVP.Crypto.AES_GCM
                 return new BitString(0);
             }
 
+            var ecb = _modeFactory.GetStandardCipher(
+                _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes),
+                BlockCipherModesOfOperation.Ecb
+            );
+
             // Step 2: Let n = ceil[ len(X)/128 ]
             int n = x.BitLength.CeilingDivide(128);
             
@@ -97,9 +107,7 @@ namespace NIST.CVP.Crypto.AES_GCM
             // Step 4: Let CB1 = ICB
             // Step 5: For i = 2 to n, let CBi = inc32(CBi-1)
             // Step 6: For i = 1 to n-1, let Yi = Xi xor CIPH_K(CBi)
-            ModeValues mode = ModeValues.ECB;
-            var rijn = _iRijndaelFactory.GetRijndael(mode);
-            var cipher = new Cipher { BlockLength = 128, Mode = mode };
+            
             BitString cbi = icb;
             BitString Y = new BitString(0);
             int sx = x.BitLength - 128;
@@ -110,8 +118,13 @@ namespace NIST.CVP.Crypto.AES_GCM
                     cbi = inc_s(32, cbi);
                 }
                 BitString xi = x.Substring(sx, 128);
-                var h = rijn.BlockEncrypt(cipher, key, cbi.ToBytes(), 128);//@@@ or k?
-                BitString yi = BitString.XOR(xi, h);
+                var cbiParam = new ModeBlockCipherParameters(
+                    BlockCipherDirections.Encrypt,
+                    key,
+                    cbi
+                );
+                var h = ecb.ProcessPayload(cbiParam);
+                BitString yi = BitString.XOR(xi, h.Result);
                 Y = Y.ConcatenateBits(yi);    // This is part of Step 8
             }
 
@@ -123,9 +136,14 @@ namespace NIST.CVP.Crypto.AES_GCM
             }
 
             var xn = x.Substring(0, 128 + sx);
-            var h1 = rijn.BlockEncrypt(cipher, key, cbi.ToBytes(), 128);//@@@ or k?
+            var cbiParam1 = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                key,
+                cbi
+            );
+            var h1 = ecb.ProcessPayload(cbiParam1);
 
-            var yn = xn.XOR(h1.GetMostSignificantBits(xn.BitLength));
+            var yn = xn.XOR(h1.Result.GetMostSignificantBits(xn.BitLength));
             Y = Y.ConcatenateBits(yn); // This is part of Step 8
 
             // Step 8: Let Y = Y1 || ... || Yn*

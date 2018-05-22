@@ -1,39 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups, bool isSample)
         {
+            var vectorSet = new TestVectorSet
+            {
+                Algorithm = "DSA",
+                Mode = "KeyGen"
+            };
+
             var testGroups = new List<TestGroup>();
+            vectorSet.TestGroups = testGroups;
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
-                for (var testId = 5 * groupIdx + 1; testId <= (groupIdx + 1) * 5; testId++)
-                {
-                    tests.Add(new TestCase
-                    {
-                        Key = new FfcKeyPair(1, 2),
-                        DomainParams = new FfcDomainParameters(3, 4, 5),
-                        TestCaseId = testId
-                    });
-                }
-
-                testGroups.Add(new TestGroup
+                var tg = new TestGroup
                 {
                     L = 2048 + groupIdx,
-                    N = 224,
-                    Tests = tests
-                });
+                    N = 224
+                };
+                testGroups.Add(tg);
+
+                if (isSample)
+                {
+                    tg.P = 42;
+                    tg.Q = 55;
+                    tg.G = 67;
+                }
+                else
+                {
+                    tg.P = -1;
+                    tg.Q = -2;
+                    tg.G = -3;
+                }
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
+                for (var testId = 5 * groupIdx + 1; testId <= (groupIdx + 1) * 5; testId++)
+                {
+                    var tc = new TestCase
+                    {
+                        TestCaseId = testId,
+                        ParentGroup = tg
+                    };
+                    tests.Add(tc);
+
+                    if (isSample)
+                    {
+                        tc.X = 77;
+                        tc.Y = 100;
+                    }
+                    else
+                    {
+                        tc.X = -4;
+                        tc.Y = -5;
+                    }
+                }
             }
 
-            return testGroups;
+            return vectorSet;
         }
     }
 }

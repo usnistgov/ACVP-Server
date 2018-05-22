@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
@@ -13,19 +13,19 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
     public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random;
-        private readonly IDsaFfc _ffcDsa;
+        private readonly IDsaFfcFactory _dsaFactory;
 
-        public int NumberOfTestCasesToGenerate { get { return 10; } }
+        public int NumberOfTestCasesToGenerate { get; private set; } = 10;
 
-        public TestCaseGenerator(IRandom800_90 rand, IDsaFfc ffcDsa)
+        public TestCaseGenerator(IRandom800_90 rand, IDsaFfcFactory ffcDsaFactory)
         {
             _random = rand;
-            _ffcDsa = ffcDsa;
+            _dsaFactory = ffcDsaFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
-            var testCase = new TestCase()
+            var testCase = new TestCase
             {
                 Message = _random.GetRandomBitString(group.L)
             };
@@ -36,27 +36,29 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             }
             else
             {
-                return new TestCaseGenerateResponse(testCase);
+                return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
             }
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
+            var ffcDsa = _dsaFactory.GetInstance(group.HashAlg);
+
             // Generate a key
             FfcKeyPairGenerateResult keyResult = null;
             try
             {
-                keyResult = _ffcDsa.GenerateKeyPair(group.DomainParams);
+                keyResult = ffcDsa.GenerateKeyPair(group.DomainParams);
                 if (!keyResult.Success)
                 {
                     ThisLogger.Warn($"Error generating key: {keyResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating key: {keyResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating key: {keyResult.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error($"Exception generating key: {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating key: {ex.Message}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating key: {ex.Message}");
             }
 
             testCase.Key = keyResult.KeyPair;
@@ -65,24 +67,23 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             FfcSignatureResult sigResult = null;
             try
             {
-                sigResult = _ffcDsa.Sign(group.DomainParams, testCase.Key, testCase.Message);
+                sigResult = ffcDsa.Sign(group.DomainParams, testCase.Key, testCase.Message);
                 if (!sigResult.Success)
                 {
                     ThisLogger.Warn($"Error generating signature: {sigResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating signature: {sigResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating signature: {sigResult.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
-                ThisLogger.Warn($"Exception generating signature: {sigResult.ErrorMessage}");
-                return new TestCaseGenerateResponse($"Exception generating signature: {sigResult.ErrorMessage}");
+                ThisLogger.Warn($"Exception generating signature: {ex.Message}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating signature: {ex.Message}");
             }
 
-            testCase.DomainParams = group.DomainParams;
             testCase.Signature = sigResult.Signature;
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

@@ -4,22 +4,37 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC
 {
     public class Counter
     {
-        public int Count { get; private set; }
-        public int PCount { get; private set; }
-        public int QCount { get; private set; }
-        public PrimeGenMode Mode { get; private set; }
+        public int Count { get; set; }
+        public int PCount { get; set; }
+        public int QCount { get; set; }
+
+        public PrimeGenMode Mode
+        {
+            get
+            {
+                if (PCount != 0 && QCount != 0)
+                {
+                    return PrimeGenMode.Provable;
+                }
+
+                return PrimeGenMode.Probable;
+            }
+        }
+
+        public Counter()
+        {
+            
+        }
 
         public Counter(int count)
         {
             Count = count;
-            Mode = PrimeGenMode.Probable;
         }
 
         public Counter(int pCount, int qCount)
         {
             PCount = pCount;
             QCount = qCount;
-            Mode = PrimeGenMode.Provable;
         }
 
         public int GetCounter()

@@ -7,17 +7,14 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Linq;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES_CFB;
 
 namespace NIST.CVP.Crypto.TDES_CFBP.Tests
 {
-
-
     [TestFixture, LongCryptoTest]
     public class MCTs
     {
-
         private class TestCFBPModeMCT : CFBPModeMCT
         {
             public TestCFBPModeMCT(IMonteCarloKeyMaker keyMaker, ICFBPMode modeOfOperation, AlgoMode algo)

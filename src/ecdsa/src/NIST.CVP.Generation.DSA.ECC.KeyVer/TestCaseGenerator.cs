@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.ECC.KeyVer.Enums;
 using NIST.CVP.Math;
@@ -13,17 +13,20 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
     public class TestCaseGenerator : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _rand;
-        private readonly IDsaEcc _eccDsa;
+        private readonly IDsaEccFactory _eccFactory;
+        private IDsaEcc _eccDsa;
+        private readonly IEccCurveFactory _curveFactory;
 
         public int NumberOfTestCasesToGenerate { get; private set; } = 12;
 
-        public TestCaseGenerator(IRandom800_90 rand, IDsaEcc eccDsa)
+        public TestCaseGenerator(IRandom800_90 rand, IDsaEccFactory eccFactory, IEccCurveFactory curveFactory)
         {
             _rand = rand;
-            _eccDsa = eccDsa;
+            _eccFactory = eccFactory;
+            _curveFactory = curveFactory;
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             if (isSample)
             {
@@ -35,34 +38,35 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
             var testCase = new TestCase
             {
                 Reason = reason.GetReason(),
-                FailureTest = (reason.GetReason() != TestCaseExpectationEnum.None)
+                TestPassed = reason.GetReason() == TestCaseExpectationEnum.None
             };
 
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             EccKeyPairGenerateResult keyPairResult = null;
             try
             {
-                keyPairResult = _eccDsa.GenerateKeyPair(group.DomainParameters);
+                _eccDsa = _eccFactory.GetInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256));
+                keyPairResult = _eccDsa.GenerateKeyPair(new EccDomainParameters(_curveFactory.GetCurve(group.Curve)));
                 if (!keyPairResult.Success)
                 {
                     ThisLogger.Warn($"Error generating key pair: {keyPairResult.ErrorMessage}");
-                    return new TestCaseGenerateResponse($"Error generating key pair: {keyPairResult.ErrorMessage}");
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating key pair: {keyPairResult.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
                 ThisLogger.Error($"Exception generating key pair: {ex.StackTrace}");
-                return new TestCaseGenerateResponse($"Exception generating key pair: {ex.StackTrace}");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>($"Exception generating key pair: {ex.StackTrace}");
             }
 
             testCase.KeyPair = keyPairResult.KeyPair;
 
             // Modify test case
-            return new TestCaseGenerateResponse(ModifyTestCase(testCase, group.DomainParameters.CurveE));
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(ModifyTestCase(testCase, _curveFactory.GetCurve(group.Curve)));
         }
 
         private TestCase ModifyTestCase(TestCase testCase, IEccCurve curve)
@@ -102,6 +106,6 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
             return modifiedTestCase;
         }
 
-        private Logger ThisLogger { get { return LogManager.GetCurrentClassLogger(); } }
+        private Logger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }

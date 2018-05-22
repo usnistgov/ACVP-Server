@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -9,50 +10,63 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
 {
     public class TestDataMother
     {
-        private string direction;
-
-        public List<TestGroup> GetTestGroups(int groups = 1, string direction1 = "encrypt", string direction2 = "decrypt", bool failureTest = false)
+        public static TestVectorSet GetTestGroups(int groups = 1, string direction = "encrypt", string testType = "aft")
         {
-            var testGroups = new List<TestGroup>();
-            for (int groupIdx = 0; groupIdx < groups; groupIdx++)
+            var tvs = new TestVectorSet
             {
+                Algorithm = "TDES",
+                IsSample = true,
+                Mode = "ECB"
+            };
 
-                var tests = new List<ITestCase>();
-                for (int testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
+            var testGroups = new List<TestGroup>();
+            tvs.TestGroups = testGroups;
+            for (var groupIdx = 0; groupIdx < groups; groupIdx++)
+            {
+                var tg = new TestGroup
                 {
-                    tests.Add(new TestCase
+                    Function = direction,
+                    KeyingOption = groupIdx + 1,
+                    TestType = testType
+                };
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
+                for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
+                {
+                    var tc = new TestCase
                     {
-                       
-                        PlainText = new BitString("1AAADFFF1AAADFFF"),
-                        Deferred = false,
-                        FailureTest = failureTest,
-                        CipherText = new BitString("1164a939c1936151"),
+                        ParentGroup = tg,
+                        PlainText = new BitString("1AAADFFF"),
+                        Deferred = true,
+                        CipherText = new BitString("7EADDC"),
                         Key1 = new BitString("9998ADCD9998ADCD"),
                         Key2 = new BitString("9998ADCD9998ADCD"),
                         Key3 = new BitString("9998ADCD9998ADCD"),
                         TestCaseId = testId
-                    });
-                }
-                if (groupIdx % 2 == 0)
-                {
-                    direction = direction1;
-                }
-                else
-                {
-                    direction = direction2;
-                }
-                testGroups.Add(
-                    new TestGroup
+                    };
+                    tests.Add(tc);
+
+                    if (testType.Equals("mct", StringComparison.OrdinalIgnoreCase))
                     {
-                        
-                        Function = direction,
-                        TestType = "MultiBlockMessage",
-                        //NumberOfKeys = groupIdx+1,
-                        Tests = tests
+                        tc.ResultsArray = new List<AlgoArrayResponse>
+                        {
+                            new AlgoArrayResponse
+                            {
+                                PlainText = new BitString("FF1AAADFFF"),
+                                CipherText = new BitString("FF7EADDC"),
+                                Key1 = new BitString("9998ADCD9998ADCD"),
+                                Key2 = new BitString("9998ADCD9998ADCD"),
+                                Key3 = new BitString("9998ADCD9998ADCD"),
+                                IV = new BitString("FFCAFECAFE"),
+                            }
+                        };
                     }
-                );
+                }
             }
-            return testGroups;
+
+            return tvs;
         }
     }
 }

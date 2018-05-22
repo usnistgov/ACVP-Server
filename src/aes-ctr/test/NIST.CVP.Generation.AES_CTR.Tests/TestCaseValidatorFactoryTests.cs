@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         public void ShouldReturnCorrectValidatorType(string direction, string testType, Type expectedType)
         {
             var testVectorSet = GetTestGroup(direction, testType);
-            var result = _subject.GetValidators(testVectorSet, null);
+            var result = _subject.GetValidators(testVectorSet);
 
             Assert.AreEqual(1, result.Count());
             Assert.IsInstanceOf(expectedType, result.First());
@@ -55,13 +55,13 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
         {
             var testVectorSet = new TestVectorSet
             {
-                TestGroups = new List<ITestGroup>
+                TestGroups = new List<TestGroup>
                 {
                     new TestGroup
                     {
                         TestType = testType,
                         Direction = direction,
-                        Tests = new List<ITestCase>
+                        Tests = new List<TestCase>
                         {
                             new TestCase()
                         }

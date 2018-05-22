@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -27,20 +26,20 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
         public int NumberOfTestCasesToGenerate => _katTestCases.Count;
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
-            TestCase testCase = new TestCase();
+            var testCase = new TestCase();
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             if (_katsIndex + 1 > _katTestCases.Count)
             {
-                return new TestCaseGenerateResponse("No additional KATs exist.");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist.");
             }
 
-            return new TestCaseGenerateResponse(_katTestCases[_katsIndex++]);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(_katTestCases[_katsIndex++]);
         }
 
         private readonly Dictionary<string, List<TestCase>> _kats =
@@ -54,11 +53,11 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 { "variablekeyencrypt", VariableKeyTests()},
                 { "variabletextdecrypt", VariablePlainTextTests()},
                 { "variabletextencrypt", VariablePlainTextTests()},
-                { "inversepermutationdecrypt", InversPermutationTest()},
-                { "inversepermutationencrypt", InversPermutationTest()}
+                { "inversepermutationdecrypt", InversePermutationTest()},
+                { "inversepermutationencrypt", InversePermutationTest()}
             };
 
-        private static List<TestCase> InversPermutationTest()
+        private static List<TestCase> InversePermutationTest()
         {
             return new List<TestCase>
             {
@@ -309,7 +308,6 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 new TestCase(keys: new BitString("49e95d6d4ca229bf"), iv1: new BitString("02fe55778117f12a"),  iv2: new BitString("5853aaccd66d467f"), iv3: new BitString("ada900222bc29bd4"), plainText: new BitString("5a6b612cc26cce4a116a6ae6e1e47270b16f4467a4f95fd0"), cipherText: new BitString("000000000000000000000000000000000000000000000000")),
                 new TestCase(keys: new BitString("018310dc409b26d6"), iv1: new BitString("1d9d5c5018f728c2"),  iv2: new BitString("72f2b1a56e4c7e17"), iv3: new BitString("c84806fac3a1d36c"), plainText: new BitString("5f4c038ed12b2e41de11d7e1c6d5797c9cb7c0a87fa2bdbe"), cipherText: new BitString("000000000000000000000000000000000000000000000000")),
                 new TestCase(keys: new BitString("1c587f1c13924fef"), iv1: new BitString("305532286d6f295a"),  iv2: new BitString("85aa877dc2c47eaf"), iv3: new BitString("daffdcd31819d404"), plainText: new BitString("63fac0d034d9f7939896336cbadada371c5e61a81d05a5ef"), cipherText: new BitString("000000000000000000000000000000000000000000000000")),
-
             };
         }
 
@@ -430,8 +428,6 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 new TestCase(keys: new BitString("0101010101010108"), iv1: new BitString("0000000000000000"),  iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), plainText: new BitString("5a594528bebef1cc004dd0b91a2e770980181b831cdc8d61"), cipherText: new BitString("000000000000000000000000000000000000000000000000")),
                 new TestCase(keys: new BitString("0101010101010104"), iv1: new BitString("0000000000000000"),  iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), plainText: new BitString("fcdb3291de21f0c0cab8e849e0ab0c323367b1fbb4d2ffa7"), cipherText: new BitString("000000000000000000000000000000000000000000000000")),
                 new TestCase(keys: new BitString("0101010101010102"), iv1: new BitString("0000000000000000"),  iv2: new BitString("5555555555555555"), iv3: new BitString("aaaaaaaaaaaaaaaa"), plainText: new BitString("869efd7f9f265a09451f0c33f24fb8dc2b74c1d96cde840b"), cipherText: new BitString("000000000000000000000000000000000000000000000000")),
-
-
             };
         }
 
@@ -568,7 +564,6 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("0000000000000004"),  iv2: new BitString("5555555555555559"), iv3: new BitString("aaaaaaaaaaaaaaae"), plainText: new BitString("d2fd8867d50d2dfe6a0bd7954b5aa04dcc6adcef1be975ef"), cipherText: new BitString("000000000000000000000000000000000000000000000000")),
                 new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("0000000000000002"),  iv2: new BitString("5555555555555557"), iv3: new BitString("aaaaaaaaaaaaaaac"), plainText: new BitString("06e7ea22ce92708ff307b5bcd44f3d8d3dc004f9cd4a9c22"), cipherText: new BitString("000000000000000000000000000000000000000000000000")),
                 new TestCase(keys: new BitString("0101010101010101"), iv1: new BitString("0000000000000001"),  iv2: new BitString("5555555555555556"), iv3: new BitString("aaaaaaaaaaaaaaab"), plainText: new BitString("166b40b44aba4bd6009e8232891c8a3617d8e9c374d14494"), cipherText: new BitString("000000000000000000000000000000000000000000000000")),
-
             };
         }
     }

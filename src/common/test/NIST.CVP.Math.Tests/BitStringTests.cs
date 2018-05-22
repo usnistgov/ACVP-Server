@@ -1011,6 +1011,44 @@ namespace NIST.CVP.Math.Tests
         }
         #endregion SubString
 
+        #region PadToNextByteBoundry
+
+        [Test]
+        [TestCase("FF", 4, "F0", 8)]
+        [TestCase("FF", 8, "FF", 8)]
+        [TestCase("FF", 7, "FE", 8)]
+        public void ShouldPadToNextByteBoundryOrReturnOriginalIfAtByteBoundry(string hex, int length, string expectedHex, int expectedLength)
+        {
+            var hexBs = new BitString(hex, length);
+            var expectedBs = new BitString(expectedHex);
+
+            var result = BitString.PadToNextByteBoundry(hexBs);
+
+            Assert.AreEqual(expectedLength, result.BitLength, nameof(expectedLength));
+            Assert.AreEqual(expectedBs, result, nameof(expectedHex));
+        }
+        #endregion PadToNextByteBoundry
+
+        #region PadToModulus
+        [Test]
+        [TestCase(8, "FF", 4, "F0", 8)]
+        [TestCase(8, "FF", 8, "FF", 8)]
+        [TestCase(8, "FF", 7, "FE", 8)]
+        [TestCase(16, "FF", 4, "F000", 16)]
+        [TestCase(16, "FF", 8, "FF00", 16)]
+        [TestCase(16, "FF", 7, "FE00", 16)]
+        public void ShouldPadToModulusBoundryOrReturnOriginalIfAtModulusBoundry(int modulus, string hex, int length, string expectedHex, int expectedLength)
+        {
+            var hexBs = new BitString(hex, length);
+            var expectedBs = new BitString(expectedHex);
+
+            var result = BitString.PadToModulus(hexBs, modulus);
+
+            Assert.AreEqual(expectedLength, result.BitLength, nameof(expectedLength));
+            Assert.AreEqual(expectedBs, result, nameof(expectedHex));
+        }
+        #endregion PadToModulus
+
         #region XOR
         [Test]
         [TestCase(

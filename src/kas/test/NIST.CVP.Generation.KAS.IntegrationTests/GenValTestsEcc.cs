@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -6,6 +7,7 @@ using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KAS.ECC;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
@@ -13,11 +15,12 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTestsEcc : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm => "KAS-ECC";
-        public override string Mode => string.Empty;
-
+        public override string Algorithm => "KAS";
+        public override string Mode => "ECC";
+        
         public override AlgoMode AlgoMode => AlgoMode.KAS_ECC;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new ECC.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -53,9 +56,16 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 testCase.tagIut = bs.ToHex();
             }
             // If TC has a result, change it
-            if (testCase.result != null)
+            if (testCase.testPassed != null)
             {
-                testCase.result = testCase.result.ToString().Equals("pass") ? "fail" : "pass";
+                if (testCase.testPassed == true)
+                {
+                    testCase.testPassed = false;
+                }
+                else
+                {
+                    testCase.testPassed = true;
+                }
             }
         }
 
@@ -64,6 +74,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
+                Mode = Mode,
                 Function = new string[] { "dpGen" },
                 Scheme = new Schemes()
                 {
@@ -124,6 +135,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
+                Mode = Mode,
                 Function = new string[] { "dpGen", "dpVal", "keyPairGen", "partialVal", "keyRegen" },
                 Scheme = new Schemes()
                 {

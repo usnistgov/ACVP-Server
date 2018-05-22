@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System;
+using System.Runtime.Serialization;
 using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Common.Tests.Helpers
@@ -14,7 +15,7 @@ namespace NIST.CVP.Common.Tests.Helpers
         {
             First,
             Second,
-            [System.ComponentModel.Description(TestDescription)]
+            [EnumMember(Value = TestDescription)]
             Third
         }
 

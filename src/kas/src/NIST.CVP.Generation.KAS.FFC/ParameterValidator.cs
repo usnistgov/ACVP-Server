@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 
 namespace NIST.CVP.Generation.KAS.FFC
 {
     public class ParameterValidator : ParameterValidatorBase
     {
-        public override string Algorithm => "KAS-FFC";
+        public override string Algorithm => "KAS";
+        public override string Mode => "FFC";
 
         public override string[] ValidFunctions => new string[]
         {

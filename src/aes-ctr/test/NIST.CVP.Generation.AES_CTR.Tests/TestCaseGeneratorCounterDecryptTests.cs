@@ -6,12 +6,12 @@ using Moq;
 using NIST.CVP.Crypto.AES_CTR;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
-using NIST.CVP.Crypto.CTR;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Fakes;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
-using Cipher = NIST.CVP.Crypto.CTR.Enums.Cipher;
+using Cipher = NIST.CVP.Crypto.Common.Symmetric.CTR.Enums.Cipher;
 
 namespace NIST.CVP.Generation.AES_CTR.Tests
 {
@@ -28,7 +28,7 @@ namespace NIST.CVP.Generation.AES_CTR.Tests
             var result = subject.Generate(GetTestGroup(true, true), isSample);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]

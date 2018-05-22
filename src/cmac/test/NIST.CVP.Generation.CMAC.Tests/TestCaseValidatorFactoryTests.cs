@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
 
             _mockTestCaseGenerator
                 .Setup(s => s.Generate(It.IsAny<TestGroup>(), It.IsAny<TestCase>()))
-                .Returns(new TestCaseGenerateResponse(new TestCase()));
+                .Returns(new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase()));
             _mockTestCaseGeneratorFactory
                 .Setup(s => s.GetCaseGenerator(It.IsAny<TestGroup>()))
                 .Returns(_mockTestCaseGenerator.Object);
@@ -36,29 +36,28 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         }
 
         [Test]
-        [TestCase("gen", false, typeof(TestCaseValidatorGen<TestCase>))]
-        [TestCase("GeN", false, typeof(TestCaseValidatorGen<TestCase>))]
-        [TestCase("ver", false, typeof(TestCaseValidatorVer<TestCase>))]
-        [TestCase("vEr", false, typeof(TestCaseValidatorVer<TestCase>))]
-        public void ShouldReturnCorrectValidatorTypeDependantOnFunction(string function, bool isDeferred, Type expectedType)
+        [TestCase("gen", typeof(TestCaseValidatorGen<TestGroup, TestCase>))]
+        [TestCase("GeN", typeof(TestCaseValidatorGen<TestGroup, TestCase>))]
+        [TestCase("ver", typeof(TestCaseValidatorVer<TestGroup, TestCase>))]
+        [TestCase("vEr", typeof(TestCaseValidatorVer<TestGroup, TestCase>))]
+        public void ShouldReturnCorrectValidatorTypeDependantOnFunction(string function, Type expectedType)
         {
             TestVectorSet testVectorSet = null;
-            List<TestCase> suppliedResults = null;
 
-            GetData(ref testVectorSet, ref suppliedResults, function, isDeferred);
+            GetData(ref testVectorSet, function);
 
-            var results = _subject.GetValidators(testVectorSet, suppliedResults);
+            var results = _subject.GetValidators(testVectorSet);
 
             Assert.IsTrue(results.Count() == 1, "Expected 1 validator");
             Assert.IsInstanceOf(expectedType, results.First());
         }
 
-        private void GetData(ref TestVectorSet testVectorSet, ref List<TestCase> suppliedResults, string function, bool isDeferred)
+        private void GetData(ref TestVectorSet testVectorSet, string function)
         {
             testVectorSet = new TestVectorSet()
             {
                 Algorithm = string.Empty,
-                TestGroups = new List<ITestGroup>()
+                TestGroups = new List<TestGroup>()
                 {
                     new TestGroup()
                     {
@@ -67,11 +66,11 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
                         KeyLength = 128,
                         MessageLength = 0,
                         MacLength = 64,
-                        Tests = new List<ITestCase>()
+                        Tests = new List<TestCase>()
                         {
                             new TestCase()
                             {
-                                FailureTest = false,
+                                TestPassed = true,
                                 Key = new BitString(128),
                                 Message = new BitString(128),
                                 Mac = new BitString(128),
@@ -79,14 +78,6 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
                             }
                         }
                     }
-                }
-            };
-
-            suppliedResults = new List<TestCase>()
-            {
-                new TestCase()
-                {
-                    TestCaseId = 1
                 }
             };
         }

@@ -49,7 +49,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
                 SecretGenerationMode = ParameterValidator.VALID_SECRET_GENERATION_MODES
             };
 
-            var groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
 
             foreach (var genny in result)
             {
@@ -73,7 +73,7 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
                 SecretGenerationMode = ParameterValidator.VALID_SECRET_GENERATION_MODES
             };
 
-            List<ITestGroup> groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
 
             foreach (var genny in result)
             {

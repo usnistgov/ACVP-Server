@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
-    public class TestCaseValidator : ITestCaseValidator<TestCase>
+    public class TestCaseValidator : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
         private readonly TestGroup _group;
-        private readonly IDsaFfc _ffcDsa;
+        private readonly IDeferredTestCaseResolver<TestGroup, TestCase, FfcVerificationResult> _deferredResolver;
 
-        public int TestCaseId { get { return _expectedResult.TestCaseId; } }
+        public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDsaFfc dsaFfc)
+        public TestCaseValidator(TestCase expectedResult, TestGroup group, IDeferredTestCaseResolver<TestGroup, TestCase, FfcVerificationResult> deferredResolver)
         {
             _expectedResult = expectedResult;
             _group = group;
-            _ffcDsa = dsaFfc;
+            _deferredResolver = deferredResolver;
         }
 
         public TestCaseValidation Validate(TestCase suppliedResult)
@@ -30,13 +29,9 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
             {
                 errors.Add("Could not find r or s");
             }
-            else if (suppliedResult.DomainParams == null)
-            {
-                errors.Add("Could not find p, q or g");
-            }
             else
             {
-                var verifyResult = _ffcDsa.Verify(suppliedResult.DomainParams, suppliedResult.Key, _expectedResult.Message, suppliedResult.Signature);
+                var verifyResult = _deferredResolver.CompleteDeferredCrypto(_group, _expectedResult, suppliedResult);
                 if (!verifyResult.Success)
                 {
                     errors.Add($"Validation failed: {verifyResult.ErrorMessage}");

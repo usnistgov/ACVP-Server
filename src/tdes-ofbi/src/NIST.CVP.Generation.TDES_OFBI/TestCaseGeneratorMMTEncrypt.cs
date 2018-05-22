@@ -1,6 +1,4 @@
-﻿using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Crypto.TDES_OFBI;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;
@@ -25,7 +23,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
         public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             //todo separate out keys? isSample?
             var key = TdesHelpers.GenerateTdesKey(group.KeyingOption);
@@ -38,11 +36,12 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 IV1 = iv,
                 Deferred = false
             };
+
             _currentCase++;
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             SymmetricCipherWithIvResult encryptionResult = null;
             try
@@ -52,7 +51,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -60,13 +59,14 @@ namespace NIST.CVP.Generation.TDES_OFBI
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
+
             testCase.CipherText = encryptionResult.Result;
             testCase.IV2 = encryptionResult.IVs[1];
             testCase.IV3 = encryptionResult.IVs[2];
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
         private Logger ThisLogger => LogManager.GetCurrentClassLogger();

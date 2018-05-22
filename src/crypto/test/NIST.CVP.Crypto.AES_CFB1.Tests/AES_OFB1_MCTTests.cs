@@ -33,7 +33,7 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
             BitString plainText = new BitString(1);
             _algo
                 .Setup(s => s.BlockEncrypt(iv, key, plainText))
-                .Returns(new SymmetricCipherResult(new BitOrientedBitString(1)));
+                .Returns(new SymmetricCipherResult(new BitString(1)));
 
             var result = _subject.MCTEncrypt(iv, key, plainText);
 
@@ -52,7 +52,7 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
             BitString plainText = new BitString(1);
             _algo
                 .Setup(s => s.BlockEncrypt(iv, key, plainText))
-                .Returns(new SymmetricCipherResult(new BitOrientedBitString(1)));
+                .Returns(new SymmetricCipherResult(new BitString(1)));
 
             var result = _subject.MCTEncrypt(iv, key, plainText);
 
@@ -90,7 +90,7 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
             BitString cipherText = new BitString(1);
             _algo
                 .Setup(s => s.BlockDecrypt(iv, key, cipherText))
-                .Returns(new SymmetricCipherResult(new BitOrientedBitString(1)));
+                .Returns(new SymmetricCipherResult(new BitString(1)));
 
             var result = _subject.MCTDecrypt(iv, key, cipherText);
 
@@ -109,7 +109,7 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
             BitString cipherText = new BitString(1);
             _algo
                 .Setup(s => s.BlockDecrypt(iv, key, cipherText))
-                .Returns(new SymmetricCipherResult(new BitOrientedBitString(1)));
+                .Returns(new SymmetricCipherResult(new BitString(1)));
 
             var result = _subject.MCTDecrypt(iv, key, cipherText);
 

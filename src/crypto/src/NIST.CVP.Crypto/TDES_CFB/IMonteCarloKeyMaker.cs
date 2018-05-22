@@ -3,6 +3,7 @@ using NIST.CVP.Math;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Crypto.TDES_CFB
 {

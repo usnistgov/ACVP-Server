@@ -1,57 +1,38 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.FFC.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            TestType = source.testType;
-
-            var expandoSource = (ExpandoObject)source;
-
-            TestGroupId = expandoSource.GetTypeFromProperty<int>("tgId");
-            L = expandoSource.GetTypeFromProperty<int>("l");
-            N = expandoSource.GetTypeFromProperty<int>("n");
-
-            var attributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(expandoSource.GetTypeFromProperty<string>("hashAlg"));
-            HashAlg = new HashFunction(attributes.shaMode, attributes.shaDigestSize);
-
-            PQGenMode = EnumHelpers.GetEnumFromEnumDescription<PrimeGenMode>(expandoSource.GetTypeFromProperty<string>("pqMode"), false);
-            GGenMode = EnumHelpers.GetEnumFromEnumDescription<GeneratorGenMode>(expandoSource.GetTypeFromProperty<string>("gMode"), false);
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
-
         public int TestGroupId { get; set; }
-        public GeneratorGenMode GGenMode { get; set; }
-        public PrimeGenMode PQGenMode { get; set; }
-        public int L { get; set; }
-        public int N { get; set; }
-        public HashFunction HashAlg { get; set; }
-
         public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        [JsonProperty(PropertyName = "gMode")]
+        public GeneratorGenMode GGenMode { get; set; }
+        [JsonProperty(PropertyName = "pqMode")]
+        public PrimeGenMode PQGenMode { get; set; }
+        [JsonProperty(PropertyName = "l")]
+        public int L { get; set; }
+        [JsonProperty(PropertyName = "n")]
+        public int N { get; set; }
+
+        /// <summary>
+        /// HashAlg represented as string in JSON
+        /// </summary>
+        [JsonIgnore] public HashFunction HashAlg { get; set; }
+        [JsonProperty(PropertyName = "hashAlg")]
+        public string HashAlgName
+        {
+            get => HashAlg?.Name;
+            set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+        }
+
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {
@@ -79,8 +60,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                     return true;
 
                 case "hashalg":
-                    var attributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(value);
-                    HashAlg = new HashFunction(attributes.shaMode, attributes.shaDigestSize);
+                    HashAlgName = value;
                     return true;
             }
 

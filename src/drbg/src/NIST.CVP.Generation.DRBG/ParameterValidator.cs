@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
-using NIST.CVP.Crypto.DRBG.Helpers;
+using NIST.CVP.Crypto.Common.DRBG.Helpers;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DRBG

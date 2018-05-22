@@ -4,7 +4,7 @@ namespace NIST.CVP.Crypto.Common.Symmetric.AES
 {
     public interface IAES_CFB1_MCT
     {
-        MCTResult<BitOrientedAlgoArrayResponse> MCTEncrypt(BitString iv, BitString key, BitString plainText);
-        MCTResult<BitOrientedAlgoArrayResponse> MCTDecrypt(BitString iv, BitString key, BitString cipherText);
+        MCTResult<AlgoArrayResponse> MCTEncrypt(BitString iv, BitString key, BitString plainText);
+        MCTResult<AlgoArrayResponse> MCTDecrypt(BitString iv, BitString key, BitString cipherText);
     }
 }

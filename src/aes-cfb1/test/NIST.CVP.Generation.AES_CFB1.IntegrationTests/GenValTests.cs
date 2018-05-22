@@ -1,15 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Autofac;
-using NIST.CVP.Crypto.AES;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Parsers;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -24,33 +18,28 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.AES_CFB1;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
+
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
 
-            // If TC is intended to be a failure test, change it
-            if (testCase.decryptFail != null)
-            {
-                testCase.decryptFail = false;
-            }
-
             // If TC has a cipherText, change it
             if (testCase.cipherText != null)
             {
-                string text = testCase.cipherText.ToString();
-                BitOrientedBitString bs = ModifyText(ref text);
-                testCase.cipherText = new string(bs.ToString().Replace(" ", string.Empty).ToArray());
+                BitString bs = new BitString(testCase.cipherText.ToString());
+                bs = bs.NOT();
+                testCase.cipherText = bs.ToHex();
             }
 
             // If TC has a plainText, change it
             if (testCase.plainText != null)
             {
-                string text = testCase.plainText.ToString();
-
-                BitOrientedBitString bs = ModifyText(ref text);
-                testCase.plainText = new string(bs.ToString().Replace(" ", string.Empty).ToArray());
+                BitString bs = new BitString(testCase.plainText.ToString());
+                bs = bs.NOT();
+                testCase.plainText = bs.ToHex();
             }
 
             // If TC has a resultsArray, change some of the elements
@@ -63,34 +52,7 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
                 BitString bsKey = new BitString(testCase.resultsArray[0].key.ToString());
                 bsKey = rand.GetDifferentBitStringOfSameSize(bsKey);
                 testCase.resultsArray[0].key = bsKey.ToHex();
-
-                string plainText = testCase.resultsArray[0].plainText.ToString();
-                BitOrientedBitString bsPlainText = ModifyText(ref plainText);
-                testCase.resultsArray[0].plainText = new string(bsPlainText.ToString().Replace(" ", string.Empty).ToArray());
-
-                string cipherText = testCase.resultsArray[0].cipherText.ToString();
-                BitOrientedBitString bsCipherText = ModifyText(ref cipherText);
-                testCase.resultsArray[0].cipherText = new string(bsCipherText.ToString().Replace(" ", string.Empty).ToArray());
             }
-        }
-        
-        private static BitOrientedBitString ModifyText(ref string text)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (var ch in text)
-            {
-                if (ch == '0')
-                {
-                    sb.Append('1');
-                }
-                else
-                {
-                    sb.Append('0');
-                }
-            }
-            text = sb.ToString();
-            var bs = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit(text);
-            return bs;
         }
         
         protected override string GetTestFileFewTestCases(string targetFolder)
@@ -124,11 +86,11 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
         /// <summary>
         /// Can be used to only generate MMT groups for the genval tests
         /// </summary>
-        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters>
+        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters>> GetTestGroupGenerators()
+            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators()
             {
-                return new List<ITestGroupGenerator<Parameters>>()
+                return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGeneratorMultiBlockMessage()
                 };

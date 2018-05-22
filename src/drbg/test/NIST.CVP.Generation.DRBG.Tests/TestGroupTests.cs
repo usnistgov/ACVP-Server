@@ -8,35 +8,6 @@ namespace NIST.CVP.Generation.DRBG.Tests
     [TestFixture, UnitTest]
     public class TestGroupTests
     {
-        private TestDataMother _tdm = new TestDataMother();
-
-        [Test]
-        public void ShouldReconstituteTestGroupFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer );
-            Assert.IsNotNull(subject);
-           
-        }
-
-        [Test]
-        public void ShouldSetProperTestTypeFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.testType, subject.TestType);
-        }
-
-        [Test]
-        public void ShouldSetProperEntropyLenFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.entropyInputLen, subject.EntropyInputLen);
-        }
-
         [Test]
         [TestCase("Fredo")]
         [TestCase("")]
@@ -79,13 +50,6 @@ namespace NIST.CVP.Generation.DRBG.Tests
             var result = subject.SetString(name,"13");
             Assert.IsTrue(result);
             Assert.AreEqual(13, subject.EntropyInputLen);
-        }
-
-        private dynamic GetSourceAnswer()
-        {
-            var sourceVector = new TestVectorSet() {TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup) g).ToList()};
-            var sourceAnswer = sourceVector.AnswerProjection[0];
-            return sourceAnswer;
         }
     }
 }

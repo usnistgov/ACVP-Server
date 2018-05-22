@@ -250,17 +250,6 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
         }
 
         [Test]
-        public void ShouldHaveTestsWithKeyFilled()
-        {
-            var subject = new LegacyResponseFileParser();
-            var result = subject.Parse(_unitTestPath);
-            Assume.That(result != null);
-            var vectorSet = result.ParsedObject;
-            var casesWithKey = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).Keys.Keys != null));
-            Assert.IsNotEmpty(casesWithKey);
-        }
-
-        [Test]
         public void ShouldHaveTestsWithIVFilled()
         {
             var subject = new LegacyResponseFileParser();

@@ -3,19 +3,19 @@
 namespace NIST.CVP.Generation.CMAC
 {
     public class TestCaseGeneratorNull<TTestGroup, TTestCase> : ITestCaseGenerator<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestCase>
-        where TTestCase : TestCaseBase, new()
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
-        public int NumberOfTestCasesToGenerate { get { return 0; } }
+        public int NumberOfTestCasesToGenerate => 0;
 
-        public TestCaseGenerateResponse Generate(TTestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, bool isSample)
         {
             return Generate(group, null);
         }
 
-        public TestCaseGenerateResponse Generate(TTestGroup @group, TTestCase testCase)
+        public TestCaseGenerateResponse<TTestGroup, TTestCase> Generate(TTestGroup @group, TTestCase testCase)
         {
-            return new TestCaseGenerateResponse("This is the null generator -- nothing is generated");
+            return new TestCaseGenerateResponse<TTestGroup, TTestCase>("This is the null generator -- nothing is generated");
         }
     }
 }

@@ -5,7 +5,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.PQGGen
 {
-    public class TestCaseValidatorNull : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorNull : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly string _errorMessage;
 

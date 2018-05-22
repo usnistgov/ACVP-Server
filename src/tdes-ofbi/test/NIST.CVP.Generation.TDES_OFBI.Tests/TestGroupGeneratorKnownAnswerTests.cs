@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
             int expectedResultCount
         )
         {
-            Parameters p = new Parameters()
+            var p = new Parameters
             {
                 Algorithm = string.Empty,
                 Direction = mode,

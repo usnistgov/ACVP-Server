@@ -1,6 +1,4 @@
 ﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Crypto.TDES_CFBP;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -21,7 +19,6 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup @group)
         {
-
             switch (@group.TestType.ToLower())
             {
                 case "permutation":
@@ -30,6 +27,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 case "variablekey":
                 case "variabletext":
                     return new TestCaseGeneratorKnownAnswer(group, _modeOfOperation.Algo);
+
                 case "multiblockmessage":
                     switch (@group.Function.ToLower())
                     {
@@ -40,6 +38,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                     }
 
                     break;
+
                 case "mct":
                     switch (@group.Function.ToLower())
                     {

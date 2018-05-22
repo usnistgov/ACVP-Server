@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
             var result = _subject.Generate(GetTestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -134,12 +134,12 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.TDES
                 if (tc.CipherText == fakeCipher)
                 {
                     originalFakeCipherHit = true;
-                    Assert.IsFalse(tc.FailureTest, "Should not be a failure test");
+                    Assert.IsFalse(!tc.TestPassed, "Should not be a failure test");
                 }
                 if (tc.CipherText == mangledCipher)
                 {
                     mangledCipherHit = true;
-                    Assert.IsTrue(tc.FailureTest, "Should be a failure test");
+                    Assert.IsTrue(!tc.TestPassed, "Should be a failure test");
                 }
             }
 

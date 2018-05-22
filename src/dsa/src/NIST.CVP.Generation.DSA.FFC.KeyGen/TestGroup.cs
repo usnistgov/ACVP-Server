@@ -1,48 +1,45 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
 using System.Numerics;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.FFC.KeyGen
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
-        // Needed for SetString, FireHoseTests
-        private BigInteger p;
-        private BigInteger q;
-        private BigInteger g;
-
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            TestGroupId = (int) source.tgId;
-            L = (int) source.l;
-            N = (int) source.n;
-
-            // ParseDomainParams((ExpandoObject)source);
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
-
         public int TestGroupId { get; set; }
+        public string TestType { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
         public int L { get; set; }
         public int N { get; set; }
-        public FfcDomainParameters DomainParams { get; set; }       // Used to make sure all test cases share a PQG
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        
+        /// <summary>
+        /// Ignoring for (De)Serialization as PQG are flattened
+        /// </summary>
+        [JsonIgnore] public FfcDomainParameters DomainParams { get; set; } = new FfcDomainParameters();
+
+        [JsonProperty(PropertyName = "p", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger P
+        {
+            get => DomainParams.P;
+            set => DomainParams.P = value;
+        }
+
+        [JsonProperty(PropertyName = "q", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Q
+        {
+            get => DomainParams.Q;
+            set => DomainParams.Q = value;
+        }
+
+        [JsonProperty(PropertyName = "g", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger G
+        {
+            get => DomainParams.G;
+            set => DomainParams.G = value;
+        }
 
         public bool SetString(string name, string value)
         {
@@ -54,16 +51,15 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen
             switch (name.ToLower())
             {
                 case "p":
-                    p = new BitString(value).ToPositiveBigInteger();
+                    P = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "q":
-                    q = new BitString(value).ToPositiveBigInteger();
+                    Q = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "g":
-                    g = new BitString(value).ToPositiveBigInteger();
-                    DomainParams = new FfcDomainParameters(p, q, g);
+                    G = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "l":

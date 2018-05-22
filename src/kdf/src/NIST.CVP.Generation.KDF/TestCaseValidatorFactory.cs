@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NIST.CVP.Crypto.Common.KDF;
-using NIST.CVP.Crypto.KDF;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KDF
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestCase>
+    public class TestCaseValidatorFactory : ITestCaseValidatorFactory<TestVectorSet, TestGroup, TestCase>
     {
         private readonly IKdfFactory _factory;
 
@@ -17,16 +14,14 @@ namespace NIST.CVP.Generation.KDF
             _factory = factory;
         }
 
-        public IEnumerable<ITestCaseValidator<TestCase>> GetValidators(TestVectorSet testVectorSet, IEnumerable<TestCase> suppliedResults)
+        public IEnumerable<ITestCaseValidator<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
-            var list = new List<ITestCaseValidator<TestCase>>();
-            var kdfFactory = new KdfFactory();
-
-            foreach (var group in testVectorSet.TestGroups.Select(g => (TestGroup) g))
+            var list = new List<ITestCaseValidator<TestGroup, TestCase>>();
+            foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
-                var algo = kdfFactory.GetKdfInstance(group.KdfMode, group.MacMode, group.CounterLocation, group.CounterLength);
+                var algo = _factory.GetKdfInstance(group.KdfMode, group.MacMode, group.CounterLocation, group.CounterLength);
 
-                foreach (var test in group.Tests.Select(t => (TestCase) t))
+                foreach (var test in group.Tests.Select(t => t))
                 {
                     list.Add(new TestCaseValidator(test, group, new DeferredTestCaseResolver(algo)));
                 }

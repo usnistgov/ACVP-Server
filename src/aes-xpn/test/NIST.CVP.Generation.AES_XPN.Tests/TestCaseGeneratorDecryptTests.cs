@@ -1,6 +1,5 @@
 ﻿using System;
 using Moq;
-using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Generation.Core;
@@ -24,7 +23,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             var result = _subject.Generate(new TestGroup(), false);
 
             Assert.IsNotNull(result, $"{nameof(result)} should be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse), result, $"{nameof(result)} incorrect type");
+            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -104,13 +103,13 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
 
             Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
             Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).AAD.ToString(), "AAD");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).CipherText.ToString(), "CipherText");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).IV.ToString(), "IV");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).Salt.ToString(), "Salt");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).Key.ToString(), "Key");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).PlainText.ToString(), "PlainText");
-            Assert.IsNotEmpty(((TestCase)result.TestCase).Tag.ToString(), "Tag");
+            Assert.IsNotEmpty((result.TestCase).AAD.ToString(), "AAD");
+            Assert.IsNotEmpty((result.TestCase).CipherText.ToString(), "CipherText");
+            Assert.IsNotEmpty((result.TestCase).IV.ToString(), "IV");
+            Assert.IsNotEmpty((result.TestCase).Salt.ToString(), "Salt");
+            Assert.IsNotEmpty((result.TestCase).Key.ToString(), "Key");
+            Assert.IsNotEmpty((result.TestCase).PlainText.ToString(), "PlainText");
+            Assert.IsNotEmpty((result.TestCase).Tag.ToString(), "Tag");
             Assert.IsFalse(result.TestCase.Deferred, "Deferred");
         }
 
@@ -143,16 +142,16 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
                     .Returns(i);
 
                 var result = _subject.Generate(new TestGroup(), false);
-                var tc = (TestCase)result.TestCase;
+                var tc = result.TestCase;
                 if (tc.Tag == fakeTag)
                 {
                     originalFakeTagHit = true;
-                    Assert.IsFalse(tc.FailureTest, "Should not be a failure test");
+                    Assert.IsTrue(tc.TestPassed, "Should not be a failure test");
                 }
                 if (tc.Tag == mangledTag)
                 {
                     mangledTagHit = true;
-                    Assert.IsTrue(tc.FailureTest, "Should be a failure test");
+                    Assert.IsFalse(tc.TestPassed, "Should be a failure test");
                 }
             }
 

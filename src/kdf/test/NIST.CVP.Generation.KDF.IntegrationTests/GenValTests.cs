@@ -1,6 +1,5 @@
 ﻿using System.Linq;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Generation.Core;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.KDF.Tests;
 using NIST.CVP.Math;
@@ -18,6 +17,7 @@ namespace NIST.CVP.Generation.KDF.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.KDF;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)

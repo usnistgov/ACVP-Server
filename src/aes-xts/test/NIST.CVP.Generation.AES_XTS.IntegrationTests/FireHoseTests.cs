@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
                         if (testGroup.Direction.ToLower() == "encrypt")
                         {
                             var result = algo.Encrypt(
-                                testCase.Key,
+                                testCase.XtsKey,
                                 testCase.PlainText,
                                 testCase.I
                             );
@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.AES_XTS.IntegrationTests
                         if (testGroup.Direction.ToLower() == "decrypt")
                         {
                             var result = algo.Decrypt(
-                                testCase.Key,
+                                testCase.XtsKey,
                                 testCase.CipherText,
                                 testCase.I
                             );

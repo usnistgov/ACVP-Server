@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 KeyFormat = "standard"
             };
 
-            var groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
 
             foreach (var genny in result)
             {
@@ -96,7 +96,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 KeyFormat = "standard"
             };
 
-            var groups = new List<ITestGroup>();
+            var groups = new List<TestGroup>();
 
             foreach (var genny in result)
             {

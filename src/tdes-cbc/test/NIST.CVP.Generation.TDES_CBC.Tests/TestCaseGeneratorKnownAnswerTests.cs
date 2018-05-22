@@ -71,7 +71,7 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             };
 
             var subject = new TestCaseGeneratorKnownAnswer(testGroup);
-            List<TestCaseGenerateResponse> results = new EditableList<TestCaseGenerateResponse>();
+            var results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
                 results.Add(subject.Generate(testGroup, false));
@@ -99,14 +99,14 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             };
 
             var subject = new TestCaseGeneratorKnownAnswer(testGroup);
-            List<TestCaseGenerateResponse> results = new List<TestCaseGenerateResponse>();
+            var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
                 results.Add(subject.Generate(testGroup, false));
             }
 
             Assume.That(results.Count > elementId);
-            var testCase = (TestCase)results[elementId].TestCase;
+            var testCase = results[elementId].TestCase;
             Assert.AreEqual(expectedCipherHex.ToUpper(), testCase.CipherText.ToHex());
         }
     }

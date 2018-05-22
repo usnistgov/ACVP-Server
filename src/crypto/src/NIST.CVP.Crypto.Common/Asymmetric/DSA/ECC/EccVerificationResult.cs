@@ -1,6 +1,6 @@
 ﻿namespace NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC
 {
-    public class EccVerificationResult : IDsaVerificationResult
+    public class EccVerificationResult : IDsaVerificationResult, ICryptoResult
     {
         /// <summary>
         /// Was the generation successful?

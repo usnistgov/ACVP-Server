@@ -1,16 +1,15 @@
-﻿using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
-    public class TestGroupGeneratorMonteCarlo : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorMonteCarlo : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "MCT";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
-            var testGroups = new List<ITestGroup>();
+            var testGroups = new List<TestGroup>();
             foreach (var function in parameters.Direction)
             {
                 foreach (var keyingOption in parameters.KeyingOption)
@@ -21,9 +20,7 @@ namespace NIST.CVP.Generation.TDES_CFB
                         continue;
                     }
 
-                    //var translatedKeyingOptionToNumberOfKeys = TdesHelpers.GetNumberOfKeysFromKeyingOption(keyingOption);
-
-                    TestGroup tg = new TestGroup()
+                    var tg = new TestGroup
                     {
                         Function = function,
                         KeyingOption = keyingOption,
@@ -33,6 +30,7 @@ namespace NIST.CVP.Generation.TDES_CFB
                     testGroups.Add(tg);
                 }
             }
+
             return testGroups;
         }
     }

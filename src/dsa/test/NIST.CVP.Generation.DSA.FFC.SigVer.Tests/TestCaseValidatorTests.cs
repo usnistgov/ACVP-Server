@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigVer.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                Result = shouldPass,   // Says the test Core.Enums.Disposition.Passed
+                TestPassed = shouldPass,   // Says the test Core.Enums.Disposition.Passed
                 Reason = new TestCaseExpectationReason(SigFailureReasons.ModifyMessage)     // Only matters in the failure event
             };
         }

@@ -1,16 +1,17 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.DRBG.Enums
 {
     public enum DrbgMechanism
     {
-        [Description("ctrDRBG")]
+        [EnumMember(Value = "ctrDRBG")]
         Counter,
 
-        [Description("hashDRBG")]
+        [EnumMember(Value = "hashDRBG")]
         Hash,
 
-        [Description("hmacDRBG")]
+        [EnumMember(Value = "hmacDRBG")]
         HMAC
     }
 }

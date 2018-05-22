@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Crypto.Common.KAS.Enums
 {
@@ -7,9 +8,9 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
     /// </summary>
     public enum FfcParameterSet
     {
-        [Description("fb")]
+        [EnumMember(Value = "fb")]
         Fb,
-        [Description("fc")]
+        [EnumMember(Value = "fc")]
         Fc
     }
 }

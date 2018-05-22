@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Castle.Components.DictionaryAdapter;
-using NIST.CVP.Crypto.Common;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
             };
 
             var subject = new TestCaseGeneratorKnownAnswer(testGroup, AlgoMode.TDES_CFBP1);
-            List<TestCaseGenerateResponse> results = new EditableList<TestCaseGenerateResponse>();
+            var results = new EditableList<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
             {
                 results.Add(subject.Generate(testGroup, false));

@@ -1,43 +1,28 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
+using Newtonsoft.Json;using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_CTR
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
+        public TestGroup ParentGroup { get; set; }
 
+        [JsonProperty(PropertyName = "plainText")]
         public BitString PlainText { get; set; }
-
         [JsonProperty(PropertyName = "dataLen")]
         public int Length { get; set; }
-        
+        [JsonProperty(PropertyName = "cipherText")]
         public BitString CipherText { get; set; }
-        
+        [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; }
+        [JsonProperty(PropertyName = "ivs")]
         public List<BitString> IVs { get; set; }
+        [JsonProperty(PropertyName = "key")]
         public BitString Key { get; set; }
-
-        public TestCase() { }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))
@@ -68,29 +53,6 @@ namespace NIST.CVP.Generation.AES_CTR
                     return true;
             }
             return false;
-        }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            var expandoSource = (ExpandoObject)source;
-
-            Length = expandoSource.GetTypeFromProperty<int>("dataLength");
-
-            IV = expandoSource.GetBitStringFromProperty("iv");
-            PlainText = expandoSource.GetBitStringFromProperty("plainText");
-            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
-            Key = expandoSource.GetBitStringFromProperty("key");
-
-            if (expandoSource.ContainsProperty("ivs"))
-            {
-                IVs = new List<BitString>();
-                foreach (var iv in source.ivs)
-                {
-                    IVs.Add(new BitString(iv));
-                }
-            }
         }
     }
 }

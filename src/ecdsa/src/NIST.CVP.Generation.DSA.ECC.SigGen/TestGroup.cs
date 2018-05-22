@@ -1,50 +1,57 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Newtonsoft.Json.Linq;
+using System.Numerics;
+using Newtonsoft.Json;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.DSA.ECC.SigGen
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            TestGroupId = (int) source.tgId;
-            var expandoSource = (ExpandoObject) source;
-
-            ParseDomainParams(expandoSource);
-            ParseHashAlg(expandoSource);
-            ComponentTest = source.componentTest;
-
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
-
         public int TestGroupId { get; set; }
-        public EccDomainParameters DomainParameters { get; set; }
-        public HashFunction HashAlg { get; set; }
+        public string TestType { get; set; }
+        [JsonProperty(PropertyName = "curve")]
+        public Curve Curve { get; set; }
+
+        [JsonIgnore] public HashFunction HashAlg { get; set; }
+        [JsonProperty(PropertyName = "hashAlg")]
+        public string HashAlgName
+        {
+            get => HashAlg?.Name;
+            set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+        }
+
+        [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
+        [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger D
+        {
+            get => KeyPair.PrivateD;
+            set => KeyPair.PrivateD = value;
+        }
+
+        [JsonProperty(PropertyName = "qx", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Qx
+        {
+            get => KeyPair.PublicQ.X;
+            set => KeyPair.PublicQ.X = value;
+        }
+
+        [JsonProperty(PropertyName = "qy", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Qy
+        {
+            get => KeyPair.PublicQ.Y;
+            set => KeyPair.PublicQ.Y = value;
+        }
+
+        [JsonProperty(PropertyName = "componentTest")]
         public bool ComponentTest { get; set; }
 
-        public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {
@@ -56,14 +63,11 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             switch (name.ToLower())
             {
                 case "curve":
-                    var factory = new EccCurveFactory();
-                    var curve = factory.GetCurve(EnumHelpers.GetEnumFromEnumDescription<Curve>(value));
-                    DomainParameters = new EccDomainParameters(curve);
+                    Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(value);
                     return true;
 
                 case "hashalg":
-                    var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(value);
-                    HashAlg = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
+                    HashAlgName = value;
                     return true;
             }
 
@@ -72,42 +76,17 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 
         public override int GetHashCode()
         {
-            return ($"{EnumHelpers.GetEnumDescriptionFromEnum(DomainParameters.CurveE.CurveName)}{HashAlg.Name}").GetHashCode();
+            return $"{EnumHelpers.GetEnumDescriptionFromEnum(Curve)}{HashAlg.Name}".GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
-            var otherGroup = obj as TestGroup;
-            if (otherGroup == null)
+            if (obj is TestGroup otherGroup)
             {
-                return false;
+                return GetHashCode() == otherGroup.GetHashCode();
             }
-            return this.GetHashCode() == otherGroup.GetHashCode();
-        }
-
-        private void ParseDomainParams(ExpandoObject source)
-        {
-            var curveFactory = new EccCurveFactory();
-
-            if (source.ContainsProperty("curve"))
-            {
-                var curveName = source.GetTypeFromProperty<string>("curve");
-                var curveEnum = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
-                var curve = curveFactory.GetCurve(curveEnum);
-
-                DomainParameters = new EccDomainParameters(curve);
-            }
-        }
-
-        private void ParseHashAlg(ExpandoObject source)
-        {
-            if (source.ContainsProperty("hashAlg"))
-            {
-                var shaName = source.GetTypeFromProperty<string>("hashAlg");
-                var shaAttributes = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(shaName);
-                
-                HashAlg = new HashFunction(shaAttributes.shaMode, shaAttributes.shaDigestSize);
-            }
+            
+            return false;
         }
     }
 }

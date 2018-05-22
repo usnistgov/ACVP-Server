@@ -5,7 +5,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_OFBI
 {
-    public class TestCaseValidatorEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 

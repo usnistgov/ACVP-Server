@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Tests;
@@ -15,12 +16,13 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
     {
         private readonly Random800_90 _random = new Random800_90();
 
-        public override string Algorithm => "KAS-ECC";
+        public override string Algorithm => "KAS";
 
         public override string Mode => "CDH-Component";
 
         public override AlgoMode AlgoMode => AlgoMode.KAS_EccComponent;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new EccComponent.RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string folderName)

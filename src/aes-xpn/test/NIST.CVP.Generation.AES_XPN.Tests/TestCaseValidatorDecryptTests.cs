@@ -86,7 +86,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
         {
             var testCase = new TestCase
             {
-                FailureTest = failureTest,
+                TestPassed = !failureTest,
                 PlainText = new BitString("ABCDEF0123456789ABCDEF0123456789"),
                 TestCaseId = 1
             };

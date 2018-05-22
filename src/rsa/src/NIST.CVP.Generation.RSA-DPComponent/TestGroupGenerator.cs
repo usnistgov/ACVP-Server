@@ -5,9 +5,9 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_DPComponent
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters>
+    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             return new List<TestGroup>
             {

@@ -10,29 +10,13 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_SPComponent
 {
-    public class TestGroup : ITestGroup
+    public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
-        public TestGroup()
-        {
-            Tests = new List<ITestCase>();
-        }
-
-        public TestGroup(JObject source) : this(source.ToObject<ExpandoObject>()) { }
-
-        public TestGroup(dynamic source)
-        {
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
-
         public int TestGroupId { get; set; }
         public int Modulo { get; set; } = 2048;
         public PrivateKeyModes KeyFormat { get; set; }
         public string TestType { get; set; }
-        public List<ITestCase> Tests { get; set; }
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)
         {

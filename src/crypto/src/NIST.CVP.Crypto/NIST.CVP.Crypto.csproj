@@ -11,10 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="RSA2\" />
+    <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />
   </ItemGroup>
 
 </Project>

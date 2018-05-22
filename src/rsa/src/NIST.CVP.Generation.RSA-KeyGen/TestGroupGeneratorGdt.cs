@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Enums;
 using NIST.CVP.Generation.Core;
@@ -7,11 +6,11 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
-    public class TestGroupGeneratorGdt : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorGdt : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string TEST_TYPE = "GDT";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 

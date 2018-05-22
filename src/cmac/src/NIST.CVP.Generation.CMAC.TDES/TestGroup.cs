@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.ExtensionMethods;
 
 namespace NIST.CVP.Generation.CMAC.TDES
 {
-    public class TestGroup : TestGroupBase<TestCase>
+    public class TestGroup : TestGroupBase<TestGroup, TestCase>
     {
-        public TestGroup()
+        public override int KeyLength
         {
-            Tests = new List<ITestCase>();
+            get => 192;
+            set { } //there must be a better way to do this
         }
 
-        public TestGroup(dynamic source)
-        {
-            LoadSource(source);
-        }
-
+        [JsonProperty(PropertyName = "keyingOption")]
         public int KeyingOption { get; set; }
 
         public override bool SetString(string name, string value)
@@ -53,27 +53,5 @@ namespace NIST.CVP.Generation.CMAC.TDES
             return false;
         }
 
-        [JsonProperty(PropertyName = "keyLen")]
-        public override int KeyLength
-        {
-            get => 192;
-            set {} //there must be a better way to do this
-        }
-
-
-        protected override void LoadSource(dynamic source)
-        {
-            TestGroupId = source.tgId;
-            TestType = source.testType;
-            Function = source.direction;
-            KeyingOption = source.keyingOption;
-            MessageLength = source.msgLen;
-            MacLength = source.macLen;
-            Tests = new List<ITestCase>();
-            foreach (var test in source.tests)
-            {
-                Tests.Add(new TestCase(test));
-            }
-        }
     }
 }

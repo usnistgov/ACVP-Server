@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.DSA.FFC;
 using NIST.CVP.Crypto.KAS.Builders;
 using NIST.CVP.Crypto.KAS.Builders.Ffc;
-using NIST.CVP.Crypto.KAS.Helpers;
 using NIST.CVP.Crypto.KAS.KC;
 using NIST.CVP.Crypto.KAS.KDF;
 using NIST.CVP.Crypto.KAS.NoKC;
@@ -117,7 +118,16 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 
                     var result = testCaseResolver.CompleteDeferredCrypto(testGroup, testCase, testCase);
 
-                    if (testCase.FailureTest)
+                    Debug.Assert(testCase.TestPassed != null, "testCase.TestPassed != null");
+                    if (testCase.TestPassed.Value)
+                    {
+                        Assert.AreEqual(
+                            testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
+                            result.Tag.ToHex()
+                        );
+                        passes++;
+                    }
+                    else
                     {
                         Assert.AreNotEqual(
                             testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
@@ -125,14 +135,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         );
                         passes++;
                         expectedFails++;
-                    }
-                    else
-                    {
-                        Assert.AreEqual(
-                            testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
-                            result.Tag.ToHex()
-                        );
-                        passes++;
                     }
                 }
             }

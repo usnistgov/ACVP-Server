@@ -1,61 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.TDES_CFBP
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        public TestCase()
-        {
-
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public TestCase(BitString keys, BitString iv1, BitString iv2 = null, BitString iv3 = null,
-            BitString plainText = null, BitString plainText1 = null, BitString plainText2 = null, BitString plainText3 = null,
-            BitString cipherText = null, BitString cipherText1 = null, BitString cipherText2 = null, BitString cipherText3 = null)
-        {
-            Keys = keys;
-
-            IV1 = iv1;
-            IV2 = iv2;
-            IV3 = iv3;
-            
-            PlainText = plainText;
-            PlainText1 = plainText1;
-            PlainText2 = plainText2;
-            PlainText3 = plainText3;
-
-            CipherText = cipherText;
-            CipherText1 = cipherText1;
-            CipherText2 = cipherText2;
-            CipherText3 = cipherText3;
-        }
+        private BitString _keys;
 
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public TestGroup ParentGroup { get; set; }
+        public bool? TestPassed { get; set; }
         public bool Deferred { get; set; }
         public BitString PlainText { get; set; }
-        public int? PlainTextLength => (PlainText ?? PlainText1).BitLength;
 
-        private BitString _keys;
-        public BitString Keys //TODO this belongs in TDES keys, not here
+        [JsonIgnore]
+        public BitString Keys
         {
             get => _keys;
             set
@@ -85,33 +48,43 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 }
             }
         }
-        //This allows for either the main key to be set, or any of the three keys to be set individually
+
         public BitString Key1
         {
             get => Keys?.MSBSubstring(0, 64);
-            set => Keys = Keys == null ? 
+            set => Keys = Keys == null ?
                 value.ConcatenateBits(new BitString(128)) :
                 value.ConcatenateBits(Keys.MSBSubstring(64, 128));
         }
 
         public BitString Key2
         {
-            get => Keys?.MSBSubstring(64, 64);
+            get
+            {
+                if (Keys == null) return null;
+                if (Keys.BitLength == 64) return Key1;
+                return Keys.MSBSubstring(64, 64);
+            }
             set => Keys = Keys == null ?
                 new BitString(64).ConcatenateBits(value).ConcatenateBits(new BitString(64)) :
                 Keys.MSBSubstring(0, 64).ConcatenateBits(value).ConcatenateBits(Keys.MSBSubstring(128, 64));
         }
+
         public BitString Key3
         {
-            get => Keys?.MSBSubstring(128, 64);
+            get
+            {
+                if (Keys == null) return null;
+                if (Keys.BitLength == 64) return Key1;
+                if (Keys.BitLength == 128) return Key1;
+                return Keys.MSBSubstring(128, 64);
+            }
             set => Keys = Keys == null ?
                 new BitString(128).ConcatenateBits(value) :
                 Keys.MSBSubstring(0, 128).ConcatenateBits(value);
         }
 
-
         public BitString CipherText { get; set; }
-        public int? CipherTextLength => (CipherText ?? CipherText1).BitLength;
         public BitString IV1 { get; set; }
         public BitString IV2 { get; set; }
         public BitString IV3 { get; set; }
@@ -122,100 +95,29 @@ namespace NIST.CVP.Generation.TDES_CFBP
         public BitString CipherText2 { get; set; }
         public BitString CipherText3 { get; set; }
 
-        public List<AlgoArrayResponseWithIvs> ResultsArray { get; set; } = new List<AlgoArrayResponseWithIvs>();
+        public List<AlgoArrayResponseWithIvs> ResultsArray { get; set; }
 
-        private void MapToProperties(dynamic source)
+        public TestCase(){ }
+
+        public TestCase(BitString keys, BitString iv1, BitString iv2 = null, BitString iv3 = null,
+            BitString plainText = null, BitString plainText1 = null, BitString plainText2 = null, BitString plainText3 = null,
+            BitString cipherText = null, BitString cipherText1 = null, BitString cipherText2 = null, BitString cipherText3 = null)
         {
-            var expandoSource = (ExpandoObject) source;
+            Keys = keys;
 
-            TestCaseId = (int)source.tcId;
-            if (expandoSource.ContainsProperty("decryptFail"))
-            {
-                FailureTest = source.decryptFail;
-            }
-            if (expandoSource.ContainsProperty("failureTest"))
-            {
-                FailureTest = source.failureTest;
-            }
-            if (expandoSource.ContainsProperty("deferred"))
-            {
-                Deferred = source.deferred;
-            }
-            if (expandoSource.ContainsProperty("resultsArray"))
-            {
-                ResultsArray = ResultsArrayToObject(source.resultsArray);
-            }
-            if (expandoSource.ContainsProperty("key1"))
-            {
-                Key1 = expandoSource.GetBitStringFromProperty("key1");
-                Key2 = expandoSource.GetBitStringFromProperty("key2");
-                Key3 = expandoSource.GetBitStringFromProperty("key3");
-            }
-            else
-            {
-                Keys = expandoSource.GetBitStringFromProperty("key");
-            }
+            IV1 = iv1;
+            IV2 = iv2;
+            IV3 = iv3;
+            
+            PlainText = plainText;
+            PlainText1 = plainText1;
+            PlainText2 = plainText2;
+            PlainText3 = plainText3;
 
-
-            CipherText = expandoSource.GetBitStringFromProperty("cipherText");
-            CipherText1 = expandoSource.GetBitStringFromProperty("cipherText1");
-            CipherText2 = expandoSource.GetBitStringFromProperty("cipherText2");
-            CipherText3 = expandoSource.GetBitStringFromProperty("cipherText3");
-
-            if (expandoSource.ContainsProperty("ctLen"))
-            {
-                var ctLen = (int)source.ctLen;
-                CipherText = CipherText?.MSBSubstring(0, ctLen);
-                CipherText1 = CipherText1?.MSBSubstring(0, ctLen);
-                CipherText2 = CipherText2?.MSBSubstring(0, ctLen);
-                CipherText3 = CipherText3?.MSBSubstring(0, ctLen);
-            }
-
-            PlainText = expandoSource.GetBitStringFromProperty("plainText");
-            PlainText1 = expandoSource.GetBitStringFromProperty("plainText1");
-            PlainText2 = expandoSource.GetBitStringFromProperty("plainText2");
-            PlainText3 = expandoSource.GetBitStringFromProperty("plainText3");
-
-            if (expandoSource.ContainsProperty("ptLen"))
-            {
-                var ptLen = (int)source.ptLen;
-                PlainText = PlainText?.MSBSubstring(0, ptLen);
-                PlainText1 = PlainText1?.MSBSubstring(0, ptLen);
-                PlainText2 = PlainText2?.MSBSubstring(0, ptLen);
-                PlainText3 = PlainText3?.MSBSubstring(0, ptLen);
-            }
-
-            IV1 = expandoSource.GetBitStringFromProperty("iv1");
-            IV2 = expandoSource.GetBitStringFromProperty("iv2");
-            IV3 = expandoSource.GetBitStringFromProperty("iv3");
-
-        }
-
-        private List<AlgoArrayResponseWithIvs> ResultsArrayToObject(dynamic resultsArray)
-        {
-            var list = new List<AlgoArrayResponseWithIvs>();
-
-            foreach (dynamic item in resultsArray)
-            {
-                var expandoItem = (ExpandoObject) item;
-                var response = new AlgoArrayResponseWithIvs();
-
-                var key1 = expandoItem.GetBitStringFromProperty("key1");
-                var key2 = expandoItem.GetBitStringFromProperty("key2");
-                var key3 = expandoItem.GetBitStringFromProperty("key3");
-
-                response.Keys = key1.ConcatenateBits(key2.ConcatenateBits(key3));
-                response.PlainText = expandoItem.GetBitStringFromProperty("plainText");
-
-                response.CipherText = expandoItem.GetBitStringFromProperty("cipherText");
-
-                response.IV1 = expandoItem.GetBitStringFromProperty("iv1");
-                response.IV2 = expandoItem.GetBitStringFromProperty("iv2");
-                response.IV3 = expandoItem.GetBitStringFromProperty("iv3");
-                list.Add(response);
-            }
-
-            return list;
+            CipherText = cipherText;
+            CipherText1 = cipherText1;
+            CipherText2 = cipherText2;
+            CipherText3 = cipherText3;
         }
         
         public bool SetString(string name, string value)

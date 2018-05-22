@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
+    <PackageReference Include="Autofac" Version="$(NuGetVersionAutofac)" />
   </ItemGroup>
   
 </Project>

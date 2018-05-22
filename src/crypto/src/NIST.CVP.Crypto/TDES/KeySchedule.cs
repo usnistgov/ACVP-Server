@@ -1,4 +1,5 @@
 ﻿using System;
+using NIST.CVP.Crypto.Common.Symmetric.TDES.Enums;
 using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.TDES

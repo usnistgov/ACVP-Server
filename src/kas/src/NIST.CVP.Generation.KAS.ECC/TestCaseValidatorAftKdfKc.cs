@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.KAS.Helpers;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.ECC
 {
-    public class TestCaseValidatorAftKdfKc : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorAftKdfKc : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _workingTest;
         private readonly TestGroup _testGroup;

@@ -4,15 +4,18 @@ using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Crypto.KAS.Scheme.Ecc;
 using NIST.CVP.Generation.KAS.Enums;
 
 namespace NIST.CVP.Generation.KAS.Helpers
 {
     public static class TestCaseDispositionHelper
     {
-        public static List<TestCaseDispositionOption> PopulateValidityTestCaseOptions<TKasDsaAlgoAttributes>(TestGroupBase<TKasDsaAlgoAttributes> testGroup)
+        public static List<TestCaseDispositionOption> PopulateValidityTestCaseOptions<TTestGroup, TTestCase, TKasDsaAlgoAttributes>(
+            TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes> testGroup
+        )
             where TKasDsaAlgoAttributes : IKasDsaAlgoAttributes
+            where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
+            where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKasDsaAlgoAttributes>
         {
             List<TestCaseDispositionOption> validityTestCaseOptions = new List<TestCaseDispositionOption>();
             const int numberOfTestsForValidityGroups = 25;

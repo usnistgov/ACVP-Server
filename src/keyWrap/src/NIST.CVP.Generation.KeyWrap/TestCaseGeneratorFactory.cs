@@ -1,14 +1,12 @@
 ﻿using NIST.CVP.Crypto.Common.Symmetric.KeyWrap;
-using NIST.CVP.Crypto.KeyWrap;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KeyWrap
 {
     public class TestCaseGeneratorFactory<TTestGroup, TTestCase> : ITestCaseGeneratorFactory<TTestGroup, TTestCase>
-        where TTestGroup : TestGroupBase<TTestCase>
-        where TTestCase : TestCaseBase, new()
-
+        where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
+        where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
         private readonly IKeyWrapFactory _iKeyWrapFactory;
         private readonly IRandom800_90 _iRandom800_90;

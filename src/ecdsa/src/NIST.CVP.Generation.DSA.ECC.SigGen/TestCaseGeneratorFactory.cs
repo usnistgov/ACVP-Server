@@ -1,7 +1,4 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -10,19 +7,19 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactory<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _random800_90;
-        private readonly IShaFactory _shaFactory;
-        private IDsaEcc _eccDsa;
+        private readonly IDsaEccFactory _eccDsaFactory;
+        private readonly IEccCurveFactory _curveFactory;
 
-        public TestCaseGeneratorFactory(IRandom800_90 rand)
+        public TestCaseGeneratorFactory(IRandom800_90 rand, IDsaEccFactory eccDsaFactory, IEccCurveFactory curveFactory)
         {
             _random800_90 = rand;
-            _shaFactory = new ShaFactory();
+            _eccDsaFactory = eccDsaFactory;
+            _curveFactory = curveFactory;
         }
 
         public ITestCaseGenerator<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            _eccDsa = new EccDsa(_shaFactory.GetShaInstance(testGroup.HashAlg));
-            return new TestCaseGenerator(_random800_90, _eccDsa);
+            return new TestCaseGenerator(_random800_90, _eccDsaFactory, _curveFactory);
         }
     }
 }

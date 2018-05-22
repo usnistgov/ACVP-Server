@@ -58,6 +58,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
                     PersoStringLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i] * 4)),
                     EntropyInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i] * 5)),
                     ReturnedBitsLen = SeedLength[i] * 6,
+
                 };
             }
 

@@ -1,42 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
-using NIST.CVP.Crypto.DSA.ECC;
-using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.ECC.KeyVer.Enums;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups = 1, bool testPassed = true)
         {
+            var vectorSet = new TestVectorSet()
+            {
+                Algorithm = "ECDSA",
+                Mode = "KeyVer"
+            };
+
             var testGroups = new List<TestGroup>();
+            vectorSet.TestGroups = testGroups;
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                var tg = new TestGroup
+                {
+                    Curve = Curve.P224
+                };
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for (var testId = 5 * groupIdx + 1; testId <= (groupIdx + 1) * 5; testId++)
                 {
                     tests.Add(new TestCase
                     {
                         TestCaseId = testId,
                         KeyPair = new EccKeyPair(new EccPoint(1, 2), 3),
-                        FailureTest = true,
-                        Result = true,
-                        Reason = TestCaseExpectationEnum.NotOnCurve
+                        TestPassed = testPassed,
+                        Reason = TestCaseExpectationEnum.NotOnCurve,
+                        ParentGroup = tg
                     });
                 }
-
-                testGroups.Add(new TestGroup
-                {
-                    DomainParameters = new EccDomainParameters(new PrimeCurve(Curve.P224, groupIdx, 0, new EccPoint(0, 0), 0)),
-                    Tests = tests
-                });
             }
 
-            return testGroups;
+            return vectorSet;
         }
     }
 }

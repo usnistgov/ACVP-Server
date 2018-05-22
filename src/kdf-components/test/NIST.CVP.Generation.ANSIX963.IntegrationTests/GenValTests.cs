@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Math;
@@ -18,6 +19,7 @@ namespace NIST.CVP.Generation.ANSIX963.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.KDFComponents_ANSIX963;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {

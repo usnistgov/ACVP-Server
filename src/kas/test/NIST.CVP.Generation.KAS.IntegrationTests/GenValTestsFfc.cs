@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using NIST.CVP.Common;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -14,11 +15,12 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTestsFfc : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm => "KAS-FFC";
-        public override string Mode => string.Empty;
-
+        public override string Algorithm => "KAS";
+        public override string Mode => "FFC";
+        
         public override AlgoMode AlgoMode => AlgoMode.KAS_FFC;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjectables();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -54,9 +56,16 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 testCase.tagIut = bs.ToHex();
             }
             // If TC has a result, change it
-            if (testCase.result != null)
+            if (testCase.testPassed != null)
             {
-                testCase.result = testCase.result.ToString().Equals("pass") ? "fail" : "pass";
+                if (testCase.testPassed == true)
+                {
+                    testCase.testPassed = false;
+                }
+                else
+                {
+                    testCase.testPassed = true;
+                }
             }
         }
 
@@ -65,6 +74,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
+                Mode = Mode,
                 Function = new string[] { "dpGen" },
                 Scheme = new Schemes()
                 {
@@ -178,6 +188,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
             Parameters p = new Parameters()
             {
                 Algorithm = Algorithm,
+                Mode = Mode,
                 Function = new string[] { "dpGen", "dpVal", "keyPairGen", "fullVal", "keyRegen" },
                 Scheme = new Schemes()
                 {

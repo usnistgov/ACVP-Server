@@ -1,180 +1,167 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
-using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.KDF.Enums;
+﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KDF
 {
-    public class TestVectorSet : ITestVectorSet
+    public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
         public string Algorithm { get; set; }
         public string Mode { get; set; }
         public bool IsSample { get; set; }
 
-        [JsonIgnore]
-        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
-        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
+        public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
 
-        public TestVectorSet() { }
+        //public List<dynamic> AnswerProjection
+        //{
+        //    get
+        //    {
+        //        var list = new List<dynamic>();
+        //        foreach (var group in TestGroups.Select(g => (TestGroup) g))
+        //        {
+        //            dynamic updateObject = new ExpandoObject();
+        //            var updateDict = ((IDictionary<string, object>) updateObject);
+        //            updateDict.Add("tgId", group.TestGroupId);
+        //            updateDict.Add("kdfMode", EnumHelpers.GetEnumDescriptionFromEnum(group.KdfMode));
+        //            updateDict.Add("macMode", EnumHelpers.GetEnumDescriptionFromEnum(group.MacMode));
+        //            updateDict.Add("counterLocation", EnumHelpers.GetEnumDescriptionFromEnum(group.CounterLocation));
+        //            updateDict.Add("keyOutLength", group.KeyOutLength);
 
-        public TestVectorSet(dynamic answers)
-        {
-            foreach (var answer in answers.answerProjection)
-            {
-                var group = new TestGroup(answer);
+        //            if (group.KdfMode == KdfModes.Feedback)
+        //            {
+        //                updateDict.Add("zeroLengthIv", group.ZeroLengthIv);
+        //            }
 
-                TestGroups.Add(group);
-            }
-        }
+        //            if (group.CounterLocation != CounterLocations.None)
+        //            {
+        //                updateDict.Add("counterLength", group.CounterLength);
+        //            }
 
-        public List<dynamic> AnswerProjection
-        {
-            get
-            {
-                var list = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup) g))
-                {
-                    dynamic updateObject = new ExpandoObject();
-                    var updateDict = ((IDictionary<string, object>) updateObject);
-                    updateDict.Add("tgId", group.TestGroupId);
-                    updateDict.Add("kdfMode", EnumHelpers.GetEnumDescriptionFromEnum(group.KdfMode));
-                    updateDict.Add("macMode", EnumHelpers.GetEnumDescriptionFromEnum(group.MacMode));
-                    updateDict.Add("counterLocation", EnumHelpers.GetEnumDescriptionFromEnum(group.CounterLocation));
-                    updateDict.Add("keyOutLength", group.KeyOutLength);
+        //            var tests = new List<dynamic>();
+        //            ((IDictionary<string, object>)updateObject).Add("tests", tests);
+        //            foreach (var test in group.Tests.Select(t => (TestCase) t))
+        //            {
+        //                dynamic testObject = new ExpandoObject();
+        //                var testDict = ((IDictionary<string, object>) testObject);
+        //                testDict.Add("tcId", test.TestCaseId);
+        //                testDict.Add("keyIn", test.KeyIn);
 
-                    if (group.KdfMode == KdfModes.Feedback)
-                    {
-                        updateDict.Add("zeroLengthIv", group.ZeroLengthIv);
-                    }
+        //                if (group.KdfMode == KdfModes.Feedback)
+        //                {
+        //                    testDict.Add("iv", test.IV);
+        //                }
 
-                    if (group.CounterLocation != CounterLocations.None)
-                    {
-                        updateDict.Add("counterLength", group.CounterLength);
-                    }
+        //                testDict.Add("deferred", test.Deferred);
 
-                    var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
-                    foreach (var test in group.Tests.Select(t => (TestCase) t))
-                    {
-                        dynamic testObject = new ExpandoObject();
-                        var testDict = ((IDictionary<string, object>) testObject);
-                        testDict.Add("tcId", test.TestCaseId);
-                        testDict.Add("keyIn", test.KeyIn);
+        //                tests.Add(testObject);
+        //            }
 
-                        if (group.KdfMode == KdfModes.Feedback)
-                        {
-                            testDict.Add("iv", test.IV);
-                        }
+        //            list.Add(updateObject);
+        //        }
 
-                        testDict.Add("deferred", test.Deferred);
+        //        return list;
+        //    }
+        //}
 
-                        tests.Add(testObject);
-                    }
+        //[JsonProperty(PropertyName = "testGroups")]
+        //public List<dynamic> PromptProjection
+        //{
+        //    get
+        //    {
+        //        var list = new List<dynamic>();
+        //        foreach (var group in TestGroups.Select(g => (TestGroup) g))
+        //        {
+        //            dynamic updateObject = new ExpandoObject();
+        //            var updateDict = ((IDictionary<string, object>) updateObject);
+        //            updateDict.Add("tgId", group.TestGroupId);
+        //            updateDict.Add("kdfMode", EnumHelpers.GetEnumDescriptionFromEnum(group.KdfMode));
+        //            updateDict.Add("macMode", EnumHelpers.GetEnumDescriptionFromEnum(group.MacMode));
+        //            updateDict.Add("counterLocation", EnumHelpers.GetEnumDescriptionFromEnum(group.CounterLocation));
+        //            updateDict.Add("keyOutLength", group.KeyOutLength);
 
-                    list.Add(updateObject);
-                }
+        //            if (group.KdfMode == KdfModes.Feedback)
+        //            {
+        //                updateDict.Add("zeroLengthIv", group.ZeroLengthIv);
+        //            }
 
-                return list;
-            }
-        }
+        //            if (group.CounterLocation != CounterLocations.None)
+        //            {
+        //                updateDict.Add("counterLength", group.CounterLength);
+        //            }
 
-        [JsonProperty(PropertyName = "testGroups")]
-        public List<dynamic> PromptProjection
-        {
-            get
-            {
-                var list = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup) g))
-                {
-                    dynamic updateObject = new ExpandoObject();
-                    var updateDict = ((IDictionary<string, object>) updateObject);
-                    updateDict.Add("tgId", group.TestGroupId);
-                    updateDict.Add("kdfMode", EnumHelpers.GetEnumDescriptionFromEnum(group.KdfMode));
-                    updateDict.Add("macMode", EnumHelpers.GetEnumDescriptionFromEnum(group.MacMode));
-                    updateDict.Add("counterLocation", EnumHelpers.GetEnumDescriptionFromEnum(group.CounterLocation));
-                    updateDict.Add("keyOutLength", group.KeyOutLength);
+        //            var tests = new List<dynamic>();
+        //            ((IDictionary<string, object>)updateObject).Add("tests", tests);
+        //            foreach (var test in group.Tests.Select(t => (TestCase) t))
+        //            {
+        //                dynamic testObject = new ExpandoObject();
+        //                var testDict = ((IDictionary<string, object>) testObject);
+        //                testDict.Add("tcId", test.TestCaseId);
+        //                testDict.Add("keyIn", test.KeyIn);
 
-                    if (group.KdfMode == KdfModes.Feedback)
-                    {
-                        updateDict.Add("zeroLengthIv", group.ZeroLengthIv);
-                    }
+        //                if (group.KdfMode == KdfModes.Feedback)
+        //                {
+        //                    testDict.Add("iv", test.IV);
+        //                }
 
-                    if (group.CounterLocation != CounterLocations.None)
-                    {
-                        updateDict.Add("counterLength", group.CounterLength);
-                    }
+        //                testDict.Add("deferred", test.Deferred);
 
-                    var tests = new List<dynamic>();
-                    ((IDictionary<string, object>)updateObject).Add("tests", tests);
-                    foreach (var test in group.Tests.Select(t => (TestCase) t))
-                    {
-                        dynamic testObject = new ExpandoObject();
-                        var testDict = ((IDictionary<string, object>) testObject);
-                        testDict.Add("tcId", test.TestCaseId);
-                        testDict.Add("keyIn", test.KeyIn);
+        //                tests.Add(testObject);
+        //            }
 
-                        if (group.KdfMode == KdfModes.Feedback)
-                        {
-                            testDict.Add("iv", test.IV);
-                        }
+        //            list.Add(updateObject);
+        //        }
 
-                        testDict.Add("deferred", test.Deferred);
+        //        return list;
+        //    }
+        //}
 
-                        tests.Add(testObject);
-                    }
+        //[JsonProperty(PropertyName = "testResults")]
+        //public List<dynamic> ResultProjection
+        //{
+        //    get
+        //    {
+        //        var groups = new List<dynamic>();
+        //        foreach (var group in TestGroups.Select(g => (TestGroup)g))
+        //        {
+        //            dynamic groupObject = new ExpandoObject();
+        //            var groupDict = (IDictionary<string, object>) groupObject;
+        //            groupDict.Add("tgId", group.TestGroupId);
 
-                    list.Add(updateObject);
-                }
+        //            var tests = new List<dynamic>();
+        //            groupDict.Add("tests", tests);
+        //            foreach (var test in group.Tests.Select(t => (TestCase)t))
+        //            {
+        //                dynamic testObject = new ExpandoObject();
+        //                var testDict = ((IDictionary<string, object>) testObject);
+        //                testDict.Add("tcId", test.TestCaseId);
 
-                return list;
-            }
-        }
+        //                if (IsSample)
+        //                {
+        //                    testDict.Add("keyOut", test.KeyOut);
+        //                    testDict.Add("fixedData", test.FixedData);
 
-        [JsonProperty(PropertyName = "testResults")]
-        public List<dynamic> ResultProjection
-        {
-            get
-            {
-                var tests = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup)g))
-                {
-                    foreach (var test in group.Tests.Select(t => (TestCase)t))
-                    {
-                        dynamic testObject = new ExpandoObject();
-                        var testDict = ((IDictionary<string, object>) testObject);
-                        testDict.Add("tcId", test.TestCaseId);
-
-                        if (IsSample)
-                        {
-                            testDict.Add("keyOut", test.KeyOut);
-                            testDict.Add("fixedData", test.FixedData);
-
-                            if (group.KdfMode == KdfModes.Counter && group.CounterLocation == CounterLocations.MiddleFixedData)
-                            {
-                                testDict.Add("breakLocation", test.BreakLocation);
-                            }
-                        }
+        //                    if (group.KdfMode == KdfModes.Counter && group.CounterLocation == CounterLocations.MiddleFixedData)
+        //                    {
+        //                        testDict.Add("breakLocation", test.BreakLocation);
+        //                    }
+        //                }
                         
-                        tests.Add(testObject);
-                    }
-                }
+        //                tests.Add(testObject);
+        //            }
 
-                return tests;
-            }
-        }
+        //            groups.Add(groupObject);
+        //        }
 
-        public dynamic ToDynamic()
-        {
-            dynamic vectorSetObject = new ExpandoObject();
-            ((IDictionary<string, object>)vectorSetObject).Add("answerProjection", AnswerProjection);
-            ((IDictionary<string, object>)vectorSetObject).Add("testGroups", PromptProjection);
-            ((IDictionary<string, object>)vectorSetObject).Add("resultProjection", ResultProjection);
-            return vectorSetObject;
-        }
+        //        return groups;
+        //    }
+        //}
+
+        //public dynamic ToDynamic()
+        //{
+        //    dynamic vectorSetObject = new ExpandoObject();
+        //    ((IDictionary<string, object>)vectorSetObject).Add("answerProjection", AnswerProjection);
+        //    ((IDictionary<string, object>)vectorSetObject).Add("testGroups", PromptProjection);
+        //    ((IDictionary<string, object>)vectorSetObject).Add("resultProjection", ResultProjection);
+        //    return vectorSetObject;
+        //}
     }
 }

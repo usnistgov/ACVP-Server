@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.TDES;
+﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CTR
 {
-    public class TestGroupGeneratorPartialBlockMessage : ITestGroupGenerator<Parameters>
+    public class TestGroupGeneratorPartialBlockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
     {
         public const string LABEL = "partialblock";
 
-        public IEnumerable<ITestGroup> BuildTestGroups(Parameters parameters)
+        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -34,7 +32,6 @@ namespace NIST.CVP.Generation.TDES_CTR
                             // Only test case generator that cares about this information
                             DataLength = parameters.DataLength,
 
-                            StaticGroupOfTests = false,
                             TestType = LABEL
                         };
 

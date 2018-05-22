@@ -1,6 +1,4 @@
-﻿using Autofac;
-using NIST.CVP.Crypto.Common;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -18,6 +16,7 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.TDES_CTR;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override string GetTestFileFewTestCases(string folderName)
         {

@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Crypto.KES;

@@ -1,12 +1,12 @@
 {
-  "algorithm": "TDES",
-  "mode": "OFBI",
-  "isSample": false,
-  "direction": [
+  "Algorithm": "TDES",
+  "Mode": "OFBI",
+  "IsSample": false,
+  "Direction": [
     "encrypt",
     "decrypt"
   ],
-  "keyingOption": [
+  "KeyingOption": [
     1
   ]
 }

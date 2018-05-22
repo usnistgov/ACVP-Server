@@ -2,6 +2,7 @@
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -28,8 +29,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             Random800_90 rand = new Random800_90();
             var expected = GetTestCase();
             var supplied = GetTestCase();
-            supplied.ResultsArray[0].CipherText =
-                BitOrientedBitString.GetDerivedFromBase(new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].CipherText).ToBytes()));
+            supplied.ResultsArray[0].CipherText = supplied.ResultsArray[0].CipherText.NOT();
 
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
@@ -48,8 +48,7 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             Random800_90 rand = new Random800_90();
             var expected = GetTestCase();
             var supplied = GetTestCase();
-            supplied.ResultsArray[0].PlainText =
-                BitOrientedBitString.GetDerivedFromBase(new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].PlainText).ToBytes()));
+            supplied.ResultsArray[0].PlainText = supplied.ResultsArray[0].PlainText.NOT();
 
             TestCaseValidatorMCTEncrypt subject = new TestCaseValidatorMCTEncrypt(expected);
 
@@ -108,10 +107,8 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
             Random800_90 rand = new Random800_90();
             var expected = GetTestCase();
             var supplied = GetTestCase();
-            supplied.ResultsArray[0].CipherText =
-                BitOrientedBitString.GetDerivedFromBase(new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].CipherText).ToBytes()));
-            supplied.ResultsArray[0].PlainText =
-                BitOrientedBitString.GetDerivedFromBase(new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].PlainText).ToBytes()));
+            supplied.ResultsArray[0].CipherText = supplied.ResultsArray[0].CipherText.NOT();
+            supplied.ResultsArray[0].PlainText = supplied.ResultsArray[0].PlainText.NOT();
             supplied.ResultsArray[0].Key =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Key).ToBytes());
             supplied.ResultsArray[0].IV =
@@ -199,14 +196,14 @@ namespace NIST.CVP.Generation.AES_CFB1.Tests
         {
             var testCase = new TestCase
             {
-                ResultsArray = new List<BitOrientedAlgoArrayResponse>()
+                ResultsArray = new List<AlgoArrayResponse>()
                 {
-                    new BitOrientedAlgoArrayResponse()
+                    new AlgoArrayResponse()
                     {
-                        CipherText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("1"),
+                        CipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1")),
                         IV = new BitString("CAFECAFECAFECAFECAFECAFECAFECAFE"),
                         Key = new BitString("ABCDEF0ABCDEF0ABCDEF0ABCDEF0"),
-                        PlainText = BitOrientedBitString.GetBitStringEachCharacterOfInputIsBit("0")
+                        PlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"))
                     }
                 },
                 TestCaseId = 1

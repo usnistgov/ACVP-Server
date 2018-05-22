@@ -8,43 +8,46 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KDF.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1, string kdfMode = "counter", string counterLocation = "middle fixed data")
+        public static TestVectorSet GetTestGroups(int groups = 1, KdfModes kdfMode = KdfModes.Counter, CounterLocations counterLocation = CounterLocations.MiddleFixedData)
         {
+            var vectorSet = new TestVectorSet();
+
             var testGroups = new List<TestGroup>();
+            vectorSet.TestGroups = testGroups;
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
+                var tg = 
+                    new TestGroup
+                    {
+                        KdfMode = kdfMode,
+                        MacMode = MacModes.CMAC_AES128,
+                        CounterLocation = counterLocation,
+                        CounterLength = 8,
+                        KeyOutLength = groupIdx + 24,
+                        ZeroLengthIv = false,
+                        TestType = "Sample"
+                    };
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
                     tests.Add(new TestCase
                     {
                         KeyIn = new BitString("1AAADFFF"),
-                        Deferred = true,
                         KeyOut = new BitString("7EADDC"),
                         FixedData = new BitString("9998ADCD"),
                         BreakLocation = 3,
                         IV = new BitString("CAFECAFE"),
-                        TestCaseId = testId
+                        TestCaseId = testId,
+                        ParentGroup = tg
                     });
                 }
-
-                testGroups.Add(
-                    new TestGroup
-                    {
-                        KdfMode = EnumHelpers.GetEnumFromEnumDescription<KdfModes>(kdfMode),
-                        MacMode = MacModes.CMAC_AES128,
-                        CounterLocation = EnumHelpers.GetEnumFromEnumDescription<CounterLocations>(counterLocation),
-                        CounterLength = 8,
-                        KeyOutLength = groupIdx + 24,
-                        ZeroLengthIv = false,
-                        Tests = tests,
-                        TestType = "Sample"
-                    }
-                );
             }
-            return testGroups;
+            return vectorSet;
         }
     }
 }

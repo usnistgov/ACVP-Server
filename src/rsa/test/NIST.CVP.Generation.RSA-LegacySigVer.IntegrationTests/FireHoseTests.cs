@@ -85,9 +85,9 @@ namespace NIST.CVP.Generation.RSA_LegacySigVer.IntegrationTests
                             .WithDecryptionScheme(new Rsa(new RsaVisitor()))
                             .BuildVerify();
 
-                        if (result.Success != testCase.Result)
+                        if (result.Success != testCase.TestPassed)
                         {
-                            Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}.\nTestCase expected to {(testCase.Result ? "pass" : "fail")}.\nTestCase actually {(result.Success ? "pass" : "fail")}\nTestCase actual fail reason: {(result.Success ? "none" : result.ErrorMessage)}");
+                            Assert.Fail($"Could not generate TestCase: {testCase.TestCaseId}.\nTestCase expected to {(testCase.TestPassed.Value ? "pass" : "fail")}.\nTestCase actually {(result.Success ? "pass" : "fail")}\nTestCase actual fail reason: {(result.Success ? "none" : result.ErrorMessage)}");
                         }
                     }
                 }

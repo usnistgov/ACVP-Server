@@ -68,12 +68,12 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
             foreach (var iTestGroup in testVector.TestGroups)
             {
 
-                var testGroup = (TestGroup)iTestGroup;
+                var testGroup = iTestGroup;
                 foreach (var iTestCase in testGroup.Tests)
                 {
                     count++;
 
-                    var testCase = (TestCase)iTestCase;
+                    var testCase = iTestCase;
 
                     if (testGroup.Function.ToLower() == "encrypt")
                     {
@@ -106,7 +106,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
                             testGroup.TagLength
                         );
 
-                        if (testCase.FailureTest)
+                        if (testCase.TestPassed != null && !testCase.TestPassed.Value)
                         {
                             failureTests++;
                             if (result.Success)

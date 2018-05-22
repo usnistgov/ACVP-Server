@@ -2,9 +2,8 @@
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Schema;
-using NIST.CVP.Crypto.KAS.Helpers;
-using NIST.CVP.Crypto.KAS.Scheme.Ffc;
 using NIST.CVP.Generation.KAS.FFC.Helpers;
 using NIST.CVP.Math.Entropy;
 

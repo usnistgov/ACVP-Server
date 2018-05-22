@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyGen
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_CURVES = { "p-224", "p-256", "p-384", "p-521", "b-233", "b-283", "b-409", "b-571", "k-233", "k-283", "k-409", "k-571" };
-        public static string[] VALID_SECRET_GENERATION_MODES = { "extra bits", "testing candidates" };
+        public static string[] VALID_CURVES = EnumHelpers.GetEnumDescriptions<Curve>().Except(new []{ "p-192", "b-163", "k-163" }).ToArray();
+        public static string[] VALID_SECRET_GENERATION_MODES = EnumHelpers.GetEnumDescriptions<SecretGenerationMode>().ToArray();
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {

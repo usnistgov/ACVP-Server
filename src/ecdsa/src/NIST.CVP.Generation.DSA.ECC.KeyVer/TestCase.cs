@@ -1,57 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Numerics;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using NIST.CVP.Common.Helpers;
+﻿using System.Numerics;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Crypto.DSA.ECC;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Enums;
-using NIST.CVP.Generation.Core.ExtensionMethods;
 using NIST.CVP.Generation.DSA.ECC.KeyVer.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.DSA.ECC.KeyVer
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
-        private BigInteger _setStringQx;
-        private BigInteger _setStringQy;
-
-        public TestCase() { }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
+        public bool? TestPassed { get; set; }
+        public bool Deferred => false;
+        public TestGroup ParentGroup { get; set; }
         public TestCaseExpectationEnum Reason { get; set; }
-        public bool Result { get; set; }
 
-        public EccKeyPair KeyPair { get; set; }
-
-        private void MapToProperties(dynamic source)
+        [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
+        [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger D
         {
-            TestCaseId = (int)source.tcId;
+            get => KeyPair.PrivateD;
+            set => KeyPair.PrivateD = value;
+        }
 
-            ExpandoObject expandoSource = (ExpandoObject)source;
+        [JsonProperty(PropertyName = "qx", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Qx
+        {
+            get => KeyPair.PublicQ.X;
+            set => KeyPair.PublicQ.X = value;
+        }
 
-            var resultValue = expandoSource.GetTypeFromProperty<string>("result");
-            Result = Disposition.Passed == EnumHelpers.GetEnumFromEnumDescription<Disposition>(resultValue, false);
-
-            var reasonValue = expandoSource.GetTypeFromProperty<string>("reason");
-            Reason = EnumHelpers.GetEnumFromEnumDescription<TestCaseExpectationEnum>(reasonValue, false);
+        [JsonProperty(PropertyName = "qy", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger Qy
+        {
+            get => KeyPair.PublicQ.Y;
+            set => KeyPair.PublicQ.Y = value;
         }
 
         public bool SetString(string name, string value)
@@ -70,16 +53,15 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyVer
             switch (name.ToLower())
             {
                 case "qx":
-                    _setStringQx = new BitString(value).ToPositiveBigInteger();
+                    KeyPair.PublicQ.X = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "qy":
-                    _setStringQy = new BitString(value).ToPositiveBigInteger();
-                    KeyPair = new EccKeyPair(new EccPoint(_setStringQx, _setStringQy));
+                    KeyPair.PublicQ.Y = new BitString(value).ToPositiveBigInteger();
                     return true;
 
                 case "result":
-                    Result = value.Contains("p (0");
+                    TestPassed = value.Contains("p (0");
                     return true;
             }
 

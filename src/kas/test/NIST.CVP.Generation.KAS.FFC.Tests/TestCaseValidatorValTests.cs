@@ -6,19 +6,17 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
     [TestFixture, UnitTest]
     public class TestCaseValidatorValTests
     {
-        private readonly TestDataMother _tdm = new TestDataMother();
         private TestCaseValidatorVal _subject;
 
         [Test]
-        [TestCase(true, "fail")]
-        [TestCase(false, "pass")]
-        public void ShouldContainNoErrorsOnValidValidation(bool failureTest, string result)
+        [TestCase(true)]
+        [TestCase(false)]
+        public void ShouldContainNoErrorsOnValidValidation(bool testPassed)
         {
-            var testGroup = _tdm.GetTestGroups()[0];
-            var testCase = (TestCase)testGroup.Tests[0];
+            var testGroup = TestDataMother.GetTestGroups(1, true, "val").TestGroups[0];
+            var testCase = testGroup.Tests[0];
 
-            testCase.FailureTest = failureTest;
-            testCase.Result = result;
+            testCase.TestPassed = testPassed;
 
             _subject = new TestCaseValidatorVal(testCase);
 
@@ -30,9 +28,9 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
         [Test]
         public void ShouldContainErrorWhenResultNotPresent()
         {
-            var testGroup = _tdm.GetTestGroups()[0];
-            var testCase = (TestCase)testGroup.Tests[0];
-            testCase.Result = null;
+            var testGroup = TestDataMother.GetTestGroups(1, true, "val").TestGroups[0];
+            var testCase = testGroup.Tests[0];
+            testCase.TestPassed = null;
 
             var suppliedTestCase = testCase;
 

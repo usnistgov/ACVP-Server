@@ -58,7 +58,6 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
 
             var results = subject.BuildTestGroups(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
-            Assert.IsTrue(results.Select(tg => (TestGroup)tg).All(tg => !tg.StaticGroupOfTests));
         }
     }
 }

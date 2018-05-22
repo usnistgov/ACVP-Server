@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.Crypto.Common.Asymmetric.RSA2;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.Keys;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA2.PrimeGenerators;
-using NIST.CVP.Crypto.RSA2;
-using NIST.CVP.Crypto.RSA2.Keys;
-using NIST.CVP.Crypto.RSA2.PrimeGenerators;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA_KeyGen
 {
     public class TestCaseGeneratorKat : ITestCaseGenerator<TestGroup, TestCase>
     {
-        private readonly List<AlgoArrayResponse> _kats;
+        private readonly List<AlgoArrayResponseKey> _kats;
         private readonly IKeyComposerFactory _keyComposerFactory;
         private int _katsIndex;
 
@@ -29,17 +26,17 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             }
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
             var testCase = new TestCase();
             return Generate(group, testCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup group, TestCase testCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
             if (_katsIndex + 1 > _kats.Count)
             {
-                return new TestCaseGenerateResponse("No additional KATs exist.");
+                return new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist.");
             }
 
             var currentKat = _kats[_katsIndex++];
@@ -52,9 +49,9 @@ namespace NIST.CVP.Generation.RSA_KeyGen
             };
 
             testCase.Key = keyComposer.ComposeKey(currentKat.E.ToPositiveBigInteger(), primePair);
-            testCase.FailureTest = currentKat.FailureTest;
+            testCase.TestPassed = !currentKat.FailureTest;
             
-            return new TestCaseGenerateResponse(testCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
     }
 }

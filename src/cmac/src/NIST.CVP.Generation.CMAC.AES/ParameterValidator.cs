@@ -8,7 +8,8 @@ namespace NIST.CVP.Generation.CMAC.AES
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string VALID_ALGORITHM = "CMAC-AES";
+        public static string VALID_ALGORITHM = "CMAC";
+        public static string VALID_MODE = "AES";
         public static string[] VALID_DIRECTIONS = new string[] { "gen", "ver" };
         public static int[] VALID_KEY_LENGTHS = new int[] {128, 192, 256};
         public static int VALID_MESSAGE_LENGTH_MIN = 0;
@@ -20,6 +21,11 @@ namespace NIST.CVP.Generation.CMAC.AES
         {
             var errorResults = new List<string>();
             ValidateAlgorithm(parameters, errorResults);
+            if (errorResults.Count > 0)
+            {
+                return new ParameterValidateResponse(string.Join(";", errorResults));
+            }
+
             ValidateDirection(parameters, errorResults);
             ValidateMessageLength(parameters, errorResults);
             ValidateMacLength(parameters, errorResults);
@@ -37,6 +43,9 @@ namespace NIST.CVP.Generation.CMAC.AES
         {
             var algoCheck = ValidateValue(parameters.Algorithm, new string[] {VALID_ALGORITHM}, "Algorithm");
             errorResults.AddIfNotNullOrEmpty(algoCheck);
+
+            var modeCheck = ValidateValue(parameters.Mode, new string[] { VALID_MODE }, "Mode");
+            errorResults.AddIfNotNullOrEmpty(modeCheck);
         }
 
         private void ValidateDirection(Parameters parameters, List<string> errorResults)

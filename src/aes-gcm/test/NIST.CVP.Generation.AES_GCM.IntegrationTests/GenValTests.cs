@@ -1,6 +1,7 @@
 ﻿using NIST.CVP.Math;
 using NUnit.Framework;
 using System.Linq;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -18,6 +19,7 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 
         public override AlgoMode AlgoMode => AlgoMode.AES_GCM;
 
+        public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
@@ -25,9 +27,9 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
             var rand = new Random800_90();
 
             // If TC is intended to be a failure test, change it
-            if (testCase.decryptFail != null)
+            if (testCase.testPassed != null)
             {
-                testCase.decryptFail = false;
+                testCase.testPassed = true;
             }
 
             // If TC has a cipherText, change it
@@ -70,11 +72,11 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PtLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
                 ivLen = new MathDomain().AddSegment(new ValueDomainSegment(96)),
-                ivGen = ParameterValidator.VALID_IV_GEN[1],
-                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
+                ivGen = ParameterValidator.VALID_IV_GEN[0],
+                ivGenMode = ParameterValidator.VALID_IV_GEN_MODE[0],
                 aadLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
                 TagLen = new MathDomain().AddSegment(new ValueDomainSegment(64)),
-                IsSample = false
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, p);

@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NIST.CVP.Generation.Core.Enums
 {
     public enum Disposition
     {
-        [Description("none")]
+        [EnumMember(Value = "none")]
         None,
 
-        [Description("passed")]
+        [EnumMember(Value = "passed")]
         Passed,
 
-        [Description("missing")]
+        [EnumMember(Value = "missing")]
         Missing,
 
-        [Description("failed")]
+        [EnumMember(Value = "failed")]
         Failed
     }
 }

@@ -1,143 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.FFC.SigGen
 {
-    public class TestVectorSet : ITestVectorSet
+    public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
-        public string Algorithm { get; set; }
-        public string Mode { get; set; }
+        public string Algorithm { get; set; } = "DSA";
+        public string Mode { get; set; } = "SigGen";
         public bool IsSample { get; set; }
-
-        [JsonIgnore]
-        [JsonProperty(PropertyName = "testGroupsNotSerialized")]
-        public List<ITestGroup> TestGroups { get; set; } = new List<ITestGroup>();
-
-        public TestVectorSet() { }
-
-        public TestVectorSet(dynamic answers)
-        {
-            foreach (var answer in answers.answerProjection)
-            {
-                var group = new TestGroup(answer);
-                TestGroups.Add(group);
-            }
-        }
-
-        public List<dynamic> AnswerProjection
-        {
-            get
-            {
-                var list = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup)g))
-                {
-                    dynamic updateObject = new ExpandoObject();
-                    var updateDict = ((IDictionary<string, object>) updateObject);
-                    updateDict.Add("tgId", group.TestGroupId);
-                    updateDict.Add("l", group.L);
-                    updateDict.Add("n", group.N);
-                    updateDict.Add("hashAlg", group.HashAlg.Name);
-
-                    var tests = new List<dynamic>();
-                    updateDict.Add("tests", tests);
-                    foreach (var test in group.Tests.Select(t => (TestCase)t))
-                    {
-                        dynamic testObject = new ExpandoObject();
-                        var testDict = ((IDictionary<string, object>) testObject);
-                        testDict.Add("tcId", test.TestCaseId);
-                        testDict.Add("message", test.Message);
-
-                        tests.Add(testObject);
-                    }
-
-                    list.Add(updateObject);
-                }
-
-                return list;
-            }
-        }
-
-        [JsonProperty(PropertyName = "testGroups")]
-        public List<dynamic> PromptProjection
-        {
-            get
-            {
-                var list = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup)g))
-                {
-                    dynamic updateObject = new ExpandoObject();
-                    var updateDict = ((IDictionary<string, object>) updateObject);
-                    updateDict.Add("tgId", group.TestGroupId);
-                    updateDict.Add("l", group.L);
-                    updateDict.Add("n", group.N);
-                    updateDict.Add("hashAlg", group.HashAlg.Name);
-
-                    var tests = new List<dynamic>();
-                    updateDict.Add("tests", tests);
-                    foreach (var test in group.Tests.Select(t => (TestCase)t))
-                    {
-                        dynamic testObject = new ExpandoObject();
-                        var testDict = ((IDictionary<string, object>) testObject);
-                        testDict.Add("tcId", test.TestCaseId);
-                        testDict.Add("message", test.Message);
-
-                        tests.Add(testObject);
-                    }
-
-                    list.Add(updateObject);
-                }
-
-                return list;
-            }
-        }
-
-        [JsonProperty(PropertyName = "testResults")]
-        public List<dynamic> ResultProjection
-        {
-            get
-            {
-                var tests = new List<dynamic>();
-                foreach (var group in TestGroups.Select(g => (TestGroup)g))
-                {
-                    foreach (var test in group.Tests.Select(t => (TestCase)t))
-                    {
-                        dynamic testObject = new ExpandoObject();
-                        var testDict = ((IDictionary<string, object>) testObject);
-                        testDict.Add("tcId", test.TestCaseId);
-
-                        if (IsSample)
-                        {
-                            // These are group properties inside each test case
-                            testDict.Add("p", test.DomainParams.P);
-                            testDict.Add("q", test.DomainParams.Q);
-                            testDict.Add("g", test.DomainParams.G);
-
-                            // Normal answers per test case
-                            testDict.Add("y", test.Key.PublicKeyY);
-                            testDict.Add("r", test.Signature.R);
-                            testDict.Add("s", test.Signature.S);
-                        }
-
-                        tests.Add(testObject);
-                    }
-                }
-
-                return tests;
-            }
-        }
-
-        public dynamic ToDynamic()
-        {
-            dynamic vectorSetObject = new ExpandoObject();
-            ((IDictionary<string, object>)vectorSetObject).Add("answerProjection", AnswerProjection);
-            ((IDictionary<string, object>)vectorSetObject).Add("testGroups", PromptProjection);
-            ((IDictionary<string, object>)vectorSetObject).Add("resultProjection", ResultProjection);
-            return vectorSetObject;
-        }
+        public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
     }
 }

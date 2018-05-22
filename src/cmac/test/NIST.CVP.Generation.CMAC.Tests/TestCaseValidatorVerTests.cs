@@ -9,13 +9,13 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
     [TestFixture, UnitTest]
     public class TestCaseValidatorVerTests
     {
-        private TestCaseValidatorVer<TestCase> _subject;
+        private TestCaseValidatorVer<TestGroup, TestCase> _subject;
 
         [Test]
         public void ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
-            _subject = new TestCaseValidatorVer<TestCase>(testCase);
+            _subject = new TestCaseValidatorVer<TestGroup, TestCase>(testCase);
             var result = _subject.Validate(testCase);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
@@ -25,10 +25,10 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         public void ShouldFailIfResultDoesNotMatch()
         {
             var testCase = GetTestCase();
-            testCase.Result = "pass";
-            _subject = new TestCaseValidatorVer<TestCase>(testCase);
+            testCase.TestPassed = true;
+            _subject = new TestCaseValidatorVer<TestGroup, TestCase>(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.Result = "fail";
+            suppliedResult.TestPassed = false;
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
@@ -38,38 +38,35 @@ namespace NIST.CVP.Generation.CMAC_AES.Tests
         public void ShouldThrowErrorWhenReasonNotPresent()
         {
             var testCase = GetTestCase();
-            testCase.Result = "pass";
-            _subject = new TestCaseValidatorVer<TestCase>(testCase);
+            testCase.TestPassed = true;
+            _subject = new TestCaseValidatorVer<TestGroup, TestCase>(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.Result = null;
+            suppliedResult.TestPassed = null;
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That(Core.Enums.Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains("Result"));
+            Assert.IsTrue(Core.Enums.Disposition.Failed == result.Result);
         }
         
         [Test]
         public void ShouldShowResultAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
-            testCase.Result = "pass";
-            _subject = new TestCaseValidatorVer<TestCase>(testCase);
+            testCase.TestPassed = true;
+            _subject = new TestCaseValidatorVer<TestGroup, TestCase>(testCase);
             var suppliedResult = GetTestCase();
-            suppliedResult.Result = "fail";
+            suppliedResult.TestPassed = false;
             var result = _subject.Validate(suppliedResult);
             Assume.That(result != null);
-            Assume.That(Core.Enums.Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains("Result"));
+            Assert.IsTrue(Core.Enums.Disposition.Failed == result.Result);
         }
         
-        private TestCase GetTestCase(bool failureTest = false)
+        private TestCase GetTestCase()
         {
             var testCase = new TestCase
             {
-                FailureTest = failureTest,
+                TestPassed = true,
                 Message = new BitString(1),
                 Mac = new BitString(1),
-                Result = "test",
                 TestCaseId = 1
             };
             return testCase;

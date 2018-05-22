@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Crypto.AES_GCM;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.AES_XPN
 {
-    public class TestCaseValidatorInternalEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorInternalEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestGroup _testGroup;
         private readonly TestCase _serverTestCase;
@@ -72,7 +71,7 @@ namespace NIST.CVP.Generation.AES_XPN
         {
             var serverResult = _testCaseResolver.CompleteDeferredCrypto(_testGroup, _serverTestCase, suppliedResult);
 
-            if (!serverResult.CipherText.Equals(suppliedResult.CipherText))
+            if (!serverResult.Result.Equals(suppliedResult.CipherText))
             {
                 errors.Add("Cipher Text does not match");
             }

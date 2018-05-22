@@ -11,44 +11,53 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests
 {
     public class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1)
+        public static TestVectorSet GetTestGroups(int groups = 1, string mode = "sha3", string testType = "aft")
         {
+            var tvs = new TestVectorSet
+            {
+                Algorithm = "RSA",
+                Mode = "DecryptionPrimitiveComponent",
+                IsSample = true,
+            };
+
             var testGroups = new List<TestGroup>();
+            tvs.TestGroups = testGroups;
             for (var groupIdx = 0; groupIdx < groups; groupIdx++)
             {
-                var tests = new List<ITestCase>();
-                var list = new List<AlgoArrayResponse>();
-
-                for(var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
+                var tg = new TestGroup
                 {
-                    var algoArrayResponse = new AlgoArrayResponse
+                    Modulo = 2048,
+                    TotalFailingCases = 2,
+                    TotalTestCases = 6,
+                    TestType = testType
+                };
+                testGroups.Add(tg);
+
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
+                for (var testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
+                {
+                    var tc = new TestCase
                     {
-                        CipherText = new BitString("ABCD"),
-                        Key = new KeyPair {PubKey = new PublicKey {E = 1, N = 2}, PrivKey = new PrivateKey{D = 3, P = 4, Q = 5}},
+                        ParentGroup = tg,
+                        ResultsArray = new List<AlgoArrayResponseSignature>
+                        {
+                            new AlgoArrayResponseSignature()
+                            {
+                                PlainText = new BitString("ABCD"),
+                                CipherText = new BitString("1234"),
+                                Key = new KeyPair() { PrivKey = new PrivateKey {D = 1, P = 2, Q = 3}, PubKey = new PublicKey {E = 4, N = 5}},
+                                FailureTest = true,
+                            }
+                        },
+                        Deferred = true,
+                        TestCaseId = testId
                     };
-
-                    if (testId % 2 == 0)
-                    {
-                        algoArrayResponse.FailureTest = true;
-                    }
-                    else
-                    {
-                        algoArrayResponse.PlainText = new BitString("ABCDEF");
-                    }
-                    
-                    list.Add(algoArrayResponse);
+                    tests.Add(tc);
                 }
-                
-                tests.Add(new TestCase {ResultsArray = list});
-
-                testGroups.Add(new TestGroup
-                {
-                    Modulo = 2048 + groupIdx,
-                    Tests = tests
-                });
             }
 
-            return testGroups;
+            return tvs;
         }
     }
 }

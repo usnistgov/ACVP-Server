@@ -1,9 +1,10 @@
 ﻿namespace NIST.CVP.Generation.Core.Tests.Fakes
 {
-    public class FakeTestCase : ITestCase
+    public class FakeTestCase : ITestCase<FakeTestGroup, FakeTestCase>
     {
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
+        public FakeTestGroup ParentGroup { get; set; }
         public bool Deferred { get; set; }
+        public bool? TestPassed => true;
     }
 }

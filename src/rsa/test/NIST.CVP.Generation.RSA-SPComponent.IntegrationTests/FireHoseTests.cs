@@ -44,23 +44,19 @@ namespace NIST.CVP.Generation.RSA_SPComponent.IntegrationTests
                     Assert.Fail("No TestGroups parsed");
                 }
 
-                foreach(var iTestGroup in testVector.TestGroups)
+                foreach(var testGroup in testVector.TestGroups)
                 {
-                    var testGroup = (TestGroup)iTestGroup;
-
                     if(testGroup.Tests.Count == 0)
                     {
                         Assert.Fail("No TestCases parsed");
                     }
 
-                    foreach(var iTestCase in testGroup.Tests)
+                    foreach(var testCase in testGroup.Tests)
                     {
-                        var testCase = (TestCase)iTestCase;
-
                         var result = rsa.Decrypt(testCase.Message.ToPositiveBigInteger(), testCase.Key.PrivKey, testCase.Key.PubKey);
-                        if (result.Success == testCase.FailureTest)
+                        if (result.Success != testCase.TestPassed)
                         {
-                            Assert.Fail($"TestCase {testCase.TestCaseId} was incorrect. Expected {testCase.FailureTest}");
+                            Assert.Fail($"TestCase {testCase.TestCaseId} was incorrect. Expected {testCase.TestPassed}");
                         }
                     }
                 }

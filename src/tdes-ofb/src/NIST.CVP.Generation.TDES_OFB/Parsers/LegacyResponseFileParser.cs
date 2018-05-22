@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.TDES_OFB.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -155,7 +153,7 @@ namespace NIST.CVP.Generation.TDES_OFB.Parsers
                 }
             }
 
-            var testVectorSet = new TestVectorSet { Algorithm = "TDESOFB", TestGroups = groups.Select(g => (ITestGroup)g).ToList() };
+            var testVectorSet = new TestVectorSet { TestGroups = groups };
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
     }

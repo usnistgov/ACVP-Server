@@ -32,10 +32,10 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Tests
         }
 
         [Test]
-        public void ShouldRunVerifyMethodAndFailWithMismatchedFailureTests()
+        public void ShouldRunVerifyMethodAndFailWithMismatchedFailingTests()
         {
             var responseTestCase = GetFailureTestCase();
-            responseTestCase.FailureTest = false;
+            responseTestCase.TestPassed = true;
 
             var subject = new TestCaseValidator(GetFailureTestCase());
             var result = subject.Validate(responseTestCase);
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Tests
         public void ShouldRunVerifyMethodAndFailIfNoSignatureProvidedWhenExpected()
         {
             var responseTestCase = GetFailureTestCase();
-            responseTestCase.FailureTest = false;
+            responseTestCase.TestPassed = true;
 
             var subject = new TestCaseValidator(GetTestCase());
             var result = subject.Validate(responseTestCase);
@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Tests
             {
                 TestCaseId = 1,
                 Signature = new BitString("ABCD"),
-                FailureTest = false
+                TestPassed = true
             };
         }
 
@@ -79,7 +79,7 @@ namespace NIST.CVP.Generation.RSA_SPComponent.Tests
             return new TestCase
             {
                 TestCaseId = 1,
-                FailureTest = true
+                TestPassed = false
             };
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Generation.Core;
@@ -6,86 +7,62 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.AES_OFB.Tests
 {
-    public class TestDataMother
+    public static class TestDataMother
     {
-        public List<TestGroup> GetTestGroups(int groups = 1, string direction = "encrypt", bool failureTest = false)
+        public static TestVectorSet GetTestGroups(int groups = 1, string direction = "encrypt", string testType = "aft")
         {
+            var tvs = new TestVectorSet()
+            {
+                Algorithm = "AES",
+                IsSample = true,
+                Mode = "OFB"
+            };
+
             var testGroups = new List<TestGroup>();
+            tvs.TestGroups = testGroups;
             for (int groupIdx = 0; groupIdx < groups; groupIdx++)
             {
+                var tg = new TestGroup
+                {
+                    Function = direction,
+                    KeyLength = 256 + groupIdx * 2,
+                    TestType = testType
+                };
+                testGroups.Add(tg);
 
-                var tests = new List<ITestCase>();
+                var tests = new List<TestCase>();
+                tg.Tests = tests;
                 for (int testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
                 {
-                    tests.Add(new TestCase
+                    var tc = new TestCase
                     {
+                        ParentGroup = tg,
                         PlainText = new BitString("1AAADFFF"),
-                        Deferred = false,
-                        FailureTest = failureTest,
+                        Deferred = true,
                         CipherText = new BitString("7EADDC"),
                         Key = new BitString("9998ADCD"),
                         IV = new BitString("CAFECAFE"),
                         TestCaseId = testId
-                    });
-                }
+                    };
+                    tests.Add(tc);
 
-                testGroups.Add(
-                    new TestGroup
+                    if (testType.Equals("mct", StringComparison.OrdinalIgnoreCase))
                     {
-                        
-                        Function = direction,
-                        KeyLength = 256 + groupIdx * 2,
-                        Tests = tests,
-                        TestType = "Sample"
-                    }
-                );
-            }
-            return testGroups;
-        }
-
-        public List<TestGroup> GetMCTTestGroups(int groups = 1, string direction = "encrypt")
-        {
-            List<TestGroup> testGroups = new List<TestGroup>();
-
-            for (int groupIdx = 0; groupIdx < groups; groupIdx++)
-            {
-                var tests = new List<ITestCase>();
-                for (int testId = 15 * groupIdx + 1; testId <= (groupIdx + 1) * 15; testId++)
-                {
-                    tests.Add(new TestCase
-                    {
-                        Deferred = false,
-                        PlainText = new BitString("1AAADFFF"),
-                        CipherText = new BitString("7EADDC"),
-                        Key = new BitString("9998ADCD"),
-                        IV = new BitString("CAFECAFE"),
-                        ResultsArray = new List<AlgoArrayResponse>()
+                        tc.ResultsArray = new List<AlgoArrayResponse>()
                         {
                             new AlgoArrayResponse()
                             {
-                                PlainText = new BitString("1AAADFFF"),
-                                CipherText = new BitString("7EADDC"),
-                                Key = new BitString("9998ADCD"),
-                                IV = new BitString("CAFECAFE"),
+                                PlainText = new BitString("FF1AAADFFF"),
+                                CipherText = new BitString("FF7EADDC"),
+                                Key = new BitString("FF9998ADCD"),
+                                IV = new BitString("FFCAFECAFE"),
                             }
-                        },
-                        TestCaseId = testId
-                    });
-                }
-
-                testGroups.Add(
-                    new TestGroup
-                    {
-
-                        Function = direction,
-                        KeyLength = 256 + groupIdx * 2,
-                        Tests = tests,
-                        TestType = "MCT"
+                        };
                     }
-                );
+                }
             }
 
-            return testGroups;
+            return tvs;
         }
     }
 }

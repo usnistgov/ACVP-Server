@@ -1,4 +1,5 @@
 ﻿using System.Dynamic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.ExtensionMethods;
@@ -6,45 +7,22 @@ using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KDF
 {
-    public class TestCase : ITestCase
+    public class TestCase : ITestCase<TestGroup, TestCase>
     {
         // Only used in FireHoseTests
         public int L;
-
-        public TestCase() { }
-
-        public TestCase(dynamic source)
-        {
-            MapToProperties(source);
-        }
-
-        public TestCase(JObject source)
-        {
-            var data = source.ToObject<ExpandoObject>();
-            MapToProperties(data);
-        }
-
+        
         public int TestCaseId { get; set; }
-        public bool FailureTest { get; set; }
-        public bool Deferred { get; set; }
+        public bool? TestPassed => true;
+        public bool Deferred => true;
+        public TestGroup ParentGroup { get; set; }
 
         public BitString KeyIn { get; set; }
         public BitString FixedData { get; set; }
+        [JsonProperty(PropertyName = "iv")]
         public BitString IV { get; set; }
         public int BreakLocation { get; set; }
         public BitString KeyOut { get; set; }
-
-        private void MapToProperties(dynamic source)
-        {
-            TestCaseId = (int)source.tcId;
-
-            var expandoSource = (ExpandoObject) source;
-            KeyIn = expandoSource.GetBitStringFromProperty("keyIn");
-            KeyOut = expandoSource.GetBitStringFromProperty("keyOut");
-            FixedData = expandoSource.GetBitStringFromProperty("fixedData");
-            IV = expandoSource.GetBitStringFromProperty("iv");
-            BreakLocation = expandoSource.GetTypeFromProperty<int>("breakLocation");
-        }
 
         public bool SetString(string name, string value)
         {

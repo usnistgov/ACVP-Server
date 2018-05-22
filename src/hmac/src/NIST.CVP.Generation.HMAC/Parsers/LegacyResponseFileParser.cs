@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Parsers;
 
 namespace NIST.CVP.Generation.HMAC.Parsers
 {
-    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet>
+    public class LegacyResponseFileParser : ILegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>
     {
         public ParseResponse<TestVectorSet> Parse(string path)
         {
@@ -69,8 +68,7 @@ namespace NIST.CVP.Generation.HMAC.Parsers
                             ShaDigestSize = shaDigestSize,
                             ShaMode = shaMode,
                             MessageLength = 128, // always 128
-                            TestType = "AFT",
-                            Tests = new List<ITestCase>()
+                            TestType = "AFT"
                         };
 
                         groups.Add(currentGroup);
@@ -109,7 +107,7 @@ namespace NIST.CVP.Generation.HMAC.Parsers
 
             }
 
-            var testVectorSet = new TestVectorSet { Algorithm = $"HMAC", TestGroups = groups.Select(g => (ITestGroup)g).ToList() };
+            var testVectorSet = new TestVectorSet { Algorithm = $"HMAC", TestGroups = groups.Select(g => g).ToList() };
             return new ParseResponse<TestVectorSet>(testVectorSet);
         }
 

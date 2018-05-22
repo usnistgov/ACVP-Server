@@ -6,7 +6,7 @@ using NIST.CVP.Generation.Core.Enums;
 
 namespace NIST.CVP.Generation.TDES_CFB
 {
-    public class TestCaseValidatorEncrypt : ITestCaseValidator<TestCase>
+    public class TestCaseValidatorEncrypt : ITestCaseValidator<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 

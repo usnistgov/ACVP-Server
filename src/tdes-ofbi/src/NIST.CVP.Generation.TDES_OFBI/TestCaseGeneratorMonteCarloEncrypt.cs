@@ -1,6 +1,4 @@
-﻿using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Crypto.TDES_OFBI;
-using NIST.CVP.Generation.Core;
+﻿using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NLog;
 using System;
@@ -23,14 +21,14 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
         public int NumberOfTestCasesToGenerate => 1;
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, bool isSample)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
         {
-            var seedCase = GetSeedCase(@group);
+            var seedCase = GetSeedCase(group);
 
-            return Generate(@group, seedCase);
+            return Generate(group, seedCase);
         }
 
-        public TestCaseGenerateResponse Generate(TestGroup @group, TestCase seedCase)
+        public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase seedCase)
         {
             MCTResult<AlgoArrayResponseWithIvs> encryptionResult = null;
             try
@@ -40,7 +38,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
                 {
                     ThisLogger.Warn(encryptionResult.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
                     }
                 }
             }
@@ -48,14 +46,14 @@ namespace NIST.CVP.Generation.TDES_OFBI
             {
                 ThisLogger.Error(ex);
                 {
-                    return new TestCaseGenerateResponse(ex.Message);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
             seedCase.ResultsArray = encryptionResult.Response;
-            return new TestCaseGenerateResponse(seedCase);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>(seedCase);
         }
 
-        private TestCase GetSeedCase(TestGroup @group)
+        private TestCase GetSeedCase(TestGroup group)
         {
             var key = TdesHelpers.GenerateTdesKey(group.KeyingOption); 
             var plainText = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS * 3);

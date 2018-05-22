@@ -8,6 +8,7 @@ using NIST.CVP.Generation.Core.Tests.Fakes;
 using NIST.CVP.Generation.KeyWrap.AES;
 using NIST.CVP.Crypto.Common;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Common;
 
 namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
 {
@@ -21,15 +22,16 @@ namespace NIST.CVP.Generation.KeyWrap.IntegrationTests
         public override AlgoMode AlgoMode => AlgoMode.AES_KWP;
 
         public override IRegisterInjections RegistrationsGenVal => new KeyWrapWithPadding.AES.RegisterInjections();
+		public override IRegisterInjections RegistrationsCrypto => new Crypto.RegisterInjections();
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
 
             // If TC is intended to be a failure test, change it
-            if (testCase.decryptFail != null)
+            if (testCase.testPassed != null)
             {
-                testCase.decryptFail = false;
+                testCase.testPassed = !(bool)testCase.testPassed;
             }
 
             // If TC has a cipherText, change it

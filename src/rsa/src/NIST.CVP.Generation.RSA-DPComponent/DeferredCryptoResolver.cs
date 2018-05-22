@@ -16,16 +16,16 @@ namespace NIST.CVP.Generation.RSA_DPComponent
             _rsa = rsa;
         }
 
-        public ManyEncryptionResult CompleteDeferredCrypto(TestGroup testGroup, TestCase serverTestCase, TestCase iutTestCase)
+        public ManyEncryptionResult CompleteDeferredCrypto(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var responses = new List<AlgoArrayResponse>();
+            var responses = new List<AlgoArrayResponseSignature>();
 
             for (var i = 0; i < serverTestCase.ResultsArray.Count; i++)
             {
                 var iutCase = iutTestCase.ResultsArray[i];          // Has key, PT, FailureTest
                 var serverCase = serverTestCase.ResultsArray[i];    // Has CT
 
-                var serverResponse = new AlgoArrayResponse
+                var serverResponse = new AlgoArrayResponseSignature
                 {
                     CipherText = serverCase.CipherText,
                     Key = iutCase.Key,

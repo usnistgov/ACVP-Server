@@ -41,10 +41,9 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
                 var result = subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
                 Assume.That(result != null);
                 Assume.That(result.Success);
-                var testCase = (TestCase) result.TestCase;
+                var testCase = result.TestCase;
                 Assert.AreEqual((caseIdx + 1) * 8, testCase.PlainText.ToBytes().Length );
             }
-            
         }
 
         [Test]
@@ -56,8 +55,6 @@ namespace NIST.CVP.Generation.TDES_ECB.Tests
             var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), algo.Object);
             var result = subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
             Assert.IsFalse(result.Success);
-
-
         }
     }
 }

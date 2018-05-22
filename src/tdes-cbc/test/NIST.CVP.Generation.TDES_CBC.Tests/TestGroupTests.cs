@@ -8,27 +8,6 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
     [TestFixture, UnitTest]
     public class TestGroupTests
     {
-        private TestDataMother _tdm = new TestDataMother();
-
-        [Test]
-        public void ShouldReconstituteTestGroupFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assert.IsNotNull(subject);
-
-        }
-
-        [Test]
-        public void ShouldSetProperTestTypeFromDynamicAnswer()
-        {
-            var sourceAnswer = GetSourceAnswer();
-            var subject = new TestGroup(sourceAnswer);
-            Assume.That(subject != null);
-            Assert.AreEqual(sourceAnswer.testType, subject.TestType);
-        }
-
-
         [Test]
         [TestCase("Fredo")]
         [TestCase("")]
@@ -71,15 +50,6 @@ namespace NIST.CVP.Generation.TDES_CBC.Tests
             var result = subject.Equals(null);
 
             Assert.IsFalse(result);
-        }
-
-
-
-        private dynamic GetSourceAnswer()
-        {
-            var sourceVector = new TestVectorSet() { TestGroups = _tdm.GetTestGroups().Select(g => (ITestGroup)g).ToList() };
-            var sourceAnswer = sourceVector.AnswerProjection[0];
-            return sourceAnswer;
         }
     }
 }
