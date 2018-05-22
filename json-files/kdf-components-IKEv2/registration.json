@@ -1,40 +1,77 @@
 {
-  "Algorithm": "kdf-components",
-  "Mode": "IKEv2",
-  "IsSample": false,
-  "HashAlg": [
-    "sha-1",
-    "sha2-224",
-    "sha2-256",
-    "sha2-384",
-    "sha2-512"
-  ],
-  "InitiatorNonceLength": [
+
+  "algorithm": "kdf-components",
+  "mode": "IKEv2",
+  "isSample": false,
+  "capabilities": [
     {
-      "min": 64,
-      "max": 2048,
-      "increment": 1
-    }
-  ],
-  "ResponderNonceLength": [
+      "hashAlg": [
+        "sha-1",
+        "sha2-224",
+        "sha2-256"
+      ],
+      "initiatorNonceLength": [
+        {
+          "min": 64,
+          "max": 2048,
+          "increment": 1
+        }
+      ],
+      "responderNonceLength": [
+        {
+          "min": 64,
+          "max": 2048,
+          "increment": 1
+        }
+      ],
+      "diffieHellmanSharedSecretLength": [
+        {
+          "min": 224,
+          "max": 8192,
+          "increment": 1
+        }
+      ],
+      "derivedKeyingMaterialLength": [
+        {
+          "min": 384,
+          "max": 16384,
+          "increment": 1
+        }
+      ]
+    },
     {
-      "min": 64,
-      "max": 2048,
-      "increment": 1
-    }
-  ],
-  "DiffieHellmanSharedSecretLength": [
-    {
-      "min": 224,
-      "max": 8192,
-      "increment": 1
-    }
-  ],
-  "DerivedKeyingMaterialLength": [
-    {
-      "min": 512,
-      "max": 16384,
-      "increment": 1
+      "hashAlg": [
+        "sha2-384",
+        "sha2-512"
+      ],
+      "initiatorNonceLength": [
+        {
+          "min": 64,
+          "max": 2048,
+          "increment": 1
+        }
+      ],
+      "responderNonceLength": [
+        {
+          "min": 64,
+          "max": 2048,
+          "increment": 1
+        }
+      ],
+      "diffieHellmanSharedSecretLength": [
+        {
+          "min": 224,
+          "max": 8192,
+          "increment": 1
+        }
+      ],
+      "derivedKeyingMaterialLength": [
+        {
+          "min": 1024,
+          "max": 16384,
+          "increment": 1
+        }
+      ]
     }
   ]
 }

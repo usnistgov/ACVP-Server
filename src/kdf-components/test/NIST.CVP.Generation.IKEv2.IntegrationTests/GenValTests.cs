@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Tests.Core.TestCategoryAttributes;
+﻿using System.Linq;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using Autofac;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -42,11 +43,18 @@ namespace NIST.CVP.Generation.IKEv2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                HashAlg = new [] {"sha-1", "sha2-224"},
-                InitiatorNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 256, 1024, 8)),
-                ResponderNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 256, 1024, 8)),
-                DiffieHellmanSharedSecretLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 256, 1024, 8)),
-                DerivedKeyingMaterialLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 256, 1024, 8))
+
+                Capabilities = new []
+                {
+                    new Capabilities
+                    {
+                        HashAlg = new [] {"sha-1", "sha2-224"},
+                        InitiatorNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 256, 1024, 8)),
+                        ResponderNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 256, 1024, 8)),
+                        DiffieHellmanSharedSecretLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 256, 1024, 8)),
+                        DerivedKeyingMaterialLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 256, 1024, 8))
+                    }
+                }
             };
 
             return CreateRegistration(folderName, p);
@@ -55,15 +63,32 @@ namespace NIST.CVP.Generation.IKEv2.IntegrationTests
         protected override string GetTestFileLotsOfTestCases(string folderName)
         {
             var rand = new Random800_90();
+            var firstHashes = new[] {"sha-1", "sha2-224", "sha2-256"};
+            var lastHashes = new[] {"sha2-384", "sha2-512"};
             var p = new Parameters
             {
                 Algorithm = Algorithm,
                 Mode = Mode,
-                HashAlg = ParameterValidator.VALID_HASH_ALGS,
-                InitiatorNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_NONCE, ParameterValidator.MAX_NONCE)),
-                ResponderNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_NONCE, ParameterValidator.MAX_NONCE)),
-                DiffieHellmanSharedSecretLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_DH, ParameterValidator.MAX_DH)),
-                DerivedKeyingMaterialLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 512, ParameterValidator.MAX_DKM))
+
+                Capabilities = new []
+                {
+                    new Capabilities
+                    {
+                        HashAlg = firstHashes,
+                        InitiatorNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_NONCE, ParameterValidator.MAX_NONCE)),
+                        ResponderNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_NONCE, ParameterValidator.MAX_NONCE)),
+                        DiffieHellmanSharedSecretLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_DH, ParameterValidator.MAX_DH)),
+                        DerivedKeyingMaterialLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 384, ParameterValidator.MAX_DKM))
+                    },
+                    new Capabilities
+                    {
+                        HashAlg = lastHashes,
+                        InitiatorNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_NONCE, ParameterValidator.MAX_NONCE)),
+                        ResponderNonceLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_NONCE, ParameterValidator.MAX_NONCE)),
+                        DiffieHellmanSharedSecretLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, ParameterValidator.MIN_DH, ParameterValidator.MAX_DH)),
+                        DerivedKeyingMaterialLength = new MathDomain().AddSegment(new RangeDomainSegment(rand, 1024, ParameterValidator.MAX_DKM))
+                    }
+                }
             };
 
             return CreateRegistration(folderName, p);
