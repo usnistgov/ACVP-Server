@@ -1,11 +1,8 @@
 ﻿using CommandLineParser.Exceptions;
 using System;
 using System.IO;
-using Autofac;
 using Microsoft.Extensions.Configuration;
 using NIST.CVP.Common.Enums;
-using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.Core.Enums;
 using NIST.CVP.Generation.GenValApp.Helpers;
 using NIST.CVP.Generation.GenValApp.Models;
 using NLog;
@@ -18,6 +15,7 @@ namespace NIST.CVP.Generation.GenValApp
 
         public const string SETTINGS_FILE = "appSettings.json";
         public static readonly string RootDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        public static string FileDirectory;
 
         /// <summary>
         /// Static constructor - bootstraps and sets configuration
@@ -63,6 +61,7 @@ namespace NIST.CVP.Generation.GenValApp
             try
             {
                 var parsedParameters = argumentParser.Parse(args);
+                FileDirectory = Path.GetPathRoot(parsedParameters.RegistrationFile.FullName);
 
                 var dllLocation = RootDirectory;
                 if (parsedParameters.DllLocation != null)
@@ -83,6 +82,7 @@ namespace NIST.CVP.Generation.GenValApp
             catch (CommandLineException ex)
             {
                 var errorMessage = $"ERROR: {ex.Message}";
+                ErrorLogger.LogError(StatusCode.CommandLineError, "driver", ex.Message, FileDirectory);
                 Console.WriteLine(errorMessage);
                 Console.WriteLine(ex.StackTrace);
                 Logger.Error($"Status Code: {StatusCode.CommandLineError}");
@@ -93,6 +93,7 @@ namespace NIST.CVP.Generation.GenValApp
             catch (Exception ex)
             {
                 var errorMessage = $"ERROR: {ex.Message}";
+                ErrorLogger.LogError(StatusCode.Exception, "driver", ex.Message, FileDirectory);
                 Console.WriteLine(errorMessage);
                 Console.WriteLine(ex.StackTrace);
                 Logger.Error($"Status Code: {StatusCode.Exception}");
