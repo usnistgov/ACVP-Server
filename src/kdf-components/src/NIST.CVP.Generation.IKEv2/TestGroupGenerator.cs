@@ -13,34 +13,37 @@ namespace NIST.CVP.Generation.IKEv2
         {
             var testGroups = new HashSet<TestGroup>();
 
-            foreach (var hashAlg in parameters.HashAlg)
+            foreach (var capability in parameters.Capabilities)
             {
-                var hashFunction = ShaAttributes.GetHashFunctionFromName(hashAlg);
-
-                var nInitValues = GetMinMaxOtherValueForDomain(parameters.InitiatorNonceLength.GetDeepCopy()).Shuffle();
-                var nRespValues = GetMinMaxOtherValueForDomain(parameters.ResponderNonceLength.GetDeepCopy()).Shuffle();
-                var dhValues = GetMinMaxOtherValueForDomain(parameters.DiffieHellmanSharedSecretLength.GetDeepCopy()).Shuffle();
-                var dkmValues = GetMinMaxOtherValueForDomain(parameters.DerivedKeyingMaterialLength.GetDeepCopy()).Shuffle();
-
-                // Safe assumption that these will all have exactly 3 values
-                for (var i = 0; i < 3; i++)
+                foreach (var hashAlg in capability.HashAlg)
                 {
-                    // If the dkmValue is too low, make sure it is at least equal to the hash function
-                    if (dkmValues[i] < hashFunction.OutputLen)
+                    var hashFunction = ShaAttributes.GetHashFunctionFromName(hashAlg);
+
+                    var nInitValues = GetMinMaxOtherValueForDomain(capability.InitiatorNonceLength.GetDeepCopy()).Shuffle();
+                    var nRespValues = GetMinMaxOtherValueForDomain(capability.ResponderNonceLength.GetDeepCopy()).Shuffle();
+                    var dhValues = GetMinMaxOtherValueForDomain(capability.DiffieHellmanSharedSecretLength.GetDeepCopy()).Shuffle();
+                    var dkmValues = GetMinMaxOtherValueForDomain(capability.DerivedKeyingMaterialLength.GetDeepCopy()).Shuffle();
+
+                    // Safe assumption that these will all have exactly 3 values
+                    for (var i = 0; i < 3; i++)
                     {
-                        dkmValues[i] = hashFunction.OutputLen;
+                        // If the dkmValue is too low, make sure it is at least equal to the hash function
+                        if (dkmValues[i] < hashFunction.OutputLen)
+                        {
+                            dkmValues[i] = hashFunction.OutputLen;
+                        }
+
+                        var testGroup = new TestGroup
+                        {
+                            HashAlg = hashFunction,
+                            NInitLength = nInitValues[i],
+                            NRespLength = nRespValues[i],
+                            GirLength = dhValues[i],
+                            DerivedKeyingMaterialLength = dkmValues[i]
+                        };
+
+                        testGroups.Add(testGroup);
                     }
-
-                    var testGroup = new TestGroup
-                    {
-                        HashAlg = hashFunction,
-                        NInitLength = nInitValues[i],
-                        NRespLength = nRespValues[i],
-                        GirLength = dhValues[i],
-                        DerivedKeyingMaterialLength = dkmValues[i]
-                    };
-
-                    testGroups.Add(testGroup);
                 }
             }
 
@@ -60,15 +63,10 @@ namespace NIST.CVP.Generation.IKEv2
 
             domain.SetRangeOptions(RangeDomainSegmentOptions.Random);
 
+            // If we can get some other value, use it, otherwise use the min again
             var otherValue = domain.GetValues(w => w != min && w != max, 1, true);
-            if (otherValue.Any())
-            {
-                values.Add(otherValue.First());
-            }
-            else
-            {
-                values.Add(min);
-            }
+            var enumerable = otherValue.ToList();
+            values.Add(enumerable.Any() ? enumerable.First() : min);
 
             // Always will have 3 values
             return values;

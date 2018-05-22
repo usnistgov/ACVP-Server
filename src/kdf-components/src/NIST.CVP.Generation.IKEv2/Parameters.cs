@@ -12,6 +12,11 @@ namespace NIST.CVP.Generation.IKEv2
         public string Mode { get; set; }
         public bool IsSample { get; set; }
 
+        public Capabilities[] Capabilities { get; set; }
+    }
+
+    public class Capabilities
+    {
         public string[] HashAlg { get; set; }
         public MathDomain InitiatorNonceLength { get; set; }
         public MathDomain ResponderNonceLength { get; set; }
