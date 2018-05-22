@@ -242,7 +242,7 @@ namespace NIST.CVP.Generation.TDES_CFB
 
                             if (group.Function.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
                             {
-                                testDict.Add("ct", test.CipherText);
+                                testDict.Add("cipherText", test.CipherText);
                                 if (test.CipherTextLength.HasValue)
                                 {
                                     testDict.Add("ctLen", test.CipherTextLength.Value);

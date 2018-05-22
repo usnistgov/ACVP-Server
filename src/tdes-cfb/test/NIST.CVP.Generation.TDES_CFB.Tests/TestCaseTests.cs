@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         {
             var sourceTest = new JObject();
             sourceTest.Add("tcId", new JValue(1));
-            sourceTest.Add("ct", new JValue("00AA"));
+            sourceTest.Add("cipherText", new JValue("00AA"));
             var subject = new TestCase(sourceTest);
             Assert.IsNotNull(subject);
 
@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
         public void ShouldNotReconstituteTestCaseFromJObjectWithouttcId_ThrowsException()
         {
             var sourceTest = new JObject();
-            sourceTest.Add("ct", new JValue("00AA"));
+            sourceTest.Add("cipherText", new JValue("00AA"));
             Assert.That(() => new TestCase(sourceTest), Throws.InstanceOf<RuntimeBinderException>());
 
         }
