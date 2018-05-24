@@ -15,21 +15,25 @@ namespace NIST.CVP.Generation.RSA_SigVer
 
         public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
-            if (_expectedResult.TestPassed == suppliedResult.TestPassed)
+            if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
-            }
-            else
-            {
+                var expected = new Dictionary<string, string>();
+                expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.Value.ToString());
+
+                var provided = new Dictionary<string, string>();
+                provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.Value.ToString());
+
                 return new TestCaseValidation
                 {
                     TestCaseId = suppliedResult.TestCaseId, 
                     Result = Core.Enums.Disposition.Failed, 
                     Reason = _expectedResult.ReasonName,
-                    Expected = showExpected ? new Dictionary<string, string>() : null,
-                    Provided = showExpected ? new Dictionary<string, string>() : null
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
                 };
             }
+
+            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
     }
 }

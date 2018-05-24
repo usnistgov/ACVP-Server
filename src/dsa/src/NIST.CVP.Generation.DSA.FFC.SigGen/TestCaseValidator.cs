@@ -24,6 +24,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
         public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            Dictionary<string, string> expected = null;
+            Dictionary<string, string> provided = null;
 
             if (suppliedResult.Signature == null)
             {
@@ -35,6 +37,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                 if (!verifyResult.Success)
                 {
                     errors.Add($"Validation failed: {verifyResult.ErrorMessage}");
+                    expected = new Dictionary<string, string>();
+                    provided = new Dictionary<string, string>();
                 }
             }
 
@@ -45,8 +49,8 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen
                     TestCaseId = suppliedResult.TestCaseId,
                     Result = Core.Enums.Disposition.Failed,
                     Reason = string.Join(";", errors),
-                    Expected = showExpected ? new Dictionary<string, string>() : null,
-                    Provided = showExpected ? new Dictionary<string, string>() : null
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
                 };
             }
 

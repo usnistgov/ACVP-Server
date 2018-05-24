@@ -19,13 +19,19 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
         {
             if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
+                var expected = new Dictionary<string, string>();
+                expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.Value.ToString());
+
+                var provided = new Dictionary<string, string>();
+                provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.Value.ToString());
+
                 return new TestCaseValidation
                 {
                     TestCaseId = suppliedResult.TestCaseId,
                     Result = Core.Enums.Disposition.Failed,
                     Reason = _expectedResult.Reason,
-                    Expected = showExpected ? new Dictionary<string, string>() : null,
-                    Provided = showExpected ? new Dictionary<string, string>() : null
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
                 };
             }
 

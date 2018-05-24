@@ -24,6 +24,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
         public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            Dictionary<string, string> expected = null;
+            Dictionary<string, string> provided = null;
 
             if (suppliedResult.G == 0)
             {
@@ -35,6 +37,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                 if (!validateResult.Success)
                 {
                     errors.Add($"Validation failed: {validateResult.ErrorMessage}");
+                    expected = new Dictionary<string, string>();
+                    provided = new Dictionary<string, string>();
                 }
             }
 
@@ -45,8 +49,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGGen
                     TestCaseId = suppliedResult.TestCaseId, 
                     Result = Core.Enums.Disposition.Failed, 
                     Reason = string.Join(";", errors),
-                    Expected = showExpected ? new Dictionary<string, string>() : null,
-                    Provided = showExpected ? new Dictionary<string, string>() : null
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
                 };
             }
 

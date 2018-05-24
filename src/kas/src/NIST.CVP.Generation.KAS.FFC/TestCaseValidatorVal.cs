@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.KAS.FFC
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors);
+                CheckResults(suppliedResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
@@ -34,10 +34,11 @@ namespace NIST.CVP.Generation.KAS.FFC
                     TestCaseId = suppliedResult.TestCaseId,
                     Result = Core.Enums.Disposition.Failed,
                     Reason = string.Join("; ", errors),
-                    Expected = showExpected ? new Dictionary<string, string>() : null,
-                    Provided = showExpected ? new Dictionary<string, string>() : null
+                    Expected = showExpected ? expected : null,
+                    Provided = showExpected ? provided : null
                 };
             }
+
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed };
         }
 
@@ -49,11 +50,13 @@ namespace NIST.CVP.Generation.KAS.FFC
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             if (_expectedResult.TestPassed != suppliedResult.TestPassed)
             {
                 errors.Add($"Incorrect {nameof(suppliedResult.TestPassed)} result");
+                expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.Value.ToString());
+                provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.Value.ToString());
             }
         }
     }
