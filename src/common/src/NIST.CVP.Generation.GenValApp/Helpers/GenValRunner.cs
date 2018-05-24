@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Autofac;
 using NIST.CVP.Common.Enums;
@@ -83,6 +84,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                     return (int) result.StatusCode;
 
                 errorMessage = $"ERROR! Generating Test Vectors for {registrationFile}: {result.ErrorMessage}";
+                ErrorLogger.LogError(result.StatusCode, "generator", result.ErrorMessage, Path.GetPathRoot(parsedParameters.RegistrationFile.FullName));
                 Console.Error.WriteLine(errorMessage);
                 Program.Logger.Error($"Status Code: {result.StatusCode}");
                 Program.Logger.Error(errorMessage);
@@ -98,6 +100,7 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
                     return (int) result.StatusCode;
 
                 errorMessage = $"ERROR! Validating Test Vectors for {responseFile}: {result.ErrorMessage}";
+                ErrorLogger.LogError(result.StatusCode, "validator", result.ErrorMessage, Path.GetPathRoot(parsedParameters.ResponseFile.FullName));
                 Console.Error.WriteLine(errorMessage);
                 Program.Logger.Error($"Status Code: {result.StatusCode}");
                 Program.Logger.Error(errorMessage);

@@ -35,3 +35,4 @@ __pycache__
 tempIntegrationTests 
 temp_IntegrationTests
 *.dll
+LoggingTests
