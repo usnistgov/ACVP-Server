@@ -38,8 +38,8 @@ namespace NIST.CVP.Generation.AES_CFB128
                     TestCaseId = suppliedResult.TestCaseId,
                     Result = Disposition.Failed,
                     Reason = string.Join("; ", errors), 
-                    Expected = showExpected ? expected : null,
-                    Provided = showExpected ? provided : null
+                    Expected = expected.Count != 0 && showExpected ? expected : null,
+                    Provided = provided.Count != 0 && showExpected ? provided : null
                 };
             }
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Passed };

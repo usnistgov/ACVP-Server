@@ -30,8 +30,8 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
                     TestCaseId = suppliedResult.TestCaseId,
                     Result = Core.Enums.Disposition.Failed,
                     Reason = _expectedResult.Reason,
-                    Expected = showExpected ? expected : null,
-                    Provided = showExpected ? provided : null
+                    Expected = expected.Count != 0 && showExpected ? expected : null,
+                    Provided = provided.Count != 0 && showExpected ? provided : null
                 };
             }
 

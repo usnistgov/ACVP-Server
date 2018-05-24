@@ -34,8 +34,8 @@ namespace NIST.CVP.Generation.SSH
                     TestCaseId = TestCaseId, 
                     Result = Core.Enums.Disposition.Failed, 
                     Reason = string.Join("; ", errors),
-                    Expected = showExpected ? expected : null,
-                    Provided = showExpected ? provided : null
+                    Expected = expected.Count != 0 && showExpected ? expected : null,
+                    Provided = provided.Count != 0 && showExpected ? provided : null
                 };
             }
 
