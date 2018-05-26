@@ -138,14 +138,6 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<SHA3.SHA3>().AsImplementedInterfaces();
             builder.RegisterType<SHA3_MCT>().AsImplementedInterfaces();
 
-            builder.RegisterType<TDES_CFB.MonteCarloKeyMaker>().AsImplementedInterfaces();
-            builder.Register(c => TDES_CFB.ModeFactory.GetMode(algoMode)).AsImplementedInterfaces();
-            builder.Register(c => TDES_CFB.ModeFactoryMCT.GetMode(algoMode)).AsImplementedInterfaces();
-
-            builder.RegisterType<TDES_CFBP.MonteCarloKeyMaker>().AsImplementedInterfaces();
-            builder.Register(c => TDES_CFBP.ModeFactory.GetMode(algoMode)).AsImplementedInterfaces();
-            builder.Register(c => TDES_CFBP.ModeFactoryMCT.GetMode(algoMode)).AsImplementedInterfaces();
-
             builder.RegisterType<TdesCtr>().AsImplementedInterfaces();
 
             builder.RegisterType<TDES_ECB.TDES_ECB>().AsImplementedInterfaces();

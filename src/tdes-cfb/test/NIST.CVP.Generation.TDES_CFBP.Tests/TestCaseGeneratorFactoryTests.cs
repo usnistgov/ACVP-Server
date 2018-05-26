@@ -1,6 +1,9 @@
 ﻿using System;
 using Moq;
 using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -45,6 +48,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         {
             TestGroup testGroup = new TestGroup()
             {
+                AlgoMode = AlgoMode.TDES_CFBP1,
                 Function = direction,
                 TestType = testType
             };
@@ -66,11 +70,10 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         private TestCaseGeneratorFactory GetSubject()
         {
             var randy = new Mock<IRandom800_90>().Object;
-            var algo = new Mock<ICFBPMode>();
-            algo.SetupGet(s => s.Algo).Returns(AlgoMode.TDES_CFBP1);
-            var algoMct = new Mock<ICFBPModeMCT>();
-            algoMct.SetupGet(s => s.Algo).Returns(AlgoMode.TDES_CFBP1);
-            return new TestCaseGeneratorFactory(randy, algo.Object, algoMct.Object);
+            var mctFactory = new Mock<IMonteCarloFactoryTdesPartitions>().Object;
+            var engineFactory = new Mock<IBlockCipherEngineFactory>().Object;
+            var modeFactory = new Mock<IModeBlockCipherFactory>().Object;
+            return new TestCaseGeneratorFactory(randy, mctFactory, engineFactory, modeFactory);
         }
     }
 }

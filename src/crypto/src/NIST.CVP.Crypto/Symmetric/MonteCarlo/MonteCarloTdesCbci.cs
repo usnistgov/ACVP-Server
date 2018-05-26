@@ -7,11 +7,8 @@ using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.Common.Symmetric.TDES.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.TDES.Helpers;
-using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
-using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
 namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 {
@@ -20,6 +17,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
         private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
         private readonly IMonteCarloKeyMakerTdes _keyMaker;
 
+        private const int PARTITIONS = 3;
         private const int NUMBER_OF_CASES = 400;
         private const int NUMBER_OF_ITERATIONS = 10000;
         private const int NUMBER_OF_OUTPUTS_TO_SAVE = 3;
@@ -72,7 +70,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             {
                 for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
                 {
-                    for (var k = 0; k < 3; k++)
+                    for (var k = 0; k < PARTITIONS; k++)
                     {
                         var result = _algo.ProcessPayload(new ModeBlockCipherParameters(
                             BlockCipherDirections.Encrypt,

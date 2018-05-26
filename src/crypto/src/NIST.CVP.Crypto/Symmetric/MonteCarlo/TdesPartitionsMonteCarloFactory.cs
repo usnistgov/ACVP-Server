@@ -1,12 +1,9 @@
 ﻿using System;
-using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.Symmetric.Engines;
-using NIST.CVP.Crypto.TDES_CBCI;
 
 namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 {
@@ -26,13 +23,13 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             switch (mode)
             {
                 case BlockCipherModesOfOperation.Cbci:
-                    return new MonteCarloTdesCbci(_engineFactory, _modeFactory, new MonteCarloKeyMaker());
+                    return new MonteCarloTdesCbci(_engineFactory, _modeFactory, new TDES_CBCI.MonteCarloKeyMaker());
                 case BlockCipherModesOfOperation.CfbpBit:
-                    throw new NotImplementedException();
+                    return new MonteCarloTdesCfbp(_engineFactory, _modeFactory, new TDES_CFBP.MonteCarloKeyMaker(), mode);
                 case BlockCipherModesOfOperation.CfbpByte:
-                    throw new NotImplementedException();
+                    return new MonteCarloTdesCfbp(_engineFactory, _modeFactory, new TDES_CFBP.MonteCarloKeyMaker(), mode);
                 case BlockCipherModesOfOperation.CfbpBlock:
-                    throw new NotImplementedException();
+                    return new MonteCarloTdesCfbp(_engineFactory, _modeFactory, new TDES_CFBP.MonteCarloKeyMaker(), mode);
                 case BlockCipherModesOfOperation.Ofbi:
                     throw new NotImplementedException();
                 case BlockCipherModesOfOperation.Ecb:

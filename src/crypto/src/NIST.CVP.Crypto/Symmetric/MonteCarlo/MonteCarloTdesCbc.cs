@@ -10,7 +10,7 @@ using NIST.CVP.Math;
 using NLog;
 using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
-namespace NIST.CVP.Crypto.TDES_CBC
+namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 {
     public class MonteCarloTdesCbc : IMonteCarloTester<Common.Symmetric.MCTResult<AlgoArrayResponse>, AlgoArrayResponse>
     {

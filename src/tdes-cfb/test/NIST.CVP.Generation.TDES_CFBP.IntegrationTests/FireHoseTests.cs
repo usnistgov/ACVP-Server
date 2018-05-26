@@ -3,8 +3,14 @@ using System.IO;
 using System.Linq;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.TDES_CFBP;
 using NIST.CVP.Generation.TDES_CFBP.Parsers;
+using NIST.CVP.Math;
 using NIST.CVP.Tests.Core;
 using NUnit.Framework;
 
@@ -12,21 +18,59 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
 {
     public class FireHoseTests
     {
-        
-        [Test]
-        [TestCase(AlgoMode.TDES_CFBP1)]
-        [TestCase(AlgoMode.TDES_CFBP8)]
-        [TestCase(AlgoMode.TDES_CFBP64)]
-        public void ShouldParseAndRunCAVSFiles(AlgoMode algo)
+
+        private TdesPartitionsMonteCarloFactory _mctFactory;
+        private readonly BlockCipherEngineFactory _engineFactory = new BlockCipherEngineFactory();
+        private readonly ModeBlockCipherFactory _modeFactory = new ModeBlockCipherFactory();
+
+        [OneTimeSetUp]
+        public void OneTimeSetup()
         {
-            var _testPath = Utilities.GetConsistentTestingStartPath(GetType(), $@"..\..\TestFiles\LegacyParserFiles\{EnumHelpers.GetEnumDescriptionFromEnum(algo)}");
-            if (!Directory.Exists(_testPath))
+            _mctFactory = new TdesPartitionsMonteCarloFactory(_engineFactory, _modeFactory);
+        }
+
+        [Test]
+        [TestCase(BlockCipherModesOfOperation.CfbpBit)]
+        [TestCase(BlockCipherModesOfOperation.CfbpByte)]
+        [TestCase(BlockCipherModesOfOperation.CfbpBlock)]
+        public void ShouldParseAndRunCAVSFiles(BlockCipherModesOfOperation mode)
+        {
+            var mct = _mctFactory.GetInstance(mode);
+            var engine = _engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes);
+            var algo = _modeFactory.GetStandardCipher(engine, mode);
+
+            var testPath = string.Empty;
+            switch (mode)
+            {
+                case BlockCipherModesOfOperation.CfbpBit:
+                    testPath = Utilities.GetConsistentTestingStartPath(
+                        GetType(),
+                        $@"..\..\TestFiles\LegacyParserFiles\tdes-cfbp1"
+                    );
+                    break;
+                case BlockCipherModesOfOperation.CfbpByte:
+                    testPath = Utilities.GetConsistentTestingStartPath(
+                        GetType(),
+                        $@"..\..\TestFiles\LegacyParserFiles\tdes-cfbp8"
+                    );
+                    break;
+                case BlockCipherModesOfOperation.CfbpBlock:
+                    testPath = Utilities.GetConsistentTestingStartPath(
+                        GetType(),
+                        $@"..\..\TestFiles\LegacyParserFiles\tdes-cfbp64"
+                    );
+                    break;
+                default:
+                    throw new ArgumentException(nameof(mode));
+            }
+
+            if (!Directory.Exists(testPath))
             {
                 Assert.Fail("Test File Directory does not exist");
             }
 
             LegacyResponseFileParser parser = new LegacyResponseFileParser();
-            var parsedTestVectorSet = parser.Parse(_testPath);
+            var parsedTestVectorSet = parser.Parse(testPath);
 
             if (!parsedTestVectorSet.Success)
             {
@@ -37,25 +81,17 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
             {
                 Assert.Fail("No TestGroups were parsed.");
             }
-
             
-            var modeMCT = ModeFactoryMCT.GetMode(algo);
-            var mode = ModeFactory.GetMode(algo);
-
             int count = 0;
             int passes = 0;
             int fails = 0;
             bool mctTestHit = false;
             bool nonMctTestHit = false;
-            foreach (var iTestGroup in parsedTestVectorSet.ParsedObject.TestGroups)
+            foreach (var testGroup in parsedTestVectorSet.ParsedObject.TestGroups)
             {
-
-                var testGroup = (TestGroup)iTestGroup;
-                foreach (var iTestCase in testGroup.Tests)
+                foreach (var testCase in testGroup.Tests)
                 {
                     count++;
-
-                    var testCase = (TestCase)iTestCase;
 
                     if (testGroup.TestType.ToLower() == "mct")
                     {
@@ -63,39 +99,44 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                         var firstResult = testCase.ResultsArray.First();
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            
-                            var result = modeMCT.MCTEncrypt(
-                                firstResult.Keys,
-                                firstResult.IV1,
-                                firstResult.PlainText
+                            var param = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Encrypt,
+                                firstResult.IV1.GetDeepCopy(),
+                                firstResult.Keys.GetDeepCopy(),
+                                firstResult.PlainText.GetDeepCopy()
                             );
+
+                            var result = mct.ProcessMonteCarloTest(param);
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
-                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].Keys, result.Response[i].Keys, $"Key mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].IV1.ToHex(), result.Response[i].IV1.ToHex(), $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].Keys.ToHex(), result.Response[i].Keys.ToHex(), $"Key mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].PlainText.ToHex(), result.Response[i].PlainText.ToHex(), $"PlainText mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].CipherText.ToHex(), result.Response[i].CipherText.ToHex(), $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            var result = modeMCT.MCTDecrypt(
-                                firstResult.Keys,
-                                firstResult.IV1,
-                                firstResult.CipherText
+                            var param = new ModeBlockCipherParameters(
+                                BlockCipherDirections.Decrypt,
+                                firstResult.IV1.GetDeepCopy(),
+                                firstResult.Keys.GetDeepCopy(),
+                                firstResult.CipherText.GetDeepCopy()
                             );
+
+                            var result = mct.ProcessMonteCarloTest(param);
 
                             Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
                             Assert.IsTrue(testCase.ResultsArray.Count == result.Response.Count, "Result and response arrays must be of the same size.");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
-                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].Keys, result.Response[i].Keys, $"Key mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].IV1.ToHex(), result.Response[i].IV1.ToHex(), $"IV mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].Keys.ToHex(), result.Response[i].Keys.ToHex(), $"Key mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].PlainText.ToHex(), result.Response[i].PlainText.ToHex(), $"PlainText mismatch on index {i}");
+                                Assert.AreEqual(testCase.ResultsArray[i].CipherText.ToHex(), result.Response[i].CipherText.ToHex(), $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
@@ -107,23 +148,23 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "encrypt")
                         {
-                            //if (testGroup.TestType.ToLower() == "mmt")
-                            //{
-                            //    testCase.Key = testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
-                            //}
                             if (testGroup.TestType.ToLower() == "inversepermutation")
                             {
-                                var result = mode.BlockEncrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.PlainText1,
-                                    testCase.PlainText2,
-                                    testCase.PlainText3
+                                var param = new ModeBlockCipherParameters(
+                                    BlockCipherDirections.Encrypt,
+                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Keys.GetDeepCopy(),
+                                    testCase.PlainText1
+                                        .ConcatenateBits(testCase.PlainText2)
+                                        .ConcatenateBits(testCase.PlainText3)
                                 );
 
-                                if (testCase.CipherText1.ToString() == result.Results[0].ToString() &&
-                                    testCase.CipherText2.ToString() == result.Results[1].ToString() &&
-                                    testCase.CipherText3.ToString() == result.Results[2].ToString())
+                                var result = algo.ProcessPayload(param);
+                                var ct = testCase.CipherText1
+                                    .ConcatenateBits(testCase.CipherText2)
+                                    .ConcatenateBits(testCase.CipherText3);
+
+                                if (ct.ToHex() == result.Result.ToHex())
                                 {
                                     passes++;
                                 }
@@ -132,18 +173,19 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.CipherText1.ToString(), result.Results[0].ToString(), $"Failed on count {count} expected CT {testCase.CipherText1}, got { result.Results[0]}");
-                                Assert.AreEqual(testCase.CipherText2.ToString(), result.Results[1].ToString(), $"Failed on count {count} expected CT {testCase.CipherText2}, got { result.Results[1]}");
-                                Assert.AreEqual(testCase.CipherText3.ToString(), result.Results[2].ToString(), $"Failed on count {count} expected CT {testCase.CipherText3}, got { result.Results[2]}");
+                                Assert.AreEqual(ct.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {ct}, got { result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "multiblockmessage")
                             {
-                                var result = mode.BlockEncrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
+                                var param = new ModeBlockCipherParameters(
+                                    BlockCipherDirections.Encrypt,
+                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Keys.GetDeepCopy(),
                                     testCase.PlainText
                                 );
+
+                                var result = algo.ProcessPayload(param);
 
                                 if (testCase.CipherText.ToString() == result.Result.ToString())
                                 {
@@ -154,7 +196,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.CipherText.ToString(), result.Result.ToString(), $"Failed on count {count} expected CT {testCase.CipherText}, got { result.Result}");
+                                Assert.AreEqual(testCase.CipherText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText}, got { result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "permutation" ||
@@ -162,16 +204,21 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                      testGroup.TestType.ToLower() == "variablekey" ||
                                      testGroup.TestType.ToLower() == "variabletext")
                             {
-                                var result = mode.BlockEncrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.PlainText,
-                                    true
+                                var param = new ModeBlockCipherParameters(
+                                    BlockCipherDirections.Encrypt,
+                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Keys.GetDeepCopy(),
+                                    testCase.PlainText
+                                        // include "aux values" for these tests
+                                        .ConcatenateBits(BitString.Zeroes(testCase.PlainText.BitLength * 2))
                                 );
 
-                                if (testCase.CipherText1.ToString() == result.Results[0].ToString() &&
-                                    testCase.CipherText2.ToString() == result.Results[1].ToString() &&
-                                    testCase.CipherText3.ToString() == result.Results[2].ToString())
+                                var result = algo.ProcessPayload(param);
+                                var ct = testCase.CipherText1
+                                    .ConcatenateBits(testCase.CipherText2)
+                                    .ConcatenateBits(testCase.CipherText3);
+
+                                if (ct.ToHex() == result.Result.ToHex())
                                 {
                                     passes++;
                                 }
@@ -180,9 +227,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.CipherText1.ToString(), result.Results[0].ToString(), $"Failed on count {count} expected CT {testCase.CipherText1}, got { result.Results[0]}");
-                                Assert.AreEqual(testCase.CipherText2.ToString(), result.Results[1].ToString(), $"Failed on count {count} expected CT {testCase.CipherText2}, got { result.Results[1]}");
-                                Assert.AreEqual(testCase.CipherText3.ToString(), result.Results[2].ToString(), $"Failed on count {count} expected CT {testCase.CipherText3}, got { result.Results[2]}");
+                                Assert.AreEqual(ct.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {ct}, got { result.Result}");
                                 continue;
                             }
                             else
@@ -193,24 +238,23 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
 
                         if (testGroup.Function.ToLower() == "decrypt")
                         {
-                            //if (testGroup.TestType.ToLower() == "mmt")
-                            //{
-                            //    //Since MMT files include 3 keys (while KAT files only include 1), we concatenate them into a single key before inputing them into the DEA.
-                            //    testCase.Key = testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3));
-                            //}
                             if (testGroup.TestType.ToLower() == "inversepermutation")
                             {
-                                var result = mode.BlockDecrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.CipherText1,
-                                    testCase.CipherText2,
-                                    testCase.CipherText3
+                                var param = new ModeBlockCipherParameters(
+                                    BlockCipherDirections.Decrypt,
+                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Keys.GetDeepCopy(),
+                                    testCase.CipherText1
+                                        .ConcatenateBits(testCase.CipherText2)
+                                        .ConcatenateBits(testCase.CipherText3)
                                 );
 
-                                if (testCase.PlainText1.ToString() == result.Results[0].ToString() &&
-                                    testCase.PlainText2.ToString() == result.Results[1].ToString() &&
-                                    testCase.PlainText3.ToString() == result.Results[2].ToString())
+                                var result = algo.ProcessPayload(param);
+                                var pt = testCase.PlainText1
+                                    .ConcatenateBits(testCase.PlainText2)
+                                    .ConcatenateBits(testCase.PlainText3);
+
+                                if (pt.ToHex() == result.Result.ToHex())
                                 {
                                     passes++;
                                 }
@@ -219,18 +263,19 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.PlainText1.ToString(), result.Results[0].ToString(), $"Failed on count {count} expected CT {testCase.PlainText1}, got {result.Results[0]}");
-                                Assert.AreEqual(testCase.PlainText2.ToString(), result.Results[1].ToString(), $"Failed on count {count} expected CT {testCase.PlainText2}, got {result.Results[1]}");
-                                Assert.AreEqual(testCase.PlainText3.ToString(), result.Results[2].ToString(), $"Failed on count {count} expected CT {testCase.PlainText3}, got {result.Results[2]}");
+                                Assert.AreEqual(pt.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected PT {pt}, got { result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "multiblockmessage")
                             {
-                                var result = mode.BlockDecrypt(
-                                    testCase.Key1.ConcatenateBits(testCase.Key2.ConcatenateBits(testCase.Key3)),
-                                    testCase.IV1,
+                                var param = new ModeBlockCipherParameters(
+                                    BlockCipherDirections.Decrypt,
+                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Keys.GetDeepCopy(),
                                     testCase.CipherText
                                 );
+
+                                var result = algo.ProcessPayload(param);
 
                                 if (testCase.PlainText.ToString() == result.Result.ToString())
                                 {
@@ -241,7 +286,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.PlainText.ToString(), result.Result.ToString(), $"Failed on count {count} expected CT {testCase.PlainText}, got {result.Result}");
+                                Assert.AreEqual(testCase.PlainText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {testCase.PlainText}, got {result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "permutation" ||
@@ -249,16 +294,21 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                      testGroup.TestType.ToLower() == "variablekey" ||
                                      testGroup.TestType.ToLower() == "variabletext")
                             {
-                                var result = mode.BlockDecrypt(
-                                    testCase.Keys,
-                                    testCase.IV1,
-                                    testCase.CipherText,
-                                    true
+                                var param = new ModeBlockCipherParameters(
+                                    BlockCipherDirections.Decrypt,
+                                    testCase.IV1.GetDeepCopy(),
+                                    testCase.Keys.GetDeepCopy(),
+                                    testCase.CipherText
+                                        // include "aux values" for these tests
+                                        .ConcatenateBits(BitString.Zeroes(testCase.CipherText.BitLength * 2))
                                 );
 
-                                if (testCase.PlainText1.ToString() == result.Results[0].ToString() &&
-                                    testCase.PlainText2.ToString() == result.Results[1].ToString() &&
-                                    testCase.PlainText3.ToString() == result.Results[2].ToString())
+                                var result = algo.ProcessPayload(param);
+                                var pt = testCase.PlainText1
+                                    .ConcatenateBits(testCase.PlainText2)
+                                    .ConcatenateBits(testCase.PlainText3);
+
+                                if (pt.ToHex() == result.Result.ToHex())
                                 {
                                     passes++;
                                 }
@@ -267,9 +317,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.PlainText1.ToString(), result.Results[0].ToString(), $"Failed on count {count} expected CT {testCase.PlainText1}, got { result.Results[0]}");
-                                Assert.AreEqual(testCase.PlainText2.ToString(), result.Results[1].ToString(), $"Failed on count {count} expected CT {testCase.PlainText2}, got { result.Results[1]}");
-                                Assert.AreEqual(testCase.PlainText3.ToString(), result.Results[2].ToString(), $"Failed on count {count} expected CT {testCase.PlainText3}, got { result.Results[2]}");
+                                Assert.AreEqual(pt.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected PT {pt}, got { result.Result}");
                                 continue;
                             }
                             else

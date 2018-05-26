@@ -1,25 +1,60 @@
 ﻿using Moq;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Symmetric;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.TDES_CFBP;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Generation.TDES_CFBP;
 using NIST.CVP.Math;
 using NUnit.Framework;
 
-namespace NIST.CVP.Generation.TDES_CFBP.Tests
+namespace NIST.CVP.Generation.TDES_CFBPP.Tests
 {
     [TestFixture]
     public class TestCaseGeneratorMMTEncryptTests
     {
+        private Mock<IRandom800_90> _random;
+        private Mock<IBlockCipherEngine> _engine;
+        private Mock<IBlockCipherEngineFactory> _engineFactory;
+        private Mock<IModeBlockCipher<SymmetricCipherResult>> _mode;
+        private Mock<IModeBlockCipherFactory> _modeFactory;
+        private TestCaseGeneratorMMTEncrypt _subject;
+
+        [SetUp]
+        public void Setup()
+        {
+            _random = new Mock<IRandom800_90>();
+            _random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(64));
+            _engine = new Mock<IBlockCipherEngine>();
+            _engineFactory = new Mock<IBlockCipherEngineFactory>();
+            _engineFactory
+                .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
+                .Returns(_engine.Object);
+            _mode = new Mock<IModeBlockCipher<SymmetricCipherResult>>();
+            _mode
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
+                .Returns(() => new SymmetricCipherResult(new BitString(64)));
+            _modeFactory = new Mock<IModeBlockCipherFactory>();
+            _modeFactory
+                .Setup(s => s.GetStandardCipher(
+                    It.IsAny<IBlockCipherEngine>(),
+                    It.IsAny<BlockCipherModesOfOperation>())
+                )
+                .Returns(_mode.Object);
+        }
+
         [Test]
         [TestCase(AlgoMode.TDES_CFBP1)]
         [TestCase(AlgoMode.TDES_CFBP8)]
         [TestCase(AlgoMode.TDES_CFBP64)]
         public void ShouldSuccessfullyGenerate(AlgoMode algo)
         {
-            var modeOfOperation = ModeFactory.GetMode(algo);
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), modeOfOperation);
-            var result = subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
+            var group = new TestGroup { Function = "encrypt", KeyingOption = 1, AlgoMode = algo };
+            _subject = new TestCaseGeneratorMMTEncrypt(group, new Random800_90(), _engineFactory.Object, _modeFactory.Object);
+
+            var result = _subject.Generate(group, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -30,25 +65,25 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         [TestCase(AlgoMode.TDES_CFBP64)]
         public void ShouldHaveProperNumberOfTestCasesToGenerate(AlgoMode algo)
         {
-            var modeOfOperation = ModeFactory.GetMode(algo);
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), modeOfOperation);
-            Assert.AreEqual(10, subject.NumberOfTestCasesToGenerate);
+            var group = new TestGroup { Function = "encrypt", KeyingOption = 1, AlgoMode = algo };
+            _subject = new TestCaseGeneratorMMTEncrypt(group, new Random800_90(), _engineFactory.Object, _modeFactory.Object);
+            Assert.AreEqual(10, _subject.NumberOfTestCasesToGenerate);
         }
 
         [Test]
         [TestCase(AlgoMode.TDES_CFBP1, 1)]
         [TestCase(AlgoMode.TDES_CFBP8, 8)]
         [TestCase(AlgoMode.TDES_CFBP64, 64)]
-        public void ShouldGenerateProperlySizedPlainTextForEachGenerateCall(AlgoMode algo, int shift)
+        public void ShouldGenerateProperlySizedPayloadForEachGenerateCall(AlgoMode algo, int shift)
         {
-            var modeOfOperation = ModeFactory.GetMode(algo);
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), modeOfOperation);
-            for (int caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
+            var group = new TestGroup { Function = "encrypt", KeyingOption = 1, AlgoMode = algo };
+            _subject = new TestCaseGeneratorMMTEncrypt(group, new Random800_90(), _engineFactory.Object, _modeFactory.Object);
+            for (int caseIdx = 0; caseIdx < _subject.NumberOfTestCasesToGenerate; caseIdx++)
             {
-                var result = subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
+                var result = _subject.Generate(group, false);
                 Assume.That(result != null);
                 Assume.That(result.Success);
-                var testCase = (TestCase)result.TestCase;
+                var testCase = result.TestCase;
                 Assert.AreEqual((caseIdx + 1) * shift, testCase.PlainText.BitLength);
             }
 
@@ -58,53 +93,15 @@ namespace NIST.CVP.Generation.TDES_CFBP.Tests
         [TestCase(AlgoMode.TDES_CFBP1)]
         [TestCase(AlgoMode.TDES_CFBP8)]
         [TestCase(AlgoMode.TDES_CFBP64)]
-        public void ShouldReturnAnErrorIfAnEncryptionFails(AlgoMode algo)
+        public void ShouldReturnAnErrorIfFails(AlgoMode algo)
         {
-            var modeOfOperation = ModeFactory.GetMode(algo);
-            //var mockAlgo = new Mock<ITDES_CFB>();
-            //mockAlgo.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-            //    .Returns(new EncryptionResult("I Failed to encrypt"));
-
-            var mockModeOfOperation = new Mock<ICFBPMode>();
-            mockModeOfOperation.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>(), false))
-                .Returns(new SymmetricCipherWithIvResult("I Failed to encrypt"));
-            mockModeOfOperation.SetupProperty(x => x.Algo, AlgoMode.TDES_CFBP1);
-
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), mockModeOfOperation.Object);
-            var result = subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
+            _mode
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
+                .Returns(() => new SymmetricCipherResult("It broke"));
+            var group = new TestGroup { Function = "encrypt", KeyingOption = 1, AlgoMode = algo };
+            _subject = new TestCaseGeneratorMMTEncrypt(group, new Random800_90(), _engineFactory.Object, _modeFactory.Object);
+            var result = _subject.Generate(group, false);
             Assert.IsFalse(result.Success);
-
-
-        }
-
-        [Test]
-        [TestCase(AlgoMode.TDES_CFBP1)]
-        [TestCase(AlgoMode.TDES_CFBP8)]
-        [TestCase(AlgoMode.TDES_CFBP64)]
-        public void GeneratedCipherTextShouldEncryptBackToCipherText(AlgoMode algo)
-        {
-            var modeOfOperation = ModeFactory.GetMode(algo);
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), modeOfOperation);
-            var testGroup = new TestGroup()
-            {
-                Function = "encrypt",
-                KeyingOption = 1
-            };
-
-            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
-            {
-                var result = subject.Generate(testGroup, false);
-                Assume.That(result.Success);
-                testGroup.Tests.Add(result.TestCase);
-            }
-
-            Assume.That(testGroup.Tests.Count > 0);
-
-            foreach (TestCase testCase in testGroup.Tests)
-            {
-                var result = modeOfOperation.BlockEncrypt(testCase.Keys, testCase.IV1, testCase.PlainText);
-                Assert.AreEqual(testCase.CipherText, result.Result);
-            }
         }
     }
 }

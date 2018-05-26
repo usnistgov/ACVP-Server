@@ -4,7 +4,12 @@ using NLog;
 using System;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.Helpers;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.Common.Symmetric.TDES.Helpers;
 
 namespace NIST.CVP.Generation.TDES_CFBP
 {
@@ -13,29 +18,37 @@ namespace NIST.CVP.Generation.TDES_CFBP
         private const int BLOCK_SIZE_BITS = 64;
         private const int NUMBER_OF_CASES = 10;
         private readonly IRandom800_90 _random800_90;
-        private readonly ICFBPMode _modeOfOperation;
+        private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
         private int _currentCase;
         private int _shift;
 
         public int NumberOfTestCasesToGenerate => NUMBER_OF_CASES;
 
-        public TestCaseGeneratorMMTDecrypt(IRandom800_90 random800_90, ICFBPMode modeOfOperation)
+        public TestCaseGeneratorMMTDecrypt(
+            TestGroup group,
+            IRandom800_90 random800_90,
+            IBlockCipherEngineFactory engineFactory,
+            IModeBlockCipherFactory modeFactory
+        )
         {
             _random800_90 = random800_90;
-            _modeOfOperation = modeOfOperation;
-            switch (modeOfOperation.Algo)
+            var mapping = AlgoModeToEngineModeOfOperationMapping.GetMapping(group.AlgoMode);
+            var engine = engineFactory.GetSymmetricCipherPrimitive(mapping.engine);
+            _algo = modeFactory.GetStandardCipher(engine, mapping.mode);
+
+            switch (mapping.mode)
             {
-                case AlgoMode.TDES_CFBP1:
+                case BlockCipherModesOfOperation.CfbpBit:
                     _shift = 1;
                     break;
-                case AlgoMode.TDES_CFBP8:
+                case BlockCipherModesOfOperation.CfbpByte:
                     _shift = 8;
                     break;
-                case AlgoMode.TDES_CFBP64:
+                case BlockCipherModesOfOperation.CfbpBlock:
                     _shift = 64;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(modeOfOperation.Algo), modeOfOperation.Algo, null);
+                    throw new ArgumentException(nameof(mapping.mode));
             }
         }
 
@@ -44,11 +57,14 @@ namespace NIST.CVP.Generation.TDES_CFBP
             var keys = TdesHelpers.GenerateTdesKey(group.KeyingOption);
             var cipherText = _random800_90.GetRandomBitString(_shift * (_currentCase + 1));
             var iv = _random800_90.GetRandomBitString(BLOCK_SIZE_BITS);
+            var ivs = TdesPartitionHelpers.SetupIvs(iv);
             var testCase = new TestCase
             {
                 Keys = keys,
                 CipherText = cipherText,
-                IV1 = iv,
+                IV1 = ivs[0],
+                IV2 = ivs[1],
+                IV3 = ivs[2],
                 Deferred = false
             };
             _currentCase++;
@@ -57,17 +73,22 @@ namespace NIST.CVP.Generation.TDES_CFBP
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup @group, TestCase testCase)
         {
-            SymmetricCipherWithIvResult decryptionResult = null;
             try
             {
-                decryptionResult = _modeOfOperation.BlockDecrypt(testCase.Keys, testCase.IV1, testCase.CipherText);
-                if (!decryptionResult.Success)
+                var result = _algo.ProcessPayload(new ModeBlockCipherParameters(
+                    BlockCipherDirections.Decrypt,
+                    testCase.IV1.GetDeepCopy(),
+                    testCase.Keys.GetDeepCopy(),
+                    testCase.CipherText.GetDeepCopy()
+                ));
+                if (!result.Success)
                 {
-                    ThisLogger.Warn(decryptionResult.ErrorMessage);
+                    ThisLogger.Warn(result.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse<TestGroup, TestCase>(decryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(result.ErrorMessage);
                     }
                 }
+                testCase.PlainText = result.Result;
             }
             catch (Exception ex)
             {
@@ -76,9 +97,7 @@ namespace NIST.CVP.Generation.TDES_CFBP
                     return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
-            testCase.PlainText = decryptionResult.Result;
-            testCase.IV2 = decryptionResult.IVs[1];
-            testCase.IV3 = decryptionResult.IVs[2];
+
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 

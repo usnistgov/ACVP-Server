@@ -1,58 +1,60 @@
-﻿using NIST.CVP.Crypto.Common;
-using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Math;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using NIST.CVP.Common;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Math;
+using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
-namespace NIST.CVP.Crypto.TDES_CFB
+namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 {
-    public class CFBModeMCT : ICFBModeMCT
+    public class MonteCarloTdesCfb : IMonteCarloTester<Common.Symmetric.MCTResult<AlgoArrayResponse>, AlgoArrayResponse>
     {
-        private readonly IMonteCarloKeyMaker _keyMaker;
-        private readonly ICFBMode _cfbMode;
+        private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
+        private readonly IMonteCarloKeyMakerTdes _keyMaker;
 
         private const int NUMBER_OF_CASES = 400;
-        //private const int NUMBER_OF_CASES = 5;
         private const int NUMBER_OF_ITERATIONS = 10000;
 
 
-        protected virtual int NumberOfCases { get { return NUMBER_OF_CASES; } }
+        protected virtual int NumberOfCases => NUMBER_OF_CASES;
         public int Shift { get; set; }
-        public ICFBMode ModeOfOperation { get; set; }
-        public AlgoMode Algo { get; set; }
 
-        public CFBModeMCT(IMonteCarloKeyMaker keyMaker, ICFBMode cfbMode, AlgoMode algo)
+        public MonteCarloTdesCfb(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, IMonteCarloKeyMakerTdes keyMaker, int shiftSize, BlockCipherModesOfOperation mode)
         {
-            switch (algo)
-            {
-                case AlgoMode.TDES_CFB1:
-                    Shift = 1;
-                    break;
-                case AlgoMode.TDES_CFB8:
-                    Shift = 8;
-                    break;
-                case AlgoMode.TDES_CFB64:
-                    Shift = 64;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(algo), algo, null);
-            }
-            Algo = algo;
+            _algo = modeFactory.GetStandardCipher(
+                engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes),
+                mode
+            );
             _keyMaker = keyMaker;
-            _cfbMode = cfbMode;
+            Shift = shiftSize;
         }
 
-        public MCTResult<AlgoArrayResponse> MCTEncrypt(BitString keyBits, BitString iv, BitString data)
+        public Common.Symmetric.MCTResult<AlgoArrayResponse> ProcessMonteCarloTest(IModeBlockCipherParameters param)
+        {
+            switch (param.Direction)
+            {
+                case BlockCipherDirections.Encrypt:
+                    return Encrypt(param);
+                case BlockCipherDirections.Decrypt:
+                    return Decrypt(param);
+                default:
+                    throw new ArgumentException(nameof(param.Direction));
+            }
+        }
+        
+        private Common.Symmetric.MCTResult<AlgoArrayResponse> Encrypt(IModeBlockCipherParameters param)
         {
             var responses = new List<AlgoArrayResponse>{
                 new AlgoArrayResponse {
-                    IV = iv,
-                    Keys = keyBits,
-                    PlainText = data
+                    IV = param.Iv,
+                    Keys = param.Key,
+                    PlainText = param.Payload
                 }
             };
             int numberOfOutputsToSave = 192 / Shift;
@@ -69,13 +71,15 @@ namespace NIST.CVP.Crypto.TDES_CFB
                 var keysForThisRound = responses[i].Keys;
                 for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
                 {
-                    prevTempIv = tempIv;
-                    output = _cfbMode.BlockEncrypt(keysForThisRound, tempIv, tempText).Result;
-                    tempText = tempIv.MSBSubstring(0, Shift);
-                    tempIv = tempIv.Substring(0, 64 - Shift).ConcatenateBits(output);
-                    //tempIv = Shift < 64 ?
-                    //        tempIv.MSBSubstring(0, 64 - Shift).ConcatenateBits(output) :
-                    //        output.GetDeepCopy();
+                    prevTempIv = tempIv.GetDeepCopy();
+                    output = _algo.ProcessPayload(new ModeBlockCipherParameters(
+                        BlockCipherDirections.Encrypt,
+                        tempIv,
+                        keysForThisRound,
+                        tempText
+                    )).Result;
+                    tempText = prevTempIv.MSBSubstring(0, Shift);
+
                     if (j >= indexAtWhichToStartSaving)
                     {
                         lastCipherTexts.Insert(0, output.GetDeepCopy());
@@ -91,16 +95,16 @@ namespace NIST.CVP.Crypto.TDES_CFB
 
             }
             responses.RemoveAt(responses.Count() - 1);
-            return new MCTResult<AlgoArrayResponse>(responses);
+            return new Common.Symmetric.MCTResult<AlgoArrayResponse>(responses);
         }
 
-        public MCTResult<AlgoArrayResponse> MCTDecrypt(BitString keyBits, BitString iv, BitString data)
+        private Common.Symmetric.MCTResult<AlgoArrayResponse> Decrypt(IModeBlockCipherParameters param)
         {
             var responses = new List<AlgoArrayResponse>{
                 new AlgoArrayResponse {
-                    IV = iv,
-                    Keys = keyBits,
-                    CipherText = data
+                    IV = param.Iv,
+                    Keys = param.Key,
+                    CipherText = param.Payload
                 }
             };
             int numberOfOutputsToSave = 192 / Shift;
@@ -116,11 +120,13 @@ namespace NIST.CVP.Crypto.TDES_CFB
                 var keysForThisRound = responses[i].Keys;
                 for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
                 {
-                    output = _cfbMode.BlockDecrypt(keysForThisRound, tempIv, tempText).Result;
-                    tempIv = tempIv.Substring(0, 64 - Shift).ConcatenateBits(tempText);
-                    //tempIv = Shift < 64 ?
-                    //    tempIv.MSBSubstring(0, 64 - Shift).ConcatenateBits(output) :
-                    //    output.GetDeepCopy();
+                    output = _algo.ProcessPayload(new ModeBlockCipherParameters(
+                        BlockCipherDirections.Decrypt,
+                        tempIv,
+                        keysForThisRound,
+                        tempText
+                    )).Result;
+
                     tempText = output.MSBSubstring(0, Shift).XOR(tempText);
                     if (j >= indexAtWhichToStartSaving)
                     {
@@ -136,11 +142,7 @@ namespace NIST.CVP.Crypto.TDES_CFB
                 });
             }
             responses.RemoveAt(responses.Count() - 1);
-            return new MCTResult<AlgoArrayResponse>(responses);
+            return new Common.Symmetric.MCTResult<AlgoArrayResponse>(responses);
         }
-
-
-        
-
     }
 }

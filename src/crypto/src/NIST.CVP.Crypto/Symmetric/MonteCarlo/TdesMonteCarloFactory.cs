@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.TDES_CBC;
+using NIST.CVP.Crypto.TDES_CFB;
 using AlgoArrayResponse = NIST.CVP.Crypto.Common.Symmetric.TDES.AlgoArrayResponse;
 
 namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
@@ -29,19 +30,21 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                 case BlockCipherModesOfOperation.Cbc:
                     return new MonteCarloTdesCbc(_engineFactory, _modeFactory, new TDES_CBC.MonteCarloKeyMaker());
                 case BlockCipherModesOfOperation.CfbBit:
-                    throw new NotImplementedException();
+                    return new MonteCarloTdesCfb(_engineFactory, _modeFactory, new TDES_CFB.MonteCarloKeyMaker(), 
+                        1, mode);
                 case BlockCipherModesOfOperation.CfbByte:
-                    throw new NotImplementedException();
+                    return new MonteCarloTdesCfb(_engineFactory, _modeFactory, new TDES_CFB.MonteCarloKeyMaker(),
+                        8, mode);
                 case BlockCipherModesOfOperation.CfbBlock:
-                    throw new NotImplementedException();
+                    return new MonteCarloTdesCfb(_engineFactory, _modeFactory, new TDES_CFB.MonteCarloKeyMaker(),
+                        64, mode);
                 case BlockCipherModesOfOperation.Ofb:
-                    throw new NotImplementedException();
-                case BlockCipherModesOfOperation.Ofbi:
                     throw new NotImplementedException();
                 case BlockCipherModesOfOperation.Cbci:
                 case BlockCipherModesOfOperation.CfbpBit:
                 case BlockCipherModesOfOperation.CfbpByte:
                 case BlockCipherModesOfOperation.CfbpBlock:
+                case BlockCipherModesOfOperation.Ofbi:
                     throw new NotSupportedException(nameof(mode));
                 case BlockCipherModesOfOperation.CbcMac:
                 case BlockCipherModesOfOperation.Ccm:
