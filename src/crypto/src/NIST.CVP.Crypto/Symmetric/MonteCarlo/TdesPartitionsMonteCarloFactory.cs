@@ -31,7 +31,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                 case BlockCipherModesOfOperation.CfbpBlock:
                     return new MonteCarloTdesCfbp(_engineFactory, _modeFactory, new TDES_CFBP.MonteCarloKeyMaker(), mode);
                 case BlockCipherModesOfOperation.Ofbi:
-                    throw new NotImplementedException();
+                    return new MonteCarloTdesOfbi(_engineFactory, _modeFactory, new TDES_OFBI.MonteCarloKeyMaker());
                 case BlockCipherModesOfOperation.Ecb:
                 case BlockCipherModesOfOperation.Cbc:
                 case BlockCipherModesOfOperation.CbcMac:

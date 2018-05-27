@@ -45,6 +45,8 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                     return new EcbBlockCipher(engine);
                 case BlockCipherModesOfOperation.Ofb:
                     return new OfbBlockCipher(engine);
+                case BlockCipherModesOfOperation.Ofbi:
+                    return new OfbiBlockCipher(engine);
 
                 default:
                     throw new ArgumentException(nameof(modeOfOperation));

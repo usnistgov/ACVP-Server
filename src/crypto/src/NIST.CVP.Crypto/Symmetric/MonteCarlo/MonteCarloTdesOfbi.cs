@@ -1,40 +1,62 @@
-﻿using NIST.CVP.Crypto.TDES;
-using NIST.CVP.Math;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
-using NIST.CVP.Crypto.Common.Symmetric.TDES.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.TDES.Helpers;
+using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.TDES_OFBI
+namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 {
-    public class TdesOfbiMCT : ITDES_OFBI_MCT
+    public class MonteCarloTdesOfbi : IMonteCarloTester<Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs>, AlgoArrayResponseWithIvs>
     {
-        private readonly IMonteCarloKeyMaker _keyMaker;
+        private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
+        private readonly IMonteCarloKeyMakerTdes _keyMaker;
 
         private const int NUMBER_OF_CASES = 400;
-        //private const int NUMBER_OF_CASES = 5;
+        private const int PARTITIONS = 3;
         private const int NUMBER_OF_ITERATIONS = 10000;
         private const int NUMBER_OF_OUTPUTS_TO_SAVE = 3;
 
         protected virtual int NumberOfCases => NUMBER_OF_CASES;
 
-        public TdesOfbiMCT(IMonteCarloKeyMaker keyMaker)
+        public MonteCarloTdesOfbi(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, IMonteCarloKeyMakerTdes keyMaker)
         {
-
+            _algo = modeFactory.GetStandardCipher(
+                engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes),
+                BlockCipherModesOfOperation.Ecb
+            );
             _keyMaker = keyMaker;
         }
 
-        public MCTResult<AlgoArrayResponseWithIvs> MCTEncrypt(BitString keyBits, BitString iv, BitString data)
+        public Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs> ProcessMonteCarloTest(IModeBlockCipherParameters param)
         {
-            var ivs = SetupIvs(iv);
+            switch (param.Direction)
+            {
+                case BlockCipherDirections.Encrypt:
+                    return Encrypt(param);
+                case BlockCipherDirections.Decrypt:
+                    return Decrypt(param);
+                default:
+                    throw new ArgumentException(nameof(param.Direction));
+            }
+        }
+
+        private Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs> Encrypt(IModeBlockCipherParameters param)
+        {
+            var ivs = TdesPartitionHelpers.SetupIvs(param.Iv);
 
             var responses = new List<AlgoArrayResponseWithIvs>{
                 new AlgoArrayResponseWithIvs {
                     IV1 = ivs[0],
                     IV2 = ivs[1],
                     IV3 = ivs[2],
-                    Keys = keyBits,
-                    PlainText = data
+                    Keys = param.Key.GetDeepCopy(),
+                    PlainText = param.Payload.GetDeepCopy()
                 }
             };
             var lastCipherTexts = new List<BitString>();
@@ -47,28 +69,24 @@ namespace NIST.CVP.Crypto.TDES_OFBI
                 var key = responses.Last().Keys.GetDeepCopy();
                 for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
                 {
-                    encryptionInput = j <= 2 ? ivs[j] : encryptionOutputs[j - 3];
-                    var encryptionOutput = new BitString(EncryptWorker(key, encryptionInput.ToBytes()));
+                    encryptionInput = j < PARTITIONS ? ivs[j] : encryptionOutputs[j - PARTITIONS];
+                    var encryptionOutput = _algo.ProcessPayload(new ModeBlockCipherParameters(
+                        BlockCipherDirections.Encrypt, key, encryptionInput
+                    )).Result;
 
                     encryptionOutputs.Add(encryptionOutput.GetDeepCopy());
-                    cipherText = data.XOR(encryptionOutput);
-                    //if (j < 5 || j > 9994)
-                    //{
-                    //    Debug.WriteLine($"J: {j}");
-                    //    Debug.WriteLine($"   INPUT {encryptionInput.ToHex()}");
-                    //    Debug.WriteLine($"   OUTPUT {encryptionOutput.ToHex()}");
-                    //    Debug.WriteLine($"   CIPHER {cipherText.ToHex()}");
-                    //}
+                    cipherText = param.Payload.XOR(encryptionOutput);
+
                     if (j >= indexAtWhichToStartSaving)
                     {
                         lastCipherTexts.Insert(0, cipherText.GetDeepCopy());
                     }
-                    data = encryptionInput.GetDeepCopy();
+                    param.Payload = encryptionInput.GetDeepCopy();
                 }
 
                 responses.Last().CipherText = cipherText.GetDeepCopy();
 
-                ivs = SetupIvs(encryptionOutputs[9995].XOR(cipherText));
+                ivs = TdesPartitionHelpers.SetupIvs(encryptionOutputs[9995].XOR(cipherText));
 
                 responses.Add(new AlgoArrayResponseWithIvs
                 {
@@ -80,20 +98,20 @@ namespace NIST.CVP.Crypto.TDES_OFBI
                 });
             }
             responses.RemoveAt(responses.Count() - 1);
-            return new MCTResult<AlgoArrayResponseWithIvs>(responses);
+            return new Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs>(responses);
         }
 
-        public MCTResult<AlgoArrayResponseWithIvs> MCTDecrypt(BitString keyBits, BitString iv, BitString data)
+        private Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs> Decrypt(IModeBlockCipherParameters param)
         {
-            var ivs = SetupIvs(iv);
+            var ivs = TdesPartitionHelpers.SetupIvs(param.Iv);
 
             var responses = new List<AlgoArrayResponseWithIvs>{
                 new AlgoArrayResponseWithIvs {
                     IV1 = ivs[0],
                     IV2 = ivs[1],
                     IV3 = ivs[2],
-                    Keys = keyBits,
-                    CipherText = data
+                    Keys = param.Key,
+                    CipherText = param.Payload
                 }
             };
             var lastPlainTexts = new List<BitString>();
@@ -106,28 +124,24 @@ namespace NIST.CVP.Crypto.TDES_OFBI
                 var key = responses.Last().Keys.GetDeepCopy();
                 for (var j = 0; j < NUMBER_OF_ITERATIONS; j++)
                 {
-                    encryptionInput = j <= 2 ? ivs[j] : encryptionOutputs[j - 3];
-                    var encryptionOutput = new BitString(EncryptWorker(key, encryptionInput.ToBytes()));
+                    encryptionInput = j < PARTITIONS ? ivs[j] : encryptionOutputs[j - PARTITIONS];
+                    var encryptionOutput = _algo.ProcessPayload(new ModeBlockCipherParameters(
+                        BlockCipherDirections.Encrypt, key, encryptionInput
+                    )).Result;
 
                     encryptionOutputs.Add(encryptionOutput.GetDeepCopy());
-                    plainText = data.XOR(encryptionOutput);
-                    //if (j < 5 || j > 9994)
-                    //{
-                    //    Debug.WriteLine($"J: {j}");
-                    //    Debug.WriteLine($"   INPUT {encryptionInput.ToHex()}");
-                    //    Debug.WriteLine($"   OUTPUT {encryptionOutput.ToHex()}");
-                    //    Debug.WriteLine($"   PLAIN {plainText.ToHex()}");
-                    //}
+                    plainText = param.Payload.XOR(encryptionOutput);
+                    
                     if (j >= indexAtWhichToStartSaving)
                     {
                         lastPlainTexts.Insert(0, plainText.GetDeepCopy());
                     }
-                    data = encryptionInput.GetDeepCopy();
+                    param.Payload = encryptionInput.GetDeepCopy();
                 }
 
                 responses.Last().PlainText = plainText.GetDeepCopy();
 
-                ivs = SetupIvs(encryptionOutputs[9995].XOR(plainText));
+                ivs = TdesPartitionHelpers.SetupIvs(encryptionOutputs[9995].XOR(plainText));
 
                 responses.Add(new AlgoArrayResponseWithIvs
                 {
@@ -139,25 +153,7 @@ namespace NIST.CVP.Crypto.TDES_OFBI
                 });
             }
             responses.RemoveAt(responses.Count() - 1);
-            return new MCTResult<AlgoArrayResponseWithIvs>(responses);
-        }
-
-        private byte[] EncryptWorker(BitString keyBits, byte[] input)
-        {
-            var keys = new TDESKeys(keyBits);
-            var context = new TDESContext(keys, FunctionValues.Encryption);
-            byte[] interm1 = context.Schedule[0].Apply(input);
-            byte[] interm2 = context.Schedule[1].Apply(interm1);
-            byte[] output = context.Schedule[2].Apply(interm2);
-            return output;
-        }
-
-        private BitString[] SetupIvs(BitString iv)
-        {
-            //TODO can be moved to the TDES project
-            return new[]{ iv,
-                iv.AddWithModulo(new BitString("5555555555555555"), 64),
-                iv.AddWithModulo(new BitString("AAAAAAAAAAAAAAAA"), 64)};
+            return new Common.Symmetric.MCTResult<AlgoArrayResponseWithIvs>(responses);
         }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using System;
 using Moq;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -65,9 +68,10 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         private TestCaseGeneratorFactory GetSubject()
         {
             var randy = new Mock<IRandom800_90>().Object;
-            var algo = new Mock<ITDES_OFBI>().Object;
-            var algoMct = new Mock<ITDES_OFBI_MCT>().Object;
-            return new TestCaseGeneratorFactory(randy, algo, algoMct);
+            var mctFactory = new Mock<IMonteCarloFactoryTdesPartitions>().Object;
+            var engineFactory = new Mock<IBlockCipherEngineFactory>().Object;
+            var modeFactory = new Mock<IModeBlockCipherFactory>().Object;
+            return new TestCaseGeneratorFactory(randy, mctFactory, engineFactory, modeFactory);
         }
     }
 }

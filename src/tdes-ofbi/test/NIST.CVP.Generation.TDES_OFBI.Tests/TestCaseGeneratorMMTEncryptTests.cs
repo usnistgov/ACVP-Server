@@ -1,21 +1,61 @@
 ﻿using Moq;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Crypto.TDES_OFBI;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Generation.TDES_OFBI.Tests
 {
-    [TestFixture]
+    [TestFixture, UnitTest]
     public class TestCaseGeneratorMMTEncryptTests
     {
+        private Mock<IRandom800_90> _random;
+        private Mock<IBlockCipherEngine> _engine;
+        private Mock<IBlockCipherEngineFactory> _engineFactory;
+        private Mock<IModeBlockCipher<SymmetricCipherResult>> _mode;
+        private Mock<IModeBlockCipherFactory> _modeFactory;
+        private TestCaseGeneratorMMTEncrypt _subject;
+
+        [SetUp]
+        public void Setup()
+        {
+            _random = new Mock<IRandom800_90>();
+            _random
+                .Setup(s => s.GetRandomBitString(It.IsAny<int>()))
+                .Returns(new BitString(192));
+            _engine = new Mock<IBlockCipherEngine>();
+            _engineFactory = new Mock<IBlockCipherEngineFactory>();
+            _engineFactory
+                .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
+                .Returns(_engine.Object);
+            _mode = new Mock<IModeBlockCipher<SymmetricCipherResult>>();
+            _mode
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
+                .Returns(() => new SymmetricCipherResult(new BitString(64)));
+            _modeFactory = new Mock<IModeBlockCipherFactory>();
+            _modeFactory
+                .Setup(s => s.GetStandardCipher(
+                    It.IsAny<IBlockCipherEngine>(),
+                    It.IsAny<BlockCipherModesOfOperation>())
+                )
+                .Returns(_mode.Object);
+            _subject = new TestCaseGeneratorMMTEncrypt(
+                _random.Object,
+                _engineFactory.Object,
+                _modeFactory.Object
+            );
+        }
+
         [Test]
         public void ShouldSuccessfullyGenerate()
         {
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new TdesOfbi());
-            var result = subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
+            var result = _subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
         }
@@ -23,61 +63,16 @@ namespace NIST.CVP.Generation.TDES_OFBI.Tests
         [Test]
         public void ShouldHaveProperNumberOfTestCasesToGenerate()
         {
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new TdesOfbi());
-            Assert.AreEqual(10, subject.NumberOfTestCasesToGenerate);
-        }
-
-        [Test]
-        public void ShouldGenerateProperlySizedPlainTextForEachGenerateCall()
-        {
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), new TdesOfbi());
-            for (int caseIdx = 0; caseIdx < subject.NumberOfTestCasesToGenerate; caseIdx++)
-            {
-                var result = subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
-                Assume.That(result != null);
-                Assume.That(result.Success);
-
-                var testCase = result.TestCase;
-                Assert.AreEqual((caseIdx + 1) * 8 * 3, testCase.PlainText.ToBytes().Length);
-            }
+            Assert.AreEqual(10, _subject.NumberOfTestCasesToGenerate);
         }
 
         [Test]
         public void ShouldReturnAnErrorIfAnEncryptionFails()
         {
-            var algo = new Mock<ITDES_OFBI>();
-            algo.Setup(s => s.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
-                .Returns(new SymmetricCipherWithIvResult("I Failed to encrypt"));
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), algo.Object);
-            var result = subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
+            _mode.Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
+               .Returns(new SymmetricCipherResult("I Failed to encrypt"));
+            var result = _subject.Generate(new TestGroup { Function = "encrypt", KeyingOption = 1 }, false);
             Assert.IsFalse(result.Success);
-        }
-
-        [Test]
-        public void GeneratedCipherTextShouldEncryptBackToCipherText()
-        {
-            var algo = new TdesOfbi();
-            var subject = new TestCaseGeneratorMMTEncrypt(new Random800_90(), algo);
-            var testGroup = new TestGroup
-            {
-                Function = "encrypt",
-                KeyingOption = 1
-            };
-
-            for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)
-            {
-                var result = subject.Generate(testGroup, false);
-                Assume.That(result.Success);
-                testGroup.Tests.Add(result.TestCase);
-            }
-
-            Assume.That(testGroup.Tests.Count > 0);
-
-            foreach (var testCase in testGroup.Tests)
-            {
-                var result = algo.BlockEncrypt(testCase.Keys, testCase.IV1, testCase.PlainText);
-                Assert.AreEqual(testCase.CipherText, result.Result);
-            }
         }
     }
 }

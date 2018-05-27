@@ -2,6 +2,9 @@
 using NIST.CVP.Math;
 using NLog;
 using System;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 
 namespace NIST.CVP.Generation.TDES_OFBI
@@ -11,12 +14,15 @@ namespace NIST.CVP.Generation.TDES_OFBI
         private const int BLOCK_SIZE_BITS = 64;
 
         private readonly IRandom800_90 _random800_90;
-        private readonly ITDES_OFBI_MCT _algo;
+        private readonly IMonteCarloFactoryTdesPartitions _mctFactory;
 
-        public TestCaseGeneratorMonteCarloEncrypt(IRandom800_90 random800_90, ITDES_OFBI_MCT algo)
+        public TestCaseGeneratorMonteCarloEncrypt(
+            IRandom800_90 random800_90,
+            IMonteCarloFactoryTdesPartitions mctFactory
+        )
         {
             _random800_90 = random800_90;
-            _algo = algo;
+            _mctFactory = mctFactory;
         }
 
         public int NumberOfTestCasesToGenerate => 1;
@@ -30,17 +36,26 @@ namespace NIST.CVP.Generation.TDES_OFBI
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase seedCase)
         {
-            MCTResult<AlgoArrayResponseWithIvs> encryptionResult = null;
             try
             {
-                encryptionResult = _algo.MCTEncrypt(seedCase.Keys, seedCase.IV1, seedCase.PlainText);
-                if (!encryptionResult.Success)
+                var mct = _mctFactory.GetInstance(BlockCipherModesOfOperation.Ofbi);
+                var p = new ModeBlockCipherParameters(
+                    BlockCipherDirections.Encrypt,
+                    seedCase.IV1.GetDeepCopy(),
+                    seedCase.Keys.GetDeepCopy(),
+                    seedCase.PlainText.GetDeepCopy()
+                );
+
+                var result = mct.ProcessMonteCarloTest(p);
+                if (!result.Success)
                 {
-                    ThisLogger.Warn(encryptionResult.ErrorMessage);
+                    ThisLogger.Warn(result.ErrorMessage);
                     {
-                        return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
+                        return new TestCaseGenerateResponse<TestGroup, TestCase>(result.ErrorMessage);
                     }
                 }
+
+                seedCase.ResultsArray = result.Response;
             }
             catch (Exception ex)
             {
@@ -49,7 +64,7 @@ namespace NIST.CVP.Generation.TDES_OFBI
                     return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
                 }
             }
-            seedCase.ResultsArray = encryptionResult.Response;
+            
             return new TestCaseGenerateResponse<TestGroup, TestCase>(seedCase);
         }
 
