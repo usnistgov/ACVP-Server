@@ -39,7 +39,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                     return new MonteCarloTdesCfb(_engineFactory, _modeFactory, new TDES_CFB.MonteCarloKeyMaker(),
                         64, mode);
                 case BlockCipherModesOfOperation.Ofb:
-                    throw new NotImplementedException();
+                    return new MonteCarloTdesOfb(_engineFactory, _modeFactory, new TDES_OFB.MonteCarloKeyMaker());
                 case BlockCipherModesOfOperation.Cbci:
                 case BlockCipherModesOfOperation.CfbpBit:
                 case BlockCipherModesOfOperation.CfbpByte:

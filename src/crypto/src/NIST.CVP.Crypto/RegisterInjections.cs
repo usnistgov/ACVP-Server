@@ -144,10 +144,6 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<TDES_ECB_MCT>().AsImplementedInterfaces();
             builder.RegisterType<TDES_ECB.MonteCarloKeyMaker>().AsImplementedInterfaces();
 
-            builder.RegisterType<TdesOfb>().AsImplementedInterfaces();
-            builder.RegisterType<TDES_OFB_MCT>().AsImplementedInterfaces();
-            builder.RegisterType<TDES_OFB.MonteCarloKeyMaker>().AsImplementedInterfaces();
-
             builder.RegisterType<TdesOfbi>().AsImplementedInterfaces();
             builder.RegisterType<TdesOfbiMCT>().AsImplementedInterfaces();
             builder.RegisterType<TDES_OFBI.MonteCarloKeyMaker>().AsImplementedInterfaces();

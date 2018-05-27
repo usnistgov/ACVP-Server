@@ -1,4 +1,11 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.TDES;
+﻿using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
+using NIST.CVP.Crypto.Common.Symmetric.TDES;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.TDES;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -10,14 +17,14 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
     public class MCTs
     {
 
-        private class TestTDesOfbMct : TDES_OFB_MCT
+        private class TestTDesOfbMct : MonteCarloTdesOfb
         {
-            public TestTDesOfbMct(ITDES_OFB algo, IMonteCarloKeyMaker keyMaker)
-                : base(algo, keyMaker) { }
+            public TestTDesOfbMct(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, IMonteCarloKeyMakerTdes keyMaker)
+                : base(engineFactory, modeFactory, keyMaker) { }
 
             private int _numberOfCases = 1;
 
-            protected override int NumberOfCases { get { return _numberOfCases; } }
+            protected override int NumberOfCases => _numberOfCases;
 
             public void SetNumberOfCases(int numberOfCases)
             {
@@ -25,7 +32,11 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             }
         }
 
-        TestTDesOfbMct _subject = new TestTDesOfbMct(new TdesOfb(), new MonteCarloKeyMaker());
+        private readonly TestTDesOfbMct _subject = new TestTDesOfbMct(
+            new BlockCipherEngineFactory(),
+            new ModeBlockCipherFactory(),
+            new MonteCarloKeyMaker()
+        );
 
         [Test]
         [TestCase("F1EFDA23F48A6194674AFB1A86860D407361683798D37C68", "42F761DB81650D7F", "7C2523C15334C0BB",  1, "F1EFDA23F48A6194674AFB1A86860D407361683798D37C68", "42F761DB81650D7F", "2B9C18EEC7A90FF4", "7C2523C15334C0BB")]
@@ -45,7 +56,13 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             BitString expectedFinalIV = new BitString(expectedFinalIvHex);
 
 
-             var result = _subject.MCTEncrypt(key, pt, iv);
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                iv.GetDeepCopy(),
+                key.GetDeepCopy(),
+                pt.GetDeepCopy()
+            );
+            var result = _subject.ProcessMonteCarloTest(param);
 
             Assert.Multiple(() =>
             {
@@ -74,7 +91,13 @@ namespace NIST.CVP.Crypto.TDES_OFB.Tests
             BitString expectedFinalPt = new BitString(expectedFinalPtHex);
             BitString expectedFinalIV = new BitString(expectedFinalIvHex);
 
-            var result = _subject.MCTDecrypt(key, ct, iv);
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt,
+                iv.GetDeepCopy(),
+                key.GetDeepCopy(),
+                ct.GetDeepCopy()
+            );
+            var result = _subject.ProcessMonteCarloTest(param);
 
             Assert.Multiple(() =>
             {

@@ -43,6 +43,8 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes
                     throw new ArgumentException($"{modeOfOperation} not a standard mode, use {nameof(GetCounterCipher)} instead");
                 case BlockCipherModesOfOperation.Ecb:
                     return new EcbBlockCipher(engine);
+                case BlockCipherModesOfOperation.Ofb:
+                    return new OfbBlockCipher(engine);
 
                 default:
                     throw new ArgumentException(nameof(modeOfOperation));
