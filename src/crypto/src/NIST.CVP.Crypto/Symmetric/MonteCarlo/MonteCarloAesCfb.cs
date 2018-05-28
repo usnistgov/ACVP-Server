@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
@@ -14,17 +15,28 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
     public class MonteCarloAesCfb : IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse>
     {
         private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
+        private readonly IMonteCarloKeyMakerAes _keyMaker;
+        private readonly int _blockSizeBits;
         private const int _OUTPUT_ITERATIONS = 100;
         private const int _INNER_ITERATIONS_PER_OUTPUT = 1000;
 
         public readonly int Shift;
 
-        public MonteCarloAesCfb(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, int shiftSize, BlockCipherModesOfOperation mode)
+        public MonteCarloAesCfb(
+            IBlockCipherEngineFactory engineFactory, 
+            IModeBlockCipherFactory modeFactory, 
+            IMonteCarloKeyMakerAes keyMaker,
+            int shiftSize, 
+            BlockCipherModesOfOperation mode
+        )
         {
+            var engine = engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes);
             _algo = modeFactory.GetStandardCipher(
-                engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes),
+                engine,
                 mode
             );
+            _keyMaker = keyMaker;
+            _blockSizeBits = engine.BlockSizeBits;
             Shift = shiftSize;
         }
 
@@ -100,16 +112,8 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                         previousCipherTexts.Add(jCipherText);
                         iIterationResponse.CipherText = jCipherText;
 
-                        if (j < 128)
-                        {
-                            // Note, Bits are stored in the opposite direction on the BitString in comparison to where the MCT pseudo code expects them
-                            param.Payload = iIterationResponse.IV.Substring(iIterationResponse.IV.BitLength - 1 - j, 1).GetDeepCopy();
-                        }
-                        else
-                        {
-                            param.Payload = previousCipherTexts[j - 128].GetDeepCopy();
-                        }
-
+                        param.Payload = GetNextPayload(j, iIterationResponse.IV, previousCipherTexts);
+                        
                         BitString iv = param.Iv.GetDeepCopy();
                         BitString key = param.Key.GetDeepCopy();
                         BitString payload = param.Payload.GetDeepCopy();
@@ -159,15 +163,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                         previousPlainTexts.Add(jPlainText);
                         iIterationResponse.PlainText = jPlainText;
 
-                        if (j < 128)
-                        {
-                            // Note, Bits are stored in the opposite direction on the BitString in comparison to where the MCT pseudo code expects them
-                            param.Payload = iIterationResponse.IV.Substring(iIterationResponse.IV.BitLength - 1 - j, 1).GetDeepCopy();
-                        }
-                        else
-                        {
-                            param.Payload = previousPlainTexts[j - 128].GetDeepCopy();
-                        }
+                        param.Payload = GetNextPayload(j, iIterationResponse.IV, previousPlainTexts);
 
                         BitString iv = param.Iv.GetDeepCopy();
                         BitString key = param.Key.GetDeepCopy();
@@ -189,26 +185,104 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             return new MCTResult<AlgoArrayResponse>(responses);
         }
 
+        // TODO switching on shift, pull out as strategy?
         private void SetupNextOuterLoopValues(ref BitString iv, ref BitString key, ref BitString input, int j, List<BitString> previousOutputs)
         {
             if (j == _INNER_ITERATIONS_PER_OUTPUT - 1)
             {
-                var len = j - key.BitLength + 1;
-                var keyConcatenation = ConcatenateOutputsStartingAtIndex(previousOutputs, len);
-                key = key.XOR(keyConcatenation).GetDeepCopy();
+                switch (Shift)
+                {
+                    case 1:
+                    {
+                        var len = j - key.BitLength + 1;
+                        var keyConcatenation = ConcatenateOutputsStartingAtIndex(previousOutputs, len);
+                        key = key.XOR(keyConcatenation).GetDeepCopy();
 
-                iv = ConcatenateOutputsStartingAtIndex(previousOutputs, j - 128 + 1).GetDeepCopy();
-                input = previousOutputs[j - 128].GetDeepCopy();
+                        iv = ConcatenateOutputsStartingAtIndex(previousOutputs, j - (_blockSizeBits / Shift) + 1).GetDeepCopy();
+                        input = previousOutputs[j - _blockSizeBits / Shift].GetDeepCopy();
+                        break;
+                    }
+
+                    case 8:
+                    {
+                        var index = j - (key.BitLength / 8) + 1;
+                        var keyConcatenation = ConcatenateOutputsStartingAtIndex(previousOutputs, index);
+                        key = key.XOR(keyConcatenation).GetDeepCopy();
+
+                        iv = ConcatenateOutputsStartingAtIndex(previousOutputs, j - (128 / 8) + 1).GetDeepCopy();
+                        input = previousOutputs[j - 16].GetDeepCopy();
+                        break;
+                    }
+
+                    case 128:
+                        {
+                            int previousOutputsLastIndex = previousOutputs.Count - 1;
+                            var currentOutput = previousOutputs[previousOutputsLastIndex];
+                            var previousOutput = previousOutputs[previousOutputsLastIndex - 1];
+
+                            key = _keyMaker.MixKeys(
+                                key,
+                                currentOutput,
+                                previousOutput
+                            );
+
+                            iv = currentOutput;
+                            input = previousOutput;
+                            break;
+                        }
+                    
+                    default:
+                        throw new ArgumentException(nameof(Shift));
+                }
+            }
+        }
+
+        // TODO switching on shift, pull out as strategy?
+        private BitString GetNextPayload(int j, BitString currentIv, List<BitString> previousOutputs)
+        {
+            switch (Shift)
+            {
+                case 1:
+                    if (j < 128)
+                    {
+                        // Note, Bits are stored in the opposite direction on the BitString in comparison to where the MCT pseudo code expects them
+                        return currentIv
+                            .Substring(currentIv.BitLength - 1 - j, Shift).GetDeepCopy();
+                    }
+                    else
+                    {
+                        return previousOutputs[j - _blockSizeBits / Shift].GetDeepCopy();
+                    }
+                case 8:
+                    if (j < 16)
+                    {
+                        return new BitString(new byte[] { currentIv[j] });
+                    }
+                    else
+                    {
+                        return previousOutputs[j - 16].GetDeepCopy();
+                    }
+                case 128:
+                    if (j == 0)
+                    {
+                        return currentIv.GetDeepCopy();
+                    }
+                    else
+                    {
+                        return previousOutputs[previousOutputs.Count - 2].GetDeepCopy();
+                    }
+                default:
+                    throw new ArgumentException(nameof(Shift));
             }
         }
 
         private BitString ConcatenateOutputsStartingAtIndex(List<BitString> previousOutputs, int startingIndex)
         {
-            BitString bs = previousOutputs[startingIndex].GetMostSignificantBits(1);
+            BitString bs = previousOutputs[startingIndex].GetMostSignificantBits(Shift);
 
             for (int iterator = startingIndex + 1; iterator < previousOutputs.Count; iterator++)
             {
-                bs = bs.ConcatenateBits(previousOutputs[iterator].GetMostSignificantBits(1));
+                bs = bs.ConcatenateBits(previousOutputs[iterator].GetMostSignificantBits(Shift));
             }
 
             return bs;

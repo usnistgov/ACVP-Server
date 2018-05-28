@@ -28,7 +28,13 @@ namespace NIST.CVP.Generation.AES_CFB1.IntegrationTests
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
             var engine = new AesEngine();
             _algo = new CfbBlockCipher(engine, new ShiftRegisterStrategyBit(engine));
-            _mct = new MonteCarloAesCfb(new BlockCipherEngineFactory(), new ModeBlockCipherFactory(), 1, BlockCipherModesOfOperation.CfbBit);
+            _mct = new MonteCarloAesCfb(
+                new BlockCipherEngineFactory(), 
+                new ModeBlockCipherFactory(), 
+                new AesMonteCarloKeyMaker(), 
+                1, 
+                BlockCipherModesOfOperation.CfbBit
+            );
         }
 
         [Test]

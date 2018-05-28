@@ -18,8 +18,9 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
         private readonly MonteCarloAesCfb _subject = new MonteCarloAesCfb(
             new BlockCipherEngineFactory(),
             new ModeBlockCipherFactory(),
+            new AesMonteCarloKeyMaker(),
             1,
-            Common.Symmetric.Enums.BlockCipherModesOfOperation.CfbBit
+            BlockCipherModesOfOperation.CfbBit
         );
 
         #region Encrypt
@@ -361,5 +362,129 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
             Assert.IsTrue(result.Success);
         }
         #endregion Decrypt
+
+        [Test]
+        public void Cfb8()
+        {
+            string keyString = "be2742df6d0139a45eb0e9a1822eef4a";
+            string ivString = "3d3d13c3096535cfd1889e592308f9f2";
+
+            var key = new BitString(keyString);
+            var iv = new BitString(ivString);
+
+            var sanityCheckFirstKey = new BitString(keyString);
+            var sanityCheckFirstIv = new BitString(ivString);
+            var plainText = new BitString("8d");
+            var firstExpectedCipherText = new BitString("8a");
+
+            var secondExpectedKey = new BitString("0078ef5381ec8f98b21ff995e1f058c0");
+            var secondExpectedIv = new BitString("be5fad8cecedb63cecaf103463deb78a");
+            var secondExpectedPlainText = new BitString("26");
+            var secondExpectedCipherText = new BitString("ff");
+
+            var lastExpectedKey = new BitString("2ba452ed17c06b9602fd6a80f3112c38");
+            var lastExpectedIv = new BitString("b0b335f8827ecd6e2afe15b5b87a8185");
+            var lastExpectedPlainText = new BitString("6f");
+            var lastExpectedCipherText = new BitString("77");
+
+
+            var subject = new MonteCarloAesCfb(
+                new BlockCipherEngineFactory(),
+                new ModeBlockCipherFactory(),
+                new AesMonteCarloKeyMaker(),
+                8,
+                BlockCipherModesOfOperation.CfbByte
+            );
+            var result = subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt, iv, key, plainText
+            ));
+
+
+            Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
+            Assert.AreEqual(iv, sanityCheckFirstIv, nameof(sanityCheckFirstIv));
+            var firstCipherText = result.Response[0].CipherText;
+            Assert.AreEqual(firstExpectedCipherText, firstCipherText, nameof(firstCipherText));
+
+            var secondKey = result.Response[1].Key;
+            var secondIv = result.Response[1].IV;
+            var secondPlainText = result.Response[1].PlainText;
+            var secondCipherText = result.Response[1].CipherText;
+
+            Assert.AreEqual(secondExpectedKey, secondKey, nameof(secondExpectedKey));
+            Assert.AreEqual(secondExpectedIv, secondIv, nameof(secondExpectedIv));
+            Assert.AreEqual(secondExpectedPlainText, secondPlainText, nameof(secondExpectedPlainText));
+            Assert.AreEqual(secondExpectedCipherText, secondCipherText, nameof(secondExpectedCipherText));
+
+            var lastKey = result.Response[result.Response.Count - 1].Key;
+            var lastIv = result.Response[result.Response.Count - 1].IV;
+            var lastPlainText = result.Response[result.Response.Count - 1].PlainText;
+            var lastCipherText = result.Response[result.Response.Count - 1].CipherText;
+
+            Assert.AreEqual(lastExpectedKey, lastKey, nameof(lastExpectedKey));
+            Assert.AreEqual(lastExpectedIv, lastIv, nameof(lastExpectedIv));
+            Assert.AreEqual(lastExpectedPlainText, lastPlainText, nameof(lastPlainText));
+            Assert.AreEqual(lastExpectedCipherText, lastCipherText, nameof(lastCipherText));
+
+            Assert.IsTrue(result.Success);
+        }
+
+        [Test]
+        public void Cfb128()
+        {
+            string keyString = "ef22e67279d033c22053886c67ebb15a";
+            string ivString = "0dfb0fe904ea07f356e58470423e5f69";
+
+            var key = new BitString(keyString);
+            var iv = new BitString(ivString);
+
+            var sanityCheckFirstKey = new BitString(keyString);
+            var sanityCheckFirstIv = new BitString(ivString);
+            var plainText = new BitString("f9f662a43a988a3f7116ead7c60886ef");
+            var firstExpectedCipherText = new BitString("909e9a16af24281a1f4771ba360d8733");
+
+            var secondExpectedKey = new BitString("7fbc7c64d6f41bd83f14f9d651e63669");
+            var secondExpectedIv = new BitString("909e9a16af24281a1f4771ba360d8733");
+
+            var lastExpectedKey = new BitString("01c78e54c67009f34e3a9cb740744111");
+            var lastExpectedIv = new BitString("4e5ffce071752c3cb513e3a6f7347da5");
+            var lastExpectedPlainText = new BitString("3bff30f019dbf7457c6c188d16e7b0e3");
+            var lastExpectedCipherText = new BitString("c51817da5cb5a2ffb9f71b9cbbb0b087");
+
+
+            var subject = new MonteCarloAesCfb(
+                new BlockCipherEngineFactory(),
+                new ModeBlockCipherFactory(),
+                new AesMonteCarloKeyMaker(),
+                128,
+                BlockCipherModesOfOperation.CfbBlock
+            );
+            var result = subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt, iv, key, plainText
+            ));
+
+
+            Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
+            Assert.AreEqual(iv, sanityCheckFirstIv, nameof(sanityCheckFirstIv));
+            var firstCipherText = result.Response[0].CipherText;
+            Assert.AreEqual(firstExpectedCipherText, firstCipherText, nameof(firstCipherText));
+
+            var secondKey = result.Response[1].Key;
+            var secondIv = result.Response[1].IV;
+
+            Assert.AreEqual(secondExpectedKey, secondKey, nameof(secondExpectedKey));
+            Assert.AreEqual(secondExpectedIv, secondIv, nameof(secondExpectedIv));
+
+            var lastKey = result.Response[result.Response.Count - 1].Key;
+            var lastIv = result.Response[result.Response.Count - 1].IV;
+            var lastPlainText = result.Response[result.Response.Count - 1].PlainText;
+            var lastCipherText = result.Response[result.Response.Count - 1].CipherText;
+
+            Assert.AreEqual(lastExpectedKey, lastKey, nameof(lastExpectedKey));
+            Assert.AreEqual(lastExpectedIv, lastIv, nameof(lastExpectedIv));
+            Assert.AreEqual(lastExpectedPlainText, lastPlainText, nameof(lastPlainText));
+            Assert.AreEqual(lastExpectedCipherText, lastCipherText, nameof(lastCipherText));
+
+            Assert.IsTrue(result.Success);
+        }
     }
 }
