@@ -41,7 +41,6 @@ namespace NIST.CVP.Crypto.AES_CBC.Tests
             _subject = new MonteCarloAesCbc(_engineFactory.Object, _modeFactory.Object);
         }
 
-        #region Encrypt
         [Test]
         [TestCase(128, BlockCipherDirections.Encrypt)]
         [TestCase(192, BlockCipherDirections.Encrypt)]
@@ -123,6 +122,5 @@ namespace NIST.CVP.Crypto.AES_CBC.Tests
             Assert.IsFalse(result.Success, nameof(result.Success));
             Assert.AreEqual(error, result.ErrorMessage, nameof(result.ErrorMessage));
         }
-        #endregion Encrypt
     }
 }

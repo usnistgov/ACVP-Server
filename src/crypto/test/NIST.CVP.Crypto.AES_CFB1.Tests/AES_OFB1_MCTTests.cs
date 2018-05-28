@@ -2,137 +2,125 @@
 using Moq;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
 namespace NIST.CVP.Crypto.AES_CFB1.Tests
 {
-    [TestFixture,  FastCryptoTest]
+    [TestFixture, FastCryptoTest]
     public class AES_OFB1_MCTTests
     {
-        private Mock<IAES_CFB1> _algo;
-        private AES_CFB1_MCT _subject;
+        private Mock<IBlockCipherEngineFactory> _engineFactory;
+        private Mock<IBlockCipherEngine> _engine;
+        private Mock<IModeBlockCipher<SymmetricCipherResult>> _algo;
+        private Mock<IModeBlockCipherFactory> _modeFactory;
+        private MonteCarloAesCfb _subject;
 
         [SetUp]
         public void Setup()
         {
-            _algo = new Mock<IAES_CFB1>();
-            _subject = new AES_CFB1_MCT(_algo.Object);
+            _engine = new Mock<IBlockCipherEngine>();
+            _engineFactory = new Mock<IBlockCipherEngineFactory>();
+            _engineFactory
+                .Setup(s => s.GetSymmetricCipherPrimitive(It.IsAny<BlockCipherEngines>()))
+                .Returns(_engine.Object);
+            _algo = new Mock<IModeBlockCipher<SymmetricCipherResult>>();
+            _algo
+                .Setup(s => s.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()))
+                .Returns(() => new SymmetricCipherResult(new BitString(128)));
+            _modeFactory = new Mock<IModeBlockCipherFactory>();
+            _modeFactory
+                .Setup(s => s.GetStandardCipher(_engine.Object, It.IsAny<BlockCipherModesOfOperation>()))
+                .Returns(_algo.Object);
+
+            _subject = new MonteCarloAesCfb(_engineFactory.Object, _modeFactory.Object, 1, BlockCipherModesOfOperation.CfbBit);
         }
 
-        #region Encrypt
         [Test]
-        [TestCase(128)]
-        [TestCase(192)]
-        [TestCase(256)]
-        public void ShouldRunEncryptOperation100000TimesForTestCase(int keySize)
+        [TestCase(128, BlockCipherDirections.Encrypt)]
+        [TestCase(192, BlockCipherDirections.Encrypt)]
+        [TestCase(256, BlockCipherDirections.Encrypt)]
+        [TestCase(128, BlockCipherDirections.Decrypt)]
+        [TestCase(192, BlockCipherDirections.Decrypt)]
+        [TestCase(256, BlockCipherDirections.Decrypt)]
+        public void ShouldRunEncryptOperation100000TimesForTestCase(int keySize, BlockCipherDirections direction)
         {
             BitString iv = new BitString(128);
             BitString key = new BitString(keySize);
-            BitString plainText = new BitString(1);
-            _algo
-                .Setup(s => s.BlockEncrypt(iv, key, plainText))
-                .Returns(new SymmetricCipherResult(new BitString(1)));
+            BitString payload = new BitString(128);
 
-            var result = _subject.MCTEncrypt(iv, key, plainText);
+            var p = new ModeBlockCipherParameters(
+                direction,
+                iv,
+                key,
+                payload
+            );
+
+            var result = _subject.ProcessMonteCarloTest(p);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
-            _algo.Verify(v => v.BlockEncrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()), Times.Exactly(100000), nameof(_algo.Object.BlockEncrypt));
+            _algo.Verify(v => v.ProcessPayload(
+                It.IsAny<ModeBlockCipherParameters>()),
+                Times.Exactly(100000),
+                nameof(_algo.Object.ProcessPayload)
+            );
         }
 
         [Test]
-        [TestCase(128)]
-        [TestCase(192)]
-        [TestCase(256)]
-        public void ShouldReturnEncrypResponseWith100Count(int keySize)
+        [TestCase(128, BlockCipherDirections.Encrypt)]
+        [TestCase(192, BlockCipherDirections.Encrypt)]
+        [TestCase(256, BlockCipherDirections.Encrypt)]
+        [TestCase(128, BlockCipherDirections.Decrypt)]
+        [TestCase(192, BlockCipherDirections.Decrypt)]
+        [TestCase(256, BlockCipherDirections.Decrypt)]
+        public void ShouldReturnEncrypResponseWith100Count(int keySize, BlockCipherDirections direction)
         {
             BitString iv = new BitString(128);
             BitString key = new BitString(keySize);
-            BitString plainText = new BitString(1);
-            _algo
-                .Setup(s => s.BlockEncrypt(iv, key, plainText))
-                .Returns(new SymmetricCipherResult(new BitString(1)));
+            BitString payload = new BitString(128);
 
-            var result = _subject.MCTEncrypt(iv, key, plainText);
+            var p = new ModeBlockCipherParameters(
+                direction,
+                iv,
+                key,
+                payload
+            );
+
+            var result = _subject.ProcessMonteCarloTest(p);
 
             Assert.AreEqual(100, result.Response.Count);
         }
 
         [Test]
-        public void ShouldReturnErrorMessageOnErrorEncrypt()
+        [TestCase(BlockCipherDirections.Encrypt)]
+        [TestCase(BlockCipherDirections.Decrypt)]
+        public void ShouldReturnErrorMessageOnErrorEncrypt(BlockCipherDirections direction)
         {
             string error = "Algo failure!";
 
             BitString iv = new BitString(128);
             BitString key = new BitString(128);
-            BitString plainText = new BitString(1);
+            BitString payload = new BitString(128);
             _algo
-                .Setup(s => s.BlockEncrypt(iv, key, plainText))
+                .Setup(s => s.ProcessPayload(It.IsAny<ModeBlockCipherParameters>()))
                 .Throws(new Exception(error));
 
-            var result = _subject.MCTEncrypt(iv, key, plainText);
+            var p = new ModeBlockCipherParameters(
+                direction,
+                iv,
+                key,
+                payload
+            );
+
+            var result = _subject.ProcessMonteCarloTest(p);
 
             Assert.IsFalse(result.Success, nameof(result.Success));
             Assert.AreEqual(error, result.ErrorMessage, nameof(result.ErrorMessage));
         }
-        #endregion Encrypt
-
-        #region Decrypt
-        [Test]
-        [TestCase(128)]
-        [TestCase(192)]
-        [TestCase(256)]
-        public void ShouldRunDecryptOperation100000TimesForTestCase(int keySize)
-        {
-            BitString iv = new BitString(128);
-            BitString key = new BitString(keySize);
-            BitString cipherText = new BitString(1);
-            _algo
-                .Setup(s => s.BlockDecrypt(iv, key, cipherText))
-                .Returns(new SymmetricCipherResult(new BitString(1)));
-
-            var result = _subject.MCTDecrypt(iv, key, cipherText);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            _algo.Verify(v => v.BlockDecrypt(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()), Times.Exactly(100000), nameof(_algo.Object.BlockDecrypt));
-        }
-
-        [Test]
-        [TestCase(128)]
-        [TestCase(192)]
-        [TestCase(256)]
-        public void ShouldReturnDecrypResponseWith100Count(int keySize)
-        {
-            BitString iv = new BitString(128);
-            BitString key = new BitString(keySize);
-            BitString cipherText = new BitString(1);
-            _algo
-                .Setup(s => s.BlockDecrypt(iv, key, cipherText))
-                .Returns(new SymmetricCipherResult(new BitString(1)));
-
-            var result = _subject.MCTDecrypt(iv, key, cipherText);
-
-            Assert.AreEqual(100, result.Response.Count);
-        }
-
-        [Test]
-        public void ShouldReturnErrorMessageOnErrorDecrypt()
-        {
-            string error = "Algo failure!";
-
-            BitString iv = new BitString(128);
-            BitString key = new BitString(128);
-            BitString cipherText = new BitString(1);
-            _algo
-                .Setup(s => s.BlockDecrypt(iv, key, cipherText))
-                .Throws(new Exception(error));
-
-            var result = _subject.MCTDecrypt(iv, key, cipherText);
-
-            Assert.IsFalse(result.Success, nameof(result.Success));
-            Assert.AreEqual(error, result.ErrorMessage, nameof(result.ErrorMessage));
-        }
-        #endregion Decrypt
     }
 }

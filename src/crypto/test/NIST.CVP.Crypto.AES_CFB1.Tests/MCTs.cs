@@ -1,5 +1,10 @@
 ﻿using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
+using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -10,7 +15,12 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
     [TestFixture, LongCryptoTest]
     public class MCTs
     {
-        private AES_CFB1_MCT _subject = new AES_CFB1_MCT(new Crypto.AES_CFB1.AES_CFB1(new RijndaelFactory(new RijndaelInternals())));
+        private readonly MonteCarloAesCfb _subject = new MonteCarloAesCfb(
+            new BlockCipherEngineFactory(),
+            new ModeBlockCipherFactory(),
+            1,
+            Common.Symmetric.Enums.BlockCipherModesOfOperation.CfbBit
+        );
 
         #region Encrypt
         [Test]
@@ -38,7 +48,9 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
             var lastExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
 
 
-            var result = _subject.MCTEncrypt(iv, key, plainText);
+            var result = _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt, iv, key, plainText
+            ));
 
 
             Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
@@ -92,7 +104,9 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
             var lastExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
 
 
-            var result = _subject.MCTEncrypt(iv, key, plainText);
+            var result = _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt, iv, key, plainText
+            ));
 
 
             Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
@@ -142,7 +156,9 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
             var lastExpectedCipherText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
 
 
-            var result = _subject.MCTEncrypt(iv, key, plainText);
+            var result = _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt, iv, key, plainText
+            ));
 
 
             Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
@@ -196,7 +212,9 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
             var lastExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("1"));
 
 
-            var result = _subject.MCTDecrypt(iv, key, cipherText);
+            var result = _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt, iv, key, cipherText
+            ));
 
 
             Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
@@ -252,7 +270,9 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
             var lastExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
 
 
-            var result = _subject.MCTDecrypt(iv, key, cipherText);
+            var result = _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt, iv, key, cipherText
+            ));
 
 
             Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
@@ -308,7 +328,9 @@ namespace NIST.CVP.Crypto.AES_CFB1.Tests
             var lastExpectedPlainText = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0sReversed("0"));
 
 
-            var result = _subject.MCTDecrypt(iv, key, cipherText);
+            var result = _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(
+                BlockCipherDirections.Decrypt, iv, key, cipherText
+            ));
 
 
             Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));

@@ -2,21 +2,30 @@
 using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Symmetric;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using NLog;
 
-namespace NIST.CVP.Crypto.AES_CFB1
+namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 {
-    public class AES_CFB1_MCT : IAES_CFB1_MCT
+    public class MonteCarloAesCfb : IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse>
     {
-        private readonly IAES_CFB1 _algo;
+        private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
         private const int _OUTPUT_ITERATIONS = 100;
         private const int _INNER_ITERATIONS_PER_OUTPUT = 1000;
 
+        public readonly int Shift;
 
-        public AES_CFB1_MCT(IAES_CFB1 algo)
+        public MonteCarloAesCfb(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, int shiftSize, BlockCipherModesOfOperation mode)
         {
-            _algo = algo;
+            _algo = modeFactory.GetStandardCipher(
+                engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes),
+                mode
+            );
+            Shift = shiftSize;
         }
 
         #region MonteCarloAlgorithm Pseudocode
@@ -49,7 +58,20 @@ namespace NIST.CVP.Crypto.AES_CFB1
         */
         #endregion MonteCarloAlgorithm Pseudocode
 
-        public MCTResult<AlgoArrayResponse> MCTEncrypt(BitString iv, BitString key, BitString plainText)
+        public MCTResult<AlgoArrayResponse> ProcessMonteCarloTest(IModeBlockCipherParameters param)
+        {
+            switch (param.Direction)
+            {
+                case BlockCipherDirections.Encrypt:
+                    return Encrypt(param);
+                case BlockCipherDirections.Decrypt:
+                    return Decrypt(param);
+                default:
+                    throw new ArgumentException(nameof(param.Direction));
+            }
+        }
+
+        private MCTResult<AlgoArrayResponse> Encrypt(IModeBlockCipherParameters param)
         {
             List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
 
@@ -62,18 +84,18 @@ namespace NIST.CVP.Crypto.AES_CFB1
                 {
                     AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
                     {
-                        IV = iv,
-                        Key = key,
-                        PlainText = plainText
+                        IV = param.Iv,
+                        Key = param.Key,
+                        PlainText = param.Payload
                     };
                     responses.Add(iIterationResponse);
 
                     List<BitString> previousCipherTexts = new List<BitString>();
-                    iv = iv.GetDeepCopy();
-                    plainText = plainText.GetDeepCopy();
+                    param.Iv = param.Iv.GetDeepCopy();
+                    param.Payload = param.Payload.GetDeepCopy();
                     for (j = 0; j < _INNER_ITERATIONS_PER_OUTPUT; j++)
                     {
-                        var jResult = _algo.BlockEncrypt(iv, key, plainText);
+                        var jResult = _algo.ProcessPayload(param);
                         var jCipherText = jResult.Result.GetDeepCopy();
                         previousCipherTexts.Add(jCipherText);
                         iIterationResponse.CipherText = jCipherText;
@@ -81,14 +103,20 @@ namespace NIST.CVP.Crypto.AES_CFB1
                         if (j < 128)
                         {
                             // Note, Bits are stored in the opposite direction on the BitString in comparison to where the MCT pseudo code expects them
-                            plainText = iIterationResponse.IV.Substring(iIterationResponse.IV.BitLength - 1 - j, 1).GetDeepCopy();
+                            param.Payload = iIterationResponse.IV.Substring(iIterationResponse.IV.BitLength - 1 - j, 1).GetDeepCopy();
                         }
                         else
                         {
-                            plainText = previousCipherTexts[j - 128].GetDeepCopy();
+                            param.Payload = previousCipherTexts[j - 128].GetDeepCopy();
                         }
 
-                        SetupNextOuterLoopValues(ref iv, ref key, ref plainText, j, previousCipherTexts);
+                        BitString iv = param.Iv.GetDeepCopy();
+                        BitString key = param.Key.GetDeepCopy();
+                        BitString payload = param.Payload.GetDeepCopy();
+                        SetupNextOuterLoopValues(ref iv, ref key, ref payload, j, previousCipherTexts);
+                        param.Iv = iv.GetDeepCopy();
+                        param.Key = key.GetDeepCopy();
+                        param.Payload = payload.GetDeepCopy();
                     }
                 }
             }
@@ -102,7 +130,7 @@ namespace NIST.CVP.Crypto.AES_CFB1
             return new MCTResult<AlgoArrayResponse>(responses);
         }
 
-        public MCTResult<AlgoArrayResponse> MCTDecrypt(BitString iv, BitString key, BitString cipherText)
+        private MCTResult<AlgoArrayResponse> Decrypt(IModeBlockCipherParameters param)
         {
             List<AlgoArrayResponse> responses = new List<AlgoArrayResponse>();
 
@@ -115,18 +143,18 @@ namespace NIST.CVP.Crypto.AES_CFB1
                 {
                     AlgoArrayResponse iIterationResponse = new AlgoArrayResponse()
                     {
-                        IV = iv,
-                        Key = key,
-                        CipherText = cipherText
+                        IV = param.Iv,
+                        Key = param.Key,
+                        CipherText = param.Payload
                     };
                     responses.Add(iIterationResponse);
 
                     List<BitString> previousPlainTexts = new List<BitString>();
-                    iv = iv.GetDeepCopy();
-                    cipherText = cipherText.GetDeepCopy();
+                    param.Iv = param.Iv.GetDeepCopy();
+                    param.Payload = param.Payload.GetDeepCopy();
                     for (j = 0; j < _INNER_ITERATIONS_PER_OUTPUT; j++)
                     {
-                        var jResult = _algo.BlockDecrypt(iv, key, cipherText);
+                        var jResult = _algo.ProcessPayload(param);
                         var jPlainText = jResult.Result.GetDeepCopy();
                         previousPlainTexts.Add(jPlainText);
                         iIterationResponse.PlainText = jPlainText;
@@ -134,14 +162,20 @@ namespace NIST.CVP.Crypto.AES_CFB1
                         if (j < 128)
                         {
                             // Note, Bits are stored in the opposite direction on the BitString in comparison to where the MCT pseudo code expects them
-                            cipherText = iIterationResponse.IV.Substring(iIterationResponse.IV.BitLength - 1 - j, 1).GetDeepCopy();
+                            param.Payload = iIterationResponse.IV.Substring(iIterationResponse.IV.BitLength - 1 - j, 1).GetDeepCopy();
                         }
                         else
                         {
-                            cipherText = previousPlainTexts[j - 128].GetDeepCopy();
+                            param.Payload = previousPlainTexts[j - 128].GetDeepCopy();
                         }
 
-                        SetupNextOuterLoopValues(ref iv, ref key, ref cipherText, j, previousPlainTexts);
+                        BitString iv = param.Iv.GetDeepCopy();
+                        BitString key = param.Key.GetDeepCopy();
+                        BitString payload = param.Payload.GetDeepCopy();
+                        SetupNextOuterLoopValues(ref iv, ref key, ref payload, j, previousPlainTexts);
+                        param.Iv = iv.GetDeepCopy();
+                        param.Key = key.GetDeepCopy();
+                        param.Payload = payload.GetDeepCopy();
                     }
                 }
             }

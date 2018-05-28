@@ -1,5 +1,8 @@
-﻿namespace NIST.CVP.Crypto.Common.Symmetric.AES
+﻿using System;
+
+namespace NIST.CVP.Crypto.Common.Symmetric.AES
 {
+    [Obsolete("Removing with new abstraction")]
     public struct Key
     {
         public DirectionValues Direction { get; set; }
