@@ -14,7 +14,11 @@ namespace NIST.CVP.Crypto.AES_CBC.Tests
     public class MCTs
     {
         private readonly MonteCarloAesCbc _subject = 
-            new MonteCarloAesCbc(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
+            new MonteCarloAesCbc(
+                new BlockCipherEngineFactory(), 
+                new ModeBlockCipherFactory(), 
+                new AesMonteCarloKeyMaker()
+            );
 
         #region Encrypt
         [Test]

@@ -26,7 +26,11 @@ namespace NIST.CVP.Generation.AES_CBC.IntegrationTests
         {
             _testPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\LegacyParserFiles\");
             _algo = new CbcBlockCipher(new AesEngine());
-            _mct = new MonteCarloAesCbc(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
+            _mct = new MonteCarloAesCbc(
+                new BlockCipherEngineFactory(), 
+                new ModeBlockCipherFactory(),
+                new AesMonteCarloKeyMaker()
+            );
         }
 
         [Test]

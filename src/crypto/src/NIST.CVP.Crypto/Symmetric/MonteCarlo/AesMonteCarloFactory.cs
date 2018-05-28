@@ -22,12 +22,14 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             BlockCipherModesOfOperation mode
         )
         {
+            var keyMaker = new AesMonteCarloKeyMaker();
+
             switch (mode)
             {
                 case BlockCipherModesOfOperation.Ecb:
                     throw new NotImplementedException();
                 case BlockCipherModesOfOperation.Cbc:
-                    return new MonteCarloAesCbc(_engineFactory, _modeFactory);
+                    return new MonteCarloAesCbc(_engineFactory, _modeFactory, keyMaker);
                 case BlockCipherModesOfOperation.CfbBit:
                     return new MonteCarloAesCfb(_engineFactory, _modeFactory, 1, BlockCipherModesOfOperation.CfbBit);
                 case BlockCipherModesOfOperation.CfbByte:

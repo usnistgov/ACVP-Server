@@ -13,13 +13,15 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
     public class MonteCarloAesCbc : IMonteCarloTester<MCTResult<AlgoArrayResponse>, AlgoArrayResponse>
     {
         private readonly IModeBlockCipher<SymmetricCipherResult> _algo;
+        private readonly IMonteCarloKeyMakerAes _keyMaker;
 
-        public MonteCarloAesCbc(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory)
+        public MonteCarloAesCbc(IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, IMonteCarloKeyMakerAes keyMaker)
         {
             _algo = modeFactory.GetStandardCipher(
                 engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Aes),
                 BlockCipherModesOfOperation.Cbc
             );
+            _keyMaker = keyMaker;
         }
 
         #region MonteCarloAlgorithm Pseudocode
@@ -103,30 +105,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
                     iIterationResponse.CipherText = jCipherText;
                     responses.Add(iIterationResponse);
 
-                    switch (param.Key.BitLength)
-                    {
-                        case 128:
-                            param.Key = param.Key.XOR(previousCipherText);
-                            break;
-                        case 192:
-                            var mostSignificant16KeyBitStringXor =
-                                param.Key.GetMostSignificantBits(64).XOR( // XOR 64 most significant key bits w/
-                                    copyPreviousCipherText.Substring(0, 64) // the 64 least significant bits of the previous cipher text
-                                );
-                            var leastSignificant128KeyBitStringXor = param.Key.GetLeastSignificantBits(16 * 8).XOR(previousCipherText);
-
-                            param.Key = mostSignificant16KeyBitStringXor.ConcatenateBits(leastSignificant128KeyBitStringXor);
-                            break;
-                        case 256:
-                            var mostSignificantFirst16BitStringXor = param.Key.GetMostSignificantBits(16 * 8).XOR(copyPreviousCipherText);
-                            var leastSignificant16BitStringXor = param.Key.GetLeastSignificantBits(16 * 8).XOR(previousCipherText);
-
-                            param.Key = mostSignificantFirst16BitStringXor.ConcatenateBits(leastSignificant16BitStringXor);
-                            break;
-                        default:
-                            throw new ArgumentException(nameof(param.Key));
-                    }
-                    
+                    param.Key = _keyMaker.MixKeys(param.Key, previousCipherText, copyPreviousCipherText);
                     param.Iv = previousCipherText;
                 }
             }

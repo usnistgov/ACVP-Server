@@ -5,6 +5,7 @@ using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.MonteCarlo;
 using NIST.CVP.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -19,6 +20,7 @@ namespace NIST.CVP.Crypto.AES_CBC.Tests
         private Mock<IBlockCipherEngine> _engine;
         private Mock<IModeBlockCipher<SymmetricCipherResult>> _algo;
         private Mock<IModeBlockCipherFactory> _modeFactory;
+        private Mock<IMonteCarloKeyMakerAes> _keyMaker;
         private MonteCarloAesCbc _subject;
 
         [SetUp]
@@ -37,8 +39,12 @@ namespace NIST.CVP.Crypto.AES_CBC.Tests
             _modeFactory
                 .Setup(s => s.GetStandardCipher(_engine.Object, It.IsAny<BlockCipherModesOfOperation>()))
                 .Returns(_algo.Object);
+            _keyMaker = new Mock<IMonteCarloKeyMakerAes>();
+            _keyMaker
+                .Setup(s => s.MixKeys(It.IsAny<BitString>(), It.IsAny<BitString>(), It.IsAny<BitString>()))
+                .Returns(() => new BitString(128));
             
-            _subject = new MonteCarloAesCbc(_engineFactory.Object, _modeFactory.Object);
+            _subject = new MonteCarloAesCbc(_engineFactory.Object, _modeFactory.Object, _keyMaker.Object);
         }
 
         [Test]
