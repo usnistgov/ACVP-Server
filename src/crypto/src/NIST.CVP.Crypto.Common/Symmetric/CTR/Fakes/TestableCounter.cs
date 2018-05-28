@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
-using NIST.CVP.Crypto.Common.Symmetric.CTR.Helpers;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.CTR.Fakes
@@ -12,10 +11,10 @@ namespace NIST.CVP.Crypto.Common.Symmetric.CTR.Fakes
         private int _currentIndex = 0;
         private readonly int _blockSize;
 
-        public TestableCounter(Cipher cipher, List<BitString> ivs)
+        public TestableCounter(IBlockCipherEngine engine, List<BitString> ivs)
         {
             _ivs = new List<BitString>();
-            _blockSize = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(cipher).blockSize;
+            _blockSize = engine.BlockSizeBits;
 
             foreach (var iv in ivs)
             {

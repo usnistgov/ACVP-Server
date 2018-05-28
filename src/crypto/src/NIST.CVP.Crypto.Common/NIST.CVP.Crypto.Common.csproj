@@ -11,6 +11,10 @@
   
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Symmetric\CTR\Enums\" />
   </ItemGroup>  
 
 </Project>

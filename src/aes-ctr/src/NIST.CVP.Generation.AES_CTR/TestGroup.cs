@@ -16,7 +16,6 @@ namespace NIST.CVP.Generation.AES_CTR
     {
         public int TestGroupId { get; set; }
         public string TestType { get; set; }
-        public List<TestCase> Tests { get; set; } = new List<TestCase>();
         [JsonProperty(PropertyName = "direction")]
         public string Direction { get; set; }
         [JsonProperty(PropertyName = "keyLen")]
@@ -31,7 +30,8 @@ namespace NIST.CVP.Generation.AES_CTR
         public bool IncrementalCounter { get; set; }
         [JsonProperty(PropertyName = "overflow")]
         public bool OverflowCounter { get; set; }
-        
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
+
         public bool SetString(string name, string value)
         {
             if (string.IsNullOrEmpty(name))

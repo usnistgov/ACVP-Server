@@ -81,7 +81,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Aead
             var counterRijndael = _factory.GetCounterCipher(
                 _engine, 
                 new AdditiveCounter(
-                    Common.Symmetric.CTR.Enums.Cipher.AES, 
+                    _engine, 
                     new BitString(ctr)
                 )
             );
@@ -148,7 +148,7 @@ namespace NIST.CVP.Crypto.Symmetric.BlockModes.Aead
 
             var counterRijndael = _factory.GetCounterCipher(
                 _engine,
-                new AdditiveCounter(Common.Symmetric.CTR.Enums.Cipher.AES, new BitString(ctr))
+                new AdditiveCounter(_engine, new BitString(ctr))
             );
             var counterParam = new ModeBlockCipherParameters(
                 BlockCipherDirections.Encrypt,

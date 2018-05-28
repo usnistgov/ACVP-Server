@@ -1,22 +1,22 @@
 {
-  "Algorithm": "TDES",
-  "Mode": "CTR",
-  "IsSample": true,
-  "KeyingOption": [
+  "algorithm": "TDES",
+  "mode": "CTR",
+  "isSample": true,
+  "keyingOption": [
     1,
     2
   ],
-  "Direction": [
+  "direction": [
     "encrypt",
     "decrypt"
   ],
-  "DataLength": [
+  "dataLength": [
     {
       "min": 1,
       "max": 64,
       "increment": 1
     }
   ],
-  "OverflowCounter": true,
-  "IncrementalCounter": false
+  "overflowCounter": true,
+  "incrementalCounter": false
 }

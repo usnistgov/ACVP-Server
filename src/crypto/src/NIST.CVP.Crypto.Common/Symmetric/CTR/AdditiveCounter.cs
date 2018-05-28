@@ -1,5 +1,4 @@
-﻿using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
-using NIST.CVP.Crypto.Common.Symmetric.CTR.Helpers;
+﻿using NIST.CVP.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Crypto.Common.Symmetric.CTR
@@ -12,9 +11,9 @@ namespace NIST.CVP.Crypto.Common.Symmetric.CTR
         private BitString _iv;
         private readonly int _blockSize;
 
-        public AdditiveCounter(Cipher cipher, BitString initialIV)
+        public AdditiveCounter(IBlockCipherEngine engine, BitString initialIV)
         {
-            _blockSize = AlgorithmSpecificationToDomainMapping.GetMappingFromAlgorithm(cipher).blockSize;
+            _blockSize = engine.BlockSizeBits;
             _iv = BitString.Zeroes(_blockSize);
 
             // If the IV is too short to actually be an IV, pad some 0s to the MSB side.

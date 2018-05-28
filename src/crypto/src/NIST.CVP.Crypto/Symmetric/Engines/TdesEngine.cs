@@ -27,7 +27,7 @@ namespace NIST.CVP.Crypto.Symmetric.Engines
 
         public int BlockSizeBits => BlockSizeBytes * _bitsInByte;
 
-        public Cipher Cipher => Cipher.TDES;
+        public BlockCipherEngines CipherEngine => BlockCipherEngines.Tdes;
 
         public void Init(IBlockCipherEngineParameters param)
         {

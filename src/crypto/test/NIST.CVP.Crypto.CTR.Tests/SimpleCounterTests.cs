@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.Crypto.Common.Symmetric.CTR;
 using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -9,11 +10,13 @@ namespace NIST.CVP.Crypto.CTR.Tests
     [TestFixture, FastCryptoTest]
     public class SimpleCounterTests
     {
+        private readonly AesEngine _aesEngine = new AesEngine();
+
         [Test]
         public void ShouldWrapTheCounterWhenAtMaxValue()
         {
             var initialValue = BitString.Ones(128);
-            var subject = new AdditiveCounter(Cipher.AES, initialValue);
+            var subject = new AdditiveCounter(_aesEngine, initialValue);
 
             var firstResult = subject.GetNextIV();
             var secondResult = subject.GetNextIV();
@@ -27,7 +30,7 @@ namespace NIST.CVP.Crypto.CTR.Tests
         [Test]
         public void ShouldIncreaseByOneEachCall()
         {
-            var subject = new AdditiveCounter(Cipher.AES, BitString.Zero());
+            var subject = new AdditiveCounter(_aesEngine, BitString.Zero());
 
             var prevResult = subject.GetNextIV().ToPositiveBigInteger();
             for (var i = 0; i < 1000; i++)
@@ -40,16 +43,6 @@ namespace NIST.CVP.Crypto.CTR.Tests
         }
 
         [Test]
-        [TestCase(Cipher.AES, 128)]
-        [TestCase(Cipher.TDES, 64)]
-        public void ShouldGetCorrectBlockSize(Cipher cipher, int blockSize)
-        {
-            var subject = new AdditiveCounter(cipher, BitString.Zero());
-            var result = subject.GetNextIV();
-            Assert.AreEqual(blockSize, result.BitLength);
-        }
-
-        [Test]
         [TestCase("00")]
         [TestCase("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")]
         [TestCase("abcdef123456")]
@@ -57,7 +50,7 @@ namespace NIST.CVP.Crypto.CTR.Tests
         public void ShouldAlwaysOfferExactly128Bits(string hex)
         {
             var firstValue = new BitString(hex);
-            var subject = new AdditiveCounter(Cipher.AES, firstValue);
+            var subject = new AdditiveCounter(_aesEngine, firstValue);
 
             for (var i = 0; i < 1000; i++)
             {

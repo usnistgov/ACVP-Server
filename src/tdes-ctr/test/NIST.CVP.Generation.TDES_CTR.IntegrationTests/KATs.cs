@@ -1,8 +1,10 @@
-﻿using NIST.CVP.Crypto.TDES_CTR;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NIST.CVP.Crypto.Common.Symmetric.TDES;
+﻿using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Common.Symmetric.CTR;
+using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.Crypto.Symmetric.BlockModes;
+using NIST.CVP.Crypto.Symmetric.Engines;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -12,7 +14,10 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
     [TestFixture, FastIntegrationTest]
     public class KATs
     {
-        private readonly ITdesCtr _subject = new TdesCtr();
+        private readonly TdesEngine _engine = new TdesEngine();
+        private readonly ModeBlockCipherFactory _modeFactory = new ModeBlockCipherFactory();
+        private readonly CounterFactory _counterFactory = new CounterFactory();
+
         private ITestCaseGenerator<TestGroup, TestCase> _katTestCaseGenerator;
 
         private readonly string[] _katTypes = { "permutation", "substitutiontable", "variablekey", "variabletext", "inversepermutation"};
@@ -35,12 +40,16 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
                 List<TestCase> tests = new List<TestCase>();
                 for (int i = 0; i < _katTestCaseGenerator.NumberOfTestCasesToGenerate; i++)
                 {
-                    tests.Add((TestCase)_katTestCaseGenerator.Generate(tg, false).TestCase);
+                    tests.Add(_katTestCaseGenerator.Generate(tg, false).TestCase);
                 }
 
                 foreach (var test in tests)
                 {
-                    var result = _subject.EncryptBlock(test.Key, test.PlainText, test.Iv);
+                    var counter = _counterFactory.GetCounter(_engine, CounterTypes.Additive, test.Iv);
+                    var algo = _modeFactory.GetCounterCipher(_engine, counter);
+                    var result = algo.ProcessPayload(new ModeBlockCipherParameters(
+                        BlockCipherDirections.Encrypt, test.Key, test.PlainText
+                    ));
 
                     Assert.IsTrue(result.Success, nameof(result.Success));
                     Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
@@ -64,14 +73,16 @@ namespace NIST.CVP.Generation.TDES_CTR.IntegrationTests
                 List<TestCase> tests = new List<TestCase>();
                 for (int i = 0; i < _katTestCaseGenerator.NumberOfTestCasesToGenerate; i++)
                 {
-                    tests.Add((TestCase)_katTestCaseGenerator.Generate(tg, false).TestCase);
+                    tests.Add(_katTestCaseGenerator.Generate(tg, false).TestCase);
                 }
 
                 foreach (var test in tests)
                 {
-                    var result = _subject.DecryptBlock(test.Key, test.CipherText, test.Iv);
-
-                    Assert.IsTrue(result.Success, nameof(result.Success));
+                    var counter = _counterFactory.GetCounter(_engine, CounterTypes.Additive, test.Iv);
+                    var algo = _modeFactory.GetCounterCipher(_engine, counter);
+                    var result = algo.ProcessPayload(new ModeBlockCipherParameters(
+                        BlockCipherDirections.Decrypt, test.Key, test.CipherText
+                    ));
                     Assert.AreEqual(test.PlainText, result.Result, test.PlainText.ToHex());
                 }
             }

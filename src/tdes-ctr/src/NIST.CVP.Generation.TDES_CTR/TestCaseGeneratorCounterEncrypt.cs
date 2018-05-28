@@ -1,7 +1,10 @@
 ﻿using System;
 using NIST.CVP.Crypto.Common.Symmetric;
+using NIST.CVP.Crypto.Common.Symmetric.BlockModes;
 using NIST.CVP.Crypto.Common.Symmetric.CTR;
 using NIST.CVP.Crypto.Common.Symmetric.CTR.Enums;
+using NIST.CVP.Crypto.Common.Symmetric.Engines;
+using NIST.CVP.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.Crypto.Common.Symmetric.TDES;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -12,17 +15,21 @@ namespace NIST.CVP.Generation.TDES_CTR
     public class TestCaseGeneratorCounterEncrypt : ITestCaseGenerator<TestGroup, TestCase>
     {
         private readonly IRandom800_90 _rand;
-        private readonly ITdesCtr _algo;
+        private readonly IBlockCipherEngine _engine;
+        private readonly IModeBlockCipherFactory _modeFactory;
+        private readonly ICounterFactory _counterFactory;
 
         private int _numberOfBlocks = 1000;
         private bool _isSample;
 
         public int NumberOfTestCasesToGenerate { get; } = 1;
 
-        public TestCaseGeneratorCounterEncrypt(IRandom800_90 rand, ITdesCtr algo)
+        public TestCaseGeneratorCounterEncrypt(IRandom800_90 rand, IBlockCipherEngineFactory engineFactory, IModeBlockCipherFactory modeFactory, ICounterFactory counterFactory)
         {
             _rand = rand;
-            _algo = algo;
+            _engine = engineFactory.GetSymmetricCipherPrimitive(BlockCipherEngines.Tdes);
+            _modeFactory = modeFactory;
+            _counterFactory = counterFactory;
         }
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, bool isSample)
@@ -59,35 +66,34 @@ namespace NIST.CVP.Generation.TDES_CTR
 
         public TestCaseGenerateResponse<TestGroup, TestCase> Generate(TestGroup group, TestCase testCase)
         {
-            SymmetricCounterResult encryptionResult = null;
             try
             {
                 // Get a simple counter (has wrapping) starting at the provided IV
-                ICounter counter;
-                if (group.IncrementalCounter)
+                var counterType = group.IncrementalCounter ? 
+                    CounterTypes.Additive : CounterTypes.Subtractive;
+                var counter = _counterFactory.GetCounter(_engine, counterType, testCase.Iv);
+
+                var algo = _modeFactory.GetCounterCipher(_engine, counter);
+                var result = algo.ProcessPayload(new ModeBlockCipherParameters(
+                    BlockCipherDirections.Encrypt,
+                    testCase.Key.GetDeepCopy(),
+                    testCase.PlainText.GetDeepCopy()
+                ));
+                if (!result.Success)
                 {
-                    counter = new AdditiveCounter(Cipher.TDES, testCase.Iv);
-                }
-                else
-                {
-                    counter = new SubtractiveCounter(Cipher.TDES, testCase.Iv);
+                    ThisLogger.Warn(result.ErrorMessage);
+                    return new TestCaseGenerateResponse<TestGroup, TestCase>(result.ErrorMessage);
                 }
 
-                encryptionResult = _algo.Encrypt(testCase.Key, testCase.PlainText, counter);
-                if (!encryptionResult.Success)
-                {
-                    ThisLogger.Warn(encryptionResult.ErrorMessage);
-                    return new TestCaseGenerateResponse<TestGroup, TestCase>(encryptionResult.ErrorMessage);
-                }
+                testCase.CipherText = result.Result;
+                testCase.Ivs = result.IVs;
             }
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(ex.Message);
             }
-
-            testCase.CipherText = encryptionResult.Result;
-            testCase.Ivs = encryptionResult.IVs;
+            
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }
 
