@@ -70,7 +70,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests
         public void ShouldRunValidation()
         {
             _subject = new GenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
-            var result = _subject.RunValidation("response.json", "answer.json");
+            var result = _subject.RunValidation("response.json", "answer.json", false);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(ValidateResponse), result);

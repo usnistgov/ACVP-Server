@@ -33,6 +33,21 @@ namespace NIST.CVP.Generation.Core
             var resultText = ReadFromFile(resultPath);
             var answerText = ReadFromFile(answerPath);
 
+            TestVectorValidation response;
+            try
+            {
+                response = ValidateWorker(resultText, answerText, showExpected);
+            }
+            catch (FileNotFoundException ex)
+            {
+                ThisLogger.Error($"ERROR in Validator. Unable to find file. {ex.StackTrace}");
+                return new ValidateResponse(ex.Message, StatusCode.FileReadError);
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Error($"ERROR in Validator: {ex.StackTrace}");
+                return new ValidateResponse(ex.Message, StatusCode.TestCaseValidatorError);
+            }
 
             var validationJson = JsonConvert.SerializeObject(response, Formatting.Indented,
                 new JsonSerializerSettings

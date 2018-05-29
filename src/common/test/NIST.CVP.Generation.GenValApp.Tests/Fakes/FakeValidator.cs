@@ -7,7 +7,7 @@ namespace NIST.CVP.Generation.GenValApp.Tests.Fakes
 {
     public class FakeValidator : IValidator
     {
-        public ValidateResponse Validate(string resultPath, string answerPath)
+        public ValidateResponse Validate(string resultPath, string answerPath, bool showExpected = false)
         {
             if (resultPath.Contains("bad"))
             {
