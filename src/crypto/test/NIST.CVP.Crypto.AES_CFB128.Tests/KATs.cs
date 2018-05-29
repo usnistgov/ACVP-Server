@@ -15,19 +15,13 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
     [TestFixture, FastCryptoTest]
     public class KATs
     {
-        private readonly AES_CFB128 _subject = new AES_CFB128(
-            new RijndaelFactory(
-                new RijndaelInternals()
-            )
-        );
-
-        private CfbBlockCipher _newSubject;
+        private CfbBlockCipher _subject;
 
         [OneTimeSetUp]
         public void Setup()
         {
             var engine = new AesEngine();
-            _newSubject = new CfbBlockCipher(engine, new ShiftRegisterStrategyFullBlock(engine));
+            _subject = new CfbBlockCipher(engine, new ShiftRegisterStrategyFullBlock(engine));
         }
 
         #region TestData
@@ -121,9 +115,15 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
         [TestCaseSource(nameof(_GetGFSBox128BitKey))]
         [TestCaseSource(nameof(_GetGFSBox192BitKey))]
         [TestCaseSource(nameof(_GetGFSBox256BitKey))]
-        public void ShouldGFSboxCorrectly(string expectedText, AlgoArrayResponse algoArrayResponse)
+        public void ShouldGFSboxCorrectlyEncrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
         {
-            var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                algoArrayResponse.IV,
+                algoArrayResponse.Key,
+                algoArrayResponse.PlainText
+            );
+            var result = _subject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, expectedText);
@@ -133,9 +133,15 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
         [TestCaseSource(nameof(_GetKeySBox128BitKey))]
         [TestCaseSource(nameof(_GetKeySBox192BitKey))]
         [TestCaseSource(nameof(_GetKeySBox256BitKey))]
-        public void ShouldKeySboxCorrectly(string expectedText, AlgoArrayResponse algoArrayResponse)
+        public void ShouldKeySboxCorrectlyEncrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
         {
-            var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                algoArrayResponse.IV,
+                algoArrayResponse.Key,
+                algoArrayResponse.PlainText
+            );
+            var result = _subject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
@@ -145,9 +151,15 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
         [TestCaseSource(nameof(_GetVarTxt128BitKey))]
         [TestCaseSource(nameof(_GetVarTxt192BitKey))]
         [TestCaseSource(nameof(_GetVarTxt256BitKey))]
-        public void ShouldVarTxtCorrectly(string expectedText, AlgoArrayResponse algoArrayResponse)
+        public void ShouldVarTxtCorrectlyEncrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
         {
-            var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                algoArrayResponse.IV,
+                algoArrayResponse.Key,
+                algoArrayResponse.PlainText
+            );
+            var result = _subject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
@@ -157,9 +169,15 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
         [TestCaseSource(nameof(_GetVarKey128BitKey))]
         [TestCaseSource(nameof(_GetVarKey192BitKey))]
         [TestCaseSource(nameof(_GetVarKey256BitKey))]
-        public void ShouldVarKeyCorrectly(string expectedText, AlgoArrayResponse algoArrayResponse)
+        public void ShouldVarKeyCorrectlyEncrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
         {
-            var result = _subject.BlockEncrypt(algoArrayResponse.IV, algoArrayResponse.Key, algoArrayResponse.PlainText);
+            var param = new ModeBlockCipherParameters(
+                BlockCipherDirections.Encrypt,
+                algoArrayResponse.IV,
+                algoArrayResponse.Key,
+                algoArrayResponse.PlainText
+            );
+            var result = _subject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
@@ -170,80 +188,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
         [TestCaseSource(nameof(_GetGFSBox128BitKey))]
         [TestCaseSource(nameof(_GetGFSBox192BitKey))]
         [TestCaseSource(nameof(_GetGFSBox256BitKey))]
-        public void ShouldGFSboxCorrectlyNewEngineEncrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
-        {
-            var param = new ModeBlockCipherParameters(
-                BlockCipherDirections.Encrypt,
-                algoArrayResponse.IV,
-                algoArrayResponse.Key,
-                algoArrayResponse.PlainText
-            );
-            var result = _newSubject.ProcessPayload(param);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, expectedText);
-        }
-
-        [Test]
-        [TestCaseSource(nameof(_GetKeySBox128BitKey))]
-        [TestCaseSource(nameof(_GetKeySBox192BitKey))]
-        [TestCaseSource(nameof(_GetKeySBox256BitKey))]
-        public void ShouldKeySboxCorrectlyNewEngineEncrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
-        {
-            var param = new ModeBlockCipherParameters(
-                BlockCipherDirections.Encrypt,
-                algoArrayResponse.IV,
-                algoArrayResponse.Key,
-                algoArrayResponse.PlainText
-            );
-            var result = _newSubject.ProcessPayload(param);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-
-        [Test]
-        [TestCaseSource(nameof(_GetVarTxt128BitKey))]
-        [TestCaseSource(nameof(_GetVarTxt192BitKey))]
-        [TestCaseSource(nameof(_GetVarTxt256BitKey))]
-        public void ShouldVarTxtCorrectlyNewEngineEncrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
-        {
-            var param = new ModeBlockCipherParameters(
-                BlockCipherDirections.Encrypt,
-                algoArrayResponse.IV,
-                algoArrayResponse.Key,
-                algoArrayResponse.PlainText
-            );
-            var result = _newSubject.ProcessPayload(param);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-
-        [Test]
-        [TestCaseSource(nameof(_GetVarKey128BitKey))]
-        [TestCaseSource(nameof(_GetVarKey192BitKey))]
-        [TestCaseSource(nameof(_GetVarKey256BitKey))]
-        public void ShouldVarKeyCorrectlyNewEngineEncrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
-        {
-            var param = new ModeBlockCipherParameters(
-                BlockCipherDirections.Encrypt,
-                algoArrayResponse.IV,
-                algoArrayResponse.Key,
-                algoArrayResponse.PlainText
-            );
-            var result = _newSubject.ProcessPayload(param);
-
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
-        }
-
-
-        [Test]
-        [TestCaseSource(nameof(_GetGFSBox128BitKey))]
-        [TestCaseSource(nameof(_GetGFSBox192BitKey))]
-        [TestCaseSource(nameof(_GetGFSBox256BitKey))]
-        public void ShouldGFSboxCorrectlyNewEngineDecrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
+        public void ShouldGFSboxCorrectlyDecrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
         {
             var param = new ModeBlockCipherParameters(
                 BlockCipherDirections.Decrypt,
@@ -251,7 +196,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
                 algoArrayResponse.Key,
                 algoArrayResponse.CipherText
             );
-            var result = _newSubject.ProcessPayload(param);
+            var result = _subject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.PlainText, result.Result, expectedText);
@@ -261,7 +206,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
         [TestCaseSource(nameof(_GetKeySBox128BitKey))]
         [TestCaseSource(nameof(_GetKeySBox192BitKey))]
         [TestCaseSource(nameof(_GetKeySBox256BitKey))]
-        public void ShouldKeySboxCorrectlyNewEngineDecrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
+        public void ShouldKeySboxCorrectlyDecrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
         {
             var param = new ModeBlockCipherParameters(
                 BlockCipherDirections.Decrypt,
@@ -269,7 +214,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
                 algoArrayResponse.Key,
                 algoArrayResponse.CipherText
             );
-            var result = _newSubject.ProcessPayload(param);
+            var result = _subject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.PlainText, result.Result, nameof(algoArrayResponse.CipherText));
@@ -279,7 +224,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
         [TestCaseSource(nameof(_GetVarTxt128BitKey))]
         [TestCaseSource(nameof(_GetVarTxt192BitKey))]
         [TestCaseSource(nameof(_GetVarTxt256BitKey))]
-        public void ShouldVarTxtCorrectlyNewEngineDecrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
+        public void ShouldVarTxtCorrectlyDecrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
         {
             var param = new ModeBlockCipherParameters(
                 BlockCipherDirections.Decrypt,
@@ -287,7 +232,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
                 algoArrayResponse.Key,
                 algoArrayResponse.CipherText
             );
-            var result = _newSubject.ProcessPayload(param);
+            var result = _subject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.PlainText, result.Result, nameof(algoArrayResponse.CipherText));
@@ -297,7 +242,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
         [TestCaseSource(nameof(_GetVarKey128BitKey))]
         [TestCaseSource(nameof(_GetVarKey192BitKey))]
         [TestCaseSource(nameof(_GetVarKey256BitKey))]
-        public void ShouldVarKeyCorrectlyNewEngineDecrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
+        public void ShouldVarKeyCorrectlyDecrypt(string expectedText, AlgoArrayResponse algoArrayResponse)
         {
             var param = new ModeBlockCipherParameters(
                 BlockCipherDirections.Decrypt,
@@ -305,7 +250,7 @@ namespace NIST.CVP.Crypto.AES_CFB128.Tests
                 algoArrayResponse.Key,
                 algoArrayResponse.CipherText
             );
-            var result = _newSubject.ProcessPayload(param);
+            var result = _subject.ProcessPayload(param);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
             Assert.AreEqual(algoArrayResponse.PlainText, result.Result, nameof(algoArrayResponse.CipherText));

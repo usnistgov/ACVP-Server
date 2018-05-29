@@ -2,7 +2,6 @@
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.AES;
 using NIST.CVP.Crypto.AES_CCM;
-using NIST.CVP.Crypto.AES_CFB128;
 using NIST.CVP.Crypto.AES_ECB;
 using NIST.CVP.Crypto.AES_OFB;
 using NIST.CVP.Crypto.AES_XTS;
@@ -62,9 +61,6 @@ namespace NIST.CVP.Crypto
             builder.RegisterType<AES_CCM.AES_CCM>().AsImplementedInterfaces();
             builder.RegisterType<AES_CCMInternals>().AsImplementedInterfaces();
             
-            builder.RegisterType<AES_CFB128.AES_CFB128>().AsImplementedInterfaces();
-            builder.RegisterType<AES_CFB128_MCT>().AsImplementedInterfaces();
-
             builder.RegisterType<AES_ECB.AES_ECB>().AsImplementedInterfaces();
             builder.RegisterType<AES_ECB_MCT>().AsImplementedInterfaces();
 
