@@ -65,7 +65,7 @@ namespace NIST.CVP.Generation.AES_GCM
             if (!serverResult.Result.Equals(suppliedResult.CipherText))
             {
                 errors.Add("Cipher Text does not match");
-                expected.Add(nameof(serverResult.CipherText), serverResult.CipherText.ToHex());
+                expected.Add(nameof(serverResult.Result), serverResult.Result.ToHex());
                 provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
             }
             if (!serverResult.Tag.Equals(suppliedResult.Tag))
