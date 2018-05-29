@@ -40,7 +40,7 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
             Shift = shiftSize;
         }
 
-        #region MonteCarloAlgorithm Pseudocode
+        #region MonteCarloAlgorithm CFB1 Pseudocode
         /*
         Key[0] = Key
         IV[0] = IV
@@ -68,7 +68,66 @@ namespace NIST.CVP.Crypto.Symmetric.MonteCarlo
 	        IV[i+1] = (CT[j-127] || CT[j-126] || … || CT[j])
 	        PT[0] = CT[j-128]
         */
-        #endregion MonteCarloAlgorithm Pseudocode
+        #endregion MonteCarloAlgorithm CFB1 Pseudocode
+
+        #region MonteCarloAlgorithm CFB8 Pseudocode
+        /*
+        Key[0] = Key
+        IV[0] = IV
+        PT[0] = PT
+        For i = 0 to 99
+            Output Key[i]
+            Output IV[i]
+            Output PT[0]
+            For j = 0 to 999
+                If ( j=0 )
+                    CT[j] = AES(Key[i], IV[i], PT[j])
+                    PT[j+1] = ByteJ(IV[i])
+                Else
+                    CT[j] = AES(Key[i], PT[j])
+                    If ( j<16 )
+                        PT[j+1] = ByteJ(IV[i])
+                    Else
+                        PT[j+1] = CT[j-16]
+            Output CT[j]
+            If ( keylen = 128 )
+                Key[i+1] = Key[i] xor (CT[j-15] || CT[j-14] || … || CT[j])
+            If ( keylen = 192 )
+                Key[i+1] = Key[i] xor (CT[j-23] || CT[j-22] || … || CT[j])
+            If ( keylen = 256 )
+                Key[i+1] = Key[i] xor (CT[j-31] || CT[j-30] || … || CT[j])
+            IV[i+1] = (CT[j-15] || CT[j-14] || … || CT[j])
+            PT[0] = CT[j-16]
+        */
+        #endregion MonteCarloAlgorithm CFB8 Pseudocode
+
+        #region MonteCarloAlgorithm CFB128 Pseudocode
+        /*
+        Key[0] = Key
+        IV[0] = IV
+        PT[0] = PT
+	        For i = 0 to 99
+		        Output Key[i]
+		        Output IV[i]
+		        Output PT[0]
+		        For j = 0 to 999
+			        If ( j=0 )
+				        CT[j] = AES(Key[i], IV[i], PT[j])
+				        PT[j+1] = IV[i]
+			        Else
+				        CT[j] = AES(Key[i], PT[j])
+				        PT[j+1] = CT[j-1]
+		        Output CT[j]
+		        If ( keylen = 128 )
+			        Key[i+1] = Key[i] xor CT[j]
+		        If ( keylen = 192 )
+			        Key[i+1] = Key[i] xor (last 64-bits of CT[j-1] || CT[j])
+		        If ( keylen = 256 ) 
+			        Key[i+1] = Key[i] xor (CT[j-1] || CT[j]) 
+		        IV[i+1] = CT[j]
+		        PT[0] = CT[j-1]
+        */
+        #endregion MonteCarloAlgorithm CFB128 Pseudocode
 
         public MCTResult<AlgoArrayResponse> ProcessMonteCarloTest(IModeBlockCipherParameters param)
         {
