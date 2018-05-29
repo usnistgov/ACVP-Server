@@ -1,11 +1,11 @@
 {
-  "Algorithm": "AES-ECB",
-  "IsSample": false,
-  "Direction": [
+  "algorithm": "AES-ECB",
+  "isSample": false,
+  "direction": [
     "encrypt",
     "decrypt"
   ],
-  "KeyLen": [
+  "keyLen": [
     128,
     192,
     256

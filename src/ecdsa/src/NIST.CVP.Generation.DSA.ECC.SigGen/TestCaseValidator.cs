@@ -22,7 +22,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
             _deferredResolver = deferredResolver;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
 
@@ -41,7 +41,14 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Failed, Reason = string.Join(";", errors) };
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId, 
+                    Result = Disposition.Failed, 
+                    Reason = string.Join(";", errors),
+                    Expected = new Dictionary<string, string>(),
+                    Provided = new Dictionary<string, string>()
+                };
             }
 
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Passed };

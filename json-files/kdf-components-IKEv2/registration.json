@@ -1,5 +1,4 @@
 {
-
   "algorithm": "kdf-components",
   "mode": "IKEv2",
   "isSample": false,

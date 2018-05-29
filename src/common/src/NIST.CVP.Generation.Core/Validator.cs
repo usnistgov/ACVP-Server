@@ -28,26 +28,11 @@ namespace NIST.CVP.Generation.Core
             _vectorSetDeserializer = vectorSetDeserializer;
         }
 
-        public ValidateResponse Validate(string resultPath, string answerPath)
+        public ValidateResponse Validate(string resultPath, string answerPath, bool showExpected)
         {
             var resultText = ReadFromFile(resultPath);
             var answerText = ReadFromFile(answerPath);
 
-            TestVectorValidation response;
-            try
-            {
-                response = ValidateWorker(resultText, answerText);
-            }
-            catch (FileNotFoundException ex)
-            {
-                ThisLogger.Error($"ERROR in Validator. Unable to find file. {ex.StackTrace}");
-                return new ValidateResponse(ex.Message, StatusCode.FileReadError);
-            }
-            catch (Exception ex)
-            {
-                ThisLogger.Error($"ERROR in Validator: {ex.StackTrace}");
-                return new ValidateResponse(ex.Message, StatusCode.TestCaseValidatorError);
-            }
 
             var validationJson = JsonConvert.SerializeObject(response, Formatting.Indented,
                 new JsonSerializerSettings
@@ -66,13 +51,13 @@ namespace NIST.CVP.Generation.Core
             return new ValidateResponse();
         }
 
-        protected virtual TestVectorValidation ValidateWorker(string testResultText, string answerText)
+        protected virtual TestVectorValidation ValidateWorker(string testResultText, string answerText, bool showExpected)
         {
             var results = _vectorSetDeserializer.Deserialize(testResultText);
             var answers = _vectorSetDeserializer.Deserialize(answerText);
 
             var testCaseValidators = _testCaseValidatorFactory.GetValidators(answers);
-            var response = _resultValidator.ValidateResults(testCaseValidators, results.TestGroups);
+            var response = _resultValidator.ValidateResults(testCaseValidators, results.TestGroups, showExpected);
 
             return response;
         }

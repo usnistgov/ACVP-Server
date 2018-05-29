@@ -1,5 +1,6 @@
 {
-  "algorithm": "KAS-FFC",
+  "algorithm": "KAS",
+  "mode": "FFC",
   "isSample": true,
   "function": [
     "dpGen",

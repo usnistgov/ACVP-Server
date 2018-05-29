@@ -1,32 +1,32 @@
 {
-  "Algorithm": "kdf-components",
-  "Mode": "IKEv1",
-  "IsSample": false,
-  "Capabilities": [
+  "algorithm": "kdf-components",
+  "mode": "IKEv1",
+  "isSample": false,
+  "capabilities": [
     {
-      "AuthenticationMethod": "dsa",
-      "InitiatorNonceLength": [
+      "authenticationMethod": "dsa",
+      "initiatorNonceLength": [
         {
           "min": 64,
           "max": 2048,
           "increment": 1
         }
       ],
-      "ResponderNonceLength": [
+      "responderNonceLength": [
         {
           "min": 64,
           "max": 2048,
           "increment": 1
         }
       ],
-      "DiffieHellmanSharedSecretLength": [
+      "diffieHellmanSharedSecretLength": [
         {
           "min": 224,
           "max": 8192,
           "increment": 1
         }
       ],
-      "HashAlg": [
+      "hashAlg": [
         "sha-1",
         "sha2-224",
         "sha2-256",
@@ -35,36 +35,36 @@
       ]
     },
     {
-      "AuthenticationMethod": "psk",
-      "InitiatorNonceLength": [
+      "authenticationMethod": "psk",
+      "initiatorNonceLength": [
         {
           "min": 64,
           "max": 2048,
           "increment": 1
         }
       ],
-      "ResponderNonceLength": [
+      "responderNonceLength": [
         {
           "min": 64,
           "max": 2048,
           "increment": 1
         }
       ],
-      "PreSharedKeyLength": [
+      "preSharedKeyLength": [
         {
           "min": 8,
           "max": 8192,
           "increment": 1
         }
       ],
-      "DiffieHellmanSharedSecretLength": [
+      "diffieHellmanSharedSecretLength": [
         {
           "min": 224,
           "max": 8192,
           "increment": 1
         }
       ],
-      "HashAlg": [
+      "hashAlg": [
         "sha-1",
         "sha2-224",
         "sha2-256",
@@ -73,29 +73,29 @@
       ]
     },
     {
-      "AuthenticationMethod": "pke",
-      "InitiatorNonceLength": [
+      "authenticationMethod": "pke",
+      "initiatorNonceLength": [
         {
           "min": 64,
           "max": 2048,
           "increment": 1
         }
       ],
-      "ResponderNonceLength": [
+      "responderNonceLength": [
         {
           "min": 64,
           "max": 2048,
           "increment": 1
         }
       ],
-      "DiffieHellmanSharedSecretLength": [
+      "diffieHellmanSharedSecretLength": [
         {
           "min": 224,
           "max": 8192,
           "increment": 1
         }
       ],
-      "HashAlg": [
+      "hashAlg": [
         "sha-1",
         "sha2-224",
         "sha2-256",

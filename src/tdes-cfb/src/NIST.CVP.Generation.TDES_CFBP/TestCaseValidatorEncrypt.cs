@@ -15,18 +15,28 @@ namespace NIST.CVP.Generation.TDES_CFBP
             _expectedResult = expectedResult;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
+
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                CheckResults(suppliedResult, errors);
+                CheckResults(suppliedResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Failed, Reason = string.Join("; ", errors) };
+                return new TestCaseValidation 
+                { 
+                    TestCaseId = suppliedResult.TestCaseId, 
+                    Result = Disposition.Failed, 
+                    Reason = string.Join("; ", errors),
+                    Expected = expected.Count != 0 && showExpected ? expected : null,
+                    Provided = provided.Count != 0 && showExpected ? provided : null
+                };
             }
 
             return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Passed };
@@ -43,13 +53,15 @@ namespace NIST.CVP.Generation.TDES_CFBP
             }
         }
 
-        private void CheckResults(TestCase suppliedResult, List<string> errors)
+        private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
             if (_expectedResult.CipherText != null && suppliedResult.CipherText != null)
             {
                 if (!_expectedResult.CipherText.Equals(suppliedResult.CipherText))
                 {
                     errors.Add("Cipher Texts do not match");
+                    expected.Add(nameof(_expectedResult.CipherText), _expectedResult.CipherText.ToHex());
+                    provided.Add(nameof(suppliedResult.CipherText), suppliedResult.CipherText.ToHex());
                 }
             }
 
@@ -59,16 +71,22 @@ namespace NIST.CVP.Generation.TDES_CFBP
                 if (!_expectedResult.CipherText1.Equals(suppliedResult.CipherText1))
                 {
                     errors.Add("Cipher Texts 1 do not match");
+                    expected.Add(nameof(_expectedResult.CipherText1), _expectedResult.CipherText1.ToHex());
+                    provided.Add(nameof(suppliedResult.CipherText1), suppliedResult.CipherText1.ToHex());
                 }
 
                 if (!_expectedResult.CipherText2.Equals(suppliedResult.CipherText2))
                 {
                     errors.Add("Cipher Texts 2 do not match");
+                    expected.Add(nameof(_expectedResult.CipherText2), _expectedResult.CipherText2.ToHex());
+                    provided.Add(nameof(suppliedResult.CipherText2), suppliedResult.CipherText2.ToHex());
                 }
 
                 if (!_expectedResult.CipherText3.Equals(suppliedResult.CipherText3))
                 {
                     errors.Add("Cipher Texts 3 do not match");
+                    expected.Add(nameof(_expectedResult.CipherText3), _expectedResult.CipherText3.ToHex());
+                    provided.Add(nameof(suppliedResult.CipherText3), suppliedResult.CipherText3.ToHex());
                 }
             }
         }

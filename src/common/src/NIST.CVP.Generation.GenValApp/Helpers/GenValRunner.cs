@@ -94,7 +94,8 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             {
                 var responseFile = parsedParameters.ResponseFile.FullName;
                 var answerFile = parsedParameters.AnswerFile.FullName;
-                var result = RunValidation(responseFile, answerFile);
+                var showExpected = parsedParameters.ShowExpected;
+                var result = RunValidation(responseFile, answerFile, showExpected);
 
                 if (result.Success)
                     return (int) result.StatusCode;
@@ -124,13 +125,14 @@ namespace NIST.CVP.Generation.GenValApp.Helpers
             return result;
         }
 
+
         /// <summary>
         /// Run Validation of test vectors for an algorithm.
         /// </summary>
-        public ValidateResponse RunValidation(string responseFile, string answerFile)
+        public ValidateResponse RunValidation(string responseFile, string answerFile, bool showExpected)
         {
             var val = _scope.Resolve<IValidator>();
-            var result = val.Validate(responseFile, answerFile);
+            var result = val.Validate(responseFile, answerFile, showExpected);
             return result;
         }
     }

@@ -16,7 +16,8 @@ namespace NIST.CVP.Generation.Core
         /// </summary>
         /// <param name="testCaseValidators">The validators to use for each test case</param>
         /// <param name="testResults">The IUT supplied results to validate</param>
+        /// <param name="showExpected">Shows the expected result in the validation file</param>
         /// <returns></returns>
-        TestVectorValidation ValidateResults(IEnumerable<ITestCaseValidator<TTestGroup, TTestCase>> testCaseValidators, IEnumerable<TTestGroup> testResults);
+        TestVectorValidation ValidateResults(IEnumerable<ITestCaseValidator<TTestGroup, TTestCase>> testCaseValidators, IEnumerable<TTestGroup> testResults, bool showExpected);
     }
 }

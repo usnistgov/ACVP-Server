@@ -1,216 +1,216 @@
 {
-  "Algorithm": "RSA",
-  "Mode": "SigGen",
-  "IsSample": true,
+  "algorithm": "RSA",
+  "mode": "SigGen",
+  "isSample": true,
   "algSpecs": [
     {
-      "SigType": "ansx9.31",
+      "sigType": "ansx9.31",
       "sigTypeCapabilities": [
         {
-          "Modulo": 2048,
+          "modulo": 2048,
           "hashPair": [
             {
-              "HashAlg": "sha-1",
-              "SaltLen": 8
+              "hashAlg": "sha-1",
+              "saltLen": 8
             },
             {
-              "HashAlg": "sha2-224",
-              "SaltLen": 9
+              "hashAlg": "sha2-224",
+              "saltLen": 9
             },
             {
-              "HashAlg": "sha2-256",
-              "SaltLen": 10
+              "hashAlg": "sha2-256",
+              "saltLen": 10
             },
             {
-              "HashAlg": "sha2-384",
-              "SaltLen": 11
+              "hashAlg": "sha2-384",
+              "saltLen": 11
             },
             {
-              "HashAlg": "sha2-512",
-              "SaltLen": 12
+              "hashAlg": "sha2-512",
+              "saltLen": 12
             },
             {
-              "HashAlg": "sha2-512/224",
-              "SaltLen": 13
+              "hashAlg": "sha2-512/224",
+              "saltLen": 13
             },
             {
-              "HashAlg": "sha2-512/256",
-              "SaltLen": 14
+              "hashAlg": "sha2-512/256",
+              "saltLen": 14
             }
           ]
         },
         {
-          "Modulo": 3072,
+          "modulo": 3072,
           "hashPair": [
             {
-              "HashAlg": "sha-1",
-              "SaltLen": 8
+              "hashAlg": "sha-1",
+              "saltLen": 8
             },
             {
-              "HashAlg": "sha2-224",
-              "SaltLen": 9
+              "hashAlg": "sha2-224",
+              "saltLen": 9
             },
             {
-              "HashAlg": "sha2-256",
-              "SaltLen": 10
+              "hashAlg": "sha2-256",
+              "saltLen": 10
             },
             {
-              "HashAlg": "sha2-384",
-              "SaltLen": 11
+              "hashAlg": "sha2-384",
+              "saltLen": 11
             },
             {
-              "HashAlg": "sha2-512",
-              "SaltLen": 12
+              "hashAlg": "sha2-512",
+              "saltLen": 12
             },
             {
-              "HashAlg": "sha2-512/224",
-              "SaltLen": 13
+              "hashAlg": "sha2-512/224",
+              "saltLen": 13
             },
             {
-              "HashAlg": "sha2-512/256",
-              "SaltLen": 14
+              "hashAlg": "sha2-512/256",
+              "saltLen": 14
             }
           ]
         }
       ]
     },
     {
-      "SigType": "pkcs1v1.5",
+      "sigType": "pkcs1v1.5",
       "sigTypeCapabilities": [
         {
-          "Modulo": 2048,
+          "modulo": 2048,
           "hashPair": [
             {
-              "HashAlg": "sha-1",
-              "SaltLen": 8
+              "hashAlg": "sha-1",
+              "saltLen": 8
             },
             {
-              "HashAlg": "sha2-224",
-              "SaltLen": 9
+              "hashAlg": "sha2-224",
+              "saltLen": 9
             },
             {
-              "HashAlg": "sha2-256",
-              "SaltLen": 10
+              "hashAlg": "sha2-256",
+              "saltLen": 10
             },
             {
-              "HashAlg": "sha2-384",
-              "SaltLen": 11
+              "hashAlg": "sha2-384",
+              "saltLen": 11
             },
             {
-              "HashAlg": "sha2-512",
-              "SaltLen": 12
+              "hashAlg": "sha2-512",
+              "saltLen": 12
             },
             {
-              "HashAlg": "sha2-512/224",
-              "SaltLen": 13
+              "hashAlg": "sha2-512/224",
+              "saltLen": 13
             },
             {
-              "HashAlg": "sha2-512/256",
-              "SaltLen": 14
+              "hashAlg": "sha2-512/256",
+              "saltLen": 14
             }
           ]
         },
         {
-          "Modulo": 3072,
+          "modulo": 3072,
           "hashPair": [
             {
-              "HashAlg": "sha-1",
-              "SaltLen": 8
+              "hashAlg": "sha-1",
+              "saltLen": 8
             },
             {
-              "HashAlg": "sha2-224",
-              "SaltLen": 9
+              "hashAlg": "sha2-224",
+              "saltLen": 9
             },
             {
-              "HashAlg": "sha2-256",
-              "SaltLen": 10
+              "hashAlg": "sha2-256",
+              "saltLen": 10
             },
             {
-              "HashAlg": "sha2-384",
-              "SaltLen": 11
+              "hashAlg": "sha2-384",
+              "saltLen": 11
             },
             {
-              "HashAlg": "sha2-512",
-              "SaltLen": 12
+              "hashAlg": "sha2-512",
+              "saltLen": 12
             },
             {
-              "HashAlg": "sha2-512/224",
-              "SaltLen": 13
+              "hashAlg": "sha2-512/224",
+              "saltLen": 13
             },
             {
-              "HashAlg": "sha2-512/256",
-              "SaltLen": 14
+              "hashAlg": "sha2-512/256",
+              "saltLen": 14
             }
           ]
         }
       ]
     },
     {
-      "SigType": "pss",
+      "sigType": "pss",
       "sigTypeCapabilities": [
         {
-          "Modulo": 2048,
+          "modulo": 2048,
           "hashPair": [
             {
-              "HashAlg": "sha-1",
-              "SaltLen": 8
+              "hashAlg": "sha-1",
+              "saltLen": 8
             },
             {
-              "HashAlg": "sha2-224",
-              "SaltLen": 9
+              "hashAlg": "sha2-224",
+              "saltLen": 9
             },
             {
-              "HashAlg": "sha2-256",
-              "SaltLen": 10
+              "hashAlg": "sha2-256",
+              "saltLen": 10
             },
             {
-              "HashAlg": "sha2-384",
-              "SaltLen": 11
+              "hashAlg": "sha2-384",
+              "saltLen": 11
             },
             {
-              "HashAlg": "sha2-512",
-              "SaltLen": 12
+              "hashAlg": "sha2-512",
+              "saltLen": 12
             },
             {
-              "HashAlg": "sha2-512/224",
-              "SaltLen": 13
+              "hashAlg": "sha2-512/224",
+              "saltLen": 13
             },
             {
-              "HashAlg": "sha2-512/256",
-              "SaltLen": 14
+              "hashAlg": "sha2-512/256",
+              "saltLen": 14
             }
           ]
         },
         {
-          "Modulo": 3072,
+          "modulo": 3072,
           "hashPair": [
             {
-              "HashAlg": "sha-1",
-              "SaltLen": 8
+              "hashAlg": "sha-1",
+              "saltLen": 8
             },
             {
-              "HashAlg": "sha2-224",
-              "SaltLen": 9
+              "hashAlg": "sha2-224",
+              "saltLen": 9
             },
             {
-              "HashAlg": "sha2-256",
-              "SaltLen": 10
+              "hashAlg": "sha2-256",
+              "saltLen": 10
             },
             {
-              "HashAlg": "sha2-384",
-              "SaltLen": 11
+              "hashAlg": "sha2-384",
+              "saltLen": 11
             },
             {
-              "HashAlg": "sha2-512",
-              "SaltLen": 12
+              "hashAlg": "sha2-512",
+              "saltLen": 12
             },
             {
-              "HashAlg": "sha2-512/224",
-              "SaltLen": 13
+              "hashAlg": "sha2-512/224",
+              "saltLen": 13
             },
             {
-              "HashAlg": "sha2-512/256",
-              "SaltLen": 14
+              "hashAlg": "sha2-512/256",
+              "saltLen": 14
             }
           ]
         }

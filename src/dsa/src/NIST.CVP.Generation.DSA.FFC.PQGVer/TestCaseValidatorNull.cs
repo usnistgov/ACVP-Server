@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.DSA.FFC.PQGVer
             TestCaseId = testCaseId;
         }
 
-        public TestCaseValidation Validate(TestCase suppliedResult)
+        public TestCaseValidation Validate(TestCase suppliedResult, bool showExpected = false)
         {
             return new TestCaseValidation { Reason = _errorMessage, Result = Core.Enums.Disposition.Failed, TestCaseId = TestCaseId };
         }

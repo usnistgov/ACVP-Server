@@ -1,12 +1,12 @@
 {
-  "Algorithm": "AES",
-  "Mode": "OFB",
-  "IsSample": false,
-  "Direction": [
+  "algorithm": "AES",
+  "mode": "OFB",
+  "isSample": false,
+  "direction": [
     "encrypt",
     "decrypt"
   ],
-  "KeyLen": [
+  "keyLen": [
     128,
     192,
     256

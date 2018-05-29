@@ -1,11 +1,11 @@
 {
   "algorithm": "DSA",
   "mode": "KeyGen",
+  "isSample": true,
   "testGroups": [
     {
       "tgId": 1,
-      "l": 2048,
-      "n": 224,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 1
@@ -37,12 +37,13 @@
         {
           "tcId": 10
         }
-      ]
+      ],
+      "l": 2048,
+      "n": 224
     },
     {
       "tgId": 2,
-      "l": 2048,
-      "n": 256,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 11
@@ -74,12 +75,13 @@
         {
           "tcId": 20
         }
-      ]
+      ],
+      "l": 2048,
+      "n": 256
     },
     {
       "tgId": 3,
-      "l": 3072,
-      "n": 256,
+      "testType": "AFT",
       "tests": [
         {
           "tcId": 21
@@ -111,7 +113,9 @@
         {
           "tcId": 30
         }
-      ]
+      ],
+      "l": 3072,
+      "n": 256
     }
   ]
 }

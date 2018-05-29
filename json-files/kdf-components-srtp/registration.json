@@ -1,14 +1,14 @@
 {
-  "Algorithm": "kdf-components",
-  "Mode": "srtp",
-  "IsSample": false,
-  "AesKeyLength": [
+  "algorithm": "kdf-components",
+  "mode": "srtp",
+  "isSample": false,
+  "aesKeyLength": [
     128,
     192,
     256
   ],
-  "SupportsZeroKdr": true,
-  "KdrExponent": [
+  "supportsZeroKdr": true,
+  "kdrExponent": [
     1,
     2,
     3,

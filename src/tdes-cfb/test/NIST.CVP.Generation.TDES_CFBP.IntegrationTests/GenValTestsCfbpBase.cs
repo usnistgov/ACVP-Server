@@ -89,7 +89,7 @@ namespace NIST.CVP.Generation.TDES_CFBP.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
-                IsSample = false,
+                IsSample = true,
                 KeyingOption = new[] { 1 }
             };
 

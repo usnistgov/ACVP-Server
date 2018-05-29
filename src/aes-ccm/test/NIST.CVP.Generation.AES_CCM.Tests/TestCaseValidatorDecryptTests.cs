@@ -12,7 +12,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         {
             var testCase = GetTestCase();
             var subject = new TestCaseValidatorDecrypt(testCase);
-            var result = subject.Validate(testCase);
+            var result = subject.Validate(testCase, false);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
@@ -24,7 +24,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.PlainText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
         }
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.PlainText = new BitString("D00000");
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
             Assert.IsTrue(result.Reason.Contains("Plain Text"));
@@ -48,7 +48,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var testCase = GetTestCase(false);
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase(true);
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result, nameof(result.Result));
             Assert.IsTrue(result.Reason.Contains("tag"), nameof(result.Reason));
         }
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase(false);
             suppliedResult.PlainText = new BitString(0);
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
             Assume.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
         }
@@ -74,7 +74,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
 
             suppliedResult.PlainText = null;
 
-            var result = subject.Validate(suppliedResult);
+            var result = subject.Validate(suppliedResult, false);
             Assume.That(result != null);
             Assume.That(Core.Enums.Disposition.Failed == result.Result);
 
